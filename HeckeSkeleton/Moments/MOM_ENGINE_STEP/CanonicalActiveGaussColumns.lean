@@ -123,7 +123,7 @@ variable (χ : (PUnit × PUnit) →* Circle)
 theorem canonicalLeft_nonzero_original (i : ι)
     (h : p.leftDivisorCoefficient S χ i ≠ 0) : c i ≠ 0 := by
   intro hc
-  have hz : chart.leftCoefficient i = 0 := by
+  have hz : (chart).leftCoefficient i = 0 := by
     rw [FirstBlockProfileChart.canonicalLogWithCoefficients_leftCoefficient_eq,
       hc, zero_mul, zero_div]
   apply h
@@ -132,7 +132,7 @@ theorem canonicalLeft_nonzero_original (i : ι)
 theorem canonicalRight_nonzero_original (j : κ)
     (h : p.rightDivisorCoefficient S χ j ≠ 0) : e j ≠ 0 := by
   intro hc
-  have hz : chart.rightCoefficient j = 0 := by
+  have hz : (chart).rightCoefficient j = 0 := by
     rw [FirstBlockProfileChart.canonicalLogWithCoefficients_rightCoefficient_eq,
       hc, zero_mul, zero_div]
   apply h
@@ -184,7 +184,7 @@ variable (χ : (PUnit × PUnit) →* Circle)
 theorem canonicalLeft_nonzero_original (i : ι)
     (h : p.leftDivisorCoefficient S χ i ≠ 0) : c i ≠ 0 := by
   intro hc
-  have hz : chart.leftCoefficient i = 0 := by
+  have hz : (chart).leftCoefficient i = 0 := by
     rw [FirstBlockProfileChart.canonicalLogWithCoefficients_leftCoefficient_eq,
       hc, zero_mul, zero_div]
   apply h
@@ -193,7 +193,7 @@ theorem canonicalLeft_nonzero_original (i : ι)
 theorem canonicalRight_nonzero_original (j : κ)
     (h : p.rightDivisorCoefficient S χ j ≠ 0) : e j ≠ 0 := by
   intro hc
-  have hz : chart.rightCoefficient j = 0 := by
+  have hz : (chart).rightCoefficient j = 0 := by
     rw [FirstBlockProfileChart.canonicalLogWithCoefficients_rightCoefficient_eq,
       hc, zero_mul, zero_div]
   apply h

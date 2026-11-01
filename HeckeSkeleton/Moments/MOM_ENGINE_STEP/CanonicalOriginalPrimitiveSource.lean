@@ -80,9 +80,9 @@ theorem primitiveSource_eq_originalSource :
       (by simpa only [Q.fullSupportParameters_width] using hfull)
       centered (box.cutoff Z) (box.cutoff_ge_one hZ.le) δ hδ hδhalf := rfl
 
-@[simp] theorem primitiveSource_fiber : source.fiber = 1 := rfl
+@[simp] theorem primitiveSource_fiber : (source).fiber = 1 := rfl
 
-@[simp] theorem primitiveSource_mask : source.mask = ∅ := rfl
+@[simp] theorem primitiveSource_mask : (source).mask = ∅ := rfl
 
 /-- Only the distribution between `m` and `q` changes internally.
 Both the comparison scales and parent normalization preserve the
@@ -90,7 +90,7 @@ original actual energy. -/
 theorem primitiveSource_parent :
     pairedStageEnergy centered (data index) internal Z t
         (comparisonScale centered Z a.n₁ Y₁) (comparisonScale centered Z a.n₂ Y₂) /
-          Z ^ (internal.m + internal.q) =
+          Z ^ ((internal).m + (internal).q) =
       pairedStageEnergy centered (data index) a Z t Y₁ Y₂ / Z ^ (a.m + a.q) := by
   rw [Q.fullSupportParameters_width]
   change pairedStageEnergy centered (data index)
@@ -115,13 +115,13 @@ window, are supplied for the dispatcher's exact primitive source. -/
 def primitiveFirstWindows :
     FirstDualOriginalWindows
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) C
-      source.columns source.ideal source.block source.profiles source.radius source.mask
+      (source).columns (source).ideal (source).block (source).profiles (source).radius (source).mask
       sTail sZero (2 * (box.cap + 2)) Z (box.cutoff Z) box.columnBound box.tailDegree
       box.tailSaving box.decay := by
   have domain' := domain.withSupportLength (Q.fullSupportLength Z)
-  have hfull' : Q.FullJointBudget Z (internal.m + internal.q) := by
+  have hfull' : Q.FullJointBudget Z ((internal).m + (internal).q) := by
     simpa only [Q.fullSupportParameters_width] using hfull
-  have hwidth' : internal.m + internal.q ≤ box.widthMax := by
+  have hwidth' : (internal).m + (internal).q ≤ box.widthMax := by
     simpa only [Q.fullSupportParameters_width] using hwidth
   have hrows' : ∀ u ∈ pairedRows (data index) internal Z, u ∈ rowDomain := by
     simpa only [CompleteMovingRowRecipe.fullSupportParameters, pairedRows_withSupportLength]

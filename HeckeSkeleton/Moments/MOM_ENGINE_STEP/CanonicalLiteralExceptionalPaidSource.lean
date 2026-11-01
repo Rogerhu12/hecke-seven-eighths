@@ -47,8 +47,9 @@ def characterCatalogue (ψ : HeckeCharacter K) (theta : Finset (HeckeCharacter K
     CanonicalExceptionalVolume.coefficient (characterCatalogue ψ theta i) =
       CanonicalLiteralExceptionalCharacters.catalogue ψ theta i := rfl
 
-/-- Only the original one-character smoothed ideal series is primitive.
-No source estimate, volume-control catalogue or terminal bound is a field. -/
+/-- Only the original one-character smoothed ideal series for tests in
+the fixed positive window is primitive. No source estimate, volume-control
+catalogue or terminal bound is a field. -/
 structure VolumePrimitive (ψ : HeckeCharacter K)
     (theta : Finset (HeckeCharacter K)) (window : Set ℝ) where
   compact : IsCompact window
@@ -57,7 +58,7 @@ structure VolumePrimitive (ψ : HeckeCharacter K)
   remainder : CanonicalLiteralExceptionalCharacters.CatalogueIndex theta →
     Seminorm ℂ (𝓢(ℝ, ℂ))
   continuous : ∀ i, Continuous (remainder i)
-  volume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X →
+  volume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X → tsupport φ ⊆ window →
     ‖(∑' I : Ideal (𝓞 K),
         CanonicalExceptionalVolume.coefficient (characterCatalogue ψ theta i) I *
           φ ((Ideal.absNorm I : ℝ) / X)) - (X : ℂ) * density i φ‖ ≤ remainder i φ
@@ -76,7 +77,7 @@ private def centeredExistence :=
   CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_cutoff
     (A := A) (σ := σ) (η := η) (hS := hS) (V := WithLp 2 (ℝ × ℝ))
     (characterCatalogue ψ theta) primitive.density primitive.remainder
-    primitive.continuous primitive.volume window primitive.compact primitive.positive
+    primitive.continuous window primitive.volume primitive.compact primitive.positive
     ε maskExponent hε hmask
 
 def centeredOrders : Finset (ℕ × ℕ) :=
@@ -111,7 +112,7 @@ private def ordinaryExistence :=
   CanonicalExceptionalTerminal.exists_original_ordinary_magnitude_terminal_with_cutoff
     (A := A) (σ := σ) (η := η) (hS := hS) (V := WithLp 2 (ℝ × ℝ))
     (characterCatalogue ψ theta) primitive.density primitive.remainder
-    primitive.continuous primitive.volume window primitive.compact primitive.positive
+    primitive.continuous window primitive.volume primitive.compact primitive.positive
 
 def ordinaryOrders : Finset (ℕ × ℕ) :=
   (ordinaryExistence (A := A) (σ := σ) (η := η) (hS := hS) primitive).choose
@@ -171,9 +172,9 @@ variable (hpool : A.Generates poolFixed poolElement)
 variable (hunit : A.Generates unitFixed unitElement) (δ₁ δ₂ : ℝ)
 local notation "bare" => original.secondInput (σ := σ) first P R power firstFixed
   poolFixed unitFixed firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂
-local notation "actual" => (bare.deleteMask extra).redistributeNormFactors δ₁ δ₂
+local notation "actual" => ((bare).deleteMask extra).redistributeNormFactors δ₁ δ₂
 variable {secondSupport : Finset (Ideal (𝓞 K))}
-variable (second : SupportCartesianBranch actual.plain₁ actual.plain₂ actual.slots secondSupport)
+variable (second : SupportCartesianBranch (actual).plain₁ (actual).plain₂ (actual).slots secondSupport)
 variable {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
 variable (atlas : SourceCartesianAtlas columns ideal) (count : second.keep.card = atlas.slotCount)
 variable (scalar : ℂ) (balance : Bool → ℝ)
@@ -183,7 +184,7 @@ Deletion and profile-factor redistribution change neither its scales
 nor its selected support branch. They are not removed from any actual
 coefficient or common scalar. -/
 def redistributedHistory : CanonicalLiteralExceptionalPaidScales.History (σ := σ) P R
-    ((((actual.extract second).onAtlas atlas count).scale scalar).balancePlain balance) where
+    (((((actual).extract second).onAtlas atlas count).scale scalar).balancePlain balance) where
   originalCount := n
   original := original
   firstSupport := firstSupport
@@ -203,7 +204,7 @@ def redistributedHistory : CanonicalLiteralExceptionalPaidScales.History (σ := 
   secondSupport := secondSupport
   second := second
   base_eq := by
-    change ((actual.extract second).onAtlas atlas count).base = original.base
+    change (((actual).extract second).onAtlas atlas count).base = original.base
     cases count
     rfl
   scale_eq := by
@@ -329,10 +330,10 @@ theorem OriginalSide.profile_supports (ξ : WithLp 2 (ℝ × ℝ)) :
     (profile_support _ _ _ _).trans (D.model.right_support false)⟩
 
 theorem OriginalSide.profile_seminorms (ξ : WithLp 2 (ℝ × ℝ)) (orders : Finset (ℕ × ℕ)) :
-    orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.leftProfile S C side ξ) =
-        orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.model.left false) ∧
-      orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.rightProfile S C side ξ) =
-        orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.model.right false) :=
+    (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.leftProfile S C side ξ) =
+        (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.model.left false) ∧
+      (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.rightProfile S C side ξ) =
+        (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.model.right false) :=
   ⟨profile_seminorm _ _ _ _ _, profile_seminorm _ _ _ _ _⟩
 
 theorem OriginalSide.comparison_product {a : RealParameters} {Y₁ Y₂ floor padding : ℝ}
@@ -438,12 +439,12 @@ local notation "Joint" => WithLp 2 (ℝ × ℝ)
 local notation "rawRows" => chart.actualRows ∅ X hX label
 local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
 local notation "sector" => chart.originalSector P ∅ X hX label
-local notation "characters" => rawRows.literalFiniteCharacters C P R F oldMoving
+local notation "characters" => (rawRows).literalFiniteCharacters C P R F oldMoving
   correction pattern sector parent.theta
 
 variable {kCommonL kCommonR : ℕ}
-variable (leftAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonL)
-variable (rightAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonR)
+variable (leftAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonL)
+variable (rightAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonR)
 variable (thetaPair : parent.theta × parent.theta)
 
 local notation "S" => CanonicalLiteralExceptionalFactory.rows chart P R X hX label F
@@ -470,7 +471,7 @@ def OriginalSide.actualCentered
     (hc : SamePlainProfiles D.model)
     (hscale : D.atoms.scale₁ true * D.atoms.scale₂ true =
       D.atoms.scale₁ false * D.atoms.scale₂ false)
-    (ξ : Joint) (h : S.exceptionalRows characters) :
+    (ξ : Joint) (h : (S).exceptionalRows characters) :
     (D.frame S C side).source.ExceptionalAt (σ := σ)
       (D.comparison S C side).scale₁ (D.comparison S C side).scale₂
       (fun _ => (D.comparison S C side).leftWeight)
@@ -482,7 +483,7 @@ def OriginalSide.actualCentered
     D.ideal D.ideal_eq D.firstSign D.divisor D.selection D.nonempty hc hscale ξ h.val
 
 include hclass hsector hcorr hfirst hextra hone hroot hemb in
-def OriginalSide.actualOrdinary (ξ : Joint) (h : S.exceptionalRows characters) :
+def OriginalSide.actualOrdinary (ξ : Joint) (h : (S).exceptionalRows characters) :
     (D.frame S C side).source.OrdinaryExceptionalAt (σ := σ)
       entry (D.leftProfile S C side ξ) (D.rightProfile S C side ξ) ξ h.val :=
   CanonicalLiteralExceptionalFactory.ordinaryFamily chart P R hclass hsector X hX label F
@@ -506,7 +507,7 @@ def OriginalSide.actualCenteredAtoms
     (hc : SamePlainProfiles D.model)
     (hscale : D.atoms.scale₁ true * D.atoms.scale₂ true =
       D.atoms.scale₁ false * D.atoms.scale₂ false)
-    (ξ : Joint) (h : S.exceptionalRows characters) :
+    (ξ : Joint) (h : (S).exceptionalRows characters) :
     (centered hc hscale ξ h).source.AtomicControl Z
       (D.scales S C side annulus amplitude hannulus hamplitude) := by
   have hp : (centered hc hscale ξ h).source.AtomicControl D.atoms.base
@@ -520,7 +521,7 @@ def OriginalSide.actualCenteredAtoms
     (D.scales S C side annulus amplitude hannulus hamplitude)) D.base_eq).mp hp
 
 include hprime hprofile in
-def OriginalSide.actualOrdinaryAtoms (ξ : Joint) (h : S.exceptionalRows characters) :
+def OriginalSide.actualOrdinaryAtoms (ξ : Joint) (h : (S).exceptionalRows characters) :
     (ordinary ξ h).source.AtomicControl Z
       (D.scales S C side annulus amplitude hannulus hamplitude) := by
   have hp : (ordinary ξ h).source.AtomicControl D.atoms.base
@@ -545,7 +546,7 @@ def OriginalSide.actualCenteredPaidAtoms (hZ : 1 < Z)
     (hc : SamePlainProfiles D.model)
     (hscale : D.atoms.scale₁ true * D.atoms.scale₂ true =
       D.atoms.scale₁ false * D.atoms.scale₂ false)
-    (ξ : Joint) (h : S.exceptionalRows characters) :
+    (ξ : Joint) (h : (S).exceptionalRows characters) :
     (centered hc hscale ξ h).source.AtomicControl Z
       (D.paidScales S C side originalTotal annulus amplitude cap hannulus hamplitude) := by
   have original := OriginalSide.actualCenteredAtoms chart P R hclass hsector X hX
@@ -562,7 +563,7 @@ def OriginalSide.actualCenteredPaidAtoms (hZ : 1 < Z)
 
 include hprime hprofile horiginalCap horiginalPrime horiginalProduct in
 def OriginalSide.actualOrdinaryPaidAtoms (hZ : 1 < Z)
-    (ξ : Joint) (h : S.exceptionalRows characters) :
+    (ξ : Joint) (h : (S).exceptionalRows characters) :
     (ordinary ξ h).source.AtomicControl Z
       (D.paidScales S C side originalTotal annulus amplitude cap hannulus hamplitude) := by
   have original := OriginalSide.actualOrdinaryAtoms chart P R hclass hsector X hX
@@ -583,7 +584,7 @@ variable (LD RD : Input)
 variable (hleftCommon : leftAtoms.ideal = (primePowerProduct b.primes b.leftMultiplicity).val)
 variable (hrightCommon : rightAtoms.ideal = (primePowerProduct b.primes b.rightMultiplicity).val)
 variable (rowProfileBound : ℝ) (hrowProfileBound : 0 ≤ rowProfileBound)
-variable (hrowProfile : ∀ q ∈ rawRows.rows, ‖chart.weight q‖ ≤ rowProfileBound)
+variable (hrowProfile : ∀ q ∈ (rawRows).rows, ‖chart.weight q‖ ≤ rowProfileBound)
 variable {a : RealParameters} {step : ℝ}
 variable (first : OriginalNominalGeometry (K := K) a Z step)
 variable (slotLoss firstProfile : ℝ)
@@ -596,9 +597,9 @@ local notation "LF" => LD.frame S C .left
 local notation "RF" => RD.frame S C .right
 local notation "EL" => LD.comparison S C .left
 local notation "ER" => RD.comparison S C .right
-local notation "rL" => LF.allocation.rawExtractionLength Z LD.atoms.length
-local notation "rR" => RF.allocation.rawExtractionLength Z RD.atoms.length
-local notation "slotError" => ∑ i ∈ Finset.univ \ RF.allocation.keep, slotLoss
+local notation "rL" => (LF).allocation.rawExtractionLength Z LD.atoms.length
+local notation "rR" => (RF).allocation.rawExtractionLength Z RD.atoms.length
+local notation "slotError" => ∑ i ∈ Finset.univ \ (RF).allocation.keep, slotLoss
 local notation "n" => CanonicalLiteralExceptionalNumbers.numbers chart P R hclass X hX label F
   parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
   rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile
@@ -616,25 +617,25 @@ include hclass hsector hcorr hplaces hscalar hsecondL in
 No sixth-power class or valuation-divisibility certificate is supplied. -/
 theorem actual_classification :
     ∃ base : HeckeGeneral.Analysis.NonzeroIdeal K,
-      (∀ h : S.live, ∃ q : Ideal (𝓞 K),
-        (S.extractedRow C h).ideal.val = base.val * q ^ 6) ∧
-      (∀ h : S.live, ∀ i ∈ multiplicityOneNonunitPrimes C S.primes S.leftMultiplicity
-        S.rightMultiplicity (S.frequency h.val),
+      (∀ h : (S).live, ∃ q : Ideal (𝓞 K),
+        ((S).extractedRow C h).ideal.val = base.val * q ^ 6) ∧
+      (∀ h : (S).live, ∀ i ∈ multiplicityOneNonunitPrimes C (S).primes (S).leftMultiplicity
+        (S).rightMultiplicity ((S).frequency h.val),
         6 ∣ (UniqueFactorizationMonoid.normalizedFactors
-          (S.originalIdeal h.val).val).count (S.primes i).val.asIdeal) := by
+          ((S).originalIdeal h.val).val).count ((S).primes i).val.asIdeal) := by
   let rowMap := CanonicalLiteralExceptionalFactory.originalRow chart P R hclass hsector
     X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair
-  let selected := (Finset.univ : Finset S.live).image rowMap
-  have hmem (h : S.live) : rowMap h ∈ selected :=
+  let selected := (Finset.univ : Finset (S).live).image rowMap
+  have hmem (h : (S).live) : rowMap h ∈ selected :=
     Finset.mem_image.mpr ⟨h, Finset.mem_univ h, rfl⟩
-  have htheta (h : S.live) :
-      S.literalCharacter C P R F oldMoving correction pattern sector
+  have htheta (h : (S).live) :
+      (S).literalCharacter C P R F oldMoving correction pattern sector
         (rowMap h).val.val.val = thetaPair.1.val :=
     CanonicalLiteralExceptionalFactory.character_on_class chart P R X hX label F
       parent oldMoving correction leftAtoms rightAtoms thetaPair .left h
   have hcommon : frozenSourceIdeal LD.history.second.plainDivisor₁
       LD.history.second.plainDivisor₂ LD.history.second.keep LD.history.second.witness.2 =
-        (primePowerProduct S.primes S.leftMultiplicity).val := hsecondL
+        (primePowerProduct (S).primes (S).leftMultiplicity).val := hsecondL
   obtain ⟨base, _hfree, hfactor, hvaluation⟩ :=
     CanonicalLiteralExceptionalClassification.exists_actual_classification P R F
       parent oldMoving correction hcorr remaining extra LD.commonRecipe LD.history.second
@@ -646,24 +647,24 @@ theorem actual_classification :
 
 private theorem first_extraction_length :
     idealLogLength Z (first.ideals.first * first.tag.extractionIdeal).val =
-      G.skeleton.c + G.skeleton.w := by
+      (G).skeleton.c + (G).skeleton.w := by
   change idealLogLength Z (first.ideals.first.val * first.tag.extractionIdeal.val) = _
   rw [original_plain_log_mul Z _ _ (nonZeroDivisors.coe_ne_zero _)
     (nonZeroDivisors.coe_ne_zero _), first.tag.extractionIdeal_length Z]
   rfl
 
-local notation "UL" => LD.paidScales S C .left G.skeleton.A annulus amplitude cap hannulus hamplitude
-local notation "UR" => RD.paidScales S C .right G.skeleton.A annulus amplitude cap hannulus hamplitude
+local notation "UL" => LD.paidScales S C .left (G).skeleton.A annulus amplitude cap hannulus hamplitude
+local notation "UR" => RD.paidScales S C .right (G).skeleton.A annulus amplitude cap hannulus hamplitude
 
 include hfirstL hfirstR hsecondL hsecondR in
 /-- The source's paid atomic exponent is now exactly the original
-ledger exponent. The only payment was the fixed annulus constant. -/
+ledger exponent. The only payment was the fixed annulus (constant). -/
 theorem paid_atom_exponent :
-    UL.exponent + UR.exponent = n.Aexp - n.c - n.w - n.b₂ - n.r₁ - n.r₂ := by
+    (UL).exponent + (UR).exponent = (n).Aexp - (n).c - (n).w - (n).b₂ - (n).r₁ - (n).r₂ := by
   simp only [OriginalSide.paidScales, CanonicalLiteralExceptionalPaidScales.scales_exponent]
-  change (LD.targetTotal G.skeleton.A / 2 - rL) +
-    (RD.targetTotal G.skeleton.A / 2 - rR) =
-      G.skeleton.A - G.skeleton.c - G.skeleton.w -
+  change (LD.targetTotal (G).skeleton.A / 2 - rL) +
+    (RD.targetTotal (G).skeleton.A / 2 - rR) =
+      (G).skeleton.A - (G).skeleton.c - (G).skeleton.w -
         ((idealLogLength Z (primePowerProduct b.primes b.leftMultiplicity).val +
           idealLogLength Z (primePowerProduct b.primes b.rightMultiplicity).val) / 2) - rL - rR
   unfold OriginalSide.targetTotal
@@ -690,20 +691,20 @@ include hfirstL hsecondL horder in
 /-- The actual two pre-divisors belong to the smaller original
 common ideal. The centered quarter-width minimum then follows from
 the original domain, including the final allocated divisors. -/
-theorem centered_minimum (ξ : Joint) (h : S.exceptionalRows characters) :
-    Z ^ ((a.m + a.q) / 4 - G.centeredExtractionLength - rL) ≤ (TL ξ h).source.lower := by
-  have hchoose : G.centeredSecondIdeal = G.ideals.second := by
+theorem centered_minimum (ξ : Joint) (h : (S).exceptionalRows characters) :
+    Z ^ ((a.m + a.q) / 4 - (G).centeredExtractionLength - rL) ≤ (TL ξ h).source.lower := by
+  have hchoose : (G).centeredSecondIdeal = (G).ideals.second := by
     apply if_pos
     exact horder
   have hcommon : LD.history.firstIdeal * LD.history.secondIdeal =
-      G.centeredCommonIdeal.val := by
+      (G).centeredCommonIdeal.val := by
     rw [hfirstL, hsecondL]
-    change _ = (G.ideals.first * G.tag.extractionIdeal * G.centeredSecondIdeal).val
+    change _ = ((G).ideals.first * (G).tag.extractionIdeal * (G).centeredSecondIdeal).val
     rw [hchoose]
     rfl
   have hp := LD.preDivisors_dvd
   rw [hcommon] at hp
-  have hmin := G.fourPlain_minimum_window_of_domain LF.allocation domain
+  have hmin := (G).fourPlain_minimum_window_of_domain (LF).allocation domain
     (LD.history.first.plainDivisor₁ * LD.history.second.plainDivisor₁)
     (LD.history.first.plainDivisor₂ * LD.history.second.plainDivisor₂)
     hp.1 hp.2 LD.atoms.length (fun i => (LD.atoms.length_pos i).le)
@@ -733,14 +734,14 @@ variable (hproduct : ∀ i ∈ left, ∀ j ∈ right, profiles i j ≠ 0 →
     Z ^ (2 * (first.skeleton.A - first.skeleton.c - first.skeleton.w + columnLoss)))
 variable (hold : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
   (remaining * extra)) ≤
-    Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax))
+    Z ^ (a.q + (G).skeleton.R + (G).skeleton.E + (G).skeleton.wo + widthMax))
 
 include hstep hwidth hthreshold hradius hcutoff hproduct hold in
 /-- A fixed parent box bounds the actual complete mask. Its initial
 bad-prime ideal costs one fixed threshold and one exponent, while the
 original physical cutoff cost remains explicit. The full first deletion
 is charged to the additional fixed width, including its passive primes. -/
-theorem centered_mask (ξ : Joint) (h : S.exceptionalRows characters) :
+theorem centered_mask (ξ : Joint) (h : (S).exceptionalRows characters) :
     (Ideal.absNorm (TL ξ h).source.mask : ℝ) ≤
       Z ^ CanonicalLiteralExceptionalPhysicalBox.maskExponent
         widthMax columnLoss cutoffExponent := by
@@ -752,21 +753,21 @@ theorem centered_mask (ξ : Joint) (h : S.exceptionalRows characters) :
     simpa only [LD.base_eq] using hcutoff
   have hproduct' : ∀ i ∈ left, ∀ j ∈ right, profiles i j ≠ 0 →
       (Ideal.absNorm ((fullI i).val * (fullJ j).val) : ℝ) ≤
-        LD.atoms.base ^ (2 * (G.skeleton.A - G.skeleton.c - G.skeleton.w + columnLoss)) := by
+        LD.atoms.base ^ (2 * ((G).skeleton.A - (G).skeleton.c - (G).skeleton.w + columnLoss)) := by
     simpa only [LD.base_eq] using hproduct
   have hold' : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
       (remaining * extra)) ≤
-      LD.atoms.base ^ ((a.q + G.skeleton.R + G.skeleton.E + widthMax) + G.skeleton.wo) := by
-    have he : a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax =
-        (a.q + G.skeleton.R + G.skeleton.E + widthMax) + G.skeleton.wo := by ring
+      LD.atoms.base ^ ((a.q + (G).skeleton.R + (G).skeleton.E + widthMax) + (G).skeleton.wo) := by
+    have he : a.q + (G).skeleton.R + (G).skeleton.E + (G).skeleton.wo + widthMax =
+        (a.q + (G).skeleton.R + (G).skeleton.E + widthMax) + (G).skeleton.wo := by ring
     simpa only [LD.base_eq, he] using hold
   have hm := CanonicalLiteralExceptionalFactory.centered_mask_window chart P R hclass hsector
     X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair LD.atoms LD.model
     hcorr remaining extra LD.recipe firstSupport hfirst hextra LD.support hone hroot hemb
     .left LD.ray LD.ideal LD.ideal_eq LD.firstSign LD.divisor LD.selection LD.nonempty
     first.retainedScale first.enlargement
-    (G.skeleton.A - G.skeleton.c - G.skeleton.w + columnLoss)
-    (a.q + G.skeleton.R + G.skeleton.E + widthMax) G.skeleton.wo cutoffExponent
+    ((G).skeleton.A - (G).skeleton.c - (G).skeleton.w + columnLoss)
+    (a.q + (G).skeleton.R + (G).skeleton.E + widthMax) (G).skeleton.wo cutoffExponent
     first.retainedScale_pos hradius' hcutoff' hproduct' hold' hcL prodL ξ h.val
   have hm' : (Ideal.absNorm (TL ξ h).source.mask : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) *
@@ -797,8 +798,8 @@ variable (hproduct : ∀ i ∈ left, ∀ j ∈ right, profiles i j ≠ 0 →
 variable (hcapL : LD.history.originalCount ≤ cap) (hcapR : RD.history.originalCount ≤ cap)
 variable (hprimeOriginalL : LD.history.original.PrimeNormWindow annulus)
 variable (hprimeOriginalR : RD.history.original.PrimeNormWindow annulus)
-variable (hproductOriginalL : LD.history.original.scaleProduct false = Z ^ G.skeleton.A)
-variable (hproductOriginalR : RD.history.original.scaleProduct false = Z ^ G.skeleton.A)
+variable (hproductOriginalL : LD.history.original.scaleProduct false = Z ^ (G).skeleton.A)
+variable (hproductOriginalR : RD.history.original.scaleProduct false = Z ^ (G).skeleton.A)
 variable (hprimeL : LD.atoms.PrimeNormWindow annulus)
 variable (hprimeR : RD.atoms.PrimeNormWindow annulus)
 variable (hslotL : ∀ i, SchwartzMap.seminorm ℂ 0 0 (LD.model.slot i) ≤ amplitude)
@@ -808,11 +809,11 @@ variable (hamplitudeOne : 1 ≤ amplitude) (hslotLoss : annulus ≤ Z ^ (2 * slo
 local notation "cutoffLoss" =>
   CanonicalLiteralExceptionalGeometry.paidCutoff columnLoss cutoffExponent 0
 local notation "childExponent" =>
-  (2 * (n.Aexp - n.c - n.w) - n.K₀ - n.g - n.g₂ - n.V₀) +
-    (a.q + n.R₀ + n.E₀ + n.wo + n.t₂ + n.V₀) +
-    (n.b₂ - n.p₂ + n.w + n.Bcommon + n.ell)
-local notation "rowFactor" => mass.originalRowAmplitude * Z ^ (n.g₂ - n.t₂) /
-  (Real.sqrt LF.normalizationScale * Real.sqrt RF.normalizationScale)
+  (2 * ((n).Aexp - (n).c - (n).w) - (n).K₀ - (n).g - (n).g₂ - (n).V₀) +
+    (a.q + (n).R₀ + (n).E₀ + (n).wo + (n).t₂ + (n).V₀) +
+    ((n).b₂ - (n).p₂ + (n).w + (n).Bcommon + (n).ell)
+local notation "rowFactor" => (mass).originalRowAmplitude * Z ^ ((n).g₂ - (n).t₂) /
+  (Real.sqrt (LF).normalizationScale * Real.sqrt (RF).normalizationScale)
 
 section Centered
 
@@ -836,17 +837,17 @@ variable (hseedRightL : ∀ r, LD.history.original.scale₂ r = if r then Y₂ e
 variable (hseedLeftR : ∀ r, RD.history.original.scale₁ r = if r then Y₁ else Z ^ a.n₁)
 variable (hseedRightR : ∀ r, RD.history.original.scale₂ r = if r then Y₂ else Z ^ a.n₂)
 variable (hcL : SamePlainProfiles LD.model) (hcR : SamePlainProfiles RD.model)
-variable (hprofileL₁ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.left false) ≤ amplitude)
-variable (hprofileL₂ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.right false) ≤ amplitude)
-variable (hprofileR₁ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.left false) ≤ amplitude)
-variable (hprofileR₂ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.right false) ≤ amplitude)
+variable (hprofileL₁ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.left false) ≤ amplitude)
+variable (hprofileL₂ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.right false) ≤ amplitude)
+variable (hprofileR₁ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.left false) ≤ amplitude)
+variable (hprofileR₂ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.right false) ≤ amplitude)
 variable (horder : idealLogLength Z (primePowerProduct b.primes b.leftMultiplicity).val ≤
   idealLogLength Z (primePowerProduct b.primes b.rightMultiplicity).val)
 variable (hwidth : a.m + a.q ≤ widthMax)
 variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hold : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
   (remaining * extra)) ≤
-    Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax))
+    Z ^ (a.q + (G).skeleton.R + (G).skeleton.E + (G).skeleton.wo + widthMax))
 
 local notation "prodL" => LD.comparison_product domain hseedLeftL hseedRightL
 local notation "prodR" => RD.comparison_product domain hseedLeftR hseedRightR
@@ -868,18 +869,18 @@ row/class/window/atomic hypothesis of the terminal is constructed from
 the original data above. The uniform orders and constant were selected
 by the primitive before either atom table or Fourier mode. -/
 theorem centered_magnitude_bound (ξ : Joint) :
-    Z ^ (-childExponent) * LF.exceptionalMagnitude RF EL ER characters ξ ≤
-      rowFactor * ((Γ.index : ℝ) * constant * (UL.constant * UR.constant)) * amplitude ^ 4 *
+    Z ^ (-childExponent) * (LF).exceptionalMagnitude RF EL ER characters ξ ≤
+      rowFactor * ((Γ.index : ℝ) * constant * ((UL).constant * (UR).constant)) * amplitude ^ 4 *
         (1 + fourierHeight ξ) ^ order *
-        Z ^ (max (n.Aexp - (a.m + a.q)) 0 + 3 * n.stepσ + 5 * n.δ / 6 + ε +
-          n.slotError - idealLogLength Z RD.divisor + cutoffLoss / 6) := by
+        Z ^ (max ((n).Aexp - (a.m + a.q)) 0 + 3 * (n).stepσ + 5 * (n).δ / 6 + ε +
+          (n).slotError - idealLogLength Z RD.divisor + cutoffLoss / 6) := by
   have hC := centeredConstant_pos (A := A) (σ := σ) (η := η) (hS := hS)
     primitive ε maskExp hε hmaskExp
-  have hrow0 := mass.originalRowAmplitude_nonneg
-  have hUL := UL.constant_nonneg
-  have hUR := UR.constant_nonneg
-  by_cases hlive : Nonempty S.live
-  · let row : S.live := Classical.choice hlive
+  have hrow0 := (mass).originalRowAmplitude_nonneg
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  by_cases hlive : Nonempty (S).live
+  · let row : (S).live := Classical.choice hlive
     obtain ⟨base, hfactor, hvaluation⟩ := actual_classification
       chart P R hclass hsector X hX label F parent oldMoving correction leftAtoms rightAtoms
       thetaPair hcorr remaining extra firstSupport LD hsecondL hplaces hscalar
@@ -887,20 +888,20 @@ theorem centered_magnitude_bound (ξ : Joint) :
     have hPR := RD.profile_supports S C .right ξ
     have hSL := LD.profile_seminorms S C .left ξ orders
     have hSR := RD.profile_seminorms S C .right ξ orders
-    have hAL (h : S.exceptionalRows characters) : (TL ξ h).source.AtomicControl Z UL :=
+    have hAL (h : (S).exceptionalRows characters) : (TL ξ h).source.AtomicControl Z UL :=
       OriginalSide.actualCenteredPaidAtoms chart P R hclass hsector X hX label F parent
         oldMoving correction leftAtoms rightAtoms thetaPair hcorr remaining extra
         firstSupport hfirst hextra hone hroot hemb LD .left annulus amplitude hannulus
-        hamplitude hprimeL hslotL G.skeleton.A cap hcapL hprimeOriginalL hproductOriginalL
+        hamplitude hprimeL hslotL (G).skeleton.A cap hcapL hprimeOriginalL hproductOriginalL
         hZ hcL prodL ξ h
-    have hAR (h : S.exceptionalRows characters) : (TR ξ h).source.AtomicControl Z UR :=
+    have hAR (h : (S).exceptionalRows characters) : (TR ξ h).source.AtomicControl Z UR :=
       OriginalSide.actualCenteredPaidAtoms chart P R hclass hsector X hX label F parent
         oldMoving correction leftAtoms rightAtoms thetaPair hcorr remaining extra
         firstSupport hfirst hextra hone hroot hemb RD .right annulus amplitude hannulus
-        hamplitude hprimeR hslotR G.skeleton.A cap hcapR hprimeOriginalR hproductOriginalR
+        hamplitude hprimeR hslotR (G).skeleton.A cap hcapR hprimeOriginalR hproductOriginalR
         hZ hcR prodR ξ h
-    have hmin (h : S.exceptionalRows characters) :
-        Z ^ ((a.m + a.q) / 4 - n.vStar - n.r₁) ≤ (TL ξ h).source.lower :=
+    have hmin (h : (S).exceptionalRows characters) :
+        Z ^ ((a.m + a.q) / 4 - (n).vStar - (n).r₁) ≤ (TL ξ h).source.lower :=
       centered_minimum (chart := chart) (P := P) (R := R) (hclass := hclass)
         (hsector := hsector) (F := F) (parent := parent) (oldMoving := oldMoving)
         (correction := correction) (hcorr := hcorr) (leftAtoms := leftAtoms)
@@ -910,7 +911,7 @@ theorem centered_magnitude_bound (ξ : Joint) :
         (hfirstL := hfirstL) (hsecondL := hsecondL) (domain := domain)
         (hseedLeftL := hseedLeftL) (hseedRightL := hseedRightL) (hcL := hcL)
         (horder := horder) ξ h
-    have hmask (h : S.exceptionalRows characters) :
+    have hmask (h : (S).exceptionalRows characters) :
         (Ideal.absNorm (TL ξ h).source.mask : ℝ) ≤ Z ^ maskExp :=
       centered_mask (chart := chart) (P := P) (R := R) (hclass := hclass)
         (hsector := hsector) (F := F) (parent := parent) (oldMoving := oldMoving)
@@ -933,14 +934,14 @@ theorem centered_magnitude_bound (ξ : Joint) :
       (hSL.1.le.trans hprofileL₁) (hSL.2.le.trans hprofileL₂)
       (hSR.1.le.trans hprofileR₁) (hSR.2.le.trans hprofileR₂)
       C S LF RF EL ER characters ξ (TL ξ) (TR ξ) UL UR
-      Z n.Aexp a.m a.q n.c n.d n.R₀ n.E₀ n.K₀ n.w n.wo n.Bcommon n.g n.ell
-      n.b₂ n.p₂ n.g₂ n.t₂ n.V₀ n.v n.vStar n.r₁ n.r₂ (idealLogLength Z RD.divisor)
-      n.slotError cutoffLoss (Γ.index : ℝ) (fourierHeight ξ) n.stepσ n.δ mass.originalRowAmplitude
+      Z (n).Aexp a.m a.q (n).c (n).d (n).R₀ (n).E₀ (n).K₀ (n).w (n).wo (n).Bcommon (n).g (n).ell
+      (n).b₂ (n).p₂ (n).g₂ (n).t₂ (n).V₀ (n).v (n).vStar (n).r₁ (n).r₂ (idealLogLength Z RD.divisor)
+      (n).slotError cutoffLoss (Γ.index : ℝ) (fourierHeight ξ) (n).stepσ (n).δ (mass).originalRowAmplitude
       hZ.le
       (CanonicalLiteralExceptionalNumbers.v_nonneg chart P R hclass X hX label F parent
         oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
         rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile hZ)
-      (LF.allocation.rawExtractionLength_nonneg Z hZ LD.atoms.length
+      ((LF).allocation.rawExtractionLength_nonneg Z hZ LD.atoms.length
         (fun i => (LD.atoms.length_pos i).le))
       (RD.divisor_window S C .right annulus slotLoss hZ hprimeR hslotLoss)
       (Nat.cast_nonneg Γ.index) (fourierHeight_nonneg ξ) hrow0 hAL hAR
@@ -956,7 +957,7 @@ theorem centered_magnitude_bound (ξ : Joint) :
         label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
         hrightCommon rowProfileBound hrowProfileBound hrowProfile first rL rR slotError
         firstProfile hZ h (Finset.mem_filter.mp hh).1)
-      (fun h hh => mass.original_row_weight_bound h (Finset.mem_filter.mp hh).1)
+      (fun h hh => (mass).original_row_weight_bound h (Finset.mem_filter.mp hh).1)
       base.val (fun h => hvaluation h.val) (fun h => hfactor h.val)
       (fun h => CanonicalLiteralExceptionalNumbers.radical_window chart P R hclass X hX
         label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
@@ -993,7 +994,7 @@ theorem centered_magnitude_bound (ξ : Joint) :
           LD.divisor LD.selection LD.nonempty LD.firstSign_le hcL prodL ξ h.val)
       hmin
     exact hb
-  · have hempty : S.exceptionalRows characters = ∅ :=
+  · have hempty : (S).exceptionalRows characters = ∅ :=
       Finset.eq_empty_of_forall_not_mem (fun h _ => hlive ⟨h⟩)
     simp only [SecondSideFrame.exceptionalMagnitude, jointColumnPairMagnitude,
       hempty, Finset.sum_empty, mul_zero]
@@ -1007,10 +1008,10 @@ local notation "orders" => ordinaryOrders (A := A) (σ := σ) (η := η) (hS := 
 local notation "constant" => ordinaryConstant (A := A) (σ := σ) (η := η) (hS := hS) primitive
 variable {Y₁ Y₂ floor padding : ℝ}
 variable (domain : PairedEngineDomain false parent a Z Y₁ Y₂ floor padding)
-variable (hprofileL₁ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.left false) ≤ amplitude)
-variable (hprofileL₂ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.right false) ≤ amplitude)
-variable (hprofileR₁ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.left false) ≤ amplitude)
-variable (hprofileR₂ : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.right false) ≤ amplitude)
+variable (hprofileL₁ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.left false) ≤ amplitude)
+variable (hprofileL₂ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (LD.model.right false) ≤ amplitude)
+variable (hprofileR₁ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.left false) ≤ amplitude)
+variable (hprofileR₂ : (orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) (RD.model.right false) ≤ amplitude)
 
 local notation "TL" => OriginalSide.actualOrdinary chart P R hclass hsector X hX label
   F parent oldMoving correction leftAtoms rightAtoms thetaPair hcorr remaining extra
@@ -1029,16 +1030,16 @@ the original ordinary domain. It needs neither a comparison minimum
 nor a residue cancellation hypothesis, and pays the same physical
 cutoff loss without changing the selected source. -/
 theorem ordinary_magnitude_bound (ξ : Joint) :
-    Z ^ (-childExponent) * LF.ordinaryExceptionalMagnitude RF characters ξ ≤
-      rowFactor * ((Γ.index : ℝ) * constant * (UL.constant * UR.constant)) * amplitude ^ 4 *
-        Z ^ (3 * n.stepσ + 5 * n.δ / 6 +
-          n.slotError - idealLogLength Z RD.divisor + cutoffLoss / 6) := by
+    Z ^ (-childExponent) * (LF).ordinaryExceptionalMagnitude RF characters ξ ≤
+      rowFactor * ((Γ.index : ℝ) * constant * ((UL).constant * (UR).constant)) * amplitude ^ 4 *
+        Z ^ (3 * (n).stepσ + 5 * (n).δ / 6 +
+          (n).slotError - idealLogLength Z RD.divisor + cutoffLoss / 6) := by
   have hC := ordinaryConstant_pos (A := A) (σ := σ) (η := η) (hS := hS) primitive
-  have hrow0 := mass.originalRowAmplitude_nonneg
-  have hUL := UL.constant_nonneg
-  have hUR := UR.constant_nonneg
-  by_cases hlive : Nonempty S.live
-  · let row : S.live := Classical.choice hlive
+  have hrow0 := (mass).originalRowAmplitude_nonneg
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  by_cases hlive : Nonempty (S).live
+  · let row : (S).live := Classical.choice hlive
     obtain ⟨base, hfactor, hvaluation⟩ := actual_classification
       chart P R hclass hsector X hX label F parent oldMoving correction leftAtoms rightAtoms
       thetaPair hcorr remaining extra firstSupport LD hsecondL hplaces hscalar
@@ -1046,17 +1047,17 @@ theorem ordinary_magnitude_bound (ξ : Joint) :
     have hPR := RD.profile_supports S C .right ξ
     have hSL := LD.profile_seminorms S C .left ξ orders
     have hSR := RD.profile_seminorms S C .right ξ orders
-    have hAL (h : S.exceptionalRows characters) : (TL ξ h).source.AtomicControl Z UL :=
+    have hAL (h : (S).exceptionalRows characters) : (TL ξ h).source.AtomicControl Z UL :=
       OriginalSide.actualOrdinaryPaidAtoms chart P R hclass hsector X hX label F parent
         oldMoving correction leftAtoms rightAtoms thetaPair hcorr remaining extra
         firstSupport hfirst hextra hone hroot hemb LD .left annulus amplitude hannulus
-        hamplitude hprimeL hslotL G.skeleton.A cap hcapL hprimeOriginalL hproductOriginalL hZ ξ h
-    have hAR (h : S.exceptionalRows characters) : (TR ξ h).source.AtomicControl Z UR :=
+        hamplitude hprimeL hslotL (G).skeleton.A cap hcapL hprimeOriginalL hproductOriginalL hZ ξ h
+    have hAR (h : (S).exceptionalRows characters) : (TR ξ h).source.AtomicControl Z UR :=
       OriginalSide.actualOrdinaryPaidAtoms chart P R hclass hsector X hX label F parent
         oldMoving correction leftAtoms rightAtoms thetaPair hcorr remaining extra
         firstSupport hfirst hextra hone hroot hemb RD .right annulus amplitude hannulus
-        hamplitude hprimeR hslotR G.skeleton.A cap hcapR hprimeOriginalR hproductOriginalR hZ ξ h
-    have hnonneg := G.exceptionalNumbers_common_nonneg mass G.centeredExtractionLength
+        hamplitude hprimeR hslotR (G).skeleton.A cap hcapR hprimeOriginalR hproductOriginalR hZ ξ h
+    have hnonneg := (G).exceptionalNumbers_common_nonneg mass (G).centeredExtractionLength
       rL rR slotError firstProfile hZ
     have hb := ordinaryEstimate (A := A) (σ := σ) (η := η) (hS := hS) primitive
       (CanonicalLiteralExceptionalCharacters.selectedIndex parent thetaPair.1)
@@ -1067,18 +1068,18 @@ theorem ordinary_magnitude_bound (ξ : Joint) :
       (hSL.1.le.trans hprofileL₁) (hSL.2.le.trans hprofileL₂)
       (hSR.1.le.trans hprofileR₁) (hSR.2.le.trans hprofileR₂)
       C S LF RF characters ξ (TL ξ) (TR ξ) UL UR
-      Z n.Aexp a.m a.q n.c n.d n.R₀ n.E₀ n.K₀ n.w n.wo n.Bcommon n.g n.ell
-      n.b₂ n.p₂ n.g₂ n.t₂ n.V₀ n.v n.r₁ n.r₂ (idealLogLength Z RD.divisor)
-      n.slotError cutoffLoss (Γ.index : ℝ) n.stepσ n.δ mass.originalRowAmplitude
+      Z (n).Aexp a.m a.q (n).c (n).d (n).R₀ (n).E₀ (n).K₀ (n).w (n).wo (n).Bcommon (n).g (n).ell
+      (n).b₂ (n).p₂ (n).g₂ (n).t₂ (n).V₀ (n).v (n).r₁ (n).r₂ (idealLogLength Z RD.divisor)
+      (n).slotError cutoffLoss (Γ.index : ℝ) (n).stepσ (n).δ (mass).originalRowAmplitude
       hZ.le
       (CanonicalLiteralExceptionalNumbers.v_nonneg chart P R hclass X hX label F parent
         oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
         rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile hZ)
-      (LF.allocation.rawExtractionLength_nonneg Z hZ LD.atoms.length
+      ((LF).allocation.rawExtractionLength_nonneg Z hZ LD.atoms.length
         (fun i => (LD.atoms.length_pos i).le))
       (RD.divisor_window S C .right annulus slotLoss hZ hprimeR hslotLoss)
       (Nat.cast_nonneg Γ.index) hrow0
-      (G.exceptionalNumbers_ordinary_range mass G.centeredExtractionLength
+      ((G).exceptionalNumbers_ordinary_range mass (G).centeredExtractionLength
         rL rR slotError firstProfile domain)
       hnonneg.1 hnonneg.2.1 hnonneg.2.2 hAL hAR
       (paid_atom_exponent chart P R hclass X hX label F parent oldMoving correction
@@ -1093,7 +1094,7 @@ theorem ordinary_magnitude_bound (ξ : Joint) :
         label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
         hrightCommon rowProfileBound hrowProfileBound hrowProfile first rL rR slotError
         firstProfile hZ h (Finset.mem_filter.mp hh).1)
-      (fun h hh => mass.original_row_weight_bound h (Finset.mem_filter.mp hh).1)
+      (fun h hh => (mass).original_row_weight_bound h (Finset.mem_filter.mp hh).1)
       base.val (fun h => hvaluation h.val) (fun h => hfactor h.val)
       (fun h => CanonicalLiteralExceptionalNumbers.radical_window chart P R hclass X hX
         label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
@@ -1114,7 +1115,7 @@ theorem ordinary_magnitude_bound (ξ : Joint) :
         oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
         rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile hZ row)
     exact hb
-  · have hempty : S.exceptionalRows characters = ∅ :=
+  · have hempty : (S).exceptionalRows characters = ∅ :=
       Finset.eq_empty_of_forall_not_mem (fun h _ => hlive ⟨h⟩)
     simp only [SecondSideFrame.ordinaryExceptionalMagnitude, jointColumnPairMagnitude,
       hempty, Finset.sum_empty, mul_zero]

@@ -61,9 +61,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -103,7 +103,7 @@ theorem canonicalLeftMain_secondInput
     (i : (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).Column)
     (hi : i ∈ p.leftData.columns)
     (j : AllocationColumn K branch.keep.card) (hj : j ∈ branch.residualColumns)
-    (hindex : i = raw.originalIndex (branch.reconstruct j))
+    (hindex : i = (raw).originalIndex (branch.reconstruct j))
     (hideal : (b.leftResidual i).val = allocationColumnIdeal j)
     (hSi : S.val ∣ (p.leftData.ideal i).val)
     (firstFixed : A.Exterior)
@@ -112,7 +112,7 @@ theorem canonicalLeftMain_secondInput
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    (seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    ((seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
       (unitExterior A) (unitExterior A)
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -139,7 +139,7 @@ theorem canonicalLeftMain_secondInput
     (b.leftResidual i) hideal, ← hindex, hunit,
     actualIdealResidue_frequency_one, mul_one]
   rw [FirstBlockPoolData.canonicalLog_leftDivisorCoefficient hΓ μv ν b C
-    raw.exteriorColumns raw.exteriorColumns φ c c finiteTest hlc hcs radius D
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
     δ₁ hδ₁ hδ₁half p S χ i hi hSi]
   ring
 
@@ -149,7 +149,7 @@ theorem canonicalRightMain_secondInput
     (i : (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).Column)
     (hi : i ∈ p.rightData.columns)
     (j : AllocationColumn K branch.keep.card) (hj : j ∈ branch.residualColumns)
-    (hindex : i = raw.originalIndex (branch.reconstruct j))
+    (hindex : i = (raw).originalIndex (branch.reconstruct j))
     (hideal : (b.rightResidual i).val = allocationColumnIdeal j)
     (hSi : S.val ∣ (p.rightData.ideal i).val)
     (firstFixed : A.Exterior)
@@ -158,7 +158,7 @@ theorem canonicalRightMain_secondInput
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    (seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    ((seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
       (unitExterior A) (unitExterior A)
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -185,7 +185,7 @@ theorem canonicalRightMain_secondInput
     (b.rightResidual i) hideal, ← hindex, hunit,
     actualIdealResidue_frequency_one, mul_one]
   rw [FirstBlockPoolData.canonicalLog_rightDivisorCoefficient hΓ μv ν b C
-    raw.exteriorColumns raw.exteriorColumns φ c c finiteTest hlc hcs radius D
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
     δ₁ hδ₁ hδ₁half p S χ i hi hSi]
   ring
 
@@ -196,7 +196,7 @@ theorem canonicalLeftPool_secondInput
     (q : ExteriorPrime A) (n : ℕ)
     (i : (p.divisorPools.leftData S).valuationColumns q n)
     (j : AllocationColumn K branch.keep.card) (hj : j ∈ branch.residualColumns)
-    (hindex : i.val = raw.originalIndex (branch.reconstruct j))
+    (hindex : i.val = (raw).originalIndex (branch.reconstruct j))
     (hideal : ((p.divisorPools.leftData S).residualPresentation q n i).residual.val =
       allocationColumnIdeal j)
     (hSi : S.val ∣ (p.leftData.ideal i.val).val)
@@ -206,7 +206,7 @@ theorem canonicalLeftPool_secondInput
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    (seed.secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
+    ((seed).secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
       (powerIdeal q (2 * n)) (unitExterior A)
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -236,7 +236,7 @@ theorem canonicalLeftPool_secondInput
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj J hideal,
     ← hindex, ← hold]
   rw [FirstBlockPoolData.canonicalLog_leftResidualCoefficient hΓ μv ν b C
-    raw.exteriorColumns raw.exteriorColumns φ c c finiteTest hlc hcs radius D
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
     δ₁ hδ₁ hδ₁half p S χ q n i hSi]
 
 /-- The genuine right error source uses its original complementary
@@ -246,7 +246,7 @@ theorem canonicalRightPool_secondInput
     (q : ExteriorPrime A) (n : ℕ)
     (i : (p.divisorPools.rightData S).valuationColumns q n)
     (j : AllocationColumn K branch.keep.card) (hj : j ∈ branch.residualColumns)
-    (hindex : i.val = raw.originalIndex (branch.reconstruct j))
+    (hindex : i.val = (raw).originalIndex (branch.reconstruct j))
     (hideal : ((p.divisorPools.rightData S).residualPresentation q n i).residual.val =
       allocationColumnIdeal j)
     (hSi : S.val ∣ (p.rightData.ideal i.val).val)
@@ -256,7 +256,7 @@ theorem canonicalRightPool_secondInput
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    (seed.secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
+    ((seed).secondInput (σ := σ) branch P R (powerIdeal q n) firstFixed
       (powerIdeal q (2 * n)) (unitExterior A)
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -286,7 +286,7 @@ theorem canonicalRightPool_secondInput
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj J hideal,
     ← hindex, ← hold]
   rw [FirstBlockPoolData.canonicalLog_rightResidualCoefficient hΓ μv ν b C
-    raw.exteriorColumns raw.exteriorColumns φ c c finiteTest hlc hcs radius D
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
     δ₁ hδ₁ hδ₁half p S χ q n i hSi]
 
 end CompleteMovingRowRecipe

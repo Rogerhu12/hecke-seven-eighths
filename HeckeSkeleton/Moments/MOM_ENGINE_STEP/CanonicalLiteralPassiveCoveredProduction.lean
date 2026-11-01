@@ -168,7 +168,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -198,14 +198,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 /-- Each side is constructed on the same physical ordinary row class.
 No finished side normalization is an input to this producer. -/
@@ -243,18 +243,18 @@ def literalPassiveNormalizedFamily :=
   have hg : geometry.skeleton.g = g := henlargement
   have hw := geometry.literalParameters_secondWidth columnLoss cutoffExponent rootLength
   rw [hk, hg, hsecond, hopposite, hunit, hnonunit] at hw
-  let leftGeometry := geometry.atBase leftTable.base hbaseLeft
-  let rightGeometry := geometry.swapSecond.atBase rightTable.base hbaseRight
+  let leftGeometry := geometry.atBase (leftTable).base hbaseLeft
+  let rightGeometry := geometry.swapSecond.atBase (rightTable).base hbaseRight
   have hpaidCutoff : 0 ≤ paidCutoff := by positivity
   have hlm : leftGeometry.literalRowParameter paidCutoff = m :=
-    geometry.atBase_literalRowParameter leftTable.base hbaseLeft paidCutoff
+    geometry.atBase_literalRowParameter (leftTable).base hbaseLeft paidCutoff
   have hrm : rightGeometry.literalRowParameter paidCutoff = m := by
     rw [OriginalNominalGeometry.atBase_literalRowParameter,
       geometry.swapSecond_literalRowParameter]
-  have hrootL : idealLogLength leftTable.base
+  have hrootL : idealLogLength (leftTable).base
       (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity
         v.block.rightMultiplicity).val = rootLength := by rw [hbaseLeft]
-  have hrootR : idealLogLength rightTable.base
+  have hrootR : idealLogLength (rightTable).base
       (secondSixthRootIdeal v.block.primes v.block.rightMultiplicity
         v.block.leftMultiplicity).val = rootLength := by
     have he : secondSixthRootIdeal v.block.primes v.block.rightMultiplicity
@@ -266,12 +266,12 @@ def literalPassiveNormalizedFamily :=
       funext i
       rw [min_comm]
     rw [he, hbaseRight]
-  have hlq : leftGeometry.literalSupportParameter (idealLogLength leftTable.base
+  have hlq : leftGeometry.literalSupportParameter (idealLogLength (leftTable).base
       (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity
         v.block.rightMultiplicity).val) = q := by
     rw [hrootL]
-    exact geometry.atBase_literalSupportParameter leftTable.base hbaseLeft rootLength
-  have hrq : rightGeometry.literalSupportParameter (idealLogLength rightTable.base
+    exact geometry.atBase_literalSupportParameter (leftTable).base hbaseLeft rootLength
+  have hrq : rightGeometry.literalSupportParameter (idealLogLength (rightTable).base
       (secondSixthRootIdeal v.block.primes v.block.rightMultiplicity
         v.block.leftMultiplicity).val) = q := by
     rw [hrootR, OriginalNominalGeometry.atBase_literalSupportParameter,
@@ -281,10 +281,10 @@ def literalPassiveNormalizedFamily :=
         v.block.leftMultiplicity pattern).val := by
     rw [secondPatternUnitIdeal_swap]
     exact hunit
-  have hdomainL : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
+  have hdomainL : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
     simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
       CanonicalLiteralRectangles.Atoms.scale, hbaseLeft] using domain
-  have hdomainR : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
+  have hdomainR : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
     simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
       CanonicalLiteralRectangles.Atoms.scale, hbaseRight] using domain
   let leftProducer := fun (aL : CanonicalLiteralPassiveNonzero.nonzeroLabels leftTests
@@ -305,7 +305,7 @@ def literalPassiveNormalizedFamily :=
       (oldq := geometry.skeleton.q + geometry.skeleton.R + geometry.skeleton.E)
       (wo := geometry.skeleton.wo) (cutoffExponent := cutoffExponent) (hscale := hscale)
       (hradius := by
-        change _ = CanonicalRowBall.gaussRadius retainedScale leftTable.base g hscale _
+        change _ = CanonicalRowBall.gaussRadius retainedScale (leftTable).base g hscale _
         rw [hbaseLeft]
         rfl)
       (hcutoff := by simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
@@ -354,7 +354,7 @@ def literalPassiveNormalizedFamily :=
       (oldq := geometry.skeleton.q + geometry.skeleton.R + geometry.skeleton.E)
       (wo := geometry.skeleton.wo) (cutoffExponent := cutoffExponent) (hscale := hscale)
       (hradius := by
-        change _ = CanonicalRowBall.gaussRadius retainedScale rightTable.base g hscale _
+        change _ = CanonicalRowBall.gaussRadius retainedScale (rightTable).base g hscale _
         rw [hbaseRight]
         rfl)
       (hcutoff := by simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,

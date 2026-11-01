@@ -92,23 +92,23 @@ local notation "seed" => Q.literalOriginalAtoms ξ recipe a Z t Y₁ Y₂ center
 local notation "seedProfiles" => Q.literalOriginalProfileDataOfWindow ξ recipe a Z t Y₁ Y₂
   centered hZ hY₁ hY₂ reference href original hreference ht hpositive
 local notation "fixedProfiles" =>
-  (seedProfiles.redistributedSecondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
+  ((seedProfiles).redistributedSecondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
     firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale
-      (seed.secondInputScalar (σ := σ) b power firstElement δ₁ *
-        (seed.twoStageProfileFactor b δ₁ δ₂ : ℂ))⁻¹
+      ((seed).secondInputScalar (σ := σ) b power firstElement δ₁ *
+        ((seed).twoStageProfileFactor b δ₁ δ₂ : ℂ))⁻¹
 
 /-- The same computed model satisfies a fixed bound with no residual
 factor. The original window, rather than a child seminorm bound, is the
 input. The larger original orders are retained for later Fourier use. -/
 theorem computed_sourceOrders_bounds :
     (∀ r, (CanonicalLogProfiles.sourceOrders orders).sup
-      (schwartzSeminormFamily ℂ ℝ ℂ) (T.model.left r) ≤
+      (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.left r) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) ∧
     (∀ r, (CanonicalLogProfiles.sourceOrders orders).sup
-      (schwartzSeminormFamily ℂ ℝ ℂ) (T.model.right r) ≤
+      (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.right r) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) ∧
     (∀ j, (CanonicalLogProfiles.sourceOrders orders).sup
-      (schwartzSeminormFamily ℂ ℝ ℂ) (T.model.slot j) ≤
+      (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.slot j) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) := by
   let E := Q.literalOriginalSchwartzModel ξ recipe a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ reference href original hreference ht hpositive hcompact.isClosed
@@ -141,11 +141,11 @@ theorem computed_sourceOrders_bounds :
 /-- In particular the requested volume orders hold on these same
 representatives. No new representative or normalization is chosen. -/
 theorem computed_bounds :
-    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.model.left r) ≤
+    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.left r) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) ∧
-    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.model.right r) ≤
+    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.right r) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) ∧
-    (∀ j, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.model.slot j) ≤
+    (∀ j, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.slot j) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) := by
   have h := computed_sourceOrders_bounds Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     reference href orders amplitude hamplitude original hreference ht hcompact hpositive
@@ -180,7 +180,7 @@ theorem uniformComputedProfiles_model :
     (uniformComputedProfiles Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href
       orders amplitude hamplitude original hreference ht hcompact hpositive hprime b
       power firstFixed poolFixed unitFixed firstElement poolElement unitElement
-      hfirst hpool hunit δ₁ δ₂).model = T.model := rfl
+      hfirst hpool hunit δ₁ δ₂).model = (T).model := rfl
 
 theorem uniformComputedProfiles_bound (r : Bool) :
     (uniformComputedProfiles Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href

@@ -63,7 +63,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -195,11 +195,11 @@ local notation "cardCertificate" => literalPrimitiveDirectFactory_card
 No source-fibre or passive-label cardinality bound is supplied. -/
 theorem literalPrimitiveDirectFamily_index_fibre
     (columnBound ε : ℝ) (hcolumnBound : 0 ≤ columnBound) (hε : 0 < ε)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
-    (analytic : ∀ j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization,
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
+    (analytic : ∀ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) :
     ∀ i, ((Finset.univ.filter (fun b : (completeFamily analytic).active Finset.univ =>
-      (stages.prepared.arithmeticLabels raw.originalAtlas hcap exceptional normalization).index
+      ((stages).prepared.arithmeticLabels (raw).originalAtlas hcap exceptional normalization).index
         b.val.1 = i)).card : ℝ) ≤
       (PrimitivePassiveFactoryCard.directConstant K cap columnBound (ε / 8)
           hcolumnBound (by positivity) *
@@ -218,14 +218,14 @@ theorem literalPrimitiveDirectFamily_index_fibre
     (hloss := hloss) (hcutoffExponent := hcutoffExponent)
     (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
     (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) columnBound hcolumnBound hN
-  have hmask : OriginalMaskPrimeData source.mask (1 : Ideal (𝓞 K)) :=
+  have hmask : OriginalMaskPrimeData (source).mask (1 : Ideal (𝓞 K)) :=
     emptyOriginalSIntegerMask
   have hmaskNorm : (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) ≤ Z ^ columnBound := by
     simpa only [map_one, Nat.cast_one] using Real.one_le_rpow hZ.le hcolumnBound
-  have hsource := stages.prepared.original_image_kernel_source_fibre
-    raw.originalAtlas hcap (ε / 2) hcolumnBound (by positivity) hZ.le rows
+  have hsource := (stages).prepared.original_image_kernel_source_fibre
+    (raw).originalAtlas hcap (ε / 2) hcolumnBound (by positivity) hZ.le rows
     (1 : Ideal (𝓞 K)) one_ne_zero hmask hmaskNorm hN exceptional normalization
-  have hinner (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
+  have hinner (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
       (Fintype.card (factories j).Label : ℝ) ≤
         PrimitivePassiveFactoryCard.directConstant K cap columnBound (ε / 8)
           hcolumnBound (by positivity) * Z ^ (ε / 8) :=
@@ -240,7 +240,7 @@ theorem literalPrimitiveDirectFamily_index_fibre
     (PrimitivePassiveFactoryCard.directConstant_pos K cap columnBound (ε / 8)
       hcolumnBound (by positivity)).le
     (fun j => (factories j).family (analytic j))
-    (stages.prepared.arithmeticLabels raw.originalAtlas hcap exceptional normalization).index
+    ((stages).prepared.arithmeticLabels (raw).originalAtlas hcap exceptional normalization).index
     hinner hsource
   have he : ε / 8 + (ε / 2) / 4 = ε / 4 := by ring
   simpa only [he] using h

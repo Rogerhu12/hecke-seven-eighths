@@ -66,7 +66,7 @@ variable (slots : OriginalSlotDictionary parent d.length)
 variable (cutoff : ℝ)
 
 local notation "rootLength" =>
-  idealLogLength f.source.base
+  idealLogLength (f).source.base
     (secondSixthRootIdeal rows.primes (side.literalMultiplicity rows)
       (side.literalOppositeMultiplicity rows)).val
 local notation "m" => G.literalRowParameter cutoff
@@ -139,12 +139,12 @@ def literalCapacityAtoms : D.OriginalCapacityAtoms := by
   let recipe := d.productionRecipe W rows side χ ideal hideal firstSign rectangle L selection hne
     D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
     slots cutoff reference time hdata
-  have hfull : recipe.FullJointBudget f.source.base (m + q) :=
+  have hfull : recipe.FullJointBudget (f).source.base (m + q) :=
     d.productionRecipe_fullJointBudget W rows side χ ideal hideal firstSign rectangle L selection hne
       D P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
       slots cutoff reference time hdata
   have hkappa : D.parameters.κ = a.κ := by rw [hparameters]; rfl
-  let profiles := CanonicalLiteralFullKappaInput.ofLiteral P Rchar W f.allocation F parent
+  let profiles := CanonicalLiteralFullKappaInput.ofLiteral P Rchar W (f).allocation F parent
     oldMoving correction hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity
     pattern sector remaining extra m q slots.index rectangle firstSign side.literalNegative
     reference time lo hi hlo hhi orders original hreference htime horders computed D recipe hdata
@@ -175,14 +175,14 @@ local notation "originalLengths" =>
     (domain := domain) (direct := direct) (hcutoff := hcutoff) (hsmall := hsmall)
     (error := error) (herr := herr)
 
-@[simp] theorem literalCapacityAtoms_leftAnnulus : originalAtoms.leftAnnulus = hi := rfl
+@[simp] theorem literalCapacityAtoms_leftAnnulus : (originalAtoms).leftAnnulus = hi := rfl
 
-@[simp] theorem literalCapacityAtoms_rightAnnulus : originalAtoms.rightAnnulus = hi := rfl
+@[simp] theorem literalCapacityAtoms_rightAnnulus : (originalAtoms).rightAnnulus = hi := rfl
 
 @[simp] theorem literalCapacityBinding_rawError :
-    originalLengths.rawScaleError = d.computedRawError G.skeleton.rawDegree error rectangle := rfl
+    (originalLengths).rawScaleError = d.computedRawError G.skeleton.rawDegree error rectangle := rfl
 
-@[simp] theorem literalCapacityBinding_widthError : originalLengths.scales.error = cutoff :=
+@[simp] theorem literalCapacityBinding_widthError : (originalLengths).scales.error = cutoff :=
   d.factorsOriginalSixthLengthsAll_error rows side χ ideal hideal firstSign rectangle L selection hne
     D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr
 
@@ -198,8 +198,8 @@ of the side's calibration projection. On either actual side this is an
 ordinary equality of its existing capacity input. Every computational
 field, including the full-root correction, agrees before any choice. -/
 theorem produceLiteralSideAll_capacity_heq :
-    HEq allSide.capacity
-      (originalLengths.capacityInputOfPattern rows.primes_injective
+    HEq (allSide).capacity
+      ((originalLengths).capacityInputOfPattern rows.primes_injective
         (by cases side <;> assumption) (by cases side <;> assumption) pattern
         hsecond hopposite hunit hstep mesh hmesh hfit originalAtoms) := by
   cases side <;> rfl

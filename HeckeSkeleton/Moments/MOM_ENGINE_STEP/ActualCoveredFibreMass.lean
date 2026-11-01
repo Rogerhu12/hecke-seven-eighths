@@ -171,9 +171,9 @@ theorem main_covered_index_fibre_subpower
     ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       OriginalFiniteFibre.coordinateConstant (K := K) cap (Fintype.card Θ)
         dimension width B ε hB hε * Z ^ ε := by
-  have hslots : ∀ a, (CV.branch a).slotCount ≤ cap := fun a =>
+  have hslots : ∀ a, ((CV).branch a).slotCount ≤ cap := fun a =>
     (d.mainSourceCartesianCover_slotCount_le T S D₀ hcolumns hideal c a).trans hcap
-  have hkeys : CV.labels.card ≤ idealDivisorCount D₀ ^ (cap + 2) :=
+  have hkeys : (CV).labels.card ≤ idealDivisorCount D₀ ^ (cap + 2) :=
     d.mainSourceCartesianCover_card_le T S D₀ hcolumns hideal cap hcap hD₀ c
   exact ActualGaussStage.fibre_uniform_from_original_counts s CV CV
     cap dimension width B ε Z hB hε hZ hleft hright
@@ -225,9 +225,9 @@ theorem residual_covered_index_fibre_subpower
     ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       OriginalFiniteFibre.coordinateConstant (K := K) cap (Fintype.card Θ)
         dimension width B ε hB hε * Z ^ ε := by
-  have hslots : ∀ a, (CV.branch a).slotCount ≤ cap := fun a =>
+  have hslots : ∀ a, ((CV).branch a).slotCount ≤ cap := fun a =>
     (d.residualSourceCartesianCover_slotCount_le T S D₀ hcolumns hideal p n c a).trans hcap
-  have hkeys : CV.labels.card ≤ idealDivisorCount (D₀ * p.val.asIdeal ^ n) ^ (cap + 2) :=
+  have hkeys : (CV).labels.card ≤ idealDivisorCount (D₀ * p.val.asIdeal ^ n) ^ (cap + 2) :=
     d.residualSourceCartesianCover_card_le T S D₀ hcolumns hideal cap hcap hD₀ p n c
   exact ActualGaussStage.fibre_uniform_from_original_counts s CV CV
     cap dimension width B ε Z hB hε hZ hleft hright

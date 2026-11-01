@@ -65,7 +65,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -89,8 +89,8 @@ variable (href : reference ∈ pairedRows (data ξ) a Z)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ source.columns,
-  (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (source).columns,
+  (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable (hloss : 0 ≤ loss) (hcutoffExponent : 0 ≤ cutoffExponent)
 
 /-- Only original length bounds enter the pool-density row exponent. -/
@@ -103,15 +103,15 @@ local notation "rowExponent" => literalPrimitivePoolRowExponent
 
 include htotal hN href in
 theorem literalPrimitiveFirstFrequency_upper
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
-    ((source.block DE).literalLeftCoordinates D.val).firstFrequency internal Z ≤
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
+    (((source).block DE).literalLeftCoordinates D.val).firstFrequency internal Z ≤
       2 * lengthBound + 2 * columnBound := by
-  let b := source.block DE
-  have hDE := actual_common_pair_properties source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) DE
-  have hnorm := actual_common_pair_norm source.columns source.columns
-    (fun i => (source.ideal i).val) (fun i => (source.ideal i).val) (Z ^ columnBound)
-    (fun i _ => (source.ideal i).property.1) (fun i _ => (source.ideal i).property.1)
+  let b := (source).block DE
+  have hDE := actual_common_pair_properties (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) DE
+  have hnorm := actual_common_pair_norm (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) (Z ^ columnBound)
+    (fun i _ => ((source).ideal i).property.1) (fun i _ => ((source).ideal i).property.1)
     hN hN DE
   have hactiveDvd : firstActiveRadical DE.val.1 DE.val.2 ∣ DE.val.1 := by
     rw [← b.activeIdeal_eq, ← b.common_left]
@@ -141,7 +141,7 @@ theorem literalPrimitiveFirstFrequency_upper
   have hc := idealLogLength_nonneg Z hZ DE.val.1 hDE.1
   have hd := idealLogLength_nonneg Z hZ DE.val.2 hDE.2.1
   have hm := Q.fullSupportParameters_m_nonneg_of_pairedRow a Z hZ hbudget ξ reference href
-  have ht : internal.n₁ + internal.n₂ + internal.z ≤ lengthBound := htotal
+  have ht : (internal).n₁ + (internal).n₂ + (internal).z ≤ lengthBound := htotal
   simp only [OriginalNominalIdeals.firstFrequency,
     b.literalLeftCoordinates_first, b.literalLeftCoordinates_opposite,
     b.literalLeftCoordinates_complementary]
@@ -152,10 +152,10 @@ include hannulus hcap hannulusZ domain profiles hrows ht hwindow hcutoffPower
 /-- Both original signed rows fit the same coarse density exponent.
 The actual second radii continue to use their sharper endpoints. -/
 theorem literalPrimitivePool_row_windows
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset) :
-    (∀ h ∈ (source.pieces DE D).leftData.rows,
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
+    (∀ h ∈ ((source).pieces DE D).leftData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ rowExponent) ∧
-    (∀ h ∈ (source.pieces DE D).rightData.rows,
+    (∀ h ∈ ((source).pieces DE D).rightData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ rowExponent) := by
   have hw := Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -168,15 +168,15 @@ theorem literalPrimitivePool_row_windows
     (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
     (reference := reference) (href := href) (lengthBound := lengthBound)
     (columnBound := columnBound) (htotal := htotal) (hN := hN) DE D
-  have hl : ((source.block DE).literalLeftCoordinates D.val).canonicalRetainedScale
+  have hl : (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
       internal Z (2 * loss + cutoffExponent) ≤ Z ^ rowExponent := by
     apply Real.rpow_le_rpow_of_exponent_le hZ.le
     dsimp only [literalPrimitivePoolRowExponent]
     linarith
-  have hr : ((source.block DE).literalRightCoordinates D.val).canonicalRetainedScale
+  have hr : (((source).block DE).literalRightCoordinates D.val).canonicalRetainedScale
       internal Z (2 * loss + cutoffExponent) ≤ Z ^ rowExponent := by
     simpa only [OriginalNominalIdeals.canonicalRetainedScale,
-      (source.block DE).literalRightCoordinates_firstFrequency] using hl
+      ((source).block DE).literalRightCoordinates_firstFrequency] using hl
   exact ⟨fun h hh => (hw.1 h hh).trans hl, fun h hh => (hw.2 h hh).trans hr⟩
 
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {step eps : ℝ}
@@ -192,7 +192,7 @@ def literalPrimitivePooledSource :
       (E := ℝ) (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv C pool (rowBallFiniteFamily K A.Sf 1)
       centered (data ξ) internal t Y₁ Y₂ cutoff hcutoff :=
-  source.withOriginalPool pool 1 1 one_ne_zero one_ne_zero rowExponent rowExponent
+  (source).withOriginalPool pool 1 1 one_ne_zero one_ne_zero rowExponent rowExponent
     0 0 columnBound (by dsimp only [literalPrimitivePoolRowExponent]; positivity)
     (by dsimp only [literalPrimitivePoolRowExponent]; positivity) hcolumnBound
     (fun DE D => (literalPrimitivePool_row_windows

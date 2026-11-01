@@ -62,7 +62,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -91,8 +91,8 @@ local notation "stages" => Q.literalPrimitiveDirectStages μv ν C hroot hemb W 
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
   cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
   hcutoffPower step hstep hloss hcutoffExponent hDiff δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂
-local notation "atlas" => raw.originalAtlas
-local notation "prepared" => stages.prepared
+local notation "atlas" => (raw).originalAtlas
+local notation "prepared" => (stages).prepared
 local notation "firstKernel" => ActualGaussStage.canonicalRowBallKernel
   (A := A) (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
   μv ν δ₁ hδ₁ hδ₁half
@@ -103,10 +103,10 @@ local notation "secondKernel" => ActualGaussStage.canonicalRowBallKernel
 /-- Preparation, every common label, allocation and orientation leave
 both actual Fourier kernels equal to these fixed row-ball kernels. -/
 theorem literalPrimitivePreparedDirect_parent_kernels
-    (exceptional : prepared.CoverHybridPredicates atlas) (N : source.Normalization)
-    (j : prepared.CoveredLeafKey atlas) :
-    (prepared.parentLeaf atlas exceptional N j).firstKernel = firstKernel ∧
-      (prepared.parentLeaf atlas exceptional N j).secondKernel = secondKernel := by
+    (exceptional : (prepared).CoverHybridPredicates atlas) (N : (source).Normalization)
+    (j : (prepared).CoveredLeafKey atlas) :
+    ((prepared).parentLeaf atlas exceptional N j).firstKernel = firstKernel ∧
+      ((prepared).parentLeaf atlas exceptional N j).secondKernel = secondKernel := by
   rcases j with ⟨DE, D, S, χ, j | j⟩ <;> exact ⟨rfl, rfl⟩
 
 end CompleteMovingRowRecipe

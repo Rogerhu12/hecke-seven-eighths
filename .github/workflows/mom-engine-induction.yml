@@ -27,7 +27,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 360
     env:
       # Lake's ordinary task pool uses this runtime setting. Each Lean
       # subprocess retains the repository's weakLeanArgs = ["-j2"].
@@ -57,7 +57,7 @@ jobs:
           proof_logs="$RUNNER_TEMP/mom-engine-induction"
           mkdir -p "$proof_logs"
           python3 "$task_dir/verify.py" preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
-          # Leave time to upload diagnostics before the 180-minute job cap.
+          # Leave time for the original-target gate and diagnostic upload.
           timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit 2>&1 | tee "$proof_logs/build.log"
           printf '\nMOM_ENGINE_INDUCTION_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
           lake env lean "$task_dir/Audit.lean" 2>&1 | tee "$proof_logs/axioms.log"
@@ -72,34 +72,9 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
-  # This source adapter imports admitted upstream definitions. Its native
-  # compilation and inherited axiom report are a separate, visible result;
-  # they do not weaken the allowlist of the clean induction job above.
-  # Run the expensive source integration only after the clean gate succeeds.
-  # A skipped integration job after a clean failure is not integration evidence.
-  skeleton-integration:
-    needs: verify
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
-    env:
-      LEAN_NUM_THREADS: "2"
-      EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          persist-credentials: false
-      - name: Install the pinned Lean environment and Mathlib cache
-        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64 # v1
-        with:
-          auto-config: "false"
-          build: "false"
-          test: "false"
-          lint: "false"
-          use-mathlib-cache: "true"
-          use-github-cache: "false"
-      - name: Restore precompiled project artifacts
-        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      # Reuse this exact checkout and its just-built task objects for the
+      # original names. The strict clean gate above and the original-target
+      # allowlist below remain separate; no cross-run task cache is restored.
       - name: Compile the exact source adapter and report inherited axioms
         shell: bash
         run: |

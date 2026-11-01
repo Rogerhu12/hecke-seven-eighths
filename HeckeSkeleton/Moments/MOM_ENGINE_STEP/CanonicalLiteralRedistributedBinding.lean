@@ -197,7 +197,7 @@ local notation "Y" => v.redistributedLiteralExtraction leftAtoms rightAtoms Î´â‚
 /-- The new common weight belongs to the exact original leaf. The
 only omitted rows still have zero original full correlation. -/
 def redistributedLiteralOrdinaryBinding :
-    Y.leaf.OrdinaryBinding
+    (Y).leaf.OrdinaryBinding
       (v.literalRectangles newLeft newRight exceptional firstKernel x j firstSign hlive) where
   rows := binding.rows
   rows_zero h hh hn := by
@@ -221,13 +221,13 @@ def redistributedLiteralOrdinaryBinding :
   rightPoint := binding.rightPoint
 
 @[simp] theorem redistributedLiteralExtraction_firstKernel :
-    Y.leaf.firstKernel = firstKernel := rfl
+    (Y).leaf.firstKernel = firstKernel := rfl
 
 @[simp] theorem redistributedLiteralExtraction_secondKernel :
-    Y.leaf.secondKernel = v.chart.kernel := rfl
+    (Y).leaf.secondKernel = v.chart.kernel := rfl
 
 @[simp] theorem redistributedLiteralExtraction_outerWeight :
-    Y.leaf.weight = (v.leaf exceptional firstKernel x j).weight := rfl
+    (Y).leaf.weight = (v.leaf exceptional firstKernel x j).weight := rfl
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

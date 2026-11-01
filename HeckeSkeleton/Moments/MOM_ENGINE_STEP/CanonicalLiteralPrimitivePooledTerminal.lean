@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -191,12 +191,12 @@ local notation "valuationGeometry" => OriginalNominalGeometry.canonicalPoolError
 /-- All main, one, six and seven calibrations are constructed on the
 same installed original pool and the same two source orientations. -/
 def literalPrimitivePooledDualCalibration :
-    stages.DualTerminalCalibration sTail sZero (2 * (cap + 2)) degree Nsave decay := by
+    (stages).DualTerminalCalibration sTail sZero (2 * (cap + 2)) degree Nsave decay := by
   have hrowsInternal : ∀ u ∈ pairedRows (data ξ) internal Z, u ∈ rowDomain := by
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
   have domainInternal : PairedEngineDomain centered (data ξ) internal Z Y₁ Y₂ floor padding :=
     domain.withSupportLength (Q.fullSupportLength Z)
-  have htotalInternal : internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
+  have htotalInternal : (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤ lengthBound := by
     simpa only [← domain.total_length] using htotal
   have hcoarseNonneg : 0 ≤ leftExponent + rightExponent + (data ξ).geometry.totalLength + loss := by
     have hl := (Real.rpow_le_rpow_left_iff hZ).mp hleftPower
@@ -207,15 +207,15 @@ def literalPrimitivePooledDualCalibration :
   intro DE D
   have hlengths := Q.literalPrimitiveFirstIdealLengths μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half columnBound columnNorm DE D
-  have hDE := actual_common_pair_properties firstSource.columns firstSource.columns
-    (fun i => (firstSource.ideal i).val) (fun i => (firstSource.ideal i).val) DE
-  have hnorm := actual_common_pair_norm firstSource.columns firstSource.columns
-    (fun i => (firstSource.ideal i).val) (fun i => (firstSource.ideal i).val) (Z ^ columnBound)
-    (fun i _ => (firstSource.ideal i).property.1)
-    (fun i _ => (firstSource.ideal i).property.1) columnNorm columnNorm DE
-  let «GL» := leftMainGeometry ((source.block DE).literalLeftCoordinates D.val)
+  have hDE := actual_common_pair_properties (firstSource).columns (firstSource).columns
+    (fun i => ((firstSource).ideal i).val) (fun i => ((firstSource).ideal i).val) DE
+  have hnorm := actual_common_pair_norm (firstSource).columns (firstSource).columns
+    (fun i => ((firstSource).ideal i).val) (fun i => ((firstSource).ideal i).val) (Z ^ columnBound)
+    (fun i _ => ((firstSource).ideal i).property.1)
+    (fun i _ => ((firstSource).ideal i).property.1) columnNorm columnNorm DE
+  let «GL» := leftMainGeometry (((source).block DE).literalLeftCoordinates D.val)
     (2 * loss + cutoffExponent) (zero_lt_one.trans hZ) (by positivity)
-  let GR := rightMainGeometry ((source.block DE).literalRightCoordinates D.val)
+  let GR := rightMainGeometry (((source).block DE).literalRightCoordinates D.val)
     (2 * loss + cutoffExponent) (zero_lt_one.trans hZ) (by positivity)
   have hleftRadius := Q.literalPrimitiveGeometry_inverse_bound μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -224,28 +224,28 @@ def literalPrimitivePooledDualCalibration :
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
     step hstep.le lengthBound columnBound htotal columnNorm DE D true GR rfl
   have leftValuation : ∀
-      (S : divisorPool (source.pools DE D).rightData.columns
-        (fun j => ((source.pools DE D).rightData.ideal j).val))
+      (S : divisorPool ((source).pools DE D).rightData.columns
+        (fun j => (((source).pools DE D).rightData.ideal j).val))
       (χ : (PUnit × PUnit) →* Circle) (valuation : AmplifierValuation) (prime : pool.primes),
-      (((source.pools DE D).divisorPools.leftData S).literalValuationStage
+      ((((source).pools DE D).divisorPools.leftData S).literalValuationStage
         (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
         (μv := μv) (hDiff := hDiff) (ν := ν)
-        ((source.pools DE D).leftDivisorCoefficient S χ) P internal
-        ((source.block DE).literalLeftCoordinates D.val)
+        (((source).pools DE D).leftDivisorCoefficient S χ) P internal
+        (((source).block DE).literalLeftCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity) hstep (leftRows DE D S)
         δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ valuation prime).DualTerminalCalibration
           sTail sZero (2 * (cap + 2)) Z degree Nsave decay := by
     intro S χ valuation prime
-    let G := valuationGeometry valuation prime ((source.block DE).literalLeftCoordinates D.val)
+    let G := valuationGeometry valuation prime (((source).block DE).literalLeftCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity)
     have hRadius := Q.literalPrimitiveGeometry_inverse_bound μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
       step hstep.le lengthBound columnBound htotal columnNorm DE D false G rfl
-    let valuationStage := ((source.pools DE D).divisorPools.leftData S).literalValuationStage
+    let valuationStage := (((source).pools DE D).divisorPools.leftData S).literalValuationStage
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).leftDivisorCoefficient S χ) P internal
-      ((source.block DE).literalLeftCoordinates D.val)
+      (((source).pools DE D).leftDivisorCoefficient S χ) P internal
+      (((source).block DE).literalLeftCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (leftRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ valuation prime
     exact canonicalLeftPoolOriginalDualCalibration
@@ -260,13 +260,13 @@ def literalPrimitivePooledDualCalibration :
       (Y₁ := Y₁)
       (Y₂ := Y₂)
       (centered := centered)
-      (b := source.block DE)
+      (b := (source).block DE)
       (C := C)
       (φ := CanonicalRowBall.archTest K A.Sf 1)
       (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
       (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
       (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-      (firstRadius := source.radius)
+      (firstRadius := (source).radius)
       (firstMask := D.val)
       (δ := δ₁)
       (hδ := hδ₁)
@@ -310,7 +310,7 @@ def literalPrimitivePooledDualCalibration :
       (hcoarseNonneg := hcoarseNonneg)
       (hcoarse := hcolumn)
       (hloss := hlossOne)
-      (p := source.pools DE D)
+      (p := (source).pools DE D)
       (prime := prime.val)
       (n := valuation.multiplicity)
       (S := S)
@@ -323,28 +323,28 @@ def literalPrimitivePooledDualCalibration :
       (hradius := (G.canonical_inverse_radius hZ).le)
       (hcutoff := rfl)
   have rightValuation : ∀
-      (S : divisorPool (source.pools DE D).rightData.columns
-        (fun j => ((source.pools DE D).rightData.ideal j).val))
+      (S : divisorPool ((source).pools DE D).rightData.columns
+        (fun j => (((source).pools DE D).rightData.ideal j).val))
       (χ : (PUnit × PUnit) →* Circle) (valuation : AmplifierValuation) (prime : pool.primes),
-      (((source.pools DE D).divisorPools.rightData S).literalValuationStage
+      ((((source).pools DE D).divisorPools.rightData S).literalValuationStage
         (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
         (μv := μv) (hDiff := hDiff) (ν := ν)
-        ((source.pools DE D).rightDivisorCoefficient S χ) P internal
-        ((source.block DE).literalRightCoordinates D.val)
+        (((source).pools DE D).rightDivisorCoefficient S χ) P internal
+        (((source).block DE).literalRightCoordinates D.val)
         (2 * loss + cutoffExponent) (by positivity) hstep (rightRows DE D S)
         δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ valuation prime).DualTerminalCalibration
           sTail sZero (2 * (cap + 2)) Z degree Nsave decay := by
     intro S χ valuation prime
-    let G := valuationGeometry valuation prime ((source.block DE).literalRightCoordinates D.val)
+    let G := valuationGeometry valuation prime (((source).block DE).literalRightCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity)
     have hRadius := Q.literalPrimitiveGeometry_inverse_bound μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
       step hstep.le lengthBound columnBound htotal columnNorm DE D true G rfl
-    let valuationStage := ((source.pools DE D).divisorPools.rightData S).literalValuationStage
+    let valuationStage := (((source).pools DE D).divisorPools.rightData S).literalValuationStage
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).rightDivisorCoefficient S χ) P internal
-      ((source.block DE).literalRightCoordinates D.val)
+      (((source).pools DE D).rightDivisorCoefficient S χ) P internal
+      (((source).block DE).literalRightCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (rightRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ valuation prime
     exact canonicalRightPoolOriginalDualCalibration
@@ -359,13 +359,13 @@ def literalPrimitivePooledDualCalibration :
       (Y₁ := Y₁)
       (Y₂ := Y₂)
       (centered := centered)
-      (b := source.block DE)
+      (b := (source).block DE)
       (C := C)
       (φ := CanonicalRowBall.archTest K A.Sf 1)
       (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
       (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
       (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-      (firstRadius := source.radius)
+      (firstRadius := (source).radius)
       (firstMask := D.val)
       (δ := δ₁)
       (hδ := hδ₁)
@@ -409,7 +409,7 @@ def literalPrimitivePooledDualCalibration :
       (hcoarseNonneg := hcoarseNonneg)
       (hcoarse := hcolumn)
       (hloss := hlossOne)
-      (p := source.pools DE D)
+      (p := (source).pools DE D)
       (prime := prime.val)
       (n := valuation.multiplicity)
       (S := S)
@@ -439,13 +439,13 @@ def literalPrimitivePooledDualCalibration :
       (Y₁ := Y₁)
       (Y₂ := Y₂)
       (centered := centered)
-      (b := source.block DE)
+      (b := (source).block DE)
       (C := C)
       (φ := CanonicalRowBall.archTest K A.Sf 1)
       (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
       (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
       (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-      (firstRadius := source.radius)
+      (firstRadius := (source).radius)
       (firstMask := D.val)
       (δ := δ₁)
       (hδ := hδ₁)
@@ -489,7 +489,7 @@ def literalPrimitivePooledDualCalibration :
       (hcoarseNonneg := hcoarseNonneg)
       (hcoarse := hcolumn)
       (hloss := hlossOne)
-      (p := source.pools DE D)
+      (p := (source).pools DE D)
       (S := S)
       (χ := χ)
       (inverseRadiusExponent := «GL».retainedLength + «GL».enlargement)
@@ -516,13 +516,13 @@ def literalPrimitivePooledDualCalibration :
       (Y₁ := Y₁)
       (Y₂ := Y₂)
       (centered := centered)
-      (b := source.block DE)
+      (b := (source).block DE)
       (C := C)
       (φ := CanonicalRowBall.archTest K A.Sf 1)
       (firstFiniteTest := rowBallFiniteFamily K A.Sf 1)
       (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
       (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
-      (firstRadius := source.radius)
+      (firstRadius := (source).radius)
       (firstMask := D.val)
       (δ := δ₁)
       (hδ := hδ₁)
@@ -566,7 +566,7 @@ def literalPrimitivePooledDualCalibration :
       (hcoarseNonneg := hcoarseNonneg)
       (hcoarse := hcolumn)
       (hloss := hlossOne)
-      (p := source.pools DE D)
+      (p := (source).pools DE D)
       (S := S)
       (χ := χ)
       (inverseRadiusExponent := GR.retainedLength + GR.enlargement)

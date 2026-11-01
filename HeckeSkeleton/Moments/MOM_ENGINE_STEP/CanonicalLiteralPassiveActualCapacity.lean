@@ -168,7 +168,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -198,14 +198,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -288,8 +288,8 @@ private theorem passiveCapacity_rightEndpoints
   · rw [OriginalNominalGeometry.atBase_literalSupportParameter,
       OriginalNominalGeometry.swapSecond_literalSupportParameter, hroot, hbase]
 
-local notation "leftGeometry" => geometry.atBase leftTable.base hbaseLeft
-local notation "rightGeometry" => geometry.swapSecond.atBase rightTable.base hbaseRight
+local notation "leftGeometry" => geometry.atBase (leftTable).base hbaseLeft
+local notation "rightGeometry" => geometry.swapSecond.atBase (rightTable).base hbaseRight
 
 local notation "originalMass" =>
   v.literalOriginalArithmeticMass
@@ -330,13 +330,13 @@ def literalPassiveLeftSideNormalization :=
   fun analyticLeft analyticRight heightLeft heightRight (b : Labels) =>
   let cal := (production analyticLeft analyticRight heightLeft heightRight).leftCalibration b
   show SecondSideNormalization (leftFrame b) ω ψ Set.univ Set.univ (Set.Icc 0 hi) orders from by
-  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry leftTable.base hbaseLeft paidCutoff
+  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
-    have hb : leftTable.base = Z := hbaseLeft
+  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
+    have hb : (leftTable).base = Z := hbaseLeft
     simpa only [hb] using domain
-  exact leftPassiveTable.produceLiteralSideAll leftPassiveTests ordinaryRows .left (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
+  exact (leftPassiveTable).produceLiteralSideAll leftPassiveTests ordinaryRows .left (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior leftTests leftAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem leftTests leftAllocation A)
     firstSign b.1.2 b.1.1.val.val.1 b.1.1.val.val.2
@@ -354,16 +354,16 @@ def literalPassiveLeftLengthBinding :=
   fun analyticLeft analyticRight heightLeft heightRight (b : Labels) =>
   let cal := (production analyticLeft analyticRight heightLeft heightRight).leftCalibration b
   show cal.OriginalSixthLengthBinding parent a step leftGeometry
-      (idealLogLength leftTable.base
-        (secondSixthRootIdeal ordinaryRows.primes ordinaryRows.leftMultiplicity
-          ordinaryRows.rightMultiplicity).val) from by
-  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry leftTable.base hbaseLeft paidCutoff
+      (idealLogLength (leftTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity
+          (ordinaryRows).rightMultiplicity).val) from by
+  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
-    have hb : leftTable.base = Z := hbaseLeft
+  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
+    have hb : (leftTable).base = Z := hbaseLeft
     simpa only [hb] using domain
-  exact leftPassiveTable.literalCapacityBinding ordinaryRows .left (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
+  exact (leftPassiveTable).literalCapacityBinding ordinaryRows .left (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior leftTests leftAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem leftTests leftAllocation A)
     firstSign b.1.2 b.1.1.val.val.1 b.1.1.val.val.2
@@ -377,13 +377,13 @@ def literalPassiveLeftCapacityAtoms :=
   fun analyticLeft analyticRight heightLeft heightRight (b : Labels) =>
   let cal := (production analyticLeft analyticRight heightLeft heightRight).leftCalibration b
   show cal.OriginalCapacityAtoms from by
-  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry leftTable.base hbaseLeft paidCutoff
+  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
-    have hb : leftTable.base = Z := hbaseLeft
+  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
+    have hb : (leftTable).base = Z := hbaseLeft
     simpa only [hb] using domain
-  exact leftPassiveTable.literalCapacityAtoms leftPassiveTests ordinaryRows .left (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
+  exact (leftPassiveTable).literalCapacityAtoms leftPassiveTests ordinaryRows .left (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior leftTests leftAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem leftTests leftAllocation A)
     firstSign b.1.2 b.1.1.val.val.1 b.1.1.val.val.2
@@ -399,18 +399,18 @@ def literalPassiveRightSideNormalization :=
   fun analyticLeft analyticRight heightLeft heightRight (b : Labels) =>
   let cal := (production analyticLeft analyticRight heightLeft heightRight).rightCalibration b
   show SecondSideNormalization (rightFrame b) ω ψ Set.univ Set.univ (Set.Icc 0 hi) orders from by
-  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry rightTable.base hbaseRight paidCutoff
+  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
-    have hb : rightTable.base = Z := hbaseRight
+  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
+    have hb : (rightTable).base = Z := hbaseRight
     simpa only [hb] using domain
-  have hunitR : rightGeometry.ideals.unitPart.val =
-      (secondPatternUnitIdeal ordinaryRows.primes ordinaryRows.rightMultiplicity
-        ordinaryRows.leftMultiplicity pattern).val := by
+  have hunitR : (rightGeometry).ideals.unitPart.val =
+      (secondPatternUnitIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+        (ordinaryRows).leftMultiplicity pattern).val := by
     rw [secondPatternUnitIdeal_swap]
     exact hunit
-  exact rightPassiveTable.produceLiteralSideAll rightPassiveTests ordinaryRows .right (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
+  exact (rightPassiveTable).produceLiteralSideAll rightPassiveTests ordinaryRows .right (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior rightTests rightAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem rightTests rightAllocation A)
     (-firstSign) b.2.2 b.2.1.val.val.1 b.2.1.val.val.2
@@ -428,16 +428,16 @@ def literalPassiveRightLengthBinding :=
   fun analyticLeft analyticRight heightLeft heightRight (b : Labels) =>
   let cal := (production analyticLeft analyticRight heightLeft heightRight).rightCalibration b
   show cal.OriginalSixthLengthBinding parent a step rightGeometry
-      (idealLogLength rightTable.base
-        (secondSixthRootIdeal ordinaryRows.primes ordinaryRows.rightMultiplicity
-          ordinaryRows.leftMultiplicity).val) from by
-  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry rightTable.base hbaseRight paidCutoff
+      (idealLogLength (rightTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+          (ordinaryRows).leftMultiplicity).val) from by
+  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
-    have hb : rightTable.base = Z := hbaseRight
+  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
+    have hb : (rightTable).base = Z := hbaseRight
     simpa only [hb] using domain
-  exact rightPassiveTable.literalCapacityBinding ordinaryRows .right (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
+  exact (rightPassiveTable).literalCapacityBinding ordinaryRows .right (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior rightTests rightAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem rightTests rightAllocation A)
     (-firstSign) b.2.2 b.2.1.val.val.1 b.2.1.val.val.2
@@ -451,13 +451,13 @@ def literalPassiveRightCapacityAtoms :=
   fun analyticLeft analyticRight heightLeft heightRight (b : Labels) =>
   let cal := (production analyticLeft analyticRight heightLeft heightRight).rightCalibration b
   show cal.OriginalCapacityAtoms from by
-  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry rightTable.base hbaseRight paidCutoff
+  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
-    have hb : rightTable.base = Z := hbaseRight
+  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
+    have hb : (rightTable).base = Z := hbaseRight
     simpa only [hb] using domain
-  exact rightPassiveTable.literalCapacityAtoms rightPassiveTests ordinaryRows .right (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
+  exact (rightPassiveTable).literalCapacityAtoms rightPassiveTests ordinaryRows .right (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior rightTests rightAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem rightTests rightAllocation A)
     (-firstSign) b.2.2 b.2.1.val.val.1 b.2.1.val.val.2
@@ -695,14 +695,14 @@ local notation "leftFrozen" => fun b : Labels =>
     .left (choice.mask extra) b.1.1.val firstSign b.1.2
     (CanonicalLiteralPaidCharacters.paidSourceCharacters_maskIndicator P Rchar choice.phases
       parent oldMoving correction remaining
-      (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i)))
+      (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i)))
     b.1.1.property
 local notation "rightFrozen" => fun b : Labels =>
   CanonicalLiteralPassiveFrames.frozenBounds rightTests rightAllocation rightPaid C ordinaryRows
     .right (choice.mask extra) b.2.1.val (-firstSign) b.2.2
     (CanonicalLiteralPaidCharacters.paidSourceCharacters_maskIndicator P Rchar choice.phases
       parent oldMoving correction remaining
-      (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i)))
+      (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i)))
     b.2.1.property
 
 @[simp] theorem literalPassiveLeftSideNormalization_calibration :
@@ -732,9 +732,9 @@ local notation "rightFrozen" => fun b : Labels =>
 @[simp] theorem literalPassiveLeftLengthBinding_rawError :
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels),
       (leftLengths analyticLeft analyticRight heightLeft heightRight b).rawScaleError =
-        leftPassiveTable.computedRawError geometry.skeleton.rawDegree error b.1.2 := by
+        (leftPassiveTable).computedRawError geometry.skeleton.rawDegree error b.1.2 := by
   intro analyticLeft analyticRight heightLeft heightRight b
-  change leftPassiveTable.computedRawError leftGeometry.skeleton.rawDegree error b.1.2 = _
+  change (leftPassiveTable).computedRawError (leftGeometry).skeleton.rawDegree error b.1.2 = _
   rw [OriginalNominalGeometry.atBase_skeleton]
 
 @[simp] theorem literalPassiveLeftLengthBinding_widthError :
@@ -790,9 +790,9 @@ local notation "rightFrozen" => fun b : Labels =>
 @[simp] theorem literalPassiveRightLengthBinding_rawError :
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels),
       (rightLengths analyticLeft analyticRight heightLeft heightRight b).rawScaleError =
-        rightPassiveTable.computedRawError geometry.swapSecond.skeleton.rawDegree error b.2.2 := by
+        (rightPassiveTable).computedRawError geometry.swapSecond.skeleton.rawDegree error b.2.2 := by
   intro analyticLeft analyticRight heightLeft heightRight b
-  change rightPassiveTable.computedRawError rightGeometry.skeleton.rawDegree error b.2.2 = _
+  change (rightPassiveTable).computedRawError (rightGeometry).skeleton.rawDegree error b.2.2 = _
   rw [OriginalNominalGeometry.atBase_skeleton]
 
 @[simp] theorem literalPassiveRightLengthBinding_widthError :
@@ -823,20 +823,20 @@ local notation "rightFrozen" => fun b : Labels =>
 
 /-- This is the original row-mass capacity of the same left side. -/
 theorem literalPassiveNormalizedFamily_leftCapacity_actual :
-    ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels) (anchor : ordinaryRows.rows),
+    ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels) (anchor : (ordinaryRows).rows),
       HEq (leftSide analyticLeft analyticRight heightLeft heightRight b).capacity
         ((leftLengths analyticLeft analyticRight heightLeft heightRight b).capacityInput
           originalMass v.block.right_positive anchor hsecond hopposite hunit
           hstep mesh hmesh hfit (leftAtomsInput analyticLeft analyticRight heightLeft heightRight b)) := by
   intro analyticLeft analyticRight heightLeft heightRight b anchor
   let cal := (production analyticLeft analyticRight heightLeft heightRight).leftCalibration b
-  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry leftTable.base hbaseLeft paidCutoff
+  have hcoordinates := passiveCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
-    have hb : leftTable.base = Z := hbaseLeft
+  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
+    have hb : (leftTable).base = Z := hbaseLeft
     simpa only [hb] using domain
-  exact leftPassiveTable.produceLiteralLeftSideAll_capacity_actual_heq leftPassiveTests
+  exact (leftPassiveTable).produceLiteralLeftSideAll_capacity_actual_heq leftPassiveTests
     ordinaryRows (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior leftTests leftAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem leftTests leftAllocation A)
@@ -853,25 +853,25 @@ theorem literalPassiveNormalizedFamily_leftCapacity_actual :
 
 /-- This is the original row-mass capacity of the same right side. -/
 theorem literalPassiveNormalizedFamily_rightCapacity_actual :
-    ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels) (anchor : ordinaryRows.rows),
+    ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels) (anchor : (ordinaryRows).rows),
       HEq (rightSide analyticLeft analyticRight heightLeft heightRight b).capacity
         ((rightLengths analyticLeft analyticRight heightLeft heightRight b).capacityInput
-          (originalMass.swapColumns v.block.right_positive) originalMass.left_positive anchor hopposite hsecond hunit
+          ((originalMass).swapColumns v.block.right_positive) (originalMass).left_positive anchor hopposite hsecond hunit
           hstep mesh hmesh hfit (rightAtomsInput analyticLeft analyticRight heightLeft heightRight b)) := by
   intro analyticLeft analyticRight heightLeft heightRight b anchor
   let cal := (production analyticLeft analyticRight heightLeft heightRight).rightCalibration b
-  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry rightTable.base hbaseRight paidCutoff
+  have hcoordinates := passiveCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
   have hm := hcoordinates.1
   have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
-    have hb : rightTable.base = Z := hbaseRight
+  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
+    have hb : (rightTable).base = Z := hbaseRight
     simpa only [hb] using domain
-  have hunitR : rightGeometry.ideals.unitPart.val =
-      (secondPatternUnitIdeal ordinaryRows.primes ordinaryRows.rightMultiplicity
-        ordinaryRows.leftMultiplicity pattern).val := by
+  have hunitR : (rightGeometry).ideals.unitPart.val =
+      (secondPatternUnitIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+        (ordinaryRows).leftMultiplicity pattern).val := by
     rw [secondPatternUnitIdeal_swap]
     exact hunit
-  exact rightPassiveTable.produceLiteralRightSideAll_capacity_actual_heq rightPassiveTests
+  exact (rightPassiveTable).produceLiteralRightSideAll_capacity_actual_heq rightPassiveTests
     ordinaryRows (1 : (PUnit.{1} × PUnit.{1}) →* Circle)
     (CanonicalLiteralPassiveFrames.columnExterior rightTests rightAllocation A)
     (CanonicalLiteralPassiveFrames.columnExterior_val_of_mem rightTests rightAllocation A)
@@ -891,7 +891,7 @@ nonzero energy supplies an original ordinary-row witness. -/
 theorem literalPassiveNormalizedFamily_activeRows_nonempty :
     ∀ analyticLeft analyticRight heightLeft heightRight
       (b : (production analyticLeft analyticRight heightLeft heightRight).active Finset.univ),
-      Nonempty ordinaryRows.rows := by
+      Nonempty (ordinaryRows).rows := by
   intro analyticLeft analyticRight heightLeft heightRight b
   have hnonzero := (Finset.mem_filter.mp b.property).2.1
   obtain ⟨ξ, hξ⟩ := not_forall.mp hnonzero

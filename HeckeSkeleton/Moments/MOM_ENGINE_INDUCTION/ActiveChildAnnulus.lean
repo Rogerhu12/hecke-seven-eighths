@@ -206,6 +206,29 @@ theorem frozen_child_prime_support (out : capacity.Child) {primeWindow : Set ℝ
   rw [profilePower_zero, mul_one] at hy
   exact child_prime_support out h ξ i (cal.height ξ) hy
 
+/-- Only support at the actual original evaluation height is needed
+for a frozen output. This is the form exposed by the full-kappa input. -/
+theorem frozen_child_prime_support_at (out : capacity.Child) {primeWindow : Set ℝ}
+    (h : ∀ ξ i, Function.support
+      (((cal.data ξ).geometry.slots i).profile (cal.height ξ)) ⊆ primeWindow) :
+    ∀ ξ i t, Function.support (((out.frozenData ξ).geometry.slots i).profile t) ⊆ primeWindow := by
+  have hchild : ∀ ξ i, Function.support
+      (((out.data ξ).geometry.slots i).profile (cal.height ξ)) ⊆ primeWindow := by
+    intro ξ
+    rw [out.data_eq_normalized_raw]
+    intro i y hy
+    change (((capacity.radius ξ)⁻¹ : ℝ) : ℂ) *
+      ((cal.data ξ).geometry.slots
+        (selectedSlotIndex
+          (lengthSelection (cal.clippedData ξ) source.allocation.keep.card
+            (cal.count ξ) (Finset.univ \ out.removed)) i)).profile (cal.height ξ) y ≠ 0 at hy
+    exact h ξ _ (right_ne_zero_of_mul hy)
+  intro ξ i t y hy
+  change ((out.data ξ).geometry.slots i).profile (cal.height ξ) y *
+    profilePower 0 y ≠ 0 at hy
+  rw [profilePower_zero, mul_one] at hy
+  exact hchild ξ i hy
+
 /-- The active-source predicate supplies the one nonzero member used
 to bound clipping. The same factors apply at every Fourier value. -/
 theorem active_clipping_factors

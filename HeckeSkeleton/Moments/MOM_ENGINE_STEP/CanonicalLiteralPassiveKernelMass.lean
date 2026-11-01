@@ -172,7 +172,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -202,14 +202,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -422,9 +422,9 @@ local notation "rightActiveBound" =>
 
 local notation "originalLeaf" => v.leaf exceptional firstKernel x j
 local notation "oldFrozenWeight" =>
-  Real.sqrt (leftTable.originalFrozenCost leftAllocation) *
-    Real.sqrt (rightTable.originalFrozenCost rightAllocation)
-local notation "originalOuter" => originalLeaf.weight * oldFrozenWeight
+  Real.sqrt ((leftTable).originalFrozenCost leftAllocation) *
+    Real.sqrt ((rightTable).originalFrozenCost rightAllocation)
+local notation "originalOuter" => (originalLeaf).weight * oldFrozenWeight
 
 /-- The profile model and first-scale equalities are the literal
 constructor projections. The active estimates, two retained-count
@@ -442,8 +442,8 @@ theorem literalPassiveNormalizedFamily_kernelMass
       leftSeed.scale₁ true * leftSeed.scale₂ true = leftSeed.scale₁ false * leftSeed.scale₂ false)
     (hcomparisonR : rightSeed.centered = true →
       rightSeed.scale₁ true * rightSeed.scale₂ true = rightSeed.scale₁ false * rightSeed.scale₂ false)
-    (hcenteredL : leftTable.centered = leftSeed.centered)
-    (hcenteredR : rightTable.centered = rightSeed.centered)
+    (hcenteredL : (leftTable).centered = leftSeed.centered)
+    (hcenteredR : (rightTable).centered = rightSeed.centered)
     (hbaseL : (v.literalLeftOriginal leftAtoms).base = leftSeed.base)
     (hbaseR : (v.literalRightOriginal rightAtoms).base = rightSeed.base)
     (hfirstL₁ : ∀ r, (v.literalLeftOriginal leftAtoms).scale₁ r = (leftSeed.extract leftFirst).scale₁ r)
@@ -461,8 +461,8 @@ theorem literalPassiveNormalizedFamily_kernelMass
     ∀ analyticLeft analyticRight heightLeft heightRight,
     let family := production analyticLeft analyticRight heightLeft heightRight
     let labels := (Finset.univ : Finset Labels)
-    let μ := actualNestedLabelMeasure (fun _ : Labels => originalLeaf.firstKernel)
-      (fun _ : Labels => originalLeaf.secondKernel) (fun _ : Labels => originalOuter)
+    let μ := actualNestedLabelMeasure (fun _ : Labels => (originalLeaf).firstKernel)
+      (fun _ : Labels => (originalLeaf).secondKernel) (fun _ : Labels => originalOuter)
     let fixed := CanonicalLiteralActiveRadius.twoSignsCoefficient
       originalBound lo hi hlo δ₁ δ₂ orders
     (∀ rs : family.active labels,
@@ -472,9 +472,9 @@ theorem literalPassiveNormalizedFamily_kernelMass
           (2 * analyticFactor) ^ ((cap + 2) + (cap + 2)) *
             (1 + fixed) ^ ((cap + 2) + (cap + 2)) *
               (CanonicalLiteralKernelConstants.firstOrders K A σ ω ψ cap (orders.sup Prod.snd)).sup
-                (schwartzSeminormFamily ℝ ℝ ℂ) originalLeaf.firstKernel *
+                (schwartzSeminormFamily ℝ ℝ ℂ) (originalLeaf).firstKernel *
               (CanonicalLiteralKernelConstants.secondOrders K A σ ω ψ cap (orders.sup Prod.snd)).sup
-                (schwartzSeminormFamily ℝ ℝ ℂ) originalLeaf.secondKernel *
+                (schwartzSeminormFamily ℝ ℝ ℂ) (originalLeaf).secondKernel *
                 ∑ rs : family.active labels,
                   originalOuter * family.weight labels (a.m + a.q) rs := by
   intro analyticLeft analyticRight heightLeft heightRight
@@ -486,8 +486,8 @@ theorem literalPassiveNormalizedFamily_kernelMass
   let fixed := CanonicalLiteralActiveRadius.twoSignsCoefficient originalBound lo hi hlo δ₁ δ₂ orders
   let s₁ := CanonicalLiteralKernelConstants.firstOrders K A σ ω ψ cap (orders.sup Prod.snd)
   let s₂ := CanonicalLiteralKernelConstants.secondOrders K A σ ω ψ cap (orders.sup Prod.snd)
-  let S₁ := s₁.sup (schwartzSeminormFamily ℝ ℝ ℂ) originalLeaf.firstKernel
-  let S₂ := s₂.sup (schwartzSeminormFamily ℝ ℝ ℂ) originalLeaf.secondKernel
+  let S₁ := s₁.sup (schwartzSeminormFamily ℝ ℝ ℂ) (originalLeaf).firstKernel
+  let S₂ := s₂.sup (schwartzSeminormFamily ℝ ℝ ℂ) (originalLeaf).secondKernel
   have hL (rs : Labels) : 0 ≤ L rs :=
     (leftComputed.passiveTable leftAllocation A leftPaid).coefficient_nonneg Z _ domain.scale.le
       isCompact_Icc (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rs.1.2
@@ -552,14 +552,14 @@ theorem literalPassiveNormalizedFamily_kernelMass
       simpa only [Fintype.card_fin] using
         Finset.card_le_univ (family.rightSource rs).allocation.keep
     exact hk.trans (hf.trans hcap)
-  have houter : 0 ≤ originalOuter := mul_nonneg originalLeaf.weight_nonneg
+  have houter : 0 ≤ originalOuter := mul_nonneg (originalLeaf).weight_nonneg
     (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))
   have hm := (actual_finite_normalized_kernel_mass_active
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
     cap (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd))
       .choose_spec.choose_spec.choose_spec.2
   have hout := hm Z hZ family Finset.univ
-    (fun _ : Labels => originalLeaf.firstKernel) (fun _ : Labels => originalLeaf.secondKernel)
+    (fun _ : Labels => (originalLeaf).firstKernel) (fun _ : Labels => (originalLeaf).secondKernel)
     (fun _ : Labels => originalOuter)
     (fun rs => CanonicalFullKappaPrime.enlargedCoefficient (L rs) factor)
     (fun rs => CanonicalFullKappaPrime.enlargedCoefficient (R rs) factor)

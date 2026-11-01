@@ -164,7 +164,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -194,14 +194,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily
@@ -253,8 +253,8 @@ local notation "rightFrame" => fun b : RightLabel =>
   CanonicalLiteralPassiveFrames.frame rightTests rightAllocation A rightPaid C ordinaryRows
     .right (choice.mask extra) b.1.val (-firstSign) b.2
 local notation "frozenPair" =>
-  Real.sqrt (leftTable.originalFrozenCost leftAllocation) *
-    Real.sqrt (rightTable.originalFrozenCost rightAllocation)
+  Real.sqrt ((leftTable).originalFrozenCost leftAllocation) *
+    Real.sqrt ((rightTable).originalFrozenCost rightAllocation)
 local notation "passiveIntegrand" => CanonicalLiteralPassiveNormalizedFamily.integrand
   C ordinaryRows leftTests rightTests leftAllocation rightAllocation leftPaid rightPaid
   (choice.mask extra) (choice.mask extra) firstSign (-firstSign)
@@ -266,7 +266,7 @@ theorem literalPassiveNormalizedFamily_sourcePairs :
     ∀ analyticLeft analyticRight heightLeft heightRight (parentWidth : ℝ)
       (ξ : WithLp 2 (ℝ × ℝ)),
     let family := production analyticLeft analyticRight heightLeft heightRight
-    rectangles.originalIntegrand ξ / Z ^ parentWidth ≤ frozenPair *
+    (rectangles).originalIntegrand ξ / Z ^ parentWidth ≤ frozenPair *
       ∑ b : Labels, family.sourcePair parentWidth b ξ := by
   intro analyticLeft analyticRight heightLeft heightRight parentWidth ξ
   let family := production analyticLeft analyticRight heightLeft heightRight
@@ -353,7 +353,7 @@ theorem literalPassiveNormalizedFamily_sourceBound :
     ∀ analyticLeft analyticRight heightLeft heightRight (parentWidth : ℝ)
       (ξ : WithLp 2 (ℝ × ℝ)),
     let family := production analyticLeft analyticRight heightLeft heightRight
-    rectangles.originalIntegrand ξ / Z ^ parentWidth ≤ frozenPair *
+    (rectangles).originalIntegrand ξ / Z ^ parentWidth ≤ frozenPair *
       ∑ b : family.active Finset.univ,
         family.weight Finset.univ parentWidth b * family.envelope Finset.univ b ξ *
           family.childPair Finset.univ b ξ := by

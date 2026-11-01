@@ -61,9 +61,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -110,7 +110,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   δ₂ hδ₂ hδ₂half (p.leftData.directSource (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (p.leftSourceCover raw.originalAtlas S χ)
+local notation "cover" => (p.leftSourceCover (raw).originalAtlas S χ)
 local notation "firstPoint" => (fun i => -Real.log (A.exteriorNorm (b.leftResidual i)))
 
 variable (v : (ActualGaussStage.canonicalUnmaskedRowBallByBlock
@@ -136,11 +136,11 @@ include hroot hemb in
 private theorem literalLeftDirect_leftCoefficient
     (hactive : v.1.val ∈ (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon)
     (hdiv : S.val ∣ v.1.val.1)
-    (i : AllocationColumn K (cover.branch v.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns p.leftData.columns) :
-    v.chart.sourceLeftCoefficient ((cover.branch v.2.2.1).reindex.index i) =
-      leftAtoms.whole i := by
+    (i : AllocationColumn K ((cover).branch v.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.1).reindex.index i ∈ v.block.leftColumns p.leftData.columns) :
+    v.chart.sourceLeftCoefficient (((cover).branch v.2.2.1).reindex.index i) =
+      (leftAtoms).whole i := by
   have hSi := v.block.left_divisor_of_common p.leftData.columns S.val hdiv _ hc
   have he := literalLeftDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -157,11 +157,11 @@ include hroot hemb in
 private theorem literalLeftDirect_rightCoefficient
     (hactive : v.1.val ∈ (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon)
     (hdiv : S.val ∣ v.1.val.2)
-    (i : AllocationColumn K (cover.branch v.2.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns p.leftData.columns) :
-    v.chart.sourceRightCoefficient ((cover.branch v.2.2.2.1).reindex.index i) =
-      rightAtoms.whole i := by
+    (i : AllocationColumn K ((cover).branch v.2.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns p.leftData.columns) :
+    v.chart.sourceRightCoefficient (((cover).branch v.2.2.2.1).reindex.index i) =
+      (rightAtoms).whole i := by
   have hSi := v.block.right_divisor_of_common p.leftData.columns S.val hdiv _ hc
   have he := literalLeftDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -285,7 +285,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   δ₂ hδ₂ hδ₂half (p.rightData.directSource (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (p.rightSourceCover raw.originalAtlas S χ)
+local notation "cover" => (p.rightSourceCover (raw).originalAtlas S χ)
 local notation "firstPoint" => (fun i => -(-Real.log (A.exteriorNorm (b.rightResidual i))))
 
 variable (v : (ActualGaussStage.canonicalUnmaskedRowBallByBlock
@@ -311,11 +311,11 @@ include hroot hemb in
 private theorem literalRightDirect_leftCoefficient
     (hactive : v.1.val ∈ (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon)
     (hdiv : S.val ∣ v.1.val.1)
-    (i : AllocationColumn K (cover.branch v.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns p.rightData.columns) :
-    v.chart.sourceLeftCoefficient ((cover.branch v.2.2.1).reindex.index i) =
-      leftAtoms.whole i := by
+    (i : AllocationColumn K ((cover).branch v.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.1).reindex.index i ∈ v.block.leftColumns p.rightData.columns) :
+    v.chart.sourceLeftCoefficient (((cover).branch v.2.2.1).reindex.index i) =
+      (leftAtoms).whole i := by
   have hSi := v.block.left_divisor_of_common p.rightData.columns S.val hdiv _ hc
   have he := literalRightDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -332,11 +332,11 @@ include hroot hemb in
 private theorem literalRightDirect_rightCoefficient
     (hactive : v.1.val ∈ (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon)
     (hdiv : S.val ∣ v.1.val.2)
-    (i : AllocationColumn K (cover.branch v.2.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns p.rightData.columns) :
-    v.chart.sourceRightCoefficient ((cover.branch v.2.2.2.1).reindex.index i) =
-      rightAtoms.whole i := by
+    (i : AllocationColumn K ((cover).branch v.2.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns p.rightData.columns) :
+    v.chart.sourceRightCoefficient (((cover).branch v.2.2.2.1).reindex.index i) =
+      (rightAtoms).whole i := by
   have hSi := v.block.right_divisor_of_common p.rightData.columns S.val hdiv _ hc
   have he := literalRightDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ

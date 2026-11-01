@@ -171,7 +171,7 @@ local notation "calibrations" =>
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -229,31 +229,31 @@ def literalOriginalArithmeticMass :
 /-- The frozen left cost is calculated on the actual second allocation.
 The inverse norm of its own divisor remains in `scalarBound`. -/
 def literalOriginalArithmeticLeftFrozen (r : Bool) :
-    (rectangles.leftFrame C r).source.FrozenAtomBounds := by
-  have hmask : leftTable.characters.MaskIndicator := by
+    ((rectangles).leftFrame C r).source.FrozenAtomBounds := by
+  have hmask : (leftTable).characters.MaskIndicator := by
     change (v.literalLeftAtoms leftAtoms).characters.MaskIndicator
     rw [leftRecipe.characters]
     exact CanonicalLiteralPhaseCalibration.sourceCharacters_maskIndicator P Rchar F parent
       oldMoving correction remaining extra leftRecipe.slots.index
-  have hL := (Finset.mem_filter.mp allocation.property).2.1
-  exact leftTable.frozenBounds ordinaryRows C .left j.2.1
+  have hL := (Finset.mem_filter.mp (allocation).property).2.1
+  exact (leftTable).frozenBounds ordinaryRows C .left j.2.1
     (fun i => v.block.leftResidual (v.leftReindex.index i)) v.leftReindex.ideal_product
-    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp allocation.property).2.2.1
+    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp (allocation).property).2.2.1
     hmask hL j.2.2.1.property
 
 /-- The right frozen dictionary has its own actual occurrence witness,
 but exactly the same stored divisor as the left dictionary. -/
 def literalOriginalArithmeticRightFrozen (r : Bool) :
-    (rectangles.rightFrame C r).source.FrozenAtomBounds := by
-  have hmask : rightTable.characters.MaskIndicator := by
+    ((rectangles).rightFrame C r).source.FrozenAtomBounds := by
+  have hmask : (rightTable).characters.MaskIndicator := by
     change (v.literalRightAtoms rightAtoms).characters.MaskIndicator
     rw [rightRecipe.characters]
     exact CanonicalLiteralPhaseCalibration.sourceCharacters_maskIndicator P Rchar F parent
       oldMoving correction remaining extra rightRecipe.slots.index
-  have hL := (Finset.mem_filter.mp allocation.property).2.1
-  exact rightTable.frozenBounds ordinaryRows C .right j.2.1
+  have hL := (Finset.mem_filter.mp (allocation).property).2.1
+  exact (rightTable).frozenBounds ordinaryRows C .right j.2.1
     (fun i => v.block.rightResidual (v.rightReindex.index i)) v.rightReindex.ideal_product
-    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp allocation.property).2.2.2
+    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp (allocation).property).2.2.2
     hmask hL j.2.2.2.property
 
 local notation "originalMass" =>
@@ -272,17 +272,17 @@ local notation "originalMass" =>
     (profileBound := profileBound) (hprofileBound := hprofileBound) (hprofile := hprofile)
 
 @[simp] theorem literalOriginalArithmeticMass_fiber :
-    originalMass.originalFiber = Γ.index := rfl
+    (originalMass).originalFiber = Γ.index := rfl
 
 @[simp] theorem literalOriginalArithmeticMass_unit :
-    originalMass.unitIdeal = secondPatternUnitIdeal v.block.primes
+    (originalMass).unitIdeal = secondPatternUnitIdeal v.block.primes
       v.block.leftMultiplicity v.block.rightMultiplicity pattern := rfl
 
 @[simp] theorem literalOriginalArithmeticMass_nonunit :
-    originalMass.nonunitIdeal = secondPatternNonunitIdeal v.block.primes pattern := rfl
+    (originalMass).nonunitIdeal = secondPatternNonunitIdeal v.block.primes pattern := rfl
 
 @[simp] theorem literalOriginalArithmeticMass_profileBound :
-    originalMass.profileBound = profileBound * ‖leftScalar‖ * ‖rightScalar‖ := rfl
+    (originalMass).profileBound = profileBound * ‖leftScalar‖ * ‖rightScalar‖ := rfl
 
 /-- This supplies the actual arithmetic input of the already constructed
 normalization. The caller supplies the same original single-character

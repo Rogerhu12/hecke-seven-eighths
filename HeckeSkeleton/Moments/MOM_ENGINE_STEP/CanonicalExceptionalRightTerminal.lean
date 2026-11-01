@@ -34,10 +34,11 @@ theorem exists_original_magnitude_terminal_with_right_cutoff
     (density : Catalogue → 𝓢(ℝ, ℂ) → ℂ)
     (remainder : Catalogue → Seminorm ℂ (𝓢(ℝ, ℂ)))
     (hcontinuous : ∀ i, Continuous (remainder i))
-    (hvolume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X →
+    (window : Set ℝ)
+    (hvolume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X → tsupport φ ⊆ window →
       ‖(∑' I : Ideal (𝓞 F), CanonicalExceptionalVolume.coefficient (χ i) I *
           φ ((Ideal.absNorm I : ℝ) / X)) - (X : ℂ) * density i φ‖ ≤ remainder i φ)
-    (window : Set ℝ) (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
+    (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) :
     ∃ orders : Finset (ℕ × ℕ), (0, 0) ∈ orders ∧
     ∃ order : ℕ, ∃ Cbound : ℝ, 0 < Cbound ∧
@@ -118,8 +119,8 @@ theorem exists_original_magnitude_terminal_with_right_cutoff
       Z ^ (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError - divisorLower + cutoffLoss / 6) := by
   obtain ⟨orders, hzero, order, Cbound, hCbound, hrows⟩ :=
     CanonicalExceptionalRows.exists_original_paired_row_bound_with_cutoff (V := V) (σ := σ)
-      (η := η) (hS := hS) χ density remainder hcontinuous hvolume
-      window hcompact hpositive ε maskExponent hε hmask
+      (η := η) (hS := hS) χ density remainder hcontinuous window hvolume
+      hcompact hpositive ε maskExponent hε hmask
   refine ⟨orders, hzero, order, Cbound, hCbound, ?_⟩
   intro iLeft iRight WL₁ WL₂ WR₁ WR₂ hsL₁ hsL₂ hsR₁ hsR₂ P hP hPL₁ hPL₂ hPR₁ hPR₂
     H ι instFintype instDecidableEq C R Ray instCommGroup instFintypeRay k l

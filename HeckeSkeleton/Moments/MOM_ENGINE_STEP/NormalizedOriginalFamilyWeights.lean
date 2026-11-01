@@ -78,8 +78,8 @@ variable (b : (normalizedFamily leaves (fun j => (N j).withArithmetic (arithmeti
 local notation "raw" => N b.val.1
 local notation "costs" => arithmetic b.val.1
 local notation "rectangle" => activeRectangle leaves chosen b
-local notation "leftFrame" => raw.rectangles.leftFrame C b.val.2.1
-local notation "rightFrame" => raw.rectangles.rightFrame C b.val.2.2
+local notation "leftFrame" => (raw).rectangles.leftFrame C b.val.2.1
+local notation "rightFrame" => (raw).rectangles.rightFrame C b.val.2.2
 
 variable {firstNormalization remaining : ℝ}
 variable (L : OriginalPairAllowanceWindow ((N b.val.1).rectangles.leftFrame C b.val.2.1) ((N b.val.1).rectangles.rightFrame C b.val.2.2)
@@ -99,13 +99,13 @@ density and actual valuation tag. These are retained by equality. -/
 theorem arithmetic_outer_index_weight
     (hZ : 1 < Z) (cap : ℕ) (B : ℝ) (hB : 1 ≤ B)
     (atoms : CanonicalCapacityKernelMass.OriginalAtomWindow
-      leftFrame rightFrame costs.rowMass
-      (costs.leftAtoms b.val.2.1) (costs.rightAtoms b.val.2.2)
-      (raw.left b.val.2.1).bounds (raw.right b.val.2.2).bounds cap B)
+      leftFrame rightFrame (costs).rowMass
+      ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
+      ((raw).left b.val.2.1).bounds ((raw).right b.val.2.2).bounds cap B)
     (j : branch.Index)
-    (hleft : costs.rowMass.leftIdeal = j.2.2.1.val.1.1)
-    (hright : costs.rowMass.rightIdeal = j.2.2.1.val.1.2)
-    (hdivisor : leftFrame.source.allocation.divisor = j.2.2.2.1.val)
+    (hleft : (costs).rowMass.leftIdeal = j.2.2.1.val.1.1)
+    (hright : (costs).rowMass.rightIdeal = j.2.2.1.val.1.2)
+    (hdivisor : (leftFrame).source.allocation.divisor = j.2.2.2.1.val)
     (parentWidth total rawProfile firstCost : ℝ)
     (hfirst : 0 ≤ firstCost)
     (hprofile : rawProfile ≤ firstCost * Z ^ (parentWidth - total))
@@ -123,11 +123,11 @@ theorem arithmetic_outer_index_weight
     outerWeights leaves b.val *
         (normalizedFamily leaves chosen).weight Finset.univ parentWidth b ≤
       factor *
-        (firstCost * ((costs.rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) *
+        (firstCost * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) *
           orbitalFieldFactor K) * Z ^ remaining * branch.indexWeight j) := by
   rw [weight_eq leaves chosen parentWidth b]
-  exact raw.arithmeticCosts_family_outer_index_weight costs.rowMass
-    costs.leftAtoms costs.rightAtoms rectangle L hZ cap B hB atoms j
+  exact (raw).arithmeticCosts_family_outer_index_weight (costs).rowMass
+    (costs).leftAtoms (costs).rightAtoms rectangle L hZ cap B hB atoms j
     hleft hright hdivisor parentWidth total rawProfile firstCost hfirst hprofile
     hD hE hsupport phase₁ χ₁ phase₂ χ₂ factor hfactor houter
 

@@ -319,13 +319,13 @@ local notation "raw" => N b.val.1
 local notation "costs" => arithmetic b.val.1
 local notation "chosen" => fun j => (N j).withArithmetic (arithmetic j)
 local notation "rectangle" => activeRectangle leaves chosen b
-local notation "leftFrame" => raw.rectangles.leftFrame C b.val.2.1
-local notation "rightFrame" => raw.rectangles.rightFrame C b.val.2.2
-local notation "rows" => raw.rows.restrictRows (fun h => ¬(leaves b.val.1).exceptional h)
-local notation "LC" => leftFrame.arithmeticCalibration (raw.left b.val.2.1).calibration
-  costs.rowMass (costs.leftAtoms b.val.2.1)
-local notation "RC" => rightFrame.arithmeticCalibration (raw.right b.val.2.2).calibration
-  costs.rowMass (costs.rightAtoms b.val.2.2)
+local notation "leftFrame" => (raw).rectangles.leftFrame C b.val.2.1
+local notation "rightFrame" => (raw).rectangles.rightFrame C b.val.2.2
+local notation "rows" => (raw).rows.restrictRows (fun h => ¬(leaves b.val.1).exceptional h)
+local notation "LC" => (leftFrame).arithmeticCalibration ((raw).left b.val.2.1).calibration
+  (costs).rowMass ((costs).leftAtoms b.val.2.1)
+local notation "RC" => (rightFrame).arithmeticCalibration ((raw).right b.val.2.2).calibration
+  (costs).rowMass ((costs).rightAtoms b.val.2.2)
 
 variable (parent : MomentData K ω ψ) (a : RealParameters) (step : ℝ)
 variable (G : OriginalNominalGeometry (K := K) a Z step)
@@ -392,9 +392,9 @@ by an assumed branch bound. -/
 theorem arithmetic_sixth_outer_index_weight
     (hZ : 1 < Z) (cap : ℕ) (B : ℝ) (hB : 1 ≤ B)
     (atoms : CanonicalCapacityKernelMass.OriginalAtomWindow
-      leftFrame rightFrame costs.rowMass
-      (costs.leftAtoms b.val.2.1) (costs.rightAtoms b.val.2.2)
-      (raw.left b.val.2.1).bounds (raw.right b.val.2.2).bounds cap B)
+      leftFrame rightFrame (costs).rowMass
+      ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
+      ((raw).left b.val.2.1).bounds ((raw).right b.val.2.2).bounds cap B)
     (firstNormalization : ℝ)
     (hN : firstNormalization =
       firstLeftAllowance Z (G.skeleton.A + (G.skeleton.q + G.skeleton.R + G.skeleton.E))
@@ -406,16 +406,16 @@ theorem arithmetic_sixth_outer_index_weight
     (hsupport : G.supportError ≤ error)
     (hrawL : bindingL.rawScaleError ≤ error) (hrawR : bindingR.rawScaleError ≤ error)
     (hwidthL : bindingL.scales.error ≤ error) (hwidthR : bindingR.scales.error ≤ error)
-    (hdivisor : leftFrame.source.allocation.divisor = rightFrame.source.allocation.divisor)
-    (hscaleL : Z ^ (G.skeleton.A - G.skeleton.c - G.skeleton.w) ≤ leftFrame.normalizationScale)
-    (hscaleR : Z ^ (G.skeleton.A - G.skeleton.c - G.skeleton.w) ≤ rightFrame.normalizationScale)
+    (hdivisor : (leftFrame).source.allocation.divisor = (rightFrame).source.allocation.divisor)
+    (hscaleL : Z ^ (G.skeleton.A - G.skeleton.c - G.skeleton.w) ≤ (leftFrame).normalizationScale)
+    (hscaleR : Z ^ (G.skeleton.A - G.skeleton.c - G.skeleton.w) ≤ (rightFrame).normalizationScale)
     (hradius : Z ^ (-G.skeleton.Krow - G.skeleton.g) ≤
-      costs.rowMass.radius.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) costs.rowMass.mask)).val)
+      (costs).rowMass.radius.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (costs).rowMass.mask)).val)
     (j : branch.Index)
-    (hleft : costs.rowMass.leftIdeal = j.2.2.1.val.1.1)
-    (hright : costs.rowMass.rightIdeal = j.2.2.1.val.1.2)
-    (hdivisorIndex : leftFrame.source.allocation.divisor = j.2.2.2.1.val)
+    (hleft : (costs).rowMass.leftIdeal = j.2.2.1.val.1.1)
+    (hright : (costs).rowMass.rightIdeal = j.2.2.1.val.1.2)
+    (hdivisorIndex : (leftFrame).source.allocation.divisor = j.2.2.2.1.val)
     (parentWidth total rawProfile firstCost : ℝ)
     (hfirst : 0 ≤ firstCost)
     (hprofile : rawProfile ≤ firstCost * Z ^ (parentWidth - total))
@@ -433,30 +433,30 @@ theorem arithmetic_sixth_outer_index_weight
     outerWeights leaves b.val *
         (normalizedFamily leaves chosen).weight Finset.univ parentWidth b ≤
       factor *
-        (firstCost * ((costs.rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor K) *
+        (firstCost * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor K) *
           Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) *
             branch.indexWeight j) := by
   have hindex :
       (firstOriginalAllowanceWeight Z parentWidth total rawProfile j.1.val.1.1 j.1.val.1.2 *
         ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
         ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖) *
-        ((raw.withArithmetic costs).family.weight Finset.univ 0 rectangle / firstNormalization) ≤
-      firstCost * ((costs.rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor K) *
+        (((raw).withArithmetic costs).family.weight Finset.univ 0 rectangle / firstNormalization) ≤
+      firstCost * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor K) *
         Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) *
           branch.indexWeight j :=
     normalized_sixth_pair_original_index_weight leftFrame rightFrame
-      (raw.left b.val.2.1).calibration (raw.right b.val.2.2).calibration costs.rowMass
-      (costs.leftAtoms b.val.2.1) (costs.rightAtoms b.val.2.2)
-      ((raw.withArithmetic costs).left b.val.2.1).capacity
-      ((raw.withArithmetic costs).right b.val.2.2).capacity
-      (raw.left b.val.2.1).amplitude (raw.right b.val.2.2).amplitude
-      (raw.left b.val.2.1).amplitude_pos (raw.right b.val.2.2).amplitude_pos
-      (raw.left b.val.2.1).bounds (raw.right b.val.2.2).bounds
-      (raw.left b.val.2.1).bounds_nonneg (raw.right b.val.2.2).bounds_nonneg
-      (raw.left b.val.2.1).factor (raw.right b.val.2.2).factor
-      ((raw.withArithmetic costs).family.leftChild Finset.univ rectangle)
-      ((raw.withArithmetic costs).family.rightChild Finset.univ rectangle)
-      parent a Z step G (raw.left_base b.val.2.1) (raw.right_base b.val.2.2)
+      ((raw).left b.val.2.1).calibration ((raw).right b.val.2.2).calibration (costs).rowMass
+      ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
+      (((raw).withArithmetic costs).left b.val.2.1).capacity
+      (((raw).withArithmetic costs).right b.val.2.2).capacity
+      ((raw).left b.val.2.1).amplitude ((raw).right b.val.2.2).amplitude
+      ((raw).left b.val.2.1).amplitude_pos ((raw).right b.val.2.2).amplitude_pos
+      ((raw).left b.val.2.1).bounds ((raw).right b.val.2.2).bounds
+      ((raw).left b.val.2.1).bounds_nonneg ((raw).right b.val.2.2).bounds_nonneg
+      ((raw).left b.val.2.1).factor ((raw).right b.val.2.2).factor
+      (((raw).withArithmetic costs).family.leftChild Finset.univ rectangle)
+      (((raw).withArithmetic costs).family.rightChild Finset.univ rectangle)
+      parent a Z step G ((raw).left_base b.val.2.1) ((raw).right_base b.val.2.2)
       hn anchor hsecond hopposite hunit hnonunit bindingL bindingR atomsL atomsR
       hstep mesh hmesh hfit hcapacityL hcapacityR hZ cap B hB atoms firstNormalization hN
       annulus error herror hthreshold hannulusLL hannulusLR hannulusRL hannulusRR
@@ -465,21 +465,21 @@ theorem arithmetic_sixth_outer_index_weight
       hD hE hsupportFirst phase₁ χ₁ phase₂ χ₂
   rw [weight_eq leaves chosen parentWidth b]
   change (leaves b.val.1).weight *
-      (raw.withArithmetic costs).family.weight Finset.univ parentWidth rectangle ≤ _
+      ((raw).withArithmetic costs).family.weight Finset.univ parentWidth rectangle ≤ _
   calc
     _ = ((leaves b.val.1).weight / Z ^ parentWidth) *
-        (raw.withArithmetic costs).family.weight Finset.univ 0 rectangle :=
+        ((raw).withArithmetic costs).family.weight Finset.univ 0 rectangle :=
       normalizedCapacityPairWeight_outer_parent_zero
-        ((raw.withArithmetic costs).family.leftChild Finset.univ rectangle)
-        ((raw.withArithmetic costs).family.rightChild Finset.univ rectangle)
-        ((raw.withArithmetic costs).family.leftNormalizer b.val.2)
-        ((raw.withArithmetic costs).family.rightNormalizer b.val.2)
+        (((raw).withArithmetic costs).family.leftChild Finset.univ rectangle)
+        (((raw).withArithmetic costs).family.rightChild Finset.univ rectangle)
+        (((raw).withArithmetic costs).family.leftNormalizer b.val.2)
+        (((raw).withArithmetic costs).family.rightNormalizer b.val.2)
         Z parentWidth (leaves b.val.1).weight
     _ = factor *
         ((firstOriginalAllowanceWeight Z parentWidth total rawProfile j.1.val.1.1 j.1.val.1.2 *
           ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
           ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖) *
-          ((raw.withArithmetic costs).family.weight Finset.univ 0 rectangle / firstNormalization)) := by
+          (((raw).withArithmetic costs).family.weight Finset.univ 0 rectangle / firstNormalization)) := by
       rw [houter]
       ring
     _ ≤ _ := mul_le_mul_of_nonneg_left hindex hfactor

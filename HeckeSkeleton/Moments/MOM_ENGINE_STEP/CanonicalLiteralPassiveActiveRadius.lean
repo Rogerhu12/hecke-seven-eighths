@@ -99,21 +99,21 @@ theorem atlas_left_scale (r : Bool) (m q κ : ℝ) :
     beforeSecond.base ^ (CanonicalLiteralAllocatedData.parameters passiveTable
       passiveAllocation r m q κ).n₁ =
         beforeSecond.scale₁ r / idealNorm K (second.plainDivisor₁ *
-          (allocation.plainDivisor 0 * passiveAllocation.plainDivisor 0)) := by
-  have hbase : actualTable.base = beforeSecond.base :=
+          (allocation.plainDivisor 0 * (passiveAllocation).plainDivisor 0)) := by
+  have hbase : (actualTable).base = beforeSecond.base :=
     (beforeSecond.extract second).onAtlas_base_eq atlas count
   calc
-    _ = actualTable.base ^ (CanonicalLiteralAllocatedData.parameters passiveTable
+    _ = (actualTable).base ^ (CanonicalLiteralAllocatedData.parameters passiveTable
         passiveAllocation r m q κ).n₁ := by rw [hbase]
-    _ = actualTable.scale₁ r / idealNorm K
-        (allocation.plainDivisor 0 * passiveAllocation.plainDivisor 0) :=
+    _ = (actualTable).scale₁ r / idealNorm K
+        (allocation.plainDivisor 0 * (passiveAllocation).plainDivisor 0) :=
       left_scale W allocation A paid M a r m q κ
     _ = _ := by
       change ((beforeSecond.extract second).onAtlas atlas count).scale₁ r /
-        idealNorm K (allocation.plainDivisor 0 * passiveAllocation.plainDivisor 0) = _
+        idealNorm K (allocation.plainDivisor 0 * (passiveAllocation).plainDivisor 0) = _
       rw [(beforeSecond.extract second).onAtlas_left_scale atlas count r]
       change (beforeSecond.scale₁ r / idealNorm K second.plainDivisor₁) /
-        idealNorm K (allocation.plainDivisor 0 * passiveAllocation.plainDivisor 0) = _
+        idealNorm K (allocation.plainDivisor 0 * (passiveAllocation).plainDivisor 0) = _
       simp only [CanonicalLiteralProfileData.idealNorm_mul, div_div, mul_assoc]
 
 theorem atlas_right_scale (r : Bool) (m q κ : ℝ) :
@@ -121,24 +121,24 @@ theorem atlas_right_scale (r : Bool) (m q κ : ℝ) :
       passiveAllocation r m q κ).n₂ =
         beforeSecond.scale₂ r / idealNorm K (second.plainDivisor₂ *
           (allocation.plainDivisor (Fin.succ 0) *
-            passiveAllocation.plainDivisor (Fin.succ 0))) := by
-  have hbase : actualTable.base = beforeSecond.base :=
+            (passiveAllocation).plainDivisor (Fin.succ 0))) := by
+  have hbase : (actualTable).base = beforeSecond.base :=
     (beforeSecond.extract second).onAtlas_base_eq atlas count
   calc
-    _ = actualTable.base ^ (CanonicalLiteralAllocatedData.parameters passiveTable
+    _ = (actualTable).base ^ (CanonicalLiteralAllocatedData.parameters passiveTable
         passiveAllocation r m q κ).n₂ := by rw [hbase]
-    _ = actualTable.scale₂ r / idealNorm K
+    _ = (actualTable).scale₂ r / idealNorm K
         (allocation.plainDivisor (Fin.succ 0) *
-          passiveAllocation.plainDivisor (Fin.succ 0)) :=
+          (passiveAllocation).plainDivisor (Fin.succ 0)) :=
       right_scale W allocation A paid M a r m q κ
     _ = _ := by
       change ((beforeSecond.extract second).onAtlas atlas count).scale₂ r /
         idealNorm K (allocation.plainDivisor (Fin.succ 0) *
-          passiveAllocation.plainDivisor (Fin.succ 0)) = _
+          (passiveAllocation).plainDivisor (Fin.succ 0)) = _
       rw [(beforeSecond.extract second).onAtlas_right_scale atlas count r]
       change (beforeSecond.scale₂ r / idealNorm K second.plainDivisor₂) /
         idealNorm K (allocation.plainDivisor (Fin.succ 0) *
-          passiveAllocation.plainDivisor (Fin.succ 0)) = _
+          (passiveAllocation).plainDivisor (Fin.succ 0)) = _
       simp only [CanonicalLiteralProfileData.idealNorm_mul, div_div, mul_assoc]
 
 variable {ω ψ : HeckeCharacter K}
@@ -161,8 +161,8 @@ theorem coefficient_le_fixed_of_nonzero
       CanonicalLiteralRadiusBound.shapeCoefficient lo hi hlo δ₁ δ₂ s *
         (1 + CanonicalLiteralBalancedSchwartz.factor original first δ₁ δ₂ r))
     (ξ : WithLp 2 (ℝ × ℝ)) (child : MomentData K ω ψ) (time : ℝ)
-    (hleft : child.plainTest₁ = passiveProfiles.fourierLeft r firstSign negative ξ)
-    (hright : child.plainTest₂ = passiveProfiles.fourierRight r firstSign negative ξ)
+    (hleft : child.plainTest₁ = (passiveProfiles).fourierLeft r firstSign negative ξ)
+    (hright : child.plainTest₂ = (passiveProfiles).fourierRight r firstSign negative ξ)
     (hne : pairedEnergy child
       (CanonicalLiteralAllocatedData.parameters passiveTable passiveAllocation r m q κ)
       original.base time ≠ 0) :
@@ -177,13 +177,13 @@ theorem coefficient_le_fixed_of_nonzero
     original.base time original.base_gt_one hleft hright hne
   have hscale₁ : original.base ^ parameters.n₁ =
       (original.extract first).scale₁ r / idealNorm K (second.plainDivisor₁ *
-        (allocation.plainDivisor 0 * passiveAllocation.plainDivisor 0)) := by
+        (allocation.plainDivisor 0 * (passiveAllocation).plainDivisor 0)) := by
     simpa only [hbase, hfirst₁] using
       atlas_left_scale beforeSecond second atlas count scalar balance W allocation paid M a r m q κ
   have hscale₂ : original.base ^ parameters.n₂ =
       (original.extract first).scale₂ r / idealNorm K (second.plainDivisor₂ *
         (allocation.plainDivisor (Fin.succ 0) *
-          passiveAllocation.plainDivisor (Fin.succ 0))) := by
+          (passiveAllocation).plainDivisor (Fin.succ 0))) := by
     simpa only [hbase, hfirst₂] using
       atlas_right_scale beforeSecond second atlas count scalar balance W allocation paid M a r m q κ
   have hl : 1 / hi ≤ (original.extract first).scale₁ r :=
@@ -241,8 +241,8 @@ theorem coefficient_le_fixed_of_source_active
     (hsourceBase : source.base = original.base)
     (hparameters : D.parameters =
       CanonicalLiteralAllocatedData.parameters passiveTable passiveAllocation r m q κ)
-    (hleft : ∀ ξ, (D.data ξ).plainTest₁ = passiveProfiles.fourierLeft r firstSign negative ξ)
-    (hright : ∀ ξ, (D.data ξ).plainTest₂ = passiveProfiles.fourierRight r firstSign negative ξ)
+    (hleft : ∀ ξ, (D.data ξ).plainTest₁ = (passiveProfiles).fourierLeft r firstSign negative ξ)
+    (hright : ∀ ξ, (D.data ξ).plainTest₂ = (passiveProfiles).fourierRight r firstSign negative ξ)
     (hactive : ¬∀ ξ, source.energy (σ := σ) ξ = 0) :
     (T.passiveTable allocation A paid).coefficient source.base D.parameters isCompact_Icc
       (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign r ≤

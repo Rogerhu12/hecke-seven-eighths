@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -101,11 +101,11 @@ include hannulus hcap hannulusZ hY₁ hY₂ hleftPower hrightPower hY₁le hY₂
 /-- This bounds the same full Cartesian union, including columns with
 zero actual coefficients. No active-source replacement is made. -/
 theorem literalPrimitiveFirstSource_column_norm :
-    ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ normBound := by
+    ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ normBound := by
   have hrows' : ∀ u ∈ pairedRows (data ξ) internal Z, u ∈ rowDomain := by
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
   intro i hi
-  have h := raw.original_union_column_norm_le_power profiles cap annulus loss
+  have h := (raw).original_union_column_norm_le_power profiles cap annulus loss
     leftExponent rightExponent hannulus hcap hannulusZ (zero_lt_one.trans hZ) hY₁ hY₂
     hleftPower hrightPower hY₁le hY₂le hrows' ht hwindow i hi
   exact h.trans (Real.rpow_le_rpow_of_exponent_le hZ.le hcolumn)
@@ -113,7 +113,7 @@ theorem literalPrimitiveFirstSource_column_norm :
 /-- Every field required for the original direct terminal summation
 is constructed here from individual original profiles and lengths. -/
 def literalPrimitiveFirstTerminalWindows :
-    source.CombinedTerminalOriginalWindows normBound (a.m + a.q)
+    (source).CombinedTerminalOriginalWindows normBound (a.m + a.q)
       (orbitalFieldFactor K) kernelBound firstTotal firstShift where
   oldMask := 1
   old_squarefree := squarefree_one

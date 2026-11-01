@@ -13,11 +13,12 @@ actual finite-source integrability.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap
+open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup MeasureTheory
@@ -44,7 +45,8 @@ variable {W E : Type*}
   [MeasurableSpace E] [BorelSpace E]
 
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
-local instance firstSecondSourceCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance firstSecondSourceCircleCharacterFintype :
+    Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
@@ -61,15 +63,15 @@ variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 
 def leftDivisorCoefficient (p : FirstBlockPoolData chart P M X hX)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) (i : ι) : ℂ :=
+    (χ : (PUnit.{1} × PUnit.{1}) →* Circle) (i : ι) : ℂ :=
   if S.val ∣ (p.leftData.ideal i).val then
-    p.originalLeftCoefficient i * (fixedLeftPhase PUnit χ PUnit.unit : ℂ) else 0
+    p.originalLeftCoefficient i * (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ) else 0
 
 def rightDivisorCoefficient (p : FirstBlockPoolData chart P M X hX)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) (j : κ) : ℂ :=
+    (χ : (PUnit.{1} × PUnit.{1}) →* Circle) (j : κ) : ℂ :=
   if S.val ∣ (p.rightData.ideal j).val then
-    p.originalRightCoefficient j * (fixedRightPhase PUnit χ PUnit.unit : ℂ) else 0
+    p.originalRightCoefficient j * (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ) else 0
 
 /-- Literal main/error stages at every actual first divisor and phase.
 There is no bound field; each stage contains only original charts. -/
@@ -95,14 +97,29 @@ variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Lmax Nsave decay : ℝ}
 
 def cost (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ) (ε Cerror Czero : ℝ) : ℝ :=
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ) (ε Cerror Czero : ℝ) : ℝ :=
   ∑ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val), ‖(moebius S.val : ℂ)‖ *
-    ∑ χ : (PUnit × PUnit) →* Circle, ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖ *
+    ∑ χ : (PUnit.{1} × PUnit.{1}) →* Circle,
+      ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) χ‖ *
       (p.rowBound * Real.sqrt (NL S χ) * Real.sqrt (NR S χ) / 2) *
       ((∫ ξ, (T.left S χ).phaseCost chart.leftPoint ξ ε Cerror Czero / NL S χ
           ∂actualFourierMeasure chart.kernel) +
         ∫ ξ, (T.right S χ).phaseCost (fun j => -chart.rightPoint j) ξ ε Cerror Czero / NR S χ
           ∂actualFourierMeasure chart.kernel)
+
+private theorem normalized_phase_integral_le {j : Type*}
+    (d : FirstGaussPoolData C P j) (c : j → ℂ) (x : j → W) (F : 𝓢(W, ℂ))
+    (stages : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
+    (calibration : stages.TerminalCalibration sTail sZero k Lmax Nsave decay)
+    (N ε Cerror Czero : ℝ) (hN : 0 < N)
+    (hstage : ∀ ξ : W, d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
+      calibration.phaseCost x ξ ε Cerror Czero) :
+    (∫ ξ, d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) / N
+      ∂actualFourierMeasure F) ≤
+      ∫ ξ, calibration.phaseCost x ξ ε Cerror Czero / N ∂actualFourierMeasure F := by
+  exact integral_mono (d.normalized_twisted_integrable F c x N)
+    ((calibration.phaseCost_integrable F x ε Cerror Czero).div_const N)
+    (fun ξ => div_le_div_of_nonneg_right (hstage ξ) hN.le)
 
 /-- This substitution lemma is used with the engine's proved universal
 pool-stage theorem. The final parent theorem constructs that theorem;
@@ -110,15 +127,34 @@ it is not an extra source calibration field. -/
 theorem linearized_le_cost
     (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ)
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
     (ε Cerror Czero : ℝ)
-    (hstage : ∀ {j : Type*} (d : FirstGaussPoolData C P j) (c : j → ℂ) (x : j → W)
+    (hstageLeft : ∀ (d : FirstGaussPoolData C P ι) (c : ι → ℂ) (x : ι → W)
+      (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
+      (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay) (ξ : W),
+      d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
+        T.phaseCost x ξ ε Cerror Czero)
+    (hstageRight : ∀ (d : FirstGaussPoolData C P κ) (c : κ → ℂ) (x : κ → W)
       (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
       (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay) (ξ : W),
       d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
         T.phaseCost x ξ ε Cerror Czero) :
     p.linearizedCost NL NR ≤ T.cost NL NR ε Cerror Czero := by
+  have hleft (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+      (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
+    normalized_phase_integral_le (p.divisorPools.leftData S) (p.leftDivisorCoefficient S χ)
+      chart.leftPoint chart.kernel (s.left S χ) (T.left S χ) (NL S χ) ε Cerror Czero
+      (hNL S χ) (hstageLeft (p.divisorPools.leftData S)
+        (p.leftDivisorCoefficient S χ) chart.leftPoint (s.left S χ) (T.left S χ))
+  have hright (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+      (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
+    normalized_phase_integral_le (p.divisorPools.rightData S) (p.rightDivisorCoefficient S χ)
+      (fun j => -chart.rightPoint j) chart.kernel (s.right S χ) (T.right S χ)
+      (NR S χ) ε Cerror Czero (hNR S χ)
+      (hstageRight (p.divisorPools.rightData S)
+        (p.rightDivisorCoefficient S χ) (fun j => -chart.rightPoint j)
+        (s.right S χ) (T.right S χ))
   unfold FirstBlockPoolData.linearizedCost firstDivisorLinearizedCost cost
   apply Finset.sum_le_sum
   intro S hS
@@ -130,21 +166,8 @@ theorem linearized_le_cost
       (mul_nonneg (mul_nonneg p.rowBound_nonneg (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _))
       (by norm_num)))
   apply add_le_add
-  · apply integral_mono
-      ((p.divisorPools.leftData S).normalized_twisted_integrable chart.kernel
-        (p.leftDivisorCoefficient S χ) chart.leftPoint (NL S χ))
-      (((T.left S χ).phaseCost_integrable chart.kernel chart.leftPoint ε Cerror Czero).div_const _)
-    intro ξ
-    exact div_le_div_of_nonneg_right
-      (hstage _ _ chart.leftPoint (s.left S χ) (T.left S χ) ξ) (hNL S χ).le
-  · apply integral_mono
-      ((p.divisorPools.rightData S).normalized_twisted_integrable chart.kernel
-        (p.rightDivisorCoefficient S χ) (fun j => -chart.rightPoint j) (NR S χ))
-      (((T.right S χ).phaseCost_integrable chart.kernel
-        (fun j => -chart.rightPoint j) ε Cerror Czero).div_const _)
-    intro ξ
-    exact div_le_div_of_nonneg_right
-      (hstage _ _ (fun j => -chart.rightPoint j) (s.right S χ) (T.right S χ) ξ) (hNR S χ).le
+  · exact hleft S χ
+  · exact hright S χ
 
 end TerminalCalibration
 end SecondStages
@@ -243,7 +266,10 @@ theorem actual_parent_two_stage_bound
   intro D hD
   exact (T v D).linearized_le_cost (N.left v D) (N.right v D)
     (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
-    (fun {j} d c x s T ξ => hpool Z ell eps bad P d c x s T ξ)
+    (fun d c x stages calibration ξ =>
+      hpool Z ell eps bad P d c x stages calibration ξ)
+    (fun d c x stages calibration ξ =>
+      hpool Z ell eps bad P d c x stages calibration ξ)
 
 end HeckeSkeleton.Moments.EngineStep
 

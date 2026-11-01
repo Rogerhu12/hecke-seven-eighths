@@ -58,37 +58,37 @@ local notation "seedSupport" => Q.literalOriginalProfileSupport ξ recipe a Z t 
   centered hZ hY₁ hY₂ reference href original hreference ht hpositive
 
 variable {firstSupport : Finset (Ideal (𝓞 K))}
-variable (first : SupportCartesianBranch seed.plain₁ seed.plain₂ seed.slots firstSupport)
+variable (first : SupportCartesianBranch (seed).plain₁ (seed).plain₂ (seed).slots firstSupport)
 variable (hfirstSupport : ∀ p ∈ firstSupport, Prime p)
 variable (F : CanonicalLiteralPhaseCalibration.FixedPhases A) (power : A.Exterior)
 variable (δ₁ δ₂ : ℝ)
 
 local notation "extra" => literalDeletionIdeal firstSupport hfirstSupport
-local notation "bare" => seed.secondInput (σ := σ) first P R power F.firstIdeal F.poolIdeal
+local notation "bare" => (seed).secondInput (σ := σ) first P R power F.firstIdeal F.poolIdeal
   F.unitIdeal F.firstElement F.poolElement F.unitElement F.first_generates F.pool_generates
     F.unit_generates δ₁ δ₂
-local notation "actual" => (bare.deleteMask extra).redistributeNormFactors δ₁ δ₂
-local notation "oldScalar" => seed.secondInputScalar (σ := σ) first power F.firstElement δ₁
-local notation "scalar" => oldScalar * ((bare.deleteMask extra).normProfileFactor δ₁ δ₂ : ℂ)
+local notation "actual" => ((bare).deleteMask extra).redistributeNormFactors δ₁ δ₂
+local notation "oldScalar" => (seed).secondInputScalar (σ := σ) first power F.firstElement δ₁
+local notation "scalar" => oldScalar * (((bare).deleteMask extra).normProfileFactor δ₁ δ₂ : ℂ)
 local notation "beforeProfiles" =>
-  ((seedSupport.secondInput (σ := σ) first P R hfirstSupport power F.firstIdeal F.poolIdeal
+  (((seedSupport).secondInput (σ := σ) first P R hfirstSupport power F.firstIdeal F.poolIdeal
     F.unitIdeal F.firstElement F.poolElement F.unitElement F.first_generates F.pool_generates
       F.unit_generates δ₁ δ₂).deleteMask extra).redistributeNormFactors δ₁ δ₂
 
 variable {secondSupport : Finset (Ideal (𝓞 K))}
-variable (second : SupportCartesianBranch actual.plain₁ actual.plain₂ actual.slots secondSupport)
+variable (second : SupportCartesianBranch (actual).plain₁ (actual).plain₂ (actual).slots secondSupport)
 variable (hsecondSupport : ∀ p ∈ secondSupport, Prime p)
 variable {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
 variable (atlas : SourceCartesianAtlas columns ideal) (count : second.keep.card = atlas.slotCount)
-variable (hleft : atlas.reindex.plain₁ = (actual.extract second).plain₁)
-variable (hright : atlas.reindex.plain₂ = (actual.extract second).plain₂)
-variable (hslot : ∀ j, atlas.reindex.slots (Fin.cast count j) = (actual.extract second).slots j)
+variable (hleft : atlas.reindex.plain₁ = ((actual).extract second).plain₁)
+variable (hright : atlas.reindex.plain₂ = ((actual).extract second).plain₂)
+variable (hslot : ∀ j, atlas.reindex.slots (Fin.cast count j) = ((actual).extract second).slots j)
 
 local notation "finalAtoms" =>
-  ((((actual.extract second).onAtlas atlas count).scale scalar⁻¹).balancePlain (fun _ => 1))
-local notation "supported" => (beforeProfiles.extract second hsecondSupport).onAtlasOfFields
+  (((((actual).extract second).onAtlas atlas count).scale scalar⁻¹).balancePlain (fun _ => 1))
+local notation "supported" => ((beforeProfiles).extract second hsecondSupport).onAtlasOfFields
   atlas count hleft hright hslot
-local notation "finalProfiles" => (supported.profiles.scale scalar⁻¹).balancePlain (fun _ => 1)
+local notation "finalProfiles" => ((supported).profiles.scale scalar⁻¹).balancePlain (fun _ => 1)
 
 /-- The existing original computed model, through the actual remaining
 extraction and atlas. The combined scalar is not recomputed from the
@@ -140,8 +140,8 @@ variable (ray : (PUnit.{1} × PUnit.{1}) →* Circle)
 variable (firstSign : ℝ) (hfirstSign : |firstSign| ≤ 1)
 variable (divisor : Ideal (𝓞 K))
 variable (selection : primeSupport divisor → Finset (Fin (atlas.slotCount + 2)))
-variable (hne : (pairedAllocatedColumns divisor selection finalAtoms.plain₁ finalAtoms.plain₂
-  finalAtoms.slots id id HeightOneSpectrum.asIdeal).Nonempty)
+variable (hne : (pairedAllocatedColumns divisor selection (finalAtoms).plain₁ (finalAtoms).plain₂
+  (finalAtoms).slots id id HeightOneSpectrum.asIdeal).Nonempty)
 variable (hsquarefree : Squarefree divisor)
 variable (hselection : selection ∈ AllocationMass.idealAllocations divisor (atlas.slotCount + 2))
 
@@ -174,7 +174,7 @@ def side : CanonicalLiteralExceptionalPaidSource.OriginalSide (σ := σ)
       right_scale_eq := ?_
       gauss_eq := ?_
       original_gauss := ?_
-      support := (supported.support.scale scalar⁻¹).balancePlain (fun _ => 1)
+      support := ((supported).support.scale scalar⁻¹).balancePlain (fun _ => 1)
       ray := ray
       ideal := fun i => ideal (atlas.reindex.index i)
       ideal_eq := ?_
@@ -189,23 +189,23 @@ def side : CanonicalLiteralExceptionalPaidSource.OriginalSide (σ := σ)
     rfl
   · intro r
     cases count
-    change (seed.scale₁ r / idealNorm K first.plainDivisor₁) /
+    change ((seed).scale₁ r / idealNorm K first.plainDivisor₁) /
         idealNorm K second.plainDivisor₁ =
-      seed.scale₁ r / idealNorm K (first.plainDivisor₁ * second.plainDivisor₁)
+      (seed).scale₁ r / idealNorm K (first.plainDivisor₁ * second.plainDivisor₁)
     rw [CanonicalLiteralProfileData.idealNorm_mul]
     ring
   · intro r
     cases count
-    change (seed.scale₂ r / idealNorm K first.plainDivisor₂) /
+    change ((seed).scale₂ r / idealNorm K first.plainDivisor₂) /
         idealNorm K second.plainDivisor₂ =
-      seed.scale₂ r / idealNorm K (first.plainDivisor₂ * second.plainDivisor₂)
+      (seed).scale₂ r / idealNorm K (first.plainDivisor₂ * second.plainDivisor₂)
     rw [CanonicalLiteralProfileData.idealNorm_mul]
     ring
   · cases count
-    change extraGaussScale (actual.extract second).gauss₁ (actual.extract second).gauss₂
-      (actual.extract second).gaussSlot =
-        extraGaussScale actual.gauss₁ actual.gauss₂ actual.gaussSlot
-    exact actual.extract_gaussScale second
+    change extraGaussScale ((actual).extract second).gauss₁ ((actual).extract second).gauss₂
+      ((actual).extract second).gaussSlot =
+        extraGaussScale (actual).gauss₁ (actual).gauss₂ (actual).gaussSlot
+    exact (actual).extract_gaussScale second
   · change extraGaussScale (1 : ℝ) 1 (fun _ : Fin (data ξ).geometry.slotCount => 1) = 1
     simp only [extraGaussScale, Finset.prod_const_one, one_mul]
   · intro i hi
@@ -216,10 +216,10 @@ local notation "D" => side Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ r
   F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot
     ray firstSign hfirstSign divisor selection hne hsquarefree hselection
 
-@[simp] theorem side_atoms : D.atoms = finalAtoms := rfl
+@[simp] theorem side_atoms : (D).atoms = finalAtoms := rfl
 
 @[simp] theorem side_model :
-    D.model = (originalComputed Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    (D).model = (originalComputed Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       reference href orders amplitude hamplitude original hreference ht hcompact hpositive
       hprime first hfirstSupport F power δ₁ δ₂ second hsecondSupport atlas count
       hleft hright hslot).model := rfl
@@ -228,19 +228,19 @@ local notation "D" => side Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ r
 The ordinary normalization and its original chosen child are not used
 or modified by this proof. -/
 theorem side_profile_bounds :
-    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.model.left r) ≤
+    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((D).model.left r) ≤
       CanonicalLiteralExceptionalProfileWindow.coefficient window hcompact hpositive
         δ₁ δ₂ orders * amplitude) ∧
-    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.model.right r) ≤
+    (∀ r, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((D).model.right r) ≤
       CanonicalLiteralExceptionalProfileWindow.coefficient window hcompact hpositive
         δ₁ δ₂ orders * amplitude) ∧
-    (∀ j, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (D.model.slot j) ≤
+    (∀ j, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((D).model.slot j) ≤
       CanonicalLiteralExceptionalProfileWindow.coefficient window hcompact hpositive
         δ₁ δ₂ orders * amplitude) := by
   let U := uniformComputed Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders
     amplitude hamplitude original hreference ht hcompact hpositive hprime first hfirstSupport
     F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot
-  have hmodel : U.model = D.model := uniformComputed_model Q ξ recipe a Z t Y₁ Y₂
+  have hmodel : U.model = (D).model := uniformComputed_model Q ξ recipe a Z t Y₁ Y₂
     centered hZ hY₁ hY₂ reference href orders amplitude hamplitude original hreference ht
     hcompact hpositive hprime first hfirstSupport F power δ₁ δ₂ second hsecondSupport
     atlas count hleft hright hslot
@@ -267,7 +267,7 @@ theorem side_profile_bounds :
     simpa only [hmodel, hbound] using h
 
 theorem side_samePlainProfiles (hc : centered = true) :
-    CanonicalLiteralExceptionalCharts.SamePlainProfiles D.model := by
+    CanonicalLiteralExceptionalCharts.SamePlainProfiles (D).model := by
   subst centered
   let E := Q.literalOriginalSchwartzModel ξ recipe a Z t Y₁ Y₂ true hZ hY₁ hY₂
     reference allowedReference original hreference ht hpositive hcompact.isClosed
@@ -281,11 +281,10 @@ theorem side_samePlainProfiles (hc : centered = true) :
   cases count
   exact h
 
-theorem side_primeNormWindow (B : ℝ) (hp : seed.PrimeNormWindow B) :
-    D.atoms.PrimeNormWindow B := by
-  have hp₁ : actual.PrimeNormWindow B := hp.extract first
-  exact (((hp₁.extract second).onAtlas atlas count hslot).scale scalar⁻¹).
-    balancePlain (fun _ => 1)
+theorem side_primeNormWindow (B : ℝ) (hp : (seed).PrimeNormWindow B) :
+    (D).atoms.PrimeNormWindow B := by
+  have hp₁ : (actual).PrimeNormWindow B := hp.extract first
+  exact (((hp₁.extract second).onAtlas atlas count hslot).scale scalar⁻¹).balancePlain (fun _ => 1)
 
 /-- A return value on the exact final table. The heterogeneous equality
 only transports its occurrence count; it does not discard or reselect
@@ -327,7 +326,7 @@ def result : Result (σ := σ) Q ξ Z orders amplitude hcompact hpositive
     hfirstSupport F δ₁ δ₂ (secondSupport := secondSupport) seed
     (frozenSourceIdeal first.plainDivisor₁ first.plainDivisor₂ first.keep first.witness.2)
     (frozenSourceIdeal second.plainDivisor₁ second.plainDivisor₂ second.keep second.witness.2)
-    (actual.commonScalar second) finalAtoms ray (fun i => ideal (atlas.reindex.index i))
+    ((actual).commonScalar second) finalAtoms ray (fun i => ideal (atlas.reindex.index i))
     firstSign divisor selection :=
   let bounds := side_profile_bounds Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href
     orders amplitude hamplitude original hreference ht hcompact hpositive hprime
@@ -400,17 +399,17 @@ variable {firstIdeal : firstIndexType → A.Exterior}
 variable (firstAtlas : SourceCartesianAtlas firstColumns firstIdeal)
 variable (firstIndex : AllocationColumn K first.keep.card → firstIndexType)
 variable (dictionary : firstAtlas.literalDictionary =
-  ⟨first.keep.card, (bare.plain₁, bare.plain₂), bare.slots, firstIndex⟩)
+  ⟨first.keep.card, ((bare).plain₁, (bare).plain₂), (bare).slots, firstIndex⟩)
 
 /-- The actual first dictionary proves equality of the entire original
 table, including all three occurrence carriers. This is stronger than
 equality of the two slot counts. -/
 private theorem first_table_eq :
     (⟨firstAtlas.slotCount,
-      bare.onAtlas firstAtlas (congrArg Sigma.fst dictionary).symm⟩ :
+      (bare).onAtlas firstAtlas (congrArg Sigma.fst dictionary).symm⟩ :
         Σ n : ℕ, CanonicalLiteralRectangles.Atoms (K := K) n) =
       ⟨first.keep.card, bare⟩ := by
-  have he := bare.onAtlas_eq_cast firstAtlas firstIndex dictionary
+  have he := (bare).onAtlas_eq_cast firstAtlas firstIndex dictionary
   have hc : HEq
       (cast (congrArg (CanonicalLiteralRectangles.Atoms (K := K))
         (congrArg Sigma.fst dictionary).symm) bare) bare := cast_heq _ _
@@ -427,7 +426,7 @@ are the existing residual-atlas field identities. -/
 def firstAtlasResult : AfterFirst Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     orders amplitude hcompact hpositive first hfirstSupport F power δ₁ δ₂
       ⟨firstAtlas.slotCount,
-        bare.onAtlas firstAtlas (congrArg Sigma.fst dictionary).symm⟩ := by
+        (bare).onAtlas firstAtlas (congrArg Sigma.fst dictionary).symm⟩ := by
   have h := first_table_eq Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     first F power δ₁ δ₂ firstAtlas firstIndex dictionary
   exact h.symm ▸ afterFirstOriginal Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂

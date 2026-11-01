@@ -168,8 +168,8 @@ local notation "b₂" => second.branch secondSupport G.centeredSecondIdeal.val s
 actual removed prime power. The second atlas is the smaller actual
 common side selected by the original geometry. -/
 theorem actual_preDivisors_dvd :
-    (b₁.plainDivisor₁ * b₂.plainDivisor₁).val ∣ G.centeredCommonIdeal.val ∧
-      (b₁.plainDivisor₂ * b₂.plainDivisor₂).val ∣ G.centeredCommonIdeal.val := by
+    ((b₁).plainDivisor₁ * (b₂).plainDivisor₁).val ∣ G.centeredCommonIdeal.val ∧
+      ((b₁).plainDivisor₂ * (b₂).plainDivisor₂).val ∣ G.centeredCommonIdeal.val := by
   constructor
   · exact mul_dvd_mul (atlas_plain_left_dvd first _ _ firstLabel)
       (atlas_plain_left_dvd second _ _ secondLabel)
@@ -187,10 +187,10 @@ theorem actual_fourPlain_minimum {k : ℕ} (B : ActualColumnAllocation K k)
     Z ^ ((a.m + a.q) / 4 - G.centeredExtractionLength -
       B.rawExtractionLength Z length) ≤
       B.fourPlainLower
-        (Z ^ a.n₁ / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁))
-        (Z ^ a.n₂ / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂))
-        (Y₁ / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁))
-        (Y₂ / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂)) := by
+        (Z ^ a.n₁ / idealNorm K ((b₁).plainDivisor₁ * (b₂).plainDivisor₁))
+        (Z ^ a.n₂ / idealNorm K ((b₁).plainDivisor₂ * (b₂).plainDivisor₂))
+        (Y₁ / idealNorm K ((b₁).plainDivisor₁ * (b₂).plainDivisor₁))
+        (Y₂ / idealNorm K ((b₁).plainDivisor₂ * (b₂).plainDivisor₂)) := by
   have hp := actual_preDivisors_dvd G first second firstSupport secondSupport
     firstLabel secondLabel
   exact G.fourPlain_minimum_window_of_domain B domain _ _ hp.1 hp.2 length hlength
@@ -217,20 +217,20 @@ local notation "beforeSecond" => d.secondInput (σ := σ) b₁ P R
     hfirst hpool hunit δ₁ δ₂
 
 variable {support₂ : Finset (Ideal (𝓞 K))}
-variable (b₂ : SupportCartesianBranch beforeSecond.plain₁ beforeSecond.plain₂
-  beforeSecond.slots support₂)
+variable (b₂ : SupportCartesianBranch (beforeSecond).plain₁ (beforeSecond).plain₂
+  (beforeSecond).slots support₂)
 
 /-- The real first phase/norm constructor leaves the formal scale
 unchanged. Its two literal extractions give exactly this quotient. -/
 theorem actual_twice_left_scale (rectangle : Bool) :
-    (beforeSecond.extract b₂).scale₁ rectangle =
+    ((beforeSecond).extract b₂).scale₁ rectangle =
       d.scale₁ rectangle / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁) := by
   change (d.scale₁ rectangle / idealNorm K b₁.plainDivisor₁) /
       idealNorm K b₂.plainDivisor₁ = _
   rw [CanonicalLiteralProfileData.idealNorm_mul, div_div]
 
 theorem actual_twice_right_scale (rectangle : Bool) :
-    (beforeSecond.extract b₂).scale₂ rectangle =
+    ((beforeSecond).extract b₂).scale₂ rectangle =
       d.scale₂ rectangle / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂) := by
   change (d.scale₂ rectangle / idealNorm K b₁.plainDivisor₂) /
       idealNorm K b₂.plainDivisor₂ = _
@@ -243,19 +243,19 @@ variable (scalar : ℂ) (balance : Bool → ℝ)
 /-- The actual atlas transport, common scalar extraction and plain
 balance retain this same quotient; no profile nonvanishing is used. -/
 theorem actual_final_left_scale (rectangle : Bool) :
-    ((((beforeSecond.extract b₂).onAtlas atlas count).scale scalar).balancePlain balance).scale₁
+    (((((beforeSecond).extract b₂).onAtlas atlas count).scale scalar).balancePlain balance).scale₁
         rectangle =
       d.scale₁ rectangle / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁) := by
-  change ((beforeSecond.extract b₂).onAtlas atlas count).scale₁ rectangle = _
+  change (((beforeSecond).extract b₂).onAtlas atlas count).scale₁ rectangle = _
   rw [CanonicalLiteralRectangles.Atoms.onAtlas_left_scale]
   exact actual_twice_left_scale d b₁ P R power firstFixed poolFixed unitFixed
     firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ b₂ rectangle
 
 theorem actual_final_right_scale (rectangle : Bool) :
-    ((((beforeSecond.extract b₂).onAtlas atlas count).scale scalar).balancePlain balance).scale₂
+    (((((beforeSecond).extract b₂).onAtlas atlas count).scale scalar).balancePlain balance).scale₂
         rectangle =
       d.scale₂ rectangle / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂) := by
-  change ((beforeSecond.extract b₂).onAtlas atlas count).scale₂ rectangle = _
+  change (((beforeSecond).extract b₂).onAtlas atlas count).scale₂ rectangle = _
   rw [CanonicalLiteralRectangles.Atoms.onAtlas_right_scale]
   exact actual_twice_right_scale d b₁ P R power firstFixed poolFixed unitFixed
     firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ b₂ rectangle
@@ -325,7 +325,7 @@ theorem centered_fields (hc : SamePlainProfiles E)
       (centeredFrame hc hscale ξ).source.time =
         time firstSign (orientedMode side.literalNegative ξ) ∧
       (centeredFrame hc hscale ξ).source.lower =
-        frame.allocation.fourPlainLower
+        (frame).allocation.fourPlainLower
           (d.scale₁ false) (d.scale₂ false) (d.scale₁ true) (d.scale₂ true) := by
   rcases θ with ⟨θ, hmem⟩
   dsimp only at hθ
@@ -337,8 +337,8 @@ theorem ordinary_fields (ξ : Joint) :
       (ordinaryFrame ξ).source.time =
         time firstSign (orientedMode side.literalNegative ξ) ∧
       (ordinaryFrame ξ).source.lower =
-        min (d.scale₁ false / idealNorm K (frame.allocation.plainDivisor 0))
-          (d.scale₂ false / idealNorm K (frame.allocation.plainDivisor (Fin.succ 0))) := by
+        min (d.scale₁ false / idealNorm K ((frame).allocation.plainDivisor 0))
+          (d.scale₂ false / idealNorm K ((frame).allocation.plainDivisor (Fin.succ 0))) := by
   rcases θ with ⟨θ, hmem⟩
   dsimp only at hθ
   subst θ
@@ -424,21 +424,21 @@ final minimum are proved internally from the original labels/domain. -/
 theorem centered_minimum_window
     (domain : PairedEngineDomain true parent a Z Y₁ Y₂ floor padding)
     (hscale₁ : ∀ r, d.scale₁ r =
-      (if r then Y₁ else Z ^ a.n₁) / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁))
+      (if r then Y₁ else Z ^ a.n₁) / idealNorm K ((b₁).plainDivisor₁ * (b₂).plainDivisor₁))
     (hscale₂ : ∀ r, d.scale₂ r =
-      (if r then Y₂ else Z ^ a.n₂) / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂))
+      (if r then Y₂ else Z ^ a.n₂) / idealNorm K ((b₁).plainDivisor₂ * (b₂).plainDivisor₂))
     (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (ξ : Joint) :
     Z ^ ((a.m + a.q) / 4 - G.centeredExtractionLength -
-      frame.allocation.rawExtractionLength Z d.length) ≤
+      (frame).allocation.rawExtractionLength Z d.length) ≤
         (centeredFrame hc hscale ξ).source.lower := by
   rw [(centered_fields P R F parent oldMoving correction hcorr C S pattern ν
     remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
     side χ ideal hideal firstSign L selection hne θ hθ hc hscale ξ).2.2,
     hscale₁ false, hscale₂ false, hscale₁ true, hscale₂ true]
   exact actual_fourPlain_minimum G first second support₁ support₂ label₁ label₂
-    frame.allocation domain d.length (fun i => (d.length_pos i).le)
+    (frame).allocation domain d.length (fun i => (d.length_pos i).le)
 
 end Frames
 
@@ -502,10 +502,10 @@ include hclass hradius hcutoff hproduct hold in
 /-- The physical source supplies the complete joint budget on its
 own live rows. The first deleted ideal is included in `remaining`
 (literally `oldRemaining * extra` at the raw frame call site). -/
-theorem actualRows_mask_norm_window (h : S.live) :
+theorem actualRows_mask_norm_window (h : (S).live) :
     (Ideal.absNorm (CanonicalLiteralExceptionalCharacters.rowMask P R F oldMoving C
       b.primes b.leftMultiplicity b.rightMultiplicity pattern remaining
-        (S.extractedRow C h).momentIdeal) : ℝ) ≤
+        ((S).extractedRow C h).momentIdeal) : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) * Z ^ (width) := by
   have hjoint := chart.actualRows_appended_active_pair_fullDeletion_joint_window hclass
     (F.moving P R oldMoving) remaining X hX label retainedScale Z g a₀ q wo cutoffExponent
@@ -514,10 +514,10 @@ theorem actualRows_mask_norm_window (h : S.live) :
 
 include hclass hradius hcutoff hproduct hold in
 theorem actualRows_mask_power_window (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
-    (h : S.live) :
+    (h : (S).live) :
     (Ideal.absNorm (CanonicalLiteralExceptionalCharacters.rowMask P R F oldMoving C
       b.primes b.leftMultiplicity b.rightMultiplicity pattern remaining
-        (S.extractedRow C h).momentIdeal) : ℝ) ≤ Z ^ ((width) + 1) :=
+        ((S).extractedRow C h).momentIdeal) : ℝ) ≤ Z ^ ((width) + 1) :=
   (actualRows_mask_norm_window chart hclass P R F oldMoving remaining X hX label
     retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hproduct hold h).trans
       (fixed_mask_threshold Z (width) hthreshold)
@@ -537,7 +537,7 @@ theorem actualRestrictedRows_mask_norm_window
   let R₁ := { S with weight := weight }
   let R₂ := R₁.restrictRows keep₁
   let h₁ : R₂.live := R₂.liveInclusion keep₂ h
-  let h₀ : S.live := R₁.liveInclusion keep₁ h₁
+  let h₀ : (S).live := R₁.liveInclusion keep₁ h₁
   exact actualRows_mask_norm_window chart hclass P R F oldMoving remaining X hX label
     retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hproduct hold h₀
 

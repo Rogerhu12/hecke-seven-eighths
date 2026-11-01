@@ -105,9 +105,9 @@ theorem covered_index_fibre_subpower
     ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       OriginalFiniteFibre.coordinateConstant (K := K) cap (Fintype.card Θ)
         dimension width B ε hB hε * Z ^ ε := by
-  have hslots : ∀ a, (CV.branch a).slotCount ≤ cap := fun a =>
+  have hslots : ∀ a, ((CV).branch a).slotCount ≤ cap := fun a =>
     (d.sourceCartesianCover_slotCount_le T S D₀ hcolumns hideal c a).trans hcap
-  have hkeys : CV.labels.card ≤ idealDivisorCount D₀ ^ (cap + 2) :=
+  have hkeys : (CV).labels.card ≤ idealDivisorCount D₀ ^ (cap + 2) :=
     T.labels_card_le_cap cap hcap S D₀ hD₀
   have hraw := ActualGaussStage.covered_index_fibre_card_le_coordinates hleft hright
     index allocation hindex leaves j DE hcommon hrow support dimension width code encode hcode

@@ -194,8 +194,8 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 uses the proved physical window, including the original column loss,
 and the original complete moving-support norm window. -/
 def computedLiteralCalibrations :
-    (∀ r : Bool, (rectangles.leftFrame C r).source.Calibration (σ := σ) ω ψ) ×
-    (∀ r : Bool, (rectangles.rightFrame C r).source.Calibration (σ := σ) ω ψ) := by
+    (∀ r : Bool, ((rectangles).leftFrame C r).source.Calibration (σ := σ) ω ψ) ×
+    (∀ r : Bool, ((rectangles).rightFrame C r).source.Calibration (σ := σ) ω ψ) := by
   have hk : geometry.skeleton.Krow = Real.log retainedScale / Real.log Z := by
     change Real.log geometry.retainedScale / Real.log Z = _
     rw [hretained]
@@ -226,7 +226,7 @@ local notation "calibrations" =>
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -272,54 +272,54 @@ def literalNormalizationData
     (binding : X.leaf.OrdinaryBinding rectangles)
     (analyticLeft : ∀ r : Bool, ∀ _hκ : (calibrations.1 r).parameters.κ < 1, ∀ ξ,
       ∀ u, u ∈ pairedRows ((calibrations.1 r).data ξ) (calibrations.1 r).parameters
-        (rectangles.leftFrame C r).source.base →
-      ∀ i : Fin (rectangles.leftFrame C r).source.allocation.keep.card,
+        ((rectangles).leftFrame C r).source.base →
+      ∀ i : Fin ((rectangles).leftFrame C r).source.allocation.keep.card,
         ZeroFreeData (heckeContinuation K (((calibrations.1 r).data ξ).rowCharacter u *
           ((calibrations.1 r).data ξ).slotCoefficient
             (lengthSlot ((calibrations.1 r).data ξ)
-              (rectangles.leftFrame C r).source.allocation.keep.card
+              ((rectangles).leftFrame C r).source.allocation.keep.card
               ((calibrations.1 r).count ξ) i))) (((calibrations.1 r).parameters.κ + 1) / 2))
     (analyticRight : ∀ r : Bool, ∀ _hκ : (calibrations.2 r).parameters.κ < 1, ∀ ξ,
       ∀ u, u ∈ pairedRows ((calibrations.2 r).data ξ) (calibrations.2 r).parameters
-        (rectangles.rightFrame C r).source.base →
-      ∀ i : Fin (rectangles.rightFrame C r).source.allocation.keep.card,
+        ((rectangles).rightFrame C r).source.base →
+      ∀ i : Fin ((rectangles).rightFrame C r).source.allocation.keep.card,
         ZeroFreeData (heckeContinuation K (((calibrations.2 r).data ξ).rowCharacter u *
           ((calibrations.2 r).data ξ).slotCoefficient
             (lengthSlot ((calibrations.2 r).data ξ)
-              (rectangles.rightFrame C r).source.allocation.keep.card
+              ((rectangles).rightFrame C r).source.allocation.keep.card
               ((calibrations.2 r).count ξ) i))) (((calibrations.2 r).parameters.κ + 1) / 2))
     (hanalyticLeft : ∀ r : Bool, ∀ hκ : (calibrations.1 r).parameters.κ < 1, ∀ ξ,
       ∀ u, ∀ hu : u ∈ pairedRows ((calibrations.1 r).data ξ) (calibrations.1 r).parameters
-        (rectangles.leftFrame C r).source.base,
-      ∀ i : Fin (rectangles.leftFrame C r).source.allocation.keep.card,
+        ((rectangles).leftFrame C r).source.base,
+      ∀ i : Fin ((rectangles).leftFrame C r).source.allocation.keep.card,
         heightConstant (analyticLeft r hκ ξ u hu i) +
           3 * ((analyticLeft r hκ ξ u hu i).k : ℝ) ≤ analyticHeight)
     (hanalyticRight : ∀ r : Bool, ∀ hκ : (calibrations.2 r).parameters.κ < 1, ∀ ξ,
       ∀ u, ∀ hu : u ∈ pairedRows ((calibrations.2 r).data ξ) (calibrations.2 r).parameters
-        (rectangles.rightFrame C r).source.base,
-      ∀ i : Fin (rectangles.rightFrame C r).source.allocation.keep.card,
+        ((rectangles).rightFrame C r).source.base,
+      ∀ i : Fin ((rectangles).rightFrame C r).source.allocation.keep.card,
         heightConstant (analyticRight r hκ ξ u hu i) +
           3 * ((analyticRight r hκ ξ u hu i).k : ℝ) ≤ analyticHeight) :
     X.leaf.NormalizationData (ι := Fin v.block.primeCount) C PUnit.{1} ω ψ Z
       Set.univ Set.univ (Set.Icc 0 hi) orders := by
   let cals := calibrations
-  let leftGeometry := geometry.atBase leftTable.base hbaseLeft
-  let rightGeometry := geometry.swapSecond.atBase rightTable.base hbaseRight
+  let leftGeometry := geometry.atBase (leftTable).base hbaseLeft
+  let rightGeometry := geometry.swapSecond.atBase (rightTable).base hbaseRight
   have hpaid : 0 ≤ paidCutoff := by positivity
   have hlm : leftGeometry.literalRowParameter paidCutoff = m :=
-    geometry.atBase_literalRowParameter leftTable.base hbaseLeft paidCutoff
+    geometry.atBase_literalRowParameter (leftTable).base hbaseLeft paidCutoff
   have hrm : rightGeometry.literalRowParameter paidCutoff = m := by
     rw [OriginalNominalGeometry.atBase_literalRowParameter,
       geometry.swapSecond_literalRowParameter]
-  have hrootL : idealLogLength leftTable.base
-      (secondSixthRootIdeal ordinaryRows.primes
+  have hrootL : idealLogLength (leftTable).base
+      (secondSixthRootIdeal (ordinaryRows).primes
         (SecondColumnSide.left.literalMultiplicity ordinaryRows)
         (SecondColumnSide.left.literalOppositeMultiplicity ordinaryRows)).val = rootLength := by
     change idealLogLength (v.literalLeftAtoms leftAtoms).base
       (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity).val = _
     rw [hbaseLeft]
-  have hrootR : idealLogLength rightTable.base
-      (secondSixthRootIdeal ordinaryRows.primes
+  have hrootR : idealLogLength (rightTable).base
+      (secondSixthRootIdeal (ordinaryRows).primes
         (SecondColumnSide.right.literalMultiplicity ordinaryRows)
         (SecondColumnSide.right.literalOppositeMultiplicity ordinaryRows)).val = rootLength := by
     rw [SecondColumnSide.literal_root]
@@ -327,35 +327,35 @@ def literalNormalizationData
       (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity).val = _
     rw [hbaseRight]
   have hlq : leftGeometry.literalSupportParameter
-      (idealLogLength leftTable.base
-        (secondSixthRootIdeal ordinaryRows.primes
+      (idealLogLength (leftTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes
           (SecondColumnSide.left.literalMultiplicity ordinaryRows)
           (SecondColumnSide.left.literalOppositeMultiplicity ordinaryRows)).val) = q := by
     rw [hrootL]
-    exact geometry.atBase_literalSupportParameter leftTable.base hbaseLeft rootLength
+    exact geometry.atBase_literalSupportParameter (leftTable).base hbaseLeft rootLength
   have hrq : rightGeometry.literalSupportParameter
-      (idealLogLength rightTable.base
-        (secondSixthRootIdeal ordinaryRows.primes
+      (idealLogLength (rightTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes
           (SecondColumnSide.right.literalMultiplicity ordinaryRows)
           (SecondColumnSide.right.literalOppositeMultiplicity ordinaryRows)).val) = q := by
     rw [hrootR, OriginalNominalGeometry.atBase_literalSupportParameter,
       geometry.swapSecond_literalSupportParameter]
-  have hdomainL : PairedEngineDomain centered parent a leftTable.base Y₁ Y₂ floor padding := by
+  have hdomainL : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
     simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
       CanonicalLiteralRectangles.Atoms.scale, hbaseLeft] using domain
-  have hdomainR : PairedEngineDomain centered parent a rightTable.base Y₁ Y₂ floor padding := by
+  have hdomainR : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
     simpa only [CanonicalLiteralRectangles.Atoms.balancePlain,
       CanonicalLiteralRectangles.Atoms.scale, hbaseRight] using domain
   have hunitR : rightGeometry.ideals.unitPart.val =
-      (secondPatternUnitIdeal ordinaryRows.primes ordinaryRows.rightMultiplicity
-        ordinaryRows.leftMultiplicity pattern).val := by
+      (secondPatternUnitIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+        (ordinaryRows).leftMultiplicity pattern).val := by
     rw [secondPatternUnitIdeal_swap]
     exact hunit
-  let left : ∀ r : Bool, SecondSideNormalization (rectangles.leftFrame C r)
+  let left : ∀ r : Bool, SecondSideNormalization ((rectangles).leftFrame C r)
       ω ψ Set.univ Set.univ (Set.Icc 0 hi) orders := fun r =>
-    leftTable.produceLiteralSideAll leftTests ordinaryRows .left j.2.1
+    (leftTable).produceLiteralSideAll leftTests ordinaryRows .left j.2.1
       (fun i => v.block.leftResidual (v.leftReindex.index i)) v.leftReindex.ideal_product
-      firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp allocation.property).2.2.1
+      firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp (allocation).property).2.2.1
       (cals.1 r) P Rchar F parent oldMoving correction hcorr remaining extra a step leftGeometry
       pattern sector leftRecipe.slots paidCutoff reference time
       (by intro ξ; rw [hlm, hlq]; rfl) (by rw [hlm, hlq]; rfl)
@@ -363,11 +363,11 @@ def literalNormalizationData
       hsecond hopposite hunit hstep mesh hmesh hfit lo hi hlo hhi orders original
       hreference htime horders leftComputed hprimeOrders δ analyticHeight hδ hδhi
       (analyticLeft r) (hanalyticLeft r)
-  let right : ∀ r : Bool, SecondSideNormalization (rectangles.rightFrame C r)
+  let right : ∀ r : Bool, SecondSideNormalization ((rectangles).rightFrame C r)
       ω ψ Set.univ Set.univ (Set.Icc 0 hi) orders := fun r =>
-    rightTable.produceLiteralSideAll rightTests ordinaryRows .right j.2.1
+    (rightTable).produceLiteralSideAll rightTests ordinaryRows .right j.2.1
       (fun i => v.block.rightResidual (v.rightReindex.index i)) v.rightReindex.ideal_product
-      (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp allocation.property).2.2.2
+      (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp (allocation).property).2.2.2
       (cals.2 r) P Rchar F parent oldMoving correction hcorr remaining extra a step rightGeometry
       pattern sector rightRecipe.slots paidCutoff reference time
       (by intro ξ; rw [hrm, hrq]; rfl) (by rw [hrm, hrq]; rfl)

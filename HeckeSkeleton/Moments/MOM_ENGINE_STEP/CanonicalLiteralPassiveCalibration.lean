@@ -113,12 +113,12 @@ local notation "t" => table W B A paid
 /-- Individual original atom bounds on this exact passive allocation.
 The independent divisor norm is retained by `scalarBound`. -/
 def frozenBounds (hmask : paid.MaskIndicator) (ha : a ∈ nonzeroLabels W B A M) :
-    f.source.FrozenAtomBounds where
+    (f).source.FrozenAtomBounds where
   annulus i := (Ideal.absNorm ((branch W B A M a).witness.2 i).asIdeal : ℝ) /
-    t.base ^ t.length i
-  profile i := ‖t.slotWeight i ((branch W B A M a).witness.2 i)‖ ^ 2
+    (t).base ^ (t).length i
+  profile i := ‖(t).slotWeight i ((branch W B A M a).witness.2 i)‖ ^ 2
   annulus_nonneg i := div_nonneg (Nat.cast_nonneg _)
-    (Real.rpow_pos_of_pos (zero_lt_one.trans t.base_gt_one) _).le
+    (Real.rpow_pos_of_pos (zero_lt_one.trans (t).base_gt_one) _).le
   profile_nonneg i := sq_nonneg _
   plain₁_bound h _ := by
     cases side <;> exact OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one
@@ -131,7 +131,7 @@ def frozenBounds (hmask : paid.MaskIndicator) (ha : a ∈ nonzeroLabels W B A M)
       (paid.slot i) (paid.slotTwist i) paid.mask _ (hmask _)
   prime_annulus i _ := by
     cases side <;> exact le_of_eq (div_mul_cancel₀ _
-      (Real.rpow_pos_of_pos (zero_lt_one.trans t.base_gt_one) _).ne').symm
+      (Real.rpow_pos_of_pos (zero_lt_one.trans (t).base_gt_one) _).ne').symm
   slot_bound h _ i _ := by cases side <;> exact le_rfl
   divisor_squarefree := by
     cases side <;> exact divisor_squarefree W B A M a ha
@@ -143,8 +143,8 @@ theorem frozenBounds_scalarBound (hmask : paid.MaskIndicator)
     (frozenBounds W B paid C S side M a firstSign rectangle hmask ha).scalarBound =
       (∏ i ∈ Finset.univ \ (branch W B A M a).keep,
         (((Ideal.absNorm ((branch W B A M a).witness.2 i).asIdeal : ℝ) /
-            t.base ^ t.length i) *
-          ‖t.slotWeight i ((branch W B A M a).witness.2 i)‖ ^ 2)) /
+            (t).base ^ (t).length i) *
+          ‖(t).slotWeight i ((branch W B A M a).witness.2 i)‖ ^ 2)) /
         (Ideal.absNorm a.val.1 : ℝ) := by
   cases side <;> rfl
 

@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -88,8 +88,8 @@ variable (href : reference ∈ pairedRows (data ξ) a Z)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable (hloss : 0 ≤ loss) (hcutoffExponent : 0 ≤ cutoffExponent)
 
 
@@ -163,8 +163,8 @@ local notation "stages" => Q.literalPrimitivePooledStages
   (hstep := hstep) (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
   (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
 
-local notation "atlas" => raw.originalAtlas
-local notation "prepared" => stages.supported.gated
+local notation "atlas" => (raw).originalAtlas
+local notation "prepared" => (stages).supported.gated
 local notation "rowExponent" => literalPrimitivePoolRowExponent
   (lengthBound := lengthBound) (columnBound := columnBound)
   (loss := loss) (cutoffExponent := cutoffExponent)
@@ -179,10 +179,10 @@ local notation "secondKernel" => ActualGaussStage.canonicalRowBallKernel
 /-- The actual main and three valuation kernels are the same fixed
 canonical kernels; the original parent normalization has no effect. -/
 theorem literalPrimitivePreparedPooled_parent_kernels
-    (exceptional : prepared.CoverHybridPredicates atlas) (N : source.Normalization)
-    (j : prepared.CoveredLeafKey atlas) :
-    (prepared.parentLeaf atlas exceptional N j).firstKernel = firstKernel ∧
-      (prepared.parentLeaf atlas exceptional N j).secondKernel = secondKernel := by
+    (exceptional : (prepared).CoverHybridPredicates atlas) (N : (source).Normalization)
+    (j : (prepared).CoveredLeafKey atlas) :
+    ((prepared).parentLeaf atlas exceptional N j).firstKernel = firstKernel ∧
+      ((prepared).parentLeaf atlas exceptional N j).secondKernel = secondKernel := by
   rcases j with ⟨DE, D, S, χ, j | j⟩
   all_goals
     rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩)) <;> exact ⟨rfl, rfl⟩

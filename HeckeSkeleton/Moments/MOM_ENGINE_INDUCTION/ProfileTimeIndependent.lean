@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependentCore
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
@@ -85,14 +86,6 @@ private theorem primeWindow_freeze_zero_eq (W : PrimeWindow K)
   funext t y
   change W.profile time y * profilePower 0 y = W.profile t y
   rw [profilePower_zero, mul_one, h time, h t]
-
-/-- Every final evaluation-time argument is unused. This is a primitive
-identity of the actual tests, with no analytic estimate among its fields. -/
-structure ProfileTimeIndependent (d : MomentData K ω ψ) : Prop where
-  inverse : ∀ u t, d.inverseTest.profile u t = d.inverseTest.profile u 0
-  plain₁ : ∀ u t, d.plainTest₁.profile u t = d.plainTest₁.profile u 0
-  plain₂ : ∀ u t, d.plainTest₂.profile u t = d.plainTest₂.profile u 0
-  prime : ∀ j t, (d.geometry.slots j).profile t = (d.geometry.slots j).profile 0
 
 /-- The literal independent-time/power constructor already freezes every
 profile. Its powers need not be zero, and may depend on the original row. -/

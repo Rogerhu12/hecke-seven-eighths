@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -108,8 +108,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -270,7 +270,7 @@ variable {Lmax Nsave decay εzero Cerror Czero : ℝ}
 /-- The same first finite rows are controlled by the two original second
 terminals, the actual exceptional rows and the existing ordinary kernels. -/
 theorem literalPrimitivePooled_rawCost_le_kernel
-    (T : stages.DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
+    (T : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
     (hstage : ∀ {j : Type*} (p : FirstGaussPoolData C pool j)
       (c : j → ℂ) (x : j → ℝ)
@@ -282,12 +282,12 @@ theorem literalPrimitivePooled_rawCost_le_kernel
       (z : ℝ),
       p.energy (FirstGaussPoolData.twistedCoefficient c x z) ≤
         cal.rawPhaseCost x z εzero Cerror Czero)
-    (analytic : ∀ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input) :
-    firstSource.rawRowCost hDiff / Z ^ (a.m + a.q) ≤
-      stages.dualSecondZeroBudget T normalization εzero Czero / Z ^ (a.m + a.q) +
-        stages.dualSecondTailBudget T normalization Cerror / Z ^ (a.m + a.q) +
-        stages.supported.gated.exceptionalBudget raw.originalAtlas exceptional normalization /
+    (firstSource).rawRowCost hDiff / Z ^ (a.m + a.q) ≤
+      (stages).dualSecondZeroBudget T normalization εzero Czero / Z ^ (a.m + a.q) +
+        (stages).dualSecondTailBudget T normalization Cerror / Z ^ (a.m + a.q) +
+        (stages).supported.gated.exceptionalBudget (raw).originalAtlas exceptional normalization /
           Z ^ (a.m + a.q) +
         ∑ b : (completeFamily analytic).active Finset.univ,
           ∫ z, (completeFamily analytic).childPair Finset.univ b z
@@ -297,7 +297,7 @@ theorem literalPrimitivePooled_rawCost_le_kernel
       (rowBallFiniteFamily K A.Sf 1) 0).re := by
     rw [CanonicalRowBall.originalTensor_zero, Complex.ofReal_re]
     exact inv_nonneg.mpr (CanonicalRowBall.mass_pos K A.Sf).le
-  have conditions : stages.DualSourceConditions := by
+  have conditions : (stages).DualSourceConditions := by
     intro DE D
     constructor
     · intro S χ
@@ -308,25 +308,25 @@ theorem literalPrimitivePooled_rawCost_le_kernel
       exact {
         mask := by intro tag; rcases tag with u | p | p | p <;> rfl
         origin_nonneg := by intro tag; rcases tag with u | p | p | p <;> exact hcanonical }
-  have hraw := stages.supported.gated.rawRowCost_le_dual_live
-    T.supported.gated conditions.supported.gated raw.originalAtlas exceptional normalization
+  have hraw := (stages).supported.gated.rawRowCost_le_dual_live
+    T.supported.gated conditions.supported.gated (raw).originalAtlas exceptional normalization
     εzero Cerror Czero hstage
   have hzero := T.supported_gated_dualSecondZeroBudget_le normalization εzero Czero hCzero
   have htail := T.supported_gated_dualSecondTailBudget_le normalization Cerror hCerror
-  have hfiber : source.fiber = 1 := rfl
+  have hfiber : (source).fiber = 1 := rfl
   rw [hfiber, Nat.cast_one, one_mul] at hraw
-  have hsame : source.rawRowCost hDiff = firstSource.rawRowCost hDiff := rfl
+  have hsame : (source).rawRowCost hDiff = (firstSource).rawRowCost hDiff := rfl
   rw [hsame] at hraw
-  have htotal : firstSource.rawRowCost hDiff ≤
-      stages.dualSecondZeroBudget T normalization εzero Czero +
-        stages.dualSecondTailBudget T normalization Cerror +
-        stages.supported.gated.exceptionalBudget raw.originalAtlas exceptional normalization +
-        stages.supported.gated.ordinaryBudget raw.originalAtlas exceptional normalization :=
+  have htotal : (firstSource).rawRowCost hDiff ≤
+      (stages).dualSecondZeroBudget T normalization εzero Czero +
+        (stages).dualSecondTailBudget T normalization Cerror +
+        (stages).supported.gated.exceptionalBudget (raw).originalAtlas exceptional normalization +
+        (stages).supported.gated.ordinaryBudget (raw).originalAtlas exceptional normalization :=
     hraw.trans (add_le_add (add_le_add (add_le_add hzero htail) le_rfl) le_rfl)
   have hnormalized := div_le_div_of_nonneg_right htotal
     (Real.rpow_nonneg (zero_le_one.trans hZ.le) (a.m + a.q))
   simp only [add_div] at hnormalized
-  have hord : stages.supported.gated.ordinaryBudget raw.originalAtlas exceptional normalization /
+  have hord : (stages).supported.gated.ordinaryBudget (raw).originalAtlas exceptional normalization /
       Z ^ (a.m + a.q) ≤
       ∑ b : (completeFamily analytic).active Finset.univ,
           ∫ z, (completeFamily analytic).childPair Finset.univ b z
@@ -360,7 +360,7 @@ local notation "rawKernel" => literalPrimitivePooled_rawCost_le_kernel
 /-- The first signed exit and the separately bounded exceptional term
 are combined with the proved source inequality on this exact family. -/
 theorem literalPrimitivePooled_parent_le_kernel
-    (T : stages.DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
+    (T : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
     (hstage : ∀ {j : Type*} (p : FirstGaussPoolData C pool j)
       (c : j → ℂ) (x : j → ℝ)
@@ -372,17 +372,17 @@ theorem literalPrimitivePooled_parent_le_kernel
       (z : ℝ),
       p.energy (FirstGaussPoolData.twistedCoefficient c x z) ≤
         cal.rawPhaseCost x z εzero Cerror Czero)
-    (analytic : ∀ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input)
     (firstZero firstTail exceptionalCost : ℝ)
     (hfirst : pairedStageEnergy centered (data ξ) a Z t Y₁ Y₂ / Z ^ (a.m + a.q) ≤
-      firstZero + firstTail + firstSource.rawRowCost hDiff / Z ^ (a.m + a.q))
-    (hexceptional : stages.supported.gated.exceptionalBudget raw.originalAtlas exceptional normalization /
+      firstZero + firstTail + (firstSource).rawRowCost hDiff / Z ^ (a.m + a.q))
+    (hexceptional : (stages).supported.gated.exceptionalBudget (raw).originalAtlas exceptional normalization /
       Z ^ (a.m + a.q) ≤ exceptionalCost) :
     pairedStageEnergy centered (data ξ) a Z t Y₁ Y₂ / Z ^ (a.m + a.q) ≤
-      firstZero + stages.dualSecondZeroBudget T normalization εzero Czero / Z ^ (a.m + a.q) +
+      firstZero + (stages).dualSecondZeroBudget T normalization εzero Czero / Z ^ (a.m + a.q) +
         exceptionalCost +
-        (firstTail + stages.dualSecondTailBudget T normalization Cerror / Z ^ (a.m + a.q)) +
+        (firstTail + (stages).dualSecondTailBudget T normalization Cerror / Z ^ (a.m + a.q)) +
         ∑ b : (completeFamily analytic).active Finset.univ,
           ∫ z, (completeFamily analytic).childPair Finset.univ b z
             ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by

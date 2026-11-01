@@ -185,7 +185,15 @@ theorem gauss_second_stage_dual_bound
       columns columns fullI fullI DE profiles finiteTest M radius X hX (charts DE)
     have hre := Complex.re_le_norm (series DE - (sources DE).transform μv hDiff finiteTest)
     rw [Complex.sub_re] at hre
-    change ‖series DE - (sources DE).transform μv hDiff finiteTest‖ ≤ _ at ht
+    change ‖series DE - (sources DE).transform μv hDiff finiteTest‖ ≤
+      Ctail * X ^ (1 - decay) *
+        ∑ i ∈ (sources DE).leftColumns, ∑ j ∈ (sources DE).rightColumns,
+          seminorms.sup (schwartzSeminormFamily ℂ V ℂ) ((sources DE).pairs i j).profile *
+            ((sources DE).pairs i j).truncationMass M radius at ht
+    change ((sources DE).transform μv hDiff finiteTest).re ≤
+      ‖(sources DE).dualZeroTerm μv hDiff finiteTest‖ -
+        ((sources DE).originZeroTerm finiteTest).re +
+          ∑ D : M.powerset, (charts DE D).kernelCost M X hX at hk
     exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
       (add_le_add le_rfl hk)).trans_eq (by dsimp only [cost]; ring)
   have ho : 0 ≤ (∑ DE, (sources DE).originZeroTerm finiteTest).re := by
@@ -197,7 +205,7 @@ theorem gauss_second_stage_dual_bound
     _ ≤ ∑ DE, (cost DE - ((sources DE).originZeroTerm finiteTest).re) :=
       Finset.sum_le_sum (fun DE _ => hblock DE)
     _ = (∑ DE, cost DE) - ∑ DE, ((sources DE).originZeroTerm finiteTest).re :=
-      Finset.sum_sub_distrib
+      Finset.sum_sub_distrib _ _
     _ ≤ _ := sub_le_self _ ho
 
 end HeckeSkeleton.Moments.EngineStep

@@ -132,12 +132,12 @@ local notation "calibration" => s.canonicalOriginalDualCalibrationOfTuples atoms
 /-- The original tuple bound is retained exactly, including every
 valuation-allocation factor in the pool cases. -/
 theorem canonicalOriginalDualCalibrationOfTuples_multiplicity :
-    calibration.windows.multiplicity = multiplicity := by
+    (calibration).windows.multiplicity = multiplicity := by
   unfold canonicalOriginalDualCalibrationOfTuples canonicalOriginalDualCalibration
   split <;> rfl
 
 theorem canonicalOriginalDualCalibrationOfTuples_zeroProductExponent :
-    calibration.zeroProductExponent =
+    (calibration).zeroProductExponent =
       2 * max 0 (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z post.frozen) := by
   unfold canonicalOriginalDualCalibrationOfTuples canonicalOriginalDualCalibration
   split <;> rfl
@@ -146,9 +146,9 @@ theorem canonicalOriginalDualCalibrationOfTuples_zeroProductExponent :
 The zero coefficient case has already been discharged by the factory. -/
 theorem canonicalOriginalDualCalibrationOfTuples_amplitude_bounds
     (hphysical : G.rows.Nonempty) :
-    calibration.tailAmplitude ≤ ((2 * B ^ (cap + 2)) ^ 2 / (Ideal.absNorm divisor : ℝ)) *
+    (calibration).tailAmplitude ≤ ((2 * B ^ (cap + 2)) ^ 2 / (Ideal.absNorm divisor : ℝ)) *
         sTail.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) s.profile ∧
-      calibration.zeroAmplitude ≤
+      (calibration).zeroAmplitude ≤
         (((2 * B ^ (cap + 2)) ^ 2 *
           sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) s.profile) /
             (Ideal.absNorm divisor : ℝ)) *

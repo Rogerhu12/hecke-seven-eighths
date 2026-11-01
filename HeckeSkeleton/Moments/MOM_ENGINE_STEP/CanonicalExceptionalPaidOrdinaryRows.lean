@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalSupportedVolume
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPrimitiveBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalContribution
 
@@ -31,10 +32,11 @@ theorem exists_original_ordinary_paired_row_bound_with_cutoff
     (density : Catalogue → 𝓢(ℝ, ℂ) → ℂ)
     (remainder : Catalogue → Seminorm ℂ (𝓢(ℝ, ℂ)))
     (hcontinuous : ∀ i, Continuous (remainder i))
-    (hvolume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X →
+    (window : Set ℝ)
+    (hvolume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X → tsupport φ ⊆ window →
       ‖(∑' I : Ideal (𝓞 F), CanonicalExceptionalVolume.coefficient (χ i) I *
           φ ((Ideal.absNorm I : ℝ) / X)) - (X : ℂ) * density i φ‖ ≤ remainder i φ)
-    (window : Set ℝ) (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0) :
+    (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0) :
     ∃ orders : Finset (ℕ × ℕ), (0, 0) ∈ orders ∧
     ∃ Cbound : ℝ, 0 < Cbound ∧
     ∀ (iLeft iRight : Catalogue) (WL₁ WL₂ WR₁ WR₂ : 𝓢(ℝ, ℂ)),
@@ -86,8 +88,8 @@ theorem exists_original_ordinary_paired_row_bound_with_cutoff
       (sectors * Cbound * Cnormal) * P ^ 4 *
         Z ^ (3 * stepσ + 5 * δ / 6 + slotError - divisorLower + cutoffLoss / 6) := by
   obtain ⟨orders, hzero, _order, Csource, hCsource, hsource⟩ :=
-    CanonicalExceptionalVolume.exists_original_source_bounds (V := V) (σ := σ)
-      χ density remainder hcontinuous hvolume window hcompact hpositive
+    CanonicalExceptionalVolume.exists_original_source_bounds_supported (V := V) (σ := σ)
+      χ density remainder hcontinuous window hvolume hcompact hpositive
       1 0 (by norm_num) (by norm_num)
   let Cbound := Csource ^ 2 * idealCountConstant F
   have hCbound : 0 < Cbound :=

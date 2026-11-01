@@ -101,7 +101,8 @@ def localizeOriginalParent_domain
     {U Y₁ Y₂ floor padding : ℝ}
     (domain : EngineStep.PairedEngineDomain centered d a U Y₁ Y₂ floor padding) :
     EngineStep.PairedEngineDomain centered (localizeOriginalParent d a U)
-      a U Y₁ Y₂ floor padding := domain
+      a U Y₁ Y₂ floor padding :=
+  { domain with total_length := domain.total_length }
 
 /-- Apply the canonical single-step conclusion to the original parent
 using the previously proved complete-energy equality. This is a genuine

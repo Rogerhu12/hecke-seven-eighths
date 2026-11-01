@@ -1,7 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularSchwartzControl
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SchwartzEulerControl
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependent
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceProfileAnnulus
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependentCore
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileControlAnnulus
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
 
 /-!

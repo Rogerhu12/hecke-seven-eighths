@@ -80,7 +80,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -206,9 +206,9 @@ local notation "tailProfile" => (2 * amplitude ^ (cap + 2)) ^ 2 *
 local notation "zeroProfile" => (2 * amplitude ^ (cap + 2)) ^ 2 *
   sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (CanonicalRowBall.archTest K A.Sf 1)
-local notation "geometry" => fun DE : source.CommonLabel =>
-  fun D : ((source.block DE).mask source.mask).powerset =>
-  (source.block DE).pooledTerminalGeometry internal pool D.val
+local notation "geometry" => fun DE : (source).CommonLabel =>
+  fun D : (((source).block DE).mask (source).mask).powerset =>
+  ((source).block DE).pooledTerminalGeometry internal pool D.val
     (2 * loss + cutoffExponent) (by positivity)
 local notation "rowExponent" => literalPrimitivePoolRowExponent
   (lengthBound := lengthBound) (columnBound := columnBound)
@@ -225,7 +225,7 @@ variable (hlarge : 2 * (rowExponent / ((step / 3) / 2) +
 
 /-- Every field is derived on the actual original pooled source. -/
 def literalPrimitivePooledZeroAmplitudeWindows (εzero : ℝ) (hεzero : 0 ≤ εzero) :
-    stages.CombinedZeroAmplitudeWindows terminal εzero
+    (stages).CombinedZeroAmplitudeWindows terminal εzero
       (CanonicalPrimitivePooledTerminalWindows.zeroLoss
         padding step loss cutoffExponent lengthBound columnBound δ₁ εzero eps)
       zeroProfile rowExponent fiberCap firstTotal firstShift := by
@@ -253,37 +253,37 @@ def literalPrimitivePooledZeroAmplitudeWindows (εzero : ℝ) (hεzero : 0 ≤ �
       (0 + columnBound) / ((step / 3) / 2)) ≤ _
     simpa only [zero_add] using hlarge
   · intro DE D S χ tag
-    have horiginal : ((source.pools DE D).divisorPools.leftData S).rows ⊆
-        ((firstSource.source DE).divisorRows D.val).image
+    have horiginal : (((source).pools DE D).divisorPools.leftData S).rows ⊆
+        (((firstSource).source DE).divisorRows D.val).image
           (fun q => q.out.val * (1 : A.R)) := by
       simpa only [mul_one] using
-        (Finset.Subset.refl (((firstSource.source DE).divisorRows D.val).image
+        (Finset.Subset.refl ((((firstSource).source DE).divisorRows D.val).image
           (fun q => q.out.val)))
-    exact ((source.pools DE D).divisorPools.leftData S).literalCanonicalStages_fiber_le
+    exact (((source).pools DE D).divisorPools.leftData S).literalCanonicalStages_fiber_le
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).leftDivisorCoefficient S χ) P internal
-      ((source.block DE).literalLeftCoordinates D.val)
+      (((source).pools DE D).leftDivisorCoefficient S χ) P internal
+      (((source).block DE).literalLeftCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (leftRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ rowExponent le_rfl
-      ((firstSource.source DE).divisorRows D.val) 1 one_ne_zero horiginal tag
+      (((firstSource).source DE).divisorRows D.val) 1 one_ne_zero horiginal tag
   · intro DE D S χ tag
-    have horiginal : ((source.pools DE D).divisorPools.rightData S).rows ⊆
-        ((firstSource.source DE).divisorRows D.val).image
+    have horiginal : (((source).pools DE D).divisorPools.rightData S).rows ⊆
+        (((firstSource).source DE).divisorRows D.val).image
           (fun q => q.out.val * ((-1) : A.R)) := by
       simpa only [mul_neg_one] using
-        (Finset.Subset.refl (((firstSource.source DE).divisorRows D.val).image
+        (Finset.Subset.refl ((((firstSource).source DE).divisorRows D.val).image
           (fun q => -q.out.val)))
-    exact ((source.pools DE D).divisorPools.rightData S).literalCanonicalStages_fiber_le
+    exact (((source).pools DE D).divisorPools.rightData S).literalCanonicalStages_fiber_le
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).rightDivisorCoefficient S χ) P internal
-      ((source.block DE).literalRightCoordinates D.val)
+      (((source).pools DE D).rightDivisorCoefficient S χ) P internal
+      (((source).block DE).literalRightCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (rightRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ rowExponent le_rfl
-      ((firstSource.source DE).divisorRows D.val) (-1) (neg_ne_zero.mpr one_ne_zero) horiginal tag
+      (((firstSource).source DE).divisorRows D.val) (-1) (neg_ne_zero.mpr one_ne_zero) horiginal tag
   · intro DE D S χ tag _
-    have hcoordinates := (source.block DE).pooledTerminalGeometry_ideals internal pool D.val
+    have hcoordinates := ((source).block DE).pooledTerminalGeometry_ideals internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) false tag
     have h := Q.literalPrimitiveGeometry_zero_ledger μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -297,13 +297,13 @@ def literalPrimitivePooledZeroAmplitudeWindows (εzero : ℝ) (hεzero : 0 ≤ �
     have hopposite : (geometry DE D false tag).ideals.opposite.val = DE.val.2 := by
       simp only [hcoordinates, Bool.false_eq_true, if_false, if_true,
         FirstCommonCharacterBlock.literalLeftCoordinates_opposite]
-    have herr := (source.block DE).pooledTerminalGeometry_supportError internal pool D.val
+    have herr := ((source).block DE).pooledTerminalGeometry_supportError internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) false tag
     simp only [OriginalNominalGeometry.boundary, hfirst, hopposite, herr] at h
     dsimp only [CanonicalPrimitivePooledTerminalWindows.zeroLoss]
     convert h using 1 <;> ring
   · intro DE D S χ tag _
-    have hcoordinates := (source.block DE).pooledTerminalGeometry_ideals internal pool D.val
+    have hcoordinates := ((source).block DE).pooledTerminalGeometry_ideals internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) true tag
     have h := Q.literalPrimitiveGeometry_zero_ledger μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -317,10 +317,10 @@ def literalPrimitivePooledZeroAmplitudeWindows (εzero : ℝ) (hεzero : 0 ≤ �
     have hopposite : (geometry DE D true tag).ideals.opposite.val = DE.val.1 := by
       simp only [hcoordinates, Bool.false_eq_true, if_false, if_true,
         FirstCommonCharacterBlock.literalRightCoordinates_opposite]
-    have herr := (source.block DE).pooledTerminalGeometry_supportError internal pool D.val
+    have herr := ((source).block DE).pooledTerminalGeometry_supportError internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) true tag
     simp only [OriginalNominalGeometry.boundary, hfirst, hopposite, herr,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 (source.block DE).common_support_eq] at h
+      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq] at h
     dsimp only [CanonicalPrimitivePooledTerminalWindows.zeroLoss]
     convert h using 1 <;> ring
 
@@ -337,7 +337,7 @@ local notation "zeroWindows" => Q.literalPrimitivePooledZeroAmplitudeWindows
 /-- The fixed physical saving is applied before the original pooled
 classes are summed. The pool density is paid by the displayed loss. -/
 def literalPrimitivePooledTailAmplitudeWindows (hsaving : 2 * columnBound ≤ Nsave) :
-    stages.CombinedTailAmplitudeWindows terminal eps tailProfile
+    (stages).CombinedTailAmplitudeWindows terminal eps tailProfile
       rowExponent fiberCap firstTotal firstShift := by
   let U := zeroWindows 0 (le_refl _)
   refine
@@ -360,7 +360,7 @@ def literalPrimitivePooledTailAmplitudeWindows (hsaving : 2 * columnBound ≤ Ns
   · intro DE D S χ tag hf
     simpa only [Real.rpow_zero, mul_one] using ((rightAtoms DE D S χ tag).2.2 hf).1
   · intro DE D S χ tag _
-    have hcoordinates := (source.block DE).pooledTerminalGeometry_ideals internal pool D.val
+    have hcoordinates := ((source).block DE).pooledTerminalGeometry_ideals internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) false tag
     have h := Q.literalPrimitiveGeometry_tail_ledger μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -375,7 +375,7 @@ def literalPrimitivePooledTailAmplitudeWindows (hsaving : 2 * columnBound ≤ Ns
     simp only [add_zero, OriginalNominalGeometry.boundary, hfirst, hopposite] at h
     convert h using 1 <;> ring
   · intro DE D S χ tag _
-    have hcoordinates := (source.block DE).pooledTerminalGeometry_ideals internal pool D.val
+    have hcoordinates := ((source).block DE).pooledTerminalGeometry_ideals internal pool D.val
       (2 * loss + cutoffExponent) (by positivity) true tag
     have h := Q.literalPrimitiveGeometry_tail_ledger μv ν C hroot hemb W ξ
       a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
@@ -388,7 +388,7 @@ def literalPrimitivePooledTailAmplitudeWindows (hsaving : 2 * columnBound ≤ Ns
       simp only [hcoordinates, Bool.false_eq_true, if_false, if_true,
         FirstCommonCharacterBlock.literalRightCoordinates_opposite]
     simp only [add_zero, OriginalNominalGeometry.boundary, hfirst, hopposite,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 (source.block DE).common_support_eq] at h
+      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq] at h
     convert h using 1 <;> ring
 
 end CompleteMovingRowRecipe

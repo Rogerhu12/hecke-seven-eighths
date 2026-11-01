@@ -135,7 +135,7 @@ def canonicalUnmaskedRowBall
     ActualGaussStage (E := ℝ) hΓ μv hDiff G (rowBallFiniteFamily K A.Sf 1) :=
   canonicalRowBall (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     δ hδ hδhalf G retainedScale Z g hscale hZ ∅ cutoff hcutoff hnorm
-    (by intro h hh p hp; exact False.elim (Finset.not_mem_empty p hp))
+    (by intro h hh p hp; exact False.elim (Finset.notMem_empty p hp))
     (fun i _ => empty_mask_generator_coprime A.Sf (G.generator i))
     support dimension width (fun DE _ => character DE) (fun DE _ => dyad DE)
 

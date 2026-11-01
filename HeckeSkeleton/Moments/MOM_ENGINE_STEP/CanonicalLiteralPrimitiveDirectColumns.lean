@@ -63,12 +63,12 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-local notation "coefficient" => (atoms.values Y₁ Y₂).coefficient centered
+local notation "coefficient" => ((atoms).values Y₁ Y₂).coefficient centered
 
 variable (cap : ℕ) (annulus loss cutoffExponent : ℝ)
 variable (hannulus : 1 ≤ annulus) (hcap : (data ξ).geometry.slotCount ≤ cap)
@@ -86,67 +86,67 @@ include hannulus hcap hannulusZ domain profiles hrows ht hwindow
 
 
 theorem literalPrimitiveFirstSource_active_column_norm
-    (i : raw.Column) (hi : i ∈ raw.exteriorColumns) (hc : coefficient i ≠ 0) :
-    A.exteriorNorm (raw.columnExterior i) ≤
-      Z ^ (internal.n₁ + internal.n₂ + internal.z + loss) := by
+    (i : (raw).Column) (hi : i ∈ (raw).exteriorColumns) (hc : coefficient i ≠ 0) :
+    A.exteriorNorm ((raw).columnExterior i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z + loss) := by
   have hrows' : ∀ u ∈ pairedRows (data ξ) internal Z, u ∈ rowDomain := by
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
   have hd := domain.withSupportLength (Q.fullSupportLength Z)
-  have h := atoms.original_active_column_norm_le_power profiles cap annulus loss
+  have h := (atoms).original_active_column_norm_le_power profiles cap annulus loss
     hannulus hcap hannulusZ (zero_lt_one.trans hZ) hrows' ht hwindow centered
     hd.comparison_scale_left_nonneg hd.comparison_product_eq_power i hi hc
   simpa only [hd.total_length] using h
 
 theorem literalPrimitiveDirectLeft_active_norm
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pieces DE D).rightData.columns
-      (fun j => ((source.pieces DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pieces DE D).rightData.columns
+      (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
-    (i : raw.Column)
-    (hi : i ∈ (source.pieces DE D).leftData.columns)
-    (hc : (source.pieces DE D).leftDivisorCoefficient S χ i ≠ 0) :
-    A.exteriorNorm ((source.pieces DE D).leftData.ideal i) ≤
-      Z ^ (internal.n₁ + internal.n₂ + internal.z - idealLogLength Z DE.val.1 + loss) := by
+    (i : (raw).Column)
+    (hi : i ∈ ((source).pieces DE D).leftData.columns)
+    (hc : ((source).pieces DE D).leftDivisorCoefficient S χ i ≠ 0) :
+    A.exteriorNorm (((source).pieces DE D).leftData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.1 + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
     (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)
-  have h := (source.pieces DE D).canonicalLeft_active_norm_window
+  have h := ((source).pieces DE D).canonicalLeft_active_norm_window
     (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) μv ν
-    (source.block DE) C source.columns source.columns (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (source).columns (source).columns (CanonicalRowBall.archTest K A.Sf 1)
     coefficient coefficient (rowBallFiniteFamily K A.Sf 1)
     (rowBallFiniteFamily_locallyConstant K A.Sf 1)
     (rowBallFiniteFamily_compactSupport K A.Sf 1)
-    source.radius D.val δ₁ hδ₁ hδ₁half S χ Z
-    (internal.n₁ + internal.n₂ + internal.z + loss) hZ hfull i hi hc
+    (source).radius D.val δ₁ hδ₁ hδ₁half S χ Z
+    ((internal).n₁ + (internal).n₂ + (internal).z + loss) hZ hfull i hi hc
   convert h using 1 <;> congr 1 <;> ring
 
 theorem literalPrimitiveDirectRight_active_norm
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pieces DE D).rightData.columns
-      (fun j => ((source.pieces DE D).rightData.ideal j).val))
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pieces DE D).rightData.columns
+      (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle)
-    (i : raw.Column)
-    (hi : i ∈ (source.pieces DE D).rightData.columns)
-    (hc : (source.pieces DE D).rightDivisorCoefficient S χ i ≠ 0) :
-    A.exteriorNorm ((source.pieces DE D).rightData.ideal i) ≤
-      Z ^ (internal.n₁ + internal.n₂ + internal.z - idealLogLength Z DE.val.2 + loss) := by
+    (i : (raw).Column)
+    (hi : i ∈ ((source).pieces DE D).rightData.columns)
+    (hc : ((source).pieces DE D).rightDivisorCoefficient S χ i ≠ 0) :
+    A.exteriorNorm (((source).pieces DE D).rightData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.2 + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
     (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)
-  have h := (source.pieces DE D).canonicalRight_active_norm_window
+  have h := ((source).pieces DE D).canonicalRight_active_norm_window
     (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) μv ν
-    (source.block DE) C source.columns source.columns (CanonicalRowBall.archTest K A.Sf 1)
+    ((source).block DE) C (source).columns (source).columns (CanonicalRowBall.archTest K A.Sf 1)
     coefficient coefficient (rowBallFiniteFamily K A.Sf 1)
     (rowBallFiniteFamily_locallyConstant K A.Sf 1)
     (rowBallFiniteFamily_compactSupport K A.Sf 1)
-    source.radius D.val δ₁ hδ₁ hδ₁half S χ Z
-    (internal.n₁ + internal.n₂ + internal.z + loss) hZ hfull i hi hc
+    (source).radius D.val δ₁ hδ₁ hδ₁half S χ Z
+    ((internal).n₁ + (internal).n₂ + (internal).z + loss) hZ hfull i hi hc
   convert h using 1 <;> congr 1 <;> ring
 
 end CompleteMovingRowRecipe

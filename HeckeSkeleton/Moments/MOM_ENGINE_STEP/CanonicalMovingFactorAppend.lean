@@ -175,7 +175,7 @@ theorem appendFactors_normalizedFullMask
   change ((_ && decide (IsCoprime I (D.appendFactors E).support.val)) &&
     decide (IsCoprime I ((remainingMaskIdeal A remaining).val * F.val))) = _
   rw [D.appendFactors_support_coprime_iff E I, IsCoprime.mul_right_iff]
-  simp only [decide_and]
+  simp only [Bool.decide_and]
   exact (appended_mask_reorder _ _ _ _ _).trans
     (congrArg (fun gate : Bool =>
       (gate && decide (IsCoprime I E.support.val)) && decide (IsCoprime I F.val))

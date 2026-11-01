@@ -89,7 +89,7 @@ theorem original_predicate_subpower
   · obtain ⟨j₀, hj₀⟩ := hex
     let DE := j₀.1.1
     let leaves := Finset.univ.filter pred
-    let hs : ∀ q, (CV.branch q).slotCount ≤ cap := fun q =>
+    let hs : ∀ q, ((CV).branch q).slotCount ≤ cap := fun q =>
       (d.sourceCartesianCover_slotCount_le T support D₀ hcolumns hideal c q).trans hcap
     let hl := fun v : s.CoveredClassKey CV CV => v.leftSlots_le hs
     let hr := fun v : s.CoveredClassKey CV CV => v.rightSupportSlots_le hs

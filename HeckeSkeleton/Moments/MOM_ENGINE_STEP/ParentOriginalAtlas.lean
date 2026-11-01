@@ -68,11 +68,36 @@ theorem exteriorColumns_eq_cartesian :
     raw.exteriorColumns =
       childCartesianColumns raw.exteriorPlain₁ raw.exteriorPlain₂ raw.exteriorSlots := by
   ext v
-  simp only [exteriorColumns, exteriorPlain₁, exteriorPlain₂, exteriorSlots,
-    columns, childCartesianColumns, Finset.mem_filter, Finset.mem_product,
-    Fintype.mem_piFinset, raw.columnIdeal_ne_zero v, true_and,
-    raw.columnIdeal_coprime_iff v, forall_and]
-  tauto
+  constructor
+  · intro hv
+    obtain ⟨hv, _, hcoprime⟩ := Finset.mem_filter.mp hv
+    change v ∈ (raw.leftColumns.product raw.rightColumns).product
+      (Fintype.piFinset raw.slotColumns) at hv
+    have hproduct := Finset.mem_product.mp hv
+    have hplain := Finset.mem_product.mp hproduct.1
+    have hslots := Fintype.mem_piFinset.mp hproduct.2
+    have hcoprime' := (raw.columnIdeal_coprime_iff v).mp hcoprime
+    apply Finset.mem_product.mpr
+    exact ⟨Finset.mem_product.mpr
+      ⟨Finset.mem_filter.mpr ⟨hplain.1, hcoprime'.1.1⟩,
+        Finset.mem_filter.mpr ⟨hplain.2, hcoprime'.1.2⟩⟩,
+      Fintype.mem_piFinset.mpr
+        (fun i => Finset.mem_filter.mpr ⟨hslots i, hcoprime'.2 i⟩)⟩
+  · intro hv
+    change v ∈ (raw.exteriorPlain₁.product raw.exteriorPlain₂).product
+      (Fintype.piFinset raw.exteriorSlots) at hv
+    have hproduct := Finset.mem_product.mp hv
+    have hplain := Finset.mem_product.mp hproduct.1
+    have hleft := Finset.mem_filter.mp hplain.1
+    have hright := Finset.mem_filter.mp hplain.2
+    have hslots (i : Fin d.geometry.slotCount) :=
+      Finset.mem_filter.mp (Fintype.mem_piFinset.mp hproduct.2 i)
+    apply Finset.mem_filter.mpr
+    refine ⟨?_, raw.columnIdeal_ne_zero v, (raw.columnIdeal_coprime_iff v).mpr ?_⟩
+    · exact Finset.mem_product.mpr
+        ⟨Finset.mem_product.mpr ⟨hleft.1, hright.1⟩,
+          Fintype.mem_piFinset.mpr (fun i => (hslots i).1)⟩
+    · exact ⟨⟨hleft.2, hright.2⟩, fun i => (hslots i).2⟩
 
 /-- The atlas uses ordinary ideals only for its two plain coordinates.
 Their source identities are retained by the injective subtype coercion. -/

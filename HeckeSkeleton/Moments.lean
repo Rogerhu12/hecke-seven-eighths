@@ -4,6 +4,7 @@ import HeckeSkeleton.HighArithmeticInputs
 import HeckeAxiom.QuadraticSieve
 import CubicSieve.Complete
 import HeckeSkeleton.ExpansionModels.SourceData
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCompleteLocalInputs
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file intentionally contains named admissions. None is native verified.
@@ -319,7 +320,9 @@ theorem paired_zero_slot_models
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i.noSlots)
       (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ _ => True) := by
-  sorry
+  exact Moments.EngineInduction.Source.paired_zero_slot_recipe_mellin
+    (expansionRecipeRaw K c)
+    (Classical.choice (Moments.EngineInduction.Source.actualRecipeScalarInputs c).1)
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-BELOW-ONE | Thm4.2,§4.8,pp17–18,30–33.
 -- COARSE full recursive proof: whole centered coefficient, complete
@@ -336,7 +339,9 @@ theorem paired_positive_below_one
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
       (fun _ _ i => momentRowExponent (momentBase i))
       (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
-  sorry
+  exact Moments.EngineInduction.Source.paired_positive_recipe_mellin_below_one
+    (expansionRecipeRaw K c) hB hprime
+    (fun _ _ => (Moments.EngineInduction.Source.actualRecipeScalarInputs c).2)
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-ENDPOINT | Thm4.2,§4.8,pp17–18,30–33.
 -- Exact kappa1 capacity; no hidden finite-order seven-eighths theorem.
@@ -351,7 +356,9 @@ theorem paired_positive_endpoint
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
       (fun _ _ i => momentRowExponent (momentBase i))
       (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
-  sorry
+  exact Moments.EngineInduction.Source.paired_positive_recipe_mellin_endpoint
+    (expansionRecipeRaw K c) hB hprime
+    (fun _ _ => (Moments.EngineInduction.Source.actualRecipeScalarInputs c).2)
 
 variable {K c}
 abbrev physicalInverseEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=

@@ -64,7 +64,7 @@ variable (i : R.liveLeaves L exceptional normalization)
 local notation "leaf" => R.parentLeaf L exceptional normalization i.val
 local notation "labels" => R.arithmeticLabels L hcap exceptional normalization
 local notation "j" => R.originalIndex L hcap exceptional normalization i
-variable (extract : leaf.ConstantAtomExtraction)
+variable (extract : (leaf).ConstantAtomExtraction)
 variable (leftScalar rightScalar : ℂ) (hleftScalar : leftScalar ≠ 0)
 variable (hrightScalar : rightScalar ≠ 0)
 local notation "outerLeaf" => extract.stripOuter leftScalar rightScalar hleftScalar hrightScalar
@@ -76,30 +76,30 @@ variable (characters : PairedFiniteCharacters theta
 on the same stored parent. The two original Fourier kernels remain
 explicit and the original arithmetic index is unchanged. -/
 theorem exceptionalCost_of_original_source
-    (hpredicate : leaf.exceptional = characters.exceptional)
+    (hpredicate : (leaf).exceptional = characters.exceptional)
     (parentWidth firstCost secondCost remaining lower tilt : ℝ) (order : ℕ)
     (hfirstCost : 0 ≤ firstCost) (hsecondCost : 0 ≤ secondCost)
     (hfirst : (s.pieces i.val.1 i.val.2.1).weightBound *
         (‖leftScalar‖ * ‖rightScalar‖) ≤
       firstCost * Z ^ (parentWidth - total i.val.1 i.val.2.1 + tilt))
     (hsecond : ∀ thetaPair : theta × theta, ∀ z : ℝ × ℝ,
-      (outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand z /
+      ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z /
           R.firstAllowanceAt L total i.val ≤
         (secondCost *
           (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ order) *
             Z ^ remaining /
           (Ideal.absNorm (commonRadical (R.commonLabel L i.val).1
             (R.commonLabel L i.val).2) : ℝ) * Z ^ (-lower)) :
-    leaf.exceptionalCost / Z ^ parentWidth ≤
+    (leaf).exceptionalCost / Z ^ parentWidth ≤
       R.originalScalarAt L i.val *
         (((theta.card : ℝ) ^ 2 * firstCost * secondCost * (1 + 2 * Real.pi) ^ order *
           CanonicalExceptionalPaidIntegral.fourierFactor order order
-            leaf.firstKernel leaf.secondKernel) * Z ^ (remaining + tilt) *
-              labels.carrier.exceptionalDyadWeight Z lower j) := by
+            (leaf).firstKernel (leaf).secondKernel) * Z ^ (remaining + tilt) *
+              (labels).carrier.exceptionalDyadWeight Z lower j) := by
   let coefficient := R.originalScalarAt L i.val *
     (firstCost * secondCost * Z ^ (remaining + tilt) *
-      labels.carrier.exceptionalDyadWeight Z lower j)
-  have hindex := labels.carrier.exceptionalDyadWeight_nonneg
+      (labels).carrier.exceptionalDyadWeight Z lower j)
+  have hindex := (labels).carrier.exceptionalDyadWeight_nonneg
     Z lower (zero_lt_one.trans hZ).le j
   have hcoefficient : 0 ≤ coefficient :=
     mul_nonneg (R.originalScalarAt_nonneg L i.val)
@@ -108,8 +108,8 @@ theorem exceptionalCost_of_original_source
           (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hindex)
   have hheight : 0 ≤ (1 + 2 * Real.pi) ^ order := by positivity
   have hpoint : ∀ thetaPair : theta × theta, ∀ z : ℝ × ℝ,
-      (((‖leftScalar‖ * ‖rightScalar‖) * leaf.weight) / Z ^ parentWidth) *
-          (outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand z ≤
+      (((‖leftScalar‖ * ‖rightScalar‖) * (leaf).weight) / Z ^ parentWidth) *
+          ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z ≤
         (coefficient * (1 + 2 * Real.pi) ^ order) *
           ((1 + ‖z.1‖) ^ order * (1 + ‖z.2‖) ^ order) := by
     intro thetaPair z
@@ -152,8 +152,8 @@ local notation "normalization" => s.canonicalNormalization hZ total
 variable (i : R.liveLeaves L exceptional normalization)
 local notation "leaf" => R.parentLeaf L exceptional normalization i.val
 local notation "labels" => R.arithmeticLabels L hcap exceptional normalization
-local notation "j" => labels.index i
-variable (extract : leaf.ConstantAtomExtraction)
+local notation "j" => (labels).index i
+variable (extract : (leaf).ConstantAtomExtraction)
 variable (leftScalar rightScalar : ℂ) (hleftScalar : leftScalar ≠ 0)
 variable (hrightScalar : rightScalar ≠ 0)
 local notation "outerLeaf" => extract.stripOuter leftScalar rightScalar hleftScalar hrightScalar
@@ -165,30 +165,30 @@ variable (characters : PairedFiniteCharacters theta
 on the same stored parent. The two original Fourier kernels remain
 explicit and the original arithmetic index is unchanged. -/
 theorem exceptionalCost_of_original_source
-    (hpredicate : leaf.exceptional = characters.exceptional)
+    (hpredicate : (leaf).exceptional = characters.exceptional)
     (parentWidth firstCost secondCost remaining lower tilt : ℝ) (order : ℕ)
     (hfirstCost : 0 ≤ firstCost) (hsecondCost : 0 ≤ secondCost)
     (hfirst : (s.pools i.val.1 i.val.2.1).weightBound *
         (‖leftScalar‖ * ‖rightScalar‖) ≤
       firstCost * Z ^ (parentWidth - total i.val.1 i.val.2.1 + tilt))
     (hsecond : ∀ thetaPair : theta × theta, ∀ z : ℝ × ℝ,
-      (outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand z /
+      ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z /
           R.firstAllowanceAt L total i.val ≤
         (secondCost *
           (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ order) *
             Z ^ remaining /
           (Ideal.absNorm (commonRadical (R.commonLabel L i.val).1
             (R.commonLabel L i.val).2) : ℝ) * Z ^ (-lower)) :
-    leaf.exceptionalCost / Z ^ parentWidth ≤
+    (leaf).exceptionalCost / Z ^ parentWidth ≤
       R.originalScalarAt L i.val *
         (((theta.card : ℝ) ^ 2 * firstCost * secondCost * (1 + 2 * Real.pi) ^ order *
           CanonicalExceptionalPaidIntegral.fourierFactor order order
-            leaf.firstKernel leaf.secondKernel) * Z ^ (remaining + tilt) *
-              labels.carrier.exceptionalDyadWeight Z lower j) := by
+            (leaf).firstKernel (leaf).secondKernel) * Z ^ (remaining + tilt) *
+              (labels).carrier.exceptionalDyadWeight Z lower j) := by
   let coefficient := R.originalScalarAt L i.val *
     (firstCost * secondCost * Z ^ (remaining + tilt) *
-      labels.carrier.exceptionalDyadWeight Z lower j)
-  have hindex := labels.carrier.exceptionalDyadWeight_nonneg
+      (labels).carrier.exceptionalDyadWeight Z lower j)
+  have hindex := (labels).carrier.exceptionalDyadWeight_nonneg
     Z lower (zero_lt_one.trans hZ).le j
   have hcoefficient : 0 ≤ coefficient :=
     mul_nonneg (R.originalScalarAt_nonneg L i.val)
@@ -197,8 +197,8 @@ theorem exceptionalCost_of_original_source
           (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hindex)
   have hheight : 0 ≤ (1 + 2 * Real.pi) ^ order := by positivity
   have hpoint : ∀ thetaPair : theta × theta, ∀ z : ℝ × ℝ,
-      (((‖leftScalar‖ * ‖rightScalar‖) * leaf.weight) / Z ^ parentWidth) *
-          (outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand z ≤
+      (((‖leftScalar‖ * ‖rightScalar‖) * (leaf).weight) / Z ^ parentWidth) *
+          ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z ≤
         (coefficient * (1 + 2 * Real.pi) ^ order) *
           ((1 + ‖z.1‖) ^ order * (1 + ‖z.2‖) ^ order) := by
     intro thetaPair z

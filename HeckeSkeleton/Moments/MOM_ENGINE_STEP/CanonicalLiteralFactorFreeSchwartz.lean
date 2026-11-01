@@ -59,12 +59,12 @@ local notation "redistributed" => W.redistributedSecondInput (σ := σ) b P R
 factor.  Only the combined original scalar is stripped, once. -/
 def factorFreeSecondInput (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) :
-    (redistributed.scale combinedScalar⁻¹).SchwartzModel window := by
-  apply (E.extract b).powerProfiles (redistributed.scale combinedScalar⁻¹)
+    ((redistributed).scale combinedScalar⁻¹).SchwartzModel window := by
+  apply (E.extract b).powerProfiles ((redistributed).scale combinedScalar⁻¹)
     hcompact hpositive (CanonicalLiteralProfileScalars.exponent δ₁ δ₂)
     (fun _ => combinedScalar⁻¹ * combinedScalar) (fun _ => 1) (fun _ => 1)
   · intro r u time y hy
-    change (((transformed.left r).profile u time y *
+    change ((((transformed).left r).profile u time y *
         (d.twoStageProfileLeftFactor b δ₁ δ₂ r : ℂ)⁻¹) *
         (d.twoStageProfileFactor b δ₁ δ₂ : ℂ)) * combinedScalar⁻¹ = _
     rw [W.secondInput_left_shape (σ := σ) b P R power firstFixed poolFixed unitFixed
@@ -81,7 +81,7 @@ def factorFreeSecondInput (hcompact : IsCompact window)
         ring
       _ = _ := by rw [mul_inv_cancel₀ hfactor, one_mul] <;> rfl
   · intro r u time y hy
-    change (transformed.right r).profile u time y *
+    change ((transformed).right r).profile u time y *
       (d.twoStageProfileRightFactor b δ₁ δ₂ r : ℂ)⁻¹ = _
     rw [W.secondInput_right_shape (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ r u time hy]
@@ -96,7 +96,7 @@ def factorFreeSecondInput (hcompact : IsCompact window)
         ring
       _ = _ := by rw [mul_inv_cancel₀ hfactor] <;> rfl
   · intro j time y hy
-    change (transformed.slot j).profile time y *
+    change ((transformed).slot j).profile time y *
       (d.twoStageProfileSlotFactor b δ₁ δ₂ j : ℂ)⁻¹ = _
     rw [W.secondInput_slot_shape (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ j time hy]

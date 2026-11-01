@@ -64,7 +64,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -88,8 +88,8 @@ variable (href : reference ∈ pairedRows (data ξ) a Z)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable (hloss : 0 ≤ loss) (hcutoffExponent : 0 ≤ cutoffExponent)
 
 
@@ -115,21 +115,21 @@ local notation "source" => Q.literalPrimitivePooledSource
   (pool := pool) (hdensity := hdensity)
 
 /-- Pool installation leaves the original first normalization ideals intact. -/
-def literalPrimitivePooledNormalization : source.Normalization :=
-  source.canonicalNormalization hZ
+def literalPrimitivePooledNormalization : (source).Normalization :=
+  (source).canonicalNormalization hZ
     (Q.literalPrimitiveFirstTotal μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
       centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
 
 /-- The pool retains the actual original signed rows at each internal divisor. -/
 theorem literalPrimitiveLeftPooledRows
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val)) :
-    ∀ h ∈ ((source.pools DE D).divisorPools.leftData S).rows,
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val)) :
+    ∀ h ∈ (((source).pools DE D).divisorPools.leftData S).rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
-        ((source.block DE).literalLeftCoordinates D.val).canonicalRetainedScale
+        (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
           internal Z (2 * loss + cutoffExponent) := by
-  rw [(source.pools DE D).divisorPools.left_rows S]
+  rw [((source).pools DE D).divisorPools.left_rows S]
   exact (Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
     cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
@@ -137,14 +137,14 @@ theorem literalPrimitiveLeftPooledRows
 
 /-- The pool retains the actual original signed rows at each internal divisor. -/
 theorem literalPrimitiveRightPooledRows
-    (DE : source.CommonLabel) (D : ((source.block DE).mask source.mask).powerset)
-    (S : divisorPool (source.pools DE D).rightData.columns
-      (fun j => ((source.pools DE D).rightData.ideal j).val)) :
-    ∀ h ∈ ((source.pools DE D).divisorPools.rightData S).rows,
+    (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset)
+    (S : divisorPool ((source).pools DE D).rightData.columns
+      (fun j => (((source).pools DE D).rightData.ideal j).val)) :
+    ∀ h ∈ (((source).pools DE D).divisorPools.rightData S).rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
-        ((source.block DE).literalRightCoordinates D.val).canonicalRetainedScale
+        (((source).block DE).literalRightCoordinates D.val).canonicalRetainedScale
           internal Z (2 * loss + cutoffExponent) := by
-  rw [(source.pools DE D).divisorPools.right_rows S]
+  rw [((source).pools DE D).divisorPools.right_rows S]
   exact (Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
     a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
     cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
@@ -184,20 +184,20 @@ local notation "rightRows" => Q.literalPrimitiveRightPooledRows
   (pool := pool) (hdensity := hdensity)
 
 /-- Both sides contain the actual main, one, six and seven sources. -/
-def literalPrimitivePooledStages : source.SecondStages (E := ℝ) (hDiff := hDiff) :=
+def literalPrimitivePooledStages : (source).SecondStages (E := ℝ) (hDiff := hDiff) :=
   fun DE D => {
-    left := fun S χ => ((source.pools DE D).divisorPools.leftData S).literalCanonicalStages
+    left := fun S χ => (((source).pools DE D).divisorPools.leftData S).literalCanonicalStages
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).leftDivisorCoefficient S χ) P internal
-      ((source.block DE).literalLeftCoordinates D.val)
+      (((source).pools DE D).leftDivisorCoefficient S χ) P internal
+      (((source).block DE).literalLeftCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (leftRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂
-    right := fun S χ => ((source.pools DE D).divisorPools.rightData S).literalCanonicalStages
+    right := fun S χ => (((source).pools DE D).divisorPools.rightData S).literalCanonicalStages
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).rightDivisorCoefficient S χ) P internal
-      ((source.block DE).literalRightCoordinates D.val)
+      (((source).pools DE D).rightDivisorCoefficient S χ) P internal
+      (((source).block DE).literalRightCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (rightRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂
   }
@@ -220,127 +220,127 @@ local notation "stages" => Q.literalPrimitivePooledStages
 
 /-- The coarse original columns control the same finite physical row codes. -/
 def literalPrimitivePooledStagesOriginalFibreRows :
-    stages.OriginalFibreRows
+    (stages).OriginalFibreRows
       (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) 0 0 columnBound Z where
   source DE D := {
-    left := fun S χ => ((source.pools DE D).divisorPools.leftData S).literalCanonicalStagesOriginalFibreRows
+    left := fun S χ => (((source).pools DE D).divisorPools.leftData S).literalCanonicalStagesOriginalFibreRows
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).leftDivisorCoefficient S χ) P internal
-      ((source.block DE).literalLeftCoordinates D.val)
+      (((source).pools DE D).leftDivisorCoefficient S χ) P internal
+      (((source).block DE).literalLeftCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (leftRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ columnBound hcolumnBound (by
         intro i hi
-        rw [(source.pools DE D).divisorPools.left_columns S] at hi
-        rw [(source.pools DE D).divisorPools.left_ideal S]
-        exact (source.pools DE D).left_ideal_norm_le (Z ^ columnBound) hN i hi)
-    right := fun S χ => ((source.pools DE D).divisorPools.rightData S).literalCanonicalStagesOriginalFibreRows
+        rw [((source).pools DE D).divisorPools.left_columns S] at hi
+        rw [((source).pools DE D).divisorPools.left_ideal S]
+        exact ((source).pools DE D).left_ideal_norm_le (Z ^ columnBound) hN i hi)
+    right := fun S χ => (((source).pools DE D).divisorPools.rightData S).literalCanonicalStagesOriginalFibreRows
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).rightDivisorCoefficient S χ) P internal
-      ((source.block DE).literalRightCoordinates D.val)
+      (((source).pools DE D).rightDivisorCoefficient S χ) P internal
+      (((source).block DE).literalRightCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (rightRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ columnBound hcolumnBound (by
         intro i hi
-        rw [(source.pools DE D).divisorPools.right_columns S] at hi
-        rw [(source.pools DE D).divisorPools.right_ideal S]
-        exact (source.pools DE D).right_ideal_norm_le (Z ^ columnBound) hN i hi)
+        rw [((source).pools DE D).divisorPools.right_columns S] at hi
+        rw [((source).pools DE D).divisorPools.right_ideal S]
+        exact ((source).pools DE D).right_ideal_norm_le (Z ^ columnBound) hN i hi)
   }
 
 /-- These predicates read the original row character, including the
 actual amplifier frequency before passive mask reduction. -/
 def literalPrimitivePooledPredicates :
-    stages.supported.gated.CoverHybridPredicates raw.originalAtlas :=
+    (stages).supported.gated.CoverHybridPredicates (raw).originalAtlas :=
   fun DE D => {
     left := fun S χ => {
       main := (((stages DE D).left S χ).main).supported.gated.literalHybridPredicates
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main)
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).main) P R
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main)
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) P R
         (CanonicalLiteralActualCharacters.unamplifiedPhases
-          ((source.block DE).literalLeftFixed D.val)
-          (CanonicalLiteralFirstPhase.leftElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalLeftFixed D.val)
+          (CanonicalLiteralFirstPhase.leftElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalLeftFixed_generates C D.val))
+          (((source).block DE).literalLeftFixed_generates C D.val))
         Q.moving Q.correction (data ξ).theta
       one p := (((stages DE D).left S χ).one p).supported.gated.literalHybridPredicates
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual p 1)
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual p 1) P R
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual p 1)
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual p 1) P R
         (CanonicalLiteralActualCharacters.amplifiedPhases C
-          ((source.block DE).literalLeftFixed D.val)
-          (CanonicalLiteralFirstPhase.leftElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalLeftFixed D.val)
+          (CanonicalLiteralFirstPhase.leftElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalLeftFixed_generates C D.val) p.val 1)
+          (((source).block DE).literalLeftFixed_generates C D.val) p.val 1)
         Q.moving Q.correction (data ξ).theta
       six p := (((stages DE D).left S χ).six p).supported.gated.literalHybridPredicates
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual p 6)
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual p 6) P R
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual p 6)
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual p 6) P R
         (CanonicalLiteralActualCharacters.amplifiedPhases C
-          ((source.block DE).literalLeftFixed D.val)
-          (CanonicalLiteralFirstPhase.leftElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalLeftFixed D.val)
+          (CanonicalLiteralFirstPhase.leftElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalLeftFixed_generates C D.val) p.val 6)
+          (((source).block DE).literalLeftFixed_generates C D.val) p.val 6)
         Q.moving Q.correction (data ξ).theta
       seven p := (((stages DE D).left S χ).seven p).supported.gated.literalHybridPredicates
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual p 7)
-        (((source.pools DE D).leftSourceCovers raw.originalAtlas S χ).residual p 7) P R
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual p 7)
+        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual p 7) P R
         (CanonicalLiteralActualCharacters.amplifiedPhases C
-          ((source.block DE).literalLeftFixed D.val)
-          (CanonicalLiteralFirstPhase.leftElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalLeftFixed D.val)
+          (CanonicalLiteralFirstPhase.leftElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalLeftFixed_generates C D.val) p.val 7)
+          (((source).block DE).literalLeftFixed_generates C D.val) p.val 7)
         Q.moving Q.correction (data ξ).theta
     }
     right := fun S χ => {
       main := (((stages DE D).right S χ).main).supported.gated.literalHybridPredicates
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main)
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).main) P R
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main)
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) P R
         (CanonicalLiteralActualCharacters.unamplifiedPhases
-          ((source.block DE).literalRightFixed D.val)
-          (CanonicalLiteralFirstPhase.rightElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalRightFixed D.val)
+          (CanonicalLiteralFirstPhase.rightElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalRightFixed_generates C D.val))
+          (((source).block DE).literalRightFixed_generates C D.val))
         Q.moving Q.correction (data ξ).theta
       one p := (((stages DE D).right S χ).one p).supported.gated.literalHybridPredicates
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual p 1)
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual p 1) P R
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual p 1)
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual p 1) P R
         (CanonicalLiteralActualCharacters.amplifiedPhases C
-          ((source.block DE).literalRightFixed D.val)
-          (CanonicalLiteralFirstPhase.rightElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalRightFixed D.val)
+          (CanonicalLiteralFirstPhase.rightElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalRightFixed_generates C D.val) p.val 1)
+          (((source).block DE).literalRightFixed_generates C D.val) p.val 1)
         Q.moving Q.correction (data ξ).theta
       six p := (((stages DE D).right S χ).six p).supported.gated.literalHybridPredicates
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual p 6)
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual p 6) P R
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual p 6)
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual p 6) P R
         (CanonicalLiteralActualCharacters.amplifiedPhases C
-          ((source.block DE).literalRightFixed D.val)
-          (CanonicalLiteralFirstPhase.rightElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalRightFixed D.val)
+          (CanonicalLiteralFirstPhase.rightElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalRightFixed_generates C D.val) p.val 6)
+          (((source).block DE).literalRightFixed_generates C D.val) p.val 6)
         Q.moving Q.correction (data ξ).theta
       seven p := (((stages DE D).right S χ).seven p).supported.gated.literalHybridPredicates
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual p 7)
-        (((source.pools DE D).rightSourceCovers raw.originalAtlas S χ).residual p 7) P R
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual p 7)
+        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual p 7) P R
         (CanonicalLiteralActualCharacters.amplifiedPhases C
-          ((source.block DE).literalRightFixed D.val)
-          (CanonicalLiteralFirstPhase.rightElement C (source.block DE).primes
-            (source.block DE).leftMultiplicity (source.block DE).rightMultiplicity
+          (((source).block DE).literalRightFixed D.val)
+          (CanonicalLiteralFirstPhase.rightElement C ((source).block DE).primes
+            ((source).block DE).leftMultiplicity ((source).block DE).rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val)
-          ((source.block DE).literalRightFixed_generates C D.val) p.val 7)
+          (((source).block DE).literalRightFixed_generates C D.val) p.val 7)
         Q.moving Q.correction (data ξ).theta
     }
   }
 
 /-- Support and coefficient gates preserve the original classifiers. -/
 def literalPrimitivePreparedPooledStagesOriginalFibreRows :
-    stages.supported.gated.OriginalFibreRows
+    (stages).supported.gated.OriginalFibreRows
       (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) 0 0 columnBound Z :=
   (Q.literalPrimitivePooledStagesOriginalFibreRows
   (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)

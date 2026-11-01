@@ -64,9 +64,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -116,7 +116,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   δ₂ hδ₂ hδ₂half ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (p.leftSourceCovers raw.originalAtlas S χ).residual q n
+local notation "cover" => (p.leftSourceCovers (raw).originalAtlas S χ).residual q n
 local notation "firstPoint" => (fun i : (p.divisorPools.leftData S).valuationColumns q.val n =>
   -Real.log (A.exteriorNorm (b.leftResidual i.val)))
 
@@ -144,16 +144,16 @@ local notation "rightAtoms" => literalLeftPoolAtoms hΓ μv ν Q ξ W a Z t Y₁
 include hroot hemb in
 private theorem literalLeftPool_leftAtoms_coefficient
     (hdiv : S.val ∣ v.1.val.1)
-    (i : AllocationColumn K (cover.branch v.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns) :
-    leftAtoms.whole i =
-      ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).coefficient ((cover.branch v.2.2.1).reindex.index i) *
-        ((A.exteriorNorm (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
+    (i : AllocationColumn K ((cover).branch v.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.1).reindex.index i ∈ v.block.leftColumns ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns) :
+    (leftAtoms).whole i =
+      ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).coefficient (((cover).branch v.2.2.1).reindex.index i) *
+        ((A.exteriorNorm (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ)
-          (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.1).reindex.index i)).val
+          (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  let idx := (cover.branch v.2.2.1).reindex.index i
+  let idx := ((cover).branch v.2.2.1).reindex.index i
   have hres := v.block.left_divisor_of_common ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns S.val hdiv _ hc
   have hSi : S.val ∣ ((p.divisorPools.leftData S).ideal idx.val).val := by
     rw [((p.divisorPools.leftData S).residualPresentation q.val n idx).reconstructed]
@@ -165,16 +165,16 @@ private theorem literalLeftPool_leftAtoms_coefficient
 include hroot hemb in
 private theorem literalLeftPool_rightAtoms_coefficient
     (hdiv : S.val ∣ v.1.val.2)
-    (i : AllocationColumn K (cover.branch v.2.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns) :
-    rightAtoms.whole i =
-      ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).coefficient ((cover.branch v.2.2.2.1).reindex.index i) *
-        ((A.exteriorNorm (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
+    (i : AllocationColumn K ((cover).branch v.2.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns) :
+    (rightAtoms).whole i =
+      ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).coefficient (((cover).branch v.2.2.2.1).reindex.index i) *
+        ((A.exteriorNorm (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ)
-          (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.2.1).reindex.index i)).val
+          (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  let idx := (cover.branch v.2.2.2.1).reindex.index i
+  let idx := ((cover).branch v.2.2.2.1).reindex.index i
   have hres := v.block.right_divisor_of_common ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns S.val hdiv _ hc
   have hSi : S.val ∣ ((p.divisorPools.leftData S).ideal idx.val).val := by
     rw [((p.divisorPools.leftData S).residualPresentation q.val n idx).reconstructed]
@@ -184,7 +184,7 @@ private theorem literalLeftPool_rightAtoms_coefficient
     hroot hemb firstFixed hfirst δ₂ q n v.2.2.2.1 i hi hSi
 
 private theorem literalLeftPool_bareLive
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     (v.leaf exceptional F firstPoint j).Live :=
   (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -194,10 +194,10 @@ It proves that removing this valuation leaves the original first
 squarefree divisor in both common ideals. -/
 private theorem literalLeftPool_live_common
     (hS : Squarefree S.val)
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  have hs := stage.supported_gated_fiberLeaf_live cover cover exceptional F firstPoint
+  have hs := (stage).supported_gated_fiberLeaf_live cover cover exceptional F firstPoint
     ⟨v, j⟩ hlive
   exact ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
     (fun i _ hci => (p.divisorPools.leftData S).residualSource_nonzero_dvd q.val n
@@ -209,7 +209,7 @@ private theorem literalLeftPool_live_common
 nonempty condition was not added; it follows from this leaf's weight. -/
 def literalLeftPoolExtraction
     (hS : Squarefree S.val)
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     (v.leaf exceptional F firstPoint j).ConstantAtomExtraction := by
   have hs := literalLeftPool_live_common (v := v) (exceptional := exceptional)
@@ -227,7 +227,7 @@ def literalLeftPoolExtraction
       dimension width q n hnorm character dyad v firstFixed hfirst hs.2) hb
 
 def literalLeftPoolRectangles
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :=
   v.literalRectangles leftAtoms rightAtoms exceptional F firstPoint j 1
     (literalLeftPool_bareLive (v := v) (exceptional := exceptional) (F := F) (j := j) hlive)
@@ -249,7 +249,7 @@ private theorem literalLeftPool_firstPoint :
 with no replacement of the actual prime, exponent, row or column. -/
 def literalLeftPoolOrdinaryBinding
     (hS : Squarefree S.val)
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     (literalLeftPoolExtraction hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       hDiff hroot hemb δ₂ hδ₂ hδ₂half retainedScale g hscale cutoff₂ hcutoff₂
@@ -291,7 +291,7 @@ local notation "stage" => (ActualGaussStage.canonicalUnmaskedRowBallByBlock
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
   δ₂ hδ₂ hδ₂half ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
   cutoff₂ hcutoff₂ hnorm dimension width character dyad)
-local notation "cover" => (p.rightSourceCovers raw.originalAtlas S χ).residual q n
+local notation "cover" => (p.rightSourceCovers (raw).originalAtlas S χ).residual q n
 local notation "firstPoint" => (fun i : (p.divisorPools.rightData S).valuationColumns q.val n =>
   Real.log (A.exteriorNorm (b.rightResidual i.val)))
 
@@ -319,16 +319,16 @@ local notation "rightAtoms" => literalRightPoolAtoms hΓ μv ν Q ξ W a Z t Y�
 include hroot hemb in
 private theorem literalRightPool_leftAtoms_coefficient
     (hdiv : S.val ∣ v.1.val.1)
-    (i : AllocationColumn K (cover.branch v.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns) :
-    leftAtoms.whole i =
-      ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).coefficient ((cover.branch v.2.2.1).reindex.index i) *
-        ((A.exteriorNorm (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
+    (i : AllocationColumn K ((cover).branch v.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.1).reindex.index i ∈ v.block.leftColumns ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns) :
+    (leftAtoms).whole i =
+      ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).coefficient (((cover).branch v.2.2.1).reindex.index i) *
+        ((A.exteriorNorm (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ)
-          (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.1).reindex.index i)).val
+          (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  let idx := (cover.branch v.2.2.1).reindex.index i
+  let idx := ((cover).branch v.2.2.1).reindex.index i
   have hres := v.block.left_divisor_of_common ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns S.val hdiv _ hc
   have hSi : S.val ∣ ((p.divisorPools.rightData S).ideal idx.val).val := by
     rw [((p.divisorPools.rightData S).residualPresentation q.val n idx).reconstructed]
@@ -340,16 +340,16 @@ private theorem literalRightPool_leftAtoms_coefficient
 include hroot hemb in
 private theorem literalRightPool_rightAtoms_coefficient
     (hdiv : S.val ∣ v.1.val.2)
-    (i : AllocationColumn K (cover.branch v.2.2.2.1).slotCount)
-    (hi : i ∈ (cover.branch v.2.2.2.1).reindex.cartesian)
-    (hc : (cover.branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns) :
-    rightAtoms.whole i =
-      ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).coefficient ((cover.branch v.2.2.2.1).reindex.index i) *
-        ((A.exteriorNorm (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
+    (i : AllocationColumn K ((cover).branch v.2.2.2.1).slotCount)
+    (hi : i ∈ ((cover).branch v.2.2.2.1).reindex.cartesian)
+    (hc : ((cover).branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns) :
+    (rightAtoms).whole i =
+      ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).coefficient (((cover).branch v.2.2.2.1).reindex.index i) *
+        ((A.exteriorNorm (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ)
-          (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal ((cover.branch v.2.2.2.1).reindex.index i)).val
+          (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  let idx := (cover.branch v.2.2.2.1).reindex.index i
+  let idx := ((cover).branch v.2.2.2.1).reindex.index i
   have hres := v.block.right_divisor_of_common ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns S.val hdiv _ hc
   have hSi : S.val ∣ ((p.divisorPools.rightData S).ideal idx.val).val := by
     rw [((p.divisorPools.rightData S).residualPresentation q.val n idx).reconstructed]
@@ -359,7 +359,7 @@ private theorem literalRightPool_rightAtoms_coefficient
     hroot hemb firstFixed hfirst δ₂ q n v.2.2.2.1 i hi hSi
 
 private theorem literalRightPool_bareLive
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     (v.leaf exceptional F firstPoint j).Live :=
   (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
@@ -369,10 +369,10 @@ It proves that removing this valuation leaves the original first
 squarefree divisor in both common ideals. -/
 private theorem literalRightPool_live_common
     (hS : Squarefree S.val)
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  have hs := stage.supported_gated_fiberLeaf_live cover cover exceptional F firstPoint
+  have hs := (stage).supported_gated_fiberLeaf_live cover cover exceptional F firstPoint
     ⟨v, j⟩ hlive
   exact ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
     (fun i _ hci => (p.divisorPools.rightData S).residualSource_nonzero_dvd q.val n
@@ -384,7 +384,7 @@ private theorem literalRightPool_live_common
 nonempty condition was not added; it follows from this leaf's weight. -/
 def literalRightPoolExtraction
     (hS : Squarefree S.val)
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     (v.leaf exceptional F firstPoint j).ConstantAtomExtraction := by
   have hs := literalRightPool_live_common (v := v) (exceptional := exceptional)
@@ -402,7 +402,7 @@ def literalRightPoolExtraction
       dimension width q n hnorm character dyad v firstFixed hfirst hs.2) hb
 
 def literalRightPoolRectangles
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :=
   v.literalRectangles leftAtoms rightAtoms exceptional F firstPoint j (-1)
     (literalRightPool_bareLive (v := v) (exceptional := exceptional) (F := F) (j := j) hlive)
@@ -424,7 +424,7 @@ private theorem literalRightPool_firstPoint :
 with no replacement of the actual prime, exponent, row or column. -/
 def literalRightPoolOrdinaryBinding
     (hS : Squarefree S.val)
-    (hlive : (stage.supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
+    (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     (literalRightPoolExtraction hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       hDiff hroot hemb δ₂ hδ₂ hδ₂half retainedScale g hscale cutoff₂ hcutoff₂

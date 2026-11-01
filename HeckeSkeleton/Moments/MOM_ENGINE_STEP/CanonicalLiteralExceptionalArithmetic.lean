@@ -95,12 +95,12 @@ local notation "Orbit" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 
 local notation "rawRows" => chart.actualRows ∅ X hX label
 local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
 local notation "sector" => chart.originalSector P ∅ X hX label
-local notation "characters" => rawRows.literalFiniteCharacters C P R F oldMoving
+local notation "characters" => (rawRows).literalFiniteCharacters C P R F oldMoving
   correction pattern sector parent.theta
 
 variable {kCommonL kCommonR : ℕ}
-variable (leftAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonL)
-variable (rightAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonR)
+variable (leftAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonL)
+variable (rightAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonR)
 variable (thetaPair : parent.theta × parent.theta)
 
 local notation "S" => CanonicalLiteralExceptionalFactory.rows chart P R X hX label
@@ -111,7 +111,7 @@ section Mass
 variable (hleft : leftAtoms.ideal = (primePowerProduct b.primes b.leftMultiplicity).val)
 variable (hright : rightAtoms.ideal = (primePowerProduct b.primes b.rightMultiplicity).val)
 variable (bound : ℝ) (hbound : 0 ≤ bound)
-variable (hprofile : ∀ q ∈ rawRows.rows, ‖chart.weight q‖ ≤ bound)
+variable (hprofile : ∀ q ∈ (rawRows).rows, ‖chart.weight q‖ ≤ bound)
 
 include hclass hleft hright hbound hprofile
 
@@ -119,46 +119,46 @@ include hclass hleft hright hbound hprofile
 literal exceptional factory.  The original chart supplies all fields. -/
 def actualMass : ActualSecondRowMass S C kCommonL kCommonR :=
   (chart.actualRowsSupportedMass hclass ∅ X hX label leftAtoms rightAtoms
-    hleft hright bound hbound hprofile).restrictRows (characters.thetaClass thetaPair)
+    hleft hright bound hbound hprofile).restrictRows ((characters).thetaClass thetaPair)
 
 local notation "mass" => actualMass chart P R hclass X hX label F parent oldMoving correction
   leftAtoms rightAtoms thetaPair hleft hright bound hbound hprofile
 
-@[simp] theorem actualMass_fiber : mass.originalFiber = Γ.index := rfl
+@[simp] theorem actualMass_fiber : (mass).originalFiber = Γ.index := rfl
 
-@[simp] theorem actualMass_radius : mass.radius = radius := rfl
+@[simp] theorem actualMass_radius : (mass).radius = radius := rfl
 
-@[simp] theorem actualMass_mask : mass.mask = ∅ := by
+@[simp] theorem actualMass_mask : (mass).mask = ∅ := by
   change D.val = ∅
   exact Finset.subset_empty.mp (Finset.mem_powerset.mp D.property)
 
-@[simp] theorem actualMass_unit : mass.unitIdeal =
+@[simp] theorem actualMass_unit : (mass).unitIdeal =
     secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity pattern := rfl
 
-@[simp] theorem actualMass_nonunit : mass.nonunitIdeal =
+@[simp] theorem actualMass_nonunit : (mass).nonunitIdeal =
     secondPatternNonunitIdeal b.primes pattern := rfl
 
-@[simp] theorem actualMass_commonEnvelope : mass.commonEnvelope =
+@[simp] theorem actualMass_commonEnvelope : (mass).commonEnvelope =
     bound * Real.sqrt leftAtoms.envelope * Real.sqrt rightAtoms.envelope := rfl
 
 theorem original_fibers (I : Ideal (𝓞 K)) :
-    (S.rows.filter (fun h => (S.originalIdeal h).val = I)).card ≤ Γ.index :=
-  mass.original_fibers I
+    ((S).rows.filter (fun h => ((S).originalIdeal h).val = I)).card ≤ Γ.index :=
+  (mass).original_fibers I
 
 theorem extracted_fibers (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    ((Finset.univ : Finset S.live).filter
-      (fun h => (S.extractedRow C h).momentIdeal = I)).card ≤ Γ.index :=
-  mass.extracted_fibers I
+    ((Finset.univ : Finset (S).live).filter
+      (fun h => ((S).extractedRow C h).momentIdeal = I)).card ≤ Γ.index :=
+  (mass).extracted_fibers I
 
 /-- A later exceptional predicate creates no new original ideal
 fibres.  This is the real-valued field used by the paid row theorem. -/
 theorem exceptional_fibers {theta : Finset (HeckeCharacter K)}
     (Q : PairedFiniteCharacters theta Orbit) (I : Ideal (𝓞 K))
-    (hI : I ∈ (Finset.univ : Finset (S.exceptionalRows Q)).image
-      (fun h => (S.extractedRow C h.val).ideal.val)) :
-    (((Finset.univ : Finset (S.exceptionalRows Q)).filter
-      (fun h => (S.extractedRow C h.val).ideal.val = I)).card : ℝ) ≤ (Γ.index : ℝ) :=
-  mass.exceptional_extracted_fibers Q I hI
+    (hI : I ∈ (Finset.univ : Finset ((S).exceptionalRows Q)).image
+      (fun h => ((S).extractedRow C h.val).ideal.val)) :
+    (((Finset.univ : Finset ((S).exceptionalRows Q)).filter
+      (fun h => ((S).extractedRow C h.val).ideal.val = I)).card : ℝ) ≤ (Γ.index : ℝ) :=
+  (mass).exceptional_extracted_fibers Q I hI
 
 end Mass
 
@@ -185,28 +185,28 @@ include hclass hsector hcorr recipe hplaces in
 /-- The class is the actual finite theta class of the physical chart.
 Both conclusions follow from the original frozen scalar and the
 constructed Kummer laws, with the actual atlas product used internally. -/
-theorem exists_actual_classification (hscalar : original.commonScalar branch ≠ 0) :
+theorem exists_actual_classification (hscalar : (original).commonScalar branch ≠ 0) :
     ∃ base : HeckeGeneral.Analysis.NonzeroIdeal K, SixthPowerFreeIdeal base ∧
-      (∀ h : S.live, ∃ a : Ideal (𝓞 K),
-        (S.extractedRow C h).ideal.val = base.val * a ^ 6) ∧
-      (∀ h : S.live, ∀ i ∈ multiplicityOneNonunitPrimes C S.primes
-        S.leftMultiplicity S.rightMultiplicity (S.frequency h.val),
+      (∀ h : (S).live, ∃ a : Ideal (𝓞 K),
+        ((S).extractedRow C h).ideal.val = base.val * a ^ 6) ∧
+      (∀ h : (S).live, ∀ i ∈ multiplicityOneNonunitPrimes C (S).primes
+        (S).leftMultiplicity (S).rightMultiplicity ((S).frequency h.val),
         6 ∣ (UniqueFactorizationMonoid.normalizedFactors
-          (S.originalIdeal h.val).val).count (S.primes i).val.asIdeal) := by
-  let rowMap : S.live → CanonicalOriginalPhaseCalibration.PatternSector P S C pattern sector :=
+          ((S).originalIdeal h.val).val).count ((S).primes i).val.asIdeal) := by
+  let rowMap : (S).live → CanonicalOriginalPhaseCalibration.PatternSector P S C pattern sector :=
     CanonicalLiteralExceptionalFactory.originalRow chart P R hclass hsector
       X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair
-  let selected := (Finset.univ : Finset S.live).image rowMap
-  have hmem (h : S.live) : rowMap h ∈ selected :=
+  let selected := (Finset.univ : Finset (S).live).image rowMap
+  have hmem (h : (S).live) : rowMap h ∈ selected :=
     Finset.mem_image.mpr ⟨h, Finset.mem_univ h, rfl⟩
-  have htheta (h : S.live) :
-      S.literalCharacter C P R F oldMoving correction pattern sector
+  have htheta (h : (S).live) :
+      (S).literalCharacter C P R F oldMoving correction pattern sector
         (rowMap h).val.val.val = thetaPair.1.val := by
     exact CanonicalLiteralExceptionalFactory.character_on_class chart P R X hX label
       F parent oldMoving correction leftAtoms rightAtoms thetaPair .left h
-  have hcommon : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
-      branch.keep branch.witness.2 = (primePowerProduct S.primes S.leftMultiplicity).val :=
-    branch.frozenSourceIdeal_eq.trans
+  have hcommon : frozenSourceIdeal (branch).plainDivisor₁ (branch).plainDivisor₂
+      (branch).keep (branch).witness.2 = (primePowerProduct (S).primes (S).leftMultiplicity).val :=
+    (branch).frozenSourceIdeal_eq.trans
       (atlas.branch_product support (primePowerProduct b.primes b.leftMultiplicity).val branchLabel)
   obtain ⟨base, hfree, hfactor, hvaluation⟩ :=
     CanonicalLiteralExceptionalClassification.exists_actual_classification P R F

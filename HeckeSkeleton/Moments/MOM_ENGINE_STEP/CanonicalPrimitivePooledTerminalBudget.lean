@@ -101,7 +101,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -261,25 +261,25 @@ local notation "tailWindows" => Q.literalPrimitivePooledTailAmplitudeWindows
 first normalization and one shared internal divisor. -/
 theorem literalPrimitivePooledDualZeroBudget_le
     (εzero Czero : ℝ) (hεzero : 0 ≤ εzero) (hCzero : 0 ≤ Czero) :
-    stages.dualSecondZeroBudget terminal (source.canonicalNormalization hZ firstTotal)
+    (stages).dualSecondZeroBudget terminal ((source).canonicalNormalization hZ firstTotal)
       εzero Czero / Z ^ (a.m + a.q) ≤
     poolTerminalConstant K (step / 3) rowExponent * fiberCap * Czero *
       orbitalFieldFactor K * kernelBound * zeroProfile * zeroSumConstant *
       Z ^ ((CanonicalPrimitivePooledTerminalWindows.zeroLoss
         padding step loss cutoffExponent lengthBound columnBound δ₁ εzero eps) + εsum) := by
-  let O : source.CombinedTerminalOriginalWindows columnBound (a.m + a.q)
+  let O : (source).CombinedTerminalOriginalWindows columnBound (a.m + a.q)
       (orbitalFieldFactor K) kernelBound firstTotal firstShift := {
-    oldMask := originalWindows.oldMask
-    old_squarefree := originalWindows.old_squarefree
-    old_ne_zero := originalWindows.old_ne_zero
-    old_divides := originalWindows.old_divides
-    column_norm := originalWindows.column_norm
-    maskIdeal := originalWindows.maskIdeal
-    mask_ne_zero := originalWindows.mask_ne_zero
-    mask_norm := originalWindows.mask_norm
-    original_mask := originalWindows.original_mask
-    first_profile := originalWindows.first_profile
-    first_kernel := originalWindows.first_kernel }
+    oldMask := (originalWindows).oldMask
+    old_squarefree := (originalWindows).old_squarefree
+    old_ne_zero := (originalWindows).old_ne_zero
+    old_divides := (originalWindows).old_divides
+    column_norm := (originalWindows).column_norm
+    maskIdeal := (originalWindows).maskIdeal
+    mask_ne_zero := (originalWindows).mask_ne_zero
+    mask_norm := (originalWindows).mask_norm
+    original_mask := (originalWindows).original_mask
+    first_profile := (originalWindows).first_profile
+    first_kernel := (originalWindows).first_kernel }
   have hsum := (Classical.choose_spec
     (actual_pool_second_dual_zero_from_combined_windows
       (E := ℝ) (W := ℝ) (C := C)
@@ -299,7 +299,7 @@ theorem literalPrimitivePooledDualZeroBudget_le
     (orbitalFieldFactor K) kernelBound zeroProfile rowExponent fiberCap hCzero
     (orbitalFieldFactor_nonneg K) (apply_nonneg _ _) hprofile hM
     firstTotal firstShift O (zeroWindows εzero hεzero)
-  have hfiber : source.fiber = 1 := rfl
+  have hfiber : (source).fiber = 1 := rfl
   have hmask : O.oldMask = (1 : Ideal (𝓞 K)) := rfl
   simpa only [hfiber, hmask, map_one, Nat.cast_one, one_mul, div_one] using h
 
@@ -307,24 +307,24 @@ theorem literalPrimitivePooledDualZeroBudget_le
 first normalization and one shared internal divisor. -/
 theorem literalPrimitivePooledDualTailBudget_le
     (Cerror : ℝ) (hCerror : 0 ≤ Cerror) (hsaving : 2 * columnBound ≤ Nsave) :
-    stages.dualSecondTailBudget terminal (source.canonicalNormalization hZ firstTotal)
+    (stages).dualSecondTailBudget terminal ((source).canonicalNormalization hZ firstTotal)
       Cerror / Z ^ (a.m + a.q) ≤
     poolTerminalConstant K (step / 3) rowExponent * fiberCap * Cerror *
       orbitalFieldFactor K * kernelBound * tailProfile * tailSumConstant *
       Z ^ (eps + εsum) := by
-  let O : source.CombinedTerminalOriginalWindows columnBound (a.m + a.q)
+  let O : (source).CombinedTerminalOriginalWindows columnBound (a.m + a.q)
       (orbitalFieldFactor K) kernelBound firstTotal firstShift := {
-    oldMask := originalWindows.oldMask
-    old_squarefree := originalWindows.old_squarefree
-    old_ne_zero := originalWindows.old_ne_zero
-    old_divides := originalWindows.old_divides
-    column_norm := originalWindows.column_norm
-    maskIdeal := originalWindows.maskIdeal
-    mask_ne_zero := originalWindows.mask_ne_zero
-    mask_norm := originalWindows.mask_norm
-    original_mask := originalWindows.original_mask
-    first_profile := originalWindows.first_profile
-    first_kernel := originalWindows.first_kernel }
+    oldMask := (originalWindows).oldMask
+    old_squarefree := (originalWindows).old_squarefree
+    old_ne_zero := (originalWindows).old_ne_zero
+    old_divides := (originalWindows).old_divides
+    column_norm := (originalWindows).column_norm
+    maskIdeal := (originalWindows).maskIdeal
+    mask_ne_zero := (originalWindows).mask_ne_zero
+    mask_norm := (originalWindows).mask_norm
+    original_mask := (originalWindows).original_mask
+    first_profile := (originalWindows).first_profile
+    first_kernel := (originalWindows).first_kernel }
   have hsum := (Classical.choose_spec
     (actual_pool_second_dual_tail_from_combined_windows
       (E := ℝ) (W := ℝ) (C := C)
@@ -343,7 +343,7 @@ theorem literalPrimitivePooledDualTailBudget_le
     (orbitalFieldFactor K) kernelBound tailProfile rowExponent fiberCap hCerror
     (orbitalFieldFactor_nonneg K) (apply_nonneg _ _) hprofile hM
     firstTotal firstShift O (tailWindows hsaving)
-  have hfiber : source.fiber = 1 := rfl
+  have hfiber : (source).fiber = 1 := rfl
   have hmask : O.oldMask = (1 : Ideal (𝓞 K)) := rfl
   simpa only [hfiber, hmask, map_one, Nat.cast_one, one_mul, div_one] using h
 

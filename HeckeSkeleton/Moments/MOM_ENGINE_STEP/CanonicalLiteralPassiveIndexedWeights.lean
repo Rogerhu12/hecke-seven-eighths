@@ -169,7 +169,7 @@ local notation "rightTests" => (rightProfiles.profiles.scale rightScalar⁻¹).b
 
 local notation "normalizationRows" =>
   (v.literalSupportedRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar
-local notation "ordinaryRows" => normalizationRows.restrictRows
+local notation "ordinaryRows" => (normalizationRows).restrictRows
   (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
 local notation "allocation" => v.literalAllocation exceptional firstKernel x j hlive
 local notation "pattern" => v.chart.originalNonunitPattern ∅ cutoff hcutoff v.rowLabel
@@ -199,14 +199,14 @@ variable (rightComputed : CanonicalLiteralFullKappaInput.ComputedProfiles
 variable (hprimeOrders : CanonicalFullKappaPrime.orders ⊆ orders)
 variable (δ analyticHeight : ℝ) (hδ : 0 < δ) (hδhi : δ ≤ 1 / 4)
 
-local notation "leftAllocation" => (rectangles.leftFrame C false).allocation
-local notation "rightAllocation" => (rectangles.rightFrame C false).allocation
+local notation "leftAllocation" => ((rectangles).leftFrame C false).allocation
+local notation "rightAllocation" => ((rectangles).rightFrame C false).allocation
 local notation "leftPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => leftRecipe.slots.index (SlotRestriction.index leftAllocation.keep i))
+  (fun i => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep i))
 local notation "rightPaid" => CanonicalLiteralPaidCharacters.paidSourceCharacters P Rchar
   choice.phases parent oldMoving correction remaining
-  (fun i => rightRecipe.slots.index (SlotRestriction.index rightAllocation.keep i))
+  (fun i => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep i))
 
 local notation "production" =>
   v.literalPassiveNormalizedFamily

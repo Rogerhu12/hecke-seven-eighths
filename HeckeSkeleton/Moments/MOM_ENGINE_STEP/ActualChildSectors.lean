@@ -90,12 +90,16 @@ theorem orbit_eq_decomposed :
     (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P).apply_symm_apply r.orbit
   change decomposedIdealSectorOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
     P (r.completeDecomposition P) = r.orbit at he
+  have hp : r.completeDecomposition P =
+      (HeckeAxiom.exteriorEquiv A r.ideal, r.sector P) := by
+    apply Prod.ext
+    · exact r.completeDecomposition_ideal P
+    · rfl
   calc
     r.orbit = decomposedIdealSectorOrbit K
         (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P (r.completeDecomposition P) := he.symm
     _ = _ := congrArg (decomposedIdealSectorOrbit K
-      (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
-        (Prod.ext (r.completeDecomposition_ideal P) rfl)
+      (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P) hp
 
 /-- The exact complete-row dictionary, with the sector computed from
 the actual residual element rather than chosen independently. -/
@@ -111,10 +115,17 @@ theorem orbit_evaluation
           (HeckeAxiom.exteriorEquiv A r.ideal) I := by
   rw [r.orbit_eq_decomposed P, actualOrbitSexticEvaluation_decomposed_character K
     (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R]
-  rw [completeIdealRowCharacter_exterior K
-    (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R (r.sector P)
-    (HeckeAxiom.exteriorEquiv A r.ideal)]
-  rfl
+  have hcharacter :
+      completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        P R (r.sector P) r.momentIdeal =
+      R.character (decomposedFrequencyRow K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (HeckeAxiom.exteriorEquiv A r.ideal) (r.sector P)) :=
+    completeIdealRowCharacter_exterior K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+      P R (r.sector P) (HeckeAxiom.exteriorEquiv A r.ideal)
+  exact congrArg
+    (fun χ : HeckeCharacter K => heckeIdealCoefficient K χ I *
+      decomposedIdealRowMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (HeckeAxiom.exteriorEquiv A r.ideal) I) hcharacter.symm
 
 end ActualChildRow
 
@@ -152,16 +163,29 @@ def subtypeRows (p : H → Prop) : ActualAllocatedSource A V {h : H // p h} k wh
 theorem subtypeRows_energy (p : H → Prop) (ξ : V) :
     (s.subtypeRows p).energy (σ := σ) ξ =
       (s.restrictRows p).energy (σ := σ) ξ := by
-  simp only [energy, subtypeRows, restrictRows, jointColumnEnergy,
-    Finset.sum_subtype_eq_sum_filter]
+  let f : H → ℝ := fun h => ‖s.weight h‖ *
+    ‖jointFourierColumn s.allocation.columns
+      (rawSourceCoefficient (σ := σ) (s.characters h) (s.extractedFactor h) (s.row h).element
+        s.scale₁ s.scale₂ s.base s.length (s.leftWeight h) (s.rightWeight h) (s.slotWeight h))
+      (rawSourceLocation (s.leftLocation h) (s.rightLocation h) (s.slotLocation h)) ξ‖ ^ 2
+  change (∑ h ∈ s.rows.subtype p, f h.val) = ∑ h ∈ s.rows.filter p, f h
+  exact Finset.sum_subtype_eq_sum_filter (s := s.rows) (p := p) f
 
 theorem subtypeRows_centeredEnergy (p : H → Prop) (N₁ N₂ : ℝ)
     (v₁ v₂ : H → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ) (ξ : V) :
     (s.subtypeRows p).centeredEnergy (σ := σ) N₁ N₂
         (fun h => v₁ h.val) (fun h => v₂ h.val) ξ =
       (s.restrictRows p).centeredEnergy (σ := σ) N₁ N₂ v₁ v₂ ξ := by
-  simp only [centeredEnergy, subtypeRows, restrictRows, jointColumnEnergy,
-    Finset.sum_subtype_eq_sum_filter]
+  let f : H → ℝ := fun h => ‖s.weight h‖ *
+    ‖jointFourierColumn s.allocation.columns
+      (fun v =>
+        rawSourceCoefficient (σ := σ) (s.characters h) (s.extractedFactor h) (s.row h).element
+          s.scale₁ s.scale₂ s.base s.length (s.leftWeight h) (s.rightWeight h) (s.slotWeight h) v -
+        rawSourceCoefficient (σ := σ) (s.characters h) (s.extractedFactor h) (s.row h).element
+          N₁ N₂ s.base s.length (v₁ h) (v₂ h) (s.slotWeight h) v)
+      (rawSourceLocation (s.leftLocation h) (s.rightLocation h) (s.slotLocation h)) ξ‖ ^ 2
+  change (∑ h ∈ s.rows.subtype p, f h.val) = ∑ h ∈ s.rows.filter p, f h
+  exact Finset.sum_subtype_eq_sum_filter (s := s.rows) (p := p) f
 
 variable {B : Type*} [Fintype B]
 
@@ -189,7 +213,7 @@ private theorem sqrt_sum_le_sum_sqrt (I : Finset B) (f : B → ℝ) :
   | empty => simp
   | @insert i I hi ih =>
     simp only [Finset.sum_insert hi]
-    exact (sqrt_add_le_sqrt_add_sqrt _ _).trans (add_le_add_left ih _)
+    exact (sqrt_add_le_sqrt_add_sqrt _ _).trans (add_le_add le_rfl ih)
 
 theorem sqrt_energy_le_sum_subtypeRows (label : H → B) (ξ : V) :
     Real.sqrt (s.energy (σ := σ) ξ) ≤
@@ -239,10 +263,12 @@ theorem paired_sqrt_energy_le_sum_sectorPairs
       ∑ ν, ∑ μ,
         Real.sqrt ((s.sectorSource P ν).energy (σ := σ) ξ) *
           Real.sqrt ((right.sectorSource P μ).energy (σ := σ) ξ) := by
-  have h := mul_le_mul (s.sqrt_energy_le_sum_sectors P ξ)
-    (right.sqrt_energy_le_sum_sectors P ξ) (Real.sqrt_nonneg _)
-    (Finset.sum_nonneg fun _ _ => Real.sqrt_nonneg _)
-  simpa only [Finset.sum_mul, Finset.mul_sum] using h
+  have h := mul_le_mul (s.sqrt_energy_le_sum_sectors (σ := σ) P ξ)
+    (right.sqrt_energy_le_sum_sectors (σ := σ) P ξ)
+    (Real.sqrt_nonneg (right.energy (σ := σ) ξ))
+    (Finset.sum_nonneg fun ν _ =>
+      Real.sqrt_nonneg ((s.sectorSource P ν).energy (σ := σ) ξ))
+  simpa only [Fintype.sum_mul_sum] using h
 
 end ActualAllocatedSource
 end HeckeSkeleton.Moments.EngineStep

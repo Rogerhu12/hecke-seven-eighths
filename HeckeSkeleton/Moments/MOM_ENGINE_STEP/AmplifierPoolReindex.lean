@@ -73,7 +73,7 @@ variable (b : SupportCartesianBranch R.plain₁ R.plain₂ R.slots {p.val.asIdea
 /-- Fixing the extracted occurrence tuple fixes the whole valuation.
 Only the actual witness needs to carry the original error label. -/
 theorem supportBranch_subset_valuation
-    (hν : primeExponent p (d.ideal (R.index b.witness)) = n) :
+    (hν : MaskedQuotientCRT.primeExponent p (d.ideal (R.index b.witness)) = n) :
     b.originalColumns.image R.index ⊆ d.valuationColumns p n := by
   intro i hi
   obtain ⟨x, hx, rfl⟩ := Finset.mem_image.mp hi
@@ -95,7 +95,8 @@ theorem supportBranch_nonempty :
 /-- The source has exactly PoolSecondStage's valuation-subtype index,
 actual residual ideal, and fixed whole coefficient index. -/
 def residualSource_cartesianBranch
-    (c : ι → ℂ) (hν : primeExponent p (d.ideal (R.index b.witness)) = n) :
+    (c : ι → ℂ)
+    (hν : MaskedQuotientCRT.primeExponent p (d.ideal (R.index b.witness)) = n) :
     CartesianSourceReindex
       ((b.originalColumns.image R.index).subtype (fun i => i ∈ d.valuationColumns p n))
       (d.residualSource p n c).ideal b.keep.card := by

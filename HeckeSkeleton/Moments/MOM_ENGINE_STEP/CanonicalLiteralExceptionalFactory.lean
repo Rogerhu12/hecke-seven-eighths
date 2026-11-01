@@ -85,19 +85,19 @@ local notation "Joint" => WithLp 2 (ℝ × ℝ)
 local notation "rawRows" => chart.actualRows ∅ X hX label
 local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
 local notation "sector" => chart.originalSector P ∅ X hX label
-local notation "characters" => rawRows.literalFiniteCharacters C P R F oldMoving
+local notation "characters" => (rawRows).literalFiniteCharacters C P R F oldMoving
   correction pattern sector parent.theta
 
 variable {kCommonL kCommonR : ℕ}
-variable (leftAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonL)
-variable (rightAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonR)
+variable (leftAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonL)
+variable (rightAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonR)
 variable (thetaPair : parent.theta × parent.theta)
 
 /-- The actual common-atom row weight is retained before the
 correlation support and the original theta class are restricted. -/
 def rows : ActualSecondCorrelationRows A σ Orbit (Fin b.primeCount) :=
-  ((rawRows.withCommonAtoms leftAtoms rightAtoms).restrictRows
-    (fun h => rawRows.correlation h ≠ 0)).restrictRows (characters.thetaClass thetaPair)
+  (((rawRows).withCommonAtoms leftAtoms rightAtoms).restrictRows
+    (fun h => (rawRows).correlation h ≠ 0)).restrictRows ((characters).thetaClass thetaPair)
 
 local notation "S" => rows chart P R X hX label F parent oldMoving correction
   leftAtoms rightAtoms thetaPair
@@ -110,30 +110,30 @@ def thetaForSide (side : SecondColumnSide) : parent.theta :=
   | .right => thetaPair.2
 
 include hclass hsector in
-def originalRow (h : S.live) :
+def originalRow (h : (S).live) :
     CanonicalOriginalPhaseCalibration.PatternSector P S C pattern sector :=
   chart.originalReweightedPatternSector P hclass hsector ∅ X hX label
-    (fun q => rawRows.weight q * leftAtoms.value q * star (rightAtoms.value q))
-    (fun q => rawRows.correlation q ≠ 0) (characters.thetaClass thetaPair) h
+    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
+    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair) h
 
-@[simp] theorem originalRow_val_val (h : S.live) :
+@[simp] theorem originalRow_val_val (h : (S).live) :
     (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
       leftAtoms rightAtoms thetaPair h).val.val = h := rfl
 
-theorem character_on_class (side : SecondColumnSide) (h : S.live) :
-    S.literalCharacter C P R F oldMoving correction pattern sector h.val =
+theorem character_on_class (side : SecondColumnSide) (h : (S).live) :
+    (S).literalCharacter C P R F oldMoving correction pattern sector h.val =
       (thetaForSide parent thetaPair side).val := by
-  have htheta : characters.thetaClass thetaPair h.val := by
+  have htheta : (characters).thetaClass thetaPair h.val := by
     have hm := (Finset.mem_filter.mp h.property).1
     exact (Finset.mem_filter.mp hm).2
-  have hraw := rawRows.literalCharacter_reweighted C P R F oldMoving correction
+  have hraw := (rawRows).literalCharacter_reweighted C P R F oldMoving correction
     pattern sector
-    (fun q => rawRows.weight q * leftAtoms.value q * star (rightAtoms.value q))
-    (fun q => rawRows.correlation q ≠ 0) (characters.thetaClass thetaPair) h
+    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
+    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair) h
   rw [ActualSecondCorrelationRows.literalCharacter, dif_pos h.property]
-  change CanonicalLiteralAllocatedData.rowCharacter P R F oldMoving correction C S.primes
-    S.leftMultiplicity S.rightMultiplicity pattern sector
-      (S.extractedRow C h).momentIdeal = _
+  change CanonicalLiteralAllocatedData.rowCharacter P R F oldMoving correction C (S).primes
+    (S).leftMultiplicity (S).rightMultiplicity pattern sector
+      ((S).extractedRow C h).momentIdeal = _
   rw [hraw]
   cases side with
   | left => exact htheta.1
@@ -166,9 +166,9 @@ local notation "theta" => thetaForSide parent thetaPair side
 local notation "entry" => CanonicalLiteralExceptionalCharacters.catalogue ψ parent.theta
   (CanonicalLiteralExceptionalCharacters.selectedIndex parent theta)
 local notation "leftProfile" => fun ξ : Joint => profile firstSign
-  (orientedMode side.literalNegative ξ) (frame.allocation.plainDivisor 0) (E.left false)
+  (orientedMode side.literalNegative ξ) ((frame).allocation.plainDivisor 0) (E.left false)
 local notation "rightProfile" => fun ξ : Joint => profile firstSign
-  (orientedMode side.literalNegative ξ) (frame.allocation.plainDivisor (Fin.succ 0)) (E.right false)
+  (orientedMode side.literalNegative ξ) ((frame).allocation.plainDivisor (Fin.succ 0)) (E.right false)
 local notation "pairComparison" => comparison d (side.phase PUnit.{1} χ)
 
 include hclass hsector hcorr recipe hfirst hextra support hone hroot hemb in
@@ -176,9 +176,9 @@ include hclass hsector hcorr recipe hfirst hextra support hone hroot hemb in
 row, class equality, actual mask and original single-ideal profiles. -/
 def centeredFamily (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
-    (ξ : Joint) (h : S.live) :
-    frame.source.ExceptionalAt (σ := σ) pairComparison.scale₁ pairComparison.scale₂
-      (fun _ => pairComparison.leftWeight) (fun _ => pairComparison.rightWeight)
+    (ξ : Joint) (h : (S).live) :
+    (frame).source.ExceptionalAt (σ := σ) (pairComparison).scale₁ (pairComparison).scale₂
+      (fun _ => (pairComparison).leftWeight) (fun _ => (pairComparison).rightWeight)
       entry (leftProfile ξ) (rightProfile ξ) ξ h :=
   CanonicalLiteralExceptionalFrames.centeredAtTheta P R F parent oldMoving correction hcorr
     C S pattern sector remaining extra hone hroot hemb
@@ -189,8 +189,8 @@ def centeredFamily (hc : SamePlainProfiles E)
       leftAtoms rightAtoms thetaPair side h) hc hscale ξ
 
 include hclass hsector hcorr recipe hfirst hextra support hone hroot hemb in
-def ordinaryFamily (ξ : Joint) (h : S.live) :
-    frame.source.OrdinaryExceptionalAt (σ := σ)
+def ordinaryFamily (ξ : Joint) (h : (S).live) :
+    (frame).source.OrdinaryExceptionalAt (σ := σ)
       entry (leftProfile ξ) (rightProfile ξ) ξ h :=
   CanonicalLiteralExceptionalFrames.ordinaryAtTheta P R F parent oldMoving correction hcorr
     C S pattern sector remaining extra hone hroot hemb
@@ -211,19 +211,19 @@ local notation "ordinary" => ordinaryFamily chart P R hclass hsector X hX label 
 
 theorem centered_value (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
-    (ξ : Joint) (h : S.live) :
+    (ξ : Joint) (h : (S).live) :
     (centered hc hscale ξ h).source.value =
-      frame.source.centeredColumn (σ := σ) pairComparison.scale₁ pairComparison.scale₂
-        (fun _ => pairComparison.leftWeight) (fun _ => pairComparison.rightWeight) ξ h :=
+      (frame).source.centeredColumn (σ := σ) (pairComparison).scale₁ (pairComparison).scale₂
+        (fun _ => (pairComparison).leftWeight) (fun _ => (pairComparison).rightWeight) ξ h :=
   ActualAllocatedSource.ExceptionalAt.value_eq_centeredColumn _
 
-theorem ordinary_value (ξ : Joint) (h : S.live) :
-    (ordinary ξ h).source.ordinaryValue = frame.source.ordinaryColumn (σ := σ) ξ h :=
+theorem ordinary_value (ξ : Joint) (h : (S).live) :
+    (ordinary ξ h).source.ordinaryValue = (frame).source.ordinaryColumn (σ := σ) ξ h :=
   ActualAllocatedSource.OrdinaryExceptionalAt.value_eq_ordinaryColumn _
 
 theorem centered_mask_ne_zero (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
-    (ξ : Joint) (h : S.live) : (centered hc hscale ξ h).source.mask ≠ 0 :=
+    (ξ : Joint) (h : (S).live) : (centered hc hscale ξ h).source.mask ≠ 0 :=
   CanonicalLiteralExceptionalWindows.centered_mask_ne_zero P R F parent oldMoving
     correction hcorr C S pattern sector remaining extra hone hroot hemb
     (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
@@ -232,7 +232,7 @@ theorem centered_mask_ne_zero (hc : SamePlainProfiles E)
     theta (character_on_class chart P R X hX label F parent oldMoving correction
       leftAtoms rightAtoms thetaPair side h) hc hscale ξ
 
-theorem ordinary_mask_ne_zero (ξ : Joint) (h : S.live) :
+theorem ordinary_mask_ne_zero (ξ : Joint) (h : (S).live) :
     (ordinary ξ h).source.mask ≠ 0 :=
   CanonicalLiteralExceptionalWindows.ordinary_mask_ne_zero P R F parent oldMoving
     correction hcorr C S pattern sector remaining extra hone hroot hemb
@@ -244,7 +244,7 @@ theorem ordinary_mask_ne_zero (ξ : Joint) (h : S.live) :
 
 theorem centered_time_window (hsign : |firstSign| ≤ 1) (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
-    (ξ : Joint) (h : S.live) :
+    (ξ : Joint) (h : (S).live) :
     |(centered hc hscale ξ h).source.time| ≤ fourierHeight ξ :=
   CanonicalLiteralExceptionalWindows.centered_time_window P R F parent oldMoving
     correction hcorr C S pattern sector remaining extra hone hroot hemb
@@ -254,7 +254,7 @@ theorem centered_time_window (hsign : |firstSign| ≤ 1) (hc : SamePlainProfiles
     theta (character_on_class chart P R X hX label F parent oldMoving correction
       leftAtoms rightAtoms thetaPair side h) hsign hc hscale ξ
 
-theorem ordinary_time_window (hsign : |firstSign| ≤ 1) (ξ : Joint) (h : S.live) :
+theorem ordinary_time_window (hsign : |firstSign| ≤ 1) (ξ : Joint) (h : (S).live) :
     |(ordinary ξ h).source.time| ≤ fourierHeight ξ :=
   CanonicalLiteralExceptionalWindows.ordinary_time_window P R F parent oldMoving
     correction hcorr C S pattern sector remaining extra hone hroot hemb
@@ -290,7 +290,7 @@ include hprime hprofile in
 annulus and the displayed original seminorm, on this same allocation. -/
 def centeredAtomicControl (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
-    (ξ : Joint) (h : S.live) :
+    (ξ : Joint) (h : (S).live) :
     (centered hc hscale ξ h).source.AtomicControl d.base scales := by
   have hmask : d.characters.MaskIndicator := by
     rw [recipe.characters]
@@ -301,7 +301,7 @@ def centeredAtomicControl (hc : SamePlainProfiles E)
       (centered hc hscale ξ h)
 
 include hprime hprofile in
-def ordinaryAtomicControl (ξ : Joint) (h : S.live) :
+def ordinaryAtomicControl (ξ : Joint) (h : (S).live) :
     (ordinary ξ h).source.AtomicControl d.base scales := by
   have hmask : d.characters.MaskIndicator := by
     rw [recipe.characters]
@@ -335,7 +335,7 @@ local notation "actualWidth" =>
 include hradius hcutoff hproduct hold in
 theorem centered_mask_window (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
-    (ξ : Joint) (h : S.live) :
+    (ξ : Joint) (h : (S).live) :
     (Ideal.absNorm (centered hc hscale ξ h).source.mask : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) * d.base ^ (actualWidth) := by
   rw [(CanonicalLiteralExceptionalWindows.centered_fields P R F parent oldMoving
@@ -348,11 +348,11 @@ theorem centered_mask_window (hc : SamePlainProfiles E)
   exact actualRestrictedRows_mask_norm_window chart hclass P R F oldMoving
     (remaining * extra) X hX label retainedScale d.base g a₀ q wo cutoffExponent
     hretained d.base_gt_one hradius hcutoff hproduct hold
-    (fun q => rawRows.weight q * leftAtoms.value q * star (rightAtoms.value q))
-    (fun q => rawRows.correlation q ≠ 0) (characters.thetaClass thetaPair) h
+    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
+    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair) h
 
 include hradius hcutoff hproduct hold in
-theorem ordinary_mask_window (ξ : Joint) (h : S.live) :
+theorem ordinary_mask_window (ξ : Joint) (h : (S).live) :
     (Ideal.absNorm (ordinary ξ h).source.mask : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) * d.base ^ (actualWidth) := by
   rw [(CanonicalLiteralExceptionalWindows.ordinary_fields P R F parent oldMoving
@@ -365,8 +365,8 @@ theorem ordinary_mask_window (ξ : Joint) (h : S.live) :
   exact actualRestrictedRows_mask_norm_window chart hclass P R F oldMoving
     (remaining * extra) X hX label retainedScale d.base g a₀ q wo cutoffExponent
     hretained d.base_gt_one hradius hcutoff hproduct hold
-    (fun q => rawRows.weight q * leftAtoms.value q * star (rightAtoms.value q))
-    (fun q => rawRows.correlation q ≠ 0) (characters.thetaClass thetaPair) h
+    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
+    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair) h
 
 end PhysicalWindow
 
@@ -387,9 +387,9 @@ local notation "b₂" => second.branch support₂ G.centeredSecondIdeal.val labe
 
 variable (domain : PairedEngineDomain true parent a Z Y₁ Y₂ floor padding)
 variable (left_scale_eq : ∀ r, d.scale₁ r =
-  (if r then Y₁ else Z ^ a.n₁) / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁))
+  (if r then Y₁ else Z ^ a.n₁) / idealNorm K ((b₁).plainDivisor₁ * (b₂).plainDivisor₁))
 variable (right_scale_eq : ∀ r, d.scale₂ r =
-  (if r then Y₂ else Z ^ a.n₂) / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂))
+  (if r then Y₂ else Z ^ a.n₂) / idealNorm K ((b₁).plainDivisor₂ * (b₂).plainDivisor₂))
 
 include domain left_scale_eq right_scale_eq in
 /-- The balanced comparison product is a consequence of the original
@@ -411,9 +411,9 @@ include hclass hsector hcorr recipe hfirst hextra support hone hroot hemb
 /-- The original domain chooses the comparison product before any
 row or Fourier variable. No completed centered source or final scale
 window is supplied. -/
-def centeredOriginalFamily (hc : SamePlainProfiles E) (ξ : Joint) (h : S.live) :
-    frame.source.ExceptionalAt (σ := σ) pairComparison.scale₁ pairComparison.scale₂
-      (fun _ => pairComparison.leftWeight) (fun _ => pairComparison.rightWeight)
+def centeredOriginalFamily (hc : SamePlainProfiles E) (ξ : Joint) (h : (S).live) :
+    (frame).source.ExceptionalAt (σ := σ) (pairComparison).scale₁ (pairComparison).scale₂
+      (fun _ => (pairComparison).leftWeight) (fun _ => (pairComparison).rightWeight)
       entry (leftProfile ξ) (rightProfile ξ) ξ h :=
   centered hc originalProduct ξ h
 
@@ -426,9 +426,9 @@ local notation "originalCentered" => centeredOriginalFamily chart P R hclass hse
 /-- Both actual pre-divisors divide the same complete common ideal.
 The four quotient minimum, including the original final allocation,
 is derived internally from those labels and the centered domain. -/
-theorem centered_original_minimum (hc : SamePlainProfiles E) (ξ : Joint) (h : S.live) :
+theorem centered_original_minimum (hc : SamePlainProfiles E) (ξ : Joint) (h : (S).live) :
     Z ^ ((a.m + a.q) / 4 - G.centeredExtractionLength -
-      frame.allocation.rawExtractionLength Z d.length) ≤
+      (frame).allocation.rawExtractionLength Z d.length) ≤
         (originalCentered hc ξ h).source.lower :=
   CanonicalLiteralExceptionalWindows.centered_minimum_window P R F parent oldMoving
     correction hcorr C S pattern sector remaining extra hone hroot hemb
@@ -446,9 +446,9 @@ include hclass hsector hcorr recipe hfirst hextra support hone hroot hemb
 terminal on the original exceptional subtype. Its extra membership
 proof does not change the row, the catalogue entry, or any profile. -/
 def centeredTerminalFamily (hc : SamePlainProfiles E) (ξ : Joint)
-    (h : S.exceptionalRows characters) :
-    frame.source.ExceptionalAt (σ := σ) pairComparison.scale₁ pairComparison.scale₂
-      (fun _ => pairComparison.leftWeight) (fun _ => pairComparison.rightWeight)
+    (h : (S).exceptionalRows characters) :
+    (frame).source.ExceptionalAt (σ := σ) (pairComparison).scale₁ (pairComparison).scale₂
+      (fun _ => (pairComparison).leftWeight) (fun _ => (pairComparison).rightWeight)
       entry (leftProfile ξ) (rightProfile ξ) ξ h.val :=
   originalCentered hc ξ h.val
 
@@ -457,8 +457,8 @@ end OriginalScales
 include hclass hsector hcorr recipe hfirst hextra support hone hroot hemb in
 /-- The ordinary branch uses the same source and class, and does not
 read either unused comparison scale. -/
-def ordinaryTerminalFamily (ξ : Joint) (h : S.exceptionalRows characters) :
-    frame.source.OrdinaryExceptionalAt (σ := σ)
+def ordinaryTerminalFamily (ξ : Joint) (h : (S).exceptionalRows characters) :
+    (frame).source.OrdinaryExceptionalAt (σ := σ)
       entry (leftProfile ξ) (rightProfile ξ) ξ h.val :=
   ordinary ξ h.val
 

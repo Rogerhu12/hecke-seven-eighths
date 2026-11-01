@@ -184,8 +184,8 @@ local notation "original" => chart.actualRows M X hX label
 include hZ hradius hcutoff hmask hproduct in
 /-- This is the original physical frequency, before division by any
 gcd or nonunit factor.  Dead pair profiles require no column window. -/
-theorem original_cutoff (h : Orbit) (hh : h ∈ original.rows) :
-    A.exteriorNorm (original.originalIdeal h) ≤
+theorem original_cutoff (h : Orbit) (hh : h ∈ (original).rows) :
+    A.exteriorNorm ((original).originalIdeal h) ≤
       Z ^ (G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) := by
   have hr : radius.val ≤ Z ^ (-Real.log G.retainedScale / Real.log Z - G.enlargement) := by
     rw [hradius, CanonicalRowBall.gaussRadius_eq_rpow G.retainedScale Z G.enlargement
@@ -210,19 +210,19 @@ include hZ hradius hcutoff hmask hproduct in
 /-- Common-atom reweighting, the nonzero-correlation restriction and
 an actual theta class all keep the original frequency.  The actual
 fixed nonunit ideal in the row mass supplies the same extracted width. -/
-theorem reweighted_restricted_cutoff (h : rows.live) :
+theorem reweighted_restricted_cutoff (h : (rows).live) :
     let n := G.exceptionalNumbers W vStar r₁ r₂ slotError firstProfile
-    A.exteriorNorm (rows.originalIdeal h.val) ≤ rows.normFactor C h.val *
+    A.exteriorNorm ((rows).originalIdeal h.val) ≤ (rows).normFactor C h.val *
       Z ^ (2 * (n.Aexp - n.c - n.w) - n.K₀ - n.g - n.g₂ - n.V₀ +
         paidCutoff columnLoss cutoffExponent maskExponent) := by
-  have hrows : h.val ∈ rows.rows := (Finset.mem_filter.mp h.property).1
-  have horiginal : h.val ∈ original.rows :=
+  have hrows : h.val ∈ (rows).rows := (Finset.mem_filter.mp h.property).1
+  have horiginal : h.val ∈ (original).rows :=
     (Finset.mem_filter.mp (Finset.mem_filter.mp hrows).1).1
   have hp := original_cutoff chart G M X hX label columnLoss cutoffExponent maskExponent
     hZ hradius hcutoff hmask hproduct h.val horiginal
-  change A.exteriorNorm (rows.originalIdeal h.val) ≤
+  change A.exteriorNorm ((rows).originalIdeal h.val) ≤
     Z ^ (G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) at hp
-  have he := rows.original_window_after_extraction C Z hZ
+  have he := (rows).original_window_after_extraction C Z hZ
     (G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) h hp
   rw [W.nonunit_ideal h.val hrows] at he
   have hexponent :
@@ -235,7 +235,7 @@ theorem reweighted_restricted_cutoff (h : rows.live) :
         paidCutoff columnLoss cutoffExponent maskExponent := by
     unfold OriginalNominalGeometry.frequencyCenter
     ring
-  change _ ≤ rows.normFactor C h.val *
+  change _ ≤ (rows).normFactor C h.val *
     Z ^ ((G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) -
       idealLogLength Z (gcd W.leftIdeal W.rightIdeal) -
       idealLogLength Z W.nonunitIdeal.val) at he

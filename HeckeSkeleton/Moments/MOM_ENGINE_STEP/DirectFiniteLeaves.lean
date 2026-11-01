@@ -226,7 +226,7 @@ theorem linearized_le_finiteCost
     (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
     (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j)
   simp only [DirectGaussData.directSource_phaseEnergy] at hl hr
-  rw [integral_div_const, integral_div_const]
+  rw [integral_div, integral_div]
   have hh := mul_le_mul_of_nonneg_left
     (add_le_add (div_le_div_of_nonneg_right hl (hNL S χ).le)
       (div_le_div_of_nonneg_right hr (hNR S χ).le))

@@ -57,9 +57,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -101,17 +101,17 @@ theorem literalLeftMainAtoms_primeAtomCost_le
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
-    (label : (p.leftSourceCovers raw.originalAtlas S χ).main.labels)
-    (i : Fin ((p.leftSourceCovers raw.originalAtlas S χ).main.branch label).slotCount)
+    (label : (p.leftSourceCovers (raw).originalAtlas S χ).main.labels)
+    (i : Fin ((p.leftSourceCovers (raw).originalAtlas S χ).main.branch label).slotCount)
     (prime : HeightOneSpectrum (𝓞 K)) :
     (literalLeftMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).primeAtomCost i prime ≤ bound ^ 2 := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
-  let T := (p.leftSourceCovers raw.originalAtlas S χ).main.branch label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let T := (p.leftSourceCovers (raw).originalAtlas S χ).main.branch label
   have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  let input := seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
     (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
@@ -131,16 +131,16 @@ power is the unit ideal, so its original scalar has a fixed cost. -/
 theorem literalLeftMainScalar_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
-    (label : (p.leftSourceCovers raw.originalAtlas S χ).main.labels) :
+    (label : (p.leftSourceCovers (raw).originalAtlas S χ).main.labels) :
     ‖literalLeftMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
   let I := primePowerProduct b.primes b.leftMultiplicity
   have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
       branch.keep branch.witness.2 = I.val :=
     (branch.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.1 label)).trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)).trans
         b.common_left.symm
   exact Q.literalOriginalAtoms_firstScalar_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     C profiles hzero ht annulus hannulus hwindow cap hcap branch I (unitExterior A)
@@ -158,17 +158,17 @@ theorem literalRightMainAtoms_primeAtomCost_le
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
-    (label : (p.rightSourceCovers raw.originalAtlas S χ).main.labels)
-    (i : Fin ((p.rightSourceCovers raw.originalAtlas S χ).main.branch label).slotCount)
+    (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels)
+    (i : Fin ((p.rightSourceCovers (raw).originalAtlas S χ).main.branch label).slotCount)
     (prime : HeightOneSpectrum (𝓞 K)) :
     (literalRightMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).primeAtomCost i prime ≤ bound ^ 2 := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
-  let T := (p.rightSourceCovers raw.originalAtlas S χ).main.branch label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let T := (p.rightSourceCovers (raw).originalAtlas S χ).main.branch label
   have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  let input := seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
     (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
@@ -188,16 +188,16 @@ power is the unit ideal, so its original scalar has a fixed cost. -/
 theorem literalRightMainScalar_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
-    (label : (p.rightSourceCovers raw.originalAtlas S χ).main.labels) :
+    (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels) :
     ‖literalRightMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
   let I := primePowerProduct b.primes b.rightMultiplicity
   have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
       branch.keep branch.witness.2 = I.val :=
     (branch.frozenSourceIdeal_eq.trans
-      (raw.originalAtlas.branch_product (primeSupport DE.1) DE.2 label)).trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)).trans
         b.common_right.symm
   exact Q.literalOriginalAtoms_firstScalar_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     C profiles hzero ht annulus hannulus hwindow cap hcap branch I (unitExterior A)
@@ -216,19 +216,19 @@ theorem literalLeftPoolAtoms_primeAtomCost_le
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (q : pool.primes) (n : ℕ)
-    (label : ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).labels)
-    (i : Fin (((p.leftSourceCovers raw.originalAtlas S χ).residual q n).branch label).slotCount)
+    (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels)
+    (i : Fin (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label).slotCount)
     (prime : HeightOneSpectrum (𝓞 K)) :
     (literalLeftPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ q n label).primeAtomCost i prime ≤ bound ^ 2 := by
-  let branch := (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1
     ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
-  let T := ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).branch label
+  let T := ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label
   have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  let input := seed.secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
     (powerIdeal q.val (2 * n)) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
@@ -250,11 +250,11 @@ theorem literalLeftPoolScalar_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
     (q : pool.primes) (n : ℕ)
-    (label : ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).labels) :
+    (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     ‖literalLeftPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) := by
-  let branch := (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1
     ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
   let I := ExteriorIdealEuler.mul
@@ -262,15 +262,15 @@ theorem literalLeftPoolScalar_norm_le
   have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
       branch.keep branch.witness.2 = I.val := by
     have hw := ((p.divisorPools.leftData S).combinedBranchForLabel_spec
-      raw.originalAtlas (primeSupport DE.1) DE.1
+      (raw).originalAtlas (primeSupport DE.1) DE.1
       ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2
     have he := (p.divisorPools.leftData S).combined_extract_of_mem
       (primeSupport DE.1) DE.1
       ((p.divisorPools.left_columns S).trans p.left_columns)
       (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
         exact b.left_residual i) q.val n
-      (raw.originalAtlas.reindex.index branch.witness) hw
-    rw [raw.originalAtlas.reindex.ideal_product branch.witness
+      ((raw).originalAtlas.reindex.index branch.witness) hw
+    rw [(raw).originalAtlas.reindex.ideal_product branch.witness
       (branch.original_subset branch.witness_mem),
       branch.extract_ideal branch.witness branch.witness_mem] at he
     change _ = (primePowerProduct b.primes b.leftMultiplicity).val * q.val.val.asIdeal ^ n
@@ -295,19 +295,19 @@ theorem literalRightPoolAtoms_primeAtomCost_le
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (q : pool.primes) (n : ℕ)
-    (label : ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).labels)
-    (i : Fin (((p.rightSourceCovers raw.originalAtlas S χ).residual q n).branch label).slotCount)
+    (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels)
+    (i : Fin (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label).slotCount)
     (prime : HeightOneSpectrum (𝓞 K)) :
     (literalRightPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ q n label).primeAtomCost i prime ≤ bound ^ 2 := by
-  let branch := (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2
     ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
-  let T := ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).branch label
+  let T := ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label
   have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  let input := seed.secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
     (powerIdeal q.val (2 * n)) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes
       b.leftMultiplicity b.rightMultiplicity
@@ -329,11 +329,11 @@ theorem literalRightPoolScalar_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
     (q : pool.primes) (n : ℕ)
-    (label : ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).labels) :
+    (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     ‖literalRightPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) := by
-  let branch := (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2
     ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
   let I := ExteriorIdealEuler.mul
@@ -341,15 +341,15 @@ theorem literalRightPoolScalar_norm_le
   have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
       branch.keep branch.witness.2 = I.val := by
     have hw := ((p.divisorPools.rightData S).combinedBranchForLabel_spec
-      raw.originalAtlas (primeSupport DE.1) DE.2
+      (raw).originalAtlas (primeSupport DE.1) DE.2
       ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2
     have he := (p.divisorPools.rightData S).combined_extract_of_mem
       (primeSupport DE.1) DE.2
       ((p.divisorPools.right_columns S).trans p.right_columns)
       (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
         exact b.right_residual i) q.val n
-      (raw.originalAtlas.reindex.index branch.witness) hw
-    rw [raw.originalAtlas.reindex.ideal_product branch.witness
+      ((raw).originalAtlas.reindex.index branch.witness) hw
+    rw [(raw).originalAtlas.reindex.ideal_product branch.witness
       (branch.original_subset branch.witness_mem),
       branch.extract_ideal branch.witness branch.witness_mem] at he
     change _ = (primePowerProduct b.primes b.rightMultiplicity).val * q.val.val.asIdeal ^ n
@@ -370,8 +370,8 @@ original seminorm control and original slot cap. -/
 theorem literalMainScalars_pair_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
-    (leftLabel : (p.leftSourceCovers raw.originalAtlas S χ).main.labels)
-    (rightLabel : (p.rightSourceCovers raw.originalAtlas S χ).main.labels) :
+    (leftLabel : (p.leftSourceCovers (raw).originalAtlas S χ).main.labels)
+    (rightLabel : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels) :
     ‖literalLeftMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ leftLabel‖ *
       ‖literalRightMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
@@ -394,8 +394,8 @@ theorem literalPoolScalars_pair_norm_le
     (annulus : ℝ) (hannulus : 0 ≤ annulus) (hwindow : window ⊆ Set.Iic annulus)
     (cap : ℕ) (hcap : (data ξ).geometry.slotCount ≤ cap)
     (q : pool.primes) (n : ℕ)
-    (leftLabel : ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).labels)
-    (rightLabel : ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).labels) :
+    (leftLabel : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels)
+    (rightLabel : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     ‖literalLeftPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n leftLabel‖ *
       ‖literalRightPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂

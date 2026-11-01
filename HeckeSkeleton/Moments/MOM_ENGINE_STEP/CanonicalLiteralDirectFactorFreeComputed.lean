@@ -121,9 +121,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -166,7 +166,7 @@ def literalLeftDirectFactorFreeComputedProfiles
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.leftSourceCover raw.originalAtlas S χ).labels) :
+    (δ₂ : ℝ) (label : (p.leftSourceCover (raw).originalAtlas S χ).labels) :
     let actual := literalLeftDirectProfileSupport hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       reference href originalWindow hreference ht hwindow
@@ -180,7 +180,7 @@ def literalLeftDirectFactorFreeComputedProfiles
       ((((actual.redistributeNormFactors δ₁ δ₂).profiles).scale
         (scalar * (atoms.normProfileFactor δ₁ δ₂ : ℂ))⁻¹).balancePlain (fun _ => 1))
       window s bound := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
   let scalar := literalLeftDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
   have hallowed : (data ξ).allowedRow reference :=
@@ -199,7 +199,7 @@ def literalLeftDirectFactorFreeComputedProfiles
   exact (CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale
     scalar δ₁ δ₂
     (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale
-      scalar δ₁ δ₂ initial ((p.leftSourceCover raw.originalAtlas S χ).branch label) (congrArg Sigma.fst e).symm)
+      scalar δ₁ δ₂ initial ((p.leftSourceCover (raw).originalAtlas S χ).branch label) (congrArg Sigma.fst e).symm)
     (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))).balanceOne
 
 /-- The coefficient remains the explicit original seed bound,
@@ -210,12 +210,12 @@ theorem literalLeftDirectFactorFreeComputedProfiles_bound
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.leftSourceCover raw.originalAtlas S χ).labels) :
+    (δ₂ : ℝ) (label : (p.leftSourceCover (raw).originalAtlas S χ).labels) :
     (literalLeftDirectFactorFreeComputedProfiles hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       reference href s bound hbound originalWindow hreference ht hcompact hwindow hprime
       firstFixed hfirst δ₂ label).bound =
-      let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
+      let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
@@ -232,7 +232,7 @@ def literalRightDirectFactorFreeComputedProfiles
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.rightSourceCover raw.originalAtlas S χ).labels) :
+    (δ₂ : ℝ) (label : (p.rightSourceCover (raw).originalAtlas S χ).labels) :
     let actual := literalRightDirectProfileSupport hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       reference href originalWindow hreference ht hwindow
@@ -246,7 +246,7 @@ def literalRightDirectFactorFreeComputedProfiles
       ((((actual.redistributeNormFactors δ₁ δ₂).profiles).scale
         (scalar * (atoms.normProfileFactor δ₁ δ₂ : ℂ))⁻¹).balancePlain (fun _ => 1))
       window s bound := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
   let scalar := literalRightDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
   have hallowed : (data ξ).allowedRow reference :=
@@ -265,7 +265,7 @@ def literalRightDirectFactorFreeComputedProfiles
   exact (CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale
     scalar δ₁ δ₂
     (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale
-      scalar δ₁ δ₂ initial ((p.rightSourceCover raw.originalAtlas S χ).branch label) (congrArg Sigma.fst e).symm)
+      scalar δ₁ δ₂ initial ((p.rightSourceCover (raw).originalAtlas S χ).branch label) (congrArg Sigma.fst e).symm)
     (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))).balanceOne
 
 /-- The coefficient remains the explicit original seed bound,
@@ -276,12 +276,12 @@ theorem literalRightDirectFactorFreeComputedProfiles_bound
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.rightSourceCover raw.originalAtlas S χ).labels) :
+    (δ₂ : ℝ) (label : (p.rightSourceCover (raw).originalAtlas S χ).labels) :
     (literalRightDirectFactorFreeComputedProfiles hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       reference href s bound hbound originalWindow hreference ht hcompact hwindow hprime
       firstFixed hfirst δ₂ label).bound =
-      let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
+      let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by

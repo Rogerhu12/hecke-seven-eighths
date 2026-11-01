@@ -97,10 +97,10 @@ theorem constants_le :
 
 /-- All three estimates hold for the same original representative. -/
 theorem profile_bounds (W : 𝓢(ℝ, ℂ)) (amplitude : ℝ)
-    (hW : allOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude) :
-    leftOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude ∧
-      rightOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude ∧
-      ordinaryOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude := by
+    (hW : (allOrders).sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude) :
+    (leftOrders).sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude ∧
+      (rightOrders).sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude ∧
+      (ordinaryOrders).sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude := by
   have hsub := orders_contain (A := A) (σ := σ) (η := η) (hS := hS)
     primitive ε maskExponent hε hmask
   have restrict (s : Finset (ℕ × ℕ)) (hs : s ⊆ allOrders) :
@@ -111,7 +111,7 @@ theorem profile_bounds (W : 𝓢(ℝ, ℂ)) (amplitude : ℝ)
 
 /-- The atomic zero-order input is already present in the same set. -/
 theorem zero_order_bound (W : 𝓢(ℝ, ℂ)) (amplitude : ℝ)
-    (hW : allOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude) :
+    (hW : (allOrders).sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude) :
     SchwartzMap.seminorm ℂ 0 0 W ≤ amplitude :=
   (Seminorm.le_finset_sup_apply
     (orders_zero (A := A) (σ := σ) (η := η) (hS := hS)

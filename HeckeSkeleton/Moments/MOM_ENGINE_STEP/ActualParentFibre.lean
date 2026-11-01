@@ -370,7 +370,7 @@ theorem main_original_predicate_subpower
   · obtain ⟨j₀, hj₀⟩ := hex
     let DE := j₀.1.1
     let leaves := Finset.univ.filter pred
-    let hs : ∀ q, (CV.branch q).slotCount ≤ cap := fun q =>
+    let hs : ∀ q, ((CV).branch q).slotCount ≤ cap := fun q =>
       (d.mainSourceCartesianCover_slotCount_le T support D₀ hcolumns hideal c q).trans hcap
     let hl := fun v : s.CoveredClassKey CV CV => v.leftSlots_le hs
     let hr := fun v : s.CoveredClassKey CV CV => v.rightSupportSlots_le hs
@@ -428,7 +428,7 @@ theorem residual_original_predicate_subpower
   · obtain ⟨j₀, hj₀⟩ := hex
     let DE := j₀.1.1
     let leaves := Finset.univ.filter pred
-    let hs : ∀ q, (CV.branch q).slotCount ≤ cap := fun q =>
+    let hs : ∀ q, ((CV).branch q).slotCount ≤ cap := fun q =>
       (d.residualSourceCartesianCover_slotCount_le T support D₀ hcolumns hideal p n c q).trans hcap
     let hl := fun v : s.CoveredClassKey CV CV => v.leftSlots_le hs
     let hr := fun v : s.CoveredClassKey CV CV => v.rightSupportSlots_le hs

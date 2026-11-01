@@ -212,17 +212,17 @@ local notation "produced" =>
     (computed := computed) (hprimeOrders := hprimeOrders)
     (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
 
-local notation "rootLength" => idealLogLength f.source.base
-  (secondSixthRootIdeal S.primes (side.literalMultiplicity S)
+local notation "rootLength" => idealLogLength (f).source.base
+  (secondSixthRootIdeal (S).primes (side.literalMultiplicity S)
     (side.literalOppositeMultiplicity S)).val
 local notation "rawCoefficient" =>
-  (computed.passiveTable B A paid).coefficient f.source.base
+  (computed.passiveTable B A paid).coefficient (f).source.base
     (CanonicalLiteralAllocatedData.parameters t allocation rectangle m q κ)
     isCompact_Icc (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rectangle
 local notation "enlargement" =>
-  CanonicalFullKappaPrime.radiusFactor K f.source.base δ mesh
+  CanonicalFullKappaPrime.radiusFactor K (f).source.base δ mesh
     (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-    (CompleteMovingRowRecipe.primeMaskLogBound A f.source.base (m + q))
+    (CompleteMovingRowRecipe.primeMaskLogBound A (f).source.base (m + q))
 
 /-- The calibration stored in this side is the one constructed from
 its physical rows and paid moving recipe. -/
@@ -237,9 +237,9 @@ private theorem literalPassiveSideNormalization_amplitude_raw (z : ℝ × ℝ) :
       (produced analytic hanalytic).amplitude (WithLp.toLp 2 z) =
         polynomialProfileRadius
           (CanonicalFullKappaPrime.enlargedCoefficient rawCoefficient
-            (CanonicalFullKappaPrime.radiusFactor K f.source.base δ mesh
+            (CanonicalFullKappaPrime.radiusFactor K (f).source.base δ mesh
               (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-              (CompleteMovingRowRecipe.primeMaskLogBound A f.source.base
+              (CompleteMovingRowRecipe.primeMaskLogBound A (f).source.base
                 (geometry.literalRowParameter capacityCutoff +
                   geometry.literalSupportParameter rootLength))))
           (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
@@ -271,7 +271,7 @@ No new normalization is selected on the active carrier. -/
   rw [literalPassiveSideNormalization_amplitude]
 
 @[simp] theorem literalPassiveSideNormalization_primeBound
-    (i : Fin f.source.allocation.keep.card) :
+    (i : Fin (f).source.allocation.keep.card) :
     ∀ analytic hanalytic,
       (produced analytic hanalytic).normalizedCapacityData.primeBound i = 1 := by
   intro analytic hanalytic
@@ -282,7 +282,7 @@ not replace the already computed profile coefficient above. -/
 @[simp] theorem literalPassiveSideNormalization_rawClipError :
     ∀ analytic hanalytic,
       (produced analytic hanalytic).capacity.rawClipError =
-        t.computedRawError geometry.skeleton.rawDegree error rectangle := by
+        (t).computedRawError geometry.skeleton.rawDegree error rectangle := by
   intro analytic hanalytic
   cases side <;> rfl
 

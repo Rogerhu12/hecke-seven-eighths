@@ -57,9 +57,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -104,7 +104,7 @@ def literalLeftMainProfileSupport
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.leftSourceCovers raw.originalAtlas S χ).main.labels) :
+    (δ₂ : ℝ) (label : (p.leftSourceCovers (raw).originalAtlas S χ).main.labels) :
     ProfileSupport
       (literalLeftMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -112,7 +112,7 @@ def literalLeftMainProfileSupport
       (primeSupport A.cS ∪ (primeSupport DE.1)) := by
   let initial := Q.literalOriginalProfileSupport ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     reference href originalWindow hreference ht hwindow
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
   let transformed := initial.secondInput (σ := σ) branch P R (fun _ hp => support_prime hp)
     (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes
@@ -123,7 +123,7 @@ def literalLeftMainProfileSupport
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
   have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  exact (transformed.onAtlas ((p.leftSourceCovers raw.originalAtlas S χ).main.branch label) _ e).deleteMask
+  exact (transformed.onAtlas ((p.leftSourceCovers (raw).originalAtlas S χ).main.branch label) _ e).deleteMask
     (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))
 
 /-- Both certificates are constructed from the original row and window
@@ -134,7 +134,7 @@ def literalRightMainProfileSupport
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.rightSourceCovers raw.originalAtlas S χ).main.labels) :
+    (δ₂ : ℝ) (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels) :
     ProfileSupport
       (literalRightMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -142,7 +142,7 @@ def literalRightMainProfileSupport
       (primeSupport A.cS ∪ (primeSupport DE.1)) := by
   let initial := Q.literalOriginalProfileSupport ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     reference href originalWindow hreference ht hwindow
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
   let transformed := initial.secondInput (σ := σ) branch P R (fun _ hp => support_prime hp)
     (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes
@@ -153,7 +153,7 @@ def literalRightMainProfileSupport
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
   have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  exact (transformed.onAtlas ((p.rightSourceCovers raw.originalAtlas S χ).main.branch label) _ e).deleteMask
+  exact (transformed.onAtlas ((p.rightSourceCovers (raw).originalAtlas S χ).main.branch label) _ e).deleteMask
     (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))
 
 /-- Both certificates are constructed from the original row and window
@@ -164,7 +164,7 @@ def literalLeftPoolProfileSupport
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).labels) :
+    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     ProfileSupport
       (literalLeftPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -172,7 +172,7 @@ def literalLeftPoolProfileSupport
       (primeSupport A.cS ∪ (primeSupport DE.1 ∪ {q.val.val.asIdeal})) := by
   let initial := Q.literalOriginalProfileSupport ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     reference href originalWindow hreference ht hwindow
-  let branch := (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1
     ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
   have hfirstSupport : ∀ J ∈ (primeSupport DE.1 ∪ {q.val.val.asIdeal}), Prime J := by
@@ -191,7 +191,7 @@ def literalLeftPoolProfileSupport
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
   have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  exact (transformed.onAtlas (((p.leftSourceCovers raw.originalAtlas S χ).residual q n).branch label) _ e).deleteMask
+  exact (transformed.onAtlas (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label) _ e).deleteMask
     (literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) hfirstSupport)
 
 /-- Both certificates are constructed from the original row and window
@@ -202,7 +202,7 @@ def literalRightPoolProfileSupport
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).labels) :
+    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     ProfileSupport
       (literalRightPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -210,7 +210,7 @@ def literalRightPoolProfileSupport
       (primeSupport A.cS ∪ (primeSupport DE.1 ∪ {q.val.val.asIdeal})) := by
   let initial := Q.literalOriginalProfileSupport ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     reference href originalWindow hreference ht hwindow
-  let branch := (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2
     ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
   have hfirstSupport : ∀ J ∈ (primeSupport DE.1 ∪ {q.val.val.asIdeal}), Prime J := by
@@ -229,7 +229,7 @@ def literalRightPoolProfileSupport
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
   have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  exact (transformed.onAtlas (((p.rightSourceCovers raw.originalAtlas S χ).residual q n).branch label) _ e).deleteMask
+  exact (transformed.onAtlas (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label) _ e).deleteMask
     (literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) hfirstSupport)
 
 end CompleteMovingRowRecipe

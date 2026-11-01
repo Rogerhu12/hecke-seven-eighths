@@ -70,7 +70,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -114,8 +114,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -217,9 +217,9 @@ local notation "fiberCap" => CanonicalLiteralPrimitivePooledScalar.fiberCap rowE
 
 /-- These are the windows already stored in the original divisor pool. -/
 theorem literalPrimitivePooled_originalWindowExponents
-    (j : stages.supported.gated.CoveredLeafKey raw.originalAtlas) :
-    stages.supported.gated.originalRowExponentAt raw.originalAtlas j = rowExponent ∧
-      stages.supported.gated.originalFrozenExponentAt raw.originalAtlas j = columnBound := by
+    (j : (stages).supported.gated.CoveredLeafKey (raw).originalAtlas) :
+    (stages).supported.gated.originalRowExponentAt (raw).originalAtlas j = rowExponent ∧
+      (stages).supported.gated.originalFrozenExponentAt (raw).originalAtlas j = columnBound := by
   rcases j with ⟨DE, D, S, χ, leaf | leaf⟩
   all_goals
     change rowExponent = rowExponent ∧ 0 + columnBound = columnBound
@@ -228,25 +228,25 @@ theorem literalPrimitivePooled_originalWindowExponents
 /-- The main and all three valuation tags use the original signed
 physical rows. The supported source has no larger fibre. -/
 theorem literalPrimitivePooled_originalSecondFiber_le
-    (j : stages.supported.gated.CoveredLeafKey raw.originalAtlas) :
-    stages.supported.gated.originalSecondFiberAt raw.originalAtlas j ≤ fiberCap := by
+    (j : (stages).supported.gated.CoveredLeafKey (raw).originalAtlas) :
+    (stages).supported.gated.originalSecondFiberAt (raw).originalAtlas j ≤ fiberCap := by
   rcases j with ⟨DE, D, S, χ, leaf | leaf⟩
-  · let tag := ((stages.supported.gated DE D).left S χ).leafTag
-        ((source.pools DE D).leftSourceCovers raw.originalAtlas S χ) leaf
-    have horiginal : ((source.pools DE D).divisorPools.leftData S).rows ⊆
-        ((firstSource.source DE).divisorRows D.val).image
+  · let tag := (((stages).supported.gated DE D).left S χ).leafTag
+        (((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ) leaf
+    have horiginal : (((source).pools DE D).divisorPools.leftData S).rows ⊆
+        (((firstSource).source DE).divisorRows D.val).image
           (fun q => q.out.val * (1 : A.R)) := by
       simpa only [mul_one] using
-        (Finset.Subset.refl (((firstSource.source DE).divisorRows D.val).image
+        (Finset.Subset.refl ((((firstSource).source DE).divisorRows D.val).image
           (fun q => q.out.val)))
-    have hraw := ((source.pools DE D).divisorPools.leftData S).literalCanonicalStages_fiber_le
+    have hraw := (((source).pools DE D).divisorPools.leftData S).literalCanonicalStages_fiber_le
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).leftDivisorCoefficient S χ) P internal
-      ((source.block DE).literalLeftCoordinates D.val)
+      (((source).pools DE D).leftDivisorCoefficient S χ) P internal
+      (((source).block DE).literalLeftCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (leftRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ rowExponent le_rfl
-      ((firstSource.source DE).divisorRows D.val) 1 one_ne_zero horiginal tag
+      (((firstSource).source DE).divisorRows D.val) 1 one_ne_zero horiginal tag
     have hprepared :
         (((stages DE D).left S χ).supported.gated.tag tag).fiber ≤
           (((stages DE D).left S χ).tag tag).fiber := by
@@ -257,22 +257,22 @@ theorem literalPrimitivePooled_originalSecondFiber_le
         · exact Nat.zero_le _
         · exact le_rfl
     exact hprepared.trans hraw
-  · let tag := ((stages.supported.gated DE D).right S χ).leafTag
-        ((source.pools DE D).rightSourceCovers raw.originalAtlas S χ) leaf
-    have horiginal : ((source.pools DE D).divisorPools.rightData S).rows ⊆
-        ((firstSource.source DE).divisorRows D.val).image
+  · let tag := (((stages).supported.gated DE D).right S χ).leafTag
+        (((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ) leaf
+    have horiginal : (((source).pools DE D).divisorPools.rightData S).rows ⊆
+        (((firstSource).source DE).divisorRows D.val).image
           (fun q => q.out.val * ((-1) : A.R)) := by
       simpa only [mul_neg_one] using
-        (Finset.Subset.refl (((firstSource.source DE).divisorRows D.val).image
+        (Finset.Subset.refl ((((firstSource).source DE).divisorRows D.val).image
           (fun q => -q.out.val)))
-    have hraw := ((source.pools DE D).divisorPools.rightData S).literalCanonicalStages_fiber_le
+    have hraw := (((source).pools DE D).divisorPools.rightData S).literalCanonicalStages_fiber_le
       (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       (μv := μv) (hDiff := hDiff) (ν := ν)
-      ((source.pools DE D).rightDivisorCoefficient S χ) P internal
-      ((source.block DE).literalRightCoordinates D.val)
+      (((source).pools DE D).rightDivisorCoefficient S χ) P internal
+      (((source).block DE).literalRightCoordinates D.val)
       (2 * loss + cutoffExponent) (by positivity) hstep (rightRows DE D S)
       δ₂ hδ₂ hδ₂half cutoff₂ hcutoff₂ rowExponent le_rfl
-      ((firstSource.source DE).divisorRows D.val) (-1) (neg_ne_zero.mpr one_ne_zero) horiginal tag
+      (((firstSource).source DE).divisorRows D.val) (-1) (neg_ne_zero.mpr one_ne_zero) horiginal tag
     have hprepared :
         (((stages DE D).right S χ).supported.gated.tag tag).fiber ≤
           (((stages DE D).right S χ).tag tag).fiber := by
@@ -319,30 +319,30 @@ local notation "secondFiberBound" => literalPrimitivePooled_originalSecondFiber_
   (step := step) (hstep := hstep) (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
   (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
 
-local notation "labels" => stages.supported.gated.arithmeticLabels
-  raw.originalAtlas hcap exceptional normalization
-local notation "tags" => stages.supported.gated.arithmeticTag
-  raw.originalAtlas exceptional normalization
-local notation "tagMem" => stages.supported.gated.arithmeticTag_mem
-  raw.originalAtlas exceptional normalization
-local notation "indices" => stages.supported.gated.arithmeticIndex
-  raw.originalAtlas hcap exceptional normalization
+local notation "labels" => (stages).supported.gated.arithmeticLabels
+  (raw).originalAtlas hcap exceptional normalization
+local notation "tags" => (stages).supported.gated.arithmeticTag
+  (raw).originalAtlas exceptional normalization
+local notation "tagMem" => (stages).supported.gated.arithmeticTag_mem
+  (raw).originalAtlas exceptional normalization
+local notation "indices" => (stages).supported.gated.arithmeticIndex
+  (raw).originalAtlas hcap exceptional normalization
 local notation "movingAt" => fun j =>
-  (stages.supported.gated.originalNominalTagAt raw.originalAtlas j.val).movingLength Z +
-    (stages.supported.gated.originalNominalTagAt raw.originalAtlas j.val).poolLength step
+  ((stages).supported.gated.originalNominalTagAt (raw).originalAtlas j.val).movingLength Z +
+    ((stages).supported.gated.originalNominalTagAt (raw).originalAtlas j.val).poolLength step
 local notation "localWeight" => fun j =>
-  (labels.localBranch tags j).indexWeight (labels.localIndex tags j)
+  ((labels).localBranch tags j).indexWeight ((labels).localIndex tags j)
 local notation "amplifiedWeight" => fun j =>
   amplifiedIndexWeight pool rowExponent columnBound
-    (labels.mainCarrier tags) (labels.errorCarrier tags) (indices j)
+    ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices j)
 
 private theorem localWeight_eq_harmonic
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
     AmplifiedCommonIndex.harmonicWeight pool
-        (labels.mainCarrier tags) (labels.errorCarrier tags) (indices j) = localWeight j := by
+        ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices j) = localWeight j := by
   change AmplifiedCommonIndex.harmonicWeight pool
-    (labels.mainCarrier tags) (labels.errorCarrier tags)
-    (labels.amplifiedIndex tags pool tagMem j) = _
+    ((labels).mainCarrier tags) ((labels).errorCarrier tags)
+    ((labels).amplifiedIndex tags pool tagMem j) = _
   cases h : tags j with
   | none => simp only [OriginalArithmeticLabels.amplifiedIndex, h,
       AmplifiedCommonIndex.harmonicWeight, OriginalArithmeticLabels.localBranch,
@@ -373,36 +373,36 @@ local notation "harmonic_eq" => localWeight_eq_harmonic
 Its actual moving length turns that weight into the original amplified
 index, with the same common labels and occurrence allocation. -/
 theorem literalPrimitivePooled_originalScalar_moving_index
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
-    stages.supported.gated.originalScalarAt raw.originalAtlas j.val *
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
+    (stages).supported.gated.originalScalarAt (raw).originalAtlas j.val *
         Z ^ movingAt j * localWeight j =
-      ((stages.supported.gated.originalSecondFiberAt raw.originalAtlas j.val : ℝ) / 2) *
+      (((stages).supported.gated.originalSecondFiberAt (raw).originalAtlas j.val : ℝ) / 2) *
         amplifiedWeight j := by
-  have hs := stages.supported.gated.originalScalarAt_eq_originalTagWeight
-    raw.originalAtlas hcap exceptional normalization j
+  have hs := (stages).supported.gated.originalScalarAt_eq_originalTagWeight
+    (raw).originalAtlas hcap exceptional normalization j
   have hw := windowExponents j.val
   rw [hw.1, hw.2] at hs
-  have hm := stages.supported.gated.originalNominalTagAt_movingLength
-    raw.originalAtlas hcap exceptional normalization j
+  have hm := (stages).supported.gated.originalNominalTagAt_movingLength
+    (raw).originalAtlas hcap exceptional normalization j
   rw [show 3 * (step / 3) = step by ring] at hm
   have ht := AmplifiedCommonIndex.originalTagWeight_mul_rpow pool rowExponent columnBound
-    (labels.mainCarrier tags) (labels.errorCarrier tags) hZ (indices j)
+    ((labels).mainCarrier tags) ((labels).errorCarrier tags) hZ (indices j)
   rw [harmonic_eq j] at ht
   rw [hs, hm]
-  change ((1 * (stages.supported.gated.originalSecondFiberAt raw.originalAtlas j.val : ℝ)) / 2 *
+  change ((1 * ((stages).supported.gated.originalSecondFiberAt (raw).originalAtlas j.val : ℝ)) / 2 *
       AmplifiedCommonIndex.originalTagWeight pool rowExponent columnBound
-        (labels.mainCarrier tags) (labels.errorCarrier tags) (indices j)) *
+        ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices j)) *
       Z ^ AmplifiedCommonIndex.movingLength pool
-        (labels.mainCarrier tags) (labels.errorCarrier tags) (indices j) * localWeight j = _
+        ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices j) * localWeight j = _
   calc
-    _ = ((stages.supported.gated.originalSecondFiberAt raw.originalAtlas j.val : ℝ) / 2) *
+    _ = (((stages).supported.gated.originalSecondFiberAt (raw).originalAtlas j.val : ℝ) / 2) *
         (AmplifiedCommonIndex.originalTagWeight pool rowExponent columnBound
-          (labels.mainCarrier tags) (labels.errorCarrier tags) (indices j) *
+          ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices j) *
           Z ^ AmplifiedCommonIndex.movingLength pool
-            (labels.mainCarrier tags) (labels.errorCarrier tags) (indices j) * localWeight j) := by ring
+            ((labels).mainCarrier tags) ((labels).errorCarrier tags) (indices j) * localWeight j) := by ring
     _ = _ := congrArg
       (fun x : ℝ =>
-        ((stages.supported.gated.originalSecondFiberAt raw.originalAtlas j.val : ℝ) / 2) * x) ht
+        (((stages).supported.gated.originalSecondFiberAt (raw).originalAtlas j.val : ℝ) / 2) * x) ht
 
 local notation "scalarIdentity" => literalPrimitivePooled_originalScalar_moving_index
   (Q := Q)
@@ -425,15 +425,15 @@ local notation "scalarIdentity" => literalPrimitivePooled_originalScalar_moving_
 /-- The finite physical-fibre cap is the only factor left outside the
 same amplified arithmetic index. No new density or prime sum occurs. -/
 theorem literalPrimitivePooled_originalScalar_moving_index_le
-    (j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization) :
-    stages.supported.gated.originalScalarAt raw.originalAtlas j.val *
+    (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
+    (stages).supported.gated.originalScalarAt (raw).originalAtlas j.val *
         Z ^ movingAt j * localWeight j ≤ (fiberCap : ℝ) * amplifiedWeight j := by
   rw [scalarIdentity j]
-  have hf : (stages.supported.gated.originalSecondFiberAt raw.originalAtlas j.val : ℝ) ≤
+  have hf : ((stages).supported.gated.originalSecondFiberAt (raw).originalAtlas j.val : ℝ) ≤
       (fiberCap : ℝ) := by
     exact_mod_cast secondFiberBound j.val
   have hfhalf :
-      (stages.supported.gated.originalSecondFiberAt raw.originalAtlas j.val : ℝ) / 2 ≤
+      ((stages).supported.gated.originalSecondFiberAt (raw).originalAtlas j.val : ℝ) / 2 ≤
         (fiberCap : ℝ) :=
     (div_le_self (Nat.cast_nonneg _) (by norm_num : (1 : ℝ) ≤ 2)).trans hf
   have hM : 0 ≤ rowExponent := by
@@ -441,7 +441,7 @@ theorem literalPrimitivePooled_originalScalar_moving_index_le
     positivity
   exact mul_le_mul_of_nonneg_right hfhalf
     (amplifiedIndexWeight_nonneg pool rowExponent columnBound
-      (labels.mainCarrier tags) (labels.errorCarrier tags) (zero_lt_one.trans hZ).le
+      ((labels).mainCarrier tags) ((labels).errorCarrier tags) (zero_lt_one.trans hZ).le
       pool.exponent_pos hM hdensity.le (indices j))
 
 end CompleteMovingRowRecipe

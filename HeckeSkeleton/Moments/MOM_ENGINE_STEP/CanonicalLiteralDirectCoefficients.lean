@@ -60,9 +60,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -100,7 +100,7 @@ theorem canonicalLeftDirect_secondInput
     (i : (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).Column)
     (hi : i ∈ p.leftData.columns)
     (j : AllocationColumn K branch.keep.card) (hj : j ∈ branch.residualColumns)
-    (hindex : i = raw.originalIndex (branch.reconstruct j))
+    (hindex : i = (raw).originalIndex (branch.reconstruct j))
     (hideal : (b.leftResidual i).val = allocationColumnIdeal j)
     (hSi : S.val ∣ (p.leftData.ideal i).val)
     (firstFixed : A.Exterior)
@@ -109,7 +109,7 @@ theorem canonicalLeftDirect_secondInput
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    (seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    ((seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
       (unitExterior A) (unitExterior A)
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -146,7 +146,7 @@ theorem canonicalLeftDirect_secondInput
   unfold FirstBlockDirectData.leftDivisorCoefficient
   rw [if_pos hSi, hχ, mul_one]
   have he := FirstBlockProfileChart.canonicalLog_leftSourceCoefficient hΓ μv ν b C
-    raw.exteriorColumns raw.exteriorColumns φ c c finiteTest hlc hcs radius
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius
     δ₁ hδ₁ hδ₁half D i ha
   change p.originalLeftCoefficient i = _ at he
   rw [he]
@@ -158,7 +158,7 @@ theorem canonicalRightDirect_secondInput
     (i : (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).Column)
     (hi : i ∈ p.rightData.columns)
     (j : AllocationColumn K branch.keep.card) (hj : j ∈ branch.residualColumns)
-    (hindex : i = raw.originalIndex (branch.reconstruct j))
+    (hindex : i = (raw).originalIndex (branch.reconstruct j))
     (hideal : (b.rightResidual i).val = allocationColumnIdeal j)
     (hSi : S.val ∣ (p.rightData.ideal i).val)
     (firstFixed : A.Exterior)
@@ -167,7 +167,7 @@ theorem canonicalRightDirect_secondInput
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) :
-    (seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    ((seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
       (unitExterior A) (unitExterior A)
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -204,7 +204,7 @@ theorem canonicalRightDirect_secondInput
   unfold FirstBlockDirectData.rightDivisorCoefficient
   rw [if_pos hSi, hχ, mul_one]
   have he := FirstBlockProfileChart.canonicalLog_rightSourceCoefficient hΓ μv ν b C
-    raw.exteriorColumns raw.exteriorColumns φ c c finiteTest hlc hcs radius
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius
     δ₁ hδ₁ hδ₁half D i ha
   change p.originalRightCoefficient i = _ at he
   rw [he]

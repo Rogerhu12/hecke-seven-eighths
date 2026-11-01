@@ -83,7 +83,12 @@ theorem OrbitalGaussColumn.originalPair_residue_zero
     (a b : OrbitalGaussColumn K S Γ)
     (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ) :
     (a.originalPair b φ).residue 0 = a.character 0 * star (b.character 0) := by
-  simp only [OrbitalGaussColumn.originalPair, map_zero]
+  simp only [OrbitalGaussColumn.originalPair]
+  exact congrArg₂ (fun x y => a.character x * star (b.character y))
+    (map_zero (completeFrequencyReduction a.modulus (a.modulus * b.modulus)
+      (dvd_mul_right _ _)))
+    (map_zero (completeFrequencyReduction b.modulus (a.modulus * b.modulus)
+      (dvd_mul_left _ _)))
 
 theorem OrbitalGaussColumn.originalTriple_residue_zero
     (a b r : OrbitalGaussColumn K S Γ)
@@ -92,7 +97,18 @@ theorem OrbitalGaussColumn.originalTriple_residue_zero
       a.character 0 * star (b.character 0) * r.character 0 := by
   letI := finite_sIntegerPrincipalResidue K
     (S : Set (HeightOneSpectrum (𝓞 K))) b.modulus b.nonzero
-  simp only [OrbitalGaussColumn.originalTriple, map_zero, MulChar.star_apply']
+  simp only [OrbitalGaussColumn.originalTriple, MulChar.star_apply']
+  apply congrArg₂ (fun x y : ℂ => x * y)
+  · exact congrArg₂ (fun x y => a.character x * b.character⁻¹ y)
+      (map_zero (completeFrequencyReduction a.modulus
+        (a.modulus * (b.modulus * r.modulus)) (dvd_mul_right _ _)))
+      (map_zero (completeFrequencyReduction b.modulus
+        (a.modulus * (b.modulus * r.modulus))
+        (dvd_mul_of_dvd_right (dvd_mul_right _ _) _)))
+  · exact congrArg r.character
+      (map_zero (completeFrequencyReduction r.modulus
+        (a.modulus * (b.modulus * r.modulus))
+        (dvd_mul_of_dvd_right (dvd_mul_left _ _) _)))
 
 theorem OrbitalGaussColumn.originalPair_originZero_empty
     (c d : OrbitalGaussColumn K S Γ)
@@ -122,8 +138,9 @@ theorem original_originZero_sum_eq_square
         sIntegerTensorTerm K S (traceSchwartzToMixed K φ) h 0 *
           ((‖∑ i ∈ columns, coefficient i * (col i).character 0‖ ^ 2 : ℝ) : ℂ) := by
   rw [Complex.ofReal_pow, ← Complex.mul_conj', ← Complex.star_def]
-  simp only [OrbitalGaussColumn.originalPair_originZero_empty, star_sum,
-    Finset.sum_mul_sum, Finset.mul_sum]
+  simp only [OrbitalGaussColumn.originalPair_originZero_empty, star_sum]
+  rw [Finset.sum_mul_sum]
+  simp only [Finset.mul_sum]
 
 theorem original_originZero_sum_nonneg
     {ι : Type*} (columns : Finset ι) (coefficient : ι → ℂ)
@@ -202,7 +219,7 @@ theorem firstPrincipalMask_eq_element_mask
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a) :
     (generatedOriginalColumn (σ := σ) hΓ I a ha).character 0 =
       σ (A.sexticResidue I 0) := by
-  simpa only [map_zero] using
+  simpa only [RingHom.map_zero] using
     generatedOriginalColumn_character_mk (σ := σ) hΓ I a ha (0 : A.R)
 
 variable [IsPrincipalIdealRing A.R]
@@ -234,7 +251,7 @@ theorem actual_first_character_originZero
         (generatedOriginalColumn (σ := σ) hΓ IB b hb)
         (actualActiveColumn hΓ C p hp m n) φ).originZero finiteTest D := by
   have he := actual_full_pair_active C p hp m n hm hn IA IB IFull JFull hI hJ (0 : A.R)
-  simp only [map_zero] at he
+  simp only [RingHom.map_zero] at he
   rw [ParentPeriodicPair.sum_originZero_powerset,
     ParentPeriodicPair.sum_originZero_powerset, origin_mask_union,
     ← firstPrincipalMask_eq_element_mask C p m n 0,
@@ -243,8 +260,10 @@ theorem actual_first_character_originZero
     OrbitalGaussColumn.originalTriple_residue_zero]
   simp only [generatedOriginalColumn_character_zero]
   rw [he]
-  dsimp only [OrbitalGaussColumn.originalPair, OrbitalGaussColumn.originalTriple,
-    actualActiveColumn]
+  have hactive : (actualActiveColumn hΓ C p hp m n).character 0 =
+      actualFirstActiveCharacter C p hp m n 0 := rfl
+  rw [hactive]
+  dsimp only [OrbitalGaussColumn.originalPair, OrbitalGaussColumn.originalTriple]
   ring
 
 /-- Every complete original first common label is reassembled, with its

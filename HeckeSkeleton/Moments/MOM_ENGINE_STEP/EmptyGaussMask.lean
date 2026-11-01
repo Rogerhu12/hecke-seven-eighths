@@ -22,7 +22,7 @@ open scoped Classical BigOperators NumberField SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
-open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
+open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters HeckeGeneral.Bridge
 open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 open UniqueFactorizationMonoid
 
@@ -204,7 +204,7 @@ variable (G : ActualGaussSource C ι)
 theorem emptyMask_row_avoidance :
     ∀ h ∈ G.rows, ∀ p ∈ (∅ : Finset (HeightOneSpectrum A.R)), h ∉ p.asIdeal := by
   intro h hh p hp
-  exact (Finset.not_mem_empty p hp).elim
+  exact (Finset.notMem_empty p hp).elim
 
 variable [IsPrincipalIdealRing A.R]
 

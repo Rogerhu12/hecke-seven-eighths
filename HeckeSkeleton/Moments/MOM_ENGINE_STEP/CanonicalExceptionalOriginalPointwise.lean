@@ -73,7 +73,7 @@ local notation "leaf" => R.parentLeaf L exceptional normalization i.val
 local notation "labels" => R.arithmeticLabels L hcap exceptional normalization
 local notation "j" => R.originalIndex L hcap exceptional normalization i
 
-variable (extract : leaf.ConstantAtomExtraction)
+variable (extract : (leaf).ConstantAtomExtraction)
 variable (leftScalar rightScalar : ℂ) (hleftScalar : leftScalar ≠ 0)
 variable (hrightScalar : rightScalar ≠ 0)
 local notation "outerLeaf" => extract.stripOuter leftScalar rightScalar hleftScalar hrightScalar
@@ -81,7 +81,7 @@ variable {theta : Finset (HeckeCharacter K)}
 variable (characters : PairedFiniteCharacters theta
   (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ))
 variable (thetaPair : theta × theta) (z : W × E)
-local notation "magnitude" => (outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand z
+local notation "magnitude" => ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z
 
 /-- The actual canonical first allowance is positive in either of the
 original Cauchy orientations. -/
@@ -110,13 +110,13 @@ theorem stripOuter_theta_pointwise
       secondCost * Z ^ remaining /
         (Ideal.absNorm (commonRadical (R.commonLabel L i.val).1
           (R.commonLabel L i.val).2) : ℝ) * Z ^ (-lower)) :
-    (outerLeaf.weight / Z ^ parentWidth) * magnitude ≤
+    ((outerLeaf).weight / Z ^ parentWidth) * magnitude ≤
       R.originalScalarAt L i.val *
         (firstCost * secondCost * Z ^ (remaining + tilt) *
-          labels.carrier.exceptionalDyadWeight Z lower j) := by
+          (labels).carrier.exceptionalDyadWeight Z lower j) := by
   have hnorm := R.firstAllowanceAt_canonical_pos L hZ total exceptional i
   have hmag : 0 ≤ magnitude / R.firstAllowanceAt L total i.val :=
-    div_nonneg ((outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand_nonneg z)
+    div_nonneg (((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand_nonneg z)
       hnorm.le
   have hfirstPair := actual_common_pair_properties _ _ _ _ i.val.1
   have hsecond' : (magnitude / R.firstAllowanceAt L total i.val) / Z ^ (0 : ℝ) ≤
@@ -152,9 +152,9 @@ local notation "normalization" => s.canonicalNormalization hZ total
 variable (i : R.liveLeaves L exceptional normalization)
 local notation "leaf" => R.parentLeaf L exceptional normalization i.val
 local notation "labels" => R.arithmeticLabels L hcap exceptional normalization
-local notation "j" => labels.index i
+local notation "j" => (labels).index i
 
-variable (extract : leaf.ConstantAtomExtraction)
+variable (extract : (leaf).ConstantAtomExtraction)
 variable (leftScalar rightScalar : ℂ) (hleftScalar : leftScalar ≠ 0)
 variable (hrightScalar : rightScalar ≠ 0)
 local notation "outerLeaf" => extract.stripOuter leftScalar rightScalar hleftScalar hrightScalar
@@ -162,7 +162,7 @@ variable {theta : Finset (HeckeCharacter K)}
 variable (characters : PairedFiniteCharacters theta
   (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ))
 variable (thetaPair : theta × theta) (z : W × E)
-local notation "magnitude" => (outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand z
+local notation "magnitude" => ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z
 
 /-- The actual canonical first allowance is positive in either of the
 original Cauchy orientations. -/
@@ -202,13 +202,13 @@ theorem stripOuter_theta_pointwise
       secondCost * Z ^ remaining /
         (Ideal.absNorm (commonRadical (R.commonLabel L i.val).1
           (R.commonLabel L i.val).2) : ℝ) * Z ^ (-lower)) :
-    (outerLeaf.weight / Z ^ parentWidth) * magnitude ≤
+    ((outerLeaf).weight / Z ^ parentWidth) * magnitude ≤
       R.originalScalarAt L i.val *
         (firstCost * secondCost * Z ^ (remaining + tilt) *
-          labels.carrier.exceptionalDyadWeight Z lower j) := by
+          (labels).carrier.exceptionalDyadWeight Z lower j) := by
   have hnorm := R.firstAllowanceAt_canonical_pos L hZ total exceptional i
   have hmag : 0 ≤ magnitude / R.firstAllowanceAt L total i.val :=
-    div_nonneg ((outerLeaf.thetaClassLeaf characters thetaPair).exceptionalIntegrand_nonneg z)
+    div_nonneg (((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand_nonneg z)
       hnorm.le
   have hfirstPair := actual_common_pair_properties _ _ _ _ i.val.1
   have hsecond' : (magnitude / R.firstAllowanceAt L total i.val) / Z ^ (0 : ℝ) ≤

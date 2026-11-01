@@ -62,9 +62,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -99,7 +99,7 @@ theorem literalLeftMainAtoms_originalScale_of_domain
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.leftSourceCovers raw.originalAtlas S χ).main.labels)
+    (δ₂ : ℝ) (label : (p.leftSourceCovers (raw).originalAtlas S χ).main.labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) amplitude)
@@ -110,17 +110,17 @@ theorem literalLeftMainAtoms_originalScale_of_domain
     (literalLeftMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).PrimeNormWindow B ∧
-      ((p.leftSourceCovers raw.originalAtlas S χ).main.branch label).slotCount ≤ cap ∧
+      ((p.leftSourceCovers (raw).originalAtlas S χ).main.branch label).slotCount ≤ cap ∧
       ∀ r, r = false ∨ centered = true → (literalLeftMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).scaleProduct r *
         (Ideal.absNorm DE.1 : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
-  let T := (p.leftSourceCovers raw.originalAtlas S χ).main.branch label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let T := (p.leftSourceCovers (raw).originalAtlas S χ).main.branch label
   have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  let input := seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
     (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -141,8 +141,8 @@ theorem literalLeftMainAtoms_originalScale_of_domain
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = DE.1 := by
       exact branch.frozenSourceIdeal_eq.trans
-        (raw.originalAtlas.branch_product (primeSupport DE.1) DE.1 label)
-    have h := seed.extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
+        ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)
+    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
     rw [hfrozen, Q.literalOriginalAtoms_scaleProduct_of_domain ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ domain r hr] at h
     simpa only [literalLeftMainAtoms,
@@ -158,7 +158,7 @@ theorem literalRightMainAtoms_originalScale_of_domain
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.rightSourceCovers raw.originalAtlas S χ).main.labels)
+    (δ₂ : ℝ) (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) amplitude)
@@ -169,17 +169,17 @@ theorem literalRightMainAtoms_originalScale_of_domain
     (literalRightMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).PrimeNormWindow B ∧
-      ((p.rightSourceCovers raw.originalAtlas S χ).main.branch label).slotCount ≤ cap ∧
+      ((p.rightSourceCovers (raw).originalAtlas S χ).main.branch label).slotCount ≤ cap ∧
       ∀ r, r = false ∨ centered = true → (literalRightMainAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).scaleProduct r *
         (Ideal.absNorm DE.2 : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
-  let T := (p.rightSourceCovers raw.originalAtlas S χ).main.branch label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let T := (p.rightSourceCovers (raw).originalAtlas S χ).main.branch label
   have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  let input := seed.secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
     (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -200,8 +200,8 @@ theorem literalRightMainAtoms_originalScale_of_domain
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = DE.2 := by
       exact branch.frozenSourceIdeal_eq.trans
-        (raw.originalAtlas.branch_product (primeSupport DE.1) DE.2 label)
-    have h := seed.extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
+        ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)
+    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
     rw [hfrozen, Q.literalOriginalAtoms_scaleProduct_of_domain ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ domain r hr] at h
     simpa only [literalRightMainAtoms,
@@ -217,7 +217,7 @@ theorem literalLeftPoolAtoms_originalScale_of_domain
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).labels)
+    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) amplitude)
@@ -228,19 +228,19 @@ theorem literalLeftPoolAtoms_originalScale_of_domain
     (literalLeftPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ q n label).PrimeNormWindow B ∧
-      (((p.leftSourceCovers raw.originalAtlas S χ).residual q n).branch label).slotCount ≤ cap ∧
+      (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label).slotCount ≤ cap ∧
       ∀ r, r = false ∨ centered = true → (literalLeftPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ q n label).scaleProduct r *
         (Ideal.absNorm (DE.1 * q.val.val.asIdeal ^ n) : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := (p.divisorPools.leftData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
     q.val n label
-  let T := ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).branch label
+  let T := ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label
   have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  let input := seed.secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
     (powerIdeal q.val (2 * n)) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -261,19 +261,19 @@ theorem literalLeftPoolAtoms_originalScale_of_domain
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = (DE.1 * q.val.val.asIdeal ^ n) := by
       have hw := ((p.divisorPools.leftData S).combinedBranchForLabel_spec
-        raw.originalAtlas (primeSupport DE.1) DE.1
+        (raw).originalAtlas (primeSupport DE.1) DE.1
         ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2
       have he := (p.divisorPools.leftData S).combined_extract_of_mem
         (primeSupport DE.1) DE.1
         ((p.divisorPools.left_columns S).trans p.left_columns)
         (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
           exact b.left_residual i) q.val n
-        (raw.originalAtlas.reindex.index branch.witness) hw
-      rw [raw.originalAtlas.reindex.ideal_product branch.witness
+        ((raw).originalAtlas.reindex.index branch.witness) hw
+      rw [(raw).originalAtlas.reindex.ideal_product branch.witness
         (branch.original_subset branch.witness_mem),
         branch.extract_ideal branch.witness branch.witness_mem] at he
       exact branch.frozenSourceIdeal_eq.trans he
-    have h := seed.extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
+    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
     rw [hfrozen, Q.literalOriginalAtoms_scaleProduct_of_domain ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ domain r hr] at h
     simpa only [literalLeftPoolAtoms,
@@ -289,7 +289,7 @@ theorem literalRightPoolAtoms_originalScale_of_domain
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).labels)
+    (δ₂ : ℝ) (q : pool.primes) (n : ℕ) (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) amplitude)
@@ -300,19 +300,19 @@ theorem literalRightPoolAtoms_originalScale_of_domain
     (literalRightPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ q n label).PrimeNormWindow B ∧
-      (((p.rightSourceCovers raw.originalAtlas S χ).residual q n).branch label).slotCount ≤ cap ∧
+      (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label).slotCount ≤ cap ∧
       ∀ r, r = false ∨ centered = true → (literalRightPoolAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ q n label).scaleProduct r *
         (Ideal.absNorm (DE.2 * q.val.val.asIdeal ^ n) : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := (p.divisorPools.rightData S).combinedBranchForLabel raw.originalAtlas
+  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
     (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
     q.val n label
-  let T := ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).branch label
+  let T := ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label
   have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  let input := seed.secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
+  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
     (powerIdeal q.val (2 * n)) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
@@ -333,19 +333,19 @@ theorem literalRightPoolAtoms_originalScale_of_domain
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = (DE.2 * q.val.val.asIdeal ^ n) := by
       have hw := ((p.divisorPools.rightData S).combinedBranchForLabel_spec
-        raw.originalAtlas (primeSupport DE.1) DE.2
+        (raw).originalAtlas (primeSupport DE.1) DE.2
         ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2
       have he := (p.divisorPools.rightData S).combined_extract_of_mem
         (primeSupport DE.1) DE.2
         ((p.divisorPools.right_columns S).trans p.right_columns)
         (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
           exact b.right_residual i) q.val n
-        (raw.originalAtlas.reindex.index branch.witness) hw
-      rw [raw.originalAtlas.reindex.ideal_product branch.witness
+        ((raw).originalAtlas.reindex.index branch.witness) hw
+      rw [(raw).originalAtlas.reindex.ideal_product branch.witness
         (branch.original_subset branch.witness_mem),
         branch.extract_ideal branch.witness branch.witness_mem] at he
       exact branch.frozenSourceIdeal_eq.trans he
-    have h := seed.extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
+    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
     rw [hfrozen, Q.literalOriginalAtoms_scaleProduct_of_domain ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ domain r hr] at h
     simpa only [literalRightPoolAtoms,

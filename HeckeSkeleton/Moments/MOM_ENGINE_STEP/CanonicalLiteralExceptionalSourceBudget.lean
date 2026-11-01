@@ -232,11 +232,11 @@ local notation "Joint" => WithLp 2 (ℝ × ℝ)
 local notation "rawRows" => chart.actualRows ∅ X hX label
 local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
 local notation "sector" => chart.originalSector P ∅ X hX label
-local notation "characters" => rawRows.literalFiniteCharacters C P R F Q.moving
+local notation "characters" => (rawRows).literalFiniteCharacters C P R F Q.moving
   Q.correction pattern sector (data x).theta
 variable {kCommonL kCommonR : ℕ}
-variable (leftAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonL)
-variable (rightAtoms : FrozenSourceAtoms A σ Orbit rawRows.rows kCommonR)
+variable (leftAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonL)
+variable (rightAtoms : FrozenSourceAtoms A σ Orbit (rawRows).rows kCommonR)
 variable (thetaPair : (data x).theta × (data x).theta)
 local notation "S" => CanonicalLiteralExceptionalFactory.rows chart P R X hX label F
   (data x) Q.moving Q.correction leftAtoms rightAtoms thetaPair
@@ -268,15 +268,15 @@ variable (rightResult : CanonicalLiteralExceptionalOriginalSideFactory.Result (�
     rayRight idealRight signRight divisor selectionRight)
 local notation "LD" => leftResult.val
 local notation "RD" => rightResult.val
-local notation "LF" => LD.frame S C .left
-local notation "RF" => RD.frame S C .right
-local notation "EL" => LD.comparison S C .left
-local notation "ER" => RD.comparison S C .right
+local notation "LF" => (LD).frame S C .left
+local notation "RF" => (RD).frame S C .right
+local notation "EL" => (LD).comparison S C .left
+local notation "ER" => (RD).comparison S C .right
 
 variable (hleftCommon : leftAtoms.ideal = (primePowerProduct b.primes b.leftMultiplicity).val)
 variable (hrightCommon : rightAtoms.ideal = (primePowerProduct b.primes b.rightMultiplicity).val)
 variable (rowProfileBound : ℝ) (hrowProfileBound : 0 ≤ rowProfileBound)
-variable (hrowProfile : ∀ q ∈ rawRows.rows, ‖chart.weight q‖ ≤ rowProfileBound)
+variable (hrowProfile : ∀ q ∈ (rawRows).rows, ‖chart.weight q‖ ≤ rowProfileBound)
 local notation "mass" => CanonicalLiteralExceptionalArithmetic.actualMass chart P R hclass
   X hX label F (data x) Q.moving Q.correction leftAtoms rightAtoms thetaPair
   hleftCommon hrightCommon rowProfileBound hrowProfileBound hrowProfile
@@ -306,10 +306,10 @@ variable (hloss : 0 ≤ loss) (hsupport : first.supportError ≤ loss / 16)
 variable (hvolume : ε ≤ loss / 16)
 local notation "cutoffLoss" => CanonicalLiteralExceptionalGeometry.paidCutoff columnLoss cutoffExponent 0
 variable (hcutoffPaid : cutoffLoss / 6 ≤ loss / 16)
-local notation "UL" => LD.paidScales S C .left G.skeleton.A annulus amplitude cap hannulus hamplitude
-local notation "UR" => RD.paidScales S C .right G.skeleton.A annulus amplitude cap hannulus hamplitude
-local notation "envelope" => annulus ^ cap * (mass.commonEnvelope * orbitalFieldFactor K)
-local notation "radical" => (Ideal.absNorm (commonRadical mass.leftIdeal mass.rightIdeal) : ℝ)
+local notation "UL" => (LD).paidScales S C .left (G).skeleton.A annulus amplitude cap hannulus hamplitude
+local notation "UR" => (RD).paidScales S C .right (G).skeleton.A annulus amplitude cap hannulus hamplitude
+local notation "envelope" => annulus ^ cap * ((mass).commonEnvelope * orbitalFieldFactor K)
+local notation "radical" => (Ideal.absNorm (commonRadical (mass).leftIdeal (mass).rightIdeal) : ℝ)
 
 local notation "fixedCoefficient" => coefficient (A := A) (σ := σ) (η := η) (hS := hS)
   primitive ε widthMax columnLoss cutoffExponent hε hwidthMax hcolumnLoss hcutoffExponent
@@ -336,7 +336,7 @@ variable (hwidth : a.m + a.q ≤ widthMax)
 variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hold : A.exteriorNorm ((F.moving P R Q.moving).effectiveFullSupport
   (Q.remaining * extra)) ≤
-    Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax))
+    Z ^ (a.q + (G).skeleton.R + (G).skeleton.E + (G).skeleton.wo + widthMax))
 
 include hclass hsector hrawAmplitude hannulus firstProfile original ht hwindowUpper hwindowLower domain hcap
   hleftCommon hrightCommon hrowProfileBound hrowProfile hone hroot hemb hplaces hscalar
@@ -347,9 +347,9 @@ ideals is smaller. Both cancellation directions share the fixed source
 coefficient, the original divisor, and the original profile power. -/
 theorem centered_small_loss_bound (hc : centered = true) (hpadding : 0 ≤ padding)
     (ξ : Joint) :
-    LF.exceptionalMagnitude RF EL ER characters ξ / normalization ≤
+    (LF).exceptionalMagnitude RF EL ER characters ξ / normalization ≤
       envelope * uniformCoefficient ξ *
-        Z ^ ((padding + 3 * step + loss / 2) + G.tag.exceptionalMovingLength Z step) /
+        Z ^ ((padding + 3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step) /
           radical * Z ^ (-idealLogLength Z divisor) := by
   have hdomain : PairedEngineDomain true (data x) a Z Y₁ Y₂ floor padding := by
     simpa only [hc] using domain
@@ -357,117 +357,117 @@ theorem centered_small_loss_bound (hc : centered = true) (hpadding : 0 ≤ paddi
     rcases Q.correction_mem x with h | h
     · simpa only [h] using hone
     · exact h
-  have hseedPrime : seed.PrimeNormWindow annulus :=
+  have hseedPrime : (seed).PrimeNormWindow annulus :=
     Q.literalOriginalAtoms_primeNormWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       original annulus ht hwindowUpper
-  have hseedLower : ∀ i, ∀ p ∈ seed.slots i,
-      Z ^ seed.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+  have hseedLower : ∀ i, ∀ p ∈ (seed).slots i,
+      Z ^ (seed).length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
     Q.literalOriginalAtoms_primeLowerWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       original annulus (zero_lt_one.trans_le hannulus) ht hwindowLower
-  have hseedProduct : seed.scaleProduct false = Z ^ G.skeleton.A := by
-    change seed.scaleProduct false = Z ^ (a.n₁ + a.n₂ + a.z)
+  have hseedProduct : (seed).scaleProduct false = Z ^ (G).skeleton.A := by
+    change (seed).scaleProduct false = Z ^ (a.n₁ + a.n₂ + a.z)
     simp only [CanonicalLiteralRectangles.Atoms.scaleProduct,
       CompleteMovingRowRecipe.literalOriginalAtoms, Bool.false_eq_true, if_false,
       domain.total_length, SlotGeometry.totalLength,
       Real.rpow_add (zero_lt_one.trans hZ), Real.rpow_sum_of_pos (zero_lt_one.trans hZ)]
-  have hcapL : LD.history.originalCount ≤ cap := by
+  have hcapL : (LD).history.originalCount ≤ cap := by
     rw [leftResult.property.2.2.2.2.2.2.2.1]
     exact hcap
-  have hprimeOriginalL : LD.history.original.PrimeNormWindow annulus :=
+  have hprimeOriginalL : (LD).history.original.PrimeNormWindow annulus :=
     result_original_property (result := leftResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
-  have hproductOriginalL : LD.history.original.scaleProduct false = Z ^ G.skeleton.A :=
+  have hproductOriginalL : (LD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
     result_original_property (result := leftResult)
-      (fun _ d => d.scaleProduct false = Z ^ G.skeleton.A) hseedProduct
-  have hprimeLowerL : ∀ i, ∀ p ∈ LD.history.original.slots i,
-      Z ^ LD.history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerL : ∀ i, ∀ p ∈ (LD).history.original.slots i,
+      Z ^ (LD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
     result_original_property (result := leftResult)
       (fun _ d => ∀ i, ∀ p ∈ d.slots i,
         Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
-  have hprimeL : LD.atoms.PrimeNormWindow annulus :=
+  have hprimeL : (LD).atoms.PrimeNormWindow annulus :=
     leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
-  have hslotL : ∀ i, SchwartzMap.seminorm ℂ 0 0 (LD.model.slot i) ≤ amplitude := by
+  have hslotL : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((LD).model.slot i) ≤ amplitude := by
     intro i
     exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
       (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-      (LD.model.slot i) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+      ((LD).model.slot i) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
   have hprofileL₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (LD.model.left false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+    ((LD).model.left false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
   have hprofileL₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (LD.model.right false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
-  have hcL : SamePlainProfiles LD.model := leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hc
-  have hseedLeftL : ∀ r, LD.history.original.scale₁ r =
+    ((LD).model.right false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hcL : SamePlainProfiles (LD).model := leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hc
+  have hseedLeftL : ∀ r, (LD).history.original.scale₁ r =
       if r then Y₁ else Z ^ a.n₁ :=
     result_original_property (result := leftResult)
       (fun _ d => ∀ r, d.scale₁ r = if r then Y₁ else Z ^ a.n₁) (fun _ => rfl)
-  have hseedRightL : ∀ r, LD.history.original.scale₂ r =
+  have hseedRightL : ∀ r, (LD).history.original.scale₂ r =
       if r then Y₂ else Z ^ a.n₂ :=
     result_original_property (result := leftResult)
       (fun _ d => ∀ r, d.scale₂ r = if r then Y₂ else Z ^ a.n₂) (fun _ => rfl)
-  have hslotsL : ∑ i ∈ Finset.univ \ LF.allocation.keep, slotLoss ≤ loss / 16 :=
+  have hslotsL : ∑ i ∈ Finset.univ \ (LF).allocation.keep, slotLoss ≤ loss / 16 :=
     removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
       (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
-      LF.allocation.keep (LD.count_le cap hcapL)
-  have hcapR : RD.history.originalCount ≤ cap := by
+      (LF).allocation.keep ((LD).count_le cap hcapL)
+  have hcapR : (RD).history.originalCount ≤ cap := by
     rw [rightResult.property.2.2.2.2.2.2.2.1]
     exact hcap
-  have hprimeOriginalR : RD.history.original.PrimeNormWindow annulus :=
+  have hprimeOriginalR : (RD).history.original.PrimeNormWindow annulus :=
     result_original_property (result := rightResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
-  have hproductOriginalR : RD.history.original.scaleProduct false = Z ^ G.skeleton.A :=
+  have hproductOriginalR : (RD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
     result_original_property (result := rightResult)
-      (fun _ d => d.scaleProduct false = Z ^ G.skeleton.A) hseedProduct
-  have hprimeLowerR : ∀ i, ∀ p ∈ RD.history.original.slots i,
-      Z ^ RD.history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerR : ∀ i, ∀ p ∈ (RD).history.original.slots i,
+      Z ^ (RD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
     result_original_property (result := rightResult)
       (fun _ d => ∀ i, ∀ p ∈ d.slots i,
         Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
-  have hprimeR : RD.atoms.PrimeNormWindow annulus :=
+  have hprimeR : (RD).atoms.PrimeNormWindow annulus :=
     rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
-  have hslotR : ∀ i, SchwartzMap.seminorm ℂ 0 0 (RD.model.slot i) ≤ amplitude := by
+  have hslotR : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((RD).model.slot i) ≤ amplitude := by
     intro i
     exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
       (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-      (RD.model.slot i) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+      ((RD).model.slot i) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
   have hprofileR₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (RD.model.left false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+    ((RD).model.left false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
   have hprofileR₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (RD.model.right false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
-  have hcR : SamePlainProfiles RD.model := rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hc
-  have hseedLeftR : ∀ r, RD.history.original.scale₁ r =
+    ((RD).model.right false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hcR : SamePlainProfiles (RD).model := rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hc
+  have hseedLeftR : ∀ r, (RD).history.original.scale₁ r =
       if r then Y₁ else Z ^ a.n₁ :=
     result_original_property (result := rightResult)
       (fun _ d => ∀ r, d.scale₁ r = if r then Y₁ else Z ^ a.n₁) (fun _ => rfl)
-  have hseedRightR : ∀ r, RD.history.original.scale₂ r =
+  have hseedRightR : ∀ r, (RD).history.original.scale₂ r =
       if r then Y₂ else Z ^ a.n₂ :=
     result_original_property (result := rightResult)
       (fun _ d => ∀ r, d.scale₂ r = if r then Y₂ else Z ^ a.n₂) (fun _ => rfl)
-  have hslotsR : ∑ i ∈ Finset.univ \ RF.allocation.keep, slotLoss ≤ loss / 16 :=
+  have hslotsR : ∑ i ∈ Finset.univ \ (RF).allocation.keep, slotLoss ≤ loss / 16 :=
     removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
       (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
-      RF.allocation.keep (RD.count_le cap hcapR)
-  have hscalarActual : (historyActualSecondInput P R extra LD.history).commonScalar
-      LD.history.second ≠ 0 := by
+      (RF).allocation.keep ((RD).count_le cap hcapR)
+  have hscalarActual : (historyActualSecondInput P R extra (LD).history).commonScalar
+      (LD).history.second ≠ 0 := by
     rw [leftResult.property.2.2.2.2.2.2.2.2.2.2.2.1]
     exact hscalar
-  have hpair : UL.constant * UR.constant ≤
+  have hpair : (UL).constant * (UR).constant ≤
       CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus *
         amplitude ^ CanonicalLiteralExceptionalAtomBudget.pairDegree cap :=
     CanonicalLiteralExceptionalPaidAtomBudget.original_pair_constant_le cap annulus amplitude
-      hannulus hamplitudeOne LF.allocation RF.allocation
-      Z (LD.targetTotal G.skeleton.A) Z (RD.targetTotal G.skeleton.A)
-      LD.atoms.length RD.atoms.length (fun i => (LD.atoms.length_pos i).le)
-      (fun i => (RD.atoms.length_pos i).le) (LD.count_le cap hcapL) (RD.count_le cap hcapR)
+      hannulus hamplitudeOne (LF).allocation (RF).allocation
+      Z ((LD).targetTotal (G).skeleton.A) Z ((RD).targetTotal (G).skeleton.A)
+      (LD).atoms.length (RD).atoms.length (fun i => ((LD).atoms.length_pos i).le)
+      (fun i => ((RD).atoms.length_pos i).le) ((LD).count_le cap hcapL) ((RD).count_le cap hcapR)
   have hgrowth := CanonicalLiteralExceptionalUnifiedChoice.growth_le
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
     (fourierHeight ξ) (fourierHeight_nonneg ξ)
   have hcoefficient (c H : ℝ) (hcH : 0 ≤ c * H)
       (hbound : c * H ≤ allConstant * (1 + fourierHeight ξ) ^ heightOrder) :
-      ((Γ.index : ℝ) * c * (UL.constant * UR.constant)) * amplitude ^ 4 * H ≤
+      ((Γ.index : ℝ) * c * ((UL).constant * (UR).constant)) * amplitude ^ 4 * H ≤
         uniformCoefficient ξ := by
-    have h := scalar_coefficient_le (Γ.index : ℝ) (UL.constant * UR.constant) (c * H)
+    have h := scalar_coefficient_le (Γ.index : ℝ) ((UL).constant * (UR).constant) (c * H)
       profileCoefficient rawAmplitude
       (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus)
       allConstant ((1 + fourierHeight ξ) ^ heightOrder)
@@ -477,11 +477,11 @@ theorem centered_small_loss_bound (hc : centered = true) (hpadding : 0 ≤ paddi
       (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant_pos cap annulus hannulus).le
       hcH hpair hbound
     calc
-      _ = (Γ.index : ℝ) * (UL.constant * UR.constant) * amplitude ^ 4 * (c * H) := by ring
+      _ = (Γ.index : ℝ) * ((UL).constant * (UR).constant) * amplitude ^ 4 * (c * H) := by ring
       _ ≤ _ := h
   have henv : 0 ≤ envelope := mul_nonneg
     (pow_nonneg (zero_le_one.trans hannulus) _)
-    (mul_nonneg mass.commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
   by_cases horder : idealLogLength Z (primePowerProduct b.primes b.leftMultiplicity).val ≤
       idealLogLength Z (primePowerProduct b.primes b.rightMultiplicity).val
   · have hb := CanonicalLiteralExceptionalRelativeSource.centered_small_loss_bound
@@ -589,9 +589,9 @@ include hclass hsector hrawAmplitude hannulus firstProfile original ht hwindowUp
 shares the same fixed coefficient and height degree as the two centered
 branches, while retaining its ordinary exponent. -/
 theorem ordinary_small_loss_bound (hc : centered = false) (ξ : Joint) :
-    LF.ordinaryExceptionalMagnitude RF characters ξ / normalization ≤
+    (LF).ordinaryExceptionalMagnitude RF characters ξ / normalization ≤
       envelope * uniformCoefficient ξ *
-        Z ^ ((3 * step + loss / 2) + G.tag.exceptionalMovingLength Z step) /
+        Z ^ ((3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step) /
           radical * Z ^ (-idealLogLength Z divisor) := by
   have hdomain : PairedEngineDomain false (data x) a Z Y₁ Y₂ floor padding := by
     simpa only [hc] using domain
@@ -599,99 +599,99 @@ theorem ordinary_small_loss_bound (hc : centered = false) (ξ : Joint) :
     rcases Q.correction_mem x with h | h
     · simpa only [h] using hone
     · exact h
-  have hseedPrime : seed.PrimeNormWindow annulus :=
+  have hseedPrime : (seed).PrimeNormWindow annulus :=
     Q.literalOriginalAtoms_primeNormWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       original annulus ht hwindowUpper
-  have hseedLower : ∀ i, ∀ p ∈ seed.slots i,
-      Z ^ seed.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+  have hseedLower : ∀ i, ∀ p ∈ (seed).slots i,
+      Z ^ (seed).length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
     Q.literalOriginalAtoms_primeLowerWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       original annulus (zero_lt_one.trans_le hannulus) ht hwindowLower
-  have hseedProduct : seed.scaleProduct false = Z ^ G.skeleton.A := by
-    change seed.scaleProduct false = Z ^ (a.n₁ + a.n₂ + a.z)
+  have hseedProduct : (seed).scaleProduct false = Z ^ (G).skeleton.A := by
+    change (seed).scaleProduct false = Z ^ (a.n₁ + a.n₂ + a.z)
     simp only [CanonicalLiteralRectangles.Atoms.scaleProduct,
       CompleteMovingRowRecipe.literalOriginalAtoms, Bool.false_eq_true, if_false,
       domain.total_length, SlotGeometry.totalLength,
       Real.rpow_add (zero_lt_one.trans hZ), Real.rpow_sum_of_pos (zero_lt_one.trans hZ)]
-  have hcapL : LD.history.originalCount ≤ cap := by
+  have hcapL : (LD).history.originalCount ≤ cap := by
     rw [leftResult.property.2.2.2.2.2.2.2.1]
     exact hcap
-  have hprimeOriginalL : LD.history.original.PrimeNormWindow annulus :=
+  have hprimeOriginalL : (LD).history.original.PrimeNormWindow annulus :=
     result_original_property (result := leftResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
-  have hproductOriginalL : LD.history.original.scaleProduct false = Z ^ G.skeleton.A :=
+  have hproductOriginalL : (LD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
     result_original_property (result := leftResult)
-      (fun _ d => d.scaleProduct false = Z ^ G.skeleton.A) hseedProduct
-  have hprimeLowerL : ∀ i, ∀ p ∈ LD.history.original.slots i,
-      Z ^ LD.history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerL : ∀ i, ∀ p ∈ (LD).history.original.slots i,
+      Z ^ (LD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
     result_original_property (result := leftResult)
       (fun _ d => ∀ i, ∀ p ∈ d.slots i,
         Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
-  have hprimeL : LD.atoms.PrimeNormWindow annulus :=
+  have hprimeL : (LD).atoms.PrimeNormWindow annulus :=
     leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
-  have hslotL : ∀ i, SchwartzMap.seminorm ℂ 0 0 (LD.model.slot i) ≤ amplitude := by
+  have hslotL : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((LD).model.slot i) ≤ amplitude := by
     intro i
     exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
       (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-      (LD.model.slot i) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+      ((LD).model.slot i) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
   have hprofileL₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (LD.model.left false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+    ((LD).model.left false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
   have hprofileL₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (LD.model.right false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
-  have hslotsL : ∑ i ∈ Finset.univ \ LF.allocation.keep, slotLoss ≤ loss / 16 :=
+    ((LD).model.right false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hslotsL : ∑ i ∈ Finset.univ \ (LF).allocation.keep, slotLoss ≤ loss / 16 :=
     removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
       (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
-      LF.allocation.keep (LD.count_le cap hcapL)
-  have hcapR : RD.history.originalCount ≤ cap := by
+      (LF).allocation.keep ((LD).count_le cap hcapL)
+  have hcapR : (RD).history.originalCount ≤ cap := by
     rw [rightResult.property.2.2.2.2.2.2.2.1]
     exact hcap
-  have hprimeOriginalR : RD.history.original.PrimeNormWindow annulus :=
+  have hprimeOriginalR : (RD).history.original.PrimeNormWindow annulus :=
     result_original_property (result := rightResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
-  have hproductOriginalR : RD.history.original.scaleProduct false = Z ^ G.skeleton.A :=
+  have hproductOriginalR : (RD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
     result_original_property (result := rightResult)
-      (fun _ d => d.scaleProduct false = Z ^ G.skeleton.A) hseedProduct
-  have hprimeLowerR : ∀ i, ∀ p ∈ RD.history.original.slots i,
-      Z ^ RD.history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerR : ∀ i, ∀ p ∈ (RD).history.original.slots i,
+      Z ^ (RD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
     result_original_property (result := rightResult)
       (fun _ d => ∀ i, ∀ p ∈ d.slots i,
         Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
-  have hprimeR : RD.atoms.PrimeNormWindow annulus :=
+  have hprimeR : (RD).atoms.PrimeNormWindow annulus :=
     rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
-  have hslotR : ∀ i, SchwartzMap.seminorm ℂ 0 0 (RD.model.slot i) ≤ amplitude := by
+  have hslotR : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((RD).model.slot i) ≤ amplitude := by
     intro i
     exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
       (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-      (RD.model.slot i) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+      ((RD).model.slot i) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
   have hprofileR₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (RD.model.left false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+    ((RD).model.left false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
   have hprofileR₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
-    (RD.model.right false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
-  have hslotsR : ∑ i ∈ Finset.univ \ RF.allocation.keep, slotLoss ≤ loss / 16 :=
+    ((RD).model.right false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hslotsR : ∑ i ∈ Finset.univ \ (RF).allocation.keep, slotLoss ≤ loss / 16 :=
     removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
       (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
-      RF.allocation.keep (RD.count_le cap hcapR)
-  have hscalarActual : (historyActualSecondInput P R extra LD.history).commonScalar
-      LD.history.second ≠ 0 := by
+      (RF).allocation.keep ((RD).count_le cap hcapR)
+  have hscalarActual : (historyActualSecondInput P R extra (LD).history).commonScalar
+      (LD).history.second ≠ 0 := by
     rw [leftResult.property.2.2.2.2.2.2.2.2.2.2.2.1]
     exact hscalar
-  have hpair : UL.constant * UR.constant ≤
+  have hpair : (UL).constant * (UR).constant ≤
       CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus *
         amplitude ^ CanonicalLiteralExceptionalAtomBudget.pairDegree cap :=
     CanonicalLiteralExceptionalPaidAtomBudget.original_pair_constant_le cap annulus amplitude
-      hannulus hamplitudeOne LF.allocation RF.allocation
-      Z (LD.targetTotal G.skeleton.A) Z (RD.targetTotal G.skeleton.A)
-      LD.atoms.length RD.atoms.length (fun i => (LD.atoms.length_pos i).le)
-      (fun i => (RD.atoms.length_pos i).le) (LD.count_le cap hcapL) (RD.count_le cap hcapR)
+      hannulus hamplitudeOne (LF).allocation (RF).allocation
+      Z ((LD).targetTotal (G).skeleton.A) Z ((RD).targetTotal (G).skeleton.A)
+      (LD).atoms.length (RD).atoms.length (fun i => ((LD).atoms.length_pos i).le)
+      (fun i => ((RD).atoms.length_pos i).le) ((LD).count_le cap hcapL) ((RD).count_le cap hcapR)
   have hgrowth := CanonicalLiteralExceptionalUnifiedChoice.growth_le
     (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
     (fourierHeight ξ) (fourierHeight_nonneg ξ)
   have hcoefficient (c H : ℝ) (hcH : 0 ≤ c * H)
       (hbound : c * H ≤ allConstant * (1 + fourierHeight ξ) ^ heightOrder) :
-      ((Γ.index : ℝ) * c * (UL.constant * UR.constant)) * amplitude ^ 4 * H ≤
+      ((Γ.index : ℝ) * c * ((UL).constant * (UR).constant)) * amplitude ^ 4 * H ≤
         uniformCoefficient ξ := by
-    have h := scalar_coefficient_le (Γ.index : ℝ) (UL.constant * UR.constant) (c * H)
+    have h := scalar_coefficient_le (Γ.index : ℝ) ((UL).constant * (UR).constant) (c * H)
       profileCoefficient rawAmplitude
       (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus)
       allConstant ((1 + fourierHeight ξ) ^ heightOrder)
@@ -701,11 +701,11 @@ theorem ordinary_small_loss_bound (hc : centered = false) (ξ : Joint) :
       (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant_pos cap annulus hannulus).le
       hcH hpair hbound
     calc
-      _ = (Γ.index : ℝ) * (UL.constant * UR.constant) * amplitude ^ 4 * (c * H) := by ring
+      _ = (Γ.index : ℝ) * ((UL).constant * (UR).constant) * amplitude ^ 4 * (c * H) := by ring
       _ ≤ _ := h
   have henv : 0 ≤ envelope := mul_nonneg
     (pow_nonneg (zero_le_one.trans hannulus) _)
-    (mul_nonneg mass.commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
   have hb := CanonicalLiteralExceptionalRelativeSource.ordinary_small_loss_bound
     (chart := chart) (P := P) (R := R)
     (hclass := hclass) (hsector := hsector) (X := X)

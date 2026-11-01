@@ -101,7 +101,7 @@ local notation "production" => family C R leftProfiles rightProfiles leftAllocat
   leftNormalization rightNormalization sameBase
 
 theorem sourcePair (parentWidth : ℝ) (b : Labels) (ξ : WithLp 2 (ℝ × ℝ)) :
-    production.sourcePair parentWidth b ξ =
+    (production).sourcePair parentWidth b ξ =
       Real.sqrt ((leftFrame b.1).energy ξ) * Real.sqrt ((rightFrame b.2).energy ξ) /
         leftAtoms.base ^ parentWidth := by
   change (Real.sqrt (‖(leftFrame b.1).normalizer‖ ^ 2 *
@@ -111,7 +111,7 @@ theorem sourcePair (parentWidth : ℝ) (b : Labels) (ξ : WithLp 2 (ℝ × ℝ))
   rw [← (leftFrame b.1).energy_eq_source, ← (rightFrame b.2).energy_eq_source]
 
 theorem sum_sourcePair (parentWidth : ℝ) (ξ : WithLp 2 (ℝ × ℝ)) :
-    (∑ b : Labels, production.sourcePair parentWidth b ξ) =
+    (∑ b : Labels, (production).sourcePair parentWidth b ξ) =
       ((∑ b : LeftLabel, Real.sqrt ((leftFrame b).energy ξ)) *
         (∑ b : RightLabel, Real.sqrt ((rightFrame b).energy ξ))) /
           leftAtoms.base ^ parentWidth := by
@@ -132,7 +132,7 @@ proved on the fixed original row carrier. -/
 theorem integrand_le_sourcePairs (parentWidth : ℝ) (ξ : WithLp 2 (ℝ × ℝ)) :
     integrand C R leftProfiles rightProfiles leftAllocation rightAllocation
       leftPaid rightPaid leftMask rightMask leftSign rightSign ξ / leftAtoms.base ^ parentWidth ≤
-      ∑ b : Labels, production.sourcePair parentWidth b ξ := by
+      ∑ b : Labels, (production).sourcePair parentWidth b ξ := by
   have hl := sqrt_passiveColumn_le_frames leftAllocation leftProfiles leftPaid C R
     leftMask leftSign false ξ
   have hr := sqrt_passiveColumn_le_frames rightAllocation rightProfiles rightPaid C R
@@ -175,28 +175,28 @@ its actual capacity input. The children and removals precede ξ. -/
 theorem integrand_le_normalized_family (parentWidth : ℝ) (ξ : WithLp 2 (ℝ × ℝ)) :
     integrand C R leftProfiles rightProfiles leftAllocation rightAllocation
       leftPaid rightPaid leftMask rightMask leftSign rightSign ξ / leftAtoms.base ^ parentWidth ≤
-      ∑ b : production.active Finset.univ,
-        production.weight Finset.univ parentWidth b * production.envelope Finset.univ b ξ *
-          production.childPair Finset.univ b ξ := by
+      ∑ b : (production).active Finset.univ,
+        (production).weight Finset.univ parentWidth b * (production).envelope Finset.univ b ξ *
+          (production).childPair Finset.univ b ξ := by
   exact (integrand_le_sourcePairs C R leftProfiles rightProfiles leftAllocation rightAllocation
     leftPaid rightPaid leftMask rightMask leftSign rightSign leftNormalization rightNormalization
     sameBase parentWidth ξ).trans
-      (production.finite_pointwise Finset.univ parentWidth
+      ((production).finite_pointwise Finset.univ parentWidth
         (zero_lt_one.trans leftAtoms.base_gt_one) ξ)
 
 theorem in_fixed_window
     (leftHeight : ∀ b ξ, (leftNormalization b).calibration.height ξ ∈ heightDomain)
     (rightHeight : ∀ b ξ, (rightNormalization b).calibration.height ξ ∈ heightDomain) :
-    ∀ b : production.active Finset.univ, ∀ ξ,
+    ∀ b : (production).active Finset.univ, ∀ ξ,
       InFixedProfileWindow rowDomain Set.univ window orders
-        (production.leftData Finset.univ b ξ) ∧
+        ((production).leftData Finset.univ b ξ) ∧
       InFixedProfileWindow rowDomain Set.univ window orders
-        (production.rightData Finset.univ b ξ) := by
+        ((production).rightData Finset.univ b ξ) := by
   intro b ξ
   exact ⟨(leftNormalization b.val.1).frozen_child_in_fixed_window
-      (production.leftChild Finset.univ b) ξ (leftHeight b.val.1 ξ),
+      ((production).leftChild Finset.univ b) ξ (leftHeight b.val.1 ξ),
     (rightNormalization b.val.2).frozen_child_in_fixed_window
-      (production.rightChild Finset.univ b) ξ (rightHeight b.val.2 ξ)⟩
+      ((production).rightChild Finset.univ b) ξ (rightHeight b.val.2 ξ)⟩
 
 end CanonicalLiteralPassiveNormalizedFamily
 end HeckeSkeleton.Moments.EngineStep

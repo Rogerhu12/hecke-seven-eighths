@@ -88,7 +88,7 @@ theorem canonicalUnmasked_prepared_leftCoefficient
     (hactive : DE.val ∈ G.activeCommon) (i : ι)
     (hi : i ∈ (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
       DE.val DE.property).leftColumns G.columns) :
-    (s.supported.gated.charts DE D).sourceLeftCoefficient i =
+    ((s).supported.gated.charts DE D).sourceLeftCoefficient i =
       G.coefficient i * ((A.exteriorNorm (G.ideal i) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (G.ideal i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
@@ -119,7 +119,7 @@ theorem canonicalUnmasked_prepared_rightCoefficient
     (hactive : DE.val ∈ G.activeCommon) (i : ι)
     (hi : i ∈ (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
       DE.val DE.property).rightColumns G.columns) :
-    (s.supported.gated.charts DE D).sourceRightCoefficient i =
+    ((s).supported.gated.charts DE D).sourceRightCoefficient i =
       G.coefficient i * ((A.exteriorNorm (G.ideal i) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (G.ideal i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by

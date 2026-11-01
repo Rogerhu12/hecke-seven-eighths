@@ -208,7 +208,7 @@ theorem secondActiveFrequencyIdeal_radical
   rw [← Finset.prod_mul_distrib]
   apply Finset.prod_congr rfl
   intro i _
-  rw [secondActiveExponent_ne_zero_iff C p m n h i (hm i) (hn i) (hne i)]
+  simp only [secondActiveExponent_ne_zero_iff C p m n h i (hm i) (hn i) (hne i)]
   by_cases hu : unitFrequencySaving C (p i) (m i) (n i) h
   · simp [hu, unit_nonunit_frequency_disjoint C (p i) (m i) (n i) h hu]
   · by_cases hv : nonunitFrequencySaving C (p i) (m i) (n i) h <;> simp [hu, hv]
@@ -238,7 +238,8 @@ theorem singleton_fullIdeal (I : A.Exterior) (a : A.R) (ha : A.Generates I a) (e
   change (∏ i : Fin 1, ((singleton (P := P) (R := R) ⟨a, ha.1⟩ e).factorIdeal i).val) = I.val
   rw [Fin.prod_univ_one]
   exact congrArg Subtype.val
-    (factorIdeal_eq_of_generates (singleton (P := P) (R := R) ⟨a, ha.1⟩ e) 0 I ha)
+    (factorIdeal_eq_of_generates (singleton (P := P) (R := R) ⟨a, ha.1⟩ e)
+      (0 : Fin 1) I ha)
 
 theorem singleton_support (I : A.Exterior) (a : A.R) (ha : A.Generates I a) (e : ℤ) :
     (singleton (P := P) (R := R) ⟨a, ha.1⟩ e).support.val = commonRadical I.val I.val := by
@@ -320,28 +321,29 @@ theorem secondOriginalMovingFactors_evaluation
         then 1 else 0) := by
   let D := secondOriginalMovingFactors P R C p m n pattern
   let I := secondActiveFrequencyIdeal p m n pattern
+  let i₀ : Fin D.count := (0 : Fin 1)
   have hg := secondActiveFrequencyGenerator_generates C p m n pattern
-  have hchar : D.character = D.factorCharacter 0 := by
-    change (∏ i : Fin 1, D.factorCharacter i ^ (1 : ℤ)) = D.factorCharacter 0
+  have hchar : D.character = D.factorCharacter i₀ := by
+    change (∏ i : Fin 1, D.factorCharacter i ^ (1 : ℤ)) = D.factorCharacter (0 : Fin 1)
     simp only [zpow_one, Fin.prod_univ_one]
-  have hI : D.factorIdeal 0 = I := D.factorIdeal_eq_of_generates 0 I hg
+  have hI : D.factorIdeal i₀ = I := D.factorIdeal_eq_of_generates i₀ I hg
   have hfull : D.fullIdeal = I :=
     OriginalMovingFactors.singleton_fullIdeal I _ hg 1
   have hmask :
       decomposedIdealRowMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-          (D.decomposition 0).1 J =
+          (D.decomposition i₀).1 J =
         (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) J ∧
           IsCoprime J.val D.support.val then 1 else 0) := by
     change (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) J ∧
-      IsCoprime J.val (D.factorIdeal 0).val then (1 : ℂ) else 0) = _
+      IsCoprime J.val (D.factorIdeal i₀).val then (1 : ℂ) else 0) = _
     rw [hI, D.coprime_support_iff_fullIdeal J.val, hfull]
-  have hd := D.factor_evaluation 0 J
+  have hd := D.factor_evaluation i₀ J
   change zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding J
       (secondActiveFrequencyGenerator C p m n pattern) =
-    heckeIdealCoefficient K (D.factorCharacter 0) J *
+    heckeIdealCoefficient K (D.factorCharacter i₀) J *
       decomposedIdealRowMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (D.decomposition 0).1 J at hd
+        (D.decomposition i₀).1 J at hd
   rw [← hchar, hmask] at hd
   exact hd
 

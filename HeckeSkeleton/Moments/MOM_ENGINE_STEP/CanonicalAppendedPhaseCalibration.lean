@@ -110,7 +110,7 @@ theorem childData_mask_eq (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (secondSixthRootIdeal primes m n) J.val,
     oldMoving.effectiveFullSupport_mask remaining u J.val,
     IsCoprime.mul_right_iff]
-  simp only [decide_and]
+  simp only [Bool.decide_and]
   exact common_mask_reorder _ _ _ _
 
 /-- The original moving character is multiplied into the unchanged

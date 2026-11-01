@@ -95,12 +95,12 @@ theorem atlas_left_scale (allocation : ActualColumnAllocation K atlas.slotCount)
     (r : Bool) (m q κ : ℝ) :
     d.base ^ (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₁ =
       d.scale₁ r / idealNorm K (b.plainDivisor₁ * allocation.plainDivisor 0) := by
-  have hbase : actualTable.base = d.base := (d.extract b).onAtlas_base_eq atlas count
+  have hbase : (actualTable).base = d.base := (d.extract b).onAtlas_base_eq atlas count
   calc
-    _ = actualTable.base ^
+    _ = (actualTable).base ^
         (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₁ := by
       rw [hbase]
-    _ = actualTable.scale₁ r / idealNorm K (allocation.plainDivisor 0) :=
+    _ = (actualTable).scale₁ r / idealNorm K (allocation.plainDivisor 0) :=
       CanonicalLiteralAllocatedData.left_scale actualTable allocation r m q κ
     _ = _ := by
       change ((d.extract b).onAtlas atlas count).scale₁ r /
@@ -114,12 +114,12 @@ theorem atlas_right_scale (allocation : ActualColumnAllocation K atlas.slotCount
     (r : Bool) (m q κ : ℝ) :
     d.base ^ (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₂ =
       d.scale₂ r / idealNorm K (b.plainDivisor₂ * allocation.plainDivisor (Fin.succ 0)) := by
-  have hbase : actualTable.base = d.base := (d.extract b).onAtlas_base_eq atlas count
+  have hbase : (actualTable).base = d.base := (d.extract b).onAtlas_base_eq atlas count
   calc
-    _ = actualTable.base ^
+    _ = (actualTable).base ^
         (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₂ := by
       rw [hbase]
-    _ = actualTable.scale₂ r / idealNorm K (allocation.plainDivisor (Fin.succ 0)) :=
+    _ = (actualTable).scale₂ r / idealNorm K (allocation.plainDivisor (Fin.succ 0)) :=
       CanonicalLiteralAllocatedData.right_scale actualTable allocation r m q κ
     _ = _ := by
       change ((d.extract b).onAtlas atlas count).scale₂ r /

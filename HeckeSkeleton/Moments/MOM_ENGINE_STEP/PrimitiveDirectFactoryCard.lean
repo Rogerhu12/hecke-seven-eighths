@@ -60,7 +60,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -192,23 +192,23 @@ local notation "factories" => literalPrimitiveDirectFactory
 count on the exact factory selected by its live parent key. -/
 theorem literalPrimitiveDirectFactory_card
     (columnBound ε : ℝ) (hcolumnBound : 0 ≤ columnBound) (hε : 0 < ε)
-    (hN : ∀ i ∈ source.columns, (Ideal.absNorm (source.ideal i).val : ℝ) ≤ Z ^ columnBound)
-    (j : stages.prepared.liveLeaves raw.originalAtlas exceptional normalization) :
+    (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
+    (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     (Fintype.card (factories j).Label : ℝ) ≤
       PrimitivePassiveFactoryCard.directConstant K cap columnBound ε hcolumnBound hε * Z ^ ε := by
-  have hS := stages.prepared.live_first_divisor_squarefree
-    raw.originalAtlas exceptional normalization j
-  have hparent := stages.prepared.liveLeaves_spec raw.originalAtlas exceptional normalization j
+  have hS := (stages).prepared.live_first_divisor_squarefree
+    (raw).originalAtlas exceptional normalization j
+  have hparent := (stages).prepared.liveLeaves_spec (raw).originalAtlas exceptional normalization j
   rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  · have hblock := ((stages.prepared DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-      (normalization.left DE D) (normalization.right DE D)
-      (normalization.left_pos DE D) (normalization.right_pos DE D)
+  · have hblock := (((stages).prepared DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+      ((normalization).left DE D) ((normalization).right DE D)
+      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
       (exceptional DE D) ⟨S, χ, .inl leaf⟩).live_of_scale_live _ _ hparent
     have hfiber := (((stages DE D).left S χ).supported.gated.fiberCoveredLeaf
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).leftSourceCover raw.originalAtlas S χ)
-      ((exceptional DE D).left S χ) (source.charts DE D).kernel
-      (source.charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
+      ((exceptional DE D).left S χ) ((source).charts DE D).kernel
+      ((source).charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
     exact literalPrimitiveLeftDirectFactory_card
       (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
@@ -228,15 +228,15 @@ theorem literalPrimitiveDirectFactory_card
       (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
       (hone := hone) (hbackground := hbackground) (hslot := hslot)
       DE D S χ leaf hS hfiber columnBound ε hcolumnBound hε hN
-  · have hblock := ((stages.prepared DE D).coveredLeaf raw.originalAtlas raw.originalAtlas
-      (normalization.left DE D) (normalization.right DE D)
-      (normalization.left_pos DE D) (normalization.right_pos DE D)
+  · have hblock := (((stages).prepared DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
+      ((normalization).left DE D) ((normalization).right DE D)
+      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
       (exceptional DE D) ⟨S, χ, .inr leaf⟩).live_of_scale_live _ _ hparent
     have hfiber := (((stages DE D).right S χ).supported.gated.fiberCoveredLeaf
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-      ((source.pieces DE D).rightSourceCover raw.originalAtlas S χ)
-      ((exceptional DE D).right S χ) (source.charts DE D).kernel
-      (fun i => -(source.charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
+      ((exceptional DE D).right S χ) ((source).charts DE D).kernel
+      (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
     exact literalPrimitiveRightDirectFactory_card
       (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
       (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)

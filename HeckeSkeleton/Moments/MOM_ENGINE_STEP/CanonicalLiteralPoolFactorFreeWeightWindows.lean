@@ -61,9 +61,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -99,7 +99,7 @@ def literalLeftMainFactorFreeOriginalWeightWindows
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
-    (label : (p.leftSourceCovers raw.originalAtlas S χ).main.labels)
+    (label : (p.leftSourceCovers (raw).originalAtlas S χ).main.labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {orders : Finset (ℕ × ℕ)} {bound : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window orders (data ξ) bound)
@@ -142,7 +142,7 @@ def literalRightMainFactorFreeOriginalWeightWindows
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
-    (label : (p.rightSourceCovers raw.originalAtlas S χ).main.labels)
+    (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {orders : Finset (ℕ × ℕ)} {bound : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window orders (data ξ) bound)
@@ -186,7 +186,7 @@ def literalLeftPoolFactorFreeOriginalWeightWindows
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (q : pool.primes) (n : ℕ)
-    (label : ((p.leftSourceCovers raw.originalAtlas S χ).residual q n).labels)
+    (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {orders : Finset (ℕ × ℕ)} {bound : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window orders (data ξ) bound)
@@ -230,7 +230,7 @@ def literalRightPoolFactorFreeOriginalWeightWindows
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
     (δ₂ : ℝ) (hδ : δ₁ + δ₂ ≤ 1 / 2)
     (q : pool.primes) (n : ℕ)
-    (label : ((p.rightSourceCovers raw.originalAtlas S χ).residual q n).labels)
+    (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels)
     {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
     {heightDomain window : Set ℝ} {orders : Finset (ℕ × ℕ)} {bound : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window orders (data ξ) bound)

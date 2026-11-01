@@ -157,8 +157,8 @@ local notation "transformed" => W.secondInput (σ := σ) b P R power firstFixed 
 outer⁻¹` followed by the positive reciprocal plain balance. -/
 def scalarFreeBalancedSecondInput (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) :
-    ((transformed.scale outer⁻¹).balancePlain balance).SchwartzModel window := by
-  apply (E.extract b).powerProfiles ((transformed.scale outer⁻¹).balancePlain balance)
+    (((transformed).scale outer⁻¹).balancePlain balance).SchwartzModel window := by
+  apply (E.extract b).powerProfiles (((transformed).scale outer⁻¹).balancePlain balance)
     hcompact hpositive (CanonicalLiteralProfileScalars.exponent δ₁ δ₂)
     (fun r => (outer⁻¹ * outer) * (factor r : ℂ))
     (fun r => (factor r : ℂ))
@@ -166,7 +166,7 @@ def scalarFreeBalancedSecondInput (hcompact : IsCompact window)
       ((d.extract b).base ^ (d.extract b).length j)
       ((d.extract b).base ^ (d.extract b).length j) δ₁ δ₂ : ℂ))
   · intro r u t y hy
-    change ((transformed.left r).profile u t y * outer⁻¹) * (balance r : ℂ) = _
+    change (((transformed).left r).profile u t y * outer⁻¹) * (balance r : ℂ) = _
     rw [W.secondInput_left_shape (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ r u t hy]
     calc
@@ -178,7 +178,7 @@ def scalarFreeBalancedSecondInput (hcompact : IsCompact window)
         ring
       _ = _ := by rw [CanonicalLiteralBalancedSchwartz.left_mul_balance] <;> rfl
   · intro r u t y hy
-    change (transformed.right r).profile u t y * (balance r : ℂ)⁻¹ = _
+    change ((transformed).right r).profile u t y * (balance r : ℂ)⁻¹ = _
     rw [W.secondInput_right_shape (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ r u t hy]
     calc

@@ -24,7 +24,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
-open HeckePort.Moments
+open HeckePort.Moments HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -73,7 +73,7 @@ def hybridClassCost
     (exceptional : ∀ S : Ideal (𝓞 K), ((PUnit × PUnit) →* Circle) →
       (primeSupport S → Finset (Fin (k + 2))) →
       (primeSupport S → Finset (Fin (l + 2))) → Q → Prop) : ℝ :=
-  secondResidualHybridCost PUnit chart.kernel
+  secondResidualHybridCost (σ := σ) PUnit chart.kernel
     (chart.actualRows M X hX label).rows
     (chart.actualRows M X hX label).frequency
     L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots
@@ -161,7 +161,7 @@ theorem class_hybrid_bound_on
     _ = ‖∑ t ∈ rows, q t * ∑ i ∈ L.cartesian, ∑ j ∈ R.cartesian,
         summand t (L.index i) (R.index j)‖ := congrArg norm (hsource.trans hreindex)
     _ ≤ _ := by
-      exact actual_second_residual_hybrid_allocated_bound (Ray := PUnit)
+      exact actual_second_residual_hybrid_allocated_bound (σ := σ) (Ray := PUnit)
         chart.kernel rows (fun t : Q => -t.out.val)
         L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots
         b.commonLeftIdeal b.commonRightIdeal

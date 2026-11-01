@@ -68,7 +68,7 @@ variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => Q.fullSupportParameters a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
-local notation "raw" => atoms.raw Y₁ Y₂
+local notation "raw" => (atoms).raw Y₁ Y₂
 
 
 local notation "firstSource" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
@@ -112,8 +112,8 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (lengthBound columnBound : ℝ)
 variable (hlengthBound : 0 ≤ lengthBound) (hcolumnBound : 0 ≤ columnBound)
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
-variable (hN : ∀ i ∈ firstSource.columns,
-  (Ideal.absNorm (firstSource.ideal i).val : ℝ) ≤ Z ^ columnBound)
+variable (hN : ∀ i ∈ (firstSource).columns,
+  (Ideal.absNorm ((firstSource).ideal i).val : ℝ) ≤ Z ^ columnBound)
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)
 variable (hdensity : 0 < pool.rowDensity
@@ -450,7 +450,7 @@ variable {ε terminalExponent finalConstant finalControl : ℝ}
 kernel mass, child admissibility or source integral is an input. -/
 def literalPrimitivePooledConclusion
     (hlarge : totalThreshold ≤ Z)
-    (terminal : stages.DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
+    (terminal : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
     (hstage : ∀ {j : Type*} (p : FirstGaussPoolData C pool j)
       (c : j → ℂ) (x : j → ℝ)
@@ -462,19 +462,19 @@ def literalPrimitivePooledConclusion
       (z : ℝ),
       p.energy (FirstGaussPoolData.twistedCoefficient c x z) ≤
         cal.rawPhaseCost x z εzero Cerror Czero)
-    (analytic : ∀ j : stages.supported.gated.liveLeaves raw.originalAtlas exceptional normalization,
+    (analytic : ∀ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
       (factories j).Input)
     (firstZero firstTail exceptionalCost : ℝ)
     (hfirstZero : 0 ≤ firstZero) (hfirstTail : 0 ≤ firstTail)
     (hexceptionalCost : 0 ≤ exceptionalCost)
     (hfirst : pairedStageEnergy centered (data ξ) a Z t Y₁ Y₂ / Z ^ (a.m + a.q) ≤
-      firstZero + firstTail + firstSource.rawRowCost hDiff / Z ^ (a.m + a.q))
-    (hexceptional : stages.supported.gated.exceptionalBudget raw.originalAtlas exceptional normalization /
+      firstZero + firstTail + (firstSource).rawRowCost hDiff / Z ^ (a.m + a.q))
+    (hexceptional : (stages).supported.gated.exceptionalBudget (raw).originalAtlas exceptional normalization /
       Z ^ (a.m + a.q) ≤ exceptionalCost)
     (hterminals : firstZero +
-      stages.dualSecondZeroBudget terminal normalization εzero Czero / Z ^ (a.m + a.q) +
+      (stages).dualSecondZeroBudget terminal normalization εzero Czero / Z ^ (a.m + a.q) +
         exceptionalCost +
-        (firstTail + stages.dualSecondTailBudget terminal normalization Cerror / Z ^ (a.m + a.q)) ≤
+        (firstTail + (stages).dualSecondTailBudget terminal normalization Cerror / Z ^ (a.m + a.q)) ≤
       finalConstant * finalControl * Z ^ terminalExponent)
     (hmassComparison : totalConstant * control ^ degree * Z ^ (9 * massLoss / 4 + eps + 5 * error / 3 + mesh) ≤
       finalConstant * finalControl * Z ^ ε) :
@@ -484,16 +484,16 @@ def literalPrimitivePooledConclusion
           (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ)
           Set.univ (Set.Icc (0 : ℝ) hi) orders Z) := by
   have hm := globalMass hlarge analytic
-  have hwidthEq : internal.m + internal.q = a.m + a.q :=
+  have hwidthEq : (internal).m + (internal).q = a.m + a.q :=
     Q.fullSupportParameters_width a Z
   rw [hwidthEq] at hm
   have hden : 0 ≤ Z ^ (a.m + a.q) :=
     Real.rpow_nonneg (zero_le_one.trans hZ.le) _
-  have hsecondZero : 0 ≤ stages.dualSecondZeroBudget terminal normalization εzero Czero /
+  have hsecondZero : 0 ≤ (stages).dualSecondZeroBudget terminal normalization εzero Czero /
       Z ^ (a.m + a.q) :=
     div_nonneg (ActualFirstSource.SecondStages.dualSecondZeroBudget_nonneg
       (R := stages) terminal normalization εzero Czero hCzero) hden
-  have hsecondTail : 0 ≤ stages.dualSecondTailBudget terminal normalization Cerror /
+  have hsecondTail : 0 ≤ (stages).dualSecondTailBudget terminal normalization Cerror /
       Z ^ (a.m + a.q) :=
     div_nonneg (ActualFirstSource.SecondStages.dualSecondTailBudget_nonneg
       (R := stages) terminal normalization Cerror hCerror) hden
@@ -503,9 +503,9 @@ def literalPrimitivePooledConclusion
     (completeFamily analytic) completeMeasure
     (outputGeometry analytic) (movingChildren analytic)
     (integrableChildren analytic (a.m + a.q)) (zero_lt_one.trans hZ)
-    firstZero (stages.dualSecondZeroBudget terminal normalization εzero Czero / Z ^ (a.m + a.q))
+    firstZero ((stages).dualSecondZeroBudget terminal normalization εzero Czero / Z ^ (a.m + a.q))
     exceptionalCost
-    (firstTail + stages.dualSecondTailBudget terminal normalization Cerror / Z ^ (a.m + a.q))
+    (firstTail + (stages).dualSecondTailBudget terminal normalization Cerror / Z ^ (a.m + a.q))
     hfirstZero hsecondZero hexceptionalCost (add_nonneg hfirstTail hsecondTail) hterminals
     (by simpa only [ActualNormalizedPairFamily.childPair_eq_frozen] using hp)
     ⟨hm.1, hm.2.trans hmassComparison⟩

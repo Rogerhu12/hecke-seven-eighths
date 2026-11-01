@@ -57,9 +57,9 @@ variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 local notation "original" => (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-local notation "raw" => original.raw Y₁ Y₂
+local notation "raw" => (original).raw Y₁ Y₂
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-local notation "c" => (original.values Y₁ Y₂).coefficient centered
+local notation "c" => ((original).values Y₁ Y₂).coefficient centered
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
@@ -102,7 +102,7 @@ def literalLeftDirectProfileSupport
       (CanonicalLiteralFirstPhase.leftElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.leftSourceCover raw.originalAtlas S χ).labels) :
+    (δ₂ : ℝ) (label : (p.leftSourceCover (raw).originalAtlas S χ).labels) :
     ProfileSupport
       (literalLeftDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -110,7 +110,7 @@ def literalLeftDirectProfileSupport
       (primeSupport A.cS ∪ (primeSupport DE.1)) := by
   let initial := Q.literalOriginalProfileSupport ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     reference href originalWindow hreference ht hwindow
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
   let transformed := initial.secondInput (σ := σ) branch P R (fun _ hp => support_prime hp)
     (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes
@@ -121,7 +121,7 @@ def literalLeftDirectProfileSupport
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
   have e := literalLeftDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  exact (transformed.onAtlas ((p.leftSourceCover raw.originalAtlas S χ).branch label) _ e).deleteMask
+  exact (transformed.onAtlas ((p.leftSourceCover (raw).originalAtlas S χ).branch label) _ e).deleteMask
     (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))
 
 /-- Both certificates are constructed from the original row and window
@@ -132,7 +132,7 @@ def literalRightDirectProfileSupport
       (CanonicalLiteralFirstPhase.rightElement C b.primes
         b.leftMultiplicity b.rightMultiplicity
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val))
-    (δ₂ : ℝ) (label : (p.rightSourceCover raw.originalAtlas S χ).labels) :
+    (δ₂ : ℝ) (label : (p.rightSourceCover (raw).originalAtlas S χ).labels) :
     ProfileSupport
       (literalRightDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -140,7 +140,7 @@ def literalRightDirectProfileSupport
       (primeSupport A.cS ∪ (primeSupport DE.1)) := by
   let initial := Q.literalOriginalProfileSupport ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     reference href originalWindow hreference ht hwindow
-  let branch := raw.originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
   let transformed := initial.secondInput (σ := σ) branch P R (fun _ hp => support_prime hp)
     (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes
@@ -151,7 +151,7 @@ def literalRightDirectProfileSupport
     CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
   have e := literalRightDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  exact (transformed.onAtlas ((p.rightSourceCover raw.originalAtlas S χ).branch label) _ e).deleteMask
+  exact (transformed.onAtlas ((p.rightSourceCover (raw).originalAtlas S χ).branch label) _ e).deleteMask
     (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))
 
 end CompleteMovingRowRecipe

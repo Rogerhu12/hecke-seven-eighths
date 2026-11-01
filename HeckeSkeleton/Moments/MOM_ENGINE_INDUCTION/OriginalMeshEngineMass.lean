@@ -1,282 +1,46 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineMassChoices
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectGlobalMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledGlobalMass
 
 /-!
-# The canonical mass constants with the original independent slot mesh
+# The authoritative engine with the original independent mesh
 
-This is the numerical specialization of the owner's literal direct and
-pooled mass theorems at immutable revision
-719ae9f74945456206ffc0dd142b87664e8cd891. The original physical slot mesh
-is kept independent of the analytic cutoff loss. In particular the
-mesh is not divided by the original slot cap.
-
-The literal contour, kernels and source constants are still chosen
-before the source. The same proved numerical bounds now display the
-single additional mesh charge: the final mass exponent is `b.ε + mesh`.
-The small analytic loss remains `b.loss` in every original cutoff and
-exceptional-volume argument.
+The owner now carries the original per-slot mesh through its literal
+construction at immutable revision
+f9eba0adee99dbd28dfedbf8d4357dac9147f005. These transparent names preserve
+the induction task's existing consumers while using that same producer,
+constants, selected children and positive kernels directly. The analytic
+cutoff loss remains independent, and the mass exponent is epsilon plus
+the original mesh. No local copy of the analytic proof is retained.
 -/
 
+set_option autoImplicit false
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineInduction.OriginalMeshEngineMass
 
-open HeckeSkeleton.Moments.EngineStep
-
-open NumberField IsDedekindDomain DedekindZetaZeroFree
-open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
-open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ActualSIntegerMoments
-open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
-open HeckeGeneral.ThetaSkeleton.Global MeasureTheory
-open CanonicalPrimitiveEngineChoices
-
-/-- This is the reserved loss already used to select the original tilt. -/
-def massLoss (b : Box) : ℝ := b.ε / 16
-
-theorem massLoss_pos (b : Box) : 0 < massLoss b := div_pos b.ε_pos (by norm_num)
-
-/-- The complete two radius powers and all three slot charges are kept. -/
-def degree (b : Box) : ℕ :=
-  CanonicalLiteralPassiveMassCoefficient.degree b.cap 1 0 0 0 0
-
-theorem degree_eq (b : Box) : degree b = 10 * b.cap + 4 := by
-  rw [degree, CanonicalLiteralPassiveMassCoefficient.degree_eq_explicit]
-  omega
-
-theorem tilt_eq_actual (b : Box) :
-    b.tilt = CanonicalLiteralCombinedMassCoefficient.mellinTilt
-      (max b.lengthBound b.columnBound) (massLoss b) := rfl
-
-theorem rawWidth_eq (b : Box) :
-    b.widthMax + b.columnBound + (2 * b.loss + b.loss) = b.rawNormBound := by
-  unfold Box.rawNormBound
-  ring
-
-variable {K : Type} [Field K] [NumberField K]
-variable {A : SArithmeticData K} {σ : K →+* ℂ} {ω ψ : HeckeCharacter K}
-variable [IsPrincipalIdealRing A.R]
-variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
-  [BorelSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
-variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
-  [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
-variable (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))
-  [∀ v, (μv v).IsAddHaarMeasure]
-variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
-  [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
-variable (ν : Measure (FiniteAdeleRing (𝓞 K) K)) [ν.IsAddHaarMeasure]
-variable [IsTotallyComplex K]
-variable [MeasurableSpace (mixedEmbedding.mixedSpace K)ˣ]
-  [BorelSpace (mixedEmbedding.mixedSpace K)ˣ]
-variable [∀ v : (A.Sf : Set (HeightOneSpectrum (𝓞 K))),
-  MeasurableSpace (v.val.adicCompletion K)ˣ]
-variable [∀ v : (A.Sf : Set (HeightOneSpectrum (𝓞 K))),
-  BorelSpace (v.val.adicCompletion K)ˣ]
-
-variable (b : Box) (mesh : ℝ) (orders : Finset (ℕ × ℕ)) (heightC : ℝ)
-
-local notation "unitIndex" =>
-  ((sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).index : ℝ)
-local notation "firstKernel" =>
-  (CanonicalLiteralKernelConstants.firstOrders K A σ ω ψ b.cap (orders.sup Prod.snd)).sup
-    (schwartzSeminormFamily ℝ ℝ ℂ)
-    (ActualGaussStage.canonicalRowBallKernel
-      (A := A) (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      μv ν b.tilt b.tilt_pos b.tilt_le_half)
-local notation "secondKernel" =>
-  (CanonicalLiteralKernelConstants.secondOrders K A σ ω ψ b.cap (orders.sup Prod.snd)).sup
-    (schwartzSeminormFamily ℝ ℝ ℂ)
-    (ActualGaussStage.canonicalRowBallKernel
-      (A := A) (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      μv ν b.tilt b.tilt_pos b.tilt_le_half)
-
-/-- The actual full-kappa contour, selected before all source data. -/
-def contour : ℝ :=
-  CanonicalLiteralPrimitiveMassConstants.contour K A σ ω ψ b.cap 1 0
-    b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
-    b.normBound (massLoss b) b.normBound_nonneg (massLoss_pos b)
-    orders mesh heightC b.rawNormBound b.rawNormBound_nonneg
-    unitIndex firstKernel secondKernel (by positivity) (by positivity) (by positivity)
-
-local notation "chosenContour" => contour
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-
-theorem contour_pos : 0 < chosenContour :=
-  CanonicalLiteralPrimitiveMassConstants.contour_pos K A σ ω ψ b.cap 1 0
-    b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
-    b.normBound (massLoss b) b.normBound_nonneg (massLoss_pos b)
-    orders mesh heightC b.rawNormBound b.rawNormBound_nonneg
-    unitIndex firstKernel secondKernel (by positivity) (by positivity) (by positivity)
-
-theorem contour_le_quarter : chosenContour ≤ 1 / 4 :=
-  CanonicalLiteralPrimitiveMassConstants.contour_le K A σ ω ψ b.cap 1 0
-    b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
-    b.normBound (massLoss b) b.normBound_nonneg (massLoss_pos b)
-    orders mesh heightC b.rawNormBound b.rawNormBound_nonneg
-    unitIndex firstKernel secondKernel (by positivity) (by positivity) (by positivity)
-
-/-- The common raw width is the exact width used in both actual mass
-constructors. Rewriting it does not select a different contour. -/
-theorem contour_eq_actual : chosenContour =
-    CanonicalLiteralPrimitiveMassConstants.contour K A σ ω ψ b.cap 1 0
-      b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
-      (max b.lengthBound b.columnBound) (massLoss b)
-      (le_max_of_le_left b.lengthBound_nonneg) (massLoss_pos b)
-      orders mesh heightC (b.widthMax + b.columnBound + (2 * b.loss + b.loss))
-      (by have h₁ := b.width_nonneg
-          have h₂ := b.columnBound_nonneg
-          have h₃ := b.loss_pos.le
-          positivity)
-      unitIndex firstKernel secondKernel (by positivity) (by positivity) (by positivity) := by
-  simpa only [rawWidth_eq b] using (rfl : chosenContour = chosenContour)
-
-/-- The proved complete direct source uses exactly this fixed constant. -/
-def directConstant : ℝ :=
-  CompleteMovingRowRecipe.literalPrimitiveDirectMassConstant
-  (K := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (μv := μv) (ν := ν)
-  (cap := b.cap) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
-  (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
-  (hcutoffExponent := b.loss_pos.le)
-  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
-  (orders := orders) (profileDegree := 1) (heightDegree := 0)
-  (lengthBound := b.lengthBound) (columnBound := b.columnBound)
-  (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
-  (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
-  (hwidthMax := b.width_nonneg) (hmassLoss := massLoss_pos b)
-
-/-- The pooled constant retains the original orbit, passive-label and
-amplified harmonic constants, including its single pool density loss. -/
-def pooledConstant : ℝ :=
-  CompleteMovingRowRecipe.literalPrimitivePooledMassConstant
-  (K := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (μv := μv) (ν := ν)
-  (cap := b.cap) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
-  (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
-  (hcutoffExponent := b.loss_pos.le) (step := b.step) (hstep := b.step_pos)
-  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
-  (orders := orders) (profileDegree := 1) (heightDegree := 0)
-  (lengthBound := b.lengthBound) (columnBound := b.columnBound)
-  (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
-  (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
-  (hwidthMax := b.width_nonneg) (hmassLoss := massLoss_pos b)
-  (eps := b.loss) (heps := b.loss_pos) (hepsSmall := b.pool_separation.2)
-
-local notation "directC" => directConstant
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-local notation "pooledC" => pooledConstant
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-
-theorem directConstant_pos : 0 < directC :=
-  CompleteMovingRowRecipe.literalPrimitiveDirectMassConstant_pos
-  (K := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (μv := μv) (ν := ν)
-  (cap := b.cap) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
-  (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
-  (hcutoffExponent := b.loss_pos.le)
-  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
-  (orders := orders) (profileDegree := 1) (heightDegree := 0)
-  (lengthBound := b.lengthBound) (columnBound := b.columnBound)
-  (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
-  (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
-  (hwidthMax := b.width_nonneg) (hmassLoss := massLoss_pos b)
-
-theorem pooledConstant_pos : 0 < pooledC :=
-  CompleteMovingRowRecipe.literalPrimitivePooledMassConstant_pos
-  (K := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (μv := μv) (ν := ν)
-  (cap := b.cap) (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half)
-  (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
-  (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
-  (hcutoffExponent := b.loss_pos.le) (step := b.step) (hstep := b.step_pos)
-  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
-  (orders := orders) (profileDegree := 1) (heightDegree := 0)
-  (lengthBound := b.lengthBound) (columnBound := b.columnBound)
-  (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
-  (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
-  (hwidthMax := b.width_nonneg) (hmassLoss := massLoss_pos b)
-  (eps := b.loss) (heps := b.loss_pos) (hepsSmall := b.pool_separation.2)
-
-/-- A single fixed positive constant works for either original source. -/
-def constant : ℝ := 1 + directC + pooledC
-
-local notation "massC" => constant
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-
-theorem constant_pos : 0 < massC := by
-  have hd := directConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-  have hp := pooledConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-  dsimp only [constant]
-  linarith
-
-theorem directConstant_le : directC ≤ massC := by
-  have hp := pooledConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-  dsimp only [constant]
-  linarith
-
-theorem pooledConstant_le : pooledC ≤ massC := by
-  have hd := directConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
-  dsimp only [constant]
-  linarith
-
-/-- The threshold is likewise the existing amplified harmonic choice,
-before the actual pool is constructed. -/
-def pooledThreshold : ℝ :=
-  CompleteMovingRowRecipe.literalPrimitivePooledMassThreshold
-    (K := K) (A := A) (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
-    (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
-    (step := b.step) (hstep := b.step_pos)
-    (lengthBound := b.lengthBound) (columnBound := b.columnBound)
-    (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
-    (massLoss := massLoss b) (hmassLoss := massLoss_pos b) (eps := b.loss)
-    (heps := b.loss_pos) (hepsSmall := b.pool_separation.2)
-
-theorem pooledThreshold_gt_one : 1 < pooledThreshold (A := A) b :=
-  CompleteMovingRowRecipe.literalPrimitivePooledMassThreshold_one_lt
-    (K := K) (A := A) (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
-    (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
-    (step := b.step) (hstep := b.step_pos)
-    (lengthBound := b.lengthBound) (columnBound := b.columnBound)
-    (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
-    (massLoss := massLoss b) (hmassLoss := massLoss_pos b) (eps := b.loss)
-    (heps := b.loss_pos) (hepsSmall := b.pool_separation.2)
-
-theorem direct_exponent_le :
-    9 * massLoss b / 4 + 5 * b.error / 3 + mesh ≤ b.ε + mesh := by
-  have h := CanonicalPrimitiveEngineMassChoices.direct_exponent_le b
-  have hloss := b.loss_pos.le
-  change 9 * (b.ε / 16) / 4 + 5 * b.error / 3 + mesh ≤ b.ε + mesh
-  change 9 * (b.ε / 16) / 4 + 5 * b.error / 3 + b.loss ≤ b.ε at h
-  linarith
-
-theorem pooled_exponent_le :
-    9 * massLoss b / 4 + b.loss + 5 * b.error / 3 + mesh ≤ b.ε + mesh := by
-  have h := CanonicalPrimitiveEngineMassChoices.pooled_exponent_le b
-  have hloss := b.loss_pos.le
-  change 9 * (b.ε / 16) / 4 + b.loss + 5 * b.error / 3 + mesh ≤ b.ε + mesh
-  change 9 * (b.ε / 16) / 4 + b.loss + 5 * b.error / 3 + b.loss ≤ b.ε at h
-  linarith
-
-/-- This is only a numerical comparison of the direct theorem's
-explicit right side; it assumes no family mass estimate. -/
-theorem direct_bound (control Z : ℝ) (hcontrol : 1 ≤ control) (hZ : 1 ≤ Z) :
-    directC * control ^ degree b * Z ^ (9 * massLoss b / 4 + 5 * b.error / 3 + mesh) ≤
-      massC * control ^ degree b * Z ^ (b.ε + mesh) :=
-  CanonicalPrimitiveEngineControl.monomial_mono
-    (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
-    (directConstant_le (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC)
-    hcontrol hZ le_rfl (direct_exponent_le b mesh)
-
-/-- The pool contributes its one extra `loss` and no additional
-unpaid exponent. Its original fixed constant is the one bounded above. -/
-theorem pooled_bound (control Z : ℝ) (hcontrol : 1 ≤ control) (hZ : 1 ≤ Z) :
-    pooledC * control ^ degree b *
-        Z ^ (9 * massLoss b / 4 + b.loss + 5 * b.error / 3 + mesh) ≤
-      massC * control ^ degree b * Z ^ (b.ε + mesh) :=
-  CanonicalPrimitiveEngineControl.monomial_mono
-    (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
-    (pooledConstant_le (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC)
-    hcontrol hZ le_rfl (pooled_exponent_le b mesh)
+abbrev massLoss := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.massLoss
+abbrev massLoss_pos := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.massLoss_pos
+abbrev degree := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.degree
+abbrev degree_eq := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.degree_eq
+abbrev tilt_eq_actual := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.tilt_eq_actual
+abbrev rawWidth_eq := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.rawWidth_eq
+abbrev contour := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.contour
+abbrev contour_pos := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.contour_pos
+abbrev contour_le_quarter := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.contour_le_quarter
+abbrev contour_eq_actual := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.contour_eq_actual
+abbrev directConstant := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.directConstant
+abbrev pooledConstant := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.pooledConstant
+abbrev directConstant_pos := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.directConstant_pos
+abbrev pooledConstant_pos := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.pooledConstant_pos
+abbrev constant := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.constant
+abbrev constant_pos := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.constant_pos
+abbrev directConstant_le := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.directConstant_le
+abbrev pooledConstant_le := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.pooledConstant_le
+abbrev pooledThreshold := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.pooledThreshold
+abbrev pooledThreshold_gt_one := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.pooledThreshold_gt_one
+abbrev direct_exponent_le := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.direct_exponent_le
+abbrev pooled_exponent_le := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.pooled_exponent_le
+abbrev direct_bound := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.direct_bound
+abbrev pooled_bound := @HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices.pooled_bound
 
 end HeckeSkeleton.Moments.EngineInduction.OriginalMeshEngineMass
 

@@ -87,7 +87,7 @@ theorem profile_real_nonnegative (B : ℝ) (r : {r : ℝ // 0 < r}) (q : Q) :
         (sIntegerOrbitNorm K (S : Set (HeightOneSpectrum (𝓞 K))) Γ q).property⟩
   simp only [Complex.mul_im, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im,
     zero_mul, add_zero, sub_zero, hp.1, mul_zero]
-  exact ⟨rfl, mul_nonneg (inv_nonneg.mpr (mass_pos K S).le) hp.2⟩
+  exact ⟨True.intro, mul_nonneg (inv_nonneg.mpr (mass_pos K S).le) hp.2⟩
 
 theorem profile_ge_one (B : ℝ) (r : {r : ℝ // 0 < r}) (q : Q)
     (hq : r.val * (sIntegerOrbitNorm K (S : Set (HeightOneSpectrum (𝓞 K))) Γ q).val ≤ B) :
