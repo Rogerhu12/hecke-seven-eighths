@@ -337,14 +337,14 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralColumnCutoff",
       "path": "HeckeSkeleton/LowEnergy/GeneralColumnCutoff.lean",
-      "source_sha256": "667dc1429be29c64540c410caa4896c892554883ab3dc0d1eae8e72697c72d67",
-      "bytes": 31777
+      "source_sha256": "e8014ef945b29050b0579bf37fdc138e61eb137cd19dd631e57ce38322e08422",
+      "bytes": 32057
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralCompletedEnergy",
       "path": "HeckeSkeleton/LowEnergy/GeneralCompletedEnergy.lean",
-      "source_sha256": "98417126d4dcb2489fda39d02e9c0657a8b3dad593e74e2859d0f4452b0722c4",
-      "bytes": 24430
+      "source_sha256": "4e8210e0a73ba7a176196120f45d87741197a5ce848f2ddc7adb3c17224abf46",
+      "bytes": 24472
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralConductor",
@@ -439,8 +439,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralTupleBlocks",
       "path": "HeckeSkeleton/LowEnergy/GeneralTupleBlocks.lean",
-      "source_sha256": "78e88887213f6e1a6ed06b8ced49c88108beba4603d22ab0a76a016a50539791",
-      "bytes": 42665
+      "source_sha256": "f8230fcdd236e59d7ad60f15014e5fb3b35fa00f421b24769c6a6215b8c9f091",
+      "bytes": 45963
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralUniformEnergy",
@@ -657,6 +657,12 @@
       "path": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
       "source_sha256": "480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17",
       "bytes": 3656
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.PrimeCoordinates",
+      "path": "HeckeSkeleton/LowFrozenCube/PrimeCoordinates.lean",
+      "source_sha256": "138c79ad1eb7c2aa54cde00cf7ec5a3af2171bbed71826103f2cd8cf20696790",
+      "bytes": 7749
     },
     {
       "module": "HeckeSkeleton.LowFrozenCube.Valuations",

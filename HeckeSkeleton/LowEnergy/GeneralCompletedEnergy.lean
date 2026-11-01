@@ -307,7 +307,7 @@ structure CompletedMarkedEnergy (F : FiniteMellinData K S) (θ : HeckeCharacter 
                   (Finset.mem_filter.mp p.property).2 V
         else 0
   project_columns :
-    ∀ (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+    ∀ (f : ActualSeparatedBlock.FixedData K S) (s : FrozenState K S f.frozen f.puncture)
       (a : Ideal (𝓞 K) → ℂ) (V : SmoothAnnularTest) (X : ℝ), 0 < X →
       ∀ (k : ExteriorIdeal K S) (ps : Finset (ExteriorIdeal K S))
         (annuli : Finset (ℕ × ℕ)),
@@ -321,7 +321,7 @@ structure CompletedMarkedEnergy (F : FiniteMellinData K S) (θ : HeckeCharacter 
         ∑ P ∈ ps, ∑' cb,
           GeneralSourceCutoff.discardedSourceAtom K S D f s annuli F θ a V.toFun X k P cb
   discarded_columns :
-    ∀ (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
+    ∀ (f : ActualSeparatedBlock.FixedData K S) (s : FrozenState K S f.frozen f.puncture)
       (a : Ideal (𝓞 K) → ℂ) (V : SmoothAnnularTest)
       (X Klo Plo T : ℝ), 0 < X → 0 < Klo → 0 < Plo → 0 < T →
       ∀ (k P : ExteriorIdeal K S),

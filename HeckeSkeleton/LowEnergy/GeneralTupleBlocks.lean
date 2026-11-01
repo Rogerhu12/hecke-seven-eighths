@@ -210,8 +210,37 @@ theorem sourceTerm_reweight (b : FrozenBlock K S) (marks : Finset (Ideal (𝓞 K
     (k P c n : Ideal (𝓞 K)) :
     sourceTerm K S D { b with marks := marks, markWeight := weight } s F θ V k P c n =
       weight P * sourceTerm K S D { b with markWeight := fun _ => 1 } s F θ V k P c n := by
-  unfold sourceTerm literalTerm
-  split_ifs <;> simp only [one_mul, mul_zero]
+  have hterm (k' P' c' n' : ExteriorIdeal K S)
+      (hk' : RowAdmissible K S b.fixed k') (hP' : MarkAdmissible K S b.fixed P') :
+      literalTerm K S D b.fixed s F θ weight V b.X k' P' c' n' hk' hP' =
+        weight P'.val.val *
+          literalTerm K S D b.fixed s F θ (fun _ => 1) V b.X k' P' c' n' hk' hP' := by
+    by_cases hkP : IsCoprime k'.val.val P'.val.val
+    · by_cases hcn : ColumnCondition K S s c' n'
+      · by_cases hPn : IsCoprime P'.val.val n'.val.val
+        · simp only [literalTerm, dif_pos hkP, dif_pos hcn, dif_pos hPn, one_mul]
+        · simp only [literalTerm, dif_pos hkP, dif_pos hcn, dif_neg hPn, mul_zero]
+      · simp only [literalTerm, dif_pos hkP, dif_neg hcn, mul_zero]
+    · simp only [literalTerm, dif_neg hkP, mul_zero]
+  unfold sourceTerm
+  by_cases hk : IsExterior K S k
+  · by_cases hP : IsExterior K S P
+    · by_cases hc : IsExterior K S c
+      · by_cases hn : IsExterior K S n
+        · by_cases hrow : RowAdmissible K S b.fixed (toExterior K S k hk)
+          · by_cases hmark : MarkAdmissible K S b.fixed (toExterior K S P hP)
+            · simpa only [dif_pos hk, dif_pos hP, dif_pos hc, dif_pos hn,
+                dif_pos hrow, dif_pos hmark, toExterior] using
+                hterm (toExterior K S k hk) (toExterior K S P hP)
+                  (toExterior K S c hc) (toExterior K S n hn) hrow hmark
+            · simp only [dif_pos hk, dif_pos hP, dif_pos hc, dif_pos hn,
+                dif_pos hrow, dif_neg hmark, mul_zero]
+          · simp only [dif_pos hk, dif_pos hP, dif_pos hc, dif_pos hn,
+              dif_neg hrow, mul_zero]
+        · simp only [dif_pos hk, dif_pos hP, dif_pos hc, dif_neg hn, mul_zero]
+      · simp only [dif_pos hk, dif_pos hP, dif_neg hc, mul_zero]
+    · simp only [dif_pos hk, dif_neg hP, mul_zero]
+  · simp only [dif_neg hk, mul_zero]
 
 theorem sourceRow_reweight (b : FrozenBlock K S) (marks : Finset (Ideal (𝓞 K)))
     (weight : Ideal (𝓞 K) → ℂ) (F : FiniteMellinData K S) (θ : HeckeCharacter K)
@@ -243,7 +272,11 @@ theorem markKernel_eq_zero_of_not_coprime (b : FrozenBlock K S)
     apply Finset.sum_eq_zero
     intro n _
     unfold sourceTerm
-    split_ifs <;> simp only [literalTerm, dif_neg hkP]
+    split_ifs <;> try rfl
+    unfold literalTerm
+    apply dif_neg
+    change ¬IsCoprime k P
+    exact hkP
   · rfl
 
 /-- Ordinary finite cut data; there is no estimate or reconstruction
@@ -626,9 +659,20 @@ theorem ofMarkedDatum_fixed (A : MarkChoice K S d₀) :
     (pd).fixed (d₀.marks \ A.val) = splitFixed K S d₀ A := by
   have hf : (d₀.marks \ A.val).filter (pd).Away = d₀.marks \ A.val :=
     Finset.filter_eq_self.mpr (ofMarkedDatum_legal d₀ X windows scales coefficient rows ranges A)
-  unfold fixed
-  rw [hf]
-  rfl
+  let supportType := {B : Finset (ExteriorPrime K S) // (pd).LegalInactive B}
+  let pack : supportType → FixedData K S := fun B =>
+    { frozen := d₀.frozen
+      puncture := d₀.puncture
+      puncture_squarefree := d₀.puncture_squarefree
+      rowUnit := d₀.rowUnit
+      inactive := B.val
+      inactive_away := B.property }
+  have hs :
+      (⟨(d₀.marks \ A.val).filter (pd).Away,
+        fun q hq => (Finset.mem_filter.mp hq).2⟩ : supportType) =
+        ⟨d₀.marks \ A.val, ofMarkedDatum_legal d₀ X windows scales coefficient rows ranges A⟩ :=
+    Subtype.ext hf
+  exact congrArg pack hs
 
 /-- Each source summand of the concrete factory is exactly the original
 reflection index with its canonical column and mark--cube zero extension. -/
@@ -642,7 +686,8 @@ theorem sourceTerm_ofMarkedDatum (hD : AllowedGeneratorInput K S D)
       extendColumn K S state (extendMarkedColumn K S state A.val
         (fun cb => reflectedTerm K S D d₀
           ((reflectionSigmaEquiv K S d₀).symm ⟨state, A, cb⟩) F θ V X)) c b := by
-  rw [sourceTerm, dif_pos (exterior_isExterior K S d₀.moving),
+  unfold sourceTerm
+  rw [dif_pos (exterior_isExterior K S d₀.moving),
     dif_pos (exterior_isExterior K S (primeSetIdeal K S A.val)),
     dif_pos (exterior_isExterior K S c), dif_pos (exterior_isExterior K S b)]
   change (if hr : RowAdmissible K S ((pd).fixed (d₀.marks \ A.val)) d₀.moving then
@@ -651,8 +696,24 @@ theorem sourceTerm_ofMarkedDatum (hD : AllowedGeneratorInput K S D)
         d₀.moving (primeSetIdeal K S A.val) c b hr hm else 0 else 0) = _
   have hf : (d₀.marks \ A.val).filter (pd).Away = d₀.marks \ A.val :=
     Finset.filter_eq_self.mpr (ofMarkedDatum_legal d₀ X windows scales coefficient rows ranges A)
-  dsimp only [fixed, ofMarkedDatum]
-  simp only [hf]
+  let supportType := {B : Finset (ExteriorPrime K S) // (pd).LegalInactive B}
+  let pack : supportType → FixedData K S := fun B =>
+    { frozen := d₀.frozen
+      puncture := d₀.puncture
+      puncture_squarefree := d₀.puncture_squarefree
+      rowUnit := d₀.rowUnit
+      inactive := B.val
+      inactive_away := B.property }
+  let filtered : supportType := ⟨(d₀.marks \ A.val).filter (pd).Away,
+    fun q hq => (Finset.mem_filter.mp hq).2⟩
+  let original : supportType :=
+    ⟨d₀.marks \ A.val, ofMarkedDatum_legal d₀ X windows scales coefficient rows ranges A⟩
+  have hs : filtered = original := Subtype.ext hf
+  change (if hr : RowAdmissible K S (pack filtered) d₀.moving then
+    if hm : MarkAdmissible K S (pack filtered) (primeSetIdeal K S A.val) then
+      literalTerm K S D (pack filtered) state F θ (fun _ => 1) V X
+        d₀.moving (primeSetIdeal K S A.val) c b hr hm else 0 else 0) = _
+  rw [hs]
   change (if hr : RowAdmissible K S (splitFixed K S d₀ A) d₀.moving then
     if hm : MarkAdmissible K S (splitFixed K S d₀ A) (primeSetIdeal K S A.val) then
       literalTerm K S D (splitFixed K S d₀ A) state F θ (fun _ => 1) V X
@@ -717,6 +778,7 @@ theorem projectionKernel_ofMarkedDatum (hD : AllowedGeneratorInput K S D)
     if_pos (ofMarkedDatum_legal d₀ X windows scales coefficient rows ranges A)]
   simp only [ActiveAllowed, hm, true_and]
   rw [markKernel_ofMarkedDatum D d₀ X windows scales coefficient rows ranges hD A I F θ V]
+  rfl
 
 end OriginalIndices
 

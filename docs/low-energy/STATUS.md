@@ -49,6 +49,11 @@ the normalized probe has the recorded fixed inverse factor. The follow-up source
 corrections to the calibration bridge are included. See
 `cloud_tasks/EXPANSION_POISSON_NORMALIZATION.md`.
 
+The shared `LowFrozenCube.PrimeCoordinates` consumer explicitly imports
+`Mathlib.Data.Finsupp.SMulWithZero` for its existing `valuation_pow_apply`
+proof. Its definitions and statements are unchanged. The consumer is included
+in the reviewed source manifest and the independent native build targets.
+
 ## Native verification
 
 Environment: Lean `leanprover/lean4:v4.35.0-rc3`, Lean commit

@@ -193,10 +193,16 @@ theorem annuliBelow_count_small_power (B eps : ℝ) (hB : 0 ≤ B) (heps : 0 < e
     have h := Real.log_le_log (zero_lt_one.trans_le (le_max_left 1 R)) hmax
     simpa only [Real.log_rpow hZp] using h
   have hendpoint : Real.log (max 1 R) / Real.log 2 + 1 ≤ a * (1 + Real.log Z) := by
-    have hh := div_le_div_of_nonneg_right hlog hlog2.le
-    dsimp [a]
-    nlinarith [div_nonneg hB hlog2.le,
-      mul_nonneg (div_nonneg hB hlog2.le) hlogZ]
+    have hh : Real.log (max 1 R) / Real.log 2 ≤ B / Real.log 2 * Real.log Z := by
+      calc
+        _ ≤ (B * Real.log Z) / Real.log 2 :=
+          div_le_div_of_nonneg_right hlog hlog2.le
+        _ = _ := by ring
+    calc
+      _ ≤ B / Real.log 2 * Real.log Z + 1 := add_le_add hh (le_refl 1)
+      _ ≤ B / Real.log 2 * Real.log Z + 1 + (B / Real.log 2 + Real.log Z) :=
+        le_add_of_nonneg_right (add_nonneg (div_nonneg hB hlog2.le) hlogZ)
+      _ = _ := by dsimp [a]; ring
   have hendpoint0 : 0 ≤ Real.log (max 1 R) / Real.log 2 + 1 := by
     have hh := Real.log_nonneg (le_max_left 1 R)
     positivity
@@ -488,7 +494,6 @@ theorem retainedAnnuli_threshold
     apply (div_lt_iff₀ hden).mpr
     have h := (lt_div_iff₀ hbase).mp hp'
     dsimp [dyadProduct] at h
-    dsimp [GeneralReflectedBlock.normalizedScale]
     nlinarith only [h]
   have ht : 16 * Z ^ (tau / 2) ≤ Z ^ tau := by
     calc
