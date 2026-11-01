@@ -52,8 +52,8 @@ while IFS=$'\t' read -r id ref key size created; do
 done < "${TMPDIR:-/tmp}/lake-caches.tsv"
 echo "kept ${#seen[@]} per-branch entries, $((kept / 1048576)) MiB"
 
-gh release list -R "$repo" --limit 100 --exclude-drafts --json tagName,createdAt \
-  --jq '[.[] | select(.tagName | startswith("lake-cache-"))] | sort_by(.createdAt) | reverse | .[].tagName' \
+gh release list -R "$repo" --limit 100 --exclude-drafts --json tagName,publishedAt \
+  --jq '[.[] | select(.tagName | startswith("lake-cache-"))] | sort_by(.publishedAt) | reverse | .[].tagName' \
   | tail -n +"$((keep + 1))" | while read -r tag; do
     echo "delete release $tag"
     $dry || gh release delete "$tag" -R "$repo" --yes --cleanup-tag || echo "::warning::could not delete release $tag"

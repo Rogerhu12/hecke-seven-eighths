@@ -40,8 +40,8 @@ same scalar profiles at its original real/imaginary shifts. -/
 theorem actual_unmarked_inverse_profile (U D : ℝ)
     (sector : SixthUnitClasses K (places K c)) (ξ : RecipeVector)
     (σ τ : NonzeroIdeal K → RecipeVector) (u : NonzeroIdeal K) :
-    ((recipeMomentModels K c (expansionRecipeRaw K c)).unmarked U D sector ξ σ τ)
-        .inverseTest.profile u 0 =
+    ((recipeMomentModels K c (expansionRecipeRaw K c)).unmarked U D sector ξ σ τ).inverseTest.profile
+        u 0 =
       actualInverseScalarProfile K c u U D (-(σ u 0))
         ((expansionRecipeRaw K c).family.frequencyScale * τ u 0) (ξ 3) := by
   funext y
