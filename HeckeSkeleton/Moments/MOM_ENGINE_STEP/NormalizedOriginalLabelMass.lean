@@ -28,6 +28,23 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree UniqueFactorizationMonoid
 open HeckeGeneral.Characters HeckeGeneral.Arithmetic HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments CommonSupportMass
 
+private theorem normalizedOriginalLabel_reorder_bound
+    (firstWeight pairWeight firstCost secondCost scale firstNorm secondNorm divisorNorm
+      firstMobius secondMobius firstPhase secondPhase : ℝ)
+    (h : (firstWeight * pairWeight) * (firstMobius * firstPhase * secondMobius * secondPhase) ≤
+      (firstCost / firstNorm * (secondCost * scale * (1 / secondNorm) / divisorNorm)) *
+        (firstMobius * secondMobius)) :
+    (firstWeight * firstMobius * firstPhase * secondMobius * secondPhase) * pairWeight ≤
+      firstCost * secondCost * scale *
+        ((1 / firstNorm) * firstMobius * (1 / secondNorm) * secondMobius / divisorNorm) := by
+  calc
+    _ = (firstWeight * pairWeight) *
+        (firstMobius * firstPhase * secondMobius * secondPhase) := by ring
+    _ ≤ (firstCost / firstNorm *
+        (secondCost * scale * (1 / secondNorm) / divisorNorm)) *
+          (firstMobius * secondMobius) := h
+    _ = _ := by ring
+
 variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -205,8 +222,19 @@ theorem normalized_pair_original_index_weight
         (mul_nonneg (mul_nonneg hconstant (Real.rpow_nonneg hz.le _))
           (one_div_nonneg.mpr (Nat.cast_nonneg _))) (Nat.cast_nonneg _))
   have h := mul_le_mul hpair hcoeff (by positivity) hupper
-  simpa only [TwoDivisorCommonBranch.indexWeight, hleft, hright, hdivisor,
-    div_eq_mul_inv, one_mul, mul_assoc, mul_left_comm, mul_comm] using h
+  have hreordered := normalizedOriginalLabel_reorder_bound
+    (firstOriginalAllowanceWeight Z parentWidth total rawProfile j.1.val.1.1 j.1.val.1.2)
+    (normalizedCapacityPairWeight lc rc left.normalizer right.normalizer Z 0 /
+      firstNormalization)
+    firstCost ((W.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor F)
+    (Z ^ remaining)
+    (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ)
+    (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ)
+    (Ideal.absNorm left.source.allocation.divisor : ℝ)
+    ‖(moebius j.2.1.val : ℂ)‖ ‖(moebius j.2.2.2.1.val : ℂ)‖
+    ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ h
+  refine hreordered.trans_eq ?_
+  rw [TwoDivisorCommonBranch.indexWeight, hleft, hright, hdivisor]
 
 end HeckeSkeleton.Moments.EngineStep
 
