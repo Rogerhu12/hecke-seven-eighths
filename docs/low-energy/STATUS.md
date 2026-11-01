@@ -31,9 +31,12 @@ report. These records establish acceptance for that source commit. Earlier
 completed runs and the errors they exposed are linked in
 [VERIFICATION_LEDGER.md](VERIFICATION_LEDGER.md).
 
-The CI never restores its own proof outputs. Its optional combined-source
-diagnostic is a separate aid for finding downstream errors; acceptance uses the
-ordinary module build and final audit described below.
+As requested in the latest PR comment, CI uses the official action's per-branch
+incremental cache. Lake rehashes the current source and dependency graph before
+deciding which modules require recompilation. The separate diagnostic artifact
+is not a restore cache. Its optional combined-source diagnostic helps locate
+downstream errors; acceptance uses the ordinary module build and fresh final
+audit described below.
 
 ## Statement and coefficient changes
 
@@ -61,11 +64,13 @@ Environment: Lean `leanprover/lean4:v4.35.0-rc3`, Lean commit
 `0493595ecd5da8ef14742febab99728f98e948e8`.
 
 The single workflow `.github/workflows/low-energy-verify.yml` restores the official
-`lake-cache-76c696e` dependency release through the pinned repository action. It
-checks that the proof build roots are empty, rehashes the native Lake graph, and
+`lake-cache-76c696e` dependency release and the official per-branch incremental
+cache through `restore-lake-cache@dtests-handoff`. It records restored proof
+outputs, rehashes the native Lake graph, and
 requests every source in `source_manifest.json`, `HeckeSkeleton.Principal`,
 `Expansion.PhysicalFourierNormalization`, and the changed normalization consumer
-`HeckeGeneral.Analysis.CompensatedRowKernelFactorization`. It then starts a fresh Lean process for
+`HeckeGeneral.Analysis.CompensatedRowKernelFactorization`. The exact checkout and
+reviewed source hashes are checked before and after the build and audit. It then starts a fresh Lean process for
 the three energy endpoint audits and the normalization factorization audit.
 Allowed axioms are exactly `propext`,
 `Classical.choice`, and `Quot.sound`.
@@ -78,8 +83,11 @@ errors in the same run. The command writes only diagnostic logs and generated
 source metadata to the run artifact; the independent module build and fresh
 four-declaration axiom audit remain the acceptance gate.
 
+The official action saves incremental outputs at job completion, including failed
+runs. Cached outputs are inputs to Lake's dependency checking, not success
+receipts; the full target command and all four final audits must still pass.
 The manifest contains only current reviewed source paths and hashes. Compilation
-logs, reports and native outputs belong in Actions artifacts. Old custom proof
+logs, reports and diagnostic native outputs belong in Actions artifacts. Old custom proof
 cache/checkpoint scripts, their fixtures, and committed compilation receipts have
 been removed. Historical results remain in Git history and their original Actions
 runs; none is relabelled as a current success.

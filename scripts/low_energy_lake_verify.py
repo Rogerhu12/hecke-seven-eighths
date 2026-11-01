@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Fresh LOW-REFLECTED-ENERGY builds using a pinned native Lake dependency cache.
+"""Verify LOW-REFLECTED-ENERGY with native Lake and the official incremental cache.
 
 This lane emits its own aggregate evidence. It never creates schema-2 module
 receipts, accepts manual compiled checkpoints, or infers per-module exit codes.
-Run ``prepare`` before toolchain/cache setup, then ``verify`` after the pinned
-restore action. All declared new sources and Principal must build from source;
-only old dependencies may replay their rehashed native Lake traces.
+Run ``prepare`` before toolchain/cache setup, then ``verify`` after the official
+restore action. Every declared target is requested from Lake with --rehash and
+--no-cache; Lake decides which native traces replay and which sources rebuild.
+Restored outputs do not replace the current build exit or the fresh axiom audit.
 """
 from __future__ import annotations
 
@@ -46,7 +47,8 @@ LEAN_COMMIT = '470d5ce1400764999581fd26d5d72b00d990b0f4'
 MATHLIB_REV = '0493595ecd5da8ef14742febab99728f98e948e8'
 CACHE_TAG = 'lake-cache-76c696e'
 CACHE_COMMIT = '76c696e20ee1f201a6507dde8b1d832a928ac71a'
-CACHE_ACTION = '5f3c782680be2c74365b4d8e5760fc16f1f222c5'
+CACHE_ACTION_REF = 'Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff'
+CACHE_ACTION_REVIEWED_COMMIT = '76258aafd9615fb020666e50e9d3f2e15a87111a'
 CACHE_MANIFEST_SHA256 = '825bd312958ffe69c779a8f674d1d380a5cc3323049ec2d3fe31ba04a2113328'
 CACHE_SUMS_SHA256 = 'cb851052b6f06e8799ed75fd1ce0b270dc888f9d43a509f081845ae9f56aaa2e'
 CACHE_PART = 'lake-cache.tar.zst.part-000'
@@ -163,33 +165,67 @@ def cache_metadata(directory: Path) -> dict:
                                           'sha256': CACHE_PART_SHA256}]
             or sums_raw.decode().strip() != CACHE_PART_SHA256 + '  ' + CACHE_PART):
         raise RuntimeError('Pinned cache manifest has an unexpected shape.')
-    # The immutable restore action checked this exact SHA256SUMS before extracting.
+    # The official restore action checks this exact SHA256SUMS before extracting.
     return {'release_tag': CACHE_TAG, 'producer_commit': CACHE_COMMIT,
-            'restore_action_commit': CACHE_ACTION,
             'manifest_sha256': CACHE_MANIFEST_SHA256, 'sums_sha256': CACHE_SUMS_SHA256,
             'part_sha256': CACHE_PART_SHA256, 'manifest': manifest}
 
 
-def assert_no_proof_outputs(root: Path) -> list[str]:
-    """Reject proof outputs in every candidate native build root, not only .olean."""
+def official_release_metadata_dir(work_root: Path) -> Path:
+    """Locate the official action's step-specific release directory, unambiguously."""
+    manifests = sorted(work_root.glob('*/release/lake-cache-manifest.json'))
+    if len(manifests) != 1:
+        raise RuntimeError('Expected exactly one official action release metadata directory.')
+    return manifests[0].parent
+
+
+def official_cache_provenance() -> dict:
+    tag = os.environ.get('RESTORED_LAKE_RELEASE_TAG', '')
+    if tag != CACHE_TAG:
+        raise RuntimeError('The official action did not report the pinned release tag.')
+    return {
+        'restore_action_ref': CACHE_ACTION_REF,
+        'restore_action_reviewed_commit': CACHE_ACTION_REVIEWED_COMMIT,
+        # The mutable branch can advance: the reviewed SHA is not a runtime receipt.
+        'restore_action_resolved_commit': None,
+        'resolved_commit_evidence': 'GitHub Actions action-download log',
+        'release_tag_output': tag,
+        'branch_cache_key': os.environ.get('RESTORED_LAKE_BRANCH_CACHE_KEY', ''),
+        'branch_cache_mode': 'true',
+    }
+
+
+def restored_proof_outputs(root: Path) -> dict:
+    """Inventory restored native outputs without accepting or deleting any of them."""
     roots = {root / rel for rel in CACHE_BUILD_ROOTS}
     roots.update((root / '.lake/packages').glob('*/.lake/build'))
     roots.update((root / 'vendor').glob('*/.lake/build'))
-    found = []
+    found = set()
     for build in sorted(roots):
         for area in ('lib/lean', 'ir'):
             directory = build / area
             for path in directory.glob('HeckeSkeleton*'):
                 if path.name == 'HeckeSkeleton' or path.name.startswith('HeckeSkeleton.'):
                     if path.is_symlink() or path.is_file():
-                        found.append(str(path.relative_to(root)))
+                        found.add(path)
                     elif path.is_dir():
-                        found.extend(str(p.relative_to(root)) for p in path.rglob('*')
-                                     if p.is_file() or p.is_symlink())
-    if found:
-        raise RuntimeError('Pre-existing HeckeSkeleton outputs forbid a fresh proof build: ' +
-                           ', '.join(found[:12]))
-    return sorted(str(path.relative_to(root)) for path in roots)
+                        found.update(p for p in path.rglob('*') if p.is_file() or p.is_symlink())
+            for module in CALIBRATION_MODULES:
+                stem = directory / Path(*module.split('.'))
+                found.update(p for p in stem.parent.glob(stem.name + '.*')
+                             if p.is_file() or p.is_symlink())
+    entries = []
+    for path in sorted(found):
+        entry = {'path': str(path.relative_to(root))}
+        if path.is_symlink():
+            entry['symlink_target'] = os.readlink(path)
+        else:
+            raw = regular_bytes(path)
+            entry.update(bytes=len(raw), sha256=sha256(raw))
+        entries.append(entry)
+    return {'scope': 'Restore inventory only; Lake must validate every requested target.',
+            'build_roots': sorted(str(path.relative_to(root)) for path in roots),
+            'files': entries, 'file_count': len(entries)}
 
 
 def run_logged(command: list[str], log: Path, timeout: float) -> dict:
@@ -265,7 +301,7 @@ def prepare(expected_head: str) -> None:
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     # A failed setup or interrupted invocation must not inherit an old target audit.
     for name in ('lake-build.log', 'final-audit.lean', 'final-audit.log', 'final-audit.json',
-                 'outputs.json', 'prepared.json'):
+                 'outputs.json', 'restored-proof-outputs.json', 'prepared.json'):
         (EVIDENCE / name).unlink(missing_ok=True)
     report = {'schema': SCHEMA, 'status': 'initializing', 'stage': 'source_preflight',
               'final_axiom_gate': 'not_started', 'expected_head': expected_head,
@@ -278,7 +314,7 @@ def prepare(expected_head: str) -> None:
     try:
         report['checkout'] = checkout_identity(expected_head)
         report['source_snapshot'] = source_snapshot(ROOT)
-        report.update(status='prepared', stage='awaiting_toolchain_and_pinned_release_restore')
+        report.update(status='prepared', stage='awaiting_toolchain_and_official_cache_restore')
         write_json(EVIDENCE / 'prepared.json', report)
         save(report)
     except Exception as error:
@@ -293,7 +329,8 @@ def verify(expected_head: str, metadata_dir: Path, build_timeout: float) -> None
               'final_axiom_gate': 'not_started', 'expected_head': expected_head,
               'per_module_schema2_receipts_created': False}
     # Clear stale success evidence even when a malformed/missing prepare record fails.
-    for name in ('lake-build.log', 'final-audit.lean', 'final-audit.log', 'final-audit.json', 'outputs.json'):
+    for name in ('lake-build.log', 'final-audit.lean', 'final-audit.log', 'final-audit.json',
+                 'outputs.json', 'restored-proof-outputs.json'):
         (EVIDENCE / name).unlink(missing_ok=True)
     save(report)
     try:
@@ -305,10 +342,18 @@ def verify(expected_head: str, metadata_dir: Path, build_timeout: float) -> None
         report['checkout'] = checkout_identity(expected_head)
         if source_snapshot(ROOT) != prepared['source_snapshot']:
             raise RuntimeError('Sources or configuration changed during cache setup.')
-        report['cache'] = cache_metadata(metadata_dir)
+        release_dir = official_release_metadata_dir(metadata_dir)
+        report['cache'] = {**cache_metadata(release_dir), **official_cache_provenance(),
+                           'metadata_directory': str(release_dir)}
         for name in ('lake-cache-manifest.json', 'SHA256SUMS'):
-            (EVIDENCE / name).write_bytes(regular_bytes(metadata_dir / name))
-        report['checked_empty_proof_build_roots'] = assert_no_proof_outputs(ROOT)
+            (EVIDENCE / name).write_bytes(regular_bytes(release_dir / name))
+        restored = restored_proof_outputs(ROOT)
+        write_json(EVIDENCE / 'restored-proof-outputs.json', restored)
+        report['restored_proof_outputs'] = {
+            'file_count': restored['file_count'],
+            'inventory_sha256': sha256((EVIDENCE / 'restored-proof-outputs.json').read_bytes()),
+            'accepted_as_current_build': False,
+        }
         if (ROOT / 'lean-toolchain').read_text().strip() != TOOLCHAIN:
             raise RuntimeError('Unexpected Lean toolchain.')
         packages = json.loads((ROOT / 'lake-manifest.json').read_text())['packages']
@@ -367,13 +412,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('phase', choices=('prepare', 'verify'))
     parser.add_argument('--expected-head', required=True)
-    parser.add_argument('--cache-metadata-dir', type=Path)
+    parser.add_argument('--cache-metadata-dir', type=Path,
+                        help='Official action work root: RUNNER_TEMP/restore-lake-cache.')
     parser.add_argument('--build-timeout', type=float, default=9000)
     args = parser.parse_args()
     if not math.isfinite(args.build_timeout) or args.build_timeout <= 0 or args.build_timeout > 9000:
         parser.error('--build-timeout must be between 0 and 9000 seconds.')
     if args.phase == 'verify' and args.cache_metadata_dir is None:
-        parser.error('verify requires --cache-metadata-dir from the pinned restore action.')
+        parser.error('verify requires --cache-metadata-dir from the official restore action.')
     try:
         if args.phase == 'prepare':
             prepare(args.expected_head)

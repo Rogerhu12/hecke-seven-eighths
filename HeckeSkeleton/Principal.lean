@@ -10,6 +10,7 @@ import HeckeSkeleton.LowEnergy.GeneralCompletedEnergy
 
 set_option autoImplicit false
 set_option quotPrecheck false
+universe u
 noncomputable section
 namespace HeckeSkeleton
 open NumberField IsDedekindDomain MeasureTheory Filter Asymptotics
@@ -176,7 +177,7 @@ def CompletedCanonicalMarkedEnergy
     (S₀ : Set (HeightOneSpectrum (𝓞 K))) [Fintype S₀]
     (D₀ : ThetaArithmeticData K S₀) (F : FiniteMellinData K S₀)
     (θ : HeckeCharacter K) : Prop :=
-  LowEnergy.GeneralCompletedEnergy.CompletedMarkedEnergy K S₀ D₀ F θ
+  LowEnergy.GeneralCompletedEnergy.CompletedMarkedEnergy.{u} K S₀ D₀ F θ
 
 -- LOW-REFLECTED-ENERGY | revised Lemma 4.8, (can-Eref), (can-conductor-comparison).
 -- This is the general source-block terminal consumed by canonical induction.
@@ -188,8 +189,8 @@ theorem completedMarkedEnergy
     (hreflection : MarkedCoefficientReflectionInput K S₀ D₀ F θ)
     (hquadratic : LowEnergy.ActualSieveDictionary.ExteriorQuadraticBound K S₀ D₀)
     (hcubic : LowEnergy.ActualSieveDictionary.ExteriorCubicBound K S₀ D₀) :
-    CompletedCanonicalMarkedEnergy K S₀ D₀ F θ :=
-  LowEnergy.GeneralCompletedEnergy.completedMarkedEnergy K S₀ D₀ F θ
+    CompletedCanonicalMarkedEnergy.{u} K S₀ D₀ F θ :=
+  LowEnergy.GeneralCompletedEnergy.completedMarkedEnergy.{u} K S₀ D₀ F θ
     hreflection hquadratic hcubic
 
 /-- The original physical Gaussian row budget (6.22), with its literal

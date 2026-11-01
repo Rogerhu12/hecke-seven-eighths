@@ -67,18 +67,23 @@ jobs:
           lint: 'false'
           use-mathlib-cache: 'true'
           use-github-cache: 'false'
-      - name: Restore the pinned native dependency release
-        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@5f3c782680be2c74365b4d8e5760fc16f1f222c5
+      - name: Restore the pinned release and official branch build outputs
+        id: official_lake_cache
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
         with:
           repository: Rogerhu12/hecke-seven-eighths
           tag: lake-cache-76c696e
+          branch-cache: 'true'
       - name: Build every new proof source and run the strict target audits
         id: native_build
         timeout-minutes: 155
+        env:
+          RESTORED_LAKE_RELEASE_TAG: ${{ steps.official_lake_cache.outputs.tag }}
+          RESTORED_LAKE_BRANCH_CACHE_KEY: ${{ steps.official_lake_cache.outputs['branch-cache-key'] }}
         run: >-
           python3 scripts/low_energy_lake_verify.py verify
           --expected-head "$EXPECTED_SOURCE_HEAD"
-          --cache-metadata-dir "$RUNNER_TEMP/lake-cache-download"
+          --cache-metadata-dir "$RUNNER_TEMP/restore-lake-cache"
       - name: Diagnose the complete source chain after a failed native build
         if: failure() && steps.native_build.outcome == 'failure'
         continue-on-error: true

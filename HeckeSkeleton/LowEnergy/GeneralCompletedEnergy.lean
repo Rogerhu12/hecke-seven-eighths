@@ -23,6 +23,7 @@ scale and tuple family.  Test dependence is displayed as a finite seminorm.
 -/
 
 set_option autoImplicit false
+universe u
 noncomputable section
 namespace HeckeSkeleton.LowEnergy.GeneralCompletedEnergy
 
@@ -62,7 +63,7 @@ def ArbitraryPowerTails (F : FiniteMellinData K S) (θ : HeckeCharacter K) : Pro
     0 < tau → 0 < L →
     ∃ (J : ℕ) (C Z0 : ℝ), 0 ≤ C ∧ 1 < Z0 ∧
       ∀ Z : ℝ, Z0 ≤ Z → 16 ≤ Z ^ (tau / 2) ∧
-      ∀ (V : SmoothAnnularTest) {ι : Type*} (I : Finset ι) (p : ι → TailPiece K S),
+      ∀ (V : SmoothAnnularTest) {ι : Type u} (I : Finset ι) (p : ι → TailPiece K S),
       (I.card : ℝ) ≤ Z ^ Cmax →
       (∀ i ∈ I, 0 < (p i).X) →
       (∀ i ∈ I, ‖(p i).weight‖ ≤ Z ^ Wmax) →
@@ -79,7 +80,7 @@ def ArbitraryPowerTails (F : FiniteMellinData K S) (θ : HeckeCharacter K) : Pro
 
 theorem arbitraryPowerTails (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (hreflection : MarkedCoefficientReflectionInput K S D F θ) :
-    ArbitraryPowerTails K S D F θ := by
+    ArbitraryPowerTails.{u} K S D F θ := by
   intro Cmax Wmax Hmax Pmax Amax Nmax tau L hC hW hH hP hA hN htau hL
   have hbudget : 0 ≤ tailBudget Cmax Wmax Hmax Pmax Amax Nmax := by
     unfold tailBudget
@@ -103,7 +104,7 @@ def UniformArbitraryPowerTails (F : FiniteMellinData K S) (θ : HeckeCharacter K
       ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
       MarkedCoefficientReflectionInput K S D F (ν * θ * heckeNormTwist K t) →
       ∀ Z : ℝ, Z0 ≤ Z → 16 ≤ Z ^ (tau / 2) ∧
-      ∀ (V : SmoothAnnularTest) {ι : Type*} (I : Finset ι) (p : ι → TailPiece K S),
+      ∀ (V : SmoothAnnularTest) {ι : Type u} (I : Finset ι) (p : ι → TailPiece K S),
       (I.card : ℝ) ≤ Z ^ Cmax →
       (∀ i ∈ I, 0 < (p i).X) →
       (∀ i ∈ I, ‖(p i).weight‖ ≤ Z ^ Wmax) →
@@ -124,7 +125,7 @@ def UniformArbitraryPowerTails (F : FiniteMellinData K S) (θ : HeckeCharacter K
 theorem uniformArbitraryPowerTails [Finite (SixthLocalClasses K S)]
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (hreflection : MarkedCoefficientReflectionInput K S D F θ) :
-    UniformArbitraryPowerTails K S D F θ := by
+    UniformArbitraryPowerTails.{u} K S D F θ := by
   intro Cmax Wmax Hmax Pmax Amax Nmax tau L hC hW hH hP hA hN htau hL
   have hbudget : 0 ≤ tailBudget Cmax Wmax Hmax Pmax Amax Nmax := by
     unfold tailBudget
@@ -152,7 +153,7 @@ def UniformDiscardedPowerTails (F : FiniteMellinData K S) (θ : HeckeCharacter K
       ∀ (ν : HeckeCharacter K), FiniteOrder ν → ∀ (t : ℝ),
       MarkedCoefficientReflectionInput K S D F (ν * θ * heckeNormTwist K t) →
       ∀ Z : ℝ, Z0 ≤ Z → 16 ≤ Z ^ (tau / 2) ∧
-      ∀ (V : SmoothAnnularTest) {ι : Type*} (I : Finset ι) (p : ι → TailPiece K S)
+      ∀ (V : SmoothAnnularTest) {ι : Type u} (I : Finset ι) (p : ι → TailPiece K S)
         (Klo Plo : ι → ℝ),
       (I.card : ℝ) ≤ Z ^ Cmax →
       (∀ i ∈ I, 0 < (p i).X) →
@@ -184,7 +185,7 @@ def UniformDiscardedPowerTails (F : FiniteMellinData K S) (θ : HeckeCharacter K
 theorem uniformDiscardedPowerTails [Finite (SixthLocalClasses K S)]
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (hreflection : MarkedCoefficientReflectionInput K S D F θ) :
-    UniformDiscardedPowerTails K S D F θ := by
+    UniformDiscardedPowerTails.{u} K S D F θ := by
   intro Cmax Wmax Hmax Pmax Amax Nmax tau L hC hW hH hP hA hN htau hL
   have hbudget : 0 ≤ tailBudget Cmax Wmax Hmax Pmax Amax Nmax := by
     unfold tailBudget
@@ -332,9 +333,9 @@ structure CompletedMarkedEnergy (F : FiniteMellinData K S) (θ : HeckeCharacter 
         F θ a V.toFun X k P cb‖ ≤
         ∑' q : ClassSlices.FourClasses (SixthLocalClasses K S),
           (GeneralSourceCutoff.sourceTailPiece K S D f s θ q a X k P).tailMass D F θ V T
-  power_tails : ArbitraryPowerTails K S D F θ
-  uniform_power_tails : UniformArbitraryPowerTails K S D F θ
-  uniform_discarded_tails : UniformDiscardedPowerTails K S D F θ
+  power_tails : ArbitraryPowerTails.{u} K S D F θ
+  uniform_power_tails : UniformArbitraryPowerTails.{u} K S D F θ
+  uniform_discarded_tails : UniformDiscardedPowerTails.{u} K S D F θ
   annular_conductors :
     ∀ (k label puncture : ExteriorIdeal K S),
       Squarefree label.val.val → Squarefree puncture.val.val →
@@ -362,7 +363,7 @@ theorem completedMarkedEnergy [Finite (SixthLocalClasses K S)]
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (hreflection : MarkedCoefficientReflectionInput K S D F θ)
     (hquadratic : ExteriorQuadraticBound K S D) (hcubic : ExteriorCubicBound K S D) :
-    CompletedMarkedEnergy K S D F θ where
+    CompletedMarkedEnergy.{u} K S D F θ where
   product_block_energy := GeneralProductEnergy.uniformProductBlockEnergy K S D F θ
     hreflection hquadratic hcubic
   block_energy := canonical_complete_family_energy K S D F hreflection.kernel.finite_admissible θ
@@ -409,9 +410,9 @@ theorem completedMarkedEnergy [Finite (SixthLocalClasses K S)]
       GeneralSourceCutoff.source_discarded_mass_le K S D f s F θ
         hreflection.kernel hreflection.exterior_unramified hreflection.allowed_generators
         a V X Klo Plo T hX hK hP hT k P hk0 hk1 hp0 hp1
-  power_tails := arbitraryPowerTails K S D F θ hreflection
-  uniform_power_tails := uniformArbitraryPowerTails K S D F θ hreflection
-  uniform_discarded_tails := uniformDiscardedPowerTails K S D F θ hreflection
+  power_tails := arbitraryPowerTails.{u} K S D F θ hreflection
+  uniform_power_tails := uniformArbitraryPowerTails.{u} K S D F θ hreflection
+  uniform_discarded_tails := uniformDiscardedPowerTails.{u} K S D F θ hreflection
   annular_conductors := by
     intro k label puncture hlabel hpuncture s Z X Klo Plo M O V Ck Cp Cf
       hZ hKlo hCk hCp hCf hmove hrow hp hf

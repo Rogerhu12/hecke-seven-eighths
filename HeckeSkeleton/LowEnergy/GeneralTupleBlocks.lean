@@ -229,8 +229,9 @@ theorem sourceTerm_reweight (b : FrozenBlock K S) (marks : Finset (Ideal (𝓞 K
       · by_cases hn : IsExterior K S n
         · by_cases hrow : RowAdmissible K S b.fixed (toExterior K S k hk)
           · by_cases hmark : MarkAdmissible K S b.fixed (toExterior K S P hP)
-            · simpa only [dif_pos hk, dif_pos hP, dif_pos hc, dif_pos hn,
-                dif_pos hrow, dif_pos hmark, toExterior] using
+            · simp only [dif_pos hk, dif_pos hP, dif_pos hc, dif_pos hn,
+                dif_pos hrow, dif_pos hmark]
+              simpa only [toExterior] using
                 hterm (toExterior K S k hk) (toExterior K S P hP)
                   (toExterior K S c hc) (toExterior K S n hn) hrow hmark
             · simp only [dif_pos hk, dif_pos hP, dif_pos hc, dif_pos hn,

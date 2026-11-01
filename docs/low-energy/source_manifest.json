@@ -343,8 +343,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralCompletedEnergy",
       "path": "HeckeSkeleton/LowEnergy/GeneralCompletedEnergy.lean",
-      "source_sha256": "4e8210e0a73ba7a176196120f45d87741197a5ce848f2ddc7adb3c17224abf46",
-      "bytes": 24472
+      "source_sha256": "bee0f137c79a87cd02d842b53802cfef4f5be6dc09ddfb695b2645157f51574e",
+      "bytes": 24526
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralConductor",
@@ -439,8 +439,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralTupleBlocks",
       "path": "HeckeSkeleton/LowEnergy/GeneralTupleBlocks.lean",
-      "source_sha256": "f8230fcdd236e59d7ad60f15014e5fb3b35fa00f421b24769c6a6215b8c9f091",
-      "bytes": 45963
+      "source_sha256": "69f4c8583ac4f1e0dca1e38b5d937a1d67f9d09f7956a09d67c960189e4c138f",
+      "bytes": 45988
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralUniformEnergy",
