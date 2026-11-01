@@ -4,7 +4,7 @@
 First run normal Lake dependencies in the checkout:
   lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves:deps
 Then:
-  python3 actual_finite_leaves_diagnostic.py --repo CHECKOUT --evidence EVIDENCE [--run]
+  python3 actual_finite_leaves_phase_have_diagnostic.py --repo CHECKOUT --evidence EVIDENCE [--run]
 
 Without --run this only validates/instruments the full original source.  This
 script never runs a dependency build, edits a tracked file, changes proof
@@ -28,14 +28,14 @@ import tempfile
 import threading
 import time
 
-EXPECTED_SOURCE = 'cc98c8a2c5c3c3f6c59695935245f463c84e6e7f7c8292b5062e2d1813d94c87'
-EXPECTED_BYTES = 40282
+EXPECTED_SOURCE = '485e789ed08d344372247159062b503d20e356a2606faed5497fc3c185f09e3f'
+EXPECTED_BYTES = 40306
 EXPECTED_LEAN = '4.35.0-rc3'
 EXPECTED_LEAN_COMMIT = '470d5ce1400764999581fd26d5d72b00d990b0f4'
 EXPECTED_MATHLIB = '0493595ecd5da8ef14742febab99728f98e948e8'
 SOURCE = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualGaussFiniteLeaves.lean')
-PREFIX = 'A2_ACTUAL_CC98_DIAGNOSTIC'
-MODULE = 'MomEngineActualDiagCc98c8a2'
+PREFIX = 'A2_ACTUAL_485E_DIAGNOSTIC'
+MODULE = 'MomEngineActualDiag485e789e'
 TIMEOUT_SECONDS = 150
 KILL_AFTER_SECONDS = 10
 ACCEPTANCE = {
@@ -140,8 +140,18 @@ def instrument(original: bytes) -> tuple[bytes, list[dict], dict]:
         before_step(phase, rf'^  have {local} :=', 'PHASE_BEFORE_' + local)
     before_step(phase, r'^  unfold SecondBlockProfileChart\.hybridClassCost ',
                 'PHASE_BEFORE_UNFOLD')
-    before_step(phase, r'^  exact phase_seven_argument_congr',
+    # Retain the historical label at the same proof-construction boundary.
+    # The candidate now binds this expression with `have` before final `exact`.
+    before_step(phase, r'^  have hphase := phase_seven_argument_congr',
                 'PHASE_BEFORE_EXACT_SEVEN_ARGUMENT_CONGR')
+    before_step(phase, r'^  have hphase := phase_seven_argument_congr',
+                'PHASE_BEFORE_BUILD_PROOF')
+    before_step(phase, r'^  exact hphase\s*$', 'PHASE_BEFORE_FINAL_EXACT')
+    begin, end = body_range(phase)
+    final_exact = [i for i in range(begin, end) if re.match(r'^  exact hphase\s*$', lines[i])]
+    assert len(final_exact) == 1, ('Final phase exact not unique', final_exact)
+    # A minimal pinned-Lean probe verified that run_tac executes with zero goals.
+    add(final_exact[0] + 1, 'PHASE_AFTER_FINAL_EXACT', 'tactic')
     before_step('fixed_fullCorrelation_eq_leaf_sum', r'^  exact\s*$',
                 'FIXED_FULL_CORRELATION_BEFORE_PROVIDER_EXACT')
     before_step('phase_class_eq_leaf_sum', r'^  exact ', 'PHASE_PUBLIC_BEFORE_EXACT')
@@ -167,9 +177,12 @@ def instrument(original: bytes) -> tuple[bytes, list[dict], dict]:
                 'TERMINAL_INTEGRAL_BEFORE_INTEGRAL_ADD')
     before_step('integral_phase_cost_eq_budgets_leaves', r'^  rw \[integral_const, ',
                 'TERMINAL_INTEGRAL_BEFORE_INTEGRAL_SUM')
-    for i, line in enumerate(lines):
-        if line.startswith('#print axioms '):
-            add(i, 'BEFORE_ORIGINAL_PRINT_' + str(i + 1))
+    print_indices = [i for i, line in enumerate(lines) if line.startswith('#print axioms ')]
+    assert [i + 1 for i in print_indices] == [780, 781], 'Original print locations changed'
+    # Keep all 59 previous marker labels stable; their source positions are
+    # recorded separately in the manifest after the candidate's added line.
+    for i, old_line in zip(print_indices, [779, 780]):
+        add(i, 'BEFORE_ORIGINAL_PRINT_' + str(old_line))
     add(len(lines), 'AFTER_ALL_ORIGINAL_COMMANDS')
 
     output = []
@@ -220,14 +233,14 @@ def execute(repo: Path, evidence: Path, marked: bytes, result: dict) -> None:
                   source_tree=subprocess.check_output(['git', 'rev-parse', 'HEAD^{tree}'], cwd=repo, text=True).strip())
     # The package-root flag only determines the name of this temporary module;
     # the original two imports resolve through the normal `lake env` paths.
-    with tempfile.TemporaryDirectory(prefix='a2-actual-cc98-diagnostic-') as temporary:
+    with tempfile.TemporaryDirectory(prefix='a2-actual-485e-diagnostic-') as temporary:
         directory = Path(temporary)
         source = directory / (MODULE + '.lean')
         source.write_bytes(marked)
         compiler = directory / 'compiler'
         compiler.mkdir()
         command = ['lake', 'env', 'lean', '-j2', '-DautoImplicit=false', '-DrelaxedAutoImplicit=false',
-                   '-R', str(directory), '-o', str(compiler / (MODULE + '.olean')),
+                   '-DstderrAsMessages=false', '-R', str(directory), '-o', str(compiler / (MODULE + '.olean')),
                    '-i', str(compiler / (MODULE + '.ilean')), str(source)]
         result.update(command=command, temporary_directory=str(directory),
                       compiler_output_directory=str(compiler), started=True)
@@ -336,7 +349,7 @@ def main() -> int:
               'source_path': str(SOURCE), 'source_sha256': sha(original), 'source_bytes': len(original),
               'diagnostic_source_sha256': sha(marked), 'diagnostic_source_bytes': len(marked),
               'heartbeat_override': None, 'lean_async_override': None, 'profiler_override': None,
-              'stderr_option_override': None, 'warning_option_override': None,
+              'stderr_option_override': False, 'warning_option_override': None,
               'timeout_seconds': TIMEOUT_SECONDS, 'kill_after_seconds': KILL_AFTER_SECONDS,
               'started': False, 'status': 'prepared_only', 'timed_out': False,
               'marker_times_are_observed_arrival_only': True}

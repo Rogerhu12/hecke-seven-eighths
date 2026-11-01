@@ -45,6 +45,23 @@ private theorem normalizedOriginalLabel_reorder_bound
           (firstMobius * secondMobius) := h
     _ = _ := by ring
 
+private theorem normalizedOriginalLabel_indexWeight_eq
+    {F : Type} [Field F] [NumberField F]
+    (branch : TwoDivisorCommonBranch (K := F)) (j : branch.Index)
+    (leftIdeal rightIdeal divisor : Ideal (𝓞 F))
+    (hleft : leftIdeal = j.2.2.1.val.1.1)
+    (hright : rightIdeal = j.2.2.1.val.1.2)
+    (hdivisor : divisor = j.2.2.2.1.val) :
+    (1 / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ)) *
+      ‖(moebius j.2.1.val : ℂ)‖ *
+        (1 / (Ideal.absNorm (commonRadical leftIdeal rightIdeal) : ℝ)) *
+          ‖(moebius j.2.2.2.1.val : ℂ)‖ / (Ideal.absNorm divisor : ℝ) =
+      branch.indexWeight j := by
+  subst leftIdeal
+  subst rightIdeal
+  subst divisor
+  rfl
+
 variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -233,8 +250,12 @@ theorem normalized_pair_original_index_weight
     (Ideal.absNorm left.source.allocation.divisor : ℝ)
     ‖(moebius j.2.1.val : ℂ)‖ ‖(moebius j.2.2.2.1.val : ℂ)‖
     ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ h
-  refine hreordered.trans_eq ?_
-  rw [TwoDivisorCommonBranch.indexWeight, hleft, hright, hdivisor]
+  exact hreordered.trans_eq (congrArg
+    (fun weight : ℝ =>
+      firstCost * ((W.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor F) *
+        Z ^ remaining * weight)
+    (normalizedOriginalLabel_indexWeight_eq (F := F) branch j
+      W.leftIdeal W.rightIdeal left.source.allocation.divisor hleft hright hdivisor))
 
 end HeckeSkeleton.Moments.EngineStep
 

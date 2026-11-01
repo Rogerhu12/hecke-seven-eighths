@@ -412,7 +412,7 @@ private theorem phase_class_eq_fixed_fullCorrelation
   have hrightPoint := phase_point_reindex_congr v.rightReindex.index
     (charts_withMultiplier_rightPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1)
   unfold SecondBlockProfileChart.hybridClassCost secondResidualHybridCost
-  exact phase_seven_argument_congr
+  have hphase := phase_seven_argument_congr
     (fun (kernel : SchwartzMap E ℂ) (rows : Finset Q) (rowCoefficient : Q → ℂ)
       (leftCoefficient : ((PUnit × PUnit) →* Circle) → Q → AllocationColumn K v.leftSlots → ℂ)
       (rightCoefficient : ((PUnit × PUnit) →* Circle) → Q →
@@ -431,6 +431,7 @@ private theorem phase_class_eq_fixed_fullCorrelation
           (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
         v.2.2.2.2.2.1 v.2.2.2.2.2.2))
     hkernel hrows hrowCoefficient hleftCoefficient hrightCoefficient hleftPoint hrightPoint
+  exact hphase
 
 private theorem fixed_fullCorrelation_eq_leaf_sum
     (exceptional : s.CoverHybridPredicates LC RC)
