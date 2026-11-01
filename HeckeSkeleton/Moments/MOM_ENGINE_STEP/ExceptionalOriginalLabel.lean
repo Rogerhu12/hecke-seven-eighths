@@ -112,8 +112,8 @@ theorem original_exceptional_label_scalar
           (norm_nonneg (fixedPhaseCoefficient Ray₁ phase₁ χ₁)))
         (norm_nonneg (moebius j.2.2.2.1.val : ℂ)))
       (norm_nonneg (fixedPhaseCoefficient Ray₂ phase₂ χ₂))) hp0
-  convert hfinal using 1 <;>
-    dsimp only [TwoDivisorCommonBranch.exceptionalDyadWeight] <;> ring
+  unfold TwoDivisorCommonBranch.exceptionalDyadWeight
+  convert hfinal using 1 <;> ring
 
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
@@ -240,8 +240,9 @@ theorem exceptional_original_label_from_atoms
   let remaining' := remaining + widthError +
     (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)
   have hradical : (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ) =
-      (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) := by
-    rw [hleftIdeal, hrightIdeal]
+      (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) :=
+    congrArg₂ (fun I J : Ideal (𝓞 F) => (Ideal.absNorm (commonRadical I J) : ℝ))
+      hleftIdeal hrightIdeal
   have hsecond' : left.exceptionalMagnitude right EL ER Q ξ / Z ^ parentWidth ≤
       Csecond * Z ^ remaining' /
         (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) *
