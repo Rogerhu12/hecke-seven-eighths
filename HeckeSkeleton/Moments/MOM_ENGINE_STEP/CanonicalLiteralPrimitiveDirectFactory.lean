@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPlainBackgroundTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectColumns
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectPassiveNormalization
@@ -464,6 +465,21 @@ def literalPrimitiveDirectFamily
         (factories j).Label) ω ψ Z :=
   ActualNormalizedPairFamily.sigmaCombine (fun j => (factories j).family (analytic j))
 
+/-- The same direct raw calibrations keep the literal parent background.
+No capacity child, source label, analytic input or phase is changed. -/
+theorem literalPrimitiveDirectFamily_raw_plainBackground
+    (analytic : ∀ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
+      (factories j).Input) :
+    CanonicalPlainBackgroundTransport.Raw
+      (ActualNormalizedPairFamily.sigmaCombine (fun j => (factories j).family (analytic j)))
+      (data ξ) := by
+  apply CanonicalPlainBackgroundTransport.sigmaCombine
+  intro j
+  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
+  all_goals
+    intro label z
+    exact ⟨rfl, rfl⟩
+
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
 
@@ -472,3 +488,5 @@ end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitiveDirectFactory
 #print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitiveDirectFamily
+
+#print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitiveDirectFamily_raw_plainBackground

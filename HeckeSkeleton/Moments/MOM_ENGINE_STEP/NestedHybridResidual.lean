@@ -50,20 +50,21 @@ theorem actual_second_hybrid_first_phase_integrable {H : Type*} {k l : ℕ}
       (primeSupport D → Finset (Fin (k + 2))) →
       (primeSupport D → Finset (Fin (l + 2))) → H → Prop) :
     Integrable (fun ξ =>
-      secondResidualHybridCost Ray F₂ rows frequency S₁ S₂ S T₁ T₂ T
+      secondResidualHybridCost (σ := σ) Ray F₂ rows frequency S₁ S₂ S T₁ T₂ T
         ID IE IA IB d e hd he rayLeft rayRight phaseTable q
         (fun i => c i * jointPhase ξ (x₁ i)) (fun j => f j * jointPhase ξ (y₁ j))
         x₂ y₂ exceptional) (actualFourierMeasure F₁) := by
   unfold secondResidualHybridCost fullCorrelationHybridCost
   apply integrable_finsetSum
+    (divisorPool (childCartesianColumns T₁ T₂ T) (fun j => (IB j).val))
   intro D _
   apply Integrable.const_mul
-  apply integrable_finsetSum
+  apply integrable_finsetSum (Finset.univ : Finset ((Ray × Ray) →* Circle))
   intro χ _
   apply Integrable.const_mul
-  apply integrable_finsetSum
+  apply integrable_finsetSum (AllocationMass.idealAllocations D (k + 2))
   intro a _
-  apply integrable_finsetSum
+  apply integrable_finsetSum (AllocationMass.idealAllocations D (l + 2))
   intro b _
   have hi := iterated_joint_hybrid_integrable rows
     (pairedAllocatedColumns D a S₁ S₂ S id id HeightOneSpectrum.asIdeal)

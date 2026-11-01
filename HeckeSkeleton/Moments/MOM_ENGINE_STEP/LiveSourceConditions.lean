@@ -12,6 +12,7 @@ cannot acquire a prime which divides the old frozen divisor.
 noncomputable section
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
+open HeckeGeneral.Analysis.ConditionalMoments
 
 namespace HeckeSkeleton.Moments.EngineStep
 

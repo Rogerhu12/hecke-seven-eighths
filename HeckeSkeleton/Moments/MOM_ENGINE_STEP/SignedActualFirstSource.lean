@@ -13,7 +13,7 @@ pool remain available for the subsequent source decomposition.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap
+open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep
 

@@ -13,7 +13,7 @@ both direct and amplified entrances.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap
+open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep
 

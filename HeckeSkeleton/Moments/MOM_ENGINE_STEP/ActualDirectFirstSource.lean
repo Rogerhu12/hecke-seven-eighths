@@ -12,7 +12,7 @@ The constants and finite seminorms precede all moving source data.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap
+open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep
 

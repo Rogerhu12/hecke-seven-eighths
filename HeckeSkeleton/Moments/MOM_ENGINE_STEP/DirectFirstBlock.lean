@@ -161,6 +161,11 @@ theorem kernelCost_le_linearized (p : FirstBlockDirectData chart M X hX)
     NL NR hNL hNR (fun i => p.originalLeftCoefficient i)
     (fun j => p.originalRightCoefficient j)
     chart.leftPoint chart.rightPoint
+  change chart.kernelCost hDiff M X hX ≤
+    firstDirectLinearizedCost PUnit.{1} chart.kernel p.leftData p.rightData hDiff
+      (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) p.rowBound
+      NL NR (fun i => p.originalLeftCoefficient i)
+      (fun j => p.originalRightCoefficient j) chart.leftPoint chart.rightPoint
   simpa only [FirstBlockProfileChart.kernelCost, FirstCommonCharacterBlock.finiteSource,
     linearizedCost, originalLeftCoefficient, originalRightCoefficient, r, δ,
     p.left_columns, p.right_columns, p.left_ideal, p.right_ideal,

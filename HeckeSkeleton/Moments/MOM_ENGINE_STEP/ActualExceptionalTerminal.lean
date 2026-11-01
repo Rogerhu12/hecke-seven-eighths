@@ -280,6 +280,22 @@ private theorem exceptionalTerminal_selected_contribution :
       (mul_nonneg (mul_nonneg (mul_nonneg hsectors
         (mul_nonneg (mul_nonneg hCleft.le hCright.le) hcount.le)) hCnormal) hheightpow)
 
+/-- Keep the scalar reassociation independent of the source records and
+the selected analytic constants. -/
+private theorem exceptionalTerminal_weighted_bound
+    {normalization rowFactor pairValue sourceValue coefficient heightFactor scaleFactor : ℝ}
+    (hnormalization : 0 ≤ normalization) (hrowFactor : 0 ≤ rowFactor)
+    (hpair : pairValue ≤ rowFactor * sourceValue)
+    (hsource : normalization * sourceValue ≤ coefficient * heightFactor * scaleFactor) :
+    normalization * pairValue ≤ rowFactor * coefficient * heightFactor * scaleFactor := by
+  calc
+    normalization * pairValue ≤ normalization * (rowFactor * sourceValue) :=
+      mul_le_mul_of_nonneg_left hpair hnormalization
+    _ = rowFactor * (normalization * sourceValue) := by ring
+    _ ≤ rowFactor * (coefficient * heightFactor * scaleFactor) :=
+      mul_le_mul_of_nonneg_left hsource hrowFactor
+    _ = rowFactor * coefficient * heightFactor * scaleFactor := by ring
+
 namespace SecondSideFrame
 
 variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -397,9 +413,7 @@ theorem exceptional_magnitude_terminal_from_atoms
   have hrow0 : 0 ≤ rowAmplitude * Z ^ (g₂ - t₂) /
       (Real.sqrt left.normalizationScale * Real.sqrt right.normalizationScale) := by
     positivity
-  have hmul := mul_le_mul_of_nonneg_left hp hrow0
-  apply (mul_le_mul_of_nonneg_left hs (Real.rpow_nonneg hz.le _)).trans
-  simpa only [mul_assoc, mul_left_comm, mul_comm] using hmul
+  exact exceptionalTerminal_weighted_bound (Real.rpow_nonneg hz.le _) hrow0 hs hp
 
 end SecondSideFrame
 

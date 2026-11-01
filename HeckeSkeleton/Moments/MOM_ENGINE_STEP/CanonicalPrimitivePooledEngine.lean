@@ -425,7 +425,94 @@ def literalPrimitivePooledEngine
     hznonneg htnonneg henonneg hparent le_rfl hterminals hmass
   exact out.ofCanonicalComparisonScales
 
+local notation "backgroundFamily" => literalPrimitivePooledFamily
+  (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
+  (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (hY₁ := hY₁) (hY₂ := hY₂)
+  (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
+  (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
+  (step := b.step) (error := b.error) (mesh := mesh) (hstep := b.step_pos)
+  (herror := b.error_pos.le) (hmesh := hmesh) (hfit := hfit) (hsmall := b.width_margin)
+  (hDiff := hDiff) (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
+  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z (hZ).le))
+  (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (hcutoffPower₂ := (b.secondCutoff_le Z (hZ).le))
+  (reference := reference) (href := href) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
+  (orders := orders) (originalBound := amplitude) (horiginalBound := (zero_le_one.trans hamplitude))
+  (originalWindow := window₂) (hrows := hrows) (htime := htime) (hprime := hprime)
+  (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
+  (δ := chosenContour) (analyticHeight := (heightC * (1 + Real.log Z))) (hδ := hcontourPos) (hδhi := hcontourQuarter)
+  (hone := hone) (hbackground := hbackground) (hslot := hslot)
+  (lengthBound := b.lengthBound) (columnBound := b.columnBound)
+  (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
+  (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity) computedInput
+
+local notation "backgroundRaw" => literalPrimitivePooledFamily_raw_plainBackground
+  (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+  (a := a) (Z := Z) (t := t) (Y₁ := canonicalLeft) (Y₂ := canonicalRight) (hZ := hZ) (hbudget := hbudget)
+  (centered := centered) (cutoff := (b.firstBox.cutoff Z)) (hcutoff := (b.firstBox.cutoff_ge_one (hZ).le))
+  (δ₁ := b.tilt) (hδ₁ := b.tilt_pos) (hδ₁half := b.tilt_le_half) (hY₁ := hY₁) (hY₂ := hY₂)
+  (cap := b.cap) (loss := b.loss) (cutoffExponent := b.loss)
+  (hloss := b.loss_pos.le) (hcutoffExponent := b.loss_pos.le)
+  (step := b.step) (error := b.error) (mesh := mesh) (hstep := b.step_pos)
+  (herror := b.error_pos.le) (hmesh := hmesh) (hfit := hfit) (hsmall := b.width_margin)
+  (hDiff := hDiff) (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
+  (cutoff₂ := (b.secondCutoff Z)) (hcutoff₂ := (b.secondCutoff_ge_one Z (hZ).le))
+  (hcutoffPower := (b.firstCutoff_le Z (hZ).le)) (hcutoffPower₂ := (b.secondCutoff_le Z (hZ).le))
+  (reference := reference) (href := href) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
+  (orders := orders) (originalBound := amplitude) (horiginalBound := (zero_le_one.trans hamplitude))
+  (originalWindow := window₂) (hrows := hrows) (htime := htime) (hprime := hprime)
+  (hcap := hcap) (hannulusZ := hannulusZ) (domain := canonicalDomain) (hprimeOrders := hprimeOrders)
+  (δ := chosenContour) (analyticHeight := (heightC * (1 + Real.log Z))) (hδ := hcontourPos) (hδhi := hcontourQuarter)
+  (hone := hone) (hbackground := hbackground) (hslot := hslot)
+  (lengthBound := b.lengthBound) (columnBound := b.columnBound)
+  (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
+  (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity) computedInput
+
+variable (hexceptional : exceptionalCost ≤
+  exceptionalConstant * control ^ exceptionalDegree * Z ^ exceptionalExponent)
+
+local notation "backgroundEngine" => Q.literalPrimitivePooledEngine
+  (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
+  (hprimeOrders := hprimeOrders) (first := first) (second := second)
+  (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+  (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+  (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+  (hcap := hcap) (hlarge := hlarge) (hfit := hfit)
+  (reference := reference) (href := href) (amplitude := amplitude) (hamplitude := hamplitude)
+  (profiles := profiles) (hrows := hrows) (htime := htime) (hprime := hprime)
+  (heightC := heightC) (analyticWindow := analyticWindow) (boundary := boundary)
+  (hone := hone) (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)
+  (Drecipe := Drecipe) (hD := hD) (pool := pool) (hdensity := hdensity)
+  (hmassLarge := hmassLarge)
+  (finalConstant := finalConstant) (exceptionalConstant := exceptionalConstant)
+  (terminalExponent := terminalExponent) (exceptionalExponent := exceptionalExponent)
+  (finalDegree := finalDegree) (exceptionalDegree := exceptionalDegree)
+  (hfinalConstant := hfinalConstant) (hexceptionalConstant := hexceptionalConstant)
+  (hfirstDegree := hfirstDegree) (hsecondDegree := hsecondDegree)
+  (hexceptionalDegree := hexceptionalDegree) (hmassDegree := hmassDegree)
+  (hterminalExponent := hterminalExponent) (hexceptionalExponent := hexceptionalExponent)
+  (hterminalConstant := hterminalConstant) (hmassConstant := hmassConstant)
+  (hexceptional := hexceptional)
+
+/-- Exact background identity for the existing pooled engine, through
+its same finite enumeration and comparison-scale transport. -/
+theorem literalPrimitivePooledEngine_samePlainBackground :
+    (backgroundEngine).SamePlainBackground := by
+  change ∀ (i : Fin (Fintype.card ((backgroundFamily).active Finset.univ)))
+      (z : WithLp 2 (ℝ × ℝ)),
+    (((backgroundFamily).leftData Finset.univ
+      ((Fintype.equivFin ((backgroundFamily).active Finset.univ)).symm i) z).plainBackground =
+        (data ξ).plainBackground) ∧
+    (((backgroundFamily).rightData Finset.univ
+      ((Fintype.equivFin ((backgroundFamily).active Finset.univ)).symm i) z).plainBackground =
+        (data ξ).plainBackground)
+  exact fun i z => CanonicalPlainBackgroundTransport.selectedFin
+    backgroundFamily (data ξ) backgroundRaw i z
+
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitivePooledEngine
+
+#print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitivePooledEngine_samePlainBackground

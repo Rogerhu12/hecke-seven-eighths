@@ -55,6 +55,7 @@ variable (profiles : RawProfileWindow rowDomain heightDomain window seminorms d 
 
 /-- This lower norm window follows from membership in the original
 literal prime support, using its own profile representative. -/
+include profiles in
 theorem primeScale_le_annulus_mul_norm (B Z t : ℝ)
     (hB : 0 < B) (hZ : 0 < Z) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Ici B⁻¹)
@@ -118,8 +119,8 @@ theorem originalScale_product (Z : ℝ) (length : Fin k → ℝ) :
       (∏ i ∈ Finset.univ \ b.keep, Z ^ length i) *
         ∏ j, Z ^ length (SlotRestriction.index b.keep j) := by
   simpa only [Finset.sdiff_eq_filter, Finset.mem_univ, true_and] using
-    (SlotRestriction.product_extend b.keep (fun _ => PUnit.unit)
-      (fun _ => PUnit.unit) (fun i _ => Z ^ length i))
+    (SlotRestriction.product_extend b.keep (fun _ => (PUnit.unit : PUnit.{1}))
+      (fun _ => (PUnit.unit : PUnit.{1})) (fun i _ => Z ^ length i))
 
 /-- Only the original single-prime lower annulus is used. Its fixed
 cost is paid once per original occurrence, uniformly in the branch. -/
@@ -133,9 +134,10 @@ theorem originalScale_le_compensated
       B ^ cap * (b.residualGaussScale Z length X₁ X₂ *
         (Ideal.absNorm (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂
           b.keep b.witness.2) : ℝ)) := by
-  have hcard : (Finset.univ \ b.keep).card ≤ cap :=
-    (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ (Finset.univ \ b.keep))).trans hcap
+  have hcardKeep : (Finset.univ \ b.keep).card ≤ k := by
+    simpa only [Fintype.card_fin] using
+      (Finset.card_le_univ (Finset.univ \ b.keep))
+  have hcard : (Finset.univ \ b.keep).card ≤ cap := hcardKeep.trans hcap
   have hfrozen : (∏ i ∈ Finset.univ \ b.keep, Z ^ length i) ≤
       B ^ cap * ∏ i ∈ Finset.univ \ b.keep,
         (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) := by
@@ -223,6 +225,8 @@ theorem original_branch_gaussScale_lower
     X₁ X₂ total B cap hX₁ hX₂ hB hcap hproduct hprime
   have hD : frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2 = D :=
     b.frozenSourceIdeal_eq.trans (raw.originalAtlas.branch_product P D label)
+  change Z ^ (total + d.geometry.totalLength - idealLogLength Z D) ≤
+    B ^ cap * b.residualGaussScale Z (fun i => (d.geometry.slots i).length) X₁ X₂
   simpa only [hD, SlotGeometry.totalLength] using h
 
 end ParentRawAtoms

@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPlainBackgroundTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainFactory
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolFactory
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFamily
@@ -379,8 +380,27 @@ def literalPrimitivePooledFamily
         (factories j).Label) ω ψ Z :=
   ActualNormalizedPairFamily.sigmaCombine (fun j => (factories j).family (analytic j))
 
+/-- The same pooled raw calibrations keep the literal parent background.
+No capacity child, source label, analytic input or phase is changed. -/
+theorem literalPrimitivePooledFamily_raw_plainBackground
+    (analytic : ∀ j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization,
+      (factories j).Input) :
+    CanonicalPlainBackgroundTransport.Raw
+      (ActualNormalizedPairFamily.sigmaCombine (fun j => (factories j).family (analytic j)))
+      (data ξ) := by
+  apply CanonicalPlainBackgroundTransport.sigmaCombine
+  intro j
+  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
+  all_goals
+    rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
+    all_goals
+      intro label z
+      exact ⟨rfl, rfl⟩
+
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitivePooledFactory
 #print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitivePooledFamily
+
+#print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitivePooledFamily_raw_plainBackground

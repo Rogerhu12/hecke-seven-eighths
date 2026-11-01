@@ -325,7 +325,8 @@ theorem secondOriginalMovingFactors_evaluation
   have hg := secondActiveFrequencyGenerator_generates C p m n pattern
   have hchar : D.character = D.factorCharacter i₀ := by
     change (∏ i : Fin 1, D.factorCharacter i ^ (1 : ℤ)) = D.factorCharacter (0 : Fin 1)
-    simp only [zpow_one, Fin.prod_univ_one]
+    simp only [zpow_one]
+    exact Fin.prod_univ_one (fun i : Fin 1 => D.factorCharacter i)
   have hI : D.factorIdeal i₀ = I := D.factorIdeal_eq_of_generates i₀ I hg
   have hfull : D.fullIdeal = I :=
     OriginalMovingFactors.singleton_fullIdeal I _ hg 1

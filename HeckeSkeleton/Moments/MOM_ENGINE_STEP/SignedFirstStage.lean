@@ -17,7 +17,7 @@ the canonical original source supplies them by construction.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap
+open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep
 
@@ -174,7 +174,11 @@ theorem parent_first_stage_dual_raw_bound
     have hk := (sources DE).divisorTransform_re_le_dual_rows μv hDiff finiteTest
     have hre := Complex.re_le_norm (series DE - (sources DE).divisorTransform μv hDiff finiteTest)
     rw [Complex.sub_re] at hre
-    change ‖series DE - (sources DE).divisorTransform μv hDiff finiteTest‖ ≤ _ at ht
+    change ‖series DE - (sources DE).divisorTransform μv hDiff finiteTest‖ ≤
+      Ctail * X ^ (1 - decay) *
+        ∑ i ∈ (sources DE).leftColumns, ∑ j ∈ (sources DE).rightColumns,
+          seminorms.sup (schwartzSeminormFamily ℂ V ℂ) ((sources DE).pairs i j).profile *
+            ((sources DE).pairs i j).truncationMass (sources DE).mask radius at ht
     exact ((sub_le_iff_le_add.mp (hre.trans ht)).trans
       (add_le_add le_rfl hk)).trans_eq (by
         dsimp only [cost, FirstFiniteSource.rawRowCost]
@@ -193,7 +197,7 @@ theorem parent_first_stage_dual_raw_bound
     _ ≤ ∑ DE, (cost DE - ((sources DE).originZeroTerm finiteTest).re) :=
       Finset.sum_le_sum (fun DE _ => hblock DE)
     _ = (∑ DE, cost DE) - ∑ DE, ((sources DE).originZeroTerm finiteTest).re :=
-      Finset.sum_sub_distrib
+      Finset.sum_sub_distrib _ _
     _ ≤ _ := sub_le_self _ ho
 
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]

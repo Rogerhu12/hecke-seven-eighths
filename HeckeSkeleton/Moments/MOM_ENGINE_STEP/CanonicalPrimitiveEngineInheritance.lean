@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveUniformEngine
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPlainBackgroundTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledInverseSlots
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineAdmissibilityTransport
 
@@ -80,6 +81,12 @@ variable (h : out.SlotInverseMembership)
       (out.withInheritedSlots h).secondZero = out.secondZero ∧
       (out.withInheritedSlots h).exceptional = out.exceptional ∧
       (out.withInheritedSlots h).tail = out.tail := ⟨rfl, rfl, rfl, rfl⟩
+
+/-- Strengthening admissibility preserves the already proved background
+identity on exactly the same output data. -/
+theorem samePlainBackground_withInheritedSlots
+    (hbackground : out.SamePlainBackground) :
+    (out.withInheritedSlots h).SamePlainBackground := hbackground
 
 /-- The empty parent uses the existing empty branch carrier. -/
 theorem slotInverseMembership_of_zero_branches (hzero : out.branches = 0) :
@@ -631,6 +638,79 @@ theorem produce_slot_inverse_mem_theta : (produced).SlotInverseMembership := by
     (hexceptional := hpool (thresholds).2.2.2 reference href selection)
   simpa only [produce, dif_neg hempty, dif_neg hzero] using h
 
+/-- Every case of the existing dispatcher preserves the original plain
+background. The reference and selected pool are the terms used by `produce`. -/
+theorem produce_samePlainBackground : (produced).SamePlainBackground := by
+  by_cases hempty : pairedRows (data ξ) a Z = ∅
+  · apply (produced).samePlainBackground_of_zero_branches
+    simp only [produce, dif_pos hempty, PairedEngineConclusion.ofEmptyParent_branches]
+  have hnonempty : (pairedRows (data ξ) a Z).Nonempty :=
+    Finset.nonempty_iff_ne_empty.mpr hempty
+  let reference := hnonempty.choose
+  have href : reference ∈ pairedRows (data ξ) a Z := hnonempty.choose_spec
+  have hsecond : 0 ≤ secondConstant :=
+    (CanonicalPrimitiveSecondTerminalUniform.Csecond_pos μv ν C hDiff b second).le
+  have hmass : 0 ≤ massConstant :=
+    (CanonicalPrimitiveEngineMassChoices.constant_pos
+      (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
+  have hfinal : 0 ≤ finalConstant :=
+    (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ)
+      μv ν C hDiff b mesh orders first second heightC exceptionalConstant hexceptionalConstant).le
+  by_cases hzero : (data ξ).geometry.slotCount = 0
+  · have h := Q.literalPrimitiveDirectEngine_samePlainBackground
+        (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
+        (hprimeOrders := hprimeOrders) (first := first) (second := second)
+        (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+        (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+        (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+        (hcap := hcap) (hlarge := hfull) (hfit := hfit) (hslotsZero := hzero)
+        (reference := reference) (href := href) (amplitude := amplitude) (hamplitude := hamplitude)
+        (profiles := profiles) (hrows := hrows) (htime := htime) (hprime := hprime)
+        (heightC := heightC) (analyticWindow := analyticWindow) (boundary := boundary)
+        (hone := hone) (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)
+        (finalConstant := finalConstant) (exceptionalConstant := exceptionalConstant)
+        (terminalExponent := terminalExponent) (exceptionalExponent := terminalExponent)
+        (finalDegree := finalDegree) (exceptionalDegree := exceptionalDegree)
+        (hfinalConstant := hfinal) (hexceptionalConstant := hexceptionalConstant)
+        (hfirstDegree := CanonicalPrimitiveEngineFinalBudget.first_degree_le b exceptionalDegree)
+        (hsecondDegree := CanonicalPrimitiveEngineFinalBudget.second_degree_le b exceptionalDegree)
+        (hexceptionalDegree := CanonicalPrimitiveEngineFinalBudget.exceptional_degree_le b exceptionalDegree)
+        (hmassDegree := CanonicalPrimitiveEngineFinalBudget.mass_degree_le b exceptionalDegree)
+        (hterminalExponent := le_rfl) (hexceptionalExponent := le_rfl)
+        (hterminalConstant := CanonicalPrimitiveEngineFinalBudget.terminals_le hmass)
+        (hmassConstant := CanonicalPrimitiveEngineFinalBudget.mass_le
+          first.Cfirst_pos.le hsecond hexceptionalConstant)
+        (hexceptional := hdirect (thresholds).2.2.2 hzero)
+    simpa only [produce, dif_neg hempty, dif_pos hzero] using h
+  · let selection := CanonicalPrimitiveEnginePool.selected A b Z (thresholds).2.1
+    have h := Q.literalPrimitivePooledEngine_samePlainBackground
+        (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
+        (hprimeOrders := hprimeOrders) (first := first) (second := second)
+        (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+        (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+        (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+        (hcap := hcap) (hlarge := hfull) (hfit := hfit)
+        (reference := reference) (href := href) (amplitude := amplitude) (hamplitude := hamplitude)
+        (profiles := profiles) (hrows := hrows) (htime := htime) (hprime := hprime)
+        (heightC := heightC) (analyticWindow := analyticWindow) (boundary := boundary)
+        (hone := hone) (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)
+        (Drecipe := Drecipe) (hD := hD) (pool := selection.pool) (hdensity := selection.density_pos)
+        (hmassLarge := (thresholds).2.2.1)
+        (finalConstant := finalConstant) (exceptionalConstant := exceptionalConstant)
+        (terminalExponent := terminalExponent) (exceptionalExponent := terminalExponent)
+        (finalDegree := finalDegree) (exceptionalDegree := exceptionalDegree)
+        (hfinalConstant := hfinal) (hexceptionalConstant := hexceptionalConstant)
+        (hfirstDegree := CanonicalPrimitiveEngineFinalBudget.first_degree_le b exceptionalDegree)
+        (hsecondDegree := CanonicalPrimitiveEngineFinalBudget.second_degree_le b exceptionalDegree)
+        (hexceptionalDegree := CanonicalPrimitiveEngineFinalBudget.exceptional_degree_le b exceptionalDegree)
+        (hmassDegree := CanonicalPrimitiveEngineFinalBudget.mass_degree_le b exceptionalDegree)
+        (hterminalExponent := le_rfl) (hexceptionalExponent := le_rfl)
+        (hterminalConstant := CanonicalPrimitiveEngineFinalBudget.terminals_le hmass)
+        (hmassConstant := CanonicalPrimitiveEngineFinalBudget.mass_le
+          first.Cfirst_pos.le hsecond hexceptionalConstant)
+        (hexceptional := hpool (thresholds).2.2.2 reference href selection)
+    simpa only [produce, dif_neg hempty, dif_neg hzero] using h
+
 local notation "producedInverse" => produce_slot_inverse_mem_theta
   (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
   (first := first) (second := second) (heightC := heightC)
@@ -659,6 +739,41 @@ def produceWithInheritedSlots :
         ∀ i, (child.slotCoefficient i)⁻¹ ∈ child.theta) :=
   (produced).withInheritedSlots producedInverse
 
+/-- The inherited-slot conclusion retains the background of the very
+same selected children; only its admissibility proof has been strengthened. -/
+theorem produceWithInheritedSlots_samePlainBackground :
+    (produceWithInheritedSlots
+  (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
+  (first := first) (second := second) (heightC := heightC)
+  (exceptionalConstant := exceptionalConstant) (exceptionalDegree := exceptionalDegree)
+  (Zexceptional := Zexceptional) (hexceptionalConstant := hexceptionalConstant)
+  (hprimeOrders := hprimeOrders) (Drecipe := Drecipe) (hD := hD)
+  (Q := Q) (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+  (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+  (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+  (hcap := hcap) (hlarge := hlarge) (hfit := hfit)
+  (amplitude := amplitude) (hamplitude := hamplitude) (profiles := profiles)
+  (hrows := hrows) (htime := htime) (hprime := hprime)
+  (analyticWindow := analyticWindow) (boundary := boundary) (hone := hone)
+  (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)
+  hdirect hpool).SamePlainBackground := by
+  exact (produced).samePlainBackground_withInheritedSlots producedInverse
+    (produce_samePlainBackground
+  (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
+  (first := first) (second := second) (heightC := heightC)
+  (exceptionalConstant := exceptionalConstant) (exceptionalDegree := exceptionalDegree)
+  (Zexceptional := Zexceptional) (hexceptionalConstant := hexceptionalConstant)
+  (hprimeOrders := hprimeOrders) (Drecipe := Drecipe) (hD := hD)
+  (Q := Q) (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+  (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+  (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+  (hcap := hcap) (hlarge := hlarge) (hfit := hfit)
+  (amplitude := amplitude) (hamplitude := hamplitude) (profiles := profiles)
+  (hrows := hrows) (htime := htime) (hprime := hprime)
+  (analyticWindow := analyticWindow) (boundary := boundary) (hone := hone)
+  (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)
+  hdirect hpool)
+
 end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine
 
 #print axioms HeckeSkeleton.Moments.EngineStep.PairedEngineConclusion.withInheritedSlots
@@ -666,3 +781,6 @@ end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine
 #print axioms HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalPrimitivePooledEngineWithInheritedSlots
 #print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine.produce_slot_inverse_mem_theta
 #print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine.produceWithInheritedSlots
+
+#print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine.produce_samePlainBackground
+#print axioms HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine.produceWithInheritedSlots_samePlainBackground
