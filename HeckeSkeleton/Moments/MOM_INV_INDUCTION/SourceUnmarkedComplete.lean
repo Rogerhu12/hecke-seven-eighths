@@ -113,7 +113,6 @@ theorem annular_bound_of_uniform
         gcongr
         · simpa only [Real.rpow_one] using
             Real.rpow_le_rpow_of_exponent_le hH1 (show (1 : ℝ) ≤ 1 + eps by linarith)
-        · exact hq0
       _ ≤ (CSmall + CLarge) * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
           H ^ (1 + eps) := by
         have hc : CSmall ≤ CSmall + CLarge := le_add_of_nonneg_right hCLarge

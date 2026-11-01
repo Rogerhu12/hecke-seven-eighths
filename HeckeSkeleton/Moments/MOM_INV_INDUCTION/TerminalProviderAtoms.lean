@@ -98,10 +98,14 @@ theorem sourceDatum_eq_original (d : MarkedDatum K S) (A : MarkChoice K S d) :
     sourceDatum K S (fixedForChoice K S d A) d.moving (primeSetIdeal K S A.val)
       (moving_admissible K S d A) (active_admissible K S d A)
       (moving_active_coprime K S d A) = d := by
-  apply markedDatum_ext K S rfl rfl rfl rfl
-  change d.marks \ A.val ∪ exteriorSupport K S (primeSetIdeal K S A.val) = d.marks
-  rw [exteriorSupport_primeSetIdeal]
-  exact Finset.sdiff_union_of_subset A.property
+  refine markedDatum_ext K S ?_ ?_ ?_ ?_ ?_
+  · rfl
+  · rfl
+  · rfl
+  · rfl
+  · change d.marks \ A.val ∪ exteriorSupport K S (primeSetIdeal K S A.val) = d.marks
+    rw [exteriorSupport_primeSetIdeal]
+    exact Finset.sdiff_union_of_subset A.property
 
 private theorem reflectionIndex_heq {d e : MarkedDatum K S} (hde : d = e)
     (i : ReflectionIndex K S d) (j : ReflectionIndex K S e)
@@ -130,21 +134,37 @@ theorem extended_original_eq_atom (d : MarkedDatum K S) (A : MarkChoice K S d)
           ((reflectionSigmaEquiv K S d).symm ⟨s, A, z⟩) F θ V X) cb =
       GeneralReflectedEnergy.atom K S D (fixedForChoice K S d A) s F θ V X
         d.moving (primeSetIdeal K S A.val) cb.val.1 cb.val.2 := by
-  have hk := moving_admissible K S d A
-  have hP := active_admissible K S d A
-  have hkm := moving_active_coprime K S d A
+  let f : FixedData K S := fixedForChoice K S d A
+  have hk : RowAdmissible K S f d.moving := moving_admissible K S d A
+  have hP : MarkAdmissible K S f (primeSetIdeal K S A.val) := active_admissible K S d A
+  have hkm : IsCoprime d.moving.val.val (primeSetIdeal K S A.val).val.val :=
+    moving_active_coprime K S d A
   by_cases hPb : IsCoprime (primeSetIdeal K S A.val).val.val cb.val.2.val.val
-  · rw [extendMarkedColumn, dif_pos hPb,
-      GeneralReflectedEnergy.atom_on_source K S D _ s F θ V X _ _ _ _ hk hP hkm cb.property hPb]
-    symm
-    apply reflectedTerm_congr K S D (sourceDatum_eq_original K S d A)
-    apply reflectionIndex_heq K S (sourceDatum_eq_original K S d A)
-    · exact exteriorSupport_primeSetIdeal K S A.val
-    · rfl
-    · rfl
-    · rfl
-    · rfl
-    · rfl
+  · let source : MarkedDatum K S :=
+      sourceDatum K S f d.moving (primeSetIdeal K S A.val) hk hP hkm
+    let sourceIdx : ReflectionIndex K S source :=
+      sourceIndex K S f s d.moving (primeSetIdeal K S A.val) hk hP hkm cb hPb
+    let originalIdx : ReflectionIndex K S d :=
+      (reflectionSigmaEquiv K S d).symm ⟨s, A, ⟨cb, hPb⟩⟩
+    have hdatum : source = d := sourceDatum_eq_original K S d A
+    have hindex : HEq sourceIdx originalIdx := by
+      refine reflectionIndex_heq K S hdatum sourceIdx originalIdx ?_ ?_ ?_ ?_ ?_ ?_
+      · exact exteriorSupport_primeSetIdeal K S A.val
+      · rfl
+      · rfl
+      · rfl
+      · rfl
+      · rfl
+    have hterm : reflectedTerm K S D source sourceIdx F θ V X =
+        reflectedTerm K S D d originalIdx F θ V X :=
+      reflectedTerm_congr K S D hdatum sourceIdx originalIdx hindex F θ V X
+    have hatom : GeneralReflectedEnergy.atom K S D f s F θ V X
+        d.moving (primeSetIdeal K S A.val) cb.val.1 cb.val.2 =
+        reflectedTerm K S D source sourceIdx F θ V X :=
+      GeneralReflectedEnergy.atom_on_source K S D f s F θ V X
+        d.moving (primeSetIdeal K S A.val) cb.val.1 cb.val.2 hk hP hkm cb.property hPb
+    rw [extendMarkedColumn, dif_pos hPb]
+    exact hterm.symm.trans hatom.symm
   · simp only [extendMarkedColumn, dif_neg hPb, GeneralReflectedEnergy.atom,
       dif_pos hk, dif_pos hP, dif_pos hkm, dif_pos cb.property, dif_neg hPb]
 

@@ -24,6 +24,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
 open FixedTripleFibers CanonicalChildren CanonicalNormPools ActualDivisorSectors CommonKernel
+open SecondSourceColumns (newRowIdeal newSector)
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -96,8 +97,10 @@ theorem column_as_actual_child (J : Finset σ) (b : Bin) (i : Idx) (t : ℝ) :
       (ProviderInitialSource.divisor K S D Γ X H i)
       (ProviderInitialSource.overlap K S D Γ X H i)).val.val =
       ProviderInitialSource.newLabel K S D Γ X H i := by
-    simp only [SecondCompleteColumns.finalLabel, exteriorMul, FirstInversePoisson.unitIdeal,
-      ProviderInitialSource.newLabel, one_mul]
+    change (1 : Ideal (𝓞 K)) *
+      (ProviderInitialSource.divisor K S D Γ X H i).val.val *
+      (ProviderInitialSource.overlap K S D Γ X H i).val.val = _
+    simp only [one_mul]
   rw [hgamma, hlabel]
   unfold actualColumn childValue ProviderInitialSource.child
   rw [ProviderInitialSource.newRow_actual]
@@ -202,9 +205,10 @@ theorem nodeIntegral_eq (k : ℕ) (side : Bool) (b : Bin) (i : Idx) :
     ring
   rw [he, integral_finsetSum _ (fun J _ =>
     (outer_column_integrable K S D Γ C Θ ψ hν W G hG hbase hW H k side J b i).const_mul _)]
-  simp only [integral_const_mul, outer_column_eq_joint, Finset.mul_sum]
+  simp only [integral_const_mul, Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro J hJ
+  rw [outer_column_eq_joint K S D Γ C Θ ψ hν W G hG hbase hW H k side J b i]
   dsimp only [c]
   ring
 
@@ -290,7 +294,8 @@ theorem selectedTotalOn_eq_integrals (e : ℝ) (k : ℕ) (side : Bool) (P : Fins
   rw [Finset.mul_sum, Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro b hb
-  simp_rw [nodeIntegral_eq, sourceIntegral_eq_sum]
+  simp_rw [nodeIntegral_eq K S D Γ C Θ ψ hν W G hG hbase hW H k side,
+    sourceIntegral_eq_sum K S D Γ C Θ ψ hν W G hG hbase hW m H e k side]
   simp only [Finset.mul_sum]
   rw [Finset.sum_comm]
   apply Finset.sum_congr rfl

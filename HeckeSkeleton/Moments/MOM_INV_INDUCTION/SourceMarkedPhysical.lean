@@ -69,7 +69,7 @@ theorem inverse_coefficient_calibration (d : MomentData K ω ψ)
     completeIdealCommonMask, decomposedIdealRowMask, sexticIdealOutsideS, decide_eq_true_eq]
   by_cases h : (∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ n.val →
       p ∉ Sset ∧ (6 : 𝓞 K) ∉ p.asIdeal) ∧ IsCoprime n.val I.val.val <;>
-    simp only [h, if_true, if_false, mul_one, mul_zero, zero_mul]
+    simp only [h, if_true, if_false, mul_one, mul_zero, zero_mul, mul_assoc]
 
 /-- Exact physical equality for any fixed whole-column multiplier.
 The multiplier is neither estimated nor moved across a row-dependent

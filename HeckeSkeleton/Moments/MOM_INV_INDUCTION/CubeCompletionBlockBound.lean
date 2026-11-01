@@ -143,7 +143,7 @@ theorem exists_uniform_block_bound
       have hexp : 2 * annularLength Z x.columnLength H i + 5 * cubeLength Z H +
           2 * x.labelLength + 20 * eta + tau + pi + eps ≤
           2 * x.totalLength - cubeLength Z H + Lexp := by
-        have ht := annular_total_length (V := x.labelLength) hz1 hH0 i
+        have ht := annular_total_length (N := x.columnLength) (V := x.labelLength) hz1 hH0 i
         have hs := (abs_le.mp (hshift i)).2
         dsimp only [Node.totalLength, Lexp]
         linarith
@@ -155,7 +155,7 @@ theorem exists_uniform_block_bound
           gcongr
           · dsimp only [CAnnular]; linarith
           · exact hqStep _
-          · exact hexp
+          · exact hz1.le
         _ = _ := by dsimp only [E]; ring
     · have hs := hsmall Θ ψ Λ G Z Fcap c z lo hi x hz1 hFcap hc0 hz hx
         P B H hH hsupport (fun b hb => (hB b hb).2) s i (lt_of_not_ge hlarge)
@@ -176,9 +176,8 @@ theorem exists_uniform_block_bound
           · calc
               CSmall ≤ CAnnular := by dsimp only [CAnnular]; linarith
               _ ≤ CAnnular * Cih := le_mul_of_one_le_right hCAnnular hCih
-          · exact hpow
           · exact hqZero _
-        _ = _ := by dsimp only [E]; ring
+        _ = _ := rfl
   have hsource := hmellin
     ((ProviderChildParent.exteriorLabels K S x.labels) ×ˢ x.rows)
     (fun fk => labelDivisorWeight slotCap fk.1.val.val)
@@ -209,7 +208,9 @@ theorem exists_uniform_block_bound
           ring
         _ = _ := by rw [hpower]; dsimp only [Node.totalLength]; ring
     _ ≤ _ := by
-      change _ ≤ max 1 CBlock * Cih * _ * _ * Z ^ (x.totalLength + Lexp)
+      have hexpFinal : x.totalLength + 21 * eta + tau + pi + eps =
+          x.totalLength + Lexp := by dsimp only [Lexp]; ring
+      rw [hexpFinal]
       gcongr
       exact le_max_right (1 : ℝ) CBlock
 
