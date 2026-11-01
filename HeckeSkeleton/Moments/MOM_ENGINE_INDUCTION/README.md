@@ -257,8 +257,9 @@ placement around `include` commands. The underlying original atoms,
 profiles, arithmetic data, and producer output remain explicit.
 
 In particular, the original `ScaleWindows` certificate, raw profile control,
-and centered parent domain must appear in the helper signatures that use
-them. The repairs restore those previously declared section inputs with
+centered parent domain, and complete-child/parent-character certificates
+must appear in the helper signatures that use them. The repairs restore
+those previously declared section inputs with
 `include`; the actual callers already supply the same objects. These repairs
 correct helper signatures as well as proof terms. They preserve the
 original scale-window and comparison-rectangle hypotheses of the induction

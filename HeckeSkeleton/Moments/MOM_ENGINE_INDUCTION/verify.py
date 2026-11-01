@@ -1467,13 +1467,19 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                      'owner_sha256': '4b8c56f5d4b12e9448aa8591d60b51cd00515e7d2ac66cc801622192485b08e6',
                                                                      'reason': 'CI76: open IsDedekindDomain '
                                                                                'explicitly for '
-                                                                               'HeightOneSpectrum in the '
-                                                                               'original complete-engine '
-                                                                               'character inputs, avoiding '
-                                                                               'reliance on transitive '
-                                                                               'namespace openings after the '
-                                                                               'integrated base update.',
-                                                                     'repair_sha256': 'd5896155d4f9c0b934cd8844f12a60fa1701f55f9319da22ae577202d1172420'},
+                                                                               'HeightOneSpectrum. CI78: '
+                                                                               'restore the original section '
+                                                                               'certificate h in identify '
+                                                                               'and raw in '
+                                                                               'left_background/right_background; '
+                                                                               'existing consumers already '
+                                                                               'pass these same '
+                                                                               'complete-child and '
+                                                                               'parent-character '
+                                                                               'certificates. Preserve all '
+                                                                               'original data and '
+                                                                               'conclusions.',
+                                                                     'repair_sha256': '740be6232ce14db3f50ba207512dd086fc5403f5ec131ea92a49dfc42e172a0d'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ConstantCommonLeaf.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                    'owner_sha256': 'f7df02d24d9c6f66ccff22e9fc3c2e043af91a810c93e98f529c592927b54ef4',
                                                                    'reason': 'CI75: retain required hc/hd '

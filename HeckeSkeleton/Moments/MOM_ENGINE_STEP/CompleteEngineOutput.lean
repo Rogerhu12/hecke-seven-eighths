@@ -62,6 +62,8 @@ variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {window : Set 
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (h : CompleteEngineChildAdmissible A P R parent rowDomain window seminorms Z d a)
 
+include h
+
 /-- This is the original full-row identification used by reflection,
 obtained directly from public output admissibility. -/
 theorem identify (u : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -96,6 +98,8 @@ namespace ParentCharacterInputs
 
 variable {family labels} {parent : MomentData K ω ψ}
 variable (raw : family.ParentCharacterInputs labels parent)
+
+include raw
 
 theorem left_background (b : family.active labels) (ξ : V) :
     (family.leftData labels b ξ).plainBackground = parent.plainBackground ∨
