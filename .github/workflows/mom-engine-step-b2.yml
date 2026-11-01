@@ -162,6 +162,17 @@ jobs:
             HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSignedChildFourierControl \
             HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalClippedGaussProfiles \
             --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.Atom.profileCoefficient_le_shifted \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.Atom.scaledSchwartz_signed_bound \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.profileAmplitude_le_shifted \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.ProfileScalars.rawWindow \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.signedRawWindow \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.signedPolynomialWindow \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.clippedProfileAmplitude_le_shifted \
+            --declaration HeckeSkeleton.Moments.EngineStep.RawProfileWindow.restrictOrders \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.OriginalLogProfiles.rawPolynomialWindow_at_clippedRadius \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.OriginalLogProfiles.rawPrimeWindow_at_clippedRadius \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles.OriginalLogProfiles.clippedWindow_of_actualSource \
             --evidence mom-b2-profile-independent
       - name: Check the same complete source identity after native validation
         if: always()
