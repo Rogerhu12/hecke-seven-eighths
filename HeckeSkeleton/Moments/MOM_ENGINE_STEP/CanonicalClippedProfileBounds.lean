@@ -17,7 +17,7 @@ window is supplied as an input.
 
 set_option autoImplicit false
 noncomputable section
-open scoped Classical BigOperators NumberField SchwartzMap ContDiff Topology
+open scoped Classical BigOperators NumberField SchwartzMap Topology
 
 namespace HeckeSkeleton.Moments.EngineStep
 
@@ -30,6 +30,7 @@ namespace CanonicalLogProfiles
 def dilation (c : ℝ) (φ : 𝓢(ℝ, ℂ)) (y : ℝ) : ℂ :=
   (Real.sqrt c : ℂ) * φ (c * y)
 
+open scoped ContDiff in
 theorem dilation_smooth (c : ℝ) (φ : 𝓢(ℝ, ℂ)) :
     ContDiff ℝ ∞ (dilation c φ) :=
   contDiff_const.mul (φ.smooth'.comp (contDiff_const.mul contDiff_id))
