@@ -1,0 +1,64 @@
+{
+  "lean": "4.35.0-rc3",
+  "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "verification_kind": "native separate modules; original import graph; exact source bytes",
+  "scope": "two pure continuation modules, not the actual arithmetic adapters",
+  "public_declarations_audited": 6,
+  "modules": [
+    {
+      "module": "HeckeSkeleton.HighBinSupport.EntireVerticalZeros",
+      "source": "HeckeSkeleton/HighBinSupport/EntireVerticalZeros.lean",
+      "source_sha256": "4e17c7c55858f3646088d278c9d05ce1d3fdb769e6c891bb6bd7b8bebdc5a265",
+      "log_sha256": "637bb45616676f4ab1d5de69d052965ea04c2d6360c669bb1c486e3e09e36ee3",
+      "elapsed_seconds": 263.99,
+      "source_unchanged": true,
+      "exit_code": 0,
+      "axioms": {
+        "HeckeSkeleton.HighBinContinuation.entire_zero_set_countable": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "HeckeSkeleton.HighBinContinuation.entire_ne_zero_ae_vertical": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "HeckeSkeleton.HighBinContinuation.entire_triple_ne_zero_ae_vertical": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "HeckeSkeleton.HighBinContinuation.entire_triple_vertical_zero_measure": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "HeckeSkeleton.HighBinContinuation.finiteEulerPolynomialValue_entire": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "beyond_standard_axioms": {}
+    },
+    {
+      "module": "HeckeSkeleton.HighBinSupport.EntireQuotientVerticalAE",
+      "source": "HeckeSkeleton/HighBinSupport/EntireQuotientVerticalAE.lean",
+      "source_sha256": "3e87cd7dbf1100c1cd8bd22598015cd48860310bfb2f1ddb81c204dca98d5348",
+      "log_sha256": "c563103fe8f3f99409b1e72c626502812cadb7bad685d73e986ad2f6bdd6a4fe",
+      "elapsed_seconds": 91.902,
+      "source_unchanged": true,
+      "exit_code": 0,
+      "axioms": {
+        "HeckeSkeleton.HighBinContinuation.entire_quotients_ae_eq_vertical": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ]
+      },
+      "beyond_standard_axioms": {}
+    }
+  ]
+}

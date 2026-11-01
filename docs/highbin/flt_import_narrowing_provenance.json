@@ -1,0 +1,310 @@
+{
+  "reason": "Replace the Mathlib umbrella import by explicit modules used by the existing declarations, and add exact imports exposed by native checks after upstream narrowing; no declaration or proof body is changed. This permits exact project-native verification without installing all Mathlib artifacts.",
+  "mathlib_revision": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "files": [
+    {
+      "module": "FLTReuse.Me1ad2f4bf19c4ff0",
+      "path": "vendor/flt/FLTReuse/Me1ad2f4bf19c4ff0.lean",
+      "old_source_sha256": "0f03f01460b9aae22162f8e5cb0d284b128d59d243162565e13bb09004660a15",
+      "new_source_sha256": "8593ef11799e5754ae5ba70325f7a5bb65df9349adabd0b94fda62943caa4ec8",
+      "declaration_region_sha256": "a10ee1f90cf26ec6da680f43cc8ce5269d3fe2b5072a9ca0c3d7df45aa30e5fc",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.NumberTheory.NumberField.AdeleRing",
+        "Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic",
+        "Mathlib.MeasureTheory.Function.LpSeminorm.Basic",
+        "Mathlib.Analysis.Complex.Basic"
+      ],
+      "retained_imports": [],
+      "validation": "pending native check; import-only narrowing"
+    },
+    {
+      "module": "FLTReuse.M0525ca355036d686",
+      "path": "vendor/flt/FLTReuse/M0525ca355036d686.lean",
+      "old_source_sha256": "95e6933ffa5c01b6f13c12bc45aace85bf45b095ee116f8d5faac1f349a4339f",
+      "new_source_sha256": "d4cac07ecc6a7ba638c3fddfcad70476a9276b0c9a8dfb82ef024124b8a1ba3f",
+      "declaration_region_sha256": "6618a3520c448100d4d3cae8eb3b888647abe6201a2ded8b8dd331507e6e7f80",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.FinTwo",
+        "Mathlib.MeasureTheory.Integral.Bochner.Basic",
+        "Mathlib.Analysis.Complex.Basic",
+        "Mathlib.Tactic.FinCases"
+      ],
+      "retained_imports": [],
+      "validation": "pending native check; import-only narrowing"
+    },
+    {
+      "module": "FLTReuse.Me3c5b58d1cdd8b1c",
+      "path": "vendor/flt/FLTReuse/Me3c5b58d1cdd8b1c.lean",
+      "old_source_sha256": "4012edad0b6d3b9bc4821ad93f510a95ca0c40f70d7d2e3cff4c976fa1a1c9b1",
+      "new_source_sha256": "9dfb42468b54463a82f0a51aabfd64cec8c5a845215fe8bb37fa85d3330d00bf",
+      "declaration_region_sha256": "b0837aa5c4ff2a526a34559713d98d5f9f93e5df87239ac3d82dc08c16e40008",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.Tactic.Ring"
+      ],
+      "retained_imports": [
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Md2cadaa4525e04a6",
+        "FLTReuse.Mb875502fbb65df3e",
+        "FLTReuse.M76dc382b7c5a77fb",
+        "FLTReuse.M1868db956c866c8d"
+      ],
+      "validation": "pending native check; import-only narrowing"
+    },
+    {
+      "module": "FLTReuse.M57a508b951c7aa28",
+      "path": "vendor/flt/FLTReuse/M57a508b951c7aa28.lean",
+      "old_source_sha256": "7d757baf6988948b596eed9b3c31d82a21905ffc3dc3ed1c30c63ea7bdd63855",
+      "new_source_sha256": "94668379c7107920452be1e86e1658cc2d149dfa2a3808fa853878ed8aa61959",
+      "declaration_region_sha256": "e239dc083432c958d68657cc43744f796d75dd40b343e5c76bbd7caf3128ac97",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [],
+      "retained_imports": [
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Md2cadaa4525e04a6",
+        "FLTReuse.Mb875502fbb65df3e",
+        "FLTReuse.M1868db956c866c8d",
+        "FLTReuse.Me3c5b58d1cdd8b1c"
+      ],
+      "validation": "pending native check; import-only narrowing"
+    },
+    {
+      "module": "FLTReuse.Mca976093a3e9d9d7",
+      "path": "vendor/flt/FLTReuse/Mca976093a3e9d9d7.lean",
+      "old_source_sha256": "748962828bb9e78fdd36951f033d877c337c462bebf3a66038eaf5695593e998",
+      "new_source_sha256": "34d8d4b2ddbcb31a70abf769d35a55494e0f4cc7f678c7901a905221d01d4ce5",
+      "declaration_region_sha256": "1c583485ea681bd57836e0a06befc14965c3c6a248452e17350fbed3f0941e6f",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.RingTheory.Localization.BaseChange",
+        "Mathlib.LinearAlgebra.TensorProduct.Tower",
+        "Mathlib.Tactic.Simps"
+      ],
+      "retained_imports": [],
+      "validation": "pending native check; import-only narrowing"
+    },
+    {
+      "module": "FLTReuse.M5960be08a50663ff",
+      "path": "vendor/flt/FLTReuse/M5960be08a50663ff.lean",
+      "old_source_sha256": "d281c1a015452e9c0cf8bd0720d3b225d9cb2077b48d6605db43a9f951fe2ed5",
+      "new_source_sha256": "65da84f7e0d45ecccb9c40a8da772002f99439adeb25c62615fa6bacc40891b1",
+      "declaration_region_sha256": "b816cf0a892e6f810baa20e1e9d95bff2ca6d57d9fba25e27b3c6fa83de9bf89",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.NumberTheory.RamificationInertia.Basic",
+        "Mathlib.RingTheory.DedekindDomain.AdicValuation",
+        "Mathlib.RingTheory.IntegralClosure.IntegralRestrict",
+        "Mathlib.Algebra.Group.Int.TypeTags",
+        "Mathlib.Tactic.Ring"
+      ],
+      "retained_imports": [
+        "FLTReuse.Mca976093a3e9d9d7"
+      ],
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.Mceaf851096604c8a",
+      "path": "vendor/flt/FLTReuse/Mceaf851096604c8a.lean",
+      "old_source_sha256": "e5bbb0bb0de6305a37f647c270451d935ec140164c53140fb1afa5d885dbe2d3",
+      "new_source_sha256": "ca6baefcbee250e1686c97b793dee27b82072d568f03e88100df5cc17f3a5c16",
+      "declaration_region_sha256": "4953544001a48b8337495974c689999e1ff5dd7ab1b484a14ca5b6f9a6305565",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.Topology.Algebra.Algebra.Equiv",
+        "Mathlib.Topology.Algebra.Module.ModuleTopology",
+        "Mathlib.Topology.Algebra.Algebra",
+        "Mathlib.LinearAlgebra.FiniteDimensional.Defs",
+        "Mathlib.RingTheory.TensorProduct.Basic",
+        "Mathlib.Tactic.FunProp",
+        "Mathlib.Tactic.Simps"
+      ],
+      "retained_imports": [],
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.M2f636d1aec478e2e",
+      "path": "vendor/flt/FLTReuse/M2f636d1aec478e2e.lean",
+      "old_source_sha256": "e3ba314e4a0ef5e89409b310c12a99070e46bf57bb2ac3f4a4c3d24cad2c1ded",
+      "new_source_sha256": "8804f1ec678b8c14947c31a703f5c9e5078afee1cffb4a94f5cafb827cd185c2",
+      "declaration_region_sha256": "525c29e9312af49485486f39eab96694ac61d67be0716984be6ac83cfe27f7b8",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.Algebra.Algebra.Prod",
+        "Mathlib.Algebra.Module.LinearMap.Prod",
+        "Mathlib.Tactic.Simps"
+      ],
+      "retained_imports": [],
+      "validation": "pending native check; import-only narrowing"
+    },
+    {
+      "module": "FLTReuse.M255459499690ff8e",
+      "path": "vendor/flt/FLTReuse/M255459499690ff8e.lean",
+      "old_source_sha256": "86b883689bce93e92e8fd50dec8eb212880bf6dfa63dd6e9e97b9f1928ec2eea",
+      "new_source_sha256": "5ca6b76321c11c6df1d5a316d0300830e38f7f260f3da6a799ac8807869a4a07",
+      "declaration_region_sha256": "a88dab32362776d495ffd617cb14d35d9c099926d20a68dcbf5ce2e0ba79b1bb",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.Topology.Algebra.UniformRing"
+      ],
+      "retained_imports": [
+        "FLTReuse.M2f636d1aec478e2e"
+      ],
+      "validation": "pending native check; import-only narrowing"
+    },
+    {
+      "module": "FLTReuse.M1d838ff8bf72f37a",
+      "path": "vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean",
+      "old_source_sha256": "0bbce96980277d8390a902e8624fc06277b05826237f395a29d695d556175d1e",
+      "new_source_sha256": "a7862669e648f5cb68846491ce842db618c67af4f5058e3a5b92015f9452a0c1",
+      "declaration_region_sha256": "769d99988047da3309b7de96333e04897033abea1964f205bac7460e9320dde0",
+      "declaration_region_unchanged": true,
+      "removed_imports": [
+        "Mathlib"
+      ],
+      "added_imports": [
+        "Mathlib.RingTheory.TensorProduct.Finite",
+        "Mathlib.RingTheory.TensorProduct.Basic",
+        "Mathlib.RingTheory.TensorProduct.Free",
+        "Mathlib.LinearAlgebra.TensorProduct.Basis",
+        "Mathlib.LinearAlgebra.TensorProduct.Finiteness",
+        "Mathlib.Topology.Algebra.Module.ModuleTopology"
+      ],
+      "retained_imports": [],
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.Ma22e2a591f23459f",
+      "path": "vendor/flt/FLTReuse/Ma22e2a591f23459f.lean",
+      "old_source_sha256": "274d812efe5ad99c5e59bfe2df5c6c26b7f2e2c34a6a438c50fd9b2dde765ef1",
+      "new_source_sha256": "65df6b6c75542214a91ed414ebaced317746984dee41f7ed37d537c53ccebf50",
+      "declaration_region_sha256": "8d6960cb0b31451bbeb3ef8e796cbb3d01779a302ff2d7381afa2883d29c55cd",
+      "declaration_region_unchanged": true,
+      "removed_imports": [],
+      "added_imports": [
+        "Mathlib.Analysis.SpecialFunctions.Complex.Circle"
+      ],
+      "retained_imports": [
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Md2cadaa4525e04a6",
+        "FLTReuse.Mb875502fbb65df3e",
+        "Mathlib.NumberTheory.NumberField.Discriminant.Different",
+        "Mathlib.Algebra.Module.ZLattice.Covolume",
+        "FLTReuse.M65cb97bf9eaf069f",
+        "FLTReuse.M3bf8e30844acd054",
+        "FLTReuse.M1868db956c866c8d"
+      ],
+      "kind": "native_missing_import_repair",
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.M157b087506702f5d",
+      "path": "vendor/flt/FLTReuse/M157b087506702f5d.lean",
+      "old_source_sha256": "86a729be8665bd861c6c53d343cb48ba727a829aeebb005586749e7b726fe712",
+      "new_source_sha256": "d34e90a8c4bf47be06200bfb82009686e2b97daabdbcd71d61136b7f7b2da48f",
+      "declaration_region_sha256": "c1d9a634cfd2b4bcfd67a7f6039b133d5d6b7891ceec0f878b116593380de891",
+      "declaration_region_unchanged": true,
+      "removed_imports": [],
+      "added_imports": [
+        "Mathlib.MeasureTheory.Measure.Haar.DistribChar"
+      ],
+      "retained_imports": [
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Mf1ff95f379a0ba0a"
+      ],
+      "kind": "native_missing_import_repair",
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.M971f920e85ac7cd4",
+      "path": "vendor/flt/FLTReuse/M971f920e85ac7cd4.lean",
+      "old_source_sha256": "46ffe949fd8642560fb12bae56460128dd2af8291fad972c7309e0150fcaefc7",
+      "new_source_sha256": "62704ead0a8f1286a1382454588ba04cfec74a227f6d599033df09c5d2eba621",
+      "declaration_region_sha256": "954f23ad48a2c740bf0afd845137e7ef9b5e30782f1ff31d442f6b709a1fa224",
+      "declaration_region_unchanged": true,
+      "removed_imports": [],
+      "added_imports": [
+        "Mathlib.NumberTheory.NumberField.ProductFormula"
+      ],
+      "retained_imports": [
+        "FLTReuse.M019e33ff0c031ad2"
+      ],
+      "kind": "native_missing_import_repair",
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.Maeacc31f39c2b895",
+      "path": "vendor/flt/FLTReuse/Maeacc31f39c2b895.lean",
+      "old_source_sha256": "2d1b17f66d74e54f135391aed0704e60cc30fe9f2cc408bbc7b54c052e13bf15",
+      "new_source_sha256": "04ea22a92e35fbfd7b34d714f34cbb2756d9cc6c0391ea0a4b7674cec2d9887c",
+      "declaration_region_sha256": "14b4df3810ebc71fde6abd5375e4462783a96cda8a6b08de3257b258c1abdee1",
+      "declaration_region_unchanged": true,
+      "removed_imports": [],
+      "added_imports": [
+        "Mathlib.NumberTheory.Modular",
+        "Mathlib.NumberTheory.NumberField.Completion.InfinitePlace",
+        "Mathlib.NumberTheory.NumberField.AdeleRing"
+      ],
+      "retained_imports": [
+        "FLTReuse.M03caed6eb03298ae",
+        "FLTReuse.M019e33ff0c031ad2"
+      ],
+      "kind": "native_missing_import_repair",
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    },
+    {
+      "module": "FLTReuse.Ma6dd0c4d713fb96a",
+      "path": "vendor/flt/FLTReuse/Ma6dd0c4d713fb96a.lean",
+      "old_source_sha256": "0af6d58a4e7815b86454642aa937a4f3f6cb3dc2acef038ff36573dcb4be1a8f",
+      "new_source_sha256": "1e07164a1b004aaf5c2de10236c3318b660691a591f0112889d7945a9198b00e",
+      "declaration_region_sha256": "f0ba8b60319b8fae166c6398764f826ad4f14349a0966975905b4c38c3bff677",
+      "declaration_region_unchanged": true,
+      "removed_imports": [],
+      "added_imports": [
+        "Mathlib.Topology.Algebra.Module.FiniteDimension",
+        "Mathlib.Algebra.Lie.OfAssociative"
+      ],
+      "retained_imports": [
+        "FLTReuse.M387d45cde57b612d",
+        "FLTReuse.M5960be08a50663ff",
+        "FLTReuse.Mceaf851096604c8a",
+        "FLTReuse.M255459499690ff8e",
+        "FLTReuse.M1d838ff8bf72f37a"
+      ],
+      "kind": "native_missing_import_repair",
+      "validation": "pending native recheck after a concrete missing-import diagnostic; declarations and proofs unchanged"
+    }
+  ],
+  "declaration_region_hash_method": "SHA256 of all original source bytes except complete lines beginning with import followed by a space; every other byte, including blank lines, is retained.",
+  "current_status": "Superseded by vendor_import_restoration_provenance.json: all 15 original cloud headers restored after full Mathlib native compilation; original declarations unchanged.",
+  "superseding_import_restoration": "vendor_import_restoration_provenance.json"
+}

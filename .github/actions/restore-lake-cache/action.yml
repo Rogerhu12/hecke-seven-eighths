@@ -1,0 +1,51 @@
+name: Restore precompiled project Lake artifacts
+description: >
+  Downloads the newest `lake-cache-*` release of this repository (built by
+  scripts/build_lake_cache.py, normally by the lake-cache-release workflow) and
+  unpacks the precompiled Lake outputs of the project libraries,
+  vendor/class-field-theory and TauCeti into the checkout. Then it restores the
+  newest per-branch Actions cache entry with the project `.lake/build` outputs
+  that earlier runs of the same branch (or of the base branch) compiled, and at
+  the end of the job (also when the job failed) saves what this run compiled,
+  so that the next run only rebuilds what changed.
+  Run it after `lake exe cache get` (for example after leanprover/lean-action
+  with use-mathlib-cache), so that .lake/packages/TauCeti already exists.
+
+inputs:
+  tag:
+    description: >
+      Release tag to restore; empty selects the newest published lake-cache-*
+      release. A draft can be named explicitly, but then the token needs
+      `contents: write`.
+    required: false
+    default: ""
+  repository:
+    description: Repository that holds the releases.
+    required: false
+    default: ${{ github.repository }}
+  token:
+    description: Token for the GitHub CLI.
+    required: false
+    default: ${{ github.token }}
+  branch-cache:
+    description: >
+      "true" restores and saves the per-branch Actions cache of `.lake/build`,
+      "restore" only restores it, "false" uses the release only.
+    required: false
+    default: "true"
+
+outputs:
+  tag:
+    description: The restored release tag (empty if nothing was restored).
+  branch-cache-key:
+    description: Key of the restored per-branch cache entry (empty on a miss).
+
+# A JavaScript action rather than a composite one: only the top-level action of
+# a step can register its own post step, and `post-if: always()` is what lets
+# the post step save the build outputs of failed and timed-out runs too.
+# main.js and post.js only start restore.sh and save.sh.
+runs:
+  using: node24
+  main: main.js
+  post: post.js
+  post-if: always()

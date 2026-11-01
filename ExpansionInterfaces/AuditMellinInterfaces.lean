@@ -1,0 +1,23 @@
+import ExpansionInterfaces.AnnularCutoffFamily
+
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.convergent
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.mellin_differentiable
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.inversion
+#print axioms ExpansionInterfaces.Mellin.hasSum_annular_mellin
+#print axioms ExpansionInterfaces.Mellin.annular_mellin_finite_of_initial_line
+#print axioms ExpansionInterfaces.Mellin.rectangle_identity
+#print axioms ExpansionInterfaces.Mellin.full_line_from_rectangle
+#print axioms ExpansionInterfaces.Mellin.annular_polynomial_upper_from_dirichlet_rectangle
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.uniform_strip_decay
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.uniform_weighted_moment
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.uniform_tail
+#print axioms ExpansionInterfaces.Mellin.annular_polynomial_uniform_upper
+
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.scaled_cutoff_reflected_derivatives
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_baseLog_uniform_derivatives
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_seminorm
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_strip_decay
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_weighted_moment
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_tail
+#print axioms ExpansionInterfaces.Mellin.AnnularProfile.cutoffFamily_uniform_contour_data
+#print axioms ExpansionInterfaces.Mellin.annular_cutoff_polynomial_uniform_upper

@@ -1,0 +1,27 @@
+{
+  "moved_declarations": [
+    {
+      "name": "target_rowPhaseData_eta",
+      "original_source": "HeckeSkeleton/HighBinSupport/ActualGaussCalibration.lean",
+      "new_source": "HeckeSkeleton/HighBinSupport/ActualTargetEuler.lean",
+      "declaration_sha256": "b3b985e53df4d8d8f4026f0bc9d3d8c61800fb15a3968116bb728bfa03da718e",
+      "byte_identical": true
+    },
+    {
+      "name": "targetRowEulerCalibrationInput",
+      "original_source": "HeckeSkeleton/HighBinSupport/ActualInitialCalibration.lean",
+      "new_source": "HeckeSkeleton/HighBinSupport/ActualTargetEuler.lean",
+      "declaration_sha256": "671d53767fcc8432b2ff2dcf037e35be0aac2bdf2b0a2a5103d84b5e40c7b412",
+      "byte_identical": true
+    },
+    {
+      "name": "targetTRowEulerInput",
+      "original_source": "HeckeSkeleton/HighBinSupport/ActualEulerInput.lean",
+      "new_source": "HeckeSkeleton/HighBinSupport/ActualTargetEuler.lean",
+      "declaration_sha256": "2b2c93bd0013e2c07739ebe6b50b21ead8f86017f1c1ec3d9fb34181ee0fd16d",
+      "byte_identical": true
+    }
+  ],
+  "api_note": "The generic arithmetic modules retain all generic declarations. Named-target declarations now require importing HeckeSkeleton.HighBinSupport.ActualTargetEuler; HeckeSkeleton.HighBinSupport reexports that module.",
+  "validation": "Declaration bodies compared byte-for-byte; native build pending."
+}

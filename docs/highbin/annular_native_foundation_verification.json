@@ -1,0 +1,14 @@
+{
+  "module": "HeckeGeneral.Analysis.AnnularTest",
+  "source_sha256": "895240b4494a7e6c4692d8da30e2d6ccf3ce0997f71a55eff79b238fdf5f532d",
+  "source_unchanged": true,
+  "exit_code": 0,
+  "elapsed_seconds": 474.71,
+  "compiler": "Lean 4.35.0-rc3 470d5ce1400764999581fd26d5d72b00d990b0f4",
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "complete_foundation_sha256": "b1fff7af405e1a0df53c8bf86142f832755ce87e3437c5c95754199d3fe07925",
+  "build_log_sha256": "ac28db84627228454bef0889ed6590ed98400a620a3baa7859bc5f39f17c8792",
+  "native_olean_sha256": "574ab742b0041bd36ed46f3edff93710fee2d98e128bdee5abd7c1ba8a00eb33",
+  "native_olean_bytes": 80112,
+  "note": "Independent genuine native check of restored foundation. CI byte-identical dependency bundles are retained separately for cache-closed downstream reuse."
+}

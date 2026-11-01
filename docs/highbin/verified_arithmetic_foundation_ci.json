@@ -1,0 +1,139 @@
+{
+  "commit": "f1dd2fc98dd13dd7280d2373c15f7f5d73430b3c",
+  "repository": "Rogerhu12/hecke-seven-eighths",
+  "workflow_run": 41166730489,
+  "job": 124435800514,
+  "toolchain": "leanprover/lean4:v4.35.0-rc3",
+  "mathlib": "0493595ecd5da8ef14742febab99728f98e948e8",
+  "scope": "Four original arithmetic modules built successfully at this exact commit. This is not a success claim for the full Fourier job, which failed in later modules. Inline axiom checks below are the ones emitted by these files, not the still-unexecuted whole public-declaration audit.",
+  "log_sha256": "35f8aaffd361420bbaf481e48f4dcd022b338bc3c0694925b2cb31126437acdf",
+  "modules": [
+    {
+      "module": "HeckeSkeleton.HighBinSupport.ActualGeneratorPowers",
+      "source": "HeckeSkeleton/HighBinSupport/ActualGeneratorPowers.lean",
+      "source_sha256": "2a753173c9a29a9e31bf4c91b7cdddd11561f77305b93e34bf4e01e428d3e188",
+      "native_build_line": "⚠ [9136/9140] Built HeckeSkeleton.HighBinSupport.ActualGeneratorPowers (3.7s)",
+      "inline_axiom_checks": [
+        {
+          "name": "HeckeSkeleton.HighBinActualGenerators.generator_power_eq_sixth_unit",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualGenerators.idealSymbol_local_sixth_invariant",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols",
+      "source": "HeckeSkeleton/HighBinSupport/ActualPrimePowerSymbols.lean",
+      "source_sha256": "4f82201183017cce36e90447bfb0340fc7aa048cb6f2256c9d506eda9ae9697f",
+      "native_build_line": "⚠ [9138/9143] Built HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols (4.1s)",
+      "inline_axiom_checks": [
+        {
+          "name": "HeckeSkeleton.HighBinActualSymbols.idealSymbol_exteriorMul",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualSymbols.idealSymbol_primePower_mulChar",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualSymbols.symbolOnQuotient_primePower",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "HeckeSkeleton.HighBinSupport.ActualGaussData",
+      "source": "HeckeSkeleton/HighBinSupport/ActualGaussData.lean",
+      "source_sha256": "a95949016a6329fd2d08d5075cb0ca7c94d2b5facf3adcdc0beff52dc794c680",
+      "native_build_line": "⚠ [9142/9175] Built HeckeSkeleton.HighBinSupport.ActualGaussData (4.4s)",
+      "inline_axiom_checks": []
+    },
+    {
+      "module": "HeckeSkeleton.HighBinSupport.ActualInitialAbsolute",
+      "source": "HeckeSkeleton/HighBinSupport/ActualInitialAbsolute.lean",
+      "source_sha256": "5d6634e0d78e5acb422de023326f38365c04bdfe20ba41716ce83bc3a69fe594",
+      "native_build_line": "⚠ [9175/9178] Built HeckeSkeleton.HighBinSupport.ActualInitialAbsolute (8.9s)",
+      "inline_axiom_checks": [
+        {
+          "name": "HeckeSkeleton.HighBinActualAbsolute.norm_probeGauss_le_norm",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualAbsolute.norm_finitePoissonFactor_le",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualAbsolute.norm_initialRowEulerTerm_le",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualAbsolute.initial_absolute",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualAbsolute.productPrincipalCharacter_isPrimitive",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualAbsolute.principalPower_character_compatible",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        },
+        {
+          "name": "HeckeSkeleton.HighBinActualAbsolute.finitePoisson_summand_representative_independent",
+          "axioms": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+          ]
+        }
+      ]
+    }
+  ]
+}

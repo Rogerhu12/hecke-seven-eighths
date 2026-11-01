@@ -1,0 +1,190 @@
+{
+  "purpose": "Historical QA harness import overrides captured before production bare Mathlib restoration. Not native per-file import verification.",
+  "modules": [
+    {
+      "module": "FLTReuse.M0525ca355036d686",
+      "path": "vendor/flt/FLTReuse/M0525ca355036d686.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "95e6933ffa5c01b6f13c12bc45aace85bf45b095ee116f8d5faac1f349a4339f",
+      "narrowed_source_sha256": "898190dd4f8292961d2789aea333fd18debbb60e24d65962e5b5d47bb230ee9a",
+      "original_imports": [
+        "Mathlib"
+      ],
+      "curated_imports": [
+        "Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic",
+        "Mathlib.MeasureTheory.Integral.Bochner.Basic",
+        "Mathlib.Tactic.FinCases"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.M1d838ff8bf72f37a",
+      "path": "vendor/flt/FLTReuse/M1d838ff8bf72f37a.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "0bbce96980277d8390a902e8624fc06277b05826237f395a29d695d556175d1e",
+      "narrowed_source_sha256": "1f749119870227a877c44ddd2a38ed4173dde9edc55796125e7b5ecc7c6e6542",
+      "original_imports": [
+        "Mathlib"
+      ],
+      "curated_imports": [
+        "Mathlib.LinearAlgebra.TensorProduct.Free",
+        "Mathlib.LinearAlgebra.TensorProduct.Basis",
+        "Mathlib.Topology.Algebra.Module.ModuleTopology",
+        "Mathlib.RingTheory.TensorProduct.Basic"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.M255459499690ff8e",
+      "path": "vendor/flt/FLTReuse/M255459499690ff8e.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "86b883689bce93e92e8fd50dec8eb212880bf6dfa63dd6e9e97b9f1928ec2eea",
+      "narrowed_source_sha256": "5ca6b76321c11c6df1d5a316d0300830e38f7f260f3da6a799ac8807869a4a07",
+      "original_imports": [
+        "Mathlib",
+        "FLTReuse.M2f636d1aec478e2e"
+      ],
+      "curated_imports": [
+        "Mathlib.Topology.Algebra.UniformRing",
+        "FLTReuse.M2f636d1aec478e2e"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.M2f636d1aec478e2e",
+      "path": "vendor/flt/FLTReuse/M2f636d1aec478e2e.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "e3ba314e4a0ef5e89409b310c12a99070e46bf57bb2ac3f4a4c3d24cad2c1ded",
+      "narrowed_source_sha256": "2bcaebf49723a61795bb19c40ad2e48b802c7266400906416e8c32dfbb390da0",
+      "original_imports": [
+        "Mathlib"
+      ],
+      "curated_imports": [
+        "Mathlib.Algebra.Algebra.Prod",
+        "Mathlib.LinearAlgebra.Prod"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.M57a508b951c7aa28",
+      "path": "vendor/flt/FLTReuse/M57a508b951c7aa28.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "7d757baf6988948b596eed9b3c31d82a21905ffc3dc3ed1c30c63ea7bdd63855",
+      "narrowed_source_sha256": "670fcb420a2ac16e0980c2786ac4f57275aff13f416ac6b9f7bba1eaff75055b",
+      "original_imports": [
+        "Mathlib",
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Md2cadaa4525e04a6",
+        "FLTReuse.Mb875502fbb65df3e",
+        "FLTReuse.M1868db956c866c8d",
+        "FLTReuse.Me3c5b58d1cdd8b1c"
+      ],
+      "curated_imports": [
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Md2cadaa4525e04a6",
+        "FLTReuse.Mb875502fbb65df3e",
+        "FLTReuse.M1868db956c866c8d",
+        "FLTReuse.Me3c5b58d1cdd8b1c"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.M5960be08a50663ff",
+      "path": "vendor/flt/FLTReuse/M5960be08a50663ff.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "d281c1a015452e9c0cf8bd0720d3b225d9cb2077b48d6605db43a9f951fe2ed5",
+      "narrowed_source_sha256": "5ccde0aa3e3663eb12aee35eb040c61417cf5e4fe4313fd05ee69142772b296a",
+      "original_imports": [
+        "Mathlib",
+        "FLTReuse.Mca976093a3e9d9d7"
+      ],
+      "curated_imports": [
+        "Mathlib.NumberTheory.RamificationInertia.Basic",
+        "Mathlib.RingTheory.DedekindDomain.AdicValuation",
+        "Mathlib.RingTheory.Localization.Integral",
+        "Mathlib.Tactic.Ring",
+        "FLTReuse.Mca976093a3e9d9d7"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.Mca976093a3e9d9d7",
+      "path": "vendor/flt/FLTReuse/Mca976093a3e9d9d7.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "748962828bb9e78fdd36951f033d877c337c462bebf3a66038eaf5695593e998",
+      "narrowed_source_sha256": "8b32c87d13766c26cf85309f2c640457d8a20380fded5230a2602141e3a65908",
+      "original_imports": [
+        "Mathlib"
+      ],
+      "curated_imports": [
+        "Mathlib.RingTheory.Localization.BaseChange"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.Mceaf851096604c8a",
+      "path": "vendor/flt/FLTReuse/Mceaf851096604c8a.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "e5bbb0bb0de6305a37f647c270451d935ec140164c53140fb1afa5d885dbe2d3",
+      "narrowed_source_sha256": "06cd7b7fbb341c66df21d90c50a6d0f2d28b724265f9457b15a562ce55adfb2d",
+      "original_imports": [
+        "Mathlib"
+      ],
+      "curated_imports": [
+        "Mathlib.Topology.Algebra.Module.ModuleTopology",
+        "Mathlib.Topology.Algebra.Algebra.Equiv",
+        "Mathlib.Tactic.FunProp"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.Me1ad2f4bf19c4ff0",
+      "path": "vendor/flt/FLTReuse/Me1ad2f4bf19c4ff0.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "0f03f01460b9aae22162f8e5cb0d284b128d59d243162565e13bb09004660a15",
+      "narrowed_source_sha256": "54838ec9b308bf58cb194b24483c8ccd797f402eafc916c91b029947464e7bb7",
+      "original_imports": [
+        "Mathlib"
+      ],
+      "curated_imports": [
+        "Mathlib.NumberTheory.NumberField.AdeleRing",
+        "Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic",
+        "Mathlib.MeasureTheory.Function.LpSpace.Basic"
+      ],
+      "proof_body_identical": true
+    },
+    {
+      "module": "FLTReuse.Me3c5b58d1cdd8b1c",
+      "path": "vendor/flt/FLTReuse/Me3c5b58d1cdd8b1c.lean",
+      "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+      "original_sha256": "4012edad0b6d3b9bc4821ad93f510a95ca0c40f70d7d2e3cff4c976fa1a1c9b1",
+      "narrowed_source_sha256": "9dfb42468b54463a82f0a51aabfd64cec8c5a845215fe8bb37fa85d3330d00bf",
+      "original_imports": [
+        "Mathlib",
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Md2cadaa4525e04a6",
+        "FLTReuse.Mb875502fbb65df3e",
+        "FLTReuse.M76dc382b7c5a77fb",
+        "FLTReuse.M1868db956c866c8d"
+      ],
+      "curated_imports": [
+        "Mathlib.Tactic.Ring",
+        "FLTReuse.M55164c2a16500130",
+        "FLTReuse.Md2cadaa4525e04a6",
+        "FLTReuse.Mb875502fbb65df3e",
+        "FLTReuse.M76dc382b7c5a77fb",
+        "FLTReuse.M1868db956c866c8d"
+      ],
+      "proof_body_identical": true
+    }
+  ],
+  "original_ref": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+  "original_repository_commit": "503ad9895e5f8affef55b22fea082e251bf33aa7",
+  "original_repository_tree": "202f208ecc20c34eda25d49e6d26ecbd0449b970",
+  "local_snapshot_commit": "1fa6064d2e5f1825ff46d66cc457c40555169930",
+  "harness_additional_imports": {
+    "FLTReuse.Ma6dd0c4d713fb96a": [
+      "Mathlib.Algebra.Lie.OfAssociative"
+    ]
+  }
+}

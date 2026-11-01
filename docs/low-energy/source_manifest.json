@@ -1,0 +1,716 @@
+{
+  "schema": "low-energy-reviewed-sources-v1",
+  "branch": "codex/low-reflected-energy-ade19eee",
+  "base_branch": "dtests-handoff",
+  "note": "Current source inventory only. Native compilation logs and audits are retained in GitHub Actions artifacts; historical evidence remains in commit history. This file grants no proof verification status.",
+  "files": [
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualAnnularBlockEnergy.lean",
+      "source_sha256": "b1dd7b6e8ef6f20165d47d3216f57c4f370817abc3f33ae1f3918eea762a210e",
+      "bytes": 23348
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualBlockEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualBlockEnergy.lean",
+      "source_sha256": "5c3840f217ec9ee2e4c4f5d0a774bcc9447ab9a3979482586319cba410469c17",
+      "bytes": 6324
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualBlockReindex",
+      "path": "HeckeSkeleton/LowEnergy/ActualBlockReindex.lean",
+      "source_sha256": "03b246ca9d5136a7ca69fd47f3820dea993a6b8a5a70411c5228e6406a51fc4a",
+      "bytes": 11104
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualClassSlices",
+      "path": "HeckeSkeleton/LowEnergy/ActualClassSlices.lean",
+      "source_sha256": "f4e8a37f474aa408bfb5c20dbb06ee8f77aaf32a8b4f730417ee8d69afa72896",
+      "bytes": 4497
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualCommonMellinTail",
+      "path": "HeckeSkeleton/LowEnergy/ActualCommonMellinTail.lean",
+      "source_sha256": "1e17a8197abe8ee47a796245bcf4db82e53c092d9de47310832b7e949ef70b5b",
+      "bytes": 10169
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualCompleteIdealEnergy.lean",
+      "source_sha256": "133fdefb6291e2e90326f03bc4b532227df3bd430599b6ebdcc8b6242fd47ef0",
+      "bytes": 10414
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualCompletedMarkedEnergy.lean",
+      "source_sha256": "8cdabc4e7694086af7fed2fc28be6a1799945229c838e831e9300fa0ca3fba3c",
+      "bytes": 4941
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualDyadicReflection",
+      "path": "HeckeSkeleton/LowEnergy/ActualDyadicReflection.lean",
+      "source_sha256": "407d2c085691973553239577a74fb4c1ce87cdf25a0fb4202cff452afaa47370",
+      "bytes": 11182
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenAggregation",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenAggregation.lean",
+      "source_sha256": "c9d2d736cb4ee3648e3978c78396714e4278278612329f0cbf609231de9b863f",
+      "bytes": 13656
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenCharges",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenCharges.lean",
+      "source_sha256": "bc60ee44c2669ab7257441afdbee05b2f29bddb0f8aa9be710783348921dd880",
+      "bytes": 9342
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenCube",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenCube.lean",
+      "source_sha256": "993d2b1e17853dcf44b4ec7452c2e97c81efb2c70fd904a89793c653c8dca70c",
+      "bytes": 24115
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenIndependence",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenIndependence.lean",
+      "source_sha256": "e8e85cd0a5a9febb7cafb46e2136ae25f84d1401ee7b9031767ae1f644d76062",
+      "bytes": 13601
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenMajorant",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenMajorant.lean",
+      "source_sha256": "9d778e91996a11a240e4e2ca3a560f92e39c5fcf5b31fe08a9ac37ac7bfceb61",
+      "bytes": 17255
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenReconstruction.lean",
+      "source_sha256": "e75d895808f14994b5778a2322df09e2d202a6c40c3c890ec89c34fae80c5bb0",
+      "bytes": 16182
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualFrozenStateCount",
+      "path": "HeckeSkeleton/LowEnergy/ActualFrozenStateCount.lean",
+      "source_sha256": "a877d86f448e5ad8e3c78a87c228389a4a3fe6ca1b47c5167c8d368ad8df7858",
+      "bytes": 8572
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualGeneratorClasses",
+      "path": "HeckeSkeleton/LowEnergy/ActualGeneratorClasses.lean",
+      "source_sha256": "94f309c0127dcbd7e293013c0dd6bb410d9980b4a78b5ea5b8275f092dfb8cc5",
+      "bytes": 8191
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualHybridEntry",
+      "path": "HeckeSkeleton/LowEnergy/ActualHybridEntry.lean",
+      "source_sha256": "f3bdb01ca452f7116cf1b754203c94dcfb80459427ff65146b47b5de8e5005fe",
+      "bytes": 6486
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualLocalWeylTable",
+      "path": "HeckeSkeleton/LowEnergy/ActualLocalWeylTable.lean",
+      "source_sha256": "756607d8af9886598e7344653f8284d7f0f34c4c907cc173db67f86ad99427f2",
+      "bytes": 6761
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualMarkedTupleEnergy.lean",
+      "source_sha256": "384b2a21287a0e649e7712ab9d5cf4c276428aa1f72f3ca23a8d669bb79c7ec5",
+      "bytes": 19374
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualRawHybrid",
+      "path": "HeckeSkeleton/LowEnergy/ActualRawHybrid.lean",
+      "source_sha256": "094374bb2150f3c85e7cc7e1a5c1684a7222403a3b425e80410326de0388c5d1",
+      "bytes": 6395
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualReflection",
+      "path": "HeckeSkeleton/LowEnergy/ActualReflection.lean",
+      "source_sha256": "e308dce568976555c99081e8261b11e690b6cc37cbe479cbb2011b4f2fe698c1",
+      "bytes": 10255
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualReflectionReindex",
+      "path": "HeckeSkeleton/LowEnergy/ActualReflectionReindex.lean",
+      "source_sha256": "36c0d10a68e2dc30628e1a621e9638e338dde7c37f129dbe77aee11bee970862",
+      "bytes": 24277
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy",
+      "path": "HeckeSkeleton/LowEnergy/ActualResidualDyadicEnergy.lean",
+      "source_sha256": "7b8e08623d20a1be7e7eee83feab315c188f140fa8711afd9fb8e0838a5e54a9",
+      "bytes": 11271
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualRowFibres",
+      "path": "HeckeSkeleton/LowEnergy/ActualRowFibres.lean",
+      "source_sha256": "1759c44a943601c80a103da42945620c346fb7608d47df0cb02491b56a8742bb",
+      "bytes": 4863
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualRows",
+      "path": "HeckeSkeleton/LowEnergy/ActualRows.lean",
+      "source_sha256": "1984654b60ee1e534b91818036ffe0d57ed025f2cfccc729b1f4830cb24e6930",
+      "bytes": 15512
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSeparatedBlock",
+      "path": "HeckeSkeleton/LowEnergy/ActualSeparatedBlock.lean",
+      "source_sha256": "df34c2583706ea16e9ab9978882cd514c165d6888bc4619db1f49a138072410e",
+      "bytes": 31780
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSieveDictionary",
+      "path": "HeckeSkeleton/LowEnergy/ActualSieveDictionary.lean",
+      "source_sha256": "f58fd9887be68209382570e91ebe3c8c4856bcf3bf8b74b514cbd1a24b5218c8",
+      "bytes": 10346
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSourceReindex",
+      "path": "HeckeSkeleton/LowEnergy/ActualSourceReindex.lean",
+      "source_sha256": "7c3d5f6df58f481b4243865f48ac3078e568e1a17e9d49c5e8115cea28bec264",
+      "bytes": 15582
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSymbolProducts",
+      "path": "HeckeSkeleton/LowEnergy/ActualSymbolProducts.lean",
+      "source_sha256": "2a12162291d545368c226a2c88619cf5036e90ff157acaa6f4874efc616671b1",
+      "bytes": 5117
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualSymbols",
+      "path": "HeckeSkeleton/LowEnergy/ActualSymbols.lean",
+      "source_sha256": "de486fd4e59862eb9b1de7d4aa9b5b39bb9d98ea190d632fe384d0dfa9b908de",
+      "bytes": 11609
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ActualTupleReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/ActualTupleReconstruction.lean",
+      "source_sha256": "2e28f55e82e4efca10046df7ec0a6718c948c2ea0e1f8368c57f4fa040e3e0e5",
+      "bytes": 35844
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.AnnularEnergy",
+      "path": "HeckeSkeleton/LowEnergy/AnnularEnergy.lean",
+      "source_sha256": "5d1592104712b988144dd32b0783c3daa735c0f74545654345362f50fbd24748",
+      "bytes": 5821
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.BlockPolynomial",
+      "path": "HeckeSkeleton/LowEnergy/BlockPolynomial.lean",
+      "source_sha256": "531de8ea0d05afd26e99191d2337777be07d757597955445eb36c5f4aef8c739",
+      "bytes": 6572
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ClassSlices",
+      "path": "HeckeSkeleton/LowEnergy/ClassSlices.lean",
+      "source_sha256": "e6d8d177a719024e0258d2a2373e0d1c930b84f588e0c44e5f9f6809a0e595c1",
+      "bytes": 9226
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.CommonMellin",
+      "path": "HeckeSkeleton/LowEnergy/CommonMellin.lean",
+      "source_sha256": "2b88696cd22a8b361094766c78ea1a1b9cc2d2ab192c81a45597c963bf8895af",
+      "bytes": 14462
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.CommonMellinTail",
+      "path": "HeckeSkeleton/LowEnergy/CommonMellinTail.lean",
+      "source_sha256": "7d47587515bcd1822f67fba469870029bc4d3dbbb257ee740db3d0fb3fb84b91",
+      "bytes": 7357
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ConcreteIdealBlock",
+      "path": "HeckeSkeleton/LowEnergy/ConcreteIdealBlock.lean",
+      "source_sha256": "ee207c9801cc72577d68b2686f24c2ab2ee057f0231b15fa9e3e3d5fd9001389",
+      "bytes": 9065
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.DyadicReindex",
+      "path": "HeckeSkeleton/LowEnergy/DyadicReindex.lean",
+      "source_sha256": "219709977718b91fd49038da3d6112a185c89f428818c7d0a3bad179c4f8760d",
+      "bytes": 17488
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.DyadicTail",
+      "path": "HeckeSkeleton/LowEnergy/DyadicTail.lean",
+      "source_sha256": "4af86f5e7cb309b18faa901fd5999080bcb47d13e98c3559d930836493e6da2f",
+      "bytes": 10025
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.EulerLog",
+      "path": "HeckeSkeleton/LowEnergy/EulerLog.lean",
+      "source_sha256": "17846e1fc90894d2e17e53194a370990928bc45a40df4b9e984168eb2a9f36c0",
+      "bytes": 4101
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.Exponent",
+      "path": "HeckeSkeleton/LowEnergy/Exponent.lean",
+      "source_sha256": "6e2a5c32f5913e62a31d287a54dfcc345e11df9cf78aa8fb30a1e569b73e5ab4",
+      "bytes": 10108
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.ExponentTail",
+      "path": "HeckeSkeleton/LowEnergy/ExponentTail.lean",
+      "source_sha256": "690fafe1df46d84c203a29388941e54de411cde053ef6a8fcfdf8c18039fb9ee",
+      "bytes": 6441
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FiniteFiberEnergy",
+      "path": "HeckeSkeleton/LowEnergy/FiniteFiberEnergy.lean",
+      "source_sha256": "33dc88a2b8e15c184eb1fe8612111161d8df1847d33286a96d01f27c95981ae1",
+      "bytes": 2968
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FiniteHybridIntegral",
+      "path": "HeckeSkeleton/LowEnergy/FiniteHybridIntegral.lean",
+      "source_sha256": "ada046f6c2773e29d4a32cd3b1aae23f5eac5eea07c1b42aceb1e1c9e9ae552c",
+      "bytes": 7517
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FrozenChargeCore",
+      "path": "HeckeSkeleton/LowEnergy/FrozenChargeCore.lean",
+      "source_sha256": "7341f3fbf0ac735466382af63aea40b3379408b205950813a62b4364098349be",
+      "bytes": 3908
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.FrozenIdealRows",
+      "path": "HeckeSkeleton/LowEnergy/FrozenIdealRows.lean",
+      "source_sha256": "5366d207da63509df2a337d7618c06858e1130dea74d9c1e23ff5006729c9c79",
+      "bytes": 9460
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianDyadicBudget",
+      "path": "HeckeSkeleton/LowEnergy/GaussianDyadicBudget.lean",
+      "source_sha256": "2004a772930e5cafe9c536ad58864793365f11d4663cfe43314394d2a06026eb",
+      "bytes": 3866
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianEnergyAssembly",
+      "path": "HeckeSkeleton/LowEnergy/GaussianEnergyAssembly.lean",
+      "source_sha256": "3450d85543b3125e297d517fe4829c57cf2299cfc94c17d3f2478d22d56d5c91",
+      "bytes": 2834
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/GaussianReconstruction.lean",
+      "source_sha256": "19199329a679c99ad32a731a8e47c296545df5f0593ee5d68118d6aabaec6730",
+      "bytes": 6837
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianSeminorm",
+      "path": "HeckeSkeleton/LowEnergy/GaussianSeminorm.lean",
+      "source_sha256": "87f07e913c0edf9f7304a9b12ca6c5ae7237fad78eca7d6bb2f31a8e2dbb8581",
+      "bytes": 9974
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GaussianTheta",
+      "path": "HeckeSkeleton/LowEnergy/GaussianTheta.lean",
+      "source_sha256": "9b4b613f3db37039dd4fa21714455c44494d56174596b8a249500f6a4855efea",
+      "bytes": 6398
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralAggregation",
+      "path": "HeckeSkeleton/LowEnergy/GeneralAggregation.lean",
+      "source_sha256": "1afcb2896e12d285298485396bdd1a570310112e6219ea76d9da447640e7d95c",
+      "bytes": 20174
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralAnnuli",
+      "path": "HeckeSkeleton/LowEnergy/GeneralAnnuli.lean",
+      "source_sha256": "f4ae4270d033393570877a23e88a5e4bc8ac0041947b57bd726ffeb29fd78314",
+      "bytes": 5601
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralBlockPolynomial",
+      "path": "HeckeSkeleton/LowEnergy/GeneralBlockPolynomial.lean",
+      "source_sha256": "1a204e85c02c2669e7243793b141b5ca480b0538d5aee3f54333e3ab02818728",
+      "bytes": 6457
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralCanonicalBlock",
+      "path": "HeckeSkeleton/LowEnergy/GeneralCanonicalBlock.lean",
+      "source_sha256": "dc63980afd68e06094b2ddb3bc61caa8b407b398fb32f8b91537db95b1b0c785",
+      "bytes": 15473
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralColumnCutoff",
+      "path": "HeckeSkeleton/LowEnergy/GeneralColumnCutoff.lean",
+      "source_sha256": "e8014ef945b29050b0579bf37fdc138e61eb137cd19dd631e57ce38322e08422",
+      "bytes": 32057
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralCompletedEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralCompletedEnergy.lean",
+      "source_sha256": "bee0f137c79a87cd02d842b53802cfef4f5be6dc09ddfb695b2645157f51574e",
+      "bytes": 24526
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralConductor",
+      "path": "HeckeSkeleton/LowEnergy/GeneralConductor.lean",
+      "source_sha256": "c8eee0dfbf7bf057c26317fc6a5956f7ec5deac1d70d582d4455a2c12719bc94",
+      "bytes": 12062
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralHeight",
+      "path": "HeckeSkeleton/LowEnergy/GeneralHeight.lean",
+      "source_sha256": "80ff9be843361a684e602d4aecad49913559129fb6ab892db08873659c49ab8a",
+      "bytes": 17414
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralHeightTail",
+      "path": "HeckeSkeleton/LowEnergy/GeneralHeightTail.lean",
+      "source_sha256": "7ea662452dcc07f5b643432133c2af7398afbb07758d37083b5f6b3988f303d3",
+      "bytes": 5247
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralInactiveEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralInactiveEnergy.lean",
+      "source_sha256": "89c9243537706daaa8f59d9030eb08a1fe12896eaebe2122fc15938c79fc6977",
+      "bytes": 18423
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralInactiveMass",
+      "path": "HeckeSkeleton/LowEnergy/GeneralInactiveMass.lean",
+      "source_sha256": "1844092a01c37c4208324df0e4f0d67a80f7245b8c916cb87d321adaefe19695",
+      "bytes": 25536
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralKernelTail",
+      "path": "HeckeSkeleton/LowEnergy/GeneralKernelTail.lean",
+      "source_sha256": "7935df001a08344a4aac332aeb94028e68d4bcd7f2803c381777c25eddb364f3",
+      "bytes": 39980
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralMarkedEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralMarkedEnergy.lean",
+      "source_sha256": "1b070304d46a1ba9aecbe80546096d0ffec07e4c36a66a9068537d5ba8f14579",
+      "bytes": 26504
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralProductEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralProductEnergy.lean",
+      "source_sha256": "ec9d33780540251dd90989e21f87a0ad08ff94e56a919d1ecdbcff2c13f11258",
+      "bytes": 4745
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralProductReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/GeneralProductReconstruction.lean",
+      "source_sha256": "d14d816b266f4acb32fb6bb9dc60179a7dd88f0fced108c1092f94597aefb686",
+      "bytes": 17027
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralReconstruction",
+      "path": "HeckeSkeleton/LowEnergy/GeneralReconstruction.lean",
+      "source_sha256": "a2e8c8c08ea4980474b71bd7bf2327e9c83c6a7367b38506b4b04b58c09da59c",
+      "bytes": 19481
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralReflectedBlock",
+      "path": "HeckeSkeleton/LowEnergy/GeneralReflectedBlock.lean",
+      "source_sha256": "c3e592ab4829bd2615aa20c4990523d03a576ffbbf9b2638a00ed239b1be0cf3",
+      "bytes": 21995
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralRows",
+      "path": "HeckeSkeleton/LowEnergy/GeneralRows.lean",
+      "source_sha256": "ab84d7be6b6937e8d64080e6898898d43e14cd56e9426de85368466331fb1549",
+      "bytes": 15744
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralSeparatedEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralSeparatedEnergy.lean",
+      "source_sha256": "f27ae8be544afb2d33b5b2922fe5a4c63ca9c1bc937ccaef3dbff4db20279fe4",
+      "bytes": 23293
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralSourceCutoff",
+      "path": "HeckeSkeleton/LowEnergy/GeneralSourceCutoff.lean",
+      "source_sha256": "bec82153c21566bdad2734ea7fd1bea3d659e74347236d00f6cbdaabd5de2902",
+      "bytes": 13648
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralTailNumerics",
+      "path": "HeckeSkeleton/LowEnergy/GeneralTailNumerics.lean",
+      "source_sha256": "f358e1e22790a0a9bddd86ed19a0131a728272ac1e2f7395d6a086d97776c0fe",
+      "bytes": 2623
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralTupleBlocks",
+      "path": "HeckeSkeleton/LowEnergy/GeneralTupleBlocks.lean",
+      "source_sha256": "69f4c8583ac4f1e0dca1e38b5d937a1d67f9d09f7956a09d67c960189e4c138f",
+      "bytes": 45988
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.GeneralUniformEnergy",
+      "path": "HeckeSkeleton/LowEnergy/GeneralUniformEnergy.lean",
+      "source_sha256": "8b26340c00b5c3a8249b2bf4bfe7688fd5bab862b450af3ddb72b6b50fc2a82e",
+      "bytes": 23380
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.HybridScaling",
+      "path": "HeckeSkeleton/LowEnergy/HybridScaling.lean",
+      "source_sha256": "b44f5bbb0ea15675d53b24debe7cef9a477957ed4e9234391437beab616cb96b",
+      "bytes": 11107
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealCanonicalColumns",
+      "path": "HeckeSkeleton/LowEnergy/IdealCanonicalColumns.lean",
+      "source_sha256": "bdfeb5349871965e8093a8ed6ec4c7e6bb699c7740d392b34591844e0e6b2206",
+      "bytes": 16110
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealDivisorMasks",
+      "path": "HeckeSkeleton/LowEnergy/IdealDivisorMasks.lean",
+      "source_sha256": "c88c5268423399b65030a5dd7aee714709bb8a0b64cdd655ffecb35c582ce33d",
+      "bytes": 5524
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealMajorant",
+      "path": "HeckeSkeleton/LowEnergy/IdealMajorant.lean",
+      "source_sha256": "dcd161483c67bfc4e61dd8dd2a2bc9f1cb3f4e74cb9c7c99116a27c7ccea76fc",
+      "bytes": 4173
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealMass",
+      "path": "HeckeSkeleton/LowEnergy/IdealMass.lean",
+      "source_sha256": "de311d9dfa1cf265a511380ab659698997673f10b43ae3038fa677aea5866c4f",
+      "bytes": 9429
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealRankin",
+      "path": "HeckeSkeleton/LowEnergy/IdealRankin.lean",
+      "source_sha256": "81b3cc328aadb5242be6f4630678fb4ff8272aa76e70c8b92471f47195406134",
+      "bytes": 7854
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealRows",
+      "path": "HeckeSkeleton/LowEnergy/IdealRows.lean",
+      "source_sha256": "7ab30fac83247540d6ab663d1929375ccc1dca1c3bad4d80e74d556d31889a44",
+      "bytes": 13851
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.IdealSupportPowers",
+      "path": "HeckeSkeleton/LowEnergy/IdealSupportPowers.lean",
+      "source_sha256": "57e3cef5f6de2c9aa68892bc62361c228d1b16fdbbca9b1668182842d0f43ed7",
+      "bytes": 4843
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.InactiveCore",
+      "path": "HeckeSkeleton/LowEnergy/InactiveCore.lean",
+      "source_sha256": "c34b54792916fb39205e6770487cf10f4f4ad25f8f907394cdf3efaacb9cbfb4",
+      "bytes": 6204
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.InactiveWindows",
+      "path": "HeckeSkeleton/LowEnergy/InactiveWindows.lean",
+      "source_sha256": "af73d34d84990d0ea3d0c75da8a65ad70840108fd5f6f57a08a8a90740739aaa",
+      "bytes": 22276
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.KeepOriginalRow",
+      "path": "HeckeSkeleton/LowEnergy/KeepOriginalRow.lean",
+      "source_sha256": "011da9dcf746e4ab6a9a9ff029f23c94ea46adec50aae916e45d1f9d082d05e1",
+      "bytes": 8045
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.LocalWeylTableCore",
+      "path": "HeckeSkeleton/LowEnergy/LocalWeylTableCore.lean",
+      "source_sha256": "feca761900a6068ab4fb2fd482906d5691f084458c1efac0e4c211ecb2c51aed",
+      "bytes": 11740
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.LogGeometry",
+      "path": "HeckeSkeleton/LowEnergy/LogGeometry.lean",
+      "source_sha256": "8d27cd3ef66f28e93190a711195513f18fbb75e40a3098d42885e19ef93fa1bc",
+      "bytes": 5578
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.MellinEnergy",
+      "path": "HeckeSkeleton/LowEnergy/MellinEnergy.lean",
+      "source_sha256": "3246452a28eba477a0534613895cb331e8dfecb6e25f3570c85f726b042b30dc",
+      "bytes": 5993
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.MellinHybrid",
+      "path": "HeckeSkeleton/LowEnergy/MellinHybrid.lean",
+      "source_sha256": "964f08a630601c28580ee304f6fb0d182858cce70239830cf4ce5929ee74ea46",
+      "bytes": 5119
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.OriginalRowNormalForm",
+      "path": "HeckeSkeleton/LowEnergy/OriginalRowNormalForm.lean",
+      "source_sha256": "707f797038f6b9c115711c3701b4229d5faf8edf6c8984be19310051b32e49a5",
+      "bytes": 10911
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.OriginalRowSupport",
+      "path": "HeckeSkeleton/LowEnergy/OriginalRowSupport.lean",
+      "source_sha256": "d0d075ae5841cd64b2ddc8b4c428f0d8c87f666e9385517a8f75ff341eb654c3",
+      "bytes": 8720
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial",
+      "path": "HeckeSkeleton/LowEnergy/PhysicalBlockPolynomial.lean",
+      "source_sha256": "bb5e86bb0bee0b24dc02e21993f90c896a32cbb096f4fbd0dfce68feebe3c409",
+      "bytes": 12544
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PhysicalDyadicBudget",
+      "path": "HeckeSkeleton/LowEnergy/PhysicalDyadicBudget.lean",
+      "source_sha256": "89552bd5eed7a7491c4f18dfa1019c247b1726d9f309ea76c4ef35ecbb93fa6d",
+      "bytes": 6541
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy",
+      "path": "HeckeSkeleton/LowEnergy/PhysicalGaussianEnergy.lean",
+      "source_sha256": "66559059e3e32ec55dba8fd635ed3fc1d2f52fabdb39b1751dda0d2054a9a2c8",
+      "bytes": 6234
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.PowerfulRowAssembly",
+      "path": "HeckeSkeleton/LowEnergy/PowerfulRowAssembly.lean",
+      "source_sha256": "7ea7481216763975d13109dcac748c285d8f0eacb2e7cdebe3c2f37e47e7dc19",
+      "bytes": 6791
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.Rankin",
+      "path": "HeckeSkeleton/LowEnergy/Rankin.lean",
+      "source_sha256": "cf609b3271aa6a31af843413fa89128dd637faab760c223cc2d1199e4e05983a",
+      "bytes": 6195
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.RawIdealHybrid",
+      "path": "HeckeSkeleton/LowEnergy/RawIdealHybrid.lean",
+      "source_sha256": "5b6a2cf8503baaadf803f24ffa340d6757eb48db92ec500fe514f71ba170d8e0",
+      "bytes": 17823
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SlotTuples",
+      "path": "HeckeSkeleton/LowEnergy/SlotTuples.lean",
+      "source_sha256": "6bf40582c293fce717b909cbd8783c9a6d70b685771b0b75afffffea4416c1b9",
+      "bytes": 8591
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SmallPowers",
+      "path": "HeckeSkeleton/LowEnergy/SmallPowers.lean",
+      "source_sha256": "45c6abcb4dd50f7bc21c1595cea816e7adec9fb6de30150563f3b45e2633daa1",
+      "bytes": 8251
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SquarefreeFibers",
+      "path": "HeckeSkeleton/LowEnergy/SquarefreeFibers.lean",
+      "source_sha256": "8b71a2ee70b724c141d3257656c5107a771ce0de9e634b8c146cc7735b549185",
+      "bytes": 10490
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.SupportPowers",
+      "path": "HeckeSkeleton/LowEnergy/SupportPowers.lean",
+      "source_sha256": "e985c4857fc79f114080f3b0cad770729247f6af598b2b66811eb93391387566",
+      "bytes": 4553
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TargetDictionary",
+      "path": "HeckeSkeleton/LowEnergy/TargetDictionary.lean",
+      "source_sha256": "4fd82ed29f24695aae485d1670a5aa6783fd85fbdf4dba4b075fb126868581ef",
+      "bytes": 3585
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TargetGaussian",
+      "path": "HeckeSkeleton/LowEnergy/TargetGaussian.lean",
+      "source_sha256": "8b083364b55a7ba8e8bed5fb0a0bc763ecaf140e4f64df86fce4c8ecf0119010",
+      "bytes": 6174
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TargetSieveDictionary",
+      "path": "HeckeSkeleton/LowEnergy/TargetSieveDictionary.lean",
+      "source_sha256": "5cf3fba4376c51339e0096ad2227d5ca75aa809e8af7fee5b4159be841ae74a5",
+      "bytes": 2176
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.TupleCore",
+      "path": "HeckeSkeleton/LowEnergy/TupleCore.lean",
+      "source_sha256": "97bda35566a1ee9e0ea32ab48a1d30144f21b53611f3da6ce2b795c28692c843",
+      "bytes": 6008
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.UniformIdealHybrid",
+      "path": "HeckeSkeleton/LowEnergy/UniformIdealHybrid.lean",
+      "source_sha256": "afc3f55d580a4d0f24d5120b800c4071f7729f3bdeb94f5c503fb85324681266",
+      "bytes": 20229
+    },
+    {
+      "module": "HeckeSkeleton.LowEnergy.WindowTuples",
+      "path": "HeckeSkeleton/LowEnergy/WindowTuples.lean",
+      "source_sha256": "c8ce8280dc4e6164ed75ab79447e5fa1101473a1c94a478c8b0f824a2951d36f",
+      "bytes": 25385
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.Exponents",
+      "path": "HeckeSkeleton/LowFrozenCube/Exponents.lean",
+      "source_sha256": "85c9a0b5694c870bb37eaa309acbf33deaba03cc34fe600a60a58f7cfb8e55f3",
+      "bytes": 3089
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.LocalCoefficients",
+      "path": "HeckeSkeleton/LowFrozenCube/LocalCoefficients.lean",
+      "source_sha256": "480a326fa64d1ab714ab9e751e3c32a88a248c7938b1c398bbed187a8fba4a17",
+      "bytes": 3656
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.PrimeCoordinates",
+      "path": "HeckeSkeleton/LowFrozenCube/PrimeCoordinates.lean",
+      "source_sha256": "138c79ad1eb7c2aa54cde00cf7ec5a3af2171bbed71826103f2cd8cf20696790",
+      "bytes": 7749
+    },
+    {
+      "module": "HeckeSkeleton.LowFrozenCube.Valuations",
+      "path": "HeckeSkeleton/LowFrozenCube/Valuations.lean",
+      "source_sha256": "5249d242539316a45ea01cfe73af5ac6dd607b1ddf6b3b9033ca850ef980a1c7",
+      "bytes": 12266
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Assembly",
+      "path": "HeckeSkeleton/LowHybrid/Assembly.lean",
+      "source_sha256": "bfbc0a1cb47dbde64240f318bcc9cfacdc12d43336b42ace31b6717a18cdb456",
+      "bytes": 17187
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Global",
+      "path": "HeckeSkeleton/LowHybrid/Global.lean",
+      "source_sha256": "4fee86656221c1abf7dfac6b151edff0d2fc0e342b58b4ecbaa8dc4d3d67b4d7",
+      "bytes": 10214
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.SieveBounds",
+      "path": "HeckeSkeleton/LowHybrid/SieveBounds.lean",
+      "source_sha256": "2798478ee031d9112d5ed8fa6ce2d1f2be193b9b431158231b2f727b5744d36b",
+      "bytes": 6071
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.SieveComposition",
+      "path": "HeckeSkeleton/LowHybrid/SieveComposition.lean",
+      "source_sha256": "b59601851cb677b730d0927d1b423140a98c601167cd580813662c778b11bbb9",
+      "bytes": 11893
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Transpose",
+      "path": "HeckeSkeleton/LowHybrid/Transpose.lean",
+      "source_sha256": "cf53f11bfabb6ae2d84784a8cf0e38b24708994bed3c77db017de5495538cad5",
+      "bytes": 5163
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.Weighted",
+      "path": "HeckeSkeleton/LowHybrid/Weighted.lean",
+      "source_sha256": "30e1f4a7ced3a7a12109d5f9b634267975a64105953638e0fd21903c9cb8091f",
+      "bytes": 12165
+    },
+    {
+      "module": "HeckeSkeleton.LowHybrid.WeightedSieveBounds",
+      "path": "HeckeSkeleton/LowHybrid/WeightedSieveBounds.lean",
+      "source_sha256": "508aaef817c8aba5b7f9ad33fb9e32b93e326c9b6a5b0dd18d5a6f1b5c94709f",
+      "bytes": 11191
+    }
+  ]
+}

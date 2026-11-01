@@ -4,9 +4,13 @@ import HeckeSkeleton.ActualProbeIntegralComplete
 import HeckeSkeleton.ActualPrincipalWindowError
 import HeckeSkeleton.PrimeNormalizer
 import HeckeSkeleton.LowCauchy
+import HeckeSkeleton.GeneratorMask
+import HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy
+import HeckeSkeleton.LowEnergy.GeneralCompletedEnergy
 
 set_option autoImplicit false
 set_option quotPrecheck false
+universe u
 noncomputable section
 namespace HeckeSkeleton
 open NumberField IsDedekindDomain MeasureTheory Filter Asymptotics
@@ -166,12 +170,39 @@ def CompletedMarkedEnergy : Prop :=
       then ‖completedMarkedRow K c Z p J u.out‖ ^ 2 else 0) ≤
       C * Z ^ (5 / 6 + ε) / q ^ 2
 
--- OBLIGATION LOW-REFLECTED-ENERGY | revised Lemma 4.8 and (6.22), pp.23–25,40.
--- Coarse frontier: powerful-row ledger, hybrid energy and Gaussian annuli.
+/-- The general canonical terminal of Lemma 4.8.  Arithmetic calibration,
+background, puncture, label, completed scale, profile and all original
+tuple coefficients are parameters of this interface. -/
+def CompletedCanonicalMarkedEnergy
+    (S₀ : Set (HeightOneSpectrum (𝓞 K))) [Fintype S₀]
+    (D₀ : ThetaArithmeticData K S₀) (F : FiniteMellinData K S₀)
+    (θ : HeckeCharacter K) : Prop :=
+  LowEnergy.GeneralCompletedEnergy.CompletedMarkedEnergy.{u} K S₀ D₀ F θ
+
+-- LOW-REFLECTED-ENERGY | revised Lemma 4.8, (can-Eref), (can-conductor-comparison).
+-- This is the general source-block terminal consumed by canonical induction.
+-- The physical Gaussian specialization is kept below under its explicit name.
 theorem completedMarkedEnergy
+    (S₀ : Set (HeightOneSpectrum (𝓞 K))) [Fintype S₀]
+    [Finite (SixthLocalClasses K S₀)] (D₀ : ThetaArithmeticData K S₀)
+    {F : FiniteMellinData K S₀} {θ : HeckeCharacter K}
+    (hreflection : MarkedCoefficientReflectionInput K S₀ D₀ F θ)
+    (hquadratic : LowEnergy.ActualSieveDictionary.ExteriorQuadraticBound K S₀ D₀)
+    (hcubic : LowEnergy.ActualSieveDictionary.ExteriorCubicBound K S₀ D₀) :
+    CompletedCanonicalMarkedEnergy.{u} K S₀ D₀ F θ :=
+  LowEnergy.GeneralCompletedEnergy.completedMarkedEnergy.{u} K S₀ D₀ F θ
+    hreflection hquadratic hcubic
+
+/-- The original physical Gaussian row budget (6.22), with its literal
+selected-ideal denominator and all original sixth-unit sectors. -/
+theorem physicalCompletedMarkedEnergy
+    {F : FiniteMellinData K S}
     (hreflection : MarkedCoefficientReflectionInput K S (probeData K c).arithmetic
-      (finiteMellinData K c) (thetaPeriod K S P ψ)) : CompletedMarkedEnergy K c := by
-  sorry
+      F (thetaPeriod K S P ψ))
+    (hquadratic : QuadraticSieveBound K c)
+    (hcubic : CubicSieveBound K c) : CompletedMarkedEnergy K c := by
+  exact LowEnergy.ActualCompletedMarkedEnergy.completedMarkedEnergy K c
+    F hreflection hquadratic hcubic
 
 -- LOW-CAUCHY-COMPENSATION | revised Proposition 6.2, pp.40–41.
 -- Proved in HeckeSkeleton.LowCauchy (marked spectral Cauchy bound and assembly).
@@ -184,7 +215,8 @@ theorem low_of_gram_and_completedEnergy
       normalizedProbe K S μ P ψ g T =O[atTop] (fun Z : ℝ => Z ^ (3 / 16 + ε)) :=
   LowCauchy.low_of_gram_and_completedEnergy K c hgram henergy hnorm
 
-theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
+theorem principalSource :
+    (probeMeasures K c).principalInput P ψ g T := by
   change TPrincipalInput K S μ P ψ g T
   exact {
     arithmetic_calibration := arithmeticCalibration K c
@@ -200,8 +232,10 @@ theorem principalSource : (probeMeasures K c).principalInput P ψ g T := by
     normalizer_smallPower := principal_normalizer_smallPower K c
     principal_window_error := principal_principal_window_error K c
     low := low_of_gram_and_completedEnergy K c
-      (Gram.gramBound_of_calibrated K S P (allowedGenerators K c) (arithmeticCalibration K c))
-      (completedMarkedEnergy K c (markedReflection K c))
+      (Gram.gramBound_of_calibrated K S P (generatorMaskWitness K c) rfl HEq.rfl
+        (allowedGenerators K c) (arithmeticCalibration K c))
+      (physicalCompletedMarkedEnergy K c (F := finiteMellinData K c) (markedReflection K c)
+        (moment_quadratic_sieve K c) (moment_cubic_sieve K c))
       (principal_normalizer_smallPower K c)
   }
 
