@@ -1,0 +1,172 @@
+name: A2 owner OrdinaryLiteralExceptionalLeaf complete-source diagnostic only
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-d-literal-diagnostic]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-d-literal-diagnostic-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  actual:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+      A2_DIAGNOSTIC_VARIANT: d_literal_default
+      A2_DIAGNOSTIC_SCRIPT: .github/scripts/mom-engine-step-a2-d-literal-diagnostic.py
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-d-literal
+          git show --no-patch --format=fuller HEAD > a2-d-literal/checkout.txt
+          cat > a2-d-literal/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+          root = Path.cwd()
+          evidence = root / 'a2-d-literal'
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          def digest(path):
+              return hashlib.sha256((root / path).read_bytes()).hexdigest()
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          sources = sorted(str(p) for p in task.glob('*.lean'))
+          configs = ['lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
+                     'vendor/class-field-theory/lean-toolchain',
+                     'vendor/class-field-theory/lakefile.toml',
+                     'vendor/class-field-theory/lake-manifest.json', str(task / 'verify.py')]
+          interface = (task / 'Interface.lean').read_text()
+          imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', interface, re.M)))
+          libraries = [x['name'] for x in tomllib.loads(Path('lakefile.toml').read_text())['lean_lib']]
+          source_base = 'a8eff02de566167ad6c40002f4a875ef53b464db'
+          source_base_tree = git('rev-parse', source_base + '^{tree}')
+          assert source_base_tree == '5e03def4cedf72168aa3e9282ec627fe0bc2aa78', 'Unexpected frozen owner source tree'
+          assert git('rev-parse', 'HEAD^') == source_base, 'Diagnostic must be a direct child of the frozen owner head'
+          parents = git('rev-list', '--parents', '-n', '1', 'HEAD').split()
+          assert len(parents) == 2, 'Diagnostic commit must have one parent'
+          changed = git('diff', '--name-only', source_base, 'HEAD').splitlines()
+          allowed = {'.github/workflows/mom-engine-step-a2-d-literal-diagnostic.yml',
+                     '.github/scripts/mom-engine-step-a2-d-literal-diagnostic.py'}
+          assert set(changed) == allowed, 'Only the two reviewed D literal diagnostic files may differ'
+          variants = {'d_literal_default': '.github/scripts/mom-engine-step-a2-d-literal-diagnostic.py'}
+          assert variants.get(os.environ['A2_DIAGNOSTIC_VARIANT']) == os.environ['A2_DIAGNOSTIC_SCRIPT']
+          assert digest(str(task / 'OrdinaryLiteralExceptionalLeaf.lean')) == 'f49992a4d96d0e86c404cb0e0138d613d30100b8405e1964b9258349ad4daee0', 'Frozen D literal source changed'
+          assert digest('.github/scripts/mom-engine-step-a2-d-literal-diagnostic.py') == '266a512fec83c659fc03186e46980eca1a698e22c8b8bd9fc36ec0032592f48a', 'Unexpected D literal diagnostic wrapper'
+          record = {'source_base': source_base, 'source_base_tree': source_base_tree,
+                    'changed_paths_from_base': changed, 'diagnostic_variant': os.environ['A2_DIAGNOSTIC_VARIANT'],
+                    'diagnostic_only': True,
+                    'acceptance_evidence': False, 'original_module_native_was_run': False,
+                    'original_module_acceptance': False, 'complete_target_module_compiled': False,
+                    'complete_module_within_five_minutes': False, 'full_task_acceptance': False,
+                    'compiler_outputs_can_be_restored_as_project_cache': False,
+                    'head': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                    'expected_head': os.environ['EXPECTED_SHA'],
+                    'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                    'tracked_sha256': {p: digest(p) for p in tracked},
+                    'task_source_sha256': {p: digest(p) for p in sources},
+                    'config_sha256': {p: digest(p) for p in configs},
+                    'interface_imports': imports, 'libraries': libraries}
+          phase = sys.argv[1]
+          (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+          assert record['head'] == record['expected_head'], 'Unexpected checkout SHA'
+          assert not record['tracked_status'], 'Tracked source changes detected'
+          assert len(sources) == 1009, 'Task module inventory changed'
+          assert len(imports) == 1008, 'Complete Interface import inventory changed'
+          assert len(libraries) == 20, 'Library inventory changed'
+          if phase == 'after':
+              before = json.loads((evidence / 'before-source.json').read_text())
+              assert before == record, 'Source, configuration, index inventory or HEAD changed'
+              (evidence / 'source-integrity.json').write_text(json.dumps({
+                  'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                  'tracked_files': len(tracked), 'task_modules': len(sources),
+                  'interface_imports': len(imports), 'libraries': len(libraries)}, indent=2) + '\n')
+          print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
+          PY
+          cat > a2-d-literal/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-d-literal')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-d-literal/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-d-literal/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a2-d-literal/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryLiteralExceptionalLeaf:deps
+      - name: Diagnose the complete reversible source using the pinned variant
+        id: diagnostic
+        run: |
+          python3 -u "$A2_DIAGNOSTIC_SCRIPT" \
+            --repo "$GITHUB_WORKSPACE" --evidence a2-d-literal/diagnostic --run
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-d-literal/provenance.py after
+      - name: Preserve diagnostic output, dependency logs, source hashes and false acceptance flags
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-owner-d-literal-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-d-literal/
+          if-no-files-found: error
+          retention-days: 14
+
