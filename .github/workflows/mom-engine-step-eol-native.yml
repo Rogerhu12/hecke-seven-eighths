@@ -1,0 +1,452 @@
+# Frozen B15 source: 6d7d9c31920665ba491718df7aa63801f49d962e
+# Publish only at .github/workflows/mom-engine-step-eol-native.yml on cloud/mom-engine-step-a-eol-native.
+# Source must be the direct first parent; only this workflow path may differ.
+# Diagnostic native failure is recorded but does not block the independent original run.
+# Markers only show elaborator progress; they do not establish kernel completion.
+name: MOM_ENGINE_STEP EOL B15 diagnostic then independent full native
+'on':
+  push:
+    branches:
+    - cloud/mom-engine-step-a-eol-native
+  workflow_dispatch: null
+permissions:
+  contents: read
+concurrency:
+  group: mom-engine-step-eol-native-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  native:
+    name: Diagnose then compile original ${{ matrix.target }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+        - ExceptionalOriginalLabel
+    env:
+      LEAN_NUM_THREADS: '2'
+      PERF_TARGET: ${{ matrix.target }}
+      PERF_SOURCE_COMMIT: 6d7d9c31920665ba491718df7aa63801f49d962e
+    steps:
+    - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: 2
+        persist-credentials: false
+    - name: Prepare runner resources
+      run: |
+        mkdir -p isolated-native-evidence
+        git show --no-patch --format=fuller HEAD > isolated-native-evidence/checkout.txt
+        test "$(git rev-parse HEAD^1)" = "$PERF_SOURCE_COMMIT"
+        git diff --exit-code "$PERF_SOURCE_COMMIT" HEAD -- '*.lean' lakefile.toml lake-manifest.json lean-toolchain
+        sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android
+        if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+          sudo sysctl -w vm.max_map_count=262144
+        fi
+        sysctl vm.max_map_count > isolated-native-evidence/memory-mapping.txt
+        df -h /
+    - name: Install the pinned Lean toolchain and Mathlib cache
+      uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+      with:
+        auto-config: 'false'
+        build: 'false'
+        test: 'false'
+        lint: 'false'
+        use-mathlib-cache: 'true'
+        use-github-cache: 'false'
+    - name: Restore ordinary Lake artifacts
+      uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@6d7d9c31920665ba491718df7aa63801f49d962e
+    - name: Record exact source and toolchain provenance
+      run: |
+        python3 -u - <<'PY'
+        import hashlib, json, os, pathlib, subprocess, tomllib
+
+        def run(*args):
+            return subprocess.check_output(args, text=True).strip()
+
+        def sha256(path):
+            return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+        source_commit = os.environ['PERF_SOURCE_COMMIT']
+        assert run('git', 'rev-parse', 'HEAD^1') == source_commit, 'Publish as a direct child of the frozen source commit'
+        changed_paths = run('git', 'diff', '--name-only', source_commit, 'HEAD').splitlines()
+        assert changed_paths == ['.github/workflows/mom-engine-step-eol-native.yml'], changed_paths
+        config_paths = ['lakefile.toml', 'lake-manifest.json', 'lean-toolchain']
+        subprocess.run(['git', 'diff', '--exit-code', 'HEAD', '--', '*.lean', *config_paths], check=True)
+        version = run('lake', 'env', 'lean', '--version')
+        mathlib = run('git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD')
+        assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+        assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+        project = tomllib.loads(pathlib.Path('lakefile.toml').read_text())
+        assert project.get('leanOptions') == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+        assert project.get('weakLeanArgs') == ['-j2']
+        sources = {str(p): sha256(p) for p in sorted(
+            pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+        assert len(sources) == 1009, len(sources)
+        target = os.environ['PERF_TARGET']
+        assert target == 'ExceptionalOriginalLabel'
+        target_path = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+        target_bytes = target_path.read_bytes()
+        assert sha256(target_path) == 'a24f3b2edf9bc26ae8a7814b92913154dc23f4004a319192f5a5b8858a5b0a97'
+        assert sum(line.lstrip().startswith(b'#print axioms ') for line in target_bytes.splitlines()) == 1
+        evidence = {
+            'commit': run('git', 'rev-parse', 'HEAD'),
+            'tree': run('git', 'rev-parse', 'HEAD^{tree}'),
+            'source_commit': source_commit,
+            'source_tree': run('git', 'rev-parse', source_commit + '^{tree}'),
+            'workflow_only_delta_paths': changed_paths,
+            'source_is_direct_parent': True,
+            'target': target,
+            'target_path': str(target_path),
+            'target_source_sha256': sha256(target_path),
+            'target_source_bytes': len(target_bytes),
+            'target_print_axioms_commands': sum(
+                line.lstrip().startswith(b'#print axioms ') for line in target_bytes.splitlines()),
+            'lean': version,
+            'mathlib': mathlib,
+            'lean_options': project['leanOptions'],
+            'weak_lean_args': project['weakLeanArgs'],
+            'profiler_enabled': True,
+            'heartbeat_override': None,
+            'source_sha256': sources,
+            'config_sha256': {path: sha256(path) for path in config_paths},
+            'scope': 'full original-module native timing; not full task acceptance',
+        }
+        pathlib.Path('isolated-native-evidence/environment.json').write_text(
+            json.dumps(evidence, indent=2) + '\n')
+        PY
+      id: provenance
+    - name: Build the complete unchanged target dependencies
+      timeout-minutes: 60
+      shell: bash
+      run: |
+        set -o pipefail
+        status=0
+        timeout --signal=TERM --kill-after=30s 58m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${PERF_TARGET}:deps" 2>&1 |
+          tee isolated-native-evidence/dependencies.log || status=$?
+        echo "$status" > isolated-native-evidence/dependencies-exit-code.txt
+        exit "$status"
+      id: dependencies
+    - name: Diagnose the complete temporary EOL copy
+      id: diagnostic
+      if: ${{ always() && !cancelled() && steps.provenance.outcome == 'success' && steps.dependencies.outcome == 'success'
+        }}
+      timeout-minutes: 4
+      run: "python3 -u - <<'PY'\n\"\"\"Pure, reversible instrumentation of the frozen B15 EOL source.\"\"\"\n\nimport hashlib\n\
+        import json\n\n\nEOL_SOURCE_SHA256 = 'a24f3b2edf9bc26ae8a7814b92913154dc23f4004a319192f5a5b8858a5b0a97'\n\n\ndef instrument_eol(original_bytes):\n\
+        \    assert hashlib.sha256(original_bytes).hexdigest() == EOL_SOURCE_SHA256\n    original = original_bytes.decode()\n\
+        \    insertions = []\n    declarations = []\n\n    def one(anchor):\n        assert original.count(anchor) == 1, (anchor,\
+        \ original.count(anchor))\n        offset = original.index(anchor)\n        assert offset == 0 or original[offset\
+        \ - 1] == '\\n', anchor\n        return offset\n\n    def add(offset, label, tactic=False):\n        assert offset\
+        \ == 0 or original[offset - 1] == '\\n'\n        syntax = '  run_tac' if tactic else 'run_cmd'\n        text = syntax\
+        \ + ' IO.eprintln ' + json.dumps(\n            'MOM_TRACE ExceptionalOriginalLabel B15 6d7d9c31 ' + label) + '\\n'\n\
+        \        insertions.append({\n            'offset_characters': offset,\n            'original_line': original[:offset].count('\\\
+        n') + 1,\n            'label': label,\n            'text': text,\n        })\n\n    specs = [\n        (\n       \
+        \     'exceptionalLabel_from_scalar_bounds',\n            'private theorem exceptionalLabel_from_scalar_bounds\\n',\n\
+        \            'private theorem exceptionalLabel_from_scalar_bounds\\n',\n            'variable {\u03A8L \u03A8R : Ideal\
+        \ (\U0001D4DE F) \u2192* \u2102}',\n            ['have hradical', 'have hsecondIndex', 'have hlabel',\n          \
+        \   'have hfirstNorm', 'have hsecondNorm',\n             'exact exceptionalLabel_divisor_transport'],\n        ),\n\
+        \        (\n            'exceptional_original_label_from_atoms',\n            'theorem exceptional_original_label_from_atoms\\\
+        n',\n            '/-- The public source estimate has no per-leaf exceptional inequality\\n',\n            'end SecondSideFrame\\\
+        nend HeckeSkeleton.Moments.EngineStep\\n',\n            ['exact exceptionalLabel_from_scalar_bounds'],\n        ),\n\
+        \    ]\n    for name, declaration_anchor, header_anchor, boundary_anchor, expected_steps in specs:\n        declaration\
+        \ = one(declaration_anchor)\n        header = one(header_anchor)\n        boundary = one(boundary_anchor)\n      \
+        \  assert header <= declaration < boundary\n        add(header, 'BEFORE_HEADER_' + name)\n        by_marker = ' :=\
+        \ by\\n'\n        body_start = original.index(by_marker, declaration, boundary) + len(by_marker)\n        body = original[body_start:boundary]\n\
+        \        offset = body_start\n        actual_steps = []\n        marker_lines = []\n        for line in body.splitlines(keepends=True):\n\
+        \            if line.startswith(('  have ', '  exact ')):\n                assert len(actual_steps) < len(expected_steps)\n\
+        \                expected = expected_steps[len(actual_steps)]\n                assert line.startswith('  ' + expected),\
+        \ (name, line, expected)\n                actual_steps.append(expected)\n                marker_lines.append(original[:offset].count('\\\
+        n') + 1)\n                add(offset, name + '_BEFORE_' + expected.replace(' ', '_'), tactic=True)\n            offset\
+        \ += len(line)\n        assert actual_steps == expected_steps, (name, actual_steps)\n        # Insert immediately\
+        \ after the last original proof line, before its\n        # existing blank lines. This only records return of the\
+        \ final tactic.\n        proof_end = body_start + len(body.rstrip('\\n')) + 1\n        assert proof_end <= boundary\
+        \ and original[proof_end - 1] == '\\n'\n        add(proof_end, name + '_AFTER_FINAL_EXACT', tactic=True)\n       \
+        \ add(boundary, 'AFTER_DECLARATION_' + name)\n        declarations.append({\n            'name': name,\n         \
+        \   'declaration_line': original[:declaration].count('\\n') + 1,\n            'header_line': original[:header].count('\\\
+        n') + 1,\n            'body_start_line': original[:body_start].count('\\n') + 1,\n            'top_level_steps': actual_steps,\n\
+        \            'tactic_marker_lines': marker_lines,\n            'final_tactic_return_does_not_establish_kernel_completion':\
+        \ True,\n        })\n\n    print_anchor = '#print axioms HeckeSkeleton.Moments.EngineStep.SecondSideFrame.exceptional_original_label_from_atoms\\\
+        n'\n    print_start = one(print_anchor)\n    add(print_start, 'BEFORE_PRINT_AXIOMS')\n    add(print_start + len(print_anchor),\
+        \ 'AFTER_PRINT_AXIOMS')\n\n    insertions.sort(key=lambda item: item['offset_characters'])\n    pieces = []\n    cursor\
+        \ = 0\n    added_characters = 0\n    for item in insertions:\n        offset = item['offset_characters']\n       \
+        \ pieces.append(original[cursor:offset])\n        item['diagnostic_offset_characters'] = offset + added_characters\n\
+        \        pieces.append(item['text'])\n        added_characters += len(item['text'])\n        cursor = offset\n   \
+        \ pieces.append(original[cursor:])\n    diagnostic = ''.join(pieces)\n    recovered = diagnostic\n    for item in\
+        \ reversed(insertions):\n        offset = item['diagnostic_offset_characters']\n        assert recovered[offset:offset\
+        \ + len(item['text'])] == item['text']\n        recovered = recovered[:offset] + recovered[offset + len(item['text']):]\n\
+        \    assert recovered.encode() == original_bytes\n    original_prints = [line for line in original.splitlines() if\
+        \ line.lstrip().startswith('#print axioms ')]\n    diagnostic_prints = [line for line in diagnostic.splitlines() if\
+        \ line.lstrip().startswith('#print axioms ')]\n    assert len(original_prints) == 1 and diagnostic_prints == original_prints\n\
+        \    assert len(insertions) == 15\n    manifest = {\n        'source_sha256': EOL_SOURCE_SHA256,\n        'source_bytes':\
+        \ len(original_bytes),\n        'diagnostic_sha256': hashlib.sha256(diagnostic.encode()).hexdigest(),\n        'diagnostic_bytes':\
+        \ len(diagnostic.encode()),\n        'exact_full_source_recovered_after_removing_instrumentation': True,\n       \
+        \ 'original_print_axioms_commands': original_prints,\n        'original_print_axioms_preserved': True,\n        'attached_public_doccomment_preserved':\
+        \ True,\n        'declarations': declarations,\n        'insertions': insertions,\n        'native_executed': False,\n\
+        \        'scope': 'full temporary instrumented copy; never original-module acceptance',\n        'command_markers_do_not_establish_async_declaration_or_kernel_completion':\
+        \ True,\n    }\n    return diagnostic, manifest\n\nimport hashlib, json, os, pathlib, shutil, subprocess, tempfile,\
+        \ time\n\nSTAGE = 'diagnostic'\nSOURCE_COMMIT = '6d7d9c31920665ba491718df7aa63801f49d962e'\nSOURCE_SHA256 = 'a24f3b2edf9bc26ae8a7814b92913154dc23f4004a319192f5a5b8858a5b0a97'\n\
+        diagnostic_stage = STAGE == 'diagnostic'\nassert STAGE in {'diagnostic', 'full-native'}\nshared = pathlib.Path('isolated-native-evidence')\n\
+        evidence = shared / STAGE\nevidence.mkdir(parents=True, exist_ok=True)\nfor name in ['environment.json', 'dependencies.log',\
+        \ 'dependencies-exit-code.txt',\n             'checkout.txt', 'memory-mapping.txt']:\n    item = shared / name\n \
+        \   if item.is_file():\n        shutil.copy2(item, evidence / name)\nbefore = json.loads((shared / 'environment.json').read_text())\n\
+        target = os.environ['PERF_TARGET']\nassert target == 'ExceptionalOriginalLabel'\nassert os.environ['PERF_SOURCE_COMMIT']\
+        \ == SOURCE_COMMIT == before['source_commit']\nassert (shared / 'dependencies-exit-code.txt').read_text().strip()\
+        \ == '0'\nsource = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')\n\ndef sha256(path):\n\
+        \    return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()\n\ndef check_provenance():\n    sources =\
+        \ {str(p): sha256(p) for p in sorted(\n        pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}\n\
+        \    configs = {path: sha256(path) for path in before['config_sha256']}\n    tracked = subprocess.run([\n        'git',\
+        \ 'diff', '--quiet', 'HEAD', '--', '*.lean', *before['config_sha256'],\n    ]).returncode == 0\n    checkout = subprocess.check_output(['git',\
+        \ 'rev-parse', 'HEAD'], text=True).strip()\n    parent = subprocess.check_output(['git', 'rev-parse', 'HEAD^1'], text=True).strip()\n\
+        \    result = {\n        'source_count': len(sources),\n        'all_task_sources_unchanged': len(sources) == 1009\
+        \ and sources == before['source_sha256'],\n        'tracked_lean_sources_unchanged': tracked,\n        'configuration_unchanged':\
+        \ configs == before['config_sha256'],\n        'checkout_unchanged': checkout == before['commit'] and parent == SOURCE_COMMIT,\n\
+        \        'target_source_matches_frozen_candidate': sha256(source) == SOURCE_SHA256 == before['target_source_sha256'],\n\
+        \    }\n    result['passed'] = all(value for key, value in result.items() if key != 'source_count')\n    return result\n\
+        \npreflight = check_provenance()\n(evidence / 'preflight.json').write_text(json.dumps(preflight, indent=2) + '\\n')\n\
+        if not preflight['passed']:\n    result = {\n        'stage': STAGE, 'target': target, 'source_commit': SOURCE_COMMIT,\n\
+        \        'native_process_started': False, 'native_exit_code': None,\n        'exit_code': 1, 'preflight': preflight,\n\
+        \        'complete_target_module_compiled': False,\n        'complete_module_within_five_minutes': False,\n      \
+        \  'reason': 'Source or configuration provenance changed; compilation was not started',\n    }\n    (evidence / 'result.json').write_text(json.dumps(result,\
+        \ indent=2) + '\\n')\n    print(json.dumps(result), flush=True)\n    raise SystemExit(1)\n\nsource_bytes = source.read_bytes()\n\
+        (evidence / 'ExceptionalOriginalLabel.original.lean').write_bytes(source_bytes)\ncompile_input = source\nmanifest\
+        \ = None\nif diagnostic_stage:\n    contents, manifest = instrument_eol(source_bytes)\n    compile_input = pathlib.Path('MomEngineEOLDiagnostic_B15_6d7d9c31.lean')\n\
+        \    compile_input.write_text(contents)\n    (evidence / compile_input.name).write_text(contents)\n    (evidence /\
+        \ 'instrumentation.json').write_text(json.dumps(manifest, indent=2) + '\\n')\n\noutput = pathlib.Path(tempfile.mkdtemp(prefix='mom-engine-eol-'\
+        \ + STAGE + '-', dir='/tmp'))\ntimeout_seconds = 120 if diagnostic_stage else 480\nkill_after_seconds = 5 if diagnostic_stage\
+        \ else 30\ncommand = [\n    '/usr/bin/time', '-v',\n    'timeout', '--signal=TERM', '--kill-after=' + str(kill_after_seconds)\
+        \ + 's',\n    str(timeout_seconds) + 's',\n    'lake', 'env', 'lean', '-j2',\n    '-DautoImplicit=false', '-DrelaxedAutoImplicit=false',\
+        \ '-Dprofiler=true',\n]\nif diagnostic_stage:\n    command.append('-DstderrAsMessages=false')\ncommand.extend([\n\
+        \    '-o', str(output / (compile_input.stem + '.olean')),\n    '-i', str(output / (compile_input.stem + '.ilean')),\n\
+        \    str(compile_input),\n])\nprint(('FULL_COPY_DIAGNOSTIC_START ' if diagnostic_stage else 'FULL_NATIVE_START ')\
+        \ + target, flush=True)\nstarted = time.monotonic()\nwith (evidence / ('instrumented.log' if diagnostic_stage else\
+        \ 'native.log')).open('w') as log:\n    log.write(json.dumps({'command': command}) + '\\n')\n    log.flush()\n   \
+        \ process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)\n    assert process.stdout\
+        \ is not None\n    for line in process.stdout:\n        print(line, end='', flush=True)\n        log.write(line)\n\
+        \        log.flush()\n    code = process.wait()\nelapsed = time.monotonic() - started\npostflight = check_provenance()\n\
+        (evidence / 'postflight.json').write_text(json.dumps(postflight, indent=2) + '\\n')\nprovenance_unchanged = preflight['passed']\
+        \ and postflight['passed']\nnative_succeeded = code == 0 and provenance_unchanged\ncomplete = not diagnostic_stage\
+        \ and native_succeeded\nexit_code = ((0 if provenance_unchanged else 1) if diagnostic_stage\n             else (code\
+        \ if code else (0 if provenance_unchanged else 1)))\nresult = {\n    'stage': STAGE,\n    'target': target,\n    'native_process_started':\
+        \ True,\n    'native_exit_code': code,\n    'exit_code': exit_code,\n    'elapsed_seconds': elapsed,\n    'source_commit':\
+        \ SOURCE_COMMIT,\n    'checkout_commit': before['commit'],\n    'target_path': str(source),\n    'compile_input_path':\
+        \ str(compile_input),\n    'source_sha256': sha256(source),\n    'source_bytes_before': len(source_bytes),\n    'source_bytes_after':\
+        \ source.stat().st_size,\n    'source_count_before': preflight['source_count'],\n    'source_count_after': postflight['source_count'],\n\
+        \    'all_task_sources_unchanged': postflight['all_task_sources_unchanged'],\n    'tracked_lean_sources_unchanged':\
+        \ postflight['tracked_lean_sources_unchanged'],\n    'configuration_unchanged': postflight['configuration_unchanged'],\n\
+        \    'provenance_unchanged': provenance_unchanged,\n    'complete_target_module_compiled': complete,\n    'complete_module_within_five_minutes':\
+        \ complete and elapsed <= 300,\n    'full_original_file_including_print_commands': True,\n    'original_print_axioms_commands':\
+        \ sum(\n        line.lstrip().startswith(b'#print axioms ') for line in source_bytes.splitlines()),\n    'proof_sources_changed':\
+        \ not (postflight['all_task_sources_unchanged'] and postflight['tracked_lean_sources_unchanged']),\n    'heartbeat_override':\
+        \ None,\n    'heartbeat_changed': False if provenance_unchanged else None,\n    'profiler_enabled': True,\n    'lean_async_override':\
+        \ None,\n    'stderr_as_messages_override': False if diagnostic_stage else None,\n    'output_directory': str(output),\n\
+        \    'output_can_be_restored_as_project_cache': False,\n    'timeout_seconds': timeout_seconds,\n    'timeout_kill_after_seconds':\
+        \ kill_after_seconds,\n    'scope': ('full temporary instrumented copy; never original-module acceptance' if diagnostic_stage\n\
+        \              else 'full original-module native timing; not full task acceptance'),\n}\nif diagnostic_stage:\n  \
+        \  assert manifest is not None\n    result.update({\n        'instrumented_copy_process_succeeded': native_succeeded,\n\
+        \        'diagnostic_sha256': manifest['diagnostic_sha256'],\n        'instrumentation_removed_matches_full_original':\
+        \ manifest[\n            'exact_full_source_recovered_after_removing_instrumentation'],\n        'native_result_cannot_replace_full_original_run':\
+        \ True,\n        'diagnostic_native_failure_is_nonblocking': True,\n    })\nelse:\n    result['independent_of_diagnostic_exit_code']\
+        \ = True\n    result['compiled_directly_from_original_source_path'] = compile_input == source\n(evidence / 'native-exit-code.txt').write_text(str(code)\
+        \ + '\\n')\n(evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\\n')\nprint(json.dumps(result),\
+        \ flush=True)\nraise SystemExit(exit_code)\nPY\n"
+    - name: Upload diagnostic evidence before full native
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: diagnostic-ExceptionalOriginalLabel-${{ github.sha }}-${{ github.run_attempt }}
+        path: |
+          isolated-native-evidence/diagnostic/
+          isolated-native-evidence/environment.json
+          isolated-native-evidence/dependencies.log
+          isolated-native-evidence/dependencies-exit-code.txt
+          isolated-native-evidence/checkout.txt
+          isolated-native-evidence/memory-mapping.txt
+        if-no-files-found: error
+        retention-days: 14
+    - name: Compile the independent complete original EOL module
+      id: full_native
+      if: ${{ always() && !cancelled() && steps.provenance.outcome == 'success' && steps.dependencies.outcome == 'success'
+        }}
+      timeout-minutes: 10
+      run: |
+        python3 -u - <<'PY'
+        import hashlib, json, os, pathlib, shutil, subprocess, tempfile, time
+
+        STAGE = 'full-native'
+        SOURCE_COMMIT = '6d7d9c31920665ba491718df7aa63801f49d962e'
+        SOURCE_SHA256 = 'a24f3b2edf9bc26ae8a7814b92913154dc23f4004a319192f5a5b8858a5b0a97'
+        diagnostic_stage = STAGE == 'diagnostic'
+        assert STAGE in {'diagnostic', 'full-native'}
+        shared = pathlib.Path('isolated-native-evidence')
+        evidence = shared / STAGE
+        evidence.mkdir(parents=True, exist_ok=True)
+        for name in ['environment.json', 'dependencies.log', 'dependencies-exit-code.txt',
+                     'checkout.txt', 'memory-mapping.txt']:
+            item = shared / name
+            if item.is_file():
+                shutil.copy2(item, evidence / name)
+        before = json.loads((shared / 'environment.json').read_text())
+        target = os.environ['PERF_TARGET']
+        assert target == 'ExceptionalOriginalLabel'
+        assert os.environ['PERF_SOURCE_COMMIT'] == SOURCE_COMMIT == before['source_commit']
+        assert (shared / 'dependencies-exit-code.txt').read_text().strip() == '0'
+        source = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+
+        def sha256(path):
+            return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+        def check_provenance():
+            sources = {str(p): sha256(p) for p in sorted(
+                pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+            configs = {path: sha256(path) for path in before['config_sha256']}
+            tracked = subprocess.run([
+                'git', 'diff', '--quiet', 'HEAD', '--', '*.lean', *before['config_sha256'],
+            ]).returncode == 0
+            checkout = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+            parent = subprocess.check_output(['git', 'rev-parse', 'HEAD^1'], text=True).strip()
+            result = {
+                'source_count': len(sources),
+                'all_task_sources_unchanged': len(sources) == 1009 and sources == before['source_sha256'],
+                'tracked_lean_sources_unchanged': tracked,
+                'configuration_unchanged': configs == before['config_sha256'],
+                'checkout_unchanged': checkout == before['commit'] and parent == SOURCE_COMMIT,
+                'target_source_matches_frozen_candidate': sha256(source) == SOURCE_SHA256 == before['target_source_sha256'],
+            }
+            result['passed'] = all(value for key, value in result.items() if key != 'source_count')
+            return result
+
+        preflight = check_provenance()
+        (evidence / 'preflight.json').write_text(json.dumps(preflight, indent=2) + '\n')
+        if not preflight['passed']:
+            result = {
+                'stage': STAGE, 'target': target, 'source_commit': SOURCE_COMMIT,
+                'native_process_started': False, 'native_exit_code': None,
+                'exit_code': 1, 'preflight': preflight,
+                'complete_target_module_compiled': False,
+                'complete_module_within_five_minutes': False,
+                'reason': 'Source or configuration provenance changed; compilation was not started',
+            }
+            (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+            print(json.dumps(result), flush=True)
+            raise SystemExit(1)
+
+        source_bytes = source.read_bytes()
+        (evidence / 'ExceptionalOriginalLabel.original.lean').write_bytes(source_bytes)
+        compile_input = source
+        manifest = None
+        if diagnostic_stage:
+            contents, manifest = instrument_eol(source_bytes)
+            compile_input = pathlib.Path('MomEngineEOLDiagnostic_B15_6d7d9c31.lean')
+            compile_input.write_text(contents)
+            (evidence / compile_input.name).write_text(contents)
+            (evidence / 'instrumentation.json').write_text(json.dumps(manifest, indent=2) + '\n')
+
+        output = pathlib.Path(tempfile.mkdtemp(prefix='mom-engine-eol-' + STAGE + '-', dir='/tmp'))
+        timeout_seconds = 120 if diagnostic_stage else 480
+        kill_after_seconds = 5 if diagnostic_stage else 30
+        command = [
+            '/usr/bin/time', '-v',
+            'timeout', '--signal=TERM', '--kill-after=' + str(kill_after_seconds) + 's',
+            str(timeout_seconds) + 's',
+            'lake', 'env', 'lean', '-j2',
+            '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+        ]
+        if diagnostic_stage:
+            command.append('-DstderrAsMessages=false')
+        command.extend([
+            '-o', str(output / (compile_input.stem + '.olean')),
+            '-i', str(output / (compile_input.stem + '.ilean')),
+            str(compile_input),
+        ])
+        print(('FULL_COPY_DIAGNOSTIC_START ' if diagnostic_stage else 'FULL_NATIVE_START ') + target, flush=True)
+        started = time.monotonic()
+        with (evidence / ('instrumented.log' if diagnostic_stage else 'native.log')).open('w') as log:
+            log.write(json.dumps({'command': command}) + '\n')
+            log.flush()
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+            assert process.stdout is not None
+            for line in process.stdout:
+                print(line, end='', flush=True)
+                log.write(line)
+                log.flush()
+            code = process.wait()
+        elapsed = time.monotonic() - started
+        postflight = check_provenance()
+        (evidence / 'postflight.json').write_text(json.dumps(postflight, indent=2) + '\n')
+        provenance_unchanged = preflight['passed'] and postflight['passed']
+        native_succeeded = code == 0 and provenance_unchanged
+        complete = not diagnostic_stage and native_succeeded
+        exit_code = ((0 if provenance_unchanged else 1) if diagnostic_stage
+                     else (code if code else (0 if provenance_unchanged else 1)))
+        result = {
+            'stage': STAGE,
+            'target': target,
+            'native_process_started': True,
+            'native_exit_code': code,
+            'exit_code': exit_code,
+            'elapsed_seconds': elapsed,
+            'source_commit': SOURCE_COMMIT,
+            'checkout_commit': before['commit'],
+            'target_path': str(source),
+            'compile_input_path': str(compile_input),
+            'source_sha256': sha256(source),
+            'source_bytes_before': len(source_bytes),
+            'source_bytes_after': source.stat().st_size,
+            'source_count_before': preflight['source_count'],
+            'source_count_after': postflight['source_count'],
+            'all_task_sources_unchanged': postflight['all_task_sources_unchanged'],
+            'tracked_lean_sources_unchanged': postflight['tracked_lean_sources_unchanged'],
+            'configuration_unchanged': postflight['configuration_unchanged'],
+            'provenance_unchanged': provenance_unchanged,
+            'complete_target_module_compiled': complete,
+            'complete_module_within_five_minutes': complete and elapsed <= 300,
+            'full_original_file_including_print_commands': True,
+            'original_print_axioms_commands': sum(
+                line.lstrip().startswith(b'#print axioms ') for line in source_bytes.splitlines()),
+            'proof_sources_changed': not (postflight['all_task_sources_unchanged'] and postflight['tracked_lean_sources_unchanged']),
+            'heartbeat_override': None,
+            'heartbeat_changed': False if provenance_unchanged else None,
+            'profiler_enabled': True,
+            'lean_async_override': None,
+            'stderr_as_messages_override': False if diagnostic_stage else None,
+            'output_directory': str(output),
+            'output_can_be_restored_as_project_cache': False,
+            'timeout_seconds': timeout_seconds,
+            'timeout_kill_after_seconds': kill_after_seconds,
+            'scope': ('full temporary instrumented copy; never original-module acceptance' if diagnostic_stage
+                      else 'full original-module native timing; not full task acceptance'),
+        }
+        if diagnostic_stage:
+            assert manifest is not None
+            result.update({
+                'instrumented_copy_process_succeeded': native_succeeded,
+                'diagnostic_sha256': manifest['diagnostic_sha256'],
+                'instrumentation_removed_matches_full_original': manifest[
+                    'exact_full_source_recovered_after_removing_instrumentation'],
+                'native_result_cannot_replace_full_original_run': True,
+                'diagnostic_native_failure_is_nonblocking': True,
+            })
+        else:
+            result['independent_of_diagnostic_exit_code'] = True
+            result['compiled_directly_from_original_source_path'] = compile_input == source
+        (evidence / 'native-exit-code.txt').write_text(str(code) + '\n')
+        (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+        print(json.dumps(result), flush=True)
+        raise SystemExit(exit_code)
+        PY
+    - name: Upload independent full native evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: full-native-ExceptionalOriginalLabel-${{ github.sha }}-${{ github.run_attempt }}
+        path: |
+          isolated-native-evidence/full-native/
+          isolated-native-evidence/environment.json
+          isolated-native-evidence/dependencies.log
+          isolated-native-evidence/dependencies-exit-code.txt
+          isolated-native-evidence/checkout.txt
+          isolated-native-evidence/memory-mapping.txt
+        if-no-files-found: error
+        retention-days: 14
