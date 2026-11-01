@@ -66,9 +66,10 @@ theorem actualPrimeWindow_uniform_seminorm (seminorms : Finset (ℕ × ℕ)) :
   have ht : |(Models).heights Z T i (2 : Fin 6)| ≤ T := by
     simpa only [Real.norm_eq_abs] using
       (norm_le_pi_norm ((Models).heights Z T i) (2 : Fin 6)).trans hheight
+  have hbase : 1 + |(Models).heights Z T i (2 : Fin 6)| ≤ 1 + T := by linarith
   rw [Real.rpow_natCast]
   exact (hb _ _).trans (mul_le_mul_of_nonneg_left
-    (pow_le_pow_left₀ (by positivity) (add_le_add_left ht 1) m) (zero_le_one.trans hC))
+    (pow_le_pow_left₀ (by positivity) hbase m) (zero_le_one.trans hC))
 
 end HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE
 
