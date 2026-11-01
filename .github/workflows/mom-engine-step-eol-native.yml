@@ -1,0 +1,307 @@
+name: MOM_ENGINE_STEP EOL full-file marker diagnostics
+# Backup only: the owner may publish this after the original native run fails.
+# This workflow never establishes original-file compilation or full task acceptance.
+# Generated from immutable auxiliary workflow 4497e78552d7beac65e2c1c789d814081afb9de9.
+# Publish only at .github/workflows/mom-engine-step-eol-native.yml on cloud/mom-engine-step-a-eol-native.
+# The workflow commit must directly follow PERF_SOURCE_COMMIT as its first parent
+# and differ from that frozen source commit only in this workflow file.
+
+# Auxiliary timing only. The owner PR keeps its complete Interface,
+# fresh namespace axiom audit, and whole-project build unchanged.
+on:
+  push:
+    branches: [cloud/mom-engine-step-a-eol-native]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-eol-native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native:
+    name: EOL full-file markers (diagnostic only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ["ExceptionalOriginalLabel"]
+    env:
+      LEAN_NUM_THREADS: '2'
+      PERF_TARGET: ${{ matrix.target }}
+      PERF_SOURCE_COMMIT: "a90651aa4c724708eed3f6be67a5486d5eef9efe"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare runner resources
+        run: |
+          mkdir -p isolated-native-evidence
+          git show --no-patch --format=fuller HEAD > isolated-native-evidence/checkout.txt
+          test "$(git rev-parse HEAD^1)" = "$PERF_SOURCE_COMMIT"
+          git diff --exit-code "$PERF_SOURCE_COMMIT" HEAD -- '*.lean' lakefile.toml lake-manifest.json lean-toolchain
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > isolated-native-evidence/memory-mapping.txt
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary Lake artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@a90651aa4c724708eed3f6be67a5486d5eef9efe
+      - name: Record exact source and toolchain provenance
+        run: |
+          python3 -u - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, tomllib
+
+          def run(*args):
+              return subprocess.check_output(args, text=True).strip()
+
+          def sha256(path):
+              return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+          source_commit = os.environ['PERF_SOURCE_COMMIT']
+          assert run('git', 'rev-parse', 'HEAD^1') == source_commit, 'Publish as a direct child of the frozen source commit'
+          changed_paths = run('git', 'diff', '--name-only', source_commit, 'HEAD').splitlines()
+          assert changed_paths == ['.github/workflows/mom-engine-step-eol-native.yml'], changed_paths
+          config_paths = ['lakefile.toml', 'lake-manifest.json', 'lean-toolchain']
+          subprocess.run(['git', 'diff', '--exit-code', 'HEAD', '--', '*.lean', *config_paths], check=True)
+          version = run('lake', 'env', 'lean', '--version')
+          mathlib = run('git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD')
+          assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          project = tomllib.loads(pathlib.Path('lakefile.toml').read_text())
+          assert project.get('leanOptions') == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+          assert project.get('weakLeanArgs') == ['-j2']
+          sources = {str(p): sha256(p) for p in sorted(
+              pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+          assert len(sources) == 1009, len(sources)
+          target = os.environ['PERF_TARGET']
+          assert target in {'ExceptionalOriginalLabel', 'ExistingJointNormalization'}
+          target_path = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+          target_bytes = target_path.read_bytes()
+          evidence = {
+              'commit': run('git', 'rev-parse', 'HEAD'),
+              'tree': run('git', 'rev-parse', 'HEAD^{tree}'),
+              'source_commit': source_commit,
+              'source_tree': run('git', 'rev-parse', source_commit + '^{tree}'),
+              'workflow_only_delta_paths': changed_paths,
+              'source_is_direct_parent': True,
+              'target': target,
+              'target_path': str(target_path),
+              'target_source_sha256': sha256(target_path),
+              'target_source_bytes': len(target_bytes),
+              'target_print_axioms_commands': sum(
+                  line.lstrip().startswith(b'#print axioms ') for line in target_bytes.splitlines()),
+              'lean': version,
+              'mathlib': mathlib,
+              'lean_options': project['leanOptions'],
+              'weak_lean_args': project['weakLeanArgs'],
+              'profiler_enabled': False,
+              'heartbeat_override': None,
+              'source_sha256': sources,
+              'config_sha256': {path: sha256(path) for path in config_paths},
+              'scope': 'full-file EOL marker diagnostic only; not target compilation or task acceptance',
+          }
+          pathlib.Path('isolated-native-evidence/environment.json').write_text(
+              json.dumps(evidence, indent=2) + '\n')
+          PY
+      - name: Build the complete unchanged target dependencies
+        timeout-minutes: 60
+        shell: bash
+        run: |
+          set -o pipefail
+          status=0
+          timeout --signal=TERM --kill-after=30s 58m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${PERF_TARGET}:deps" 2>&1 |
+            tee isolated-native-evidence/dependencies.log || status=$?
+          echo "$status" > isolated-native-evidence/dependencies-exit-code.txt
+          exit "$status"
+      - name: Compile a temporary full EOL copy with progress markers
+        timeout-minutes: 3
+        run: |
+          python3 -u - <<'PY'
+          import hashlib, json, os, pathlib, re, subprocess, tempfile, time
+
+          SOURCE_COMMIT = 'a90651aa4c724708eed3f6be67a5486d5eef9efe'
+          EXPECTED_SOURCE_SHA256 = 'ba49848683038b424105d7e35acaab07a06aa4235ee4f1d8660a4d27def6538c'
+          PRIOR_FULL_WORKFLOW_COMMIT = '52665d03db576df569da8f5a5ba1071bd1595555'
+          TARGET_PATH = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean'
+          MARKER_PREFIX = 'MOM_EOL_MARKER'
+
+          def instrument_source(original: bytes) -> tuple[bytes, dict]:
+              assert hashlib.sha256(original).hexdigest() == EXPECTED_SOURCE_SHA256
+              source = original.decode("utf-8")
+              assert source.endswith("\n") and MARKER_PREFIX not in source
+              declaration = source.index("theorem exceptional_original_label_from_atoms\n")
+              doc = source.rfind("/--", 0, declaration)
+              assert doc >= 0
+              doc_end = source.index("-/", doc) + 2
+              assert not source[doc_end:declaration].strip(), "Keep the original doc adjacent to its theorem"
+              proof = source.index(" := by\n", declaration) + len(" := by\n")
+              end = source.index("end SecondSideFrame\n", proof)
+              assert source[end - 1] == "\n"
+              body = source[proof:end]
+              steps = list(re.finditer(r"(?m)^  (?P<kind>let|have|simpa)\s+(?P<name>[^\s:]+)", body))
+              assert [(m["kind"], m["name"]) for m in steps] == [
+                  ("let", "firstWeight"), ("let", "magnitude"), ("let", "secondCost"),
+                  ("let", "exponent"), ("have", "hsecond"), ("have", "hfirst"),
+                  ("have", "hradical"), ("have", "hsecondIndex"), ("have", "hlabel"),
+                  ("have", "hdone"), ("simpa", "only"),
+              ]
+              insertions = []
+
+              def add(offset: int, phase: str, tactic: bool, anchor_line: int | None = None) -> None:
+                  line = source.count("\n", 0, offset) + 1 if anchor_line is None else anchor_line
+                  event = f"{MARKER_PREFIX} {phase} original_line={line}"
+                  command = "  run_tac" if tactic else "run_cmd"
+                  inserted = command + " IO.eprintln " + json.dumps(event) + "\n"
+                  insertions.append({
+                      "phase": phase, "original_line": line,
+                      "original_character_offset": offset,
+                      "original_byte_offset": len(source[:offset].encode("utf-8")),
+                      "command": inserted,
+                  })
+
+              add(doc, "COMMAND_BEFORE_FROM_ATOMS", False)
+              for step in steps:
+                  phase = "PROOF_BEFORE_FINAL_SIMPA" if step["kind"] == "simpa" else "PROOF_BEFORE_" + step["name"]
+                  add(proof + step.start(), phase, True)
+              final_offset = proof + steps[-1].start()
+              final_end = source.index("\n", final_offset) + 1
+              final_line = source[final_offset:final_end]
+              assert final_line == "  simpa only [firstWeight, magnitude, secondCost, exponent] using hdone\n"
+              assert not source[final_end:end].strip()
+              add(final_end, "PROOF_FINAL_SIMPA_RETURNED", True, source.count("\n", 0, final_offset) + 1)
+              add(end, "COMMAND_AFTER_FROM_ATOMS", False)
+              print_commands = list(re.finditer(r"(?m)^#print axioms [^\n]*\n", source))
+              assert len(print_commands) == 1 and print_commands[0].end() == len(source)
+              add(print_commands[0].start(), "COMMAND_BEFORE_PRINT_AXIOMS", False)
+              add(print_commands[0].end(), "COMMAND_AFTER_PRINT_AXIOMS", False)
+              assert len(insertions) == 16
+              assert len({item["original_character_offset"] for item in insertions}) == 16
+              marked = source
+              for item in sorted(insertions, key=lambda item: item["original_character_offset"], reverse=True):
+                  offset = item["original_character_offset"]
+                  marked = marked[:offset] + item["command"] + marked[offset:]
+              recovered = marked
+              for item in insertions:
+                  assert recovered.count(item["command"]) == 1
+                  recovered = recovered.replace(item["command"], "", 1)
+              assert recovered.encode("utf-8") == original
+              assert [m.group(0) for m in re.finditer(r"(?m)^#print axioms [^\n]*\n", marked)] == [
+                  m.group(0) for m in print_commands
+              ]
+              marked_bytes = marked.encode("utf-8")
+              return marked_bytes, {
+                  "original_sha256": hashlib.sha256(original).hexdigest(),
+                  "instrumented_sha256": hashlib.sha256(marked_bytes).hexdigest(),
+                  "recovered_sha256": hashlib.sha256(recovered.encode("utf-8")).hexdigest(),
+                  "recovered_bytes_equal_original": True,
+                  "original_bytes": len(original), "instrumented_bytes": len(marked_bytes),
+                  "original_print_axioms_commands": [m.group(0).rstrip("\n") for m in print_commands],
+                  "all_original_print_commands_preserved": True,
+                  "marker_count": len(insertions),
+                  "markers": sorted(insertions, key=lambda item: item["original_character_offset"]),
+              }
+
+
+          evidence = pathlib.Path('isolated-native-evidence')
+          before = json.loads((evidence / 'environment.json').read_text())
+          assert os.environ['PERF_TARGET'] == 'ExceptionalOriginalLabel'
+          assert before['source_commit'] == SOURCE_COMMIT
+          source = pathlib.Path(TARGET_PATH)
+          original = source.read_bytes()
+          assert hashlib.sha256(original).hexdigest() == before['target_source_sha256'] == EXPECTED_SOURCE_SHA256
+          marked, marker_manifest = instrument_source(original)
+          output = pathlib.Path(tempfile.mkdtemp(prefix='mom-eol-full-file-markers-', dir='/tmp'))
+          instrumented = output / 'ExceptionalOriginalLabel.instrumented.lean'
+          instrumented.write_bytes(marked)
+          (evidence / 'ExceptionalOriginalLabel.instrumented.lean').write_bytes(marked)
+          (evidence / 'marker-manifest.json').write_text(json.dumps(marker_manifest, indent=2) + '\n')
+          command = [
+              '/usr/bin/time', '-v',
+              'timeout', '--signal=TERM', '--kill-after=5s', '120s',
+              'lake', 'env', 'lean', '-j2',
+              '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-DstderrAsMessages=false',
+              '-o', str(output / 'ExceptionalOriginalLabel.instrumented.olean'),
+              '-i', str(output / 'ExceptionalOriginalLabel.instrumented.ilean'),
+              str(instrumented),
+          ]
+          print('EOL_MARKER_DIAGNOSTIC_START original_module_native_success=False', flush=True)
+          started = time.monotonic()
+          with (evidence / 'instrumented.log').open('w') as log:
+              log.write(json.dumps({'command': command}) + '\n')
+              log.flush()
+              process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              assert process.stdout is not None
+              for line in process.stdout:
+                  print(line, end='', flush=True)
+                  log.write(line)
+                  log.flush()
+              code = process.wait()
+          elapsed = time.monotonic() - started
+          after_sources = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(
+              pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+          after_configs = {path: hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+                           for path in before['config_sha256']}
+          source_unchanged = original == source.read_bytes() and after_sources == before['source_sha256']
+          config_unchanged = after_configs == before['config_sha256']
+          tracked_unchanged = subprocess.run([
+              'git', 'diff', '--quiet', 'HEAD', '--', '*.lean', *before['config_sha256'],
+          ]).returncode == 0
+          marked_unchanged = instrumented.read_bytes() == marked
+          result = {
+              'scope': 'temporary full-file EOL marker diagnostic only; cannot replace original-file native result',
+              'source_commit': SOURCE_COMMIT,
+              'checkout_commit': before['commit'],
+              'prior_full_workflow_commit': PRIOR_FULL_WORKFLOW_COMMIT,
+              'target': 'ExceptionalOriginalLabel',
+              'target_path': str(source),
+              'source_sha256': EXPECTED_SOURCE_SHA256,
+              'instrumented_source_sha256': hashlib.sha256(marked).hexdigest(),
+              'diagnostic_native_exit_code': code,
+              'elapsed_seconds': elapsed,
+              'timeout_seconds': 120,
+              'timeout_kill_after_seconds': 5,
+              'complete_target_module_compiled': False,
+              'original_module_native_success': False,
+              'original_native_result_replaced': False,
+              'all_original_declarations_and_print_commands_preserved': True,
+              'marker_removal_recovers_exact_original': marker_manifest['recovered_bytes_equal_original'],
+              'all_task_sources_unchanged': source_unchanged,
+              'tracked_lean_sources_unchanged': tracked_unchanged,
+              'configuration_unchanged': config_unchanged,
+              'instrumented_source_unchanged_during_compile': marked_unchanged,
+              'heartbeat_override': None,
+              'lean_async_override': None,
+              'stderr_as_messages': False,
+              'profiler_enabled': False,
+              'output_directory': str(output),
+              'interpretation': 'The final-simpa marker reports tactic return only. Top-level command markers do not prove asynchronous proof or kernel completion.',
+          }
+          (evidence / 'instrumented-exit-code.txt').write_text(str(code) + '\n')
+          (evidence / 'diagnostic-result.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result), flush=True)
+          raise SystemExit(code if code else (0 if source_unchanged and config_unchanged and tracked_unchanged and marked_unchanged else 1))
+          PY
+      - name: Preserve exact native timing and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eol-markers-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: isolated-native-evidence/
+          if-no-files-found: error
+          retention-days: 14
