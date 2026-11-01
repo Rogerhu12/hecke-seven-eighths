@@ -213,12 +213,15 @@ theorem row_norm (rho : {r : ℝ // 0 < r}) (m L tau : ℝ)
   have hd := (coordinate_annulus K S D Γ X H P b Z A h hZ hh hwidth hcap j i hi 1).2
   have hk := (FirstDualTruncation.mem_sectorCutoff K S D Γ
     (H i.1.val i.2.1.val) i.2.2.1.val).mp i.2.2.1.property
-  rw [hcutoff, hscale] at hk
+  have hk' := hk.trans_eq
+    ((congrFun (congrFun hcutoff i.1.val) i.2.1.val).trans
+      (congrArg (fun X' : ℝ =>
+        SecondAdaptiveCutoff.fineCutoff K S rho X' Z tau i.1.val i.2.1.val) hscale))
   have hb := ProviderInitialGeometry.actual_row_bound K S rho Z m L
     (length Z j 0) (length Z j 1) h tau hZ hwidth i.1.val i.2.2.1.val.1
     (unitDivisor K S) i.2.1.val hrho (unitDivisor_norm K S) hg
     (by simpa only [coordinateNorm, coordinate, if_pos rfl, if_neg (by decide : (1 : Fin 3) ≠ 0),
-      divisor, mask, height, divisorIdeal_norm] using hd) hk
+      divisor, mask, height, divisorIdeal_norm] using hd) hk'
   rw [newRow_actual]
   exact hb
 

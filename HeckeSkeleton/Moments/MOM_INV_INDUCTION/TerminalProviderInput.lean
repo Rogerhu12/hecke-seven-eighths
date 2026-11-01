@@ -113,8 +113,12 @@ theorem fixed_period_block_energy [Finite (SixthLocalClasses K S)]
       dsimp [delta]
       field_simp
     nlinarith
-  have hnum := Real.rpow_le_rpow_of_exponent_le hZ.le
-    (add_le_add_left he (GeneralReflectedEnergy.exponent K S f s Z Nstar H za v ell))
+  have hnum :
+      Z ^ (GeneralReflectedEnergy.exponent K S f s Z Nstar H za v ell +
+        delta * (H + v + ell + za)) ≤
+      Z ^ (GeneralReflectedEnergy.exponent K S f s Z Nstar H za v ell + eps) := by
+    apply Real.rpow_le_rpow_of_exponent_le hZ.le
+    linarith
   calc
     _ ≤ (C * amp ^ 2 * testSeminorm V.toFun (ActualCommonMellinTail.order K 0) 2 ^ 2 *
         ‖inactiveWeight K S f‖ ^ 2) *
@@ -159,8 +163,10 @@ theorem uniform_block_energy [Finite (SixthLocalClasses K S)]
   classical
   choose C hC hb using fun θ : backgrounds => fixed_period_block_energy K S D
     (R.data θ.val) θ.val (R.reflection θ.val θ.property) hquadratic hcubic L eps hL heps
+  have hsum : 0 ≤ ∑ θ : backgrounds, C θ :=
+    Finset.sum_nonneg (fun θ _ => (hC θ).le)
   refine ⟨1 + ∑ θ : backgrounds, C θ, 2, 2, ActualCommonMellinTail.order K 0,
-    by positivity, by norm_num, by norm_num, ?_⟩
+    by linarith, by norm_num, by norm_num, ?_⟩
   intro θ hθ _hreflection f s V Z Nstar H za v ell amp hZ hsource hv hvL hell hellL
     hamp _hV rows ps cs bs a hr hp hc hd ha
   have hz : 1 < Z := lt_of_lt_of_le (by norm_num) hZ

@@ -142,7 +142,7 @@ theorem sourceColumn_eq_scaled_orbitColumn (hbase : 0 < C.base)
       intro n hn
       dsimp only [SourceReductionPoisson.coefficient, a, height]
       ring
-    _ = _ := by rw [hpool, Finset.mul_sum]; rfl
+    _ = _ := by rw [hpool, Finset.mul_sum]
 
 include hallowed in
 theorem sourceColumn_norm_sq (hbase : 0 < C.base)

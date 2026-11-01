@@ -25,6 +25,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeSkeleton.LowEnergy.IdealRows HeckeSkeleton.LowEnergy.ActualReflection
   HeckeSkeleton.LowEnergy.ActualReflectionReindex
   HeckeSkeleton.LowEnergy.ActualFrozenCharges HeckeSkeleton.LowEnergy.ActualSeparatedBlock
+open HeckeSkeleton.LowEnergy.ActualFrozenCube (exteriorPower)
 open GeneralReflectedEnergy ProviderTerminalConductor
 open scoped Classical BigOperators nonZeroDivisors
 
@@ -93,8 +94,14 @@ theorem frozen_conductor_log (Z : ℝ) (hZ : 1 < Z) (P J f r : Ext)
         exteriorNorm K S (minimumSmallIdeal K S s) *
           exteriorNorm K S (minimumCubeIdeal K S s) ^ 4) by positivity)
     (conductor_ratio_bound K S P J f r hP s)
-  simp only [Real.logb_div (by positivity) (by positivity),
-    Real.logb_mul (by positivity) (by positivity), Real.logb_pow] at h
+  rw [Real.logb_div (pow_ne_zero 2 ha.ne')
+      (mul_ne_zero (mul_ne_zero hl.ne' hs.ne') (pow_ne_zero 4 hb.ne')),
+    Real.logb_mul (mul_ne_zero hl.ne' hs.ne') (pow_ne_zero 4 hb.ne'),
+    Real.logb_mul hl.ne' hs.ne',
+    Real.logb_mul (mul_ne_zero (mul_ne_zero hp.ne' (pow_ne_zero 2 hj.ne')) hf.ne') hr.ne',
+    Real.logb_mul (mul_ne_zero hp.ne' (pow_ne_zero 2 hj.ne')) hf.ne',
+    Real.logb_mul hp.ne' (pow_ne_zero 2 hj.ne')] at h
+  simp only [Real.logb_pow] at h
   simp only [logNorm_eq_logb]
   linarith
 

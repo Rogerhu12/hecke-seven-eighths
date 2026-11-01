@@ -44,6 +44,7 @@ theorem fromSupport_eq_primeSetIdeal (T : Finset (ExteriorPrime K S)) :
   ext p
   rw [PrimeArithmetic.valuation_fromSupport, ExteriorArithmetic.valuation_coords,
     exponent_primeSetIdeal]
+  by_cases hp : p ∈ T <;> simp [hp]
 
 theorem supported_coords_iff (T : Finset (ExteriorPrime K S)) (I : Ext) :
     PrimeCoordinates.Supported (ExteriorArithmetic.coords K S) T I ↔
@@ -157,9 +158,10 @@ theorem exists_frozen_pair_count (eps : ℝ) (heps : 0 < eps) :
       mul_le_mul_of_nonneg_left hpower (mul_nonneg hC.le (Real.sqrt_nonneg _))
     _ = C * Real.sqrt U * (U * exteriorNorm K S f * exteriorNorm K S r) ^ eps := by
       rw [mul_assoc U]
-    _ ≤ _ := by
-      gcongr
-      exact le_max_right (1 : ℝ) C
+    _ ≤ _ := mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_right (le_max_right (1 : ℝ) C) (Real.sqrt_nonneg U))
+      (Real.rpow_nonneg (mul_nonneg (mul_nonneg hU0 (exteriorNorm_pos K S f).le)
+        (exteriorNorm_pos K S r).le) _)
 
 def fiber (f r : Ext) (rows : Finset Ext) (p : Ext × Ext) : Finset Ext :=
   rows.filter (fun k => frozenPair K S f r k = p)

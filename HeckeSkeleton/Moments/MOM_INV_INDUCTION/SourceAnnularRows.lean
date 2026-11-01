@@ -110,8 +110,12 @@ theorem exists_small_scale_row_bound :
   refine ⟨16 * A ^ 3, by positivity, ?_⟩
   intro ω ψ d H X W hH hX hX1 hW
   by_cases hsmall : X < 1 / 2
-  · simp only [polynomial_eq_zero_small K d _ X hX hsmall W hW, norm_zero, zero_pow,
-      Finset.sum_const_zero]
+  · have hz : (∑ u ∈ d.rows H, ‖polynomial K d u X W‖ ^ 2) = (0 : ℝ) := by
+      apply Finset.sum_eq_zero
+      intro u hu
+      simp only [polynomial_eq_zero_small K d u X hX hsmall W hW, norm_zero,
+        pow_two, mul_zero]
+    rw [hz]
     positivity
   · have hXlower : 1 / 2 ≤ X := le_of_not_gt hsmall
     have hinv : (Real.sqrt X)⁻¹ ≤ 2 := by

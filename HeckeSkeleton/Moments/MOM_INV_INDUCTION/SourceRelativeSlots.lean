@@ -23,7 +23,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION
 
-open NumberField IsDedekindDomain
+open NumberField IsDedekindDomain UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
   HeckeGeneral.Analysis.ConditionalMoments
 open HeckeSkeleton.Moments.MOM_BASE.Paired

@@ -136,7 +136,7 @@ theorem nodeAt_admissible
       R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j
       hprime hweights hJ₁ J₂ hJ₂ slotCap hcap M r ell V z c d eta h side₂)
     (p : LogPlane × ℝ) (hMc : 0 ≤ Mc M ell V h)
-    (γ : OuterTriple K) (hγ : γ ∈ packet.triples) (a : CanonicalChildClosure.Index)
+    (γ : OuterTriple K) (hγ : γ ∈ (packet).triples) (a : CanonicalChildClosure.Index)
     (ha : 0 ≤ (piece side₂ p a).columnLength γ) :
     (nodeAt K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
       grid centers alive k side₁ P b Z L j hprime hweights hJ₁ J₂ hJ₂ slotCap hcap
@@ -151,7 +151,7 @@ theorem nodeAt_admissible
     hν hG hbase R U J₁ s H₂ hmask Pslice Z L h hZ hh hwidth hb hfirst hsecond j
     hprime hweights hJ₁ J₂ hJ₂ side₁ slotCap hcap
   have hRho' : childPuncture T.columns.puncture γ ≠ 0 := by
-    obtain ⟨hq, ht, hr⟩ := packet.outer_nonzero γ hγ
+    obtain ⟨hq, ht, hr⟩ := (packet).outer_nonzero γ hγ
     exact mul_ne_zero hRho
       (SourceLengths.radical_ne_zero _ (mul_ne_zero (mul_ne_zero hq ht) hr))
   refine {
@@ -162,7 +162,7 @@ theorem nodeAt_admissible
     total_le := ?_
     complete_pool := hpool
     test_support := hsupp
-    label_squarefree := packet.label_squarefree
+    label_squarefree := (packet).label_squarefree
     label_bound := ?_
     row_bound := hrows
     puncture_nonzero := hRho'
@@ -225,7 +225,7 @@ theorem smaller_piece_bound_of_uniform
     linarith
   have hb := hih x hx hrank
   change normalizedChildEnergy T.columns.base ((piece side₂ p a).columnLength γ)
-    (Vc h) slotCap packet.labels packet.rows
+    (Vc h) slotCap (packet).labels (packet).rows
     (childValue K Sset D (piece side₂ p a) (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤
     Cih * (t.sup (schwartzSeminormFamily ℝ ℝ ℂ) ((piece side₂ p a).cutoff γ)) ^ 2 *
       Z ^ ((piece side₂ p a).columnLength γ + Vc h + eps) at hb
@@ -274,7 +274,7 @@ theorem smaller_piece_bound_of_uniform_sharp
     linarith
   have hb := hih x hx hrank
   change normalizedChildEnergy T.columns.base ((piece side₂ p a).columnLength γ)
-    (Vc h) slotCap packet.labels packet.rows
+    (Vc h) slotCap (packet).labels (packet).rows
     (childValue K Sset D (piece side₂ p a) (CanonicalSectors.sectorUnit K Sset Γ)) γ ≤
     Cih * (t.sup (schwartzSeminormFamily ℝ ℝ ℂ) ((piece side₂ p a).cutoff γ)) ^ 2 *
       Z ^ ((piece side₂ p a).columnLength γ + Vc h + eps) at hb

@@ -18,7 +18,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools
 
-open NumberField
+open NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.ThetaSkeleton
 open HeckeSkeleton.Moments.MOM_INV_STEP
 open CanonicalNormPools CommonKernel CubeCompletionMellin CubeCompletionEnergy

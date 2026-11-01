@@ -133,7 +133,8 @@ theorem parent_eq_orbitalEnergy (C : ColumnFamily K Sset σ Θ ψ)
   intro n hn
   simp only [CanonicalBlock.canonicalColumn, columns, coefficient,
     FirstInversePoisson.unitIdeal_val, one_pow, mul_one, one_mul, labelRow_exterior]
-  ring
+  split_ifs <;> simp only [Complex.ofReal_one, Complex.ofReal_zero,
+    mul_one, one_mul, mul_zero, zero_mul] <;> ring
 
 variable (hΓ : Γ ≤ (powMonoidHom 6 :
   ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*
