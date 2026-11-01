@@ -133,10 +133,11 @@ theorem Atom.profileCoefficient_le_shifted (p : Atom V)
     (hd : ‖p.direction‖ ≤ D) :
     p.profileCoefficient window hcompact hpositive orders ≤
       signedAtomConstant window hcompact hpositive orders δ R D := by
+  have hπ : 0 ≤ 2 * Real.pi := by positivity
   have hdirection : (1 + 2 * Real.pi * ‖p.direction‖) ^ (orders.sup Prod.snd) ≤
       (1 + 2 * Real.pi * D) ^ (orders.sup Prod.snd) :=
-    pow_le_pow_left₀ (by positivity)
-      (add_le_add_left (mul_le_mul_of_nonneg_left hd (by positivity)) 1) _
+    pow_le_pow_left₀ (add_nonneg zero_le_one (mul_nonneg hπ (norm_nonneg p.direction)))
+      (add_le_add (le_refl (1 : ℝ)) (mul_le_mul_of_nonneg_left hd hπ)) _
   unfold Atom.profileCoefficient
   rw [hscale, Real.one_rpow, mul_one]
   exact mul_le_mul (shapeCoefficient_le_shifted window hcompact hpositive orders δ R he)
@@ -328,7 +329,7 @@ def rawWindow {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDo
   · intro i t y
     change (c.prime i : ℂ) * (d.geometry.slots i).profile t y =
       (c.prime i : ℂ) * w.primeRep i t y
-    rw [w.prime_eq]
+    exact congrArg (fun x : ℂ => (c.prime i : ℂ) * x) (w.prime_eq i t y)
   · intro u hu t ht y hy
     exact w.left_support u hu t ht (right_ne_zero_of_mul hy)
   · intro u hu t ht y hy

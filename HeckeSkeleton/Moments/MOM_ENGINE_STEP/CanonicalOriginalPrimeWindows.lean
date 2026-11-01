@@ -78,7 +78,7 @@ def rawPolynomialWindow_at_clippedRadius
     (Set.Icc a B) isCompact_Icc (positiveAnnulus a B ha) orders hP
   have hclip := clippingCoefficient_one_le B hB orders
   unfold polynomialProfileRadius
-  apply add_le_add_left
+  apply add_le_add (le_refl (1 : ℝ))
   apply mul_le_mul_of_nonneg_right _ (by positivity)
   change profileAmplitude D.original D.left D.right D.slot (Set.Icc a B)
       isCompact_Icc (positiveAnnulus a B ha) orders P ≤
@@ -150,7 +150,8 @@ def clippedWindow_of_actualSource
       isClosed_Icc)
     (fun i v => closure_minimal (w.prime_support i v (Set.mem_univ _)) isClosed_Icc)
     (fun _ _ => Set.mem_univ _) (Set.mem_univ _) ξ₀ henergy (WithLp.ofLp ξ)
-  simpa only [WithLp.toLp_ofLp] using raw
+  simpa only [OriginalLogProfiles.moving, OriginalLogProfiles.amplitude,
+    clippedProfileAmplitude, WithLp.toLp_ofLp] using raw
 
 end CanonicalLogProfiles.OriginalLogProfiles
 end HeckeSkeleton.Moments.EngineStep

@@ -327,6 +327,7 @@ private theorem phase_point_reindex_congr
     (fun h i => points₁ h (index i)) = (fun h i => points₂ h (index i)) :=
   congrArg (fun points : Row → Source → Point => fun h i => points h (index i)) hpoints
 
+omit [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W] in
 private theorem phase_class_eq_fixed_fullCorrelation
     (exceptional : s.CoverHybridPredicates LC RC)
     (x : ι → W) (ξ : W) :
@@ -412,7 +413,7 @@ private theorem phase_class_eq_fixed_fullCorrelation
   have hrightPoint := phase_point_reindex_congr v.rightReindex.index
     (charts_withMultiplier_rightPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1)
   unfold SecondBlockProfileChart.hybridClassCost secondResidualHybridCost
-  have hphase := phase_seven_argument_congr
+  exact phase_seven_argument_congr
     (fun (kernel : SchwartzMap E ℂ) (rows : Finset Q) (rowCoefficient : Q → ℂ)
       (leftCoefficient : ((PUnit × PUnit) →* Circle) → Q → AllocationColumn K v.leftSlots → ℂ)
       (rightCoefficient : ((PUnit × PUnit) →* Circle) → Q →
@@ -431,7 +432,6 @@ private theorem phase_class_eq_fixed_fullCorrelation
           (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
         v.2.2.2.2.2.1 v.2.2.2.2.2.2))
     hkernel hrows hrowCoefficient hleftCoefficient hrightCoefficient hleftPoint hrightPoint
-  exact hphase
 
 private theorem fixed_fullCorrelation_eq_leaf_sum
     (exceptional : s.CoverHybridPredicates LC RC)
@@ -468,40 +468,41 @@ private theorem fixed_fullCorrelation_eq_leaf_sum
       (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
         v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  exact
-    (fullCorrelationHybridCost_eq_leaf_sum
-      (K := K) (H := Q) (U := W) (V := E)
-      (k := v.leftSlots)
-      (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1)
-        v.1.val.2 v.2.2.2.2.2.2).keep.card)
-      (γ := ((PUnit × PUnit) →* Circle))
-      F v.chart.kernel
-        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
-        v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-        v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-        (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
-        (fun h =>
-          (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
-            generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-              (engineAllowedGenerator C v.block.commonLeftIdeal)
-              (engineAllowedGenerator C v.block.commonRightIdeal)
-              (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))
-        (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)))
-        (fun χ h i => v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
-          (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))
-        (fun χ h i => v.chart.sourceRightCoefficient (v.rightReindex.index i) *
-          (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
-              (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))
-        (fun _ i => x (v.leftReindex.index i))
-        (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
-        (fun _ i => x (v.rightReindex.index i))
-        (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
-        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
-          v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ)
+  as_aux_lemma =>
+    exact
+      (fullCorrelationHybridCost_eq_leaf_sum
+        (K := K) (H := Q) (U := W) (V := E)
+        (k := v.leftSlots)
+        (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1)
+          v.1.val.2 v.2.2.2.2.2.2).keep.card)
+        (γ := ((PUnit × PUnit) →* Circle))
+        F v.chart.kernel
+          (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
+          v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
+          v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
+          (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
+          (fun h =>
+            (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
+              generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
+                (engineAllowedGenerator C v.block.commonLeftIdeal)
+                (engineAllowedGenerator C v.block.commonRightIdeal)
+                (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+                ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))
+          (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)))
+          (fun χ h i => v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
+            (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
+              σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
+                ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))
+          (fun χ h i => v.chart.sourceRightCoefficient (v.rightReindex.index i) *
+            (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
+              σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
+                (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))
+          (fun _ i => x (v.leftReindex.index i))
+          (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
+          (fun _ i => x (v.rightReindex.index i))
+          (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
+          (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+            v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ)
 
 /-- This is the actual phase multiplication from the first transform,
 followed by the literal finite allocation sum from the second. -/
@@ -512,8 +513,9 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
         (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  exact (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ).trans
-    (v.fixed_fullCorrelation_eq_leaf_sum exceptional F x ξ)
+  as_aux_lemma =>
+    exact (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ).trans
+      (v.fixed_fullCorrelation_eq_leaf_sum exceptional F x ξ)
 
 end CoveredClassKey
 

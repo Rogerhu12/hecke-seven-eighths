@@ -129,20 +129,6 @@ jobs:
         run: |
           python3 -u a2-native/run.py dependencies 1200 \
             lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves:deps
-      - name: Collect bounded reversible diagnostic evidence only
-        id: diagnostic
-        continue-on-error: true
-        run: |
-          python3 -u .github/scripts/mom-engine-step-a2-diagnostic.py \
-            --repo "$GITHUB_WORKSPACE" --evidence a2-native/diagnostic --run
-      - name: Upload diagnostic evidence before original native verification
-        if: ${{ always() && steps.dependencies.outcome == 'success' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: a2-actual-diagnostic-${{ github.sha }}-${{ github.run_attempt }}
-          path: a2-native/diagnostic/
-          if-no-files-found: error
-          retention-days: 14
       - name: Compile the original module and freshly audit every loaded task declaration
         if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
         run: |
