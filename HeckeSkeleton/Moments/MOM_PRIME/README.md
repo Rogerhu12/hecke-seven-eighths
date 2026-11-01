@@ -161,9 +161,11 @@ The initial moderate-kernel decay and row-truncation API repairs follow
 the owner's blobs `daddc476018e69046ff9f4800b6a59cd2bbc5b8c` and
 `b2fa94108ee705437a33a187020a2185b06629bf`; subsequent native failures
 are resolved by explicit local bounds and an explicit box-height sum identity.
-The principal residue-assembly proof comes from the owner's blob
-`347f7203afb77545ef38a60792324a3c758fa1d7`, with the actual `vertical`
-namespace made explicit in that file and in the residue-tail proof.
+The principal residue-assembly proof starts from the owner's blob
+`347f7203afb77545ef38a60792324a3c758fa1d7`. Its native API repairs make
+the parametric integral function, finite integration interval, and
+continuity of `vertical` explicit. The actual `vertical` namespace is
+also opened in the residue-tail proof.
 The residue-identification, initial-transport, and physical-recipe remainder
 proofs consume the owner's subsequent native-verified fixes, with blobs
 `161a3f7200e0867ba0b940360e69b3dd10407860`,
