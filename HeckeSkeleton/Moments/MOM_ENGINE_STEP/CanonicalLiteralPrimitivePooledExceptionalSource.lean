@@ -323,7 +323,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.leftMultiplicity).val
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive hwidth hthreshold hvolume hfirstBox in
 /-- The actual centered left main source uses its original
@@ -405,7 +405,7 @@ theorem literalPrimitiveLeftMainExceptional_pointwise
     (holdOriginal := literalPrimitiveFirstSource_oldSupport (Q := Q) (a := a) (Z := Z) (hZ := hZ))
     hcentered hpadding z
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive in
 /-- The actual ordinary left main source uses its original
@@ -565,7 +565,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.leftMultiplicity).val
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive hwidth hthreshold hvolume hfirstBox in
 /-- The actual centered left valuation source uses its original
@@ -648,7 +648,7 @@ theorem literalPrimitiveLeftPoolExceptional_pointwise
     (firstColumnBound := columnBound) (hfirstBox := hfirstBox)
     hcentered hpadding z
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive in
 /-- The actual ordinary left valuation source uses its original
@@ -807,7 +807,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.leftMultiplicity).val
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive hwidth hthreshold hvolume hfirstBox in
 /-- The actual centered right main source uses its original
@@ -889,7 +889,7 @@ theorem literalPrimitiveRightMainExceptional_pointwise
     (holdOriginal := literalPrimitiveFirstSource_oldSupport (Q := Q) (a := a) (Z := Z) (hZ := hZ))
     hcentered hpadding z
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive in
 /-- The actual ordinary right main source uses its original
@@ -1050,7 +1050,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.leftMultiplicity).val
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive hwidth hthreshold hvolume hfirstBox in
 /-- The actual centered right valuation source uses its original
@@ -1133,7 +1133,7 @@ theorem literalPrimitiveRightPoolExceptional_pointwise
     (firstColumnBound := columnBound) (hfirstBox := hfirstBox)
     hcentered hpadding z
 
-include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
+include originalWindow hrows htime hprime hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum href
   hslotLossNonneg hfinalLoss
   hslotLoss hslots hone hplaces hsupport hcutoffPower₂ hsquarefree hlive in
 /-- The actual ordinary right valuation source uses its original
