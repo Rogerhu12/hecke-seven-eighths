@@ -219,16 +219,28 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
       carrier.filter (fun h => v.chart.rowLabel h = v.rowLabel)) hrows
   have hleft : multipliedLeft = phasedLeft := by
     funext χ h i
-    dsimp only [multipliedLeft, phasedLeft, c]
-    rw [sourceLeftCoefficient_withMultiplier s (fun i => jointPhase ξ (x i))
-      v.1 v.2.1 (v.leftReindex.index i)]
-    exact phase_mul_three_factors _ _ _ _
+    exact (congrArg
+      (fun coeff : ℂ => coeff * (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
+        σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) (rows.frequency h)))
+      (sourceLeftCoefficient_withMultiplier s (fun i => jointPhase ξ (x i))
+        v.1 v.2.1 (v.leftReindex.index i))).trans
+      (phase_mul_three_factors
+        (jointPhase ξ (x (v.leftReindex.index i)))
+        (v.chart.sourceLeftCoefficient (v.leftReindex.index i))
+        (fixedLeftPhase PUnit χ PUnit.unit : ℂ)
+        (σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) (rows.frequency h))))
   have hright : multipliedRight = phasedRight := by
     funext χ h i
-    dsimp only [multipliedRight, phasedRight, d]
-    rw [sourceRightCoefficient_withMultiplier s (fun i => jointPhase ξ (x i))
-      v.1 v.2.1 (v.rightReindex.index i)]
-    exact phase_mul_three_factors _ _ _ _
+    exact (congrArg
+      (fun coeff : ℂ => coeff * (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
+        σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-rows.frequency h)))
+      (sourceRightCoefficient_withMultiplier s (fun i => jointPhase ξ (x i))
+        v.1 v.2.1 (v.rightReindex.index i))).trans
+      (phase_mul_three_factors
+        (jointPhase ξ (x (v.rightReindex.index i)))
+        (v.chart.sourceRightCoefficient (v.rightReindex.index i))
+        (fixedRightPhase PUnit χ PUnit.unit : ℂ)
+        (σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-rows.frequency h))))
   have hsplit : cost rows.rows phasedLeft phasedRight =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ :=
     fullCorrelationHybridCost_eq_leaf_sum F v.chart.kernel rows.rows
