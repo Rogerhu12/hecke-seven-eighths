@@ -225,6 +225,8 @@ theorem rows_in_bin (P : ActualHighPresentation K c)
 end ActualHighPresentation
 
 attribute [local instance] expansionNormOneSpace expansionNormOneBorel
+  Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
 
 section PhysicalPresentationConstructor
 
@@ -290,10 +292,14 @@ theorem expansionScheduled_scale (Z T : ℝ) (b : HighBlockIndex K c Z T) :
 
 theorem expansionScheduled_bin (Z T : ℝ) (b : HighBlockIndex K c Z T) :
     (((targetData K c).expansion Z T).block b).bin =
-      (expansionScheduledChoice K c Z T b).1.center :=
-  physicalRecipeScheduledBlock_bin K (places K c) (probeData K c) Eactual c.family.omega
+      (expansionScheduledChoice K c Z T b).1.center := by
+  letI : ∀ p : places K c,
+      (Expansion.ActualProbeContext.allLocalMeasures K p.val).IsAddHaarMeasure :=
+    fun p => Expansion.ActualProbeContext.allLocalMeasures_isAddHaar K p.val
+  exact physicalRecipeScheduledBlock_bin K (places K c) (probeData K c) Eactual c.family.omega
     (targetCharacter K c) (representative K c).val.property (expansionBoundary_lower K c)
-    c.family.B_upper (q).e_pos c.family.boundary c.geometry (probeMeasures K c).haar ∅
+    c.family.B_upper (q).e_pos c.family.boundary c.geometry
+    (fun p : places K c => Expansion.ActualProbeContext.allLocalMeasures K p.val) ∅
     c.family.lamA (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
     (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
 
@@ -308,6 +314,9 @@ theorem expansionScheduled_shell (Z T : ℝ) (b : HighBlockIndex K c Z T) :
 -- the amplitude partition, in the actual expansion tail.
 def actualHighPresentation : ActualHighPresentation K c := by
   letI : IsTotallyComplex K := Expansion.ActualProbeContext.totallyComplex K (axiomChoice K c)
+  letI : ∀ p : places K c,
+      (Expansion.ActualProbeContext.allLocalMeasures K p.val).IsAddHaarMeasure :=
+    fun p => Expansion.ActualProbeContext.allLocalMeasures_isAddHaar K p.val
   have hAllowed : AllowedGeneratorInput K (places K c) (probeData K c).arithmetic :=
     Expansion.ActualProbeContext.allowedGenerators K (axiomChoice K c)
   refine
@@ -330,7 +339,9 @@ def actualHighPresentation : ActualHighPresentation K c := by
     exact physicalRecipeScheduledBlock_bin_range K (places K c) (probeData K c) Eactual
       c.family.omega (targetCharacter K c) (representative K c).val.property
       (expansionBoundary_lower K c) c.family.B_upper (q).e_pos c.family.boundary
-      c.geometry (probeMeasures K c).haar ∅ c.family.lamA (expansionShellAllowance K c)
+      c.geometry
+      (fun p : places K c => Expansion.ActualProbeContext.allLocalMeasures K p.val) ∅
+      c.family.lamA (expansionShellAllowance K c)
       (q).width (q).k (q).width_pos Z T
       (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b)
   · intro Z T _hZ _hT b
@@ -344,7 +355,8 @@ def actualHighPresentation : ActualHighPresentation K c := by
     exact physicalRecipeScheduledBlock_rows_subset K (places K c) (probeData K c)
       c.family.omega (targetCharacter K c) c.geometry Eactual
       (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
-      (q).e_pos c.family.boundary (probeMeasures K c).haar ∅ c.family.lamA
+      (q).e_pos c.family.boundary
+      (fun p : places K c => Expansion.ActualProbeContext.allLocalMeasures K p.val) ∅ c.family.lamA
       (expansionShellAllowance K c) (q).width (q).k (q).width_pos Z T
       (expansionScheduled_scale K c Z T b).1 (expansionScheduled_scale K c Z T b).2
       (expansionScheduledShell K c Z T b) (expansionScheduledChoice K c Z T b) l
@@ -658,6 +670,9 @@ theorem highShiftedNormForm (c : TargetContext K)
     (hPole : HighPureNormPoleExclusion K c (actualHighPresentation K c))
     (hCond : HighConductorDeficit K c (actualHighPresentation K c)) :
     HighShiftedNormForm K c (actualHighPresentation K c) := by
+  letI : ∀ p : places K c,
+      (Expansion.ActualProbeContext.allLocalMeasures K p.val).IsAddHaarMeasure :=
+    fun p => Expansion.ActualProbeContext.allLocalMeasures_isAddHaar K p.val
   have heLam : (expansionPhysicalParameters K c).e ≤ c.lamB / 1000 := by
     have hc := (expansionPhysicalParameters K c).e_cap
     dsimp only [expansionInternalCap] at hc
@@ -670,7 +685,8 @@ theorem highShiftedNormForm (c : TargetContext K)
     dsimp only [expansionShellAllowance]
     linarith [(ExpansionInterfaces.shellAllowance_spec c.family.lamA_pos).2.1]
   obtain ⟨A, C, hA, hC, hb⟩ := HighBinPhysicalNorm.exists_physicalRecipe_normForm
-    K (excludedPlaces K c) (probeMeasures K c).haar (probeData K c)
+    K (excludedPlaces K c)
+    (fun p : places K c => Expansion.ActualProbeContext.allLocalMeasures K p.val) (probeData K c)
     c.family.omega (targetCharacter K c) c.geometry (arithmeticCalibration K c)
     (fun p => target_unramified_outside K c p.val p.property)
     (representative K c).val.property (expansionBoundary_lower K c) c.family.B_upper
@@ -689,7 +705,7 @@ theorem highShiftedNormForm (c : TargetContext K)
   simpa only [highRowExponent, expansionScheduled_bin, expansionScheduled_shell,
     HighBinVerified.NormForm.rowExponent_eq_moderate,
     HighBinVerified.NormForm.moderateExponent, HeckeGeneral.Analysis.moderateExponent,
-    AmplitudeSet.mean] using h
+    AmplitudeSet.mean] using! h
 
 /-- Whole fixed-bin boundary, summed over the actual retained block family.
 The subtraction is between actual initial and final fixed-bin row contours;
@@ -770,8 +786,15 @@ private theorem highbinWholeBoundary_eq_scheduled (Z H : ℝ)
         term (physicalRecipeShellIndex K (places K c) c.family.B (q).e
           (expansionShellAllowance K c) Z b)
           (physicalRecipeChoice K (places K c) c.family.B (q).e
-            (expansionShellAllowance K c) Z b) :=
-      recipeExpansion_sum_active_map K (places K c) (X) Z H hZ hH _
+            (expansionShellAllowance K c) Z b) := by
+      simpa only [expansionScheduledShell, expansionScheduledChoice] using!
+        (recipeExpansion_sum_active_map K (places K c) (X) Z H hZ hH
+          (fun b : Fin ((X).scheduledCount Z) =>
+            term
+              (physicalRecipeShellIndex K (places K c) c.family.B (q).e
+                (expansionShellAllowance K c) Z b)
+              (physicalRecipeChoice K (places K c) c.family.B (q).e
+                (expansionShellAllowance K c) Z b)))
     _ = ∑ j : Fin (shellCount Z (1 / 16) (13 / 16 + expansionShellAllowance K c)),
         ∑ d : PhysicalRecipeChoice K (places K c) c.family.B (q).e, term j d :=
       sum_physicalRecipeSchedule K (places K c) c.family.B (q).e
