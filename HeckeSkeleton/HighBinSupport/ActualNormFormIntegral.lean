@@ -40,7 +40,7 @@ variable [∀ p : (S : Set (HeightOneSpectrum (𝓞 K))), (μ p).IsAddHaarMeasur
 theorem heightBoxMeasure_eq (H : ℝ) :
     ((volume.restrict (Icc (-H) H)).prod (twoHeightMeasure H)) =
       (volume : Measure (ℝ × (ℝ × ℝ))).restrict (heightBox H) := by
-  simp only [heightBox, twoHeightMeasure, Measure.prod_restrict]
+  simp only [heightBox, twoHeightMeasure, Measure.prod_restrict, Measure.volume_eq_prod]
 
 theorem heightBox_volume_real (H : ℝ) (hH : 0 ≤ H) :
     (volume : Measure (ℝ × (ℝ × ℝ))).real (heightBox H) = 8 * H ^ 3 := by
@@ -147,6 +147,8 @@ theorem exists_actual_rowContour_normForm
       ContinuousOn (fun x => rowCorrection K S₀ P psi E Q u
         (sLine (a + 16 * e) x) (wLine (1 - a - 6 * e) x) (zLine x)) (heightBox H) := by
     apply (rowCorrection_continuousOn_sweptTube K S₀ P psi Q u ha ha1 he he1).comp
+      (f := fun x : ℝ × (ℝ × ℝ) =>
+        (sLine (a + 16 * e) x, wLine (1 - a - 6 * e) x, zLine x))
     · exact ((continuous_sLine _).prodMk
         ((continuous_wLine _).prodMk continuous_zLine)).continuousOn
     · intro x hx

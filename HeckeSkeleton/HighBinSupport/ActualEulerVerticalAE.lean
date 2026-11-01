@@ -102,7 +102,9 @@ theorem rowCorrection_eq_finiteExceptional_mul_regular
   have htail : Multipliable (fun p : ↥((F : Set (ExteriorPrime K S))ᶜ) => f p.val) := by
     apply hregular.congr
     intro p
-    simp only [f, dif_neg p.property]
+    have hp : p.val ∉ F := p.property
+    dsimp only [f]
+    rw [dif_neg hp]
   have hprod := Multipliable.tprod_mul_tprod_compl
     (s := (F : Set (ExteriorPrime K S))) (f := f) hfin htail
   have hfinval : (∏' p : ↥(F : Set (ExteriorPrime K S)), f p.val) =
@@ -110,13 +112,17 @@ theorem rowCorrection_eq_finiteExceptional_mul_regular
     rw [tprod_fintype]
     apply Finset.prod_congr rfl
     intro p _
-    simp only [f, dif_pos p.property]
+    have hp : p.val ∈ F := p.property
+    dsimp only [f]
+    rw [dif_pos hp]
   have htailval : (∏' p : ↥((F : Set (ExteriorPrime K S))ᶜ), f p.val) =
       ∏' p : {p : ExteriorPrime K S // p ∉ rowExceptionalPrimes K S Q u},
         localRowCorrection K S P ψ (E.rows.character u) p.val v.1 v.2.1 v.2.2 := by
     apply tprod_congr
     intro p
-    simp only [f, dif_neg p.property]
+    have hp : p.val ∉ F := p.property
+    dsimp only [f]
+    rw [dif_neg hp]
   rw [hfinval, htailval] at hprod
   exact hprod.symm
 
@@ -320,6 +326,28 @@ theorem compensatedRowMellinKernel_ae_eq_vertical_of_calibrated
   intro J hJ
   rw [ht p hp J hJ]
 
+private theorem triple_box_integral_congr_ae
+    (f g : ℝ × (ℝ × ℝ) → ℂ) (height : ℝ) (h : f =ᵐ[volume] g) :
+    (∫ ts in Icc (-height) height, ∫ tw in Icc (-height) height,
+      ∫ tz in Icc (-height) height, f (ts, tw, tz)) =
+    ∫ ts in Icc (-height) height, ∫ tw in Icc (-height) height,
+      ∫ tz in Icc (-height) height, g (ts, tw, tz) := by
+  have hp : f =ᵐ[(volume : Measure ℝ).prod
+      ((volume : Measure ℝ).prod (volume : Measure ℝ))] g := by
+    simpa only [Measure.volume_eq_prod] using h
+  have hs := Measure.ae_ae_of_ae_prod
+    (μ := (volume : Measure ℝ))
+    (ν := (volume : Measure ℝ).prod (volume : Measure ℝ))
+    (p := fun t : ℝ × (ℝ × ℝ) => f t = g t) hp
+  apply integral_congr_ae
+  filter_upwards [ae_restrict_of_ae (s := Icc (-height) height) hs] with ts hts
+  have hw := Measure.ae_ae_of_ae_prod
+    (μ := (volume : Measure ℝ)) (ν := (volume : Measure ℝ))
+    (p := fun t : ℝ × ℝ => f (ts, t) = g (ts, t)) hts
+  apply integral_congr_ae
+  filter_upwards [ae_restrict_of_ae (s := Icc (-height) height) hw] with tw htw
+  exact integral_congr_ae (ae_restrict_of_ae (s := Icc (-height) height) htw)
+
 set_option maxHeartbeats 1000000 in
 /-- The literal three nested integrals, including `(2π)^(-3)`, agree.
 Almost-everywhere product equality suffices: no integrability premise is
@@ -334,17 +362,25 @@ theorem rowContourBox_eq_of_calibrated_sweptTube
     (hσ : ((σ : ℂ), (ν : ℂ), (zLine : ℂ)) ∈ sweptTube a e) :
     rowContourBox K S μ P ψ E₁ g T u Z height σ ν zLine =
       rowContourBox K S μ P ψ E₂ g T u Z height σ ν zLine := by
-  have h := compensatedRowMellinKernel_ae_eq_vertical_of_calibrated
-    K S μ P ψ E₁ E₂ h₁ h₂ g T u Z ha ha1 he he1 (σ, ν, zLine) hσ
-  unfold rowContourBox
-  congr 1
-  apply integral_congr_ae
-  filter_upwards [ae_restrict_of_ae (s := Icc (-height) height)
-    (Measure.ae_ae_of_ae_prod h)] with ts hts
-  apply integral_congr_ae
-  filter_upwards [ae_restrict_of_ae (s := Icc (-height) height)
-    (Measure.ae_ae_of_ae_prod hts)] with tw htw
-  exact integral_congr_ae (ae_restrict_of_ae htw)
+  let F₁ : ℝ × (ℝ × ℝ) → ℂ := fun t =>
+    compensatedRowMellinKernel K S μ P ψ E₁ g T u Z
+      ((σ : ℂ) + (t.1 : ℂ) * I) ((ν : ℂ) + (t.2.1 : ℂ) * I)
+      ((zLine : ℂ) + (t.2.2 : ℂ) * I)
+  let F₂ : ℝ × (ℝ × ℝ) → ℂ := fun t =>
+    compensatedRowMellinKernel K S μ P ψ E₂ g T u Z
+      ((σ : ℂ) + (t.1 : ℂ) * I) ((ν : ℂ) + (t.2.1 : ℂ) * I)
+      ((zLine : ℂ) + (t.2.2 : ℂ) * I)
+  have h : F₁ =ᵐ[volume] F₂ :=
+    compensatedRowMellinKernel_ae_eq_vertical_of_calibrated
+      K S μ P ψ E₁ E₂ h₁ h₂ g T u Z ha ha1 he he1 (σ, ν, zLine) hσ
+  change (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) *
+      (∫ ts in Icc (-height) height, ∫ tw in Icc (-height) height,
+        ∫ tz in Icc (-height) height, F₁ (ts, tw, tz)) =
+    (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) *
+      (∫ ts in Icc (-height) height, ∫ tw in Icc (-height) height,
+        ∫ tz in Icc (-height) height, F₂ (ts, tw, tz))
+  exact congrArg (fun x : ℂ => (2 * (Real.pi : ℂ)) ^ (-(3 : ℤ)) * x)
+    (triple_box_integral_congr_ae F₁ F₂ height h)
 
 #print axioms finiteExceptionalProduct_eq_div
 #print axioms finiteExceptionalProduct_eq_initial_of_calibrated

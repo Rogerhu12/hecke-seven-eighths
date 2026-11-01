@@ -150,7 +150,8 @@ theorem exists_actual_region_normForm
   have hH0 : 0 ≤ H := zero_le_one.trans hH1
   obtain ⟨A, hi, hwhole⟩ := hint Z T hZZI hT hTcap d hd hd1 u hu hu1 a ha ha1 hbelow
   have hiBox : IntegrableOn f (heightBox H) := by
-    simpa only [IntegrableOn, ← NormFormIntegral.heightBoxMeasure_eq] using hi
+    simpa only [IntegrableOn, f, actualRegionKernel, H,
+      ← NormFormIntegral.heightBoxMeasure_eq] using hi
   have hRegion (label : Fin g.slots → Fin (N + 1)) : MeasurableSet (region label) :=
     actualSlotRegion_measurable K S₀ P psi g u Z a e H theta N label ha he
   have hsubset (label : Fin g.slots → Fin (N + 1)) : region label ⊆ heightBox H :=

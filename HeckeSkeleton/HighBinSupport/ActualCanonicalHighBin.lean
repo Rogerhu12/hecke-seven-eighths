@@ -332,7 +332,9 @@ theorem exists_canonicalBlock_normForm
   · intro label
     obtain ⟨hslot, hb⟩ := hnorm sc sub label
     refine ⟨hslot, ?_⟩
-    simpa only [NormForm.rowExponent_eq_moderate] using hb
+    simpa only [canonicalBlock, computedRegionBlock, actualRegionModerateBlock,
+      NormForm.rowExponent_eq_moderate, NormForm.moderateExponent,
+      HeckeGeneral.Analysis.moderateExponent] using hb
 
 end HeckeSkeleton.HighBinCanonical
 
