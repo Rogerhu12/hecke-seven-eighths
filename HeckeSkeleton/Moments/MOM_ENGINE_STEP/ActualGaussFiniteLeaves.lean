@@ -33,6 +33,22 @@ private theorem scalar_sum_sigma_of_class_sum
     ((Finset.sum_congr rfl (fun a _ => hleaves a)).trans
       (Fintype.sum_sigma leaves).symm)
 
+private theorem scalar_weighted_terminal_sum
+    {J : Type*} [Fintype J]
+    (weight zeroCoefficient zeroAmplitude zeroPower
+      tailCoefficient tailAmplitude tailPower nonzero : ℝ)
+    (leaves scaledLeaves : J → ℝ)
+    (hsum : nonzero = ∑ b : J, leaves b)
+    (hscaled : ∀ b : J, scaledLeaves b = weight * leaves b) :
+    weight * (zeroCoefficient * zeroAmplitude * zeroPower + nonzero +
+      tailCoefficient * tailAmplitude * tailPower) =
+      weight * zeroCoefficient * zeroAmplitude * zeroPower +
+      weight * tailCoefficient * tailAmplitude * tailPower +
+      ∑ b : J, scaledLeaves b := by
+  rw [hsum]
+  simp only [hscaled, Finset.mul_sum, mul_add, mul_assoc]
+  ring
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -637,6 +653,7 @@ private theorem coverHybridPhaseNonzeroCost_eq_class_sum
   exact (phase_coverHybridNonzeroCost_eq_nested_sum s LC RC exceptional x ξ).trans
     (coveredClassNestedSum_eq_sum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ))
 
+set_option linter.unusedSectionVars false in
 /-- Exact finite flattening of the covered source, at the first
 continuous Fourier parameter. -/
 theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
@@ -745,10 +762,17 @@ theorem phase_cost_eq_budgets_leaves
     (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
       s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) = _
-  rw [s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ]
-  simp only [fiberCoveredLeaf, ActualHybridLeaf.scale_firstPhaseCost,
-    zeroBudget, tailBudget, Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  exact scalar_weighted_terminal_sum
+    (J := s.CoveredLeafKey LC RC)
+    (s.fiber : ℝ)
+    Czero (T.windows.multiplicity * T.zeroAmplitude) (Z ^ (T.productExponent * ε))
+    Cerror (T.windows.multiplicity * T.tailAmplitude) (Z ^ (-Nsave))
+    (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).scale_firstPhaseCost
+      (s.fiber : ℝ) (Nat.cast_nonneg _) ξ)
 
 theorem integral_phase_cost_eq_budgets_leaves
     (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
