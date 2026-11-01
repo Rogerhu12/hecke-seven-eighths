@@ -91,6 +91,7 @@ theorem recipe_inverse_independent_amplification
     (fun i => norm_nonneg _) (fun i => (harith i).1) (fun i => (harith i).2.2)
     (by
       intro i u b hu
+      dsimp only [unmarkedProfileData, M] at hu ⊢
       rw [(harith i).2.1]
       exact completeIdealRowCharacter_mul_sixth (places K c) (probeData K c)
         (momentRowCharacters K c) u b (by simpa only [(harith i).1] using hu) i.sector)
