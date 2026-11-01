@@ -364,7 +364,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (hlive := bareLive)
         let oldLeftAtoms := literalLeftMainAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
@@ -555,7 +555,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (q := prime) (n := (AmplifierValuation.one).multiplicity) (hlive := hfiber)
         let oldLeftAtoms := literalLeftPoolAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
@@ -751,7 +751,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (q := prime) (n := (AmplifierValuation.six).multiplicity) (hlive := hfiber)
         let oldLeftAtoms := literalLeftPoolAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
@@ -947,7 +947,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (q := prime) (n := (AmplifierValuation.seven).multiplicity) (hlive := hfiber)
         let oldLeftAtoms := literalLeftPoolAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
@@ -1153,7 +1153,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (hlive := bareLive)
         let oldLeftAtoms := literalRightMainAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
@@ -1367,7 +1367,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (q := prime) (n := (AmplifierValuation.one).multiplicity) (hlive := hfiber)
         let oldLeftAtoms := literalRightPoolAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
@@ -1586,7 +1586,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (q := prime) (n := (AmplifierValuation.six).multiplicity) (hlive := hfiber)
         let oldLeftAtoms := literalRightPoolAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
@@ -1805,7 +1805,7 @@ theorem literalPrimitivePooledExceptional_integral
             (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
             (dyad := fun _ _ i => Fin.elim0 i)
             (retainedScale := first.retainedScale) (g := first.enlargement) (hscale := first.retainedScale_pos)
-            (domain := domainInternal) (v := v) (exceptional := predicate) (F := ((source).charts DE D).kernel)
+            (domain := domainInternal) (v := v) («exceptional» := predicate) (F := ((source).charts DE D).kernel)
             (firstFixed := firstFixed) (hfirst := hfirst) (j := j) (hS := hS)
             (q := prime) (n := (AmplifierValuation.seven).multiplicity) (hlive := hfiber)
         let oldLeftAtoms := literalRightPoolAtoms hΓ₀ μv ν Q ξ (W.at ξ) internal
