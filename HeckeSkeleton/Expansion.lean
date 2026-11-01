@@ -10,8 +10,11 @@ open scoped BigOperators
 variable (K : Type) [Field K] [NumberField K]
 variable (c : TargetContext K)
 
--- Base elaborated the recipe parameters under these two local instances.
-attribute [local instance] expansionNormOneSpace expansionNormOneBorel
+-- Base elaborated the recipe parameters under these local instances.
+attribute [local instance] Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
+  expansionNormOneSpace expansionNormOneBorel expansionLocalHaar
 
 -- OBLIGATION EX-HEIGHT-BUDGET | revised Proposition 6.3, §8 (pp.41–42,49–51).
 -- Internal degree and ceiling are selected before tau or the external tail order.
