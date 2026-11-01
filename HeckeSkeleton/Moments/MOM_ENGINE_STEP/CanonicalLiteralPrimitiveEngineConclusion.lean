@@ -22,6 +22,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
+open HeckeGeneral.Analysis.ActualSIntegerMoments (ActualSIntegerOrbit)
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Physical
 
