@@ -146,6 +146,7 @@ theorem exists_actual_large_tail_before_normalizer_bound
         g T Z H zeta sigma u) =
       ∑' u : rows, ‖rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
         g T u.val Z H 2 2 sigma‖ := by
+    dsimp only [rows]
     rw [tsum_subtype]
     rfl
   have hscale : Zfactor * U ^ (p + 1) = Z ^ (-17 / 32 + (13 / 16 + zeta) * eta) := by

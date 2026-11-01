@@ -109,7 +109,7 @@ reductions are not counted as a completed actual source construction.
 - Actual source models and complete-row profile/seed interfaces are merged
   from PR #10 at `fc87b44aff17478425a66139f6bd2f89b3a38ad9`.
 - PR #5's actual source proof fixes and parameter fields are aligned with
-  owner commit `1ff1c2bcfb21c49c484c08db91d137064d306f58`. These merges preserve the
+  owner commit `6d256b9d63f71bd900c09247a42ee4798d5731cb`. These merges preserve the
   source, calibration, and profile owners' definitions.
 
 `GeneralReflectedEnergy.Input` is the permitted general Lemma 4.8 input:
