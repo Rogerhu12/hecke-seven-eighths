@@ -102,7 +102,7 @@ theorem nonprincipal_frequencyRow_sum_partition
         exact not_le.mpr hu
       have hnon : ¬principalFrequencyRow K Sset u := by
         intro hp
-        have hnorm := frequencyRowNorm_of_principal K S u hp
+        have hnorm := frequencyRowNorm_eq_one_of_principal K Sset u hp
         linarith
       simp [fN, hnot, hu, hnon]
     · have hmem : u ∈ frequencyRows K Sset upper :=
