@@ -50,8 +50,8 @@ theorem pulled_profile (i : Parameters K c) (u : NonzeroIdeal K) :
       actualInverseScalarProfile K c u i.rowScale i.polynomialScale
         (realParameter K c i u) (imagParameter K c i u) (i.heights 3) := by
   change ((recipeMomentModels K c (expansionRecipeRaw K c)).unmarked
-    i.rowScale i.polynomialScale i.sector i.heights i.realShifts i.imagShifts)
-      .inverseTest.profile (sixthPowerFreePart u) 0 = _
+    i.rowScale i.polynomialScale i.sector i.heights i.realShifts i.imagShifts).inverseTest.profile
+      (sixthPowerFreePart u) 0 = _
   rw [actual_unmarked_inverse_profile]
   rfl
 
