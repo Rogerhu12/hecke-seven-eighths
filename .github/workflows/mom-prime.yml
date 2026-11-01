@@ -1,0 +1,91 @@
+name: MOM_PRIME endpoint and exceptional terminal
+
+on:
+  push:
+    branches: [cloud/mom-prime]
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - HeckeSkeleton/Moments/MOM_PRIME/**
+      - .github/workflows/mom-prime.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-prime-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      LEAN_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set up the pinned Lean and Mathlib environment
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+      - name: Build the endpoint and exceptional-terminal audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/mom-prime-verification
+          lean --version | tee /tmp/mom-prime-verification/environment.log
+          git rev-parse HEAD >> /tmp/mom-prime-verification/environment.log
+          cat lean-toolchain lake-manifest.json >> /tmp/mom-prime-verification/environment.log
+          lake --rehash build HeckeSkeleton.Moments.MOM_PRIME.Audit HeckeSkeleton.Moments.MOM_PRIME.SkeletonAudit 2>&1 |
+            tee /tmp/mom-prime-verification/build.log |
+            awk '/^error:|^✖/ { remaining = 120 }
+              /MOM_PRIME|Build completed|Some required targets logged failures|error: build failed/ || remaining > 0 {
+                print; fflush(); if (remaining > 0) remaining--
+              }'
+      - name: Check the standard axiom allowlist
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            lake env lean HeckeSkeleton/Moments/MOM_PRIME/Audit.lean
+            lake env lean HeckeSkeleton/Moments/MOM_PRIME/SkeletonAudit.lean
+          } 2>&1 | tee /tmp/mom-prime-verification/axioms.log
+          python3 - <<'PY' | tee /tmp/mom-prime-verification/allowlist.log
+          import re
+          from pathlib import Path
+          source = '\n'.join(Path(p).read_text() for p in [
+              'HeckeSkeleton/Moments/MOM_PRIME/Audit.lean',
+              'HeckeSkeleton/Moments/MOM_PRIME/SkeletonAudit.lean'])
+          expected = set(re.findall(r'^#print axioms (\S+)', source, re.M))
+          assert expected, 'Empty axiom audit'
+          output = Path('/tmp/mom-prime-verification/axioms.log').read_text()
+          pattern = r"'([^']+)' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)"
+          records = dict(re.findall(pattern, output, re.S))
+          allowed = {'propext', 'Classical.choice', 'Quot.sound'}
+          missing = expected - records.keys()
+          assert not missing, f'Missing audit records: {sorted(missing)}'
+          for name in sorted(expected):
+              found = {a.strip() for a in records[name].split(',') if a.strip()}
+              assert found <= allowed, f'{name}: unexpected axioms {sorted(found - allowed)}'
+              print(f'{name}: {sorted(found)}')
+          print(f'PASS: {len(expected)} declarations; standard axioms only')
+          PY
+      - name: Preserve build and axiom logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-prime-verification-${{ github.sha }}
+          path: /tmp/mom-prime-verification
+          if-no-files-found: warn
+          retention-days: 30
