@@ -1,8 +1,9 @@
 name: Integration whole-project build
 
 # Builds every lean_lib of the lakefile on the EXPANSION + HIGHBIN + MOM_PRIME
-# integration branch, then prints the axioms of the integrated endpoints and
-# lists the declarations that use sorryAx directly under the final theorem.
+# + MOM_UNIFORM_AMPLIFY integration branch, then prints the axioms of the
+# integrated endpoints, of the remaining Moments obligations, and of the final
+# skeleton theorem.
 on:
   push:
     branches: [integrate/expansion-highbin-prime]
@@ -65,7 +66,6 @@ jobs:
           set -euo pipefail
           cat > /tmp/integration/IntegrationAxioms.lean <<'EOF'
           import HeckeSkeleton.Main
-          import Lean.Util.CollectAxioms
 
           #print axioms HeckeSkeleton.highBin
           #print axioms HeckeSkeleton.expansionPhysicalParameters
@@ -79,30 +79,20 @@ jobs:
           #print axioms HeckeSkeleton.expansion_tail
           #print axioms HeckeSkeleton.expansionSource
           #print axioms HeckeSkeleton.paired_primes_endpoint
+          #print axioms HeckeSkeleton.moment_profile_control
+          #print axioms HeckeSkeleton.moment_row_eligibility
+          #print axioms HeckeSkeleton.moment_finite_sector_reindex
+          #print axioms HeckeSkeleton.inverse_sixth_power_masks
+          #print axioms HeckeSkeleton.inverse_independent_amplification
+          #print axioms HeckeSkeleton.inverse_amplified_witness_models
+          #print axioms HeckeSkeleton.canonical_inverse_models
+          #print axioms HeckeSkeleton.paired_primes_below_one
+          #print axioms HeckeSkeleton.paired_zero_slot_models
+          #print axioms HeckeSkeleton.paired_positive_below_one
+          #print axioms HeckeSkeleton.paired_positive_endpoint
+          #print axioms HeckeSkeleton.inverseSource
+          #print axioms HeckeSkeleton.plainSource
           #print axioms HeckeSkeleton.generalHeckeSevenEighths_skeleton
-
-          open Lean in
-          run_cmd do
-            let env ← getEnv
-            let root := `HeckeSkeleton.generalHeckeSevenEighths_skeleton
-            let mut visited : NameSet := {}
-            let mut stack : Array Name := #[root]
-            let mut direct : Array Name := #[]
-            while !stack.isEmpty do
-              let n := stack.back!
-              stack := stack.pop
-              if visited.contains n then continue
-              visited := visited.insert n
-              if let some ci := env.find? n then
-                let used := ci.type.getUsedConstants ++ ((ci.value?.map Expr.getUsedConstants).getD #[])
-                if used.contains ``sorryAx then
-                  direct := direct.push n
-                for d in used do
-                  if !visited.contains d then
-                    stack := stack.push d
-            for n in direct.qsort (·.toString < ·.toString) do
-              logInfo m!"INTEGRATION direct sorryAx user: {n}"
-            logInfo m!"INTEGRATION {direct.size} direct sorryAx users among {visited.size} reachable constants"
           EOF
           cp /tmp/integration/IntegrationAxioms.lean IntegrationAxioms.lean
           lake env lean IntegrationAxioms.lean 2>&1 | tee /tmp/integration/axioms.log
