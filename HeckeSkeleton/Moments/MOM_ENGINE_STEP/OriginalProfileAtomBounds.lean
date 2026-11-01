@@ -43,9 +43,9 @@ def profileOrders (orders : Finset (ℕ × ℕ)) : Finset (ℕ × ℕ) :=
 theorem norm_le_profileOrders (orders : Finset (ℕ × ℕ))
     (f : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖f x‖ ≤ (profileOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) f := by
-  apply (SchwartzMap.norm_le_seminorm ℂ f x).trans
-  exact Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℂ ℝ ℂ) (x := f)
-    (Finset.mem_insert_self (0, 0) orders)
+  rw [profileOrders, Finset.sup_insert, Seminorm.sup_apply,
+    SchwartzMap.schwartzSeminormFamily_apply]
+  exact (SchwartzMap.norm_le_seminorm ℂ f x).trans (le_max_left _ _)
 
 theorem exists_upper_window_bound (window : Set ℝ) (hcompact : IsCompact window) :
     ∃ annulus : ℝ, 1 ≤ annulus ∧ window ⊆ Set.Iic annulus := by
@@ -180,6 +180,7 @@ theorem original_left_profile_upper (annulus : ℝ)
     (x : ℝ) (hx : d.plainTest₁.profile u t x ≠ 0) : x ≤ annulus := by
   apply hwindow
   apply profiles.left_support u hu t ht
+  change profiles.leftRep u t x ≠ 0
   simpa only [profiles.left_eq] using hx
 
 include profiles in
@@ -189,6 +190,7 @@ theorem original_right_profile_upper (annulus : ℝ)
     (x : ℝ) (hx : d.plainTest₂.profile u t x ≠ 0) : x ≤ annulus := by
   apply hwindow
   apply profiles.right_support u hu t ht
+  change profiles.rightRep u t x ≠ 0
   simpa only [profiles.right_eq] using hx
 
 end RawProfileWindow

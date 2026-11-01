@@ -379,7 +379,7 @@ theorem originalCapacityLabelKernel_bound
   haveI := hfourier.1
   have heq := originalCapacityLabelKernel_eq_canonical W outer left right phase₁ χ₁ phase₂ χ₂
     F₁ F₂ AL AR B₁ B₂ J₁ J₂ hleftRadius hrightRadius
-  refine ⟨by rw [heq]; infer_instance, ?_⟩
+  refine ⟨by rw [heq]; exact Measure.smul_finite _ ENNReal.ofReal_ne_top, ?_⟩
   have hmass : (normalizedPairMeasure F₁ F₂ sL.allocation.keep.card sR.allocation.keep.card
       B₁ B₂ J₁ J₂).real Set.univ ≤
       (originalKernelFourierData (U := U) (E := E) cap J₁ J₂).2.2 * control := by
@@ -510,7 +510,8 @@ theorem originalCapacityFamilyKernel_mass_bound
     dsimp only [K]
     positivity
   have hindex := sum_weighted_fibres_le index branch.indexWeight branch.indexWeight_nonneg
-    multiplicity hcard
+    multiplicity (fun j => by
+      convert hcard j using 1 <;> congr 2 <;> ext i <;> simp)
   rw [branch.sum_indexWeight] at hindex
   calc
     _ ≤ ∑ i : Λ, K * branch.indexWeight (index i) :=

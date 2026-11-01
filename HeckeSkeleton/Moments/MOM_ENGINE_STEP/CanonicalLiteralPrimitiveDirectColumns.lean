@@ -93,7 +93,7 @@ theorem literalPrimitiveFirstSource_active_column_norm
     simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
   have hd := domain.withSupportLength (Q.fullSupportLength Z)
   have h := (atoms).original_active_column_norm_le_power profiles cap annulus loss
-    hannulus hcap hannulusZ (zero_lt_one.trans hZ) hrows' ht hwindow centered
+    hannulus hcap hannulusZ (zero_lt_one.trans domain.scale) hrows' ht hwindow centered
     hd.comparison_scale_left_nonneg hd.comparison_product_eq_power i hi hc
   simpa only [hd.total_length] using h
 
@@ -109,7 +109,7 @@ theorem literalPrimitiveDirectLeft_active_norm
       Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.1 + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
-    (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
+    (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)
@@ -135,7 +135,7 @@ theorem literalPrimitiveDirectRight_active_norm
       Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.2 + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
-    (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
+    (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)

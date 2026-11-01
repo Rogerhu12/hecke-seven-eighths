@@ -140,7 +140,7 @@ local notation "N₁" => (Ideal.absNorm (frozenSourceIdeal b₁.plainDivisor₁
 local notation "N₂" => (Ideal.absNorm (frozenSourceIdeal b₂.plainDivisor₁
   b₂.plainDivisor₂ b₂.keep b₂.witness.2) : ℝ)
 
-include hprime in
+include hprime hannulus hcap in
 /-- Both original frozen ideals occur in this exact comparison.
 Only their individual prime annuli are bounded, and each is paid once. -/
 theorem two_extraction_product (rectangle : Bool) :
@@ -171,7 +171,7 @@ variable (scalar : ℂ) (balance : Bool → ℝ)
 local notation "finalTable" =>
   ((((beforeSecond).extract b₂).onAtlas atlas count).scale scalar).balancePlain balance
 
-include hprime in
+include hprime hannulus hcap in
 /-- The real final atlas, scalar and balancing keep their original
 formal scales. No bound on a completed source is requested. -/
 theorem final_scaleProduct_window (rectangle : Bool) (originalTotal : ℝ)

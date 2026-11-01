@@ -30,6 +30,7 @@ namespace OriginalPostIdeal
 variable {G} {ideal : α → A.Exterior} {index : ι → α}
 variable (W : G.OriginalPostIdeal ideal index)
 
+include W in
 theorem norm_le_original (i : ι) (hi : i ∈ G.columns) :
     A.exteriorNorm (G.ideal i) ≤ A.exteriorNorm (ideal (index i)) := by
   apply ideal_norm_le_of_dvd (ideal (index i)).property.1
