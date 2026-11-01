@@ -27,9 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
-      # Lake's ordinary task pool uses this runtime setting. Each Lean
-      # subprocess retains the repository's weakLeanArgs = ["-j2"].
-      LEAN_NUM_THREADS: "2"
+      # Match this runner's four CPUs in Lake's ordinary task pool.
+      # Each Lean subprocess retains the repository's weakLeanArgs = ["-j2"].
+      LEAN_NUM_THREADS: "4"
       EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

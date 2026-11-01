@@ -1157,7 +1157,7 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/WholeAllocation.lean': '1447e7e84cfea07f65b9feeb2bc732ca380789f86d6155de0e11d6e93c3f03e5',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/WholeGramOrigin.lean': '26cfc196b6dc2d31a94d59a64308bd06fae758b5729fc2b25d883d57df71f4ef',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ZeroTerminalBudget.lean': '4b0981114dc50a3e67c4c4b4ddcaba601e4e3e91ef82de0d684dad44ff1ff9b7'}
-# Proof-only compatibility repairs are recorded separately from the owner pin.
+# Proof/elaboration compatibility repairs are recorded separately from the owner pin.
 # Their baseline and exact replacement digests remain visible in the CI artifact.
 PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                     'owner_sha256': '943a8125054fc28b795be9374d6ca77eb35e16af50849378cec299afb61c61e6',
@@ -1539,6 +1539,20 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                'original mathematical input '
                                                                                'and conclusion retained.',
                                                                      'repair_sha256': 'ade5c5c4361864958287b39733ec841047e385c76e452c7e3d1c6177c7fbba1d'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridLeafExceptionalBinding.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                             'owner_sha256': '8d981feeb6b4f1ed890cc8f923e00653ced0ffbf1917b94cbefe091f09598e38',
+                                                                             'reason': 'Exact owner-reviewed '
+                                                                                       'e76eb348a867a89dc873b6abe3b4e1211621741f '
+                                                                                       'source: reduce the '
+                                                                                       'two original lambda '
+                                                                                       'applications with '
+                                                                                       'dsimp only after '
+                                                                                       'finite-sum '
+                                                                                       'congruence, before '
+                                                                                       'rewriting the same '
+                                                                                       'leaf coordinates and '
+                                                                                       'coefficients.',
+                                                                             'repair_sha256': 'c2eb40c901b7a5067af19d49d1c5e19f785fa21ce9fd29072dca328c11f3448f'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridLeafOrdinaryBinding.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                           'owner_sha256': 'ebb42ce6f98e2a9857c7c4273488046c41dc7577bf295247857ec02cf87cf4ec',
                                                                           'reason': 'Native elaboration '
@@ -1588,6 +1602,19 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                     'profile and bound are '
                                                                                     'unchanged.',
                                                                           'repair_sha256': '95f4e8c8a975b21cd1b66f719b6df572ce5ffc89e38d95a5e2df7e08439161e7'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalUnionColumnNorm.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                        'owner_sha256': 'f999fbc73bb9d3ce0e1e371a48a8542c1c368461c243b3fe0c06e5dd63ba5994',
+                                                                        'reason': 'Exact owner-reviewed '
+                                                                                  'e76eb348a867a89dc873b6abe3b4e1211621741f '
+                                                                                  'source: restore include '
+                                                                                  'domain in for the '
+                                                                                  'existing centered-union '
+                                                                                  'scale-window lemma; '
+                                                                                  'actual comparison and '
+                                                                                  'Cartesian-column '
+                                                                                  'consumers already supply '
+                                                                                  'this original domain.',
+                                                                        'repair_sha256': 'b834d9bebdc59790b5d0dd17760e846daabe44f169cab7a820ec0b66dd7ffcb3'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SixthDeletionCapacity.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                       'owner_sha256': '5e5b9001fde21d997b8dddb5b8c0add77d3dbd1029ec3b5ffa06a8cb498cec89',
                                                                       'reason': 'CI75: join four field '

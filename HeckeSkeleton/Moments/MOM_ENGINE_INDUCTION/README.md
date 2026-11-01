@@ -233,7 +233,7 @@ sectors. Summing sectors costs their fixed finite cardinality once.
 ## Source provenance and explicit STEP repairs
 
 `verify.py` records exact imported-source hashes separately from integrated
-files and proof-only compatibility repairs. The current principal pins are:
+files and proof/elaboration compatibility repairs. The current principal pins are:
 
 | Source | Immutable commit | Use |
 | --- | --- | --- |
@@ -250,11 +250,20 @@ separately: it retains the baseline's sibling proofs and adds the three
 actual induction calls and the corresponding `plainSource` adjustment.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 33 local STEP repair files. It
+repair SHA256, and reason for each of the 35 local STEP repair files. It
 includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
 profiles, arithmetic data, and producer output remain explicit.
+
+In particular, the original `ScaleWindows` certificate, raw profile control,
+and centered parent domain must appear in the helper signatures that use
+them. The repairs restore those previously declared section inputs with
+`include`; the actual callers already supply the same objects. These repairs
+correct helper signatures as well as proof terms. They preserve the
+original scale-window and comparison-rectangle hypotheses of the induction
+(paper lines 2748–2810 and 2934–2944). The three final task statements and
+their hypotheses remain unchanged.
 
 These files are recorded separately from byte-for-byte owner sources.
 The registry establishes provenance; complete native acceptance is still

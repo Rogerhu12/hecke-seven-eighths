@@ -151,6 +151,7 @@ variable {d : MomentData K ω ψ} {a : RealParameters}
 variable {Z Y₁ Y₂ floor padding : ℝ}
 variable (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
 
+include domain in
 /-- The original centered right scale is at least the original second
 scale. The full union must use its larger exponent; the first union
 continues to use the original first exponent. -/
