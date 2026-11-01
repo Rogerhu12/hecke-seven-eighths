@@ -79,7 +79,7 @@ variable [∀ v : (A.Sf : Set (HeightOneSpectrum (𝓞 K))),
 variable (C : A.GeneralArithmeticContext σ η hS)
 variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
   HeckeGeneral.Characters.localDifferentExponent K v = 0)
-variable (b : Box) (orders : Finset (ℕ × ℕ))
+variable (b : Box) (mesh : ℝ) (hmesh : 0 ≤ mesh) (orders : Finset (ℕ × ℕ))
 variable (first : CanonicalPrimitiveFirstTerminalConstants.Fixed μv ν C hDiff b orders)
 variable (second : CanonicalPrimitiveSecondTerminalConstants.Fixed
   (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -89,7 +89,7 @@ variable (heightC exceptionalConstant : ℝ)
 local notation "secondConstant" =>
   CanonicalPrimitiveSecondTerminalUniform.Csecond μv ν C hDiff b second
 local notation "massConstant" => CanonicalPrimitiveEngineMassChoices.constant
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
 
 /-- One common constant pays two first terminals, two second terminals,
 the actual exceptional term and the complete normalized family mass. -/
@@ -99,7 +99,7 @@ def constant : ℝ :=
 
 local notation "finalConstant" => constant
   (A := A) (σ := σ) (ω := ω) (ψ := ψ)
-  μv ν C hDiff b orders first second heightC exceptionalConstant
+  μv ν C hDiff b mesh orders first second heightC exceptionalConstant
 
 theorem constant_pos (hexceptionalConstant : 0 ≤ exceptionalConstant) :
     0 < finalConstant :=
@@ -107,7 +107,7 @@ theorem constant_pos (hexceptionalConstant : 0 ≤ exceptionalConstant) :
     (CanonicalPrimitiveSecondTerminalUniform.Csecond_pos μv ν C hDiff b second).le
     hexceptionalConstant
     (CanonicalPrimitiveEngineMassChoices.constant_pos
-      (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC).le
+      (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
 
 variable (exceptionalDegree : ℕ) (Zexceptional : ℝ)
 variable (hexceptionalConstant : 0 ≤ exceptionalConstant)
@@ -127,7 +127,7 @@ variable (hbudget : Q.FullJointBudget Z (a.m + a.q))
 variable (hwidth : a.m + a.q ≤ b.widthMax) (hpadding : padding ≤ b.paddingMax)
 variable (hcap : (data ξ).geometry.slotCount ≤ b.cap)
 variable (hlarge : threshold A b Zexceptional ≤ Z)
-variable (hfit : (data ξ).geometry.fitsMesh b.loss)
+variable (hfit : (data ξ).geometry.fitsMesh mesh)
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
 variable (amplitude : ℝ) (hamplitude : 1 ≤ amplitude)
 variable (profiles : RawProfileWindow rowDomain heightDomain (Set.Icc b.lo b.hi)
@@ -147,7 +147,7 @@ variable (hslot : ∀ i, (data ξ).slotCoefficient i ∈ (data ξ).theta)
 variable (hslotInverse : ∀ i, ((data ξ).slotCoefficient i)⁻¹ ∈ (data ξ).theta)
 
 local notation "thresholds" => threshold_spec A b Zexceptional Z hlarge
-local notation "hfull" => thresholds.1
+local notation "hfull" => (thresholds).1
 local notation "control" => CanonicalPrimitiveEngineControl.value amplitude t
 local notation "finalDegree" => CanonicalPrimitiveEngineFinalBudget.degree b exceptionalDegree
 local notation "terminalExponent" => CanonicalPrimitiveEngineFinalBudget.terminalExponent b
@@ -186,7 +186,7 @@ def produce
       poolCost reference href selection ≤
         exceptionalConstant * control ^ exceptionalDegree * Z ^ terminalExponent) :
     PairedEngineConclusion (Ω := WithLp 2 (ℝ × ℝ)) centered (data ξ) a Z t Y₁ Y₂
-      b.step b.ε terminalExponent finalConstant (control ^ finalDegree)
+      b.step (b.ε + mesh) terminalExponent finalConstant (control ^ finalDegree)
       (MovingEngineChildAdmissible A P R
         (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ)
         Set.univ (Set.Icc (0 : ℝ) b.hi) orders Z) := by
@@ -194,13 +194,13 @@ def produce
     (CanonicalPrimitiveSecondTerminalUniform.Csecond_pos μv ν C hDiff b second).le
   have hmass : 0 ≤ massConstant :=
     (CanonicalPrimitiveEngineMassChoices.constant_pos
-      (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC).le
+      (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
   have hfinal : 0 ≤ finalConstant :=
     (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ)
-      μv ν C hDiff b orders first second heightC exceptionalConstant hexceptionalConstant).le
+      μv ν C hDiff b mesh orders first second heightC exceptionalConstant hexceptionalConstant).le
   by_cases hempty : pairedRows (data ξ) a Z = ∅
   · exact PairedEngineConclusion.ofEmptyParent centered (data ξ) a Z t Y₁ Y₂
-      b.step b.ε terminalExponent finalConstant (control ^ finalDegree)
+      b.step (b.ε + mesh) terminalExponent finalConstant (control ^ finalDegree)
       (MovingEngineChildAdmissible A P R
         (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ)
         Set.univ (Set.Icc (0 : ℝ) b.hi) orders Z)
@@ -213,7 +213,7 @@ def produce
     have href : reference ∈ pairedRows (data ξ) a Z := hnonempty.choose_spec
     by_cases hzero : (data ξ).geometry.slotCount = 0
     · exact Q.literalPrimitiveDirectEngine
-        (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (orders := orders)
+        (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
         (hprimeOrders := hprimeOrders) (first := first) (second := second)
         (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
         (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
@@ -235,10 +235,10 @@ def produce
         (hterminalConstant := CanonicalPrimitiveEngineFinalBudget.terminals_le hmass)
         (hmassConstant := CanonicalPrimitiveEngineFinalBudget.mass_le
           first.Cfirst_pos.le hsecond hexceptionalConstant)
-        (hexceptional := hdirect thresholds.2.2.2 hzero)
-    · let selection := CanonicalPrimitiveEnginePool.selected A b Z thresholds.2.1
+        (hexceptional := hdirect (thresholds).2.2.2 hzero)
+    · let selection := CanonicalPrimitiveEnginePool.selected A b Z (thresholds).2.1
       exact Q.literalPrimitivePooledEngine
-        (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (orders := orders)
+        (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := b) (mesh := mesh) (hmesh := hmesh) (orders := orders)
         (hprimeOrders := hprimeOrders) (first := first) (second := second)
         (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
         (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
@@ -249,7 +249,7 @@ def produce
         (heightC := heightC) (analyticWindow := analyticWindow) (boundary := boundary)
         (hone := hone) (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)
         (Drecipe := Drecipe) (hD := hD) (pool := selection.pool) (hdensity := selection.density_pos)
-        (hmassLarge := thresholds.2.2.1)
+        (hmassLarge := (thresholds).2.2.1)
         (finalConstant := finalConstant) (exceptionalConstant := exceptionalConstant)
         (terminalExponent := terminalExponent) (exceptionalExponent := terminalExponent)
         (finalDegree := finalDegree) (exceptionalDegree := exceptionalDegree)
@@ -262,7 +262,7 @@ def produce
         (hterminalConstant := CanonicalPrimitiveEngineFinalBudget.terminals_le hmass)
         (hmassConstant := CanonicalPrimitiveEngineFinalBudget.mass_le
           first.Cfirst_pos.le hsecond hexceptionalConstant)
-        (hexceptional := hpool thresholds.2.2.2 reference href selection)
+        (hexceptional := hpool (thresholds).2.2.2 reference href selection)
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine
 

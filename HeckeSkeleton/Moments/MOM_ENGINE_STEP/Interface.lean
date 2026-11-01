@@ -1004,6 +1004,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineInheritance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveDirectExceptionalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledExceptionalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineStep
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalSupportedVolume
 /-!
 # The complete paired fourth-moment engine step
 
@@ -1011,7 +1012,11 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineStep
 original moving arithmetic and raw profile inputs. Its fixed finite
 orders, polynomial degree, constant and threshold precede the moving
 parent and its scale. The original single-character volume primitive
-and prime analytic provider are the cross-task inputs.
+on the fixed enlarged annular window and the prime analytic provider
+are the cross-task inputs. The volume estimate is used only for Schwartz
+profiles supported in that window. The original nonnegative mesh is
+independent of the analytic loss, and the mass exponent is epsilon plus
+that same mesh.
 
 The conclusion includes the actual parent recursion, all terminal
 bounds, the common-kernel mass estimate, normalized child admissibility,

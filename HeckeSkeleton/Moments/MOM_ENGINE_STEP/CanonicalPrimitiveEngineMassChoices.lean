@@ -5,9 +5,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledGlob
 /-!
 # The fixed contour and mass constants of the primitive engine
 
-The slot cap, original annulus, finite seminorm orders and raw analytic
-height constant determine every choice below. Both Fourier kernels use
-the original fixed row-ball test and the same selected logarithmic tilt.
+The slot cap, original mesh, annulus, finite seminorm orders and raw
+analytic height constant determine every choice below. Both Fourier kernels
+use the original fixed row-ball test and the same selected logarithmic tilt.
 No scale, profile, source, allocation or normalized child enters these
 choices. The final estimates compare only the explicit numerical right
 sides of the proved direct and pooled whole-source mass bounds.
@@ -67,7 +67,7 @@ variable [∀ v : (A.Sf : Set (HeightOneSpectrum (𝓞 K))),
 variable [∀ v : (A.Sf : Set (HeightOneSpectrum (𝓞 K))),
   BorelSpace (v.val.adicCompletion K)ˣ]
 
-variable (b : Box) (orders : Finset (ℕ × ℕ)) (heightC : ℝ)
+variable (b : Box) (mesh : ℝ) (orders : Finset (ℕ × ℕ)) (heightC : ℝ)
 
 local notation "unitIndex" =>
   ((sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))).index : ℝ)
@@ -89,24 +89,24 @@ def contour : ℝ :=
   CanonicalLiteralPrimitiveMassConstants.contour K A σ ω ψ b.cap 1 0
     b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
     b.normBound (massLoss b) b.normBound_nonneg (massLoss_pos b)
-    orders b.loss heightC b.rawNormBound b.rawNormBound_nonneg
+    orders mesh heightC b.rawNormBound b.rawNormBound_nonneg
     unitIndex firstKernel secondKernel (by positivity) (by positivity) (by positivity)
 
 local notation "chosenContour" => contour
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
 
 theorem contour_pos : 0 < chosenContour :=
   CanonicalLiteralPrimitiveMassConstants.contour_pos K A σ ω ψ b.cap 1 0
     b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
     b.normBound (massLoss b) b.normBound_nonneg (massLoss_pos b)
-    orders b.loss heightC b.rawNormBound b.rawNormBound_nonneg
+    orders mesh heightC b.rawNormBound b.rawNormBound_nonneg
     unitIndex firstKernel secondKernel (by positivity) (by positivity) (by positivity)
 
 theorem contour_le_quarter : chosenContour ≤ 1 / 4 :=
   CanonicalLiteralPrimitiveMassConstants.contour_le K A σ ω ψ b.cap 1 0
     b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
     b.normBound (massLoss b) b.normBound_nonneg (massLoss_pos b)
-    orders b.loss heightC b.rawNormBound b.rawNormBound_nonneg
+    orders mesh heightC b.rawNormBound b.rawNormBound_nonneg
     unitIndex firstKernel secondKernel (by positivity) (by positivity) (by positivity)
 
 /-- The common raw width is the exact width used in both actual mass
@@ -116,7 +116,7 @@ theorem contour_eq_actual : chosenContour =
       b.hi b.lo b.hi b.lo_pos b.hi_ge_one (zero_le_one.trans b.hi_ge_one)
       (max b.lengthBound b.columnBound) (massLoss b)
       (le_max_of_le_left b.lengthBound_nonneg) (massLoss_pos b)
-      orders b.loss heightC (b.widthMax + b.columnBound + (2 * b.loss + b.loss))
+      orders mesh heightC (b.widthMax + b.columnBound + (2 * b.loss + b.loss))
       (by have h₁ := b.width_nonneg
           have h₂ := b.columnBound_nonneg
           have h₃ := b.loss_pos.le
@@ -132,7 +132,7 @@ def directConstant : ℝ :=
   (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
   (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
   (hcutoffExponent := b.loss_pos.le)
-  (mesh := b.loss) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
+  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (profileDegree := 1) (heightDegree := 0)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
@@ -148,7 +148,7 @@ def pooledConstant : ℝ :=
   (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
   (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
   (hcutoffExponent := b.loss_pos.le) (step := b.step) (hstep := b.step_pos)
-  (mesh := b.loss) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
+  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (profileDegree := 1) (heightDegree := 0)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
@@ -157,9 +157,9 @@ def pooledConstant : ℝ :=
   (eps := b.loss) (heps := b.loss_pos) (hepsSmall := b.pool_separation.2)
 
 local notation "directC" => directConstant
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
 local notation "pooledC" => pooledConstant
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
 
 theorem directConstant_pos : 0 < directC :=
   CompleteMovingRowRecipe.literalPrimitiveDirectMassConstant_pos
@@ -168,7 +168,7 @@ theorem directConstant_pos : 0 < directC :=
   (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
   (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
   (hcutoffExponent := b.loss_pos.le)
-  (mesh := b.loss) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
+  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (profileDegree := 1) (heightDegree := 0)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
@@ -182,7 +182,7 @@ theorem pooledConstant_pos : 0 < pooledC :=
   (δ₂ := b.tilt) (hδ₂ := b.tilt_pos) (hδ₂half := b.tilt_le_half)
   (loss := b.loss) (cutoffExponent := b.loss) (hloss := b.loss_pos.le)
   (hcutoffExponent := b.loss_pos.le) (step := b.step) (hstep := b.step_pos)
-  (mesh := b.loss) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
+  (mesh := mesh) (lo := b.lo) (hi := b.hi) (hlo := b.lo_pos) (hhi := b.hi_ge_one)
   (orders := orders) (profileDegree := 1) (heightDegree := 0)
   (lengthBound := b.lengthBound) (columnBound := b.columnBound)
   (widthMax := b.widthMax) (massLoss := massLoss b) (heightConstant := heightC)
@@ -194,21 +194,21 @@ theorem pooledConstant_pos : 0 < pooledC :=
 def constant : ℝ := 1 + directC + pooledC
 
 local notation "massC" => constant
-  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
 
 theorem constant_pos : 0 < massC := by
-  have hd := directConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
-  have hp := pooledConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  have hd := directConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
+  have hp := pooledConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
   dsimp only [constant]
   linarith
 
 theorem directConstant_le : directC ≤ massC := by
-  have hp := pooledConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  have hp := pooledConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
   dsimp only [constant]
   linarith
 
 theorem pooledConstant_le : pooledC ≤ massC := by
-  have hd := directConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC
+  have hd := directConstant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC
   dsimp only [constant]
   linarith
 
@@ -234,34 +234,41 @@ theorem pooledThreshold_gt_one : 1 < pooledThreshold (A := A) b :=
     (massLoss := massLoss b) (hmassLoss := massLoss_pos b) (eps := b.loss)
     (heps := b.loss_pos) (hepsSmall := b.pool_separation.2)
 
+/-- The original mesh is paid once, independently of the analytic loss. -/
 theorem direct_exponent_le :
-    9 * massLoss b / 4 + 5 * b.error / 3 + b.loss ≤ b.ε :=
-  b.direct_mass_loss.trans (by linarith [b.ε_pos])
+    9 * massLoss b / 4 + 5 * b.error / 3 + mesh ≤ b.ε + mesh := by
+  have h := b.direct_mass_loss
+  have hloss := b.loss_pos.le
+  change 9 * (b.ε / 16) / 4 + 5 * b.error / 3 + mesh ≤ b.ε + mesh
+  linarith [b.ε_pos]
 
 theorem pooled_exponent_le :
-    9 * massLoss b / 4 + b.loss + 5 * b.error / 3 + b.loss ≤ b.ε :=
-  b.pooled_mass_loss.trans (by linarith [b.ε_pos])
+    9 * massLoss b / 4 + b.loss + 5 * b.error / 3 + mesh ≤ b.ε + mesh := by
+  have h := b.pooled_mass_loss
+  have hloss := b.loss_pos.le
+  change 9 * (b.ε / 16) / 4 + b.loss + 5 * b.error / 3 + mesh ≤ b.ε + mesh
+  linarith [b.ε_pos]
 
 /-- This is only a numerical comparison of the direct theorem's
 explicit right side; it assumes no family mass estimate. -/
 theorem direct_bound (control Z : ℝ) (hcontrol : 1 ≤ control) (hZ : 1 ≤ Z) :
-    directC * control ^ degree b * Z ^ (9 * massLoss b / 4 + 5 * b.error / 3 + b.loss) ≤
-      massC * control ^ degree b * Z ^ b.ε :=
+    directC * control ^ degree b * Z ^ (9 * massLoss b / 4 + 5 * b.error / 3 + mesh) ≤
+      massC * control ^ degree b * Z ^ (b.ε + mesh) :=
   CanonicalPrimitiveEngineControl.monomial_mono
-    (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC).le
-    (directConstant_le (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC)
-    hcontrol hZ le_rfl (direct_exponent_le b)
+    (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
+    (directConstant_le (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC)
+    hcontrol hZ le_rfl (direct_exponent_le b mesh)
 
 /-- The pool contributes its one extra `loss` and no additional
 unpaid exponent. Its original fixed constant is the one bounded above. -/
 theorem pooled_bound (control Z : ℝ) (hcontrol : 1 ≤ control) (hZ : 1 ≤ Z) :
     pooledC * control ^ degree b *
-        Z ^ (9 * massLoss b / 4 + b.loss + 5 * b.error / 3 + b.loss) ≤
-      massC * control ^ degree b * Z ^ b.ε :=
+        Z ^ (9 * massLoss b / 4 + b.loss + 5 * b.error / 3 + mesh) ≤
+      massC * control ^ degree b * Z ^ (b.ε + mesh) :=
   CanonicalPrimitiveEngineControl.monomial_mono
-    (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC).le
-    (pooledConstant_le (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b orders heightC)
-    hcontrol hZ le_rfl (pooled_exponent_le b)
+    (constant_pos (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
+    (pooledConstant_le (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC)
+    hcontrol hZ le_rfl (pooled_exponent_le b mesh)
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineMassChoices
 

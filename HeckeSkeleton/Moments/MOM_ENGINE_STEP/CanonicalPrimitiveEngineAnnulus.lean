@@ -11,10 +11,10 @@ inverse lower endpoint supplies the symmetric annular inequality used
 by the literal exceptional estimates. All numerical lengths, losses,
 cutoff exponents and logarithmic tilts retain their original values.
 
-The original volume primitive is uniform over every Schwartz test, so
-its density, remainder and volume estimate are reused verbatim on the
-larger compact positive window. The original raw representatives are
-also retained; only their support-inclusion proofs are enlarged.
+The original supported volume primitive is supplied on this fixed
+larger window before any moving profiles are read. Its density and
+remainder are retained. The original raw representatives are also
+retained; their support-inclusion proofs are enlarged.
 -/
 
 set_option autoImplicit false
@@ -104,27 +104,29 @@ variable {K : Type} [Field K] [NumberField K]
 variable {ψ : HeckeCharacter K} {theta : Finset (HeckeCharacter K)}
 variable {window window' : Set ℝ}
 
-/-- The original series estimate is global in its Schwartz test. A new
-compact positive window only replaces these two window certificates. -/
+/-- Restrict a supported series estimate to a smaller positive window. -/
 def rewindow (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive ψ theta window)
-    (hcompact : IsCompact window') (hpositive : window' ⊆ Set.Ioi (0 : ℝ)) :
+    (hsubset : window' ⊆ window) (hcompact : IsCompact window')
+    (hpositive : window' ⊆ Set.Ioi (0 : ℝ)) :
     CanonicalLiteralExceptionalPaidSource.VolumePrimitive ψ theta window' where
   compact := hcompact
   positive := hpositive
   density := primitive.density
   remainder := primitive.remainder
   continuous := primitive.continuous
-  volume := primitive.volume
+  volume i φ X hX hs := primitive.volume i φ X hX (hs.trans hsubset)
 
 @[simp] theorem rewindow_density
     (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive ψ theta window)
-    (hcompact : IsCompact window') (hpositive : window' ⊆ Set.Ioi (0 : ℝ)) :
-    (primitive.rewindow hcompact hpositive).density = primitive.density := rfl
+    (hsubset : window' ⊆ window) (hcompact : IsCompact window')
+    (hpositive : window' ⊆ Set.Ioi (0 : ℝ)) :
+    (primitive.rewindow hsubset hcompact hpositive).density = primitive.density := rfl
 
 @[simp] theorem rewindow_remainder
     (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive ψ theta window)
-    (hcompact : IsCompact window') (hpositive : window' ⊆ Set.Ioi (0 : ℝ)) :
-    (primitive.rewindow hcompact hpositive).remainder = primitive.remainder := rfl
+    (hsubset : window' ⊆ window) (hcompact : IsCompact window')
+    (hpositive : window' ⊆ Set.Ioi (0 : ℝ)) :
+    (primitive.rewindow hsubset hcompact hpositive).remainder = primitive.remainder := rfl
 
 end CanonicalLiteralExceptionalPaidSource.VolumePrimitive
 
@@ -133,23 +135,23 @@ namespace CanonicalPrimitiveEngineAnnulus
 variable {K : Type} [Field K] [NumberField K]
 variable {ω ψ : HeckeCharacter K} {theta : Finset (HeckeCharacter K)}
 
-/-- The same original density and remainder on the internal annulus.
-All later seminorm orders are selected from this transported primitive. -/
+/-- The supported primitive is requested on the fixed internal annulus.
+All later seminorm orders are selected from this same original input. -/
 def volumePrimitive (b : Box)
     (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive
-      ψ theta (Set.Icc b.lo b.hi)) :
+      ψ theta (Set.Icc (annularBox b).lo (annularBox b).hi)) :
     CanonicalLiteralExceptionalPaidSource.VolumePrimitive
       ψ theta (Set.Icc (annularBox b).lo (annularBox b).hi) :=
-  primitive.rewindow isCompact_Icc (window_positive b)
+  primitive
 
 @[simp] theorem volumePrimitive_density (b : Box)
     (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive
-      ψ theta (Set.Icc b.lo b.hi)) :
+      ψ theta (Set.Icc (annularBox b).lo (annularBox b).hi)) :
     (volumePrimitive b primitive).density = primitive.density := rfl
 
 @[simp] theorem volumePrimitive_remainder (b : Box)
     (primitive : CanonicalLiteralExceptionalPaidSource.VolumePrimitive
-      ψ theta (Set.Icc b.lo b.hi)) :
+      ψ theta (Set.Icc (annularBox b).lo (annularBox b).hi)) :
     (volumePrimitive b primitive).remainder = primitive.remainder := rfl
 
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}

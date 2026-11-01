@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalSupportedVolume
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformRows
 
 /-!
@@ -42,10 +43,11 @@ theorem exists_original_paired_row_bound_with_cutoff
     (density : Catalogue → 𝓢(ℝ, ℂ) → ℂ)
     (remainder : Catalogue → Seminorm ℂ (𝓢(ℝ, ℂ)))
     (hcontinuous : ∀ i, Continuous (remainder i))
-    (hvolume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X →
+    (window : Set ℝ)
+    (hvolume : ∀ i (φ : 𝓢(ℝ, ℂ)) (X : ℝ), 0 < X → tsupport φ ⊆ window →
       ‖(∑' I : Ideal (𝓞 F), CanonicalExceptionalVolume.coefficient (χ i) I *
           φ ((Ideal.absNorm I : ℝ) / X)) - (X : ℂ) * density i φ‖ ≤ remainder i φ)
-    (window : Set ℝ) (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
+    (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) :
     ∃ orders : Finset (ℕ × ℕ), (0, 0) ∈ orders ∧
     ∃ J : ℕ, ∃ Cbound : ℝ, 0 < Cbound ∧
@@ -105,8 +107,8 @@ theorem exists_original_paired_row_bound_with_cutoff
         Z ^ (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε +
           slotError - divisorLower + cutoffLoss / 6) := by
   obtain ⟨orders, hzero, J, Csource, hCsource, hsource⟩ :=
-    CanonicalExceptionalVolume.exists_original_source_bounds (V := V) (σ := σ)
-      χ density remainder hcontinuous hvolume window hcompact hpositive
+    CanonicalExceptionalVolume.exists_original_source_bounds_supported (V := V) (σ := σ)
+      χ density remainder hcontinuous window hvolume hcompact hpositive
       ε maskExponent hε hmask
   have hcount : 0 < idealCountConstant F := zero_lt_one.trans_le (one_le_idealCountConstant F)
   let Cbound := Csource ^ 2 * idealCountConstant F
