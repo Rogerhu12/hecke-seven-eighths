@@ -109,7 +109,7 @@ theorem common_weight_bound (p : FirstBlockDirectData chart M X hX)
   exact (mul_le_mul hmu hactive (norm_nonneg _) zero_le_one).trans_eq (one_mul _)
 
 
-local instance directFirstBlockCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance directFirstBlockCircleCharacterFintype : Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
 def originalLeftCoefficient (p : FirstBlockDirectData chart M X hX) (i : ι) : ℂ :=
   let a := generatedOriginalColumn (σ := σ) hΓ
@@ -131,8 +131,8 @@ def linearizedCost (p : FirstBlockDirectData chart M X hX)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ) : ℝ :=
-  firstDirectLinearizedCost PUnit chart.kernel p.leftData p.rightData hDiff
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ) : ℝ :=
+  firstDirectLinearizedCost PUnit.{1} chart.kernel p.leftData p.rightData hDiff
     (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) p.rowBound
     NL NR p.originalLeftCoefficient p.originalRightCoefficient chart.leftPoint chart.rightPoint
 
@@ -142,13 +142,13 @@ theorem kernelCost_le_linearized (p : FirstBlockDirectData chart M X hX)
     (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
       HeckeGeneral.Characters.localDifferentExponent K v = 0)
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
-      ((PUnit × PUnit) →* Circle) → ℝ)
+      ((PUnit.{1} × PUnit.{1}) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ) :
     chart.kernelCost hDiff M X hX ≤ p.linearizedCost hDiff NL NR := by
   let r := actualActiveColumn hΓ C b.primes b.primes_injective
     b.leftMultiplicity b.rightMultiplicity
   let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
-  have he := first_residual_cost_le_direct_linearized (Ray := PUnit) (hΓ := hΓ)
+  have he := first_residual_cost_le_direct_linearized (Ray := PUnit.{1}) (hΓ := hΓ)
     chart.kernel p.leftData p.rightData hDiff
     ((b.finiteSource hΓ C left right profiles M radius X hX).divisorRows D) (fun t : Q => t.out.val)
     sIntegerOrbit_out_val_injective.injOn p.left_rows p.right_rows

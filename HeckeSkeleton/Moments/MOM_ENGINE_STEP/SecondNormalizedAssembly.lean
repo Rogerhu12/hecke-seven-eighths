@@ -139,8 +139,15 @@ theorem secondNormalizedPairFamily_sourcePair (parentWidth : ℝ) (z : Labels) (
     (LC z) (RC z) (DL z) (DR z) (hbaseL z) (hlengthL z) (hbaseR z) (hlengthR z)
     IA hIA hIB PL.leftNormalizer PL.rightNormalizer PR.leftNormalizer PR.rightNormalizer
     PL.slotNormalizer PR.slotNormalizer x₁ x₂ y₁ y₂ x y ξ]
-  rw [R.source_restrictRows_energy, R.negative_source_restrictRows_energy]
-  rfl
+  have hleft := R.source_restrictRows_energy (fun h => ¬ Q.exceptional h) C
+    (secondLabelLeftAllocation hS₁ hS₂ z) (LC z) (fixedLeftPhase Ray z.val.2.1)
+    (DL z) (hbaseL z) (hlengthL z) x₁ x₂ x ξ
+  have hright := R.negative_source_restrictRows_energy (fun h => ¬ Q.exceptional h) C
+    (secondLabelRightAllocation hT₁ hT₂ z) (RC z) (fixedRightPhase Ray z.val.2.1)
+    (DR z) (hbaseR z) (hlengthR z) y₁ y₂ y ξ
+  exact congrArg₂ (fun eL eR : ℝ =>
+    Real.sqrt (‖PL.normalizer‖ ^ 2 * eL) * Real.sqrt (‖PR.normalizer‖ ^ 2 * eR) /
+      Z ^ parentWidth) hleft.symm hright.symm
 
 /-- The original finite arithmetic coefficient is part of the same
 positive measure as the original Fourier density. -/
@@ -161,14 +168,15 @@ finite allocated columns prove it for the actual arithmetic measure. -/
 theorem secondNormalizedPairFamily_sourcePair_integrable
     (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) (parentWidth : ℝ) (z : Labels) :
     Integrable ((Fam).sourcePair parentWidth z) (secondOriginalLabelMeasure Fker phaseTable z) := by
-  change Integrable (fun ξ => (Fam).sourcePair parentWidth z ξ) _
-  simp_rw [secondNormalizedPairFamily_sourcePair (hidentL := hidentL) (hidentR := hidentR)
-    (hIA := hIA) (hIB := hIB)]
-  exact ((z.val.pairEnergy_integrable Fker (R.restrictRows (fun h => ¬ Q.exceptional h))
+  have hi := ((z.val.pairEnergy_integrable Fker (R.restrictRows (fun h => ¬ Q.exceptional h))
     IA PL.ray PR.ray PL.coefficient PR.coefficient
     (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h))
     (fun h => rawSourceLocation (y₁ h) (y₂ h) (y h))).div_const (Z ^ parentWidth)).smul_measure
-      ENNReal.ofReal_ne_top
+      (c := ENNReal.ofReal (z.val.weight phaseTable)) ENNReal.ofReal_ne_top
+  refine hi.congr (Filter.Eventually.of_forall fun ξ => ?_)
+  symm
+  apply secondNormalizedPairFamily_sourcePair
+    (hidentL := hidentL) (hidentR := hidentR) (hIA := hIA) (hIB := hIB)
 
 def secondNonexceptionalAllocatedCost (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) : ℝ :=
   let R' := R.restrictRows (fun h => ¬ Q.exceptional h)
@@ -226,9 +234,17 @@ theorem secondNonexceptionalAllocatedCost_eq_sources
   apply Finset.sum_congr rfl
   intro z _
   rw [secondOriginalLabelMeasure_integral]
-  simp_rw [secondNormalizedPairFamily_sourcePair (hidentL := hidentL) (hidentR := hidentR)
-    (hIA := hIA) (hIB := hIB)]
-  rw [integral_div_const, actualFourierMeasure_integral_eq]
+  have hpair (ξ : V) : (Fam).sourcePair parentWidth z ξ =
+      z.val.pairEnergy (S₁ := S₁) (S₂ := S₂) (S := S)
+        (R.restrictRows (fun h => ¬ Q.exceptional h)) IA
+        PL.ray PR.ray PL.coefficient PR.coefficient
+        (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h))
+        (fun h => rawSourceLocation (y₁ h) (y₂ h) (y h)) ξ / Z ^ parentWidth := by
+    apply secondNormalizedPairFamily_sourcePair
+      (hidentL := hidentL) (hidentR := hidentR) (hIA := hIA) (hIB := hIB)
+  have hintegral := integral_congr_ae
+    (μ := actualFourierMeasure Fker) (Filter.Eventually.of_forall hpair)
+  rw [hintegral, integral_div_const, actualFourierMeasure_integral_eq]
   ring
 
 include hidentL hidentR hIA hIB in
@@ -304,7 +320,7 @@ theorem secondNonexceptionalResidualCost_le_children_from_atoms
           ((Fam).rightParameters Finset.univ z) Z 0)
           ∂(Fam).kernel Finset.univ (secondOriginalLabelMeasure Fker phaseTable) parentWidth z := by
   have hprofile (z : (Fam).active Finset.univ) : Measurable ((Fam).envelope Finset.univ z) :=
-    ((hleftMeas z).pow _).mul ((hrightMeas z).pow _)
+    ((hleftMeas z).pow_const _).mul ((hrightMeas z).pow_const _)
   have hchild (z : (Fam).active Finset.univ) : Integrable
       (fun ξ => (Fam).envelope Finset.univ z ξ * (Fam).childPair Finset.univ z ξ)
       (secondOriginalLabelMeasure Fker phaseTable z.val) :=
@@ -360,7 +376,7 @@ theorem secondNormalizedPairFamily_finite_mass_from_profiles
         ∑ z : (Fam).active Finset.univ,
           z.val.val.weight phaseTable * (Fam).weight Finset.univ parentWidth z * profileConstant z := by
   have hm (z : (Fam).active Finset.univ) : Measurable ((Fam).envelope Finset.univ z) :=
-    ((hleftMeas z).pow _).mul ((hrightMeas z).pow _)
+    ((hleftMeas z).pow_const _).mul ((hrightMeas z).pow_const _)
   have hn (z : (Fam).active Finset.univ) (ξ : V) : 0 ≤ (Fam).envelope Finset.univ z ξ :=
     normalizedCapacityPairEnvelope_nonneg ξ
   have hi (z : (Fam).active Finset.univ) :

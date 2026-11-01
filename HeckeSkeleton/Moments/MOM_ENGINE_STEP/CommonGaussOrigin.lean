@@ -42,9 +42,14 @@ theorem generatedColumn_residue_zero_generator_change
   letI := finite_sIntegerPrincipalResidue K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) b hb.1
   letI := Fintype.ofFinite (A.R ⧸ Ideal.span {a})
   letI := Fintype.ofFinite (A.R ⧸ Ideal.span {b})
-  simpa only [OrbitalGaussColumn.residue, generatedOriginalColumn] using
-    generated_zero_gauss_generator_change (σ := σ)
-      (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff) I a b ha hb
+  change completeResidueGauss
+      (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff)
+      a (generatedIdealCharacter (σ := σ) I a ha) 0 =
+    completeResidueGauss
+      (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff)
+      b (generatedIdealCharacter (σ := σ) I b hb) 0
+  exact generated_zero_gauss_generator_change (σ := σ)
+    (actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff) I a b ha hb
 
 variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]
@@ -66,6 +71,7 @@ theorem generated_gauss_pair_originZero_generator_change
   simp only [ParentPeriodicPair.originZero, OrbitalGaussColumn.pair_residue_zero]
   rw [generatedColumn_residue_zero_generator_change (σ := σ) hΓ hDiff I a a' ha ha',
     generatedColumn_residue_zero_generator_change (σ := σ) hΓ hDiff J b b' hb hb']
+  rfl
 
 variable {ι κ : Type*} {fullI : ι → A.Exterior} {fullJ : κ → A.Exterior}
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}

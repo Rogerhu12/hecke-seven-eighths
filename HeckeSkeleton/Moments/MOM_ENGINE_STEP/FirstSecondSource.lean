@@ -140,13 +140,16 @@ theorem linearized_le_cost
       (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
     normalized_phase_integral_le (p.divisorPools.leftData S) (p.leftDivisorCoefficient S χ)
       chart.leftPoint chart.kernel (s.left S χ) (T.left S χ) (NL S χ) ε Cerror Czero
-      (hNL S χ) (fun ξ => hstage _ _ chart.leftPoint (s.left S χ) (T.left S χ) ξ)
+      (hNL S χ) (hstage (j := ι) (p.divisorPools.leftData S)
+        (p.leftDivisorCoefficient S χ) chart.leftPoint (s.left S χ) (T.left S χ))
   have hright (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
       (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
     normalized_phase_integral_le (p.divisorPools.rightData S) (p.rightDivisorCoefficient S χ)
       (fun j => -chart.rightPoint j) chart.kernel (s.right S χ) (T.right S χ)
       (NR S χ) ε Cerror Czero (hNR S χ)
-      (fun ξ => hstage _ _ (fun j => -chart.rightPoint j) (s.right S χ) (T.right S χ) ξ)
+      (hstage (j := κ) (p.divisorPools.rightData S)
+        (p.rightDivisorCoefficient S χ) (fun j => -chart.rightPoint j)
+        (s.right S χ) (T.right S χ))
   unfold FirstBlockPoolData.linearizedCost firstDivisorLinearizedCost cost
   apply Finset.sum_le_sum
   intro S hS

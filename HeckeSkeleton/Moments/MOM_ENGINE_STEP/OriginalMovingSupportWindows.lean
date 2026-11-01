@@ -126,7 +126,7 @@ theorem fullMaskSupport_mask (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     ((rowMask && decide (IsCoprime I D.support.val)) &&
       decide (IsCoprime I remaining.val)) =
       (rowMask && decide (IsCoprime I (D.fullMaskSupport remaining).val)) := by
-  simp only [D.fullMaskSupport_coprime_iff remaining I, decide_and, Bool.and_assoc]
+  simp only [D.fullMaskSupport_coprime_iff remaining I, Bool.decide_and, Bool.and_assoc]
 
 /-- The displayed support is obtained by a finite union of the
 individual factor radicals; repeated factors add no new prime. -/
