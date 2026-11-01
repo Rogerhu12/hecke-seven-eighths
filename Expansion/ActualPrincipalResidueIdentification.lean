@@ -43,9 +43,11 @@ theorem localRowCorrection_principal_eq (P : ProbeData K S) (psi : HeckeCharacte
     dsimp [q]
     exact_mod_cast one_lt_primeIdeal_absNorm K p.val
   have hV : 1 - (q : ℂ)⁻¹ ≠ 0 := by
-    apply one_sub_ne_zero_of_norm_lt_one
-    rw [norm_inv, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith : 0 < q)]
-    exact inv_lt_one_of_one_lt₀ hq
+    apply sub_ne_zero.mpr
+    apply ne_of_apply_ne norm
+    rw [norm_one, norm_inv, Complex.norm_real, Real.norm_eq_abs,
+      abs_of_pos (by linarith : 0 < q)]
+    exact (inv_lt_one_of_one_lt₀ hq).ne'
   have hden := phaseRowEuler_denominators_ne_zero_of_re hq
     (primeCoefficient K psi p.val) (primeCoefficient K (thetaPeriod K S P psi) p.val ^ 6)
     s (1 / 6) (norm_primeCoefficient_le_one K psi p.val)
@@ -103,13 +105,14 @@ theorem actualLocalCompensation_principal_eq (P : ProbeData K S) (psi : HeckeCha
     dsimp [q]
     exact_mod_cast (Nat.ne_of_gt (lt_trans Nat.zero_lt_one (one_lt_primeIdeal_absNorm K p.val)))
   have hV : 1 - q⁻¹ ≠ 0 := by
-    apply one_sub_ne_zero_of_norm_lt_one
-    rw [norm_inv]
+    apply sub_ne_zero.mpr
+    apply ne_of_apply_ne norm
+    rw [norm_one, norm_inv]
     have hqnorm : 1 < ‖q‖ := by
       dsimp [q]
       rw [Complex.norm_natCast]
       exact_mod_cast one_lt_primeIdeal_absNorm K p.val
-    exact inv_lt_one_of_one_lt₀ hqnorm
+    exact (inv_lt_one_of_one_lt₀ hqnorm).ne'
   have hqR : (1 : ℝ) < p.val.asIdeal.absNorm := by
     exact_mod_cast one_lt_primeIdeal_absNorm K p.val
   have hD : 1 - primeCoefficient K psi p.val * q ^ (-s) ≠ 0 :=
@@ -173,7 +176,7 @@ theorem actualFullCorrection_principal_eq (P : ProbeData K S) (psi : HeckeCharac
   apply Finset.sum_congr rfl
   intro p hp
   have hp' := Fintype.mem_piFinset.mp hp
-  have hinj := actual_primeWindow_tuple_injective K S g T Z p hp'
+  have hinj := HighBinVerified.NormFormActual.actual_primeWindow_tuple_injective K S g T Z p hp'
   have htuple := actual_compensation_tuple_factorization_region K S P psi g T
     (physicalPrincipalRow K S) Z s 1 (1 / 6)
     (actual_principal_residue_mem_region s hs) p hp' (fun i => by

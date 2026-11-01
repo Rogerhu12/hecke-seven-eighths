@@ -146,10 +146,31 @@ theorem exists_actual_large_tail_before_normalizer_bound
         g T Z H zeta sigma u) =
       ∑' u : rows, ‖rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
         g T u.val Z H 2 2 sigma‖ := by
-    simpa only [rows, U, absoluteLargeRowTerm, Set.indicator, Set.mem_setOf_eq] using
-      (tsum_subtype {u : FrequencyRow K Sset | U < frequencyRowNorm K Sset u}
-        (fun u => ‖rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
-          g T u Z H 2 2 sigma‖)).symm
+    have hsupport : Function.support (absoluteLargeRowTerm K Sset muS P psi
+        (arithmeticHighEulerData K Sset P psi) g T Z H zeta sigma) ⊆
+        Set.range (fun u : rows => u.val) := by
+      intro u hu
+      have htail : U < frequencyRowNorm K Sset u := by
+        by_contra htail
+        apply hu
+        unfold absoluteLargeRowTerm
+        exact if_neg htail
+      exact ⟨⟨u, htail⟩, rfl⟩
+    have hsum_eq :
+        (∑' u : rows, absoluteLargeRowTerm K Sset muS P psi
+          (arithmeticHighEulerData K Sset P psi) g T Z H zeta sigma u.val) =
+        ∑' u : FrequencyRow K Sset, absoluteLargeRowTerm K Sset muS P psi
+          (arithmeticHighEulerData K Sset P psi) g T Z H zeta sigma u :=
+      Function.Injective.tsum_eq (g := fun u : rows => u.val)
+        Subtype.val_injective hsupport
+    calc
+      _ = ∑' u : rows, absoluteLargeRowTerm K Sset muS P psi
+          (arithmeticHighEulerData K Sset P psi) g T Z H zeta sigma u.val := hsum_eq.symm
+      _ = _ := by
+        apply tsum_congr
+        intro u
+        unfold absoluteLargeRowTerm
+        exact if_pos u.property
   have hscale : Zfactor * U ^ (p + 1) = Z ^ (-17 / 32 + (13 / 16 + zeta) * eta) := by
     dsimp only [Zfactor, U, p, sigma]
     rw [← Real.rpow_mul hZpos.le, ← Real.rpow_add hZpos]

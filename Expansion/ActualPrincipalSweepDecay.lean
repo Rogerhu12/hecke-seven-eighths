@@ -44,8 +44,11 @@ theorem exists_actual_principal_fullCorrection_sweep_bound
   obtain ⟨Z0, hZ0, hcut⟩ := exists_principal_window_local_cutoff K S g
   obtain ⟨M, hM, hprofile⟩ := exists_primeWindow_profile_norm_bound g
   obtain ⟨A, hA, hcount⟩ := exists_primeWindow_linear_count K S
-  let Creg : ℝ := 1 + 48 / sweptTubeEulerMargin
-  have hCreg : 0 < Creg := by dsimp [Creg]; have := sweptTubeEulerMargin_pos; positivity
+  let Creg : ℝ := 1 + 48 / HeckeSkeleton.HighBinContinuation.sweptTubeEulerMargin
+  have hCreg : 0 < Creg := by
+    dsimp [Creg]
+    have := HeckeSkeleton.HighBinContinuation.sweptTubeEulerMargin_pos
+    positivity
   let Cs : ℝ := 4 * A * M * Creg
   have hCs : 0 < Cs := by dsimp [Cs]; positivity
   have hCe := principalEulerConstant_pos K S
@@ -71,7 +74,8 @@ theorem exists_actual_principal_fullCorrection_sweep_bound
         (by simp only [hrow, Finset.notMem_empty, not_false_eq_true]) (hpsi p)
         (hcut Z hZ P psi T u hrow s w z hs hw hz i p hp)
       have hq1 : 1 ≤ (p.val.asIdeal.absNorm : ℝ) :=
-        (by norm_num : (1 : ℝ) ≤ 2).trans (exteriorPrime_norm_two_le K S p)
+        (by norm_num : (1 : ℝ) ≤ 2).trans
+          (HeckeSkeleton.HighBinContinuation.exteriorPrime_norm_two_le K S p)
       have hpow : (p.val.asIdeal.absNorm : ℝ) ^ (z.re - 1) ≤
           4 * (primeScale g Z) ^ (2 : ℝ) := by
         calc

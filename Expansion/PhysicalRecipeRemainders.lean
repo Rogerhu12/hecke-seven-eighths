@@ -105,10 +105,21 @@ theorem sum_physicalRecipeRows {M : Type*} [AddCommMonoid M]
               (physicalRecipe_trivial_twists K) hB0 hB1 he hboundary
               (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + zeta)) H b,
                 value u := by
-        exact sum_selectedRows_value _ (fun u : FrequencyRow K Sset => u.sector) value
+        simpa only [selectedRows] using
+          (sum_selectedRows_value (Row := FrequencyRow K Sset)
+            (Label := SixthUnitClasses K Sset) (M := M)
+            (clippedSelectedPhysicalRows K Sset omega psi {1} P E hpsi
+              (physicalRecipe_trivial_twists K) hB0 hB1 he hboundary
+              (Z ^ shellExponent Z (1 / 16) j.val) (Z ^ (13 / 16 + zeta)) H b)
+            (fun u : FrequencyRow K Sset => u.sector) value)
       simp only [physicalRecipeRows]
-      exact (Finset.sum_congr rfl (fun b _ => hsector b)).trans
-        (sum_selectedRows_value _ _ value)
+      simp_rw [hsector]
+      simpa only [clippedSelectedPhysicalRows, physicalShellRows] using
+        (sum_selectedRows_value (Row := FrequencyRow K Sset)
+          (Label := RowBufferIndex B e) (M := M)
+          (physicalShellRows K Sset Z (1 / 16) (13 / 16 + zeta) j)
+          (rowBufferIndex K Sset omega psi {1} P E hpsi
+            (physicalRecipe_trivial_twists K) hB0 hB1 he hboundary H) value)
     _ = _ := by
       rw [← biUnion_physicalShellRows K Sset hZ]
       symm

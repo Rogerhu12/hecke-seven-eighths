@@ -151,7 +151,8 @@ Imported source proofs needed native API/elaboration repairs:
 `PhysicalCompensatedInitial`, `ActualPrincipalUniformDecay`,
 `ActualPrincipalSweepDecay`, `ActualPrincipalResidueAssembly`,
 `LargeRowSum`, `ActualPrincipalVerticalRemainders`, and
-`PhysicalRecipeRemainders`.
+`PhysicalRecipeRemainders`, together with
+`ActualPrincipalResidueIdentification` and `ActualPrincipalTruncatedShifts`.
 The joint-analytic repairs consume the source owner's proof fixes from
 PR #5 commit `496aee9914912e54feac9fced688ce6e61bc7f6f`.
 The initial-row-sum proof matches the owner's blob
@@ -162,6 +163,11 @@ the owner's blobs `daddc476018e69046ff9f4800b6a59cd2bbc5b8c` and
 are resolved by explicit local bounds and an explicit box-height sum identity.
 The principal residue-assembly proof matches the owner's blob
 `347f7203afb77545ef38a60792324a3c758fa1d7` exactly.
+The residue-identification, initial-transport, and physical-recipe remainder
+proofs consume the owner's subsequent native-verified fixes, with blobs
+`161a3f7200e0867ba0b940360e69b3dd10407860`,
+`515b9fa7a04000b39279b292ef5c58d872f3708f`, and
+`7ea2e7f7d378bf9139454afc0049bcbac0ac15c7` respectively.
 Their existing statements and mathematical definitions are preserved.
 The top-level zero-free theorem's statement is unchanged.
 
