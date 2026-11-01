@@ -94,6 +94,7 @@ theorem pre_norm_window (Z upper : ℝ) (hZ : 1 < Z)
     (D.reconstructed i hi) Z upper hZ
     (hfull _ (D.index_mem i hi) (D.original_nonzero i hi hc))
 
+include D in
 /-- The central inverse square root is the original parent one.
 Only the pre-pool ideal pays the actual first logarithmic tilt. -/
 theorem central_norm_le (Z total upper constant : ℝ) (hZ : 1 < Z)
@@ -112,6 +113,7 @@ theorem central_norm_le (Z total upper constant : ℝ) (hZ : 1 < Z)
       (mul_nonneg hconstant (Real.rpow_nonneg hz.le _)))).trans_eq
         (by rw [Real.rpow_add hz]; ring)
 
+include D in
 /-- The sharp original pair bound. No first-divisor density is
 purchased from a column norm: it is supplied later by the exact
 square-diagonal count. -/
@@ -138,6 +140,7 @@ theorem central_pair_le (Z total upper constant : ℝ) (hZ : 1 < Z)
   ring
 
 
+include D in
 /-- The genuine first divisor is bounded using its pre-pool ideal.
 This is the only norm window used when buying its density for a tail. -/
 theorem divisor_norm_window (Z upper : ℝ) (hZ : 1 < Z)
@@ -147,6 +150,7 @@ theorem divisor_norm_window (Z upper : ℝ) (hZ : 1 < Z)
   (ideal_norm_le_of_dvd (D.preIdeal i).property.1 (D.divisor_dvd i hi hc)).trans
     (D.pre_norm_window Z upper hZ hfull i hi hc)
 
+include D in
 /-- A tail may buy the first-divisor density with the full explicit
 pre-pool exponent. This extra exponent is paid by the chosen tail
 cutoff, and is not used in the pure dual-zero calibration. -/

@@ -102,6 +102,7 @@ variable {B : HybridOrdinaryRectangles R Ray S₁ S₂ S T₁ T₂ T IA IB
   rayLeft rayRight wholeLeft wholeRight x y b exceptional}
 variable (binding : leaf.OrdinaryBinding B)
 
+include binding in
 /-- The atom dictionary is valid on every original row, including the
 exceptional classes. Row translations vanish in the two column norms,
 without splitting either whole centered coefficient. -/
@@ -159,6 +160,7 @@ theorem pairMagnitude_eq (keep : H → Prop) (z : U × V) :
 variable [FiniteDimensional ℝ U] [MeasurableSpace U] [BorelSpace U]
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
 
+include binding in
 theorem thetaClass_integrand
     {theta : Finset (HeckeCharacter K)} (Q : PairedFiniteCharacters theta H)
     (hpredicate : leaf.exceptional = Q.exceptional) (χ : theta × theta) (z : U × V) :
