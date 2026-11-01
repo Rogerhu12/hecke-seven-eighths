@@ -135,8 +135,7 @@ theorem literalPrimitiveExceptionalFirstTilt_le
     columnBound hN DE D
   have ht : internal.n₁ + internal.n₂ + (data ξ).geometry.totalLength ≤
       max lengthBound columnBound := by
-    rw [domain.total_length]
-    exact htotal.trans (le_max_left _ _)
+    simpa only [domain.total_length] using htotal.trans (le_max_left lengthBound columnBound)
   exact CanonicalFirstResidualProfileCost.tiltError_le hm
     (hlengthBound.trans (le_max_left _ _)) ht
     (hi.2.2.2.trans (le_max_right _ _))
@@ -180,8 +179,8 @@ theorem literalPrimitiveExceptionalFirstCoefficient_le
         idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
         idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2)) =
       (a.m + a.q) - firstTotal DE D := by
-    rw [Q.fullSupportParameters_width, domain.total_length]
     unfold literalPrimitiveFirstTotal
+    rw [Q.fullSupportParameters_width, ← domain.total_length]
     ring
   rw [hmain, CanonicalLiteralPrimitiveExceptionalFirstProfile.atom_coefficient_eq
     K cap hannulus hamplitude]
