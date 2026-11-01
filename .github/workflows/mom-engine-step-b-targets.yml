@@ -32,6 +32,7 @@ jobs:
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformTerminal
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidOrdinaryRows
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidOrdinaryTerminal
+              HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafExceptionalBinding
           - group: weights
             modules: >-
               HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolTerminalMasks

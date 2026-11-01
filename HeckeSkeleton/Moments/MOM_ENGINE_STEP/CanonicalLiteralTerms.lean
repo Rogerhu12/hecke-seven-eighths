@@ -243,6 +243,7 @@ theorem arithmeticAtoms_literal_plain (ξ : X) (I : HeckeGeneral.Analysis.Nonzer
     literalSourceCharacters, CanonicalOriginalPhaseCalibration.sourceCharacters,
     sourcePlainCoefficient, CanonicalOriginalPhaseCalibration.coefficient_one,
     mul_one, CanonicalOriginalPhaseCalibration.originalCoprimeMask]
+  rfl
 
 theorem arithmeticAtoms_literal_right (ξ : X) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (Q.arithmeticAtoms ξ).rightArithmetic I =
@@ -259,6 +260,7 @@ theorem arithmeticAtoms_literal_prime (ξ : X) (i : Fin (data ξ).geometry.slotC
     literalSourceCharacters, CanonicalOriginalPhaseCalibration.sourceCharacters,
     sourcePrimeCoefficient, primeCoefficient_one, mul_one,
     CanonicalOriginalPhaseCalibration.originalCoprimeMask, id_eq]
+  rfl
 
 /-- Both plain scales and all original prime profiles are read from the
 same actual constant-atom source. -/

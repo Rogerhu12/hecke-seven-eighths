@@ -188,10 +188,13 @@ def exceptionalBindingOnCorrelationSupport
       (right.restrictRows (fun h => R.correlation h ≠ 0)) EL ER Q where
   rows := by
     intro h hh
-    exact hrows.symm ▸ (Finset.mem_filter.mp hh).1
+    have hh' : h ∈ R.rows ∧ R.correlation h ≠ 0 := by
+      simpa only [ActualSecondCorrelationRows.restrictRows, Finset.mem_filter] using hh
+    exact hrows.symm ▸ hh'.1
   rows_zero h hh hn := by
     rw [hweight h hh]
-    exact R.weight_correlation_eq_zero_of_not_live h (hrows ▸ hh) hn
+    exact R.weight_correlation_eq_zero_of_not_live h (hrows ▸ hh)
+      (R.restrictRows_correlationSupport_rows ▸ hn)
   left_columns := hleft
   right_columns := hright
   exceptional := hexceptional
