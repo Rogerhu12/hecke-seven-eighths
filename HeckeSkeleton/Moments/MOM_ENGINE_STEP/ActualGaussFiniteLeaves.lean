@@ -158,14 +158,16 @@ private theorem actualRows_withMultiplier_rows
       s.mask s.cutoff s.cutoff_one label).rows =
       ((s.charts DE D).actualRows
         s.mask s.cutoff s.cutoff_one label).rows := by
-  rw [actualRows_rows_eq_source_filter
-      (s.withMultiplier (fun i => (u i : ℂ))) DE D label,
-    actualRows_rows_eq_source_filter s DE D label,
-    charts_withMultiplier_rowLabel s (fun i => (u i : ℂ)) DE D]
-  exact congrArg
-    (fun carrier : Finset Q =>
-      carrier.filter (fun h => (s.charts DE D).rowLabel h = label))
-    (s.withMultiplier_rows u DE)
+  calc
+    _ = ((s.withMultiplier (fun i => (u i : ℂ))).sources DE).rows.filter
+        (fun h => ((s.withMultiplier (fun i => (u i : ℂ))).charts DE D).rowLabel h =
+          label) :=
+      actualRows_rows_eq_source_filter
+        (s.withMultiplier (fun i => (u i : ℂ))) DE D label
+    _ = (s.sources DE).rows.filter (fun h => (s.charts DE D).rowLabel h = label) := by
+      rw [charts_withMultiplier_rowLabel s (fun i => (u i : ℂ)) DE D,
+        s.withMultiplier_rows u DE]
+    _ = _ := (actualRows_rows_eq_source_filter s DE D label).symm
 
 namespace CoveredClassKey
 
