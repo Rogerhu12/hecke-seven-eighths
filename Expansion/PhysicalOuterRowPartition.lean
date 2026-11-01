@@ -184,9 +184,12 @@ theorem actualLargeTargetBoxes_eq_actualLargeRetained
     (Z H zeta : ℝ) :
     actualLargeTargetBoxes K S mu P psi g Z H zeta =
       actualLargeRetained K S mu P psi g Z H zeta := by
-  unfold actualLargeTargetBoxes actualLargeRetained actualLargeRetainedTerm
-  rw [tsum_subtype]
-  rfl
+  simpa only [actualLargeTargetBoxes, actualLargeRetained, actualLargeRetainedTerm,
+    Set.indicator_apply, Set.mem_setOf_eq] using!
+    (tsum_subtype
+      {u : FrequencyRow K Sset | Z ^ (13 / 16 + zeta) < frequencyRowNorm K Sset u}
+      (fun u => rowContourBox K Sset muS P psi (arithmeticHighEulerData K Sset P psi)
+        g ∅ u Z H 2 2 (1 + 3 / zeta)))
 
 include nu in
 /-- Every actual nonprincipal initial row contributes once to a retained
