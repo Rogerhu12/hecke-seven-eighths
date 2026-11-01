@@ -23,7 +23,7 @@ open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
 open CommonKernel MellinSeparation
 open ProviderMarkedOverlap ProviderMarkedSlots ProviderMarkedReindex ProviderMarkedMellin
   ProviderMarkedMaskedMellin
-open scoped Classical BigOperators nonZeroDivisors FourierTransform
+open scoped Classical BigOperators nonZeroDivisors FourierTransform Function
 
 def profile (F : SchwartzMap ℝ ℂ) (y : ℝ) : ℂ := F (Real.log y)
 

@@ -176,12 +176,15 @@ theorem canonical_recipe_model_profile_control
         (fun y => (g.weight j).toFun y * profilePower (F.slotPower j (recipePhysicalPoint ξ)) y) := by
     have hreal : |(F.slotPower j (recipePhysicalPoint ξ)).re| ≤ 1 := by
       rw [hprime]
-      norm_num
+      norm_num [Complex.conj_ofNat]
     have himag : |(F.slotPower j (recipePhysicalPoint ξ)).im| ≤ 1 * (1 + T) := by
       have hcoord := (norm_le_pi_norm ξ 2).trans hξ
+      have hrat : (17 / 50 : ℂ).im = 0 := by norm_num
+      have hpoint : recipePhysicalPoint ξ (2 : Fin 3) = ξ (2 : Fin 6) :=
+        congrArg ξ (Fin.ext (by decide))
       rw [hprime]
-      simpa only [recipePhysicalPoint, Complex.sub_im, Complex.conj_im, Complex.add_im,
-        Complex.ofReal_im, zero_add, Complex.mul_im, Complex.I_im, Complex.I_re,
+      simpa only [hpoint, Complex.sub_im, Complex.conj_im, Complex.add_im,
+        hrat, Complex.ofReal_im, zero_add, Complex.mul_im, Complex.I_im, Complex.I_re,
         Complex.ofReal_re, mul_one, mul_zero, add_zero, Complex.one_im, sub_zero,
         abs_neg, one_mul, Real.norm_eq_abs] using hcoord.trans (by linarith : T ≤ 1 + T)
     have h := (hbₚ j T hT _ hreal himag).mono_constant (hpC j) hT

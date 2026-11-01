@@ -96,7 +96,7 @@ theorem final_loss_budget {gap eps : ℝ} (heps : 0 ≤ eps) :
   dsimp only [auxiliaryLoss]
   linarith
 
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- Every field of the initial source condition is verified for the
 zero-slot source. The strict source gap is kept in both inequalities. -/
@@ -146,12 +146,15 @@ theorem rowCap_eq (Λ ν₀ : HeckeCharacter K) (H X : ℝ) (W : SchwartzMap ℝ
   apply Subtype.ext
   simp only [ProviderInitialProduction.rowCap, columns, Real.rpow_one]
 
-variable (Γ : Subgroup (Sset.unit K))
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)] [BorelSpace (sLocalNormOneGroup K Sset)]
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [Γ.FiniteIndex]
-variable [IsPrincipalIdealRing (Set.integer Sset K)]
-variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset.unit K) →* (Sset.unit K)).range)
-variable (hallowed : AllowedGeneratorInput K Sset D)
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
+variable (hΓ : Γ ≤ (powMonoidHom 6 :
+  ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*
+  ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).range)
+variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
   (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))

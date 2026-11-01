@@ -358,7 +358,7 @@ theorem Data.pair_count_bound (x : Data K S σ)
       mul_le_mul_of_nonneg_left hipow (mul_nonneg hC (Real.sqrt_nonneg _))
     _ = _ := by rw [sqrt_scale_eq Z hZ j, Real.rpow_add hZp]; ring
 
-variable (K S) (D : ThetaArithmeticData K Sset)
+variable (K S) (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- A uniform estimate for the literal completed marked source over
 all original exterior rows. The constants and finite Schwartz family

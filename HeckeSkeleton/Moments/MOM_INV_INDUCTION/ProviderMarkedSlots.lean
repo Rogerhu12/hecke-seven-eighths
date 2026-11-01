@@ -25,7 +25,7 @@ open HeckePort.Moments
 open HeckeSkeleton.Moments.MOMInvStep
 open HeckeSkeleton.Moments.MOM_INV_STEP AssignedMarkSource
 open ProviderMarkedOverlap
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors Function
 
 variable {K : Type} [Field K] [NumberField K]
 variable {ι : Type*} [DecidableEq ι]
@@ -86,9 +86,9 @@ theorem commonSlots_product_eq_gcd (I : Finset ι)
   have hjn : j ∣ n := commonSlots_product_dvd I p hinj n
   have htotal : primeProduct I p = j * P := primeProduct_split I J hJ p
   have hq : IsCoprime (idealQuotient j n) P := by
-    apply (residual_product_coprime I p n).of_isCoprime_of_dvd_left
-    rw [← idealQuotient_mul hjn]
-    exact dvd_mul_left _ _
+    have hdiv : idealQuotient j n ∣ n :=
+      (dvd_mul_left (idealQuotient j n) j).trans (dvd_of_eq (idealQuotient_mul hjn))
+    exact (residual_product_coprime I p n).of_isCoprime_of_dvd_left hdiv
   symm
   rw [htotal]
   apply (gcd_eq_iff_quotient_coprime j n (j * P) hj.ne_zero hjn
@@ -110,7 +110,10 @@ theorem primeProduct_moebius (I : Finset ι) (p : ι → HeightOneSpectrum (𝓞
     moebius (primeProduct I p) = (-1 : ℤ) ^ I.card := by
   revert hinj
   induction I using Finset.induction_on with
-  | empty => intro hinj; simp [primeProduct]
+  | empty =>
+    intro hinj
+    simpa only [primeProduct, Finset.prod_empty, Finset.card_empty, pow_zero] using
+      (moebius_one : moebius (1 : Ideal (𝓞 K)) = 1)
   | @insert i I hi ih =>
     intro hinj
     have hrest : Set.InjOn p I := hinj.mono (Finset.subset_insert _ _)
@@ -122,7 +125,9 @@ theorem primeProduct_moebius (I : Finset ι) (p : ι → HeightOneSpectrum (𝓞
       intro heq
       have hij := hinj (Finset.mem_insert_self i I) (Finset.mem_insert_of_mem hj) heq
       exact hi (hij.symm ▸ hj)
-    rw [primeProduct, Finset.prod_insert hi, hcop.moebius_mul,
+    have hprod : primeProduct (insert i I) p = (p i).asIdeal * primeProduct I p :=
+      Finset.prod_insert hi
+    rw [hprod, hcop.moebius_mul,
       (p i).irreducible.moebius_eq, ih hrest, Finset.card_insert_of_notMem hi,
       pow_succ]
     ring

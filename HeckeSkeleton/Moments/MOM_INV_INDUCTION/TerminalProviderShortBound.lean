@@ -34,7 +34,7 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 section Completed
 
@@ -164,7 +164,7 @@ end Completed
 
 section Nodes
 
-variable (Γ : Subgroup (Sset.unit K))
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 variable {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K} {σ : Type*}
 

@@ -20,7 +20,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP AssignedMarkSource
 open ProviderMarkedSlots ProviderMarkedReindex ProviderMarkedTupleSplit
   ProviderMarkedWindows ProviderMarkedAnnuli ProviderNodes
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors Function
 
 variable (K : Type) [Field K] [NumberField K]
 

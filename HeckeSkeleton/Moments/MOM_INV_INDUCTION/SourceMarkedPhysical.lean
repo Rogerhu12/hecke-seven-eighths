@@ -47,7 +47,8 @@ theorem conjugate_polynomial (d : MomentData K ω ψ) (mark : Ideal (𝓞 K) →
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
-variable (P : ProbeData K Sset) (R : RowCharacterInput K Sset P)
+variable (P : ProbeData K (S : Set (HeightOneSpectrum (𝓞 K))))
+  (R : RowCharacterInput K (S : Set (HeightOneSpectrum (𝓞 K))) P)
 
 theorem inverse_coefficient_calibration (d : MomentData K ω ψ)
     (sector : SixthUnitClasses K Sset) (hdir : d.direction = -1)
@@ -133,8 +134,8 @@ theorem positive_polynomial_norm (d : MomentData K ω ψ)
   rw [conjugate_polynomial] at h
   simpa only [Complex.norm_conj] using congrArg norm h
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 local notation "Γ" => sixthPowerSUnitSubgroup K Sset
 local notation "Orbit" => ActualSIntegerOrbit K Sset
 

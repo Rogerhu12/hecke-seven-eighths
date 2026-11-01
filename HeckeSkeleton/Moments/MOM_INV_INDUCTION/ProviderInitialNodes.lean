@@ -54,7 +54,8 @@ variable (hprime : ∀ i ∈ J, ∀ p ∈ C.primeLists i, Prime p)
 variable (slotCap : ℕ) (hcap : J.card ≤ slotCap)
 local notation "X" => C.base ^ C.length
 local notation "Idx" => ProviderInitialSource.Index K S D Γ X H
-variable (P : Finset Idx) (b : SecondMobiusGeometry.Index X)
+variable (P : Finset (ProviderInitialSource.Index K S D Γ (C.base ^ C.length) H))
+  (b : SecondMobiusGeometry.Index (C.base ^ C.length))
 variable (A : ℝ) (j : ProviderInitialBoxes.BoxIndex C.base A)
 local notation "Pbox" => ProviderInitialBoxes.boxed K S D Γ X H P b C.base A j
 local notation "packet" => ProviderInitialSource.packet K S D Γ X H J C.primeLists
@@ -116,7 +117,7 @@ theorem live_of_member (i : Idx) (hi : i ∈ Pbox) : 1 ≤ 4 * U := by
   linarith
 
 variable (h : ℝ) (hh : 0 ≤ h) (hwidth : 2 ≤ C.base ^ h)
-variable (hboxCap : 4 * X ≤ C.base ^ A)
+variable (hboxCap : 4 * C.base ^ C.length ≤ C.base ^ A)
 
 include hbase hh hwidth hboxCap in
 theorem packet_label_bound (f : Ideal (𝓞 K)) (hf : f ∈ packet.labels) :

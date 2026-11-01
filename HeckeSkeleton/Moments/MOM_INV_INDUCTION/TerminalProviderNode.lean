@@ -30,11 +30,11 @@ open scoped Classical BigOperators nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable (Γ : Subgroup (Sset.unit K))
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K} {σ : Type*}
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 def period (x : Node K S Γ Θ ψ σ) : HeckeCharacter K :=
   x.family.background x.triple * x.family.lambda⁻¹

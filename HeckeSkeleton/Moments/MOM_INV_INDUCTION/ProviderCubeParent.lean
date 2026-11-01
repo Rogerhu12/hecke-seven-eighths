@@ -102,6 +102,7 @@ theorem orbitalEnergy_re (C : CanonicalBlock.ColumnData K S σ)
       ∑' q, ‖amplitude K S D Γ C B N f q‖ ^ 2 *
         InverseRowMajorant.fixedProfile K S Γ H q := by
   unfold orbitalEnergy sIntegerWeightedOrbitalSeries
+  dsimp only [InverseRowMajorant.rowRadius]
   rw [Complex.re_tsum (summable_norm_weightedProfile K S D Γ C B N f H).of_norm]
   simp only [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, zero_mul, sub_zero]
   rfl
@@ -176,15 +177,18 @@ theorem finite_rows_le_orbital (C : CanonicalBlock.ColumnData K S σ)
     norm_num
   rw [← hfilter, ← ProviderRows.exteriorRows_image K S Γ T,
     Finset.sum_image (fun _ _ _ _ h => (ProviderRows.rowEmbedding K S Γ).injective h)]
+  have hrowBound : ∀ q ∈ (ProviderRows.exteriorRows K S Γ T).image
+      (CanonicalSectors.rowOrbit K Sset Γ D),
+      (sIntegerOrbitNorm K Sset Γ q).val ≤ H.val := by
+    intro q hq
+    obtain ⟨k, hk, rfl⟩ := Finset.mem_image.mp hq
+    rw [CanonicalSectors.rowOrbit_norm]
+    have hmem : ProviderRows.rowEmbedding K S Γ k ∈ T :=
+      (Finset.mem_preimage (f := ProviderRows.rowEmbedding K S Γ)).mp hk
+    exact hT (ProviderRows.rowEmbedding K S Γ k) hmem
   have hb := finite_orbit_rows_le K S D Γ C B N f H
     ((ProviderRows.exteriorRows K S Γ T).image (CanonicalSectors.rowOrbit K Sset Γ D))
-    (by
-      intro q hq
-      obtain ⟨k, hk, rfl⟩ := Finset.mem_image.mp hq
-      rw [CanonicalSectors.rowOrbit_norm]
-      have hmem : ProviderRows.rowEmbedding K S Γ k ∈ T :=
-        (Finset.mem_preimage (f := ProviderRows.rowEmbedding K S Γ)).mp hk
-      exact hT (ProviderRows.rowEmbedding K S Γ k) hmem)
+    hrowBound
   rw [Finset.sum_image (fun _ _ _ _ h =>
     CanonicalSectors.rowOrbit_injective K Sset Γ D h)] at hb
   simpa only [amplitude_rowOrbit K S D Γ hΓ, ProviderRows.rowEmbedding] using hb
@@ -205,7 +209,7 @@ def parentData (C : CanonicalBlock.ColumnData K S σ) (B : Finset Ext)
   radius := InverseRowMajorant.rowRadius H
   frequencyBound := 1
 
-variable [IsPrincipalIdealRing (Set.integer Sset K)]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 theorem parent_eq_orbital (C : CanonicalBlock.ColumnData K S σ) (B : Finset Ext)
     (hbase : 0 < C.base) (H : {r : ℝ // 0 < r}) (f : Ext) :

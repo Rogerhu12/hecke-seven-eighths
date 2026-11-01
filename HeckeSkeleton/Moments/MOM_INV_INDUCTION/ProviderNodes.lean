@@ -106,7 +106,7 @@ def punctureLength (Z : ℝ) (x : Node K S Γ Θ ψ σ) : ℝ :=
   Real.logb Z (Ideal.absNorm x.puncture.radical : ℝ)
 def test (x : Node K S Γ Θ ψ σ) : SchwartzMap ℝ ℂ := x.family.cutoff x.triple
 
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 def energy (D : ThetaArithmeticData K Sset) (slotCap : ℕ) (x : Node K S Γ Θ ψ σ) : ℝ :=
   normalizedChildEnergy x.family.base x.columnLength x.labelLength slotCap x.labels x.rows

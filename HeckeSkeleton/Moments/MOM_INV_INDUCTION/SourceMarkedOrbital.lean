@@ -59,7 +59,7 @@ theorem radical_norm_le (j : Ideal (𝓞 K)) (hj : j ≠ 0) :
     (fun hz => hj (Ideal.absNorm_eq_zero_iff.mp hz))
   exact_mod_cast Nat.le_of_dvd hn (Ideal.absNorm_dvd_absNorm_of_le Ideal.le_radical)
 
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- The actual logarithmic column scale and extracted puncture are
 charged to the original margins.  There is no assumed initial energy. -/
@@ -140,9 +140,10 @@ theorem source_conditions {σ : Type u} (slotCap : ℕ)
     puncture_bound := hpuncture
     marks := hmarks }
 
-variable (Γ : Subgroup (Sset.unit K))
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)] [BorelSpace (sLocalNormOneGroup K Sset)]
-  [Γ.FiniteIndex] [IsPrincipalIdealRing (Set.integer Sset K)]
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [Γ.FiniteIndex] [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- Shrinking the capacity and row cap leaves every actual node inside
 the uniform class.  The mark budget and its two margins are unchanged. -/
@@ -156,8 +157,10 @@ theorem uniform_restrict (Θ : Subgroup (HeckeCharacter K)) (ψ Λ G : HeckeChar
   intro σ x hx hrow
   exact hb x { hx with total_le := hx.total_le.trans hA } (hrow.trans hR)
 
-variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset.unit K) →* (Sset.unit K)).range)
-  (hallowed : AllowedGeneratorInput K Sset D)
+variable (hΓ : Γ ≤ (powMonoidHom 6 :
+  ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*
+    ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).range)
+  (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]
   (μv : ∀ v : HeightOneSpectrum (𝓞 K), Measure (v.adicCompletion K))

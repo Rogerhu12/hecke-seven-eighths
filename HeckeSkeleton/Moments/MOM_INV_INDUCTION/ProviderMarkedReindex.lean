@@ -21,7 +21,7 @@ open NumberField IsDedekindDomain UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeSkeleton.Moments.MOM_INV_STEP AssignedMarkSource
 open ProviderMarkedOverlap ProviderMarkedSlots ProviderMarkedPools
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors Function
 
 variable {K : Type} [Field K] [NumberField K] {J : ℕ}
 

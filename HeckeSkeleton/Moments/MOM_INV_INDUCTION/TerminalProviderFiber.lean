@@ -101,7 +101,7 @@ def energy (D : ThetaArithmeticData K Sset) (θ : HeckeCharacter K)
 end Data
 
 variable (K S)
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 private theorem fullSource_active_energy
     (f : FixedData K Sset) (s : FrozenState K Sset f.frozen f.puncture)

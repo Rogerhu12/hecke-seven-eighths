@@ -175,9 +175,9 @@ theorem columns_labelWeight_le (C : CanonicalBlock.ColumnData K S σ)
   · exact hb b hbB
   · exact staticTau_norm_le K S D C f b.val.val
 
-variable (Γ : Subgroup (Sset.unit K))
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)] [Γ.FiniteIndex]
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 
 /-- Every separated finite column is the literal provider polynomial,
@@ -225,8 +225,10 @@ theorem annularColumn_eq_complete_parent_row
   rw [hscale]
   exact hp.trans he
 
-variable [IsPrincipalIdealRing (Set.integer Sset K)]
-variable (hΓ : Γ ≤ (powMonoidHom 6 : (Sset.unit K) →* (Sset.unit K)).range)
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
+variable (hΓ : Γ ≤ (powMonoidHom 6 :
+  ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →*
+  ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).range)
 
 include hΓ in
 /-- Actual weighted annular cube energy is dominated by the constructed

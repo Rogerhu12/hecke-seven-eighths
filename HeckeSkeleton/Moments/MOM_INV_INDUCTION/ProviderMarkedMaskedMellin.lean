@@ -23,7 +23,7 @@ open HeckeSkeleton.Moments.MOMInvStep
 open HeckeSkeleton.Moments.MOM_INV_STEP AssignedMarkSource
 open CommonKernel MellinSeparation
 open ProviderMarkedOverlap ProviderMarkedSlots ProviderMarkedReindex ProviderMarkedMellin
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors Function
 
 variable {K : Type} [Field K] [NumberField K] {J : ℕ}
 

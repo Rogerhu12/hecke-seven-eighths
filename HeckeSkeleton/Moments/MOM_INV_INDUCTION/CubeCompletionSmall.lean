@@ -76,7 +76,7 @@ theorem arithmeticCoefficient_norm_le_mark
       · exact hrow n
     _ = _ := by ring
 
-variable (Γ : Subgroup (Sset.unit K)) [Γ.FiniteIndex]
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)) [Γ.FiniteIndex]
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 
 theorem sectorRow_norm_le_one (I : Ext) (k : Ideal (𝓞 K) × Sector) :

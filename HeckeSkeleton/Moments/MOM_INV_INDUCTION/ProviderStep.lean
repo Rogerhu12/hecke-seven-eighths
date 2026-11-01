@@ -20,7 +20,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep
 open HeckeSkeleton.Moments.MOM_INV_STEP
 open HeckeSkeleton.Moments.MOM_INV_INDUCTION
 
-open NumberField IsDedekindDomain MeasureTheory
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
@@ -50,6 +50,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Varch" => mixedEmbedding.euclidean.mixedSpace K
 
+set_option maxHeartbeats 1600000 in
 include hΓ μv hallowed ν μ in
 /-- The authoritative one-step implication, normalized for finite
 backward induction with a common child constant at least one. -/
@@ -146,8 +147,15 @@ theorem exists_uniform_normalized_step
       (qW.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 := by
     exact mul_nonneg
       (mul_nonneg (mul_nonneg hC hAw) (apply_nonneg _ _)) (sq_nonneg _)
-  have hn := provider_step_bound hz1.le hMF hh.1 hmesh htau.1 heps hCih hS
-    (by simpa only [stepLoss] using hb.1)
+  have hn := provider_step_bound
+    (E := Z ^ (-r - 2 * ell - V) *
+      (∑ f ∈ labels, w f * ‖FirstCappedProduction.parent K S D Γ T f‖))
+    (F := r + 3 * ell + V) (M := M) (h := h) (eta := eta)
+    (tau := tau) (pi := pi) (eps := eps) (B := Cih)
+    (S := C * Aw * qArch.sup (schwartzSeminormFamily ℝ Varch ℂ) T.archTest *
+      (qW.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2)
+    hz1.le hMF hh.1 hmesh htau.1 heps hCih hS
+    (by simpa only [stepLoss, add_assoc] using hb.1)
   refine ⟨hn.trans ?_, hb.2⟩
   simp only [stepLoss]
   calc

@@ -41,7 +41,9 @@ theorem rpow_logNorm {Z : ℝ} (hZ : 1 < Z) (I : Ext) :
 theorem logNorm_nonneg {Z : ℝ} (hZ : 1 < Z) (I : Ext) :
     0 ≤ GeneralReflectedEnergy.logNorm K S Z I := by
   have hn : 1 ≤ exteriorNorm K S I := by
-    exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors I.val
+    change (1 : ℝ) ≤ (I.val.val.absNorm : ℝ)
+    exact_mod_cast (Nat.one_le_iff_ne_zero.mpr
+      (Nat.ne_of_gt (Ideal.absNorm_pos_of_nonZeroDivisors I.val)))
   exact div_nonneg (Real.log_nonneg hn) (Real.log_pos hZ).le
 
 variable (f : FixedData K S) (s : FrozenState K S f.frozen f.puncture)
@@ -169,19 +171,38 @@ theorem actual_factor_le {Z : ℝ} (hZ : 1 < Z)
   have hc := normalized_state_charge_le K S f s hZ v ell
   have hh := doubled_hybrid_le Z H v ell za hZ.le
   have hp := doubled_small_power Z H v ell za eps hz
+  simp only [mul_assoc] at hp
   have hleft := mul_le_mul_of_nonneg_right (mul_le_mul hk hc (by positivity) (by positivity))
     (show 0 ≤ ((2 * Z ^ H) * (2 * Z ^ v) * (2 * Z ^ ell) * (2 * Z ^ za)) ^ eps by positivity)
   have h := mul_le_mul hleft hh (by positivity) (by positivity)
   apply (by simpa only [mul_assoc] using h : _ ≤ _).trans_eq
+  have he :
+      LowFrozenCube.squaredKernelExponent
+          (GeneralReflectedEnergy.threshold K S f s Z Nstar H za) v ell +
+        LowFrozenCube.squaredCoefficientExponent v ell
+          (GeneralReflectedEnergy.logNorm K S Z (minimumSmallIdeal K S s))
+          (GeneralReflectedEnergy.logNorm K S Z (minimumCubeIdeal K S s)) +
+        LowFrozenCube.hybridGrowthExponent H v ell za =
+      GeneralReflectedEnergy.exponent K S f s Z Nstar H za v ell := by
+    unfold GeneralReflectedEnergy.exponent HeckePort.Moments.reflectedExponent
+      HeckePort.Moments.hybridSaving LowFrozenCube.squaredCoefficientExponent
+      LowFrozenCube.hybridGrowthExponent LowFrozenCube.squaredKernelExponent
+    rw [LowFrozenCube.cubic_growth_identity]
+    unfold LowFrozenCube.cubicSaving
+    rw [max_comm 0]
+    ring
   rw [hp]
-  unfold GeneralReflectedEnergy.exponent HeckePort.Moments.reflectedExponent
-    HeckePort.Moments.hybridSaving LowFrozenCube.squaredCoefficientExponent
-    LowFrozenCube.hybridGrowthExponent LowFrozenCube.squaredKernelExponent
-  rw [LowFrozenCube.cubic_growth_identity]
-  unfold LowFrozenCube.cubicSaving
-  rw [max_comm 0]
-  simp only [Real.rpow_add hz, Real.rpow_sub hz, Real.rpow_neg hz.le]
-  ring
+  calc
+    _ = (192 * 16 ^ eps) *
+        (Z ^ LowFrozenCube.squaredKernelExponent
+            (GeneralReflectedEnergy.threshold K S f s Z Nstar H za) v ell *
+          Z ^ LowFrozenCube.squaredCoefficientExponent v ell
+            (GeneralReflectedEnergy.logNorm K S Z (minimumSmallIdeal K S s))
+            (GeneralReflectedEnergy.logNorm K S Z (minimumCubeIdeal K S s)) *
+          Z ^ LowFrozenCube.hybridGrowthExponent H v ell za *
+          Z ^ (eps * (H + v + ell + za))) := by ring
+    _ = _ := by
+      rw [← Real.rpow_add hz, ← Real.rpow_add hz, he, ← Real.rpow_add hz]
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalExponent
 

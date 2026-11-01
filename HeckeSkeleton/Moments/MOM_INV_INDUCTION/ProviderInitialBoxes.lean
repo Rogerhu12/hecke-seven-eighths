@@ -132,7 +132,8 @@ theorem length_bounds (Z A : ℝ) (hZ : 1 < Z) (hA : 0 ≤ A)
   simpa only [length, add_zero] using
     DyadicSourcePartition.centerLength_bounds Z A 0 hZ (by simpa using hA) (j c)
 
-variable (P : Finset Idx) (b : SecondMobiusGeometry.Index X)
+variable (P : Finset (ProviderInitialSource.Index K S D Γ X H))
+  (b : SecondMobiusGeometry.Index X)
 variable (Z A h : ℝ) (hZ : 1 < Z) (hh : 0 ≤ h) (hwidth : 2 ≤ Z ^ h)
 variable (hcap : 4 * X ≤ Z ^ A) (j : BoxIndex Z A)
 local notation "Pbox" => boxed K S D Γ X H P b Z A j

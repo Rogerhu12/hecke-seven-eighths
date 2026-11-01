@@ -143,7 +143,7 @@ theorem initial_exponent_identity (m L P : ℝ) :
 theorem physical_power_identity (Z m L R A : ℝ) (hZ : 0 < Z) :
     A * Z ^ m * Z ^ R / (Z ^ L) ^ 2 = A * Z ^ (m - 2 * L + R) := by
   have htwo : Z ^ (2 * L) = (Z ^ L) ^ 2 := by
-    rw [mul_comm, Real.rpow_mul_natCast hZ.le]
+    rw [mul_comm, Real.rpow_mul hZ.le, Real.rpow_two]
   rw [Real.rpow_add hZ, Real.rpow_sub hZ, htwo]
   ring
 

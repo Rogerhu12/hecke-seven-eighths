@@ -51,7 +51,12 @@ theorem physicalSourceOrDefault_witness_lengths
       width Z T d a B lam k hw hcap rows sector value hex).2.2.1
     have hlength := blockSource_witness_lengths hsource hbin l t ht ht' j
     exact ⟨hlength.1, hlength.2.1⟩
-  · simp only [physicalSourceOrDefault, dif_neg hex]
+  · have hdefault :
+        physicalSourceOrDefault K S P R ω ψ g F width Z T d a B lam k
+            hw hcap rows sector value =
+          physicalDefaultBlock K S P R ω ψ g F width Z T a hw hcap rows sector value := by
+      rw [physicalSourceOrDefault, dif_neg hex]
+    rw [hdefault]
     intro _hbin l t ht ht' j
     change 0 ≤ t ∧ t ≤ 3 / 2 + lam
     exact ⟨zero_le_one.trans ht, by linarith⟩

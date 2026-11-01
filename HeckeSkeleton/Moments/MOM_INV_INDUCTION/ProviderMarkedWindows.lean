@@ -17,7 +17,7 @@ open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
 open CanonicalChildren ProviderNodes ProviderMarkedSlots ProviderMarkedReindex
   ProviderMarkedTupleSplit ProviderMarkedMellin
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors Function
 
 variable {K : Type} [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))

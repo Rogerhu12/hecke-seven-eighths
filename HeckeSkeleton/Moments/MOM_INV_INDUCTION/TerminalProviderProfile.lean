@@ -91,7 +91,8 @@ theorem exists_finite_seminorm_control (J : ℕ) (A : ℝ) :
   intro W hW
   rw [← completionCLM_eq_vstar W hW]
   exact (hb _ ((completionCLM_support W).trans hW)).trans
-    ((mul_le_mul_of_nonneg_left (Seminorm.le_def.mp hc W) hB.le).trans_eq (by ring))
+    ((mul_le_mul_of_nonneg_left (Seminorm.le_def.mp hc W) hB.le).trans_eq (by
+      simp only [smul_apply, NNReal.smul_def, smul_eq_mul, mul_assoc]))
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProfile
 

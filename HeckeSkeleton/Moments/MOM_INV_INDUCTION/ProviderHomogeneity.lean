@@ -45,7 +45,7 @@ theorem canonicalColumn_scale (C : CanonicalBlock.ColumnData K S σ)
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
-variable [IsPrincipalIdealRing (Set.integer Sset K)]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- Scaling the actual old cube/label coefficient scales the entire
 original orbital series by the squared norm, before any Poisson step. -/

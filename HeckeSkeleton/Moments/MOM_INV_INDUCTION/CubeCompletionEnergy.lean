@@ -95,6 +95,7 @@ theorem annularColumn_energy_integrable (B : Finset β) (N : Finset α)
     (c := (coefficientMass B N a) ^ 2)
     ((annularColumn_continuous B N bNorm nNorm a U i).norm.pow 2).aestronglyMeasurable
   exact Filter.Eventually.of_forall fun t => by
+    change ‖‖annularColumn B N bNorm nNorm a U t i‖ ^ 2‖ ≤ coefficientMass B N a ^ 2
     rw [Real.norm_of_nonneg (sq_nonneg _)]
     exact pow_le_pow_left₀ (norm_nonneg _)
       (annularColumn_norm_le B N bNorm nNorm a U t i) 2
@@ -110,12 +111,14 @@ theorem phase_integral_sq_le (ρ : SchwartzMap ℝ ℂ) (p c : ℝ → ℂ)
   have hi : Integrable (fun t => ‖ρ t‖ * ‖c t‖ ^ 2) := by
     apply ρ.integrable.norm.mul_bdd (c := A ^ 2) (cc.norm.pow 2).aestronglyMeasurable
     exact Filter.Eventually.of_forall fun t => by
+      change ‖‖c t‖ ^ 2‖ ≤ A ^ 2
       rw [Real.norm_of_nonneg (sq_nonneg _)]
       exact pow_le_pow_left₀ (norm_nonneg _) (hc t) 2
   have hiz : Integrable (fun t => ρ t * p t * c t) := by
     apply (ρ.integrable.norm.mul_const A).mono'
       ((ρ.continuous.mul cp).mul cc).aestronglyMeasurable
     exact Filter.Eventually.of_forall fun t => by
+      change ‖ρ t * p t * c t‖ ≤ ‖ρ t‖ * A
       rw [norm_mul, norm_mul, hp, mul_one]
       exact mul_le_mul_of_nonneg_left (hc t) (norm_nonneg _)
   refine ⟨hiz, ?_⟩
@@ -195,7 +198,7 @@ theorem source_sq_le (B : Finset β) (N : Finset α)
           (Filter.Eventually.of_forall (fun t => mul_nonneg (norm_nonneg _) (sq_nonneg _))) hi
         exact Filter.Eventually.of_forall fun t =>
           (mul_le_mul_of_nonneg_left (hbnd t) (norm_nonneg _)).trans_eq
-            (by rw [Finset.mul_sum]; ring)
+            (by rw [mul_left_comm ‖density W hW t‖ (24 : ℝ), Finset.mul_sum])
       _ = _ := by
         rw [integral_const_mul, integral_finsetSum Finset.univ
           (fun i _ => annularColumn_energy_integrable B N bNorm nNorm a U W hW i)]

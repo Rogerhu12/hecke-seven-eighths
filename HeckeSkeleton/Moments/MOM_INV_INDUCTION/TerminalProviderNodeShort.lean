@@ -88,8 +88,8 @@ section Nodes
 
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
-variable (Γ : Subgroup (Sset.unit K))
-variable (D : ThetaArithmeticData K Sset)
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 variable {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K} {σ : Type*}
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ

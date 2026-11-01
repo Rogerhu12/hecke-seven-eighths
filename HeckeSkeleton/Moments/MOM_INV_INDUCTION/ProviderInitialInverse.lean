@@ -43,7 +43,7 @@ def unitTriple : OuterTriple K := ⟨1, 1, 1⟩
 
 theorem childPuncture_unitTriple (ρ : Ideal (𝓞 K)) :
     childPuncture ρ (unitTriple K) = ρ := by
-  simp [childPuncture, unitTriple]
+  simp [childPuncture, unitTriple, Ideal.radical_top]
 
 variable {σ : Type*}
 variable (C : CanonicalBlock.ColumnData K S σ)
@@ -73,7 +73,7 @@ def sourceMark (n : Ext) : ℂ :=
   (if IsCoprime n.val.val C.puncture then 1 else 0) *
     divisorMark C.slots C.primeLists C.primeWeights n.val.val
 
-variable (hallowed : AllowedGeneratorInput K Sset D)
+variable (hallowed : AllowedGeneratorInput K (S : Set (HeightOneSpectrum (𝓞 K))) D)
 
 include hallowed in
 /-- The chosen unit-ideal generator is handled by actual reciprocity. -/
@@ -94,7 +94,8 @@ theorem inverse_coefficient (n : Ext) :
   ring
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)] [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [Γ.FiniteIndex]
 local notation "Orbit" => SIntegerOrbits K Sset Γ
 
@@ -201,7 +202,7 @@ def parentData (hbase : 1 < C.base) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2)
     constructor <;> linarith [hb.1, hb.2]
   fullPool := rfl
 
-variable [IsPrincipalIdealRing (Set.integer Sset K)]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 variable (hΓ : Γ ≤ (powMonoidHom 6 : ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) →* ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).range)
 variable [∀ v : HeightOneSpectrum (𝓞 K), MeasurableSpace (v.adicCompletion K)]
   [∀ v : HeightOneSpectrum (𝓞 K), BorelSpace (v.adicCompletion K)]

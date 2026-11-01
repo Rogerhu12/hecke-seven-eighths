@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
 import HeckePort.Moments.Descent.Basic
+import Mathlib.Analysis.SpecialFunctions.Log.Base
 
 /-!
 # Actual logarithmic scales of reopened cube parents
@@ -74,7 +75,7 @@ theorem annularLength_upper {Z N H : ℝ} (hZ : 2 ≤ Z) (hH : 1 ≤ H)
   have h8 : (8 : ℝ) ≤ Z ^ (3 : ℝ) := by
     have hp := pow_le_pow_left₀ (by norm_num : (0 : ℝ) ≤ 2) hZ 3
     norm_num at hp
-    simpa only [Real.rpow_natCast] using hp
+    simpa only [Real.rpow_ofNat] using hp
   have hbound : annularScale i * (Z ^ N / H ^ 3) ≤ Z ^ (N + 3) := by
     calc
       _ ≤ 8 * Z ^ N :=

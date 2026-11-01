@@ -29,6 +29,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
 open HeckeSkeleton.Moments.MOM_INV_STEP
+open HeckePort.Moments
 open FixedTripleFibers FixedTripleEnergy CanonicalChildren CanonicalNormPools
   FirstParentRows FirstToSecondData CommonKernel ActualProductionBoxes ActualBoxGeometry
 open HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
@@ -51,7 +52,9 @@ variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G
 variable (hbase : 1 < T.columns.base)
 variable (R : OuterIndex K S D T → {r : ℝ // 0 < r})
 variable (U : {r : ℝ // 0 < r}) (J₁ : Finset σ) (s : ℝ)
-variable (H₂ : ∀ o : OuterIndex K S D T, Ext → Finset (HeightOneSpectrum OS) → ℝ)
+variable (H₂ : ∀ o : OuterIndex K S D T,
+  ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))) →
+    Finset (HeightOneSpectrum (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) → ℝ)
 variable (hmask : T.mask = ∅)
 local notation "X" => sourceScale K S T U
 local notation "Idx" => ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂
@@ -59,7 +62,8 @@ variable {ι : Type*} [Fintype ι]
 variable (grid : ι → {r : ℝ // 0 < r})
 variable (centers : FirstOuterCenters.Centering K S D T grid)
 variable (alive : OuterIndex K S D T → Prop) (k : ι) (side₁ : Bool)
-variable (P : Finset Idx) (b : SecondMobiusGeometry.Index X)
+variable (P : Finset (ProductionIndex K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂))
+  (b : SecondMobiusGeometry.Index (sourceScale K S T U))
 variable (Z L : ℝ) (j : BoxIndex Z L)
 local notation "Pslice" => ActualSingleBoxBudget.slice K S D Γ T Θ ψ G hν hG hbase
   R U J₁ s H₂ grid centers alive k side₁ P b
@@ -72,13 +76,14 @@ variable (hJ₁ : J₁ ⊆ T.columns.slots) (J₂ : Finset σ) (hJ₂ : J₂ ⊆
 variable (slotCap : ℕ) (hcap : T.columns.slots.card ≤ slotCap)
 local notation "packet" => SecondProductionPacket.packet K S D Γ T Θ ψ G hν hG hbase
   R U J₁ s H₂ hmask hprime hweights hJ₁ J₂ hJ₂ Pbox side₁ slotCap hcap
-local notation "piece" side₂ p a => ActualClosedBoxBudget.pieceAt K S T Θ ψ hν hbase
+local notation "piece" side₂:max p:max a:max => ActualClosedBoxBudget.pieceAt K S T Θ ψ hν hbase
   U J₁ J₂ b side₂ p a
-local notation "Mc" M ell V h => childM M ell (extractedLength Z j side₁)
-  (length Z j .firstOverlap) (length Z j .secondCommon) (length Z j .secondDivisor)
-  V (length Z j .cubeLabel) (5 * h)
-local notation "Vc" h => secondFormalLabel (length Z j .firstCommon)
-  (length Z j .secondDivisor) (length Z j .secondOverlap) (length Z j .cubeLabel) + 4 * h
+local notation "Mc" M:max ell:max V:max h:max => childM M ell (extractedLength Z j side₁)
+  (length Z j Coordinate.firstOverlap) (length Z j Coordinate.secondCommon)
+  (length Z j Coordinate.secondDivisor) V (length Z j Coordinate.cubeLabel) (5 * h)
+local notation "Vc" h:max => secondFormalLabel (length Z j Coordinate.firstCommon)
+  (length Z j Coordinate.secondDivisor) (length Z j Coordinate.secondOverlap)
+  (length Z j Coordinate.cubeLabel) + 4 * h
 
 /-- The genuine finite node from one actual two-pass packet. -/
 def nodeAt (M ell V h : ℝ) (markLengths : σ → ℝ) (side₂ : Bool)
@@ -86,15 +91,16 @@ def nodeAt (M ell V h : ℝ) (markLengths : σ → ℝ) (side₂ : Bool)
     Node K S Γ Θ ψ σ where
   family := piece side₂ p a
   triple := γ
-  labels := packet.labels
-  rows := packet.rows
+  labels := (packet).labels
+  rows := (packet).rows
   rowLength := Mc M ell V h
   labelLength := Vc h
   markLengths := markLengths
 
 variable (h : ℝ) (hZ : 1 < Z) (hh : 0 ≤ h) (hwidth : 2 ≤ Z ^ h)
-variable (hb : ∀ q ∈ T.cubes, height K Sset q ≤ Z ^ L)
-variable (hfirst : 2 * T.scale.val ≤ Z ^ L) (hsecond : 4 * X ≤ Z ^ L)
+variable (hb : ∀ q ∈ T.cubes, height K (S : Set (HeightOneSpectrum (𝓞 K))) q ≤ Z ^ L)
+variable (hfirst : 2 * T.scale.val ≤ Z ^ L)
+  (hsecond : 4 * sourceScale K S T U ≤ Z ^ L)
 
 include hZ hh in
 /-- The packet labels have the nonnegative exponent appearing in the
@@ -118,7 +124,7 @@ theorem nodeAt_admissible
     (hrow : ∀ i ∈ Pbox, (R i.1).val =
       Z ^ (firstPhysicalHeight M r ell V (length Z j .firstDivisor)
         (length Z j .firstCommon) (length Z j .cubeLabel) + 12 * h + tau))
-    (hλ : T.columns.lambda = Λ)
+    (hlambda : T.columns.lambda = Λ)
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
     (hbg : ∀ q : HeightOneSpectrum (𝓞 K), q ∉ Sset →
       UnramifiedAt K T.columns.background q)
@@ -160,7 +166,7 @@ theorem nodeAt_admissible
     label_bound := ?_
     row_bound := hrows
     puncture_nonzero := hRho'
-    lambda_eq := hλ
+    lambda_eq := hlambda
     calibration := hcal
     background_unramified := hbg
     marks := ?_
@@ -188,7 +194,7 @@ theorem smaller_piece_bound_of_uniform
     (hrow : ∀ i ∈ Pbox, (R i.1).val =
       Z ^ (firstPhysicalHeight M r ell V (length Z j .firstDivisor)
         (length Z j .firstCommon) (length Z j .cubeLabel) + 12 * h + tau))
-    (hλ : T.columns.lambda = Λ)
+    (hlambda : T.columns.lambda = Λ)
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
     (hbg : ∀ q : HeightOneSpectrum (𝓞 K), q ∉ Sset →
       UnramifiedAt K T.columns.background q)
@@ -211,7 +217,7 @@ theorem smaller_piece_bound_of_uniform
   have hx := nodeAt_admissible K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j hprime hweights hJ₁ J₂ hJ₂ slotCap hcap
     h hZ hh hwidth hb hfirst hsecond Λ M r ell V tau z c d eta A lo hi markLengths
-    hL heta hbase_eq hscale hcutoff hrow hλ hcal hbg hRho hmarks hF side₂ hgeometry
+    hL heta hbase_eq hscale hcutoff hrow hlambda hcal hbg hRho hmarks hF side₂ hgeometry
     p hMc γ hγ a ha
   have hdrop := (hgeometry p hMc γ hγ a ha).2.2.2.2.1
   have hrank : x.rowLength ≤ Rcap - d := by
@@ -237,7 +243,7 @@ theorem smaller_piece_bound_of_uniform_sharp
     (hrow : ∀ i ∈ Pbox, (R i.1).val =
       Z ^ (firstPhysicalHeight M r ell V (length Z j .firstDivisor)
         (length Z j .firstCommon) (length Z j .cubeLabel) + 12 * h + tau))
-    (hλ : T.columns.lambda = Λ)
+    (hlambda : T.columns.lambda = Λ)
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
     (hbg : ∀ q : HeightOneSpectrum (𝓞 K), q ∉ Sset →
       UnramifiedAt K T.columns.background q)
@@ -260,7 +266,7 @@ theorem smaller_piece_bound_of_uniform_sharp
   have hx := nodeAt_admissible K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
     grid centers alive k side₁ P b Z L j hprime hweights hJ₁ J₂ hJ₂ slotCap hcap
     h hZ hh hwidth hb hfirst hsecond Λ M r ell V tau z c d eta A lo hi markLengths
-    hL heta hbase_eq hscale hcutoff hrow hλ hcal hbg hRho hmarks hF side₂ hgeometry
+    hL heta hbase_eq hscale hcutoff hrow hlambda hcal hbg hRho hmarks hF side₂ hgeometry
     p hMc γ hγ a ha
   have hdrop := (hgeometry p hMc γ hγ a ha).2.2.2.2.1
   have hrank : x.rowLength ≤ Rcap - 3 * d / 2 := by

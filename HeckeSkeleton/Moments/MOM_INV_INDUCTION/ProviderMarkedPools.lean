@@ -88,6 +88,7 @@ theorem forward_mem_targetPool (j P : Ideal (𝓞 K)) (hjP : Squarefree (j * P))
   have hnorm := forward_norm j P n'
   change norm j * norm (forward j P n) = norm n * norm P at hnorm
   have hnX := ((mem_pool hX.le n).mp (Finset.mem_filter.mp hn).1).2
+  rw [← mul_div_assoc]
   apply (le_div_iff₀ hjpos).mpr
   calc
     norm (forward j P n) * norm j = norm n * norm P := by

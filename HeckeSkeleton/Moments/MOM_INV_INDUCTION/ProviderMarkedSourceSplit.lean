@@ -23,7 +23,7 @@ open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP AssignedMarkSource
 open ProviderMarkedOverlap ProviderMarkedSlots ProviderMarkedReindex ProviderMarkedTupleSplit
   ProviderMarkedMellin ProviderMarkedAnnuli ProviderMarkedWindows
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors Function
 
 variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K} {d : ℕ}
 

@@ -25,7 +25,7 @@ open HeckeSkeleton.Moments.UniformAmplify
 open HeckeSkeleton.Moments.MOMInvStep HeckeSkeleton.Moments.MOM_INV_STEP
 open ProviderMarkedOverlap ProviderMarkedSlots ProviderMarkedReindex
   ProviderMarkedMellin ProviderMarkedMaskedMellin ProviderMarkedTests CommonKernel
-open scoped Classical BigOperators nonZeroDivisors FourierTransform
+open scoped Classical BigOperators nonZeroDivisors FourierTransform Function
 
 variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K} {J : ℕ}
 

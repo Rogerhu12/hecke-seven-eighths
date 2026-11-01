@@ -55,7 +55,7 @@ theorem block_support (X T : ℝ) (j : ℕ)
   exact (pow_le_pow_left₀ (CubeCompletionBlocks.scale_pos j).le hw.1 3).trans
     (longPool_norm_bounds K S X T b hbP.1).2.2.2
 
-variable (D : ThetaArithmeticData K Sset)
+variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
 
 /-- Both restrictions of `longPool` are consequences of the literal
 summand, before the common radial profile is separated. -/
@@ -93,7 +93,7 @@ theorem reopened_eq_longPool
   · rw [longCubeCoefficient_zero_of_norm_lt T b.val.val
       (nonZeroDivisors.coe_ne_zero b.val) (lt_of_not_ge hlong), zero_mul]
 
-variable (Γ : Subgroup (Sset.unit K))
+variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 variable {σ : Type*} {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
 

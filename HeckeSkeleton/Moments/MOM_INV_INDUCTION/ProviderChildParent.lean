@@ -45,6 +45,9 @@ def columns (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple K) :
   base := C.base
   length := C.columnLength γ
 
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+
 def parentData (C : ColumnFamily K Sset σ Θ ψ) (γ : OuterTriple K)
     (hbase : 0 < C.base) (H : {r : ℝ // 0 < r}) : FirstParentEnergy.Data K S (σ := σ) where
   columns := columns K S C γ
@@ -71,8 +74,7 @@ theorem parentData_slots_subset (C : ColumnFamily K Sset σ Θ ψ)
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
-variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
-  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
+variable [Γ.FiniteIndex]
 local notation "Orbit" => SIntegerOrbits K Sset Γ
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 
@@ -105,7 +107,7 @@ theorem amplitude_eq_dyadic (C : ColumnFamily K Sset σ Θ ψ)
       · simpa only [height] using (div_le_iff₀ hX).mp hb.2
     simp only [coefficient, hz, mul_zero, zero_mul]
 
-variable [IsPrincipalIdealRing (Set.integer Sset K)]
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 
 /-- Equality with the provider's literal original parent, proved by
 expanding its singleton cube pool and the actual child coefficient. -/

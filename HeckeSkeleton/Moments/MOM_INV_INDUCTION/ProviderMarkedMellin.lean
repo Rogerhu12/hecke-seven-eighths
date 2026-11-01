@@ -25,7 +25,7 @@ open HeckeSkeleton.Moments.MOMInvStep
 open HeckeSkeleton.Moments.MOM_INV_STEP AssignedMarkSource
 open CommonKernel MellinSeparation
 open ProviderMarkedOverlap ProviderMarkedSlots ProviderMarkedReindex
-open scoped Classical BigOperators nonZeroDivisors
+open scoped Classical BigOperators nonZeroDivisors Function
 
 /-- The common column test on the actual smooth dyadic annulus. -/
 def test (t : ℝ) : SchwartzMap ℝ ℂ :=

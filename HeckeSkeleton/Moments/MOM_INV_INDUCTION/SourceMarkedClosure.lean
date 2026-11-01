@@ -263,7 +263,7 @@ theorem actual_marked_bound
       (fun _ _ i => markedModelEnergyFor Models i)
       (fun _ _ i => rowWidthFor i)
       (fun _ _ i => inverseCapacityFor i) := by
-  have hλ := c.family.lamA_pos
+  have hlambda := c.family.lamA_pos
   obtain ⟨q, C, Z₀, hC, hZ₀, hcanonical⟩ :=
     SourceCanonicalClosure.exists_uniform_canonical_bound.{0} K c hquadratic hcubic
       c.geometry.slots 2 2 (3 * c.family.lamA / 4) 1 (1 / 2) 2 (c.family.lamA / 2)

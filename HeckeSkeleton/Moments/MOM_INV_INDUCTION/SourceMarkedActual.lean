@@ -439,7 +439,7 @@ theorem selected_length_bounds (i : Index K c Z T) (hcap : inverseCapacityFor i)
     0 ≤ selectedLengthFor i ∧ selectedLengthFor i ≤ 1 := by
   have hr := inverse_length_nonneg K c i
   have hc := hcap.1
-  have hλ := c.family.lamA_pos
+  have hlambda := c.family.lamA_pos
   exact ⟨actualRecipeMoment_selectedLength_nonneg K c i, by linarith⟩
 
 theorem capacity_margins (i : Index K c Z T) (hcap : inverseCapacityFor i) :

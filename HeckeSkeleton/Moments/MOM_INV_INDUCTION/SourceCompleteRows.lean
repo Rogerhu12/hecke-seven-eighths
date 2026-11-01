@@ -87,7 +87,8 @@ variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 
-variable (P : ProbeData K Sset) (R : RowCharacterInput K Sset P)
+variable (P : ProbeData K (S : Set (HeightOneSpectrum (𝓞 K))))
+  (R : RowCharacterInput K (S : Set (HeightOneSpectrum (𝓞 K))) P)
 
 /-- The coefficient calibration covers every exterior ideal, with no
 physical-witness or sixth-free membership premise. -/
@@ -130,8 +131,8 @@ theorem positive_polynomial_norm (d : MomentData K ω ψ)
   rw [conjugate_polynomial] at heq
   simpa only [Complex.norm_conj] using congrArg norm heq
 
-variable [MeasurableSpace (sLocalNormOneGroup K Sset)]
-  [BorelSpace (sLocalNormOneGroup K Sset)]
+variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
 local notation "Γ" => sixthPowerSUnitSubgroup K Sset
 local notation "Orbit" => ActualSIntegerOrbit K Sset
 

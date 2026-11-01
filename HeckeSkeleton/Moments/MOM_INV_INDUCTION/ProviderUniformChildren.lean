@@ -45,8 +45,9 @@ variable (A Z M r ell V h tau : ℝ) (hZ : 1 < Z)
 local notation "Rcap" => FirstOuterPhysicalCap.radius K S D Γ T hmask
   Z (ActualUniformProduction.boxCap A) M r ell V h tau (zero_lt_one.trans hZ)
 local notation "Grid" => FirstParentCentering.grid Z A 1
-variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (oldLabels : Finset Ext)
-variable (centers : FirstOuterCenters.Centering K S D T Grid)
+variable (H : OuterIndex K S D T → {r : ℝ // 0 < r})
+  (oldLabels : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
+variable (centers : FirstOuterCenters.Centering K S D T (FirstParentCentering.grid Z A 1))
 variable (hprime : ∀ q ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists q, Prime p)
 variable (hweights : ∀ q ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists q,
   ‖T.columns.primeWeights q p‖ ≤ 1)
@@ -68,7 +69,7 @@ theorem all_smaller_pieces_of_uniform
     (hparent : HeckePort.Moments.CanonicalMargins (r + 3 * ell + V) M Q z c)
     (hnonterminal : d ≤ ell + V) (hRho : T.columns.puncture ≠ 0)
     (hRhoNorm : (Ideal.absNorm T.columns.puncture.radical : ℝ) ≤ Z ^ Q)
-    (hλ : T.columns.lambda = Λ)
+    (hlambda : T.columns.lambda = Λ)
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
     (hbg : ∀ q : HeightOneSpectrum (𝓞 K), q ∉ Sset →
       UnramifiedAt K T.columns.background q)
@@ -139,7 +140,7 @@ theorem all_smaller_pieces_of_uniform
     h hZ hh.1 hwidth hb hfirst hsecond Λ M r ell V tau z c d eta Fcap lo hi Rmax eps Cih
     markLengths t hL heta hd hM hbase_eq hUscale
     (FirstSecondErrorBridge.cutoff_eq_production K S D T hbase Rcap U Z tau)
-    hrow hλ hcal hbg hRho hmarks hF side₂
+    hrow hlambda hcal hbg hRho hmarks hF side₂
     (hgeometry side₁ k J₁ hJ₁ s side₂ b J₂ hJ₂ hJ₂remaining j) hih
 
 /-- The actual generated row geometry supplies 3d/2, uniformly over
@@ -157,7 +158,7 @@ theorem all_smaller_pieces_of_uniform_sharp
     (hparent : HeckePort.Moments.CanonicalMargins (r + 3 * ell + V) M Q z c)
     (hnonterminal : d ≤ ell + V) (hRho : T.columns.puncture ≠ 0)
     (hRhoNorm : (Ideal.absNorm T.columns.puncture.radical : ℝ) ≤ Z ^ Q)
-    (hλ : T.columns.lambda = Λ)
+    (hlambda : T.columns.lambda = Λ)
     (hcal : ThetaCalibrationInput K Sset D T.columns.lambda G)
     (hbg : ∀ q : HeightOneSpectrum (𝓞 K), q ∉ Sset →
       UnramifiedAt K T.columns.background q)
@@ -228,7 +229,7 @@ theorem all_smaller_pieces_of_uniform_sharp
     h hZ hh.1 hwidth hb hfirst hsecond Λ M r ell V tau z c d eta Fcap lo hi Rmax eps Cih
     markLengths t hL heta hd hM hbase_eq hUscale
     (FirstSecondErrorBridge.cutoff_eq_production K S D T hbase Rcap U Z tau)
-    hrow hλ hcal hbg hRho hmarks hF side₂
+    hrow hlambda hcal hbg hRho hmarks hF side₂
     (hgeometry side₁ k J₁ hJ₁ s side₂ b J₂ hJ₂ hJ₂remaining j) hih
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren
