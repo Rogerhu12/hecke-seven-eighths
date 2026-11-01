@@ -14,7 +14,7 @@
 
 **不在本组**：
 - MI-M-ROW-CHARACTER、MI-M-MODELS、MI-M-POLYNOMIAL-CALIBRATION 由 EXPANSION（PR #5）的共享配方负责。
-- MI-P-PRIME-CANCELLATION-BELOW-ONE 由分支 `wire/prime-cancellation-20261031` 负责。
+- MI-P-PRIME-CANCELLATION-BELOW-ONE 由 [MOM_PRIME_BELOW_ONE](MOM_PRIME_BELOW_ONE.md) 负责（PR #14 已合入对任意模型的版本，剩下对实际模型的 `PrimeSlotModelControl`）。
 - 两个大筛已经证明。
 - LOW-REFLECTED-ENERGY（引理 4.8）在 PR #3。
 
