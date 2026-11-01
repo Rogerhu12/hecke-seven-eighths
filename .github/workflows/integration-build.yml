@@ -1,12 +1,12 @@
-name: Integration whole-project build
+name: Whole-project build
 
-# Builds every lean_lib of the lakefile on the EXPANSION + HIGHBIN + MOM_PRIME
-# + MOM_UNIFORM_AMPLIFY integration branch, then prints the axioms of the
-# integrated endpoints, of the remaining Moments obligations, and of the final
-# skeleton theorem.
+# Builds every lean_lib of the lakefile for each pull request into
+# dtests-handoff, so a PR cannot break modules outside its own task, then
+# prints the axioms of the closed endpoints, of the remaining Moments
+# obligations, and of the final skeleton theorem.
 on:
-  push:
-    branches: [integrate/expansion-highbin-prime]
+  pull_request:
+    branches: [dtests-handoff]
   workflow_dispatch:
 
 permissions:
