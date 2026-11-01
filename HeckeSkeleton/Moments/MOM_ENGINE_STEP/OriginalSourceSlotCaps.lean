@@ -114,7 +114,8 @@ theorem sourceCartesianCover_slotCount (c : ι → ℂ)
       T.commonFibre S D a' :=
     congrArg (fun columns : Finset ι => columns.filter
       (fun i => T.reindex.supportExtractionLabel S i = a'.val)) hcolumns
-  exact SourceCartesianAtlas.slotCount_mpr hcols _ _
+  exact SourceCartesianAtlas.slotCount_mpr hcols
+    (congrArg (fun cols => SourceCartesianAtlas cols (d.directSource c).ideal) hcols) _
 
 theorem sourceCartesianCover_slotCount_le (c : ι → ℂ)
     (a : (d.sourceCartesianCover T S D hcolumns hideal c).labels) :

@@ -43,8 +43,11 @@ def profileOrders (orders : Finset (ℕ × ℕ)) : Finset (ℕ × ℕ) :=
 theorem norm_le_profileOrders (orders : Finset (ℕ × ℕ))
     (f : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖f x‖ ≤ (profileOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) f := by
-  exact (SchwartzMap.norm_le_seminorm ℂ f x).trans
-    (Seminorm.le_finset_sup_apply (Finset.mem_insert_self (0, 0) orders))
+  have hsup := Seminorm.le_finset_sup_apply
+    (p := schwartzSeminormFamily ℂ ℝ ℂ) (s := profileOrders orders) (x := f)
+    (Finset.mem_insert_self (0, 0) orders)
+  rw [SchwartzMap.schwartzSeminormFamily_apply] at hsup
+  exact (SchwartzMap.norm_le_seminorm ℂ f x).trans hsup
 
 theorem exists_upper_window_bound (window : Set ℝ) (hcompact : IsCompact window) :
     ∃ annulus : ℝ, 1 ≤ annulus ∧ window ⊆ Set.Iic annulus := by
@@ -143,8 +146,7 @@ variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window
   (OriginalProfileAtomBounds.profileOrders orders) d amplitude)
 
-include profiles
-
+include profiles in
 theorem original_prime_profile_norm_le (i : Fin d.geometry.slotCount)
     (t : ℝ) (ht : t ∈ heightDomain) (x : ℝ) :
     ‖(d.geometry.slots i).profile t x‖ ≤ amplitude := by
@@ -152,12 +154,14 @@ theorem original_prime_profile_norm_le (i : Fin d.geometry.slotCount)
   exact (OriginalProfileAtomBounds.norm_le_profileOrders orders _ x).trans
     (profiles.prime_bound i t ht)
 
+include profiles in
 theorem original_prime_profile_phase_sq_le (i : Fin d.geometry.slotCount)
     (t : ℝ) (ht : t ∈ heightDomain) (x : ℝ) (phase : Circle) :
     ‖(d.geometry.slots i).profile t x * (phase : ℂ)‖ ^ 2 ≤ amplitude ^ 2 := by
   rw [norm_mul, Circle.norm_coe, mul_one]
   exact pow_le_pow_left₀ (norm_nonneg _) (profiles.original_prime_profile_norm_le i t ht x) 2
 
+include profiles in
 theorem original_prime_norm_le_annulus (annulus Z t : ℝ)
     (hZ : 0 < Z) (ht : t ∈ heightDomain) (hwindow : window ⊆ Set.Iic annulus)
     (i : Fin d.geometry.slotCount) (p : HeightOneSpectrum (𝓞 K))
@@ -171,20 +175,24 @@ theorem original_prime_norm_le_annulus (annulus Z t : ℝ)
   exact (div_le_iff₀ (Real.rpow_pos_of_pos hZ _)).mp
     (hwindow (profiles.prime_support i t ht hrep))
 
+include profiles in
 theorem original_left_profile_upper (annulus : ℝ)
     (hwindow : window ⊆ Set.Iic annulus)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
     (x : ℝ) (hx : d.plainTest₁.profile u t x ≠ 0) : x ≤ annulus := by
   apply hwindow
   apply profiles.left_support u hu t ht
+  change profiles.leftRep u t x ≠ 0
   simpa only [profiles.left_eq] using hx
 
+include profiles in
 theorem original_right_profile_upper (annulus : ℝ)
     (hwindow : window ⊆ Set.Iic annulus)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
     (x : ℝ) (hx : d.plainTest₂.profile u t x ≠ 0) : x ≤ annulus := by
   apply hwindow
   apply profiles.right_support u hu t ht
+  change profiles.rightRep u t x ≠ 0
   simpa only [profiles.right_eq] using hx
 
 end RawProfileWindow

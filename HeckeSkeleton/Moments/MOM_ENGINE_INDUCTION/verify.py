@@ -235,7 +235,7 @@ MODULES = ('ActiveChildAnnulus',
  'WeightedReflectionMass')
 # Exact canonical single-step imports, including the complete-row atoms
 # and genuine original positive source. These remain in the owner namespace.
-PRODUCER_COMMIT = '5c432b677f9c58fabe2771194a32adb2d7b4a2a4'
+PRODUCER_COMMIT = '76904bc272e28e0de866bea0aa60b53a54d6c01e'
 PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamily.lean': 'e818d8a0dd2d678fec6b78dd7c2a3ad7a41573aadf28301e09be795b48ef6db7',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualArithmeticIndex.lean': '16da532872dadcb1e1adcd00da49a8fee8712941c113c8eed9994b3b9e3fd1b1',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCapacityCanonicalBridge.lean': 'ddb110c0f2b876ef4728267c3a3ed46e6423b68ea96837cd16a2faec62ff7f12',
@@ -794,7 +794,7 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CurriedNormalizedMass.lean': '9356ff5dbc178ec085d9811698800e3d85a4ce51c572aa179c78db7858e0d50d',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CurriedNormalizedOutput.lean': '0e6ce3d0990c1bc09cb64c03e9136bd6f661c4175c126cc8bea682b840818ce2',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CurriedNormalizedSource.lean': 'e0e14d85c9704bdda604ec785abd9f7f04239c5461c5bb83c6b4bf904becf33b',
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedFamily.lean': 'ab16da414bf9622c9c082ba6f6ba26da498fc5785ec4e77969d14d0bbb8c632d',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedFamily.lean': '74a59b2bb2e162311994f36a7cec7a7c497c57e664cf2f8f3da3af0df053a527',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedFibres.lean': '4615f958c912fa860bb643cca604c7a9f632ecb1b74cfa251aaa5efb7ced4468',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedGeometry.lean': '6ede1000edc70d15e62f44b23ba257ca4b00f01095ee814e91388bac139bac15',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedKernels.lean': '9b2edf2baf53e90c1c36d4a79e459110840850f092bf68899532fabca58395c5',
@@ -849,7 +849,7 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalFrequency.lean': '432a3dc6d31d6dc601d9ae1c165fda8d57ca4338bbc2e3683cba6cffcfcc399c',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalAtomWindow.lean': '3f699d4bd0013992356c5576a8a6189c6f3e2e912ba8d39532d110f8147d88f8',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalIntegral.lean': '1a5010c056f811c9337712994a61cf41bb979f5b96f51c1408a438c8b6bafd6a',
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean': '4f5ddf99c22cab319971f2e14770bdf1db5da9abf8d4e78625567698fd0e47cc',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean': '27f5c120aad01282a962c3c30d4ca55f689dfc0e60e09d04ceef979fee8b8278',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalPoolAllowanceTransport.lean': '75b1e27bc4236c4f3646d4479c998cecff2242fa6116c8119de6a30ecda794ce',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalRawNormalization.lean': '801ae0d26a5b8743a18bfe04901b2e029b71d5c57761d12fdae3cc4bdfd060b3',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalRelativeBudget.lean': '22e2a0c7de4eb64c55c419dc9d46000be5e6db9f611a93a52c27bffbc40fef6a',
@@ -965,7 +965,7 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedCapacityRawBridge.lean': '3f836167bd61c4c30aa1f18490a2976e8f6f0c4b1f6987b594e95261648f734b',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedChildKernel.lean': '53e6fb39322169b2e364611a6789b50310222147338e3ad0b3fdcabd015dee83',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedEngineOutput.lean': '16486c6bf4d27c534277b3cbfebe55f43bd95222457356556791ad14d010f3f7',
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedFamilyAtoms.lean': '63ffbc5bd35b3a7c623696469bdddd5d173beb564bb7d651a6a2c15073cc6633',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedFamilyAtoms.lean': 'a3db865fedc5b5e66bd0a1639d84a656758e11955d6cfb9188ad8f62e4f02196',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedFamilyBase.lean': 'ec1b08e756dd8d4c358a1ffefdc765a0906f6de0005f31836ddc714913eea097',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedFamilyGeometry.lean': 'f0b7c147fe3f7f3ba28b844ef7939976b51577aaf5926827a54ba31c3a4dbada',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedFourierChildren.lean': '453df343e8988bf5de8b6bfe424cbc3f840c2fcb4df25e6dfb89cc4a32f7e51a',
@@ -1022,10 +1022,10 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalPoolAllowanceTransport.lean': '6c6989b8e6f2f8130f25af0e4a0e3132e6c1debc77cd3152c60ea6aa96b34891',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalPoolMonotonicity.lean': '2baf112fd720b2d2f065558ed440f0068f395a53d8a38428d1854230bc81aba1',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalPooledTerminalGeometry.lean': 'cb3dd6a5d7690ed41781e03d15f63104ac8f088270b69cbf425595f44e5bc43b',
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalProfileAtomBounds.lean': 'aa9009cc71b0aa7d0edebe65942ea2bce7ad63d871ef9e13c13f2798cb05b867',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalProfileAtomBounds.lean': '6fe6f083bee21e11214ceead9d7a2a17003595eb429cce70395a35f09eb86156',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalProfilePowerControl.lean': 'fac63cda360d5d10ec849185cd545e441a2b279e192733c97f78fdac3f39e476',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalSourceMassInputs.lean': '42c59749bbb610d755ce3bc2c62bdaab030555eb3573287dabab2c0c7ba7e0e7',
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalSourceSlotCaps.lean': 'ab014a728f41d65805da776d0b627fb1e32e86651b73d73388374f10784589dc',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalSourceSlotCaps.lean': 'c8f2623c56f18b4c34608a2ebf6108f1cdb4b9c6f3a6a3c44ec8bb5231e7a5d7',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalTaggedLocalIndex.lean': 'c77cbdae27d978c4f62ac0d09fb1a2996eb35ec5c99d4fe79b33ba074f97a8c1',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalTerminalPoolCharges.lean': 'ac360a00150ed1440de2aa3bae2f020d38133361284780079f6466db47ed1f8f',
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalUnionColumnNorm.lean': 'f999fbc73bb9d3ce0e1e371a48a8542c1c368461c243b3fe0c06e5dd63ba5994',
@@ -1159,11 +1159,28 @@ PRODUCER_SOURCES = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActiveNormalizedFamil
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ZeroTerminalBudget.lean': '4b0981114dc50a3e67c4c4b4ddcaba601e4e3e91ef82de0d684dad44ff1ff9b7'}
 # Proof-only compatibility repairs are recorded separately from the owner pin.
 # Their baseline and exact replacement digests remain visible in the CI artifact.
-PRODUCER_REPAIRS = {
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActiveProfileKernelMass.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4', 'owner_sha256': '7c7206b23dd231784e716892fb5cd0b200c63fa9955f23c78074a8715abb72a7', 'repair_sha256': '58e2763edce10ca8b38f97c2207b99c3c555e4f74d7b2e20e56f575bdc077836', 'reason': 'Apply the same finite scaled-kernel proof required by the CI74 diagnostic; preserve the original measure and scalar.'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalHybridMass.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4', 'owner_sha256': '2ba33975011973aebfa9558f7ce3c7cb1449d2dd93c8ebff04358b90ba5ecb0a', 'repair_sha256': '3bbc6fbc9b321d0ceda8a6c8bd46ee63b8d9f4b465d088ee56b94563ca70aaa4', 'reason': 'Apply the same finite scaled-kernel proof required by the CI74 diagnostic; preserve the original measure and scalar.'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOutputConditions.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4', 'owner_sha256': 'd8f22913fad71b26a44aa4c518834ab1f139fb7f03f6eef9ba809dbc34f02ef8', 'repair_sha256': 'd7a8e3100eb2181ad7aa5a68bd70f2b01dacec09eb665265ee8414fd331029d0', 'reason': 'CI74 finite scaled-kernel diagnostic: provide Measure.smul_finite with ENNReal.ofReal_ne_top explicitly.'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussNumerators.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                    'owner_sha256': '943a8125054fc28b795be9374d6ca77eb35e16af50849378cec299afb61c61e6',
+                                                                    'reason': 'CI75: make the '
+                                                                              'SourceCovers.tag section '
+                                                                              'parameter d implicit so it is '
+                                                                              'inferred from the same cover; '
+                                                                              'preserve the covered labels '
+                                                                              'and branches.',
+                                                                    'repair_sha256': 'fd24581451833b3a7042bcfb2153420c498b53dbeb675ad4baaab46cbcad3502'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActiveProfileKernelMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                                 'owner_sha256': '7c7206b23dd231784e716892fb5cd0b200c63fa9955f23c78074a8715abb72a7',
+                                                                                 'reason': 'Apply the same '
+                                                                                           'finite '
+                                                                                           'scaled-kernel '
+                                                                                           'proof required '
+                                                                                           'by the CI74 '
+                                                                                           'diagnostic; '
+                                                                                           'preserve the '
+                                                                                           'original measure '
+                                                                                           'and scalar.',
+                                                                                 'repair_sha256': '58e2763edce10ca8b38f97c2207b99c3c555e4f74d7b2e20e56f575bdc077836'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussNumerators.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                'owner_sha256': '3bf372c801af225c630e24e763a3e1cedde54e9215a26b3ecb0ea1d5db5970db',
                                                                                'reason': 'Restore primitive '
                                                                                          'parameters already '
@@ -1176,7 +1193,7 @@ PRODUCER_REPAIRS = {
                                                                                          'producer data and '
                                                                                          'output.',
                                                                                'repair_sha256': '751ae606890549ba2bb28d56a5c54c9bfc19ce8677d4e7a4f79caf97f8ac01ab'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussReconstruction.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalActualGaussReconstruction.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                    'owner_sha256': 'c698a8498bbdb0b5a74b0839b3a4b7bbc28aaa68ada9fd8b2b601964f125e23b',
                                                                                    'reason': 'Restore '
                                                                                              'primitive '
@@ -1194,7 +1211,7 @@ PRODUCER_REPAIRS = {
                                                                                              'producer data '
                                                                                              'and output.',
                                                                                    'repair_sha256': '39fde7f0bf7343f045fb982b652ce065dbf1f89ffd4edd6db5e85e492f9cc6d6'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFirstMaskWindows.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFirstMaskWindows.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                           'owner_sha256': '865839b416077063ab5bf7e9fb215b40530d9b1848424f8dc1af5b05dd2b3219',
                                                                           'reason': 'Restore primitive '
                                                                                     'parameters already '
@@ -1206,7 +1223,19 @@ PRODUCER_REPAIRS = {
                                                                                     'actual producer data '
                                                                                     'and output.',
                                                                           'repair_sha256': '16260c7162879a200dc049788e5ca0e7e21e7db1ca6d7c7f0d76a4e49fcf398c'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalAtoms.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalHybridMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                    'owner_sha256': '2ba33975011973aebfa9558f7ce3c7cb1449d2dd93c8ebff04358b90ba5ecb0a',
+                                                                    'reason': 'CI74/75: explicitly prove '
+                                                                              'finite scalar measure with '
+                                                                              'Measure.smul_finite; '
+                                                                              'construct active-combination '
+                                                                              'filter membership directly '
+                                                                              'and expose the same Sigma sum '
+                                                                              'before Fintype.sum_sigma. The '
+                                                                              'measure, tags, and total mass '
+                                                                              'are unchanged.',
+                                                                    'repair_sha256': '6cf5bad0529e39f2f68ccd8f57b2f1ad2eab393f111df23c17631355e648227f'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalAtoms.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                  'owner_sha256': '5523054440a8229ac0435d2bf8cd2b4784daa13fcbf17bfc627f5e88d9f9ae5f',
                                                                                  'reason': 'Restore '
                                                                                            'primitive '
@@ -1222,7 +1251,7 @@ PRODUCER_REPAIRS = {
                                                                                            'actual producer '
                                                                                            'data and output.',
                                                                                  'repair_sha256': 'f3071e41d1090776984d1c20f2bf21b8f6692bb6c5f3df9d5398afd58be2ade8'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalBinding.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalBinding.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                    'owner_sha256': 'bd2067cfc42449550caf111c0ee30eb5ec3becefd35fa732e57c2c9bb9780a67',
                                                                                    'reason': 'Restore '
                                                                                              'primitive '
@@ -1240,7 +1269,7 @@ PRODUCER_REPAIRS = {
                                                                                              'producer data '
                                                                                              'and output.',
                                                                                    'repair_sha256': '693266e6115d448d83a1b9f54cbff6bfb80b9147b928cd20a43d2b22fb7a33c3'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalPaidScales.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalPaidScales.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                       'owner_sha256': '6c7ba98683e51decc221d7a6aa50d071cf3d3e0e027b01c3bb8a6ed418fc8006',
                                                                                       'reason': 'Restore '
                                                                                                 'primitive '
@@ -1261,7 +1290,7 @@ PRODUCER_REPAIRS = {
                                                                                                 'data and '
                                                                                                 'output.',
                                                                                       'repair_sha256': 'ae73255d20036028c00e465daa1cf2b19fcb1aa34037f523cc7527c2c2e03e24'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalProfileWindow.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExceptionalProfileWindow.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                          'owner_sha256': '7c7f42466fe4b840b09b12e60e2f3b682b3122a8fb97fe82071fe70f0867371a',
                                                                                          'reason': 'Restore '
                                                                                                    'primitive '
@@ -1285,7 +1314,7 @@ PRODUCER_REPAIRS = {
                                                                                                    'data and '
                                                                                                    'output.',
                                                                                          'repair_sha256': 'fb71944699a221d76f5e054567ba0b55b32485502329144b0ded6c08d98165d0'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralFixedPhases.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralFixedPhases.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                             'owner_sha256': 'b6e9649da0c05ff1745908c97bfc9261c25cb404e74984cfde4188338b227b09',
                                                                             'reason': 'Native elaboration '
                                                                                       'repair from the exact '
@@ -1294,7 +1323,7 @@ PRODUCER_REPAIRS = {
                                                                                       'input and conclusion '
                                                                                       'retained.',
                                                                             'repair_sha256': '821fa33cbd448d9b72ae4cda675d3b72d6807320c90a2d2dcf427051a3363013'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralOriginalEnergy.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralOriginalEnergy.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                'owner_sha256': '0fd9ce8d01c2010b2682eb21bc5f4803c290fb28708c779fc66b1954a0e844e0',
                                                                                'reason': 'Restore primitive '
                                                                                          'parameters already '
@@ -1307,19 +1336,26 @@ PRODUCER_REPAIRS = {
                                                                                          'producer data and '
                                                                                          'output.',
                                                                                'repair_sha256': 'ea8c1978294558d3027ec5c3f8e91d0c6886a49b78cf8fb3787ab304e8838594'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPassivePhases.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPassivePhases.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                               'owner_sha256': '25b128de6d67131ea72f3afbbaa5d894fa2a6a18e1fb4bbc0b11c9fa7e34f25e',
-                                                                              'reason': 'Restore primitive '
-                                                                                        'parameters already '
-                                                                                        'supplied by actual '
-                                                                                        'callers, or place '
-                                                                                        'include before its '
-                                                                                        'declaration doc '
-                                                                                        'comment; preserve '
-                                                                                        'the actual producer '
-                                                                                        'data and output.',
-                                                                              'repair_sha256': '8873416b98413fa9693184315f2d63a7cbba99d915e3b353648496ccb8a15fdd'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPassiveSource.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+                                                                              'reason': 'CI75: open the '
+                                                                                        'actual '
+                                                                                        'SquarefreeAmplification '
+                                                                                        'namespace, remove a '
+                                                                                        'redundant tactic, '
+                                                                                        'and prove unit '
+                                                                                        'radical and '
+                                                                                        'coprimality masks '
+                                                                                        'explicitly. Retain '
+                                                                                        'the previously '
+                                                                                        'reviewed include R '
+                                                                                        'parameters and '
+                                                                                        'doc-comment '
+                                                                                        'placement; preserve '
+                                                                                        'the literal phase '
+                                                                                        'objects.',
+                                                                              'repair_sha256': '1d837d63dac375a2a21123349a4491790044284beb5ddfa397dffb9ef5af9d6f'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPassiveSource.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                               'owner_sha256': 'b3e60e8a5643a1f6bf2bb2de8bc1e6fbe5acf27a4b642881ceb60aefadc4bd1a',
                                                                               'reason': 'Restore primitive '
                                                                                         'parameters already '
@@ -1331,7 +1367,7 @@ PRODUCER_REPAIRS = {
                                                                                         'the actual producer '
                                                                                         'data and output.',
                                                                               'repair_sha256': 'ea091be2158da418544a1c9f3a0590d9074e914870479ed281cc4d829ebff27b'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveDirectColumns.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveDirectColumns.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                        'owner_sha256': 'a514dc3dbfeb183f173c010ae1c031208c5f553983b2f3c4eb4b27b51650d04e',
                                                                                        'reason': 'Restore '
                                                                                                  'primitive '
@@ -1352,7 +1388,7 @@ PRODUCER_REPAIRS = {
                                                                                                  'data and '
                                                                                                  'output.',
                                                                                        'repair_sha256': '45258ed40855bac155406762930b7e7c4553b4546cc93dcacd16025ef6e17115'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveFirstSource.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPrimitiveFirstSource.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                      'owner_sha256': 'fcddfd5741028e9f2064df460826a83c9fe50aa4b184f8b2a86449ef49ff2895',
                                                                                      'reason': 'Restore '
                                                                                                'primitive '
@@ -1372,7 +1408,7 @@ PRODUCER_REPAIRS = {
                                                                                                'data and '
                                                                                                'output.',
                                                                                      'repair_sha256': 'a7142dd19092e35a021d1bc10492841014bcc889d8694448033c0297191d6ff8'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralScaleProduct.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralScaleProduct.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                              'owner_sha256': 'cf99114b0b127c903027cd423ea5b099c3ab459a0642df4afa8ee60f64dc1aff',
                                                                              'reason': 'Restore primitive '
                                                                                        'parameters already '
@@ -1384,7 +1420,26 @@ PRODUCER_REPAIRS = {
                                                                                        'the actual producer '
                                                                                        'data and output.',
                                                                              'repair_sha256': 'c1452b1fa1f783703fb3afa3a81e8d64ad5c75afdbb36497b396e91d877350f9'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalPrimitiveFirstTerminalConstants.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLogProfileBounds.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                          'owner_sha256': '30aae10806002d579936b09320b566e51ff5aa6a5a662538c7ea784dbef31f07',
+                                                                          'reason': 'CI75: escape omega '
+                                                                                    'identifiers under '
+                                                                                    'ContDiff, specify '
+                                                                                    'logarithm '
+                                                                                    'differentiability '
+                                                                                    'order, make support '
+                                                                                    'subset composition '
+                                                                                    'explicit, unfold atomic '
+                                                                                    'projections, and '
+                                                                                    'normalize the same '
+                                                                                    'Schwartz-function '
+                                                                                    'representation before '
+                                                                                    'polynomial algebra; '
+                                                                                    'supply exact seminorm '
+                                                                                    'parameters instead of '
+                                                                                    'expensive inference.',
+                                                                          'repair_sha256': '871675d8c1b4278bec4292cc6a9a80077cd856ac36c47d90134879074874414c'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalPrimitiveFirstTerminalConstants.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                          'owner_sha256': 'cd9577b05fc862bed92015cbaa53ac17b1ab4a2d74c51dec9d0e35a5a5d239db',
                                                                                          'reason': 'Restore '
                                                                                                    'primitive '
@@ -1408,7 +1463,19 @@ PRODUCER_REPAIRS = {
                                                                                                    'data and '
                                                                                                    'output.',
                                                                                          'repair_sha256': '03200a75789c87371a478940abfe89cf468318641e8f2acb99830cf2091974c0'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CoverHybridPhaseIntegral.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ConstantCommonLeaf.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                   'owner_sha256': 'f7df02d24d9c6f66ccff22e9fc3c2e043af91a810c93e98f529c592927b54ef4',
+                                                                   'reason': 'CI75: retain required hc/hd '
+                                                                             'hypotheses with scoped '
+                                                                             'include/omit, unfold the same '
+                                                                             'leaf projections, make '
+                                                                             'restricted-row membership '
+                                                                             'explicit, and align only the '
+                                                                             'normalization wrapper universe '
+                                                                             'with its existing upstream '
+                                                                             'NormalizationData type.',
+                                                                   'repair_sha256': '14333a516b704aab245241b80f32658298ab4231774034b2a601872f0ecd567a'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CoverHybridPhaseIntegral.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                          'owner_sha256': '44883b0dad17336f94266ced1a7777c8a1ad0f28c80aa6f8f6b25c42ff7712e6',
                                                                          'reason': 'Native elaboration '
                                                                                    'repair from the exact '
@@ -1416,30 +1483,39 @@ PRODUCER_REPAIRS = {
                                                                                    'mathematical input and '
                                                                                    'conclusion retained.',
                                                                          'repair_sha256': 'cd1a3218ef99de2638d9c7e88cae6db6e9626b3ddcedc138a7ae8825e64e2d82'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedFamily.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
-                                                                          'owner_sha256': 'ab16da414bf9622c9c082ba6f6ba26da498fc5785ec4e77969d14d0bbb8c632d',
-                                                                          'reason': 'Native elaboration '
-                                                                                    'repair from the exact '
-                                                                                    'owner CI log; original '
-                                                                                    'mathematical input and '
-                                                                                    'conclusion retained.',
-                                                                          'repair_sha256': '1c8fc2bb586673613ce21898b3becdcb29d9d6cb3794282ae8bf23876024f39b'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
-                                                                         'owner_sha256': '4f5ddf99c22cab319971f2e14770bdf1db5da9abf8d4e78625567698fd0e47cc',
-                                                                         'reason': 'Native elaboration '
-                                                                                   'repair from the exact '
-                                                                                   'owner CI log; original '
-                                                                                   'mathematical input and '
-                                                                                   'conclusion retained.',
-                                                                         'repair_sha256': 'c34e37b292babba7019bf4d99864317438f9de2cc39a42e7867bb4de1c1d7e50'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalThetaRows.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DependentNormalizedFibres.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                          'owner_sha256': '4615f958c912fa860bb643cca604c7a9f632ecb1b74cfa251aaa5efb7ced4468',
+                                                                          'reason': 'CI75: prove the finite '
+                                                                                    'dependent-fibre bound '
+                                                                                    'by an explicit '
+                                                                                    'injection on the '
+                                                                                    'original active '
+                                                                                    'carrier, avoiding '
+                                                                                    'subtype-dependent '
+                                                                                    'rewriting; retain the '
+                                                                                    'same labels and bound.',
+                                                                          'repair_sha256': '4381c2d451dbbbef46342d80e60125c75eacce2bc39ceea68feaac34cc6ae15d'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                         'owner_sha256': '27f5c120aad01282a962c3c30d4ca55f689dfc0e60e09d04ceef979fee8b8278',
+                                                                         'reason': 'CI75 and owner769 native '
+                                                                                   'diagnostics: split '
+                                                                                   'expensive scalar and '
+                                                                                   'divisor transports into '
+                                                                                   'explicitly typed proof '
+                                                                                   'steps at the default '
+                                                                                   'heartbeat budget, '
+                                                                                   'retaining the same '
+                                                                                   'original-label costs and '
+                                                                                   'public conclusions.',
+                                                                         'repair_sha256': '8e3d2677b1b469c5fe62656b13cc200049adaf8f3e576325f9fbb963b463a5a9'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalThetaRows.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                      'owner_sha256': '252e0e38087ea3a99b9e284479a91448e94ecdc7788c3f31b6afe56b8b9cd2b6',
                                                                      'reason': 'Native elaboration repair '
                                                                                'from the exact owner CI log; '
                                                                                'original mathematical input '
                                                                                'and conclusion retained.',
                                                                      'repair_sha256': 'ade5c5c4361864958287b39733ec841047e385c76e452c7e3d1c6177c7fbba1d'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridLeafOrdinaryBinding.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridLeafOrdinaryBinding.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                           'owner_sha256': 'ebb42ce6f98e2a9857c7c4273488046c41dc7577bf295247857ec02cf87cf4ec',
                                                                           'reason': 'Native elaboration '
                                                                                     'repair from the exact '
@@ -1447,31 +1523,44 @@ PRODUCER_REPAIRS = {
                                                                                     'mathematical input and '
                                                                                     'conclusion retained.',
                                                                           'repair_sha256': 'bb5a3ee332b3213d7d8e829d06ca9df635b2c04c1c58982e8e97181c292154fc'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedFamilyAtoms.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
-                                                                      'owner_sha256': '63ffbc5bd35b3a7c623696469bdddd5d173beb564bb7d651a6a2c15073cc6633',
-                                                                      'reason': 'Native elaboration repair '
-                                                                                'from the exact owner CI '
-                                                                                'log; original mathematical '
-                                                                                'input and conclusion '
-                                                                                'retained.',
-                                                                      'repair_sha256': 'a3db865fedc5b5e66bd0a1639d84a656758e11955d6cfb9188ad8f62e4f02196'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalProfileAtomBounds.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
-                                                                          'owner_sha256': 'aa9009cc71b0aa7d0edebe65942ea2bce7ad63d871ef9e13c13f2798cb05b867',
-                                                                          'reason': 'Native elaboration '
-                                                                                    'repair from the exact '
-                                                                                    'owner CI log; original '
-                                                                                    'mathematical input and '
-                                                                                    'conclusion retained.',
-                                                                          'repair_sha256': '67ef134731c8cbe2d12cae35e02076c3c3a01ec39bc6e830d54fbf54af8fdca3'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalSourceSlotCaps.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
-                                                                       'owner_sha256': 'ab014a728f41d65805da776d0b627fb1e32e86651b73d73388374f10784589dc',
-                                                                       'reason': 'Native elaboration repair '
-                                                                                 'from the exact owner CI '
-                                                                                 'log; original mathematical '
-                                                                                 'input and conclusion '
-                                                                                 'retained.',
-                                                                       'repair_sha256': 'c54027f965f408cabd9e263b0d6037dad15e85808dd51fdb0410e8e6c7a8b740'},
- 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SixthDeletionGeometry.lean': {'owner_commit': '5c432b677f9c58fabe2771194a32adb2d7b4a2a4',
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOutputConditions.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                           'owner_sha256': 'd8f22913fad71b26a44aa4c518834ab1f139fb7f03f6eef9ba809dbc34f02ef8',
+                                                                           'reason': 'CI74 finite '
+                                                                                     'scaled-kernel '
+                                                                                     'diagnostic: provide '
+                                                                                     'Measure.smul_finite '
+                                                                                     'with '
+                                                                                     'ENNReal.ofReal_ne_top '
+                                                                                     'explicitly.',
+                                                                           'repair_sha256': 'd7a8e3100eb2181ad7aa5a68bd70f2b01dacec09eb665265ee8414fd331029d0'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalProfileAtomBounds.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                          'owner_sha256': '6fe6f083bee21e11214ceead9d7a2a17003595eb429cce70395a35f09eb86156',
+                                                                          'reason': 'CI75 and owner769 '
+                                                                                    'native diagnostics: fix '
+                                                                                    'all seminorm sup '
+                                                                                    'parameters before '
+                                                                                    'transitivity, normalize '
+                                                                                    'schwartzSeminormFamily_apply '
+                                                                                    'explicitly, and unfold '
+                                                                                    'the left/right '
+                                                                                    'representative in each '
+                                                                                    'support-membership '
+                                                                                    'goal. Retain owner '
+                                                                                    'include parameters; the '
+                                                                                    'profile and bound are '
+                                                                                    'unchanged.',
+                                                                          'repair_sha256': '95f4e8c8a975b21cd1b66f719b6df572ce5ffc89e38d95a5e2df7e08439161e7'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SixthDeletionCapacity.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                      'owner_sha256': '5e5b9001fde21d997b8dddb5b8c0add77d3dbd1029ec3b5ffa06a8cb498cec89',
+                                                                      'reason': 'CI75: join four field '
+                                                                                'projections to their '
+                                                                                'parenthesized receiver to '
+                                                                                'correct Lean parsing. No '
+                                                                                'primitive parameter or '
+                                                                                'child-budget conclusion is '
+                                                                                'added or changed.',
+                                                                      'repair_sha256': '305da4121e42b6236f757ee6a5ccc28635754c0db699d30c7279c2114e6ad4a8'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/SixthDeletionGeometry.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                       'owner_sha256': 'ccc37686d2cc3fc1e52bfe1d5597108b4b1ef30bae5af2bce06bd5ae63bbc3c0',
                                                                       'reason': 'Native elaboration repair '
                                                                                 'from the exact owner CI '

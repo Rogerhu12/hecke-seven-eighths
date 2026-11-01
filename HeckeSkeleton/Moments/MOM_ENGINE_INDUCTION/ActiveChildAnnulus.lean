@@ -23,7 +23,8 @@ open scoped Classical NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineInduction.ActiveChildAnnulus
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain
+open DedekindZetaZeroFree (SArithmeticData)
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeSkeleton.Moments.EngineStep

@@ -168,7 +168,7 @@ theorem reflectionProfilePrimitive_transfer
       σ W padding A lower upper U E0 hE0
       (backwardProfileOrder ground engine reflection
         (parameterCoreRank σ W padding parent.parameters - 1)) parent := by
-  intro x hunit harithmetic hearlier
+  intro x child hunit harithmetic hearlier
   exact reflectionProfilePrimitive_normalized_child ground engine reflection hP hparent
     harithmetic hearlier hunit
 

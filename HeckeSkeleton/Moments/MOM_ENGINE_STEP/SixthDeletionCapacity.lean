@@ -318,8 +318,8 @@ variable (hstep : 0 < step) (mesh : ℝ) (hmesh : 0 ≤ mesh)
 variable (hfit : parent.geometry.fitsMesh mesh) (atoms : D.OriginalCapacityAtoms)
 
 @[simp] theorem capacityInput_parentWidth :
-    (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms)
-      .skeleton.parentWidth = a.m + a.q := rfl
+    (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms).skeleton.parentWidth =
+      a.m + a.q := rfl
 
 @[simp] theorem capacityInput_gap :
     (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms).gap =
@@ -328,8 +328,7 @@ variable (hfit : parent.geometry.fitsMesh mesh) (atoms : D.OriginalCapacityAtoms
 /-- This identity replaces the old norm-length record's unchanged
 unit-coordinate assertion. -/
 theorem capacityInput_nominalWidth_eq :
-    (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms)
-      .skeleton.nominalWidth =
+    (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms).skeleton.nominalWidth =
       secondSixthDeletionChildWidth s.base
         (G.skeleton.A - G.skeleton.c - G.skeleton.w)
         (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
@@ -373,8 +372,7 @@ theorem child_budget
         G.ideals.unitPart.val G.ideals.nonunitPart.val +
       secondCommonChildAllowance s.base G.skeleton.w (B.massSlack mesh atoms)
         (G.tag.poolLength step) G.ideals.second.val G.ideals.secondOpposite.val := by
-  have hw := (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms)
-    .actual_width
+  have hw := (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms).actual_width
   have hc := child.width_eq
   change child.parameters.m + child.parameters.q = D.parameters.m + D.parameters.q at hc
   have hnw := B.capacityInput_nominalWidth_eq W hn h hsecond hopposite hunit
@@ -397,8 +395,8 @@ def normalizedCapacityData
     (bounds : Fin s.allocation.keep.card → ℝ) (hbound : ∀ i, 0 ≤ bounds i)
     (hfactor : ∀ ξ i, atoms.primeBound ξ i = amplitude ξ ^ 2 * bounds i) :
     D.NormalizedCapacityData :=
-  (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms)
-    .normalized amplitude hpos bounds hbound hfactor
+  (B.capacityInput W hn h hsecond hopposite hunit hstep mesh hmesh hfit atoms).normalized
+    amplitude hpos bounds hbound hfactor
 
 @[simp] theorem normalizedCapacityData_parentWidth
     (amplitude : V → ℝ) (hpos : ∀ ξ, 0 < amplitude ξ)

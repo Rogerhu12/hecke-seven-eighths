@@ -80,6 +80,25 @@ private theorem exceptionalLabel_scalar_right
       a * b * x * (1 / n₁ * m₁ * (1 / n₂) * m₂ * y) := by
   ring
 
+private theorem exceptionalLabel_denominator_transport
+    {lhs numerator sourceDenominator targetDenominator saving : ℝ}
+    (hdenominator : sourceDenominator = targetDenominator)
+    (hbound : lhs ≤ numerator / sourceDenominator * saving) :
+    lhs ≤ numerator / targetDenominator * saving :=
+  hbound.trans_eq
+    (congrArg (fun denominator : ℝ => numerator / denominator * saving) hdenominator)
+
+private theorem exceptionalLabel_divisor_transport
+    (firstWeight firstCoefficient secondCoefficient quotient bound : ℝ)
+    {sourceFirst targetFirst sourceSecond targetSecond : ℝ}
+    (hfirst : sourceFirst = targetFirst) (hsecond : sourceSecond = targetSecond)
+    (hbound : firstWeight * targetFirst * firstCoefficient * targetSecond *
+      secondCoefficient * quotient ≤ bound) :
+    firstWeight * sourceFirst * firstCoefficient * sourceSecond *
+      secondCoefficient * quotient ≤ bound :=
+  (congrArg₂ (fun first second : ℝ => firstWeight * first * firstCoefficient *
+    second * secondCoefficient * quotient) hfirst hsecond).le.trans hbound
+
 theorem original_exceptional_label_scalar
     {branch : TwoDivisorCommonBranch (K := F)} (j : branch.Index)
     {Ray₁ Ray₂ : Type*} [CommGroup Ray₁] [Fintype Ray₁] [CommGroup Ray₂] [Fintype Ray₂]
@@ -101,17 +120,28 @@ theorem original_exceptional_label_scalar
   have hc : ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
       ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
       ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
-    have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁)
-        (norm_nonneg (moebius j.2.1.val : ℂ)))
-      (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
+    have hc₁ : ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
+        ‖(moebius j.2.2.2.1.val : ℂ)‖ ≤
+        ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
+      simpa only [mul_one] using mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁)
+          (norm_nonneg (moebius j.2.1.val : ℂ)))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
     simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
-      (norm_nonneg _) (by positivity)
+      (norm_nonneg (fixedPhaseCoefficient Ray₂ phase₂ χ₂))
+      (mul_nonneg (norm_nonneg (moebius j.2.1.val : ℂ))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ)))
   have hp0 : 0 ≤ firstCost / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ) *
       (secondCost * Z ^ remaining /
         (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) * Z ^ (-lower)) :=
     mul_nonneg (div_nonneg hfirstCost (Nat.cast_nonneg _)) (hm.trans hsecond)
-  have hfinal := mul_le_mul hp hc (by positivity) hp0
+  have hfinal := mul_le_mul hp hc
+    (mul_nonneg
+      (mul_nonneg
+        (mul_nonneg (norm_nonneg (moebius j.2.1.val : ℂ))
+          (norm_nonneg (fixedPhaseCoefficient Ray₁ phase₁ χ₁)))
+        (norm_nonneg (moebius j.2.2.2.1.val : ℂ)))
+      (norm_nonneg (fixedPhaseCoefficient Ray₂ phase₂ χ₂))) hp0
   refine (exceptionalLabel_scalar_left firstWeight
     ‖(moebius j.2.1.val : ℂ)‖ ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖
     ‖(moebius j.2.2.2.1.val : ℂ)‖ ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖
@@ -127,7 +157,6 @@ variable (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
 
 namespace SecondSideFrame
 
-set_option maxHeartbeats 800000 in
 /-- The public source estimate has no per-leaf exceptional inequality
 as a hypothesis.  It is produced from actual atom and valuation data,
 then multiplied by the literal first/second divisor and phase factors.
@@ -228,23 +257,58 @@ theorem exceptional_original_label_from_atoms
           Z ^ (remaining + widthError +
             (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)) *
           branch.exceptionalDyadWeight Z divisorLower j := by
-  have hsecond := exceptional_relative_terminal_from_atoms
-    (HL := HL) (HR := HR) (ε := ε) (maskExponent := maskExponent) (hε := hε) (hmask := hmask)
-    left right EL ER W Q ξ TL TR UL UR
-    Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
-    r₁ r₂ divisorLower slotError height stepσ δ parentWidth remaining rowError widthError
-    hZ hv hr₁ hdivisor hheight hleftAtoms hrightAtoms hexponent hgcd hunit
-    base hclass hfactor hwindow hcutoff hF₁ hF₂ hvsum hmask0 hmasknorm htime hminimum
-    hradius hcentral hdyad hremaining hwidth
-  have hfirst := firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal
-    firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
-    hfirstLeft hfirstRight hfirstSupport
-  rw [hleftIdeal, hrightIdeal] at hsecond
-  rw [hSindex, hleftDivisor]
-  apply original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
-    Z _ _ firstCost _ parentWidth _ divisorLower (zero_lt_one.trans hZ)
-    (left.exceptionalMagnitude_nonneg right EL ER Q ξ) hfirstCost hfirst
-  exact hsecond
+  let firstWeight : ℝ := firstOriginalAllowanceWeight Z firstParentWidth firstTotal
+    firstProfile j.1.val.1.1 j.1.val.1.2
+  let magnitude : ℝ := left.exceptionalMagnitude right EL ER Q ξ
+  let secondCost : ℝ :=
+    (W.commonEnvelope * orbitalFieldFactor F) *
+      ((W.originalFiber : ℝ) * exceptionalTerminalConstant (V := V) (σ := σ) (η := η) (hS := hS)
+        HL HR ε maskExponent hε hmask * (UL.constant * UR.constant) *
+        (1 + height) ^ exceptionalTerminalOrder (V := V) (σ := σ) (η := η) (hS := hS)
+          HL HR ε maskExponent hε hmask)
+  let exponent : ℝ := remaining + widthError +
+    (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)
+  have hsecond : magnitude / Z ^ parentWidth ≤
+      secondCost * Z ^ exponent /
+        (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ) * Z ^ (-divisorLower) :=
+    exceptional_relative_terminal_from_atoms
+      (F := F) (A := A) (σ := σ) (η := η) (hS := hS) (V := V)
+      (R := R) (C := C) (Ray := Ray)
+      (HL := HL) (HR := HR) (ε := ε) (maskExponent := maskExponent) (hε := hε) (hmask := hmask)
+      left right EL ER W Q ξ TL TR UL UR
+      Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
+      r₁ r₂ divisorLower slotError height stepσ δ parentWidth remaining rowError widthError
+      hZ hv hr₁ hdivisor hheight hleftAtoms hrightAtoms hexponent hgcd hunit
+      base hclass hfactor hwindow hcutoff hF₁ hF₂ hvsum hmask0 hmasknorm htime hminimum
+      hradius hcentral hdyad hremaining hwidth
+  have hfirst : firstWeight ≤
+      firstCost / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ) :=
+    firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal
+      firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
+      hfirstLeft hfirstRight hfirstSupport
+  have hradical : (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ) =
+      (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) :=
+    congrArg (fun I : Ideal (𝓞 F) => (Ideal.absNorm I : ℝ))
+      (congrArg₂ (fun I J : Ideal (𝓞 F) => commonRadical I J) hleftIdeal hrightIdeal)
+  have hsecondIndex : magnitude / Z ^ parentWidth ≤
+      secondCost * Z ^ exponent /
+        (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) *
+        Z ^ (-divisorLower) :=
+    exceptionalLabel_denominator_transport hradical hsecond
+  have hlabel : firstWeight * ‖(moebius j.2.1.val : ℂ)‖ *
+      ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ *
+      ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖ * (magnitude / Z ^ parentWidth) ≤
+      firstCost * secondCost * Z ^ exponent * branch.exceptionalDyadWeight Z divisorLower j :=
+    original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
+      Z firstWeight magnitude firstCost secondCost parentWidth exponent divisorLower
+      (zero_lt_one.trans hZ) (left.exceptionalMagnitude_nonneg right EL ER Q ξ)
+      hfirstCost hfirst hsecondIndex
+  exact exceptionalLabel_divisor_transport firstWeight
+    ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖
+    (magnitude / Z ^ parentWidth)
+    (firstCost * secondCost * Z ^ exponent * branch.exceptionalDyadWeight Z divisorLower j)
+    (congrArg (fun I : Ideal (𝓞 F) => ‖(moebius I : ℂ)‖) hSindex)
+    (congrArg (fun I : Ideal (𝓞 F) => ‖(moebius I : ℂ)‖) hleftDivisor) hlabel
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep

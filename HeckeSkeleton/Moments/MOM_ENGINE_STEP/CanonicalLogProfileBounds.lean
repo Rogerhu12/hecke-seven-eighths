@@ -79,28 +79,28 @@ theorem multiplier_eq_zero_mul_phase (ξ : V) (y : ℝ) :
 theorem continuous_multiplier (y : ℝ) : Continuous (fun ξ : V => p.multiplier ξ y) :=
   continuous_const.mul (continuous_jointPhase (p.location y))
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {K : Type} [Field K] [NumberField K] {«ω» ψ : HeckeCharacter K}
 
-theorem actualPlainAtom_phase (d : MomentData K ω ψ)
+theorem actualPlainAtom_phase (d : MomentData K «ω» ψ)
     (W : IdealTest K) (positive : PositivePlainProfile W)
     (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) (ξ : V) :
     actualPlainAtom d (p.idealTest W positive ξ) u N t I =
       actualPlainAtom d (p.idealTest W positive 0) u N t I *
         jointPhase ξ (p.location (idealNorm K I / N)) := by
+  dsimp only [actualPlainAtom, idealTest]
   by_cases hI : I ∈ W.support u t N
-  · simp only [actualPlainAtom, idealTest, if_pos hI,
-      p.multiplier_eq_zero_mul_phase ξ]
+  · simp only [if_pos hI, p.multiplier_eq_zero_mul_phase ξ]
     ring
-  · simp only [actualPlainAtom, idealTest, if_neg hI, zero_mul]
+  · simp only [if_neg hI, zero_mul]
 
-theorem norm_actualPlainAtom (d : MomentData K ω ψ)
+theorem norm_actualPlainAtom (d : MomentData K «ω» ψ)
     (W : IdealTest K) (positive : PositivePlainProfile W)
     (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) (ξ : V) :
     ‖actualPlainAtom d (p.idealTest W positive ξ) u N t I‖ =
       ‖actualPlainAtom d (p.idealTest W positive 0) u N t I‖ := by
   rw [p.actualPlainAtom_phase d W positive u I N t ξ, norm_mul, norm_jointPhase, mul_one]
 
-theorem continuous_actualPlainAtom (d : MomentData K ω ψ)
+theorem continuous_actualPlainAtom (d : MomentData K «ω» ψ)
     (W : IdealTest K) (positive : PositivePlainProfile W)
     (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     Continuous (fun ξ : V => actualPlainAtom d (p.idealTest W positive ξ) u N t I) := by
@@ -186,7 +186,7 @@ private theorem compact_logPhase_derivative_bound
       ‖iteratedFDerivWithin ℝ i Real.log (Set.Ioi 0) y‖ ≤ D ^ i := by
     intro i hi hin
     rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
-      ((Real.contDiffAt_log.mpr hy0.ne').of_le (by simp)) hy0]
+      (((Real.contDiffAt_log (n := ∞)).mpr hy0.ne').of_le (by simp)) hy0]
     exact (hlog y hy i (hin.trans hn)).trans (le_self_pow₀ hD (by omega))
   have hc := norm_iteratedFDerivWithin_comp_le (contDiff_traceRealMovingPhase ν).contDiffOn
     hlogon (show (n : ℕ∞ω) ≤ ∞ by simp) uniqueDiffOn_univ hΩ.uniqueDiffOn
@@ -293,7 +293,7 @@ def shapeSchwartz (window : Set ℝ) (hcompact : IsCompact window)
   ((show HasCompactSupport (φ : ℝ → ℂ) from
     hcompact.of_isClosed_subset (isClosed_tsupport _) hsupport).mul_right
       (f' := normalShape δ ν)).toSchwartzMap
-        (shapeProduct_smooth δ ν φ (hpositive ∘ hsupport))
+        (shapeProduct_smooth δ ν φ (hsupport.trans hpositive))
 
 @[simp] theorem shapeSchwartz_apply (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (δ ν : ℝ) (φ : 𝓢(ℝ, ℂ))
@@ -332,7 +332,7 @@ theorem shapeSchwartz_seminorm_bound
       (show (n : ℕ∞ω) ≤ ∞ by simp)
     change ‖iteratedFDerivWithin ℝ n (shapeProduct δ ν φ) (Set.Ioi 0) y‖ ≤ _ at hb
     rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
-      (((shapeProduct_smooth δ ν φ (hpositive ∘ hsupport)).contDiffAt).of_le (by simp))
+      (((shapeProduct_smooth δ ν φ (hsupport.trans hpositive)).contDiffAt).of_le (by simp))
       hy0] at hb
     simp_rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
         (φ.smooth'.contDiffAt.of_le (by simp)) hy0,
@@ -346,6 +346,8 @@ theorem shapeSchwartz_seminorm_bound
       rw [Finset.mul_sum]
       apply Finset.sum_congr rfl
       intro i _
+      change _ = (n.choose i : ℝ) * (‖y‖ ^ k * ‖iteratedFDeriv ℝ i φ.toFun y‖) *
+        ‖iteratedFDeriv ℝ (n - i) (normalShape δ ν) y‖
       ring
     have hsum : (∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ)) = (2 : ℝ) ^ n := by
       exact_mod_cast Nat.sum_range_choose n
@@ -359,7 +361,7 @@ theorem shapeSchwartz_seminorm_bound
         have hin : i ≤ n := Finset.mem_range_succ_iff.mp hi
         have hφ : ‖y‖ ^ k * ‖iteratedFDeriv ℝ i φ y‖ ≤ P :=
           (SchwartzMap.le_seminorm ℂ k i φ y).trans
-            (Seminorm.le_finset_sup_apply
+            (Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℂ ℝ ℂ) (x := φ)
               (Finset.mem_Iic.mpr (show (k, i) ≤ (K, J) from ⟨hk, hin.trans hn⟩)))
         exact mul_le_mul (mul_le_mul_of_nonneg_left hφ (Nat.cast_nonneg _))
           (hshape ν y hywindow (n - i) ((Nat.sub_le n i).trans hn))
@@ -584,8 +586,8 @@ end Atom
 
 section FixedData
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
-variable (d : MomentData K ω ψ)
+variable {K : Type} [Field K] [NumberField K] {«ω» ψ : HeckeCharacter K}
+variable (d : MomentData K «ω» ψ)
 variable (left right : Atom V) (slot : Fin d.geometry.slotCount → Atom V)
 variable (hleft : PositivePlainProfile d.plainTest₁)
 variable (hright : PositivePlainProfile d.plainTest₂)
@@ -607,7 +609,7 @@ theorem clip_data (a : RealParameters) (Z : ℝ) (hZ : 0 < Z) (ξ : V) :
           (plainClippingFactor_pos Z a.n₁ hZ))
         (positive_scaleIdealTest d.plainTest₂ hright (plainClippingFactor Z a.n₂)
           (plainClippingFactor_pos Z a.n₂ hZ)) hslot ξ := by
-  simp only [clipPlainData, data]
+  dsimp only [clipPlainData, data]
   rw [left.scaleIdealTest_idealTest d.plainTest₁ hleft _ _ ξ,
     right.scaleIdealTest_idealTest d.plainTest₂ hright _ _ ξ]
 
@@ -728,11 +730,11 @@ theorem actualPrimeAtom_phase (u : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fi
       actualPrimeAtom (data d left right slot hleft hright hslot 0) i u Z t q *
         jointPhase ξ ((slot i).location
           ((Ideal.absNorm q.asIdeal : ℝ) / Z ^ (d.geometry.slots i).length)) := by
+  dsimp only [actualPrimeAtom, data, Atom.primeWindow, maskValue]
   by_cases hq : q ∈ (d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length)
-  · simp only [actualPrimeAtom, data, Atom.primeWindow, if_pos hq,
-      (slot i).multiplier_eq_zero_mul_phase ξ]
+  · simp only [if_pos hq, (slot i).multiplier_eq_zero_mul_phase ξ]
     ring
-  · simp only [actualPrimeAtom, data, Atom.primeWindow, if_neg hq, zero_mul]
+  · simp only [if_neg hq, zero_mul]
 
 theorem norm_actualPrimeAtom (u : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin d.geometry.slotCount)
     (q : HeightOneSpectrum (𝓞 K)) (Z t : ℝ) (ξ : V) :
@@ -877,11 +879,11 @@ end FixedData
 
 section ProductWindow
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {K : Type} [Field K] [NumberField K] {«ω» ψ : HeckeCharacter K}
 variable {U E : Type*}
   [NormedAddCommGroup U] [InnerProductSpace ℝ U]
   [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-variable (d : MomentData K ω ψ)
+variable (d : MomentData K «ω» ψ)
 variable (left right : Atom (WithLp 2 (U × E)))
 variable (slot : Fin d.geometry.slotCount → Atom (WithLp 2 (U × E)))
 variable (hleft : PositivePlainProfile d.plainTest₁)
@@ -936,12 +938,12 @@ end ProductWindow
 
 section ChosenChild
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {K : Type} [Field K] [NumberField K] {«ω» ψ : HeckeCharacter K}
 variable {A : SArithmeticData K} {σ : K →+* ℂ} {H : Type*} {k : ℕ}
 variable {X : Type*} [NormedAddCommGroup X] [MeasureSpace X] [BorelSpace X]
 
 private theorem restrictSlots_lengthSelection_congr
-    {d e : MomentData K ω ψ} (h : d = e) (n : ℕ)
+    {d e : MomentData K «ω» ψ} (h : d = e) (n : ℕ)
     (hd : d.geometry.slotCount = n) (he : e.geometry.slotCount = n)
     (keep : Finset (Fin n)) :
     d.restrictSlots (lengthSelection d n hd keep) =
@@ -954,8 +956,8 @@ producer.  Only literal identities for its original calibration data
 and frozen time are needed to construct all of its finite-atom fields.
 The removed set is read from that child and is never chosen anew. -/
 def childFiniteControl {source : ActualAllocatedSource A V H k}
-    (D : source.Calibration (σ := σ) ω ψ) {G : D.NormalizedCapacityData}
-    (out : G.Child) (d : MomentData K ω ψ)
+    (D : source.Calibration (σ := σ) «ω» ψ) {G : D.NormalizedCapacityData}
+    (out : G.Child) (d : MomentData K «ω» ψ)
     (left right : Atom V) (slot : Fin d.geometry.slotCount → Atom V)
     (hleft : PositivePlainProfile d.plainTest₁)
     (hright : PositivePlainProfile d.plainTest₂)

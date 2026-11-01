@@ -101,7 +101,7 @@ theorem ReflectionPrimitiveTransfer.withOriginalMesh
       U E hE childOrder parent) :
     ReflectionPrimitiveTransfer (withOriginalMesh mesh primitive) sigma W padding A lower upper
       U E hE childOrder parent := by
-  intro x hunit harithmetic hearlier
+  intro x child hunit harithmetic hearlier
   refine ⟨?_, htransfer x hunit harithmetic hearlier⟩
   exact (parent.fixedLineReflectionChild_fitsMesh
     (reflectionLongFirst parent.parameters) U E hE childOrder x mesh).2 hmesh

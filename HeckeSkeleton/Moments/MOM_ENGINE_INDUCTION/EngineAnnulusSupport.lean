@@ -16,7 +16,8 @@ open scoped Classical NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineInduction
 
-open NumberField DedekindZetaZeroFree HeckeGeneral.Characters HeckeGeneral.Analysis
+open NumberField IsDedekindDomain HeckeGeneral.Characters HeckeGeneral.Analysis
+open DedekindZetaZeroFree (SArithmeticData)
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.Moments.EngineStep

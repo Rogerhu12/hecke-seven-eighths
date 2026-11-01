@@ -328,7 +328,7 @@ theorem reflectionRankedAnnulusPrimitive_transfer
       (upper * (2 : ℝ) ^ (6 * (widthBand sigma widthLimit + 1))) U E0 hE0
       (backwardProfileOrder ground engine reflection
         (parameterCoreRank sigma widthLimit padding parent.parameters - 1)) parent := by
-  intro x hunit harithmetic hearlier
+  intro x child hunit harithmetic hearlier
   exact ⟨reflectionArithmeticPrimitive_of_preserved harithmetic hparent.1,
     rankedAnnulusProfilePrimitive_fixedLine_child ground engine reflection parent
       (reflectionLongFirst parent.parameters) E0 hE0 x hP hlower hlowerSmall hupper

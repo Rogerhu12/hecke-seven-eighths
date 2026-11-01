@@ -18,7 +18,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.EngineInduction
 
-open NumberField HeckeGeneral.Characters HeckeGeneral.Analysis
+open NumberField IsDedekindDomain HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open scoped Classical

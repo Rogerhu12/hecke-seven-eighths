@@ -107,7 +107,7 @@ theorem ReflectionPrimitiveTransfer.withDataPrimitive
       U E hE childOrder parent) :
     ReflectionPrimitiveTransfer (withDataPrimitive Q primitive) sigma W padding A lower upper
       U E hE childOrder parent := by
-  intro x hunit harithmetic hearlier
+  intro x child hunit harithmetic hearlier
   exact ⟨hpreserved parent (reflectionLongFirst parent.parameters)
     U E hE childOrder x hQ, htransfer x hunit harithmetic hearlier⟩
 
@@ -123,7 +123,7 @@ theorem ReflectionPrimitiveTransfer.withKappa
       U E hE childOrder parent) :
     ReflectionPrimitiveTransfer (withKappa kappa primitive) sigma W padding A lower upper
       U E hE childOrder parent := by
-  intro x hunit harithmetic hearlier
+  intro x child hunit harithmetic hearlier
   exact ⟨hkappa, htransfer x hunit harithmetic hearlier⟩
 
 end HeckeSkeleton.Moments.EngineInduction

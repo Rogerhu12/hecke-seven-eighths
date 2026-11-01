@@ -19,7 +19,8 @@ open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineInduction
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain
+open DedekindZetaZeroFree (SArithmeticData RayClassCharacter)
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeSkeleton.Moments.EngineStep

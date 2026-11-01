@@ -58,9 +58,18 @@ theorem activeSigma_index_fibre_card_le_sum
     (Finset.univ.filter (fun b : (sigmaCombine families).active Finset.univ =>
       index b.val.1 = i)).card ≤
       ∑ j ∈ Finset.univ.filter (fun j => index j = i), Fintype.card (Λ j) := by
-  simpa only [Finset.univ_sigma_univ, Finset.card_univ] using
-    activeSigma_index_fibre_card_le_sum_of_finsets families Finset.univ
-      (fun _ => Finset.univ) index i
+  calc
+    _ ≤ ((Finset.univ.filter (fun j => index j = i)).sigma
+        (fun j => (Finset.univ : Finset (Λ j)))).card := by
+      apply Finset.card_le_card_of_injOn
+        (fun b : (sigmaCombine families).active Finset.univ => b.val)
+      · intro b hb
+        exact Finset.mem_sigma.mpr
+          ⟨Finset.mem_filter.mpr ⟨Finset.mem_univ _, (Finset.mem_filter.mp hb).2⟩,
+            Finset.mem_univ _⟩
+      · intro a ha b hb hab
+        exact Subtype.ext hab
+    _ = _ := by simp only [Finset.card_sigma, Finset.card_univ]
 
 /-- A proved inner cardinality bound multiplies the original source
 fibre bound. The inner estimate is required only on that same fibre. -/

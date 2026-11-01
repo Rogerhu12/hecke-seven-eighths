@@ -87,7 +87,7 @@ theorem ReflectionPrimitiveTransfer.withParameterPrimitive
       U E hE childOrder parent) :
     ReflectionPrimitiveTransfer (withParameterPrimitive Q primitive)
       sigma W padding A lower upper U E hE childOrder parent := by
-  intro x hunit harithmetic hearlier
+  intro x child hunit harithmetic hearlier
   exact ⟨hpreserved parent (reflectionLongFirst parent.parameters)
     U E hE childOrder x hQ, htransfer x hunit harithmetic hearlier⟩
 

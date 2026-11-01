@@ -237,7 +237,7 @@ files and proof-only compatibility repairs. The current principal pins are:
 
 | Source | Immutable commit | Use |
 | --- | --- | --- |
-| MOM_ENGINE_STEP | `5c432b677f9c58fabe2771194a32adb2d7b4a2a4` | Original producer and its dependency closure |
+| MOM_ENGINE_STEP | `76904bc272e28e0de866bea0aa60b53a54d6c01e` | Original producer and its dependency closure |
 | Source/profile | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Shared source, profile, Fourier, and eligibility definitions |
 | Source follow-up | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Base and actual-row-eligibility interfaces |
 | MOM_PRIME | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Annular-volume dependencies and the actual endpoint |
@@ -250,7 +250,7 @@ separately: it retains the baseline's sibling proofs and adds the three
 actual induction calls and the corresponding `plainSource` adjustment.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 27 local STEP repair files. It
+repair SHA256, and reason for each of the 29 local STEP repair files. It
 includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,

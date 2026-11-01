@@ -99,11 +99,13 @@ def normProfileRecipe_ordinaryPowerChild {X : Type u}
     | true =>
       change ordinaryPowerWindow (sigma x) (frequency x) y * profilePower 0 y = _
       rw [profilePower_zero, mul_one]
+      simp
   right_eq x row hrow time y := by
     cases first with
     | false =>
       change ordinaryPowerWindow (sigma x) (frequency x) y * profilePower 0 y = _
       rw [profilePower_zero, mul_one]
+      simp
     | true => exact W.right_eq PUnit.unit row hrow time y
 
 /-- The genuine positive frequency envelope scales each original norm

@@ -21,7 +21,8 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.EngineInduction
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain
+open DedekindZetaZeroFree (SArithmeticData)
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical

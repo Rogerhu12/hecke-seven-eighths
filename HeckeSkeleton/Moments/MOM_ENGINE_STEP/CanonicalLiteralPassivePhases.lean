@@ -29,6 +29,7 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open UniqueFactorizationMonoid HeckePort.IdealMobiusDivisorSum CommonSupportMass
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ActualSIntegerMoments
+open HeckeGeneral.Analysis.SquarefreeAmplification
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
 
@@ -103,7 +104,6 @@ theorem evaluation_fourteen_mask (C : A.GeneralArithmeticContext σ η hS)
   have he : (generator C p ^ 2) ^ 6 * generator C p ^ 2 =
       generator C p ^ 14 := by
     rw [← pow_mul, ← pow_add]
-    norm_num
   simpa only [he, coprime_power_two J.val p] using h
 
 include R in
@@ -147,9 +147,8 @@ theorem evaluation_original (C : A.GeneralArithmeticContext σ η hS)
         (if IsCoprime J.val (passiveIdeal p e).val then 1 else 0) := by
   cases e with
   | one =>
-      simp [AmplifierValuation.multiplicity, AmplifierValuation.movingMultiplicity,
-        activeElement, activeExponent, passiveIdeal, passiveExponent, powerIdeal,
-        ExteriorIdealEuler.pow, LocalFiniteSums.primeIdeal]
+      change _ = _ * (if IsCoprime J.val (1 : Ideal (𝓞 K)) then 1 else 0)
+      rw [if_pos (isCoprime_one_right : IsCoprime J.val (1 : Ideal (𝓞 K))), mul_one]
   | six =>
       simp only [AmplifierValuation.multiplicity, AmplifierValuation.movingMultiplicity,
         activeElement, activeExponent, passiveIdeal, passiveExponent, Nat.mul_zero,
@@ -159,10 +158,9 @@ theorem evaluation_original (C : A.GeneralArithmeticContext σ η hS)
       by_cases hJ : IsCoprime J.val p.val.asIdeal <;> simp only [hJ, if_true,
         if_false, mul_one, mul_zero]
   | seven =>
-      simpa [AmplifierValuation.multiplicity, AmplifierValuation.movingMultiplicity,
-        activeElement, activeExponent, passiveIdeal, passiveExponent, powerIdeal,
-        ExteriorIdealEuler.pow, LocalFiniteSums.primeIdeal] using
-        evaluation_fourteen P R C p J
+      change _ = _ * (if IsCoprime J.val (1 : Ideal (𝓞 K)) then 1 else 0)
+      rw [if_pos (isCoprime_one_right : IsCoprime J.val (1 : Ideal (𝓞 K))), mul_one]
+      exact evaluation_fourteen P R C p J
 
 def activeMoving (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (e : AmplifierValuation) : OriginalMovingFactors A P R :=
@@ -200,7 +198,9 @@ theorem activeMoving_support (C : A.GeneralArithmeticContext σ η hS)
       simp only [AmplifierValuation.movingMultiplicity, Nat.mul_one, pow_one,
         commonRadical, hs, Finset.inter_self, Finset.prod_singleton]
   | six =>
-      simp [AmplifierValuation.movingMultiplicity, commonRadical, primeSupport]
+      change commonRadical (1 : Ideal (𝓞 K)) 1 = 1
+      simp only [commonRadical, primeSupport, normalizedFactors_one, Multiset.toFinset_zero,
+        Finset.inter_self, Finset.prod_empty]
   | seven =>
       simp only [AmplifierValuation.movingMultiplicity, Nat.mul_one, pow_one,
         commonRadical, hs, Finset.inter_self, Finset.prod_singleton]

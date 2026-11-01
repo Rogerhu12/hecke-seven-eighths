@@ -101,6 +101,8 @@ variable (d : H → AllocationColumn K B.rightSlots → ℂ)
 variable (hc : ∀ h ∈ B.rows, ∀ i ∈ B.left, B.leftCoefficient h i = a * c h i)
 variable (hd : ∀ h ∈ B.rows, ∀ i ∈ B.right, B.rightCoefficient h i = b * d h i)
 
+include hc hd
+
 theorem exceptionalIntegrand_eq_withConstantAtoms (z : U × V) :
     B.exceptionalIntegrand z = (B.withConstantAtoms a b c d).exceptionalIntegrand z := by
   unfold exceptionalIntegrand jointColumnPairMagnitude
@@ -151,6 +153,8 @@ theorem cost_eq_withConstantAtoms :
     B.cost = (B.withConstantAtoms a b c d).cost := by
   rw [cost, cost, B.exceptionalCost_eq_withConstantAtoms a b c d hc hd,
     B.ordinaryCost_eq_withConstantAtoms a b c d hc hd]
+
+omit hc hd
 
 /-- The arithmetic extraction records only the two original single
 coefficient identities; all energy and cost identities are proved. -/
@@ -236,8 +240,10 @@ def ordinaryBinding
   rowWeight := hweight
   leftCoefficient := hleftCoefficient
   rightCoefficient := hrightCoefficient
-  leftPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hleftPoint h hh i hi⟩
-  rightPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hrightPoint h hh i hi⟩
+  leftPoint h hh := ⟨0, fun i hi => by
+    simpa only [leaf, withConstantAtoms, zero_add] using hleftPoint h hh i hi⟩
+  rightPoint h hh := ⟨0, fun i hi => by
+    simpa only [leaf, withConstantAtoms, zero_add] using hrightPoint h hh i hi⟩
 
 /-- The arithmetic source uses precisely the original nonzero complete
 correlations. Omitted rows have zero actual weight, proved from the same
@@ -284,11 +290,15 @@ def ordinaryBindingOnCorrelationSupport
     X.leaf.OrdinaryBinding rectangles where
   rows := by
     intro h hh
-    exact hrows.symm ▸ (Finset.mem_filter.mp hh).1
+    have hmem : h ∈ R.rows ∧ R.correlation h ≠ 0 := by
+      simpa only [ActualSecondCorrelationRows.restrictRows, Finset.mem_filter] using hh
+    exact hrows.symm ▸ hmem.1
   rows_zero h hh hn := by
     have hc : R.correlation h = 0 := by
       by_contra hc
-      exact hn (Finset.mem_filter.mpr ⟨hrows ▸ hh, hc⟩)
+      apply hn
+      simpa only [ActualSecondCorrelationRows.restrictRows, Finset.mem_filter] using
+        (show h ∈ R.rows ∧ R.correlation h ≠ 0 from ⟨hrows ▸ hh, hc⟩)
     change B.rowWeight h * X.leftScalar * star X.rightScalar = 0
     rw [hweight h hh, hc, mul_zero]
   left := hleft
@@ -297,12 +307,15 @@ def ordinaryBindingOnCorrelationSupport
   rowWeight := hweight
   leftCoefficient := hleftCoefficient
   rightCoefficient := hrightCoefficient
-  leftPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hleftPoint h hh i hi⟩
-  rightPoint h hh := ⟨0, fun i hi => by simpa only [zero_add] using hrightPoint h hh i hi⟩
+  leftPoint h hh := ⟨0, fun i hi => by
+    simpa only [leaf, withConstantAtoms, zero_add] using hleftPoint h hh i hi⟩
+  rightPoint h hh := ⟨0, fun i hi => by
+    simpa only [leaf, withConstantAtoms, zero_add] using hrightPoint h hh i hi⟩
 
 /-- A normalization for the actual residual leaf bounds the original
 ordinary term. No source-polynomial or source-energy identity is input. -/
 theorem ordinaryCost_le_sourcePairs
+    {H : Type} {B : ActualHybridLeaf K H U V} (X : B.ConstantAtomExtraction)
     {A : SArithmeticData K} {σ : K →+* ℂ}
     {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
     {C : A.GeneralArithmeticContext σ η hS}
@@ -336,7 +349,7 @@ variable (bounds : b.CommonAtomBounds T Z length w)
 /-- The actual atom construction has factor=residual=1 and all
 characters and slot weights fixed before the physical row. -/
 def constantValue : ℂ :=
-  (bounds.atoms (A := A) (σ := σ) (Finset.univ : Finset PUnit)).value PUnit.unit
+  (bounds.atoms (A := A) (σ := σ) (Finset.univ : Finset PUnit.{1})).value PUnit.unit
 
 theorem atoms_value_eq_constant {J : Type*} (rows : Finset J) (h : J) :
     (bounds.atoms (A := A) (σ := σ) rows).value h =
@@ -345,7 +358,7 @@ theorem atoms_value_eq_constant {J : Type*} (rows : Finset J) (h : J) :
 theorem constantValue_eq_bare (I : A.Exterior)
     (hI : b.plainExtract₁ * b.plainExtract₂ * (∏ i, b.slotExtract i) = I.val) :
     bounds.constantValue (A := A) (σ := σ) = b.bareCommonScalar T Z length w :=
-  bounds.atoms_value (Finset.univ : Finset PUnit) I hI PUnit.unit
+  bounds.atoms_value (Finset.univ : Finset PUnit.{1}) I hI PUnit.unit
 
 end SupportCartesianBranch.CommonAtomBounds
 
