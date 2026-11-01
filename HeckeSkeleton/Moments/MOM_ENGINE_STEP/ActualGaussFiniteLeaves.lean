@@ -158,20 +158,23 @@ private theorem actualRows_withMultiplier_rows
       s.mask s.cutoff s.cutoff_one label).rows =
       ((s.charts DE D).actualRows
         s.mask s.cutoff s.cutoff_one label).rows := by
-  calc
-    _ = ((s.withMultiplier (fun i => (u i : ℂ))).sources DE).rows.filter
-        (fun h => ((s.withMultiplier (fun i => (u i : ℂ))).charts DE D).rowLabel h =
-          label) :=
-      actualRows_rows_eq_source_filter
-        (s.withMultiplier (fun i => (u i : ℂ))) DE D label
-    _ = (s.sources DE).rows.filter (fun h => (s.charts DE D).rowLabel h = label) := by
-      exact congrArg₂
-        (fun (carrier : Finset Q)
-            (rowLabel : Q → Fin ((s.charts DE D).rowLabelCount + 1)) =>
-          carrier.filter (fun h => rowLabel h = label))
-        (s.withMultiplier_rows u DE)
-        (charts_withMultiplier_rowLabel s (fun i => (u i : ℂ)) DE D)
-    _ = _ := (actualRows_rows_eq_source_filter s DE D label).symm
+  apply Finset.ext
+  intro h
+  have hcarrier :
+      h ∈ ((s.withMultiplier (fun i => (u i : ℂ))).sources DE).rows ↔
+        h ∈ (s.sources DE).rows :=
+    (congrArg (fun carrier : Finset Q => h ∈ carrier)
+      (s.withMultiplier_rows u DE)).to_iff
+  have hlabel :
+      ((s.withMultiplier (fun i => (u i : ℂ))).charts DE D).rowLabel h = label ↔
+        (s.charts DE D).rowLabel h = label :=
+    (congrArg
+      (fun rowLabel : Q → Fin ((s.charts DE D).rowLabelCount + 1) =>
+        rowLabel h = label)
+      (charts_withMultiplier_rowLabel s (fun i => (u i : ℂ)) DE D)).to_iff
+  simpa only [SecondBlockProfileChart.actualRows, ActualGaussStage.sources,
+    ActualGaussStage.withMultiplier, ActualGaussSource.withMultiplier,
+    Finset.mem_filter] using (and_congr hcarrier hlabel)
 
 namespace CoveredClassKey
 

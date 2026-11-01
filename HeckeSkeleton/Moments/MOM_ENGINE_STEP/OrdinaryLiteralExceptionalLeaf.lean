@@ -250,7 +250,7 @@ variable {C : A.GeneralArithmeticContext σ η hS}
 variable {R : ActualSecondCorrelationRows A σ H ι}
 variable {kCommonLeft kCommonRight : ℕ}
 variable {Ray : Type*} [CommGroup Ray] [Fintype Ray]
-local notation "V" => WithLp 2 (U × E)
+local notation "ProductFourierSpace" => WithLp 2 (U × E)
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
 
@@ -259,13 +259,13 @@ this original leaf.  The complete occurrence allocations are identified
 after their literal inclusion into the earlier arithmetic cap. -/
 theorem ordinary_exceptional_cost_from_original_atoms
     (leaf : ActualHybridLeaf F H U E) (X : leaf.ConstantAtomExtraction)
-    (left : SecondSideFrame (V := V) C R Ray .left leaf.leftSlots)
-    (right : SecondSideFrame (V := V) C R Ray .right leaf.rightSlots)
+    (left : SecondSideFrame (V := ProductFourierSpace) C R Ray .left leaf.leftSlots)
+    (right : SecondSideFrame (V := ProductFourierSpace) C R Ray .right leaf.rightSlots)
     (W : ActualSecondRowMass R C kCommonLeft kCommonRight)
     {theta : Finset (HeckeCharacter F)} (Q : PairedFiniteCharacters theta H)
     (binding : X.leaf.OrdinaryExceptionalBinding left right Q)
-    (TL : ∀ ξ : V, ∀ h : R.exceptionalRows Q, left.source.OrdinaryExceptionalAt (σ := σ) ΨL WL₁ WL₂ ξ h.val)
-    (TR : ∀ ξ : V, ∀ h : R.exceptionalRows Q, right.source.OrdinaryExceptionalAt (σ := σ) ΨR WR₁ WR₂ ξ h.val)
+    (TL : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q, left.source.OrdinaryExceptionalAt (σ := σ) ΨL WL₁ WL₂ ξ h.val)
+    (TR : ∀ ξ : ProductFourierSpace, ∀ h : R.exceptionalRows Q, right.source.OrdinaryExceptionalAt (σ := σ) ΨR WR₁ WR₂ ξ h.val)
     (UL : ExceptionalAtomicScales left.allocation) (UR : ExceptionalAtomicScales right.allocation)
     (Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v
       r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError : ℝ)
