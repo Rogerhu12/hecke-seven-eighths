@@ -7,6 +7,8 @@ toolchain and project cache setup. The original roots job remains independent.
 The copy's native command retains -DstderrAsMessages=false: pinned Lean otherwise
 captures stderr in isolated in-memory streams. This changes diagnostic transport,
 not heartbeat, async, linter, production source, or acceptance settings.
+--main-unused-section-vars-off adds a diagnostic-only one-command linter control
+to the final integral theorem copy. The earlier source theorem remains unchanged.
 """
 from __future__ import annotations
 
@@ -49,6 +51,9 @@ NATIVE_TIMEOUT_SECONDS = 150
 TERMINATION_GRACE_SECONDS = 10
 MARKER_PREFIX = 'MOM_TRACE OEI a73e8310'
 INPUT_NAME = 'MomEngineDOrdinaryExceptionalLabelIntegralDiagnostic.lean'
+MAIN_DECLARATION = ('HeckeSkeleton.Moments.EngineStep.SecondSideFrame.'
+                    'ordinary_exceptional_original_label_integral_from_atoms')
+MAIN_LINTER_CONTROL = 'set_option linter.unusedSectionVars false in\n'
 
 
 def sha(data: bytes) -> str:
@@ -66,8 +71,8 @@ def write_json(path: Path, value: object) -> None:
     temporary.replace(path)
 
 
-def instrument(source: bytes) -> tuple[bytes, list[dict]]:
-    """Insert marker blocks only into the complete frozen original source."""
+def instrument(source: bytes, *, main_unused_section_vars_off: bool = False) -> tuple[bytes, list[dict]]:
+    """Insert markers and an optional one-command control into the complete source."""
     require(sha(source) == SOURCE_SHA, 'OEI source differs from the reviewed frozen source')
     text = source.decode('utf-8')
     entries: list[dict] = []
@@ -82,7 +87,10 @@ def instrument(source: bytes) -> tuple[bytes, list[dict]]:
         require(not any(entry['label'] == label for entry in entries), 'Duplicate marker label')
         message = f'{MARKER_PREFIX} {kind} {label}'
         keyword = 'run_cmd' if kind == 'CMD' else 'run_tac'
-        if inline is None:
+        if kind == 'OPTION':
+            require(inline is None, 'The one-command linter control cannot be inline')
+            block = MAIN_LINTER_CONTROL
+        elif inline is None:
             padding = '' if kind == 'CMD' else ' ' * indent
             block = (f'{padding}{keyword}\n'
                      f'{padding}  IO.eprintln "{message}"\n'
@@ -146,6 +154,10 @@ def instrument(source: bytes) -> tuple[bytes, list[dict]]:
     add(integrable_end, 'INTEGRABLE_PROOF_RETURNED')
     add(integrable_end, 'DECL_4_INTEGRABLE_AFTER', kind='CMD')
     add(integral_doc, 'DECL_5_INTEGRAL_BEFORE', kind='CMD')
+    if main_unused_section_vars_off:
+        # Stable ordering keeps the existing BEFORE marker outside the control;
+        # only the following original doc/theorem command receives this option.
+        add(integral_doc, 'DECL_5_UNUSED_SECTION_VARS_DISABLED', kind='OPTION')
 
     add(position('  let major := firstCost *\n'), 'MAIN_BODY_ENTER')
     add(position('  have hmajor : 0 ≤ major := by\n'), 'HMAJOR_BEFORE')
@@ -417,6 +429,8 @@ def main() -> int:
     parser.add_argument('--expected-head', default=os.environ.get('OEI_DIAG_EXPECTED_HEAD'))
     parser.add_argument('--dependency-timeout', type=int, default=900)
     parser.add_argument('--prepare-only', action='store_true')
+    parser.add_argument('--main-unused-section-vars-off', action='store_true',
+                        help='Diagnostic copy only: disable unusedSectionVars for the final integral theorem command')
     args = parser.parse_args()
     require(args.dependency_timeout > 0, 'Dependency timeout must be positive')
     repo, evidence = args.repo.resolve(), args.evidence.resolve()
@@ -430,13 +444,22 @@ def main() -> int:
               'native_timeout_seconds': NATIVE_TIMEOUT_SECONDS,
               'heartbeat_override': None, 'lean_async_override': None,
               'profiler_is_diagnostic_only': True, 'original_roots_job_is_independent': True,
-              'linter_option_override': None, 'candidate_only_no_native_failure_inferred': True,
+              'linter_option_override': ({'option': 'linter.unusedSectionVars', 'value': False,
+                                          'scope': MAIN_DECLARATION, 'diagnostic_only': True}
+                                         if args.main_unused_section_vars_off else None),
+              'candidate_only_no_native_failure_inferred': True,
               'diagnostic_stderr_transport': {'option': 'stderrAsMessages', 'value': False,
                                              'pinned_Lean_default': True,
                                              'scope': 'temporary copy native command only',
                                              'purpose': 'keep stderr out of Lean isolated-stream capture'},
               'missing_after_marker_locates_next_declaration': False,
               'baseline_driver_sha256': '6067ec6d0b298d0a4190960bd2ad4df10725e3e98267f80581d4edf9def6ffc7'}
+    result.update(
+        ordinary_baseline_driver_sha256='3e82ae8db18e310aca26120a8ddd1b8dc0915d14540ab35b40b60db33be79af4',
+        diagnostic_variant=('main-unused-section-vars-off' if args.main_unused_section_vars_off else 'markers-only'),
+        production_source_options_changed=False,
+        production_linter_exception_authorized=False,
+        purpose='Observe final integral post-proof progress and expose complete errors; never establish proof acceptance')
     before = diagnostic = None
     input_path = repo / INPUT_NAME
     owned_input = False
@@ -463,14 +486,19 @@ def main() -> int:
                       import_source_sha256={module: sha((repo / (module.replace('.', '/') + '.lean')).read_bytes())
                                             for module in original_imports})
         (evidence / 'OrdinaryExceptionalLabelIntegral.original.lean').write_bytes(source)
-        diagnostic, insertions = instrument(source)
+        diagnostic, insertions = instrument(source, main_unused_section_vars_off=args.main_unused_section_vars_off)
         (evidence / INPUT_NAME).write_bytes(diagnostic)
         result['diagnostic_source_sha256'] = sha(diagnostic)
         write_json(evidence / 'instrumentation.json', {
             'source_sha256': sha(source), 'diagnostic_sha256': sha(diagnostic),
-            'removed_markers_restore_exact_source': restore(diagnostic, insertions) == source,
+            'removed_markers_restore_exact_source': not args.main_unused_section_vars_off and restore(diagnostic, insertions) == source,
+            'removed_all_insertions_restore_exact_source': restore(diagnostic, insertions) == source,
             'original_three_prints_preserved': True, 'original_two_imports_preserved': True,
             'insertion_count': len(insertions), 'insertions': insertions,
+            'marker_count': sum(entry['kind'] != 'OPTION' for entry in insertions),
+            'option_insertions': [entry for entry in insertions if entry['kind'] == 'OPTION'],
+            'diagnostic_variant': result['diagnostic_variant'],
+            'original_module_acceptance': False,
             'calc_3_note': 'Pure original term untouched; markers use adjacent by-block boundaries.',
         })
         (evidence / 'markers.diff').write_text(''.join(difflib.unified_diff(
