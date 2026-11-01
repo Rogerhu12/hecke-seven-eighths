@@ -20,6 +20,12 @@ open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
 variable {K : Type} [Field K] [NumberField K] {A : SArithmeticData K}
 variable {ι κ : Type*}
 
+private theorem directCover_mem_classical_filter_iff {α : Type*} {p : α → Prop}
+    [h : DecidablePred p] {s : Finset α} {i : α} :
+    i ∈ @Finset.filter α p (fun x => Classical.propDecidable (p x)) s ↔ i ∈ s.filter p :=
+  (@Finset.mem_filter α p (fun x => Classical.propDecidable (p x)) s i).trans
+    (@Finset.mem_filter α p h s i).symm
+
 
 variable {σ : K →+* ℂ} {η : RayClassCharacter K A.modulus}
 variable {hS : A.ContainsTraceBadPlaces} {C : A.GeneralArithmeticContext σ η hS}
@@ -45,17 +51,35 @@ def sourceCartesianCover (c : ι → ℂ) :
     rw [hcolumns] at hi'
     exact hi'
   branch a := by
-    have hc : (d.directSource c).columns.filter
-        (fun i => T.reindex.supportExtractionLabel S i = a.val) =
-        T.commonFibre S D a := by
-      change d.columns.filter _ = _
-      rw [hcolumns]
-      rfl
-    rw [hc]
-    apply SourceCartesianAtlas.ofReindex
-      (T.residualReindex S D d.ideal (fun i _ => hideal i) a)
-    obtain ⟨i, hi, ha⟩ := Finset.mem_image.mp a.property
-    exact ⟨i, Finset.mem_filter.mpr ⟨hi, ha⟩⟩
+    let B : SourceCartesianAtlas
+        ((d.directSource c).columns.filter
+          (fun i => T.reindex.supportExtractionLabel S i = a.val))
+        (d.directSource c).ideal := by
+      have hc : (d.directSource c).columns.filter
+          (fun i => T.reindex.supportExtractionLabel S i = a.val) =
+          T.commonFibre S D a := by
+        change d.columns.filter _ = _
+        rw [hcolumns]
+        rfl
+      rw [hc]
+      apply SourceCartesianAtlas.ofReindex
+        (T.residualReindex S D d.ideal (fun i _ => hideal i) a)
+      obtain ⟨i, hi, ha⟩ := Finset.mem_image.mp a.property
+      exact ⟨i, Finset.mem_filter.mpr ⟨hi, ha⟩⟩
+    exact {
+      slotCount := B.slotCount
+      reindex := {
+        plain₁ := B.reindex.plain₁
+        plain₂ := B.reindex.plain₂
+        slots := B.reindex.slots
+        index := B.reindex.index
+        maps := fun x hx => directCover_mem_classical_filter_iff.mpr (B.reindex.maps x hx)
+        injective := B.reindex.injective
+        surjective := fun i hi =>
+          B.reindex.surjective i (directCover_mem_classical_filter_iff.mp hi)
+        ideal_product := B.reindex.ideal_product }
+      plain₁_nonzero := B.plain₁_nonzero
+      plain₂_nonzero := B.plain₂_nonzero }
 
 end DirectGaussData
 end HeckeSkeleton.Moments.EngineStep

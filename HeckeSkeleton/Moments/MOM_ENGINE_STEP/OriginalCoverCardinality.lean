@@ -21,7 +21,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open DedekindZetaZeroFree.LargeSieve
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
 
@@ -144,7 +144,7 @@ theorem supportClassKey_card_le {L : Type*} (labels : Finset L)
         (Nat.mul_le_mul ((LC.branch a).labels_card_le_cap cap (hLC a) P D hD)
           ((RC.branch b).labels_card_le_cap cap (hRC b) P E hE))
     _ = _ := by
-      simp only [Finset.sum_const, Finset.card_univ, Fintype.card_coe, nsmul_eq_mul]
+      simp only [Finset.sum_const, Finset.card_univ, Fintype.card_coe, Nat.nsmul_eq_mul]
       ac_rfl
 
 end SourceCartesianCover

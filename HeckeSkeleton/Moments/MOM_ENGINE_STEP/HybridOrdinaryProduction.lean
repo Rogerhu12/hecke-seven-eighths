@@ -103,22 +103,44 @@ theorem left_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ 
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         (b.val.leftColumns S₁ S₂ S) (fun h => R.weight h * R.correlation h)
         (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 (B.leftTerms r)) x ξ := by
-  simpa only [leftFrame, SecondColumnSide.actualCoefficient,
-    ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
-    SecondAllocationBranch.leftColumns] using
-    (B.leftFactors r).frame_energy C b.val.1.val b.val.2.2.1.val
-      (Finset.mem_filter.mp b.property).2.2.1 ξ
+  have hrows : (R.restrictRows (fun h => ¬exceptional h)).rows =
+      R.rows.filter (fun h => ¬exceptional h) := by
+    ext h
+    simp only [ActualSecondCorrelationRows.restrictRows, Finset.mem_filter]
+  calc
+    _ = jointColumnEnergy (R.restrictRows (fun h => ¬exceptional h)).rows
+        (b.val.leftColumns S₁ S₂ S) (fun h => R.weight h * R.correlation h)
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1
+          (B.leftTerms r)) x ξ :=
+      (B.leftFactors r).frame_energy C b.val.1.val b.val.2.2.1.val
+        (Finset.mem_filter.mp b.property).2.2.1 ξ
+    _ = _ := congrArg (fun rows : Finset H =>
+      jointColumnEnergy rows (b.val.leftColumns S₁ S₂ S)
+        (fun h => R.weight h * R.correlation h)
+        (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1
+          (B.leftTerms r)) x ξ) hrows
 
 theorem right_energy_eq (C : A.GeneralArithmeticContext σ η hS) (r : Bool) (ξ : V) :
     (B.rightFrame C r).energy ξ =
       jointColumnEnergy (R.rows.filter (fun h => ¬exceptional h))
         b.val.rightColumns (fun h => R.weight h * R.correlation h)
         (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 (B.rightTerms r)) y ξ := by
-  simpa only [rightFrame, SecondColumnSide.actualCoefficient,
-    ActualSecondCorrelationRows.restrictRows, ActualSecondCorrelationRows.correlation,
-    SecondAllocationBranch.rightColumns] using
-    (B.rightFactors r).frame_energy C b.val.1.val b.val.2.2.2.val
-      (Finset.mem_filter.mp b.property).2.2.2 ξ
+  have hrows : (R.restrictRows (fun h => ¬exceptional h)).rows =
+      R.rows.filter (fun h => ¬exceptional h) := by
+    ext h
+    simp only [ActualSecondCorrelationRows.restrictRows, Finset.mem_filter]
+  calc
+    _ = jointColumnEnergy (R.restrictRows (fun h => ¬exceptional h)).rows
+        b.val.rightColumns (fun h => R.weight h * R.correlation h)
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1
+          (B.rightTerms r)) y ξ :=
+      (B.rightFactors r).frame_energy C b.val.1.val b.val.2.2.2.val
+        (Finset.mem_filter.mp b.property).2.2.2 ξ
+    _ = _ := congrArg (fun rows : Finset H =>
+      jointColumnEnergy rows b.val.rightColumns
+        (fun h => R.weight h * R.correlation h)
+        (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1
+          (B.rightTerms r)) y ξ) hrows
 
 private theorem ordinary_energy_congr_coefficients {J : Type*}
     (rows : Finset H) (columns : Finset J) (q : H → ℂ)

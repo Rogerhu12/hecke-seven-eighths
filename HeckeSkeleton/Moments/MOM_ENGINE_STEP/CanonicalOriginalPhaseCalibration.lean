@@ -51,7 +51,7 @@ theorem coefficient_one (I : HeckeGeneral.Analysis.NonzeroIdeal K) : heckeIdealC
     ite_eq_right hI]
   rw [show primeIdealValue (primeCoefficient K (1 : HeckeCharacter K)) =
     (fun _ => 1) from funext hp]
-  simp only [Multiset.map_const, Multiset.prod_replicate, one_pow]
+  exact Multiset.prod_map_one
 
 /-- The right character need only be unramified at the actual prime
 divisors of this complete ideal. -/
@@ -217,7 +217,16 @@ theorem activeCharacter_unramified (C : A.GeneralArithmeticContext σ η hS)
   have hmask : (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (primeIdeal p) ∧ IsCoprime (primeIdeal p).val D.support.val then (1 : ℂ) else 0) = 1 :=
     if_pos ⟨outside_prime P p hp, hcop⟩
-  simpa only [hmask, mul_one] using he
+  change zeroExtendedSexticIdealEvaluation K
+      (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P.arithmetic.root6
+      P.arithmetic.primitive6 P.arithmetic.embedding (primeIdeal p)
+      (secondActiveFrequencyGenerator C primes m n pattern) =
+    heckeIdealCoefficient K D.character (primeIdeal p) *
+      (if sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (primeIdeal p) ∧ IsCoprime (primeIdeal p).val D.support.val then (1 : ℂ) else 0) at he
+  exact he.trans ((congrArg
+    (fun z : ℂ => heckeIdealCoefficient K D.character (primeIdeal p) * z) hmask).trans
+      (mul_one _))
 
 /-- The old fixed column deletion as a literal multiplicative mask. -/
 def originalCoprimeMask (M : HeckeGeneral.Analysis.NonzeroIdeal K) : Ideal (𝓞 K) →* ℂ where
@@ -442,6 +451,12 @@ def calibration
       ν oldMask budget inverse left right geometry index hroot hemb
       row hfactor hsector (parent.slotCoefficient (index i)) (primeIdeal p)
     simp only [coefficient_prime] at he
+    change primeCoefficient K (parent.slotCoefficient (index i) * d.rowCharacter row.momentIdeal) p *
+        maskValue d row.momentIdeal p.asIdeal =
+      primeCoefficient K (parent.slotCoefficient (index i) * correction) p *
+          (originalCoprimeMask oldMask) p.asIdeal *
+        actualIdealResidue (A := A) (σ := σ) p.asIdeal g *
+          actualIdealResidue (A := A) (σ := σ) p.asIdeal row.element at he
     rw [mul_comm (d.rowCharacter row.momentIdeal) (parent.slotCoefficient (index i))]
     simpa only [sourcePrimeCoefficient, primeCoefficient_one, mul_one] using he
 

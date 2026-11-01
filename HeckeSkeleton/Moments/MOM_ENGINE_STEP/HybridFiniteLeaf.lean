@@ -242,7 +242,19 @@ theorem fullCorrelationHybridCost_eq_leaf_sum
   unfold fullCorrelationHybridCost
   simp only [Fintype.sum_sigma, Fintype.sum_prod_type, fullCorrelationHybridLeaf,
     ActualHybridLeaf.firstPhaseCost]
-  simp only [Finset.sum_coe_sort, Finset.mul_sum, mul_assoc]
+  simp only [Finset.mul_sum, mul_assoc]
+  refine (Finset.sum_coe_sort
+    (divisorPool (childCartesianColumns T₁ T₂ T) rightIdeals) _).symm.trans ?_
+  apply Finset.sum_congr rfl
+  intro D _
+  apply Finset.sum_congr rfl
+  intro χ _
+  refine (Finset.sum_coe_sort
+    (AllocationMass.idealAllocations D.val (k + 2)) _).symm.trans ?_
+  apply Finset.sum_congr rfl
+  intro a _
+  exact (Finset.sum_coe_sort
+    (AllocationMass.idealAllocations D.val (l + 2)) _).symm
 
 end HeckeSkeleton.Moments.EngineStep
 

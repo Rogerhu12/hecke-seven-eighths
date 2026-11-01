@@ -24,7 +24,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
-open HeckeGeneral.Characters HeckeGeneral.Analysis HeckePort.Moments
+open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis HeckePort.Moments
 open HeckeGeneral.Analysis.ConditionalMoments CommonSupportMass
 open UniqueFactorizationMonoid
 
