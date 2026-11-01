@@ -458,7 +458,7 @@ theorem raw_prime_bound_radius
       apply Real.rpow_le_rpow_of_exponent_le hZ
       exact add_le_add le_rfl (mul_le_mul_of_nonneg_left hlength (by positivity))
     _ = _ := by
-      simp only [radiusFactor, mul_pow, ← Real.rpow_mul_natCast hZpos.le]
+      simp only [radiusFactor, mul_pow, ← Real.rpow_mul_natCast hZpos.le, Nat.cast_ofNat]
       rw [Real.rpow_add hZpos]
       rw [show δ * lengthBound * (2 : ℝ) = 2 * δ * lengthBound by ring]
       ring
