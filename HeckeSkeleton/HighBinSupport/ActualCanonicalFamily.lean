@@ -100,7 +100,14 @@ theorem sum_canonicalFamilyRows (Z T κ upper : ℝ) (hZ : 1 < Z)
           (shellExponent Z (1 / 16) j.val), value u := by
       apply Finset.sum_congr rfl
       intro j _
-      rw [Finset.sum_coe_sort]
+      refine
+        (Finset.sum_coe_sort
+          (canonicalChoices K S P ψ Θ (moderateSource K S Z upper)
+            B e he hB hcommon Z T κ (shellExponent Z (1 / 16) j.val))
+          (fun k : DetectorIndex (detectorDepth e) =>
+            ∑ u ∈ canonicalRows K S P ψ Θ (moderateSource K S Z upper)
+              B e he hB hcommon Z T κ (shellExponent Z (1 / 16) j.val) k,
+              value u)).trans ?_
       exact sum_retainedChoices K S P ψ Θ (arithmeticHighEulerData K S P ψ)
         B e (2 * HighBinVerified.NormForm.internalHeight Z T κ) he hB hcommon
         (maskedShellRows K S (moderateSource K S Z upper) Z
