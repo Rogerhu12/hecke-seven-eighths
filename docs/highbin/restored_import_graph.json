@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "imports_restored": 16,
+  "declaration_regions_unchanged": true,
+  "no_cycles": true,
+  "checks": {
+    "HeckeSkeleton.TargetArithmeticData": {
+      "closure_modules": 3062,
+      "forbidden": []
+    },
+    "HeckeSkeleton.HighBinSupport.ActualTargetEuler": {
+      "closure_modules": 3145,
+      "forbidden": []
+    },
+    "HeckeSkeleton.HighBinSupport.ActualCanonicalTarget": {
+      "closure_modules": 3318,
+      "forbidden": []
+    },
+    "HeckeSkeleton.HighBinSupport.ActualCanonicalData": {
+      "closure_modules": 3146,
+      "forbidden": []
+    },
+    "HeckeSkeleton.HighBinSupport.ActualCanonicalHighBin": {
+      "closure_modules": 1546,
+      "forbidden": []
+    },
+    "HeckeSkeleton.HighBinSupport.ActualCanonicalFamily": {
+      "closure_modules": 1551,
+      "forbidden": []
+    },
+    "HeckeSkeleton.HighBinSupport.ActualCanonicalEuler": {
+      "closure_modules": 3148,
+      "forbidden": []
+    },
+    "HeckeSkeleton.HighBinSupport.ActualCanonicalIdentities": {
+      "closure_modules": 1548,
+      "forbidden": []
+    }
+  },
+  "restoration_audit_sha256": "52751a798ada90a69842f89dd03ff0713900df005ca18483e034047cbfae8ad2",
+  "foundation_manifest_sha256": "b1fff7af405e1a0df53c8bf86142f832755ce87e3437c5c95754199d3fe07925"
+}

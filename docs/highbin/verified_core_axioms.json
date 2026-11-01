@@ -1,0 +1,2297 @@
+{
+  "group": "core",
+  "declarations": {
+    "HeckeGeneral.ThetaSkeleton.Physical.rowEulerRationalValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.rowEulerLiteral_eq_rational": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.rowEulerRationalValue_W_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.rowEulerRationalValue_sub_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.sweptTubeEulerMargin": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.sweptTubeEulerMargin_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.rowEulerRationalValue_sweptTube_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.sweptTube": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.sweptTube_isOpen": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.swept_contour_mem_tube": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.initial_contour_mem_tube": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phase_coordinate_bounds": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_sweptTube_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_denominators_ne_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.analyticAt_realBase_cpow": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analyticOnNhd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analytic_s": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.rowEulerRationalValue_correctedRegion_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramifiedCorrection": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramifiedCorrection_norm_sub_one_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.one_sub_R_ne_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.V_exponent_margin": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.R_exponent_ledger": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.D_exponent_ledger": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.phaseMonomial": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.phaseMonomial_eq_factored": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.phaseMonomial_norm_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.phaseMonomial_norm_le_of_exponent_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.PhaseData": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.PhaseData.alpha_sq_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.specialTerm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.specialTerm_norm_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordV": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordR": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordB": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordR_eq_original": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordB_eq_original": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.norm_one_sub_inv_le_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordV_norm_le_quarter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordR_norm_le_decay": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordR_norm_le_half": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.coordB_norm_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramified_dynamic_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramifiedTableValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramifiedTableValue_eq_correction": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.HighEulerScalarBounds.ramified_table_dynamic_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.specialTerm_swept_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.coordV_swept_quarter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.coordR_swept_decay": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.coordR_swept_half": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.coordB_swept_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.ramifiedTable_swept_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.ramifiedTable_analyticOnNhd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_multipliable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_hasProdLocallyUniformlyOn": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_hasProdLocallyUniformlyOn_s": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_tprod_differentiableOn_s": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.finite_product_norm_le_exp_sum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.product_norm_le_exp_tsum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.finite_exceptional_product_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_tprod_uniform_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.finite_exceptional_subpower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.unmarkedZeroPart": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitLocalEuler": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.unmarkedZeroPart_analyticOnNhd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitLocalEuler_analyticOnNhd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_hasProdLocallyUniformlyOn": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_continuousOn": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_differentiableOn_s": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.finite_small_norms_from_summable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.uniform_finite_exceptional_subpower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.ramifiedTable_swept_norm_le_ten": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_unmarked_uniform_subpower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.denominatorGap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.denominatorGap_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.markedBound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.one_le_markedBound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.unmarkedZeroPart_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.phaseRowEuler_coarse_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.explicitLocalEuler_row_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.explicitLocalEuler_mark_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.explicitEuler_finite_exceptional_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.CoarseEuler.explicitEuler_coarse_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.finite_marked_exceptional_product": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitLocalEuler_row_norm_le_ten": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_marked_uniform_subpower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.fourier": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.fourier_pullback_eq_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.residueKernelEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.sum_pullback": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.fourier_pullback_of_descends": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.gaussAt": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.gaussAt_eq_inv_mul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.gauss_norm_sq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.gauss_norm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.normalizedGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.normalizedGauss_norm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.localConvolution": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.localConvolution_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.localConvolution_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteResidueFourier.localConvolution_same_nonzero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.valuationGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.positiveConvolution": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.weightedTerm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.baseAt": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.baseMarked": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.eta": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.ratio": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.special": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.baseMarked_five_rows": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.finiteTableCorrection": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FiniteLocalTable.finiteTableCorrection_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.gaussFamily": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.normalizedFamily": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.pow_nonprincipal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.character_nonprincipal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.normalizedFamily_norm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.unitPhase_norm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.unitPhase_six": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.neg_one_eq_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.gaussFamily_one_mul_five": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.phaseData": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.phaseData_eta": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.cpow_three_halves": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.cpow_five_halves": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.raw_special_eq_normalized": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.raw_ratio_eq_normalized": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.finiteTable_eq_actualGaussTable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.actualGaussTable_dynamic_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.InFrequencySupport": [
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.residueFrequency": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.residueFrequency_apply_residue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.residueFrequency_ne_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.fourier_eq_zero_of_not_supported": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.fourier_eq_card_mul_residue_gauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.principal_nonzero_active": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.principal_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.nonprincipal_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.nonprincipal_active_norm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimePowerFourier.unit_frequency_exact": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FourierInversion.finite_fourier_inversion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FourierInversion.normalized_finite_fourier_inversion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FourierInversion.unit_not_supported": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FourierInversion.lifted_gauss_unit_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FourierInversion.liftedConvolution": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FourierInversion.liftedConvolution_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.FourierInversion.liftedConvolution_eq_of_neg_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.fourier_unit_invariant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.character_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.fourier_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.fourier_sixth_character_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.finiteConvolution": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.finiteConvolution_frequency_sixth_unit": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.finiteConvolution_denominator_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.GeneratorUnitInvariance.finiteConvolution_outer_shift": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.powerIdeal": [
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.PowerQuotient": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.residueMap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.residueMap_mk": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.residueMap_surjective": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.residueMap_uniformizer": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.residue_kernel_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.kernel_annihilator_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.quotient_mk_zero_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.support_mk_iff_dvd": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.valuation_divisibility_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.support_exact_valuation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.zero_exact_valuation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.residue_kernel_nonzero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.inFrequencySupport_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.fourier_vanishes_below": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.principal_active_value": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.nonprincipal_zero_range": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerSupport.residue_kernel_card": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrincipalPowerGauss.fourier_eq_valuationGauss": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.compensated": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.normalizedCompensation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.normalizedCompensation_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.norm_lower_of_close_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.normalizedCompensation_norm_le_weighted": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.all_rows_selected_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.row_one_error": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.row_one_weighted_scalar_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.SelectedCompensation.row_one_selected_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.UnramifiedFiniteTable.inverse_fifth_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.UnramifiedFiniteTable.baseMarked_unramified": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.UnramifiedFiniteTable.regularSeriesValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.UnramifiedFiniteTable.regular_base_identification": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.valuationGauss_step": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.valuationGauss_zero_below": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.valuationGauss_stable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.positiveConvolution_step": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.positiveConvolution_zero_below": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.positiveConvolution_stable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedTerm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedTerm_step": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedTerm_lower_edge": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedTerm_higher_denominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.geometric_indicator_summable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.valuationGauss_summable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.positiveConvolution_summable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedTerm_frequency_summable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedTerm_base_tail": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.inner": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedSeries": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.inner_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.inner_base": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.diagonal_recurrence_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.diagonal_recurrence_inner_hasSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.diagonal_recurrence_hasSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.inner_family_hasSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.markedSeries_eq_base": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ValuationSeries.ramifiedSeries_eq_finiteTable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localBlockValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localCompletedUnitTerm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localCompletedBlock": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localPositiveBlock": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.completedUnitSeries": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localBlockValue_split": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localPositiveBlock_eq_indicator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localPositiveBlock_summable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localCompletedBlock_summable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.tsum_nat_eq_fin_two": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localPositiveBlock_tsum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localCompletedUnitTerm_tsum_frequency": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localCompletedUnitTerm_tsum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localCompletedBlock_tsum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localBlockValue_tsum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.localMarkedBlock_tsum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.rowExponent": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.moderateExponent": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.rowExponent_eq_moderate": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.countedExponent_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.geometric_exponent_identity": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.full_exponent_identity": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.full_scale_identity": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.dyadic_shell_rpow": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.dyadic_full_scale_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.loss_budget": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.exists_full_normForm_parameter_budget": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.full_slot_expansion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.weighted_slot_product_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.uniform_slot_product_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.selected_error_slot_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.exists_slot_maximizer": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.markedEulerProduct": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.markedEulerProduct_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.finite_compensation_factorization": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.finite_prime_windows_separate": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.indexed_compensation_factorization": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.exists_amplitude_bucket": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitude_label_card": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.exists_amplitude_labels": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.mean_amplitude_range": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.selected_repeated_product_mul_radical_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.repeated_factor_absorbed_with_surplus": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.repeated_factor_absorbed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.repeated_table_absorbed": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.internalHeight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.le_internalHeight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.power_le_internalHeight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.internalHeight_idempotent": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.internalHeight_eq_power_of_ceiling": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.internalHeight_le_power_mul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.internalHeight_rpow_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.internalHeight_rpow_absorb": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.scale_mul_internalHeight_rpow_absorb": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.integral_bound_of_envelope": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.sum_norm_integral_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.sum_integral_normForm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.integral_sum_eq_sum_integral": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.geometricFactor": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.geometricMajorant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.geometricMajorant_nonneg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.geometricFactor_norm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.radical_selected_power_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwise_normForm_of_factors": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.logDerivative_norm_le_of_disc": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.closedBall_inside_buffered_strip": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.fullSlotKernel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.errorSubsetKernel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.fullSlotKernel_eq_sum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.labelledRows": [
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.mem_labelledRows": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.labelledRows_disjoint": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.existsUnique_labelledRows": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.sum_labelledRows": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.fullSlotKernel_integral_decomposition": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.full_packet_label_card": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.two_pow_support_card_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.support_tuple_count_subpower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.repeated_tuple_sum_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.finite_rectangle_identity": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.finite_rectangle_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.gaussianMoment": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.gaussianMoment_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.gaussian_weighted_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.coupled_height_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.coupled_gaussian_profile_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.gaussian_corner_no_decay": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.parameterBox": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.parameter_rectangle_identity": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.parameter_rectangle_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.twoHeightMeasure": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.twoHeightMeasure_mass": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.parameterBox_eq_nested_Icc": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.coupled_face_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.coupled_box_boundary_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.actual_contour_ranges": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.height_volume_absorption": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.coupled_box_external_tail": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.fixed_family_external_tail": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.transform": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.transform_eq_integral": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.norm_transform_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.norm_transform_iteratedDeriv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.one_add_pow_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.weighted_transform_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.exists_rapid_transform_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.weightedProfile": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.weightedProfile_smooth": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.weightedProfile_deriv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.weightedProfile_integrable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.LogFourier.weightedProfile_iteratedDeriv_integrable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.PositiveNormalizer.norm_sum_div_nonneg_sum_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.PositiveNormalizer.norm_sum_div_scaled_nonneg_sum_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.PositiveNormalizer.prime_normalizer_coarse_cost": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.TupleScalar.compensationScalar": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.TupleScalar.compensationScalar_norm_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.TupleScalar.compensatedTerm_norm_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.contractivePhaseData": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.contractivePhaseData_eq_phaseData": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.contractivePhaseData_eta": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.raw_special_eq_contractive": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.raw_ratio_eq_contractive": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.ActualGaussPhases.finiteTable_eq_contractiveGaussTable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.FiniteEulerPolynomial": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.finiteEulerPolynomialValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.FiniteEulerRational": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.finiteEulerRationalValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.Laurent": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.toFinite": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.exponentValue": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.exponentialCharacter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.finiteValue_eq_evaluate": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.monomial": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_monomial": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.constant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.X": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.Y": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.V": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_constant": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_X": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_Y": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_V": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.monomialSW": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_monomialSW": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.R": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_R": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.special": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.evaluate_special": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.ramifiedDenominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.ramifiedNumerator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.ramified": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.ramified_value": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.ramified_dynamic_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.W": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.D": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.E": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.regularDenominator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.regularNumerator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.regular": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinFiniteTables.regular_value": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Global.eulerDerivative": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Global.eulerDerivativeOrder": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Global.testIntegral": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Global.testSeminorm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Global.SmoothAnnularTest": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.PrimeWindowGeometry": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.primeScale": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Good": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Good.eventually_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Good.euler": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Good.eulerDerivativeOrder": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Good.continuous": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Good.integrableOn_mellin": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Good.mellin_euler": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.eulerDerivativeOrder_succ": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.good_toFun": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.eul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.good_eul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.mellin_eul": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Iint": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.integrableOn_Iint": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Iint_nonneg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.norm_pow_mul_mellin_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Iint_add_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.testIntegral_le_seminorm": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Iint_left_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Iint_right_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.Iint_strip_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.one_add_pow_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.pow_mul_norm_mellin_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.ThetaKernel.differentiable_mellin_neg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.ActualDenominator.exists_mellin_uniform_strip_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.ActualDenominator.differentiable_mellin": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.Supported": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.finiteWeight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.weight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.insertEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.finiteWeight_insertEquiv": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.hasSum_supported": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.weight_eq_finiteWeight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.hasProd_of_summable_weight": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.PrimeBlockEuler.hasProd_of_term_factorization": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.LocalSeriesFactorization.regular": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBin.LocalSeriesFactorization.ramified": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_denominators_ne_zero_of_re": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analyticAt": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_analyticOnNhd_positiveRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.ramifiedTable_analyticAt": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.coordR_norm_lt_one_of_re": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.ramifiedTable_analyticOnNhd_positiveRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.unmarkedZeroPart_analyticAt": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitLocalEuler_analyticOnNhd_positiveRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.exists_region_margin": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.phaseRowEuler_region_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.rowEulerRegion_isOpen": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeGeneral.ThetaSkeleton.Physical.rowEulerRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinJointAnalytic.analyticOnNhd_of_continuousOn_of_coordinate_differentiable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinJointAnalytic.analyticOnNhd_of_tendstoLocallyUniformlyOn": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.rowEulerRegion_convex": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.rowEulerRegion_isPreconnected": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.eqOn_rowEulerRegion_of_initial": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_hasProdLocallyUniformlyOn_rowEulerRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.explicitEuler_analyticOnNhd_rowEulerRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.height_tail_absorb": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinBoundary.height_tail_absorption_external": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwiseBucket": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwiseBucket_val_measurable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwiseBucket_spec": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.pointwiseAmplitudeLabel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.mem_amplitudeRegion_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion_subset": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion_measurable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.amplitudeRegion_disjoint": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.iUnion_amplitudeRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HighBinVerified.NormForm.sum_integral_amplitudeRegion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_zero_set_countable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_ne_zero_ae_vertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_triple_ne_zero_ae_vertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_triple_vertical_zero_measure": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.finiteEulerPolynomialValue_entire": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinContinuation.entire_quotients_ae_eq_vertical": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "HeckeSkeleton.HighBinActualInitial.FourExponent": [],
+    "HeckeSkeleton.HighBinFiniteTables.Exponent": []
+  },
+  "beyond_standard_axioms": {},
+  "commit": "aac854175d6354c5d28d80362d74f026d77e4aa5",
+  "workflow_run_id": 41158905816,
+  "job_id": 124411794998,
+  "artifact_id": 13026705440,
+  "artifact_sha256": "168b6d5972fe73693ac6de8b831c93fba44c4808798ed26be9fbfdcd8301897e",
+  "verification_kind": "native separate-module build and enumerated public source declaration type/axiom audit",
+  "modules": 60
+}

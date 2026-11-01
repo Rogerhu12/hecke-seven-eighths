@@ -1,0 +1,97 @@
+name: HIGHBIN proof verification
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'HeckeSkeleton/HighBin.lean'
+      - 'HeckeSkeleton/BaseContext.lean'
+      - 'HeckeSkeleton/TargetArithmeticData.lean'
+      - 'HeckeSkeleton/HighBinSupport.lean'
+      - 'HeckeSkeleton/HighBinSupport/**'
+      - 'HeckeGeneral/Analysis/FiniteEulerRational.lean'
+      - 'HeckeGeneral/Analysis/AnnularTest.lean'
+      - 'HeckeGeneral/Analysis/PrimeWindowGeometry.lean'
+      - 'HeckeGeneral/Analysis/GlobalThetaData.lean'
+      - 'HeckeGeneral/Analysis/PhysicalProbeData.lean'
+      - 'HeckeSkeleton/ThetaKernel/TestMellin.lean'
+      - 'HeckeGeneral/Analysis/PhysicalProbeRows.lean'
+      - 'HeckeGeneral/Analysis/PhysicalProbeRowData.lean'
+      - 'vendor/flt/FLTReuse/**'
+      - 'HeckeGeneral/Analysis/TInputRanges.lean'
+      - 'HeckeGeneral/Analysis/RowEulerRegion.lean'
+      - 'scripts/highbin_verify.py'
+      - 'scripts/highbin_inventory.py'
+      - 'scripts/highbin_lean_gate.py'
+      - 'docs/highbin/**'
+      - '.github/workflows/highbin-verify.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  proofs:
+    name: ${{ matrix.scope }}
+    concurrency:
+      group: ${{ matrix.scope == 'actual' && format('highbin-{0}', github.head_ref || github.ref_name) || format('highbin-{0}-{1}', github.head_ref || github.ref_name, matrix.scope) }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        scope: [core, mellin, fourier, euler, normform, boundary, canonical, presentation, actual]
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Reserve space for the pinned toolchain and artifacts
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift
+          df -h /
+      - uses: leanprover/lean-action@bd5cb0b830eda614ce3fc186d8429b9409b16c47
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Release downloaded Mathlib archives
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          configured = os.environ.get('MATHLIB_CACHE_DIR')
+          if configured is not None:
+              cache_dir = Path(configured)
+          else:
+              cache_home = os.environ.get('XDG_CACHE_HOME')
+              cache_dir = (Path(cache_home) if cache_home is not None else Path.home() / '.cache') / 'mathlib'
+          archives = list(cache_dir.glob('*.ltar'))
+          size = sum(p.stat().st_size for p in archives if p.is_file())
+          for archive in archives:
+              if archive.is_file():
+                  archive.unlink()
+          print(f'Released {size} bytes of downloaded archives; installed Lean objects retained.')
+          PY
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+      - name: Compile modules and audit public declarations
+        id: verification
+        run: |
+          set -euo pipefail
+          mkdir -p .highbin-verification
+          git rev-parse HEAD > .highbin-verification/source-commit.txt
+          lean --version | tee .highbin-verification/environment.log
+          /usr/bin/time -v timeout --signal=TERM --kill-after=30s 60m python scripts/highbin_verify.py ${{ matrix.scope }}
+      - name: Preserve verification logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: highbin-verification-${{ matrix.scope }}
+          path: .highbin-verification/
+          if-no-files-found: ignore
+          include-hidden-files: true
