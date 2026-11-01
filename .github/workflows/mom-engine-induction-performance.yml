@@ -1,0 +1,383 @@
+name: PR12 statement and proof diagnostics
+
+# Auxiliary diagnostics only; this workflow lives solely on its performance branch.
+# PR12 retains its clean audit, original-target axiom gates, and whole-project build.
+on:
+  push:
+    branches: [cloud/mom-engine-induction-performance]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-induction-isolated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: Trace ${{ matrix.target }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [ExceptionalOriginalLabel, ActualGaussFiniteLeaves]
+    env:
+      LEAN_NUM_THREADS: '2'
+      PERF_TARGET: ${{ matrix.target }}
+      PERF_SOURCE_COMMIT: 8ac2cb4e2ba41af423ac2d59a125ab224ff329a0
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare runner resources
+        run: |
+          mkdir -p /tmp/pr12-isolated-native-evidence
+          git show --no-patch --format=fuller HEAD > /tmp/pr12-isolated-native-evidence/checkout.txt
+          git diff --exit-code "$PERF_SOURCE_COMMIT" HEAD -- '*.lean' lakefile.toml lake-manifest.json lean-toolchain
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > /tmp/pr12-isolated-native-evidence/memory-mapping.txt
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary Lake artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Record exact source and toolchain provenance
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess
+          def run(*args):
+              return subprocess.check_output(args, text=True).strip()
+          version = run('lake', 'env', 'lean', '--version')
+          mathlib = run('git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD')
+          assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          sources = {str(p): hashlib.sha256(p.read_bytes()).hexdigest()
+                     for p in sorted(pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').glob('*.lean'))}
+          assert len(sources) == 921
+          evidence = {'commit': run('git', 'rev-parse', 'HEAD'),
+                      'tree': run('git', 'rev-parse', 'HEAD^{tree}'),
+                      'source_commit': os.environ['PERF_SOURCE_COMMIT'],
+                      'target': os.environ['PERF_TARGET'],
+                      'lean': version, 'mathlib': mathlib,
+                      'source_sha256': sources,
+                      'scope': 'statement and proof progress diagnostics; not exact full-module or task acceptance'}
+          pathlib.Path('/tmp/pr12-isolated-native-evidence/environment.json').write_text(json.dumps(evidence, indent=2) + '\n')
+          PY
+      - name: Build the complete unchanged target dependencies
+        timeout-minutes: 60
+        shell: bash
+        run: |
+          set -o pipefail
+          status=0
+          timeout --signal=TERM --kill-after=30s 58m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${PERF_TARGET}:deps" 2>&1 |
+            tee /tmp/pr12-isolated-native-evidence/dependencies.log || status=$?
+          echo "$status" > /tmp/pr12-isolated-native-evidence/dependencies-exit-code.txt
+          exit "$status"
+      - name: Locate statement and proof progress with bounded diagnostics
+        timeout-minutes: 6
+        run: |
+          python3 -u - <<'PY'
+          #!/usr/bin/env python3
+          """Generate four statement/IO diagnostics from immutable 8ac; never run Lean."""
+
+          import argparse
+          import hashlib
+          import json
+          from pathlib import Path
+          import subprocess
+
+
+          COMMIT = "8ac2cb4e2ba41af423ac2d59a125ab224ff329a0"
+          SOURCE = "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean"
+          SOURCE_SHA256 = "dcef6c25192de6a24aae34312c0628946e88bc85ee802c2a0ce0a81f519faecb"
+          MARKERS = [
+              (283, "before_body"),
+              (294, "after_lets"),
+              (307, "after_hsecond"),
+              (312, "after_hfirst"),
+              (316, "after_hradical"),
+              (321, "after_hsecondIndex"),
+              (330, "after_hlabel"),
+          ]
+          COMMAND_MARKERS = [
+              (336, "after_from_atoms_command"),
+              (340, "before_final_print_axioms"),
+              (341, "after_final_print_axioms"),
+          ]
+          ANCHORS = {
+              184: "/-- The public source estimate has no per-leaf exceptional inequality",
+              189: "theorem exceptional_original_label_from_atoms",
+              269: "    (hfirstSupport : primeSupport j.1.val.1.1 = primeSupport j.1.val.1.2) :",
+              283: "          branch.exceptionalDyadWeight Z divisorLower j := by",
+              294: "    (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)",
+              307: "      hradius hcentral hdyad hremaining hwidth",
+              312: "      hfirstLeft hfirstRight hfirstSupport",
+              316: "      (congrArg₂ (fun I J : Ideal (𝓞 F) => commonRadical I J) hleftIdeal hrightIdeal)",
+              321: "    exceptionalLabel_denominator_transport hradical hsecond",
+              330: "      hfirstCost hfirst hsecondIndex",
+              338: "end SecondSideFrame",
+              339: "end HeckeSkeleton.Moments.EngineStep",
+          }
+          GAUSS_SOURCE = "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualGaussFiniteLeaves.lean"
+          GAUSS_SHA256 = "dea70c3b22e89ff2818719b88c60ddeb90368f1da5f1034a23f4f43f316528f1"
+          GAUSS_MARKERS = [
+              (143, "before_body"), (146, "after_rows_rightSlots"),
+              (152, "after_rowWeight"), (156, "after_c"), (160, "after_d"),
+              (162, "after_phased_coefficients"), (167, "after_multipliedLeft"),
+              (172, "after_multipliedRight"), (185, "after_cost"),
+              (188, "after_hrows"), (193, "after_hfilter"),
+              (198, "after_hleft"), (203, "after_hright"),
+              (216, "after_hsplit"), (219, "after_change_before_calc"),
+          ]
+
+
+          def sha256(data):
+              return hashlib.sha256(data).hexdigest()
+
+
+          def gauss_diagnostics(repo):
+              raw = subprocess.check_output(["git", "show", COMMIT + ":" + GAUSS_SOURCE], cwd=repo)
+              assert sha256(raw) == GAUSS_SHA256, "immutable Gauss source mismatch"
+              text = raw.decode("utf-8")
+              lines = text.splitlines(keepends=True)
+              assert len(lines) == 361 and text.encode("utf-8") == raw
+              assert lines[134].startswith("/-- This is the actual phase multiplication")
+              assert lines[136].startswith("theorem phase_class_eq_leaf_sum ")
+              assert lines[137].rstrip().endswith("(ξ : W) :")
+              assert lines[142].rstrip().endswith(".firstPhaseCost ξ := by")
+              assert lines[225] == "\n" and lines[226] == "end CoveredClassKey\n"
+              closures = ("end CoveredClassKey\nend ActualGaussStage\n"
+                          "end HeckeSkeleton.Moments.EngineStep\n")
+
+              statement_prefix = lines[:136]
+              statement_prefix[134] = statement_prefix[134].replace("/--", "/-", 1)
+              header = "".join(lines[136:138])
+              binders = header.removeprefix("theorem phase_class_eq_leaf_sum")
+              assert binders.startswith(" (exceptional :") and binders.endswith(" :\n")
+              quantified_binders = binders[:-3] + ",\n"
+              conclusion = "".join(lines[138:143])
+              assert conclusion.endswith(" := by\n")
+              checked_conclusion = conclusion[:-7] + "\n"
+              statement = ("".join(statement_prefix) + "#check ∀" + quantified_binders +
+                           checked_conclusion + "\n" + closures).encode("utf-8")
+              assert quantified_binders[:-2] + " :\n" == binders
+              assert checked_conclusion[:-1] + " := by\n" == conclusion
+
+              prefix = "".join(lines[:226])
+              inserts = {
+                  line: '  run_tac do IO.eprintln "PR12_GAUSS_MARKER ' + label + '"\n'
+                  for line, label in GAUSS_MARKERS
+              }
+              assert all(marker not in text for marker in inserts.values())
+              instrumented_prefix = "".join(
+                  line + inserts.get(index, "") for index, line in enumerate(lines[:226], 1)
+              )
+              restored = instrumented_prefix
+              for marker in inserts.values():
+                  assert restored.count(marker) == 1
+                  restored = restored.replace(marker, "", 1)
+              assert restored == prefix, "non-marker alteration in Gauss prefix"
+              instrumented = (instrumented_prefix + closures).encode("utf-8")
+              outputs = {
+                  "Gauss_phase_statement_only.lean": statement,
+                  "Gauss_phase_instrumented_prefix.lean": instrumented,
+              }
+              metadata = {
+                  "source_path": GAUSS_SOURCE, "source_sha256": GAUSS_SHA256,
+                  "statement": {
+                      "file": "Gauss_phase_statement_only.lean", "sha256": sha256(statement),
+                      "prior_source_lines_preserved": "1-136, except line 135 /-- -> /-",
+                      "binder_source_lines": "137-138; theorem name replaced by #check forall and final : by comma",
+                      "conclusion_source_lines": "139-143; only := by removed",
+                      "introduced_declarations": [], "introduced_admissions": [],
+                  },
+                  "instrumented": {
+                      "file": "Gauss_phase_instrumented_prefix.lean", "sha256": sha256(instrumented),
+                      "retained_original_source_lines": "1-226",
+                      "original_prefix_sha256": sha256(prefix.encode("utf-8")),
+                      "removing_only_markers_recovers_prefix_sha256": sha256(restored.encode("utf-8")),
+                      "markers": [{"after_original_line": line, "label": label,
+                                   "tactic": inserts[line].strip()} for line, label in GAUSS_MARKERS],
+                      "appended_namespace_closures": closures.splitlines(),
+                      "original_later_declarations_and_axiom_prints_omitted": True,
+                  },
+              }
+              return outputs, metadata
+
+
+          def main():
+              parser = argparse.ArgumentParser(description=__doc__)
+              parser.add_argument("--repo", type=Path,
+                                  default=Path("/workspace/scratch/027bdc52ab78/repo"))
+              parser.add_argument("--output", type=Path,
+                                  default=Path(__file__).resolve().with_name("body-diagnostics-8ac"))
+              args = parser.parse_args()
+              raw = subprocess.check_output(["git", "show", COMMIT + ":" + SOURCE], cwd=args.repo)
+              assert sha256(raw) == SOURCE_SHA256, "immutable source mismatch"
+              text = raw.decode("utf-8")
+              lines = text.splitlines(keepends=True)
+              assert len(lines) == 341 and text.encode("utf-8") == raw
+              for line, anchor in ANCHORS.items():
+                  assert lines[line - 1].rstrip("\r\n") == anchor, (line, "anchor mismatch")
+
+              # Lean does not allow a declaration doc comment immediately before #check.
+              # Preserve its text, converting only its opening /-- into ordinary /-.
+              statement_prefix = lines[:188]
+              statement_prefix[183] = statement_prefix[183].replace("/--", "/-", 1)
+              binders = "".join(lines[189:269])
+              assert binders.endswith(" :\n")
+              quantified_binders = binders[:-3] + ",\n"
+              conclusion = "".join(lines[269:283])
+              assert conclusion.endswith(" := by\n")
+              checked_conclusion = conclusion[:-7] + "\n"
+              statement = ("".join(statement_prefix) + "#check ∀\n" + quantified_binders +
+                           checked_conclusion + "".join(lines[336:339])).encode("utf-8")
+              # The only binder/conclusion edits are theorem ':' -> forall ',' and removal
+              # of ':= by'. No declaration, axiom, proof placeholder, or simplified type.
+              assert quantified_binders[:-2] + " :\n" == binders
+              assert checked_conclusion[:-1] + " := by\n" == conclusion
+
+              inserts = {
+                  line: '  run_tac do IO.eprintln "PR12_EO_MARKER ' + label + '"\n'
+                  for line, label in MARKERS
+              }
+              command_inserts = {
+                  line: 'run_cmd do IO.eprintln "PR12_EO_COMMAND ' + label + '"\n'
+                  for line, label in COMMAND_MARKERS
+              }
+              inserts.update(command_inserts)
+              assert all(marker not in text for marker in inserts.values())
+              instrumented_text = "".join(
+                  line + inserts.get(index, "") for index, line in enumerate(lines, 1)
+              )
+              restored = instrumented_text
+              for marker in inserts.values():
+                  assert restored.count(marker) == 1
+                  restored = restored.replace(marker, "", 1)
+              assert restored.encode("utf-8") == raw, "non-marker source alteration"
+              instrumented = instrumented_text.encode("utf-8")
+              outputs = {
+                  "EOL_statement_only.lean": statement,
+                  "EOL_instrumented_body.lean": instrumented,
+              }
+              eol_metadata = {
+                  "source_commit": COMMIT, "source_path": SOURCE, "source_sha256": SOURCE_SHA256,
+                  "scope": "diagnostic statement/proof localization; not exact full-module performance or acceptance",
+                  "native_compilation_performed_by_generator": False,
+                  "statement": {
+                      "file": "EOL_statement_only.lean", "sha256": sha256(statement),
+                      "prior_source_lines_preserved": "1-188, except line 184 /-- -> /-",
+                      "binder_source_lines": "190-269; final : replaced by forall comma",
+                      "conclusion_source_lines": "270-283; only := by removed",
+                      "original_body_omitted": "284-336", "original_target_axiom_print_omitted": 341,
+                      "introduced_declarations": [], "introduced_admissions": [],
+                  },
+                  "instrumented": {
+                      "file": "EOL_instrumented_body.lean", "sha256": sha256(instrumented),
+                      "removing_only_markers_recovers_source_sha256": sha256(restored.encode("utf-8")),
+                      "markers": [{"after_original_line": line, "label": label,
+                                   "tactic": inserts[line].strip()} for line, label in MARKERS],
+                      "command_markers": [{"after_original_line": line, "label": label,
+                                           "command": command_inserts[line].strip()}
+                                          for line, label in COMMAND_MARKERS],
+                      "original_endpoint_axiom_print_preserved": True,
+                  },
+              }
+              gauss_outputs, gauss_metadata = gauss_diagnostics(args.repo)
+              outputs.update(gauss_outputs)
+              manifest = {
+                  "source_commit": COMMIT,
+                  "scope": "four bounded diagnostics; not exact full-module performance or task acceptance",
+                  "native_compilation_performed_by_generator": False,
+                  "required_diagnostic_runner_option": "-DstderrAsMessages=false",
+                  "eol": eol_metadata, "gauss": gauss_metadata,
+              }
+              args.output.mkdir(parents=True, exist_ok=True)
+              for filename, data in outputs.items():
+                  (args.output / filename).write_bytes(data)
+              (args.output / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
+              print(json.dumps({"output": str(args.output), "source_commit": COMMIT,
+                                "files": {name: sha256(data) for name, data in outputs.items()}}))
+
+
+
+          import os
+          import sys
+          import time
+
+          evidence = Path('/tmp/pr12-isolated-native-evidence')
+          diagnostic_dir = evidence / 'diagnostic-sources'
+          sys.argv = ['body-diagnostics', '--repo', '.', '--output', str(diagnostic_dir)]
+          main()
+          manifest = json.loads((diagnostic_dir / 'manifest.json').read_text())
+          assert manifest['required_diagnostic_runner_option'] == '-DstderrAsMessages=false'
+          target = os.environ['PERF_TARGET']
+          assert target in {'ExceptionalOriginalLabel', 'ActualGaussFiniteLeaves'}
+          metadata = manifest['eol' if target == 'ExceptionalOriginalLabel' else 'gauss']
+          selected = [metadata['statement'], metadata['instrumented']]
+          output = Path('/tmp/pr12-body-diagnostic-outputs')
+          output.mkdir(exist_ok=True)
+          results = []
+          for probe in selected:
+              source = diagnostic_dir / probe['file']
+              assert sha256(source.read_bytes()) == probe['sha256']
+              command = ['/usr/bin/time', '-v', '-o', str(evidence / (source.stem + '.time.txt')),
+                         'timeout', '--signal=TERM', '--kill-after=15s', '60s',
+                         'lake', 'env', 'lean', '-j2',
+                         '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+                         '-DstderrAsMessages=false', '--root=' + str(diagnostic_dir),
+                         '-o', str(output / (source.stem + '.olean')),
+                         '-i', str(output / (source.stem + '.ilean')), str(source)]
+              started = time.monotonic()
+              with (evidence / (source.stem + '.log')).open('w') as log:
+                  log.write(json.dumps({'command': command}) + '\n')
+                  log.flush()
+                  process = subprocess.Popen(command, stdout=subprocess.PIPE,
+                                             stderr=subprocess.STDOUT, text=True)
+                  assert process.stdout is not None
+                  for line in process.stdout:
+                      print(line, end='', flush=True)
+                      log.write(line)
+                      log.flush()
+                  code = process.wait()
+              result = {'file': probe['file'], 'diagnostic_source_sha256': probe['sha256'],
+                        'exit_code': code, 'elapsed_seconds': time.monotonic() - started,
+                        'complete_diagnostic': code == 0,
+                        'diagnostic_source_unchanged': sha256(source.read_bytes()) == probe['sha256']}
+              results.append(result)
+              report = {'target': target, 'source_commit': COMMIT,
+                        'scope': 'statement/proof progress diagnostics; not exact full-module acceptance',
+                        'required_diagnostic_runner_option': '-DstderrAsMessages=false',
+                        'results': results}
+              (evidence / 'body-results.json').write_text(json.dumps(report, indent=2) + '\n')
+              print(json.dumps(result), flush=True)
+          original = json.loads((evidence / 'environment.json').read_text())['source_sha256']
+          unchanged = all(sha256(Path(path).read_bytes()) == digest for path, digest in original.items())
+          report['all_task_sources_unchanged'] = unchanged
+          (evidence / 'body-results.json').write_text(json.dumps(report, indent=2) + '\n')
+          assert unchanged and all(p['diagnostic_source_unchanged'] for p in results)
+          raise SystemExit(0 if all(p['exit_code'] == 0 for p in results) else 1)
+
+          PY
+      - name: Preserve exact native timing and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr12-body-diagnostics-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: /tmp/pr12-isolated-native-evidence/
+          if-no-files-found: error
+          retention-days: 14
