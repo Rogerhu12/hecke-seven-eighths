@@ -23,9 +23,9 @@
 | Expansion、HighBin、D-EXPANSION | 13 | 8 万 | 规划完成 |
 | **合计** | **68** | **约 50 万** | |
 
-## 进度（2026-11-01 19:00）
+## 进度（2026-11-01 22:45）
 
-总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 46.9 个单位，**剩余约 21.1 个**：配对引擎 14 个（PR #9 单步、#12 归纳），逆归纳 6 个（PR #8），小义务 6 的余下部分约 1 个（`paired_primes_below_one` 与三个 MI-P 包装）。骨架只剩 `Moments.lean` 的 5 个 sorry。
+总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 53.9 个单位，**剩余约 14.1 个**：配对引擎 14 个（PR #9 单步、#12 归纳）。骨架只剩 `Moments.lean` 的 3 个 sorry：`paired_zero_slot_models`、`paired_positive_below_one`、`paired_positive_endpoint`。
 
 | 单位 | 计入 | 说明 |
 |---|---|---|
@@ -38,11 +38,13 @@
 | THETA_GLOBAL（TH-KP-DATA-1/2、TH-FINITE-VALUATION、TH-MARKED-REFLECTED-ABSOLUTE、TH-REFL-AUTOMORPHIC/DIRECT/REFLECTED-UNFOLD/MELLIN） | 8.0 | 已关闭：PR #2 合并；Pro 写约 3 万行，本地子代理收口编译；五项义务只用三条标准公理 |
 | MOM_BASE（共享底座） | 2.5 | 已关闭：PR #15 合并，引理 4.3、4.4 与实际有限系数（约 4,000 行，建账时高估） |
 | MOM_INV_STEP（规范逆归纳单步，逆变换链约一半） | 5.0 | 已合并：PR #13（c9c002c），274 个文件约 5.75 万行；`canonical_inverse_step` 只用三条标准公理。Pro 写主体，本地子代理收口编译。骨架 sorry 要等 MOM_INV_INDUCTION 接线才消失 |
+| MOM_INV_INDUCTION（逆变换链其余部分，MI-I-CANONICAL-RECURSION） | 6.0 | 已关闭：PR #8 合并（9788f5d），`canonical_inverse_models` 只用三条标准公理；MOM_INV_STEP 的 5 个单位随之兑现 |
 | Moments S0、S1 | 1.5 | ℤ[ω] 专用输入仍为显式假设 |
 | HB-EULER-INITIAL、HB-EULER-EXCEPTIONAL | 0.5 | 核心已并入；接线是 PR #1（草稿） |
 | Expansion、HighBin、D-EXPANSION 簇其余 12.5 个单位（EX-*、HB-PRESENT、HB-NORMFORM、HB-MOVE-BOUNDARY、HB-EULER 接线） | 12.5 | 已关闭：集成 PR #17（235764f）合入 #5、#7；`Expansion.lean`、`HighBin.lean`、`Base.lean` 无 sorry，三条标准公理 |
 | Moments 小义务 2–5（MI-M-MODELS、POLYNOMIAL-CALIBRATION、FIBER-ELIGIBILITY、FINITE-SECTOR-REINDEX、PROFILE-UNIFORMITY、MI-I-SIXTH-POWER-ZEROS、INDEPENDENT-AMPLIFICATION、AMPLIFIED-WITNESS-CALIBRATION） | 4.0 | 已关闭：#5 的共享配方与 #10 的六个目标，经 PR #17 合入；三条标准公理 |
 | 小义务 6 增量：MI-P-PRIME-ABSOLUTE-ENDPOINT | 0.2 | 已关闭：#11 的 `paired_primes_endpoint`，经 PR #17 合入 |
+| 小义务 6 余下：MI-P-PRIME-CANCELLATION-BELOW-ONE | 1.0 | 已关闭：PR #21 合并，`paired_primes_below_one` 对实际模型构造 `PrimeSlotModelControl`，三条标准公理 |
 | 小义务 6（素数相消） | 0.7 | 核心与接线（PR #14）已合并：`paired_primes_below_one_of_models` 对任意模型成立；剩为实际 `momentModels` 验证 `PrimeSlotModelControl` |
 | PR-WINDOW-PIT | 1.0 | 已关闭：Codex 的 `WindowPIT` 接入 `PrimeNormalizer`，编译通过 |
 | DE-EULER-FACTORIZATION | 1.0 | 已关闭：Codex，`descend` 只用三条标准公理 |

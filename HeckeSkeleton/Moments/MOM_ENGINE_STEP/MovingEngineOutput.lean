@@ -45,7 +45,7 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 
 /-- Evaluation at the Fourier parameter changes none of the original
 arithmetic choices. -/
-def at (ξ : X) : CompleteMovingRowRecipe A P R (fun _ : PUnit => data ξ) where
+def «at» (ξ : X) : CompleteMovingRowRecipe A P R (fun _ : PUnit => data ξ) where
   moving := Q.moving
   correction := Q.correction
   correction_mem _ := Q.correction_mem ξ
@@ -77,8 +77,10 @@ variable (out : G.Child)
 slot, retain the original full moving arithmetic. -/
 def completeMovingRowRecipe (Q : CompleteMovingRowRecipe A P R D.data) :
     CompleteMovingRowRecipe A P R out.frozenData :=
-  Q.ofAllowedSubset (fun _ _ hu => hu)
-    (fun _ => rfl) (fun _ => rfl) (fun _ => rfl)
+  (((Q.clipped D.parameters s.base (zero_lt_one.trans s.base_gt_one)).normalized
+      G.radius G.radius_pos).restricted
+        (fun ξ => lengthSelection (G.normalizedData ξ) s.allocation.keep.card (D.count ξ)
+          (Finset.univ \ out.removed))).frozen D.height
 
 theorem completeMovingRowRecipe_moving (Q : CompleteMovingRowRecipe A P R D.data) :
     (out.completeMovingRowRecipe Q).moving = Q.moving := rfl

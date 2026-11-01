@@ -75,7 +75,7 @@ theorem completeMovingRowRecipe_mask
       (completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
         decide (IsCoprime I (recipe.moving.fullMaskSupport recipe.remaining).val)) := by
   rw [recipe.mask ξ u I]
-  simp only [movingFactors_fullMaskSupport_coprime, decide_and, Bool.and_assoc]
+  simp only [movingFactors_fullMaskSupport_coprime, Bool.decide_and, Bool.and_assoc]
 
 /-- The owner recipe itself constructs the exact arithmetic atoms. No
 arbitrary phase, periodic dictionary, or final energy is supplied. -/

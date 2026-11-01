@@ -6,6 +6,7 @@ import CubicSieve.Complete
 import HeckeSkeleton.ExpansionModels.SourceData
 import HeckeSkeleton.ExpansionModels.ActualRowEligibility
 import HeckeSkeleton.Moments.MOM_PRIME.ActualEndpoint
+import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Actual
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
@@ -13,7 +14,8 @@ import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceReindex
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCompleteLocalInputs
+import HeckeSkeleton.Moments.MOM_ENGINE_INTEGRATION.ActualCompleteLocalInputs
+import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceModelClosure
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file still contains named admissions for the other moment tasks.
@@ -260,7 +262,8 @@ theorem canonical_inverse_models
       (probeData K c).arithmetic (finiteMellinData K c)
       (thetaPeriod K (places K c) (probeData K c) (targetCharacter K c))) :
     CanonicalInverseModelBounds (momentModels K c) := by
-  sorry
+  exact Moments.MOM_INV_INDUCTION.SourceModelClosure.actual_canonical_inverse_models
+    K c hquadratic hcubic
 
 -- OBLIGATION MI-I-SIXTH-POWER-ZEROS | Lemma5.1,(5.2),(5.3),pp35–36.
 theorem inverse_sixth_power_masks
@@ -306,7 +309,7 @@ theorem paired_primes_below_one
     (hrows : SourceRowEligibility (momentModels K c))
     (hprofiles : WholeMomentProfileControl (momentModels K c)) :
     PairedPrimeProductBound K c (momentModels K c) (2 * c.family.B - 1) := by
-  sorry
+  exact Moments.MOM_PRIME_BELOW_ONE.actual_paired_primes_below_one K c hB
 
 -- OBLIGATION MI-P-PRIME-ABSOLUTE-ENDPOINT | §4.6,p29.
 -- Existing partial migration: ActualPrimeGeometryAbsoluteBound and

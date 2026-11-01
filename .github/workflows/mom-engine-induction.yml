@@ -1,4 +1,4 @@
-name: Paired moment induction
+name: Paired moment induction (conditional)
 
 on:
   pull_request:
@@ -6,6 +6,7 @@ on:
     paths:
       - HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/**
       - .github/workflows/mom-engine-induction.yml
+      - HeckeSkeleton/Moments/MOM_ENGINE_STEP/**
       - lean-toolchain
       - lake-manifest.json
       - lakefile.toml
@@ -47,7 +48,10 @@ jobs:
           use-github-cache: "false"
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
-      - name: Build the exact head and check every clean task declaration
+      # This job verifies the explicit-step conditional induction.
+      # The original three unconditional names have a separate, strict
+      # MOM_ENGINE_INTEGRATION workflow; they are not claimed by this job.
+      - name: Build every conditional induction module and audit all declarations
         shell: bash
         run: |
           set -euo pipefail
@@ -55,7 +59,7 @@ jobs:
           proof_logs="$RUNNER_TEMP/mom-engine-induction"
           mkdir -p "$proof_logs"
           python3 "$task_dir/verify.py" preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
-          # Leave time for the original-target gate and diagnostic upload.
+          # Bound the native build and retain time for axiom checks and artifact upload.
           # Keep complete diagnostics in the artifact; stream new builds and errors to the console.
           timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit 2>&1 | tee "$proof_logs/build.log" | awk '
             /\] (Built|Building|Failed) / { print; fflush(); context = 0; next }
@@ -72,51 +76,5 @@ jobs:
         with:
           name: mom-engine-induction-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/mom-engine-induction/
-          if-no-files-found: warn
-          retention-days: 14
-
-      # Reuse this exact checkout and its just-built task objects for the
-      # original names. The strict clean gate above and the original-target
-      # allowlist below remain separate. Lake validates restored project
-      # artifacts against this checkout's sources and dependencies.
-      - name: Compile the exact source adapter and report inherited axioms
-        shell: bash
-        run: |
-          set -euo pipefail
-          task_dir=HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION
-          proof_logs="$RUNNER_TEMP/mom-engine-induction-skeleton"
-          mkdir -p "$proof_logs"
-          python3 "$task_dir/verify.py" skeleton-preflight --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/preflight.log"
-          # A command timeout is a real failed build (exit 124), while the job
-          # remains alive to upload the complete diagnostic logs.
-          timeout --signal=TERM --kill-after=30s 140m lake build HeckeSkeleton.Moments 2>&1 | tee "$proof_logs/upstream-build.log" | awk '
-            /\] (Built|Building|Failed) / { print; fflush(); context = 0; next }
-            /^error:|^fatal:|^Some required builds logged failures:/ { context = 1 }
-            /\] Replayed / || /^(warning|info|trace):/ { context = 0; next }
-            context || /^Build (completed|failed)/ { print; fflush() }'
-          printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-build.log"
-          lake env lean "$proof_logs/UpstreamAudit.lean" 2>&1 | tee "$proof_logs/upstream-axioms.log"
-          printf '\nMOM_ENGINE_INDUCTION_SKELETON_UPSTREAM_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/upstream-axioms.log"
-          lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonFamily HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SkeletonSource 2>&1 | tee "$proof_logs/build.log" | awk '
-            /\] (Built|Building|Failed) / { print; fflush(); context = 0; next }
-            /^error:|^fatal:|^Some required builds logged failures:/ { context = 1 }
-            /\] Replayed / || /^(warning|info|trace):/ { context = 0; next }
-            context || /^Build (completed|failed)/ { print; fflush() }'
-          printf '\nMOM_ENGINE_INDUCTION_SKELETON_BUILD_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/build.log"
-          lake env lean "$proof_logs/SkeletonAudit.lean" 2>&1 | tee "$proof_logs/axioms.log"
-          printf '\nMOM_ENGINE_INDUCTION_SKELETON_AUDIT_OK %s\n' "$EXPECTED_SHA" | tee -a "$proof_logs/axioms.log"
-          python3 "$task_dir/verify.py" skeleton-check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/verification.log"
-      - name: Enforce the original three target axiom requirements
-        shell: bash
-        run: |
-          set -euo pipefail
-          proof_logs="$RUNNER_TEMP/mom-engine-induction-skeleton"
-          python3 HeckeSkeleton/Moments/MOM_ENGINE_INDUCTION/verify.py original-check --expected-sha "$EXPECTED_SHA" --output "$proof_logs" 2>&1 | tee "$proof_logs/original-targets.log"
-      - name: Upload separate source integration evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mom-engine-induction-skeleton-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/mom-engine-induction-skeleton/
           if-no-files-found: warn
           retention-days: 14

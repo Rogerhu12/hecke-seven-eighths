@@ -291,12 +291,16 @@ theorem recipeDataReflectionFamily_preparation
       hmassLoss hterminalLoss T hT (places K c) (probeData K c) (momentRowCharacters K c)
       (recipeThetaFamily R) (momentBaseFor i) (sourceReserve c.family.lamA / 8) (momentMesh K c.family).val
       (2 * c.family.B - 1) (Q (momentBaseFor i)) (hQpreserved (momentBaseFor i)) hU (by positivity) le_rfl hfixed hround
-    refine ⟨{ source := RecipeMeshReflectionRootData.withDataPrimitive R Q
+    refine ⟨{
+      source := RecipeMeshReflectionRootData.withDataPrimitive R Q
         (RecipeRankedAnnulusReflectionRootData.withOriginalMesh R
           (RecipeReflectionRootData.withRankedAnnulus R prepared hσ
-            hlower.le (by linarith) hT) hmesh) (hQroot Z T i s),
-      scale := hU, base := ?_,
-      shortReflection := ?_, outerReflection := ?_ }⟩
+            hlower.le (by linarith) hT) hmesh) (hQroot Z T i s)
+      scale := hU
+      base := ?_
+      shortReflection := ?_
+      outerReflection := ?_
+    }⟩
     · intro x _hwidth hlength
       exact (nodes x x.down.property.slot_length_le_bound).1 hlength
     · intro x hwidth hcore hordinary hlarge hshort

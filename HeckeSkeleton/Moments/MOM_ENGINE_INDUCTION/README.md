@@ -1,147 +1,125 @@
-# Paired fourth-moment induction
+# Paired fourth-moment induction from an explicit single step
 
-## Implementation and acceptance requirements
+## Review scope
 
 This directory implements the finite-rank induction in revised §4.8 and
-Theorem 4.2, with the actual source specialization used by PR #12. The
-implementation registers **211 clean task modules and 1,595 explicit public
-declarations**. These are source inventory counts. Acceptance also requires
-the complete native build and recursive axiom audit of the exact reviewed
-revision; PR #12 records the corresponding Actions run and results.
+Theorem 4.2. The coordinator's 2026-11-01 15:00 UTC instruction separates
+its acceptance from PR #9's construction of the paired engine step.
+`StepHypothesis.lean` records the single-step input explicitly;
+`ConditionalTargets.lean` proves the three actual-source projections from
+that input. The dedicated workflow compiles **all 184 core modules** and
+audits all 1,456 explicit public declarations on one exact revision.
 
-The three original declarations in `HeckeSkeleton/Moments.lean` now call the
-actual source pipeline:
+The actual producer and unconditional source integration are retained in
+`HeckeSkeleton/Moments/MOM_ENGINE_INTEGRATION/`. The independent induction
+gate checks that its transitive import graph stays outside that directory
+and outside the STEP producer implementation. Its STEP dependencies are
+an explicit set of 228 data, profile, and transport modules; the actual
+`PairedEngineStep`, Gauss leaf, and exceptional-label producer are outside
+this graph. The separate whole-project workflow retains its original
+scope.
 
-- `HeckeSkeleton.paired_zero_slot_models`;
-- `HeckeSkeleton.paired_positive_below_one`;
-- `HeckeSkeleton.paired_positive_endpoint`.
+The conditions for review of this phase are a complete core build and a
+recursive axiom audit of every public core declaration, including all
+three actual conditional targets. The later integration phase checks the
+three original unconditional names and the complete project. PR #12
+records the exact tested commit, Actions run, and results for each phase.
 
-Their statements are byte-for-byte identical to the statements at base
-`6eb687277d73bc16b4a3e537ba6cdd1fa0fca073`. In particular, each conclusion uses
-physical exponent **one**, and the two positive-slot declarations retain
-the original `PairedPrimeProductBound` premise. The proof first obtains the
-actual dyadic row-width estimate, then applies
-`uniformMomentBound_repaired_power` inside each original declaration. The
-identity `U ^ rowWidth = 2 * U` costs only a fixed factor of two. The
-statements acquire no volume, strict-family, child-energy, or completed
-moment-bound assumption. The final `GeneralHeckeSevenEighths` statement is
-unchanged.
+## The explicit single-step interface
 
-The integrated baseline is now
-`c92578b1fa556b72d01c6ff49bac7f27885f09d7`. Its three intermediate targets
-used the dyadic row exponent; this PR strengthens those conclusions to the
-original physical exponent one, with the same objects and hypotheses.
-`plainSource` consumes the resulting bounds directly, so it no longer
-applies the dyadic conversion a second time. The seven sibling proofs
-merged through that baseline are retained, including the six
-`MOM_UNIFORM_AMPLIFY` obligations and the `MOM_PRIME` absolute endpoint.
+`Source.PairedStepHypothesis Ωengine c` supplies the strict paired-engine
+output for the original target's prepared recursive family. Its quantifier
+order is:
 
-The shared source integration replaces the original base's admitted
-`momentModels` placeholder with the actual `recipeMomentModels` construction. Its dyadic
-row width is `1 + log 2 / log U`, so the row cutoff is `2 * U`. Compared
-with width one, this enlarges only the outer row set of the same model;
-the prime/plain factors, common mask, sector, and other parameters remain
-the same. Since the energy is a sum of nonnegative squared norms, this
-enlargement strengthens the required estimate. It also covers the actual
-physical witnesses, whose norms range up to `2 * U`.
+1. The actual source preparation fixes the positive annulus, decay exponent,
+   and reflection schedule.
+2. The step provider selects its backward engine orders and minimum child
+   profile coefficient.
+3. Source preparation selects common `Cp` and `Hp` satisfying that minimum.
+4. The step family selects its coefficient, height degree, and threshold.
+5. Moving scale, height, source index, node, and frequency are supplied.
 
-`actualRecipeMoment_paired_rows` in `ExpansionModels/ActualRowEligibility.lean`
-proves membership for those original witnesses, including the zero-slot
-principal-character and positive-slot theta exclusions. The
-`paired_source_reindex` theorem in `SourceReindex.lean` preserves the
-original ideal/sector injection and every polynomial factor.
-Statement-text equality with the base therefore needs to be read together
-with this explicit construction and cutoff repair; it is not an assertion
-of definitional equality with the former admitted placeholder.
+The output type follows the existing exact chain:
 
-The induction preserves the original three statements and consumes the
-pinned STEP source with separately registered compatibility repairs.
-Acceptance requires the complete clean audit, source integration build,
-and original-target axiom gate on the same revision, together with the
-whole-project integration build for that PR revision. Source wiring and
-successful leaf or private-helper checks do not constitute that acceptance.
+```text
+RecipeMellinStrictFamily.outputs
+  : MellinStrictBranchAt
+      → LabeledEngineOutput
+      → Node.EngineOutput
+      → EngineStep.PairedEngineConclusion
+```
 
-## The actual source pipeline
+`Node.EngineOutput` is an abbreviation of the STEP owner's structure in
+`MOM_ENGINE_STEP/ReductionOutput.lean`. That structure and its parent-energy
+definitions are unchanged between the previous induction head `e4950f2d`
+and STEP head `ac6b6800`. It records the literal parent and children, their
+parameters, the shared positive kernel, strict width descent, capacities,
+all four terminal contributions, and their local mass bounds. The
+hypothesis supplies these single-step outputs and their profile/child
+admissibility data. Final source moment bounds and recursive child moment
+bounds are proved by the induction.
 
-`Source.actualRecipeScalarInputs c` in `ActualCompleteLocalInputs.lean`
-constructs both the unrestricted no-slot and positive-capacity inputs from
-one actual target. The implementation follows this chain:
+The required child admissibility belongs to the **same produced children**:
+complete moving arithmetic recipe, full joint mask budget, original mesh,
+theta catalogue and kappa, positive annular profiles, and prime support in
+`Ioo 1 2`. The raw STEP predicate has a larger `[0, hi]` window, so its
+narrow-support transport is an explicit part of the later integration.
+`OriginalMeshPairedSupport.narrowAnnulusSupport` and
+`actualRecipeEngineOutput` retain that proof obligation. Review of the
+conditional result does not assert that this instance has been compiled.
 
-1. **Original source and profiles.** `ActualCompleteSourceFamily.lean`
-   consumes the shared `expansionRecipeRaw`, its actual geometry and row
-   eligibility, and `UniformAmplify.actual_source_profile_control`.
-   `RecipeRoot.lean` retains the selected physical witness, complete finite
-   sector set, original slot geometry, and the original mesh. The same
-   target's canonical finite theta family is fixed before moving indices.
-2. **Supported character volume.** `ActualAnnularVolume.lean` and
-   `ActualCatalogueVolume.lean` use the principal/nonnorm continuation
-   results for the original finite character catalogue. They supply the
-   STEP owner's supported `VolumePrimitive` with continuous finite Schwartz
-   remainder seminorms. The hypothesis `tsupport phi ⊆ Icc lo hi` remains
-   explicit throughout this analytic conversion.
-3. **Finite order selection.** `ActualStrictOrders.lean` first takes the
-   finite union of volume orders over all numerical ranks. Child Euler
-   requirements, prime orders, and the two original logarithmic profile
-   transformations then determine the backward profile schedule.
-   `FiniteSchwartzProfileBridge.lean` and
-   `RankedSchwartzProfileBridge.lean` connect those Schwartz requirements to
-   the original Euler integral controls.
-4. **Literal Mellin source.** `MellinSourcePreparation.lean`,
-   `ActualStrictSource.lean`, and `LocalizedCompleteSource.lean` construct
-   the normalized per-frequency model, its original norm profiles, complete
-   moving recipe, and exact allowed-row localization. The complete parent
-   energy and the full row/mask budget are retained.
-5. **Original strict producer.** `ActualStrictEngine.lean` calls
-   `originalMeshPairedEngineStep` with the actual arithmetic choices,
-   analytic provider, supported volume, and original source profiles. The
-   numerical cutoff uses the owner's loss while the original `momentMesh`
-   is passed independently. The actual mass exponent `b.ε + mesh` is paid
-   by the existing induction edge budget.
-6. **Same actual children.** The annulus modules follow the producer's
-   chosen children through active clipping, original slot restriction,
-   radius normalization, and time freezing. `ActualEngineProfiles.lean`
-   and `ActualEngineLabels.lean` transport those children into the scheduled
-   primitive family. The narrow `Icc (lo / hi) hi` window and prime
-   `Ioo 1 2` support are preserved separately from the larger internal
-   exceptional-volume box.
-7. **Scalar induction and original names.** `ActualStrictFamily.lean`,
-   `ActualLocalInputs.lean`, and `ActualLocalInputMeasures.lean` assemble
-   the strict and reflection families with the target's actual Haar and
-   Borel instances. `RecipeMellinInduction.lean` obtains the three recipe
-   projections, and `Moments.lean` converts their dyadic exponent to the
-   original physical exponent one.
+`Source.actualRecipeScalarInputs_of_step` combines the hypothesis with
+`actualRecipeCompleteMellinFamily_preparation`, which already constructs
+the source roots, base cases, and reflection families. Thus the hypothesis
+is consumed before the finite scalar induction runs.
 
-The workflow below validates the complete source construction with the
-standard Lean kernel.
+## The three actual-source targets
 
-## Complete moving recipes and the two arithmetic budgets
+All names in the table have prefix
+`HeckeSkeleton.Moments.EngineInduction.Source`.
 
-The recursive source uses the STEP owner's `CompleteMovingRowRecipe`.
-Its character retains the actual displayed moving factors together with
-its fixed finite correction and original residual ideal. Its common zero
-mask retains the full fixed remaining ideal. The moving factors are
-charged to the moving-support exponent rather than placed in the fixed
-finite theta family.
+| Conditional target | Original conclusion and premises |
+| --- | --- |
+| `paired_zero_slot_models_of_step` | Unrestricted `i.noSlots` bound, with no plain-length capacity condition |
+| `paired_positive_below_one_of_step` | `B < 1`, original positive capacity and selected-set nonemptiness, prime-product premise at `kappa = 2*B-1` |
+| `paired_positive_endpoint_of_step` | `B = 1`, the same positive conditions, absolute prime-product premise at `kappa = 1` |
 
-`CompleteSourceBudgets.lean` and the actual source adapters retain both:
+Each target retains the original calibration, row eligibility, whole-profile,
+and quadratic-sieve premises and adds `PairedStepHypothesis` explicitly.
+The models use the same `expansionRecipeRaw`, full sector family, original
+mask, and selected slots. The conclusion has physical exponent **one**.
+The `For` types are the definitions underlying the compatibility names in
+`Moments.lean`; `PairedInductionQuadraticSieveBound` has exactly the original
+quadratic-sieve definition body.
 
-- `SupportBudget`, controlling the displayed support before cancellation;
-- `FullJointBudget`, controlling the original row norm together with the
-  complete mask support at exponent `m + q`.
+The actual row window is `U ^ rowWidth = 2*U`. The scalar recipe induction
+first proves its dyadic bound; `uniformMomentBound_recipe_physical` changes
+the constant by the fixed factor two while retaining the threshold order,
+height degree, model and index quantifiers. This covers the physical
+witnesses in the original double shell (paper lines 1653–1678 and 4231).
+The final `GeneralHeckeSevenEighths` statement remains unchanged.
 
-`OriginalRowLocalization.lean` restricts to the exact allowed parent rows
-and keeps their complete energy. The same complete recipe and both budgets
-pass through Mellin preprocessing and reflection. Child admission is
-constructed for the producer's actual chosen child, including its original
-character, mask, slot injection, and frozen profiles.
+## Source and arithmetic invariants
 
-`SourceData.lean` supplies transparent compatibility names for the shared
-`HeckeSkeleton.SourceData` interface. `SourceAdapter.lean` and
-`SourceReindex.lean` retain the same scale-indexed expansion, full-sector
-sum, model parameters, and uniform quantifiers. `SkeletonFamily.lean` and
-`SkeletonSource.lean` remain separate integration adapters, compiled after
-the clean task audit. Their conditional low-level wrappers are useful
-interfaces; the three original targets use the actual pipeline above.
+The base is `cbc44997e3baaede3bdfb8423d7c1c6bf4887424` on
+`dtests-handoff`. Shared source, profile, prime, and inverse-induction
+changes from that baseline are retained. The merge preserves both the
+inverse source closure and this PR's original source integration import.
+
+The recursive dictionary uses the STEP owner's `CompleteMovingRowRecipe`.
+Its displayed moving factors remain in the moving-support budget; its
+common zero mask retains the full remaining ideal. `CompleteSourceBudgets`
+keeps both `SupportBudget` and `FullJointBudget`. `OriginalRowLocalization`
+restricts to the exact allowed rows and proves the complete parent energy
+unchanged. Mellin preprocessing and reflection retain the same data.
+
+This phase also restores six already isolated induction fixes from
+`971d2b1c0561274d400c8ca93d8998fd6d3b3b97`: Boolean simplification in
+`MovingRecipeArithmetic` and `RankedAnnulusPrimitive`, and explicit record
+fields in the four recipe reflection-family modules. Five consumed STEP
+proof/API repairs are copied from that candidate or published owner head
+`ac6b6800`; their local source hashes are included in the exact dependency
+evidence. Heartbeat settings are not increased.
 
 ## Finite rank, reflection, and the original mesh
 
@@ -187,7 +165,7 @@ factor two.
 
 `ScheduleCompatibility.lean` uses the original `momentMeshValue`, chosen
 before the geometry, and bounds the full rank by twelve times the original
-strict-width schedule depth. `RecipeStrictEngineBox.lean` checks the
+strict-width schedule depth. The integration adapter `MOM_ENGINE_INTEGRATION/RecipeStrictEngineBox.lean` checks the
 existing reserve against the genuine terminal exponent and the separate
 mesh charge. `ClippedAnnulusSchedule.lean` keeps the positive support range
 compatible with each earlier rank.
@@ -230,128 +208,64 @@ At the public `UniformMomentBound` interface, the height degree and ceiling
 precede `tau`; its scalar and threshold precede all moving indices and
 sectors. Summing sectors costs their fixed finite cardinality once.
 
-## Source provenance and explicit STEP repairs
+## Separate producer integration
 
-`verify.py` records exact imported-source hashes separately from integrated
-files and proof/elaboration compatibility repairs. The current principal pins are:
+The following 31 existing modules have moved to
+`HeckeSkeleton/Moments/MOM_ENGINE_INTEGRATION/`. Their declaration
+namespaces and mathematical statements are retained; module imports follow
+the new paths. This is the complete set of moved modules:
 
-| Source | Immutable commit | Use |
-| --- | --- | --- |
-| MOM_ENGINE_STEP | `76904bc272e28e0de866bea0aa60b53a54d6c01e` | Original producer and its dependency closure |
-| Source/profile | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Shared source, profile, Fourier, and eligibility definitions |
-| Source follow-up | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Base and actual-row-eligibility interfaces |
-| MOM_PRIME | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Annular-volume dependencies and the actual endpoint |
-| Finite-sector reindex | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Finite-sum source modules |
+```text
+ActualCatalogueVolume           ActualCompleteLocalInputs
+ActualEngineArithmetic          ActualLocalInputMeasures
+ActualLocalInputs               ActualStrictConstants
+ActualStrictEngine              ActualStrictFamily
+ActualStrictOrders              ActualStrictSource
+EngineAnnulusSupport            LiteralCalibrationSupport
+LiteralDirectFamilyAnnulus      LiteralPassiveFamilyAnnulus
+LiteralPassiveSideAnnulus       LiteralPooledFamilyAnnulus
+LiteralSideAnnulus              OriginalFamilySupport
+OriginalMeshDirectAnnulus       OriginalMeshDirectEngine
+OriginalMeshEngineMass          OriginalMeshPairedAnnulus
+OriginalMeshPairedEngineStep    OriginalMeshPooledAnnulus
+OriginalMeshPooledEngine        OriginalMeshUniformAnnulus
+OriginalMeshUniformEngine       RecipeStrictEngineBox
+SideAnnulusSupport              SkeletonFamily
+SkeletonSource
+```
 
-The shared `Expansion`, `ExpansionModels`, `HighBinSupport`, `Base`,
-`HighBin`, `SourceData`, `MOM_UNIFORM_AMPLIFY`, and `MOM_PRIME` sources
-match this integrated baseline byte for byte. `Moments.lean` is recorded
-separately: it retains the baseline's sibling proofs and adds the three
-actual induction calls and the corresponding `plainSource` adjustment.
+They retain the actual arithmetic producer and the construction intended
+to instantiate the explicit step interface, including the narrow-support
+transport on its actual children and the original `Moments.lean` route. The integration workflow retains
+the original unconditional target check with the standard three-axiom
+allowlist. The independent phase and its evidence have distinct names and
+scopes.
 
-The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 41 local STEP repair files. It
-includes the concrete native diagnostics at the owner pin, along with declaration
-parameters already supplied by actual callers and corrected doc-comment
-placement around `include` commands. The underlying original atoms,
-profiles, arithmetic data, and producer output remain explicit.
-
-`CanonicalLogProfileBounds.lean` is adopted byte for byte from the
-owner-reviewed `ea5e384fc84dca2408cbda293e60492e7f0824c2` commit. Its proof
-repairs transport the same restricted and frozen families along their
-existing data, count, and time equalities. Public signatures, actual
-support, profiles, selected slots, and all numerical bounds are preserved.
-
-`ActualCoveredLabels.lean` likewise matches the published STEP repair
-`a48360581b2b0ed368a375911d937cc4b44228f8`. It retains the original finite
-tagged sum and closes the remaining definitionally equal tag-point
-functions after polynomial normalization.
-
-The frozen singleton witnesses inside the norm-complete and moving
-admissibility propositions use explicit `PUnit.{1}` indices. This resolves
-the otherwise unconstrained field universe, as in the existing
-`ParentArithmeticAtoms` consumer. The orbit and Fourier-space parameters
-retain their arbitrary universes, and the profile identities and both
-moving-row budgets are unchanged.
-
-In particular, the original `ScaleWindows` certificate, raw profile control,
-centered parent domain, original length/normalization allowance window,
-and complete-child/parent-character certificates
-must appear in the helper signatures that use them. The repairs restore
-those previously declared section inputs with
-`include`; the actual callers already supply the same objects. These repairs
-correct helper signatures as well as proof terms. They preserve the
-original scale-window and comparison-rectangle hypotheses of the induction
-(paper lines 2748–2810 and 2934–2944). The three final task statements and
-their hypotheses remain unchanged.
-
-The corresponding induction consumers restore their previously declared
-child, computed-profile, positive-window, and narrow-window certificates
-in the same way. Their existing callers already provide these objects;
-the frozen data, calibration, and selected annuli are unchanged.
-
-These files are recorded separately from byte-for-byte owner sources.
-The registry establishes provenance; complete native acceptance is still
-provided by the build and recursive axiom checks below.
-
-## Verification and completion gate
+## Native validation
 
 The pinned environment is unmodified Lean **4.35.0-rc3**, compiler commit
 `470d5ce1400764999581fd26d5d72b00d990b0f4`, with Mathlib
 `0493595ecd5da8ef14742febab99728f98e948e8`.
 
-The dedicated `mom-engine-induction.yml` workflow uses one checkout and one
-job for all task acceptance stages:
+The independent workflow uses one exact checkout to:
 
-1. Check the exact source revision, registered hashes, and full inventory.
-2. Build `HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit`, run its complete
-   declaration audit, and enforce the strict axiom allowlist.
-3. Build `HeckeSkeleton.Moments`, then `SkeletonFamily` and `SkeletonSource`,
-   and record their separate source-integration audit.
-4. Run `verify.py original-check` for the three original theorem names.
+1. Enumerate every core module and public declaration and verify the complete
+   transitive import boundary.
+2. Record the revision, dependency pins, toolchain, and source hashes.
+3. Run ordinary `lake build HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Audit`.
+4. Print and validate the recursive axioms of every public core declaration,
+   including the three `of_step` targets.
+5. Recheck that source hashes and declaration inventories stayed unchanged.
 
-The separate `integration-build.yml` workflow must also succeed for the
-reviewed PR revision. It builds every `lean_lib` in `lakefile.toml` and
-records the integrated endpoint axiom report. Evidence must identify its
-tested SHA and its association with the reviewed PR head, including a PR
-merge SHA when that workflow uses one.
+The only allowed axioms are `propext`, `Classical.choice`, and `Quot.sound`.
+Types and proof bodies are both covered by Lean's recursive axiom collector.
+The source scan rejects admissions, custom axioms, and `native_decide` in
+the core; the import boundary excludes the integration producer.
 
-The allowed axioms for the clean declarations and original targets are
-exactly:
-
-```text
-propext
-Classical.choice
-Quot.sound
-```
-
-Lean's recursive axiom collection checks both declaration types and proof
-bodies. The original-target gate rejects `sorryAx` and every other extra
-axiom even if the generic core or source-adapter checks pass. The only
-remaining admissions in `Moments.lean` are `canonical_inverse_models` and
-`paired_primes_below_one`, owned by other tasks. Neither is a permitted
-dependency of the three accepted targets. Their presence in the broader
-integration report does not establish the final global theorem.
-
-Targeted performance probes must state their exact source, compiler,
-heartbeat budget, and scope. A whole-module probe checks more than an
-isolated private helper, and neither replaces the complete task and
-integration gates. In particular, private conductor-helper probes must
-not be reported as successful builds of `MovingRowConductor` or
-`MovingRecipeConductor`.
-
-The workflow restores Mathlib through `use-mathlib-cache: "true"` and the
-repository's project artifacts through
-`Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff`.
-`use-github-cache` is `false`. Standard Lake validates source and dependency
-hashes. Branch-based concurrency cancels obsolete runs when a new head is
-published.
-
-Compilation logs, inventory records, provenance, and axiom reports are saved
-only in the two task evidence artifacts and the whole-project integration
-artifact, including failed-run diagnostics.
-They are not committed to the repository. PR #12 becomes ready for review
-only when all acceptance stages pass for the reviewed revision. Its
-description records the exact accepted head and links to the evidence.
+Mathlib is restored using `use-mathlib-cache: "true"`; project artifacts
+use the repository's official `restore-lake-cache@dtests-handoff` action.
+`use-github-cache` remains `false`, and newer heads cancel obsolete runs
+on the same branch. All build logs, source inventories, and axiom reports
+are saved in Actions artifacts. They are not repository sources.
 
 AI-assisted implementation and review: ChatGPT, GPT-6 Astra Pro and collaborating agents.

@@ -103,13 +103,13 @@ theorem ordinaryPowerChild_profileSupport {d : MomentData K ω ψ}
     cases first with
     | false => exact h (.plain₁ u)
     | true =>
-      simpa only [modelProfile, ordinaryPowerChild, Bool.true_eq_true, if_true,
+      simpa only [modelProfile, ordinaryPowerChild, eq_self, ite_true,
         IdealTest.freezeTwist, ordinaryPowerWindowIdealTest, profilePower_zero,
         mul_one] using hnew
   | plain₂ u =>
     cases first with
     | false =>
-      simpa only [modelProfile, ordinaryPowerChild, Bool.false_eq_true, if_false,
+      simpa only [modelProfile, ordinaryPowerChild, Bool.false_eq_true, ite_false,
         IdealTest.freezeTwist, ordinaryPowerWindowIdealTest, profilePower_zero,
         mul_one] using hnew
     | true => exact h (.plain₂ u)

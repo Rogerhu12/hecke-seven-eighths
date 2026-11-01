@@ -43,11 +43,9 @@ def profileOrders (orders : Finset (ℕ × ℕ)) : Finset (ℕ × ℕ) :=
 theorem norm_le_profileOrders (orders : Finset (ℕ × ℕ))
     (f : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖f x‖ ≤ (profileOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) f := by
-  have hsup := Seminorm.le_finset_sup_apply
-    (p := schwartzSeminormFamily ℂ ℝ ℂ) (s := profileOrders orders) (x := f)
-    (Finset.mem_insert_self (0, 0) orders)
-  rw [SchwartzMap.schwartzSeminormFamily_apply] at hsup
-  exact (SchwartzMap.norm_le_seminorm ℂ f x).trans hsup
+  rw [profileOrders, Finset.sup_insert, Seminorm.sup_apply,
+    SchwartzMap.schwartzSeminormFamily_apply]
+  exact (SchwartzMap.norm_le_seminorm ℂ f x).trans (le_max_left _ _)
 
 theorem exists_upper_window_bound (window : Set ℝ) (hcompact : IsCompact window) :
     ∃ annulus : ℝ, 1 ≤ annulus ∧ window ⊆ Set.Iic annulus := by

@@ -59,7 +59,7 @@ def arithmetic (χ : HeckeCharacter K) :
       exact (Nat.cast_le.mpr hcard).trans
         ((Classical.choose_spec (dyadicIdealSupport_linear_count K)).2 Y hlarge)
     · have hempty : pool.filter (fun p => (Ideal.absNorm p.asIdeal : ℝ) ≤ Y) = ∅ := by
-        apply Finset.eq_empty_iff_forall_not_mem.mpr
+        apply Finset.eq_empty_iff_forall_notMem.mpr
         intro p hp
         have hpY := (Finset.mem_filter.mp hp).2
         have hp2 : (2 : ℝ) ≤ Ideal.absNorm p.asIdeal := by
