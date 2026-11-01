@@ -93,6 +93,7 @@ variable {branch : TwoDivisorCommonBranch (K := K)}
 variable {Ray₁ Ray₂ : Type*}
   [CommGroup Ray₁] [Fintype Ray₁] [CommGroup Ray₂] [Fintype Ray₂]
 
+include L in
 /-- The local original-label bound belongs to the exact full finite
 family used by the parent estimate. The remaining factor includes the
 original first orbital fibre, and, where present, the single pool

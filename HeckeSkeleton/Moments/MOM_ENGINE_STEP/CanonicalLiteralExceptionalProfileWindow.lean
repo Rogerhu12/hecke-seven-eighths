@@ -215,6 +215,7 @@ theorem term_nonzero_profile_values (r : Bool) (i : AllocationColumn K k)
   rw [← W.right_eval r 1 0, E.right_eq] at hright
   exact ⟨hleft, hright⟩
 
+include E in
 theorem term_scale_lower (hi : ℝ) (hhi : 0 < hi)
     (hwindow : window ⊆ Set.Iic hi) (r : Bool) (i : AllocationColumn K k)
     (hne : d.term r i ≠ 0) :
@@ -232,6 +233,7 @@ theorem term_scale_lower (hi : ℝ) (hhi : 0 < hi)
       ((div_le_iff₀ (d.scale₂_pos r)).mp hright)
     simpa only [mul_comm] using h
 
+include E in
 /-- A whole centered column may be active in either rectangle. Their
 original equal scale products transfer the resulting lower bound. -/
 theorem whole_scale_product_lower (hi : ℝ) (hhi : 0 < hi)

@@ -94,9 +94,9 @@ structure Fixed where
         (Ctail * (b.firstBox.cutoff Z) ^ (1 - b.firstBox.decay) * s.tailCost sTail) /
           Z ^ (a.m + a.q) + s.rawRowCost hDiff / Z ^ (a.m + a.q)
 
+include μ in
 /-- Choose the two first terminals once, from the original source
 mother theorem and the same requested finite profile orders. -/
-include μ in
 theorem exists_fixed : Nonempty (Fixed μv ν C hDiff b orders) := by
   have hε : 0 < b.ε / 8 := div_pos b.ε_pos (by norm_num)
   have hloss : b.firstBox.loss ≤ (b.ε / 8) / 4 := by

@@ -26,6 +26,8 @@ open HeckePort.Moments CommonSupportMass
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
+local instance primitiveDirectFactorySixthUnitFintype :
+    Fintype (SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) := Fintype.ofFinite _
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable [IsPrincipalIdealRing A.R]
 variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))]

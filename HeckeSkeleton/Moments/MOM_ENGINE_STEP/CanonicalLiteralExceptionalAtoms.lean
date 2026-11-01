@@ -96,10 +96,10 @@ variable {Ψ : Ideal (𝓞 K) →* ℂ} {W₁ W₂ : ℝ → ℂ}
 variable {ξ : Joint} {row : S.live}
 variable {Y₁ Y₂ : ℝ} {v₁ v₂ : S.live → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ}
 
+include hmask hprime hprofile in
 /-- This fills the atomic control of the already constructed centered
 source on either original side. The character norm bounds are proved
 from its genuine indicator mask. -/
-include hmask hprime hprofile in
 def centeredControl
     (T : (frame).source.ExceptionalAt (σ := σ) Y₁ Y₂ v₁ v₂ Ψ W₁ W₂ ξ row) :
     T.source.AtomicControl d.base
@@ -125,9 +125,9 @@ def centeredControl
       (hp _) (hp _) (fun i _ => hs i _) (fun i _ => ha i) (fun i _ => hw i _)
       (fun j p hp => hprime _ p hp) (fun j p _ => hs _ p) (fun j p _ => hw _ p)
 
+include hmask hprime hprofile in
 /-- Ordinary exceptional charts inherit the very same allocation and
 main rectangle. No comparison-scale estimate is needed. -/
-include hmask hprime hprofile in
 def ordinaryControl
     (T : (frame).source.OrdinaryExceptionalAt (σ := σ) Ψ W₁ W₂ ξ row) :
     T.source.AtomicControl d.base

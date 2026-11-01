@@ -275,10 +275,10 @@ def actualSignedDictionary (rectangle : Bool) (ξ : WithLp 2 (ℝ × ℝ)) :
       correction hcorr C pattern ν remaining extra m q inverse index rectangle firstSign true
       S hone hroot hemb row ξ
 
+include hcorr m q inverse hone hroot hemb in
 /-- The actual row, mask, source characters and finite support
 construct the passive expansion.  There is no final support bound,
 allowed-row assumption or supplied whole-column identity. -/
-include hcorr m q inverse hone hroot hemb in
 theorem actual_centered_allocations
     (choice : PhaseChoice F C)
     (hcharacters : d.characters = sourceCharacters P R F parent oldMoving correction

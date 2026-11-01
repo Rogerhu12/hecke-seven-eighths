@@ -174,10 +174,12 @@ variable {d : MomentData K ω ψ} {a : RealParameters}
 variable {Z Y₁ Y₂ floor padding : ℝ}
 variable (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
 
+include domain in
 theorem comparison_scale_left_nonneg (hc : centered = true) : 0 ≤ Y₁ := by
   rw [domain.comparison_left hc]
   exact Real.rpow_nonneg (zero_le_one.trans domain.scale.le) _
 
+include domain in
 theorem comparison_product_eq_power (hc : centered = true) :
     Y₁ * Y₂ = Z ^ (a.n₁ + a.n₂) := by
   rw [domain.comparison_left hc, domain.comparison_right hc,

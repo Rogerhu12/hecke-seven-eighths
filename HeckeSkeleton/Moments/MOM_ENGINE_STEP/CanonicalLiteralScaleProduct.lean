@@ -36,6 +36,7 @@ variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
 variable {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
 variable (profiles : RawProfileWindow rowDomain heightDomain window seminorms d amplitude)
 
+include profiles in
 theorem primeNorm_le_annulus_mul_scale (B Z t : ℝ) (hZ : 0 < Z)
     (ht : t ∈ heightDomain) (hwindow : ∀ x ∈ window, x ≤ B)
     (i : Fin d.geometry.slotCount) (p : HeightOneSpectrum (𝓞 K))

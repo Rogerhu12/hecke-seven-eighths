@@ -88,6 +88,7 @@ variable {Z firstNormalization remaining : ℝ}
 variable (L : OriginalPairAllowanceWindow left right calL calR W BL BR IL IR
   Z firstNormalization remaining)
 
+include L in
 /-- The actual normalized pair divided by the original first allowance
 has the two genuine second harmonic factors. The original common atoms
 are paid alongside, rather than omitted from, the frozen and removed
@@ -138,6 +139,7 @@ theorem normalized_pair_original_allowance_from_atoms
 variable {branch : TwoDivisorCommonBranch (K := F)}
 variable {Ray₁ Ray₂ : Type*} [CommGroup Ray₁] [Fintype Ray₁] [CommGroup Ray₂] [Fintype Ray₂]
 
+include L in
 /-- The full original scalar of the same normalized pair is bounded
 by its original first-common/S/second-common/L/allocation index. Both
 Möbius coefficients stay in the harmonic weight. The finite characters
