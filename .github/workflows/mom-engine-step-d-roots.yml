@@ -1,0 +1,370 @@
+name: MOM_ENGINE_STEP D root verification
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/**'
+      - '.github/workflows/mom-engine-step-d-roots.yml'
+      - '.github/scripts/mom_engine_step_d_eoi_diagnostic.py'
+      - 'lean-toolchain'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-d-roots-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  roots:
+    if: >-
+      (github.event_name == 'pull_request' && github.head_ref == 'cloud/mom-engine-step-d') ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-engine-step-d')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: ConstantProfileExtraction
+            downstream: ConstantRowWeightOuter
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants
+              - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants_commonEnvelope
+              - HeckeSkeleton.Moments.EngineStep.ActualSecondRowMass.withColumnConstants_rowBound
+              - HeckeSkeleton.Moments.EngineStep.ActualHybridLeaf.ConstantAtomExtraction.trans_leaf
+          - target: OriginalPairAllowanceProduction
+            downstream: SixthDeletionScalarMass
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.OriginalPairAllowanceWindow.ofOriginalWindows
+              - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.ofOriginalLabels
+              - HeckeSkeleton.Moments.EngineStep.ActualCapacityNormLengths.slack_le_of_original_windows
+          - target: ExceptionalOriginalIntegral
+            downstream: HybridLeafExceptionalBinding ActualExceptionalColumnOrientation
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.exceptionalFourierControl
+              - HeckeSkeleton.Moments.EngineStep.SecondSideFrame.exceptional_original_label_integral_from_atoms
+    env:
+      LEAN_NUM_THREADS: '2'
+      D_ROOT_TARGET: ${{ matrix.target }}
+      D_ROOT_DOWNSTREAM: ${{ matrix.downstream }}
+      D_ROOT_DECLARATIONS: ${{ toJSON(matrix.declarations) }}
+      D_ROOT_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      D_ROOT_EVIDENCE: mom-engine-step-d-verification/${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Record exact checkout and all tracked file hashes
+        run: |
+          mkdir -p "$D_ROOT_EVIDENCE"
+          git show --no-patch --format=fuller HEAD > "$D_ROOT_EVIDENCE/checkout.txt"
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['D_ROOT_EVIDENCE'])
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          expected = os.environ['D_ROOT_EXPECTED_HEAD']
+          if head != expected:
+              raise SystemExit(f'Unexpected checkout: {head}, expected {expected}')
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths if p}
+          (evidence / 'tracked-sha256-before.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          source = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' + os.environ['D_ROOT_TARGET'] + '.lean'
+          (evidence / 'source.json').write_text(json.dumps({
+              'head': head, 'target': source, 'source_sha256': hashes[source],
+              'tracked_file_count': len(hashes),
+          }, indent=2) + '\n')
+          PY
+      - name: Provide enough memory mappings for the full import closure
+        run: |
+          D_ROOT_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$D_ROOT_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$D_ROOT_EVIDENCE/memory-mapping.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the complete root module and run a fresh namespace axiom audit
+        shell: bash
+        run: |
+          mapfile -t D_ROOT_DECLARATION_LIST < <(python3 - <<'PY'
+          import json, os
+          print('\n'.join(json.loads(os.environ['D_ROOT_DECLARATIONS'])))
+          PY
+          )
+          D_ROOT_COMMAND=(python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py
+            "HeckeSkeleton.Moments.MOM_ENGINE_STEP.$D_ROOT_TARGET"
+            --namespace HeckeSkeleton.Moments.EngineStep
+            --evidence "$D_ROOT_EVIDENCE")
+          for D_ROOT_DECLARATION in "${D_ROOT_DECLARATION_LIST[@]}"; do
+            D_ROOT_COMMAND+=(--declaration "$D_ROOT_DECLARATION")
+          done
+          D_ROOT_STARTED=$(date +%s)
+          set +e
+          timeout --signal=TERM --kill-after=30s 35m "${D_ROOT_COMMAND[@]}" 2>&1 |
+            tee "$D_ROOT_EVIDENCE/verification.log"
+          D_ROOT_STATUS=${PIPESTATUS[0]}
+          set -e
+          D_ROOT_FINISHED=$(date +%s)
+          printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 2100}\n' \
+            "$D_ROOT_STATUS" "$((D_ROOT_FINISHED - D_ROOT_STARTED))" \
+            > "$D_ROOT_EVIDENCE/verification-status.json"
+          exit "$D_ROOT_STATUS"
+      - name: Build the independent downstream frontier and audit its namespace
+        shell: bash
+        run: |
+          mkdir -p "$D_ROOT_EVIDENCE/downstream"
+          read -r -a D_DOWNSTREAM_NAMES <<< "$D_ROOT_DOWNSTREAM"
+          D_DOWNSTREAM_TARGETS=()
+          for D_DOWNSTREAM_NAME in "${D_DOWNSTREAM_NAMES[@]}"; do
+            D_DOWNSTREAM_TARGETS+=("HeckeSkeleton.Moments.MOM_ENGINE_STEP.$D_DOWNSTREAM_NAME")
+          done
+          D_DOWNSTREAM_STARTED=$(date +%s)
+          set +e
+          timeout --signal=TERM --kill-after=30s 10m \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+              "${D_DOWNSTREAM_TARGETS[@]}" \
+              --namespace HeckeSkeleton.Moments.EngineStep \
+              --evidence "$D_ROOT_EVIDENCE/downstream" 2>&1 |
+            tee "$D_ROOT_EVIDENCE/downstream/verification.log"
+          D_DOWNSTREAM_STATUS=${PIPESTATUS[0]}
+          set -e
+          D_DOWNSTREAM_FINISHED=$(date +%s)
+          printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 600}\n' \
+            "$D_DOWNSTREAM_STATUS" "$((D_DOWNSTREAM_FINISHED - D_DOWNSTREAM_STARTED))" \
+            > "$D_ROOT_EVIDENCE/downstream/verification-status.json"
+          exit "$D_DOWNSTREAM_STATUS"
+      - name: Preserve and compare tracked file hashes after every outcome
+        if: always()
+        run: |
+          mkdir -p "$D_ROOT_EVIDENCE"
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['D_ROOT_EVIDENCE'])
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                    if Path(p).is_file() else None for p in paths if p}
+          (evidence / 'tracked-sha256-after.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          before = evidence / 'tracked-sha256-before.json'
+          if not before.is_file():
+              raise SystemExit('The pre-verification source snapshot is missing')
+          original = json.loads(before.read_text())
+          changed = sorted(p for p in original.keys() | hashes.keys() if original.get(p) != hashes.get(p))
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          unchanged = not changed and head == os.environ['D_ROOT_EXPECTED_HEAD']
+          (evidence / 'source-identity.json').write_text(json.dumps({
+              'head': head, 'unchanged': unchanged, 'changed_files': changed,
+          }, indent=2) + '\n')
+          if not unchanged:
+              raise SystemExit('Tracked sources or checkout identity changed during verification')
+          PY
+      - name: Preserve complete compiler logs and fresh axiom reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-d-root-${{ matrix.target }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.D_ROOT_EVIDENCE }}/
+          if-no-files-found: error
+          retention-days: 14
+
+  d_full_431:
+    name: D431 maximal downstream build and fresh axiom audit
+    if: >-
+      (github.event_name == 'pull_request' && github.head_ref == 'cloud/mom-engine-step-d') ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-engine-step-d')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    permissions:
+      contents: read
+    env:
+      LEAN_NUM_THREADS: '2'
+      D_FULL_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      D_FULL_EVIDENCE: mom-engine-step-d-full-verification
+      D_FULL_TARGETS: |
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPassiveSourceFibres
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDualTerminalBound
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullMaskParent
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectCombinedIndexedWeights
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeKernelMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectKernelMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectNormalizedWeights
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectPassiveSourceBound
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralIndexedWeights
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralJointRows
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainCombinedIndexedWeights
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainFactorFreeKernelMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainKernelMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainNormalizedWeights
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainPassiveSourceBound
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralParentGeometry
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolCombinedIndexedWeights
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolFactorFreeKernelMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolKernelMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolNormalizedWeights
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolPassiveSourceBound
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimitiveTerminals
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPatternSourceEquivalence
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPatternSourceMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimeSixthSourceMass
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveExceptionalSmallLoss
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectExceptionalBudget
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOrdinaryExceptionalBudget
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalCorrelationSupport
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalTerminalWindowsPool
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineStep
+        HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFrameExceptionalSwap
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify exact scope, original configuration and tracked source identity
+        shell: bash
+        run: |
+          mkdir -p "$D_FULL_EVIDENCE"
+          git show --no-patch --format=fuller HEAD > "$D_FULL_EVIDENCE/checkout.txt"
+          python3 - <<'PY'
+          import collections, hashlib, json, os, subprocess, sys, tomllib
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from lean_imports import imports
+          evidence = Path(os.environ['D_FULL_EVIDENCE'])
+          evidence.mkdir(parents=True, exist_ok=True)
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          assert head == os.environ['D_FULL_EXPECTED_HEAD'], 'Exact checkout identity changed'
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths if p}
+          (evidence / 'tracked-sha256-before.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          protected = {'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0', 'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47', 'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c', '.github/workflows/mom-engine-step.yml': '8a3134e4a4219a01cbb307b77f0efad9bf24da100a85195062a45013ec5341d2', '.github/workflows/integration-build.yml': '53ad7a2f84ffd91d7abd4dc5c9036259566bfe2f07ad47ac173f253347612b0b', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean': 'db81dff1d17c12c72746738c9296a1d4bc87ec27d33958124ce36c79455bb5df', 'scripts/lean_imports.py': '9f9faeca9c00e36934f6a53854f3c345b1779dba50d2cd610f6a1d803c143015'}
+          for path, digest in protected.items():
+              assert hashes[path] == digest, 'Protected verifier/configuration changed: ' + path
+          prefix = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.'
+          files = list(Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').glob('*.lean'))
+          modules = {prefix + p.stem: p for p in files}
+          assert len(modules) == 1009
+          headers = {n: imports(p.read_text()) for n, p in modules.items()}
+          interface = prefix + 'Interface'
+          assert len(headers[interface]) == 1008
+          assert set(headers[interface]) == set(modules) - {interface}
+          graph = {n: set(ds) & modules.keys() for n, ds in headers.items()}
+          reverse = collections.defaultdict(set)
+          for n, ds in graph.items():
+              for d in ds:
+                  reverse[d].add(n)
+          def walk(starts, edges):
+              seen = set()
+              todo = list(starts)
+              while todo:
+                  n = todo.pop()
+                  if n not in seen:
+                      seen.add(n)
+                      todo.extend(edges[n])
+              return seen
+          roots = ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantProfileExtraction', 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalOriginalIntegral', 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPairAllowanceProduction', 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolMonotonicity', 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalTaggedLocalIndex']
+          scope = walk(roots, reverse) - {interface}
+          assert len(scope) == 431
+          scope_digest = hashlib.sha256(('\n'.join(sorted(scope)) + '\n').encode()).hexdigest()
+          assert scope_digest == '51da004d327fccbc8aaf4f96cbe826f841976b99f8bd24caecfa005309caef8b', 'The approved D431 scope changed'
+          targets = os.environ['D_FULL_TARGETS'].split()
+          assert len(targets) == len(set(targets)) == 32
+          assert set(targets) == {n for n in scope if not reverse[n] & scope}
+          covered = walk(targets, graph)
+          assert scope <= covered
+          assert len(covered) == 981, 'The full STEP import closure changed'
+          lake = tomllib.loads(Path('lakefile.toml').read_text())
+          assert len(lake['lean_lib']) == 20
+          assert lake['defaultTargets'] == ['DedekindZetaZeroFree', 'DedekindZetaChallenge', 'DedekindZetaSolution']
+          (evidence / 'targets.txt').write_text('\n'.join(targets) + '\n')
+          (evidence / 'scope-and-config.json').write_text(json.dumps({
+              'head': head, 'D_scope': sorted(scope), 'D_scope_sha256': scope_digest,
+              'targets': targets, 'uncovered_D': sorted(scope - covered),
+              'STEP_import_closure': sorted(covered), 'STEP_import_closure_count': len(covered),
+              'STEP_files': len(modules), 'Interface_imports': len(headers[interface]),
+              'lean_libs': [x['name'] for x in lake['lean_lib']],
+              'defaultTargets': lake['defaultTargets'], 'protected_sha256': protected,
+          }, indent=2) + '\n')
+          print('PASS: exact D431 coverage, 32 maximal targets, full STEP closure 981, original 1009/1008/20/default configuration')
+          PY
+      - name: Provide normal full-import memory mapping capacity
+        shell: bash
+        run: |
+          D_FULL_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$D_FULL_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$D_FULL_EVIDENCE/memory-mapping.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore the official ordinary Lake cache
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build all 32 original modules once and freshly audit their full namespace
+        shell: bash
+        run: |
+          mapfile -t D_FULL_TARGET_ARRAY < "$D_FULL_EVIDENCE/targets.txt"
+          D_FULL_STARTED=$(date +%s)
+          set +e
+          timeout --signal=TERM --kill-after=60s 330m \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+              "${D_FULL_TARGET_ARRAY[@]}" \
+              --namespace HeckeSkeleton.Moments.EngineStep \
+              --declaration HeckeSkeleton.Moments.EngineStep.paired_engine_step \
+              --evidence "$D_FULL_EVIDENCE" 2>&1 |
+            tee "$D_FULL_EVIDENCE/verification.log"
+          D_FULL_STATUS=${PIPESTATUS[0]}
+          set -e
+          D_FULL_FINISHED=$(date +%s)
+          printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 19800}\n' \
+            "$D_FULL_STATUS" "$((D_FULL_FINISHED - D_FULL_STARTED))" \
+            > "$D_FULL_EVIDENCE/verification-status.json"
+          exit "$D_FULL_STATUS"
+      - name: Compare tracked sources after every outcome
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['D_FULL_EVIDENCE'])
+          evidence.mkdir(parents=True, exist_ok=True)
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                    if Path(p).is_file() else None for p in paths if p}
+          (evidence / 'tracked-sha256-after.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          before = json.loads((evidence / 'tracked-sha256-before.json').read_text())
+          changed = sorted(p for p in before.keys() | hashes.keys() if before.get(p) != hashes.get(p))
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          unchanged = not changed and head == os.environ['D_FULL_EXPECTED_HEAD']
+          (evidence / 'source-identity.json').write_text(json.dumps({
+              'head': head, 'unchanged': unchanged, 'changed_files': changed,
+          }, indent=2) + '\n')
+          assert unchanged, 'Tracked sources or checkout changed during verification'
+          PY
+      - name: Preserve complete native build and fresh namespace audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-d-full-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.D_FULL_EVIDENCE }}/
+          if-no-files-found: error
+          retention-days: 14
