@@ -24,7 +24,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 
 open DedekindZetaZeroFree
 
-open NumberField MeasureTheory
+open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Characters HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical
@@ -62,6 +62,8 @@ variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {window : Set 
 variable {seminorms : Finset (ℕ × ℕ)}
 variable (h : CompleteEngineChildAdmissible A P R parent rowDomain window seminorms Z d a)
 
+include h
+
 /-- This is the original full-row identification used by reflection,
 obtained directly from public output admissibility. -/
 theorem identify (u : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -97,6 +99,8 @@ namespace ParentCharacterInputs
 variable {family labels} {parent : MomentData K ω ψ}
 variable (raw : family.ParentCharacterInputs labels parent)
 
+include raw
+
 theorem left_background (b : family.active labels) (ξ : V) :
     (family.leftData labels b ξ).plainBackground = parent.plainBackground ∨
       (family.leftData labels b ξ).plainBackground = parent.plainBackground⁻¹ := by
@@ -104,8 +108,8 @@ theorem left_background (b : family.active labels) (ξ : V) :
     raw.left b.val (Finset.mem_filter.mp b.property).1
   have h := ((family.leftChild labels b).frozen_parentCharacterRecipe recipe).background ξ
   cases hc : conjugated with
-  | false => exact Or.inl (by simpa [parentPlainCharacter, hc] using h)
-  | true => exact Or.inr (by simpa [parentPlainCharacter, hc] using h)
+  | false => exact Or.inl (by simpa [leftData, parentPlainCharacter, hc] using h)
+  | true => exact Or.inr (by simpa [leftData, parentPlainCharacter, hc] using h)
 
 theorem right_background (b : family.active labels) (ξ : V) :
     (family.rightData labels b ξ).plainBackground = parent.plainBackground ∨
@@ -114,8 +118,8 @@ theorem right_background (b : family.active labels) (ξ : V) :
     raw.right b.val (Finset.mem_filter.mp b.property).1
   have h := ((family.rightChild labels b).frozen_parentCharacterRecipe recipe).background ξ
   cases hc : conjugated with
-  | false => exact Or.inl (by simpa [parentPlainCharacter, hc] using h)
-  | true => exact Or.inr (by simpa [parentPlainCharacter, hc] using h)
+  | false => exact Or.inl (by simpa [rightData, parentPlainCharacter, hc] using h)
+  | true => exact Or.inr (by simpa [rightData, parentPlainCharacter, hc] using h)
 
 end ParentCharacterInputs
 
