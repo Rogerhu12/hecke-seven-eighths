@@ -108,8 +108,8 @@ theorem left_background (b : family.active labels) (ξ : V) :
     raw.left b.val (Finset.mem_filter.mp b.property).1
   have h := ((family.leftChild labels b).frozen_parentCharacterRecipe recipe).background ξ
   cases hc : conjugated with
-  | false => exact Or.inl (by simpa [parentPlainCharacter, hc] using h)
-  | true => exact Or.inr (by simpa [parentPlainCharacter, hc] using h)
+  | false => exact Or.inl (by simpa [leftData, parentPlainCharacter, hc] using h)
+  | true => exact Or.inr (by simpa [leftData, parentPlainCharacter, hc] using h)
 
 theorem right_background (b : family.active labels) (ξ : V) :
     (family.rightData labels b ξ).plainBackground = parent.plainBackground ∨
@@ -118,8 +118,8 @@ theorem right_background (b : family.active labels) (ξ : V) :
     raw.right b.val (Finset.mem_filter.mp b.property).1
   have h := ((family.rightChild labels b).frozen_parentCharacterRecipe recipe).background ξ
   cases hc : conjugated with
-  | false => exact Or.inl (by simpa [parentPlainCharacter, hc] using h)
-  | true => exact Or.inr (by simpa [parentPlainCharacter, hc] using h)
+  | false => exact Or.inl (by simpa [rightData, parentPlainCharacter, hc] using h)
+  | true => exact Or.inr (by simpa [rightData, parentPlainCharacter, hc] using h)
 
 end ParentCharacterInputs
 

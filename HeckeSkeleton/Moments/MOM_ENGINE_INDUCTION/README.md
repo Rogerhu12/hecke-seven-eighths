@@ -256,6 +256,12 @@ parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
 profiles, arithmetic data, and producer output remain explicit.
 
+`CanonicalLogProfileBounds.lean` is adopted byte for byte from the
+owner-reviewed `ea5e384fc84dca2408cbda293e60492e7f0824c2` commit. Its proof
+repairs transport the same restricted and frozen families along their
+existing data, count, and time equalities. Public signatures, actual
+support, profiles, selected slots, and all numerical bounds are preserved.
+
 In particular, the original `ScaleWindows` certificate, raw profile control,
 centered parent domain, and complete-child/parent-character certificates
 must appear in the helper signatures that use them. The repairs restore

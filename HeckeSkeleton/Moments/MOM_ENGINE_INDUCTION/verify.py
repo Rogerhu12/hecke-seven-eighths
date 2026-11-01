@@ -1422,23 +1422,25 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                              'repair_sha256': 'c1452b1fa1f783703fb3afa3a81e8d64ad5c75afdbb36497b396e91d877350f9'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLogProfileBounds.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                           'owner_sha256': '30aae10806002d579936b09320b566e51ff5aa6a5a662538c7ea784dbef31f07',
-                                                                          'reason': 'CI75: escape omega '
-                                                                                    'identifiers under '
-                                                                                    'ContDiff, specify '
-                                                                                    'logarithm '
-                                                                                    'differentiability '
-                                                                                    'order, make support '
-                                                                                    'subset composition '
-                                                                                    'explicit, unfold atomic '
-                                                                                    'projections, and '
-                                                                                    'normalize the same '
-                                                                                    'Schwartz-function '
-                                                                                    'representation before '
-                                                                                    'polynomial algebra; '
-                                                                                    'supply exact seminorm '
-                                                                                    'parameters instead of '
-                                                                                    'expensive inference.',
-                                                                          'repair_sha256': '871675d8c1b4278bec4292cc6a9a80077cd856ac36c47d90134879074874414c'},
+                                                                          'reason': 'Exact owner-reviewed '
+                                                                                    'ea5e384fc84dca2408cbda293e60492e7f0824c2 '
+                                                                                    'source: scope ContDiff '
+                                                                                    'to derivative proofs, '
+                                                                                    'type finite sums over '
+                                                                                    'the original Type 0 '
+                                                                                    'carriers, and transport '
+                                                                                    'restricted and frozen '
+                                                                                    'families along their '
+                                                                                    'original '
+                                                                                    'data/count/time '
+                                                                                    'equalities. Resolve '
+                                                                                    'CI75/80 elaboration and '
+                                                                                    'positivity failures '
+                                                                                    'without changing public '
+                                                                                    'signatures, profiles, '
+                                                                                    'support, selected '
+                                                                                    'slots, or bounds.',
+                                                                          'repair_sha256': 'bfe5aaf7df67243453e7e1c11352e2af8cd270929e7fd0f4d24d16d2521afe5c'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalPrimitiveFirstTerminalConstants.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                                          'owner_sha256': 'cd9577b05fc862bed92015cbaa53ac17b1ab4a2d74c51dec9d0e35a5a5d239db',
                                                                                          'reason': 'Restore '
@@ -1476,10 +1478,14 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                'pass these same '
                                                                                'complete-child and '
                                                                                'parent-character '
-                                                                               'certificates. Preserve all '
+                                                                               'certificates. CI80: unfold '
+                                                                               'leftData/rightData to the '
+                                                                               'same frozenData before '
+                                                                               'transporting the parent '
+                                                                               'background. Preserve all '
                                                                                'original data and '
                                                                                'conclusions.',
-                                                                     'repair_sha256': '740be6232ce14db3f50ba207512dd086fc5403f5ec131ea92a49dfc42e172a0d'},
+                                                                     'repair_sha256': '9bd9c6bce9d844d473812caba0e9c0393e4286c40ef1bd6561930ff1d09b61bd'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ConstantCommonLeaf.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                    'owner_sha256': 'f7df02d24d9c6f66ccff22e9fc3c2e043af91a810c93e98f529c592927b54ef4',
                                                                    'reason': 'CI75: retain required hc/hd '
