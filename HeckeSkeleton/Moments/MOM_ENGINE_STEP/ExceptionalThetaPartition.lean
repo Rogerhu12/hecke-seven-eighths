@@ -124,7 +124,12 @@ theorem thetaClassLeaf_integrand (hpredicate : B.exceptional = Q.exceptional)
     intro h hh
     rw [hpredicate]
     exact Q.thetaClass_exceptional χ h (Finset.mem_filter.mp hh).2
-  simp only [thetaClassLeaf, exceptionalIntegrand, hrows]
+  exact congrArg (fun rows : Finset H =>
+    jointColumnPairMagnitude rows B.left B.right B.rowWeight
+      B.leftCoefficient (fun h j => star (B.rightCoefficient h j))
+      (fun h i => WithLp.toLp 2 (B.leftFirst h i, B.leftSecond h i))
+      (fun h j => WithLp.toLp 2 (-B.rightFirst h j, B.rightSecond h j))
+      (WithLp.toLp 2 z)) hrows
 
 /-- Pointwise exact partition of the canonical exceptional integrand. -/
 theorem exceptionalIntegrand_eq_theta_sum (hpredicate : B.exceptional = Q.exceptional)

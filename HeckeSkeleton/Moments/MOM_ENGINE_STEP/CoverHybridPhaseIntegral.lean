@@ -77,6 +77,14 @@ theorem phase_hybridClassCost_integrable
       (actualFourierMeasure F) := by
   let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
     DE.val DE.property
+  let source := s.sources DE
+  let δ := (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val
+  let a := fun i => generatedOriginalColumn (σ := σ) hΓ (b.secondLeftIdeal i)
+    (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
+    (b.secondLeft_generates C i)
+  let a' := fun j => generatedOriginalColumn (σ := σ) hΓ (b.secondRightIdeal j)
+    (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
+    (b.secondRight_generates C j)
   let chart := s.charts DE D
   let rows := chart.actualRows s.mask s.cutoff s.cutoff_one label
   have hi := actual_second_hybrid_first_phase_integrable (σ := σ) PUnit
@@ -92,13 +100,58 @@ theorem phase_hybridClassCost_integrable
     (fun i => x (L.index i)) (fun j => x (R.index j))
     (fun h i => chart.leftPoint h (L.index i))
     (fun h j => chart.rightPoint h (R.index j)) exceptional
-  apply hi.congr
-  exact Filter.Eventually.of_forall fun ξ => by
-    dsimp only [SecondBlockProfileChart.hybridClassCost]
-    congr 1 <;> funext i <;>
-      dsimp only [SecondBlockProfileChart.sourceLeftCoefficient,
-        SecondBlockProfileChart.sourceRightCoefficient, withMultiplier, chart] <;>
-      ring
+  let cost (carrier : Finset Q)
+      (leftWeight : AllocationColumn K k → ℂ)
+      (rightWeight : AllocationColumn K l → ℂ) : ℝ :=
+    secondResidualHybridCost (σ := σ) PUnit chart.kernel carrier rows.frequency
+      L.plain₁ L.plain₂ L.slots R.plain₁ R.plain₂ R.slots
+      b.commonLeftIdeal b.commonRightIdeal
+      (fun i => b.leftResidual (L.index i)) (fun j => b.rightResidual (R.index j))
+      (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
+      (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
+      (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle)) rows.weight
+      leftWeight rightWeight
+      (fun h i => chart.leftPoint h (L.index i))
+      (fun h j => chart.rightPoint h (R.index j)) exceptional
+  convert hi using 1
+  funext ξ
+  have hrows : ((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).rows =
+      source.rows :=
+    s.withMultiplier_rows (fun i => Real.fourierChar (inner ℝ ξ (x i))) DE
+  have hfilter := congrArg
+    (fun carrier : Finset Q => carrier.filter (fun t => chart.rowLabel t = label)) hrows
+  have hleft : (fun i : AllocationColumn K k =>
+      (jointPhase ξ (x (L.index i)) * chart.leftCoefficient (L.index i)) *
+        (a (L.index i)).divisorPhase δ) =
+      (fun i => (chart.leftCoefficient (L.index i) * (a (L.index i)).divisorPhase δ) *
+        jointPhase ξ (x (L.index i))) := by
+    funext i
+    ring
+  have hright : (fun j : AllocationColumn K l =>
+      (jointPhase ξ (x (R.index j)) * chart.rightCoefficient (R.index j)) *
+        (a' (R.index j)).divisorPhase δ) =
+      (fun j => (chart.rightCoefficient (R.index j) * (a' (R.index j)).divisorPhase δ) *
+        jointPhase ξ (x (R.index j))) := by
+    funext j
+    ring
+  change cost
+      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).rows.filter
+        (fun t => chart.rowLabel t = label))
+      (fun i => (jointPhase ξ (x (L.index i)) * chart.leftCoefficient (L.index i)) *
+        (a (L.index i)).divisorPhase δ)
+      (fun j => (jointPhase ξ (x (R.index j)) * chart.rightCoefficient (R.index j)) *
+        (a' (R.index j)).divisorPhase δ) =
+    cost (source.rows.filter (fun t => chart.rowLabel t = label))
+      (fun i => (chart.leftCoefficient (L.index i) * (a (L.index i)).divisorPhase δ) *
+        jointPhase ξ (x (L.index i)))
+      (fun j => (chart.rightCoefficient (R.index j) * (a' (R.index j)).divisorPhase δ) *
+        jointPhase ξ (x (R.index j)))
+  exact (congrArg (fun carrier => cost carrier
+    (fun i => (jointPhase ξ (x (L.index i)) * chart.leftCoefficient (L.index i)) *
+      (a (L.index i)).divisorPhase δ)
+    (fun j => (jointPhase ξ (x (R.index j)) * chart.rightCoefficient (R.index j)) *
+      (a' (R.index j)).divisorPhase δ)) hfilter).trans
+    (congrArg₂ (cost (source.rows.filter (fun t => chart.rowLabel t = label))) hleft hright)
 
 variable (LC RC : SourceCartesianCover G.columns G.ideal)
 
@@ -114,25 +167,42 @@ theorem coverHybridPhaseNonzeroCost_integrable
     (exceptional : s.CoverHybridPredicates LC RC) :
     Integrable (s.coverHybridPhaseNonzeroCost LC RC exceptional x)
       (actualFourierMeasure F) := by
-  unfold coverHybridPhaseNonzeroCost coverHybridNonzeroCost
-    SecondBlockProfileChart.coverHybridCost
-    SecondBlockProfileChart.subsetHybridCost
-    SecondBlockProfileChart.subsetHybridClassCost
-  apply integrable_finsetSum
-  intro DE _
-  apply integrable_finsetSum
-  intro D _
-  apply integrable_finsetSum
-  intro a _
-  apply integrable_finsetSum
-  intro e _
-  apply integrable_finsetSum
-  intro label _
-  apply integrable_finsetSum
-  intro b _
-  apply integrable_finsetSum
-  intro f _
-  exact s.phase_hybridClassCost_integrable F x DE D label _ _ (exceptional DE D a e label b f)
+  let kernel (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+      (D : s.mask.powerset) (a : LC.labels) (e : RC.labels)
+      (label : Fin ((s.charts DE D).rowLabelCount + 1))
+      (a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1)
+      (e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2) (ξ : W) : ℝ :=
+    let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+      DE.val DE.property
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).hybridClassCost
+      s.mask s.cutoff s.cutoff_one label
+      ((LC.branch a).residualReindex (primeSupport DE.val.1) DE.val.1 b.leftResidual
+        (fun i _ => b.left_residual i) a')
+      ((RC.branch e).residualReindex (primeSupport DE.val.1) DE.val.2 b.rightResidual
+        (fun j _ => b.right_residual j) e')
+      (exceptional DE D a e label a' e')
+  have hk (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+      (D : s.mask.powerset) (a : LC.labels) (e : RC.labels)
+      (label : Fin ((s.charts DE D).rowLabelCount + 1))
+      (a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1)
+      (e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2) :
+      Integrable (kernel DE D a e label a' e') (actualFourierMeasure F) :=
+    s.phase_hybridClassCost_integrable F x DE D label _ _
+      (exceptional DE D a e label a' e')
+  exact integrable_finsetSum (Finset.univ : Finset (commonSupportPool G.columns G.columns
+    (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))) (fun DE _ =>
+      integrable_finsetSum (Finset.univ : Finset s.mask.powerset) (fun D _ =>
+        integrable_finsetSum (Finset.univ : Finset LC.labels) (fun a _ =>
+          integrable_finsetSum (Finset.univ : Finset RC.labels) (fun e _ =>
+            integrable_finsetSum
+              (Finset.univ : Finset (Fin ((s.charts DE D).rowLabelCount + 1))) (fun label _ =>
+                integrable_finsetSum
+                  (Finset.univ : Finset ((LC.branch a).labels (primeSupport DE.val.1) DE.val.1))
+                  (fun a' _ => integrable_finsetSum
+                    (Finset.univ : Finset ((RC.branch e).labels (primeSupport DE.val.1) DE.val.2))
+                    (fun e' _ => hk DE D a e label a' e')))))))
 
 /-- The actual raw second source can be replaced under the first
 positive Fourier measure by its genuine cover hybrid cost. -/
