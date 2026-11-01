@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Observe the complete 4efc Normalized proof phases; never substitute for verification."""
+"""Observe the complete 4b99 Normalized proof phases; never substitute for verification."""
 import difflib
 import hashlib
 import json
@@ -12,7 +12,7 @@ import tempfile
 import time
 
 SOURCE = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOriginalLabelMass.lean')
-SOURCE_SHA = '4efc93470cfd5cd8916c71fabebd2711cdb2723c314eeb5f0f8763fec7ecf682'
+SOURCE_SHA = '4b99ef65579b672d2a30a46b0bc6e89dbc3759a5f1171642d2da42f6d4eccadc'
 LEAN_COMMIT = '470d5ce1400764999581fd26d5d72b00d990b0f4'
 
 
@@ -30,13 +30,16 @@ def instrument(source):
     def add(offset, label, tactic=True):
         indent = '  ' if tactic else ''
         block = (indent + ('run_tac' if tactic else 'run_cmd') + '\n' + indent +
-                 '  IO.eprintln "MOM_TRACE NormalizedOriginalLabelMass B23_4efc9347 ' + label + '"\n' +
+                 '  IO.eprintln "MOM_TRACE NormalizedOriginalLabelMass B24_4b99ef65 ' + label + '"\n' +
                  indent + '  (← IO.getStderr).flush\n')
         entries.append({'offset_characters': offset, 'label': label, 'text': block})
 
     helper = text.index('private theorem normalizedOriginalLabel_reorder_bound')
     add(helper, 'BEFORE_REORDER_HELPER', False)
-    add(text.index('variable {F : Type}', helper), 'AFTER_REORDER_HELPER_DECLARATION', False)
+    index_helper = text.index('private theorem normalizedOriginalLabel_indexWeight_eq')
+    add(index_helper, 'AFTER_REORDER_HELPER_DECLARATION', False)
+    add(index_helper, 'BEFORE_INDEX_WEIGHT_HELPER', False)
+    add(text.index('variable {F : Type}', index_helper), 'AFTER_INDEX_WEIGHT_HELPER_DECLARATION', False)
     allowance = text.index('theorem normalized_pair_original_allowance_from_atoms')
     add(text.rfind('include L in\n', 0, allowance), 'BEFORE_ALLOWANCE_HEADER', False)
     allowance_end = text.index('\nvariable {branch : TwoDivisorCommonBranch', allowance)
@@ -54,12 +57,12 @@ def instrument(source):
         ('  have hupper :', 'BEFORE_hupper'),
         ('  have h := mul_le_mul hpair hcoeff', 'BEFORE_h'),
         ('  have hreordered := normalizedOriginalLabel_reorder_bound', 'BEFORE_hreordered'),
-        ('  refine hreordered.trans_eq ?_', 'AFTER_hreordered'),
-        ('  rw [TwoDivisorCommonBranch.indexWeight, hleft, hright, hdivisor]', 'BEFORE_FINAL_RW'),
+        ('  exact hreordered.trans_eq (congrArg', 'AFTER_hreordered'),
+        ('  exact hreordered.trans_eq (congrArg', 'BEFORE_FINAL_TRANSPORT'),
     ]:
         add(text.index(anchor, body), label)
     end = text.index('\nend HeckeSkeleton.Moments.EngineStep', body)
-    add(end, 'AFTER_FINAL_RW')
+    add(end, 'AFTER_FINAL_TRANSPORT')
     add(end, 'AFTER_INDEX_DECLARATION', False)
     print_allowance = text.index('#print axioms HeckeSkeleton.Moments.EngineStep.normalized_pair_original_allowance_from_atoms')
     print_index = text.index('#print axioms HeckeSkeleton.Moments.EngineStep.normalized_pair_original_index_weight')
@@ -90,6 +93,55 @@ def instrument(source):
     return diagnostic.encode('utf-8'), entries
 
 
+def cleanup_process_group(process, pgid, grace_seconds=10):
+    """Clean only this Popen(start_new_session=True) group's saved PGID."""
+    before = time.monotonic()
+    record = {'pgid': pgid, 'grace_seconds': grace_seconds,
+              'term_sent': False, 'kill_sent': False,
+              'leader_wait_timed_out': False}
+
+    def group_present():
+        # Reap the leader if ready, but never use its exit as group liveness.
+        process.poll()
+        try:
+            os.killpg(pgid, 0)
+            return True
+        except ProcessLookupError:
+            return False
+
+    def send(sig):
+        try:
+            os.killpg(pgid, sig)
+            return True
+        except ProcessLookupError:
+            return False
+
+    try:
+        if pgid != process.pid or pgid <= 1 or pgid == os.getpgrp():
+            raise ValueError('Refusing to signal a group not created for this command')
+        record['group_present_before'] = group_present()
+        if record['group_present_before']:
+            record['term_sent'] = send(signal.SIGTERM)
+            deadline = time.monotonic() + grace_seconds
+            while group_present():
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    record['kill_sent'] = send(signal.SIGKILL)
+                    break
+                time.sleep(min(0.1, remaining))
+        try:
+            process.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            record['leader_wait_timed_out'] = True
+        # A zombie-only group may still exist; report it without waiting forever.
+        record['group_present_after'] = group_present()
+    except (OSError, ValueError) as error:
+        record['error'] = type(error).__name__ + ': ' + str(error)
+    record['leader_exit_code_after_cleanup'] = process.poll()
+    record['elapsed_seconds'] = time.monotonic() - before
+    return record
+
+
 def main():
     root = Path.cwd().resolve()
     evidence = root / os.environ['EVIDENCE_DIR'] / 'normalized-diagnostic'
@@ -110,22 +162,20 @@ def main():
         with (evidence / (name + '.log')).open('wb') as log:
             process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT,
                                        start_new_session=True)
+            pgid = process.pid
             try:
                 process.wait(timeout=timeout)
             except subprocess.TimeoutExpired:
                 timed_out = True
-                os.killpg(process.pid, signal.SIGTERM)
-                try:
-                    process.wait(timeout=10)
-                except subprocess.TimeoutExpired:
-                    os.killpg(process.pid, signal.SIGKILL)
-                    process.wait()
             finally:
-                if process.poll() is None:
-                    os.killpg(process.pid, signal.SIGKILL)
-                    process.wait()
+                native_elapsed_seconds = time.monotonic() - before
+                native_exit_code_before_cleanup = process.poll()
+                cleanup = cleanup_process_group(process, pgid, grace_seconds=10)
         record = {'step': name, 'command': command, 'exit_code': process.returncode,
                   'timed_out': timed_out, 'timeout_seconds': timeout,
+                  'native_exit_code_before_cleanup': native_exit_code_before_cleanup,
+                  'native_elapsed_seconds': native_elapsed_seconds,
+                  'cleanup': cleanup,
                   'elapsed_seconds': time.monotonic() - before}
         result['commands'].append(record)
         print(json.dumps(record), flush=True)
@@ -136,7 +186,7 @@ def main():
         result.update(source_path=str(SOURCE), source_sha256=sha(source),
                       head=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip())
         if sha(source) != SOURCE_SHA:
-            raise RuntimeError('Diagnostic frozen to 4efc source; current source differs')
+            raise RuntimeError('Diagnostic frozen to 4b99 source; current source differs')
         (evidence / 'NormalizedOriginalLabelMass.original.lean').write_bytes(source)
         diagnostic, insertions = instrument(source)
         (evidence / input_file.name).write_bytes(diagnostic)

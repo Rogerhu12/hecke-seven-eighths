@@ -59,7 +59,7 @@ def originalGeometry (parent : MomentData K ω ψ) {k : ℕ}
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable (parent : MomentData K ω ψ)
-variable (prefix : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
+variable («prefix» : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
 variable (hcorr : correction = 1 ∨ correction ∈ parent.theta)
 variable (C : A.GeneralArithmeticContext σ η hS) (primes : ι → ExteriorPrime A)
 variable (m n : ι → ℕ) (pattern : ι → Bool)
@@ -71,14 +71,14 @@ variable (index : Fin k → Fin parent.geometry.slotCount)
 /-- The child arithmetic is computed from the original source factors.
 Every profile is an actual original profile at the source evaluation. -/
 def baseData : MomentData K ω ψ :=
-  CanonicalMovingPhaseCalibration.childData P R parent prefix correction hcorr
+  CanonicalMovingPhaseCalibration.childData P R parent «prefix» correction hcorr
     C primes m n pattern sector remaining budget
     (originalIdealTest parent.inverseTest anchor height)
     (originalIdealTest parent.plainTest₁ anchor height)
     (originalIdealTest parent.plainTest₂ anchor height)
     (originalGeometry parent index height) index
 
-local notation "base" => baseData parent prefix correction hcorr C primes m n pattern sector
+local notation "base" => baseData parent «prefix» correction hcorr C primes m n pattern sector
   remaining budget anchor height index
 
 @[simp] theorem baseData_count : (base).geometry.slotCount = k := rfl
@@ -157,11 +157,11 @@ variable (B δ₁ δ₂ : ℝ) (hG₁ : 0 < G₁) (hG₂ : 0 < G₂)
 variable (hG : ∀ i, 0 < G i) (hB : 1 ≤ B)
 variable (firstDirection secondDirection : V)
 
-local notation "hleft" => base_left_positive parent prefix correction hcorr C primes m n
+local notation "hleft" => base_left_positive parent «prefix» correction hcorr C primes m n
   pattern sector remaining budget anchor height index raw hanchor hheight hpositive
-local notation "hright" => base_right_positive parent prefix correction hcorr C primes m n
+local notation "hright" => base_right_positive parent «prefix» correction hcorr C primes m n
   pattern sector remaining budget anchor height index raw hanchor hheight hpositive
-local notation "hslot" => base_prime_positive parent prefix correction hcorr C primes m n
+local notation "hslot" => base_prime_positive parent «prefix» correction hcorr C primes m n
   pattern sector remaining budget anchor height index raw hanchor hheight hpositive
 local notation "scalars" => profileScalars base G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB
 local notation "leftAtom" => atom G₁ (idealNorm K D₁) δ₁ δ₂ firstDirection secondDirection
@@ -172,7 +172,7 @@ def boundedData (ξ : V) : MomentData K ω ψ :=
   clippedData base G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB
     hleft hright hslot firstDirection secondDirection ξ
 
-local notation "bounded" => boundedData parent prefix correction hcorr C primes m n pattern sector
+local notation "bounded" => boundedData parent «prefix» correction hcorr C primes m n pattern sector
   remaining budget anchor height index raw hanchor hheight hpositive
   G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection
 
@@ -204,26 +204,26 @@ def originalLogProfiles : CanonicalLogProfiles.OriginalLogProfiles K ω ψ V whe
 
 theorem boundedData_eq_originalLogProfiles (ξ : V) :
     bounded ξ =
-      (originalLogProfiles parent prefix correction hcorr C primes m n pattern sector
+      (originalLogProfiles parent «prefix» correction hcorr C primes m n pattern sector
         remaining budget anchor height index raw hanchor hheight hpositive
         G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection).moving ξ := rfl
 
 /-- The bounded update changes only the original profiles. It is the
 same complete arithmetic child for every value of both Fourier modes. -/
 theorem boundedData_eq_childData (ξ : V) :
-    bounded ξ = CanonicalMovingPhaseCalibration.childData P R parent prefix correction hcorr
+    bounded ξ = CanonicalMovingPhaseCalibration.childData P R parent «prefix» correction hcorr
       C primes m n pattern sector remaining budget
       (bounded ξ).inverseTest (bounded ξ).plainTest₁ (bounded ξ).plainTest₂
       (bounded ξ).geometry index := rfl
 
 def movingRecipe : CompleteMovingRowRecipe A P R bounded :=
-  CanonicalMovingPhaseCalibration.movingRecipe P R parent prefix correction hcorr
+  CanonicalMovingPhaseCalibration.movingRecipe P R parent «prefix» correction hcorr
     C primes m n pattern sector remaining budget
     (fun ξ => (bounded ξ).inverseTest) (fun ξ => (bounded ξ).plainTest₁)
     (fun ξ => (bounded ξ).plainTest₂) (fun ξ => (bounded ξ).geometry) (fun _ => index)
 
 theorem movingRecipe_fullJointBudget (Z width : ℝ) (hbudget : budget = Z ^ width) :
-    (movingRecipe parent prefix correction hcorr C primes m n pattern sector
+    (movingRecipe parent «prefix» correction hcorr C primes m n pattern sector
       remaining budget anchor height index raw hanchor hheight hpositive
       G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection).FullJointBudget Z width := by
   intro ξ u hu
@@ -241,9 +241,9 @@ def calibration
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
     (hsector : row.sector P = sector) (ξ : V) :
-    (movingSourceCharacters parent correction prefix remaining index).Calibration (σ := σ)
+    (movingSourceCharacters parent correction «prefix» remaining index).Calibration (σ := σ)
       (bounded ξ) rfl row.momentIdeal g row.element :=
-  CanonicalMovingPhaseCalibration.calibration P R parent prefix correction hcorr
+  CanonicalMovingPhaseCalibration.calibration P R parent «prefix» correction hcorr
     C primes m n pattern sector remaining budget
     (bounded ξ).inverseTest (bounded ξ).plainTest₁ (bounded ξ).plainTest₂
     (bounded ξ).geometry index hone hroot hemb row hfactor hsector
@@ -256,9 +256,9 @@ def negativeCalibration
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
     (hsector : row.sector P = sector) (ξ : V) :
-    (movingSourceCharacters parent correction prefix remaining index).Calibration (σ := σ)
+    (movingSourceCharacters parent correction «prefix» remaining index).Calibration (σ := σ)
       (bounded ξ) rfl row.momentIdeal (-g) row.element :=
-  CanonicalMovingPhaseCalibration.negativeCalibration P R parent prefix correction hcorr
+  CanonicalMovingPhaseCalibration.negativeCalibration P R parent «prefix» correction hcorr
     C primes m n pattern sector remaining budget
     (bounded ξ).inverseTest (bounded ξ).plainTest₁ (bounded ξ).plainTest₂
     (bounded ξ).geometry index hone hroot hemb row hfactor hsector
@@ -272,7 +272,7 @@ variable (hallowed : parent.allowedRow anchor) (hwindow : window ⊆ Set.Iic B)
 variable (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) (hδ : δ₁ + δ₂ ≤ 1 / 2)
 variable (slope secondSlope : ℝ)
 
-local notation "actualData" => boundedData parent prefix correction hcorr C primes m n pattern sector
+local notation "actualData" => boundedData parent «prefix» correction hcorr C primes m n pattern sector
   remaining budget anchor height index raw hanchor hheight hpositive
   G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB
   (CanonicalCoreProfileIdentification.firstDirection slope)
@@ -384,21 +384,21 @@ def uniformWindow (δ : ℝ) (R₀ j cap : ℕ)
     (hcap : parent.geometry.slotCount ≤ cap)
     (hj : j ≤ R₀) (hexponent : δ₁ + δ₂ = (j : ℝ) * δ) (ξ : V) :
     RawProfileWindow Set.univ Set.univ window orders
-      (boundedData parent prefix correction hcorr C primes m n pattern sector
+      (boundedData parent «prefix» correction hcorr C primes m n pattern sector
         remaining budget anchor height index raw hanchor hheight hpositive
         G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection ξ)
       (signedAmplitudeConstant window hcompact hpositive orders δ R₀ cap
           (‖firstDirection‖ + ‖secondDirection‖) *
         Real.sqrt B * P₀ * (1 + ‖ξ‖) ^ (orders.sup Prod.snd)) := by
-  let w := baseRawWindow parent prefix correction hcorr C primes m n pattern sector
+  let w := baseRawWindow parent «prefix» correction hcorr C primes m n pattern sector
     remaining budget anchor height index raw hanchor hheight
   exact OriginalClippedGaussProfiles.rawWindow base G₁ G₂ G D₁ D₂ B δ₁ δ₂
     hG₁ hG₂ hG hB
-    (base_left_positive parent prefix correction hcorr C primes m n pattern sector
+    (base_left_positive parent «prefix» correction hcorr C primes m n pattern sector
       remaining budget anchor height index raw hanchor hheight hpositive)
-    (base_right_positive parent prefix correction hcorr C primes m n pattern sector
+    (base_right_positive parent «prefix» correction hcorr C primes m n pattern sector
       remaining budget anchor height index raw hanchor hheight hpositive)
-    (base_prime_positive parent prefix correction hcorr C primes m n pattern sector
+    (base_prime_positive parent «prefix» correction hcorr C primes m n pattern sector
       remaining budget anchor height index raw hanchor hheight hpositive)
     firstDirection secondDirection hcompact hpositive orders δ R₀ j cap P₀ hP
     ((count_le_original parent index hindex).trans hcap) hj hexponent w

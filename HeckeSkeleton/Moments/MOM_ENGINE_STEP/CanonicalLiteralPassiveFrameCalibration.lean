@@ -131,10 +131,10 @@ def literalPassiveFrameFullCalibration :
       remaining idx) ha
   have hsupp (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :=
     CanonicalLiteralPassiveSupport.effectiveSupports
-      (P := P) (R := Rchar) (W := W) (B := B) (paid := paid) (F := choice.phases)
+      (P := P) (R := Rchar) (W := W) (B := B) («paid» := paid) (F := choice.phases)
       (parent := parent) (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
       (C := C) (p := (S).primes) (leftMultiplicity := (S).leftMultiplicity)
-      (rightMultiplicity := (S).rightMultiplicity) (pattern := pattern) (ν := sector)
+      (rightMultiplicity := (S).rightMultiplicity) («pattern» := pattern) (ν := sector)
       (remaining := remaining) (m := m) (q := q) (inverse := inverse) (index := index)
       (rectangle := rectangle) (firstSign := firstSign) (negative := negative)
       (M := choice.mask extra) (a := a) κ ξ u
