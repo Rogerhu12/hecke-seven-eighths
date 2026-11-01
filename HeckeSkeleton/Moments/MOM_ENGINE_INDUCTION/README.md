@@ -242,12 +242,19 @@ files and proof/elaboration compatibility repairs. The current principal pins ar
 | Source follow-up | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Base and actual-row-eligibility interfaces |
 | MOM_PRIME | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Annular-volume dependencies and the actual endpoint |
 | Finite-sector reindex | `c92578b1fa556b72d01c6ff49bac7f27885f09d7` | Finite-sum source modules |
+| Inverse induction | `907494761e69835a65441353524781130019a556` | Merged PR #8 and its closed canonical inverse model proof |
 
 The shared `Expansion`, `ExpansionModels`, `HighBinSupport`, `Base`,
 `HighBin`, `SourceData`, `MOM_UNIFORM_AMPLIFY`, and `MOM_PRIME` sources
 match this integrated baseline byte for byte. `Moments.lean` is recorded
 separately: it retains the baseline's sibling proofs and adds the three
 actual induction calls and the corresponding `plainSource` adjustment.
+The subsequent `90749476` baseline merge retains both task imports and
+the completed `canonical_inverse_models` call from PR #8. All 147 Lean
+files of `MOM_INV_INDUCTION` match that baseline byte for byte and are
+included in the recorded source hashes. The clean task inventory remains
+211 modules and 1595 declarations; the complete source/configuration
+inventory now contains 1601 hashes.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
 repair SHA256, and reason for each of the 46 local STEP repair files. It
@@ -283,8 +290,10 @@ published STEP repair `ed52f87c0805a0836bfc62496b65d158b09e0330` exactly.
 All four files also match the subsequent owner candidate
 `3f9458433d29131b29bb72202badbee49c715d82` byte for byte.
 
-`CanonicalFullKappaPrime.lean` addresses native diagnostics from STEP run
-`41299915844` against the same original file. The uniform Mellin provider
+`CanonicalFullKappaPrime.lean` matches the owner-approved repair
+`5c0b0c07bbf5a8f8635d7523896d77a8e8d7a155` byte for byte. It addresses
+native diagnostics from STEP run `41299915844` against the same original
+file. The uniform Mellin provider
 is instantiated at the actual `Type 0` prime carrier in all five existing
 choice/specification uses; `orders` and `analyticCoefficient` remain
 parameter-free choices made before the field, characters, and profiles.
@@ -348,9 +357,9 @@ Quot.sound
 Lean's recursive axiom collection checks both declaration types and proof
 bodies. The original-target gate rejects `sorryAx` and every other extra
 axiom even if the generic core or source-adapter checks pass. The only
-remaining admissions in `Moments.lean` are `canonical_inverse_models` and
-`paired_primes_below_one`, owned by other tasks. Neither is a permitted
-dependency of the three accepted targets. Their presence in the broader
+remaining admission in `Moments.lean` is `paired_primes_below_one`, owned
+by the separate `MOM_PRIME_BELOW_ONE` task. It is not a permitted
+dependency of the three accepted targets. Its presence in the broader
 integration report does not establish the final global theorem.
 
 Targeted performance probes must state their exact source, compiler,

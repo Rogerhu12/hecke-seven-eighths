@@ -1248,19 +1248,22 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                           'repair_sha256': '16260c7162879a200dc049788e5ca0e7e21e7db1ca6d7c7f0d76a4e49fcf398c'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFullKappaPrime.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                         'owner_sha256': 'b2b7f119bfc19065a1243efe8f7fd0c577bf832f383cf65d1d446ce6dbd786f0',
-                                                                        'reason': 'Native STEP run '
-                                                                                  '41299915844 diagnoses '
-                                                                                  'this exact owner source: '
-                                                                                  'fix five uniform Mellin '
-                                                                                  'provider references at '
-                                                                                  'the existing Type 0 prime '
+                                                                        'reason': 'Exact owner-approved STEP '
+                                                                                  'repair '
+                                                                                  '5c0b0c07bbf5a8f8635d7523896d77a8e8d7a155 '
+                                                                                  'source, resolving native '
+                                                                                  'run 41299915844: fix five '
+                                                                                  'uniform Mellin provider '
+                                                                                  'references at the '
+                                                                                  'existing Type 0 prime '
                                                                                   'carrier without changing '
                                                                                   'the parameter-free '
                                                                                   'orders/coefficient '
                                                                                   'choices or their order; '
                                                                                   'annotate the two original '
                                                                                   'HeightOneSpectrum '
-                                                                                  'binders, supply seminorm '
+                                                                                  'binders, expose the '
+                                                                                  'finite seminorm supremum '
                                                                                   'and field parameters, '
                                                                                   'transport the original '
                                                                                   'profile support by '
@@ -1273,7 +1276,7 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                   'profile, mask, analytic '
                                                                                   'inputs, and numerical '
                                                                                   'bounds are unchanged.',
-                                                                        'repair_sha256': '3d083ce477c419e1263ee857c36c27a90eea4ee7e61ccd86e478531e6a500db4'},
+                                                                        'repair_sha256': '632e5123cff59a5f30e25cbd2e8dbc653f4fda80fa09e56b2f134bf55ea96f68'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalHybridMass.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                     'owner_sha256': '2ba33975011973aebfa9558f7ce3c7cb1449d2dd93c8ebff04358b90ba5ecb0a',
                                                                     'reason': 'CI74/75: explicitly prove '
@@ -2255,9 +2258,156 @@ REINDEX_SOURCES = {'HeckeSkeleton/Moments/MOM_UNIFORM_AMPLIFY/FiniteSectorCore.l
 # The actual source and aligned arithmetic choice retain their owner pins.
 # Integrated files include the original three target calls and are hashed
 # separately from immutable imported owner sources.
-INTEGRATED_SOURCE_PARENTS = ('624698fe21181df5cfda09434c407e9cf2ef075f', 'c92578b1fa556b72d01c6ff49bac7f27885f09d7')
-INTEGRATED_SOURCES = {'HeckeSkeleton/Moments.lean': '9fbafa0bceff9faffd10ddb77cfd45bb9c7d193b11481f29f763dd8539c3c3c0',
+INTEGRATED_SOURCE_PARENTS = ('3be4174e750f80149ccd4a7de1a7d8291a1806cc', '907494761e69835a65441353524781130019a556')
+INTEGRATED_SOURCES = {'HeckeSkeleton/Moments.lean': '11741e7d4458af6a794b1945c27b9c082d0560fa43a0d6ee4f15f74c2f001ef2',
  'HeckeSkeleton/Moments/MOM_BASE/LocalGauss.lean': 'fd1552537104f93fb975803605bd53ab800861ba6162e1300476c40e3dd94567',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ActualMoments.lean': '27f9cb5df20495b345fffe1a5dd9835d349b15ef4df4fae05ca81574503ad032',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/Audit.lean': 'acd056cf9ebea8a30a6cce4af2b10826ac0caf72902b12a8c8744f4af2f8d729',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/BackwardSeminorm.lean': '5d95626f679dc3eff50deb24608f0ea1d2ba5a2b8914cb98f37bb46b5857b28d',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/BoundedScale.lean': 'ea19b08ddb9fcb76e05ed61af5be95f37575e8741e3bd88629ea7470549e7e13',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CanonicalClosure.lean': '57bae895f23ef522f5dfcbdbc03dfdf533c345c17ac911b569bbbf9f3245626b',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CanonicalEnergy.lean': '586017fdae2112d61bc06ea248e4fbcd8e2c5759dd922be964aad71548dc8551',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CompletedEnergyTransport.lean': '867a8509134732cb6316fc94c042d8621258f3a41323e97e230f3bede4871208',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CompletedEnergyTransportAudit.lean': 'd9ad2e7d31f0389a8144fc6b98accb7ec3d8c53d39f409b0e37e26494ce1db3a',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletion.lean': '7338b37a25ef1e4bc66fce8869f01521328aedc6383ae80c8899aa6438f8a0ef',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionBlockBound.lean': '58a63dffee09d59c4b0e74190f5c0f3a0c16282da62e0f441fd95ceda97af7d8',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionBlocks.lean': '9b8aa5c5ff0d1287e5bd952845c8c91ec042e63bfd9c3b31057fdbe441a1faed',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionCanonical.lean': 'dd5ea339c6925f5fe2ea9f6cedd93a46a1d734f98eb613a2c92d40f890ffd9e2',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionEnergy.lean': '692f6a9d56e587d549765a5a959730fa99258157b04daff01e4161d6d57e4013',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionEnvelope.lean': '787554f33ba8e2c79fefb8ef6c19a38e67ae8061720fc7c23606d5dae3371ba5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionFinite.lean': '5d742d00a5daf8d03fe110a6375627d2deb850bb4b53cfa9094aba8d23568ba2',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionGeometry.lean': 'e7eb0eee9b95993d1f31a3a4c3b345e94d67d8e871a79caa2d5dfa46c3acd210',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionLong.lean': 'c1c42b49b9d5abf0eee022115458fd85fe6db73905bf028826d0832b0879b2f9',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionMellin.lean': '4f1b64daf3b0d884508c9a9fd9875421b7a1a0938f29d04e874f1d323b7261e2',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionNodeStep.lean': '8adf89b95d5aa7a6eda1ecf9285b9d77c8eb7e0fae63cd1c3d4206e8e027ed51',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionPools.lean': '4e04ada7cd50b021e16bef188408d93807931765e634519403f454561bc2f305',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionProfile.lean': '0e5cd320e0ddaf9210cbb3ccacb942570a44f84363096d740b4588977316c870',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionProvider.lean': '76cbb088e5917ad6f8281968b18579acef8602262e46a51a32786c9ca3844c29',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/CubeCompletionSmall.lean': '2a781b5e4667e98e10fc49acf345b31c6b2c22aec5537103fc594ca800ceba05',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/EnergyClosure.lean': '91c9911056d324fd8e8a68637feda3591ef8f096daed0db4e8cf05235308da7d',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/GeneralReflectedEnergy.lean': 'f801ccda7b0b47cb29c1b3e445ac526b80b836cb7a671ad68cca22914f3418ba',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/IndependentClosure.lean': 'ac90ae7bd79392556c9349a7e94cb0b555d2389bf07d7325fb66ac36b6fb2855',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/InductionCapacity.lean': 'cf1d67e960225eebc1bca8c2036199d538ff8ae3a8489e49726e613ff71263a5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/InductionClosure.lean': 'fb3a3e18a79c2905e10920b885fb9e4874fe980b8b5203b189471f197daad228',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/InductionGeometry.lean': '18a8306c69ddef5c7b9595b3069cad8dd829b58b378cc89ab173cfc6a23fb9fb',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/InitialTransfer.lean': '974f40ae0bd60ec28e98602a53978d931f7120f230f017a583db58faa483f1f8',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/Interface.lean': 'd2cc7c95c81f3b7967a117c2bab8c6c55a072f05dd1b31ce53a46dc0d5fe1683',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/OriginalAudit.lean': 'db0a6d2dfd4c576cae3ae5adcf5b33b3c5c4668e25b7e53f0bea765a124adae5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/PairedMeasure.lean': '4a1bb6b78a0ba192fb5782f684184c6ec6205eb32499e670a5bb16332d32321b',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderAudit.lean': 'db1a134357e63da4727808163e7f9811487360e2bd63606d690e34c124ce8796',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderChildParent.lean': '60936bf375c8ec1e77e41c6f54e3d5c6d44f4739b9de42b3f68df3af2dc1e094',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderCubeParent.lean': '5b12d403e1eb5b07ffbd0b842ccd31da5ed6ca3b7bffff19bdb3a1549bec3718',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderFiniteClosure.lean': 'fa54cb44c1e55a5d15fb1fa0bce1319a2433c3090ecc8a7401d51b4a8fe66d54',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderGeneratedNodes.lean': '5018e8a67741e5c44054e9ed3beddb7958d19358c001350c85235a78ac645057',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderHomogeneity.lean': '69f7b5ec6fb7f3892be9555e72f08da1b3e6f7a9e4248c6bc849a52ba8f825b3',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInduction.lean': '8f7220d01743578403f66f20efef65fe9919f740169941badd2ec33f1968f4e3',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialBoxes.lean': '8b15e2b8447e21b8b74a29be58776e596319f988509ec0e0d252d8d200d92647',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialClosure.lean': '19705bc2b595be4c08452e737f780b67975793d83a74b9add774c69e91e154f2',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialEstimate.lean': 'b8f37c111bc41eda3978d994c42873e70b3ca14ba42ffd22910f04d45601f2ff',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialGeometry.lean': 'cab09d572267865a464008bb00c34343a1692d6a4942f86420dc15e9d581936f',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialIntegral.lean': '3510f53c3427d36f17d85f92b30dca50ddda7eeefa359ff6508264c8f442d56a',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialInverse.lean': '0ca182065a9016c57bbb0afcff6f41ef212496417ba633f96cc875ff92a8ff60',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialMass.lean': 'b5fe1cc8819a19168700e2b6c00f2dabc1c95eebe67f9af5d9a53eb79615b117',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialNodes.lean': '060df0bf6e59676c71ebcc777d501b88f3c77ec906c6da0ba5512df5298adeb3',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialPointwise.lean': 'c23c8c29d2b5c70f86f6cb1adfb85ec942ac1d0c8b840c4b71a55a2b963385a5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialProduction.lean': '3c18872f6d9a9f8cf4464485557afb04a859b911f536246d72865190911d0335',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialSource.lean': '4612ff5aaa9d11d35952b95c44170a60154df9de5fced0534054de88651f0221',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderInitialSpectral.lean': '06728918cf8320b0fc295c58fef2052433df2c4102c9e87a3c30a009997c7922',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderLocalStep.lean': 'bd6024ceb90b7245d939673d2068a57b212ec0fb532998b3655f2543c7623eb9',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedAnnuli.lean': '4d6b3ce306479ea5b26dd76f057681b8c2d652d2b41ac658de2dcae4b73dcb03',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedCount.lean': 'fd6e68b222e2e98282f895418db1ad451f4cf9f2901b414413f1a615f77fcd0a',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedLogMellin.lean': '030d6b3f451aefb7a72361cab1fbe4977e8f3084c0458831bff3e7e416d5b1be',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedMask.lean': 'dd6ed94f9f9104aa6e55ee0876839cdae229385ab16c48010b3f0a7d016fc4af',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedMaskedMellin.lean': 'f97f5d8ffee530df8c32730b780567677a06ca17eec59148024f65a1ee878801',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedMass.lean': 'ec2545218a108ca9ca6e251d2eddf784d5fe4397e8958ac689fce9bf2c2e9940',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedMellin.lean': '045c85a12934a00c27fcc835ef3a9ef3cc133ad8f5156c900a559de33ffe5aaa',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedOriginal.lean': '03ac61d1b3b8db447274f78c667fd066913466a0bb232ec5fffd0fa180230ad5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedOverlap.lean': 'c1ca45db21a2f3879bed8a45f43804a41f369bd43f22586f05e7df0a0f32917a',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedPacket.lean': 'ced0d35db8c5bf71796947456b63525adb3480bb55c91220178aee7f7ddfd4a4',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedPools.lean': 'be7f9b45d66f9c51f70112d3d85d7e63409d23cf18b0520b1d39f41243be4ac6',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedReindex.lean': '8c0257f565decc820a6ac24246ace5968998911f2d017c895b8e4b382d7b004c',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedScale.lean': '6910b0a62b5bdbfbf8c55ae089d2207daa065d0a0fdf63ef5676db4bf8ae8d00',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedSlots.lean': '84675f9f7c1a100258d46626e62419716d8900f80b8ca05e678063ffd4807f7b',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedSourceSplit.lean': '2f4e1c86dd648c2d8f3b5174dbb1dd4d9e1e0f285bd6852b7547ebf922358935',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedTests.lean': '048e43eb5add6c587a327e65f201f9732d2b9deba00343f96f590286f7a55a03',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedTupleSplit.lean': 'a8b95dc3472db912ded8c27d024306aaf952602f353842f5b73e68273170b571',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMarkedWindows.lean': 'b8db17809b3fac011218845a471a00af0b7fffd9c330d4fca666d67ea5b3ace1',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderMonotonicity.lean': '1970407abc877ee8f61f63283f3ad2bacec8f932f058621a0ca274817e3084bb',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderNodeStep.lean': '79484e4d9e1f5ce233efcdaf2263ab1ecb7f39fba1468506e64908311e4ca5a2',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderNodes.lean': '038a00c465fdf7b369b681d18a29b79da80e0840420ffe8d1cbb6fdd964f6bb3',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderRecursion.lean': '5dbb2cdcc534fbe25d9ebab9a3fbaa14308acff918aba8418a53ad59799626de',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderRows.lean': '728df016ebff08ccf27fae7428a0a34594d5fce8dae2f8f62db6ddcd65594ce3',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderStep.lean': '7695f3282ac71ad5ca258c8b38405e6745cc3c22f5af7ad7ca6644436e8fd33e',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderTerminalConductor.lean': '7fac5ec3d4339d2f75666b19541ecd1f33a057085cd8d3e5e7183f312f1c91ed',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderUniformChildren.lean': '3bba70b768ad6f18ceee4ba376ef0514d613dfcd5048cba1a0caa2ec53ce0bf9',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/ProviderUniformMarks.lean': '67e3f7590ad3e8ebe8e218e3e85a08a62a5f953a5bf919c69babfe5cb66369a0',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceActualArithmetic.lean': '36f2e153d22abd74b2c70c7faa9b43047e830a14da6df3df53de5a8befbb3d68',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceActualScale.lean': 'acef89fda0b2a6119dbdc01e4904810ed72b904bf4f4b664838b328f6b3544be',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceAnnularRows.lean': '1badc0721eb8480db5202b7dfb46939bf3370f8f84c73843507c99741c7a0a93',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceAnnularTests.lean': '25a000363e296b985b270d6610190411af9082bc1c88ecf45f46a8f642144388',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceCanonicalClosure.lean': '59f48b455a088982ac4235a75d7643b90634881efd15c5809f48b98f8f295e0d',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceCompleteRows.lean': 'd693c58a40bc1f6153c1493a305d28b5908fdb56ab0206bc1ca897dd230bb6ac',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedActual.lean': 'e6e50d25c764965f44a3c2c56586904054be1ac179de9dbcb804639bc9c9fedb',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedBlockEnergy.lean': '5108cb23020ab9369442fe23d2045f61621631fb7627af20abe164b874512391',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedClosure.lean': 'facdc5651567765599dd61ce566ed33e8004d1791bd59d9ca29e0ae2b375c356',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedComplete.lean': 'f42ff9dfe990ab7eeae072028edda9a1c4ee4cb994425f7417c10a2e2d211a0f',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedOrbital.lean': '5b122f853cf37e7eda96223bc176b84034f0589ad3433c515c13c954ee8f6acc',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedPhysical.lean': '7d03e5a3ac024fb1b80a6da072230eb74f54cc170715d3696145190425b82657',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedRawBound.lean': 'bf27bd8da68b32b469efe61f02513503f3d75b7d4809fac9f54f754b0542b283',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceMarkedUniform.lean': '75803fd74bc582ff3ce13c9189283cc7da1b94fc2f669f88199d2734bcb58876',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceModelClosure.lean': 'ad6c85dc972161a95e0ce81c29002b4caf41978bf0340a70989e31c922e033df',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceOrientation.lean': '486ab01e85adbae25195d053c7617e6ed12c483b0c90dec9db16424be4ea40c5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourcePrefixEnergy.lean': '2f3a6948a72fc1d5ff3b4ba93bf6a1e0a209bcc90a94b8b5e29528428ec91fa4',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceReductionOverlap.lean': 'ae905567bdcf8b1dddcba0ffb37d658bb9e16b6cfaea255f44bed51cdb2cd988',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceReductionPoisson.lean': '15c0bc23273f3c348625a5c39268244578cee7320ff2cf9700a964d61ca730e5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceRelativeSlots.lean': '156a5748bc8b34c6687c6bb916eb6c04a4e9063ca677a4c473aa77c5c25d314f',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceScaleBudget.lean': '8a73ad080e50a7d073a50dfc5db9cff1316fc7c2c868e41b930c0038358aa69f',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceScaleSup.lean': '5e0c64d21c0a5fa3aece4757f4df860703526933ad75cb81a3f1607dfd4a69b0',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceScaleSupClosure.lean': '2e35f392fa00ed2c271052c56bcc2f16d7da8622a3bfdd356c72a21298721a59',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceScaleSupRows.lean': '0e2f54ee6fb0bd3e5431951af93588ade22c63728c08ce2e2b1de2217cb4100e',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceUnmarkedComplete.lean': '771ba7a53c1834f34cdfdb9d6516b3fa334e16359085e51802f53944340f5fd8',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/SourceUnmarkedOrbital.lean': '6b269988e18072c8a7b2951f42acaa16c2a5b29cae955a67989d2301f0bafa5f',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/Terminal.lean': 'a91970f844a072cba6c84d240ca6647e27be40461a53c2564b66cd8345faaedc',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProvider.lean': 'f714aee06d9ef034f524a5a1a81f7a53f4eb4cabf4a98295f8f4603cc3d433c0',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderAggregation.lean': '7b5aaa123e4d66fe6bdec3547f902caa2358491eec67f592bc01dfdff8ce0eb1',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderAtoms.lean': '397be4531310756ffac405ee8432e4f561f84805cc4b0bf844da7a0488a36212',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderBackgrounds.lean': 'dd4b8868799ff74c3735da2fdbe03ee1d631bcd890aa3f7d1dd6272e5eb118f5',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderBlockEnergy.lean': '5734541797221f3abf6cf1841839f3c025aee203c9751ae3bbaa388e4299e2a1',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderCounts.lean': 'bf8bb8ac14e6b8187fadd704f3ff406a9f3c4e5c28a47b210179192c17fa89cc',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderCubeMass.lean': '2aa8d16aa18a7927f636b622ee6fab079cd28b4f08360d2fb719cb0f249ce56a',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderCubePriority.lean': '59a5ca333ad56b7bb47eb73a763eaf6b20ee13b5a4c312a4587453e373cc79aa',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderExponent.lean': 'e526879237b97d80c491ed48e200ec1fc9a0248380ceca1a8ee8d0c01839ce84',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderFamily.lean': 'da2897feef4da33dac55164551967711dbec6d63b7585a843c28bab35b197bdb',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderFiber.lean': '03d1c8a9a5cc5865c0f14502fcc8ec41857583b87a32ad3f400c1654379db649',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderFrozenBlock.lean': 'f5f4615b9846c2a708c78baf41fae6ac0a0b871233a1a28cd9b9a8fce0ba7f30',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderGeometry.lean': 'b5ec2d21241c661afcc00422fab065cfd36933f97228f4c40699fdf512bea231',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderHilbert.lean': '0a29d43a665b6d3f74bf86b0cbc5e9f41b3e70add3eaade716f61452c1bf7959',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderInput.lean': '39d57de2867524eb3be22bb5dd90de8c73153c30017620df51ae1b44724600f3',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderMarkEnergy.lean': '66edc57fc1a3362314a75b82031e7773e702a54adafe54003fd390e1569a54c8',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderMarkFamily.lean': '1671adcb7ef1b2171a0ef44a145295ceb238de92ba8f4ef13dfd8804af55ae88',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderMarks.lean': 'e5fc203ec20be074a147b135483755251db611eb36f8afd31bfc93a0f95284aa',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderMellin.lean': '07fae08de7a4a0f56269b944af0f19b1088fad6747517c69a6af1e2938065c64',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderNode.lean': 'ced125dec41186ea53d6db213db7aafb4a33358038b446636cd9ae36cc3e9d7a',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderNodeShort.lean': '6a58d3b904941a6e186fceac2fd2dec477bde40f32a7f35506773b6b50b0c607',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderProfile.lean': '552184947e077f7fb623cd3d5f94e5942e3a909fdef234f340a85a39630ec059',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderPuncture.lean': '3bc9c4ef36b84209a17605fc68562d6b8412fd19f382694e1f6e2927b233da14',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderRectangles.lean': '9cccc12c467ba896dad4adbce17ace2eb5c9a8a2f646233a9bec957bad5f25b0',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderReflection.lean': '2fe470ec4d7a05f3669a8b9663c56be3be2c284dbf835361afa3c874b8d23d3d',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderReflectionFamily.lean': '5cc30fd42b1f5a39379285f23e7763e343c8ff5aa5e204db8dfccef029fafcd0',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderRows.lean': '3e96c2437998ddf0840ce7cc864b9e762bf78a96b42d7cf8c88fb09ecb0903f3',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderSelectedTail.lean': '560b22ad63810c22dccf813db77ff18e9803a14e77cf9fc853ba8211967f4ddb',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderShort.lean': '5c085b0a1a37eee9798d34c370433e51fc37a621b53bec28897af6d6c7fb124f',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderShortBound.lean': '4294af51d68ac6b30f43fa94fd2282cd04f319cb34d15e7ee027158a46b4ae50',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderSlices.lean': 'eddfa234ddea6a127330c9be0b9ae30504efae3c9b65d379090f321ee7cea6ca',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderStateEnergy.lean': '6e6d1778a91f74b022dca9d351105935e98ccfdf6086194b572540dae6a145d0',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderStateProfile.lean': '8dedd042014754021218ff8990672580f53ed0e2f584f5844f81708cbb870b96',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderStates.lean': '2a0b3bead2a660afe0d29bd8b5a5246c1f5f0d85eac2c3d9a3014ead2010cb78',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderTail.lean': 'ecace233172285a4774b07c4780ec35a1c36e2280c5a8c89962888ab5e7c4fa7',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderTheta.lean': '4bfeac0d7cf4442376c723dbc5dd76d7764a273fa29153ee185c9e455bbb0c06',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/TerminalProviderTupleSplit.lean': 'db9635042de0bbe9e6621249ebcfebb1c99bfd7f2de667f4affb949dff72b94c',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/Uniform.lean': '953ab4ad086effabd04fa985cf8a13179d08b25492ec39ec671b854969b8841e',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/UniformOuter.lean': 'd787336c63d07e8f45a75fa7b7c7119c8280a91f8932c1c7dc1f294adf9a2c1d',
+ 'HeckeSkeleton/Moments/MOM_INV_INDUCTION/UniformThreshold.lean': '8c90bcf6a7509f2216c83d388fdbb921945fb5c6cd57d22a4f3c8a7ffe15434d',
  'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0'}
 INTEGRATED_SOURCES['HeckeSkeleton/Moments/MOM_BASE/LocalGauss.lean'] = 'fd1552537104f93fb975803605bd53ab800861ba6162e1300476c40e3dd94567'
 

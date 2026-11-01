@@ -87,10 +87,11 @@ theorem sourceSeminorm_eq_complex (s : Finset (ℕ × ℕ)) (W : 𝓢(ℝ, ℂ))
 
 theorem norm_le_orders (W : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖W x‖ ≤ orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W := by
-  have hsup := Seminorm.le_finset_sup_apply
-    (p := schwartzSeminormFamily ℂ ℝ ℂ) (s := orders) (x := W) zero_mem_orders
-  rw [SchwartzMap.schwartzSeminormFamily_apply] at hsup
-  exact (SchwartzMap.norm_le_seminorm ℂ W x).trans hsup
+  have h : ‖W x‖ ≤ (insert (0, 0) orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) W := by
+    rw [Finset.sup_insert, Seminorm.sup_apply,
+      SchwartzMap.schwartzSeminormFamily_apply]
+    exact (SchwartzMap.norm_le_seminorm ℂ W x).trans (le_max_left _ _)
+  simpa only [Finset.insert_eq_of_mem zero_mem_orders] using h
 
 /-- This factor is independent of the Fourier parameter whenever the
 original analytic height and mask windows are. Its scale dependence
@@ -217,11 +218,10 @@ theorem raw_prime_bound
   have hP : 1 ≤ Z ^ (d.geometry.slots i).length :=
     Real.one_le_rpow hZ (d.geometry.slots i).length_pos.le
   have hcost : 0 ≤ cost K δ degree height mask := (cost_pos _ _ _ _).le
-  have hprofile_eq : (d.geometry.slots i).profile t = (W : ℝ → ℂ) := funext hW
   by_cases hκ : κ = 1
   · have hb := (Classical.choose_spec (exists_norm_primePolynomial_absolute_bound K)).2
       d i u Z t amplitude hZ hamp
-      (by simpa only [hprofile_eq] using hsupport)
+      (by simpa only [funext hW] using hsupport)
       (fun x => by rw [hW]; exact (norm_le_orders W x).trans hprofile)
     have hs := pow_le_pow_left₀ (norm_nonneg _) hb 2
     simp only [mul_pow, Real.sq_sqrt (Real.rpow_nonneg hZpos.le _)] at hs
@@ -308,9 +308,10 @@ theorem radiusFactor_pos (Z δ lengthBound degree height mask : ℝ) (hZ : 0 < Z
 theorem one_le_radiusFactor (Z δ lengthBound degree height mask : ℝ)
     (hZ : 1 ≤ Z) (hδ : 0 ≤ δ) (hL : 0 ≤ lengthBound) :
     1 ≤ radiusFactor K Z δ lengthBound degree height mask := by
-  simpa only [radiusFactor, one_mul] using mul_le_mul (one_le_cost δ degree height mask)
-    (Real.one_le_rpow hZ (mul_nonneg hδ hL)) zero_le_one
-    ((cost_pos δ degree height mask).le)
+  simpa only [radiusFactor, one_mul] using
+    mul_le_mul (one_le_cost (K := K) δ degree height mask)
+      (Real.one_le_rpow hZ (mul_nonneg hδ hL)) zero_le_one
+      ((cost_pos (K := K) δ degree height mask).le)
 
 /-- A fixed coefficient for one original profile. It is selected before
 the source, base, height, row and Fourier parameter. -/
@@ -508,16 +509,19 @@ theorem deleted_prime_dvd (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     exact ⟨⟨hS, h6⟩, hu⟩
   have hcop : IsCoprime p.asIdeal (Q.moving.fullMaskSupport Q.remaining).val :=
     (HeckeSkeleton.PrimeCancellationIdealMask.prime_isCoprime_iff_not_dvd _ _).mpr hfull
-  rw [Q.mask ξ u p.asIdeal, Q.moving.fullMaskSupport_mask Q.remaining] at hdeleted
-  simp [hrow, hcop] at hdeleted
+  rw [Q.mask ξ u p.asIdeal, Q.moving.fullMaskSupport_mask Q.remaining,
+    hrow] at hdeleted
+  simp [hcop] at hdeleted
 
 theorem primeDeletionIdeal_norm (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K (Q.primeDeletionIdeal u) =
       (Ideal.absNorm A.cS : ℝ) *
         (idealNorm K u * idealNorm K (Q.moving.fullMaskSupport Q.remaining)) := by
-  change (Ideal.absNorm (A.cS * (u.val * (Q.moving.fullMaskSupport Q.remaining).val)) : ℝ) =
-    (Ideal.absNorm A.cS : ℝ) *
-      ((Ideal.absNorm u.val : ℝ) * (Ideal.absNorm (Q.moving.fullMaskSupport Q.remaining).val : ℝ))
+  change (Ideal.absNorm (A.cS * (u.val *
+    (Q.moving.fullMaskSupport Q.remaining).val)) : ℝ) =
+      (Ideal.absNorm A.cS : ℝ) *
+        ((Ideal.absNorm u.val : ℝ) *
+          (Ideal.absNorm (Q.moving.fullMaskSupport Q.remaining).val : ℝ))
   simp only [map_mul, Nat.cast_mul]
 
 /-- A uniform original width supplies the row-independent logarithmic
