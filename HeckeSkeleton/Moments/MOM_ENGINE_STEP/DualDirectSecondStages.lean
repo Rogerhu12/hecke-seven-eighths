@@ -17,6 +17,7 @@ precede the moving source. This entrance has no prime-pool parameter.
 -/
 
 noncomputable section
+open UniqueFactorizationMonoid
 open scoped Classical BigOperators NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep

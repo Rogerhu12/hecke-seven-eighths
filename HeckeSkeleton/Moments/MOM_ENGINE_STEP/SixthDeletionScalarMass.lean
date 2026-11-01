@@ -17,6 +17,7 @@ fibre, all removed prime costs and the independent second divisor remain.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum HeckeGeneral.Arithmetic
 open scoped Classical BigOperators NumberField nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep

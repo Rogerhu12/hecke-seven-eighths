@@ -16,6 +16,7 @@ live arithmetic labels in the final mass estimate.
 -/
 
 noncomputable section
+open DedekindZetaZeroFree.LocalFiniteSums (ExteriorPrime)
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
 

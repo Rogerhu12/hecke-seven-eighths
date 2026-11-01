@@ -12,6 +12,7 @@ No whole transform identity or source bound is a calibration input.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum UniqueFactorizationMonoid
 open scoped Classical BigOperators NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep

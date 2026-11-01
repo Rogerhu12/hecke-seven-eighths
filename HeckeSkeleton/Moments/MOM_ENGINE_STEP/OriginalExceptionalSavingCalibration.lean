@@ -29,6 +29,7 @@ not by asserting a numerical correlation inequality on an empty class.
 -/
 
 noncomputable section
+open DedekindZetaZeroFree.LocalFiniteSums (ExteriorPrime)
 open scoped Classical BigOperators NumberField nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep

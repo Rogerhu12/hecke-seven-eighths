@@ -16,6 +16,7 @@ height window and without a per-leaf estimate as an input.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum HeckeGeneral.Arithmetic
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
 

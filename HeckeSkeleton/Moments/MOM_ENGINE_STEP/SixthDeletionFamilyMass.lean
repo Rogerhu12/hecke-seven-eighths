@@ -12,6 +12,7 @@ pointwise weight.  No old norm-length record or total mass bound is used.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum HeckeGeneral.Arithmetic
 open scoped Classical BigOperators NumberField nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep

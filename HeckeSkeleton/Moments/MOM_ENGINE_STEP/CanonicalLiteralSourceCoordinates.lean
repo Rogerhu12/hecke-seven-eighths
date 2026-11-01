@@ -18,6 +18,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open DedekindZetaZeroFree.LocalFiniteSums (ExteriorPrime)
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments CommonSupportMass

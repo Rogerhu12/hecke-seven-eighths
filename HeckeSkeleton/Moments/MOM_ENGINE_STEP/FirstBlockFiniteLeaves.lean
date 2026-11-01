@@ -11,6 +11,7 @@ The only extra premises are positivity of the two selected scales.
 -/
 
 noncomputable section
+open UniqueFactorizationMonoid
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
 

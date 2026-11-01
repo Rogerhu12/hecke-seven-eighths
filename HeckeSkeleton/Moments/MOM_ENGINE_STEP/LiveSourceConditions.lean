@@ -10,6 +10,8 @@ cannot acquire a prime which divides the old frozen divisor.
 -/
 
 noncomputable section
+open UniqueFactorizationMonoid
+open DedekindZetaZeroFree.LocalFiniteSums (ExteriorPrime)
 open scoped Classical BigOperators NumberField SchwartzMap
 open MeasureTheory
 open HeckeGeneral.Analysis.ConditionalMoments

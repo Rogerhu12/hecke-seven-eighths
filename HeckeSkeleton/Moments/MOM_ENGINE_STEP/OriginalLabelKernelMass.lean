@@ -16,6 +16,7 @@ are counted.  No inequality for a total child mass is supplied.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField FourierTransform SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep

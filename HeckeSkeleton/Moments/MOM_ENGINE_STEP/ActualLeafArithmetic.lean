@@ -20,6 +20,8 @@ open MeasureTheory
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open HeckePort.IdealMobiusDivisorSum
+open DedekindZetaZeroFree.LocalFiniteSums (ExteriorPrime)
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup HeckePort.Moments.Support

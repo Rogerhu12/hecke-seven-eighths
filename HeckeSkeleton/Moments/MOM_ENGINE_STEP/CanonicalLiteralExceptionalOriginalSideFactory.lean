@@ -25,6 +25,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalLiteralExceptionalOriginalSideFactory
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open HeckePort.IdealMobiusDivisorSum
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.Support

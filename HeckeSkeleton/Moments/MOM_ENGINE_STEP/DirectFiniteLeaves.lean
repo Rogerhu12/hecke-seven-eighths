@@ -16,6 +16,7 @@ open MeasureTheory
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 

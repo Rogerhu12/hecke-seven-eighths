@@ -16,6 +16,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep
 
 open CommonSupportMass
+open UniqueFactorizationMonoid
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis

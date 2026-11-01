@@ -17,6 +17,7 @@ second-divisor dyad remain in the integrated statement.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum HeckeGeneral.Arithmetic
 open scoped Classical BigOperators NumberField FourierTransform SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStep

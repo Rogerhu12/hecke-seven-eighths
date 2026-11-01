@@ -20,6 +20,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalMovingPhaseCalibration
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
+open DedekindZetaZeroFree.LocalFiniteSums (ExteriorPrime)
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ActualSIntegerMoments
 open HeckeGeneral.Analysis.SquarefreeAmplification

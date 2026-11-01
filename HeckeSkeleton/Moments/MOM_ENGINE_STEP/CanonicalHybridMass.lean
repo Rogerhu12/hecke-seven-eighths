@@ -22,6 +22,7 @@ open scoped Classical BigOperators NumberField FourierTransform SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
+open HeckeGeneral.Arithmetic
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments CommonSupportMass
 

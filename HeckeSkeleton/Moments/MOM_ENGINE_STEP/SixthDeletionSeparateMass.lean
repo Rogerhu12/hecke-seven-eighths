@@ -17,6 +17,7 @@ child bound or new capacity choice is an input.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum HeckeGeneral.Arithmetic
 open scoped Classical BigOperators NumberField nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStep

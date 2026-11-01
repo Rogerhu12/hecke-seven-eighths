@@ -19,6 +19,7 @@ whose same-carrier finite sum is proved in ExceptionalSameCarrierMass.
 -/
 
 noncomputable section
+open HeckePort.IdealMobiusDivisorSum
 open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStep
