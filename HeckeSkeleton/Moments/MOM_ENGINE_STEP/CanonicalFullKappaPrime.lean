@@ -58,18 +58,18 @@ local instance canonicalFullKappaPrimeCountable : Countable (HeightOneSpectrum (
 /-- The orders are chosen by the proved uniform Mellin estimate, before
 the field, characters and profiles are supplied. -/
 def orders : Finset (ℕ × ℕ) :=
-  Classical.choose exists_uniform_masked_prime_seminorm_bound
+  Classical.choose exists_uniform_masked_prime_seminorm_bound.{0}
 
 def analyticCoefficient : ℝ :=
-  Classical.choose (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound)
+  Classical.choose (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound.{0})
 
 theorem analyticCoefficient_pos : 0 < analyticCoefficient :=
   (Classical.choose_spec
-    (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound)).1
+    (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound.{0})).1
 
 theorem zero_mem_orders : (0, 0) ∈ orders :=
   (Classical.choose_spec
-    (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound)).2.1
+    (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound.{0})).2.1
 
 def endpointCoefficient (K : Type) [Field K] [NumberField K] : ℝ :=
   Classical.choose (exists_norm_primePolynomial_absolute_bound K)
@@ -204,7 +204,8 @@ theorem raw_prime_bound
     (hsupport : Function.support (W : ℝ → ℂ) ⊆ Set.Ioo (1 : ℝ) 2)
     (hprofile : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (hdiv : ∀ p, d.commonMask u p.asIdeal = false → p.asIdeal ∣ J.val)
+    (hdiv : ∀ p : HeightOneSpectrum (𝓞 K),
+      d.commonMask u p.asIdeal = false → p.asIdeal ∣ J.val)
     (hmask : Real.log (idealNorm K J) / Real.log 2 ≤ mask)
     (raw : ∀ _hκ : κ < 1,
       OriginalPrimeAnalyticData (d.rowCharacter u * d.slotCoefficient i) ((κ + 1) / 2) degree)
@@ -250,7 +251,7 @@ theorem raw_prime_bound
       ((d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length))
       (fun p => d.commonMask u p.asIdeal) J hdiv).trans hmask
     have hb := (Classical.choose_spec
-      (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound)).2.2 W
+      (Classical.choose_spec exists_uniform_masked_prime_seminorm_bound.{0})).2.2 W
       (fun x hx => ⟨(hsupport hx).1.le, (hsupport hx).2.le⟩)
       ((κ + 1) / 2) δ degree height mask a.slot (hheight hκlt)
       (Z ^ (d.geometry.slots i).length)
@@ -437,7 +438,8 @@ theorem raw_prime_bound_radius
     (hsupport : Function.support (W : ℝ → ℂ) ⊆ Set.Ioo (1 : ℝ) 2)
     (hprofile : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W ≤ amplitude)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (hdiv : ∀ p, d.commonMask u p.asIdeal = false → p.asIdeal ∣ J.val)
+    (hdiv : ∀ p : HeightOneSpectrum (𝓞 K),
+      d.commonMask u p.asIdeal = false → p.asIdeal ∣ J.val)
     (hmask : Real.log (idealNorm K J) / Real.log 2 ≤ mask)
     (raw : ∀ _hκ : κ < 1,
       OriginalPrimeAnalyticData (d.rowCharacter u * d.slotCoefficient i) ((κ + 1) / 2) degree)
