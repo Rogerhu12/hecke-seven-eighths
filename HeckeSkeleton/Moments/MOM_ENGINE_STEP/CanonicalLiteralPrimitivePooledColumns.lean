@@ -125,7 +125,7 @@ theorem literalPrimitiveLeftMain_active_norm
       Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.1 + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
-    (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
+    (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)
@@ -150,7 +150,7 @@ theorem literalPrimitiveRightMain_active_norm
       Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.2 + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
-    (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
+    (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)
@@ -176,7 +176,7 @@ theorem literalPrimitiveLeftPool_active_norm
       Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.1 - idealLogLength Z (powerIdeal prime n).val + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
-    (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
+    (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)
@@ -202,7 +202,7 @@ theorem literalPrimitiveRightPool_active_norm
       Z ^ ((internal).n₁ + (internal).n₂ + (internal).z - idealLogLength Z DE.val.2 - idealLogLength Z (powerIdeal prime n).val + loss) := by
   have hfull := literalPrimitiveFirstSource_active_column_norm
     (Q := Q) (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t)
-    (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (centered := centered)
+    (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
     (cap := cap) (annulus := annulus) (loss := loss)
     (hannulus := hannulus) (hcap := hcap) (hannulusZ := hannulusZ)
     (domain := domain) (profiles := profiles) (hrows := hrows) (ht := ht) (hwindow := hwindow)

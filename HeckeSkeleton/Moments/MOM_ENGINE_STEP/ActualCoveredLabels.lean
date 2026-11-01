@@ -70,6 +70,7 @@ def tagPoint {W : Type*} (x : ι → W) : ∀ b : PoolSourceTag P, d.tagColumn b
   | .inr (.inr (.inl _)), i => x i.val
   | .inr (.inr (.inr _)), i => x i.val
 
+variable {d} in
 def SourceCovers.tag {c : ι → ℂ} (B : d.SourceCovers c) :
     ∀ b : PoolSourceTag P,
       SourceCartesianCover (d.tagSource c b).columns (d.tagSource c b).ideal
@@ -143,7 +144,8 @@ theorem coverHybridPhaseCost_eq_sum
     coverHybridPhaseCost, FirstGaussPoolData.tagWeight, tag,
     FirstGaussPoolData.tagPoint, FirstGaussPoolData.SourceCovers.tag,
     CoverHybridPredicates.tag]
-  ring
+  ring_nf
+  rfl
 
 theorem integral_coverHybridPhaseCost_eq_sum
     (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)
