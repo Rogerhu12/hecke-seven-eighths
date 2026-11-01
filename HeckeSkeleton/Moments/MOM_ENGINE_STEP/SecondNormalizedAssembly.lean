@@ -36,7 +36,7 @@ variable {S : Fin k → Finset (HeightOneSpectrum (𝓞 F))}
 variable {T : Fin l → Finset (HeightOneSpectrum (𝓞 F))}
 variable {IB : AllocationColumn F l → A.Exterior}
 
-local notation "Labels" => ↥(liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB)
+local notation "Labels" => { z // z ∈ liveSecondAllocationLabels Ray S₁ S₂ S T₁ T₂ T IB }
 
 variable (R : ActualSecondCorrelationRows A σ H ι)
 variable (C : A.GeneralArithmeticContext σ η hS)
@@ -121,6 +121,7 @@ variable (IA : AllocationColumn F k → A.Exterior)
 variable (hIA : ∀ i ∈ childCartesianColumns S₁ S₂ S, (IA i).val = allocationColumnIdeal i)
 variable (hIB : ∀ i ∈ childCartesianColumns T₁ T₂ T, (IB i).val = allocationColumnIdeal i)
 
+include hidentL hidentR hIA hIB in
 /-- The source pair in the produced family is exactly the original
 second allocation pair, on the same original nonexceptional rows. -/
 theorem secondNormalizedPairFamily_sourcePair (parentWidth : ℝ) (z : Labels) (ξ : V) :
@@ -153,6 +154,7 @@ theorem secondOriginalLabelMeasure_integral (Fker : 𝓢(V, ℂ))
   rw [secondOriginalLabelMeasure, integral_smul_measure,
     ENNReal.toReal_ofReal (z.val.weight_nonneg phaseTable), smul_eq_mul]
 
+include hidentL hidentR hIA hIB in
 /-- No source-energy integrability premise is needed: the original
 finite allocated columns prove it for the actual arithmetic measure. -/
 theorem secondNormalizedPairFamily_sourcePair_integrable
@@ -177,7 +179,9 @@ def secondNonexceptionalAllocatedCost (Fker : 𝓢(V, ℂ)) (phaseTable : Ray ×
     (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h))
     (fun h => rawSourceLocation (y₁ h) (y₂ h) (y h))
 
-local notation "Cost" => secondNonexceptionalAllocatedCost R x₁ x₂ y₁ y₂ x y Q PL PR IA
+local notation "Cost" => secondNonexceptionalAllocatedCost
+  (S₁ := S₁) (S₂ := S₂) (S := S) (T₁ := T₁) (T₂ := T₂) (T := T) (IB := IB)
+  R x₁ x₂ y₁ y₂ x y Q PL PR IA
 
 def secondNonexceptionalResidualCost (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) : ℝ :=
   let R' := R.restrictRows (fun h => ¬ Q.exceptional h)
@@ -190,8 +194,11 @@ def secondNonexceptionalResidualCost (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × 
     (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h))
     (fun h => rawSourceLocation (y₁ h) (y₂ h) (y h))
 
-local notation "ResidualCost" => secondNonexceptionalResidualCost R x₁ x₂ y₁ y₂ x y Q PL PR IA
+local notation "ResidualCost" => secondNonexceptionalResidualCost
+  (S₁ := S₁) (S₂ := S₂) (S := S) (T₁ := T₁) (T₂ := T₂) (T := T) (IB := IB)
+  R x₁ x₂ y₁ y₂ x y Q PL PR IA
 
+include hIA hIB in
 theorem secondNonexceptionalResidualCost_le_allocated
     (Fker : 𝓢(V, ℂ)) (phaseTable : Ray × Ray → Circle) :
     ResidualCost Fker phaseTable ≤ Cost Fker phaseTable := by
@@ -205,6 +212,7 @@ theorem secondNonexceptionalResidualCost_le_allocated
     (fun h => rawSourceLocation (x₁ h) (x₂ h) (x h))
     (fun h => rawSourceLocation (y₁ h) (y₂ h) (y h))
 
+include hidentL hidentR hIA hIB in
 /-- Exact identification of the original cost with the computed finite
 source family, with every original arithmetic factor appearing once. -/
 theorem secondNonexceptionalAllocatedCost_eq_sources
@@ -222,6 +230,7 @@ theorem secondNonexceptionalAllocatedCost_eq_sources
   rw [integral_div_const, actualFourierMeasure_integral_eq]
   ring
 
+include hidentL hidentR hIA hIB in
 /-- The genuine original second cost reaches the actual normalized
 children.  The integrability premises are analytic facts about the raw
 finite atoms and their explicit profile envelope, never an energy,
@@ -242,6 +251,7 @@ theorem secondNonexceptionalAllocatedCost_le_children
       apply secondNormalizedPairFamily_sourcePair_integrable
         (hidentL := hidentL) (hidentR := hidentR) (hIA := hIA) (hIB := hIB)) hchild
 
+include hidentL hidentR hIA hIB in
 /-- Complete nonexceptional second-kernel reduction.  The original
 divisor and occurrence allocations, actual arithmetic coefficients,
 capacity repairs, Fourier envelope and both child moments are connected
@@ -262,6 +272,7 @@ theorem secondNonexceptionalResidualCost_le_children
     (hidentL := hidentL) (hidentR := hidentR) (hIA := hIA) (hIB := hIB)
     (hZ := hZ) (hprofile := hprofile) (hchild := hchild)
 
+include hidentL hidentR hIA hIB in
 /-- A raw-atom version of the complete second reduction.  Every
 integrability statement is proved internally; the final actual children
 are frozen at time zero for the next induction call. -/

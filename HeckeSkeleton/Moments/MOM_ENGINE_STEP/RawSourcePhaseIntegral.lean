@@ -118,8 +118,8 @@ theorem phase_transformedRow_integrable
     apply (integrable_const a).mul_bdd (c := 1) hc.aestronglyMeasurable
     exact Filter.Eventually.of_forall fun ξ => by simp only [norm_mul, norm_star, norm_jointPhase, one_mul, le_refl]
   have he : (fun ξ : W =>
-      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
-        transformedRow μv hDiff finiteTest s.radius D.val q) =
+      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).transformedRow
+        μv hDiff finiteTest s.radius D.val q) =
       (fun ξ : W => a * (jointPhase ξ (x i) * star (jointPhase ξ (x j)))) := by
     funext ξ
     exact (s.withMultiplier_transformedRow
@@ -141,8 +141,8 @@ private theorem rawPhaseNonzeroCost_eq_sum
         ∑ D : s.mask.powerset,
           ‖∑ q ∈ (s.sources DE).rows,
             ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
-              (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
-                transformedRow μv hDiff finiteTest s.radius D.val q‖ := by
+              (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).transformedRow
+                μv hDiff finiteTest s.radius D.val q‖ := by
   unfold rawPhaseNonzeroCost rawNonzeroCost
   apply Finset.sum_congr rfl
   intro DE _
@@ -153,8 +153,8 @@ private theorem rawPhaseNonzeroCost_eq_sum
   exact congrArg (fun rows : Finset Q =>
     ‖∑ q ∈ rows,
       ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
-        (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
-          transformedRow μv hDiff finiteTest s.radius D.val q‖) hrows
+        (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).transformedRow
+          μv hDiff finiteTest s.radius D.val q‖) hrows
 
 /-- The finite carrier consists of actual physical dual rows.  The
 continuous Fourier parameter still ranges over the whole space. -/
@@ -168,8 +168,8 @@ theorem rawPhaseNonzeroCost_integrable
       ∑ D : s.mask.powerset,
         ‖∑ q ∈ (s.sources DE).rows,
           ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
-            (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
-              transformedRow μv hDiff finiteTest s.radius D.val q‖
+            (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).transformedRow
+              μv hDiff finiteTest s.radius D.val q‖
   have hf : Integrable f (actualFourierMeasure F) := by
     apply integrable_finsetSum
     intro DE _
@@ -192,10 +192,16 @@ private theorem integral_const_add_middle_const
     (μ : Measure W) [IsFiniteMeasure μ] (f : W → ℝ)
     (hf : Integrable f μ) (a b : ℝ) :
     (∫ ξ, a + f ξ + b ∂μ) = μ.real Set.univ * (a + b) + ∫ ξ, f ξ ∂μ := by
-  rw [integral_add ((integrable_const a).add hf) (integrable_const b),
-    integral_add (integrable_const a) hf, integral_const, integral_const]
-  simp only [smul_eq_mul]
-  ring
+  calc
+    _ = (∫ ξ, a + f ξ ∂μ) + ∫ _ : W, b ∂μ :=
+      integral_add (f := fun ξ : W => a + f ξ) (g := fun _ : W => b)
+        ((integrable_const a).add hf) (integrable_const b)
+    _ = ((∫ _ : W, a ∂μ) + ∫ ξ, f ξ ∂μ) + ∫ _ : W, b ∂μ :=
+      congrArg (fun y : ℝ => y + ∫ _ : W, b ∂μ)
+        (integral_add (f := fun _ : W => a) (g := f) (integrable_const a) hf)
+    _ = _ := by
+      simp only [integral_const, smul_eq_mul]
+      ring
 
 theorem rawPhaseCost_integrable
     (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)

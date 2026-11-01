@@ -107,7 +107,7 @@ theorem actual_finite_normalized_kernel_mass
   · intro b
     rw [s.kernel_actualNestedLabelMeasure labels F₁ F₂ outer parentWidth b]
     letI := (hsingle b).1
-    infer_instance
+    exact Measure.smul_finite _ ENNReal.ofReal_ne_top
   · calc
       _ ≤ ∑ b : s.active labels,
           C * control * (outer b.val * s.weight labels parentWidth b) := by

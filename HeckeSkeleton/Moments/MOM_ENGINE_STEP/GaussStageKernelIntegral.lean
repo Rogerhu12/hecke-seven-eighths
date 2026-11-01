@@ -181,11 +181,19 @@ private theorem integral_constant_kernel_formula {Y : Type*} [MeasurableSpace Y]
     (weight zeroTerm tailTerm : ℝ) :
     (∫ y, weight * (zeroTerm + f y + tailTerm) ∂μ) =
       weight * (μ.real Set.univ * (zeroTerm + tailTerm) + ∫ y, f y ∂μ) := by
-  rw [integral_const_mul,
-    integral_add ((integrable_const zeroTerm).add hf) (integrable_const tailTerm),
-    integral_add (integrable_const zeroTerm) hf, integral_const, integral_const]
-  simp only [smul_eq_mul]
-  ring
+  calc
+    _ = weight * (∫ y, zeroTerm + f y + tailTerm ∂μ) := integral_const_mul _ _
+    _ = weight * ((∫ y, zeroTerm + f y ∂μ) + ∫ _ : Y, tailTerm ∂μ) :=
+      congrArg (fun z : ℝ => weight * z)
+        (integral_add (f := fun y => zeroTerm + f y) (g := fun _ => tailTerm)
+          ((integrable_const zeroTerm).add hf) (integrable_const tailTerm))
+    _ = weight * (((∫ _ : Y, zeroTerm ∂μ) + ∫ y, f y ∂μ) +
+        ∫ _ : Y, tailTerm ∂μ) :=
+      congrArg (fun z : ℝ => weight * (z + ∫ _ : Y, tailTerm ∂μ))
+        (integral_add (f := fun _ => zeroTerm) (g := f) (integrable_const zeroTerm) hf)
+    _ = _ := by
+      simp only [integral_const, smul_eq_mul]
+      ring
 
 theorem integral_phase_cost
     (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)

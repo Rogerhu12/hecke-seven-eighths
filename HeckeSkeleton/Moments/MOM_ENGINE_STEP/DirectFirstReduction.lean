@@ -55,6 +55,7 @@ theorem first_gauss_direct_integral_bound {H ι κ : Type*}
         ∫ ξ, (right.directSource
             (FirstGaussPoolData.twistedCoefficient d (fun j => -y j) ξ)).energy hDiff / NR
           ∂actualFourierMeasure F) := by
+  borelize V
   have hold := joint_kernel_energy_integrable F rows left.columns right.columns q
     (fun h i => c i * left.gaussColumn hDiff i (frequencyLeft h))
     (fun h j => star (d j * right.gaussColumn hDiff j (frequencyRight h)))

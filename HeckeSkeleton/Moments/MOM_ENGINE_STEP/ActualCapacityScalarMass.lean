@@ -62,7 +62,7 @@ theorem weight_width_le
         Z ^ (D.parameters.m + D.parameters.q + G.exponent) := by
       rw [out.width_eq]
       unfold weight NormalizedCapacityData.loss
-      rw [hbase, Real.rpow_add hz]
+      simp only [hbase, Real.rpow_add hz]
       ring
     _ ≤ (rowCost * scalarCost * fiberCost) * primeCost ^ cap * Z ^ budget :=
       mul_le_mul
