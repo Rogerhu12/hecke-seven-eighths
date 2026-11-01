@@ -1,0 +1,200 @@
+name: A2 literal transforms and inactive rectangle native verification
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-literal-check]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-literal-check-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  literals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 3
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-literal-check
+          git show --no-patch --format=fuller HEAD > a2-literal-check/checkout.txt
+          cat > a2-literal-check/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+          root = Path.cwd()
+          evidence = root / 'a2-literal-check'
+          source_base = 'de0cb5679cd5afe5a4c3e63346523a5e42cd2ad7'
+          source_base_tree = 'a30f1f50331eb59e97d4df986fbc488300519fa0'
+          owner_parent = '7932ae004c4461efb429d6c59bc0413892322fdc'
+          owner_parent_tree = 'b35e0903206c4c1edd616acbed33b68e92bc575f'
+          workflow = '.github/workflows/mom-engine-step-a2-literal-check.yml'
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          targets = {
+              str(task / 'CanonicalLiteralTransforms.lean'): {
+                  'source_sha256': 'c62d736fce8e89607f03ede891b33c989c8a8f9afd31a223b017b4ff8b339383',
+                  'git_blob': '68a717f93009eae837961fe80609b0665fb8e756',
+                  'base_git_blob': '60be98fb2e3b076dacb700445e2355fe2d962a02'},
+              str(task / 'CanonicalLiteralInactiveRectangle.lean'): {
+                  'source_sha256': '2b5d8f455b1c818f48e0b1118eefb31a6ecb808dbe958c016a0008e64c1c4d10',
+                  'git_blob': 'e528b396331ff311b149971bc1836fa234b7a11f',
+                  'base_git_blob': 'dd6bf01904996ef29c6bde05d22ff7e1980a40a0'},
+          }
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          def digest(path):
+              return hashlib.sha256((root / path).read_bytes()).hexdigest()
+          head = git('rev-parse', 'HEAD')
+          assert head == os.environ['EXPECTED_SHA'], 'Unexpected checkout SHA'
+          assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [head, owner_parent], 'Auxiliary commit must have exactly the approved owner parent'
+          assert git('rev-parse', owner_parent + '^{tree}') == owner_parent_tree, 'Unexpected approved owner tree'
+          assert git('rev-list', '--parents', '-n', '1', owner_parent).split() == [owner_parent, source_base], 'Approved owner source parent changed'
+          assert git('rev-parse', source_base + '^{tree}') == source_base_tree, 'Unexpected pre-fix owner tree'
+          owner_changes = sorted(git('diff', '--name-only', source_base, owner_parent).splitlines())
+          auxiliary_changes = sorted(git('diff', '--name-only', owner_parent, 'HEAD').splitlines())
+          combined_changes = sorted(git('diff', '--name-only', source_base, 'HEAD').splitlines())
+          assert owner_changes == sorted(targets), 'Owner fixes must change exactly the two complete literal sources'
+          assert auxiliary_changes == [workflow], 'Auxiliary child must change only its new workflow'
+          assert combined_changes == sorted([*targets, workflow]), 'Unexpected source or configuration change'
+          for path, pin in targets.items():
+              assert digest(path) == pin['source_sha256'], 'Unexpected candidate source: ' + path
+              assert git('rev-parse', 'HEAD:' + path) == pin['git_blob'], 'Unexpected candidate blob: ' + path
+              assert git('rev-parse', owner_parent + ':' + path) == pin['git_blob'], 'Candidate differs from approved owner: ' + path
+              assert git('rev-parse', source_base + ':' + path) == pin['base_git_blob'], 'Unexpected pre-fix candidate source: ' + path
+          assert digest(str(task / 'ActualGaussFiniteLeaves.lean')) == 'cc98c8a2c5c3c3f6c59695935245f463c84e6e7f7c8292b5062e2d1813d94c87', 'Original Actual source changed'
+          assert digest(str(task / 'verify.py')) == '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148', 'Original normal verification script changed'
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          sources = sorted(str(path) for path in task.glob('*.lean'))
+          configs = ['lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
+                     'vendor/class-field-theory/lean-toolchain',
+                     'vendor/class-field-theory/lakefile.toml',
+                     'vendor/class-field-theory/lake-manifest.json', str(task / 'verify.py')]
+          interface = (task / 'Interface.lean').read_text()
+          imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', interface, re.M)))
+          libraries = [x['name'] for x in tomllib.loads(Path('lakefile.toml').read_text())['lean_lib']]
+          record = {'head': head, 'tree': git('rev-parse', 'HEAD^{tree}'),
+                    'expected_head': os.environ['EXPECTED_SHA'],
+                    'source_base': source_base, 'source_base_tree': source_base_tree,
+                    'owner_parent': owner_parent, 'owner_parent_tree': owner_parent_tree,
+                    'owner_changed_paths': owner_changes, 'auxiliary_changed_paths': auxiliary_changes,
+                    'combined_changed_paths': combined_changes, 'target_pins': targets,
+                    'verification_scope': 'Two complete literal modules plus a fresh audit of every loaded EngineStep declaration',
+                    'full_task_acceptance': False,
+                    'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                    'tracked_sha256': {path: digest(path) for path in tracked},
+                    'task_source_sha256': {path: digest(path) for path in sources},
+                    'config_sha256': {path: digest(path) for path in configs},
+                    'interface_imports': imports, 'libraries': libraries}
+          phase = sys.argv[1]
+          assert phase in ('before', 'after')
+          (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+          assert not record['tracked_status'], 'Tracked source changes detected'
+          assert len(sources) == 1009, 'Task module inventory changed'
+          assert len(imports) == 1008, 'Complete Interface import inventory changed'
+          assert len(libraries) == 20, 'Library inventory changed'
+          if phase == 'after':
+              before = json.loads((evidence / 'before-source.json').read_text())
+              assert before == record, 'Source, configuration, index inventory or HEAD changed'
+              (evidence / 'source-integrity.json').write_text(json.dumps({
+                  'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                  'owner_parent': owner_parent, 'owner_parent_tree': owner_parent_tree,
+                  'tracked_files': len(tracked), 'task_modules': len(sources),
+                  'interface_imports': len(imports), 'libraries': len(libraries),
+                  'full_task_acceptance': False}, indent=2) + '\n')
+          print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
+          PY
+          cat > a2-literal-check/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-literal-check')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-literal-check/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-literal-check/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closures of both literal modules
+        id: dependencies
+        run: |
+          python3 -u a2-literal-check/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralTransforms:deps \
+              +HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralInactiveRectangle:deps
+      - name: Compile both complete literal modules and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a2-literal-check/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralTransforms \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralInactiveRectangle \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralTransforms.normalizer_eq_inv_sqrt \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.twoStageNorms_whole \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.energy_zero_of_leftWeight \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.comparison_source_energy_zero \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.active_rectangle \
+            --evidence a2-literal-check/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-literal-check/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-literal-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-literal-check/
+          if-no-files-found: error
+          retention-days: 14
