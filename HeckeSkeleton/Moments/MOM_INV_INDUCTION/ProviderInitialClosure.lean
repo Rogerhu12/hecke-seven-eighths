@@ -153,6 +153,9 @@ theorem exists_uniform_orbital_bound
       q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W :=
     Seminorm.le_def.mp (Finset.le_sup (f := schwartzSeminormFamily ℝ ℝ ℂ)
       (Finset.mem_insert_self (0, 0) qTotal)) W
+  have hqZeroSq : (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 ≤
+      (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 :=
+    pow_le_pow_left₀ (apply_nonneg (SchwartzMap.seminorm ℝ 0 0) W) hqZero 2
   have hsector : Cih + (Fintype.card Sector : ℝ) ≤ (1 + (Fintype.card Sector : ℝ)) * Cih := by
     nlinarith [mul_nonneg (Nat.cast_nonneg (Fintype.card Sector)) (sub_nonneg.mpr hCih)]
   have hprod : X⁻¹ *
@@ -169,12 +172,15 @@ theorem exists_uniform_orbital_bound
   have hRet : X⁻¹ * ‖retained‖ ≤ CR * Rhs := by
     have hr := hretained C Θ ψ hν W hb.base_gt_one hW Hrow H G hG
       hb.calibration hb.background_unramified hb.marks.prime
+    change ‖retained‖ ≤ BRetained *
+      (Real.sqrt (SecondAdaptiveProduction.totalAt K S D Γ T H G hG e k false) *
+        Real.sqrt (SecondAdaptiveProduction.totalAt K S D Γ T H G hG e k true)) at hr
     have hs := mul_le_mul_of_nonneg_left hr hXi
     calc
       _ ≤ BRetained * (X⁻¹ *
           (Real.sqrt (SecondAdaptiveProduction.totalAt K S D Γ T H G hG e k false) *
             Real.sqrt (SecondAdaptiveProduction.totalAt K S D Γ T H G hG e k true))) := by
-        simpa only [mul_assoc, mul_left_comm X⁻¹ BRetained] using hs
+        exact hs.trans_eq (mul_left_comm _ _ _)
       _ ≤ BRetained * (BTotal * (Cih + (Fintype.card Sector : ℝ)) *
           (qTotal.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
             C.base ^ (m + 48 * h + 5 * pi + eps)) :=
@@ -217,10 +223,14 @@ theorem exists_uniform_orbital_bound
           _ = _ := by rw [hnormal]
       _ ≤ CP * Cih * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 *
           C.base ^ (m + 48 * h + 5 * pi + eps) := by
-        gcongr
-        · exact le_mul_of_one_le_right hCP hCih
-        · exact hqZero
-        · linarith [hb.mesh.1]
+        have hcoef : CP * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 ≤
+            CP * Cih * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 :=
+          mul_le_mul (le_mul_of_one_le_right hCP hCih) hqZeroSq
+            (sq_nonneg _) (mul_nonneg hCP hCih0)
+        have hpow : C.base ^ (m + pi) ≤ C.base ^ (m + 48 * h + 5 * pi + eps) :=
+          Real.rpow_le_rpow_of_exponent_le hz1 (by linarith [hb.mesh.1])
+        exact mul_le_mul hcoef hpow (Real.rpow_nonneg hz0.le _)
+          (mul_nonneg (mul_nonneg hCP hCih0) (sq_nonneg _))
       _ = _ := by dsimp only [Rhs]; ring
   have ht := htail T.columns T.triple T.label.val.val T.divisor.val P T.archTest
     C.base m C.length tau hz2 (by linarith [hb.row_nonneg]) (by linarith)
@@ -228,9 +238,18 @@ theorem exists_uniform_orbital_bound
     hcols (Finset.Subset.refl _)
   dsimp only at ht
   rw [← hradius] at ht
+  change C.base ^ (-C.length) * ‖tail‖ ≤
+    BTail * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 *
+      qTail.sup (schwartzSeminormFamily ℝ Varch ℂ) (rowBallArchTest K S 1) *
+        C.base ^ (-(0 : ℝ)) at ht
+  rw [Real.rpow_neg hz0.le, neg_zero, Real.rpow_zero, mul_one] at ht
   have htail' : X⁻¹ * ‖tail‖ ≤ CT * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 := by
-    simpa only [Real.rpow_neg hz0.le, neg_zero, Real.rpow_zero, mul_one,
-      CT, mul_assoc, mul_left_comm, mul_comm] using ht
+    calc
+      _ ≤ BTail * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 *
+          qTail.sup (schwartzSeminormFamily ℝ Varch ℂ) (rowBallArchTest K S 1) := ht
+      _ = _ := by
+        dsimp only [CT]
+        exact mul_right_comm _ _ _
   have hTail : X⁻¹ * ‖tail‖ ≤ CT * Rhs := by
     calc
       _ ≤ CT * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 := htail'
@@ -239,10 +258,14 @@ theorem exists_uniform_orbital_bound
         calc
           _ = CT * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 * 1 := (mul_one _).symm
           _ ≤ _ := by
-            gcongr
-            · exact le_mul_of_one_le_right hCT hCih
-            · exact hqZero
-            · exact Real.one_le_rpow hz1 (by linarith [hb.row_nonneg, hb.mesh.1])
+            have hcoef : CT * (SchwartzMap.seminorm ℝ 0 0 W) ^ 2 ≤
+                CT * Cih * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 :=
+              mul_le_mul (le_mul_of_one_le_right hCT hCih) hqZeroSq
+                (sq_nonneg _) (mul_nonneg hCT hCih0)
+            have hpow : 1 ≤ C.base ^ (m + 48 * h + 5 * pi + eps) :=
+              Real.one_le_rpow hz1 (by linarith [hb.row_nonneg, hb.mesh.1])
+            exact mul_le_mul hcoef hpow zero_le_one
+              (mul_nonneg (mul_nonneg hCT hCih0) (sq_nonneg _))
       _ = _ := by dsimp only [Rhs]; ring
   have hidentity := ProviderInitialInverse.initial_poisson_split
     (K := K) (S := S) (D := D) (C := C) (Θ := Θ) (ψ := ψ) (hν := hν) (W := W)

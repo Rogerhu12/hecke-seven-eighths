@@ -116,14 +116,25 @@ theorem mem_retainedPool (R : ℝ) (cb : Ext × Ext) :
 theorem fiber_eq_rectangle (R : ℝ) (j : ℕ × ℕ) (hj : j ∈ indices R) :
     (retainedPool K S R).filter (fun cb => key K S cb = j) =
       (annulus K S R j.1) ×ˢ (annulus K S R j.2) := by
-  ext cb
-  simp only [Finset.mem_filter, retainedPool, Finset.mem_product,
-    annulus, CubeCompletionBlocks.mem_block, Prod.mk.injEq, key]
+  apply Finset.ext
+  intro cb
   constructor
-  · rintro ⟨⟨⟨hc, hb⟩, hr⟩, hi, hj'⟩
-    exact ⟨⟨hc, hi⟩, ⟨hb, hj'⟩⟩
-  · rintro ⟨⟨hc, hi⟩, ⟨hb, hj'⟩⟩
-    refine ⟨⟨⟨hc, hb⟩, ?_⟩, hi, hj'⟩
+  · intro hcb
+    obtain ⟨hmem, hkey⟩ := Finset.mem_filter.mp hcb
+    obtain ⟨hc, hb⟩ := Finset.mem_product.mp (Finset.mem_filter.mp hmem).1
+    have hi : index (exteriorNorm K S cb.1) = j.1 := congrArg Prod.fst hkey
+    have hj' : index (exteriorNorm K S cb.2) = j.2 := congrArg Prod.snd hkey
+    exact Finset.mem_product.mpr
+      ⟨(CubeCompletionBlocks.mem_block (pool K S R) (exteriorNorm K S) j.1 cb.1).mpr ⟨hc, hi⟩,
+        (CubeCompletionBlocks.mem_block (pool K S R) (exteriorNorm K S) j.2 cb.2).mpr ⟨hb, hj'⟩⟩
+  · intro hcb
+    obtain ⟨hc, hb⟩ := Finset.mem_product.mp hcb
+    obtain ⟨hc, hi⟩ :=
+      (CubeCompletionBlocks.mem_block (pool K S R) (exteriorNorm K S) j.1 cb.1).mp hc
+    obtain ⟨hb, hj'⟩ :=
+      (CubeCompletionBlocks.mem_block (pool K S R) (exteriorNorm K S) j.2 cb.2).mp hb
+    refine Finset.mem_filter.mpr ⟨?_, Prod.ext hi hj'⟩
+    refine Finset.mem_filter.mpr ⟨Finset.mem_product.mpr ⟨hc, hb⟩, ?_⟩
     change (index (exteriorNorm K S cb.1), index (exteriorNorm K S cb.2)) ∈ indices R
     simpa only [hi, hj'] using hj
 
@@ -156,7 +167,10 @@ theorem tsum_eq_rectangles_add_tail (R : ℝ) (F : Ext × Ext → ℂ) (hF : Sum
     funext cb
     simp only [Pi.sub_apply, g, mem_retainedPool]
     split_ifs <;> simp_all
-  rw [hrest, hF.tsum_sub hg]
+  have hsub : tsum (F - g) = tsum F - tsum g := by
+    change (∑' cb, F cb - g cb) = (∑' cb, F cb) - ∑' cb, g cb
+    exact hF.tsum_sub hg
+  rw [hrest, hsub]
   have hgSum : (∑' cb, g cb) = ∑ cb ∈ retainedPool K S R, F cb := by
     rw [tsum_eq_sum (s := retainedPool K S R) (fun cb hcb => if_neg hcb)]
     exact Finset.sum_congr rfl (fun cb hcb => if_pos hcb)
@@ -185,7 +199,7 @@ theorem indices_card_bound (R : ℝ) :
   have h := Finset.card_le_card (Finset.filter_subset
     (fun j : ℕ × ℕ => scale j.1 * scale j.2 ^ 3 ≤ R)
     ((Finset.range (count (2 * max 1 R))) ×ˢ (Finset.range (count (2 * max 1 R)))))
-  rw [Finset.card_product, Finset.card_range, Finset.card_range] at h
+  rw [Finset.card_product, Finset.card_range] at h
   have hc : ((indices R).card : ℝ) ≤
       (count (2 * max 1 R) : ℝ) * (count (2 * max 1 R) : ℝ) := by
     exact_mod_cast h
