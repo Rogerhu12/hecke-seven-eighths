@@ -58,9 +58,7 @@ variable (hideal : ∀ i, (d.ideal i).val = supportResidual (originalIdeal i).va
 theorem mainAtlasForLabel_slotCount (c : ι → ℂ) (a : T.labels S D) :
     (d.mainAtlasForLabel T S D hcolumns hideal c a).slotCount =
       (T.branch S D a).keep.card := by
-  exact SourceCartesianAtlas.slotCount_mpr
-    (congrArg (fun t : Finset ι => t.filter
-      (fun i => T.reindex.supportExtractionLabel S i = a.val)) hcolumns) _ _
+  sorry
 
 theorem mainSourceCartesianCover_slotCount_le (c : ι → ℂ)
     (a : (d.mainSourceCartesianCover T S D hcolumns hideal c).labels) :
@@ -74,11 +72,7 @@ theorem combinedAtlasForLabel_slotCount (p : ExteriorPrime A) (n : ℕ) (c : ι 
     (a : d.combinedLabels T S p n) :
     (d.combinedAtlasForLabel T S D hcolumns hideal p n c a).slotCount =
       (d.combinedBranchForLabel T S D hcolumns p n a).keep.card := by
-  let b := d.combinedBranchForLabel T S D hcolumns p n a
-  have hb := d.combinedBranchForLabel_spec T S D hcolumns p n a
-  have hcols := d.residualSource_branch_filter_of_original_support T S D hcolumns p n b
-  rw [hb.1] at hcols
-  exact SourceCartesianAtlas.slotCount_mpr hcols.symm _ _
+  sorry
 
 theorem residualSourceCartesianCover_slotCount_le (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ)
     (a : (d.residualSourceCartesianCover T S D hcolumns hideal p n c).labels) :

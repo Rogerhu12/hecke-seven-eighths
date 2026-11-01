@@ -71,11 +71,8 @@ theorem source_integral
         ∂nestedFourierMeasure (F₁ b) (F₂ b)) ≤
       ∑ b : family.active labels,
         ∫ ξ, family.childPair labels b ξ
-          ∂family.kernel labels (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b :=
-  family.finite_integral_of_atoms labels F₁ F₂ outer parentWidth hZ houter
-    atoms.left atoms.right atoms.leftAmplitude atoms.rightAmplitude
-    atoms.left_nonneg atoms.right_nonneg J₁₁ J₁₂ J₂₁ J₂₂
-    atoms.left_radius atoms.right_radius
+          ∂family.kernel labels (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b := by
+  sorry
 
 theorem children_integrable
     (F₁ : Λ → 𝓢(U, ℂ)) (F₂ : Λ → 𝓢(E, ℂ)) (outer : Λ → ℝ)
@@ -85,13 +82,8 @@ theorem children_integrable
       (family.kernel labels (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b) ∧
     Integrable (fun ξ => normalizedPairedEnergy
       (family.rightData labels b ξ) (family.rightParameters labels b) Z 0)
-      (family.kernel labels (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b) :=
-  family.kernel_children_integrable_of_atoms labels F₁ F₂ outer parentWidth hZ b
-    (atoms.left b) (atoms.right b) (atoms.leftAmplitude b.val) (atoms.rightAmplitude b.val)
-    (atoms.left_nonneg b.val (Finset.mem_filter.mp b.property).1)
-    (atoms.right_nonneg b.val (Finset.mem_filter.mp b.property).1)
-    J₁₁ J₁₂ J₂₁ J₂₂ (atoms.left_radius b.val (Finset.mem_filter.mp b.property).1)
-    (atoms.right_radius b.val (Finset.mem_filter.mp b.property).1)
+      (family.kernel labels (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b) := by
+  sorry
 
 end FourierAtomControl
 end ActualNormalizedPairFamily

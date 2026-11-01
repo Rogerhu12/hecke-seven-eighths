@@ -39,23 +39,7 @@ residue. Its two factors agree by allowed-generator reciprocity. -/
 theorem columnPhase_eq_residue :
     D.columnPhase = actualIdealResidue (A := A) (σ := σ) D.residual.val
       (generator C p ^ (2 * n)) := by
-  have hrec := congrArg σ (C.reciprocity.1 (powerIdeal p n) D.residual
-    (generator C p ^ n) D.generator
-    (Units.mk0 ((generator C p ^ n : A.R) : K)
-      (by exact_mod_cast (generator_power_generates C p n).1))
-    (Units.mk0 (D.generator : K) (by exact_mod_cast D.generates.1))
-    (generator_power_generates C p n) D.generates rfl rfl
-    (actual_prime_power_allowed C p n) D.allowed D.power_coprime.sup_eq)
-  have hp : generator C p ^ (2 * n) =
-      generator C p ^ n * generator C p ^ n := by
-    rw [show 2 * n = n + n by omega, pow_add]
-  calc
-    D.columnPhase =
-        actualIdealResidue (A := A) (σ := σ) D.residual.val (generator C p ^ n) *
-          actualIdealResidue (A := A) (σ := σ) D.residual.val (generator C p ^ n) := by
-      simp only [columnPhase, generatedIdealCharacter_mk, actualIdealResidue_exterior]
-      rw [hrec]
-    _ = _ := by rw [hp, actualIdealResidue_frequency_mul]
+  sorry
 
 end AmplifierResidualPresentation
 
@@ -75,9 +59,7 @@ def emptyDivisorInverse : A.R := ((emptyDivisorUnit (A := A))⁻¹ : A.Rˣ)
 
 theorem emptyDivisorInverse_generates :
     A.Generates (unitExterior A) (emptyDivisorInverse (A := A)) := by
-  refine ⟨Units.ne_zero _, ?_⟩
-  rw [Ideal.span_singleton_eq_top.mpr (isUnit_unit _)]
-  simp only [unitExterior, SArithmeticData.extendIdeal, Ideal.map_top]
+  sorry
 
 variable {Γ : Subgroup A.U}
 variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)

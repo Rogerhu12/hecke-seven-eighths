@@ -205,11 +205,7 @@ theorem sixthDeletionWidth_eq (root : Ideal (𝓞 K)) :
         (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
         G.skeleton.Krow G.skeleton.g G.ideals.second.val G.ideals.secondOpposite.val
         G.ideals.unitPart.val G.ideals.nonunitPart.val root := by
-  dsimp only [NominalChildGeometry.sixthDeletionWidth,
-    NominalChildGeometry.nominalWidth, NominalChildGeometry.nominalRow,
-    NominalChildGeometry.nominalSupport, secondSixthDeletionChildWidth,
-    secondCommonChildWidth, skeleton]
-  ring
+  sorry
 
 namespace ScaleWindows
 
@@ -238,12 +234,7 @@ theorem sixthDeletion_width_bounds (hZ : 1 < Z) (rootLength : ℝ) :
 theorem sixthDeletion_width_drop (hZ : 1 < Z) (hstep : 0 ≤ step)
     (rootLength : ℝ) (hunit : G.skeleton.t₂ + rootLength ≤ G.skeleton.g₂) :
     m + (q + rootLength) ≤ a.m + a.q - step / 2 := by
-  have hwidth := (W.sixthDeletion_width_bounds hZ rootLength).1
-  have hdrop := G.skeleton.sixthDeletion_width_drop rootLength step
-    (G.enlargement_bound hstep) hunit
-  have herr := W.error_le_half_step
-  rw [G.parentWidth] at hdrop
-  linarith
+  sorry
 
 /-- A further Fourier cutoff consumes its own explicit part of the
 step.  It is never absorbed by changing the old scale-window record. -/

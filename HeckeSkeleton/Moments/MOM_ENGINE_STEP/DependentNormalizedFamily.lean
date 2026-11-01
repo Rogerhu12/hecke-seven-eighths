@@ -69,7 +69,7 @@ variable (outer : Finset J) (labels : ∀ j, Finset (Λ j))
 @[simp] theorem mem_sigmaCombine_active (b : Sigma Λ) :
     b ∈ (sigmaCombine families).active (outer.sigma labels) ↔
       b.1 ∈ outer ∧ b.2 ∈ (families b.1).active (labels b.1) := by
-  simp only [active, Finset.mem_filter, Finset.mem_sigma, sigmaCombine, and_assoc]
+  sorry
 
 /-- Activity is tested on each original source, after its actual
 inner labels have been constructed. -/

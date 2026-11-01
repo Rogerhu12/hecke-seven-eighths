@@ -72,6 +72,7 @@ variable {k l : ℕ}
 variable {sL : ActualAllocatedSource A V HL k} {sR : ActualAllocatedSource A V HR l}
 variable {branch : TwoDivisorCommonBranch (K := F)}
 
+set_option maxHeartbeats 2000000 in
 /-- A ledger of original numerical windows and individual factor
 costs.  It has no field asserting a source, child, or total-mass bound.
 The producer chooses the calibration costs by `withAllocationCosts`

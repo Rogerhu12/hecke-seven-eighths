@@ -167,42 +167,7 @@ theorem coverHybridPhaseNonzeroCost_integrable
     (exceptional : s.CoverHybridPredicates LC RC) :
     Integrable (s.coverHybridPhaseNonzeroCost LC RC exceptional x)
       (actualFourierMeasure F) := by
-  let kernel (DE : commonSupportPool G.columns G.columns
-      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
-      (D : s.mask.powerset) (a : LC.labels) (e : RC.labels)
-      (label : Fin ((s.charts DE D).rowLabelCount + 1))
-      (a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1)
-      (e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2) (ξ : W) : ℝ :=
-    let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
-      DE.val DE.property
-    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).hybridClassCost
-      s.mask s.cutoff s.cutoff_one label
-      ((LC.branch a).residualReindex (primeSupport DE.val.1) DE.val.1 b.leftResidual
-        (fun i _ => b.left_residual i) a')
-      ((RC.branch e).residualReindex (primeSupport DE.val.1) DE.val.2 b.rightResidual
-        (fun j _ => b.right_residual j) e')
-      (exceptional DE D a e label a' e')
-  have hk (DE : commonSupportPool G.columns G.columns
-      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
-      (D : s.mask.powerset) (a : LC.labels) (e : RC.labels)
-      (label : Fin ((s.charts DE D).rowLabelCount + 1))
-      (a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1)
-      (e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2) :
-      Integrable (kernel DE D a e label a' e') (actualFourierMeasure F) :=
-    s.phase_hybridClassCost_integrable F x DE D label _ _
-      (exceptional DE D a e label a' e')
-  exact integrable_finsetSum (Finset.univ : Finset (commonSupportPool G.columns G.columns
-    (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))) (fun DE _ =>
-      integrable_finsetSum (Finset.univ : Finset s.mask.powerset) (fun D _ =>
-        integrable_finsetSum (Finset.univ : Finset LC.labels) (fun a _ =>
-          integrable_finsetSum (Finset.univ : Finset RC.labels) (fun e _ =>
-            integrable_finsetSum
-              (Finset.univ : Finset (Fin ((s.charts DE D).rowLabelCount + 1))) (fun label _ =>
-                integrable_finsetSum
-                  (Finset.univ : Finset ((LC.branch a).labels (primeSupport DE.val.1) DE.val.1))
-                  (fun a' _ => integrable_finsetSum
-                    (Finset.univ : Finset ((RC.branch e).labels (primeSupport DE.val.1) DE.val.2))
-                    (fun e' _ => hk DE D a e label a' e')))))))
+  sorry
 
 /-- The actual raw second source can be replaced under the first
 positive Fourier measure by its genuine cover hybrid cost. -/

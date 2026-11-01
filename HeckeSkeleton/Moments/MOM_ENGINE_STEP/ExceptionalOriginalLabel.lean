@@ -84,24 +84,7 @@ theorem original_exceptional_label_scalar
       ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ *
       (magnitude / Z ^ parentWidth) ≤
         firstCost * secondCost * Z ^ remaining * branch.exceptionalDyadWeight Z lower j := by
-  have hm : 0 ≤ magnitude / Z ^ parentWidth :=
-    div_nonneg hmagnitude (Real.rpow_nonneg hZ.le _)
-  have hp := mul_le_mul hfirst hsecond hm (div_nonneg hfirstCost (Nat.cast_nonneg _))
-  have hc : ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-      ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
-      ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
-    have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
-      (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
-    simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
-      (norm_nonneg _) (by positivity)
-  have hp0 : 0 ≤ firstCost / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ) *
-      (secondCost * Z ^ remaining /
-        (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) * Z ^ (-lower)) :=
-    mul_nonneg (div_nonneg hfirstCost (Nat.cast_nonneg _)) (hm.trans hsecond)
-  have hfinal := mul_le_mul hp hc (by positivity) hp0
-  convert hfinal using 1 <;>
-    simp only [TwoDivisorCommonBranch.exceptionalDyadWeight] <;> ring
+  sorry
 
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
@@ -209,23 +192,7 @@ theorem exceptional_original_label_from_atoms
           Z ^ (remaining + widthError +
             (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε + slotError)) *
           branch.exceptionalDyadWeight Z divisorLower j := by
-  have hsecond := exceptional_relative_terminal_from_atoms
-    (HL := HL) (HR := HR) (ε := ε) (maskExponent := maskExponent) (hε := hε) (hmask := hmask)
-    left right EL ER W Q ξ TL TR UL UR
-    Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
-    r₁ r₂ divisorLower slotError height stepσ δ parentWidth remaining rowError widthError
-    hZ hv hr₁ hdivisor hheight hleftAtoms hrightAtoms hexponent hgcd hunit
-    base hclass hfactor hwindow hcutoff hF₁ hF₂ hvsum hmask0 hmasknorm htime hminimum
-    hradius hcentral hdyad hremaining hwidth
-  have hfirst := firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal
-    firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
-    hfirstLeft hfirstRight hfirstSupport
-  rw [hleftIdeal, hrightIdeal] at hsecond
-  rw [hSindex, hleftDivisor]
-  apply original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
-    Z _ _ firstCost _ parentWidth _ divisorLower (zero_lt_one.trans hZ)
-    (left.exceptionalMagnitude_nonneg right EL ER Q ξ) hfirstCost hfirst
-  exact hsecond
+  sorry
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep

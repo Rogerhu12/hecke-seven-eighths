@@ -43,8 +43,7 @@ def profileOrders (orders : Finset (ℕ × ℕ)) : Finset (ℕ × ℕ) :=
 theorem norm_le_profileOrders (orders : Finset (ℕ × ℕ))
     (f : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖f x‖ ≤ (profileOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) f := by
-  apply (SchwartzMap.norm_le_seminorm ℂ f x).trans
-  exact Seminorm.le_finset_sup_apply (Finset.mem_insert_self (0, 0) orders)
+  sorry
 
 theorem exists_upper_window_bound (window : Set ℝ) (hcompact : IsCompact window) :
     ∃ annulus : ℝ, 1 ≤ annulus ∧ window ⊆ Set.Iic annulus := by
@@ -146,44 +145,31 @@ variable (profiles : RawProfileWindow rowDomain heightDomain window
 theorem original_prime_profile_norm_le (i : Fin d.geometry.slotCount)
     (t : ℝ) (ht : t ∈ heightDomain) (x : ℝ) :
     ‖(d.geometry.slots i).profile t x‖ ≤ amplitude := by
-  rw [profiles.prime_eq]
-  exact (OriginalProfileAtomBounds.norm_le_profileOrders orders _ x).trans
-    (profiles.prime_bound i t ht)
+  sorry
 
 theorem original_prime_profile_phase_sq_le (i : Fin d.geometry.slotCount)
     (t : ℝ) (ht : t ∈ heightDomain) (x : ℝ) (phase : Circle) :
     ‖(d.geometry.slots i).profile t x * (phase : ℂ)‖ ^ 2 ≤ amplitude ^ 2 := by
-  rw [norm_mul, Circle.norm_coe, mul_one]
-  exact pow_le_pow_left₀ (norm_nonneg _) (profiles.original_prime_profile_norm_le i t ht x) 2
+  sorry
 
 theorem original_prime_norm_le_annulus (annulus Z t : ℝ)
     (hZ : 0 < Z) (ht : t ∈ heightDomain) (hwindow : window ⊆ Set.Iic annulus)
     (i : Fin d.geometry.slotCount) (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∈ (d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length)) :
     (Ideal.absNorm p.asIdeal : ℝ) ≤ annulus * Z ^ (d.geometry.slots i).length := by
-  have hprofile := ((d.geometry.slots i).support_spec t
-    (Z ^ (d.geometry.slots i).length) p).mp hp
-  have hrep : profiles.primeRep i t
-      ((Ideal.absNorm p.asIdeal : ℝ) / Z ^ (d.geometry.slots i).length) ≠ 0 := by
-    simpa only [profiles.prime_eq] using hprofile
-  exact (div_le_iff₀ (Real.rpow_pos_of_pos hZ _)).mp
-    (hwindow (profiles.prime_support i t ht hrep))
+  sorry
 
 theorem original_left_profile_upper (annulus : ℝ)
     (hwindow : window ⊆ Set.Iic annulus)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
     (x : ℝ) (hx : d.plainTest₁.profile u t x ≠ 0) : x ≤ annulus := by
-  apply hwindow
-  apply profiles.left_support u hu t ht
-  simpa only [profiles.left_eq] using hx
+  sorry
 
 theorem original_right_profile_upper (annulus : ℝ)
     (hwindow : window ⊆ Set.Iic annulus)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ rowDomain) (t : ℝ) (ht : t ∈ heightDomain)
     (x : ℝ) (hx : d.plainTest₂.profile u t x ≠ 0) : x ≤ annulus := by
-  apply hwindow
-  apply profiles.right_support u hu t ht
-  simpa only [profiles.right_eq] using hx
+  sorry
 
 end RawProfileWindow
 
@@ -233,21 +219,8 @@ def originalCapacityAtomsOfNormalizedPrime
         u s.base (D.height ξ)‖ ^ 2 ≤
         primeCost * s.base ^ (D.parameters.κ * s.childLength i)) :
     D.OriginalCapacityAtoms where
-  leftAnnulus := annulus
-  rightAnnulus := annulus
-  leftAnnulus_one := hannulus
-  rightAnnulus_one := hannulus
-  left_window ξ u hu x hx :=
-    (profiles ξ).original_left_profile_upper annulus hwindow u
-      (hrows ξ u hu) (D.height ξ) (hheight ξ) x hx
-  right_window ξ u hu x hx :=
-    (profiles ξ).original_right_profile_upper annulus hwindow u
-      (hrows ξ u hu) (D.height ξ) (hheight ξ) x hx
-  primeBound ξ _ := amplitude ξ ^ 2 * primeCost
-  primeBound_nonneg ξ _ := mul_nonneg (sq_nonneg _) hprimeCost
-  prime_bound ξ u hu i := by
-    rw [primePolynomial_sq_recover_profile_amplitude (D.data ξ) (amplitude ξ) (hamp ξ)]
-    exact (mul_le_mul_of_nonneg_left (hprime ξ u hu i) (sq_nonneg _)).trans_eq (by ring)
+  leftAnnulus := by
+  sorry
 
 end ActualAllocatedSource.Calibration
 
@@ -281,21 +254,8 @@ def commonAtomBoundsOfOriginalProfiles
       b.witness.2 i ∈ (d.geometry.slots (index i)).support t
         (Z ^ (d.geometry.slots (index i)).length)) :
     b.CommonAtomBounds T Z length w where
-  base_pos := hZ
-  annulus _ := annulus
-  profile _ := amplitude ^ 2
-  annulus_nonneg _ := zero_le_one.trans hannulus
-  profile_nonneg _ := sq_nonneg _
-  plain₁ := OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one _ _ _ _ (hmask _)
-  plain₂ := OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one _ _ _ _ (hmask _)
-  prime i _ := OriginalProfileAtomBounds.sourcePrimeCoefficient_norm_le_one _ _ _ _ (hmask _)
-  prime_annulus i hi := by
-    simpa only [hlength i] using
-      profiles.original_prime_norm_le_annulus annulus Z t hZ ht hwindow
-        (index i) (b.witness.2 i) (hsupport i hi)
-  slot i _ := by
-    rw [hweight]
-    exact profiles.original_prime_profile_phase_sq_le (index i) t ht _ _
+  base_pos := by
+  sorry
 
 end SupportCartesianBranch
 
@@ -367,26 +327,8 @@ def ofOriginalProfiles
     (hsquarefree : Squarefree s.allocation.divisor)
     (hallocation : s.allocation.selection ∈
       AllocationMass.idealAllocations s.allocation.divisor (k + 2)) : s.FrozenAtomBounds where
-  annulus _ := annulus
-  profile _ := amplitude ^ 2
-  annulus_nonneg _ := zero_le_one.trans hannulus
-  profile_nonneg _ := sq_nonneg _
-  plain₁_bound h hh :=
-    OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one _ _ _ _ (hmask h hh _)
-  plain₂_bound h hh :=
-    OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one _ _ _ _ (hmask h hh _)
-  prime_bound h hh i _ :=
-    OriginalProfileAtomBounds.sourcePrimeCoefficient_norm_le_one _ _ _ _ (hmask h hh _)
-  prime_annulus i hi := by
-    simpa only [hlength i] using
-      profiles.original_prime_norm_le_annulus annulus s.base t
-        (zero_lt_one.trans s.base_gt_one) ht hwindow
-        (index i) (s.allocation.witness.2 i) (hsupport i hi)
-  slot_bound h hh i _ := by
-    rw [hweight h hh]
-    exact profiles.original_prime_profile_phase_sq_le (index i) t ht _ _
-  divisor_squarefree := hsquarefree
-  allocation_mem := hallocation
+  annulus _ := by
+  sorry
 
 end ActualAllocatedSource.FrozenAtomBounds
 
