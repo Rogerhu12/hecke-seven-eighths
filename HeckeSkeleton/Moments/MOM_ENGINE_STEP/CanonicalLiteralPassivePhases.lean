@@ -149,6 +149,7 @@ theorem evaluation_original (C : A.GeneralArithmeticContext σ η hS)
   | one =>
       change _ = _ * (if IsCoprime J.val (1 : Ideal (𝓞 K)) then 1 else 0)
       rw [if_pos (isCoprime_one_right : IsCoprime J.val (1 : Ideal (𝓞 K))), mul_one]
+      rfl
   | six =>
       simp only [AmplifierValuation.multiplicity, AmplifierValuation.movingMultiplicity,
         activeElement, activeExponent, passiveIdeal, passiveExponent, Nat.mul_zero,
