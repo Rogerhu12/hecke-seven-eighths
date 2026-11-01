@@ -71,6 +71,7 @@ theorem actual_mask {Z T : ℝ} (i : Index K c Z T) (sector : SixthUnitClasses K
     maskValue (data K c i sector) u I = ProviderMarkedMask.value (originalGood K c) u.val I := by
   simp only [maskValue, context_mask K c i sector u I,
     ProviderMarkedMask.context_value, originalGood]
+  rfl
 
 theorem actual_background_on_mask {Z T : ℝ} (i : Index K c Z T)
     (sector : SixthUnitClasses K Sset) (u n : NonzeroIdeal K)
