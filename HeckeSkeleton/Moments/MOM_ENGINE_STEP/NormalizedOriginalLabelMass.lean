@@ -186,10 +186,11 @@ theorem normalized_pair_original_index_weight
         ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
       ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
     have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
+      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁)
+        (norm_nonneg (moebius j.2.1.val : ℂ)))
       (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
     simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
-      (norm_nonneg _) (by positivity)
+      (norm_nonneg (fixedPhaseCoefficient Ray₂ phase₂ χ₂)) (by positivity)
   have hconstant : 0 ≤ (W.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor F :=
     mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (pow_nonneg (zero_le_one.trans hB) _))
       (orbitalFieldFactor_nonneg F)
@@ -202,8 +203,8 @@ theorem normalized_pair_original_index_weight
         (mul_nonneg (mul_nonneg hconstant (Real.rpow_nonneg hz.le _))
           (one_div_nonneg.mpr (Nat.cast_nonneg _))) (Nat.cast_nonneg _))
   have h := mul_le_mul hpair hcoeff (by positivity) hupper
-  convert h using 1 <;>
-    simp only [TwoDivisorCommonBranch.indexWeight, hleft, hright, hdivisor] <;> ring
+  simp only [TwoDivisorCommonBranch.indexWeight, hleft, hright, hdivisor] at h ⊢
+  convert h using 1 <;> ring
 
 end HeckeSkeleton.Moments.EngineStep
 

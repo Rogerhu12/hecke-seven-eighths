@@ -68,6 +68,7 @@ theorem secondPatternUnitIdeal_mul_root_dvd_gcd
   intro i _
   apply pow_dvd_pow
   have hi := secondSixthRootBudget_exponent (m i) (n i) (hm i) (hn i)
+  dsimp only
   split_ifs <;> omega
 
 theorem secondPatternUnitIdeal_dvd_gcd

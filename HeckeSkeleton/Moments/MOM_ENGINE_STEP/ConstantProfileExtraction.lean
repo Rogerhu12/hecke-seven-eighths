@@ -50,6 +50,14 @@ end ActualSecondCorrelationRows
 
 namespace ActualSecondRowMass
 
+private theorem columnConstants_weight (s p x y a b : ℂ) :
+    s * p * x * y * a * b = s * (p * a * b) * x * y := by
+  ring
+
+private theorem columnConstants_envelope (p a b x y : ℝ) :
+    (p * a * b) * x * y = (a * b) * (p * x * y) := by
+  ring
+
 variable [IsPrincipalIdealRing A.R]
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {R : ActualSecondCorrelationRows A σ H ι}
@@ -76,8 +84,9 @@ def withColumnConstants (a b : ℂ) :
       (mul_le_mul_of_nonneg_right (W.profile_bound h hh) (norm_nonneg _)) (norm_nonneg _)
   weight_eq h hh := by
     change R.weight h * a * star b = _
-    rw [W.weight_eq h hh]
-    ring
+    exact (congrArg (fun z : ℂ => z * a * star b) (W.weight_eq h hh)).trans
+      (columnConstants_weight (secondOrbitalScalar (K := K) (S := A.Sf) W.radius W.mask)
+        (W.rowProfile h) (W.leftAtoms.value h) (star (W.rightAtoms.value h)) a (star b))
   unitIdeal := W.unitIdeal
   unit_ideal := W.unit_ideal
   nonunitIdeal := W.nonunitIdeal
@@ -91,9 +100,12 @@ def withColumnConstants (a b : ℂ) :
 
 theorem withColumnConstants_commonEnvelope (a b : ℂ) :
     (W.withColumnConstants a b).commonEnvelope = (‖a‖ * ‖b‖) * W.commonEnvelope := by
-  unfold commonEnvelope withColumnConstants
-  dsimp only
-  ring
+  change (W.profileBound * ‖a‖ * ‖b‖) * Real.sqrt W.leftAtoms.envelope *
+      Real.sqrt W.rightAtoms.envelope =
+    (‖a‖ * ‖b‖) *
+      (W.profileBound * Real.sqrt W.leftAtoms.envelope * Real.sqrt W.rightAtoms.envelope)
+  exact columnConstants_envelope W.profileBound ‖a‖ ‖b‖
+    (Real.sqrt W.leftAtoms.envelope) (Real.sqrt W.rightAtoms.envelope)
 
 theorem withColumnConstants_rowBound (a b : ℂ) :
     (W.withColumnConstants a b).rowBound = (‖a‖ * ‖b‖) * W.rowBound := by

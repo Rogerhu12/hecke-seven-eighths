@@ -1262,6 +1262,138 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                              'producer data '
                                                                                              'and output.',
                                                                                    'repair_sha256': '39fde7f0bf7343f045fb982b652ce065dbf1f89ffd4edd6db5e85e492f9cc6d6'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalClippedProfileBounds.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                              'owner_sha256': 'c54eb50492640b2fa7c50290ea2da3b061b46ef4d7706bf6678635c9b3ffacd7',
+                                                                              'reason': 'CI84 exposes a '
+                                                                                        'coercion-sensitive '
+                                                                                        'iterated-derivative '
+                                                                                        'rewrite, an '
+                                                                                        'unexpanded clipping '
+                                                                                        'coefficient, an '
+                                                                                        'underconstrained '
+                                                                                        'seminorm-family '
+                                                                                        'application, an '
+                                                                                        'invalid '
+                                                                                        'subset/function '
+                                                                                        'composition, and '
+                                                                                        'the scoped ContDiff '
+                                                                                        'omega token. Supply '
+                                                                                        'the exact '
+                                                                                        'derivative '
+                                                                                        'function, order and '
+                                                                                        'scale; transport '
+                                                                                        'its pointwise '
+                                                                                        'equality with '
+                                                                                        'congrArg, unfold '
+                                                                                        'only the '
+                                                                                        'coefficient goal, '
+                                                                                        'fix the concrete '
+                                                                                        'seminorm family and '
+                                                                                        'argument, compose '
+                                                                                        'support inclusions '
+                                                                                        'with '
+                                                                                        'Set.Subset.trans, '
+                                                                                        'and quote the '
+                                                                                        'existing omega '
+                                                                                        'identifier. The '
+                                                                                        'actual dilation, '
+                                                                                        'clipping windows, '
+                                                                                        'assumptions and '
+                                                                                        'conclusions are '
+                                                                                        'unchanged.',
+                                                                              'repair_sha256': '318f8a1cdae406dd2d5af36efeb81e72eac06241abef0d635682a0bfee5dd90f'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalPaidOrdinaryRows.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                                     'owner_sha256': 'b97d78b98a44b6c1da12e1733d9825bc14b43198f6d3060ce2451e301f88e59d',
+                                                                                     'reason': 'CI84: fix '
+                                                                                               'the existing '
+                                                                                               'arithmetic '
+                                                                                               'data '
+                                                                                               'parameter A '
+                                                                                               'in the '
+                                                                                               'supported '
+                                                                                               'source-bound '
+                                                                                               'producer and '
+                                                                                               'destructure '
+                                                                                               'the same '
+                                                                                               'conjunction '
+                                                                                               'with obtain, '
+                                                                                               'preserving '
+                                                                                               'its implicit '
+                                                                                               'universally '
+                                                                                               'quantified '
+                                                                                               'row '
+                                                                                               'parameters '
+                                                                                               'for the '
+                                                                                               'later actual '
+                                                                                               'source '
+                                                                                               'application. '
+                                                                                               'All '
+                                                                                               'supported '
+                                                                                               'profiles, '
+                                                                                               'cutoff loss, '
+                                                                                               'constants, '
+                                                                                               'quantifier '
+                                                                                               'order and '
+                                                                                               'ordinary-row '
+                                                                                               'estimates '
+                                                                                               'remain '
+                                                                                               'unchanged.',
+                                                                                     'repair_sha256': 'd39b873ed52deca8ce92973faaaf6a69a984eb4b5081a2bb379fdc88f72bd114'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalPaidRows.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                             'owner_sha256': '2e8d74c830bd330634dc7d300f0bf1b298260c79642091e6b6772ac75418e310',
+                                                                             'reason': 'Direct downstream of '
+                                                                                       'the CI84 '
+                                                                                       'source-bound '
+                                                                                       'projection failures: '
+                                                                                       'use the same '
+                                                                                       'explicit A and '
+                                                                                       'conjunction '
+                                                                                       'destructuring as the '
+                                                                                       'uniform and paid '
+                                                                                       'ordinary consumers, '
+                                                                                       'so the existing '
+                                                                                       'implicit row '
+                                                                                       'parameters remain '
+                                                                                       'universally '
+                                                                                       'quantified until the '
+                                                                                       'original source is '
+                                                                                       'supplied. Keep the '
+                                                                                       'same left/right '
+                                                                                       'projections, '
+                                                                                       'supported profiles, '
+                                                                                       'constants, parameter '
+                                                                                       'order and paid-row '
+                                                                                       'conclusion.',
+                                                                             'repair_sha256': '30a04100495c14499b767f5babb7671672cce31f26b2220e68a6a895488a1cf9'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalUniformRows.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                                'owner_sha256': 'e7357bc437a2cc5487c5c7117c1629c32085860b850a7185f8116ffa06c16043',
+                                                                                'reason': 'CI84: fix the '
+                                                                                          'existing '
+                                                                                          'arithmetic data '
+                                                                                          'parameter A in '
+                                                                                          'the source-bound '
+                                                                                          'producer and '
+                                                                                          'obtain the two '
+                                                                                          'conjuncts without '
+                                                                                          'eagerly '
+                                                                                          'instantiating '
+                                                                                          'their implicit '
+                                                                                          'universally '
+                                                                                          'quantified row '
+                                                                                          'parameters. '
+                                                                                          'Subsequent '
+                                                                                          'original row '
+                                                                                          'sources still '
+                                                                                          'supply those same '
+                                                                                          'parameters. '
+                                                                                          'Preserve the '
+                                                                                          'original constant '
+                                                                                          'choices, '
+                                                                                          'quantifier order, '
+                                                                                          'volume inputs and '
+                                                                                          'complete '
+                                                                                          'paired-row bound.',
+                                                                                'repair_sha256': '85584ad70dc63180313a42df081b97bd2f18b1beb463463c54cc40b64d6feaed'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFirstMaskWindows.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                           'owner_sha256': '865839b416077063ab5bf7e9fb215b40530d9b1848424f8dc1af5b05dd2b3219',
                                                                           'reason': 'Restore primitive '
@@ -1442,10 +1574,20 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                         'reviewed include R '
                                                                                         'parameters and '
                                                                                         'doc-comment '
-                                                                                        'placement; preserve '
-                                                                                        'the literal phase '
-                                                                                        'objects.',
-                                                                              'repair_sha256': '1d837d63dac375a2a21123349a4491790044284beb5ddfa397dffb9ef5af9d6f'},
+                                                                                        'placement. CI84: '
+                                                                                        'close the remaining '
+                                                                                        'valuation-one '
+                                                                                        'equality by rfl '
+                                                                                        'after its unit mask '
+                                                                                        'is removed; the '
+                                                                                        'original and active '
+                                                                                        'exponents are both '
+                                                                                        'definitionally 2 * '
+                                                                                        '1. Preserve the '
+                                                                                        'literal phase '
+                                                                                        'objects and every '
+                                                                                        'public conclusion.',
+                                                                              'repair_sha256': '8f82440a65bbfd85b90fd7bfd8ac0a9307e16853acf8f37514941be6aa8e1d33'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPassiveSource.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                               'owner_sha256': 'b3e60e8a5643a1f6bf2bb2de8bc1e6fbe5acf27a4b642881ceb60aefadc4bd1a',
                                                                               'reason': 'Restore primitive '
@@ -1673,6 +1815,37 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                              'with its existing upstream '
                                                                              'NormalizationData type.',
                                                                    'repair_sha256': '14333a516b704aab245241b80f32658298ab4231774034b2a601872f0ecd567a'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ConstantProfileExtraction.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                          'owner_sha256': '86b901e36f8bdf4b2d73fe8d7c5a673558613e2c002a7baddbe22801335be7a4',
+                                                                          'reason': 'CI84 leaves the complex '
+                                                                                    'row-weight and real '
+                                                                                    'common-envelope '
+                                                                                    'rearrangements unsolved '
+                                                                                    'when ring operates on '
+                                                                                    'dependent record '
+                                                                                    'projections. Two '
+                                                                                    'private scalar lemmas '
+                                                                                    'prove exactly those '
+                                                                                    'commutative algebra '
+                                                                                    'identities on explicit '
+                                                                                    'complex/real arguments. '
+                                                                                    'The constructor '
+                                                                                    'transports the original '
+                                                                                    'weight equality with '
+                                                                                    'congrArg and applies '
+                                                                                    'the first lemma; the '
+                                                                                    'envelope theorem states '
+                                                                                    'its projected scalar '
+                                                                                    'goal explicitly and '
+                                                                                    'applies the second. '
+                                                                                    'Original rows, '
+                                                                                    'profiles, constants, '
+                                                                                    'bounds and public '
+                                                                                    'conclusions remain '
+                                                                                    'intact, without '
+                                                                                    'heartbeat or gate '
+                                                                                    'changes.',
+                                                                          'repair_sha256': '65340c3d25cffdb32e7d9b9f62a9daa96ecbde2ccc1fa2b1e95191213872113f'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CoverHybridPhaseIntegral.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                          'owner_sha256': '44883b0dad17336f94266ced1a7777c8a1ad0f28c80aa6f8f6b25c42ff7712e6',
                                                                          'reason': 'Native elaboration '
@@ -1778,12 +1951,25 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                              'row and profile witnesses '
                                                                              'hidden under '
                                                                              'existential/Nonempty Prop '
-                                                                             'fields. Retain arbitrary '
+                                                                             'fields. CI84: quote the '
+                                                                             'reserved at identifier without '
+                                                                             'renaming its constant, and '
+                                                                             'construct the same selected '
+                                                                             'child through the existing '
+                                                                             'clipped, normalized, '
+                                                                             'restricted and frozen '
+                                                                             'transports, matching '
+                                                                             'NormIndependentProfiles.normProfileRecipe, '
+                                                                             'instead of one large inferred '
+                                                                             'ofAllowedSubset application. '
+                                                                             'Keep the original radius, '
+                                                                             'removed set, length selection '
+                                                                             'and height; retain arbitrary '
                                                                              'orbit/Fourier-space universes, '
-                                                                             'original moving factors, both '
-                                                                             'budgets, and all slot '
-                                                                             'conclusions.',
-                                                                   'repair_sha256': 'b4d33b8237ce8ad06634537ed2f0d7d9f7836a3e3da2f21ad8baf00ee0cea057'},
+                                                                             'original moving factors, the '
+                                                                             'full mask, both budgets and '
+                                                                             'all slot conclusions.',
+                                                                   'repair_sha256': '9894274fbd807a34399032345a5479a7ef939e55eaa0d6244a619e161b5418bf'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormCompleteEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                          'owner_sha256': 'dab7339275ee2b1cf1122d85ad7572eeade3f02c465bfc1471cab83ee1d1452b',
                                                                          'reason': 'Open IsDedekindDomain '
@@ -1839,12 +2025,26 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                       'Their proofs and '
                                                                                       'callers already use '
                                                                                       'this same original '
-                                                                                      'length/scale window; '
-                                                                                      'normalized children, '
-                                                                                      'divisor weights, and '
-                                                                                      'numerical bounds are '
-                                                                                      'unchanged.',
-                                                                            'repair_sha256': '42de50813a1a211a09f234f29eae7abb57e01f0ea95f94e039a91ca45318a073'},
+                                                                                      'length/scale window. '
+                                                                                      'CI84: specify the '
+                                                                                      'actual complex '
+                                                                                      'Moebius and phase '
+                                                                                      'coefficients in '
+                                                                                      'norm-nonnegativity '
+                                                                                      'proofs and normalize '
+                                                                                      'the same index weight '
+                                                                                      'before converting the '
+                                                                                      'two scalar inequality '
+                                                                                      'sides, allowing the '
+                                                                                      'remaining ring '
+                                                                                      'identities to close. '
+                                                                                      'Normalized children, '
+                                                                                      'both original '
+                                                                                      'divisor/phase '
+                                                                                      'weights, constants '
+                                                                                      'and numerical bounds '
+                                                                                      'are unchanged.',
+                                                                            'repair_sha256': 'f3984dc828581caec2740a7d5113946323cc4743d65ce60aead121a74afe1dce'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOutputConditions.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                            'owner_sha256': 'd8f22913fad71b26a44aa4c518834ab1f139fb7f03f6eef9ba809dbc34f02ef8',
                                                                            'reason': 'CI74 finite '
@@ -1925,6 +2125,19 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                   'consumers already supply '
                                                                                   'this original domain.',
                                                                         'repair_sha256': 'b834d9bebdc59790b5d0dd17760e846daabe44f169cab7a820ec0b66dd7ffcb3'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolTerminalMasks.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                  'owner_sha256': 'd33a841f7e6b9a907f06f4c228e263fab287e2ce71682d80e6652a72dfb2960d',
+                                                                  'reason': 'CI84: make the original '
+                                                                            'Bool-by-PoolSourceTag '
+                                                                            'natural-valued cardinality '
+                                                                            'function explicit in both '
+                                                                            'Finset.le_sup applications. The '
+                                                                            'same finite maximum, both '
+                                                                            'actual sides and their original '
+                                                                            'tag carrier are retained; no '
+                                                                            'surrogate cap or extra bound is '
+                                                                            'assumed.',
+                                                                  'repair_sha256': '3b4a270de586a697369570dfc506a371bc52b13c527b58a25e723347d009742a'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/PrimitiveDirectFactoryFibres.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                              'owner_sha256': 'c0a35e598f644287fa0f3ad1185ca04294ee1c9118049dfc9d471188d9f98096',
                                                                              'reason': 'Exact published STEP '
@@ -1998,7 +2211,25 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                    'declaration or '
                                                                                    'mathematical object '
                                                                                    'changes.',
-                                                                         'repair_sha256': '2a65b1b341c24852fa774cd040330f4cd1ce46d1508acb33ac19eb8fedf6cc16'}}
+                                                                         'repair_sha256': '2a65b1b341c24852fa774cd040330f4cd1ce46d1508acb33ac19eb8fedf6cc16'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/UnrestrictedSixthCapacity.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                          'owner_sha256': 'dd9510be48699bede3ac9db08a0943dd81079c725716f6ed27744b1846543e63',
+                                                                          'reason': 'CI84: beta-reduce the '
+                                                                                    'two existing exponent '
+                                                                                    'functions before '
+                                                                                    'splitting the original '
+                                                                                    'if condition and '
+                                                                                    'applying omega. Keep '
+                                                                                    'the original arbitrary '
+                                                                                    'multiplicity pattern, '
+                                                                                    'sixth-root exponent, '
+                                                                                    'unit ideal and '
+                                                                                    'divisibility '
+                                                                                    'conclusion; no '
+                                                                                    'additional case or '
+                                                                                    'assumption is '
+                                                                                    'introduced.',
+                                                                          'repair_sha256': '3ac6c370cd6f8e7aa478cc9ea8d5d7a66c66b5ec4a3e0176d64405ec150ed012'}}
 PRODUCER_REPAIRED_SOURCES = {path: entry["repair_sha256"] for path, entry in PRODUCER_REPAIRS.items()}
 
 SOURCE_COMMIT = 'c92578b1fa556b72d01c6ff49bac7f27885f09d7'

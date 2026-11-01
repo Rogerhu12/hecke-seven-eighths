@@ -111,7 +111,7 @@ theorem exists_original_paired_row_bound
         Z ^ (max (Aexp - (m + q)) 0 + 3 * stepσ + 5 * δ / 6 + ε +
           slotError - divisorLower) := by
   obtain ⟨orders, hzero, J, Csource, hCsource, hsource⟩ :=
-    CanonicalExceptionalVolume.exists_original_source_bounds (V := V) (σ := σ)
+    CanonicalExceptionalVolume.exists_original_source_bounds (A := A) (V := V) (σ := σ)
       χ density remainder hcontinuous hvolume window hcompact hpositive
       ε maskExponent hε hmask
   have hcount : 0 < idealCountConstant F := zero_lt_one.trans_le (one_le_idealCountConstant F)
@@ -120,8 +120,8 @@ theorem exists_original_paired_row_bound
   refine ⟨orders, hzero, J, Cbound, hCbound, ?_⟩
   intro iLeft iRight WL₁ WL₂ WR₁ WR₂ hsL₁ hsL₂ hsR₁ hsR₂ P hP hPL₁ hPL₂ hPR₁ hPR₂
   have hP0 : 0 ≤ P := zero_le_one.trans hP
-  have hleftBound := (hsource iLeft WL₁ WL₂ hsL₁ hsL₂ P hP0 hPL₁ hPL₂).2
-  have hrightBound := (hsource iRight WR₁ WR₂ hsR₁ hsR₂ P hP0 hPR₁ hPR₂).1
+  obtain ⟨_, hleftBound⟩ := hsource iLeft WL₁ WL₂ hsL₁ hsL₂ P hP0 hPL₁ hPL₂
+  obtain ⟨hrightBound, _⟩ := hsource iRight WR₁ WR₂ hsR₁ hsR₂ P hP0 hPR₁ hPR₂
   let Cleft := Csource * P ^ 2
   let Cright := Csource * P ^ 2
   have hCleft : 0 < Cleft := mul_pos hCsource (pow_pos (zero_lt_one.trans_le hP) _)

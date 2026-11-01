@@ -257,7 +257,7 @@ included in the recorded source hashes. The clean task inventory remains
 inventory now contains 1601 hashes.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 47 local STEP repair files. It
+repair SHA256, and reason for each of the 54 local STEP repair files. It
 includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
@@ -326,6 +326,31 @@ published B12 repair adds `Nat.cast_ofNat` to the existing simplification
 so that the natural exponent produced by `rpow_mul_natCast` is the same
 real numeral used by the next rewrite. All 40 declaration headers remain
 unchanged from B11; whole-module acceptance still requires native evidence.
+
+The subsequent CI84 repairs address errors from the exact `e4950f2d`
+checkout. `MovingEngineOutput` quotes the existing `at` identifier and
+constructs the same chosen child through the existing clipping,
+normalization, selected-slot restriction and freezing operations, as in
+`NormIndependentProfiles`. The radius, removed set, height, full mask and
+both budgets are preserved. `CanonicalLiteralPassivePhases` closes the
+remaining valuation-one equality by definitional reflexivity.
+
+`CanonicalClippedProfileBounds` fixes the actual derivative function and
+order, the seminorm family and argument, support-inclusion composition,
+and the existing character identifier's lexical scope. Its dilation and
+clipping windows are unchanged. `ConstantProfileExtraction` uses two
+private scalar identities for the original complex weight and real
+envelope. The remaining STEP repairs expose the same exponent lambda,
+specify the existing finite-cardinality supremum and norm arguments, and
+retain the source-bound producer's implicit universal parameters through
+conjunction destructuring. They do not change any carrier, profile,
+constant, cutoff or numerical estimate.
+
+On the induction side, the corresponding fixes use the pinned Boolean
+lemma names and correct the field layout of the four reflection-family
+records. Their original field expressions and all branch proofs remain
+unchanged. The source registry records these repairs; full-module and
+final-target acceptance remain separate native gates.
 
 In particular, the original `ScaleWindows` certificate, raw profile control,
 centered parent domain, original length/normalization allowance window,

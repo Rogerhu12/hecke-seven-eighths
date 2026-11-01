@@ -257,9 +257,14 @@ theorem recipeRankedAnnulusReflectionFamily_preparation
     have nodes := produce (recipeInductionEdgeLoss c) (recipeInductionTerminalLoss c)
       hmassLoss hterminalLoss T hT (places K c) (probeData K c) (momentRowCharacters K c)
       (recipeThetaFamily R) (momentBaseFor i) (sourceReserve c.family.lamA / 8) hU (by positivity) le_rfl hfixed hround
-    refine ⟨{ source := RecipeReflectionRootData.withRankedAnnulus R prepared hσ
-        hlower.le (by linarith) hT, scale := hU, base := ?_,
-      shortReflection := ?_, outerReflection := ?_ }⟩
+    refine ⟨{
+      source := RecipeReflectionRootData.withRankedAnnulus R prepared hσ
+        hlower.le (by linarith) hT
+      scale := hU
+      base := ?_
+      shortReflection := ?_
+      outerReflection := ?_
+    }⟩
     · intro x _hwidth hlength
       exact (nodes x x.down.property.slot_length_le_bound).1 hlength
     · intro x hwidth hcore hordinary hlarge hshort

@@ -38,8 +38,10 @@ theorem iteratedDeriv_dilation (c : ℝ) (φ : 𝓢(ℝ, ℂ)) (n : ℕ) (y : �
     iteratedDeriv n (dilation c φ) y =
       (Real.sqrt c : ℂ) * (c ^ n • iteratedDeriv n φ (c * y)) := by
   unfold dilation
-  rw [iteratedDeriv_const_mul_field,
-    iteratedDeriv_comp_const_smul (φ.smooth'.of_le (by simp))]
+  rw [iteratedDeriv_const_mul_field]
+  exact congrArg (fun z : ℂ => (Real.sqrt c : ℂ) * z)
+    (congrFun (iteratedDeriv_comp_const_smul (n := n) (f := (φ : ℝ → ℂ))
+      (φ.smooth'.of_le (by simp)) c) y)
 
 theorem norm_iteratedDeriv_dilation (c : ℝ) (hc : 0 ≤ c)
     (φ : 𝓢(ℝ, ℂ)) (n : ℕ) (y : ℝ) :
@@ -101,6 +103,7 @@ theorem clippingCoefficient_one_le (B : ℝ) (hB : 1 ≤ B) (s : Finset (ℕ × 
   have hsqrt : 1 ≤ Real.sqrt B := by
     simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt hB
   have hpow : 1 ≤ B ^ (s.sup Prod.snd) := one_le_pow₀ hB
+  change 1 ≤ Real.sqrt B * B ^ (s.sup Prod.snd)
   simpa only [one_mul] using mul_le_mul hsqrt hpow zero_le_one (zero_le_one.trans hsqrt)
 
 theorem dilationSchwartz_finset_bound (B : ℝ) (hB : 1 ≤ B)
@@ -117,7 +120,9 @@ theorem dilationSchwartz_finset_bound (B : ℝ) (hB : 1 ≤ B)
     mul_le_mul (Real.sqrt_le_sqrt hcB) hpow
       (pow_nonneg (zero_le_one.trans hc) _) (Real.sqrt_nonneg _)
   exact (dilationSchwartz_seminorm_bound c hc φ p.1 p.2).trans
-    (mul_le_mul hfactor (Seminorm.le_finset_sup_apply hp) (apply_nonneg _ _) hC)
+    (mul_le_mul hfactor
+      (Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℂ ℝ ℂ) (x := φ) hp)
+      (apply_nonneg _ _) hC)
 
 theorem dilationSchwartz_support (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B)
     (c : ℝ) (hc : 1 ≤ c) (hcB : c ≤ B) (φ : 𝓢(ℝ, ℂ))
@@ -144,7 +149,7 @@ theorem dilationSchwartz_tsupport (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B)
     (hsupport : tsupport φ ⊆ Set.Icc a B) :
     tsupport (dilationSchwartz c hc φ) ⊆ Set.Icc (a / B) B :=
   closure_minimal (dilationSchwartz_support a B ha hB c hc hcB φ
-    (hsupport ∘ subset_tsupport φ)) isClosed_Icc
+    ((subset_tsupport φ).trans hsupport)) isClosed_Icc
 
 theorem originalAnnulus_subset_clipped (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B) :
     Set.Icc a B ⊆ Set.Icc (a / B) B := by
@@ -156,13 +161,13 @@ theorem originalAnnulus_subset_clipped (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B) :
 
 section Windows
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {K : Type} [Field K] [NumberField K] {«ω» ψ : HeckeCharacter K}
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
 
 /-- A literal original window gives the window of the actual clipped
 data.  Every transformed representative and every seminorm bound is
 constructed from the original representative. -/
-def clipRawWindow (d : MomentData K ω ψ) (p : RealParameters)
+def clipRawWindow (d : MomentData K «ω» ψ) (p : RealParameters)
     (Z : ℝ) (hZ : 1 ≤ Z) (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B)
     (s : Finset (ℕ × ℕ)) {A : ℝ} (hA : 0 ≤ A)
     (w : RawProfileWindow rowDomain heightDomain (Set.Icc a B) s d A)
@@ -212,7 +217,7 @@ def clipRawWindow (d : MomentData K ω ψ) (p : RealParameters)
 /-- The dilation constants are derived from one genuine nonzero
 original row, using the actual ideal lower bound in the clipping lemma. -/
 theorem clipping_factors_le_of_window_nonzero
-    (d : MomentData K ω ψ) (p : RealParameters) (Z t a B : ℝ)
+    (d : MomentData K «ω» ψ) (p : RealParameters) (Z t a B : ℝ)
     (hZ : 1 < Z) (hB : 1 ≤ B) (s : Finset (ℕ × ℕ)) (A : ℝ)
     (w : RawProfileWindow rowDomain heightDomain (Set.Icc a B) s d A)
     (hrows : ∀ u ∈ pairedRows d p Z, u ∈ rowDomain) (ht : t ∈ heightDomain)
@@ -232,7 +237,7 @@ theorem clipping_factors_le_of_window_nonzero
     clipping_factor_le_of_nonempty_support d.plainTest₂ u Z p.n₂ t B hZ hB
       hrightAnnulus (plainPolynomial_support_nonempty d d.plainTest₂ u _ t hright)⟩
 
-def clipRawWindow_of_nonzero (d : MomentData K ω ψ) (p : RealParameters)
+def clipRawWindow_of_nonzero (d : MomentData K «ω» ψ) (p : RealParameters)
     (Z t : ℝ) (hZ : 1 < Z) (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B)
     (s : Finset (ℕ × ℕ)) {A : ℝ} (hA : 0 ≤ A)
     (w : RawProfileWindow rowDomain heightDomain (Set.Icc a B) s d A)
@@ -248,12 +253,12 @@ end Windows
 
 section CanonicalWindows
 
-variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
+variable {K : Type} [Field K] [NumberField K] {«ω» ψ : HeckeCharacter K}
 variable {U E : Type*}
   [NormedAddCommGroup U] [InnerProductSpace ℝ U]
   [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
-variable (d : MomentData K ω ψ)
+variable (d : MomentData K «ω» ψ)
 variable (left right : Atom (WithLp 2 (U × E)))
 variable (slot : Fin d.geometry.slotCount → Atom (WithLp 2 (U × E)))
 variable (hleft : PositivePlainProfile d.plainTest₁)
