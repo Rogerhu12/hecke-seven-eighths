@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   native:
-    name: Native ${{ matrix.target }}
+    name: Prefix diagnosis ${{ matrix.target }}
     runs-on: ubuntu-24.04
     timeout-minutes: 80
     strategy:
@@ -26,7 +26,7 @@ jobs:
     env:
       LEAN_NUM_THREADS: '2'
       PERF_TARGET: ${{ matrix.target }}
-      PERF_SOURCE_COMMIT: 0e41bc4f28c9d83b4d54e6bfda6df367f680a316
+      PERF_SOURCE_COMMIT: 7d274396dec526cecf2d9a67dacd70b7535a554f
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -74,7 +74,7 @@ jobs:
                       'target': os.environ['PERF_TARGET'],
                       'lean': version, 'mathlib': mathlib,
                       'source_sha256': sources,
-                      'scope': 'isolated native diagnostic; not full task acceptance'}
+                      'scope': 'finite original-source prefix diagnosis; not a complete target module or full task acceptance'}
           pathlib.Path('isolated-native-evidence/environment.json').write_text(json.dumps(evidence, indent=2) + '\n')
           PY
       - name: Build the complete unchanged target dependencies
@@ -87,8 +87,8 @@ jobs:
             tee isolated-native-evidence/dependencies.log || status=$?
           echo "$status" > isolated-native-evidence/dependencies-exit-code.txt
           exit "$status"
-      - name: Compile the complete original module with profiler and wall time
-        timeout-minutes: 10
+      - name: Locate the earliest slow original declaration group
+        timeout-minutes: 5
         run: |
           python3 -u - <<'PY'
           import hashlib, json, os, pathlib, subprocess, time
@@ -96,44 +96,89 @@ jobs:
           target = os.environ['PERF_TARGET']
           assert target in {'ExceptionalOriginalLabel', 'ActualGaussFiniteLeaves'}
           source = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+          original_bytes = source.read_bytes()
           output = pathlib.Path('/tmp/mom-engine-step-native')
           output.mkdir(exist_ok=True)
-          command = ['timeout', '--signal=TERM', '--kill-after=30s', '8m',
-                     '/usr/bin/time', '-v', 'lake', 'env', 'lean', '-j2',
-                     '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
-                     '-o', str(output / (target + '.olean')),
-                     '-i', str(output / (target + '.ilean')), str(source)]
-          started = time.monotonic()
-          with (evidence / 'native.log').open('w') as log:
-              log.write(json.dumps({'command': command}) + '\n')
-              log.flush()
-              process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-              assert process.stdout is not None
-              for line in process.stdout:
-                  print(line, end='', flush=True)
-                  log.write(line)
+          prefix_dir = evidence / 'prefixes'
+          prefix_dir.mkdir(exist_ok=True)
+          engine_close = '\nend HeckeSkeleton.Moments.EngineStep\nend\n'
+          if target == 'ExceptionalOriginalLabel':
+              cases = [
+                  ('definition', '\ntheorem exceptionalMagnitude_nonneg\n',
+                   '\nend SecondSideFrame' + engine_close),
+                  ('before_scalar', '\ntheorem original_exceptional_label_scalar\n', engine_close),
+                  ('through_scalar', '\nvariable {ΨL ΨR : Ideal', engine_close),
+              ]
+          else:
+              gauss_close = '\nend CoveredClassKey\nend ActualGaussStage' + engine_close
+              cases = [
+                  ('before_leaf', '\ndef leaf (exceptional : s.CoverHybridPredicates LC RC)\n', gauss_close),
+                  ('before_phase', '\n/-- This is the actual phase multiplication from the first transform,\n', gauss_close),
+                  ('through_phase', '\nend CoveredClassKey\n', gauss_close),
+              ]
+          results = []
+          final_code = 0
+          previous_length = 0
+          for index, (label, marker, closing) in enumerate(cases, 1):
+              marker_bytes = marker.encode()
+              assert original_bytes.count(marker_bytes) == 1, (target, label, 'ambiguous marker')
+              prefix = original_bytes.split(marker_bytes, 1)[0]
+              assert len(prefix) > previous_length
+              previous_length = len(prefix)
+              contents = prefix + closing.encode()
+              basename = 'MomEnginePerfPrefix_' + target + '_' + str(index) + '_' + label
+              diagnostic = pathlib.Path(basename + '.lean')
+              diagnostic.write_bytes(contents)
+              (prefix_dir / diagnostic.name).write_bytes(contents)
+              command = ['timeout', '--signal=TERM', '--kill-after=5s', '60s',
+                         '/usr/bin/time', '-v', 'lake', 'env', 'lean', '-j2',
+                         '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+                         '-o', str(output / (basename + '.olean')),
+                         '-i', str(output / (basename + '.ilean')), str(diagnostic)]
+              print('PREFIX_START ' + target + ' ' + label, flush=True)
+              started = time.monotonic()
+              with (evidence / (str(index) + '-' + label + '.log')).open('w') as log:
+                  log.write(json.dumps({'command': command}) + '\n')
                   log.flush()
-              code = process.wait()
-          elapsed = time.monotonic() - started
+                  process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                  assert process.stdout is not None
+                  for line in process.stdout:
+                      print(line, end='', flush=True)
+                      log.write(line)
+                      log.flush()
+                  code = process.wait()
+              result = {'prefix': label, 'exit_code': code,
+                        'elapsed_seconds': time.monotonic() - started,
+                        'original_prefix_bytes': len(prefix),
+                        'prefix_sha256': hashlib.sha256(contents).hexdigest(),
+                        'suffix_added': closing, 'is_complete_target_module': False}
+              results.append(result)
+              (evidence / 'prefix-results.json').write_text(json.dumps(results, indent=2) + '\n')
+              print(json.dumps(result), flush=True)
+              if code:
+                  final_code = code
+                  break
           original = json.loads((evidence / 'environment.json').read_text())['source_sha256']
           unchanged = all(hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() == digest
                           for path, digest in original.items())
-          result = {'target': target, 'exit_code': code, 'elapsed_seconds': elapsed,
+          result = {'target': target, 'exit_code': final_code,
                     'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
                     'all_task_sources_unchanged': unchanged,
-                    'complete_module_within_five_minutes': code == 0 and elapsed <= 300,
-                    'heartbeat_changed': False, 'proof_sources_changed': False}
+                    'scope': 'prefix diagnosis only; never a complete-module pass',
+                    'complete_target_module_compiled': False,
+                    'prefixes_completed': len(results), 'prefixes_requested': len(cases),
+                    'heartbeat_changed': False, 'proof_sources_changed': not unchanged}
           (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
           print(json.dumps(result), flush=True)
           if not unchanged:
               raise SystemExit('Source changed during diagnostic')
-          raise SystemExit(code)
+          raise SystemExit(final_code)
           PY
       - name: Preserve exact native timing and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: isolated-native-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
+          name: isolated-prefix-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
           path: isolated-native-evidence/
           if-no-files-found: error
           retention-days: 14
