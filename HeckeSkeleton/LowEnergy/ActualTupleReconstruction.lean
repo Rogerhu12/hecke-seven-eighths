@@ -108,6 +108,7 @@ theorem completedThetaSum_eq_fixedPhysicalRows
       dsimp only [H]
       rw [fixedPhysicalRow, ← mul_assoc,
         mul_inv_cancel₀ (inactiveWeight_ne_zero K S (splitFixed K S d A)), one_mul]
+      rfl
     _ = _ := tsum_subsets_eq K S d.marks H
 
 def tuplePhysicalRow (x : ExteriorIdeal K S × SixthUnitClasses K S)

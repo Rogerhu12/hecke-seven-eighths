@@ -176,9 +176,9 @@ theorem completedThetaSum_zero_of_puncture_overlap
     (Q : Finset (ExteriorPrime K S)) (q : ExteriorPrime K S) (hq : q ∈ Q)
     (hpuncture : q.val.asIdeal ∣ puncture.val.val) (V : ℝ → ℂ) (X : ℝ) :
     completedThetaSum K S D θ m puncture Q V X = 0 := by
-  apply tsum_eq_zero
-  intro CB
-  exact completedTerm_zero_of_puncture_overlap K S D θ m puncture Q q hq hpuncture V X CB
+  simpa only [completedThetaSum, tsum_zero] using
+    (tsum_congr (fun CB =>
+      completedTerm_zero_of_puncture_overlap K S D θ m puncture Q q hq hpuncture V X CB))
 
 /-- Every original collision is a proved primal zero, including a repeated
 prime and a prime shared by the squarefree and cube variables. -/
@@ -188,15 +188,19 @@ theorem completedThetaSum_zero_of_not_admissible
     (V : ℝ → ℂ) (X : ℝ) :
     completedThetaSum K S D θ (reflectedRowElement K S D k label u)
       puncture (tupleSupport p) V X = 0 := by
-  unfold TupleAdmissible at hp
-  push_neg at hp
-  obtain ⟨q, hq, hk | hf | hr⟩ := hp
-  · exact completedThetaSum_zero_of_row_label_overlap K S D θ k label puncture u
-      (tupleSupport p) q hq (Or.inl hk) V X
-  · exact completedThetaSum_zero_of_row_label_overlap K S D θ k label puncture u
-      (tupleSupport p) q hq (Or.inr hf) V X
-  · exact completedThetaSum_zero_of_puncture_overlap K S D θ _ puncture
-      (tupleSupport p) q hq hr V X
+  by_contra hne
+  apply hp
+  intro q hq
+  refine ⟨?_, ?_, ?_⟩
+  · intro hk
+    exact hne (completedThetaSum_zero_of_row_label_overlap K S D θ k label puncture u
+      (tupleSupport p) q hq (Or.inl hk) V X)
+  · intro hf
+    exact hne (completedThetaSum_zero_of_row_label_overlap K S D θ k label puncture u
+      (tupleSupport p) q hq (Or.inr hf) V X)
+  · intro hr
+    exact hne (completedThetaSum_zero_of_puncture_overlap K S D θ _ puncture
+      (tupleSupport p) q hq hr V X)
 
 theorem canonicalCompletedSum_productMark_eq_tupleTheta
     (hD : AllowedGeneratorInput K S D) (θ : HeckeCharacter K)
@@ -260,7 +264,8 @@ theorem completedThetaSum_eq_reflectedTuple
       reflectedTuple K S D F θ k label puncture hpuncture u p hp V.toFun X := by
   have h := completedThetaSum_eq_general_atoms K S D hD F θ hreflection
     (markedDatum K S k label puncture hpuncture u (tupleSupport p) hp) V X hX
-  rw [markedDatum_rowElement] at h
+  rw [GeneralRows.markedDatum_rowElement K S D k label puncture hpuncture u
+    (tupleSupport p) hp] at h
   exact h
 
 /-- Direct canonical bridge for one surviving tuple at the unchanged
@@ -279,7 +284,8 @@ theorem canonicalCompletedSum_wholeMark_eq_reflectedTuple
   rw [canonicalTau_rowElement K S D hD]
   have h := canonicalCompletedSum_eq_general_atoms K S D hD F θ hreflection
     (markedDatum K S k label puncture hpuncture u (tupleSupport p) hp) V X hX
-  rw [markedDatum_rowElement] at h
+  rw [GeneralRows.markedDatum_rowElement K S D k label puncture hpuncture u
+    (tupleSupport p) hp] at h
   exact h
 
 /-- The canonical product-mark sum is exactly the finite linear sum of

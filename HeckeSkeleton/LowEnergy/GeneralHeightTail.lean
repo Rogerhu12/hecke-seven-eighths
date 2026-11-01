@@ -56,7 +56,7 @@ theorem kernel_fixedAngular_decay [Finite (SixthLocalClasses K S)]
     simpa only [heq] using h
   have hb := Gc_norm_le θ u κ V (σ := A) (h := 0) (J := J)
     hCMH
-    hM' (Nat.zero_le J) he (by dsimp [e]; norm_num; linarith) hy
+    hM' (Nat.zero_le J) he (by dsimp [e]; norm_num) hy
   have hI : Iint V 0 A + Iint V J A ≤ 2 * testSeminorm V.toFun J A := by
     linarith [Iint_right_le V 0 J (Nat.zero_le _) A, Iint_right_le V J J le_rfl A]
   have hline : mellinReflectionKernel K S F θ u κ V.toFun 0 y = Gc F θ u κ V 0 A y := by
@@ -68,7 +68,8 @@ theorem kernel_fixedAngular_decay [Finite (SixthLocalClasses K S)]
   have h := mul_le_mul_of_nonneg_right
     (mul_le_mul_of_nonneg_left
       (mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hI (by positivity))
+        (mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hI
+          (by positivity : (0 : ℝ) ≤ (2 : ℝ) ^ J))
           hCMH)
         (by positivity : 0 ≤ y ^ (-A)))
       (by positivity : 0 ≤ (2 * Real.pi)⁻¹)) hL

@@ -141,7 +141,7 @@ theorem general_frozen_block_energy [Finite (SixthLocalClasses K S)]
     apply h.trans
     apply mul_le_mul_of_nonneg_left
     · exact Real.rpow_le_rpow_of_exponent_le hZ.le
-        (add_le_add_right (hadm.exponent_bound s hs q) _)
+        (add_le_add (hadm.exponent_bound s hs q) (le_refl (eps / 2)))
     · positivity
   let Classes := FourClasses (SixthLocalClasses K S)
   let v := fun (sc : FrozenState K S b.fixed.frozen b.fixed.puncture × Classes)
@@ -158,6 +158,7 @@ theorem general_frozen_block_energy [Finite (SixthLocalClasses K S)]
   have hcards : (b.states.card : ℝ) ^ 2 ≤
       (Nat.card (FrozenState K S b.fixed.frozen b.fixed.puncture) : ℝ) ^ 2 := by
     apply pow_le_pow_left₀ (Nat.cast_nonneg _)
+    rw [Nat.card_eq_fintype_card]
     exact_mod_cast (Finset.card_le_univ b.states)
   have hfixed0 : 0 ≤ ((b.fixed.frozen.val * b.fixed.puncture.val).val.absNorm : ℝ) :=
     Nat.cast_nonneg _

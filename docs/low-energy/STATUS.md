@@ -24,22 +24,25 @@ normalization consumer's axiom audit.
 
 ## Latest completed full build
 
-[Run 41223690903](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41223690903)
-built commit `bcb308443216fb32e60d3f5be03cc832ffd2461d` with the official pinned
-native dependency release. Its native Lake process exited 1 after 1598.445
-seconds, without a timeout. It reported nine diagnostics in two source modules:
-coercion, association and nonnegativity proofs in `GeneralHeight`, and two local
-subtype reductions in `GeneralConductor`. `GeneralRows` and
-`GeneralInactiveMass` were genuinely rebuilt, with their printed declarations
-using only the three standard axioms. The run built 496 modules, including 90
-of its 119 explicit targets. The failed dependencies prevented the general and
-physical endpoints and the final audit from running. The current source repairs
-these diagnostics and still requires a complete build.
+[Run 41226591691](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41226591691)
+built commit `7abe5414ae7e531e0e3b57c8d27d720aea32e918` with the official pinned
+native dependency release. Its native Lake process exited 1 after 1850.285
+seconds, without a timeout. It reported twelve diagnostics in four source modules:
+`ActualTupleReconstruction`, `GeneralAggregation`, `GeneralHeightTail`, and
+`GeneralProductReconstruction`. The run built 509 modules, including 103 of its
+120 explicit targets. `GeneralHeight`, `GeneralSeparatedEnergy`,
+`ActualBlockEnergy`, `GeneralReflectedBlock`, `GeneralMarkedEnergy`,
+`GeneralConductor`, and `CompensatedRowKernelFactorization` genuinely built.
+The failed dependencies prevented the general and physical endpoints and the
+final audit from running. The current source repairs these diagnostics, including
+the same aggregation corrections in the uniform-height version, and still
+requires a complete build.
 
 The earlier `ActualTupleReconstruction` backward powerset-rewrite problem is
 replaced by an explicit motive, a finite-sum swap, and the forward subset
-identity. The latest completed run could not check that correction because its
-changed common-kernel dependency failed first.
+identity. The latest completed run checked this proof and left only a transparent
+`splitFixed` projection in the dependent sum index; the current source closes that
+remaining definitional equality explicitly.
 
 The completed run's logs and native outputs are Actions artifacts. They are not
 source verification for subsequent changes, and the CI never restores its own
