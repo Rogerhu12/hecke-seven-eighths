@@ -95,6 +95,7 @@ def columnShell (p : ℕ × ℕ) : Finset (ExteriorIdeal K S × ExteriorIdeal K 
 @[simp] theorem mem_columnShell (p : ℕ × ℕ)
     (cb : ExteriorIdeal K S × ExteriorIdeal K S) :
     cb ∈ columnShell K S p ↔ columnIndex K S cb = p := by
+  rcases p with ⟨j, l⟩
   simp only [columnShell, Finset.mem_product, idealShell, DyadicReindex.mem_shell,
     columnIndex, Prod.mk.injEq]
 
@@ -194,7 +195,8 @@ theorem annuliBelow_count_small_power (B eps : ℝ) (hB : 0 ≤ B) (heps : 0 < e
   have hendpoint : Real.log (max 1 R) / Real.log 2 + 1 ≤ a * (1 + Real.log Z) := by
     have hh := div_le_div_of_nonneg_right hlog hlog2.le
     dsimp [a]
-    nlinarith [mul_nonneg (div_nonneg hB hlog2.le) hlogZ]
+    nlinarith [div_nonneg hB hlog2.le,
+      mul_nonneg (div_nonneg hB hlog2.le) hlogZ]
   have hendpoint0 : 0 ≤ Real.log (max 1 R) / Real.log 2 + 1 := by
     have hh := Real.log_nonneg (le_max_left 1 R)
     positivity
@@ -480,19 +482,21 @@ theorem retainedAnnuli_threshold
   have hp' : dyadProduct p <
       16 * Z ^ (tau / 2) * (Klo ^ 2 * Plo ^ 2) / baseScale K S f s X :=
     (mem_annuliBelow _ _).mp hp
-  have hY : normalizedScale K S f s X Klo Plo ((2 : ℝ) ^ p.1) ((2 : ℝ) ^ p.2) <
+  have hY : GeneralReflectedBlock.normalizedScale K S f s X Klo Plo
+      ((2 : ℝ) ^ p.1) ((2 : ℝ) ^ p.2) <
       16 * Z ^ (tau / 2) := by
     apply (div_lt_iff₀ hden).mpr
     have h := (lt_div_iff₀ hbase).mp hp'
     dsimp [dyadProduct] at h
-    dsimp [normalizedScale]
+    dsimp [GeneralReflectedBlock.normalizedScale]
     nlinarith only [h]
   have ht : 16 * Z ^ (tau / 2) ≤ Z ^ tau := by
     calc
       _ ≤ Z ^ (tau / 2) * Z ^ (tau / 2) :=
         mul_le_mul_of_nonneg_right hlarge (by positivity)
       _ = _ := by rw [← Real.rpow_add (zero_lt_one.trans hZ)]; congr 1 <;> ring
-  have he : normalizedScale K S f s X Klo Plo ((2 : ℝ) ^ p.1) ((2 : ℝ) ^ p.2) =
+  have he : GeneralReflectedBlock.normalizedScale K S f s X Klo Plo
+      ((2 : ℝ) ^ p.1) ((2 : ℝ) ^ p.2) =
       Z ^ (scale Z ((2 : ℝ) ^ p.1) + 3 * scale Z ((2 : ℝ) ^ p.2) -
         dualThreshold K S f s Z X Klo Plo) := by
     rw [normalizedScale_eq_kernelScale K S f s]

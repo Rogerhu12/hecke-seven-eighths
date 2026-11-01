@@ -155,8 +155,10 @@ theorem source_series_decomposition [Fintype (SixthLocalClasses K S)]
           generalAtom K S D f s F θ a V.toFun X k P c b) +
         ∑' cb, discardedSourceAtom K S D f s annuli F θ a V.toFun X k P cb := by
   have hn := generalAtom_norm_summable K S D f s F θ hKernel hθ hD a V X hX k P
-  have hd := hn.of_nonneg_of_le (fun cb => norm_nonneg _)
-    (fun cb => by unfold discardedSourceAtom; split_ifs <;> simp)
+  have hd : Summable (fun cb : ExteriorIdeal K S × ExteriorIdeal K S =>
+      ‖discardedSourceAtom K S D f s annuli F θ a V.toFun X k P cb‖) :=
+    hn.of_nonneg_of_le (fun cb => norm_nonneg _)
+      (fun cb => by unfold discardedSourceAtom; split_ifs <;> simp)
   refine ⟨hd, ?_⟩
   let r := fun cb : ExteriorIdeal K S × ExteriorIdeal K S =>
     if columnIndex K S cb ∈ annuli
@@ -181,7 +183,8 @@ theorem source_series_decomposition [Fintype (SixthLocalClasses K S)]
       tsum_congr he
     _ = (∑' cb, r cb) + ∑' cb,
         discardedSourceAtom K S D f s annuli F θ a V.toFun X k P cb := hr.tsum_add hd.of_norm
-    _ = _ := by rw [hf, sum_selectedColumns];
+    _ = _ := by
+      rw [hf, sum_selectedColumns]
       simp only [source_shell_filter_squarefree K S D f s F θ a V.toFun X k P]
 
 /-- The finite active-mark sum is retained inside each reflected block.

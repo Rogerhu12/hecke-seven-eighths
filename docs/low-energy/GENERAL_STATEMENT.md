@@ -2,7 +2,8 @@
 
 本次推广对应 `weil_seven_eighths_revised.tex` 的
 `lem:can-marked-energy`，并保留原物理能量定理的接口。
-本文件描述正在原生编译核对的源码，不构成编译完成声明。
+本文件说明公开源码接口；实际验收以 PR #3 当前 head 的完整原生构建
+与四项公理报告为准。
 
 公开名称现在为 `HeckeSkeleton.completedMarkedEnergy K S D hreflection hquadratic hcubic`，
 结论 `CompletedCanonicalMarkedEnergy K S D F theta` 包含以下具体结论。

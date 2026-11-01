@@ -1,5 +1,11 @@
 # LOW-REFLECTED-ENERGY 源码审查（2026-10-31）
 
+历史范围：本记录审查一般化之前的物理 Gaussian 证明链。下文使用的
+`HeckeSkeleton.completedMarkedEnergy` 旧名称，现对应
+`HeckeSkeleton.physicalCompletedMarkedEnergy`。最新一般接口、任意次幂
+尾界和统一高度见 [GENERAL_STATEMENT.md](GENERAL_STATEMENT.md)；
+当前验收结果见 [PR #3](https://github.com/Rogerhu12/hecke-seven-eighths/pull/3)。
+
 本记录汇总本轮**源码与数学结构审查，不是 Lean PASS 声明**。实际编译及公理依赖以对应源码哈希的 [source_manifest.json](source_manifest.json)、CI 日志和公开定理的 `#print axioms` 为准；状态另见 [STATUS.md](STATUS.md)。在以下范围内，未发现确定的目标替换、循环能量假设或指数遗漏。
 
 检查覆盖真实反射项、分离块、环带与双列聚合、冻结态、元组重构和最终轨道能量，并对照 paper 的混合筛法及低能量指数。以下结论只评价已读源码的结构；声明存在、证明策略合理与内核接受是不同层次，不能用本记录替代完整依赖闭包的验证。

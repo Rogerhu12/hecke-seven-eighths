@@ -112,7 +112,9 @@ theorem weighted_primeChoices_reindex (W : ι → Finset α) (w : ι → α → 
   rw [sum_piFinset_split W (fun i => i ∈ I), Finset.sum_comm]
   apply Finset.sum_congr rfl
   intro b _
-  apply Finset.sum_congr rfl
+  refine Finset.sum_congr ?_ ?_
+  · ext a
+    simp only [Fintype.mem_piFinset]
   intro a _
   have hactive := join_active_image I a b
   have hinactive := join_inactive_image I a b
@@ -125,7 +127,19 @@ theorem weighted_primeChoices_reindex (W : ι → Finset α) (w : ι → α → 
       exact h)
     rw [hactive] at hI
     rw [hI]
-    simp only [slotProduct, InactiveCore.prod_join]
+    have hw : slotProduct w (join (fun i => i ∈ I) a b) =
+        slotProduct (fun i : I => w i) a *
+          slotProduct (fun i : {i // i ∉ I} => w i) b := by
+      unfold slotProduct
+      rw [InactiveCore.prod_join]
+      apply congrArg₂ (· * ·)
+      · refine Finset.prod_congr ?_ ?_
+        · ext i
+          simp only [Finset.mem_univ]
+        · intro i _
+          rfl
+      · rfl
+    rw [hw]
     ring
   · simp only [if_neg h, mul_zero]
 
@@ -197,7 +211,7 @@ theorem sourceTerm_reweight (b : FrozenBlock K S) (marks : Finset (Ideal (𝓞 K
     sourceTerm K S D { b with marks := marks, markWeight := weight } s F θ V k P c n =
       weight P * sourceTerm K S D { b with markWeight := fun _ => 1 } s F θ V k P c n := by
   unfold sourceTerm literalTerm
-  split_ifs <;> simp_all <;> ring
+  split_ifs <;> simp only [one_mul, mul_zero]
 
 theorem sourceRow_reweight (b : FrozenBlock K S) (marks : Finset (Ideal (𝓞 K)))
     (weight : Ideal (𝓞 K) → ℂ) (F : FiniteMellinData K S) (θ : HeckeCharacter K)
@@ -228,8 +242,8 @@ theorem markKernel_eq_zero_of_not_coprime (b : FrozenBlock K S)
     intro c _
     apply Finset.sum_eq_zero
     intro n _
-    unfold sourceTerm literalTerm
-    split_ifs <;> simp_all
+    unfold sourceTerm
+    split_ifs <;> simp only [literalTerm, dif_neg hkP]
   · rfl
 
 /-- Ordinary finite cut data; there is no estimate or reconstruction
@@ -555,7 +569,10 @@ theorem sourceInactiveRow_component (d : ProductData K S r) (I : Finset (Fin r))
     Finset.sum_filter]
   apply Finset.sum_congr rfl
   intro b _
-  by_cases hb : d.LegalInactive (tupleSupport b) <;> simp only [hb, if_true, if_false, mul_zero]
+  by_cases hb : d.LegalInactive (tupleSupport b)
+  · simp only [if_pos hb]
+    rfl
+  · simp only [if_neg hb, mul_zero]
 
 /-- The actual original finite projection is exactly the concrete source
 family.  This is a proved identity, not a field or input of the family. -/
@@ -564,7 +581,9 @@ theorem projectedSourceRow_eq_sourceMarkedRow (d : ProductData K S r)
     (V : SmoothAnnularTest) (k : Ideal (𝓞 K)) :
     d.projectedSourceRow D F θ V k = sourceMarkedRow K S D d.family F θ V k := by
   by_cases hk : k ∈ d.rows
-  · rw [projectedSourceRow, if_pos hk, weighted_primeChoices_reindex]
+  · rw [projectedSourceRow, if_pos hk,
+      weighted_primeChoices_reindex d.windows d.coefficient
+        (fun I B A => d.projectionKernel D I B A F θ V k)]
     change _ = ∑ I ∈ (Finset.univ : Finset (Fin r)).powerset,
       if k ∈ d.rows then sourceInactiveRow K S D (d.component I) F θ V k else 0
     simp only [if_pos hk]
@@ -598,14 +617,14 @@ variable (ranges : Finset (Fin r) → Finset (ExteriorPrime K S) →
 local notation "pd" => ofMarkedDatum d₀ X windows scales coefficient rows ranges
 
 theorem ofMarkedDatum_legal (A : MarkChoice K S d₀) :
-    pd.LegalInactive (d₀.marks \ A.val) := by
+    (pd).LegalInactive (d₀.marks \ A.val) := by
   intro q hq
   exact ⟨(d₀.marks_coprime q (Finset.mem_sdiff.mp hq).1).2.1,
     (d₀.marks_coprime q (Finset.mem_sdiff.mp hq).1).2.2⟩
 
 theorem ofMarkedDatum_fixed (A : MarkChoice K S d₀) :
-    pd.fixed (d₀.marks \ A.val) = splitFixed K S d₀ A := by
-  have hf : (d₀.marks \ A.val).filter pd.Away = d₀.marks \ A.val :=
+    (pd).fixed (d₀.marks \ A.val) = splitFixed K S d₀ A := by
+  have hf : (d₀.marks \ A.val).filter (pd).Away = d₀.marks \ A.val :=
     Finset.filter_eq_self.mpr (ofMarkedDatum_legal d₀ X windows scales coefficient rows ranges A)
   unfold fixed
   rw [hf]
@@ -618,7 +637,7 @@ theorem sourceTerm_ofMarkedDatum (hD : AllowedGeneratorInput K S D)
     (state : FrozenState K S d₀.frozen d₀.puncture)
     (F : FiniteMellinData K S) (θ : HeckeCharacter K) (V : ℝ → ℂ)
     (c b : ExteriorIdeal K S) :
-    sourceTerm K S D (pd.baseBlock I (d₀.marks \ A.val)) state F θ V
+    sourceTerm K S D ((pd).baseBlock I (d₀.marks \ A.val)) state F θ V
       d₀.moving.val.val (primeSetIdeal K S A.val).val.val c.val.val b.val.val =
       extendColumn K S state (extendMarkedColumn K S state A.val
         (fun cb => reflectedTerm K S D d₀
@@ -626,12 +645,19 @@ theorem sourceTerm_ofMarkedDatum (hD : AllowedGeneratorInput K S D)
   rw [sourceTerm, dif_pos (exterior_isExterior K S d₀.moving),
     dif_pos (exterior_isExterior K S (primeSetIdeal K S A.val)),
     dif_pos (exterior_isExterior K S c), dif_pos (exterior_isExterior K S b)]
-  change (if hr : RowAdmissible K S (pd.fixed (d₀.marks \ A.val)) d₀.moving then
-    if hm : MarkAdmissible K S (pd.fixed (d₀.marks \ A.val)) (primeSetIdeal K S A.val) then
-      literalTerm K S D (pd.fixed (d₀.marks \ A.val)) state F θ (fun _ => 1) V X
+  change (if hr : RowAdmissible K S ((pd).fixed (d₀.marks \ A.val)) d₀.moving then
+    if hm : MarkAdmissible K S ((pd).fixed (d₀.marks \ A.val)) (primeSetIdeal K S A.val) then
+      literalTerm K S D ((pd).fixed (d₀.marks \ A.val)) state F θ (fun _ => 1) V X
         d₀.moving (primeSetIdeal K S A.val) c b hr hm else 0 else 0) = _
-  rw [ofMarkedDatum_fixed d₀ X windows scales coefficient rows ranges A,
-    dif_pos (splitRow_admissible K S d₀ A), dif_pos (splitMark_admissible K S d₀ A),
+  have hf : (d₀.marks \ A.val).filter (pd).Away = d₀.marks \ A.val :=
+    Finset.filter_eq_self.mpr (ofMarkedDatum_legal d₀ X windows scales coefficient rows ranges A)
+  dsimp only [fixed, ofMarkedDatum]
+  simp only [hf]
+  change (if hr : RowAdmissible K S (splitFixed K S d₀ A) d₀.moving then
+    if hm : MarkAdmissible K S (splitFixed K S d₀ A) (primeSetIdeal K S A.val) then
+      literalTerm K S D (splitFixed K S d₀ A) state F θ (fun _ => 1) V X
+        d₀.moving (primeSetIdeal K S A.val) c b hr hm else 0 else 0) = _
+  rw [dif_pos (splitRow_admissible K S d₀ A), dif_pos (splitMark_admissible K S d₀ A),
     literalTerm_eq_generalAtom K S D (splitFixed K S d₀ A) state hD]
   exact (extended_reflectionSummand_eq_generalAtom K S D hD F θ d₀ state A V X (c, b)).symm
 
@@ -640,7 +666,7 @@ the indices are the original reflection sigma indices, not new formal
 coefficients.  The common row and column restrictions are explicit. -/
 def originalIndexProjection (A : MarkChoice K S d₀) (I : Finset (Fin r))
     (F : FiniteMellinData K S) (θ : HeckeCharacter K) (V : SmoothAnnularTest) : ℂ :=
-  let base := pd.baseBlock I (d₀.marks \ A.val)
+  let base := (pd).baseBlock I (d₀.marks \ A.val)
   if d₀.moving.val.val ∈ base.rows then
     ∑ state ∈ (ranges I (d₀.marks \ A.val)).states,
       ∑ c ∈ base.squarefreeColumns.attach, ∑ b ∈ base.cubeColumns.attach,
@@ -654,11 +680,11 @@ def originalIndexProjection (A : MarkChoice K S d₀) (I : Finset (Fin r))
 theorem markKernel_ofMarkedDatum (hD : AllowedGeneratorInput K S D)
     (A : MarkChoice K S d₀) (I : Finset (Fin r))
     (F : FiniteMellinData K S) (θ : HeckeCharacter K) (V : SmoothAnnularTest) :
-    markKernel K S D (pd.baseBlock I (d₀.marks \ A.val)) F θ V
+    markKernel K S D ((pd).baseBlock I (d₀.marks \ A.val)) F θ V
       (primeSetIdeal K S A.val).val.val d₀.moving.val.val =
       originalIndexProjection D d₀ X windows scales coefficient rows ranges A I F θ V := by
   unfold markKernel originalIndexProjection
-  by_cases hk : d₀.moving.val.val ∈ (pd.baseBlock I (d₀.marks \ A.val)).rows
+  by_cases hk : d₀.moving.val.val ∈ ((pd).baseBlock I (d₀.marks \ A.val)).rows
   · simp only [if_pos hk]
     apply Finset.sum_congr rfl
     intro state _
@@ -678,13 +704,13 @@ reflection, on the actual active ideal norm annulus. -/
 theorem projectionKernel_ofMarkedDatum (hD : AllowedGeneratorInput K S D)
     (A : MarkChoice K S d₀) (I : Finset (Fin r))
     (F : FiniteMellinData K S) (θ : HeckeCharacter K) (V : SmoothAnnularTest) :
-    pd.projectionKernel D I (d₀.marks \ A.val) A.val F θ V d₀.moving.val.val =
+    (pd).projectionKernel D I (d₀.marks \ A.val) A.val F θ V d₀.moving.val.val =
       if (ranges I (d₀.marks \ A.val)).markScale ≤ exteriorNorm K S (primeSetIdeal K S A.val) ∧
           exteriorNorm K S (primeSetIdeal K S A.val) ≤
             2 * (ranges I (d₀.marks \ A.val)).markScale then
         originalIndexProjection D d₀ X windows scales coefficient rows ranges A I F θ V
       else 0 := by
-  have hm : MarkAdmissible K S (pd.fixed (d₀.marks \ A.val)) (primeSetIdeal K S A.val) := by
+  have hm : MarkAdmissible K S ((pd).fixed (d₀.marks \ A.val)) (primeSetIdeal K S A.val) := by
     rw [ofMarkedDatum_fixed d₀ X windows scales coefficient rows ranges A]
     exact splitMark_admissible K S d₀ A
   rw [projectionKernel,
@@ -735,7 +761,7 @@ theorem projectionKernel_eq_zero_of_not_admissible
     (p : Fin r → ExteriorPrime K S) (hp : ¬TupleAdmissible K S k label puncture p)
     (I : Finset (Fin r)) (A : Finset (ExteriorPrime K S)) (hA : A ⊆ tupleSupport p)
     (F : FiniteMellinData K S) (θ : HeckeCharacter K) (V : SmoothAnnularTest) :
-    od.projectionKernel D I (tupleSupport p \ A) A F θ V
+    (od).projectionKernel D I (tupleSupport p \ A) A F θ V
       (movingRow K S k label puncture).val.val = 0 := by
   by_contra hne
   apply hp
@@ -744,7 +770,7 @@ theorem projectionKernel_eq_zero_of_not_admissible
     by_cases hqA : q ∈ A
     · exact Finset.mem_union_left _ hqA
     · exact Finset.mem_union_right _ (Finset.mem_sdiff.mpr ⟨hq, hqA⟩)
-  have haway := od.projectionKernel_marks_away_of_ne_zero D I (tupleSupport p \ A)
+  have haway := (od).projectionKernel_marks_away_of_ne_zero D I (tupleSupport p \ A)
     A F θ V (movingRow K S k label puncture) hne q hqAB
   change (¬q.val.asIdeal ∣ (movingRow K S k label puncture).val.val) ∧
     (¬q.val.asIdeal ∣ (reflectedFrozen K S k label puncture).val.val) ∧
@@ -788,7 +814,7 @@ theorem primeChoiceProjection_eq_originalTupleProjection
     (p : Fin r → ExteriorPrime K S) (hp : TupleAdmissible K S k label puncture p)
     (V : SmoothAnnularTest) :
     (∑ A ∈ (tupleSupport p).powerset,
-      od.projectionKernel D (activeSlots p A) (tupleSupport p \ A) A F θ V
+      (od).projectionKernel D (activeSlots p A) (tupleSupport p \ A) A F θ V
         (movingRow K S k label puncture).val.val) =
       originalTupleProjection D k label puncture hpuncture u X windows scales coefficient
         rows ranges F θ p hp V := by
@@ -807,7 +833,7 @@ filter is proved by the original zero masks, not supplied as an identity. -/
 theorem projectedSourceRow_eq_originalTuples
     (hD : AllowedGeneratorInput K S D) (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (V : SmoothAnnularTest) :
-    od.projectedSourceRow D F θ V (movingRow K S k label puncture).val.val =
+    (od).projectedSourceRow D F θ V (movingRow K S k label puncture).val.val =
       if (movingRow K S k label puncture).val.val ∈ rows then
         ∑ p ∈ ((Fintype.piFinset windows).filter
           (TupleAdmissible K S k label puncture)).attach,
@@ -817,7 +843,7 @@ theorem projectedSourceRow_eq_originalTuples
       else 0 := by
   let H := fun p : Fin r → ExteriorPrime K S =>
     ∑ A ∈ (tupleSupport p).powerset,
-      od.projectionKernel D (activeSlots p A) (tupleSupport p \ A) A F θ V
+      (od).projectionKernel D (activeSlots p A) (tupleSupport p \ A) A F θ V
         (movingRow K S k label puncture).val.val
   have hfilter : (∑ p ∈ Fintype.piFinset windows, slotProduct coefficient p * H p) =
       ∑ p ∈ (Fintype.piFinset windows).filter (TupleAdmissible K S k label puncture),
@@ -852,7 +878,7 @@ uniform energy theorem. -/
 theorem sourceMarkedRow_eq_originalTuples
     (hD : AllowedGeneratorInput K S D) (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     (V : SmoothAnnularTest) :
-    sourceMarkedRow K S D od.family F θ V (movingRow K S k label puncture).val.val =
+    sourceMarkedRow K S D (od).family F θ V (movingRow K S k label puncture).val.val =
       if (movingRow K S k label puncture).val.val ∈ rows then
         ∑ p ∈ ((Fintype.piFinset windows).filter
           (TupleAdmissible K S k label puncture)).attach,
@@ -860,7 +886,7 @@ theorem sourceMarkedRow_eq_originalTuples
             originalTupleProjection D k label puncture hpuncture u X windows scales coefficient
               rows ranges F θ p.val (Finset.mem_filter.mp p.property).2 V
       else 0 := by
-  rw [← od.projectedSourceRow_eq_sourceMarkedRow D F θ V]
+  rw [← (od).projectedSourceRow_eq_sourceMarkedRow D F θ V]
   exact projectedSourceRow_eq_originalTuples D k label puncture hpuncture u X windows scales
     coefficient rows ranges hD F θ V
 

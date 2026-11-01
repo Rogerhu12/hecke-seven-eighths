@@ -151,7 +151,7 @@ theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
       (idealSectorElement K Sc (Pc).arithmetic (I, ξ))‖ ^ 2
   have hq : 0 < q := exteriorNorm_pos K Sc _
   have hq1 : 1 ≤ q := exteriorNorm_one_le K Sc _
-  have hambient : ∀ I ∈ R, idealNorm K I.val ≤ Z ^ (2 : ℝ) := by
+  have hambient : ∀ I ∈ R, IdealRankin.idealNorm K I.val ≤ Z ^ (2 : ℝ) := by
     intro I hI
     exact (hcut I hI).trans (physical_cutoff_le_square hZ.le hB.le hBZ hq1)
   have hshell : ∀ I ∈ R, residualIndex K Sc I < N := by
@@ -163,7 +163,7 @@ theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
   have hlocal : ∀ A ∈ R.image (fun I => powerfulPart I.val),
       ∀ j ∈ Finset.range N,
       (∑ I ∈ R.filter (fun I => powerfulPart I.val = A ∧ residualIndex K Sc I = j),
-        E I) ≤ (Cb * Z ^ a) * idealNorm K A ^ (-(1 / 2 : ℝ) + rho) := by
+        E I) ≤ (Cb * Z ^ a) * IdealRankin.idealNorm K A ^ (-(1 / 2 : ℝ) + rho) := by
     intro A hA j hj
     obtain ⟨I0, hI0, rfl⟩ := Finset.mem_image.mp hA
     have hfilter :
@@ -181,7 +181,7 @@ theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
     rw [hfilter]
     have hb := hblock Z B hZ hB hlogB hlogWin p hp J ξ R
       (exteriorPowerfulPart K Sc I0) j hcut
-    simpa only [E, a, d, exteriorPowerfulPart, exteriorNorm, idealNorm,
+    simpa only [E, a, d, exteriorPowerfulPart, exteriorNorm, IdealRankin.idealNorm,
       mul_assoc, mul_left_comm, mul_comm] using hb
   have hag := hpowerful R (fun I => I.val) (residualIndex K Sc) E N Z
     (Cb * Z ^ a) hZ.le (by positivity) hambient hshell hN hlocal
@@ -193,7 +193,7 @@ theorem actual_finite_complete_ideal_energy [Finite (SixthLocalClasses K Sc)]
     calc
       _ ≤ Cp * (Cb * Z ^ a) * Z ^ epsOuter := hag
       _ = (Cp * Cb) * Z ^ (a + epsOuter) := by
-        rw [Real.rpow_add hZpos]
+        rw [Real.rpow_add hZpos a epsOuter]
         ring
       _ ≤ (Cp * Cb) * Z ^ ((5 / 6 : ℝ) - 2 * d + eps) :=
         mul_le_mul_of_nonneg_left

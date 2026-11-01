@@ -160,7 +160,7 @@ jobs:
           mapping = json.loads((destination / 'GeneralNativeDiagnostic.map.json').read_text())
           raw = log_path.read_text(errors='replace')
           headers = list(re.finditer(
-              r'(?m)^.*GeneralNativeDiagnostic\.lean:(\d+):(\d+): (error|warning|info): (.*)$', raw))
+              r'(?m)^.*GeneralNativeDiagnostic\.lean:(\d+):(\d+): (error|warning|info)(?:\([^\n)]*\))?: (.*)$', raw))
           errors = []
           for index, match in enumerate(headers):
               if match.group(3) != 'error':

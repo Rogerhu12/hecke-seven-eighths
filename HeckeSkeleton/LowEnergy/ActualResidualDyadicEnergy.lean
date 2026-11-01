@@ -133,7 +133,8 @@ theorem actual_residual_shell_energy [Finite (SixthLocalClasses K S)]
       rw [hj I hI] at hi
       exact ⟨(le_div_iff₀ (by positivity)).mpr (by simpa only [one_mul] using hi.1),
         (div_le_iff₀ (by positivity)).mpr hi.2.le⟩
-    rw [ordinaryResiduals_sum K S R frozen hf]
+    rw [ordinaryResiduals_sum K S R frozen hf
+      (fun k => ‖markedFrozenRow K S D frozen u F θ ψ g T Z J k‖ ^ 2)]
     exact hbound ψ T frozen u Z ((2 : ℝ) ^ j) q Ccut hZ
       (one_le_pow₀ (by norm_num)) hq hCut hpowerful hlogCut hlogWin J hselected
       hrow (ordinaryResiduals K S R) hs hr

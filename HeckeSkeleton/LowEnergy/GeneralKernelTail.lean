@@ -56,7 +56,9 @@ def columnWeight (cb : ExteriorIdeal K S × ExteriorIdeal K S) : ℝ :=
 theorem columnWeight_nonneg (cb : ExteriorIdeal K S × ExteriorIdeal K S) :
     0 ≤ columnWeight K S cb := by
   unfold columnWeight
-  positivity
+  exact mul_nonneg
+    (Real.rpow_nonneg (exteriorNorm_pos K S cb.1).le _)
+    (Real.rpow_nonneg (exteriorNorm_pos K S cb.2).le _)
 
 theorem columnWeight_summable : Summable (columnWeight K S) := by
   have hc : Summable (fun c : ExteriorIdeal K S =>
@@ -237,7 +239,7 @@ def columnAtom (F : FiniteMellinData K S) (θ : HeckeCharacter K)
     FiniteHybridIntegral.hybridKernel (cubicKernel K S D) (quadraticKernel K S D)
       k.val.val P.val.val cb.1.val.val cb.2.val.val *
     mellinReflectionKernel K S F θ (QuotientGroup.mk f.rowUnit)
-      (blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2) V 0
+      (ActualClassSlices.blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2) V 0
       (CommonMellin.argument (baseScale K S f s X)
         (exteriorNorm K S k) (exteriorNorm K S P)
         (exteriorNorm K S cb.1) (exteriorNorm K S cb.2))
@@ -291,7 +293,7 @@ theorem actual_column_tail (F : FiniteMellinData K S) (θ : HeckeCharacter K)
       have hp := exteriorNorm_pos K S P
       have harg := CommonMellin.argument_pos hbase hk hp hc hbb
       have hker := hb V (QuotientGroup.mk f.rowUnit)
-        (blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2)
+        (ActualClassSlices.blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2)
         _ T harg hT htail
       have hcol := ordinaryColumn_norm_le K S D f s θ hθ q cb.1.val.val cb.2.val.val
         ⟨nonZeroDivisors.coe_ne_zero cb.1.val, cb.1.property⟩
@@ -302,7 +304,7 @@ theorem actual_column_tail (F : FiniteMellinData K S) (θ : HeckeCharacter K)
             k.val.val P.val.val cb.1.val.val cb.2.val.val‖ ≤
           stateMajorant K S s / (Real.sqrt (exteriorNorm K S cb.1) * exteriorNorm K S cb.2) := by
         rw [norm_mul]
-        simpa only [mul_one] using mul_le_mul hcol hhyb (norm_nonneg _)
+        simpa only [mul_one, exteriorNorm] using mul_le_mul hcol hhyb (norm_nonneg _)
           (div_nonneg (stateMajorant_nonneg K S s) (by positivity))
       have h := mul_le_mul hcoef hker (norm_nonneg _)
         (div_nonneg (stateMajorant_nonneg K S s) (by positivity))
@@ -388,7 +390,9 @@ theorem columnAtom_eq_tail_beyond_threshold
     hZ hX hK hP hC hB hlarge htail k P c b hk0 hk1 hp0 hp1 hc hb)
 
 theorem exteriorNorm_one_le (I : ExteriorIdeal K S) : 1 ≤ exteriorNorm K S I := by
-  exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors I.val
+  change (1 : ℝ) ≤ (I.val.val.absNorm : ℝ)
+  have h : 1 ≤ I.val.val.absNorm := Ideal.absNorm_pos_of_nonZeroDivisors I.val
+  exact_mod_cast h
 
 theorem stateMajorant_le_one {frozen puncture : ExteriorIdeal K S}
     (s : FrozenState K S frozen puncture) : stateMajorant K S s ≤ 1 := by
@@ -641,7 +645,7 @@ theorem actual_column_tail_height [Finite (SixthLocalClasses K S)]
       have hp := exteriorNorm_pos K S P
       have harg := CommonMellin.argument_pos hbase hk hp hc hbb
       have hker := hb ν hν t V (QuotientGroup.mk f.rowUnit)
-        (blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2)
+        (ActualClassSlices.blockFrequency (frozenClass K S D f s) q.1.1 q.1.2 q.2.1 q.2.2)
         _ T harg hT htail
       have hcol := ordinaryColumn_norm_le K S D f s (ν * θ₀ * heckeNormTwist K t) hθ q cb.1.val.val cb.2.val.val
         ⟨nonZeroDivisors.coe_ne_zero cb.1.val, cb.1.property⟩
@@ -652,7 +656,7 @@ theorem actual_column_tail_height [Finite (SixthLocalClasses K S)]
             k.val.val P.val.val cb.1.val.val cb.2.val.val‖ ≤
           stateMajorant K S s / (Real.sqrt (exteriorNorm K S cb.1) * exteriorNorm K S cb.2) := by
         rw [norm_mul]
-        simpa only [mul_one] using mul_le_mul hcol hhyb (norm_nonneg _)
+        simpa only [mul_one, exteriorNorm] using mul_le_mul hcol hhyb (norm_nonneg _)
           (div_nonneg (stateMajorant_nonneg K S s) (by positivity))
       have h := mul_le_mul hcoef hker (norm_nonneg _)
         (div_nonneg (stateMajorant_nonneg K S s) (by positivity))

@@ -37,8 +37,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy",
       "path": "HeckeSkeleton/LowEnergy/ActualCompleteIdealEnergy.lean",
-      "source_sha256": "71dbbfa8c77ed1adef2041985ce38e9e5b36bcdee74934eae85f39aa0080003a",
-      "bytes": 10367
+      "source_sha256": "133fdefb6291e2e90326f03bc4b532227df3bd430599b6ebdcc8b6242fd47ef0",
+      "bytes": 10414
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualCompletedMarkedEnergy",
@@ -139,8 +139,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy",
       "path": "HeckeSkeleton/LowEnergy/ActualResidualDyadicEnergy.lean",
-      "source_sha256": "001887112b5907e1c7bb94d554053c22acd26a656670b04f9eb7ccb06e2b7901",
-      "bytes": 11195
+      "source_sha256": "7b8e08623d20a1be7e7eee83feab315c188f140fa8711afd9fb8e0838a5e54a9",
+      "bytes": 11271
     },
     {
       "module": "HeckeSkeleton.LowEnergy.ActualRowFibres",
@@ -337,8 +337,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralColumnCutoff",
       "path": "HeckeSkeleton/LowEnergy/GeneralColumnCutoff.lean",
-      "source_sha256": "3332e21a085fc5a2971f9fe0235ca76c6889c749c16bb1c31f63453c341dcb1d",
-      "bytes": 31642
+      "source_sha256": "667dc1429be29c64540c410caa4896c892554883ab3dc0d1eae8e72697c72d67",
+      "bytes": 31777
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralCompletedEnergy",
@@ -379,8 +379,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralKernelTail",
       "path": "HeckeSkeleton/LowEnergy/GeneralKernelTail.lean",
-      "source_sha256": "94a2bf79978d5f68919470c4c085a9ec2c174693acc4735560194b11f2c79da0",
-      "bytes": 39691
+      "source_sha256": "7935df001a08344a4aac332aeb94028e68d4bcd7f2803c381777c25eddb364f3",
+      "bytes": 39980
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralMarkedEnergy",
@@ -427,8 +427,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralSourceCutoff",
       "path": "HeckeSkeleton/LowEnergy/GeneralSourceCutoff.lean",
-      "source_sha256": "571ae1a13bace8e1d213053e8ddcf69bb5f397873de139fb35716a6e68ad4c23",
-      "bytes": 13500
+      "source_sha256": "bec82153c21566bdad2734ea7fd1bea3d659e74347236d00f6cbdaabd5de2902",
+      "bytes": 13648
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralTailNumerics",
@@ -439,8 +439,8 @@
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralTupleBlocks",
       "path": "HeckeSkeleton/LowEnergy/GeneralTupleBlocks.lean",
-      "source_sha256": "51c9511732b12e871ceb6f91934dd9969c46faa39dd886c987a0bb503443c1b3",
-      "bytes": 41606
+      "source_sha256": "78e88887213f6e1a6ed06b8ced49c88108beba4603d22ab0a76a016a50539791",
+      "bytes": 42665
     },
     {
       "module": "HeckeSkeleton.LowEnergy.GeneralUniformEnergy",
