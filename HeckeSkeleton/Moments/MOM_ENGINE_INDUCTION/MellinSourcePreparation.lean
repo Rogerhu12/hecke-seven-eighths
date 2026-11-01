@@ -50,8 +50,8 @@ theorem Node.mellinStrictModel_fitsMesh_of
     (hA : 0 ≤ A) (hlower : 0 < lower) (hinterval : lower ≤ upper)
     (P : ℝ) (hP : 1 ≤ P) (frequency : ℝ × ℝ) {mesh : ℝ}
     (hmesh : n.data.geometry.fitsMesh mesh) :
-    (n.mellinStrictModel (Ω := Ω) cap J A lower upper hA hlower hinterval P hP frequency).
-      data.geometry.fitsMesh mesh := hmesh
+    (n.mellinStrictModel (Ω := Ω) cap J A lower upper
+      hA hlower hinterval P hP frequency).data.geometry.fitsMesh mesh := hmesh
 
 /-- The source window is actually constructed from the normalized
 profiles; it is not a callback requesting their regularity. -/
@@ -102,8 +102,8 @@ theorem localizedMellinSource_fullJointBudget
     (D.localizedMellinSource (Ω := Ω) n cap J A lower upper
       hA hlower hinterval P hP frequency).source.recipe.FullJointBudget
       U (n.parameters.m + n.parameters.q) :=
-  (D.mellinStrictModel (Ω := Ω) n cap J A lower upper hA hlower hinterval P hP frequency).
-    localizedFullJointBudget
+  (D.mellinStrictModel (Ω := Ω) n cap J A lower upper
+    hA hlower hinterval P hP frequency).localizedFullJointBudget
 
 end CompleteSourceBudgetData
 

@@ -31,7 +31,6 @@ theorem targetFiniteOrderBoundary : FiniteOrderBoundary (K := K) c.family.B := b
   intro chi hfinite s hs
   by_cases hright : 1 < s.re
   · rw [meromorphicOrderAt_heckeContinuation K chi hright]
-    exact le_rfl
   · apply le_of_not_gt
     intro hzero
     let index : HeckePacketIndex K c.family.omega :=
