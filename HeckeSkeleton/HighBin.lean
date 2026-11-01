@@ -213,6 +213,7 @@ attribute [local instance] Expansion.ActualProbeContext.localCompletionSpace
   Expansion.ActualProbeContext.finiteAdeleSpace
   Expansion.ActualProbeContext.finiteAdeleBorel
   Expansion.ActualProbeContext.finiteAdeleMeasure_isAddHaar
+  expansionNormOneSpace expansionNormOneBorel
 
 variable (c : TargetContext K)
 
