@@ -81,7 +81,7 @@ theorem divisorMark_eq_whole_tuples
   change (∏ i : I, if q.val i ∣ A then a i.val (q.val i) else 0) =
     tupleWeight K I a q.val *
       wholeMarkWeight K S (tuplePrimes K S I L hprime hexterior q) A
-  rw [wholeMarkWeight, tuplePrimes_divides]
+  simp only [wholeMarkWeight, tuplePrimes_divides]
   by_cases h : ∀ i : I, q.val i ∣ A
   · simp only [if_pos h, mul_one, tupleWeight]
     apply Finset.prod_congr rfl
