@@ -257,7 +257,7 @@ included in the recorded source hashes. The clean task inventory remains
 inventory now contains 1601 hashes.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 46 local STEP repair files. It
+repair SHA256, and reason for each of the 47 local STEP repair files. It
 includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
@@ -273,6 +273,23 @@ support, profiles, selected slots, and all numerical bounds are preserved.
 `a48360581b2b0ed368a375911d937cc4b44228f8`. It retains the original finite
 tagged sum and closes the remaining definitionally equal tag-point
 functions after polynomial normalization.
+
+`ActualGaussFiniteLeaves.lean` reuses the proved
+`fullCorrelationHybridCost_eq_leaf_sum` for its original phase identity.
+Explicit row-set and coefficient equalities connect that theorem to the
+same chart, instead of repeatedly expanding the complete leaf and four
+nested sums. A private complex scalar identity handles the common phase;
+the original allocation labels, kernels, weights, positions, exceptional
+predicate, and positive phase on each coefficient remain unchanged.
+Whole-module compilation and performance still require native evidence.
+
+`ExceptionalOriginalLabel.lean` isolates the complete real product
+inequality in a private scalar lemma, in addition to the scalar and
+divisor equalities. Its public wrapper supplies the same two Moebius
+norms, two phase-coefficient norms, radical denominators, and original
+bounds. The dyad weight is transported by its exact defining equality;
+the original field, branch, and ray arguments are explicit at the source
+consumer. No nonnegativity premise or numerical factor is added.
 
 The frozen singleton witnesses inside the norm-complete and moving
 admissibility propositions use explicit `PUnit.{1}` indices. This resolves

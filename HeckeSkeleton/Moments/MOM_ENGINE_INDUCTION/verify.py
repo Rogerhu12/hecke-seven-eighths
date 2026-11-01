@@ -1174,6 +1174,34 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                               'coefficients, or public '
                                                                               'conclusions change.',
                                                                     'repair_sha256': '165356d5ecbc018b0c0968856dd806e297969e53a38889b5116289ebcd208cbf'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualGaussFiniteLeaves.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                        'owner_sha256': 'bf6ce477fe97647198a8414a054cbbb758c0800f1884c76229d46def0377e2e1',
+                                                                        'reason': 'Reuse the existing '
+                                                                                  'fullCorrelationHybridCost_eq_leaf_sum '
+                                                                                  'theorem for the same '
+                                                                                  'first-Fourier phase '
+                                                                                  'identity. Transport the '
+                                                                                  'original row set using '
+                                                                                  'withMultiplier_rows and '
+                                                                                  'the same row-label '
+                                                                                  'filter; align the '
+                                                                                  'original left and right '
+                                                                                  'coefficients with a '
+                                                                                  'private typed complex '
+                                                                                  'scalar identity. Keep the '
+                                                                                  'original AllocationKey, '
+                                                                                  'exceptional predicate, '
+                                                                                  'two kernels, Cartesian '
+                                                                                  'carriers, positions, '
+                                                                                  'weights, positive joint '
+                                                                                  'phases, and public '
+                                                                                  'statements. This replaces '
+                                                                                  'repeated full-leaf and '
+                                                                                  'nested-sum unfolding; '
+                                                                                  'native acceptance and '
+                                                                                  'timing remain separate '
+                                                                                  'gates.',
+                                                                        'repair_sha256': 'dea70c3b22e89ff2818719b88c60ddeb90368f1da5f1034a23f4f43f316528f1'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualNormalizedLabelWeights.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                              'owner_sha256': '86cb17c790332e883bf872f85d1c380e3509ea46740e20bb165eea1ef12abb76',
                                                                              'reason': 'Restore the original '
@@ -1672,16 +1700,33 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalOriginalLabel.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                          'owner_sha256': '27f5c120aad01282a962c3c30d4ca55f689dfc0e60e09d04ceef979fee8b8278',
                                                                          'reason': 'CI75 and owner769 native '
-                                                                                   'diagnostics: split '
-                                                                                   'expensive scalar and '
-                                                                                   'divisor transports into '
-                                                                                   'explicitly typed proof '
-                                                                                   'steps at the default '
-                                                                                   'heartbeat budget, '
-                                                                                   'retaining the same '
-                                                                                   'original-label costs and '
-                                                                                   'public conclusions.',
-                                                                         'repair_sha256': '8e3d2677b1b469c5fe62656b13cc200049adaf8f3e576325f9fbb963b463a5a9'},
+                                                                                   'diagnostics: isolate the '
+                                                                                   'complete real product '
+                                                                                   'inequality, scalar '
+                                                                                   'equalities, and divisor '
+                                                                                   'transports in private '
+                                                                                   'typed helpers at the '
+                                                                                   'default heartbeat '
+                                                                                   'budget. Instantiate them '
+                                                                                   'with the same two '
+                                                                                   'Moebius norms, two '
+                                                                                   'phase-coefficient norms, '
+                                                                                   'radical denominators, '
+                                                                                   'dyad weight, and '
+                                                                                   'existing bounds; make '
+                                                                                   'the original '
+                                                                                   'field/branch/ray '
+                                                                                   'arguments explicit. '
+                                                                                   'Public statements, '
+                                                                                   'source data, '
+                                                                                   'original-label costs, '
+                                                                                   'and all numerical '
+                                                                                   'conclusions are '
+                                                                                   'unchanged. Small-helper '
+                                                                                   'checks do not substitute '
+                                                                                   'for whole-module native '
+                                                                                   'validation.',
+                                                                         'repair_sha256': 'dcef6c25192de6a24aae34312c0628946e88bc85ee802c2a0ce0a81f519faecb'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ExceptionalThetaRows.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                      'owner_sha256': '252e0e38087ea3a99b9e284479a91448e94ecdc7788c3f31b6afe56b8b9cd2b6',
                                                                      'reason': 'Native elaboration repair '
