@@ -25,6 +25,20 @@ open HeckeGeneral.Characters HeckeGeneral.Analysis HeckePort.Moments
 open HeckeGeneral.Analysis.ConditionalMoments CommonSupportMass
 open UniqueFactorizationMonoid
 
+private theorem ordinaryExceptional_radical_bound_transport
+    {F : Type} [Field F] [NumberField F]
+    {sourceLeft sourceRight targetLeft targetRight : Ideal (𝓞 F)}
+    {lhs numerator saving : ℝ}
+    (hleft : sourceLeft = targetLeft) (hright : sourceRight = targetRight)
+    (hbound : lhs ≤
+      numerator / (Ideal.absNorm (commonRadical sourceLeft sourceRight) : ℝ) * saving) :
+    lhs ≤
+      numerator / (Ideal.absNorm (commonRadical targetLeft targetRight) : ℝ) * saving :=
+  hbound.trans_eq
+    (congrArg
+      (fun I : Ideal (𝓞 F) => numerator / (Ideal.absNorm I : ℝ) * saving)
+      (congrArg₂ (fun I J : Ideal (𝓞 F) => commonRadical I J) hleft hright))
+
 variable {F : Type} [Field F] [NumberField F]
 variable {A : SArithmeticData F} {σ : F →+* ℂ}
 variable {η : RayClassCharacter F A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -161,12 +175,12 @@ theorem ordinary_exceptional_original_label_from_atoms
   have hfirst := firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal
     firstProfile firstCost hZ hfirstCost hfirstProfile j.1.val.1.1 j.1.val.1.2
     hfirstLeft hfirstRight hfirstSupport
-  rw [hleftIdeal, hrightIdeal] at hsecond
   rw [hSindex, hleftDivisor]
   apply original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter
     Z _ _ firstCost _ parentWidth _ divisorLower (zero_lt_one.trans hZ)
     (left.ordinaryExceptionalMagnitude_nonneg right Q ξ) hfirstCost hfirst
-  exact hsecond
+  exact ordinaryExceptional_radical_bound_transport (F := F)
+    hleftIdeal hrightIdeal hsecond
 
 end SecondSideFrame
 end HeckeSkeleton.Moments.EngineStep

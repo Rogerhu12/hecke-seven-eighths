@@ -184,7 +184,7 @@ jobs:
           retention-days: 14
 
   ordinary_integral_diagnostic:
-    name: Ordinary integral post-proof linter control (diagnostic only)
+    name: Ordinary integral ${{ matrix.variant }} (diagnostic only)
     if: >-
       (github.event_name == 'pull_request' && github.head_ref == 'cloud/mom-engine-step-d') ||
       (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-engine-step-d')
@@ -193,12 +193,16 @@ jobs:
     # build (900 s) and instrumented copy (150 s), then always upload evidence.
     timeout-minutes: 45
     continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [baseline, main-unused-section-vars-off]
     permissions:
       contents: read
     env:
       LEAN_NUM_THREADS: '2'
       OEI_DIAG_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
-      OEI_DIAG_EVIDENCE: mom-engine-step-d-diagnostics/OrdinaryExceptionalLabelIntegral
+      OEI_DIAG_EVIDENCE: mom-engine-step-d-diagnostics/OrdinaryExceptionalLabelIntegral-${{ matrix.variant }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -231,12 +235,12 @@ jobs:
             --evidence "$OEI_DIAG_EVIDENCE" \
             --expected-head "$OEI_DIAG_EXPECTED_HEAD" \
             --dependency-timeout 900 \
-          --main-unused-section-vars-off
+            ${{ matrix.variant == 'main-unused-section-vars-off' && '--main-unused-section-vars-off' || '' }}
       - name: Preserve ordinary integral diagnostic evidence immediately after this independent job
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mom-engine-step-d-ordinary-integral-diagnostic-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
+          name: mom-engine-step-d-ordinary-integral-${{ matrix.variant }}-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.run_attempt }}
           path: ${{ env.OEI_DIAG_EVIDENCE }}/
           if-no-files-found: error
           retention-days: 14

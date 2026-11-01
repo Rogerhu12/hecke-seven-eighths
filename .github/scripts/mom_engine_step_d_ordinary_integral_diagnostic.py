@@ -29,7 +29,7 @@ import tomllib
 
 
 SOURCE = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP/OrdinaryExceptionalLabelIntegral.lean')
-SOURCE_SHA = 'a73e831088eb88e728728a6013359b843d9b05febc636fd18b4a36e49ac045e9'
+SOURCE_SHA = '8fab0263064e91d9ddf6be830d38553b33c36076200e4eb953de1fbf5ac5aeec'
 MODULE_ROOT = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP'
 STEP_DIRECTORY = SOURCE.parent
 LEAN_VERSION = '4.35.0-rc3'
@@ -49,7 +49,7 @@ EXPECTED_STEP_MODULES = 1009
 EXPECTED_INTERFACE_IMPORTS = 1008
 NATIVE_TIMEOUT_SECONDS = 150
 TERMINATION_GRACE_SECONDS = 10
-MARKER_PREFIX = 'MOM_TRACE OEI a73e8310'
+MARKER_PREFIX = 'MOM_TRACE OEI 8fab0263'
 INPUT_NAME = 'MomEngineDOrdinaryExceptionalLabelIntegralDiagnostic.lean'
 MAIN_DECLARATION = ('HeckeSkeleton.Moments.EngineStep.SecondSideFrame.'
                     'ordinary_exceptional_original_label_integral_from_atoms')
@@ -106,6 +106,9 @@ def instrument(source: bytes, *, main_unused_section_vars_off: bool = False) -> 
             'original_line': text.count('\n', 0, offset) + 1, 'text': block,
         })
 
+    transport_decl = position('private theorem ordinaryExceptional_radical_bound_transport\n')
+    transport_last_line = '      (congrArg₂ (fun I J : Ideal (𝓞 F) => commonRadical I J) hleft hright))\n'
+    transport_end = position(transport_last_line) + len(transport_last_line)
     magnitude_doc = position("/-- The source's literal same-row exceptional magnitude. -/")
     nonneg_decl = position('theorem ordinaryExceptionalMagnitude_nonneg\n')
     nonneg_end = position('end SecondSideFrame\n\nvariable {ΨL ΨR')
@@ -119,8 +122,10 @@ def instrument(source: bytes, *, main_unused_section_vars_off: bool = False) -> 
                             + EXPECTED_PRINTS[1])
 
     # Command markers precede original documentation, retaining its association.
-    # The first definition and nonnegativity theorem use pure terms; leave those
-    # terms untouched and observe only their surrounding command boundaries.
+    # The private transport, first definition and nonnegativity theorem use pure
+    # terms; leave them untouched and observe surrounding command boundaries.
+    add(transport_decl, 'DECL_0_TRANSPORT_BEFORE', kind='CMD')
+    add(transport_end, 'DECL_0_TRANSPORT_AFTER', kind='CMD')
     add(magnitude_doc, 'DECL_1_MAGNITUDE_BEFORE', kind='CMD')
     add(nonneg_decl, 'DECL_1_MAGNITUDE_AFTER', kind='CMD')
     add(nonneg_decl, 'DECL_2_NONNEG_BEFORE', kind='CMD')
@@ -132,19 +137,16 @@ def instrument(source: bytes, *, main_unused_section_vars_off: bool = False) -> 
     hfirst = position('  have hfirst := firstOriginalAllowanceWeight_le_radical Z firstParentWidth firstTotal\n')
     add(hfirst, 'SOURCE_HSECOND_RETURNED')
     add(hfirst, 'SOURCE_HFIRST_BEFORE')
-    rewrite_second = position('  rw [hleftIdeal, hrightIdeal] at hsecond\n')
-    add(rewrite_second, 'SOURCE_HFIRST_RETURNED')
-    add(rewrite_second, 'SOURCE_REWRITE_SECOND_BEFORE')
     rewrite_index = position('  rw [hSindex, hleftDivisor]\n')
-    add(rewrite_index, 'SOURCE_REWRITE_SECOND_RETURNED')
+    add(rewrite_index, 'SOURCE_HFIRST_RETURNED')
     add(rewrite_index, 'SOURCE_REWRITE_INDEX_BEFORE')
     scalar = position('  apply original_exceptional_label_scalar j phase₁ χ₁ phase₂ left.phaseCharacter\n')
     add(scalar, 'SOURCE_REWRITE_INDEX_RETURNED')
     add(scalar, 'SOURCE_SCALAR_APPLY_BEFORE')
-    source_exact = position('  exact hsecond\n')
+    source_exact = position('  exact ordinaryExceptional_radical_bound_transport (F := F)\n')
     add(source_exact, 'SOURCE_SCALAR_APPLY_RETURNED')
-    add(source_exact, 'SOURCE_EXACT_BEFORE')
-    add(source_end, 'SOURCE_PROOF_RETURNED')
+    add(source_exact, 'SOURCE_TRANSPORT_BEFORE')
+    add(source_end, 'SOURCE_TRANSPORT_RETURNED')
     add(source_end, 'DECL_3_SOURCE_AFTER', kind='CMD')
 
     add(integrable_decl, 'DECL_4_INTEGRABLE_BEFORE', kind='CMD')
