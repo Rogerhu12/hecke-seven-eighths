@@ -91,7 +91,10 @@ theorem engineOutput_frozen_rankedProfiles
   have controls :=
     (exists_rankedAnnulusSchwartz_profileBudget (K := K) (ω := ω) (ψ := ψ)
       ground engine reflection sigma widthLimit padding A lower upper hlower hupper).choose_spec.2
-  have hparent := (parameterCoreRank_lt_bound n.parameters hsigma hwidth).le
+  have hparent : parameterCoreRank sigma widthLimit padding n.parameters ≤
+      6 * (widthBand sigma widthLimit + 1) :=
+    (parameterCoreRank_lt_bound (σ := sigma) (W := widthLimit) (padding := padding)
+      n.parameters hsigma hwidth).le
   constructor
   · intro b xi
     have hrank := (engineOutput_children_rank

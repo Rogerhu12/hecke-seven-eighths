@@ -23,6 +23,7 @@ namespace HeckeSkeleton.Moments.EngineInduction
 
 open NumberField IsDedekindDomain Filter
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Arithmetic.ConductorNormDraft
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.ThetaSkeleton.Global

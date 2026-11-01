@@ -123,6 +123,11 @@ local instance completeParentSixthUnitsFiniteIndex :
     (sixthPowerSUnitSubgroup K (places K c)).FiniteIndex :=
   sixthPowerSUnitSubgroup_finiteIndex K (places K c)
 
+local instance completeParentChoiceSixthUnitsFiniteIndex :
+    @Subgroup.FiniteIndex (axiomChoice K c).A.U _
+      (sixthPowerSUnitSubgroup K (places K c)) :=
+  sixthPowerSUnitSubgroup_finiteIndex K (places K c)
+
 /-- The original parent source is constructed from the concrete full-row
 dictionary and the actual norm recipe. Every original column coefficient,
 slot, remaining mask and comparison scale is retained. -/
@@ -167,6 +172,7 @@ def canonicalParentSource (D : CompleteSourceData c theta d)
     simp [sIntegerOrbitAvoidanceMask]
   have phases := D.phase_dictionary W a Z t Y₁ Y₂
   exact (atoms.values Y₁ Y₂).canonicalParentSource (A := (axiomChoice K c).A)
+    (Γ := sixthPowerSUnitSubgroup K (places K c))
     (σ := complexEmbedding K c)
     (actualCompleteSubgroup_power c) hZ ∅ hrow hmask
     phases.1 phases.2.1 phases.2.2 centered

@@ -83,8 +83,15 @@ def mellinStrictModel {Ω : Type*} [MeasurableSpace Ω]
       (pairedInvariantParameters n.parameters) where
   source := D.source.mellinStrictModel (Ω := Ω) n cap J A lower upper
     hA hlower hinterval P hP frequency
-  primeSupport := by
-    exact (D.primeSupport.freezeMomentTime 0).normalizedMellinPlainData _ _ _ _ _ _ _ _
+  primeSupport :=
+    (D.primeSupport.freezeMomentTime 0).normalizedMellinPlainData
+      (annularPlateau lower upper hlower hinterval)
+      (annularPlateau lower upper hlower hinterval)
+      (2 * P) (by linarith)
+      (mellinStrictEnvelope (K := K) (ω := c.family.omega) (ψ := targetCharacter K c)
+        (Ω := Ω) cap J A lower upper hA hlower hinterval)
+      (mellinStrictEnvelope_one_le (K := K) (ω := c.family.omega) (ψ := targetCharacter K c)
+        (Ω := Ω) cap J A lower upper hA hlower hinterval) J frequency
   supportBudget := D.supportBudget
   pairedJointBudget := D.pairedJointBudget
 
@@ -151,11 +158,18 @@ private theorem emptyMoving_fullMaskSupport_one :
     (EngineStep.OriginalMovingFactors.empty
       (A := (axiomChoice K c).A) (P := probeData K c)
       (R := momentRowCharacters K c)).fullMaskSupport 1 = 1 := by
+  have hsupport := EngineStep.OriginalMovingFactors.empty_support
+    (A := (axiomChoice K c).A) (P := probeData K c) (R := momentRowCharacters K c)
   apply Subtype.ext
-  simp [EngineStep.OriginalMovingFactors.fullMaskSupport,
-    EngineStep.OriginalMovingFactors.empty_support,
-    EngineStep.unitExterior, EngineStep.CommonSupportMass.commonRadical,
-    HeckePort.IdealMobiusDivisorSum.primeSupport, ← Ideal.one_eq_top]
+  exact (congrArg (fun I : (axiomChoice K c).A.Exterior =>
+    EngineStep.CommonSupportMass.commonRadical
+      (I.val * (1 : Ideal (𝓞 K))) (I.val * (1 : Ideal (𝓞 K)))) hsupport).trans (by
+        change EngineStep.CommonSupportMass.commonRadical
+          ((⊤ : Ideal (𝓞 K)) * 1) ((⊤ : Ideal (𝓞 K)) * 1) = 1
+        simp only [← Ideal.one_eq_top, mul_one, EngineStep.CommonSupportMass.commonRadical,
+          HeckePort.IdealMobiusDivisorSum.primeSupport,
+          UniqueFactorizationMonoid.normalizedFactors_one, Multiset.toFinset_zero,
+          Finset.inter_self, Finset.prod_empty])
 
 /-- The original source supplies the two budgets from its actual empty
 moving list and original finite row cutoff. No producer is assumed. -/
@@ -169,11 +183,15 @@ def recipeRootCompleteSourceBudgetData {Z T : ℝ}
   source := recipeRootCompleteSourceData R i s theta htheta hslots
   primeSupport := recipeRoot_primeSupport R i s
   supportBudget := by
-    change (axiomChoice K c).A.exteriorNorm
-      EngineStep.OriginalMovingFactors.empty.support ≤ momentBaseFor i ^ (0 : ℝ)
-    rw [EngineStep.OriginalMovingFactors.empty_support, Real.rpow_zero]
-    change (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) ≤ 1
-    simp only [map_one, Nat.cast_one, le_refl]
+    have hsupport := EngineStep.OriginalMovingFactors.empty_support
+      (A := (axiomChoice K c).A) (P := probeData K c) (R := momentRowCharacters K c)
+    have hunit : (axiomChoice K c).A.exteriorNorm
+        (EngineStep.unitExterior (axiomChoice K c).A) = 1 := by
+      change (Ideal.absNorm (⊤ : Ideal (𝓞 K)) : ℝ) = 1
+      simp only [Ideal.absNorm_top, Nat.cast_one]
+    exact le_of_eq ((congrArg
+      (fun I : (axiomChoice K c).A.Exterior => (axiomChoice K c).A.exteriorNorm I)
+      hsupport).trans (hunit.trans ((Real.rpow_zero (momentBaseFor i)).symm)))
   pairedJointBudget := by
     intro u hu
     change idealNorm K u * idealNorm K

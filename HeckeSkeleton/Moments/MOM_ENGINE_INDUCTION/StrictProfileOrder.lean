@@ -31,7 +31,8 @@ variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
 
 /-- A fixed positive profile interval, selected before moving data. -/
 structure StrictProfileRange where
-  lower upper : ℝ
+  lower : ℝ
+  upper : ℝ
   lower_pos : 0 < lower
   interval : lower ≤ upper
 
