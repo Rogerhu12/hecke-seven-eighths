@@ -191,6 +191,13 @@ theorem coverHybridPhaseNonzeroCost_integrable
       Integrable (kernel DE D a e label a' e') (actualFourierMeasure F) :=
     s.phase_hybridClassCost_integrable F x DE D label _ _
       (exceptional DE D a e label a' e')
+  show Integrable (fun ξ => ∑ DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
+    ∑ D : s.mask.powerset, ∑ a : LC.labels, ∑ e : RC.labels,
+      ∑ label : Fin ((s.charts DE D).rowLabelCount + 1),
+        ∑ a' : (LC.branch a).labels (primeSupport DE.val.1) DE.val.1,
+          ∑ e' : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
+            kernel DE D a e label a' e' ξ) (actualFourierMeasure F)
   exact integrable_finsetSum (Finset.univ : Finset (commonSupportPool G.columns G.columns
     (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))) (fun DE _ =>
       integrable_finsetSum (Finset.univ : Finset s.mask.powerset) (fun D _ =>
