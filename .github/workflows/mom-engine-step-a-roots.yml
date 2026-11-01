@@ -1,0 +1,186 @@
+name: MOM_ENGINE_STEP A root verification
+
+'on':
+  push:
+    branches: [cloud/mom-engine-step-a-roots]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a-roots-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  roots:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: CanonicalFullKappaNormalization
+            source_sha256: 7f06ea7198fc217ceb204f2c9738a511587e41cad34b339c6958792e1e89d004
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.CanonicalFullKappaPrime.paired_envelopeConstant_le
+              - HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.Calibration.FullKappaProfileInput.atoms
+              - HeckeSkeleton.Moments.EngineStep.SecondSideNormalization.ofFullKappaOriginalSixthPattern
+              - HeckeSkeleton.Moments.EngineStep.SecondSideNormalization.ofFullKappaOriginalSixthPattern_radius
+          - target: MovingEngineOutput
+            source_sha256: 449186b9c56896924f35c5e87de61c1212d96d016a50de95a213d794b5466064
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.ActualAllocatedSource.Calibration.NormalizedCapacityData.Child.completeMovingRowRecipe_fullJointBudget
+              - HeckeSkeleton.Moments.EngineStep.MovingEngineChildAdmissible.paired_fullJointBudget
+              - HeckeSkeleton.Moments.EngineStep.MovingEngineChildAdmissible.fitsMesh
+              - HeckeSkeleton.Moments.EngineStep.ActualNormalizedPairFamily.moving_left_admissible
+              - HeckeSkeleton.Moments.EngineStep.ActualNormalizedPairFamily.moving_right_admissible
+    env:
+      LEAN_NUM_THREADS: '2'
+      A_ROOT_SOURCE_COMMIT: b8f4a75d2ed7daf639795f6bc836bc05abd3405b
+      A_ROOT_SOURCE_TREE: cf6bda5f4c778b8a1b62cc5126f9d78df3634d24
+      A_ROOT_SOURCE_SHA256: ${{ matrix.source_sha256 }}
+      A_ROOT_TARGET: ${{ matrix.target }}
+      A_ROOT_DECLARATIONS: ${{ toJSON(matrix.declarations) }}
+      A_ROOT_EXPECTED_HEAD: ${{ github.sha }}
+      A_ROOT_EVIDENCE: mom-engine-step-a-root-verification/${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Record exact checkout and all tracked file hashes
+        run: |
+          mkdir -p "$A_ROOT_EVIDENCE"
+          git show --no-patch --format=fuller HEAD > "$A_ROOT_EVIDENCE/checkout.txt"
+          python3 - <<'PY'
+          import hashlib, json, os, re, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['A_ROOT_EVIDENCE'])
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          expected = os.environ['A_ROOT_EXPECTED_HEAD']
+          if head != expected:
+              raise SystemExit(f'Unexpected checkout: {head}, expected {expected}')
+          source_commit = os.environ['A_ROOT_SOURCE_COMMIT']
+          source_tree = subprocess.check_output(['git', 'rev-parse', source_commit+'^{tree}'], text=True).strip()
+          if source_tree != os.environ['A_ROOT_SOURCE_TREE']:
+              raise SystemExit('Owner source tree differs from the frozen reviewed tree')
+          parent = subprocess.check_output(['git', 'rev-parse', 'HEAD^1'], text=True).strip()
+          if parent != source_commit:
+              raise SystemExit('Auxiliary first parent must be the exact frozen owner source')
+          changes = subprocess.check_output(['git', 'diff', '--name-only', source_commit, 'HEAD'], text=True).splitlines()
+          if changes != ['.github/workflows/mom-engine-step-a-roots.yml']:
+              raise SystemExit('Auxiliary delta must contain only its own workflow')
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths if p}
+          (evidence / 'tracked-sha256-before.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          source = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' + os.environ['A_ROOT_TARGET'] + '.lean'
+          if hashes[source] != os.environ['A_ROOT_SOURCE_SHA256']:
+              raise SystemExit('Root source hash differs from the frozen reviewed file')
+          declarations = re.findall(r'^#print axioms ([^\n]+)$', Path(source).read_text(), flags=re.M)
+          if declarations != json.loads(os.environ['A_ROOT_DECLARATIONS']):
+              raise SystemExit('Explicit fresh audit targets must match every original print command')
+          step_paths = [p for p in hashes if p.startswith('HeckeSkeleton/Moments/MOM_ENGINE_STEP/') and p.endswith('.lean')]
+          if len(step_paths) != 1009:
+              raise SystemExit('The complete STEP source inventory must remain intact')
+          (evidence / 'source.json').write_text(json.dumps({
+              'head': head, 'source_commit': source_commit, 'target': source, 'source_sha256': hashes[source],
+              'source_tree': source_tree, 'original_print_axioms': declarations,
+              'tracked_file_count': len(hashes),
+          }, indent=2) + '\n')
+          PY
+      - name: Provide enough memory mappings for the full import closure
+        run: |
+          A_ROOT_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$A_ROOT_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > "$A_ROOT_EVIDENCE/memory-mapping.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@b8f4a75d2ed7daf639795f6bc836bc05abd3405b
+      - name: Verify the pinned compiler, Mathlib and unchanged default build settings
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, subprocess, tomllib
+          evidence = pathlib.Path(os.environ['A_ROOT_EVIDENCE'])
+          version = subprocess.check_output(['lake', 'env', 'lean', '--version'], text=True).strip()
+          mathlib = subprocess.check_output(['git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD'], text=True).strip()
+          project = tomllib.loads(pathlib.Path('lakefile.toml').read_text())
+          assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          assert project.get('leanOptions') == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+          assert project.get('weakLeanArgs') == ['-j2']
+          assert len(project['lean_lib']) == 20
+          (evidence / 'toolchain-and-options.json').write_text(json.dumps({
+              'lean': version, 'mathlib': mathlib, 'lean_options': project['leanOptions'],
+              'weak_lean_args': project['weakLeanArgs'], 'lean_lib_count': len(project['lean_lib']),
+          }, indent=2) + '\n')
+          PY
+      - name: Build the complete root module and run a fresh namespace axiom audit
+        shell: bash
+        run: |
+          mapfile -t A_ROOT_DECLARATION_LIST < <(python3 - <<'PY'
+          import json, os
+          print('\n'.join(json.loads(os.environ['A_ROOT_DECLARATIONS'])))
+          PY
+          )
+          A_ROOT_COMMAND=(python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py
+            "HeckeSkeleton.Moments.MOM_ENGINE_STEP.$A_ROOT_TARGET"
+            --namespace HeckeSkeleton.Moments.EngineStep
+            --evidence "$A_ROOT_EVIDENCE")
+          for A_ROOT_DECLARATION in "${A_ROOT_DECLARATION_LIST[@]}"; do
+            A_ROOT_COMMAND+=(--declaration "$A_ROOT_DECLARATION")
+          done
+          A_ROOT_STARTED=$(date +%s)
+          set +e
+          timeout --signal=TERM --kill-after=30s 35m "${A_ROOT_COMMAND[@]}" 2>&1 |
+            tee "$A_ROOT_EVIDENCE/verification.log"
+          A_ROOT_STATUS=${PIPESTATUS[0]}
+          set -e
+          A_ROOT_FINISHED=$(date +%s)
+          printf '{"exit_code": %s, "elapsed_seconds": %s, "timeout_seconds": 2100}\n' \
+            "$A_ROOT_STATUS" "$((A_ROOT_FINISHED - A_ROOT_STARTED))" \
+            > "$A_ROOT_EVIDENCE/verification-status.json"
+          exit "$A_ROOT_STATUS"
+      - name: Preserve and compare tracked file hashes after every outcome
+        if: always()
+        run: |
+          mkdir -p "$A_ROOT_EVIDENCE"
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          evidence = Path(os.environ['A_ROOT_EVIDENCE'])
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          hashes = {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                    if Path(p).is_file() else None for p in paths if p}
+          (evidence / 'tracked-sha256-after.json').write_text(json.dumps(hashes, indent=2) + '\n')
+          before = evidence / 'tracked-sha256-before.json'
+          if not before.is_file():
+              raise SystemExit('The pre-verification source snapshot is missing')
+          original = json.loads(before.read_text())
+          changed = sorted(p for p in original.keys() | hashes.keys() if original.get(p) != hashes.get(p))
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          unchanged = not changed and head == os.environ['A_ROOT_EXPECTED_HEAD']
+          (evidence / 'source-identity.json').write_text(json.dumps({
+              'head': head, 'unchanged': unchanged, 'changed_files': changed,
+          }, indent=2) + '\n')
+          if not unchanged:
+              raise SystemExit('Tracked sources or checkout identity changed during verification')
+          PY
+      - name: Preserve complete compiler logs and fresh axiom reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-a-root-${{ matrix.target }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ env.A_ROOT_EVIDENCE }}/
+          if-no-files-found: error
+          retention-days: 14
