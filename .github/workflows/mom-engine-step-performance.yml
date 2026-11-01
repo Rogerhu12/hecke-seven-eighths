@@ -1,0 +1,694 @@
+name: MOM_ENGINE_STEP Actual diagnostic then independent full native
+# Generated from immutable auxiliary workflow 4497e78552d7beac65e2c1c789d814081afb9de9.
+# Publish only at .github/workflows/mom-engine-step-performance.yml on cloud/mom-engine-step-a-performance.
+# The workflow commit must directly follow PERF_SOURCE_COMMIT as its first parent
+# and differ from that frozen source commit only in this workflow file.
+
+# Auxiliary timing only. The owner PR keeps its complete Interface,
+# fresh namespace axiom audit, and whole-project build unchanged.
+on:
+  push:
+    branches: [cloud/mom-engine-step-a-performance]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-isolated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: Diagnose then compile original ${{ matrix.target }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ["ActualGaussFiniteLeaves"]
+    env:
+      LEAN_NUM_THREADS: '2'
+      PERF_TARGET: ${{ matrix.target }}
+      PERF_SOURCE_COMMIT: "00ae116a7c210b1ec15990206223221dbd90e136"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare runner resources
+        run: |
+          mkdir -p isolated-native-evidence
+          git show --no-patch --format=fuller HEAD > isolated-native-evidence/checkout.txt
+          test "$(git rev-parse HEAD^1)" = "$PERF_SOURCE_COMMIT"
+          git diff --exit-code "$PERF_SOURCE_COMMIT" HEAD -- '*.lean' lakefile.toml lake-manifest.json lean-toolchain
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > isolated-native-evidence/memory-mapping.txt
+          df -h /
+      - name: Install the pinned Lean toolchain and Mathlib cache
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary Lake artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Record exact source and toolchain provenance
+        id: provenance
+        run: |
+          python3 -u - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, tomllib
+
+          def run(*args):
+              return subprocess.check_output(args, text=True).strip()
+
+          def sha256(path):
+              return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+          source_commit = os.environ['PERF_SOURCE_COMMIT']
+          assert run('git', 'rev-parse', 'HEAD^1') == source_commit, 'Publish as a direct child of the frozen source commit'
+          changed_paths = run('git', 'diff', '--name-only', source_commit, 'HEAD').splitlines()
+          assert changed_paths == ['.github/workflows/mom-engine-step-performance.yml'], changed_paths
+          config_paths = ['lakefile.toml', 'lake-manifest.json', 'lean-toolchain']
+          subprocess.run(['git', 'diff', '--exit-code', 'HEAD', '--', '*.lean', *config_paths], check=True)
+          version = run('lake', 'env', 'lean', '--version')
+          mathlib = run('git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD')
+          assert '4.35.0-rc3' in version and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          project = tomllib.loads(pathlib.Path('lakefile.toml').read_text())
+          assert project.get('leanOptions') == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+          assert project.get('weakLeanArgs') == ['-j2']
+          sources = {str(p): sha256(p) for p in sorted(
+              pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+          assert len(sources) == 1009, len(sources)
+          target = os.environ['PERF_TARGET']
+          assert target in {'ExceptionalOriginalLabel', 'ActualGaussFiniteLeaves'}
+          target_path = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+          target_bytes = target_path.read_bytes()
+          assert target == 'ActualGaussFiniteLeaves'
+          assert sha256(target_path) == '9c91ad9636486c398d95ee6b2a35968962eeffc2e68e55f193513db02e879b89'
+          evidence = {
+              'commit': run('git', 'rev-parse', 'HEAD'),
+              'tree': run('git', 'rev-parse', 'HEAD^{tree}'),
+              'source_commit': source_commit,
+              'source_tree': run('git', 'rev-parse', source_commit + '^{tree}'),
+              'workflow_only_delta_paths': changed_paths,
+              'source_is_direct_parent': True,
+              'target': target,
+              'target_path': str(target_path),
+              'target_source_sha256': sha256(target_path),
+              'target_source_bytes': len(target_bytes),
+              'target_print_axioms_commands': sum(
+                  line.lstrip().startswith(b'#print axioms ') for line in target_bytes.splitlines()),
+              'lean': version,
+              'mathlib': mathlib,
+              'lean_options': project['leanOptions'],
+              'weak_lean_args': project['weakLeanArgs'],
+              'profiler_enabled': True,
+              'heartbeat_override': None,
+              'source_sha256': sources,
+              'config_sha256': {path: sha256(path) for path in config_paths},
+              'scope': 'full original-module native timing; not full task acceptance',
+          }
+          pathlib.Path('isolated-native-evidence/environment.json').write_text(
+              json.dumps(evidence, indent=2) + '\n')
+          PY
+      - name: Build the complete unchanged target dependencies
+        id: dependencies
+        timeout-minutes: 60
+        shell: bash
+        run: |
+          set -o pipefail
+          status=0
+          timeout --signal=TERM --kill-after=30s 58m lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${PERF_TARGET}:deps" 2>&1 |
+            tee isolated-native-evidence/dependencies.log || status=$?
+          echo "$status" > isolated-native-evidence/dependencies-exit-code.txt
+          exit "$status"
+      - name: Diagnose the complete temporary Actual copy
+        id: diagnostic
+        if: ${{ always() && !cancelled() && steps.provenance.outcome == 'success' && steps.dependencies.outcome == 'success' }}
+        timeout-minutes: 4
+        run: |
+          python3 -u - <<'PY'
+          import hashlib, json
+
+          ACTUAL_SOURCE_SHA256 = '9c91ad9636486c398d95ee6b2a35968962eeffc2e68e55f193513db02e879b89'
+
+          def instrument_actual(original_bytes):
+              assert hashlib.sha256(original_bytes).hexdigest() == ACTUAL_SOURCE_SHA256
+              original = original_bytes.decode()
+              insertions = []
+              declarations = []
+
+              def one(marker):
+                  assert original.count(marker) == 1, (marker, original.count(marker))
+                  position = original.index(marker)
+                  assert position == 0 or original[position - 1] == '\n', marker
+                  return position
+
+              def add(position, indent, label, syntax):
+                  assert position == 0 or original[position - 1] == '\n'
+                  text = indent + syntax + ' IO.eprintln ' + json.dumps(
+                      'MOM_TRACE ActualGaussFiniteLeaves typed_tail_9c91ad96 ' + label) + '\n'
+                  insertions.append({
+                      'offset_characters': position,
+                      'original_line': original[:position].count('\n') + 1,
+                      'label': label, 'text': text,
+                  })
+
+              # Every boundary is a complete original command. Docs remain attached.
+              specs = [
+                  (
+                      'sourceLeftCoefficient_withMultiplier',
+                      'private theorem sourceLeftCoefficient_withMultiplier\n',
+                      'private theorem sourceLeftCoefficient_withMultiplier\n',
+                      'private theorem sourceRightCoefficient_withMultiplier\n', True,
+                  ),
+                  (
+                      'sourceRightCoefficient_withMultiplier',
+                      'private theorem sourceRightCoefficient_withMultiplier\n',
+                      'private theorem sourceRightCoefficient_withMultiplier\n',
+                      '/-- The seven source-class labels are exactly those in\n', True,
+                  ),
+                  (
+                      'leaf_firstKernel',
+                      '@[simp] theorem leaf_firstKernel (exceptional : s.CoverHybridPredicates LC RC)\n',
+                      '@[simp] theorem leaf_firstKernel (exceptional : s.CoverHybridPredicates LC RC)\n',
+                      'private theorem phase_mul_four_factors (phase a b c d : ℂ) :\n', False,
+                  ),
+                  (
+                      'phase_mul_four_factors',
+                      'private theorem phase_mul_four_factors (phase a b c d : ℂ) :\n',
+                      'private theorem phase_mul_four_factors (phase a b c d : ℂ) :\n',
+                      'private theorem phase_mul_three_factors (phase a b c : ℂ) :\n', True,
+                  ),
+                  (
+                      'phase_mul_three_factors',
+                      'private theorem phase_mul_three_factors (phase a b c : ℂ) :\n',
+                      'private theorem phase_mul_three_factors (phase a b c : ℂ) :\n',
+                      '/-- This is the actual phase multiplication from the first transform,\n', True,
+                  ),
+                  (
+                      'phase_class_eq_leaf_sum',
+                      'theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)\n',
+                      '/-- This is the actual phase multiplication from the first transform,\n',
+                      'end CoveredClassKey\n', True,
+                  ),
+                  (
+                      'coveredLeaf_firstKernel',
+                      '@[simp] theorem coveredLeaf_firstKernel (exceptional : s.CoverHybridPredicates LC RC)\n',
+                      '@[simp] theorem coveredLeaf_firstKernel (exceptional : s.CoverHybridPredicates LC RC)\n',
+                      '/-- Exact finite flattening of the covered source, at the first\n', False,
+                  ),
+                  (
+                      'coverHybridPhaseNonzeroCost_eq_leaf_sum',
+                      'theorem coverHybridPhaseNonzeroCost_eq_leaf_sum\n',
+                      '/-- Exact finite flattening of the covered source, at the first\n',
+                      '/-- The original first integral is exactly the sum of the genuine\n', True,
+                  ),
+                  (
+                      'integral_coverHybridPhaseNonzeroCost_eq_leaf_sum',
+                      'theorem integral_coverHybridPhaseNonzeroCost_eq_leaf_sum\n',
+                      '/-- The original first integral is exactly the sum of the genuine\n',
+                      '/-- The true orbital fibre multiplicity is paid exactly once per\n', True,
+                  ),
+                  (
+                      'fiberCoveredLeaf_firstKernel',
+                      '@[simp] theorem fiberCoveredLeaf_firstKernel\n',
+                      '@[simp] theorem fiberCoveredLeaf_firstKernel\n',
+                      'namespace TerminalCalibration\n', False,
+                  ),
+                  (
+                      'phase_cost_eq_budgets_leaves',
+                      'theorem phase_cost_eq_budgets_leaves\n',
+                      '/-- Exact terminal and nonzero separation on the original second\n',
+                      'theorem integral_phase_cost_eq_budgets_leaves\n', True,
+                  ),
+                  (
+                      'integral_phase_cost_eq_budgets_leaves',
+                      'theorem integral_phase_cost_eq_budgets_leaves\n',
+                      'theorem integral_phase_cost_eq_budgets_leaves\n',
+                      'end TerminalCalibration\n', True,
+                  ),
+              ]
+              top_starts = (
+                  '  let ', '  letI ', '  have ', '  change ', '  calc',
+                  '  unfold ', '  simp only ', '  simp_rw ', '  rw [',
+                  '  apply ', '  intro ', '  exact ', '  ring',
+              )
+              nested_starts = (
+                  '    funext ', '    dsimp only ', '    rw [', '    exact ',
+                  '    congr ', '    apply ', '    intro ',
+              )
+              for name, declaration_marker, header_marker, boundary_marker, tactic_body in specs:
+                  declaration = one(declaration_marker)
+                  header = one(header_marker)
+                  stop = one(boundary_marker)
+                  assert header <= declaration < stop
+                  add(header, '', 'BEFORE_HEADER_' + name, 'run_cmd')
+                  record = {
+                      'name': name,
+                      'declaration_line': original[:declaration].count('\n') + 1,
+                      'boundary_line': original[:stop].count('\n') + 1,
+                      'tactic_body': tactic_body,
+                      'tactic_marker_lines': [],
+                  }
+                  if tactic_body:
+                      by_marker = ' := by\n'
+                      body_start = original.index(by_marker, declaration, stop) + len(by_marker)
+                      position = body_start
+                      record['body_start_line'] = original[:body_start].count('\n') + 1
+                      for line in original[body_start:stop].splitlines(keepends=True):
+                          indent = None
+                          if line.startswith(top_starts):
+                              indent = '  '
+                          elif line.startswith(nested_starts):
+                              indent = '    '
+                          if indent is not None:
+                              number = original[:position].count('\n') + 1
+                              # No branch bullet, term continuation, or calc step is a marker anchor.
+                              assert not line.lstrip().startswith(('·', '_ =', '_ ≤', '_ >='))
+                              add(position, indent, name + '_BEFORE_LINE_' + str(number), 'run_tac')
+                              record['tactic_marker_lines'].append(number)
+                          position += len(line)
+                      assert position == stop
+                      assert record['body_start_line'] in record['tactic_marker_lines']
+                  add(stop, '', 'COMMAND_CONTINUED_AFTER_' + name, 'run_cmd')
+                  declarations.append(record)
+
+              print_commands = [
+                  '#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.coverHybridPhaseNonzeroCost_eq_leaf_sum\n',
+                  '#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.integral_coverHybridPhaseNonzeroCost_eq_leaf_sum\n',
+              ]
+              for number, marker in enumerate(print_commands, 1):
+                  start = one(marker)
+                  add(start, '', 'BEFORE_PRINT_AXIOMS_' + str(number), 'run_cmd')
+                  add(start + len(marker), '', 'COMMAND_CONTINUED_AFTER_PRINT_AXIOMS_' + str(number), 'run_cmd')
+
+              final_exact = '  exact hcarrier.trans (hcoeff.trans hsplit)\n'
+              final_exact_position = one(final_exact)
+              add(final_exact_position + len(final_exact), '  ',
+                  'phase_class_eq_leaf_sum_AFTER_FINAL_EXACT_TACTIC_RETURNED', 'run_tac')
+              for record in declarations:
+                  if record['name'] == 'phase_class_eq_leaf_sum':
+                      record['after_final_exact_original_line'] = original[:
+                          final_exact_position + len(final_exact)].count('\n') + 1
+
+              # Group coincident positions so an AFTER marker precedes the next BEFORE marker.
+              by_position = {}
+              for insertion in insertions:
+                  by_position.setdefault(insertion['offset_characters'], []).append(insertion['text'])
+              contents = original
+              for position in sorted(by_position, reverse=True):
+                  contents = contents[:position] + ''.join(by_position[position]) + contents[position:]
+              recovered = contents
+              for insertion in insertions:
+                  assert recovered.count(insertion['text']) == 1, insertion['label']
+                  recovered = recovered.replace(insertion['text'], '', 1)
+              assert recovered.encode() == original_bytes
+              assert contents.count('#print axioms ') == original.count('#print axioms ')
+              manifest = {
+                  'source_sha256': hashlib.sha256(original_bytes).hexdigest(),
+                  'diagnostic_sha256': hashlib.sha256(contents.encode()).hexdigest(),
+                  'original_file_bytes': len(original_bytes),
+                  'diagnostic_file_bytes': len(contents.encode()),
+                  'full_original_source_included': True,
+                  'original_print_axioms_commands': len(print_commands),
+                  'insertions': insertions,
+                  'declarations': declarations,
+                  'closing_added': '',
+                  'exact_full_source_recovered_after_removing_instrumentation': True,
+                  'scope': 'full temporary instrumented copy; never original-module acceptance',
+                  'async_note': 'COMMAND_CONTINUED indicates command progress, not proof or kernel completion',
+              }
+              return contents, manifest
+
+          import hashlib, json, os, pathlib, shutil, subprocess, tempfile, time
+
+          STAGE = 'diagnostic'
+          SOURCE_COMMIT = '00ae116a7c210b1ec15990206223221dbd90e136'
+          SOURCE_SHA256 = '9c91ad9636486c398d95ee6b2a35968962eeffc2e68e55f193513db02e879b89'
+          diagnostic_stage = STAGE == 'diagnostic'
+          assert STAGE in {'diagnostic', 'full-native'}
+          shared = pathlib.Path('isolated-native-evidence')
+          evidence = shared / STAGE
+          evidence.mkdir(parents=True, exist_ok=True)
+          for name in ['environment.json', 'dependencies.log', 'dependencies-exit-code.txt',
+                       'checkout.txt', 'memory-mapping.txt']:
+              item = shared / name
+              if item.is_file():
+                  shutil.copy2(item, evidence / name)
+          before = json.loads((shared / 'environment.json').read_text())
+          target = os.environ['PERF_TARGET']
+          assert target == 'ActualGaussFiniteLeaves'
+          assert os.environ['PERF_SOURCE_COMMIT'] == SOURCE_COMMIT == before['source_commit']
+          assert (shared / 'dependencies-exit-code.txt').read_text().strip() == '0'
+          source = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+
+          def sha256(path):
+              return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+          def check_provenance():
+              sources = {str(p): sha256(p) for p in sorted(
+                  pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+              configs = {path: sha256(path) for path in before['config_sha256']}
+              tracked = subprocess.run([
+                  'git', 'diff', '--quiet', 'HEAD', '--', '*.lean', *before['config_sha256'],
+              ]).returncode == 0
+              checkout = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+              parent = subprocess.check_output(['git', 'rev-parse', 'HEAD^1'], text=True).strip()
+              result = {
+                  'source_count': len(sources),
+                  'all_task_sources_unchanged': len(sources) == 1009 and sources == before['source_sha256'],
+                  'tracked_lean_sources_unchanged': tracked,
+                  'configuration_unchanged': configs == before['config_sha256'],
+                  'checkout_unchanged': checkout == before['commit'] and parent == SOURCE_COMMIT,
+                  'target_source_matches_frozen_candidate': sha256(source) == SOURCE_SHA256 == before['target_source_sha256'],
+              }
+              result['passed'] = all(value for key, value in result.items() if key != 'source_count')
+              return result
+
+          preflight = check_provenance()
+          (evidence / 'preflight.json').write_text(json.dumps(preflight, indent=2) + '\n')
+          if not preflight['passed']:
+              result = {
+                  'stage': STAGE, 'target': target, 'source_commit': SOURCE_COMMIT,
+                  'native_process_started': False, 'native_exit_code': None,
+                  'exit_code': 1, 'preflight': preflight,
+                  'complete_target_module_compiled': False,
+                  'complete_module_within_five_minutes': False,
+                  'reason': 'Source or configuration provenance changed; compilation was not started',
+              }
+              (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+              print(json.dumps(result), flush=True)
+              raise SystemExit(1)
+
+          source_bytes = source.read_bytes()
+          (evidence / 'ActualGaussFiniteLeaves.original.lean').write_bytes(source_bytes)
+          compile_input = source
+          manifest = None
+          if diagnostic_stage:
+              contents, manifest = instrument_actual(source_bytes)
+              compile_input = pathlib.Path('MomEngineActualTypedTail_00ae116a.lean')
+              compile_input.write_text(contents)
+              (evidence / compile_input.name).write_text(contents)
+              (evidence / 'instrumentation.json').write_text(json.dumps(manifest, indent=2) + '\n')
+
+          output = pathlib.Path(tempfile.mkdtemp(prefix='mom-engine-actual-' + STAGE + '-', dir='/tmp'))
+          timeout_seconds = 120 if diagnostic_stage else 480
+          kill_after_seconds = 5 if diagnostic_stage else 30
+          command = [
+              '/usr/bin/time', '-v',
+              'timeout', '--signal=TERM', '--kill-after=' + str(kill_after_seconds) + 's',
+              str(timeout_seconds) + 's',
+              'lake', 'env', 'lean', '-j2',
+              '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+          ]
+          if diagnostic_stage:
+              command.append('-DstderrAsMessages=false')
+          command.extend([
+              '-o', str(output / (compile_input.stem + '.olean')),
+              '-i', str(output / (compile_input.stem + '.ilean')),
+              str(compile_input),
+          ])
+          print(('FULL_COPY_DIAGNOSTIC_START ' if diagnostic_stage else 'FULL_NATIVE_START ') + target, flush=True)
+          started = time.monotonic()
+          with (evidence / ('instrumented.log' if diagnostic_stage else 'native.log')).open('w') as log:
+              log.write(json.dumps({'command': command}) + '\n')
+              log.flush()
+              process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              assert process.stdout is not None
+              for line in process.stdout:
+                  print(line, end='', flush=True)
+                  log.write(line)
+                  log.flush()
+              code = process.wait()
+          elapsed = time.monotonic() - started
+          postflight = check_provenance()
+          (evidence / 'postflight.json').write_text(json.dumps(postflight, indent=2) + '\n')
+          provenance_unchanged = preflight['passed'] and postflight['passed']
+          native_succeeded = code == 0 and provenance_unchanged
+          complete = not diagnostic_stage and native_succeeded
+          exit_code = ((0 if provenance_unchanged else 1) if diagnostic_stage
+                       else (code if code else (0 if provenance_unchanged else 1)))
+          result = {
+              'stage': STAGE,
+              'target': target,
+              'native_process_started': True,
+              'native_exit_code': code,
+              'exit_code': exit_code,
+              'elapsed_seconds': elapsed,
+              'source_commit': SOURCE_COMMIT,
+              'checkout_commit': before['commit'],
+              'target_path': str(source),
+              'compile_input_path': str(compile_input),
+              'source_sha256': sha256(source),
+              'source_bytes_before': len(source_bytes),
+              'source_bytes_after': source.stat().st_size,
+              'source_count_before': preflight['source_count'],
+              'source_count_after': postflight['source_count'],
+              'all_task_sources_unchanged': postflight['all_task_sources_unchanged'],
+              'tracked_lean_sources_unchanged': postflight['tracked_lean_sources_unchanged'],
+              'configuration_unchanged': postflight['configuration_unchanged'],
+              'provenance_unchanged': provenance_unchanged,
+              'complete_target_module_compiled': complete,
+              'complete_module_within_five_minutes': complete and elapsed <= 300,
+              'full_original_file_including_print_commands': True,
+              'original_print_axioms_commands': sum(
+                  line.lstrip().startswith(b'#print axioms ') for line in source_bytes.splitlines()),
+              'proof_sources_changed': not (postflight['all_task_sources_unchanged'] and postflight['tracked_lean_sources_unchanged']),
+              'heartbeat_override': None,
+              'heartbeat_changed': False if provenance_unchanged else None,
+              'profiler_enabled': True,
+              'lean_async_override': None,
+              'stderr_as_messages_override': False if diagnostic_stage else None,
+              'output_directory': str(output),
+              'output_can_be_restored_as_project_cache': False,
+              'timeout_seconds': timeout_seconds,
+              'timeout_kill_after_seconds': kill_after_seconds,
+              'scope': ('full temporary instrumented copy; never original-module acceptance' if diagnostic_stage
+                        else 'full original-module native timing; not full task acceptance'),
+          }
+          if diagnostic_stage:
+              assert manifest is not None
+              result.update({
+                  'instrumented_copy_process_succeeded': native_succeeded,
+                  'diagnostic_sha256': manifest['diagnostic_sha256'],
+                  'instrumentation_removed_matches_full_original': manifest[
+                      'exact_full_source_recovered_after_removing_instrumentation'],
+                  'native_result_cannot_replace_full_original_run': True,
+                  'diagnostic_native_failure_is_nonblocking': True,
+              })
+          else:
+              result['independent_of_diagnostic_exit_code'] = True
+              result['compiled_directly_from_original_source_path'] = compile_input == source
+          (evidence / 'native-exit-code.txt').write_text(str(code) + '\n')
+          (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result), flush=True)
+          raise SystemExit(exit_code)
+          PY
+      - name: Upload diagnostic evidence before full native
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostic-ActualGaussFiniteLeaves-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            isolated-native-evidence/diagnostic/
+            isolated-native-evidence/environment.json
+            isolated-native-evidence/dependencies.log
+            isolated-native-evidence/dependencies-exit-code.txt
+            isolated-native-evidence/checkout.txt
+            isolated-native-evidence/memory-mapping.txt
+          if-no-files-found: error
+          retention-days: 14
+      - name: Compile the independent complete original Actual module
+        id: full_native
+        if: ${{ always() && !cancelled() && steps.provenance.outcome == 'success' && steps.dependencies.outcome == 'success' }}
+        timeout-minutes: 10
+        run: |
+          python3 -u - <<'PY'
+          import hashlib, json, os, pathlib, shutil, subprocess, tempfile, time
+
+          STAGE = 'full-native'
+          SOURCE_COMMIT = '00ae116a7c210b1ec15990206223221dbd90e136'
+          SOURCE_SHA256 = '9c91ad9636486c398d95ee6b2a35968962eeffc2e68e55f193513db02e879b89'
+          diagnostic_stage = STAGE == 'diagnostic'
+          assert STAGE in {'diagnostic', 'full-native'}
+          shared = pathlib.Path('isolated-native-evidence')
+          evidence = shared / STAGE
+          evidence.mkdir(parents=True, exist_ok=True)
+          for name in ['environment.json', 'dependencies.log', 'dependencies-exit-code.txt',
+                       'checkout.txt', 'memory-mapping.txt']:
+              item = shared / name
+              if item.is_file():
+                  shutil.copy2(item, evidence / name)
+          before = json.loads((shared / 'environment.json').read_text())
+          target = os.environ['PERF_TARGET']
+          assert target == 'ActualGaussFiniteLeaves'
+          assert os.environ['PERF_SOURCE_COMMIT'] == SOURCE_COMMIT == before['source_commit']
+          assert (shared / 'dependencies-exit-code.txt').read_text().strip() == '0'
+          source = pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP') / (target + '.lean')
+
+          def sha256(path):
+              return hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest()
+
+          def check_provenance():
+              sources = {str(p): sha256(p) for p in sorted(
+                  pathlib.Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP').rglob('*.lean'))}
+              configs = {path: sha256(path) for path in before['config_sha256']}
+              tracked = subprocess.run([
+                  'git', 'diff', '--quiet', 'HEAD', '--', '*.lean', *before['config_sha256'],
+              ]).returncode == 0
+              checkout = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+              parent = subprocess.check_output(['git', 'rev-parse', 'HEAD^1'], text=True).strip()
+              result = {
+                  'source_count': len(sources),
+                  'all_task_sources_unchanged': len(sources) == 1009 and sources == before['source_sha256'],
+                  'tracked_lean_sources_unchanged': tracked,
+                  'configuration_unchanged': configs == before['config_sha256'],
+                  'checkout_unchanged': checkout == before['commit'] and parent == SOURCE_COMMIT,
+                  'target_source_matches_frozen_candidate': sha256(source) == SOURCE_SHA256 == before['target_source_sha256'],
+              }
+              result['passed'] = all(value for key, value in result.items() if key != 'source_count')
+              return result
+
+          preflight = check_provenance()
+          (evidence / 'preflight.json').write_text(json.dumps(preflight, indent=2) + '\n')
+          if not preflight['passed']:
+              result = {
+                  'stage': STAGE, 'target': target, 'source_commit': SOURCE_COMMIT,
+                  'native_process_started': False, 'native_exit_code': None,
+                  'exit_code': 1, 'preflight': preflight,
+                  'complete_target_module_compiled': False,
+                  'complete_module_within_five_minutes': False,
+                  'reason': 'Source or configuration provenance changed; compilation was not started',
+              }
+              (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+              print(json.dumps(result), flush=True)
+              raise SystemExit(1)
+
+          source_bytes = source.read_bytes()
+          (evidence / 'ActualGaussFiniteLeaves.original.lean').write_bytes(source_bytes)
+          compile_input = source
+          manifest = None
+          if diagnostic_stage:
+              contents, manifest = instrument_actual(source_bytes)
+              compile_input = pathlib.Path('MomEngineActualTypedTail_00ae116a.lean')
+              compile_input.write_text(contents)
+              (evidence / compile_input.name).write_text(contents)
+              (evidence / 'instrumentation.json').write_text(json.dumps(manifest, indent=2) + '\n')
+
+          output = pathlib.Path(tempfile.mkdtemp(prefix='mom-engine-actual-' + STAGE + '-', dir='/tmp'))
+          timeout_seconds = 120 if diagnostic_stage else 480
+          kill_after_seconds = 5 if diagnostic_stage else 30
+          command = [
+              '/usr/bin/time', '-v',
+              'timeout', '--signal=TERM', '--kill-after=' + str(kill_after_seconds) + 's',
+              str(timeout_seconds) + 's',
+              'lake', 'env', 'lean', '-j2',
+              '-DautoImplicit=false', '-DrelaxedAutoImplicit=false', '-Dprofiler=true',
+          ]
+          if diagnostic_stage:
+              command.append('-DstderrAsMessages=false')
+          command.extend([
+              '-o', str(output / (compile_input.stem + '.olean')),
+              '-i', str(output / (compile_input.stem + '.ilean')),
+              str(compile_input),
+          ])
+          print(('FULL_COPY_DIAGNOSTIC_START ' if diagnostic_stage else 'FULL_NATIVE_START ') + target, flush=True)
+          started = time.monotonic()
+          with (evidence / ('instrumented.log' if diagnostic_stage else 'native.log')).open('w') as log:
+              log.write(json.dumps({'command': command}) + '\n')
+              log.flush()
+              process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              assert process.stdout is not None
+              for line in process.stdout:
+                  print(line, end='', flush=True)
+                  log.write(line)
+                  log.flush()
+              code = process.wait()
+          elapsed = time.monotonic() - started
+          postflight = check_provenance()
+          (evidence / 'postflight.json').write_text(json.dumps(postflight, indent=2) + '\n')
+          provenance_unchanged = preflight['passed'] and postflight['passed']
+          native_succeeded = code == 0 and provenance_unchanged
+          complete = not diagnostic_stage and native_succeeded
+          exit_code = ((0 if provenance_unchanged else 1) if diagnostic_stage
+                       else (code if code else (0 if provenance_unchanged else 1)))
+          result = {
+              'stage': STAGE,
+              'target': target,
+              'native_process_started': True,
+              'native_exit_code': code,
+              'exit_code': exit_code,
+              'elapsed_seconds': elapsed,
+              'source_commit': SOURCE_COMMIT,
+              'checkout_commit': before['commit'],
+              'target_path': str(source),
+              'compile_input_path': str(compile_input),
+              'source_sha256': sha256(source),
+              'source_bytes_before': len(source_bytes),
+              'source_bytes_after': source.stat().st_size,
+              'source_count_before': preflight['source_count'],
+              'source_count_after': postflight['source_count'],
+              'all_task_sources_unchanged': postflight['all_task_sources_unchanged'],
+              'tracked_lean_sources_unchanged': postflight['tracked_lean_sources_unchanged'],
+              'configuration_unchanged': postflight['configuration_unchanged'],
+              'provenance_unchanged': provenance_unchanged,
+              'complete_target_module_compiled': complete,
+              'complete_module_within_five_minutes': complete and elapsed <= 300,
+              'full_original_file_including_print_commands': True,
+              'original_print_axioms_commands': sum(
+                  line.lstrip().startswith(b'#print axioms ') for line in source_bytes.splitlines()),
+              'proof_sources_changed': not (postflight['all_task_sources_unchanged'] and postflight['tracked_lean_sources_unchanged']),
+              'heartbeat_override': None,
+              'heartbeat_changed': False if provenance_unchanged else None,
+              'profiler_enabled': True,
+              'lean_async_override': None,
+              'stderr_as_messages_override': False if diagnostic_stage else None,
+              'output_directory': str(output),
+              'output_can_be_restored_as_project_cache': False,
+              'timeout_seconds': timeout_seconds,
+              'timeout_kill_after_seconds': kill_after_seconds,
+              'scope': ('full temporary instrumented copy; never original-module acceptance' if diagnostic_stage
+                        else 'full original-module native timing; not full task acceptance'),
+          }
+          if diagnostic_stage:
+              assert manifest is not None
+              result.update({
+                  'instrumented_copy_process_succeeded': native_succeeded,
+                  'diagnostic_sha256': manifest['diagnostic_sha256'],
+                  'instrumentation_removed_matches_full_original': manifest[
+                      'exact_full_source_recovered_after_removing_instrumentation'],
+                  'native_result_cannot_replace_full_original_run': True,
+                  'diagnostic_native_failure_is_nonblocking': True,
+              })
+          else:
+              result['independent_of_diagnostic_exit_code'] = True
+              result['compiled_directly_from_original_source_path'] = compile_input == source
+          (evidence / 'native-exit-code.txt').write_text(str(code) + '\n')
+          (evidence / 'result.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result), flush=True)
+          raise SystemExit(exit_code)
+          PY
+      - name: Upload independent full native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-native-ActualGaussFiniteLeaves-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            isolated-native-evidence/full-native/
+            isolated-native-evidence/environment.json
+            isolated-native-evidence/dependencies.log
+            isolated-native-evidence/dependencies-exit-code.txt
+            isolated-native-evidence/checkout.txt
+            isolated-native-evidence/memory-mapping.txt
+          if-no-files-found: error
+          retention-days: 14
