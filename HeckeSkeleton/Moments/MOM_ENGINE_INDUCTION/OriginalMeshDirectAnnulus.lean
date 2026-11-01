@@ -436,6 +436,7 @@ local notation "narrowCertificate" => LiteralDirectFamilySupport.literalPrimitiv
   (hone := hone) (hbackground := hbackground) (hslot := hslot)
   computedInput
 
+include hnarrowLo hnarrowHi hnarrowHiLe narrowProfiles in
 /-- The actual numerical normalization may use a wider box. Its
 literal calibration is unchanged by the independent original window,
 so the same selected children retain the original smaller support. -/

@@ -142,6 +142,7 @@ variable (hnarrowHiLe : narrowHi ≤ b.hi)
 variable (narrowProfiles : RawProfileWindow rowDomain heightDomain (Set.Icc narrowLo narrowHi)
   inputOrders (data ξ) amplitude)
 
+include hnarrowLo hnarrowHi hnarrowHiLe narrowProfiles in
 /-- The full analytic producer's same children retain the original
 positive annulus, independently of the exceptional analytic box. -/
 theorem narrowAnnulusSupport : EngineAnnulusSupport produced narrowLo narrowHi allOrders := by

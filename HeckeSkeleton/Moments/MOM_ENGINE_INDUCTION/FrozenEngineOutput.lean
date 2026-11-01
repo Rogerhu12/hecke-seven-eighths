@@ -171,12 +171,14 @@ theorem frozenMovingChild_fullJointBudget
     (frozenMovingChildCompleteSourceData child htheta hslots).recipe.FullJointBudget
       U (a.m + a.q) := child.fullJointBudget
 
+include child in
 /-- The retained original slots, rather than total length alone, prove
 that the same per-slot source mesh holds after freezing. -/
 theorem frozenMovingChild_fitsMesh {mesh : ℝ}
     (hparent : parent.geometry.fitsMesh mesh) :
     (freezeMomentTime d 0).geometry.fitsMesh mesh := child.fitsMesh hparent
 
+include child in
 /-- The actual raw analytic unit ball transports without changing its
 support window. In particular this theorem does not infer a positive
 lower support bound when the canonical window includes zero. -/

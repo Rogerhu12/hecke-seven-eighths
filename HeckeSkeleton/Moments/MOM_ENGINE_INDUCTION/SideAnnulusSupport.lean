@@ -65,6 +65,7 @@ def raw (ξ : V) : RawProfileWindow Set.univ Set.univ (Set.Icc lo hi) orders
     (N.calibration.data ξ) (h.rawBudget ξ) :=
   Classical.choice (Classical.choose_spec h.original) ξ
 
+include h in
 theorem child_window (hlo : 0 ≤ lo) (hhi : 1 ≤ hi)
     (out : N.normalizedCapacityData.Child)
     (hactive : ¬ ∀ ξ, f.source.energy (σ := σ) ξ = 0) (ξ : V) :
@@ -73,6 +74,7 @@ theorem child_window (hlo : 0 ≤ lo) (hhi : 1 ≤ hi)
   (ActiveChildAnnulus.active_child_windows out hlo hhi h.raw N.profile
     (fun _ _ _ => Set.mem_univ _) (fun _ => Set.mem_univ _) hactive ξ).2
 
+include h in
 theorem child_prime (out : N.normalizedCapacityData.Child) :
     ∀ ξ i t, Function.support (((out.frozenData ξ).geometry.slots i).profile t) ⊆
       Set.Ioo (1 : ℝ) 2 :=

@@ -1567,6 +1567,19 @@ PRODUCER_REPAIRS = {'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.l
                                                                                     'mathematical input and '
                                                                                     'conclusion retained.',
                                                                           'repair_sha256': 'bb5a3ee332b3213d7d8e829d06ca9df635b2c04c1c58982e8e97181c292154fc'},
+ 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/MovingEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
+                                                                   'owner_sha256': 'b9273892533ae9fa33614764969c5c3e26f945ae4d2c4f8f56da42e06e8abcaa',
+                                                                   'reason': 'Same section-certificate cause '
+                                                                             'as CI78 CompleteEngineOutput: '
+                                                                             'restore the original '
+                                                                             'moving-child certificate h in '
+                                                                             'fitsMesh and slot_count. The '
+                                                                             'actual fitsMesh consumers '
+                                                                             'already supply this same '
+                                                                             'child; the slot embedding and '
+                                                                             'both conclusions are '
+                                                                             'unchanged.',
+                                                                   'repair_sha256': '9782e1dc0aba7d35f5bdc29bbecc5f58182802a43acb9f1568b95da01d5b4f21'},
  'HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormCompleteEngineOutput.lean': {'owner_commit': '76904bc272e28e0de866bea0aa60b53a54d6c01e',
                                                                          'owner_sha256': 'dab7339275ee2b1cf1122d85ad7572eeade3f02c465bfc1471cab83ee1d1452b',
                                                                          'reason': 'Same namespace root '

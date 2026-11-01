@@ -250,7 +250,7 @@ separately: it retains the baseline's sibling proofs and adds the three
 actual induction calls and the corresponding `plainSource` adjustment.
 
 The `PRODUCER_REPAIRS` registry records the owner commit, original SHA256,
-repair SHA256, and reason for each of the 35 local STEP repair files. It
+repair SHA256, and reason for each of the 36 local STEP repair files. It
 includes the concrete native diagnostics at the owner pin, along with declaration
 parameters already supplied by actual callers and corrected doc-comment
 placement around `include` commands. The underlying original atoms,
@@ -265,6 +265,11 @@ correct helper signatures as well as proof terms. They preserve the
 original scale-window and comparison-rectangle hypotheses of the induction
 (paper lines 2748–2810 and 2934–2944). The three final task statements and
 their hypotheses remain unchanged.
+
+The corresponding induction consumers restore their previously declared
+child, computed-profile, positive-window, and narrow-window certificates
+in the same way. Their existing callers already provide these objects;
+the frozen data, calibration, and selected annuli are unchanged.
 
 These files are recorded separately from byte-for-byte owner sources.
 The registry establishes provenance; complete native acceptance is still

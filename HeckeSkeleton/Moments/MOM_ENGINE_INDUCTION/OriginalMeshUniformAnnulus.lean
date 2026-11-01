@@ -265,6 +265,7 @@ variable (narrowProfiles : RawProfileWindow rowDomain heightDomain (Set.Icc narr
     CanonicalLogProfiles.sourceOrders (CanonicalLogProfiles.sourceOrders orders))
   (data ξ) amplitude)
 
+include hnarrowLo hnarrowHi hnarrowHiLe narrowProfiles in
 /-- The normalization and exceptional estimates may use the larger
 engine box, while support is read from the independent original window.
 The actual output remains exactly the original uniform producer. -/

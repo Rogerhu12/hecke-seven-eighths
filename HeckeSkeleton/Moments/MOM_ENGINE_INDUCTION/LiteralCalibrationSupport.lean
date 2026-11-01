@@ -66,6 +66,7 @@ variable {H : Type*} {sourceSlots : ℕ}
 variable {source : ActualAllocatedSource A (WithLp 2 (ℝ × ℝ)) H sourceSlots}
 variable (cal : source.Calibration (σ := σ) ω ψ)
 
+include hlo original hreference htime horders computed in
 /-- Every literal calibration receives the original positive raw
 windows and original strict prime support. The same data equality is
 definitionally true at the canonical frame constructors. -/
