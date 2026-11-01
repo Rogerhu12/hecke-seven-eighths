@@ -237,12 +237,14 @@ variable (hproduct : ∀ i ∈ left, ∀ j ∈ right, profiles i j ≠ 0 →
   (Ideal.absNorm ((fullI i).val * (fullJ j).val) : ℝ) ≤
     Z ^ (2 * (first.skeleton.A - first.skeleton.c - first.skeleton.w + columnLoss)))
 variable (hold : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
-  (remaining * extra)) ≤ Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo))
+  (remaining * extra)) ≤
+    Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax))
 
 include hstep hwidth hthreshold hradius hcutoff hproduct hold in
 /-- A fixed parent box bounds the actual complete mask. Its initial
 bad-prime ideal costs one fixed threshold and one exponent, while the
-original physical cutoff cost remains explicit. -/
+original physical cutoff cost remains explicit. The full first deletion
+is charged to the additional fixed width, including its passive primes. -/
 theorem centered_right_mask (ξ : Joint) (h : S.exceptionalRows characters) :
     (Ideal.absNorm (TR ξ h).source.mask : ℝ) ≤
       Z ^ CanonicalLiteralExceptionalPhysicalBox.maskExponent
@@ -259,24 +261,26 @@ theorem centered_right_mask (ξ : Joint) (h : S.exceptionalRows characters) :
     simpa only [RD.base_eq] using hproduct
   have hold' : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
       (remaining * extra)) ≤
-      RD.atoms.base ^ ((a.q + G.skeleton.R + G.skeleton.E) + G.skeleton.wo) := by
-    simpa only [RD.base_eq] using hold
+      RD.atoms.base ^ ((a.q + G.skeleton.R + G.skeleton.E + widthMax) + G.skeleton.wo) := by
+    have he : a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax =
+        (a.q + G.skeleton.R + G.skeleton.E + widthMax) + G.skeleton.wo := by ring
+    simpa only [RD.base_eq, he] using hold
   have hm := CanonicalLiteralExceptionalFactory.centered_mask_window chart P R hclass hsector
     X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair RD.atoms RD.model
     hcorr remaining extra RD.recipe firstSupport hfirst hextra RD.support hone hroot hemb
     .right RD.ray RD.ideal RD.ideal_eq RD.firstSign RD.divisor RD.selection RD.nonempty
     first.retainedScale first.enlargement
     (G.skeleton.A - G.skeleton.c - G.skeleton.w + columnLoss)
-    (a.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo cutoffExponent
+    (a.q + G.skeleton.R + G.skeleton.E + widthMax) G.skeleton.wo cutoffExponent
     first.retainedScale_pos hradius' hcutoff' hproduct' hold' hcR prodR ξ h.val
   have hm' : (Ideal.absNorm (TR ξ h).source.mask : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) *
-        Z ^ CanonicalLiteralExceptionalPhysicalBox.physicalWidth G b.primes
-          b.leftMultiplicity b.rightMultiplicity pattern columnLoss cutoffExponent := by
-    simpa only [RD.base_eq] using hm
+        Z ^ (CanonicalLiteralExceptionalPhysicalBox.physicalWidth G b.primes
+          b.leftMultiplicity b.rightMultiplicity pattern columnLoss cutoffExponent + widthMax) := by
+    simpa only [RD.base_eq, CanonicalLiteralExceptionalPhysicalBox.physicalWidth_shift] using hm
   exact hm'.trans ((fixed_mask_threshold Z _ hthreshold).trans
     (Real.rpow_le_rpow_of_exponent_le hZ.le
-      (CanonicalLiteralExceptionalPhysicalBox.physicalWidth_add_one_le G b.primes
+      (CanonicalLiteralExceptionalPhysicalBox.physicalWidth_add_width_add_one_le G b.primes
         b.leftMultiplicity b.rightMultiplicity b.left_positive b.right_positive pattern
         widthMax columnLoss cutoffExponent hZ hstep hwidth)))
 
@@ -346,7 +350,8 @@ variable (horder : idealLogLength Z (primePowerProduct b.primes b.rightMultiplic
 variable (hwidth : a.m + a.q ≤ widthMax)
 variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hold : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
-  (remaining * extra)) ≤ Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo))
+  (remaining * extra)) ≤
+    Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax))
 
 local notation "prodL" => LD.comparison_product domain hseedLeftL hseedRightL
 local notation "prodR" => RD.comparison_product domain hseedLeftR hseedRightR

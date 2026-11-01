@@ -550,7 +550,7 @@ variable (horder : idealLogLength Z (primePowerProduct b.primes b.leftMultiplici
 variable (hwidth : a.m + a.q ≤ widthMax)
 variable (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
 variable (hold : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
-  (remaining * extra)) ≤ Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo))
+  (remaining * extra)) ≤ Z ^ (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo + widthMax))
 
 local notation "margin" => max (n.Aexp - (a.m + a.q)) 0 + 3 * n.stepσ + 5 * n.δ / 6 + ε +
       n.slotError + cutoffLoss / 6
@@ -635,7 +635,7 @@ include hclass hsector hcorr hfirst hextra hone hroot hemb
   hradius hcutoff hproduct hcapL hcapR hprimeOriginalL hprimeOriginalR
   hproductOriginalL hproductOriginalR hprimeL hprimeR hslotL hslotR
   hamplitudeOne hslotLoss hprimeLowerL hprimeLowerR hnormalization domain hseedLeftL hseedRightL hseedLeftR hseedRightR
-  hcL hcR hprofileL₁ hprofileL₂ hprofileR₁ hprofileR₂ horder hwidth hthreshold hold in
+  hcL hcR hprofileL₁ hprofileL₂ hprofileR₁ hprofileR₂ horder hwidth hthreshold hold firstProfile in
 /-- The original total length cancels its exact normalization discrepancy.
 The fixed support, profile-slot and physical cutoff payments then yield
 this source's final loss without a terminal remainder hypothesis. -/
@@ -786,7 +786,7 @@ include hclass hsector hcorr hfirst hextra hone hroot hemb
   hfirstL hfirstR hsecondL hsecondR hplaces hscalar hZ hstep hq herrorPrime
   hradius hcutoff hproduct hcapL hcapR hprimeOriginalL hprimeOriginalR
   hproductOriginalL hproductOriginalR hprimeL hprimeR hslotL hslotR
-  hamplitudeOne hslotLoss hprimeLowerL hprimeLowerR hnormalization domain hprofileL₁ hprofileL₂ hprofileR₁ hprofileR₂ in
+  hamplitudeOne hslotLoss hprimeLowerL hprimeLowerR hnormalization domain hprofileL₁ hprofileL₂ hprofileR₁ hprofileR₂ firstProfile in
 /-- The original total length cancels its exact normalization discrepancy.
 The fixed support, profile-slot and physical cutoff payments then yield
 this source's final loss without a terminal remainder hypothesis. -/

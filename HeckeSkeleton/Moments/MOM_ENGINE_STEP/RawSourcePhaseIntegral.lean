@@ -117,14 +117,44 @@ theorem phase_transformedRow_integrable
       (actualFourierMeasure F) := by
     apply (integrable_const a).mul_bdd (c := 1) hc.aestronglyMeasurable
     exact Filter.Eventually.of_forall fun ξ => by simp only [norm_mul, norm_star, norm_jointPhase, one_mul, le_refl]
-  apply hi.congr
-  exact Filter.Eventually.of_forall fun ξ => by
-    rw [s.withMultiplier_transformedRow]
-    exact mul_comm _ _
+  have he : (fun ξ : W =>
+      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
+        transformedRow μv hDiff finiteTest s.radius D.val q) =
+      (fun ξ : W => a * (jointPhase ξ (x i) * star (jointPhase ξ (x j)))) := by
+    funext ξ
+    exact (s.withMultiplier_transformedRow
+      (fun i => jointPhase ξ (x i)) DE D q i j).trans (mul_comm _ _)
+  exact he.symm ▸ hi
 
 def rawPhaseNonzeroCost
     (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest) (x : ι → W) (ξ : W) : ℝ :=
   (s.withMultiplier (fun i => jointPhase ξ (x i))).rawNonzeroCost
+
+/-- The unit Fourier phase preserves the actual physical carrier by
+the proved nonzero-profile criterion, not by definitional equality. -/
+private theorem rawPhaseNonzeroCost_eq_sum
+    (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
+    (x : ι → W) (ξ : W) :
+    s.rawPhaseNonzeroCost x ξ =
+      ∑ DE : commonSupportPool G.columns G.columns
+          (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
+        ∑ D : s.mask.powerset,
+          ‖∑ q ∈ (s.sources DE).rows,
+            ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
+              (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
+                transformedRow μv hDiff finiteTest s.radius D.val q‖ := by
+  unfold rawPhaseNonzeroCost rawNonzeroCost
+  apply Finset.sum_congr rfl
+  intro DE _
+  apply Finset.sum_congr rfl
+  intro D _
+  have hrows := s.withMultiplier_rows
+    (fun i => Real.fourierChar (inner ℝ ξ (x i))) DE
+  exact congrArg (fun rows : Finset Q =>
+    ‖∑ q ∈ rows,
+      ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
+        (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
+          transformedRow μv hDiff finiteTest s.radius D.val q‖) hrows
 
 /-- The finite carrier consists of actual physical dual rows.  The
 continuous Fourier parameter still ranges over the whole space. -/
@@ -132,24 +162,40 @@ theorem rawPhaseNonzeroCost_integrable
     (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
     (F : SchwartzMap W ℂ) (x : ι → W) :
     Integrable (s.rawPhaseNonzeroCost x) (actualFourierMeasure F) := by
-  change Integrable (fun ξ : W =>
-    ∑ DE, ∑ D : s.mask.powerset,
-      ‖∑ q ∈ (s.sources DE).rows,
-        ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
-          (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).transformedRow μv hDiff finiteTest s.radius D.val q‖) (actualFourierMeasure F)
-  apply integrable_finsetSum
-  intro DE _
-  apply integrable_finsetSum
-  intro D _
-  apply Integrable.norm
-  exact integrable_finsetSum _ (fun q _ =>
-    integrable_finsetSum _ (fun i _ =>
-      integrable_finsetSum _ (fun j _ => s.phase_transformedRow_integrable F x DE D q i j)))
+  let f : W → ℝ := fun ξ =>
+    ∑ DE : commonSupportPool G.columns G.columns
+        (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
+      ∑ D : s.mask.powerset,
+        ‖∑ q ∈ (s.sources DE).rows,
+          ∑ i ∈ (s.sources DE).leftColumns, ∑ j ∈ (s.sources DE).rightColumns,
+            (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).pairs i j).
+              transformedRow μv hDiff finiteTest s.radius D.val q‖
+  have hf : Integrable f (actualFourierMeasure F) := by
+    apply integrable_finsetSum
+    intro DE _
+    apply integrable_finsetSum
+    intro D _
+    apply Integrable.norm
+    exact integrable_finsetSum _ (fun q _ =>
+      integrable_finsetSum _ (fun i _ =>
+        integrable_finsetSum _ (fun j _ => s.phase_transformedRow_integrable F x DE D q i j)))
+  have he : s.rawPhaseNonzeroCost x = f :=
+    funext (fun ξ => s.rawPhaseNonzeroCost_eq_sum x ξ)
+  exact he.symm ▸ hf
 
 namespace TerminalCalibration
 
 variable {s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest}
 variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Z Lmax Nsave decay : ℝ}
+
+private theorem integral_const_add_middle_const
+    (μ : Measure W) [IsFiniteMeasure μ] (f : W → ℝ)
+    (hf : Integrable f μ) (a b : ℝ) :
+    (∫ ξ, a + f ξ + b ∂μ) = μ.real Set.univ * (a + b) + ∫ ξ, f ξ ∂μ := by
+  rw [integral_add ((integrable_const a).add hf) (integrable_const b),
+    integral_add (integrable_const a) hf, integral_const, integral_const]
+  simp only [smul_eq_mul]
+  ring
 
 theorem rawPhaseCost_integrable
     (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -179,12 +225,15 @@ theorem integral_rawPhaseCost
       s.rawPhaseNonzeroCost x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
         ∂actualFourierMeasure F) = _
-  rw [integral_const_mul,
-    integral_add ((integrable_const _).add (s.rawPhaseNonzeroCost_integrable F x)) (integrable_const _),
-    integral_add (integrable_const _) (s.rawPhaseNonzeroCost_integrable F x),
-    integral_const, integral_const]
-  simp only [smul_eq_mul]
-  ring
+  calc
+    _ = (s.fiber : ℝ) *
+        (∫ ξ, Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
+          s.rawPhaseNonzeroCost x ξ +
+          Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)
+            ∂actualFourierMeasure F) := integral_const_mul _ _
+    _ = _ := congrArg (fun y : ℝ => (s.fiber : ℝ) * y)
+      (integral_const_add_middle_const (actualFourierMeasure F) (s.rawPhaseNonzeroCost x)
+        (s.rawPhaseNonzeroCost_integrable F x) _ _)
 
 end TerminalCalibration
 end ActualGaussStage

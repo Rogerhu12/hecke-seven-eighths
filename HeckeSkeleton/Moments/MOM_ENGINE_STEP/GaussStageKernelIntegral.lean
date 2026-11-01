@@ -65,7 +65,7 @@ theorem phase_class_kernel_integrable
     (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
     (b.secondRight_generates C j)
   let chart := s.charts DE D
-  have hi := actual_second_residual_first_phase_integrable PUnit F chart.kernel
+  have hi := actual_second_residual_first_phase_integrable (σ := σ) PUnit.{1} F chart.kernel
     (source.rows.filter (fun t => chart.rowLabel t = label))
     (fun t => -t.out.val) source.leftColumns source.rightColumns
     b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
@@ -76,21 +76,49 @@ theorem phase_class_kernel_integrable
     (fun i => chart.leftCoefficient i * (a i).divisorPhase δ)
     (fun j => chart.rightCoefficient j * (a' j).divisorPhase δ)
     x x chart.leftPoint chart.rightPoint
-  convert hi using 1
-  funext ξ
-  unfold SecondBlockProfileChart.classKernelCost
-  change secondResidualKernelCost (σ := σ) PUnit chart.kernel
-      (source.rows.filter (fun t => chart.rowLabel t = label)) (fun t => -t.out.val)
+  let cost (rows : Finset (SIntegerOrbits K
+      (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)) (leftWeight rightWeight : ι → ℂ) : ℝ :=
+    secondResidualKernelCost (σ := σ) PUnit.{1} chart.kernel rows (fun t => -t.out.val)
       source.leftColumns source.rightColumns
       b.commonLeftIdeal b.commonRightIdeal b.leftResidual b.rightResidual
       (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
       (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
       (fun _ => PUnit.unit) (fun _ => PUnit.unit) (fun _ => (1 : Circle))
       (fun t => secondOrbitalScalar s.radius D.val * chart.weight t)
+      leftWeight rightWeight chart.leftPoint chart.rightPoint
+  convert hi using 1
+  funext ξ
+  have hrows : ((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).rows =
+      source.rows :=
+    s.withMultiplier_rows (fun i => Real.fourierChar (inner ℝ ξ (x i))) DE
+  have hfilter := congrArg
+    (fun rows : Finset (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) =>
+      rows.filter (fun t => chart.rowLabel t = label)) hrows
+  have hleft : (fun i => (jointPhase ξ (x i) * chart.leftCoefficient i) *
+      (a i).divisorPhase δ) =
+      (fun i => (chart.leftCoefficient i * (a i).divisorPhase δ) *
+        jointPhase ξ (x i)) := by
+    funext i
+    ring
+  have hright : (fun j => (jointPhase ξ (x j) * chart.rightCoefficient j) *
+      (a' j).divisorPhase δ) =
+      (fun j => (chart.rightCoefficient j * (a' j).divisorPhase δ) *
+        jointPhase ξ (x j)) := by
+    funext j
+    ring
+  change cost
+      (((s.withMultiplier (fun i => jointPhase ξ (x i))).sources DE).rows.filter
+        (fun t => chart.rowLabel t = label))
       (fun i => (jointPhase ξ (x i) * chart.leftCoefficient i) * (a i).divisorPhase δ)
-      (fun j => (jointPhase ξ (x j) * chart.rightCoefficient j) * (a' j).divisorPhase δ)
-      chart.leftPoint chart.rightPoint = _
-  congr 1 <;> funext i <;> ring
+      (fun j => (jointPhase ξ (x j) * chart.rightCoefficient j) * (a' j).divisorPhase δ) =
+    cost (source.rows.filter (fun t => chart.rowLabel t = label))
+      (fun i => (chart.leftCoefficient i * (a i).divisorPhase δ) * jointPhase ξ (x i))
+      (fun j => (chart.rightCoefficient j * (a' j).divisorPhase δ) * jointPhase ξ (x j))
+  exact (congrArg (fun rows => cost rows
+    (fun i => (jointPhase ξ (x i) * chart.leftCoefficient i) * (a i).divisorPhase δ)
+    (fun j => (jointPhase ξ (x j) * chart.rightCoefficient j) * (a' j).divisorPhase δ))
+      hfilter).trans
+    (congrArg₂ (cost (source.rows.filter (fun t => chart.rowLabel t = label))) hleft hright)
 
 theorem phase_kernel_integrable
     (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
@@ -113,13 +141,23 @@ def phaseKernelCost
     ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).kernelCost
       s.mask s.cutoff s.cutoff_one
 
+set_option maxHeartbeats 800000 in
 theorem phaseKernelCost_integrable
     (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
     (F : SchwartzMap W ℂ) (x : ι → W) :
     Integrable (s.phaseKernelCost x) (actualFourierMeasure F) := by
-  unfold phaseKernelCost
-  exact integrable_finsetSum _ (fun DE _ =>
-    integrable_finsetSum _ (fun D _ => s.phase_kernel_integrable F x DE D))
+  let kernel (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
+      (D : s.mask.powerset) (ξ : W) : ℝ :=
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts DE D).kernelCost
+      s.mask s.cutoff s.cutoff_one
+  have hk (DE : commonSupportPool G.columns G.columns
+      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) (D : s.mask.powerset) :
+      Integrable (kernel DE D) (actualFourierMeasure F) :=
+    s.phase_kernel_integrable F x DE D
+  exact integrable_finsetSum (Finset.univ : Finset (commonSupportPool G.columns G.columns
+    (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))) (fun DE _ =>
+      integrable_finsetSum (Finset.univ : Finset s.mask.powerset) (fun D _ => hk DE D))
 
 namespace TerminalCalibration
 
@@ -138,6 +176,17 @@ theorem phase_cost_integrable
   exact (((integrable_const _).add (s.phaseKernelCost_integrable F x)).add
     (integrable_const _)).const_mul (s.fiber : ℝ)
 
+private theorem integral_constant_kernel_formula {Y : Type*} [MeasurableSpace Y]
+    (μ : Measure Y) [IsFiniteMeasure μ] (f : Y → ℝ) (hf : Integrable f μ)
+    (weight zeroTerm tailTerm : ℝ) :
+    (∫ y, weight * (zeroTerm + f y + tailTerm) ∂μ) =
+      weight * (μ.real Set.univ * (zeroTerm + tailTerm) + ∫ y, f y ∂μ) := by
+  rw [integral_const_mul,
+    integral_add ((integrable_const zeroTerm).add hf) (integrable_const tailTerm),
+    integral_add (integrable_const zeroTerm) hf, integral_const, integral_const]
+  simp only [smul_eq_mul]
+  ring
+
 theorem integral_phase_cost
     (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
@@ -151,12 +200,10 @@ theorem integral_phase_cost
   change (∫ ξ, (s.fiber : ℝ) *
     (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) + s.phaseKernelCost x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) ∂actualFourierMeasure F) = _
-  rw [integral_const_mul,
-    integral_add ((integrable_const _).add (s.phaseKernelCost_integrable F x)) (integrable_const _),
-    integral_add (integrable_const _) (s.phaseKernelCost_integrable F x),
-    integral_const, integral_const]
-  simp only [smul_eq_mul]
-  ring
+  exact integral_constant_kernel_formula (actualFourierMeasure F)
+    (s.phaseKernelCost x) (s.phaseKernelCost_integrable F x) (s.fiber : ℝ)
+    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε))
+    (Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
 
 end TerminalCalibration
 end ActualGaussStage
