@@ -38,7 +38,7 @@ variable {I : A.Exterior} (D : AmplifierResidualPresentation C p n I)
 residue. Its two factors agree by allowed-generator reciprocity. -/
 theorem columnPhase_eq_residue :
     D.columnPhase = actualIdealResidue (A := A) (σ := σ) D.residual.val
-      (generator C p ^ (2 * n)) := by
+      (LocalFiniteSums.generator C p ^ (2 * n)) := by
   sorry
 
 end AmplifierResidualPresentation

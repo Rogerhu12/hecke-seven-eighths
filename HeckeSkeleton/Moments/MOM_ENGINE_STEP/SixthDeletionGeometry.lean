@@ -231,6 +231,7 @@ theorem sixthDeletion_width_bounds (hZ : 1 < Z) (rootLength : ℝ) :
   dsimp only [NominalChildGeometry.sixthDeletionWidth]
   constructor <;> linarith [hwidth.1, hwidth.2]
 
+include W in
 theorem sixthDeletion_width_drop (hZ : 1 < Z) (hstep : 0 ≤ step)
     (rootLength : ℝ) (hunit : G.skeleton.t₂ + rootLength ≤ G.skeleton.g₂) :
     m + (q + rootLength) ≤ a.m + a.q - step / 2 := by

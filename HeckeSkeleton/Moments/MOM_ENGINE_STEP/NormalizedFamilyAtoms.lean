@@ -63,6 +63,7 @@ namespace FourierAtomControl
 variable {family labels J₁₁ J₁₂ J₂₁ J₂₂}
 variable (atoms : family.FourierAtomControl labels J₁₁ J₁₂ J₂₁ J₂₂)
 
+include atoms in
 theorem source_integral
     (F₁ : Λ → 𝓢(U, ℂ)) (F₂ : Λ → 𝓢(E, ℂ)) (outer : Λ → ℝ)
     (parentWidth : ℝ) (hZ : 0 < Z) (houter : ∀ b ∈ labels, 0 ≤ outer b) :
@@ -74,6 +75,7 @@ theorem source_integral
           ∂family.kernel labels (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b := by
   sorry
 
+include atoms in
 theorem children_integrable
     (F₁ : Λ → 𝓢(U, ℂ)) (F₂ : Λ → 𝓢(E, ℂ)) (outer : Λ → ℝ)
     (parentWidth : ℝ) (hZ : 0 < Z) (b : family.active labels) :
