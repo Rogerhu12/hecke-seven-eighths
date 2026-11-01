@@ -394,7 +394,7 @@ def literalNormalizationData
       rightPoint := fun _ => rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
         (CanonicalLiteralLocations.plain (-firstSign)) (CanonicalLiteralLocations.prime (-firstSign))
       branch := allocation
-      rectangles := rectangles
+      «rectangles» := rectangles
       binding := binding
       left := left
       right := right

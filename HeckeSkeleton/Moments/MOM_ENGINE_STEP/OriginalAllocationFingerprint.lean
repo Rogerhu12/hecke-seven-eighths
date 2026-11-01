@@ -150,6 +150,7 @@ theorem original_index_fibre_card_eq_class_image {J : Type*}
   intro x hx y hy hxy
   apply original_class_allocationFingerprint_injective hleft hright
   apply Prod.ext hxy
+  change originalAllocationFingerprint hleft hright x = originalAllocationFingerprint hleft hright y
   rw [← hindex x, ← hindex y, (Finset.mem_filter.mp hx).2,
     (Finset.mem_filter.mp hy).2]
 
