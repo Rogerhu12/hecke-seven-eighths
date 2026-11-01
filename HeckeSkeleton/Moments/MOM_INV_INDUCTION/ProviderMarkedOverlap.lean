@@ -54,8 +54,8 @@ def backward (j P c : Ideal (𝓞 K)) : Ideal (𝓞 K) :=
   j * idealQuotient P c
 
 theorem source_common_dvd (j P : Ideal (𝓞 K)) (n : Source j P) : j ∣ n.val := by
-  rw [← n.property.2]
-  exact gcd_dvd_left _ _
+  exact (congrArg (fun I : Ideal (𝓞 K) => I ∣ n.val) n.property.2).mp
+    (gcd_dvd_left n.val (j * P))
 
 theorem forward_mem (j P : Ideal (𝓞 K)) (hjP : Squarefree (j * P))
     (n : Source j P) :

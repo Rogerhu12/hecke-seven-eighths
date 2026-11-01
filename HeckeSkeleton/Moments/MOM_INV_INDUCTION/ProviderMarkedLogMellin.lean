@@ -65,7 +65,7 @@ theorem quotient_annular_inverse (F : SchwartzMap ℝ ℂ)
       ∫ t : ℝ, (𝓕 F) t * columnPhase t (Real.log j) *
         columnPhase t (-Real.log X) * columnPhase t (Real.log U) *
           columnPhase t (-Real.log P) * test t (c / U) := by
-  rw [quotient_inverse F j c P X hj hc hP hX, integral_mul_const]
+  rw [quotient_inverse F j c P X hj hc hP hX, ← integral_mul_const]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
     have hs := test_phase t c U hc hU
@@ -169,7 +169,7 @@ theorem weighted_residual_source_eq_integral
     (fun c p => mark c * originalCoefficient χ a j p
       (backward j (primeProduct Finset.univ p) c))
     F (ProviderMarkedPools.norm j) X U (ProviderMarkedPools.norm_pos hj.ne_zero)
-    hX hU hnormc hnormp, integral_const_mul]
+    hX hU hnormc hnormp, ← integral_const_mul]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
     have hsum :

@@ -68,7 +68,7 @@ variable (hJ₁ : J₁ ⊆ T.columns.slots) (J₂ : Finset σ) (hJ₂ : J₂ ⊆
 variable (slotCap : ℕ) (hcap : T.columns.slots.card ≤ slotCap)
 local notation "packet" => SecondProductionPacket.packet K S D Γ T Θ ψ G hν hG hbase
   R U J₁ s H₂ hmask hprime hweights hJ₁ J₂ hJ₂ Pbox side₁ slotCap hcap
-local notation "piece" side₂ p a => ActualClosedBoxBudget.pieceAt K S T Θ ψ hν hbase
+local notation "piece" side₂:max p:max a:max => ActualClosedBoxBudget.pieceAt K S T Θ ψ hν hbase
   U J₁ J₂ b side₂ p a
 
 /-- The actual canonical test class and the precise margins of every

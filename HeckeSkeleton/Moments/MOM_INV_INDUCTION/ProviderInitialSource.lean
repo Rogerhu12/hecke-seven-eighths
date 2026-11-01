@@ -155,11 +155,17 @@ theorem overlapZero_eq (i : Idx) :
     ‖SecondColumnEnergy.overlapZero K S (common K S D Γ X H i)
       (FirstInversePoisson.unitIdeal K S) (overlap K S D Γ X H i)‖ =
       if live K S D Γ X H i then 1 else 0 := by
-  simp only [SecondColumnEnergy.overlapZero, FirstInversePoisson.unitIdeal_val,
-    mul_one, idealCoprimeMask, live]
-  by_cases hi : IsCoprime (overlap K S D Γ X H i).val.val (common K S D Γ X H i).val.val
-  · simp only [if_pos hi, norm_one]
-  · simp only [if_neg hi, norm_zero]
+  by_cases hi : live K S D Γ X H i
+  · rw [ite_eq_left hi]
+    change IsCoprime (overlap K S D Γ X H i).val.val
+      (common K S D Γ X H i).val.val at hi
+    simp only [SecondColumnEnergy.overlapZero, FirstInversePoisson.unitIdeal_val,
+      mul_one, idealCoprimeMask, ite_eq_left hi, norm_one]
+  · rw [ite_eq_right hi]
+    change ¬ IsCoprime (overlap K S D Γ X H i).val.val
+      (common K S D Γ X H i).val.val at hi
+    simp only [SecondColumnEnergy.overlapZero, FirstInversePoisson.unitIdeal_val,
+      mul_one, idealCoprimeMask, ite_eq_right hi, norm_zero]
 
 section Marks
 
@@ -293,6 +299,7 @@ def rows (P : Finset Idx) : Finset (Ideal (𝓞 K) × Sector) :=
 
 variable (slotCap : ℕ) (hcap : J.card ≤ slotCap)
 
+include hcap in
 /-- The actual one-pass packet inherits the independently proved fiber
 count, with no assumed source energy or terminal estimate. -/
 def packet (P : Finset Idx) :
@@ -332,11 +339,11 @@ def packet (P : Finset Idx) :
     intro x hx
     rw [originalSource_eq] at hx
     obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hx
-    rw [tuple_child]
+    simp only [expandedTuple, tuple_child]
     exact ⟨Finset.mem_image.mpr ⟨q.1.val, q.1.property, rfl⟩,
       Finset.mem_image.mpr ⟨q.1.val, q.1.property, rfl⟩⟩
   old_cap := Nat.zero_le _
-  new_cap := by omega
+  new_cap := by simpa only [two_mul] using Nat.add_le_add hcap hcap
   scalar_norm := by intros; simp
 
 theorem packet_triple_member (P : Finset Idx) (gamma : OuterTriple K)
@@ -414,8 +421,8 @@ theorem marked_energy_le_packet (weights : sigma → Ideal (𝓞 K) → ℂ)
     apply le_trans (Finset.sum_le_sum (fun q hq =>
       pairedWeight_norm_le_one PL (PrimeChoiceSlots.weights J weights) _
         (PrimeChoiceSlots.original_weights J lists hprime weights hweights) q hq))
-    simp only [choices, Finset.sum_const, nsmul_eq_mul, mul_one]
-  simpa only [Finset.sum_const, nsmul_eq_mul, Fintype.card_coe] using
+    simp only [choices, Finset.sum_const, nsmul_eq_mul, mul_one, le_refl]
+  simpa only [Finset.sum_const, nsmul_eq_mul, Finset.card_univ, Fintype.card_coe] using
     mul_le_mul_of_nonneg_right hm (sq_nonneg ‖F (child K S D Γ X H i)‖)
 
 end Marks

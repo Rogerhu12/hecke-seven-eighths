@@ -20,6 +20,11 @@ theorem finite_sum_energy {ι κ : Type*} (blocks : Finset ι) (rows : Finset κ
     (fun i : blocks => piece i.val) (fun i : blocks => amplitude i.val) B
     (fun i => ha i.val i.property) hB (Summable.of_finite)
     (fun i => hpiece i.val i.property)
+  have hsum (k : κ) : (∑' i : blocks, piece i.val k) =
+      ∑ i ∈ blocks, piece i k := by
+    rw [tsum_fintype]
+    exact Finset.sum_coe_sort blocks (fun i => piece i k)
+  simp_rw [hsum] at h
   simpa only [tsum_fintype, Finset.sum_coe_sort] using h
 
 /-- Both a row-dependent bounded phase and an independent arithmetic

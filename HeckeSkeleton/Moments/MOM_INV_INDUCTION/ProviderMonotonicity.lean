@@ -15,6 +15,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
 
 open NumberField IsDedekindDomain
@@ -28,7 +30,7 @@ variable {Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)}
 variable {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
 variable {D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K)))}
 variable {Λ G : HeckeCharacter K} {slotCap : ℕ}
-variable {Z A A' c c' z lo hi : ℝ} {σ : Type*}
+variable {Z A A' c c' z lo hi : ℝ} {σ : Type u}
 
 theorem Node.Admissible.weaken (x : Node K S Γ Θ ψ σ)
     (hx : x.Admissible D Λ G slotCap Z A c z lo hi)
@@ -42,9 +44,9 @@ theorem Node.Admissible.weaken (x : Node K S Γ Θ ψ σ)
 class with the original energy, test, sectors, labels and puncture. -/
 theorem uniformBound_restrict {eps R R' C : ℝ} {t : Finset (ℕ × ℕ)}
     (hA : A ≤ A') (hc : c' ≤ c) (hR : R ≤ R')
-    (h : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+    (h : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
       Z A' c' z lo hi eps R' C t) :
-    UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+    UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
       Z A c z lo hi eps R C t := by
   intro σ x hx hr
   exact h x (Node.Admissible.weaken x hx hA hc) (hr.trans hR)

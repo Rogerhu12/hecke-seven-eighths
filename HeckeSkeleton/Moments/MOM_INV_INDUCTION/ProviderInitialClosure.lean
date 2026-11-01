@@ -17,6 +17,8 @@ set_option autoImplicit false
 set_option relaxedAutoImplicit false
 set_option maxHeartbeats 2000000
 
+universe u
+
 noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialClosure
@@ -74,7 +76,7 @@ theorem exists_uniform_orbital_bound
     (hA : 0 ≤ A) (hMmax : 0 ≤ Mmax) (hpi : 0 < pi) (htauMin : 0 < tauMin)
     (qchild : Finset (ℕ × ℕ)) :
     ∃ q : Finset (ℕ × ℕ), ∃ B : ℝ, 1 ≤ B ∧
-      ∀ {σ : Type*} [DecidableEq σ] (C : CanonicalBlock.ColumnData K S σ)
+      ∀ {σ : Type u} [DecidableEq σ] (C : CanonicalBlock.ColumnData K S σ)
         (Θ : Subgroup (HeckeCharacter K)) (ψ : HeckeCharacter K)
         (hν : BackgroundCycle.Admissible K Θ ψ C.background)
         (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2)
@@ -83,7 +85,7 @@ theorem exists_uniform_orbital_bound
         (hb : SourceConditions K S D C Λ G slotCap A m Q z c h tau lo hi markLengths)
         (eps Cih : ℝ),
       m ≤ Mmax → tauMin ≤ tau → 0 ≤ eps → 1 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap C.base m
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap C.base m
         (3 * c / 4) z lo hi eps m Cih qchild →
       ‖SourceReductionPoisson.orbitalEnergy K S D Γ C.background
         (ProviderInitialInverse.sourceMark K S C) W (C.base ^ C.length)

@@ -16,6 +16,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedComplete
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -54,7 +56,7 @@ local instance normOneBorel : BorelSpace (sLocalNormOneGroup K Sset) :=
 local instance principal : IsPrincipalIdealRing (Set.integer Sset K) :=
   (axiomChoice K c).C.principal
 
-theorem conjugate_marks {σ : Type*} {slotCap : ℕ} {Z z lo hi : ℝ}
+theorem conjugate_marks {σ : Type u} {slotCap : ℕ} {Z z lo hi : ℝ}
     {slots : Finset σ} {lists : σ → Finset (Ideal (𝓞 K))}
     {a : σ → Ideal (𝓞 K) → ℂ} {lengths : σ → ℝ}
     (h : MarkConditions K S slotCap Z z lo hi slots lists a lengths) :
@@ -70,7 +72,7 @@ theorem annular_bound_of_uniform
     (hsupport : 1 ≤ supportC) (t : Finset (ℕ × ℕ)) (Cih Zih : ℝ)
     (hCih : 1 ≤ Cih) (hZih : 2 ≤ Zih)
     (hih : ∀ Z : ℝ, Zih ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ 1 →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G slotCap Z 2
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G slotCap Z 2
         (3 * gap / 4) z (1 / 2) 2 (eps / 2) 2 Cih t) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 0 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ (d : MomentData K c.family.omega ψ) (sector : SixthUnitClasses K Sset),
@@ -79,7 +81,7 @@ theorem annular_bound_of_uniform
       d.commonMask = completeIdealCommonMask K Sset →
       d.allowedRow = completeIdealIsExterior K Sset →
       BackgroundCycle.Admissible K Θ ψ d.inverseBackground⁻¹ →
-      ∀ {σ : Type*} [DecidableEq σ] (slots : Finset σ)
+      ∀ {σ : Type u} [DecidableEq σ] (slots : Finset σ)
         (lists : σ → Finset (Ideal (𝓞 K))) (a : σ → Ideal (𝓞 K) → ℂ)
         (lengths : σ → ℝ) (j : Ideal (𝓞 K)), j ≠ 0 →
       ∀ (Z X m r z G : ℝ), Z₀ ≤ Z → 0 < X → 0 ≤ m → m ≤ 2 →

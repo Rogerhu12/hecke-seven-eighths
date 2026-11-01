@@ -114,12 +114,23 @@ theorem canonical_completion_partition
   have hn (H : Ideal (𝓞 K)) (hH : H ∉ A) :
       (if ¬ P H then extractedCubeTerm gamma tau d V X H else 0) = 0 := by
     simp only [ha H hH, ite_self]
-  rw [← canonical_selected_cubes_reopen (fun H => ¬ P H) gamma tau d V X U hX hV,
-    tsum_eq_sum ha, tsum_eq_sum hp, tsum_eq_sum hn, ← Finset.sum_add_distrib]
-  apply Finset.sum_congr rfl
-  intro H hH
-  by_cases h : P H <;> simp only [h, not_true_eq_false, not_false_eq_true,
-    if_true, if_false, zero_add, add_zero]
+  calc
+    _ = ∑ H ∈ A, extractedCubeTerm gamma tau d V X H := tsum_eq_sum ha
+    _ = (∑ H ∈ A, if P H then extractedCubeTerm gamma tau d V X H else 0) +
+        ∑ H ∈ A, if ¬ P H then extractedCubeTerm gamma tau d V X H else 0 := by
+      rw [← Finset.sum_add_distrib]
+      apply Finset.sum_congr rfl
+      intro H hH
+      by_cases h : P H <;> simp only [h, not_true_eq_false, not_false_eq_true,
+        ite_true, ite_false, zero_add, add_zero]
+    _ = (∑' H, if P H then extractedCubeTerm gamma tau d V X H else 0) +
+        ∑' H, if ¬ P H then extractedCubeTerm gamma tau d V X H else 0 := by
+      congr 1
+      · exact (tsum_eq_sum hp).symm
+      · exact (tsum_eq_sum hn).symm
+    _ = _ := by
+      congr 1
+      exact canonical_selected_cubes_reopen (fun H => ¬ P H) gamma tau d V X U hX hV
 
 /-- The geometric short/long split used before the two-transform step. -/
 theorem canonical_completion_short_long

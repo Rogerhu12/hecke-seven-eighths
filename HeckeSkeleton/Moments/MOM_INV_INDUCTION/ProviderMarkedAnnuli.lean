@@ -70,7 +70,7 @@ theorem partition (slotCap : ℕ) (x R : ℝ) (hR : 0 < R)
     calc
       x ≤ (2 : ℝ) ^ width slotCap * R := hu
       _ = _ := by rw [two_mul, pow_add]; field_simp
-  have h := Expansion.Dyadic.sum_annularProfile_eq_one hلو (2 * width slotCap) hhi
+  have h := Expansion.Dyadic.sum_annularProfile_eq_one hlo (2 * width slotCap) hhi
   convert h using 1
   apply Finset.sum_congr rfl
   intro k hk
@@ -113,19 +113,71 @@ theorem quotient_window (A a b x y : ℝ) (hA : 1 ≤ A) (hx : 0 ≤ x)
   have hlower : 1 ≤ 2 * A ^ 2 * x := by
     have hm := mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right hy.1 hb0) hAp.le
     have ha' := mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right ha.2 hx) hAp.le
+    have heqA := congrArg (fun v : ℝ => A * v) heq
     nlinarith
   constructor
-  · apply (inv_le_iff₀ (by positivity : 0 < 2 * A ^ 2)).mpr
+  · rw [← one_div]
+    apply (div_le_iff₀ (by positivity : 0 < 2 * A ^ 2)).mpr
     nlinarith
   · have hax := mul_le_mul_of_nonneg_right haa hx
     have hu := mul_le_mul_of_nonneg_left hyb hAp.le
+    have heqA := congrArg (fun v : ℝ => A * v) heq
     nlinarith
 
 theorem dyadic_width (slotCap : ℕ) :
     2 * ((2 : ℝ) ^ slotCap) ^ 2 = (2 : ℝ) ^ width slotCap := by
   unfold width
-  rw [pow_add, pow_one, pow_mul]
+  rw [pow_add, pow_one, ← pow_mul, Nat.mul_comm slotCap 2]
   ring
+
+theorem productConstant_le_support (slotCap : ℕ) :
+    (2 : ℝ) ^ slotCap ≤ supportConstant slotCap := by
+  have hA : 1 ≤ (2 : ℝ) ^ slotCap := one_le_pow₀ (by norm_num)
+  rw [supportConstant, ← dyadic_width]
+  nlinarith
+
+/-- Enlarging the complete column pool is done before Fourier
+inversion.  Its radius depends only on the fixed slot cap and the
+new central scale, while retaining the literal common ideal. -/
+theorem product_cap (slotCap : ℕ) (Z r z G j P : ℝ) (hZ : 0 < Z)
+    (hj : ((2 : ℝ) ^ slotCap)⁻¹ ≤ j / Z ^ G)
+    (hP : P / Z ^ (z - G) ≤ (2 : ℝ) ^ slotCap) :
+    P ≤ (supportConstant slotCap * Z ^ ProviderMarkedScale.columnLength r z G) * j /
+      Z ^ r := by
+  let A : ℝ := (2 : ℝ) ^ slotCap
+  have hA : 1 ≤ A := one_le_pow₀ (by norm_num)
+  have hAp : 0 < A := zero_lt_one.trans_le hA
+  have hjA : 1 ≤ A * (j / Z ^ G) := by
+    have h : A * A⁻¹ ≤ A * (j / Z ^ G) := mul_le_mul_of_nonneg_left hj hAp.le
+    simpa only [mul_inv_cancel₀ hAp.ne'] using h
+  have hj0 : 0 ≤ j / Z ^ G := (inv_pos.mpr hAp).le.trans hj
+  have hcoeff : A ≤ supportConstant slotCap * (j / Z ^ G) := by
+    have h := mul_le_mul_of_nonneg_left hjA hAp.le
+    have hs : A ^ 2 ≤ supportConstant slotCap := by
+      rw [supportConstant, ← dyadic_width]
+      dsimp only [A]
+      nlinarith [sq_nonneg ((2 : ℝ) ^ slotCap)]
+    nlinarith [mul_le_mul_of_nonneg_right hs hj0]
+  have he : (j / Z ^ G) * Z ^ (z - G) =
+      Z ^ ProviderMarkedScale.columnLength r z G * j / Z ^ r := by
+    have hbalance : Z ^ r * Z ^ (z - G) =
+        Z ^ G * Z ^ ProviderMarkedScale.columnLength r z G := by
+      rw [← Real.rpow_add hZ, ← Real.rpow_add hZ]
+      congr 1
+      unfold ProviderMarkedScale.columnLength
+      ring
+    apply (eq_div_iff (Real.rpow_pos_of_pos hZ r).ne').mpr
+    calc
+      _ = (j / Z ^ G) * (Z ^ r * Z ^ (z - G)) := by ring
+      _ = (j / Z ^ G) * (Z ^ G * Z ^ ProviderMarkedScale.columnLength r z G) := by
+        rw [hbalance]
+      _ = _ := by field_simp [(Real.rpow_pos_of_pos hZ G).ne']
+                  <;> ring
+  calc
+    P ≤ A * Z ^ (z - G) := (div_le_iff₀ (Real.rpow_pos_of_pos hZ _)).mp hP
+    _ ≤ (supportConstant slotCap * (j / Z ^ G)) * Z ^ (z - G) :=
+      mul_le_mul_of_nonneg_right hcoeff (Real.rpow_nonneg hZ.le _)
+    _ = _ := by rw [mul_assoc, he]; ring
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedAnnuli
 

@@ -162,7 +162,8 @@ theorem normalized_freeTotal_le (Z M r ell V eta : ℝ)
             (overlapIdeal K S D T.scale (outerAnchor K S D T o).1 (outerAnchor K S D T o).2
               o.1.val o.2.1.val false e) *
             remainder K S D Γ T Θ ψ G hν hG grid W hW m side Rcap massEps ε o e k J := by
-          simpa only [mul_assoc] using normalized_summand_eq K S D Γ T Θ ψ G hν hG
+          simpa only [mul_assoc, FirstLiveCappedFreeEnergy.freeRowIntegral_eq_capped]
+            using normalized_summand_eq K S D Γ T Θ ψ G hν hG
             grid centers W hW m side Rcap massEps ε Z r ell V o e k J
         _ ≤ _ := hb.trans_eq (by ring)
     · simp only [ha, if_false, mul_zero, le_refl]

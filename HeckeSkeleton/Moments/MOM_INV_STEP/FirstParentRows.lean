@@ -83,6 +83,9 @@ def cubeDilation (r₁ r₂ b₁ b₂ : Ext) : Ext :=
     (CanonicalCubeLabels.dilation K S b₁ b₂
       (CanonicalConductor.squarefreeBit K S r₁) (CanonicalConductor.squarefreeBit K S r₂))
 
+omit [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)] in
 /-- This is an equality of the actual ideals used in the two source
 constructions, not a fresh character or orbit identification premise. -/
 theorem firstRow_eq (r₁ r₂ b₁ b₂ f z : Ext) :

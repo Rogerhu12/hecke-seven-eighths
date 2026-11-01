@@ -29,6 +29,8 @@ open FixedTripleFibers FixedTripleEnergy CanonicalChildren CanonicalNormPools
   FirstParentRows FirstToSecondData CommonKernel ActualProductionBoxes ActualBoxGeometry
 open scoped Classical BigOperators nonZeroDivisors
 
+universe uσ
+
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
@@ -36,18 +38,18 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 
 def closureSeminorm (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ)) : Finset (ℕ × ℕ) :=
-  Classical.choose (CanonicalChildClosure.exists_closed_raw_bound
+  Classical.choose (CanonicalChildClosure.exists_closed_raw_bound.{uσ, 0}
     K Sset D slotCap Vcap piTerm hVcap hpiTerm t)
 
 def closureConstant (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ)) : ℝ :=
-  Classical.choose (Classical.choose_spec (CanonicalChildClosure.exists_closed_raw_bound
+  Classical.choose (Classical.choose_spec (CanonicalChildClosure.exists_closed_raw_bound.{uσ, 0}
     K Sset D slotCap Vcap piTerm hVcap hpiTerm t))
 
 theorem closureConstant_pos (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ)) :
-    0 < closureConstant K S D slotCap Vcap piTerm hVcap hpiTerm t :=
-  (Classical.choose_spec (Classical.choose_spec (CanonicalChildClosure.exists_closed_raw_bound
+    0 < closureConstant.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t :=
+  (Classical.choose_spec (Classical.choose_spec (CanonicalChildClosure.exists_closed_raw_bound.{uσ, 0}
     K Sset D slotCap Vcap piTerm hVcap hpiTerm t))).1
 
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
@@ -58,19 +60,22 @@ local notation "Ext" => ExteriorIdeal K Sset
 local notation "OS" => Set.integer Sset K
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 
+noncomputable instance unitClassesFintype : Fintype (CanonicalSectors.UnitClasses K Sset Γ) :=
+  Fintype.ofFinite _
+
 def profile (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ))
     (Cih : ℝ) (side₂ : Bool) (p : LogPlane × ℝ) : ℝ :=
-  closureConstant K S D slotCap Vcap piTerm hVcap hpiTerm t *
+  closureConstant.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t *
     (Cih + (Fintype.card Sector : ℝ)) *
-    ((closureSeminorm K S D slotCap Vcap piTerm hVcap hpiTerm t).sup
+    ((closureSeminorm.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t).sup
       (schwartzSeminormFamily ℝ ℝ ℂ)
         (FinalMellinTests.weightedTest 0 (p.2 + SecondParentProduction.coordinate side₂ p.1))) ^ 2
 
 theorem profile_nonneg (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ))
     (Cih : ℝ) (hCih : 0 ≤ Cih) (side₂ : Bool) (p : LogPlane × ℝ) :
-    0 ≤ profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p := by
+    0 ≤ profile.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p := by
   unfold profile
   exact mul_nonneg
     (mul_nonneg (closureConstant_pos K S D slotCap Vcap piTerm hVcap hpiTerm t).le
@@ -81,18 +86,18 @@ seminorm and the bounded label window. -/
 def spectralDegree (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ)) : ℕ :=
   Classical.choose (SecondSpectralCost.exists_seminorm_majorant
-    (closureSeminorm K S D slotCap Vcap piTerm hVcap hpiTerm t))
+    (closureSeminorm.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t))
 
 def spectralCoefficient (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ)) : ℝ :=
   Classical.choose (Classical.choose_spec (SecondSpectralCost.exists_seminorm_majorant
-    (closureSeminorm K S D slotCap Vcap piTerm hVcap hpiTerm t)))
+    (closureSeminorm.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)))
 
 theorem spectralCoefficient_nonneg (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ)) :
-    0 ≤ spectralCoefficient K S D slotCap Vcap piTerm hVcap hpiTerm t :=
+    0 ≤ spectralCoefficient.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t :=
   (Classical.choose_spec (Classical.choose_spec (SecondSpectralCost.exists_seminorm_majorant
-    (closureSeminorm K S D slotCap Vcap piTerm hVcap hpiTerm t)))).1
+    (closureSeminorm.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)))).1
 
 /-- This explicit continuous cost replaces the child seminorm inside
 the actual Fourier/Mellin integral. -/
@@ -100,16 +105,16 @@ def spectralCost (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ))
     (Cih : ℝ) (side₂ : Bool) (p : LogPlane × ℝ) : ℝ :=
   SecondSpectralCost.polynomialCost
-    (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)
-    (closureConstant K S D slotCap Vcap piTerm hVcap hpiTerm t *
+    (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)
+    (closureConstant.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t *
       (Cih + (Fintype.card Sector : ℝ)) *
-      spectralCoefficient K S D slotCap Vcap piTerm hVcap hpiTerm t)
+      spectralCoefficient.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)
     (SecondParentProduction.coordinate side₂) p
 
 theorem spectralCost_nonneg (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ))
     (Cih : ℝ) (hCih : 0 ≤ Cih) (side₂ : Bool) (p : LogPlane × ℝ) :
-    0 ≤ spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p := by
+    0 ≤ spectralCost.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p := by
   apply SecondSpectralCost.polynomialCost_nonneg
   exact mul_nonneg
     (mul_nonneg (closureConstant_pos K S D slotCap Vcap piTerm hVcap hpiTerm t).le
@@ -119,21 +124,21 @@ theorem spectralCost_nonneg (slotCap : ℕ) (Vcap piTerm : ℝ)
 theorem profile_le_spectralCost (slotCap : ℕ) (Vcap piTerm : ℝ)
     (hVcap : 0 ≤ Vcap) (hpiTerm : 0 < piTerm) (t : Finset (ℕ × ℕ))
     (Cih : ℝ) (hCih : 0 ≤ Cih) (side₂ : Bool) (p : LogPlane × ℝ) :
-    profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p ≤
-      spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p := by
-  have hb : ((closureSeminorm K S D slotCap Vcap piTerm hVcap hpiTerm t).sup
+    profile.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p ≤
+      spectralCost.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p := by
+  have hb : ((closureSeminorm.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t).sup
       (schwartzSeminormFamily ℝ ℝ ℂ)
         (FinalMellinTests.weightedTest 0 (p.2 + SecondParentProduction.coordinate side₂ p.1))) ^ 2 ≤
       SecondSpectralCost.polynomialCost
-        (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)
-        (spectralCoefficient K S D slotCap Vcap piTerm hVcap hpiTerm t)
+        (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)
+        (spectralCoefficient.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)
         (SecondParentProduction.coordinate side₂) p :=
     (Classical.choose_spec (Classical.choose_spec (SecondSpectralCost.exists_seminorm_majorant
-      (closureSeminorm K S D slotCap Vcap piTerm hVcap hpiTerm t)))).2
+      (closureSeminorm.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)))).2
         (SecondParentProduction.coordinate side₂) p
   have hp := mul_le_mul_of_nonneg_left hb
     (mul_nonneg (closureConstant_pos K S D slotCap Vcap piTerm hVcap hpiTerm t).le
-      (add_nonneg hCih (Nat.cast_nonneg _)))
+      (add_nonneg hCih (Nat.cast_nonneg (Fintype.card (CanonicalSectors.UnitClasses K Sset Γ)))))
   exact hp.trans_eq (by unfold spectralCost SecondSpectralCost.polynomialCost; ring)
 
 theorem spectralCost_integrable (slotCap : ℕ) (Vcap piTerm : ℝ)
@@ -141,14 +146,14 @@ theorem spectralCost_integrable (slotCap : ℕ) (Vcap piTerm : ℝ)
     (Cih s : ℝ) (side₂ : Bool) :
     Integrable (fun p : LogPlane × ℝ =>
       SecondProductionIntegral.jointDensity s
-        (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) p *
-        spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p)
+        (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) p *
+        spectralCost.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p)
       ((volume : Measure LogPlane).prod (volume : Measure ℝ)) :=
   SecondSpectralCost.joint_polynomial_integrable s
-    (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) _
+    (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) _
     (SecondParentProduction.coordinate side₂)
 
-variable {σ : Type*} [DecidableEq σ]
+variable {σ : Type uσ} [DecidableEq σ]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
@@ -183,14 +188,14 @@ local notation "packet" => SecondProductionPacket.packet K S D Γ T Θ ψ G hν 
   R U J₁ s H₂ hmask hprime hweights hJ₁ J₂ hJ₂ Pbox side₁ slotCap hcap
 local notation "Nactual" => Real.logb Z (SecondMobiusGeometry.childScale X b)
 local notation "ALen" => extractedLength Z j side₁
-local notation "BLen" => length Z j .firstCommon
-local notation "RLen" => length Z j .activeConductor
-local notation "JLen" => length Z j .cubeLabel
-local notation "deltaLen" => length Z j .firstDivisor
-local notation "tLen" => length Z j .firstOverlap
-local notation "gLen" => length Z j .secondCommon
-local notation "thetaLen" => length Z j .secondDivisor
-local notation "vLen" => length Z j .secondOverlap
+local notation "BLen" => length Z j Coordinate.firstCommon
+local notation "RLen" => length Z j Coordinate.activeConductor
+local notation "JLen" => length Z j Coordinate.cubeLabel
+local notation "deltaLen" => length Z j Coordinate.firstDivisor
+local notation "tLen" => length Z j Coordinate.firstOverlap
+local notation "gLen" => length Z j Coordinate.secondCommon
+local notation "thetaLen" => length Z j Coordinate.secondDivisor
+local notation "vLen" => length Z j Coordinate.secondOverlap
 
 def familyAt (J₂ : Finset σ) (b : SecondMobiusGeometry.Index X)
     (side₂ : Bool) (p : LogPlane × ℝ) : ColumnFamily K Sset σ Θ ψ :=
@@ -343,7 +348,7 @@ theorem closed_child_bound
         (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)
         slotCap (packet).labels (packet).rows
         (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ ≤
-      profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p *
+      profile.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p *
         Z ^ (max 0 Nactual + (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) +
           (28 * h + eps + piTerm)) := by
   intro γ hγ
@@ -430,23 +435,29 @@ theorem closed_child_bound
       (childM M ell ALen tLen gLen thetaLen V JLen (5 * h))
       hZ hh hwidth hparent hc hQnonneg hz hpuncture
       hlength.1 hlength.2.1 hlength.2.2 le_rfl a hsmall
-  have hclose := (Classical.choose_spec (Classical.choose_spec
-    (CanonicalChildClosure.exists_closed_raw_bound K Sset D slotCap Vcap piTerm hVcap hpiTerm t))).2
+  obtain ⟨-, hclose⟩ := Classical.choose_spec (Classical.choose_spec
+    (CanonicalChildClosure.exists_closed_raw_bound.{uσ, 0} K Sset D slotCap Vcap piTerm hVcap
+      hpiTerm t))
   have hraw := hclose C hCZ G hcal (CanonicalSectors.sectorUnit K Sset Γ) γ
     (packet).labels (packet).rows (childM M ell ALen tLen gLen thetaLen V JLen (5 * h))
     (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) h eps Cih
     hpool hlive hsupport hchildV hlabelCap hh (by simpa only [hCb] using hwidth) heps hCih
     (by simpa only [hCb] using hrows)
-    (by simpa only [hCb, secondFormalLabel] using hlabels)
+    (fun f hf => by
+      have hf' : f ∈ (ActualTwoPassChildren.packet K S T.columns D Γ hprime hweights J₁ J₂ hJ₁ hJ₂
+          (FirstProductionChildren.sourceOn K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+            (SecondProductionBoxes.normBox K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask
+              Pslice Z L j)) side₁ slotCap hcap).labels := hf
+      simpa only [hCb, secondFormalLabel] using hlabels f hf')
     (by
       intro q hq P hP
       exact hprime q (Finset.mem_sdiff.mp (Finset.mem_sdiff.mp hq).1).1 P hP)
     hcapacity (by
       intro a ha
-      simpa only [hCb] using hih (le_of_not_gt hMc) γ hγ a ha)
+      simpa only [hCb, pieceAt, C] using hih (le_of_not_gt hMc) γ hγ a ha)
   have hraw' : childEnergy slotCap (packet).labels (packet).rows
       (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ ≤
-      profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p *
+      profile.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p *
         Z ^ (2 * (max 0 Nactual + (secondFormalLabel BLen thetaLen vLen JLen + 4 * h)) +
           (28 * h + eps + piTerm)) := by
     convert hraw using 1 <;> try rfl
@@ -455,7 +466,7 @@ theorem closed_child_bound
     ring
   exact CanonicalChildClosure.normalized_bound_of_raw K Z (max 0 Nactual)
     (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) (28 * h + eps + piTerm)
-    (profile K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p)
+    (profile.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p)
     (zero_lt_one.trans hZ) slotCap (packet).labels (packet).rows
     (SecondProductionPacket.childFunction K S D Γ T Θ ψ hν U J₁ J₂ side₂ b p) γ hraw'
 
@@ -507,14 +518,14 @@ theorem closed_sourceIntegral_le
         Z ^ ((pieceAt K S T Θ ψ hν hbase U J₁ J₂ b side₂ p a).columnLength γ +
           (secondFormalLabel BLen thetaLen vLen JLen + 4 * h) + eps)) :
     SecondProductionIntegral.sourceIntegral K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
-      w ε side₁ (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) side₂ Pbox b J₂ ≤
+      w ε side₁ (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) side₂ Pbox b J₂ ≤
       ((Cweight * Cradial * ActualPoissonScale.fieldConstant K) *
         SecondProductionBudget.massConstant K S D Γ slotCap massEps hmassEps *
           Z ^ (r + 3 * ell + V + 40 * eta + tau + piMass + piTerm + eps)) *
         ∫ p : LogPlane × ℝ,
           SecondProductionIntegral.jointDensity s
-            (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) p *
-            spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
+            (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) p *
+            spectralCost.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
           ∂((volume : Measure LogPlane).prod (volume : Measure ℝ)) := by
   have hclosed (p : LogPlane × ℝ) := closed_child_bound
     (K := K) (S := S) (D := D) (Γ := Γ) (T := T) (Θ := Θ) (ψ := ψ) (G := G)
@@ -538,8 +549,8 @@ theorem closed_sourceIntegral_le
     M r ell V (eta / 2) tau piMass (28 * h + eps + piTerm) Cweight Cradial massEps
     hmassEps (by linarith) hscale hcube hCweight hCradial hloss
     (fun i hi => (hrow i hi).le) hw hweight hradial
-    (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) side₂
-    (spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂)
+    (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) side₂
+    (spectralCost.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂)
     (spectralCost_nonneg K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih hCih side₂)
     (spectralCost_integrable K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih s side₂)
     (by
@@ -570,20 +581,20 @@ theorem spectralCost_cauchy_le (Vcap piTerm : ℝ)
     SecondProductionIntegral.cauchyMass K S T J₁ s *
       (∫ p : LogPlane × ℝ,
         SecondProductionIntegral.jointDensity s
-          (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) p *
-          spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
+          (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) p *
+          spectralCost.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
         ∂((volume : Measure LogPlane).prod (volume : Measure ℝ))) ≤
       ((2 : ℝ) ^ slotCap *
-        (closureConstant K S D slotCap Vcap piTerm hVcap hpiTerm t *
+        (closureConstant.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t *
           (Cih + (Fintype.card Sector : ℝ)) *
-          spectralCoefficient K S D slotCap Vcap piTerm hVcap hpiTerm t) *
+          spectralCoefficient.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) *
         SecondSpectralCost.coordinateMoment
-          (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)
+          (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)
           (SecondParentProduction.coordinate side₂)) *
         NestedMellinBudget.cauchyCost (-(1 / 2 : ℝ)) s
-          (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) := by
+          (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) := by
   apply SecondSpectralCost.actual_cauchy_polynomial_bound K S T slotCap hcap J₁ s
-    (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) _ _
+    (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) _ _
     (SecondParentProduction.coordinate side₂)
   exact mul_nonneg
     (mul_nonneg (closureConstant_pos K S D slotCap Vcap piTerm hVcap hpiTerm t).le
@@ -643,27 +654,27 @@ theorem actualTotal_closed_le
     SecondProductionIntegral.actualTotal K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
       (SecondProductionRestriction.weightOn K S D T w
         (fun o e => alive o ∧ centers.assignment side₁ o e = k))
-      ε side₁ (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t) side₂ ≤
+      ε side₁ (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) side₂ ≤
       ((Fintype.card (SecondMobiusGeometry.Index X) : ℝ) * (2 : ℝ) ^ slotCap *
         (Fintype.card (BoxIndex Z L) : ℝ) *
         ((Cweight * Cradial * ActualPoissonScale.fieldConstant K) *
           SecondProductionBudget.massConstant K S D Γ slotCap massEps hmassEps *
             Z ^ (r + 3 * ell + V + 40 * eta + tau + piMass + piTerm + eps))) *
         (((2 : ℝ) ^ slotCap *
-          (closureConstant K S D slotCap Vcap piTerm hVcap hpiTerm t *
+          (closureConstant.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t *
             (Cih + (Fintype.card Sector : ℝ)) *
-            spectralCoefficient K S D slotCap Vcap piTerm hVcap hpiTerm t) *
+            spectralCoefficient.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t) *
           SecondSpectralCost.coordinateMoment
-            (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)
+            (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)
             (SecondParentProduction.coordinate side₂)) *
           NestedMellinBudget.cauchyCost (-(1 / 2 : ℝ)) s
-            (spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t)) := by
-  let m₂ := spectralDegree K S D slotCap Vcap piTerm hVcap hpiTerm t
+            (spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t)) := by
+  let m₂ := spectralDegree.{uσ} K S D slotCap Vcap piTerm hVcap hpiTerm t
   let Cscalar := (Cweight * Cradial * ActualPoissonScale.fieldConstant K) *
     SecondProductionBudget.massConstant K S D Γ slotCap massEps hmassEps *
       Z ^ (r + 3 * ell + V + 40 * eta + tau + piMass + piTerm + eps)
   let I : ℝ := ∫ p : LogPlane × ℝ, SecondProductionIntegral.jointDensity s m₂ p *
-    spectralCost K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
+    spectralCost.{uσ} K S D Γ slotCap Vcap piTerm hVcap hpiTerm t Cih side₂ p
     ∂((volume : Measure LogPlane).prod (volume : Measure ℝ))
   have hbox (b : SecondMobiusGeometry.Index X) (J₂ : Finset σ)
       (hmem : J₂ ∈ (T.columns.slots \ J₁).powerset) (j : BoxIndex Z L) :

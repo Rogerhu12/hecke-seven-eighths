@@ -19,6 +19,7 @@ namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalSlices
 open NumberField IsDedekindDomain MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckePort.CenteredMomentGenerator
 open HeckeSkeleton.LowEnergy
 open HeckeSkeleton.LowEnergy.ActualReflection
   HeckeSkeleton.LowEnergy.ActualReflectionReindex
@@ -78,7 +79,7 @@ theorem atom_eq_entry (hD : AllowedGeneratorInput K S D)
         simp only [entry, columnCoefficient, extendColumn, dif_pos hcb,
           hybridAtom, FiniteHybridIntegral.hybridKernel, KeepOriginalRow.mask,
           if_pos hkP, if_pos hPb, div_eq_mul_inv]
-        ring
+        ac_rfl
       · simp [GeneralReflectedEnergy.atom, hk, hP, hkP, hcb, hPb, entry,
           FiniteHybridIntegral.hybridKernel, KeepOriginalRow.mask]
     · simp [GeneralReflectedEnergy.atom, hk, hP, hkP, hcb, entry,
@@ -199,7 +200,7 @@ theorem exteriorSlicedBlock_eq_ordinary
     dif_pos (show IsExterior K S b.val.val from
       ⟨nonZeroDivisors.coe_ne_zero b.val, b.property⟩),
     safeNorm_exterior, slicedEntry]
-  ring
+  ac_rfl
 
 theorem block_eq_zero_of_row
     (F : FiniteMellinData K S) (θ : HeckeCharacter K)

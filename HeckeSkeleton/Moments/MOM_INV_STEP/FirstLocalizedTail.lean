@@ -355,6 +355,7 @@ theorem exists_normalized_source_tail_bound_uniform
           s.sup (schwartzSeminormFamily ℝ V ℂ) φ *
           (fieldConstant K * Z ^ M) * Z ^ (-saving)) := by
       gcongr
+      exact mul_nonneg (fieldConstant_nonneg K) (Real.rpow_nonneg hz.le _)
     _ ≤ _ := by
       convert mul_le_mul_of_nonneg_left hpow hconst using 1 <;> ring
 

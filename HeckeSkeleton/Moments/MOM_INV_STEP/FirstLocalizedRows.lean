@@ -35,6 +35,7 @@ private theorem ratio_bound (E R J B A₁ A₂ C : ℝ)
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
 local notation "Ext" => ExteriorIdeal K Sset
@@ -114,6 +115,7 @@ theorem fine_row_bound (r X F : {r : ℝ // 0 < r}) (Z tau : ℝ) (hZ : 0 < Z)
     _ = (4 * F.val ^ 2 * r.val * d * X.val ^ 2 * Z ^ tau) *
         (E * R / ((A₁ * C) * (A₂ * C))) := by
       unfold fineCutoff FirstCommonEnvelope.radialScale residualScale
+      dsimp only
       rw [extracted_norm, extracted_norm]
       dsimp only [A₁, A₂, C, E, R, d]
       field_simp [(aNorm_pos K S r₁ r₂ b₁ b₂ false).ne',

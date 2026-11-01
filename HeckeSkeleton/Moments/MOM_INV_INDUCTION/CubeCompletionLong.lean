@@ -14,6 +14,8 @@ chosen before the source and included in the stated pi budget.
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
 
+universe u
+
 noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionLong
@@ -57,7 +59,7 @@ theorem exists_uniform_long_cube_step
     (slotCap : ℕ) (A pi tauMin : ℝ) (hA : 1 ≤ A)
     (hpi : 0 < pi) (htauMin : 0 < tauMin) (t : Finset (ℕ × ℕ)) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
-      ∀ {σ : Type*} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
+      ∀ {σ : Type u} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
         (ψ Λ G : HeckeCharacter K), G ∈ Θ →
       ∀ (Z Fcap c z lo hi d eta h tau eps Cih Rmax : ℝ)
         (x : Node K S Γ Θ ψ σ),
@@ -66,7 +68,7 @@ theorem exists_uniform_long_cube_step
       h ∈ Set.Icc (0 : ℝ) 1 → tau ∈ Set.Icc (0 : ℝ) A → tauMin ≤ tau →
       2 ≤ Z ^ h → h ≤ eta / 128 → eta ≤ d / 16 →
       0 ≤ eps → 1 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
         (Fcap + 11 * eta) (c - 7 * eta) z lo hi eps (Rmax - d) Cih t →
       (∀ i : SchwartzTestPartition.Index, |Real.logb Z (annularScale i)| ≤ eta / 8) →
       TerminalNodes.longEnergy K S Γ D slotCap x (Z ^ d) ≤

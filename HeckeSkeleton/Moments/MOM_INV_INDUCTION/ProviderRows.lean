@@ -242,12 +242,17 @@ theorem canonical_rows_le_orbital_norm (C : ColumnFamily K Sset σ Θ ψ)
       ‖column K Sset D C (CanonicalSectors.sectorUnit K Sset Γ) γ f x‖ ^ 2) ≤
       (InverseRowMajorant.rowCovolume K S)⁻¹ *
         ‖orbitalEnergy K S Γ D (C.columns γ) (coefficient K S D C γ f) H‖ := by
+  have hrows : ∀ x ∈ exteriorRows K S Γ T, (x.1.val.val.absNorm : ℝ) ≤ H.val := by
+    intro x hx
+    have hmem : rowEmbedding K S Γ x ∈ T :=
+      (Finset.mem_preimage (f := rowEmbedding K S Γ)).mp hx
+    exact hT (rowEmbedding K S Γ x) hmem
   calc
     _ = ∑ x ∈ exteriorRows K S Γ T,
         ‖column K Sset D C (CanonicalSectors.sectorUnit K Sset Γ) γ f (x.1.val.val, x.2)‖ ^ 2 :=
       rows_sum_eq_exterior K S Γ D C γ f T
     _ ≤ _ := canonical_sector_rows_le_orbital_norm K S Γ D hΓ C γ f H
-      (exteriorRows K S Γ T) (fun x hx => hT _ (Finset.mem_preimage.mp hx))
+      (exteriorRows K S Γ T) hrows
 
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows
 

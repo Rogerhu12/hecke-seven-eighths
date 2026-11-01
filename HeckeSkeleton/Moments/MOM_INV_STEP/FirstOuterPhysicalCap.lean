@@ -18,7 +18,7 @@ noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterPhysicalCap
 
-open NumberField IsDedekindDomain
+open NumberField IsDedekindDomain DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Analysis HeckeGeneral.Characters
   HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.MOMInvStep
@@ -39,7 +39,7 @@ variable (hmask : T.mask = ∅)
 private theorem unit_common :
     unitIdeal K S ∈ squarefreePool K Sset (2 * (1 : ℝ)) := by
   rw [mem_squarefreePool]
-  simp [height]
+  simp [height] <;> norm_num
 
 private theorem unit_overlap :
     (unitIdeal K S).val.val ∈ SecondMobiusGeometry.overlapPool K S 1 (unitIdeal K S) := by
@@ -50,6 +50,7 @@ private theorem unit_overlap :
   · exact (mem_idealDivisors (nonZeroDivisors.coe_ne_zero (unitIdeal K S).val)).mpr
       (dvd_refl _)
 
+include hmask in
 def outerBare (o : OuterIndex K S D T) :
     PositiveAssignedSource.BareSource (K := K) (S := S) (D := D) (Γ := Γ)
       (N := FirstParentEnergy.columnPool K S T) (X := 1) where
@@ -65,8 +66,8 @@ def outerBare (o : OuterIndex K S D T) :
   firstDivisor := o.2.2.2.val
   first_mem := by
     have ho := Finset.mem_powerset.mp o.2.2.2.property
-    simpa only [FirstParentRetained.actualMask, FirstSourcePartition.actualMask, hmask]
-      using ho
+    simp only [FirstParentRetained.actualMask, FirstSourcePartition.actualMask, hmask] at ho ⊢
+    exact ho
   secondDivisor := ∅
   second_mem := Finset.empty_subset _
   frequency := (unitIdeal K S, 1)
@@ -90,14 +91,17 @@ theorem firstCommon_norm (o : OuterIndex K S D T) :
     coordinateNorm K S D Γ (outerBare K S D Γ T hmask o) .firstCommon =
       FirstLocalizedRows.commonNorm K S
         (outerAnchor K S D T o).1 (outerAnchor K S D T o).2 o.1.val o.2.1.val := by
-  simpa only [coordinateNorm, coordinateIdeal, PositiveReconstruction.Source.firstCommon,
+  simp only [coordinateNorm, coordinateIdeal, PositiveReconstruction.Source.firstCommon,
     FirstLocalizedRows.commonNorm, height, FirstSourceColumns.commonIdeal_val,
     CanonicalConductor.commonResidualIdeal_eq_C]
+  all_goals rfl
 
 theorem cubeLabel_norm (o : OuterIndex K S D T) :
     coordinateNorm K S D Γ (outerBare K S D Γ T hmask o) .cubeLabel =
       FirstLocalizedRows.labelNorm K S
         (outerAnchor K S D T o).1 (outerAnchor K S D T o).2 o.1.val o.2.1.val := by
+  unfold FirstLocalizedRows.labelNorm
+  rw [CanonicalCubeLabels.J_val]
   rfl
 
 /-- Bounds for the original outer coordinate grid use only the parent

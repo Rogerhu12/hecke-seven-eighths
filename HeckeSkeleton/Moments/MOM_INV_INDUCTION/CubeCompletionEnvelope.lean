@@ -48,6 +48,7 @@ theorem exists_cap_square_bound (A pi : ℝ) (hA : 0 ≤ A) (hpi : 0 < pi) :
       Real.mul_rpow (by norm_num : (0 : ℝ) ≤ 4) hp.le,
       ← Real.rpow_mul hz0.le]
     dsimp only [Ccap]
+    simp only [Nat.cast_ofNat]
     rw [show delta * (2 : ℝ) = 2 * delta by ring,
       show N * (2 * delta) = 2 * N * delta by ring]
     ring
@@ -78,6 +79,7 @@ theorem exists_count_square_bound (A pi : ℝ) (hA : 0 ≤ A) (hpi : 0 < pi) :
       Real.mul_rpow (by norm_num : (0 : ℝ) ≤ 2) hp.le,
       ← Real.rpow_mul hz0.le]
     dsimp only [Ccount]
+    simp only [Nat.cast_ofNat]
     rw [show delta * (2 : ℝ) = 2 * delta by ring,
       show N * (2 * delta) = 2 * N * delta by ring]
     ring

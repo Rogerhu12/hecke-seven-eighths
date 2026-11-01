@@ -153,7 +153,7 @@ theorem packet_source_norm_box (P : Finset Idx) (Z L ell h : ℝ) (hZ : 1 < Z)
         (Ideal.absNorm x.outer.quotient : ℝ) ≤ Z ^ (length Z j .firstOverlap + h) ∧
         (Ideal.absNorm x.outer.residual : ℝ) ≤
           Z ^ (length Z j .secondCommon - length Z j .secondDivisor + 2 * h) := by
-  intro x hx
+  intro Q x hx
   apply ActualPacketProvenance.source_norm_box K S T.columns D Γ hprime hweights
     J₁ J₂ hJ₁ hJ₂ _ side slotCap hcap _ _ _ ?_ x hx
   intro B hB
@@ -178,7 +178,7 @@ theorem packet_labels_norm_bound (P : Finset Idx) (Z L h : ℝ) (hZ : 1 < Z)
     ∀ f ∈ Q.labels, (Ideal.absNorm f : ℝ) ≤
       Z ^ (length Z j .firstCommon + length Z j .secondDivisor +
         length Z j .secondOverlap + length Z j .cubeLabel + 4 * h) := by
-  intro f hf
+  intro Q f hf
   apply ActualPacketProvenance.labels_norm_bound K S T.columns D Γ hprime hweights
     J₁ J₂ hJ₁ hJ₂ _ side slotCap hcap _ ?_ f hf
   intro B hB

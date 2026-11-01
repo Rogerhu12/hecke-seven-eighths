@@ -125,6 +125,91 @@ theorem polynomial_eq_complete_column {σ : Type*}
   · simp only [hsf, false_and, if_false, f, moebius_of_not_squarefree hsf,
       Int.cast_zero, zero_mul]
 
+theorem weightedColumn_eq_physical_pieces {J : ℕ}
+    (d : MomentData K ω ψ) (u : NonzeroIdeal K) (hdir : d.direction = 1)
+    (good : HeightOneSpectrum (𝓞 K) → Prop)
+    (hmask : ∀ n, maskValue d u n = ProviderMarkedMask.value good u.val n)
+    (hν : ∀ n : NonzeroIdeal K, d.commonMask u n.val = true →
+      ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ n.val → UnramifiedAt K d.inverseBackground p)
+    (lists : Fin J → Finset (HeightOneSpectrum (𝓞 K)))
+    (a : Fin J → Ideal (𝓞 K) → ℂ) (j : Ideal (𝓞 K))
+    (U Y t : ℝ) (hU : 0 < U)
+    (hY : ∀ i : SchwartzTestPartition.Index,
+      SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) * U ≤ Y) :
+    weightedCanonicalColumn (d.inverseBackground * d.rowCharacter u) lists a
+      (ProviderMarkedMask.value good u.val) (columns Y j) U t =
+      ∑ i : SchwartzTestPartition.Index,
+        (Real.sqrt (SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) * U) : ℂ) *
+          SourceMarkedPhysical.polynomial K d
+            (SourceMarkedPhysical.mark Finset.univ
+              (fun k => (lists k).image HeightOneSpectrum.asIdeal) (primeWeight a t) j)
+            u (SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) * U) (piece t i) := by
+  unfold weightedCanonicalColumn
+  rw [finite_test_eq_pieces]
+  apply Finset.sum_congr rfl
+  intro i hi
+  have hUi : 0 < SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) * U :=
+    mul_pos (SchwartzTestPartition.scale_pos _) hU
+  rw [polynomial_eq_complete_column d u hdir good hmask hν Finset.univ
+    (fun k => (lists k).image HeightOneSpectrum.asIdeal) (primeWeight a t) j
+    _ Y hUi (hY i) (piece t i) (piece_support t i)]
+  rw [← mul_assoc, mul_inv_cancel₀ (by
+    exact_mod_cast (Real.sqrt_pos.2 hUi).ne' : (Real.sqrt
+      (SchwartzTestPartition.scale (SchwartzTestPartition.exponent i) * U) : ℂ) ≠ 0), one_mul]
+
+theorem test_continuous_at (x : ℝ) (hx : 0 < x) : Continuous (fun t : ℝ => test t x) := by
+  simp only [test_apply]
+  exact continuous_const.mul (FinalMellinTests.continuous_weightedTest 0 x)
+
+theorem weightedColumn_continuous {J : ℕ} (χ : HeckeCharacter K)
+    (lists : Fin J → Finset (HeightOneSpectrum (𝓞 K)))
+    (a : Fin J → Ideal (𝓞 K) → ℂ) (mark : Ideal (𝓞 K) → ℂ)
+    (C : Finset (Ideal (𝓞 K))) (hC : ∀ n ∈ C, n ≠ 0) (U : ℝ) (hU : 0 < U) :
+    Continuous (weightedCanonicalColumn χ lists a mark C U) := by
+  unfold weightedCanonicalColumn
+  apply continuous_finsetSum
+  intro n hn
+  apply Continuous.mul
+  · apply continuous_const.mul
+    unfold divisorMark
+    apply continuous_finsetProd
+    intro i hi
+    apply continuous_finsetSum
+    intro P hP
+    by_cases hdiv : P ∣ n
+    · simp only [if_pos hdiv, primeWeight]
+      exact (continuous_const.mul (continuous_columnPhase _)).neg
+    · simp only [if_neg hdiv]
+      exact continuous_const
+  · exact test_continuous_at _ (div_pos (ProviderMarkedPools.norm_pos (hC n hn)) hU)
+
+theorem finite_piece_energy {ι κ : Type*} (rows : Finset ι) (pieces : Finset κ)
+    (v : κ → ι → ℂ) (b : κ → ℂ) (Y B : ℝ) (hY : 0 ≤ Y) (hB : 0 ≤ B)
+    (hb : ∀ k ∈ pieces, ‖b k‖ ^ 2 ≤ Y)
+    (hv : ∀ k ∈ pieces, (∑ u ∈ rows, ‖v k u‖ ^ 2) ≤ B) :
+    (∑ u ∈ rows, ‖∑ k ∈ pieces, b k * v k u‖ ^ 2) ≤
+      (pieces.card : ℝ) ^ 2 * Y * B := by
+  calc
+    _ ≤ ∑ u ∈ rows, (pieces.card : ℝ) * ∑ k ∈ pieces, ‖b k * v k u‖ ^ 2 := by
+      apply Finset.sum_le_sum
+      intro u hu
+      exact (pow_le_pow_left₀ (norm_nonneg _) (norm_sum_le _ _) 2).trans
+        _root_.sq_sum_le_card_mul_sum_sq
+    _ = (pieces.card : ℝ) * ∑ k ∈ pieces,
+        ‖b k‖ ^ 2 * ∑ u ∈ rows, ‖v k u‖ ^ 2 := by
+      rw [← Finset.mul_sum, Finset.sum_comm]
+      congr 1
+      apply Finset.sum_congr rfl
+      intro k hk
+      simp only [norm_mul, mul_pow, Finset.mul_sum]
+    _ ≤ (pieces.card : ℝ) * ∑ _k ∈ pieces, Y * B := by
+      apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
+      apply Finset.sum_le_sum
+      intro k hk
+      exact mul_le_mul (hb k hk) (hv k hk)
+        (Finset.sum_nonneg fun _ _ => sq_nonneg _) hY
+    _ = _ := by simp only [Finset.sum_const, nsmul_eq_mul]; ring
+
 end HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests
 
 end

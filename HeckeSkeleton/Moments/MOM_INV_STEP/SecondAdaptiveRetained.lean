@@ -247,7 +247,8 @@ theorem retainedSourceAt_eq_fixed_common
     SecondPoissonSplit.pairBlock
   rw [Finset.sum_product]
   simp_rw [retained_pair_at K S D Γ hΓ μv]
-  rw [sum_masks_frequencies_by_commonAt K S D N hN]
+  rw [sum_masks_frequencies_by_commonAt K S D N hN
+    (fun g δ => sectorCutoff K S D Γ (H g δ))]
   apply Finset.sum_congr rfl
   intro g hg
   apply Finset.sum_congr rfl

@@ -34,7 +34,8 @@ def completionCLM : SchwartzMap ℝ ℂ →L[ℝ] SchwartzMap ℝ ℂ :=
 
 theorem completionCLM_support (W : SchwartzMap ℝ ℂ) :
     tsupport (completionCLM W) ⊆ tsupport W := by
-  change tsupport (fun y => sqrtMultiplier y * W y) ⊆ tsupport W
+  rw [show (completionCLM W : ℝ → ℂ) = (fun y => sqrtMultiplier y * W y) from
+    funext (completionCLM_apply W)]
   exact tsupport_mul_subset_right
 
 theorem completionCLM_eq_vstar (W : SchwartzMap ℝ ℂ)
@@ -55,7 +56,7 @@ theorem completionCLM_eq_vstar (W : SchwartzMap ℝ ℂ)
 def completedTest (W : SchwartzMap ℝ ℂ)
     (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) : SmoothAnnularTest where
   toFun := completionCLM W
-  smooth := (completionCLM W).smooth
+  smooth := (completionCLM W).smooth ⊤
   lower := 1
   upper := 2
   lower_pos := by norm_num
@@ -66,7 +67,7 @@ def completedTest (W : SchwartzMap ℝ ℂ)
 
 @[simp] theorem completedTest_apply (W : SchwartzMap ℝ ℂ)
     (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) (y : ℝ) :
-    completedTest W hW y = canonicalVstar W y :=
+    (completedTest W hW).toFun y = canonicalVstar W y :=
   congrFun (completionCLM_eq_vstar W hW) y
 
 /-- The constant and seminorm indices precede every original node test. -/
@@ -76,9 +77,11 @@ theorem exists_finite_seminorm_control (J : ℕ) (A : ℝ) :
         testSeminorm (canonicalVstar W) J A ≤
           C * q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W := by
   obtain ⟨s, B, hB, hb⟩ := testSeminorm_finite_schwartz_control 1 2 A (by norm_num) J
+  let qOut : Seminorm ℝ (SchwartzMap ℝ ℂ) :=
+    s.sup (schwartzSeminormFamily ℝ ℝ ℂ)
   let p : Seminorm ℝ (SchwartzMap ℝ ℂ) :=
-    (s.sup (schwartzSeminormFamily ℝ ℝ ℂ)).comp completionCLM.toLinearMap
-  have hs : Continuous (s.sup (schwartzSeminormFamily ℝ ℝ ℂ)) :=
+    qOut.comp completionCLM.toLinearMap
+  have hs : Continuous qOut :=
     Seminorm.continuous_finsetSup (fun i _ =>
       (schwartz_withSeminorms ℝ ℝ ℂ).continuous_seminorm i)
   obtain ⟨q, C, hC, hc⟩ := Seminorm.bound_of_continuous

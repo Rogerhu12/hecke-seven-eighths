@@ -107,16 +107,17 @@ theorem extracted_factor_annulus (i : Idx)
   constructor
   · have hp := mul_le_mul (ha (extractedCoordinate side)).1 (ha .firstCommon).1
       (Real.rpow_nonneg hz.le _) (by
-        exact_mod_cast Nat.zero_le (Ideal.absNorm
-          (coordinateIdeal K S D Γ (bare i) (extractedCoordinate side))))
+        unfold coordinateNorm
+        exact Nat.cast_nonneg _)
     convert hp using 1
     rw [← Real.rpow_add hz]
     congr 1
     dsimp only [extractedLength]
     ring
   · have hp := mul_le_mul (ha (extractedCoordinate side)).2 (ha .firstCommon).2
-      (by exact_mod_cast Nat.zero_le (Ideal.absNorm
-        (coordinateIdeal K S D Γ (bare i) .firstCommon)))
+      (by
+        unfold coordinateNorm
+        exact Nat.cast_nonneg _)
       (Real.rpow_nonneg hz.le _)
     apply hp.trans_eq
     rw [← Real.rpow_add hz]
@@ -195,7 +196,7 @@ theorem packet_puncture_bound
       Real.logb Z (Ideal.absNorm (childPuncture Rho γ).radical : ℝ) ≤
         Q + decrease ell (extractedLength Z j side) (length Z j .firstOverlap)
           (length Z j .secondCommon) (length Z j .secondDivisor) V + 4 * h := by
-  intro γ hγ
+  intro packet γ hγ
   obtain ⟨B,hB,rfl⟩ := ActualPacketProvenance.triple_member K S T.columns D Γ
     hprime hweights J₁ J₂ hJ₁ hJ₂
     (ActualPositiveIndex.source K S D Γ T hmask X H

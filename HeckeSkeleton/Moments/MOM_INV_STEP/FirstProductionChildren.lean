@@ -129,7 +129,8 @@ theorem production_energy_le_children (hmask : T.mask = ∅)
   simp_rw [ActualTwoPassChildren.sourceColumn_eq_original K S T.columns Θ ψ hν D Γ] at hp
   unfold source at hp
   rw [FirstToSecondData.production_source_sum K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂ hmask] at hp
-  simpa only [actualChildColumn_eq K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask] using hp
+  simpa only [actualChildColumn_eq K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ hmask, source]
+    using hp
 
 /-- Fixed-bin production form. P restricts only the original complete
 source index; it does not alter the final column coefficients, scale or

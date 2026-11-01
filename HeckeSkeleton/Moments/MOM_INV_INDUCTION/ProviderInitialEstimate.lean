@@ -17,6 +17,8 @@ set_option maxHeartbeats 2400000
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialEstimate
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -34,7 +36,7 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 /-- The actual source geometry for the initial inverse transform.
 There is no energy, fiber estimate, terminal conclusion or production
 identity among these fields. -/
-structure SourceConditions {σ : Type*} (C : CanonicalBlock.ColumnData K S σ)
+structure SourceConditions {σ : Type u} (C : CanonicalBlock.ColumnData K S σ)
     (Lambda G : HeckeCharacter K) (slotCap : ℕ)
     (A m Q z c h tau lo hi : ℝ) (markLengths : σ → ℝ) : Prop where
   base_gt_one : 1 < C.base
@@ -69,7 +71,7 @@ windows, physical/radial factors, frozen measure and finite partitions. -/
 theorem exists_uniform_total_bound (slotCap : ℕ) (A pi : ℝ)
     (hA : 0 ≤ A) (hpi : 0 < pi) (qchild : Finset (ℕ × ℕ)) :
     ∃ e : ℝ, 0 < e ∧ ∃ k : ℕ, ∃ q : Finset (ℕ × ℕ), ∃ B : ℝ, 0 ≤ B ∧
-      ∀ {σ : Type*} [DecidableEq σ]
+      ∀ {σ : Type u} [DecidableEq σ]
         (C : CanonicalBlock.ColumnData K S σ)
         (Theta : Subgroup (HeckeCharacter K)) (psi : HeckeCharacter K)
         (hnu : BackgroundCycle.Admissible K Theta psi C.background)
@@ -78,7 +80,7 @@ theorem exists_uniform_total_bound (slotCap : ℕ) (A pi : ℝ)
         (m Q z c h tau lo hi : ℝ) (markLengths : σ → ℝ)
         (hb : SourceConditions K S D C Lambda G slotCap A m Q z c h tau lo hi markLengths)
         (eps Cih : ℝ), 0 ≤ eps → 0 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Theta) (ψ := psi) D Lambda G slotCap C.base m
+      UniformBound.{u} (Γ := Γ) (Θ := Theta) (ψ := psi) D Lambda G slotCap C.base m
         (3 * c / 4) z lo hi eps m Cih qchild → ∀ side : Bool,
       let T := ProviderInitialProduction.parent K S C Theta psi hnu W hb.base_gt_one hW m
       let H := SecondAdaptiveCutoff.fineCutoff K S T.radius (C.base ^ C.length) C.base tau

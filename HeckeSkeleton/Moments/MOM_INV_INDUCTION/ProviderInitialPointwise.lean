@@ -19,6 +19,8 @@ set_option maxHeartbeats 2000000
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialPointwise
 
 open NumberField IsDedekindDomain
@@ -37,7 +39,7 @@ variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (�
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
-variable {σ : Type*} [DecidableEq σ]
+variable {σ : Type u} [DecidableEq σ]
 variable (C : CanonicalBlock.ColumnData K S σ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ C.background)
@@ -77,7 +79,7 @@ the actual source, scalar, frozen mass and finite fibers are derived. -/
 theorem exists_uniform_source_bound (slotCap : ℕ) (A pi : ℝ)
     (hA : 0 ≤ A) (hpi : 0 < pi) (q : Finset (ℕ × ℕ)) :
     ∃ e : ℝ, 0 < e ∧ ∃ s : Finset (ℕ × ℕ), ∃ B : ℝ, 0 ≤ B ∧
-      ∀ {σ₀ : Type*} [DecidableEq σ₀]
+      ∀ {σ₀ : Type u} [DecidableEq σ₀]
         (C₀ : CanonicalBlock.ColumnData K S σ₀)
         (Θ₀ : Subgroup (HeckeCharacter K)) (ψ₀ : HeckeCharacter K)
         (hν₀ : BackgroundCycle.Admissible K Θ₀ ψ₀ C₀.background)
@@ -102,7 +104,7 @@ theorem exists_uniform_source_bound (slotCap : ℕ) (A pi : ℝ)
       MarkConditions K S slotCap C₀.base z lo hi C₀.slots C₀.primeLists
         C₀.primeWeights markLengths → J₀ ⊆ C₀.slots →
       0 ≤ eps → 0 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ₀) (ψ := ψ₀) D Lambda G₀ slotCap C₀.base m
+      UniformBound.{u} (Γ := Γ) (Θ := Θ₀) (ψ := ψ₀) D Lambda G₀ slotCap C₀.base m
         (3 * c / 4) z lo hi eps m Cih q →
       ∀ t : ℝ,
       sourceSum K S D Γ C₀ Θ₀ ψ₀ hν₀ W₀ G₀ hG₀ hbase₀ hW₀ m H₀

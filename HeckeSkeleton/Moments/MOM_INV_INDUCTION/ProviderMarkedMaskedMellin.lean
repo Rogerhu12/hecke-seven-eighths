@@ -64,7 +64,7 @@ theorem weighted_residual_source_eq_integral
     (fun c p => mark c * originalCoefficient χ a j p
       (backward j (primeProduct Finset.univ p) c))
     W hW (ProviderMarkedPools.norm j) X U (ProviderMarkedPools.norm_pos hj.ne_zero)
-    hX hU hnormc hnormp, integral_const_mul]
+    hX hU hnormc hnormp, ← integral_const_mul]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
     have hsum :

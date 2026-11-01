@@ -18,7 +18,7 @@ open NumberField IsDedekindDomain HeckeGeneral.Arithmetic HeckeGeneral.Character
 open HeckeSkeleton.Moments.MOMInvStep
 open FixedTripleFibers CanonicalChildren CanonicalNormPools FirstColumnAssembly
   FirstCenteredPositiveEnergy FirstCenteredMellinEnergy FirstParentRows FirstParentFiber
-  FirstMobiusGeometry FirstPositiveSource CommonKernel FirstCommonEnvelope
+  FirstMobiusGeometry FirstPositiveSource CommonKernel FirstCommonEnvelope FirstOverlapColumns
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]
@@ -147,9 +147,10 @@ theorem actual_sourceRows_integral
     apply integral_congr_ae
     filter_upwards [] with η
     change w x.1 * (frequencyEnvelope m η * _) = frequencyEnvelope m η * (w x.1 * _)
+    simp only [FirstRowGeometry.row]
     ring
   · have hi := fourier_mellinEnergy_integrable K S Γ D C Θ ψ G hν hG J U α γ j d hΓ
-      W hW (row K S Γ (cubeDilation K S r₁ r₂ b₁ b₂) x)
+      W hW (FirstRowGeometry.row K S Γ (cubeDilation K S r₁ r₂ b₁ b₂) x)
       (frequencyEnvelope m) (frequencyEnvelope_integrable m)
       (signedCoordinate side) (signedCoordinate_continuous side)
     simpa only [mul_left_comm] using hi.const_mul (w x.1)

@@ -89,7 +89,7 @@ theorem conjugateInverseModel_polynomial (d : MomentData K ω ψ)
     map_mul, map_sum, map_inv₀, map_intCast, Complex.conj_ofReal,
     heckeIdealCoefficient_inv, directed_coefficient_conjugate, source_mask_conjugate,
     maskValue]
-  simp only [apply_ite, map_one, map_zero]
+  simp only [apply_ite, map_one, map_zero, mul_ite]
 
 @[simp] theorem conjugateInverseModel_slots (d : MomentData K ω ψ)
     (u : NonzeroIdeal K) (Z t : ℝ) :

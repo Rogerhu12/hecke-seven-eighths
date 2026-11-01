@@ -161,7 +161,9 @@ theorem firstSlice_center_bounds (P : Finset Idx) (i : Idx)
       side₁ grid centers alive k P) :
     (grid k).val ≤ FirstOuterCenters.extractedNorm K S D T side₁ i.1 i.2.1 ∧
       FirstOuterCenters.extractedNorm K S D T side₁ i.1 i.2.1 ≤ 2 * (grid k).val := by
-  have hk := (Finset.mem_filter.mp hi).2.2
+  have hk : centers.assignment side₁ i.1 i.2.1 = k := by
+    simp only [firstSlice, sourceSubset, Finset.mem_filter] at hi
+    exact hi.2.2
   exact ⟨by simpa only [hk] using centers.lower side₁ i.1 i.2.1,
     by simpa only [hk] using centers.upper side₁ i.1 i.2.1⟩
 

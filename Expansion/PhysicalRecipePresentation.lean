@@ -111,8 +111,11 @@ theorem physicalBlockLabelIntegrand_integrable
           (fun q => recipeAmplitudeRows K S P R ω ψ g F width cap Z rows q label)
           kernel ⟨u, hu⟩ := by
       funext p
-      simp only [physicalBlockLabelIntegrand, show u ∈ physicalBlockLabelRows
-        (P := P) (R := R) (ω := ω) width cap Z rows b hcard label from hu, dif_pos]
+      change (if h : u ∈ target then
+        movingPiece rows target
+          (fun q => recipeAmplitudeRows K S P R ω ψ g F width cap Z rows q label)
+          kernel ⟨u, h⟩ p else 0) = _
+      exact dif_pos hu
     rw [hfun]
     apply movingPiece_integrable measure {p : Fin 3 → ℝ | ‖p‖ ≤ T} rows target _ kernel hkernel
     intro A hA
@@ -121,8 +124,11 @@ theorem physicalBlockLabelIntegrand_integrable
   · have hfun : physicalBlockLabelIntegrand (P := P) (R := R) (ω := ω)
         width cap Z rows b hcard kernel label u = (fun _ : Fin 3 → ℝ => (0 : ℂ)) := by
       funext p
-      simp only [physicalBlockLabelIntegrand, show u ∉ physicalBlockLabelRows
-        (P := P) (R := R) (ω := ω) width cap Z rows b hcard label from hu, dif_neg]
+      change (if h : u ∈ target then
+        movingPiece rows target
+          (fun q => recipeAmplitudeRows K S P R ω ψ g F width cap Z rows q label)
+          kernel ⟨u, h⟩ p else 0) = _
+      exact dif_neg hu
     rw [hfun]
     exact integrable_zero _ _ _
 

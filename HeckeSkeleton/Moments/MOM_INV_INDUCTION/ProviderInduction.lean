@@ -22,6 +22,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction
 
 open NumberField IsDedekindDomain
@@ -41,7 +43,7 @@ variable (Λ G : HeckeCharacter K) (slotCap : ℕ)
 empty, regardless of its coefficient/test/label data. -/
 theorem uniformBound_of_negative_row_cap
     (Z A c z lo hi eps R C : ℝ) (t : Finset (ℕ × ℕ)) (hR : R < 0) :
-    UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+    UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
       Z A c z lo hi eps R C t := by
   intro σ x hx hrow
   exact False.elim (not_lt_of_ge hx.row_nonneg (hrow.trans_lt hR))
@@ -51,9 +53,9 @@ seminorm and scalar have been chosen. -/
 theorem uniformBound_mono_loss
     (Z A c z lo hi eps eps' R C : ℝ) (t : Finset (ℕ × ℕ))
     (hZ : 1 ≤ Z) (hC : 0 ≤ C) (heps : eps ≤ eps')
-    (h : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+    (h : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
       Z A c z lo hi eps R C t) :
-    UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+    UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
       Z A c z lo hi eps' R C t := by
   intro σ x hx hrow
   exact (h x hx hrow).trans (mul_le_mul_of_nonneg_left
@@ -71,20 +73,20 @@ theorem exists_uniform_bound_from_local_steps
       ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
         ∀ j : ℕ, j < depth → ∀ Z : ℝ, Z₀ ≤ Z →
         ∀ eps B : ℝ, 0 ≤ eps → 1 ≤ B →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax eta (j + 1)) (stageMargin c eta (j + 1))
           z lo hi eps (stageRowBound Mmax d (j + 1)) B t →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax eta j) (stageMargin c eta j)
           z lo hi (eps + loss) (stageRowBound Mmax d j) (3 * C * B) q) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
       ∀ Z : ℝ, Z₀ ≤ Z →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
           Z Fmax c z lo hi ((depth : ℝ) * loss) Mmax C q := by
   have stages : ∀ n : ℕ, n ≤ depth →
       ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
         ∀ j : ℕ, j + n = depth → ∀ Z : ℝ, Z₀ ≤ Z →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax eta j) (stageMargin c eta j)
           z lo hi ((n : ℝ) * loss) (stageRowBound Mmax d j) C q := by
     intro n
@@ -108,18 +110,33 @@ theorem exists_uniform_bound_from_local_steps
       refine ⟨q, 3 * C * B, hCB, ?_⟩
       intro j hj Z hZ
       have hjlt : j < depth := by omega
-      have hchild := ht (j + 1) (by omega) Z hZ
-      have hb := hq j hjlt Z hZ ((n : ℝ) * loss) B
+      have hchild : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ)
+          D Λ G slotCap Z (stageCapacity Fmax eta (j + 1))
+          (stageMargin c eta (j + 1)) z lo hi ((n : ℝ) * loss)
+          (stageRowBound Mmax d (j + 1)) B t :=
+        ht (j + 1) (by omega) Z hZ
+      have hb : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ)
+          D Λ G slotCap Z (stageCapacity Fmax eta j) (stageMargin c eta j)
+          z lo hi ((n : ℝ) * loss + loss) (stageRowBound Mmax d j)
+          (3 * C * B) q := hq j hjlt Z hZ ((n : ℝ) * loss) B
         (mul_nonneg (Nat.cast_nonneg _) hloss) hB hchild
       have hex : (n : ℝ) * loss + loss = ((n + 1 : ℕ) : ℝ) * loss := by
         push_cast
         ring
-      simpa only [hex] using hb
+      rw [← hex]
+      intro σ x hx hrow
+      exact hb x hx hrow
   obtain ⟨q, C, hC, hq⟩ := stages depth le_rfl
   refine ⟨q, C, hC, ?_⟩
   intro Z hZ
-  simpa only [stageCapacity, stageMargin, stageRowBound, Nat.cast_zero,
-    mul_zero, zero_mul, add_zero, sub_zero] using hq 0 (by omega) Z hZ
+  have hzero : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ)
+      D Λ G slotCap Z (stageCapacity Fmax eta 0) (stageMargin c eta 0)
+      z lo hi ((depth : ℝ) * loss) (stageRowBound Mmax d 0) C q :=
+    hq 0 (by omega) Z hZ
+  simp only [stageCapacity, stageMargin, stageRowBound, Nat.cast_zero,
+    mul_zero, zero_mul, add_zero, sub_zero] at hzero
+  intro σ x hx hrow
+  exact hzero x hx hrow
 
 /-- The simultaneous numerical budget gives the requested epsilon for
 the literal node class.  This final comparison does not change the
@@ -131,16 +148,16 @@ theorem exists_uniform_bound_of_budget
       ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
         ∀ j : ℕ, j < b.depth → ∀ Z : ℝ, Z₀ ≤ Z →
         ∀ e B : ℝ, 0 ≤ e → 1 ≤ B →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax b.eta (j + 1)) (stageMargin c b.eta (j + 1))
           z lo hi e (stageRowBound Mmax b.step (j + 1)) B t →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax b.eta j) (stageMargin c b.eta j)
           z lo hi (e + (40 * b.eta + b.tau + b.pi))
           (stageRowBound Mmax b.step j) (3 * C * B) q) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
       ∀ Z : ℝ, Z₀ ≤ Z →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
           Z Fmax c z lo hi (eps / 2) Mmax C q := by
   have hloss : 0 ≤ 40 * b.eta + b.tau + b.pi := by
     have := b.eta_pos

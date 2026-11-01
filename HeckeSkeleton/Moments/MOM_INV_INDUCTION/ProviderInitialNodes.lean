@@ -20,6 +20,8 @@ set_option maxHeartbeats 1600000
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes
 
 open NumberField IsDedekindDomain
@@ -40,7 +42,7 @@ variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (�
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
-variable {σ : Type*} [DecidableEq σ]
+variable {σ : Type u} [DecidableEq σ]
 variable (C : CanonicalBlock.ColumnData K S σ)
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ C.background)
@@ -263,7 +265,7 @@ unit-column bound in `CanonicalChildClosure`. -/
 theorem exists_uniform_raw_bound (slotCap₀ : ℕ) (A₀ pi : ℝ)
     (hA₀ : 0 ≤ A₀) (hpi : 0 < pi) (q : Finset (ℕ × ℕ)) :
     ∃ s : Finset (ℕ × ℕ), ∃ B : ℝ, 0 < B ∧
-      ∀ {σ₀ : Type*} [DecidableEq σ₀]
+      ∀ {σ₀ : Type u} [DecidableEq σ₀]
         (C₀ : CanonicalBlock.ColumnData K S σ₀)
         (Θ₀ : Subgroup (HeckeCharacter K)) (ψ₀ : HeckeCharacter K)
         (hν₀ : BackgroundCycle.Admissible K Θ₀ ψ₀ C₀.background)
@@ -289,7 +291,7 @@ theorem exists_uniform_raw_bound (slotCap₀ : ℕ) (A₀ pi : ℝ)
       MarkConditions K S slotCap₀ C₀.base z lo hi C₀.slots C₀.primeLists
         C₀.primeWeights markLengths →
       0 ≤ eps → 0 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ₀) (ψ := ψ₀) D Lambda G₀ slotCap₀ C₀.base m
+      UniformBound.{u} (Γ := Γ) (Θ := Θ₀) (ψ := ψ₀) D Lambda G₀ slotCap₀ C₀.base m
         (3 * c / 4) z lo hi eps m Cih q →
       ∀ t : ℝ, ∀ gamma ∈
         (ProviderInitialSource.packet K S D Γ (C₀.base ^ C₀.length) H₀ J₀ C₀.primeLists

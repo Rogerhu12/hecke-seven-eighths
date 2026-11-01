@@ -16,6 +16,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -54,7 +56,7 @@ theorem exists_uniform_local_step_uniform_marks
     (hG : G ∈ Θ) (slotCap : ℕ) (A pi tauMin cLower zMax lo hi d Z₀ : ℝ)
     (hA : 1 ≤ A) (hpi : 0 < pi) (htauMin : 0 < tauMin)
     (qShort : Finset (ℕ × ℕ)) (CShort : ℝ) (hCShort : 0 ≤ CShort)
-    (hshort : ∀ {σ : Type*} (Z Fcap c z : ℝ) (x : Node K S Γ Θ ψ σ),
+    (hshort : ∀ {σ : Type u} (Z Fcap c z : ℝ) (x : Node K S Γ Θ ψ σ),
       Z₀ ≤ Z → Fcap ≤ A → cLower ≤ c → 0 ≤ z → z ≤ zMax →
       x.Admissible D Λ G slotCap Z Fcap c z lo hi → x.labelLength < d →
       TerminalNodes.shortEnergy K S Γ D slotCap x (Z ^ d) ≤
@@ -67,9 +69,9 @@ theorem exists_uniform_local_step_uniform_marks
       2 ≤ Z ^ h → h ≤ eta / 128 → eta ≤ d / 16 →
       0 ≤ eps → 1 ≤ Cih →
       (∀ i : SchwartzTestPartition.Index, |Real.logb Z (annularScale i)| ≤ eta / 8) →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
         (Fcap + 11 * eta) (c - 7 * eta) z lo hi eps (Rmax - d) Cih t →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
         Fcap c z lo hi (eps + (40 * eta + tau + pi)) Rmax (3 * C * Cih) q := by
   obtain ⟨qLabel, CLabel, hCLabel, hlabel⟩ := ProviderNodeStep.exists_uniform_long_label_step
     K S D Γ hΓ hallowed μv ν μ slotCap A pi tauMin hA hpi htauMin t
@@ -157,20 +159,20 @@ theorem exists_uniform_bound_with_thresholds_uniform_marks
         ∀ j : ℕ, j < depth → ∀ Z : ℝ, Z₀ ≤ Z →
         ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
         ∀ eps B : ℝ, 0 ≤ eps → 1 ≤ B →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax eta (j + 1)) (stageMargin c eta (j + 1))
           z lo hi eps (stageRowBound Mmax d (j + 1)) B t →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax eta j) (stageMargin c eta j)
           z lo hi (eps + loss) (stageRowBound Mmax d j) (3 * C * B) q) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
           Z Fmax c z lo hi ((depth : ℝ) * loss) Mmax C q := by
   have stages : ∀ n : ℕ, n ≤ depth →
       ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
         ∀ j : ℕ, j + n = depth → ∀ Z : ℝ, Z₀ ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax eta j) (stageMargin c eta j)
           z lo hi ((n : ℝ) * loss) (stageRowBound Mmax d j) C q := by
     intro n
@@ -194,18 +196,33 @@ theorem exists_uniform_bound_with_thresholds_uniform_marks
         hZChild.trans (le_max_left _ _), ?_⟩
       intro j hj Z hZ z hz hzMax
       have hjlt : j < depth := by omega
-      have hprev := hchild (j + 1) (by omega) Z ((le_max_left _ _).trans hZ) z hz hzMax
-      have hnext := hlocal j hjlt Z ((le_max_right _ _).trans hZ) z hz hzMax
+      have hprev : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ)
+          D Λ G slotCap Z (stageCapacity Fmax eta (j + 1))
+          (stageMargin c eta (j + 1)) z lo hi ((n : ℝ) * loss)
+          (stageRowBound Mmax d (j + 1)) B t :=
+        hchild (j + 1) (by omega) Z ((le_max_left _ _).trans hZ) z hz hzMax
+      have hnext : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ)
+          D Λ G slotCap Z (stageCapacity Fmax eta j) (stageMargin c eta j)
+          z lo hi ((n : ℝ) * loss + loss) (stageRowBound Mmax d j)
+          (3 * C * B) q := hlocal j hjlt Z ((le_max_right _ _).trans hZ) z hz hzMax
         ((n : ℝ) * loss) B (mul_nonneg (Nat.cast_nonneg _) hloss) hB hprev
       have he : (n : ℝ) * loss + loss = ((n + 1 : ℕ) : ℝ) * loss := by
         push_cast
         ring
-      simpa only [he] using hnext
+      rw [← he]
+      intro σ x hx hrow
+      exact hnext x hx hrow
   obtain ⟨q, C, Z₀, hC, hZ₀, hq⟩ := stages depth le_rfl
   refine ⟨q, C, Z₀, hC, hZ₀, ?_⟩
   intro Z hZ z hz hzMax
-  simpa only [stageCapacity, stageMargin, stageRowBound, Nat.cast_zero,
-    mul_zero, zero_mul, add_zero, sub_zero] using hq 0 (by omega) Z hZ z hz hzMax
+  have hzero : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ)
+      D Λ G slotCap Z (stageCapacity Fmax eta 0) (stageMargin c eta 0)
+      z lo hi ((depth : ℝ) * loss) (stageRowBound Mmax d 0) C q :=
+    hq 0 (by omega) Z hZ z hz hzMax
+  simp only [stageCapacity, stageMargin, stageRowBound, Nat.cast_zero,
+    mul_zero, zero_mul, add_zero, sub_zero] at hzero
+  intro σ x hx hrow
+  exact hzero x hx hrow
 
 theorem exists_uniform_bound_of_budget_with_thresholds_uniform_marks
     {Mmax c eps : ℝ} (b : DescentBudget Mmax c eps)
@@ -215,16 +232,16 @@ theorem exists_uniform_bound_of_budget_with_thresholds_uniform_marks
         ∀ j : ℕ, j < b.depth → ∀ Z : ℝ, Z₀ ≤ Z →
         ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
         ∀ e B : ℝ, 0 ≤ e → 1 ≤ B →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax b.eta (j + 1)) (stageMargin c b.eta (j + 1))
           z lo hi e (stageRowBound Mmax b.step (j + 1)) B t →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax b.eta j) (stageMargin c b.eta j)
           z lo hi (e + (40 * b.eta + b.tau + b.pi))
           (stageRowBound Mmax b.step j) (3 * C * B) q) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
           Z Fmax c z lo hi (eps / 2) Mmax C q := by
   have hloss : 0 ≤ 40 * b.eta + b.tau + b.pi := by
     have := b.eta_pos
@@ -254,7 +271,7 @@ theorem exists_stage_steps_of_short_contribution_uniform_marks
     (htau : b.tau ≤ A) (hzMax : 0 ≤ zMax)
     (qShort : Finset (ℕ × ℕ)) (CShort ZShort : ℝ) (hCShort : 0 ≤ CShort)
     (hshort : ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-      ∀ {σ : Type*} (Z Fcap cStage : ℝ) (x : Node K S Γ Θ ψ σ),
+      ∀ {σ : Type u} (Z Fcap cStage : ℝ) (x : Node K S Γ Θ ψ σ),
       ZShort ≤ Z → Fcap ≤ A → c / 2 ≤ cStage →
       x.Admissible D Λ G slotCap Z Fcap cStage z lo hi → x.labelLength < b.step →
       TerminalNodes.shortEnergy K S Γ D slotCap x (Z ^ b.step) ≤
@@ -264,10 +281,10 @@ theorem exists_stage_steps_of_short_contribution_uniform_marks
         ∀ j : ℕ, j < b.depth → ∀ Z : ℝ, Z₀ ≤ Z →
         ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
         ∀ e B : ℝ, 0 ≤ e → 1 ≤ B →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax b.eta (j + 1)) (stageMargin c b.eta (j + 1))
           z lo hi e (stageRowBound Mmax b.step (j + 1)) B t →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
           (stageCapacity Fmax b.eta j) (stageMargin c b.eta j)
           z lo hi (e + (40 * b.eta + b.tau + b.pi))
           (stageRowBound Mmax b.step j) (3 * C * B) q := by
@@ -288,10 +305,12 @@ theorem exists_stage_steps_of_short_contribution_uniform_marks
   have hshift (i : SchwartzTestPartition.Index) :
       |Real.logb Z (annularScale i)| ≤ b.eta / 8 :=
     hlogs _ (annular_scale_bounds i).1 (annular_scale_bounds i).2
-  have hih' : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+  have hih' : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
       (stageCapacity Fmax b.eta j + 11 * b.eta) (stageMargin c b.eta j - 7 * b.eta)
       z lo hi e (stageRowBound Mmax b.step j - b.step) B t := by
-    simpa only [stageCapacity_succ, stageMargin_succ, stageRowBound_succ] using hih
+    simp only [stageCapacity_succ, stageMargin_succ, stageRowBound_succ] at hih
+    intro σ x hx hrow
+    exact hih x hx hrow
   exact hlocal Z (stageCapacity Fmax b.eta j) (stageMargin c b.eta j) z
     b.eta (fineMesh b) b.tau e B (stageRowBound Mmax b.step j)
     (hZFine.trans hZF) hZS ((stageCapacity_le_common b.eta_pos.le hjle).trans hcapacity)
@@ -309,14 +328,14 @@ theorem exists_uniform_bound_of_short_contribution_uniform_marks
     (htau : b.tau ≤ A) (hzMax : 0 ≤ zMax)
     (qShort : Finset (ℕ × ℕ)) (CShort ZShort : ℝ) (hCShort : 0 ≤ CShort)
     (hshort : ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-      ∀ {σ : Type*} (Z Fcap cStage : ℝ) (x : Node K S Γ Θ ψ σ),
+      ∀ {σ : Type u} (Z Fcap cStage : ℝ) (x : Node K S Γ Θ ψ σ),
       ZShort ≤ Z → Fcap ≤ A → c / 2 ≤ cStage →
       x.Admissible D Λ G slotCap Z Fcap cStage z lo hi → x.labelLength < b.step →
       TerminalNodes.shortEnergy K S Γ D slotCap x (Z ^ b.step) ≤
         CShort * (qShort.sup (schwartzSeminormFamily ℝ ℝ ℂ) x.test) ^ 2 * Z ^ x.totalLength) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
           Z Fmax c z lo hi (eps / 2) Mmax C q := by
   exact exists_uniform_bound_of_budget_with_thresholds_uniform_marks D Λ G slotCap b Fmax zMax lo hi
     (exists_stage_steps_of_short_contribution_uniform_marks (K := K) (S := S) (Γ := Γ) (Θ := Θ) (ψ := ψ)

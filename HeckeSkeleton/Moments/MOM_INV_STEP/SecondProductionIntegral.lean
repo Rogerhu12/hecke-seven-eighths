@@ -296,7 +296,11 @@ theorem actualTotal_eq_selected (m : ℕ) (side₂ : Bool) :
   dsimp only [preScalar, nodeIntegral, branchAt, selectedCenter,
     SecondAdaptiveRetained.dataAt, SecondAdaptiveRetained.oldIndexAt,
     SecondParentProduction.test, FirstToSecondData.data,
-    FirstCenteredFamily.family, FirstCompleteFamily.family, mellinTest]
+    FirstCenteredFamily.family, FirstCompleteFamily.family, mellinTest,
+    SecondParentProduction.selectedDivisor, SecondParentProduction.selectedRow,
+    SecondParentProduction.selectedSector, SecondAdaptiveRetained.selectedDivisorAt,
+    SecondAdaptiveRetained.selectedRowAt, SecondAdaptiveRetained.selectedSectorAt,
+    SecondParentProduction.scale, FirstToSecondData.sourceScale]
   ring
 
 /-- Every actual finite subsource is first partitioned by its common/

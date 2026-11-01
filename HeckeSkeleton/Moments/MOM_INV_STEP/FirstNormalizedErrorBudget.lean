@@ -75,10 +75,10 @@ variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
 variable (hbase : 1 < T.columns.base)
 local notation "Idx" => FirstErrorSource.Index K S D T
-local notation "U" k => FirstCenteredPositiveEnergy.centerScale T.scale (grid k)
-local notation "Ui" i => FirstErrorBoxes.assignedScale K S D T grid centers side i
-local notation "assigned" i => centers.assignment side i.1 i.2
-local notation "weight" k i =>
+local notation "U" k:max => FirstCenteredPositiveEnergy.centerScale T.scale (grid k)
+local notation "Ui" i:max => FirstErrorBoxes.assignedScale K S D T grid centers side i
+local notation "assigned" i:max => centers.assignment side i.1 i.2
+local notation "weight" k:max i:max =>
   FirstNormalizedSource.liveWeight K S D Γ T H labels grid centers side R massEps ε
     Z r ell V k i
 
@@ -186,7 +186,8 @@ theorem error_average_eq (hZ : 0 ≤ Z) (k : ι) (J : Finset σ) :
       (FirstSecondReduction.errorAt_nonneg K S D Γ hΓ μv T Θ ψ G hν hG hbase
         R (U k) J s (FirstSecondErrorBridge.cutoff K S D T R (U k) Z tau) i.1 i.2))
     (fun i => c i * B i) (fun i _ s => mul_le_mul_of_nonneg_left (hb i s) (hc i))
-  simpa only [FirstNormalizedReduction.error, c, f, spectralAverage_const_mul] using he
+  delta FirstNormalizedReduction.error
+  simpa only [c, f, spectralAverage_const_mul] using he
 
 /-- The first center contributes exactly once per actual source. The
 sum over centers disappears by its original assignment indicator. -/
@@ -285,7 +286,7 @@ theorem boxedTotal_le_principal_add_tail
         (Real.rpow_nonneg (R i.1).property.le _))
       (mul_nonneg hscalarCost (Real.rpow_nonneg hZ.le _))
     have hh := mul_le_mul_of_nonneg_right hgeom (mobiusWeight_nonneg K S D T i)
-    convert hh using 1 <;> simp only [FirstNormalizedSource.weight] <;> ring
+    convert hh using 1 <;> (try simp only [FirstNormalizedSource.weight]) <;> ring
   have hterm (i : Idx) (hi : i ∈ I) (J : Finset σ) :
       FirstNormalizedSource.weight K S D T grid R massEps ε Z r ell V (assigned i) i *
         ‖mark K S D T side i J‖ ^ 2 *

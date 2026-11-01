@@ -72,7 +72,7 @@ theorem prefixColumn_eq_annular_sum (T : Finset ι) (a : ι → ℂ) (N : ι →
   rw [← Finset.mul_sum]
   congr 1
   have h := congrArg Complex.ofReal (Expansion.Dyadic.sum_annular_telescope (N i) L)
-  rw [Expansion.Dyadic.cutoff_zero (by linarith [hN i hi]), sub_zero] at h
+  rw [Expansion.Dyadic.cutoff_zero (x := 2 * N i) (by linarith [hN i hi]), sub_zero] at h
   simpa only [Expansion.Dyadic.annularProfile, Complex.ofReal_sum] using h.symm
 
 /-- The cost of the finite scale decomposition is its actual number of
@@ -90,6 +90,7 @@ theorem prefixColumn_sq_le (T : Finset ι) (a : ι → ℂ) (N : ι → ℝ)
       _root_.sq_sum_le_card_mul_sum_sq
     _ = _ := by rw [Finset.card_range]
 
+set_option maxHeartbeats 1600000 in
 /-- Fourier inversion for the entire finite polynomial uses one density.
 Its translation parameter has become a single common unit phase. -/
 theorem finite_shifted_fourier (T : Finset ι) (a : ι → ℂ) (x : ι → ℝ)
@@ -107,8 +108,11 @@ theorem finite_shifted_fourier (T : Finset ι) (a : ι → ℂ) (x : ι → ℝ)
         intro i hi
         rw [sub_eq_add_neg, columnPhase_add]
         ring
-    _ = ∑ i ∈ T, ∫ t : ℝ, a i * ((𝓕 F) t * columnPhase t (x i - v)) :=
-      integral_finset_sum T (fun i hi => (integrable_inverse F (x i - v)).const_mul (a i))
+    _ = ∑ i ∈ T, ∫ t : ℝ, a i * ((𝓕 F) t * columnPhase t (x i - v)) := by
+      have hi (i : ι) : Integrable
+          (fun t : ℝ => a i * ((𝓕 F) t * columnPhase t (x i - v))) :=
+        (integrable_inverse F (x i - v)).const_mul (a i)
+      exact integral_finsetSum T (fun i _ => hi i)
     _ = _ := by
       apply Finset.sum_congr rfl
       intro i hi
@@ -134,8 +138,13 @@ theorem shifted_profile_eq_prefix_integral (T : Finset ι) (a : ι → ℂ)
   rw [hsource, finite_shifted_fourier]
   apply integral_congr_ae
   exact Filter.Eventually.of_forall fun t => by
-    congr 1
-    unfold prefixColumn
+    change (𝓕 F) t * columnPhase t (-Real.log D) *
+        (∑ i ∈ T, a i * (Expansion.Dyadic.cutoff (N i / (2 : ℝ) ^ L) : ℂ) *
+          columnPhase t (Real.log (N i))) =
+      (𝓕 F) t * columnPhase t (-Real.log D) *
+        (∑ i ∈ T, a i * columnPhase t (Real.log (N i)) *
+          (Expansion.Dyadic.cutoff (N i / (2 : ℝ) ^ L) : ℂ))
+    apply congrArg (fun z : ℂ => (𝓕 F) t * columnPhase t (-Real.log D) * z)
     apply Finset.sum_congr rfl
     intro i hi
     ring
@@ -146,6 +155,7 @@ theorem prefix_energy_integrable (T : Finset ι) (a : ι → ℂ) (N : ι → �
   apply hW.mul_bdd (c := (∑ i ∈ T, ‖a i‖) ^ 2)
     ((prefixColumn_continuous T a N L).norm.pow 2).aestronglyMeasurable
   exact Filter.Eventually.of_forall fun t => by
+    change ‖‖prefixColumn T a N L t‖ ^ 2‖ ≤ (∑ i ∈ T, ‖a i‖) ^ 2
     rw [Real.norm_of_nonneg (sq_nonneg _)]
     exact pow_le_pow_left₀ (norm_nonneg _) (prefixColumn_norm_le T a N L t) 2
 

@@ -78,7 +78,7 @@ theorem full_center_assignment_collapse {A : Type*} [AddCommMonoid A]
         if centers.assignment side o e = k then F o e k else 0) =
       ∑ i : FirstErrorSource.Index K S D T, F i.1 i.2
         (centers.assignment side i.1 i.2) := by
-  rw [Fintype.sum_sigma]
+  rw [Fintype.sum_sigma (α := fun o : OuterIndex K S D T => FirstOuterCenters.Overlap K S D T o)]
   apply Finset.sum_congr rfl
   intro o ho
   rw [Finset.sum_comm]
@@ -102,7 +102,7 @@ theorem live_center_assignment_collapse
       ∑ i ∈ FirstLiveCappedFreeEnergy.liveIndices K S D Γ T H L,
         F i.1 i.2 (centers.assignment side i.1 i.2) := by
   simp only [FirstLiveCappedFreeEnergy.liveIndices, Finset.sum_filter]
-  rw [Fintype.sum_sigma]
+  rw [Fintype.sum_sigma (α := fun o : OuterIndex K S D T => FirstOuterCenters.Overlap K S D T o)]
   apply Finset.sum_congr rfl
   intro o ho
   by_cases hlive : FirstLiveCappedFreeEnergy.alive K S D Γ T H L o
@@ -144,9 +144,11 @@ theorem mobiusWeight_nonneg (i : FirstErrorSource.Index K S D T) :
   mul_nonneg (norm_nonneg _) (norm_nonneg _)
 
 theorem mobiusWeight_le_one (i : FirstErrorSource.Index K S D T) :
-    mobiusWeight K S D T i ≤ 1 :=
-  mul_le_one₀ (HeckePort.IdealMobiusDivisorSum.norm_ideal_moebius_le_one _)
-    (norm_nonneg _) (HeckePort.IdealMobiusDivisorSum.norm_ideal_moebius_le_one _)
+    mobiusWeight K S D T i ≤ 1 := by
+  unfold mobiusWeight
+  refine mul_le_one₀ ?_ (norm_nonneg _) ?_ <;>
+  · unfold UniqueFactorizationMonoid.moebius
+    split_ifs <;> simp
 
 def spectralMass : ℝ :=
   ((T.columns.slots.powerset.card : ℝ) * (rowCovolume K S)⁻¹) *

@@ -135,8 +135,18 @@ theorem source_pointwise_le (m : ℕ) (side₂ : Bool) (b : Bin)
       (sq_nonneg ‖secondMark K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ J₂ i‖))
     (sq_nonneg ‖FirstProductionChildren.actualChildColumn K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂
       J₂ (SecondMobiusGeometry.childScale X b) (p.2 + SecondParentProduction.coordinate side₂ p.1) i‖)
-  convert hh using 1 <;> dsimp only [firstMark, secondMark, PositiveAssignedSource.oldExtracted,
-    PositiveAssignedSource.newExtracted, FirstOverlapColumns.assignedMark] <;> ring
+  have h1 : ‖firstMark K S D T J₁ side₁ i.1 i.2.1‖ =
+      ‖divisorMark J₁ T.columns.primeLists T.columns.primeWeights
+        (PositiveAssignedSource.oldExtracted
+          (FirstToSecondData.bare K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂ hmask i) side₁)‖ := rfl
+  have h2 : ‖secondMark K S D Γ T Θ ψ G hν hG hbase R U J₁ s H₂ J₂ i‖ =
+      ‖divisorMark J₂ T.columns.primeLists T.columns.primeWeights
+        (PositiveAssignedSource.newExtracted
+          (FirstToSecondData.bare K S D T Θ ψ G hν hG hbase R U J₁ s Γ H₂ hmask i))‖ := rfl
+  refine hh.trans_eq ?_
+  rw [h1, h2]
+  dsimp only
+  ring
 
 include G hG hbase in
 /-- Every reconstructed canonical column is jointly integrable under

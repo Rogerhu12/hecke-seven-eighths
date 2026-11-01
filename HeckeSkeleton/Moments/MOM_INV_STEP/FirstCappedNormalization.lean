@@ -23,7 +23,7 @@ open FixedTripleFibers CanonicalChildren CanonicalNormPools FirstColumnAssembly
   FirstParentRows FirstOuterCenters FirstMobiusGeometry FirstPositiveSource
   FirstCenteredPositiveEnergy FirstCommonEnvelope FirstFreeMellinEnergy
   FirstBranchIntegration FirstLocalizedFreeEnergy FirstCappedFreeEnergy FirstPoissonNormalization
-  FirstActualPrefactor InverseRowMajorant CommonKernel
+  FirstActualPrefactor InverseRowMajorant CommonKernel FirstOverlapColumns
 open scoped Classical BigOperators nonZeroDivisors
 
 variable (K : Type) [Field K] [NumberField K]

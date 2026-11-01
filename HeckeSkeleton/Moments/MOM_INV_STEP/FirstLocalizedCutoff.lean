@@ -22,6 +22,7 @@ open scoped Classical BigOperators nonZeroDivisors
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable (D : ThetaArithmeticData K (S : Set (HeightOneSpectrum (𝓞 K))))
+variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
 local notation "Ext" => ExteriorIdeal K Sset
@@ -46,8 +47,8 @@ theorem fineCutoff_frozen (r X : {r : ℝ // 0 < r}) (Z tau : ℝ)
       fineCutoff K S D r X Z tau r₁ r₂ b₁ b₂ := by
   funext δ
   unfold fineCutoff FirstCommonEnvelope.radialScale residualScale
-  rw [cubeNorm_eq K S D n₁ n₂ r₁ r₂ b₁ b₂ hs,
-    extractedFactor_eq K S n₁ n₂ r₁ r₂ b₁ b₂ hs false,
+  rw [cubeNorm_eq K S D n₁ n₂ r₁ r₂ b₁ b₂ hs]
+  simp only [extractedFactor_eq K S n₁ n₂ r₁ r₂ b₁ b₂ hs false,
     extractedFactor_eq K S n₁ n₂ r₁ r₂ b₁ b₂ hs true]
 
 theorem residual_height_le (X : {r : ℝ // 0 < r}) (n₁ n₂ r₁ r₂ b₁ b₂ : Ext)
@@ -97,12 +98,10 @@ theorem fineCutoff_argument (r X : {r : ℝ // 0 < r}) (Z tau : ℝ) (hZ : 0 < Z
   let XL := (residualScale K S X r₁ r₂ b₁ b₂ false).val
   let XR := (residualScale K S X r₁ r₂ b₁ b₂ true).val
   let R := cubeNorm K S D r₁ r₂ b₁ b₂
-  have hu : 0 < u := by
-    exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors
-      (residualIdeal K S D n₁ n₂ b₁ b₂ false).val
-  have hv : 0 < v := by
-    exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors
-      (residualIdeal K S D n₁ n₂ b₁ b₂ true).val
+  have hu : 0 < u := Nat.cast_pos.mpr (Ideal.absNorm_pos_of_nonZeroDivisors
+      (residualIdeal K S D n₁ n₂ b₁ b₂ false).val)
+  have hv : 0 < v := Nat.cast_pos.mpr (Ideal.absNorm_pos_of_nonZeroDivisors
+      (residualIdeal K S D n₁ n₂ b₁ b₂ true).val)
   have hprod : u * v ≤ (2 * XL) * (2 * XR) :=
     mul_le_mul (residual_height_le K S D X n₁ n₂ r₁ r₂ b₁ b₂ hn₁ hn₂ hs false)
       (residual_height_le K S D X n₁ n₂ r₁ r₂ b₁ b₂ hn₁ hn₂ hs true) hv.le
@@ -129,7 +128,6 @@ theorem fineCutoff_argument (r X : {r : ℝ // 0 < r}) (Z tau : ℝ) (hZ : 0 < Z
 variable (Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))
 variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
   [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] [Γ.FiniteIndex]
-  [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 variable {σ : Type*}
 
 /-- This function is chosen before all original labels and all retained

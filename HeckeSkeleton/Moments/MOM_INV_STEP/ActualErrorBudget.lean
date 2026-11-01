@@ -26,6 +26,8 @@ open CanonicalNormPools FirstParentRows FirstOuterCenters FirstPositiveSource
   FirstNormalizedErrorBudget ActualProductionBoxes ActualBoxGeometry
 open scoped Classical BigOperators nonZeroDivisors
 
+universe uσ
+
 private theorem rpow_mul_pair (Z E p saving : ℝ) (hZ : 0 < Z) :
     Z ^ p * (Z ^ E + Z ^ (E - saving)) =
       Z ^ (E + p) + Z ^ (E + p - saving) := by
@@ -60,9 +62,9 @@ theorem exists_actual_error_bound
     (slotCap : ℕ) (A piRad piError piBox tauMin saving : ℝ)
     (hA : 1 ≤ A) (hpiError : 0 < piError) (hpiBox : 0 < piBox)
     (htauMin : 0 < tauMin) (hsaving : 0 ≤ saving)
-    (choice : UniformFirstWeightChoice.Choice K S D (2 * A) (32 * (4 * A)) piRad) :
+    (choice : UniformFirstWeightChoice.Choice.{uσ} K S D (2 * A) (32 * (4 * A)) piRad) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧
-      ∀ {σ ι : Type*} [DecidableEq σ] [Fintype ι]
+      ∀ {σ : Type uσ} {ι : Type*} [DecidableEq σ] [Fintype ι]
         (T : FirstParentEnergy.Data K S (σ := σ)) (hmask : T.mask = ∅)
         (grid : ι → {r : ℝ // 0 < r})
         (centers : FirstOuterCenters.Centering K S D T grid)

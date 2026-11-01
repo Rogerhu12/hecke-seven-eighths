@@ -18,6 +18,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderLocalStep
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -57,7 +59,7 @@ theorem exists_uniform_local_step_of_short_contribution
     (hG : G ∈ Θ) (slotCap : ℕ) (A pi tauMin cLower z lo hi d Z₀ : ℝ)
     (hA : 1 ≤ A) (hpi : 0 < pi) (htauMin : 0 < tauMin)
     (qShort : Finset (ℕ × ℕ)) (CShort : ℝ) (hCShort : 0 ≤ CShort)
-    (hshort : ∀ {σ : Type*} (Z Fcap c : ℝ) (x : Node K S Γ Θ ψ σ),
+    (hshort : ∀ {σ : Type u} (Z Fcap c : ℝ) (x : Node K S Γ Θ ψ σ),
       Z₀ ≤ Z → Fcap ≤ A → cLower ≤ c →
       x.Admissible D Λ G slotCap Z Fcap c z lo hi → x.labelLength < d →
       TerminalNodes.shortEnergy K S Γ D slotCap x (Z ^ d) ≤
@@ -70,9 +72,9 @@ theorem exists_uniform_local_step_of_short_contribution
       2 ≤ Z ^ h → h ≤ eta / 128 → eta ≤ d / 16 →
       0 ≤ eps → 1 ≤ Cih →
       (∀ i : SchwartzTestPartition.Index, |Real.logb Z (annularScale i)| ≤ eta / 8) →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
         (Fcap + 11 * eta) (c - 7 * eta) z lo hi eps (Rmax - d) Cih t →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
         Fcap c z lo hi (eps + (40 * eta + tau + pi)) Rmax (3 * C * Cih) q := by
   obtain ⟨qLabel, CLabel, hCLabel, hlabel⟩ := ProviderNodeStep.exists_uniform_long_label_step
     K S D Γ hΓ hallowed μv ν μ slotCap A pi tauMin hA hpi htauMin t

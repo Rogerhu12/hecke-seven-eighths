@@ -20,6 +20,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -42,7 +44,7 @@ variable [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (�
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 local notation "OS" => Set.integer Sset K
-variable {σ : Type*} [DecidableEq σ]
+variable {σ : Type u} [DecidableEq σ]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
 variable (Θ : Subgroup (HeckeCharacter K)) (ψ G : HeckeCharacter K)
 variable (hν : BackgroundCycle.Admissible K Θ ψ T.columns.background) (hG : G ∈ Θ)
@@ -197,7 +199,7 @@ theorem smaller_piece_bound_of_uniform
     (hgeometry : ActualStepGeometry.PieceClassGeometry K S D Γ T Θ ψ G hν hG hbase
       R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j
       hprime hweights hJ₁ J₂ hJ₂ slotCap hcap M r ell V z c d eta h side₂)
-    (hih : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+    (hih : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
       (A + 11 * eta) (c - 7 * eta) z lo hi eps (Rcap - d) Cih t) :
     ActualClosedBoxBudget.SmallerPieceBound K S D Γ T Θ ψ G hν hG hbase
       R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j
@@ -246,7 +248,7 @@ theorem smaller_piece_bound_of_uniform_sharp
     (hgeometry : ActualStepGeometry.PieceClassGeometry K S D Γ T Θ ψ G hν hG hbase
       R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j
       hprime hweights hJ₁ J₂ hJ₂ slotCap hcap M r ell V z c d eta h side₂)
-    (hih : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+    (hih : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
       (A + 11 * eta) (c - 7 * eta) z lo hi eps (Rcap - 3 * d / 2) Cih t) :
     ActualClosedBoxBudget.SmallerPieceBound K S D Γ T Θ ψ G hν hG hbase
       R U J₁ s H₂ hmask grid centers alive k side₁ P b Z L j

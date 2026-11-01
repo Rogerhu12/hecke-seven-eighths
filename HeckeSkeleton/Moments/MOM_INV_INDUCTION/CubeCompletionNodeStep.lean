@@ -20,6 +20,8 @@ is added to the node class.
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
 
+universe u
+
 noncomputable section
 
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionNodeStep
@@ -57,7 +59,7 @@ local notation "Ext" => ExteriorIdeal K Sset
 local notation "Sector" => CanonicalSectors.UnitClasses K Sset Γ
 local notation "Varch" => mixedEmbedding.euclidean.mixedSpace K
 
-def coefficients {σ : Type*} {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
+def coefficients {σ : Type u} {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
     (x : Node K S Γ Θ ψ σ) (P : Ideal (𝓞 K) → Prop)
     (B : Finset Ext) (H : ℝ) (fk : Ext × (Ideal (𝓞 K) × Sector)) : Ext → Ext → ℂ :=
   CubeCompletionProvider.arithmeticCoefficient K S D
@@ -65,7 +67,7 @@ def coefficients {σ : Type*} {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeChar
     (fun I => CanonicalChildren.sectorRow K Sset D
       (CanonicalSectors.sectorUnit K Sset Γ) I fk.2)
 
-def annularEnergy {σ : Type*} {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
+def annularEnergy {σ : Type u} {Θ : Subgroup (HeckeCharacter K)} {ψ : HeckeCharacter K}
     (slotCap : ℕ) (x : Node K S Γ Θ ψ σ) (P : Ideal (𝓞 K) → Prop)
     (B : Finset Ext) (H : ℝ) (t : ℝ) (i : SchwartzTestPartition.Index) : ℝ :=
   CubeCompletionEnergy.annularEnergy
@@ -83,7 +85,7 @@ theorem exists_uniform_annular_step
     (slotCap : ℕ) (A pi tauMin : ℝ) (hA : 1 ≤ A)
     (hpi : 0 < pi) (htauMin : 0 < tauMin) (t : Finset (ℕ × ℕ)) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
-      ∀ {σ : Type*} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
+      ∀ {σ : Type u} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
         (ψ Λ G : HeckeCharacter K), G ∈ Θ →
       ∀ (Z Fcap c z lo hi d eta h tau eps Cih Rmax : ℝ)
         (x : Node K S Γ Θ ψ σ),
@@ -92,7 +94,7 @@ theorem exists_uniform_annular_step
       h ∈ Set.Icc (0 : ℝ) 1 → tau ∈ Set.Icc (0 : ℝ) A → tauMin ≤ tau →
       2 ≤ Z ^ h → h ≤ eta / 128 → eta ≤ d / 16 →
       0 ≤ eps → 1 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
         (Fcap + 11 * eta) (c - 7 * eta) z lo hi eps (Rmax - d) Cih t →
       ∀ (P : Ideal (𝓞 K) → Prop) (B : Finset Ext) (H : ℝ),
       1 ≤ H → H ^ 3 ≤ 2 * Z ^ x.columnLength →
@@ -197,7 +199,7 @@ theorem exists_uniform_annular_step
   have hweights : ∀ j ∈ T.columns.slots, ∀ p ∈ T.columns.primeLists j,
       ‖T.columns.primeWeights j p‖ ≤ 1 := hx.marks.weights_le
   have hslots : T.columns.slots.card ≤ slotCap := hx.marks.card_le
-  have hih' : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+  have hih' : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
       ((Fcap + eta / 8) + 11 * (eta / 2))
       ((c - eta / 2) - 7 * (eta / 2)) z lo hi eps
       (Rmax - 3 * (2 * d / 3) / 2) Cih t :=

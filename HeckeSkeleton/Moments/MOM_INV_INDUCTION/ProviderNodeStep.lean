@@ -21,6 +21,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodeStep
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -64,7 +66,7 @@ theorem exists_uniform_long_label_step
     (slotCap : ℕ) (A pi tauMin : ℝ) (hA : 1 ≤ A)
     (hpi : 0 < pi) (htauMin : 0 < tauMin) (t : Finset (ℕ × ℕ)) :
     ∃ q : Finset (ℕ × ℕ), ∃ C : ℝ, 1 ≤ C ∧
-      ∀ {σ : Type*} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
+      ∀ {σ : Type u} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
         (ψ Λ G : HeckeCharacter K), G ∈ Θ →
       ∀ (Z Fcap c z lo hi d eta h tau eps Cih Rmax : ℝ)
         (x : Node K S Γ Θ ψ σ),
@@ -73,7 +75,7 @@ theorem exists_uniform_long_label_step
       h ∈ Set.Icc (0 : ℝ) 1 → tau ∈ Set.Icc (0 : ℝ) A → tauMin ≤ tau →
       2 ≤ Z ^ h → h ≤ eta / 32 → eta ≤ d / 16 → d ≤ x.labelLength →
       0 ≤ eps → 1 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap Z
         (Fcap + 11 * eta) (c - 7 * eta) z lo hi eps (Rmax - d) Cih t →
       x.energy D slotCap ≤ (3 * C * Cih) *
         (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) x.test) ^ 2 *

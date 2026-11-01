@@ -66,7 +66,7 @@ theorem annular_bound_of_uniform
     (gap eps : ℝ) (hgap0 : 0 < gap) (hgap1 : gap < 1) (heps : 0 < eps)
     (t : Finset (ℕ × ℕ)) (Cih Hih : ℝ) (hCih : 1 ≤ Cih) (hHih : 2 ≤ Hih)
     (hih : ∀ H : ℝ, Hih ≤ H →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G 0 H 1
+      UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G 0 H 1
         (3 * gap / 16) 0 1 2 (eps / 2) 1 Cih t) :
     ∃ q : Finset (ℕ × ℕ), ∃ C H₀ : ℝ, 0 ≤ C ∧ 2 ≤ H₀ ∧
       ∀ (i : Parameters K c) (H X : ℝ), H₀ ≤ H → 0 < X →
@@ -159,7 +159,7 @@ theorem strict_seed_of_canonical_uniform
     (hcanonical : ∀ margin loss : ℝ, 0 < margin → 0 < loss →
       ∃ q : Finset (ℕ × ℕ), ∃ C H₀ : ℝ, 1 ≤ C ∧ 2 ≤ H₀ ∧
         ∀ H : ℝ, H₀ ≤ H →
-          UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G 0 H 1 margin
+          UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G 0 H 1 margin
             0 1 2 loss 1 C q) :
     CompleteUnmarkedScaleSupBound
       (recipeMomentModels K c (expansionRecipeRaw K c)).unmarked := by

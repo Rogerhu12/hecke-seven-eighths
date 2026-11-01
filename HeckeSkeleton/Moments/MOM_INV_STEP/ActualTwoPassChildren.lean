@@ -74,6 +74,7 @@ theorem background_cycle (G : HeckeCharacter K) (hG : G ∈ Θ)
   dsimp only [PositiveLiteralChildren.family, FirstCenteredFamily.family,
     FirstCompleteFamily.family, family]
   rw [mul_inv_cancel_right]
+  rfl
 
 variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)]
 variable {N : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K))))} {X : ℝ}

@@ -17,6 +17,8 @@ set_option relaxedAutoImplicit false
 
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -30,7 +32,7 @@ variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 
-def columns {σ : Type*} (Λ ν₀ : HeckeCharacter K)
+def columns {σ : Type u} (Λ ν₀ : HeckeCharacter K)
     (j : Ideal (𝓞 K)) (slots : Finset σ) (lists : σ → Finset (Ideal (𝓞 K)))
     (a : σ → Ideal (𝓞 K) → ℂ) (Z X : ℝ) (W : SchwartzMap ℝ ℂ) :
     CanonicalBlock.ColumnData K S σ where
@@ -45,7 +47,7 @@ def columns {σ : Type*} (Λ ν₀ : HeckeCharacter K)
   base := Z
   length := Real.logb Z X
 
-theorem sourceMark_eq {σ : Type*} (Λ ν₀ : HeckeCharacter K)
+theorem sourceMark_eq {σ : Type u} (Λ ν₀ : HeckeCharacter K)
     (j : Ideal (𝓞 K)) (slots : Finset σ) (lists : σ → Finset (Ideal (𝓞 K)))
     (a : σ → Ideal (𝓞 K) → ℂ) (Z X : ℝ) (W : SchwartzMap ℝ ℂ) :
     ProviderInitialInverse.sourceMark K S (columns K S Λ ν₀ j slots lists a Z X W) =
@@ -61,7 +63,7 @@ variable (D : ThetaArithmeticData K Sset)
 
 /-- The actual logarithmic column scale and extracted puncture are
 charged to the original margins.  There is no assumed initial energy. -/
-theorem source_conditions {σ : Type*} (slotCap : ℕ)
+theorem source_conditions {σ : Type u} (slotCap : ℕ)
     (Λ Gcal ν₀ : HeckeCharacter K) (hcal : ThetaCalibrationInput K Sset D Λ Gcal)
     (hν₀ : ∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sset → UnramifiedAt K ν₀ p)
     (j : Ideal (𝓞 K)) (hj : j ≠ 0)
@@ -147,9 +149,9 @@ the uniform class.  The mark budget and its two margins are unchanged. -/
 theorem uniform_restrict (Θ : Subgroup (HeckeCharacter K)) (ψ Λ G : HeckeCharacter K)
     (slotCap : ℕ) (Z A A' c z lo hi eps R R' C : ℝ) (q : Finset (ℕ × ℕ))
     (hA : A ≤ A') (hR : R ≤ R')
-    (hb : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+    (hb : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
       Z A' c z lo hi eps R' C q) :
-    UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
+    UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap
       Z A c z lo hi eps R C q := by
   intro σ x hx hrow
   exact hb x { hx with total_le := hx.total_le.trans hA } (hrow.trans hR)
@@ -170,7 +172,7 @@ theorem exists_uniform_orbital_bound (slotCap : ℕ) (gap eps supportC : ℝ)
     (hgap : 0 < gap) (heps : 0 < eps) (hC : 1 ≤ supportC)
     (qchild : Finset (ℕ × ℕ)) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
-      ∀ {σ : Type*} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
+      ∀ {σ : Type u} [DecidableEq σ] (Θ : Subgroup (HeckeCharacter K))
         (ψ Λ Gcal ν₀ : HeckeCharacter K), Gcal ∈ Θ →
       ThetaCalibrationInput K Sset D Λ Gcal → BackgroundCycle.Admissible K Θ ψ ν₀ →
       (∀ p : HeightOneSpectrum (𝓞 K), p ∉ Sset → UnramifiedAt K ν₀ p) →
@@ -184,7 +186,7 @@ theorem exists_uniform_orbital_bound (slotCap : ℕ) (gap eps supportC : ℝ)
       MarkConditions K S slotCap Z (z - G) lo hi slots lists a lengths →
       ∀ (W : SchwartzMap ℝ ℂ), tsupport W ⊆ Set.Icc (1 : ℝ) 2 →
       ∀ Cih : ℝ, 1 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ Gcal slotCap Z 2
+      UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ Gcal slotCap Z 2
         (3 * gap / 4) (z - G) lo hi (eps / 2) 2 Cih qchild →
       ‖SourceReductionPoisson.orbitalEnergy K S D Γ ν₀
         (fun n => SourceMarkedPhysical.mark slots lists a j n.val.val) W X
@@ -210,8 +212,10 @@ theorem exists_uniform_orbital_bound (slotCap : ℕ) (gap eps supportC : ℝ)
   have hcond := source_conditions K S D slotCap Λ Gcal ν₀ hcal hunram j hj
     slots lists a lengths gap eps supportC Z X m r z G lo hi W hgap heps hZtwo hX
     hm0 hm2 hG hGz hf hg hjbound hXbound (hs Z hZ2) (hw Z hZ1) hmarks
-  have hih' := uniform_restrict K S D Γ Θ ψ Λ Gcal slotCap Z m 2
-    (3 * gap / 4) (z - G) lo hi (eps / 2) m 2 Cih qchild hm2 hm2 hih
+  have hih' : UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ Gcal slotCap
+      Z m (3 * gap / 4) (z - G) lo hi (eps / 2) m Cih qchild :=
+    uniform_restrict K S D Γ Θ ψ Λ Gcal slotCap Z m 2
+      (3 * gap / 4) (z - G) lo hi (eps / 2) m 2 Cih qchild hm2 hm2 hih
   have hbound := hb C₀ Θ ψ hν W hW Λ Gcal hGcal m (G + gap / 4) (z - G)
     gap (SourceUnmarkedOrbital.mesh gap eps) (SourceUnmarkedOrbital.truncation gap)
     lo hi lengths hcond (eps / 2) Cih hm2 le_rfl (by positivity) hCih hih'

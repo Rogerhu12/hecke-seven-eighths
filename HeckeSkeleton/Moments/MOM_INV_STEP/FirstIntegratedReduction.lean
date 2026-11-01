@@ -83,13 +83,15 @@ variable [MeasurableSpace (AdeleRing (𝓞 K) K)] [BorelSpace (AdeleRing (𝓞 K
 local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "Ext" => ExteriorIdeal K Sset
 
+universe uσ
+
 def integrationConstant (slotCap : ℕ) (ε₂ : ℝ) (hε₂ : 0 < ε₂) (k : ℕ) : ℝ :=
   ((2 : ℝ) ^ slotCap) ^ 2 * (rowCovolume K S)⁻¹ *
     integralConstant k * polynomialCoefficient k * coordinateConstant k *
-      FirstNormalizedReduction.reductionConstant K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ k
+      FirstNormalizedReduction.reductionConstant.{uσ} K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ k
 
 theorem integrationConstant_nonneg (slotCap : ℕ) (ε₂ : ℝ) (hε₂ : 0 < ε₂) (k : ℕ) :
-    0 ≤ integrationConstant K S D Γ hΓ μv hallowed ν μ slotCap ε₂ hε₂ k := by
+    0 ≤ integrationConstant.{uσ} K S D Γ hΓ μv hallowed ν μ slotCap ε₂ hε₂ k := by
   unfold integrationConstant
   exact mul_nonneg
     (mul_nonneg (mul_nonneg (mul_nonneg
@@ -98,7 +100,7 @@ theorem integrationConstant_nonneg (slotCap : ℕ) (ε₂ : ℝ) (hε₂ : 0 < �
       (coordinateConstant_nonneg k))
     (FirstNormalizedReduction.reductionConstant_nonneg K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ k)
 
-variable {σ ι : Type*} [DecidableEq σ] [Fintype ι]
+variable {σ : Type uσ} {ι : Type*} [DecidableEq σ] [Fintype ι]
 variable (T : FirstParentEnergy.Data K S (σ := σ))
 variable (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (labels : Finset (ExteriorIdeal K (S : Set (HeightOneSpectrum (𝓞 K)))))
 variable (grid : ι → {r : ℝ // 0 < r})
@@ -123,13 +125,13 @@ theorem total_le_of_production (slotCap : ℕ) (hslots : T.columns.slots.card �
     (W : SchwartzMap ℝ ℂ) (hW : tsupport W ⊆ Set.Icc (1 : ℝ) 2) :
     FirstNormalizedSource.total K S D Γ T H labels grid centers side R massEps ε₁
       Z r ell V Θ ψ G hν hG W hW (degree m₂) ≤
-    integrationConstant K S D Γ hΓ μv hallowed ν μ slotCap ε₂ hε₂ m₂ *
+    integrationConstant.{uσ} K S D Γ hΓ μv hallowed ν μ slotCap ε₂ hε₂ m₂ *
       (Fintype.card ι : ℝ) * Bprod *
         ((testSeminorm m₂).sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 +
       FirstNormalizedErrorBudget.boxedTotal K S D Γ hΓ μv T grid centers side
         R massEps ε₁ Z r ell V tau Θ ψ G hν hG hbase W hW (degree m₂)
         (FirstNormalizedErrorBudget.liveSources K S D Γ T H labels) := by
-  let C₂ := FirstNormalizedReduction.reductionConstant K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ m₂
+  let C₂ := FirstNormalizedReduction.reductionConstant.{uσ} K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ m₂
   have hC₂ : 0 ≤ C₂ := FirstNormalizedReduction.reductionConstant_nonneg
     K S D Γ hΓ μv hallowed ν μ ε₂ hε₂ m₂
   let B := C₂ * Bprod * polynomialCoefficient m₂
@@ -190,7 +192,7 @@ theorem total_le_of_production (slotCap : ℕ) (hslots : T.columns.slots.card �
   have hprodterm : FirstNormalizedErrorBudget.outerCoefficient K S T W hW *
       ((Fintype.card ι : ℝ) * (T.columns.slots.powerset.card : ℝ) *
         spectralAverage ρ (degree m₂) (signedCoordinate side) P) ≤
-      integrationConstant K S D Γ hΓ μv hallowed ν μ slotCap ε₂ hε₂ m₂ *
+      integrationConstant.{uσ} K S D Γ hΓ μv hallowed ν μ slotCap ε₂ hε₂ m₂ *
         (Fintype.card ι : ℝ) * Bprod *
           ((testSeminorm m₂).sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 := by
     have hcov : 0 ≤ (rowCovolume K S)⁻¹ := inv_nonneg.mpr (rowCovolume_pos K S).le

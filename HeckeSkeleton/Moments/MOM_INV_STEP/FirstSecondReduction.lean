@@ -70,6 +70,8 @@ def errorAt (o : OuterIndex K S D T) (e : FirstOuterCenters.Overlap K S D T o) :
     (Q.columns.columns Q.triple ×ˢ Q.columns.columns Q.triple)
     Q.archTest Q.localTest Q.locallyConstant Q.compactSupport Q.radius (H₂ o)‖
 
+omit [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)] [BorelSpace (FiniteAdeleRing (𝓞 K) K)]
+  [MeasurableSpace (AdeleRing (𝓞 K) K)] [BorelSpace (AdeleRing (𝓞 K) K)] in
 theorem errorAt_nonneg (o : OuterIndex K S D T)
     (e : FirstOuterCenters.Overlap K S D T o) :
     0 ≤ errorAt K S D Γ hΓ μv T Θ ψ G hν hG hbase R U J s H₂ o e := by
@@ -129,7 +131,8 @@ theorem exists_pointwise_free_bound (ε : ℝ) (hε : 0 < ε) (m : ℕ) :
       change UnramifiedAt K (T.columns.background * G) p
       exact (hbg p hp).mul K (hcal.G_unramified p hp)
     · intro k hk p hp
-      exact hprime k (Finset.mem_sdiff.mp hk).1 p hp
+      exact hprime k
+        ((@Finset.mem_sdiff _ (fun a b => Classical.propDecidable (a = b)) _ _ _).mp hk).1 p hp
   have hroots := roots_le_half_sum L E
     (SecondAdaptiveProduction.totalAt_nonneg K S D Γ Q (H₂ o) G hG ε m false)
     (SecondAdaptiveProduction.totalAt_nonneg K S D Γ Q (H₂ o) G hG ε m true)
@@ -196,10 +199,10 @@ theorem exists_weighted_free_bound (ε : ℝ) (hε : 0 < ε) (m : ℕ) :
       intro e he
       exact mul_le_mul_of_nonneg_left (hpoint o e) (mul_nonneg (hw o e) (sq_nonneg _))
     _ = _ := by
-      simp only [SecondProductionIntegral.actualTotal, mul_add, Finset.sum_add_distrib,
+      simp only [SecondProductionIntegral.actualTotal, mul_add, ← Finset.sum_add_distrib,
         Finset.mul_sum]
-      congr 1 <;> apply Finset.sum_congr rfl <;> intro o ho <;>
-        apply Finset.sum_congr rfl <;> intro e he <;> ring
+      refine Finset.sum_congr rfl fun o _ => Finset.sum_congr rfl fun e _ => ?_
+      ring
 
 end HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondReduction
 

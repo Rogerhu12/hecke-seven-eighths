@@ -173,9 +173,11 @@ theorem source_membership (i : Idx) (hi : i ∈ Pbox) :
         R U J₁ s H₂ i = b ∧
       ActualProductionBoxes.assignment K S D Γ T hmask X Hraw Z L (Eidx i) = j := by
   have h₁ := Finset.mem_filter.mp hi
-  have h₂ := Finset.mem_filter.mp h₁.1
-  have h₃ := Finset.mem_filter.mp h₂.1
-  exact ⟨h₃.1,h₂.2.1,h₂.2.2,h₃.2,h₁.2⟩
+  have h₂ := h₁.1
+  simp only [slice, SecondProductionRestriction.firstSlice,
+    SecondProductionRestriction.sourceSubset, SecondProductionIntegral.bin,
+    Finset.mem_filter] at h₂
+  exact ⟨h₂.1.1, h₂.2.1, h₂.2.2, h₂.1.2, h₁.2⟩
 
 theorem source_raw_box (i : Idx) (hi : i ∈ Pbox) :
     Eidx i ∈ ActualProductionBoxes.box K S D Γ T hmask X Hraw
@@ -222,7 +224,7 @@ theorem source_first_prefactor_le (M r ell V : ℝ)
       FirstColumnAssembly.extractedHeight K S
         (outerAnchor K S D T i.1).1 (outerAnchor K S D T i.1).2
         i.1.1.val i.1.2.1.val side₁ (FirstToSecondData.quotient K S D T i.1 i.2.1) := by
-    simpa only [hm.2.2.1, FirstOuterCenters.extractedNorm] using
+    simpa only [hm.2.2.1, FirstOuterCenters.extractedNorm, FirstToSecondData.quotient] using
       centers.lower side₁ i.1 i.2.1
   have hp := FirstActualPrefactor.normalizedScalar_le K S D
     Z M r ell V (length Z j .firstDivisor) (extractedLength Z j side₁)
@@ -359,7 +361,7 @@ theorem source_row_bound (M r ell V tau : ℝ)
     (H₂ i.1 i.2.2.1.1.val i.2.2.1.2.1.val) i.2.2.1.2.2.val).mp i.2.2.1.2.2.property
   have hcut := congrArg
     (fun f => f i.1 i.2.2.1.1.val i.2.2.1.2.1.val) hcutoff
-  rw [hcut] at hk
+  replace hk := hk.trans_eq hcut
   have hρ : (InverseRowMajorant.rowRadius (R i.1)).val ≤
       Z ^ (-(firstPhysicalHeight M r ell V (length Z j .firstDivisor)
         (length Z j .firstCommon) (length Z j .cubeLabel) + 12 * h + tau)) := by
@@ -389,14 +391,14 @@ local notation "packet" => SecondProductionPacket.packet K S D Γ T Θ ψ G hν 
   R U J₁ s H₂ hmask hprime hweights hJ₁ J₂ hJ₂ Pbox side₁ slotCap hcap
 local notation "Nactual" => Real.logb Z (SecondMobiusGeometry.childScale X b)
 local notation "ALen" => extractedLength Z j side₁
-local notation "BLen" => length Z j .firstCommon
-local notation "RLen" => length Z j .activeConductor
-local notation "JLen" => length Z j .cubeLabel
-local notation "deltaLen" => length Z j .firstDivisor
-local notation "tLen" => length Z j .firstOverlap
-local notation "gLen" => length Z j .secondCommon
-local notation "thetaLen" => length Z j .secondDivisor
-local notation "vLen" => length Z j .secondOverlap
+local notation "BLen" => length Z j Coordinate.firstCommon
+local notation "RLen" => length Z j Coordinate.activeConductor
+local notation "JLen" => length Z j Coordinate.cubeLabel
+local notation "deltaLen" => length Z j Coordinate.firstDivisor
+local notation "tLen" => length Z j Coordinate.firstOverlap
+local notation "gLen" => length Z j Coordinate.secondCommon
+local notation "thetaLen" => length Z j Coordinate.secondDivisor
+local notation "vLen" => length Z j Coordinate.secondOverlap
 
 /-- This finite image is proved from the original production index;
 it is useful for transferring all source geometry to packet members. -/
@@ -405,6 +407,7 @@ theorem sourceOn_eq_bare_image :
       R U J₁ s H₂ hmask Pbox = (Pbox).image Bsrc := by
   simp only [FirstProductionChildren.sourceOn, ActualPositiveIndex.source,
     Finset.image_image, FirstToSecondData.bare]
+  rfl
 
 include hZ hh hwidth hb hfirst hsecond in
 /-- Every packet row has a genuine source witness in the same first

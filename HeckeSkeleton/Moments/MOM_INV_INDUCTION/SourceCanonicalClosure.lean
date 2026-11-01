@@ -17,6 +17,8 @@ set_option autoImplicit false
 set_option relaxedAutoImplicit false
 noncomputable section
 
+universe u
+
 namespace HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCanonicalClosure
 
 open NumberField IsDedekindDomain MeasureTheory
@@ -70,7 +72,7 @@ theorem exists_uniform_canonical_bound
     (hlo : 0 < lo) (hhi : lo ≤ hi) (hloss : 0 < loss) :
     ∃ q : Finset (ℕ × ℕ), ∃ C Z₀ : ℝ, 1 ≤ C ∧ 2 ≤ Z₀ ∧
       ∀ Z : ℝ, Z₀ ≤ Z → ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-        UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G slotCap
+        UniformBound.{u} (Γ := Γ) (Θ := Θ) (ψ := ψ) D P.Lambda P.G slotCap
           Z Fmax margin z lo hi loss Mmax C q := by
   obtain ⟨b, hstep⟩ := exists_terminal_descentBudget Mmax margin (2 * loss) hmargin (by positivity)
   let A := max (max 1 (stageCapacity Fmax b.eta b.depth)) (max b.tau zMax)
@@ -84,7 +86,7 @@ theorem exists_uniform_canonical_bound
       P.Lambda P.G (reflectionFamily K c) hE slotCap A (margin / 2) lo hi hA
       (by positivity) hlo hhi
   have hs : ∀ z : ℝ, 0 ≤ z → z ≤ zMax →
-      ∀ {σ : Type*} (Z Fcap cStage : ℝ) (x : Node K S Γ Θ ψ σ),
+      ∀ {σ : Type u} (Z Fcap cStage : ℝ) (x : Node K S Γ Θ ψ σ),
       ZShort ≤ Z → Fcap ≤ A → margin / 2 ≤ cStage →
       x.Admissible D P.Lambda P.G slotCap Z Fcap cStage z lo hi → x.labelLength < b.step →
       TerminalNodes.shortEnergy K S Γ D slotCap x (Z ^ b.step) ≤

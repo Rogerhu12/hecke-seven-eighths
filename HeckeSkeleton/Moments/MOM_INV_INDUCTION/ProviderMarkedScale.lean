@@ -49,7 +49,8 @@ theorem slot_normalization {ι : Type*} (I : Finset ι) (z : ι → ℝ)
   simp_rw [inverse_sqrt_rpow Z _ hZ]
   rw [← Real.rpow_sum_of_pos hZ]
   congr 1
-  rw [Finset.sum_div, Finset.sum_neg_distrib]
+  simp_rw [div_eq_mul_inv]
+  rw [← Finset.sum_mul, Finset.sum_neg_distrib]
 
 theorem complete_normalization {ι : Type*} (I : Finset ι) (z : ι → ℝ)
     (Z r G : ℝ) (hZ : 0 < Z) :
@@ -136,9 +137,9 @@ theorem normalized_primeProduct_bounds (I : Finset ι)
       ProviderMarkedPools.norm (p i).asIdeal / Z ^ z i ≤ 2 :=
     (div_le_iff₀ (Real.rpow_pos_of_pos hZ _)).mpr (hp i hi).2
   constructor
-  · exact Finset.one_le_prod fun i hi => hlo i hi
+  · exact Finset.one_le_prod₀ fun i hi => hlo i hi
   · calc
-      _ ≤ ∏ i ∈ I, (2 : ℝ) := Finset.prod_le_prod
+      _ ≤ ∏ i ∈ I, (2 : ℝ) := Finset.prod_le_prod₀
         (fun i hi => (zero_le_one.trans (hlo i hi))) hhi
       _ = _ := by rw [Finset.prod_const]
 

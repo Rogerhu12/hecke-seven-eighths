@@ -34,6 +34,8 @@ local notation "Sset" => (S : Set (HeightOneSpectrum (𝓞 K)))
 local notation "OS" => Set.integer Sset K
 local notation "Ext" => ExteriorIdeal K Sset
 
+omit [MeasurableSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))]
+  [BorelSpace (sLocalNormOneGroup K (S : Set (HeightOneSpectrum (𝓞 K))))] in
 theorem newRow_norm (k : Ext) (d₁ d₂ : NonzeroRingElements OS) :
     height K Sset (newRowIdeal K S k d₁ d₂) =
       (sIntegerElementNorm K Sset d₁).val * (sIntegerElementNorm K Sset d₂).val *

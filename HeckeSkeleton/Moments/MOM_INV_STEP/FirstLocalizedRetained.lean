@@ -25,7 +25,9 @@ private theorem sum_label_source {α β : Type*} [Fintype α]
     (∑ f ∈ L, ∑ a : α, ∑ z : Z a, F a f z) =
       ∑ j : (Σ a : α, Σ f : L, Z a), F j.1 j.2.1.val j.2.2 := by
   rw [Finset.sum_comm]
-  simp only [Fintype.sum_sigma, Finset.sum_coe_sort]
+  simp only [Fintype.sum_sigma]
+  refine Finset.sum_congr rfl fun a _ => ?_
+  exact (Finset.sum_coe_sort L (fun f => ∑ z : Z a, F a f z)).symm
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Finset (HeightOneSpectrum (𝓞 K)))
@@ -69,8 +71,9 @@ def pointEnergy (G : HeckeCharacter K) (T : FirstParentEnergy.Data K S (σ := σ
 theorem pointEnergy_nonneg (G : HeckeCharacter K)
     (T : FirstParentEnergy.Data K S (σ := σ))
     (o : OuterIndex K S D T) (f : Ext) (z : Ext × Sector) (side : Bool) :
-    0 ≤ pointEnergy K S D Γ μv ν G T o f z side :=
-  FirstParentEnergy.positiveEnergy_nonneg K S Γ _ _ _ _ _ _
+    0 ≤ pointEnergy K S D Γ μv ν G T o f z side := by
+  unfold pointEnergy FirstPositiveSource.sourceEnergy
+  exact FirstParentEnergy.positiveEnergy_nonneg K S Γ _ _ _ _ _ _
 
 def dataAt (T : FirstParentEnergy.Data K S (σ := σ))
     (H : OuterIndex K S D T → {r : ℝ // 0 < r}) (o : OuterIndex K S D T) (f : Ext) :
@@ -166,8 +169,13 @@ theorem weighted_retained_norm_le (hallowed : AllowedGeneratorInput K Sset D)
     pointEnergy K S D Γ μv ν G T j.1 j.2.1.val j.2.2.val side
   have he (side : Bool) :
       (∑ j : J, weight j * E side j) = rawTotal K S D Γ μv ν G T H L w side := by
-    simp only [J, Fintype.sum_sigma, Finset.sum_coe_sort, weight, E, rawTotal,
-      pointEnergy, Finset.mul_sum, mul_assoc]
+    have h := sum_label_source
+      (fun o : OuterIndex K S D T => FirstDualTruncation.sectorCutoff K S D Γ (H o).val) L
+      (fun o f z => (maskWeight K S D T o * pairWeight K S T.columns o.1.val o.2.1.val w f) *
+        pointEnergy K S D Γ μv ν G T o f z.val side)
+    refine h.symm.trans ?_
+    simp only [rawTotal, pointEnergy, Finset.mul_sum, mul_assoc]
+    exact Finset.sum_comm
   have hm (j : J) : 0 ≤ weight j := by
     exact mul_nonneg (maskWeight_nonneg K S D T j.1)
       (mul_nonneg (mul_nonneg (hw j.2.1.val j.2.1.property) (norm_nonneg _))

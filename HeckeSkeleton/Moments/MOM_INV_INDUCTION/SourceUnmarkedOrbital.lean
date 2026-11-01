@@ -175,7 +175,7 @@ theorem exists_uniform_orbital_bound_of_uniform
       ∀ (lo hi H X : ℝ) (hH : 0 < H) (W : SchwartzMap ℝ ℂ),
       tsupport W ⊆ Set.Icc (1 : ℝ) 2 → H₀ ≤ H → 1 ≤ X →
       Real.logb H X ≤ 1 - gap / 2 → ∀ Cih : ℝ, 1 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap H 1 (3 * gap / 16)
+      UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap H 1 (3 * gap / 16)
         0 lo hi (eps / 2) 1 Cih qchild →
       ‖SourceReductionPoisson.orbitalEnergy K S D Γ ν₀ (fun _ => 1) W X ⟨H, hH⟩‖ ≤
         C * Cih * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 * H ^ (1 + eps) := by
@@ -193,7 +193,7 @@ theorem exists_uniform_orbital_bound_of_uniform
   let C₀ := columns K S Λ ν₀ H X W
   have hb := source_conditions K S D slotCap Λ G ν₀ hcal hunram
     gap eps H X lo hi W hgap0 hgap1 heps hH4 hX hlength hHwidth
-  have hih' : UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap H 1
+  have hih' : UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap H 1
       (3 * (gap / 4) / 4) 0 lo hi (eps / 2) 1 Cih qchild := by
     simpa only [show 3 * (gap / 4) / 4 = 3 * gap / 16 by ring] using hih
   have hbnd := horbital C₀ Θ ψ hadmissible W hW Λ G hG 1 0 0 (gap / 4)
@@ -226,7 +226,7 @@ theorem exists_uniform_orbital_bound_of_scale
       ∀ (lo hi H X : ℝ) (hH : 0 < H) (W : SchwartzMap ℝ ℂ),
       tsupport W ⊆ Set.Icc (1 : ℝ) 2 → H₀ ≤ H → 1 ≤ X →
       X ≤ H ^ (1 - gap / 2) → ∀ Cih : ℝ, 1 ≤ Cih →
-      UniformBound (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap H 1 (3 * gap / 16)
+      UniformBound.{0} (Γ := Γ) (Θ := Θ) (ψ := ψ) D Λ G slotCap H 1 (3 * gap / 16)
         0 lo hi (eps / 2) 1 Cih qchild →
       ‖SourceReductionPoisson.orbitalEnergy K S D Γ ν₀ (fun _ => 1) W X ⟨H, hH⟩‖ ≤
         C * Cih * (q.sup (schwartzSeminormFamily ℝ ℝ ℂ) W) ^ 2 * H ^ (1 + eps) := by

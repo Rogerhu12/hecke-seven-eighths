@@ -58,7 +58,7 @@ theorem tuple_product_norm_le
   calc
     _ = ∏ i, ProviderMarkedPools.norm (p i).asIdeal := by
       simp only [ProviderMarkedPools.norm, primeProduct, map_prod, Nat.cast_prod]
-    _ ≤ ∏ i, 2 * Z ^ z i := Finset.prod_le_prod
+    _ ≤ ∏ i, 2 * Z ^ z i := Finset.prod_le_prod₀
       (fun i hi => (ProviderMarkedPools.norm_pos (p i).ne_bot).le)
       (fun i hi => hupper i (p i) (Fintype.mem_piFinset.mp hp i))
     _ = _ := by
