@@ -1,7 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussDualRawTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussHybridTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
-
 set_option linter.unusedSectionVars false
 
 /-!
@@ -29,6 +28,40 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis MeasureTheory
 open HeckePort.Moments
+
+private theorem dual_scalar_integral_const_nonzero_const
+    {X : Type*} [MeasurableSpace X]
+    (μ : Measure X) [IsFiniteMeasure μ]
+    (weight zeroTerm tailTerm : ℝ) (f : X → ℝ) (hf : Integrable f μ) :
+    (∫ x, weight * (zeroTerm + f x + tailTerm) ∂μ) =
+      weight * (μ.real Set.univ * (zeroTerm + tailTerm) + ∫ x, f x ∂μ) := by
+  sorry
+
+private theorem dual_scalar_weighted_terminal_sum
+    {J : Type*} [Fintype J]
+    (weight zeroCoefficient zeroAmplitude zeroPower
+      tailCoefficient tailAmplitude tailPower nonzero : ℝ)
+    (leaves scaledLeaves : J → ℝ)
+    (hsum : nonzero = ∑ b : J, leaves b)
+    (hscaled : ∀ b : J, scaledLeaves b = weight * leaves b) :
+    weight * (zeroCoefficient * zeroAmplitude * zeroPower + nonzero +
+      tailCoefficient * tailAmplitude * tailPower) =
+      weight * zeroCoefficient * zeroAmplitude * zeroPower +
+      weight * tailCoefficient * tailAmplitude * tailPower +
+      ∑ b : J, scaledLeaves b := by
+  sorry
+
+private theorem dual_scalar_integral_const_add_sum
+    {X J : Type*} [MeasurableSpace X] [Fintype J]
+    (μ : Measure X) [IsFiniteMeasure μ]
+    (c : ℝ) (f : X → ℝ) (leaves : J → X → ℝ) (costs : J → ℝ)
+    (leafMeasures : J → Measure X)
+    (hpoint : ∀ ξ, f ξ = c + ∑ b : J, leaves b ξ)
+    (hmeasure : ∀ b : J, leafMeasures b = μ)
+    (hterms : ∀ b : J, Integrable (leaves b) (leafMeasures b))
+    (hcosts : ∀ b : J, (∫ ξ, leaves b ξ ∂(leafMeasures b)) = costs b) :
+    (∫ ξ, f ξ ∂μ) = μ.real Set.univ * c + ∑ b : J, costs b := by
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
