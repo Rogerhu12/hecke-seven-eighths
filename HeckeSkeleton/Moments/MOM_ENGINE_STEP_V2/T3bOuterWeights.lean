@@ -63,7 +63,7 @@ theorem firstCauchy_outer_mul_allowance_mobius
     let NL := N.left key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
     let NR := N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
     FirstCauchyKey.outer key N * (if FirstCauchyKey.side key then NR else NL) ≤
-      ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
+      ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
         (firstRowMajorant F key.1 key.2.1 * Real.sqrt NL * Real.sqrt NR / 2) := by
   dsimp only
   let NL := N.left key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
@@ -79,7 +79,7 @@ theorem firstCauchy_outer_mul_allowance_mobius
   unfold FirstCauchyKey.outer
   rw [hF.fiber, Nat.cast_one, one_mul, div_mul_cancel₀ _ hden.ne']
   calc
-    _ ≤ (‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ * 1) *
+    _ ≤ (‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ * 1) *
         ((FirstCauchyKey.piece key).rowBound * Real.sqrt NL * Real.sqrt NR / 2) :=
       mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left
         (fixed_phase_coefficient_norm PUnit (fun _ => (1 : Circle))
@@ -131,14 +131,14 @@ theorem t3b_outer_allowance_mobius (hF : F.Realizes) (hfamily : family.Realizes)
     (family.source i).outerWeight * T3b.selectedAllowance F key *
       call.base ^ (-(call.workingParameters.n₁ + call.workingParameters.n₂ + call.workingParameters.z)) /
         call.parentNormalizer ≤
-      (orbitalFieldFactor K / 2) * ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
+      (orbitalFieldFactor K / 2) * ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
         firstCommonWeight call.base key.1.val.1 key.1.val.2 *
         call.base ^ T3b.firstTiltError F key := by
   dsimp only
   have h := T3b.firstCauchy_outer_mul_allowance_mobius hF (family.index i) family.normalization
   simp only [hfamily.leftAllowance, hfamily.rightAllowance] at h
   have h' : (family.source i).outerWeight * T3b.selectedAllowance F (family.index i) ≤
-      ‖(moebius (FirstCauchyKey.residual (family.index i)).val : ℂ)‖ *
+      ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual (family.index i)).val : ℂ)‖ *
         (T3b.firstRowMajorant F (family.index i).1 (family.index i).2.1 *
           Real.sqrt (firstLeftAllowance call.base
             (T3b.firstAllowanceTotal F (family.index i).1 (family.index i).2.1)
@@ -152,7 +152,7 @@ theorem t3b_outer_allowance_mobius (hF : F.Realizes) (hfamily : family.Realizes)
     (mul_le_mul_of_nonneg_right h' (Real.rpow_nonneg call.base_pos.le _))
     call.parentNormalizer_pos.le).trans_eq
   calc
-    _ = (‖(moebius (FirstCauchyKey.residual (family.index i)).val : ℂ)‖ / 2) *
+    _ = (‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual (family.index i)).val : ℂ)‖ / 2) *
         (T3b.firstRowMajorant F (family.index i).1 (family.index i).2.1 *
           Real.sqrt (firstLeftAllowance call.base
             (T3b.firstAllowanceTotal F (family.index i).1 (family.index i).2.1)
@@ -170,7 +170,7 @@ theorem t3b_outer_allowance_radical (hF : F.Realizes) (hfamily : family.Realizes
     (family.source i).outerWeight * T3b.selectedAllowance F key *
       call.base ^ (-(call.workingParameters.n₁ + call.workingParameters.n₂ + call.workingParameters.z)) /
         call.parentNormalizer ≤
-      (orbitalFieldFactor K / 2) * ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
+      (orbitalFieldFactor K / 2) * ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
         (1 / (Ideal.absNorm (commonRadical key.1.val.1 key.1.val.2) : ℝ)) *
         call.base ^ T3b.firstTiltError F key := by
   dsimp only
@@ -194,15 +194,16 @@ namespace RawLeafPacket
 
 theorem t3b_leaf_outer_weight_le (packet : RawLeafPacket call p) :
     packet.leaf.weight ≤ packet.second.physical.outerWeight * (packet.second.stage.fiber : ℝ) *
-      ‖(moebius packet.allocation.1.val : ℂ)‖ := by
+      ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ := by
   change (packet.second.physical.outerWeight * (packet.second.stage.fiber : ℝ)) *
-    (‖(moebius packet.allocation.1.val : ℂ)‖ *
+    (‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ *
       ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) packet.allocation.2.1‖) ≤ _
   have h := mul_le_mul_of_nonneg_left
     (mul_le_mul_of_nonneg_left
       (fixed_phase_coefficient_norm PUnit (fun _ => (1 : Circle)) packet.allocation.2.1)
-      (norm_nonneg _))
-    (mul_nonneg packet.second.physical.outerWeight_nonneg (Nat.cast_nonneg _))
+      (norm_nonneg (UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)))
+    (mul_nonneg packet.second.physical.outerWeight_nonneg
+      (Nat.cast_nonneg packet.second.stage.fiber))
   simpa only [mul_one] using h
 
 end RawLeafPacket

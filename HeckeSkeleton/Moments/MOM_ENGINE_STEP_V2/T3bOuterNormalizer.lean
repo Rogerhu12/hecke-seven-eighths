@@ -39,7 +39,7 @@ namespace FirstCoordinates
 
 def t3bIndexFactor (first : FirstCoordinates call) : ℝ :=
   (1 / (Ideal.absNorm (commonRadical first.selected.val first.opposite.val) : ℝ)) *
-    ‖(moebius first.residualDivisor.val : ℂ)‖
+    ‖(UniqueFactorizationMonoid.moebius first.residualDivisor.val : ℂ)‖
 
 theorem t3bIndexFactor_nonneg (first : FirstCoordinates call) :
     0 ≤ first.t3bIndexFactor := by
@@ -158,7 +158,7 @@ theorem t3b_outer_scalar_to_index
     change (trace.second.source i).physical = trace.expansion.source i
     exact htrace.second.physical i
   have hweight : packet.leaf.weight ≤ packet.second.physical.outerWeight *
-      T3b.physicalOrbitFibreConstant c p * ‖(moebius packet.allocation.1.val : ℂ)‖ :=
+      T3b.physicalOrbitFibreConstant c p * ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ :=
     packet.t3b_leaf_outer_weight_le.trans
       (mul_le_mul_of_nonneg_right
         (mul_le_mul_of_nonneg_left (raw.t3b_secondFiber_uniform trace htrace j)
@@ -183,7 +183,7 @@ theorem t3b_outer_scalar_to_index
     have hz := call.base_pos.le
     positivity
   have hremaining : 0 ≤ coefficient * T3b.physicalOrbitFibreConstant c p *
-      ‖(moebius packet.allocation.1.val : ℂ)‖ / Q * call.base ^ scalarLoss := by
+      ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ / Q * call.base ^ scalarLoss := by
     have hf := T3b.physicalOrbitFibreConstant_nonneg (c := c) (p := p)
     have hz := call.base_pos.le
     positivity
@@ -198,7 +198,7 @@ theorem t3b_outer_scalar_to_index
       div_le_div_of_nonneg_right
         (mul_le_mul_of_nonneg_left hvalue packet.leaf.weight_nonneg) call.parentNormalizer_pos.le
     _ ≤ (packet.second.physical.outerWeight * T3b.physicalOrbitFibreConstant c p *
-          ‖(moebius packet.allocation.1.val : ℂ)‖) *
+          ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖) *
         (coefficient * first.t3bAllowance *
           call.base ^ (-(call.workingParameters.n₁ + call.workingParameters.n₂ +
             call.workingParameters.z)) *
@@ -213,12 +213,12 @@ theorem t3b_outer_scalar_to_index
         call.base ^ (first.tag.movingLength call.base +
           first.tag.poolLength (recipeInductionSigma c)) / call.parentNormalizer) *
         (coefficient * T3b.physicalOrbitFibreConstant c p *
-          ‖(moebius packet.allocation.1.val : ℂ)‖ / Q * call.base ^ scalarLoss) := by ring
+          ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ / Q * call.base ^ scalarLoss) := by ring
     _ ≤ ((orbitalFieldFactor K / 2) * trace.expansion.indexPrefactor i *
         first.t3bIndexFactor * call.base ^ T3b.firstTiltError trace.first
           (trace.cauchy.index (trace.expansion.t3bFirstIndex i))) *
         (coefficient * T3b.physicalOrbitFibreConstant c p *
-          ‖(moebius packet.allocation.1.val : ℂ)‖ / Q * call.base ^ scalarLoss) :=
+          ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ / Q * call.base ^ scalarLoss) :=
       mul_le_mul_of_nonneg_right houter hremaining
     _ = _ := by
       simp only [commonIndexFactor, innerDivisor, FirstCoordinates.t3bIndexFactor,
