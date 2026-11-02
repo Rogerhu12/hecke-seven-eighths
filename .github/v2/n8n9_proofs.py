@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Build N8/N9 proofs and audit their entire loaded V2 environment.
 
-The analysis stage is independent of the raw/refinement assembly.  The
-complete stage checks every module in the three proved task groups.
+The analysis stage builds two N9 analytic roots and three N8 helpers
+independently of the RawContracts and OrdinaryData assembly dependencies.
+The complete stage checks every module in the three proved task groups.
 The complete task statements remain candidates until this stage succeeds
-at the exact selected head.  These additional jobs do not replace either
-existing whole-V2/repository gate.
+at the exact selected head.  These additional jobs do not replace the
+registered task V2 gate.
 """
 from __future__ import annotations
 
@@ -27,11 +28,17 @@ PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2"
 NAMESPACE = "HeckeSkeleton.Moments.EngineStepV2"
 ALLOWED = ["propext", "Classical.choice", "Quot.sound"]
 GROUPS = ("n8a_proved", "n8b_proved", "n9_proved")
-ANALYSIS_MODULES = ("N9FixedRadiusMass", "N9UniformCost")
+ANALYSIS_MODULES = (
+    "N9FixedRadiusMass", "N9UniformCost", "SecondZeroFirstMass",
+    "SecondZeroRowSizeBounds", "N8NormalizedLeafWeights",
+)
 COMPLETE_WARMUP_MODULES = ("RawContracts", "OrdinaryData")
 ANALYSIS_THEOREMS = (
     NAMESPACE + ".Blueprint.fixed_radius_kernel_mass",
     NAMESPACE + ".Blueprint.kernelMass_le_uniformCost",
+    NAMESPACE + ".Blueprint.Tasks.SecondZeroProof.first_family_mass_uniform",
+    NAMESPACE + ".Blueprint.Tasks.SecondZeroProof.pool_rowExponent_le",
+    NAMESPACE + ".Blueprint.RawLeafPacket.leaf_weight_eq",
 )
 COMPLETE_MODULES = (
     "N8SourceIndexProof", "TasksSourceIndex", "N8NormalizedMassProof",
@@ -180,7 +187,9 @@ def main() -> int:
     if not snapshots:
         errors.append("No V2 sources found")
     task_scope = (
-        "Analysis helpers only: N9FixedRadiusMass and N9UniformCost; "
+        "Helper analysis: N9FixedRadiusMass, N9UniformCost, SecondZeroFirstMass, "
+        "SecondZeroRowSizeBounds, and N8NormalizedLeafWeights, with all five "
+        "helper endpoints required; "
         "this stage does not certify the N8a, N8b, or exact N9 main task statements"
         if stage == "analysis" else
         "All modules in n8a_proved, n8b_proved, and n9_proved, with the "
@@ -188,7 +197,7 @@ def main() -> int:
         "main statements and Assembly.canonicalArithmeticMass required"
     )
     n8b_status = (
-        "Not certified by the analysis stage"
+        "Main N8b task not certified by helper analysis"
         if stage == "analysis" else
         "Candidate: the complete N8b task must build and pass the recursive axiom audit at this exact head"
     )
@@ -308,7 +317,7 @@ def main() -> int:
                + f"- Loaded V2 declarations recursively audited: {results.get('audited_declaration_count', 0)}\n"
                + f"- Result: {'PASS' if success else 'FAIL'}\n"
                + f"- N8b status: {results['n8b_status']}.\n"
-               + "- The complete V2 and repository gates remain required.\n")
+               + "- The registered task V2 gate remains required.\n")
     if results["build_skipped_reason"]:
         summary += "\nSkipped verification (not passed): " + results["build_skipped_reason"] + ".\n"
     if errors:
