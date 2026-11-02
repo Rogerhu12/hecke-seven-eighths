@@ -1,6 +1,17 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ArithmeticData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ArithmeticMassAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyArithmeticBridge
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyCalibrationBridge
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyCalibrationProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyCore
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyFourierBridge
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyLeafConstruction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyLogProfileData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyMomentDataExt
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyNormalizationCertificate
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyNormalizationGeometry
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyProfilePhase
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.BlueprintAssembly
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.BudgetAssembly
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationData
@@ -104,8 +115,12 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformScalarPreparation
 
 set_option linter.unusedSectionVars false
 
-/-! Public blueprint data, task statements and completed common induction adapters.
-The conditional theorem from all blueprint tasks is assembled separately. -/
+/-! Public blueprint data, all task statements and the complete conditional assembly.
+The proved assembly consumes the 24 original task propositions explicitly. -/
 
 #check HeckeSkeleton.Moments.EngineStepV2.Blueprint.Call
 #check HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_preparations
+
+#check HeckeSkeleton.Moments.EngineStepV2.Blueprint.TaskProofs
+#check HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint

@@ -196,16 +196,27 @@
       ]
     }
   },
-  "phase": "blueprint-contracts-in-progress",
+  "phase": "blueprint-complete-pending-ci",
   "groups": [
     {
       "id": "g0",
-      "name": "真实数据、纯陈述类型及完整组装辅助",
+      "name": "真实数据、纯陈述类型、完整条件组装及U1证明",
       "proved": true,
       "modules": [
         "ArithmeticData",
         "ArithmeticMassAssembly",
+        "AssemblyArithmeticBridge",
+        "AssemblyCalibrationBridge",
+        "AssemblyCalibrationProfiles",
         "AssemblyCore",
+        "AssemblyFourierBridge",
+        "AssemblyLeafConstruction",
+        "AssemblyLogProfileData",
+        "AssemblyMomentDataExt",
+        "AssemblyNormalizationCertificate",
+        "AssemblyNormalizationGeometry",
+        "AssemblyProfilePhase",
+        "BlueprintAssembly",
         "BudgetAssembly",
         "CalibrationContracts",
         "CalibrationData",
@@ -283,6 +294,15 @@
         "UniformOrderPreparation",
         "UniformRealizationProof",
         "UniformScalarPreparation"
+      ],
+      "roots": [
+        "TasksUniform",
+        "BlueprintAssembly"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.uniformPreparation",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_taskProofs",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint"
       ]
     },
     {
