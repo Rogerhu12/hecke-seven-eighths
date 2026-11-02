@@ -53,7 +53,8 @@ variable {E W : Type*}
   [NormedAddCommGroup W] [InnerProductSpace ℝ W] [FiniteDimensional ℝ W]
   [MeasurableSpace W] [BorelSpace W]
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
-local instance actualGaussFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance actualGaussFiniteLeavesCircleCharacterFintype :
+    Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
 variable {ι : Type*} {G : ActualGaussSource C ι}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
@@ -103,9 +104,10 @@ abbrev leftSlots :=
 abbrev AllocationKey :=
   HybridAllocationLabel (SourceClassKey.rightReindex v).plain₁ (SourceClassKey.rightReindex v).plain₂ (SourceClassKey.rightReindex v).slots
     (fun j => ((SourceClassKey.block v).rightResidual ((SourceClassKey.rightReindex v).index j)).val)
-    (SourceClassKey.leftSlots v) ((PUnit × PUnit) →* Circle)
+    (SourceClassKey.leftSlots v) ((PUnit.{1} × PUnit.{1}) →* Circle)
 
-def rawLeaf (exceptional : s.CoverHybridPredicates LC RC)
+def rawLeaf (exceptional :
+    ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (j : (SourceClassKey.AllocationKey v)) :
     ActualHybridLeaf K Q W E :=
   fullCorrelationHybridLeaf F (SourceClassKey.chart v).kernel
@@ -120,13 +122,13 @@ def rawLeaf (exceptional : s.CoverHybridPredicates LC RC)
           (engineAllowedGenerator C (SourceClassKey.block v).commonRightIdeal)
           (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
           (((SourceClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (SourceClassKey.rowLabel v)).frequency h))
-    (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)))
+    (fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)))
     (fun χ h i => (SourceClassKey.chart v).sourceLeftCoefficient ((SourceClassKey.leftReindex v).index i) *
-      (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
+      (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ) *
         σ (A.sexticResidue ((SourceClassKey.block v).leftResidual ((SourceClassKey.leftReindex v).index i))
           (((SourceClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (SourceClassKey.rowLabel v)).frequency h)))
     (fun χ h i => (SourceClassKey.chart v).sourceRightCoefficient ((SourceClassKey.rightReindex v).index i) *
-      (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
+      (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ) *
         σ (A.sexticResidue ((SourceClassKey.block v).rightResidual ((SourceClassKey.rightReindex v).index i))
           (-(((SourceClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (SourceClassKey.rowLabel v)).frequency h))))
     (fun _ i => x ((SourceClassKey.leftReindex v).index i))
@@ -160,7 +162,8 @@ def secondSourceLeaf {call : Call c} {p : SourceParameters c}
     (LC RC : SourceCartesianCover source.physical.source.columns
       source.physical.source.ideal)
     (key : SourceClassKey source.stage LC RC)
-    (exceptional : source.stage.CoverHybridPredicates LC RC)
+    (exceptional :
+      ActualGaussStage.CoverHybridPredicates.{0, 0, 0, 0} source.stage LC RC)
     (allocation : SourceClassKey.AllocationKey key) :
     ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
   (SourceClassKey.rawLeaf key exceptional source.physical.firstKernel
@@ -179,7 +182,8 @@ structure RawLeafPacket (call : Call c) (p : SourceParameters c) where
   rightCover : SourceCartesianCover second.physical.source.columns
     second.physical.source.ideal
   key : SourceClassKey second.stage leftCover rightCover
-  exceptional : second.stage.CoverHybridPredicates leftCover rightCover
+  exceptional :
+    ActualGaussStage.CoverHybridPredicates.{0, 0, 0, 0} second.stage leftCover rightCover
   allocation : SourceClassKey.AllocationKey key
   physicalRows : second.physical.source.rows.Nonempty
   live : (secondSourceLeaf second leftCover rightCover key exceptional allocation).Live
