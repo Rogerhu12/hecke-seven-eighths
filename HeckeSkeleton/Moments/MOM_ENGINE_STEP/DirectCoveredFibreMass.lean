@@ -121,7 +121,7 @@ theorem covered_index_fibre_subpower
       idealDivisorCount D₀ ^ (cap + 2) *
         (2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension) *
           idealDivisorCount DE.val.1 ^ (cap + 2) * idealDivisorCount DE.val.2 ^ (cap + 2)
-    gcongr <;> assumption
+    gcongr <;> first | assumption | exact le_rfl
   have hnreal : ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       (OriginalFiniteFibre.coordinateCount s.mask support D₀ D₀ DE.val.1 DE.val.2
         cap (Fintype.card Θ) dimension width : ℝ) := by exact_mod_cast hn
