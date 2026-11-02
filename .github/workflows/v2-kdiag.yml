@@ -22,11 +22,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - probe: d5_heq_frames_direct
+          - probe: d8_ordinary_bundle
             rawleaf: bundle
-          - probe: d6_original_expr
-            rawleaf: original
-          - probe: d7_heq_expr_equiv
+          - probe: d9_ordinary_bundle_expr
+            rawleaf: bundle
+          - probe: d10_ordinary_expr_bodies
             rawleaf: bundle
     env:
       LEAN_NUM_THREADS: '2'
