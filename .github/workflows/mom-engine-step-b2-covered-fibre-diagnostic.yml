@@ -26,7 +26,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 3
       - name: Verify frozen helpers and record the complete source identity
         shell: bash
         run: |
@@ -37,8 +37,8 @@ jobs:
           from pathlib import Path
           pins = {
               '.github/scripts/mom-engine-step-b2-covered-fibre-driver.py': '85bed5ff8a0620a9df44e8756f082911a4443afdd78a3aa1e1609425e00eb099',
-              '.github/scripts/mom-engine-step-b2-covered-fibre-harness.py': 'df106a4cb88d9c7777674c3499e9eefb070322a97def9232c65021b2c1fe7cad',
-              '.github/scripts/mom-engine-step-b2-covered-fibre-manifest.json': '23372812582c8e651a38db7048214a382c788ba57ae42b36ca2cf829cf280cd9',
+              '.github/scripts/mom-engine-step-b2-covered-fibre-harness.py': '75e90e426770208a63cb717ae7452b31da82440e6294685b0d6405ad8e319f23',
+              '.github/scripts/mom-engine-step-b2-covered-fibre-manifest.json': 'fddc67a9234ac6b920c4b37effb301542314f3257ef62e8b822fa27e29e28a03',
           }
           for path, expected in pins.items():
               assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, 'Frozen helper changed: ' + path

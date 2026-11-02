@@ -22,7 +22,7 @@ import tempfile
 import time
 
 MANIFEST_NAME = 'mom-engine-step-b2-covered-fibre-manifest.json'
-MANIFEST_SHA = '23372812582c8e651a38db7048214a382c788ba57ae42b36ca2cf829cf280cd9'
+MANIFEST_SHA = 'fddc67a9234ac6b920c4b37effb301542314f3257ef62e8b822fa27e29e28a03'
 FALSE_FLAGS = {
     'acceptance_evidence': False, 'original_module_native_was_run': False,
     'original_module_acceptance': False, 'complete_target_module_compiled': False,
@@ -141,7 +141,8 @@ def provenance(repo: Path, evidence: Path, phase: str, manifest: dict, watch) ->
     check_pins(repo, manifest)
     base = manifest['source_base']
     assert git('rev-parse', base + '^{tree}') == manifest['source_base_tree']
-    assert git('rev-parse', 'HEAD^') == base, 'Diagnostic must be a direct child of the frozen B2 head'
+    assert git('rev-parse', 'HEAD^') == manifest['expected_parent'], 'Diagnostic must extend the reviewed auxiliary parent'
+    assert git('rev-parse', manifest['expected_parent'] + '^{tree}') == manifest['expected_parent_tree']
     assert len(git('rev-list', '--parents', '-n', '1', 'HEAD').split()) == 2
     changed = git('diff', '--name-only', base, 'HEAD').splitlines()
     additions = git('diff', '--name-only', '--diff-filter=A', base, 'HEAD').splitlines()
@@ -152,6 +153,7 @@ def provenance(repo: Path, evidence: Path, phase: str, manifest: dict, watch) ->
     record = watch.source_identity(repo)
     assert record['head'] == os.environ['EXPECTED_SHA'], 'Unexpected checkout SHA'
     record.update(source_base=base, source_base_tree=manifest['source_base_tree'],
+                  expected_parent=manifest['expected_parent'], expected_parent_tree=manifest['expected_parent_tree'],
                   changed_paths_from_base=changed, manifest_sha256=MANIFEST_SHA,
                   source_and_script_pins=manifest['production_pins'], **FALSE_FLAGS)
     write_json(evidence / (phase + '-source.json'), record)
@@ -190,8 +192,16 @@ def run(repo: Path, evidence: Path, prepare_only: bool, manifest: dict, driver: 
     group = None
     handlers = {}
     code = 1
+    launching = False
+    pending_signal = None
 
     def interrupted(signum, _frame):
+        nonlocal pending_signal
+        if launching:
+            # Do not raise between Popen creating a child and registering its
+            # owned group. Signals are not blocked or inherited as blocked.
+            pending_signal = signum
+            return
         raise InterruptedError('Stack harness interrupted by signal ' + str(signum))
 
     try:
@@ -237,12 +247,18 @@ def run(repo: Path, evidence: Path, prepare_only: bool, manifest: dict, driver: 
             with (evidence / 'driver-console.log').open('w') as log:
                 log.write(json.dumps({'command': command, 'cwd': str(repo)}) + '\n')
                 log.flush()
-                process = subprocess.Popen(command, cwd=repo, stdin=subprocess.DEVNULL,
-                                           stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                           text=True, start_new_session=True)
-                state = watch.process_state(process.pid)
-                assert state is not None and state[2:] == (process.pid, process.pid)
-                group = {'pid': process.pid, 'start_ticks': state[1]}
+                launching = True
+                try:
+                    process = subprocess.Popen(command, cwd=repo, stdin=subprocess.DEVNULL,
+                                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                               text=True, start_new_session=True)
+                    state = watch.process_state(process.pid)
+                    assert state is not None and state[2:] == (process.pid, process.pid)
+                    group = {'pid': process.pid, 'start_ticks': state[1]}
+                finally:
+                    launching = False
+                if pending_signal is not None:
+                    raise InterruptedError('Signal received while registering owned process: ' + str(pending_signal))
                 result['owned_wrapper_group'] = group
                 write_json(evidence / 'owned-wrapper-group.json', group)
                 assert process.stdout is not None
@@ -261,6 +277,13 @@ def run(repo: Path, evidence: Path, prepare_only: bool, manifest: dict, driver: 
         try:
             # The pinned B2 helper rechecks PID/start time, session and group,
             # including remaining descendants after the leader has exited.
+            if process is not None and group is None:
+                # Recover before wait/reap, so the created child PID cannot be
+                # reused while we establish its original session identity.
+                state = watch.process_state(process.pid)
+                assert state is not None and state[2:] == (process.pid, process.pid)
+                group = {'pid': process.pid, 'start_ticks': state[1]}
+                result['owned_wrapper_group_recovered'] = group
             if group is not None:
                 watch.stop_group(group)
                 result['owned_wrapper_group_empty'] = not watch.group_members(group)
