@@ -131,8 +131,7 @@ theorem canonicalLeftMain_secondInput
   have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.leftResidual i) =
       b.leftResidual i := by
     apply Subtype.ext
-    change 1 * (b.leftResidual i).val = _
-    exact one_mul _
+    simp only [ExteriorIdealEuler.mul, unitExterior, Ideal.top_mul]
   rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
@@ -177,8 +176,7 @@ theorem canonicalRightMain_secondInput
   have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.rightResidual i) =
       b.rightResidual i := by
     apply Subtype.ext
-    change 1 * (b.rightResidual i).val = _
-    exact one_mul _
+    simp only [ExteriorIdealEuler.mul, unitExterior, Ideal.top_mul]
   rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity
@@ -229,7 +227,9 @@ theorem canonicalLeftPool_secondInput
   have hold : b.leftResidual i.val = ExteriorIdealEuler.mul (powerIdeal q n) J := by
     apply Subtype.ext
     have he := ((p.divisorPools.leftData S).residualPresentation q n i).reconstructed
-    simpa only [p.divisorPools.left_ideal S, p.left_ideal] using he
+    simpa only [ExteriorIdealEuler.mul, powerIdeal, ExteriorIdealEuler.pow,
+      LocalFiniteSums.primeIdeal, J,
+      p.divisorPools.left_ideal S, p.left_ideal] using he
   rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     support branch hroot hemb (powerIdeal q n) firstFixed (powerIdeal q (2 * n))
     (unitExterior A)
@@ -279,7 +279,9 @@ theorem canonicalRightPool_secondInput
   have hold : b.rightResidual i.val = ExteriorIdealEuler.mul (powerIdeal q n) J := by
     apply Subtype.ext
     have he := ((p.divisorPools.rightData S).residualPresentation q n i).reconstructed
-    simpa only [p.divisorPools.right_ideal S, p.right_ideal] using he
+    simpa only [ExteriorIdealEuler.mul, powerIdeal, ExteriorIdealEuler.pow,
+      LocalFiniteSums.primeIdeal, J,
+      p.divisorPools.right_ideal S, p.right_ideal] using he
   rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     support branch hroot hemb (powerIdeal q n) firstFixed (powerIdeal q (2 * n))
     (unitExterior A)

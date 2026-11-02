@@ -864,7 +864,7 @@ theorem originalAmplifiedIndex_fibre_subpower
   apply le_trans (realCount_injective
     (P := fun i : R.liveLeaves L exceptional N =>
       R.originalAmplifiedIndex L hcap exceptional N i = j)
-    (Q := pred) Subtype.val Subtype.coe_injective ?_) hc
+    («Q» := pred) Subtype.val Subtype.coe_injective ?_) hc
   intro i hi
   have hfirst := congrArg (labels.amplifiedFirst tags P) hi
   have hS₀ := congrArg (labels.amplifiedFirstDivisor tags P) hi
