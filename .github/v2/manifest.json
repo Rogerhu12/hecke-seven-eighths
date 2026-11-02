@@ -130,6 +130,9 @@
       "proved": true,
       "modules": [
         "TasksFirstTransform"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstTransform"
       ]
     },
     {
@@ -138,7 +141,17 @@
       "proved": true,
       "modules": [
         "TasksFirstAllowance"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstAllowance"
       ]
     }
-  ]
+  ],
+  "task_branches": {
+    "cloud/mom-v2-s1-s2": [
+      "s1_s2_helpers",
+      "s1",
+      "s2"
+    ]
+  }
 }
