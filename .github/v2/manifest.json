@@ -62,6 +62,19 @@
       ]
     },
     {
+      "id": "n2_n3_helpers",
+      "name": "N2/N3 原 support、residual identities 与实际 calibration costs",
+      "proved": true,
+      "modules": [
+        "CalibrationCosts",
+        "CalibrationProfiles",
+        "PassiveEnergy",
+        "PassiveExpansion",
+        "PassiveMask",
+        "PassiveSmoothSupport"
+      ]
+    },
+    {
       "id": "g1",
       "name": "独立论文证明任务（蓝图占位）",
       "proved": false,
