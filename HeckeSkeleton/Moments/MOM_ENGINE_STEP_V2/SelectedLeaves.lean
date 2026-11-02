@@ -63,7 +63,7 @@ def directLeaf (j : directKeys request frequency) :
 
 theorem directLeaf_live (j : directKeys request frequency) :
     (directLeaf request frequency j).Live :=
-  ActualDirectFirstSource.SecondStages.liveLeaves (directPrepared request frequency)_spec (atlas request frequency)
+  ActualDirectFirstSource.SecondStages.liveLeaves_spec (directPrepared request frequency) (atlas request frequency)
     (directPredicates request frequency) (normalization request frequency) j
 
 def pooledKeys := ActualFirstSource.SecondStages.liveLeaves (pooledPrepared request frequency)
@@ -77,7 +77,7 @@ def pooledLeaf (j : pooledKeys request frequency) :
 
 theorem pooledLeaf_live (j : pooledKeys request frequency) :
     (pooledLeaf request frequency j).Live :=
-  ActualFirstSource.SecondStages.liveLeaves (pooledPrepared request frequency)_spec (pooledAtlas request frequency)
+  ActualFirstSource.SecondStages.liveLeaves_spec (pooledPrepared request frequency) (pooledAtlas request frequency)
     (pooledPredicates request frequency) (pooledNormalization request frequency) j
 
 /-- The tag is read from the actual dependent pool summand, retaining

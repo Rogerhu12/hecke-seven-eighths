@@ -94,6 +94,9 @@ structure SelectedLeafPacket (request : Request c frame Cp Hp hCp hminimum hHp)
   choice : CanonicalLiteralPassiveSource.PhaseChoice leftInput.phases (TargetArithmetic.context c)
   firstKernel_eq : firstKernel = leaf.firstKernel
   secondKernel_eq : (ActualGaussStage.CoveredClassKey.chart key).kernel = leaf.secondKernel
+  source_eq : leaf =
+    let bare := ActualGaussStage.CoveredClassKey.leaf key exceptional firstKernel location allocation
+    bare.scale (leaf.weight / bare.weight) (div_nonneg leaf.weight_nonneg bare.weight_nonneg)
 
 namespace SelectedLeafPacket
 

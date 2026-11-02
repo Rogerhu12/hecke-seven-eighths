@@ -63,13 +63,13 @@ def secondKernel : ℝ :=
 
 def shapeCoefficient : ℝ :=
   CanonicalLogProfiles.shapeCoefficient (Set.Icc b.lo b.hi) isCompact_Icc
-    (CanonicalLogProfiles.positiveAnnulus b.lo b.hi b.lo_pos)
+    (VolumeChoices.positive b)
     (CanonicalLiteralProfileScalars.exponent b.tilt b.tilt)
     (CanonicalLogProfiles.sourceOrders orders)
 
 def phaseCoefficient (sign : ℝ) : ℝ :=
   CanonicalLiteralFourierWindows.coefficient (Set.Icc b.lo b.hi) isCompact_Icc
-    (CanonicalLogProfiles.positiveAnnulus b.lo b.hi b.lo_pos) sign orders
+    (VolumeChoices.positive b) sign orders
 
 def fixedCoefficient (sign : ℝ) : ℝ :=
   (1 + 2 * CanonicalLogProfiles.clippingCoefficient b.hi orders) *

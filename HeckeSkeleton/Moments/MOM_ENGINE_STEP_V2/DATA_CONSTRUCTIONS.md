@@ -1,34 +1,36 @@
-# 数据构造清单：先构造，再验证下游陈述
+# 实际数据构造清单
 
-按 PR #31 评论 6573415153 调整。本文件区分实际数据字段与 Prop 证明字段；新的存在定理加占位后再取 choice，不算完成数据构造。只有来自已存在节点证书或已证明原始分析接口的 choice，才作为具体构造来源。
+PR #31 评论 6573415153 要求先构造实际数据，再让全部下游陈述接受 CI 检验，最后分组证明。以下“已写实”表示数据已具体定义并推送，不代表其全部 Prop 证书或整个导入闭包已经编译通过。
 
-## 当前数据定义
-
-| 定义 | 真实构造来源 / 方案 | 状态 | 预计构造与接线行数 |
+| 定义 | 实际来源与构造 | 状态 | 构造与接线预算 |
 |---|---|---|---:|
-| ChildFamily.reindex / sigma | 原数据逐字段重编号 / 依赖有限和 | 已具体定义 | 45 |
-| FiniteKernelFamily.reindex / sigma | 同一个原核逐字段运输 | 已具体定义 | 22 |
-| Output.toConclusion | base PairedEngineConclusion.ofFintype，原 child、kernel、terminal、bound 同时传入 | 已替换占位，待 CI | 26 |
-| SourceRequest.sourceData | 原 node.down.property.admissible 已有的 CompleteSourceBudgetData 证书 | 已替换占位，待 CI | 9 |
-| preparedSourceData | base CompleteSourceBudgetData.mellinStrictModel | 已替换占位，待 CI | 14 |
-| preparedNormProfiles | base Node.mellinStrictModel_normProfileRecipe | 已替换占位，待 CI | 10 |
-| strictBranch / selectedStrictFamily | 已具体组装；四个几何字段取原节点 invariant，实际输出仍须下游生产构造完成 | 已去掉局部几何占位，待 CI | 75 |
-| leafMassBudget | 直接计算同一 normalized leaf 的有限核 mass；真正的 sum bound 独立保留 | 已替换占位，待 CI | 9 |
-| selectedSchedule | base StrictProfileRange / StrictProfileOrder 的真实有限 Euler 阶数；配合原 supported-volume chooser 与 backward rank 递推 | 正在构造；不是任意阶数 | 800–1,600 |
-| selectedBounds | A 线 first/second physical terminal、supported exceptional、direct/pooled mass 的实际数值常数取有限 max；统一 threshold 先于 moving 数据 | 正在抽取最小数值依赖 | 1,200–2,500 |
-| selectedCall | 原节点 ranked profile 证书上的实际 Mellin model control；同一原 order/window/normalizer 和实际 engine C/control | 正在构造 | 800–1,600 |
-| selectedExpansion | 原 CanonicalJointFirstSource / 原 covered second stage / 原 direct+main+1+6+7 实际叶子，保留两 independent common/divisor 与同一个 pool | 正在迁移具体数据链 | 4,000–10,000 |
-| selectedNormalization | base CurriedNormalizedFamily → ActualNormalizedPairFamily，carrier 保留两 passive divisor 与 rectangle bits；真实 literal side frames/profile/capacity factory | 正在迁移并合并变体 | 10,000–18,000 |
+| ChildFamily.reindex / sigma | 原数据逐字段重编号和依赖有限和 | 已写实 | 45 |
+| FiniteKernelFamily.reindex / sigma | 原正测度及同一核逐字段运输 | 已写实 | 22 |
+| Output.toConclusion | base PairedEngineConclusion.ofFintype，同一 child/kernel/四项 terminal | 已写实，早期 CI 已编译此构造 | 26 |
+| SourceRequest.sourceData | 原 node.down.property.admissible 已有 CompleteSourceBudgetData | 已写实，早期 CI 已编译 | 9 |
+| preparedSourceData | 原 CompleteSourceBudgetData.mellinStrictModel | 已写实，早期 CI 已编译 | 14 |
+| preparedNormProfiles | 原 Node.mellinStrictModel_normProfileRecipe | 已写实，早期 CI 已编译 | 10 |
+| strictBranch / selectedStrictFamily | 原节点 invariant 的几何证书与同一实际输出 | 已写实，下游 CI 待完整通过 | 75 |
+| leafMassBudget | 同一 normalized leaf 的有限核 mass，sum bound 单独证明 | 已写实 | 9 |
+| selectedSchedule | VolumeChoices 的真实 supported-volume orders；ProfileChoices 合并 Euler、volume、κ 以及原 atom 和两轮 source orders 后作 backward rank 递推 | 已写实，正在修 CI universe/quantifier 问题 | 800–1,600 |
+| selectedBounds | 原 physical first/second constants、supported exceptional、direct/pooled mass、Mellin profile coefficients；有限 rank max 与四类 threshold 的实际 max | 已写实，全部依赖待 CI | 1,200–2,500 |
+| selectedCall | 原节点 Mellin model、actual rawAmplitude^(14cap+10)、engineScalar=1+2first+2second+exceptional+mass(rank)；实际 reference/raw-window 来自已证原 Mellin theorem | 已写实，全部依赖待 CI | 800–1,600 |
+| selectedExpansion | SelectedSource/Stages/Predicates/Leaves 构造 original direct 或同 pool main/1/6/7，实际 keys.equivFin，真实两次 source 与四 terminal；空行是空有限族 | 已写实，全部依赖待 CI | 4,000–10,000 |
+| selectedNormalization | 真实 selected key dispatch 到同一 covered chart/row/allocation；SelectedLeafPacket 保存原 metadata+两侧 LiteralInput；共享 covered production 保留原核与 scalar，沿 actual source_eq 连接 NormalizedFamilyAdapter | 最终接线进行中；通用实际构造链已推 | 10,000–18,000 |
 
-数值与数据估计包含原模块计划中的额度，不应与原预计完成行数重复相加。这些范围仍须以实际迁移闭包校正，不能把删去数据内容后的包装行数当作压缩成果。此前 57,620 行是初步总预算，尚非已落实的比较结果。
+这些构造预算属于 PLAN.md 的模块预算，不能重复相加。最新全项目估计是现有模块 68,920 行加 helper/证明预留 8,000 行，共 76,920 行；当前 25,778 行仍含证明占位，不能当作已完成证明的最终比较。
 
-## 本批具体源数据
+## 真实构造模块闭包
 
-新增 CoveredStage（165 行）直接从 A 线 ActualGaussFiniteLeaves 提取共用的实际 carrier 和 leaf 构造，只依赖已经合入的 CoverHybridPhaseIntegral / HybridFiniteLeaf。保留 common pair、mask divisor、Cartesian cover、row label、两侧 support、inner divisor、finite phase、两组 allocation；叶子继续使用原 physical rows 与两个 Fourier kernels，并按实际 fibre multiplicity 缩放。文件没有数据或证明占位。
+物理链为 FirstGaussData → FirstSource/FullSupportParameters → FirstGeometry/SourceCoordinates/PrimitiveFirstSource，再经 direct/pooled stages、源 support/gates、原 terminal 与实际 finite covered leaves。第一、第二 source 保留原物理行和 Fourier 核。
 
-## 顺序与门槛
+共享规范化链为 LiteralAtoms → LiteralTransforms → LiteralProfiles/Atlas/Phases → Windows/Passive/Capacity/Calibration → Production。LiteralCovered/Strip/Production 将同一 covered chart 的实际 row、二次 common label、allocation 和当前解析 window 连接起来。SelectedLiteralInputs 明确 direct/main 与 valuation 1/6/7 的 branch、union prime support、prime power 和 phase 2n。SelectedProfileData 使用已证明的 mellinStrictModel_rawWindow，保持同一原代表元、actual raw profiles 与原行中选择的 reference。
 
-1. 实现所有数据构造及其需要的数据 helper，及时推送；当前处于此阶段。
-2. 在实际对象上重新编译全部 V2 声明，记录真实 head、完整模块覆盖和结果；达到后才登记正式骨架里程碑。
-3. 按最终校正的分组计划填 theorem/lemma 证明；本会话首先完成原 G1 八模块。新增构造 helper 放入对应构造组，不把未证构造算入已完成组。
-4. 最终入口的全部占位清空、三公理审计及全项目门禁通过后，才可转为可审查。
+数值链为 RawTerminalData/PhysicalConstants、AnalyticChoices、MassIndexChoices、MassProfileChoices、ExceptionalChoices。contour/radius、finite-index harmonic constants、supported-volume constants 均来自已合入且已证明的原定理；系数乘积、有限 max 和 threshold 都是实际表达式。新 theorem 的占位不能作为数据 existence chooser 的依据。
+
+## 验收顺序
+
+1. 所有数据写实、每批即推；当前仍在此阶段。
+2. 在精确 head 上编译全部真实对象及下游声明，才能登记正式陈述骨架里程碑。
+3. 先完成 G1 八模块证明并以无 sorry 与递归三公理门禁验收。
+4. 最终全目标清空占位并通过全项目门禁后再申请审查。

@@ -92,6 +92,7 @@
         "SelectedLeafPacket",
         "SelectedLeaves",
         "SelectedLiteralInputs",
+        "SelectedLiteralProfiles",
         "SelectedPredicates",
         "SelectedProfileData",
         "SelectedSource",
