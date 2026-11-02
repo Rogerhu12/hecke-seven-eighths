@@ -111,14 +111,6 @@ private theorem charts_withMultiplier_rightPoint
     ((s.withMultiplier u).charts DE D).rightPoint =
       (s.charts DE D).rightPoint := rfl
 
-private theorem charts_withMultiplier_rowLabelCount
-    (u : ι → ℂ)
-    (DE : commonSupportPool G.columns G.columns
-      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
-    (D : s.mask.powerset) :
-    ((s.withMultiplier u).charts DE D).rowLabelCount =
-      (s.charts DE D).rowLabelCount := rfl
-
 private theorem charts_withMultiplier_rowLabel
     (u : ι → ℂ)
     (DE : commonSupportPool G.columns G.columns
@@ -148,14 +140,6 @@ private theorem actualRows_withMultiplier_weight
       s.mask s.cutoff s.cutoff_one label).weight =
       ((s.charts DE D).actualRows
         s.mask s.cutoff s.cutoff_one label).weight := rfl
-
-private theorem actualRows_rows_eq_source_filter
-    (DE : commonSupportPool G.columns G.columns
-      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
-    (D : s.mask.powerset)
-    (label : Fin ((s.charts DE D).rowLabelCount + 1)) :
-    ((s.charts DE D).actualRows s.mask s.cutoff s.cutoff_one label).rows =
-      (s.sources DE).rows.filter (fun h => (s.charts DE D).rowLabel h = label) := rfl
 
 private theorem actualRows_withMultiplier_rows
     (u : ι → Circle)
@@ -208,35 +192,9 @@ abbrev leaf (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_,
     (F : SchwartzMap W ℂ) (x : ι → W) (j : (CoveredClassKey.AllocationKey v)) :
     (CoveredClassKey.leaf v exceptional F x j).firstKernel = F := rfl
 
-private theorem phase_mul_four_factors (phase a b c d : ℂ) :
-    (((phase * a) * b) * c) * d = (((a * b) * c) * d) * phase := by
-  ring
-
 private theorem phase_mul_three_factors (phase a b c : ℂ) :
     ((phase * a) * b) * c = ((a * b) * c) * phase := by
   ring
-
-private theorem sourceLeftCoefficient_withMultiplier_product
-    (u : ι → ℂ)
-    (DE : commonSupportPool G.columns G.columns
-      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
-    (D : s.mask.powerset) (i : ι) (a b : ℂ) :
-    ((s.withMultiplier u).charts DE D).sourceLeftCoefficient i * a * b =
-      ((s.charts DE D).sourceLeftCoefficient i * a * b) * u i :=
-  (congrArg (fun coefficient : ℂ => coefficient * a * b)
-    (sourceLeftCoefficient_withMultiplier s u DE D i)).trans
-      (phase_mul_three_factors (u i) ((s.charts DE D).sourceLeftCoefficient i) a b)
-
-private theorem sourceRightCoefficient_withMultiplier_product
-    (u : ι → ℂ)
-    (DE : commonSupportPool G.columns G.columns
-      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
-    (D : s.mask.powerset) (i : ι) (a b : ℂ) :
-    ((s.withMultiplier u).charts DE D).sourceRightCoefficient i * a * b =
-      ((s.charts DE D).sourceRightCoefficient i * a * b) * u i :=
-  (congrArg (fun coefficient : ℂ => coefficient * a * b)
-    (sourceRightCoefficient_withMultiplier s u DE D i)).trans
-      (phase_mul_three_factors (u i) ((s.charts DE D).sourceRightCoefficient i) a b)
 
 private theorem phase_seven_argument_congr
     {X₁ X₂ X₃ X₄ X₅ X₆ X₇ Y : Type*}
