@@ -262,7 +262,27 @@ private theorem nonexceptional_at
         sector remaining ξ ((s).row h).momentIdeal) h hh
 
 set_option maxHeartbeats 1000000 in
-def calibration : (s).Calibration (σ := Arithmetic.embedding c)
+def calibration
+    (canonical : seed.CanonicalSupport input support)
+    (masks : seed.ResidualMaskIdentity)
+    (atoms : ∀ (ξ : EngineParameter) (h : seed.ordinary.rows.live),
+      let source := seed.canonicalSource input support side a rectangle
+      FixedChildCharacters.Calibration (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+        ((source.characters h).restrictSlots source.allocation.keep)
+        (CalibrationConstruction.data seed input support side a rectangle
+          moving correction hcorr sector remaining ξ)
+        (Eq.refl source.allocation.keep.card)
+        (source.row h).momentIdeal (source.extractedFactor h) (source.row h).element)
+    (left_scale : (s).base ^ parameters.n₁ =
+      (s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0))
+    (right_scale : (s).base ^ parameters.n₂ =
+      (s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0)))
+    (slot_sum : parameters.z = ∑ i, (s).childLength i)
+    (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).originalIdeal h) ≤
+      (s).normFactor h * (s).base ^ (parameters.m + parameters.q))
+    (ordinary : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
+      (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta) :
+    (s).Calibration (σ := Arithmetic.embedding c)
     c.family.omega (targetCharacter K c) where
   data := d
   parameters := parameters
@@ -311,10 +331,34 @@ def calibration : (s).Calibration (σ := Arithmetic.embedding c)
   slot_in_theta := slot_in_theta seed input support side a rectangle
     moving correction hcorr sector remaining
 
+#print axioms nonexceptional_at
+#print axioms CalibrationAssembly.left_support
+#print axioms CalibrationAssembly.slot_support
+
 variable (kappa : parameters.κ = call.node.parameters.κ)
 
-def original : OriginalCalibration call s where
-  calibration := calibration
+def original
+    (canonical : seed.CanonicalSupport input support)
+    (masks : seed.ResidualMaskIdentity)
+    (atoms : ∀ (ξ : EngineParameter) (h : seed.ordinary.rows.live),
+      let source := seed.canonicalSource input support side a rectangle
+      FixedChildCharacters.Calibration (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+        ((source.characters h).restrictSlots source.allocation.keep)
+        (CalibrationConstruction.data seed input support side a rectangle
+          moving correction hcorr sector remaining ξ)
+        (Eq.refl source.allocation.keep.card)
+        (source.row h).momentIdeal (source.extractedFactor h) (source.row h).element)
+    (left_scale : (s).base ^ parameters.n₁ =
+      (s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0))
+    (right_scale : (s).base ^ parameters.n₂ =
+      (s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0)))
+    (slot_sum : parameters.z = ∑ i, (s).childLength i)
+    (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).originalIdeal h) ≤
+      (s).normFactor h * (s).base ^ (parameters.m + parameters.q))
+    (ordinary : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
+      (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
+    (kappa : parameters.κ = call.node.parameters.κ) : OriginalCalibration call s where
+  calibration := CalibrationAssembly.calibration
     (seed := seed) (input := input) (support := support) (canonical := canonical)
     (masks := masks) (side := side) (a := a) (rectangle := rectangle)
     (moving := moving) (correction := correction) (hcorr := hcorr) (sector := sector)
@@ -337,7 +381,8 @@ def original : OriginalCalibration call s where
   fiber_cost := rfl
 
 def dictionary :
-    (original (seed := seed) (input := input) (support := support) (canonical := canonical)
+    (CalibrationAssembly.original
+      (seed := seed) (input := input) (support := support) (canonical := canonical)
       (masks := masks) (side := side) (a := a) (rectangle := rectangle)
       (moving := moving) (correction := correction) (hcorr := hcorr) (sector := sector)
       (remaining := remaining) (atoms := atoms) (parameters := parameters)

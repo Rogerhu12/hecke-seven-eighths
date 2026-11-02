@@ -34,7 +34,8 @@ theorem residue_fixed {A : SArithmeticData K} {σ : K →+* ℂ}
     (hn : actualIdealResidue (A := A) (σ := σ) I h ≠ 0) :
     IsCoprime I A.cS := by
   by_contra hg
-  exact hn (by simp only [actualIdealResidue, dif_neg (fun hi => hg hi.2)])
+  have hbad : ¬(I ≠ 0 ∧ IsCoprime I A.cS) := fun hi => hg hi.2
+  exact hn (by simp only [actualIdealResidue, dif_neg hbad])
 
 theorem carrier_nonzero {k : ℕ} (B : PassiveAllocation.Carrier K k)
     (i : AllocationColumn K k) (hi : i ∈ PassiveAllocation.carrierColumns B) :
@@ -160,6 +161,7 @@ theorem canonicalPlainTerm_paid (hpacket : packet.Realizes)
     IsCoprime I.val packet.second.physical.first.paidSupport.val := by
   by_contra hp
   have hc := (seed.residualMaskIdentity hpacket).plain side I
+  dsimp only at hc
   rw [(seed.residualMaskIdentity hpacket).paid_plain_zero side I hp, zero_mul] at hc
   exact hn (by simp only [canonicalPlainTerm, sourcePlainTerm, hc, zero_mul, mul_zero])
 
@@ -170,6 +172,7 @@ theorem canonicalPrimeTerm_paid (hpacket : packet.Realizes)
     IsCoprime q.asIdeal packet.second.physical.first.paidSupport.val := by
   by_contra hp
   have hc := (seed.residualMaskIdentity hpacket).prime side i q
+  dsimp only at hc
   rw [(seed.residualMaskIdentity hpacket).paid_prime_zero side i q hp, zero_mul] at hc
   exact hn (by simp only [canonicalPrimeTerm, sourcePrimeTerm, hc, zero_mul, mul_zero])
 

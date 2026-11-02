@@ -31,6 +31,22 @@ attribute [local instance]
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
 variable {K : Type} [Field K] [NumberField K]
+
+private theorem residue_signed_mul_nonzero {A : SArithmeticData K} {σ : K →+* ℂ}
+    (I : Ideal (𝓞 K)) (side : Bool) (g h : A.R)
+    (hn : actualIdealResidue (A := A) (σ := σ) I
+      ((if side then -g else g) * h) ≠ 0) :
+    actualIdealResidue (A := A) (σ := σ) I (g * h) ≠ 0 := by
+  cases side <;>
+    simpa only [Bool.false_eq_true, ite_false, ite_true, neg_mul,
+      CanonicalOriginalPhaseCalibration.residue_neg] using hn
+
+private theorem residue_assoc_nonzero {A : SArithmeticData K} {σ : K →+* ℂ}
+    (I : Ideal (𝓞 K)) (g h x : A.R)
+    (hn : actualIdealResidue (A := A) (σ := σ) I ((g * h) * x) ≠ 0) :
+    actualIdealResidue (A := A) (σ := σ) I (g * (h * x)) ≠ 0 := by
+  simpa only [mul_assoc] using hn
+
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 
@@ -68,10 +84,14 @@ theorem residue_common_coprime (O : OrdinaryData packet) (side rectangle : Bool)
   have hpositive : actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
       J.val (packet.R.factor (Arithmetic.context c) h.val *
         ((O.originalSource side rectangle).row h).element) ≠ 0 := by
-    rw [original_factor] at hn
-    cases side
-    · exact hn
-    · simpa only [if_true, neg_mul, CanonicalOriginalPhaseCalibration.residue_neg] using hn
+    apply residue_signed_mul_nonzero (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+      J.val side (packet.R.factor (Arithmetic.context c) h.val)
+      ((O.originalSource side rectangle).row h).element
+    intro hz
+    exact hn ((congrArg (fun factor : (Arithmetic.data c).R =>
+      actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) J.val
+        (factor * ((O.originalSource side rectangle).row h).element))
+      (original_factor O side rectangle h)).trans hz)
   apply common_coprime
   apply PassiveSupportRecovery.residue_mul_nonzero_coprime (probeData K c)
     (momentRowCharacters K c) rfl rfl (commonIdeal packet)
@@ -81,7 +101,8 @@ theorem residue_common_coprime (O : OrdinaryData packet) (side rectangle : Bool)
       packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val) *
         ((O.originalSource side rectangle).row h).element)
     (primePowerProduct_generates (Arithmetic.context c) packet.R.primes _) J
-  simpa only [ActualSecondCorrelationRows.factor, mul_assoc] using hpositive
+  exact residue_assoc_nonzero (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    J.val _ _ _ hpositive
 
 theorem plainTerm_common_coprime (O : OrdinaryData packet) (side rectangle : Bool)
     (h : O.rows.live) (χ θ : HeckeCharacter K) (mask : Ideal (𝓞 K) →* ℂ)
