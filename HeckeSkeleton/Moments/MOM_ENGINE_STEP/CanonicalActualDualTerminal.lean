@@ -72,7 +72,9 @@ variable (W : NormProfileRecipe data) (ξ : J)
 variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 
 /-- A transparent name for the original atoms; this makes no new choice. -/
-abbrev originalTerminalAtoms := (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t
+abbrev originalTerminalAtoms :=
+  (Q.arithmeticAtoms ξ).constantAtoms
+    (W.at ξ : NormProfileRecipe (fun _ : PUnit.{1} => data ξ)) a Z t
 
 variable {DE : Ideal (𝓞 K) × Ideal (𝓞 K)}
 variable (b : FirstCommonCharacterBlock
