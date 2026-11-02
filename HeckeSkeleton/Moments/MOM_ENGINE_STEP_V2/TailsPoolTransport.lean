@@ -109,7 +109,7 @@ theorem pool_main_active_card (P : PoolPresentation family) (hP : P.Realizes)
   have he := dependent_projection_eq
     (fun (Column : Type) (G : ActualGaussSource (Arithmetic.context c) Column) =>
       (G.columns.filter (fun j => G.coefficient j ≠ 0)).card) ho.1 ho.2.1
-  change _ = _ at he
+  change (physicalActiveColumns source).card = _ at he
   rw [he]
   change ((P.data i).columns.filter (fun j => (family.source i).source.coefficient j ≠ 0)).card = _
   rw [pool_original_columns P hP i]

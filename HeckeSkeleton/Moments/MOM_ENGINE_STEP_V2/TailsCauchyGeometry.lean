@@ -22,7 +22,7 @@ open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tails
 
 open EngineStep EngineInduction EngineInduction.Source
-open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
@@ -107,6 +107,8 @@ theorem firstPhysicalDivisorIdeal_eq_under {A : SArithmeticData K}
   let delta := sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D
   have hspan : A.extendIdeal (firstPhysicalDivisorIdeal (A := A) D) =
       IdealMobiusMask.primeProduct D := by
+    change A.extendIdeal (originalFrequencyIdeal (A := A) delta.val) =
+      IdealMobiusMask.primeProduct D
     rw [← (originalFrequencyIdeal_generates (A := A) delta.val delta.property).2]
     exact Ideal.span_singleton_generator _
   calc
@@ -145,8 +147,9 @@ theorem first_key_complementary_dvd (F : FirstPresentation call p) (hF : F.Reali
   have hD : key.2.1.val ⊆
       Finset.univ.image (fun j => actualExteriorSPrime (b.primes j)) := by
     have hsub := Finset.mem_powerset.mp key.2.1.property
-    change key.2.1.val ⊆ b.mask F.source.mask at hsub
-    rw [FirstCommonCharacterBlock.mask, hF.mask, Finset.empty_union] at hsub
+    change key.2.1.val ⊆ F.source.mask ∪
+      firstPrincipalPrimeMask b.primes b.leftMultiplicity b.rightMultiplicity at hsub
+    rw [hF.mask, Finset.empty_union] at hsub
     exact hsub.trans (Finset.image_mono (Finset.subset_univ _))
   have hl := firstPhysicalDivisorIdeal_dvd_product b.primes b.leftMultiplicity
     b.left_positive key.2.1.val hD
@@ -211,11 +214,13 @@ theorem first_key_rows_card
       2 * orbitRowConstant c * call.base ^ firstRowExponent c p := by
   unfold FirstCauchyKey.data
   split_ifs
-  · rw [hF.rightRows]
-    exact (Nat.cast_le.mpr Finset.card_image_le).trans
+  · have hcard := (congrArg Finset.card (hF.rightRows key.1 key.2.1)).le.trans
+      Finset.card_image_le
+    exact (Nat.cast_le.mpr hcard).trans
       (first_divisorRows_card F hF input hlarge key.1 key.2.1.val key.2.1.property)
-  · rw [hF.leftRows]
-    exact (Nat.cast_le.mpr Finset.card_image_le).trans
+  · have hcard := (congrArg Finset.card (hF.leftRows key.1 key.2.1)).le.trans
+      Finset.card_image_le
+    exact (Nat.cast_le.mpr hcard).trans
       (first_divisorRows_card F hF input hlarge key.1 key.2.1.val key.2.1.property)
 
 theorem first_family_rows_card
