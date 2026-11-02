@@ -185,9 +185,10 @@ def normPower (δ : ℝ) : (d.normPower δ).ProfileData where
   left_positive r := CanonicalLiteralProfileData.mulIdealTest_positive _ _ (W.left_positive r)
   right_positive r := CanonicalLiteralProfileData.mulIdealTest_positive _ _ (W.right_positive r)
   slot_positive j := CanonicalLiteralProfileData.mulPrimeWindow_positive _ _ (W.slot_positive j)
-  left_frozen r u t y := congrArg (fun z => z * ((d.scale₁ r * y) ^ δ : ℝ))
+  left_frozen r u t y := congrArg (fun z : ℂ => z * ((d.scale₁ r * y) ^ δ : ℝ))
     (W.left_frozen r u t y)
-  right_frozen r u t y := sorry
+  right_frozen r u t y := congrArg (fun z : ℂ => z * ((d.scale₂ r * y) ^ δ : ℝ))
+    (W.right_frozen r u t y)
   slot_frozen j t y := congrArg (fun z : ℂ => z * ((d.base ^ d.length j * y) ^ δ : ℝ))
     (W.slot_frozen j t y)
   left_eval r u t I := by
