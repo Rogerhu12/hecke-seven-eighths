@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAllocationFingerprint
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCoverCardinality
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
+set_option linter.unusedSectionVars false
 /-!
 # Genuine fibres of the covered source carrier
 

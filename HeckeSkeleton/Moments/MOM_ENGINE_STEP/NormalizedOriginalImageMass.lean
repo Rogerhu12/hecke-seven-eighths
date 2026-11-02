@@ -147,9 +147,16 @@ theorem original_direct_image_kernel_mass
         simp only [Finset.mem_filter, Finset.mem_univ])
   have hscale : 4 * (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) =
       (4 * Cfiber) * profile ^ dFiber * Z ^ (ε / 4) := by ring
-  convert hfour.trans_eq hscale using 1 <;> congr 2 <;> ext b <;>
-    exact (@Finset.mem_filter _ _ _ _ b).trans
-      (@Finset.mem_filter _ _ _ _ b).symm
+  convert hfour.trans_eq hscale using 1 <;> congr 2 <;> ext b
+  constructor
+  · intro hb
+    have hb' := Finset.mem_filter.mp hb
+    apply Finset.mem_filter.mpr
+    exact hb'
+  · intro hb
+    have hb' := Finset.mem_filter.mp hb
+    apply Finset.mem_filter.mpr
+    exact hb'
 
 /-- The amplified image uses the original prime and valuation tag. Its
 moving norm is already inside amplifiedIndexWeight, so the pointwise
