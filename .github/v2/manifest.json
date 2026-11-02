@@ -194,6 +194,21 @@
         "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalWindowKernelMass",
         "HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass"
       ]
+    },
+    "cloud/mom-v2-assembly": {
+      "groups": [
+        "assembly"
+      ],
+      "modules": [],
+      "roots": [
+        "AssemblyArithmeticBridge",
+        "AssemblyCalibrationBridge"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass_of_tasks",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.calibrations_with_bindings"
+      ],
+      "note": "Only assembly modules are owned targets; every loaded V2 declaration is audited recursively."
     }
   },
   "phase": "blueprint-contracts-in-progress",
@@ -305,6 +320,15 @@
       "proved": false,
       "modules": [
         "Interface"
+      ]
+    },
+    {
+      "id": "assembly",
+      "name": "Explicit blueprint task assembly",
+      "proved": true,
+      "modules": [
+        "AssemblyArithmeticBridge",
+        "AssemblyCalibrationBridge"
       ]
     }
   ]
