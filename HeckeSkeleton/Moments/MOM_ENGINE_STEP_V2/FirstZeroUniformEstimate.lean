@@ -24,6 +24,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.FirstZeroProof
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 open HeckeSkeleton.Moments.EngineStep HeckeSkeleton.Moments.EngineInduction.Source
 
 variable {K : Type} [Field K] [NumberField K]

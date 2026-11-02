@@ -187,7 +187,10 @@ theorem first_key_coefficient_norm_le (key : FirstCauchyKey F) (i : F.source.Col
         p.tilt ((Arithmetic.data c).exteriorNorm_pos
           ((FirstCauchyKey.block key).leftResidual i))
         (firstLeftDivisorFactor_norm_le_one _ _ _)
-      simpa only [mul_div_assoc] using he
+      simp only [mul_div_assoc] at he
+      dsimp only [FirstCauchyKey.block, ActualDirectFirstSource.block,
+        FirstCauchyKey.divisor] at he ⊢
+      exact he
     · simp only [hs, if_true, FirstCauchyKey.data]
       rw [(FirstCauchyKey.piece key).right_ideal]
       unfold FirstBlockDirectData.originalRightCoefficient
@@ -207,7 +210,10 @@ theorem first_key_coefficient_norm_le (key : FirstCauchyKey F) (i : F.source.Col
         p.tilt ((Arithmetic.data c).exteriorNorm_pos
           ((FirstCauchyKey.block key).rightResidual i))
         (firstRightDivisorFactor_norm_le_one _ _ _)
-      simpa only [mul_div_assoc] using he
+      simp only [mul_div_assoc] at he
+      dsimp only [FirstCauchyKey.block, ActualDirectFirstSource.block,
+        FirstCauchyKey.divisor] at he ⊢
+      exact he
   · rw [FirstCauchyKey.coefficient, if_neg hdiv, norm_zero, zero_mul]
     exact mul_nonneg (norm_nonneg _) (Real.rpow_nonneg
       ((Arithmetic.data c).exteriorNorm_pos _).le _)
