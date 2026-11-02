@@ -197,7 +197,9 @@ theorem original_first_arithmetic_mass (c : TargetContext K) (ε : ℝ) (hε : 0
           ‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) ≤ M := by
     have hc : (((F.source.block v).mask F.source.mask).powerset.card : ℝ) ≤
         D * call.base ^ δ := by
-      have h := Nat.cast_le.mpr (F.mask_card_le_divisorCount hF v)
+      have h : (((F.source.block v).mask F.source.mask).powerset.card : ℝ) ≤
+          (idealDivisorCount v.val.1 : ℝ) :=
+        Nat.cast_le.mpr (F.mask_card_le_divisorCount hF v)
       have h' : (idealDivisorCount v.val.1 : ℝ) ≤ D * call.base ^ δ := by
         simpa only [pow_one] using hmask call.base call.domain.scale.le _ (hnorm v).1
       exact h.trans h'

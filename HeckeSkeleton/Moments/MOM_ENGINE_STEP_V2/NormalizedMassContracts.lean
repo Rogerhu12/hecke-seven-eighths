@@ -20,9 +20,9 @@ at this positive loss, leaving its exponent 2 * p.loss to cancel here.
 Every cost and threshold precedes the moving call and all its labels.
 Paper: lines 2908--2946, including the actual whole-slot removal loss.
 
-Pending upstream imports: PR #34 CalibrationContracts and PR #39
-OriginalCapacityContracts / FullKappaContracts.  This candidate is not
-part of the active build until B incorporates those contracts.
+The shared imports retain the original upstream declaration names.
+This candidate follows the final contract frozen by B; its source
+closure is compiled and recursively audited by the task CI.
 -/
 
 noncomputable section

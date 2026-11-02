@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileWindowClipping
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -34,7 +34,9 @@ the constant term in the original polynomial radius. -/
 def profileRadiusCoefficient (D : OriginalCalibration call s)
     (orders : Finset (ℕ × ℕ)) (rawCoefficient : ℝ) : ℝ :=
   CanonicalFullKappaPrime.enlargedCoefficient rawCoefficient
-    (ProfileWindowProof.actualClippingCoefficient s.base D.calibration.parameters orders)
+    (CanonicalLogProfiles.clippingCoefficient
+      (max (plainClippingFactor s.base D.calibration.parameters.n₁)
+        (plainClippingFactor s.base D.calibration.parameters.n₂)) orders)
 
 end OriginalCalibration
 

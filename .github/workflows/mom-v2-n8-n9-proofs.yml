@@ -18,7 +18,7 @@ jobs:
       github.event.pull_request.number == 42 ||
       github.head_ref == 'cloud/mom-v2-n8-n9' ||
       (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-v2-n8-n9')
-    name: N8 and N9 ${{ matrix.stage }} proofs (N8b partial)
+    name: N8 and N9 ${{ matrix.stage }} proof candidates
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:

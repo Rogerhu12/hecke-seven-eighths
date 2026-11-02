@@ -66,6 +66,7 @@ def sourceRawError (degree error : ℝ) : ℝ :=
 
 variable {s} (D : OriginalCalibration call s)
 
+include D in
 theorem sourceScaleProduct_pos : 0 < sourceScaleProduct s := by
   have hleftNorm : 0 < idealNorm K (s.allocation.plainDivisor 0) := idealNorm_pos K _
   have hrightNorm : 0 < idealNorm K (s.allocation.plainDivisor (Fin.succ 0)) :=
@@ -84,6 +85,7 @@ theorem sourceScaleProduct_pos : 0 < sourceScaleProduct s := by
       (mul_pos (Real.rpow_pos_of_pos hZ _) hrightNorm))
     (Real.rpow_pos_of_pos hZ _)
 
+include D in
 theorem sourceRawError_eq_of_product_bound (degree error : ℝ)
     (hproduct : sourceScaleProduct s ≤ s.base ^ (degree + error)) :
     sourceRawError s degree error = error :=

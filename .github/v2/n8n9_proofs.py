@@ -3,8 +3,9 @@
 
 The analysis stage is independent of the raw/refinement assembly.  The
 complete stage checks every module in the three proved task groups.
-N8b is explicitly partial until its final task theorem is added.  These
-additional jobs do not replace either existing whole-V2/repository gate.
+The complete task statements remain candidates until this stage succeeds
+at the exact selected head.  These additional jobs do not replace either
+existing whole-V2/repository gate.
 """
 from __future__ import annotations
 
@@ -31,9 +32,14 @@ ANALYSIS_THEOREMS = (
     NAMESPACE + ".Blueprint.fixed_radius_kernel_mass",
     NAMESPACE + ".Blueprint.kernelMass_le_uniformCost",
 )
-COMPLETE_MODULES = ("N8SourceIndexProof", "N9OriginalWindowMass")
+COMPLETE_MODULES = (
+    "N8SourceIndexProof", "TasksSourceIndex", "N8NormalizedMassProof",
+    "TasksNormalizedMass", "N9OriginalWindowMass",
+)
 COMPLETE_THEOREMS = (
     NAMESPACE + ".Blueprint.N8Source.sourceIndexTask",
+    NAMESPACE + ".Blueprint.Tasks.sourceIndex",
+    NAMESPACE + ".Blueprint.Tasks.normalizedMass",
     NAMESPACE + ".Blueprint.Tasks.originalWindowKernelMass",
 )
 FORBIDDEN = re.compile(r"\b(?:sorry|axiom|admit|native_decide|sorryAx)\b")
@@ -77,11 +83,8 @@ def selected_modules(stage: str, manifest: dict) -> tuple[list[str], list[str]]:
         raise ValueError("Owned N8/N9 sources outside the proved groups: " + ", ".join(sorted(missing)))
     missing = set(COMPLETE_MODULES).difference(selected)
     if missing:
-        raise ValueError("Final N8a/exact-N9 proof modules missing from groups: " + ", ".join(sorted(missing)))
-    required = list(COMPLETE_THEOREMS)
-    if "TasksSourceIndex" in selected:
-        required.append(NAMESPACE + ".Blueprint.Tasks.sourceIndex")
-    return sorted(selected), required
+        raise ValueError("Final N8a/N8b/exact-N9 proof modules missing from groups: " + ", ".join(sorted(missing)))
+    return sorted(selected), list(COMPLETE_THEOREMS)
 
 
 def preflight(modules: list[str]) -> list[str]:
@@ -135,7 +138,7 @@ run_cmd do
     logInfo m!"AXIOMS {{name}}: {{dependencies}}"
   let modules := env.header.moduleNames.filter (modulePrefix.isPrefixOf ·)
   for moduleName in modules do
-    let count := names.foldl (fun n name =>
+    let count : Nat := names.foldl (fun (n : Nat) name =>
       if sourceModule? name == some moduleName then n + 1 else n) 0
     logInfo m!"V2_SOURCE_MODULE {{moduleName}}: {{count}} declarations"
   logInfo m!"{marker}: {{names.size}} declarations"
@@ -173,6 +176,19 @@ def main() -> int:
         errors.append(f"Preflight {type(error).__name__}: {error}")
     if not snapshots:
         errors.append("No V2 sources found")
+    task_scope = (
+        "Analysis helpers only: N9FixedRadiusMass and N9UniformCost; "
+        "this stage does not certify the N8a, N8b, or exact N9 main task statements"
+        if stage == "analysis" else
+        "All modules in n8a_proved, n8b_proved, and n9_proved, with the "
+        "Tasks.sourceIndex, Tasks.normalizedMass, and Tasks.originalWindowKernelMass "
+        "main statements required"
+    )
+    n8b_status = (
+        "Not certified by the analysis stage"
+        if stage == "analysis" else
+        "Candidate: the complete N8b task must build and pass the recursive axiom audit at this exact head"
+    )
     environment = {
         "head": head,
         "expected_head": expected,
@@ -187,7 +203,8 @@ def main() -> int:
         "module_timeout_seconds": shared.MODULE_TIMEOUT_SECONDS,
         "watch_interval_seconds": shared.WATCH_INTERVAL_SECONDS,
         "audit_scope": "Every loaded declaration in a V2 source module OR V2 namespace, including private/generated names; recursive collectAxioms",
-        "n8b_status": "partial: proved helpers only; final N8b task is not certified by this script",
+        "task_scope": task_scope,
+        "n8b_status": n8b_status,
     }
     (evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n", encoding="utf-8")
     preflight_text = "\n".join(errors) + "\n" if errors else f"PASS: {len(modules)} selected modules; stage={stage}.\n"
@@ -232,16 +249,23 @@ def main() -> int:
     success = (not errors and results["build_exit"] == 0 and results["audit_exit"] == 0
                and results["audit_success_marker"])
     results["success"] = success
+    if stage == "complete":
+        results["n8b_status"] = (
+            "Complete N8b task built and recursively audited at the exact selected head"
+            if success else
+            "Candidate: complete N8b task certification has not succeeded at this exact head"
+        )
     results["elapsed_seconds"] = time.monotonic() - start
     (evidence / "result.json").write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
     summary = (f"# MOM Engine Step V2 — N8/N9 {stage}\n\n"
                + f"- Exact head: `{head}`\n"
                + f"- Selected modules: {len(modules)}\n"
+               + f"- Task scope: {task_scope}.\n"
                + f"- Lake exit: {results['build_exit']}\n"
                + f"- Fresh Lean audit exit: {results['audit_exit']}\n"
                + f"- Loaded V2 declarations recursively audited: {results.get('audited_declaration_count', 0)}\n"
                + f"- Result: {'PASS' if success else 'FAIL'}\n"
-               + "- N8b remains partial: only its registered proved helpers are audited.\n"
+               + f"- N8b status: {results['n8b_status']}.\n"
                + "- The complete V2 and repository gates remain required.\n")
     if errors:
         summary += "\nVerification errors:\n\n" + "\n".join("- " + error for error in errors) + "\n"

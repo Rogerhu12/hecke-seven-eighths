@@ -34,7 +34,8 @@ attribute [local instance]
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
-private theorem idealNorm_one_le (I : NonzeroIdeal K) : 1 ≤ idealNorm K I := by
+private theorem idealNorm_one_le (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
+    1 ≤ idealNorm K I := by
   change (1 : ℝ) ≤ (Ideal.absNorm I.val : ℝ)
   exact_mod_cast Nat.one_le_iff_ne_zero.mpr
     (fun hz => nonZeroDivisors.coe_ne_zero I (Ideal.absNorm_eq_zero_iff.mp hz))
