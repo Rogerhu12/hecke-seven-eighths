@@ -182,12 +182,14 @@ jobs:
             mom-b2-profile-identity/
           if-no-files-found: warn
           retention-days: 14
-      - name: Verify the repaired literal roots and their six original declarations
+      - name: Verify the five repaired literal roots and their eleven original declarations
         run: |
           python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
             HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExtraction \
             HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlas \
             HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMovingTwist \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralTwoStages \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolAtlas \
             --namespace HeckeSkeleton.Moments.EngineStep \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.extract_whole \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.extract_gaussScale \
@@ -195,7 +197,30 @@ jobs:
             --declaration HeckeSkeleton.Moments.EngineStep.SourceCartesianAtlas.residualReindex_index \
             --declaration HeckeSkeleton.Moments.EngineStep.FixedChildCharacters.movingSingleton_bare \
             --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.movingSingleton_whole \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.secondInput_whole \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.secondInput_gaussScale \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.mainAtlasForLabel_literalDictionary \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.residualSource_original_support_index_val \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.combinedAtlasForLabel_literalDictionary \
             --evidence mom-b2-literal-roots
+      - name: Verify the repaired profile and source roots and their eleven original declarations
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileData \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSourceCoefficients \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalProfileData \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalProfileDataOfWindow \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalAtoms_left_weight_mem \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalAtoms_slot_weight_mem \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.ProfileData.secondInput \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.ProfileData.fourierLeft_allocated \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.ProfileData.fourierSlot_eval \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.residualCoefficient_logarithmic \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalAtoms_secondInput_whole \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.canonicalLog_leftResidualCoefficient \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.canonicalLog_rightResidualCoefficient \
+            --evidence mom-b2-profile-source-roots
       - name: Verify all forty-six Actual-independent modules in the owned downstream closure
         run: |
           python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
@@ -238,6 +263,7 @@ jobs:
             mom-b2-profile-root/
             mom-b2-profile-independent/
             mom-b2-literal-roots/
+            mom-b2-profile-source-roots/
             mom-b2-profile-identity/
           if-no-files-found: warn
           retention-days: 14
@@ -281,6 +307,20 @@ jobs:
           from mom_engine_b2_native_watch import source_identity, atomic_json
           atomic_json(Path('mom-b2-inherited-actual-identity/before.json'), source_identity(Path.cwd()))
           PY
+      - name: Verify the repaired fibre and image roots and their seven original declarations
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredFibre \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalImageMass \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualGaussStage.CoveredClassKey.rowLabel_mem_of_live \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualGaussStage.presentClassFibre_card_le \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_index_fibre_card_le \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_index_fibre_card_le_coordinates \
+            --declaration HeckeSkeleton.Moments.EngineStep.OriginalArithmeticLabels.rectangleAmplifiedIndex_allocation \
+            --declaration HeckeSkeleton.Moments.EngineStep.InternalMassAssembly.original_direct_image_kernel_mass \
+            --declaration HeckeSkeleton.Moments.EngineStep.InternalMassAssembly.original_amplified_image_kernel_mass \
+            --evidence mom-b2-fibre-image-roots
       - name: Verify the four inherited original image modules
         run: |
           python3 -u - <<'PY'
@@ -361,6 +401,7 @@ jobs:
           name: mom-b2-inherited-actual-complete-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             mom-b2-inherited-actual-root/
+            mom-b2-fibre-image-roots/
             mom-b2-inherited-actual-independent/
             mom-b2-inherited-actual-identity/
           if-no-files-found: warn

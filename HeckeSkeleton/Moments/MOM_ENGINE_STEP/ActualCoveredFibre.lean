@@ -153,9 +153,15 @@ theorem actualRowLabels_card_le {P Θ : Type*} [Fintype Θ]
       (s.charts DE D).rowLabel h = encode (code h)) :
     (s.actualRowLabels DE D).card ≤
       2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension := by
-  simpa only [actualRowLabels] using
-    OriginalFiniteFibre.row_image_card_le_coordinates
-      (s.sources DE).rows (s.charts DE D).rowLabel support dimension width code encode hcode
+  have hdec : instDecidableEqFin ((s.charts DE D).rowLabelCount + 1) =
+      (fun a b => Classical.propDecidable (a = b)) := Subsingleton.elim _ _
+  have hcard := congrArg
+    (fun dec : DecidableEq (Fin ((s.charts DE D).rowLabelCount + 1)) =>
+      (@Finset.image Q (Fin ((s.charts DE D).rowLabelCount + 1)) dec
+        (s.charts DE D).rowLabel (s.sources DE).rows).card) hdec
+  exact hcard.le.trans
+    (OriginalFiniteFibre.row_image_card_le_coordinates
+      (s.sources DE).rows (s.charts DE D).rowLabel support dimension width code encode hcode)
 
 /-- The real outer mask remains a coordinate when the arithmetic
 index fixes the common ideals but does not retain this mask. -/
@@ -214,7 +220,7 @@ theorem presentCommonFibre_card_le_coordinates {P Θ : Type*} [Fintype Θ]
       Finset.sum_le_sum (fun D _ => hclass D)
     _ = _ := by
       simp only [Finset.sum_const, Finset.card_univ, Fintype.card_coe,
-        Finset.card_powerset, nsmul_eq_mul]
+        Finset.card_powerset, nsmul_eq_mul, Nat.cast_id]
       ac_rfl
 
 variable {DE D s LC RC}
@@ -262,6 +268,8 @@ theorem covered_index_fibre_card_le {J : Type*}
     intro x hx y hy hxy
     apply covered_class_allocationFingerprint_injective hleft hright
     apply Prod.ext hxy
+    change coveredAllocationFingerprint hleft hright x =
+      coveredAllocationFingerprint hleft hright y
     rw [← hindex x, ← hindex y, (Finset.mem_filter.mp hx).2,
       (Finset.mem_filter.mp hy).2]
   have hsub : (S.filter (fun b => index b = j)).image Sigma.fst ⊆
@@ -311,6 +319,8 @@ theorem covered_index_fibre_card_le_coordinates {J P Θ : Type*} [Fintype Θ]
     intro x hx y hy hxy
     apply covered_class_allocationFingerprint_injective hleft hright
     apply Prod.ext hxy
+    change coveredAllocationFingerprint hleft hright x =
+      coveredAllocationFingerprint hleft hright y
     rw [← hindex x, ← hindex y, (Finset.mem_filter.mp hx).2,
       (Finset.mem_filter.mp hy).2]
   have hsub : (S.filter (fun b => index b = j)).image Sigma.fst ⊆

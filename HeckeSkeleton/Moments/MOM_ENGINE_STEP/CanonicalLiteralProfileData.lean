@@ -196,7 +196,7 @@ def normPower (δ : ℝ) : (d.normPower δ).ProfileData where
     (W.left_frozen r u t y)
   right_frozen r u t y := congrArg (fun z => z * ((d.scale₂ r * y) ^ δ : ℝ))
     (W.right_frozen r u t y)
-  slot_frozen j t y := congrArg (fun z => z * ((d.base ^ d.length j * y) ^ δ : ℝ))
+  slot_frozen j t y := congrArg (fun z : ℂ => z * ((d.base ^ d.length j * y) ^ δ : ℝ))
     (W.slot_frozen j t y)
   left_eval r u t I := by
     change (W.left r).profile u t (idealNorm K I / d.scale₁ r) *
@@ -444,10 +444,12 @@ theorem fourierAtom_multiplier_ratio (scale : ℝ) (hscale : 0 < scale)
     (fourierAtom scale hscale firstSign negative).multiplier ξ (N / scale) =
       jointPhase ξ (orientedLocation negative
         (-Real.log N • CanonicalLiteralLocations.direction firstSign)) := by
-  rw [CanonicalLogProfiles.Atom.multiplier_ratio]
+  have hratio := CanonicalLogProfiles.Atom.multiplier_ratio
+    (fourierAtom scale hscale firstSign negative) ξ N
   cases negative <;>
-    simp only [fourierAtom, orientedLocation, Bool.false_eq_true, if_false, if_true,
+    simpa only [fourierAtom, orientedLocation, Bool.false_eq_true, if_false, if_true,
       Real.rpow_zero, Complex.ofReal_one, one_mul, zero_add, smul_neg, neg_smul, neg_neg]
+      using hratio
 
 end CanonicalLiteralProfileData
 
