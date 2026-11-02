@@ -2,6 +2,14 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafArithmetic
 
 set_option linter.unusedSectionVars false
 
+set_option Elab.async false
+set_option stderrAsMessages false
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows imports_done"
+  log.flush
+
 /-!
 # Original ideal windows reach every actual arithmetic label
 
@@ -103,6 +111,11 @@ variable {G : ActualGaussSource C ι}
 variable (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
 variable (LC RC : SourceCartesianCover G.columns G.ideal)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows helpers_done__covered_innerDivisor_norm_le_before"
+  log.flush
+
 /-- The actual second Möbius divisor is bounded through its original
 right column. All three support filters are retained in this proof. -/
 theorem covered_innerDivisor_norm_le (Y : ℝ)
@@ -127,6 +140,11 @@ theorem covered_innerDivisor_norm_le (Y : ℝ)
     (fun i => (v.block.rightResidual (v.rightReindex.index i)).val) Y
     (fun i _ => (v.block.rightResidual (v.rightReindex.index i)).property.1) hcolumns j.2.1
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows covered_innerDivisor_norm_le_done"
+  log.flush
+
 end ActualGaussStage
 
 namespace FirstGaussPoolData
@@ -149,11 +167,29 @@ variable {d : FirstGaussPoolData C P ι} {c : ι → ℂ}
 variable (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
 variable (B : d.SourceCovers c)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_commonLabel_properties_before"
+  log.flush
+
 theorem commonLabel_properties (j : s.CoveredLeafKey B) :
     (s.commonLabel B j).1 ≠ 0 ∧ (s.commonLabel B j).2 ≠ 0 ∧
       primeSupport (s.commonLabel B j).1 = primeSupport (s.commonLabel B j).2 := by
-  rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩)) <;>
-    exact actual_common_pair_properties _ _ _ _ j.1.1
+  let goal : s.CoveredLeafKey B → Prop := fun key =>
+    (s.commonLabel B key).1 ≠ 0 ∧ (s.commonLabel B key).2 ≠ 0 ∧
+      primeSupport (s.commonLabel B key).1 = primeSupport (s.commonLabel B key).2
+  exact Sum.rec (motive := goal)
+    (fun a => actual_common_pair_properties _ _ _ _ a.1.1)
+    (fun tail => Sum.rec (motive := fun tail => goal (.inr tail))
+      (fun a => actual_common_pair_properties _ _ _ _ a.2.1.1)
+      (fun tail => Sum.rec (motive := fun tail => goal (.inr (.inr tail)))
+        (fun a => actual_common_pair_properties _ _ _ _ a.2.1.1)
+        (fun a => actual_common_pair_properties _ _ _ _ a.2.1.1) tail) tail) j
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_commonLabel_properties_done__commonLabel_norm_le_before"
+  log.flush
 
 theorem commonLabel_norm_le (Y : ℝ)
     (hN : ∀ i ∈ d.columns, (Ideal.absNorm (d.ideal i).val : ℝ) ≤ Y)
@@ -163,21 +199,31 @@ theorem commonLabel_norm_le (Y : ℝ)
   have hres (p : ExteriorPrime A) (n : ℕ) (i : d.valuationColumns p n) :
       (Ideal.absNorm ((d.residualSource p n c).ideal i).val : ℝ) ≤ Y :=
     (d.residualSource_ideal_norm_le p n c i).trans (hN i.val (Finset.mem_filter.mp i.property).1)
-  rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩))
-  · exact actual_common_pair_norm _ _ _ _ Y
-      (fun i _ => (d.ideal i).property.1) (fun i _ => (d.ideal i).property.1) hN hN j.1.1
-  · exact actual_common_pair_norm _ _ _ _ Y
-      (fun i _ => ((d.residualSource p.val 1 c).ideal i).property.1)
-      (fun i _ => ((d.residualSource p.val 1 c).ideal i).property.1)
-      (fun i _ => hres p.val 1 i) (fun i _ => hres p.val 1 i) j.1.1
-  · exact actual_common_pair_norm _ _ _ _ Y
-      (fun i _ => ((d.residualSource p.val 6 c).ideal i).property.1)
-      (fun i _ => ((d.residualSource p.val 6 c).ideal i).property.1)
-      (fun i _ => hres p.val 6 i) (fun i _ => hres p.val 6 i) j.1.1
-  · exact actual_common_pair_norm _ _ _ _ Y
-      (fun i _ => ((d.residualSource p.val 7 c).ideal i).property.1)
-      (fun i _ => ((d.residualSource p.val 7 c).ideal i).property.1)
-      (fun i _ => hres p.val 7 i) (fun i _ => hres p.val 7 i) j.1.1
+  let goal : s.CoveredLeafKey B → Prop := fun key =>
+    (Ideal.absNorm (s.commonLabel B key).1 : ℝ) ≤ Y ∧
+      (Ideal.absNorm (s.commonLabel B key).2 : ℝ) ≤ Y
+  exact Sum.rec (motive := goal)
+    (fun a => actual_common_pair_norm _ _ _ _ Y
+      (fun i _ => (d.ideal i).property.1) (fun i _ => (d.ideal i).property.1) hN hN a.1.1)
+    (fun tail => Sum.rec (motive := fun tail => goal (.inr tail))
+      (fun a => actual_common_pair_norm _ _ _ _ Y
+        (fun i _ => ((d.residualSource a.1.val 1 c).ideal i).property.1)
+        (fun i _ => ((d.residualSource a.1.val 1 c).ideal i).property.1)
+        (fun i _ => hres a.1.val 1 i) (fun i _ => hres a.1.val 1 i) a.2.1.1)
+      (fun tail => Sum.rec (motive := fun tail => goal (.inr (.inr tail)))
+        (fun a => actual_common_pair_norm _ _ _ _ Y
+          (fun i _ => ((d.residualSource a.1.val 6 c).ideal i).property.1)
+          (fun i _ => ((d.residualSource a.1.val 6 c).ideal i).property.1)
+          (fun i _ => hres a.1.val 6 i) (fun i _ => hres a.1.val 6 i) a.2.1.1)
+        (fun a => actual_common_pair_norm _ _ _ _ Y
+          (fun i _ => ((d.residualSource a.1.val 7 c).ideal i).property.1)
+          (fun i _ => ((d.residualSource a.1.val 7 c).ideal i).property.1)
+          (fun i _ => hres a.1.val 7 i) (fun i _ => hres a.1.val 7 i) a.2.1.1) tail) tail) j
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_commonLabel_norm_le_done__innerDivisor_norm_le_before"
+  log.flush
 
 theorem innerDivisor_norm_le (Y : ℝ)
     (hN : ∀ i ∈ d.columns, (Ideal.absNorm (d.ideal i).val : ℝ) ≤ Y)
@@ -185,14 +231,23 @@ theorem innerDivisor_norm_le (Y : ℝ)
   have hres (p : ExteriorPrime A) (n : ℕ) (i : d.valuationColumns p n) :
       (Ideal.absNorm ((d.residualSource p n c).ideal i).val : ℝ) ≤ Y :=
     (d.residualSource_ideal_norm_le p n c i).trans (hN i.val (Finset.mem_filter.mp i.property).1)
-  rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩))
-  · exact s.main.covered_innerDivisor_norm_le B.main B.main Y hN j
-  · exact (s.one p).covered_innerDivisor_norm_le (B.residual p 1) (B.residual p 1)
-      Y (fun i _ => hres p.val 1 i) j
-  · exact (s.six p).covered_innerDivisor_norm_le (B.residual p 6) (B.residual p 6)
-      Y (fun i _ => hres p.val 6 i) j
-  · exact (s.seven p).covered_innerDivisor_norm_le (B.residual p 7) (B.residual p 7)
-      Y (fun i _ => hres p.val 7 i) j
+  let goal : s.CoveredLeafKey B → Prop := fun key =>
+    (Ideal.absNorm (s.innerDivisor B key) : ℝ) ≤ Y
+  exact Sum.rec (motive := goal)
+    (fun a => s.main.covered_innerDivisor_norm_le B.main B.main Y hN a)
+    (fun tail => Sum.rec (motive := fun tail => goal (.inr tail))
+      (fun a => (s.one a.1).covered_innerDivisor_norm_le
+        (B.residual a.1 1) (B.residual a.1 1) Y (fun i _ => hres a.1.val 1 i) a.2)
+      (fun tail => Sum.rec (motive := fun tail => goal (.inr (.inr tail)))
+        (fun a => (s.six a.1).covered_innerDivisor_norm_le
+          (B.residual a.1 6) (B.residual a.1 6) Y (fun i _ => hres a.1.val 6 i) a.2)
+        (fun a => (s.seven a.1).covered_innerDivisor_norm_le
+          (B.residual a.1 7) (B.residual a.1 7) Y (fun i _ => hres a.1.val 7 i) a.2) tail) tail) j
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_innerDivisor_norm_le_done"
+  log.flush
 
 end ActualPoolStages
 
@@ -234,12 +289,27 @@ namespace SecondStages
 variable {p} (R : p.SecondStages (E := E) (hDiff := hDiff))
 variable (LA : SourceCartesianAtlas left fullI) (RA : SourceCartesianAtlas right fullJ)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_commonLabel_properties_before"
+  log.flush
+
 theorem commonLabel_properties (j : R.CoveredLeafKey LA RA) :
     (R.commonLabel LA RA j).1 ≠ 0 ∧ (R.commonLabel LA RA j).2 ≠ 0 ∧
       primeSupport (R.commonLabel LA RA j).1 = primeSupport (R.commonLabel LA RA j).2 := by
-  rcases j with ⟨S, χ, j | j⟩
-  · exact (R.left S χ).commonLabel_properties _ j
-  · exact (R.right S χ).commonLabel_properties _ j
+  exact Sum.rec
+    (motive := fun side =>
+      (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).1 ≠ 0 ∧
+        (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).2 ≠ 0 ∧
+        primeSupport (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).1 =
+          primeSupport (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).2)
+    (fun a => (R.left j.1 j.2.1).commonLabel_properties _ a)
+    (fun a => (R.right j.1 j.2.1).commonLabel_properties _ a) j.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_commonLabel_properties_done__commonLabel_norm_le_before"
+  log.flush
 
 theorem commonLabel_norm_le (Y : ℝ)
     (hL : ∀ i ∈ left, (Ideal.absNorm (fullI i).val : ℝ) ≤ Y)
@@ -247,26 +317,41 @@ theorem commonLabel_norm_le (Y : ℝ)
     (j : R.CoveredLeafKey LA RA) :
     (Ideal.absNorm (R.commonLabel LA RA j).1 : ℝ) ≤ Y ∧
       (Ideal.absNorm (R.commonLabel LA RA j).2 : ℝ) ≤ Y := by
-  rcases j with ⟨S, χ, j | j⟩
-  · apply (R.left S χ).commonLabel_norm_le _ Y _ j
-    simpa only [p.divisorPools.left_columns S, p.divisorPools.left_ideal S] using
-      p.left_ideal_norm_le Y hL
-  · apply (R.right S χ).commonLabel_norm_le _ Y _ j
-    simpa only [p.divisorPools.right_columns S, p.divisorPools.right_ideal S] using
-      p.right_ideal_norm_le Y hR
+  exact Sum.rec
+    (motive := fun side =>
+      (Ideal.absNorm (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).1 : ℝ) ≤ Y ∧
+        (Ideal.absNorm (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).2 : ℝ) ≤ Y)
+    (fun a => (R.left j.1 j.2.1).commonLabel_norm_le _ Y
+      (by simpa only [p.divisorPools.left_columns j.1, p.divisorPools.left_ideal j.1] using
+        p.left_ideal_norm_le Y hL) a)
+    (fun a => (R.right j.1 j.2.1).commonLabel_norm_le _ Y
+      (by simpa only [p.divisorPools.right_columns j.1, p.divisorPools.right_ideal j.1] using
+        p.right_ideal_norm_le Y hR) a) j.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_commonLabel_norm_le_done__innerDivisor_norm_le_before"
+  log.flush
 
 theorem innerDivisor_norm_le (Y : ℝ)
     (hL : ∀ i ∈ left, (Ideal.absNorm (fullI i).val : ℝ) ≤ Y)
     (hR : ∀ i ∈ right, (Ideal.absNorm (fullJ i).val : ℝ) ≤ Y)
     (j : R.CoveredLeafKey LA RA) :
     (Ideal.absNorm (R.innerDivisor LA RA j) : ℝ) ≤ Y := by
-  rcases j with ⟨S, χ, j | j⟩
-  · apply (R.left S χ).innerDivisor_norm_le _ Y _ j
-    simpa only [p.divisorPools.left_columns S, p.divisorPools.left_ideal S] using
-      p.left_ideal_norm_le Y hL
-  · apply (R.right S χ).innerDivisor_norm_le _ Y _ j
-    simpa only [p.divisorPools.right_columns S, p.divisorPools.right_ideal S] using
-      p.right_ideal_norm_le Y hR
+  exact Sum.rec
+    (motive := fun side =>
+      (Ideal.absNorm (R.innerDivisor LA RA ⟨j.1, j.2.1, side⟩) : ℝ) ≤ Y)
+    (fun a => (R.left j.1 j.2.1).innerDivisor_norm_le _ Y
+      (by simpa only [p.divisorPools.left_columns j.1, p.divisorPools.left_ideal j.1] using
+        p.left_ideal_norm_le Y hL) a)
+    (fun a => (R.right j.1 j.2.1).innerDivisor_norm_le _ Y
+      (by simpa only [p.divisorPools.right_columns j.1, p.divisorPools.right_ideal j.1] using
+        p.right_ideal_norm_le Y hR) a) j.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_innerDivisor_norm_le_done"
+  log.flush
 
 end SecondStages
 end FirstBlockPoolData
@@ -280,6 +365,11 @@ namespace ActualFirstSource.SecondStages
 
 variable (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable (L : SourceCartesianAtlas s.columns s.ideal)
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows arithmeticLabels_admissible_before"
+  log.flush
 
 /-- The actual retained carrier is admissible from original column
 windows and the original old-mask divisibility alone. All transformed
@@ -297,12 +387,13 @@ theorem arithmeticLabels_admissible {cap : ℕ} (hcap : L.slotCount ≤ cap)
   · intro j
     have hp := actual_common_pair_properties _ _ _ _ j.val.1
     have hdiv : oldMask ∣ j.val.1.val.1 ∧ oldMask ∣ j.val.1.val.2 := by
-      obtain ⟨ij, hij, he⟩ := Finset.mem_image.mp j.val.1.property
-      have hi := (Finset.mem_product.mp hij).1
-      have hj := (Finset.mem_product.mp hij).2
+      refine (Finset.mem_image.mp j.val.1.property).elim ?_
+      intro ij hijhe
+      have hi := (Finset.mem_product.mp hijhe.1).1
+      have hj := (Finset.mem_product.mp hijhe.1).2
       have hd := actual_common_label_old_mask oldMask (s.ideal ij.1).val (s.ideal ij.2).val
         hs (s.ideal ij.1).property.1 (s.ideal ij.2).property.1 (hmask ij.1 hi) (hmask ij.2 hj)
-      simpa only [he] using hd
+      simpa only [hijhe.2] using hd
     exact ⟨hp.1, hp.2.1, hp.2.2, hdiv.1, hdiv.2, Finset.empty_subset _⟩
   · intro j
     exact actual_common_pair_norm _ _ _ _ (Z ^ B)
@@ -327,8 +418,18 @@ theorem arithmeticLabels_admissible {cap : ℕ} (hcap : L.slotCount ≤ cap)
     exact (R.supported.gated j.val.1 j.val.2.1).innerDivisor_norm_le
       L L (Z ^ B) hN hN j.val.2.2
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows arithmeticLabels_admissible_done"
+  log.flush
+
 end ActualFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_innerDivisor_norm_le
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.arithmeticLabels_admissible
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows axioms_done"
+  log.flush

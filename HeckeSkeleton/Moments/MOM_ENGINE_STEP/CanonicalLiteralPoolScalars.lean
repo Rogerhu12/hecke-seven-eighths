@@ -139,11 +139,40 @@ theorem literalLeftMainAtoms_eq_scale_core
         firstFixed hfirst δ₂ label).scale
           (literalLeftMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
-  unfold literalLeftMainAtoms literalLeftMainCore literalLeftMainScalar
-  dsimp only
-  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
-    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
-    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let T := ((p.leftSourceCovers (raw).originalAtlas S χ).main.branch label)
+  have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  have hcount : branch.keep.card = T.slotCount :=
+    (congrArg Sigma.fst e).symm
+  let core : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card := (seed).secondInputCore P R branch firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  let scalar : ℂ := (seed).secondInputScalar (σ := σ) branch (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) δ₁
+  let deletion : HeckeGeneral.Analysis.NonzeroIdeal K := (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))
+  have hinput := (seed).secondInput_eq_scale_core (σ := σ) P R branch (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have honAtlas :=
+    (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card =>
+      input.onAtlas T hcount) hinput).trans
+      (core.scale_onAtlas scalar T hcount)
+  exact (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) T.slotCount =>
+    input.deleteMask deletion) honAtlas).trans
+      ((core.onAtlas T hcount).scale_deleteMask scalar deletion)
 
 
 /-- The exact same atlas and full mask, with the two constant
@@ -201,11 +230,45 @@ theorem literalLeftPoolAtoms_eq_scale_core
         firstFixed hfirst δ₂ q n label).scale
           (literalLeftPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label) := by
-  unfold literalLeftPoolAtoms literalLeftPoolCore literalLeftPoolScalar
-  dsimp only
-  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
-    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
-    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
+  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas (primeSupport DE.1) DE.1
+    ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
+  let T := (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label)
+  have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
+  have hcount : branch.keep.card = T.slotCount :=
+    (congrArg Sigma.fst e).symm
+  let core : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card := (seed).secondInputCore P R branch firstFixed
+    (powerIdeal q.val (2 * n)) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q.val (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  let scalar : ℂ := (seed).secondInputScalar (σ := σ) branch (powerIdeal q.val n)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) δ₁
+  let deletion : HeckeGeneral.Analysis.NonzeroIdeal K := (literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) (fun _ hp => by
+        rcases Finset.mem_union.mp hp with hp | hp
+        · exact support_prime hp
+        · rcases Finset.mem_singleton.mp hp with rfl
+          exact q.val.val.prime))
+  have hinput := (seed).secondInput_eq_scale_core (σ := σ) P R branch (powerIdeal q.val n) firstFixed
+    (powerIdeal q.val (2 * n)) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q.val (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have honAtlas :=
+    (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card =>
+      input.onAtlas T hcount) hinput).trans
+      (core.scale_onAtlas scalar T hcount)
+  exact (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) T.slotCount =>
+    input.deleteMask deletion) honAtlas).trans
+      ((core.onAtlas T hcount).scale_deleteMask scalar deletion)
 
 
 /-- The exact same atlas and full mask, with the two constant
@@ -257,11 +320,40 @@ theorem literalRightMainAtoms_eq_scale_core
         firstFixed hfirst δ₂ label).scale
           (literalRightMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
-  unfold literalRightMainAtoms literalRightMainCore literalRightMainScalar
-  dsimp only
-  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
-    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
-    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let T := ((p.rightSourceCovers (raw).originalAtlas S χ).main.branch label)
+  have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  have hcount : branch.keep.card = T.slotCount :=
+    (congrArg Sigma.fst e).symm
+  let core : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card := (seed).secondInputCore P R branch firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  let scalar : ℂ := (seed).secondInputScalar (σ := σ) branch (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) δ₁
+  let deletion : HeckeGeneral.Analysis.NonzeroIdeal K := (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))
+  have hinput := (seed).secondInput_eq_scale_core (σ := σ) P R branch (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have honAtlas :=
+    (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card =>
+      input.onAtlas T hcount) hinput).trans
+      (core.scale_onAtlas scalar T hcount)
+  exact (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) T.slotCount =>
+    input.deleteMask deletion) honAtlas).trans
+      ((core.onAtlas T hcount).scale_deleteMask scalar deletion)
 
 
 /-- The exact same atlas and full mask, with the two constant
@@ -319,11 +411,45 @@ theorem literalRightPoolAtoms_eq_scale_core
         firstFixed hfirst δ₂ q n label).scale
           (literalRightPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label) := by
-  unfold literalRightPoolAtoms literalRightPoolCore literalRightPoolScalar
-  dsimp only
-  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
-    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
-    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
+  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas (primeSupport DE.1) DE.2
+    ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
+  let T := (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label)
+  have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
+  have hcount : branch.keep.card = T.slotCount :=
+    (congrArg Sigma.fst e).symm
+  let core : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card := (seed).secondInputCore P R branch firstFixed
+    (powerIdeal q.val (2 * n)) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q.val (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  let scalar : ℂ := (seed).secondInputScalar (σ := σ) branch (powerIdeal q.val n)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) δ₁
+  let deletion : HeckeGeneral.Analysis.NonzeroIdeal K := (literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) (fun _ hp => by
+        rcases Finset.mem_union.mp hp with hp | hp
+        · exact support_prime hp
+        · rcases Finset.mem_singleton.mp hp with rfl
+          exact q.val.val.prime))
+  have hinput := (seed).secondInput_eq_scale_core (σ := σ) P R branch (powerIdeal q.val n) firstFixed
+    (powerIdeal q.val (2 * n)) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q.val (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have honAtlas :=
+    (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) branch.keep.card =>
+      input.onAtlas T hcount) hinput).trans
+      (core.scale_onAtlas scalar T hcount)
+  exact (congrArg (fun input : CanonicalLiteralRectangles.Atoms (K := K) T.slotCount =>
+    input.deleteMask deletion) honAtlas).trans
+      ((core.onAtlas T hcount).scale_deleteMask scalar deletion)
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

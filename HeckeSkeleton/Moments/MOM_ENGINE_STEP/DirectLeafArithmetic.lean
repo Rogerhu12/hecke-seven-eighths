@@ -3,6 +3,14 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 
 set_option linter.unusedSectionVars false
 
+set_option Elab.async false
+set_option stderrAsMessages false
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic imports_done"
+  log.flush
+
 /-!
 # Literal arithmetic coordinates of the direct parent leaves
 
@@ -63,6 +71,11 @@ variable {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profile
 variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 variable (p : FirstBlockDirectData chart M X hX)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic sourceCover_before"
+  log.flush
+
 theorem leftSourceCover_slotCap (LA : SourceCartesianAtlas left fullI)
     (hcap : LA.slotCount ≤ cap)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -80,6 +93,11 @@ theorem rightSourceCover_slotCap (RA : SourceCartesianAtlas right fullJ)
   (p.rightData.sourceCartesianCover_slotCount_le RA (primeSupport DE.1) DE.2
     p.right_columns (fun j => by rw [p.right_ideal]; exact b.right_residual j)
     (p.rightDivisorCoefficient S χ) a).trans hcap
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic sourceCover_done__arithmeticDefs_before"
+  log.flush
 
 namespace SecondStages
 
@@ -108,26 +126,63 @@ def allocationFingerprint (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ c
       (p.rightSourceCover_slotCap RA hRA j.1 j.2.1)
       (p.rightSourceCover_slotCap RA hRA j.1 j.2.1) a
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic arithmeticDefs_done__allocationFingerprint_divisor_before"
+  log.flush
+
 @[simp] theorem allocationFingerprint_divisor
     (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ cap)
     (j : R.CoveredLeafKey LA RA) :
     (R.allocationFingerprint LA RA hLA hRA j).1 = R.innerDivisor LA RA j := by
-  rcases j with ⟨S, χ, j | j⟩ <;> rfl
+  exact Sum.rec
+    (motive := fun side =>
+      (R.allocationFingerprint LA RA hLA hRA ⟨j.1, j.2.1, side⟩).1 =
+        R.innerDivisor LA RA ⟨j.1, j.2.1, side⟩)
+    (fun _ => rfl) (fun _ => rfl) j.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic allocationFingerprint_divisor_done__commonLabel_nonzero_before"
+  log.flush
 
 theorem commonLabel_nonzero (j : R.CoveredLeafKey LA RA) :
     (R.commonLabel LA RA j).1 ≠ 0 ∧ (R.commonLabel LA RA j).2 ≠ 0 := by
-  rcases j with ⟨S, χ, j | j⟩ <;>
-    exact commonSupportPool_nonzero _ _ _ _ _ j.1.1.property
+  exact Sum.rec
+    (motive := fun side =>
+      (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).1 ≠ 0 ∧
+        (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).2 ≠ 0)
+    (fun a => commonSupportPool_nonzero _ _ _ _ _ a.1.1.property)
+    (fun a => commonSupportPool_nonzero _ _ _ _ _ a.1.1.property) j.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic commonLabel_nonzero_done__commonLabel_support_eq_before"
+  log.flush
 
 theorem commonLabel_support_eq (j : R.CoveredLeafKey LA RA) :
     primeSupport (R.commonLabel LA RA j).1 = primeSupport (R.commonLabel LA RA j).2 := by
-  rcases j with ⟨S, χ, j | j⟩ <;>
-    exact commonSupportPool_support_eq _ _ _ _ _ j.1.1.property
+  exact Sum.rec
+    (motive := fun side =>
+      primeSupport (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).1 =
+        primeSupport (R.commonLabel LA RA ⟨j.1, j.2.1, side⟩).2)
+    (fun a => commonSupportPool_support_eq _ _ _ _ _ a.1.1.property)
+    (fun a => commonSupportPool_support_eq _ _ _ _ _ a.1.1.property) j.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic commonLabel_support_eq_done"
+  log.flush
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
       ((PUnit × PUnit) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_live_old_mask_before"
+  log.flush
 
 /-- The first divisor is inherited on genuine live direct sources,
 from the original coefficient gate and the engine's support preparation. -/
@@ -141,31 +196,45 @@ theorem prepared_live_old_mask
   have hS := R.prepared.coveredLeaf_weight_nonzero_squarefree
     LA RA NL NR hNL hNR exceptional j hj.1
   refine ⟨hS, ?_⟩
-  rcases j with ⟨S, χ, j | j⟩
-  · have hlive := ((R.left S χ).supported.gated.fiberCoveredLeaf
-      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
-      chart.kernel chart.leftPoint j).live_of_scale_live
-        (classWeight (p := p) NL NR S χ / NL S χ)
-        (div_nonneg (classWeight_nonneg (p := p) NL NR S χ) (hNL S χ).le) hj
-    have hs := (R.left S χ).supported_gated_fiberLeaf_live
-      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
-      chart.kernel chart.leftPoint j hlive
-    exact (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon_old_mask
-      S.val hS (fun i _ hi =>
-        FirstBlockDirectData.leftDivisorCoefficient_nonzero_dvd (p := p) S χ i hi)
-      j.1.1.val hs.2.1
-  · have hlive := ((R.right S χ).supported.gated.fiberCoveredLeaf
-      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
-      chart.kernel (fun i => -chart.rightPoint i) j).live_of_scale_live
-        (classWeight (p := p) NL NR S χ / NR S χ)
-        (div_nonneg (classWeight_nonneg (p := p) NL NR S χ) (hNR S χ).le) hj
-    have hs := (R.right S χ).supported_gated_fiberLeaf_live
-      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
-      chart.kernel (fun i => -chart.rightPoint i) j hlive
-    exact (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon_old_mask
-      S.val hS (fun i _ hi =>
-        FirstBlockDirectData.rightDivisorCoefficient_nonzero_dvd (p := p) S χ i hi)
-      j.1.1.val hs.2.1
+  exact Sum.rec
+    (motive := fun side =>
+      (R.prepared.coveredLeaf LA RA NL NR hNL hNR exceptional
+        ⟨j.1, j.2.1, side⟩).Live →
+      j.1.val ∣ (R.prepared.commonLabel LA RA ⟨j.1, j.2.1, side⟩).1 ∧
+        j.1.val ∣ (R.prepared.commonLabel LA RA ⟨j.1, j.2.1, side⟩).2)
+    (fun a halive => by
+      have hlive := ((R.left j.1 j.2.1).supported.gated.fiberCoveredLeaf
+        (p.leftSourceCover LA j.1 j.2.1) (p.leftSourceCover LA j.1 j.2.1)
+        (exceptional.left j.1 j.2.1) chart.kernel chart.leftPoint a).live_of_scale_live
+          (classWeight (p := p) NL NR j.1 j.2.1 / NL j.1 j.2.1)
+          (div_nonneg (classWeight_nonneg (p := p) NL NR j.1 j.2.1)
+            (hNL j.1 j.2.1).le) halive
+      have hs := (R.left j.1 j.2.1).supported_gated_fiberLeaf_live
+        (p.leftSourceCover LA j.1 j.2.1) (p.leftSourceCover LA j.1 j.2.1)
+        (exceptional.left j.1 j.2.1) chart.kernel chart.leftPoint a hlive
+      exact (p.leftData.directSource (p.leftDivisorCoefficient j.1 j.2.1)).activeCommon_old_mask
+        j.1.val hS (fun i _ hi =>
+          FirstBlockDirectData.leftDivisorCoefficient_nonzero_dvd (p := p) j.1 j.2.1 i hi)
+        a.1.1.val hs.2.1)
+    (fun a halive => by
+      have hlive := ((R.right j.1 j.2.1).supported.gated.fiberCoveredLeaf
+        (p.rightSourceCover RA j.1 j.2.1) (p.rightSourceCover RA j.1 j.2.1)
+        (exceptional.right j.1 j.2.1) chart.kernel (fun i => -chart.rightPoint i) a).live_of_scale_live
+          (classWeight (p := p) NL NR j.1 j.2.1 / NR j.1 j.2.1)
+          (div_nonneg (classWeight_nonneg (p := p) NL NR j.1 j.2.1)
+            (hNR j.1 j.2.1).le) halive
+      have hs := (R.right j.1 j.2.1).supported_gated_fiberLeaf_live
+        (p.rightSourceCover RA j.1 j.2.1) (p.rightSourceCover RA j.1 j.2.1)
+        (exceptional.right j.1 j.2.1) chart.kernel (fun i => -chart.rightPoint i) a hlive
+      exact (p.rightData.directSource (p.rightDivisorCoefficient j.1 j.2.1)).activeCommon_old_mask
+        j.1.val hS (fun i _ hi =>
+          FirstBlockDirectData.rightDivisorCoefficient_nonzero_dvd (p := p) j.1 j.2.1 i hi)
+        a.1.1.val hs.2.1) j.2.2 hj
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_live_old_mask_done__prepared_live_second_valid_before"
+  log.flush
 
 theorem prepared_live_second_valid
     (exceptional : R.prepared.CoverHybridPredicates LA RA)
@@ -176,6 +245,11 @@ theorem prepared_live_second_valid
   have hn := R.prepared.commonLabel_nonzero LA RA j
   exact ⟨hn.1, hn.2, R.prepared.commonLabel_support_eq LA RA j,
     hm.2.1, hm.2.2, Finset.empty_subset _⟩
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_live_second_valid_done"
+  log.flush
 
 end SecondStages
 end FirstBlockDirectData
@@ -189,6 +263,11 @@ namespace ActualDirectFirstSource.SecondStages
 
 variable (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable (L : SourceCartesianAtlas s.columns s.ideal)
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic parentArithmeticDefs_before"
+  log.flush
 
 def commonLabel (j : R.CoveredLeafKey L) : Ideal (𝓞 K) × Ideal (𝓞 K) :=
   (R j.1 j.2.1).commonLabel L L j.2.2
@@ -204,6 +283,11 @@ def arithmeticLabels (hcap : L.slotCount ≤ cap)
   second j := (R.commonLabel L j.val, ∅)
   allocation j :=
     (R j.val.1 j.val.2.1).allocationFingerprint L L hcap hcap j.val.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic parentArithmeticDefs_done"
+  log.flush
 
 @[simp] theorem arithmeticLabels_first (hcap : L.slotCount ≤ cap)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
@@ -226,6 +310,11 @@ def arithmeticLabels (hcap : L.slotCount ≤ cap)
     ((R.arithmeticLabels L hcap exceptional N).allocation j).1 = R.innerDivisor L j.val :=
   (R j.val.1 j.val.2.1).allocationFingerprint_divisor L L hcap hcap j.val.2.2
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_arithmeticLabels_second_valid_before"
+  log.flush
+
 /-- The direct input's actual live labels satisfy the second old-mask
 condition internally after the proved preparation. -/
 theorem prepared_arithmeticLabels_second_valid (hcap : L.slotCount ≤ cap)
@@ -244,6 +333,11 @@ theorem prepared_arithmeticLabels_second_valid (hcap : L.slotCount ≤ cap)
     (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
     (exceptional j.val.1 j.val.2.1) j.val.2.2 hlive
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_arithmeticLabels_second_valid_done"
+  log.flush
+
 end ActualDirectFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep
 
@@ -251,3 +345,8 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.SecondStages.prepared_live_second_valid
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualDirectFirstSource.SecondStages.arithmeticLabels_secondDivisor
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualDirectFirstSource.SecondStages.prepared_arithmeticLabels_second_valid
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic axioms_done"
+  log.flush
