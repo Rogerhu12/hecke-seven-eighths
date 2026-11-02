@@ -331,10 +331,6 @@ def calibration
   slot_in_theta := slot_in_theta seed input support side a rectangle
     moving correction hcorr sector remaining
 
-#print axioms nonexceptional_at
-#print axioms CalibrationAssembly.left_support
-#print axioms CalibrationAssembly.slot_support
-
 variable (kappa : parameters.κ = call.node.parameters.κ)
 
 def original

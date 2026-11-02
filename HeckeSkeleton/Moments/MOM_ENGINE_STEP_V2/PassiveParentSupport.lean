@@ -35,8 +35,8 @@ theorem reference_mem_working :
     seed.reference ∈ pairedRows call.localizedData call.workingParameters call.base := by
   have he : pairedRows call.localizedData call.workingParameters call.base =
       pairedRows call.localizedData call.node.parameters call.base := by
-    simp only [pairedRows, Call.workingParameters, sub_add_cancel]
-    rfl
+    ext u
+    simp only [pairedRows, Finset.mem_filter, Call.workingParameters, sub_add_cancel]
   rw [he, Call.localizedData, EngineInduction.localizeOriginalParent_pairedRows]
   exact seed.reference_mem
 
@@ -92,7 +92,9 @@ theorem restoredPlain_mem_parent (side rectangle plain : Bool)
       call.localizedData.plainTest₁ 0 (call.base ^ call.workingParameters.n₁)
       (call.base ^ call.workingComparison₁) rectangle seed.reference seed.reference_mem_working
     apply (call.localizedData.plainTest₁.support_spec seed.reference 0 _ _).mpr
-    simpa only [Call.originalPlainScale, Call.workingParameters, Bool.false_eq_true, ite_false]
+    simpa only [Call.originalPlainScale, Call.workingParameters, Bool.false_eq_true, ite_false,
+      plainProfile, profile, Call.localizedData, EngineInduction.localizeOriginalParent,
+      EngineInduction.restrictOriginalRows]
       using ho
   · have hp := (seed.plainProfile input side rectangle true).right_original rfl
       (idealNorm K (seed.restoredPlainIdeal side true I) /
@@ -105,7 +107,9 @@ theorem restoredPlain_mem_parent (side rectangle plain : Bool)
       call.localizedData.plainTest₂ 0 (call.base ^ call.workingParameters.n₂)
       (call.base ^ call.workingComparison₂) rectangle seed.reference seed.reference_mem_working
     apply (call.localizedData.plainTest₂.support_spec seed.reference 0 _ _).mpr
-    simpa only [Call.originalPlainScale, Call.workingParameters, ite_true]
+    simpa only [Call.originalPlainScale, Call.workingParameters, ite_true, plainProfile, profile,
+      Call.localizedData, EngineInduction.localizeOriginalParent,
+      EngineInduction.restrictOriginalRows]
       using ho
 
 theorem prime_mem_parent (side : Bool) (i : Fin (seed.ordinary.residualSlotCount side))
