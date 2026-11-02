@@ -1,11 +1,15 @@
 name: V2 slow-declaration probes
 
-# Coordinator diagnosis only (branch diag/v2-kernel, never merged). One job per
+# Scheme D diagnosis only (branch diag/v2-fix-d, never merged). One job per
 # probe file: elaborate it with a time limit; if it is still running at the
 # limit, take a complete gdb stack and list the distinct Lean functions on it.
 on:
   push:
-    branches: [diag/v2-kernel]
+    branches: [diag/v2-fix-d]
+
+concurrency:
+  group: v2-fix-d-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -17,7 +21,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [f1_funinfo]
+        include:
+          - probe: d0_rawleaf_short
+            rawleaf: original
+          - probe: d1_funinfo_short
+            rawleaf: short
+          - probe: d2_ordinary_short
+            rawleaf: short
+          - probe: d3_ordinary_heq
+            rawleaf: original
+          - probe: d4_ordinary_heq_equiv
+            rawleaf: short
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -42,9 +56,17 @@ jobs:
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
         with:
           branch-cache: 'true'
+      - name: Prepare the named-type candidate
+        if: matrix.rawleaf == 'short'
+        run: cp .github/kdiag/d0_rawleaf_short.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
       - name: Build the imports of the probe
         run: |
-          lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' .github/kdiag/${{ matrix.probe }}.lean) 2>&1 | tail -3; test ${PIPESTATUS[0]} -eq 0
+          mkdir -p kdiag-out
+          set +e
+          timeout --signal=TERM --kill-after=10s 300s lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' .github/kdiag/${{ matrix.probe }}.lean) > kdiag-out/${{ matrix.probe }}.imports.log 2>&1
+          code=$?
+          tail -80 kdiag-out/${{ matrix.probe }}.imports.log
+          exit "$code"
       - name: Elaborate the probe
         run: |
           mkdir -p kdiag-out
@@ -63,9 +85,16 @@ jobs:
               | sed -E 's/ \(.*$//; s/^#[0-9]+ +(0x[0-9a-f]+ in )?//' | grep -E '^l_|^lean' \
               | awk '!seen[$0]++' | sed -E 's/___redArg|___lam__[0-9]+|___boxed//g' | cut -c1-170 | head -120
             pkill -KILL -x lean; code=killed
-          else wait $wrapper; code=$?; fi
+          else
+            set +e
+            wait $wrapper
+            code=$?
+            set -e
+          fi
           echo "KDIAG_RESULT $n exit=$code seconds=$(( $(date +%s) - start ))"
-          grep -v -E 'semireducible|checkpoint' kdiag-out/$n.log | head -c 3000
+          cat kdiag-out/$n.log
+          if [ "$code" = killed ]; then exit 1; fi
+          exit "$code"
       - name: Upload the probe logs
         if: always()
         uses: actions/upload-artifact@v4
