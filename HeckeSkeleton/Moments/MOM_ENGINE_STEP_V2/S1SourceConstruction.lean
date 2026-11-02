@@ -43,16 +43,25 @@ attribute [local instance]
 
 variable {c : TargetContext K}
 
+set_option backward.isDefEq.respectTransparency false in
 theorem energy_eq (call : Call c) :
     pairedStageEnergy call.node.centered call.localizedData call.workingParameters
       call.base 0 (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) =
       call.node.energy call.base 0 := by
+  have hrows :
+      pairedRows call.localizedData call.workingParameters call.base =
+        pairedRows call.localizedData call.node.parameters call.base := by
+    ext u
+    simp only [pairedRows, Finset.mem_filter, Call.workingParameters, sub_add_cancel]
   have hworking :
       pairedStageEnergy call.node.centered call.localizedData call.workingParameters
         call.base 0 (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) =
       pairedStageEnergy call.node.centered call.localizedData call.node.parameters
         call.base 0 (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) := by
-    simp only [pairedStageEnergy, pairedRows, Call.workingParameters, sub_add_cancel] <;> rfl
+    unfold pairedStageEnergy
+    apply Finset.sum_congr hrows
+    intro u _
+    rfl
   rw [hworking]
   have hlocal := localizeOriginalParent_pairedStageEnergy call.node.data call.node.parameters
     call.node.centered call.base 0 (call.base ^ call.workingComparison₁)
@@ -94,6 +103,7 @@ theorem row_originalIdeal (call : Call c)
   exact call.localizedSource.source.recipe.arithmeticAtoms_originalIdeal PUnit.unit u
     (((call.localizedData.rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1)
 
+set_option backward.isDefEq.respectTransparency false in
 theorem row_window (call : Call c)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hu : u ∈ pairedRows call.localizedData call.workingParameters call.base) :
@@ -104,7 +114,8 @@ theorem row_window (call : Call c)
   have hb := call.localizedSource.source.recipe.effectiveMovingMaskRecipe_jointBudget
     call.base (call.node.parameters.m + call.node.parameters.q)
     call.source.localizedFullJointBudget PUnit.unit u ha
-  rw [CompleteMovingRowRecipe.effectiveMovingMaskRecipe_support] at hb
+  have hs := call.localizedSource.source.recipe.effectiveMovingMaskRecipe_support u
+  rw [hs] at hb
   change idealNorm K u * (Arithmetic.data c).exteriorNorm call.oldSupport ≤
     call.base ^ (call.node.parameters.m + call.node.parameters.q) at hb
   rw [parent_orbit_norm_of_originalIdeal _ u (row_originalIdeal call u hu)]

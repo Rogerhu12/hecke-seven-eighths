@@ -62,15 +62,16 @@ structure OrdinaryData (packet : RawLeafPacket call p) where
     AllocationColumn K packet.leaf.leftSlots → EngineParameter
   rightPoint : Arithmetic.Orbit c →
     AllocationColumn K packet.leaf.rightSlots → EngineParameter
-  branch : liveSecondAllocationBranches (Ray := PUnit)
+  branch : liveSecondAllocationBranches (Ray := PUnit.{1})
     packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
     packet.rightIdeal
   branch_eq : branch.val = packet.allocation
-  rectangles : HybridOrdinaryRectangles packet.R PUnit
+  rectangles : HybridOrdinaryRectangles packet.R PUnit.{1}
     packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-    packet.leftIdeal packet.rightIdeal (fun _ => PUnit.unit) (fun _ => PUnit.unit)
+    packet.leftIdeal packet.rightIdeal
+      (fun _ => (PUnit.unit : PUnit.{1})) (fun _ => (PUnit.unit : PUnit.{1}))
     packet.leftWhole packet.rightWhole leftPoint rightPoint branch packet.leaf.exceptional
   left_rectangle : ∀ r i, i ∈ childCartesianColumns packet.leftReindex.plain₁
     packet.leftReindex.plain₂ packet.leftReindex.slots →

@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S2OriginalColumnWindow
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S2FirstFamilyData
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -241,7 +242,7 @@ theorem source_column_window (input : ProfileInput call) (hframe : call.frame = 
     (key_column_mem F key i hi) hnonzero
   have hnorm := key_column_norm F key i hi
   have hlength := rpow_idealLogLength call.base call.domain.scale
-    (selected key).val (selected key).property
+    (selected key).val (nonZeroDivisors.coe_ne_zero (selected key))
   rw [← hlength] at hnorm
   let length := idealLogLength call.base (selected key).val
   have hpos : 0 < call.base ^ length := Real.rpow_pos_of_pos call.base_pos _

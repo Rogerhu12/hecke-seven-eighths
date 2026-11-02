@@ -64,7 +64,7 @@ theorem source_retained_upper (hF : F.Realizes)
   · simp only [selected, opposite, complementary, hs, if_true]
     apply hb.trans_eq
     congr 1
-    rw [S2Cutoff.activeRadical_swap (F.source.block key.1)]
+    rw [S2Cutoff.activeRadical_swap (F.source.block key.1).common_support_eq]
     ring
   · simpa only [selected, opposite, complementary, hs, if_false] using hb
 

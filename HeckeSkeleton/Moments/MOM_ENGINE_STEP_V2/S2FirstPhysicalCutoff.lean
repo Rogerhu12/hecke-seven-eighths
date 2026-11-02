@@ -35,14 +35,18 @@ variable {Γ : Subgroup A.U}
 variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
 variable (b : FirstCommonCharacterBlock fullI fullJ DE)
 
-theorem activeRadical_swap :
+theorem activeRadical_swap
+    (hcommon : HeckePort.IdealMobiusDivisorSum.primeSupport DE.1 =
+      HeckePort.IdealMobiusDivisorSum.primeSupport DE.2) :
     firstActiveRadical DE.2 DE.1 = firstActiveRadical DE.1 DE.2 := by
   unfold firstActiveRadical
-  rw [← b.common_support_eq]
-  congr 1
-  apply Finset.filter_congr
-  intro P _
-  exact ne_comm
+  rw [← hcommon]
+  apply Finset.prod_congr
+  · apply Finset.filter_congr
+    intro P _
+    exact ne_comm
+  · intro P _
+    rfl
 
 theorem divisor_norm (D : Finset (HeightOneSpectrum A.R)) :
     A.exteriorNorm (firstPhysicalDivisorIdeal D) =

@@ -76,19 +76,23 @@ theorem key_residual_ne_zero (key : FirstCauchyKey F) :
     (by simpa only [hzero, Ideal.zero_eq_bot, Ideal.bot_mul] using hJ)
 
 def selected (key : FirstCauchyKey F) : HeckeGeneral.Analysis.NonzeroIdeal K :=
-  if FirstCauchyKey.side key then ⟨key.1.val.2, key_right_ne_zero key⟩
-  else ⟨key.1.val.1, key_left_ne_zero key⟩
+  if FirstCauchyKey.side key then
+    ⟨key.1.val.2, mem_nonZeroDivisors_of_ne_zero (key_right_ne_zero key)⟩
+  else ⟨key.1.val.1, mem_nonZeroDivisors_of_ne_zero (key_left_ne_zero key)⟩
 
 def opposite (key : FirstCauchyKey F) : HeckeGeneral.Analysis.NonzeroIdeal K :=
-  if FirstCauchyKey.side key then ⟨key.1.val.1, key_left_ne_zero key⟩
-  else ⟨key.1.val.2, key_right_ne_zero key⟩
+  if FirstCauchyKey.side key then
+    ⟨key.1.val.1, mem_nonZeroDivisors_of_ne_zero (key_left_ne_zero key)⟩
+  else ⟨key.1.val.2, mem_nonZeroDivisors_of_ne_zero (key_right_ne_zero key)⟩
 
 def complementary (key : FirstCauchyKey F) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   ⟨(firstPhysicalDivisorIdeal (A := Arithmetic.data c) key.2.1.val).val,
-    (firstPhysicalDivisorIdeal (A := Arithmetic.data c) key.2.1.val).property.1⟩
+    mem_nonZeroDivisors_of_ne_zero
+      (firstPhysicalDivisorIdeal (A := Arithmetic.data c) key.2.1.val).property.1⟩
 
 def residual (key : FirstCauchyKey F) : HeckeGeneral.Analysis.NonzeroIdeal K :=
-  ⟨(FirstCauchyKey.residual key).val, key_residual_ne_zero key⟩
+  ⟨(FirstCauchyKey.residual key).val,
+    mem_nonZeroDivisors_of_ne_zero (key_residual_ne_zero key)⟩
 
 def activeIdeal (key : FirstCauchyKey F) : (Arithmetic.data c).Exterior :=
   firstActiveIdeal (FirstCauchyKey.block key).primes
