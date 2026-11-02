@@ -85,6 +85,133 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightWhole"
     stderr.flush
 
+/-- The same finite subtype, kept reducible for its local finite instances. -/
+abbrev ordinaryBranchType : Type :=
+  ↥(liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
+    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
+    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
+    packet.rightIdeal)
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryBranchType"
+    stderr.flush
+
+/-- The original allocation, with its existing carrier made explicit. -/
+noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
+    SourceClassKey.AllocationKey
+      (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
+      packet.key :=
+  branch.val
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryBranchKey"
+    stderr.flush
+
+def ordinaryBranchMatches (branch : packet.ordinaryBranchType) : Prop :=
+  packet.ordinaryBranchKey branch = packet.allocation
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryBranchMatches"
+    stderr.flush
+
+/-- The original rectangle type; all source fields and the branch are unchanged. -/
+def ordinaryRectanglesType
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+    (branch : packet.ordinaryBranchType) : Type :=
+  HybridOrdinaryRectangles
+    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    (H := Arithmetic.Orbit c) (ι := Fin packet.block.primeCount)
+    (V := EngineParameter) (k := packet.leaf.leftSlots) (l := packet.leaf.rightSlots)
+    packet.R PUnit.{1}
+    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
+    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
+    packet.leftIdeal packet.rightIdeal
+      (fun _ => (PUnit.unit : PUnit.{1})) (fun _ => (PUnit.unit : PUnit.{1}))
+    packet.leftWhole packet.rightWhole leftPoint rightPoint branch packet.leaf.exceptional
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryRectanglesType"
+    stderr.flush
+
+def ordinaryLeftRectangleMatches
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+    (branch : packet.ordinaryBranchType)
+    (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
+  ∀ (r : Bool) (i : AllocationColumn K packet.leaf.leftSlots),
+    i ∈ childCartesianColumns packet.leftReindex.plain₁
+    packet.leftReindex.plain₂ packet.leftReindex.slots →
+      rectangles.leftTerms r i = packet.originalLeftRectangle r i
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryLeftRectangleMatches"
+    stderr.flush
+
+def ordinaryRightRectangleMatches
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+    (branch : packet.ordinaryBranchType)
+    (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
+  ∀ (r : Bool) (i : AllocationColumn K packet.leaf.rightSlots),
+    i ∈ childCartesianColumns packet.rightReindex.plain₁
+    packet.rightReindex.plain₂ packet.rightReindex.slots →
+      rectangles.rightTerms r i = packet.originalRightRectangle r i
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryRightRectangleMatches"
+    stderr.flush
+
+/-- A name for the same complete ordinary binding proposition. -/
+def ordinaryBindingProp
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+    (branch : packet.ordinaryBranchType)
+    (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
+  ActualHybridLeaf.OrdinaryBinding
+    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    (H := Arithmetic.Orbit c) (ι := Fin packet.block.primeCount)
+    (U := ℝ) (V := ℝ) (R := packet.R) (Ray := PUnit.{1})
+    (leaf := packet.leaf)
+    (S₁ := packet.leftReindex.plain₁) (S₂ := packet.leftReindex.plain₂)
+    (S := packet.leftReindex.slots)
+    (T₁ := packet.rightReindex.plain₁) (T₂ := packet.rightReindex.plain₂)
+    (T := packet.rightReindex.slots)
+    (IA := packet.leftIdeal) (IB := packet.rightIdeal)
+    (rayLeft := fun _ => (PUnit.unit : PUnit.{1}))
+    (rayRight := fun _ => (PUnit.unit : PUnit.{1}))
+    (wholeLeft := packet.leftWhole) (wholeRight := packet.rightWhole)
+    (x := leftPoint) (y := rightPoint)
+    (b := branch) (exceptional := packet.leaf.exceptional)
+    rectangles
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryBindingProp"
+    stderr.flush
+
+
 end RawLeafPacket
 
 run_cmd do
@@ -104,39 +231,12 @@ structure OrdinaryData (packet : RawLeafPacket call p) where
     AllocationColumn K packet.leaf.leftSlots → EngineParameter
   rightPoint : Arithmetic.Orbit c →
     AllocationColumn K packet.leaf.rightSlots → EngineParameter
-  branch : liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
-    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
-    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-    packet.rightIdeal
-  branch_eq : branch.val = packet.allocation
-  rectangles : HybridOrdinaryRectangles packet.R PUnit.{1}
-    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
-    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-    packet.leftIdeal packet.rightIdeal
-      (fun _ => (PUnit.unit : PUnit.{1})) (fun _ => (PUnit.unit : PUnit.{1}))
-    packet.leftWhole packet.rightWhole leftPoint rightPoint branch packet.leaf.exceptional
-  left_rectangle : ∀ r i, i ∈ childCartesianColumns packet.leftReindex.plain₁
-    packet.leftReindex.plain₂ packet.leftReindex.slots →
-      rectangles.leftTerms r i = packet.originalLeftRectangle r i
-  right_rectangle : ∀ r i, i ∈ childCartesianColumns packet.rightReindex.plain₁
-    packet.rightReindex.plain₂ packet.rightReindex.slots →
-      rectangles.rightTerms r i = packet.originalRightRectangle r i
-  binding : ActualHybridLeaf.OrdinaryBinding
-    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
-    (H := Arithmetic.Orbit c) (ι := Fin packet.block.primeCount)
-    (U := ℝ) (V := ℝ) (R := packet.R) (Ray := PUnit.{1})
-    (leaf := packet.leaf)
-    (S₁ := packet.leftReindex.plain₁) (S₂ := packet.leftReindex.plain₂)
-    (S := packet.leftReindex.slots)
-    (T₁ := packet.rightReindex.plain₁) (T₂ := packet.rightReindex.plain₂)
-    (T := packet.rightReindex.slots)
-    (IA := packet.leftIdeal) (IB := packet.rightIdeal)
-    (rayLeft := fun _ => (PUnit.unit : PUnit.{1}))
-    (rayRight := fun _ => (PUnit.unit : PUnit.{1}))
-    (wholeLeft := packet.leftWhole) (wholeRight := packet.rightWhole)
-    (x := leftPoint) (y := rightPoint)
-    (b := branch) (exceptional := packet.leaf.exceptional)
-    rectangles
+  branch : packet.ordinaryBranchType
+  branch_eq : packet.ordinaryBranchMatches branch
+  rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch
+  left_rectangle : packet.ordinaryLeftRectangleMatches leftPoint rightPoint branch rectangles
+  right_rectangle : packet.ordinaryRightRectangleMatches leftPoint rightPoint branch rectangles
+  binding : packet.ordinaryBindingProp leftPoint rightPoint branch rectangles
 
 run_cmd do
   Lean.Elab.Command.liftIO do

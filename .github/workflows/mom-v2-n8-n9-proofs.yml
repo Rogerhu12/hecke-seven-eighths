@@ -75,10 +75,10 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - name: Read the unchanged N7 diagnostic helper at its reviewed commit
+      - name: Read the reviewed N7-derived diagnostic helper
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: c2ee1d020682a0b55df2db1c13a78360489bac50
+          ref: 0fe5baaf5f2944685c8a72483d9dc98b5cb25b65
           path: ci-n7-diagnostics-helper
           sparse-checkout: .github/v2/n7_dependency_diagnostics.py
           sparse-checkout-cone-mode: false
