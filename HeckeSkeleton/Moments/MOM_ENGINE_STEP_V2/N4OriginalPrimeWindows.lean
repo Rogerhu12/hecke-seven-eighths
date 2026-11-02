@@ -170,20 +170,14 @@ private theorem firstAtlas_slot_mem_of_count {packet : RawLeafPacket call p}
       let stderr ← IO.getStderr
       stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count left branch"
       stderr.flush
-      Lean.Elab.Tactic.evalTactic
-        (← `(tactic| exact originalCover_slot_mem (raw.covers.left (raw.index j).val.1.1)
-          (hraw (raw.index j).val.1.1).1 (raw.index j).val.1.2.2.2.1 i q hq))
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count left proof complete"
-      stderr.flush
+    exact originalCover_slot_mem (raw.covers.left (raw.index j).val.1.1)
+      (hraw (raw.index j).val.1.1).1 (raw.index j).val.1.2.2.2.1 i q hq
   · run_tac do
       let stderr ← IO.getStderr
       stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right branch"
       stderr.flush
-      Lean.Elab.Tactic.evalTactic
-        (← `(tactic| exact originalCover_slot_mem (raw.covers.right (raw.index j).val.1.1)
-          (hraw (raw.index j).val.1.1).2 (raw.index j).val.1.2.2.2.2.1 i q hq))
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right proof complete"
-      stderr.flush
+    exact originalCover_slot_mem (raw.covers.right (raw.index j).val.1.1)
+      (hraw (raw.index j).val.1.1).2 (raw.index j).val.1.2.2.2.2.1 i q hq
 
 run_cmd do
   Lean.Elab.Command.liftIO do

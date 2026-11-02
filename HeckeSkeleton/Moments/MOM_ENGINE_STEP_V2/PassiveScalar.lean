@@ -25,7 +25,7 @@ open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
 
 variable {K : Type} [Field K] [NumberField K]
-variable {A : SArithmeticData K} {σ : K →+* ℂ} {H : Type*} {k : ℕ}
+variable {A : DedekindZetaZeroFree.SArithmeticData K} {σ : K →+* ℂ} {H : Type*} {k : ℕ}
 
 theorem rawSourceCoefficient_left_scalar
     (T : FixedChildCharacters K k) (g h' : A.R) (N₁ N₂ Z : ℝ)

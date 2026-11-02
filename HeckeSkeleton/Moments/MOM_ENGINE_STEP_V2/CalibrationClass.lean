@@ -252,7 +252,8 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
   have hsector := sector_eq packet hpacket h
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩
   let i : Fin trace.expansion.count := (raw.index j).val.1.1
-  have hphysical := htrace.second.physical i
+  have hphysical : (raw.packet j).second.physical = trace.expansion.source i :=
+    htrace.second.physical i
   have hn : (trace.expansion.source i).first.firstElement ≠ 0 := by
     rw [← hphysical]
     exact P.first_nonzero
@@ -278,7 +279,10 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
       (raw.packet j).key.1 (raw.packet j).key.2.1
       (SourceClassKey.rowLabel (raw.packet j).key) h.val ∈ call.node.data.theta ↔ _
   dsimp only [SecondSource.rowCharacter]
-  rw [dif_pos h.property]
+  have hlive : h.val ∈
+      ((trace.second.source i).rows (raw.packet j).key.1 (raw.packet j).key.2.1
+        (SourceClassKey.rowLabel (raw.packet j).key)).live := h.property
+  rw [dif_pos hlive]
   change (call.localizedSource.source.recipe.correction *
       ((trace.expansion.moving i).append
         (secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)

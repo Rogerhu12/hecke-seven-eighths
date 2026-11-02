@@ -22,6 +22,7 @@ open EngineStep EngineInduction.Source
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open DedekindZetaZeroFree.LargeSieve
 open CommonSupportMass HeckePort.IdealMobiusDivisorSum
+open HeckePort.Moments.Support
 open HeckeGeneral.ThetaSkeleton.Global
 
 variable {K : Type} [Field K] [NumberField K]

@@ -116,7 +116,7 @@ private theorem first_column_facts {F : FirstPresentation call p}
   have h := firstKey_column_facts hF (family.index i) j hj
   dsimp only [columnFact]
   rw [hfamily.deletion i, hfamily.selected i, hfamily.poolPower i]
-  simpa only [unitExterior, mul_one, Ideal.mul_top] using h
+  simpa only [unitExterior, mul_one, Ideal.mul_top, DirectGaussData.directSource] using h
 
 private theorem pool_main_column_facts {F : FirstPresentation call p}
     {family : FirstCauchyFamily F} (pool : PoolPresentation family)
@@ -211,11 +211,16 @@ private theorem cover_frozen_ideal {source : PhysicalSource call p}
     rw [← hcover.label i hi, hlabel, hcover.first a]
   have hmem : source.ancestor i ∈
       (cover.first a).originalColumns.image call.workingRaw.originalReindex.index := by
+    have hfilter : source.ancestor i ∈
+        call.workingRaw.exteriorColumns.filter (fun j =>
+          call.workingRaw.originalReindex.supportExtractionLabel
+            source.first.fullDeletion j = (cover.first a).key) :=
+      Finset.mem_filter.mpr ⟨hancestor, hkey⟩
     exact Eq.mp
       (congrArg (fun S : Finset call.workingRaw.Column => source.ancestor i ∈ S)
         (call.workingRaw.originalReindex.supportExtractionLabel_fibre
           source.first.fullDeletion (cover.first a)))
-      (Finset.mem_filter.mpr ⟨hancestor, hkey⟩)
+      hfilter
   obtain ⟨x, hx, hxi⟩ := Finset.mem_image.mp hmem
   rw [← hxi,
     call.workingRaw.originalReindex.ideal_product x ((cover.first a).original_subset hx),

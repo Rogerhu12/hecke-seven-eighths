@@ -147,7 +147,10 @@ theorem rawScaleProduct_le_of_compensated (hpacket : packet.Realizes)
     rw [hA]
     ring
   rw [← he] at hbound
-  exact (mul_le_mul_iff_right₀ (Real.rpow_pos_of_pos call.base_pos _)).mp hbound
+  have hpositive : 0 < call.base ^ ((packet.nominal side).skeleton.c +
+      (packet.nominal side).skeleton.w + (packet.nominal side).skeleton.c₂) :=
+    Real.rpow_pos_of_pos call.base_pos _
+  exact (mul_le_mul_iff_right₀ hpositive).mp (by simpa only [mul_comm] using hbound)
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.N4
 
