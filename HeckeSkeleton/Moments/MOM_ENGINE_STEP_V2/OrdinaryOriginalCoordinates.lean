@@ -432,6 +432,44 @@ theorem realizes_firstCartesian (hpacket : packet.Realizes) (side : Bool)
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before realizes_firstIndex_of_count"
+    stderr.flush
+
+private theorem realizes_firstIndex_of_count (hpacket : packet.Realizes) (side : Bool)
+    (hc : (packet.firstBranch side).keep.card = (packet.firstAtlas side).slotCount)
+    (x : AllocationColumn K (packet.firstAtlas side).slotCount)
+    (hx : x ∈ (packet.firstAtlas side).reindex.cartesian) :
+    packet.second.physical.ancestor ((packet.firstAtlas side).reindex.index x) =
+      call.workingRaw.originalIndex ((packet.firstBranch side).reconstruct
+        (cast (congrArg (AllocationColumn K) hc.symm) x)) := by
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.proof"
+    stderr.flush
+  rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.trace"
+    stderr.flush
+  cases side with
+  | false =>
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.false"
+      stderr.flush
+    exact (hraw (raw.index j).val.1.1).1.ancestor_index
+      (raw.index j).val.1.2.2.2.1 x hx
+  | true =>
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true"
+      stderr.flush
+    exact (hraw (raw.index j).val.1.1).2.ancestor_index
+      (raw.index j).val.1.2.2.2.2.1 x hx
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before realizes_firstIndex"
     stderr.flush
 
@@ -442,14 +480,8 @@ theorem realizes_firstIndex (hpacket : packet.Realizes) (side : Bool)
       call.workingRaw.originalIndex ((packet.firstBranch side).reconstruct
         (cast (congrArg (AllocationColumn K)
           (packet.realizes_firstCount hpacket side).symm) x)) := by
-  rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
-  cases side with
-  | false =>
-    exact (hraw (raw.index j).val.1.1).1.ancestor_index
-      (raw.index j).val.1.2.2.2.1 x hx
-  | true =>
-    exact (hraw (raw.index j).val.1.1).2.ancestor_index
-      (raw.index j).val.1.2.2.2.2.1 x hx
+  exact realizes_firstIndex_of_count packet hpacket side
+    (packet.realizes_firstCount hpacket side) x hx
 
 run_cmd do
   Lean.Elab.Command.liftIO do

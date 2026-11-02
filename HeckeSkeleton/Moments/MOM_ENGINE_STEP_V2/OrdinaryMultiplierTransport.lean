@@ -351,7 +351,7 @@ theorem realizes_multiplier (hpacket : packet.Realizes) (phases : OriginalPhaseD
 
 theorem secondDivisor_eq_empty (hpacket : packet.Realizes) : packet.key.2.1.val = ∅ := by
   have hs := Finset.mem_powerset.mp packet.key.2.1.property
-  have he := congrArg (fun mask : Finset (Ideal (𝓞 K)) => packet.key.2.1.val ⊆ mask)
+  have he := congrArg (fun mask : Finset (HeightOneSpectrum (Arithmetic.data c).R) => packet.key.2.1.val ⊆ mask)
     (packet.realizes_second hpacket).mask
   exact Finset.subset_empty.mp (he.mp hs)
 

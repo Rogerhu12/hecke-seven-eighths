@@ -12,7 +12,9 @@ EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
 
 **24 项公开任务入口现已全部落入源码。** N4 的同文件兼容入口 `originalCapacityTask` 继续保留，完整组装消费的是 `originalCapacityTask_uniform`；该兼容入口不另算一项论文任务。N9 的最终入口为 `N9OriginalWindowMass` 中的 `Tasks.originalWindowKernelMass`，不以较弱的中间 `TasksKernelMass` 代替。
 
-本提交加入 `BlueprintAssembly.lean` 的完整条件组装，汇总结构 `TaskProofs c p` 恰有这 24 项原任务命题。组装源码无 `sorry`，只导入纯合同及已证辅助；**编译及 fresh 公理验收须以 PR31 对应 SHA 的终态记录为准，本文件不预先宣称新组装已验收**。既有真基线 `bff9840c` 已通过 88/88 模块和 2384 声明审计，U1 已有实际证明并通过该审计。
+**完整条件组装已在真实 B `393f72f125fdc1b28a5b36dadb7f346edc994528` 验收。** [专用CI41513480717](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41513480717)自然success：115/115模块、16,336 Lake jobs；fresh g0审计2,849个唯一声明（含8个private及generated），仅三标准公理。两个完整组装theorem与U1的required root检查全部通过，115源码+9配置固定HEAD哈希及前后完整性通过，300s/15s watchdog两阶段均0kill/0error。汇总结构 `TaskProofs c p` 恰有24项原任务命题；组装只导入纯合同及已证辅助。
+
+本批继续第一组S1/S2：采用PR36固定 `4fe26b9b1fe34c7d8c0848289bd459428cd234a1` 的11个原blob、1,825行实际证明，公开定理头和共享合同保持。两任务从g1移入严格证明组，全部九个helper登记；本批自身仍须经B full/fresh CI，不以旧任务分支绿色代替。当前登记 **124模块 / 12,741物理Lean行**。
 
 ## 精确任务入口、依赖与规模
 
@@ -56,7 +58,10 @@ N8 已按原 source 索引质量与 normalized 标签质量拆成 N8a、N8b，�
 | manifest 组 | 模块数 | 内容与验收方式 |
 |---|---:|---|
 | g0 | 91 | 真实数据、纯合同、共用辅助、U1 和完整条件组装；禁止占位，fresh Lean 递归审计所有已加载 V2 声明。 |
-| g1 | 23 | 独立待证任务文件；仅这里保留蓝图证明占位。 |
+| s1_s2_helpers | 9 | S1原始源与精确界、S2实际Cauchy族/成本/物理截断/行列和retained窗口；全部strict、fresh递归审计。 |
+| s1 | 1 | TasksFirstTransform；required theorem为 `Tasks.firstTransform`，检查来源root。 |
+| s2 | 1 | TasksFirstAllowance；required theorem为 `Tasks.firstAllowance`，检查来源root。 |
+| g1 | 21 | 其余独立待证任务文件；仅这里保留蓝图证明占位。 |
 | g2 | 1 | Interface 聚合入口；明确会导入待证任务，不作为纯组装审计 root。 |
 
 每组上限 100 模块。证明接入时，将该项任务文件移出 g1，并与其私有 helper 登记在独立已证明组；不把新增文件藏在 manifest 以外。g0 的 required theorem roots 包括 `TasksUniform` 与 `BlueprintAssembly`，检查 theorem 种类、来源模块及递归公理。白名单仅 `propext`、`Classical.choice`、`Quot.sound`，覆盖 private/generated 声明；保留完整源码/配置哈希、HEAD 前后完整性和 300 秒逐进程 watchdog。
@@ -69,7 +74,7 @@ N8 已按原 source 索引质量与 normalized 标签质量拆成 N8a、N8b，�
 
 | 单元 | 模块数 | 实际物理行数 | 固定候选 / 状态 |
 |---|---:|---:|---|
-| S1/S2 | 11 | 1,825 | PR36 `4fe26b9b`，B 首组接入候选。 |
+| S1/S2 | 11 | 1,825 | PR36 `4fe26b9b` 原blobs已在本批接入；本次B full/fresh待验收。 |
 | S3/S5 | 17 | 2,448 | PR35 `cecf781c`，待真基线复验。 |
 | S4/T4 | 30 | 6,192 | PR33 `fab1ee06`，待真基线复验。 |
 | N5a/N5b | 7 | 1,149 | PR38 `f61cc2ac`，待真基线复验。 |
@@ -78,7 +83,7 @@ N8 已按原 source 索引质量与 normalized 标签质量拆成 N8a、N8b，�
 
 这 11 项任务的候选实现合计 **19,464 行**。其余 13 项沿用原区间，论文任务当前滚动估计为 **57,464–71,464 行**，公共数据与组装另计；有重叠的公开合同仍保守计数，最终按整个 V2 目录实际源码去重。公共数据/骨架/组装当前约 11k 行，仍保留到最终 **100,000 行以内**的预算空间；后续增长需公开记录。
 
-历史总表逐项重算为 **65,000–93,500 行**；早期说明的上限 92,500 少加了 1,000，本次明确纠正。上述滚动估计来自已有实现规模的替换，不是删去论文任务或把 helper 移出统计。完整条件组装的 11 个新增文件合计 **1,566 行**。
+历史总表逐项重算为 **65,000–93,500 行**；早期说明的上限 92,500 少加了 1,000，本次明确纠正。上述滚动估计来自已有实现规模的替换，不是删去论文任务或把 helper 移出统计。完整条件组装的11个文件经实际编译修复后合计 **1,584 行**。
 
 ## 可参考的 A 线代码
 

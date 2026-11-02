@@ -196,7 +196,7 @@
       ]
     }
   },
-  "phase": "blueprint-complete-pending-ci",
+  "phase": "proofs-in-progress",
   "groups": [
     {
       "id": "g0",
@@ -306,6 +306,50 @@
       ]
     },
     {
+      "id": "s1_s2_helpers",
+      "name": "S1/S2原始源、Cauchy族与窗口辅助证明",
+      "proved": true,
+      "modules": [
+        "S1ExactBound",
+        "S1SourceConstruction",
+        "S2FirstColumnWindows",
+        "S2FirstFamilyCost",
+        "S2FirstFamilyData",
+        "S2FirstPhysicalCutoff",
+        "S2FirstRetainedWindow",
+        "S2FirstRowWindow",
+        "S2OriginalColumnWindow"
+      ]
+    },
+    {
+      "id": "s1",
+      "name": "S1第一次变换与原零尾分离",
+      "proved": true,
+      "modules": [
+        "TasksFirstTransform"
+      ],
+      "roots": [
+        "TasksFirstTransform"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstTransform"
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "S2原始Cauchy allowance与实际窗口",
+      "proved": true,
+      "modules": [
+        "TasksFirstAllowance"
+      ],
+      "roots": [
+        "TasksFirstAllowance"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstAllowance"
+      ]
+    },
+    {
       "id": "g1",
       "name": "独立论文证明任务（蓝图占位）",
       "proved": false,
@@ -317,8 +361,6 @@
         "TasksChildProfiles",
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
-        "TasksFirstAllowance",
-        "TasksFirstTransform",
         "TasksFirstZero",
         "TasksFullKappa",
         "TasksNominalGeometry",
