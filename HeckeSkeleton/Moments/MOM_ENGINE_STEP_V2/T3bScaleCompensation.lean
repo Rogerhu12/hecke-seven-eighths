@@ -201,6 +201,50 @@ theorem t3b_secondScale_compensated (input : ProfileInput call) (side : Bool) :
   rw [packet.t3b_firstScaleProduct_full hpacket side false] at h
   exact h
 
+theorem t3b_firstScale_upper (input : ProfileInput call) (side : Bool) :
+    packet.firstScaleProduct side * (Ideal.absNorm (N4.firstFrozenIdeal packet side) : ℝ) ≤
+      (T3b.profileAnnulus c call.frame) ^ c.geometry.slots *
+        call.base ^ (call.node.parameters.n₁ + call.node.parameters.n₂ + call.node.parameters.z) := by
+  have h := N4.residualGaussScale_mul_frozenNorm_le (packet.firstBranch side)
+    call.base call.originalLength
+    (call.originalPlainScale false false) (call.originalPlainScale false true)
+    (T3b.profileAnnulus c call.frame) c.geometry.slots call.base_pos
+    (N4.originalPlainScale_pos false false).le (N4.originalPlainScale_pos false true).le
+    (T3b.profileAnnulus_one_le c call.frame) call.slots_le
+    (fun i _ => call.t3b_original_prime_norm_le input i
+      ((packet.firstBranch side).witness.2 i)
+      (Finset.mem_filter.mp ((packet.firstBranch side).witness_slots i)).1)
+  rw [N4.originalScaleProduct_eq] at h
+  exact h
+
+theorem t3b_secondScale_upper (input : ProfileInput call) (side : Bool) :
+    packet.t3bBeforeScaleProduct hpacket side *
+        (Ideal.absNorm (N4.secondFrozenIdeal packet side) : ℝ) ≤
+      (T3b.profileAnnulus c call.frame) ^ c.geometry.slots * packet.firstScaleProduct side := by
+  have h := N4.residualGaussScale_mul_frozenNorm_le (packet.secondBranch side)
+    call.base (fun i => call.originalLength (packet.firstAtomIndex hpacket side i))
+    (packet.firstPlainScale side false false) (packet.firstPlainScale side false true)
+    (T3b.profileAnnulus c call.frame) c.geometry.slots call.base_pos
+    (packet.firstPlainScale_pos side false false).le (packet.firstPlainScale_pos side false true).le
+    (T3b.profileAnnulus_one_le c call.frame) (packet.t3b_firstAtlas_slots_le hpacket side)
+    (fun i _ => call.t3b_original_prime_norm_le input
+      (packet.firstAtomIndex hpacket side i) ((packet.secondBranch side).witness.2 i)
+      (packet.t3b_firstAtlas_slot_mem hpacket side i _
+        (Finset.mem_filter.mp ((packet.secondBranch side).witness_slots i)).1))
+  rw [packet.t3b_firstScaleProduct_full hpacket side false] at h
+  exact h
+
+theorem t3b_poolNorm_le_firstFrozenNorm (side : Bool) :
+    (Arithmetic.data c).exteriorNorm packet.second.physical.first.poolPower ≤
+      (Ideal.absNorm (N4.firstFrozenIdeal packet side) : ℝ) := by
+  rw [N4.firstFrozenIdeal_eq hpacket side, map_mul, Nat.cast_mul]
+  have hsel : 1 ≤ (Ideal.absNorm packet.second.physical.first.selected.val : ℝ) := by
+    exact_mod_cast Nat.one_le_iff_ne_zero.mpr
+      (Ideal.absNorm_eq_zero_iff.not.mpr packet.second.physical.first.selected.property.1)
+  change (Ideal.absNorm packet.second.physical.first.poolPower.val : ℝ) ≤ _
+  simpa only [one_mul] using mul_le_mul_of_nonneg_right hsel
+    (Nat.cast_nonneg (Ideal.absNorm packet.second.physical.first.poolPower.val))
+
 /-- Both complete extracted ideals are paid, with a fixed annulus
 cost for each original occurrence at each of the two extractions. -/
 theorem t3b_twoScale_compensated (input : ProfileInput call) (side : Bool) :
