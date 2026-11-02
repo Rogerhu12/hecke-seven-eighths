@@ -135,8 +135,7 @@ theorem one_add_twoSignsCoefficient_le_profilePower
     1 + CanonicalLiteralActiveRadius.twoSignsCoefficient B lo hi hlo δ₁ δ₂ s ≤
       (1 + CanonicalLiteralActiveRadius.twoSignsCoefficient 1 lo hi hlo δ₁ δ₂ s) * P ^ d := by
   exact (add_le_add (one_le_pow₀ hP)
-    (twoSignsCoefficient_le_profilePower B P lo hi hlo hhi δ₁ δ₂ s d hP hbound))
-      .trans_eq (by ring)
+    (twoSignsCoefficient_le_profilePower B P lo hi hlo hhi δ₁ δ₂ s d hP hbound)).trans_eq (by ring)
 
 /-- This constant is chosen before the original control, all scales
 and all actual source labels. The first scalar pair enters only the

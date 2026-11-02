@@ -64,8 +64,7 @@ variable (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 variable (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
 variable {kLeft kRight : ℕ}
 variable (rowMass : ActualSecondRowMass
-  ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-    .restrictRows keep₂) C kLeft kRight)
+  ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) C kLeft kRight)
 variable {ω ψ : HeckeCharacter K} {k : ℕ}
 variable (d : CanonicalLiteralRectangles.Atoms (K := K) k) (W : d.ProfileData)
 variable (B : ActualColumnAllocation K k)
@@ -105,8 +104,7 @@ variable (hslot : ∀ i, parent.slotCoefficient i ∈ parent.theta)
 variable (side : SecondColumnSide) (firstSign : ℝ) (rectangle : Bool)
 
 local notation "S" =>
-  (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-    .restrictRows keep₂
+  (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂
 local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
 local notation "sector" => chart.originalSector P ∅ X hX label
 local notation "idx" => (fun j => slots.index (SlotRestriction.index B.keep j))
@@ -125,16 +123,14 @@ variable (parentParameters : RealParameters) (step : ℝ)
 variable (geometry : OriginalNominalGeometry (K := K) parentParameters
   (frame W B A (paidSourceCharacters P Rchar choice.phases parent oldMoving correction
     remaining (fun j => slots.index (SlotRestriction.index B.keep j))) C
-    ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base step)
+    ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base step)
 variable (capacityCutoff : ℝ)
 variable (rowParameter : geometry.literalRowParameter capacityCutoff = m)
 variable (supportParameter : geometry.literalSupportParameter
   (idealLogLength
     (frame W B A (paidSourceCharacters P Rchar choice.phases parent oldMoving correction
       remaining (fun j => slots.index (SlotRestriction.index B.keep j))) C
-      ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-        .restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base
+      ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base
     (secondSixthRootIdeal b.primes
       (side.literalMultiplicity (chart.actualRows ∅ X hX label))
       (side.literalOppositeMultiplicity (chart.actualRows ∅ X hX label))).val) = q)
@@ -143,8 +139,7 @@ variable {centered : Bool} {Y₁ Y₂ floor padding : ℝ}
 variable (domain : PairedEngineDomain centered parent parentParameters
   (frame W B A (paidSourceCharacters P Rchar choice.phases parent oldMoving correction
     remaining (fun j => slots.index (SlotRestriction.index B.keep j))) C
-    ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base
+    ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base
     Y₁ Y₂ floor padding)
 variable (reference : HeckeGeneral.Analysis.NonzeroIdeal K) (time : ℝ)
 variable (inverse_eq : inverse = CanonicalLiteralProfileData.frozenNormTest

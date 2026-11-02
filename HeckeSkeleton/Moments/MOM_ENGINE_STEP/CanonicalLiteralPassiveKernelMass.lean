@@ -558,8 +558,7 @@ theorem literalPassiveNormalizedFamily_kernelMass
     (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))
   have hm := (actual_finite_normalized_kernel_mass_active
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
-    cap (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd))
-      .choose_spec.choose_spec.choose_spec.2
+    cap (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd)).choose_spec.choose_spec.choose_spec.2
   have hout := hm Z hZ family Finset.univ
     (fun _ : Labels => (originalLeaf).firstKernel) (fun _ : Labels => (originalLeaf).secondKernel)
     (fun _ : Labels => originalOuter)

@@ -72,12 +72,9 @@ theorem pool_tag_pair_card (cap : ℕ) (B ell ε : ℝ)
       (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)
   rcases tag with u | (p | (p | p))
   · exact (hd Z hZ A D hD hDN k l ld rd lw rw BL BR hk hl).trans hCD'
-  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property)
-      .one k l ld rd lw rw BL BR hk hl).trans hCP'
-  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property)
-      .six k l ld rd lw rw BL BR hk hl).trans hCP'
-  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property)
-      .seven k l ld rd lw rw BL BR hk hl).trans hCP'
+  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property).one k l ld rd lw rw BL BR hk hl).trans hCP'
+  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property).six k l ld rd lw rw BL BR hk hl).trans hCP'
+  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property).seven k l ld rd lw rw BL BR hk hl).trans hCP'
 
 end CanonicalLiteralPassiveLabelMass
 

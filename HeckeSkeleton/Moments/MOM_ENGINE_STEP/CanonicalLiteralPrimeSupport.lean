@@ -170,8 +170,7 @@ theorem selectedRawWindow_prime_support
     Function.support
       ((selectedRawWindow P R W allocation F parent oldMoving correction hcorr C p
         leftMultiplicity rightMultiplicity pattern sector remaining extra m q index
-        rectangle firstSign negative E hcompact hpositive s original hbound hleft hright hslot ξ)
-        .primeRep j t) ⊆ target := by
+        rectangle firstSign negative E hcompact hpositive s original hbound hleft hright hslot ξ).primeRep j t) ⊆ target := by
   sorry
 
 end CanonicalLiteralAllocatedData

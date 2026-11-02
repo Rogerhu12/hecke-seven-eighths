@@ -1001,8 +1001,7 @@ theorem literalNormalizationData_kernelMass
     exact hk.trans (hf.trans hcap)
   have hm := (actual_finite_normalized_kernel_mass_active
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
-    cap (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd))
-      .choose_spec.choose_spec.choose_spec.2
+    cap (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd)).choose_spec.choose_spec.choose_spec.2
   have hout := hm Z hZ family Finset.univ
     (fun _ : Bool × Bool => X.leaf.firstKernel) (fun _ : Bool × Bool => X.leaf.secondKernel)
     (fun _ : Bool × Bool => X.leaf.weight)
