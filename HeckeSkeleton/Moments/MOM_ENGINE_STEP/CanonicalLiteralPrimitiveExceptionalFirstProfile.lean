@@ -185,7 +185,7 @@ theorem literalPrimitiveExceptionalFirstCoefficient_le
   rw [hmain, CanonicalLiteralPrimitiveExceptionalFirstProfile.atom_coefficient_eq
     K cap hannulus hamplitude]
   exact mul_le_mul_of_nonneg_left
-    (Real.rpow_le_rpow_of_exponent_le hZ.le (add_le_add_left ht _))
+    (Real.rpow_le_rpow_of_exponent_le hZ.le (add_le_add le_rfl ht))
     (mul_nonneg (CanonicalLiteralPrimitiveExceptionalFirstProfile.firstConstant_nonneg
       K cap (zero_le_one.trans hannulus)) (pow_nonneg (zero_le_one.trans hamplitude) _))
 

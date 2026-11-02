@@ -23,6 +23,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments MeasureTheory
+open HeckeGeneral.ThetaSkeleton.Physical (ProbeData RowCharacterInput)
 open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
 open CanonicalOriginalPhaseCalibration
 

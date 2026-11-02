@@ -400,7 +400,7 @@ theorem literalPrimitivePooledEngineExceptionalCost_le :
         exact mul_le_mul_of_nonneg_left
           (mul_le_mul_of_nonneg_right
             (mul_le_mul_of_nonneg_left
-              (Real.rpow_le_rpow_of_exponent_le (hZ).le (add_le_add_right hbase _))
+              (Real.rpow_le_rpow_of_exponent_le (hZ).le (add_le_add hbase le_rfl))
               (mul_nonneg hc0 (pow_nonneg hp0 _))) hweight)
           ((parents).originalScalarAt_nonneg (raw).originalAtlas i.val)
       _ = (integralC * amplitude ^ degree * Z ^ paidLoss) *

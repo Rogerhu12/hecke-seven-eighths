@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFrameColumnSwap
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafColumnSwap
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaPartition
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryLiteralExceptionalLeaf
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafExceptionalBinding
 
 /-!
 # Either original column supplies the exceptional terminal
@@ -275,7 +276,8 @@ def ExceptionalBinding.terminalTranspose
   left_columns := b.right_columns
   right_columns := b.left_columns
   exceptional h hh := by
-    simpa only [PairedFiniteCharacters.swapColumns_exceptional] using b.exceptional h hh
+    simpa only [terminalTranspose_exceptional,
+      PairedFiniteCharacters.swapColumns_exceptional] using b.exceptional h hh
   rowWeight h hh := by
     change star (B.rowWeight h) = R.swapColumns.weight h * R.swapColumns.correlation h
     rw [R.swapColumns_weight_correlation h, b.rowWeight h hh]
@@ -287,10 +289,16 @@ def ExceptionalBinding.terminalTranspose
     change star (B.leftCoefficient h i) = left.toRight.centeredCoefficient (left.toRightComparison EL) h i
     rw [left.toRight_centeredCoefficient EL h i, b.leftCoefficient h hh i hi]
   leftPoint h hh i hi := by
+    change WithLp.toLp 2 (B.rightFirst h i, -B.rightSecond h i) =
+      rawSourceLocation (right.toLeft.leftLocation h) (right.toLeft.rightLocation h)
+        (right.toLeft.slotLocation h) i
     rw [right.toLeft_location h i]
     simpa only [ActualHybridLeaf.terminalTranspose, neg_jointPairPoint, neg_neg] using
       congrArg Neg.neg (b.rightPoint h hh i hi)
   rightPoint h hh i hi := by
+    change WithLp.toLp 2 (-B.leftFirst h i, -B.leftSecond h i) =
+      rawSourceLocation (left.toRight.leftLocation h) (left.toRight.rightLocation h)
+        (left.toRight.slotLocation h) i
     rw [left.toRight_location h i]
     simpa only [ActualHybridLeaf.terminalTranspose, neg_jointPairPoint] using
       congrArg Neg.neg (b.leftPoint h hh i hi)
@@ -307,7 +315,8 @@ def OrdinaryExceptionalBinding.terminalTranspose
   left_columns := b.right_columns
   right_columns := b.left_columns
   exceptional h hh := by
-    simpa only [PairedFiniteCharacters.swapColumns_exceptional] using b.exceptional h hh
+    simpa only [terminalTranspose_exceptional,
+      PairedFiniteCharacters.swapColumns_exceptional] using b.exceptional h hh
   rowWeight h hh := by
     change star (B.rowWeight h) = R.swapColumns.weight h * R.swapColumns.correlation h
     rw [R.swapColumns_weight_correlation h, b.rowWeight h hh]
@@ -319,10 +328,16 @@ def OrdinaryExceptionalBinding.terminalTranspose
     change star (B.leftCoefficient h i) = left.toRight.coefficient h i
     rw [left.toRight_coefficient h i, b.leftCoefficient h hh i hi]
   leftPoint h hh i hi := by
+    change WithLp.toLp 2 (B.rightFirst h i, -B.rightSecond h i) =
+      rawSourceLocation (right.toLeft.leftLocation h) (right.toLeft.rightLocation h)
+        (right.toLeft.slotLocation h) i
     rw [right.toLeft_location h i]
     simpa only [ActualHybridLeaf.terminalTranspose, neg_jointPairPoint, neg_neg] using
       congrArg Neg.neg (b.rightPoint h hh i hi)
   rightPoint h hh i hi := by
+    change WithLp.toLp 2 (-B.leftFirst h i, -B.leftSecond h i) =
+      rawSourceLocation (left.toRight.leftLocation h) (left.toRight.rightLocation h)
+        (left.toRight.slotLocation h) i
     rw [left.toRight_location h i]
     simpa only [ActualHybridLeaf.terminalTranspose, neg_jointPairPoint] using
       congrArg Neg.neg (b.leftPoint h hh i hi)

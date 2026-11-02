@@ -24,6 +24,7 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckePort.Moments
+open HeckeGeneral.ThetaSkeleton.Physical (ProbeData RowCharacterInput)
 open HeckePort.IdealMobiusDivisorSum
 
 namespace CanonicalLiteralPassiveOriginalBound
