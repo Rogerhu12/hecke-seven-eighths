@@ -57,12 +57,8 @@ theorem exceptional_exact_support (z : ℝ × ℝ) :
     packet.exceptional_rowWeight_zero_of_not_live]
   rw [T3a.pairMagnitude_subtype_filter]
   rw [T3a.pairMagnitude_eq_supported]
-  unfold supportedExceptionalIntegrand
-  congr 1
-  ext h
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and, exceptionalRows,
-    ne_eq, star_eq_zero]
-  tauto
+  simp only [supportedExceptionalIntegrand, exceptionalRows,
+    Finset.filter_filter, ne_eq, star_eq_zero]
 
 end RawLeafPacket
 

@@ -38,11 +38,19 @@ proofs which are transported by the residual atlas constructors. -/
 private def dictionary (R : CartesianSourceReindex columns ideal k) :=
   ((R.plain₁, R.plain₂), (R.slots, R.index))
 
-private theorem dictionary_cast {other : Finset ι} (hc : columns = other)
+private theorem dictionary_mp {other : Finset ι} (hc : columns = other)
     (hT : CartesianSourceReindex columns ideal k =
       CartesianSourceReindex other ideal k)
     (R : CartesianSourceReindex columns ideal k) :
-    dictionary (cast hT R) = dictionary R := by
+    dictionary (Eq.mp hT R) = dictionary R := by
+  subst other
+  rfl
+
+private theorem dictionary_mpr {other : Finset ι} (hc : columns = other)
+    (hT : CartesianSourceReindex other ideal k =
+      CartesianSourceReindex columns ideal k)
+    (R : CartesianSourceReindex columns ideal k) :
+    dictionary (Eq.mpr hT R) = dictionary R := by
   subst other
   rfl
 
@@ -70,9 +78,9 @@ private theorem residualReindex_dictionary :
   have hbranch :=
     (T.reindex.supportExtractionLabel_fibre P (T.branch P D d)).symm
   unfold SourceCartesianAtlas.residualReindex
-  rw [dictionary_cast hfibre, dictionary_cast hlabel]
+  rw [dictionary_mpr hfibre, dictionary_mp hlabel]
   unfold CartesianSourceReindex.supportResidualLabelBranch
-  rw [dictionary_cast hbranch]
+  rw [dictionary_mpr hbranch] <;> rfl
 
 theorem residualReindex_plain₁ :
     (T.residualReindex P D J hJ d).plain₁ =
@@ -101,7 +109,8 @@ theorem residualReindex_index (x : AllocationColumn K (T.branch P D d).keep.card
 theorem residualReindex_cartesian :
     (T.residualReindex P D J hJ d).cartesian = (T.branch P D d).residualColumns := by
   change childCartesianColumns _ _ _ = _
-  rw [residualReindex_plain₁, residualReindex_plain₂, residualReindex_slots]
+  rw [residualReindex_plain₁, residualReindex_plain₂, residualReindex_slots,
+    SupportCartesianBranch.residualColumns]
 
 theorem residualReindex_plain₁_ne_zero (I : Ideal (𝓞 K))
     (hI : I ∈ (T.residualReindex P D J hJ d).plain₁) : I ≠ 0 := by
@@ -194,7 +203,11 @@ theorem ancestor_index (x : AllocationColumn K (cover.cover.branch a).slotCount)
   have h := hcover.index a
     (cast (congrArg (AllocationColumn K) (hcover.count a).symm) x)
     ((hcover.cartesian_mem a x).mp hx)
-  simpa only [OrdinaryOriginalCoordinates.allocationColumn_cast_roundtrip] using h
+  exact (congrArg
+    (fun y : AllocationColumn K (cover.cover.branch a).slotCount =>
+      source.ancestor ((cover.cover.branch a).reindex.index y))
+    (OrdinaryOriginalCoordinates.allocationColumn_cast_roundtrip
+      (hcover.count a) x)).symm.trans h
 
 end OriginalCover.Realizes
 
@@ -249,9 +262,11 @@ theorem realizes_firstCartesian (hpacket : packet.Realizes) (side : Bool)
         (packet.firstBranch side).residualColumns := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   cases side with
-  | false => exact (hraw (raw.index j).val.1.1).1.cartesian_mem
+  | false =>
+    exact (hraw (raw.index j).val.1.1).1.cartesian_mem
       (raw.index j).val.1.2.2.2.1 x
-  | true => exact (hraw (raw.index j).val.1.1).2.cartesian_mem
+  | true =>
+    exact (hraw (raw.index j).val.1.1).2.cartesian_mem
       (raw.index j).val.1.2.2.2.2.1 x
 
 theorem realizes_firstIndex (hpacket : packet.Realizes) (side : Bool)
@@ -263,9 +278,11 @@ theorem realizes_firstIndex (hpacket : packet.Realizes) (side : Bool)
           (packet.realizes_firstCount hpacket side).symm) x)) := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   cases side with
-  | false => exact (hraw (raw.index j).val.1.1).1.ancestor_index
+  | false =>
+    exact (hraw (raw.index j).val.1.1).1.ancestor_index
       (raw.index j).val.1.2.2.2.1 x hx
-  | true => exact (hraw (raw.index j).val.1.1).2.ancestor_index
+  | true =>
+    exact (hraw (raw.index j).val.1.1).2.ancestor_index
       (raw.index j).val.1.2.2.2.2.1 x hx
 
 /-- The actual source column of a second residual occurrence tuple. -/
@@ -336,7 +353,9 @@ theorem firstResidualColumn_ideal (hpacket : packet.Realizes) (side : Bool)
     (x : AllocationColumn K (packet.secondBranch side).keep.card) :
     allocationColumnIdeal (packet.firstResidualColumn hpacket side x) =
       allocationColumnIdeal ((packet.secondBranch side).reconstruct x) :=
-  OrdinaryOriginalCoordinates.allocationColumnIdeal_cast _ _
+  OrdinaryOriginalCoordinates.allocationColumnIdeal_cast
+    (packet.realizes_firstCount hpacket side).symm
+    ((packet.secondBranch side).reconstruct x)
 
 theorem secondColumn_coprime_deletion (hpacket : packet.Realizes)
     (phases : OriginalPhaseData packet) (side : Bool)

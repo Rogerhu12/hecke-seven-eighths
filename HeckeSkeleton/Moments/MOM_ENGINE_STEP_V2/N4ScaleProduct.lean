@@ -99,7 +99,8 @@ theorem secondFrozenIdeal_eq (packet : RawLeafPacket call p) (side : Bool) :
     secondFrozenIdeal packet side = packet.secondIdeal side :=
   (packet.secondBranch side).frozenSourceIdeal_eq.trans
     ((packet.firstAtlas side).branch_product
-      (primeSupport packet.key.1.val.1) (packet.secondIdeal side)
+      (HeckePort.IdealMobiusDivisorSum.primeSupport packet.key.1.val.1)
+      (packet.secondIdeal side)
       (packet.secondSupportKey side))
 
 def firstStageProduct (D : OriginalOccurrenceData O) (side rectangle : Bool) : ℝ :=
@@ -115,10 +116,13 @@ theorem firstStageProduct_eq (D : OriginalOccurrenceData O) (side rectangle : Bo
     firstStageProduct D side rectangle =
       (packet.firstBranch side).residualGaussScale call.base call.originalLength
         (call.originalPlainScale rectangle false) (call.originalPlainScale rectangle true) := by
-  dsimp only [firstStageProduct, RawLeafPacket.firstPlainScale,
-    OriginalOccurrenceData.firstIndex, SupportCartesianBranch.residualGaussScale,
-    extraGaussScale]
-  rw [prod_fin_cast (D.first_count side).symm]
+  exact congrArg
+    (fun value : ℝ => packet.firstPlainScale side rectangle false *
+      packet.firstPlainScale side rectangle true * value)
+    (prod_fin_cast (D.first_count side).symm
+      (fun i : Fin (packet.firstBranch side).keep.card =>
+        call.base ^ call.originalLength
+          (SlotRestriction.index (packet.firstBranch side).keep i)))
 
 theorem beforeStageProduct_eq (D : OriginalOccurrenceData O) (side rectangle : Bool) :
     beforeStageProduct D side rectangle =
@@ -126,10 +130,13 @@ theorem beforeStageProduct_eq (D : OriginalOccurrenceData O) (side rectangle : B
         (fun i => call.originalLength (D.firstIndex side i))
         (packet.firstPlainScale side rectangle false)
         (packet.firstPlainScale side rectangle true) := by
-  dsimp only [beforeStageProduct, OriginalOccurrenceData.beforePlainScale,
-    OriginalOccurrenceData.beforeLength, OriginalOccurrenceData.secondIndex,
-    SupportCartesianBranch.residualGaussScale, extraGaussScale]
-  rw [prod_fin_cast (D.second_count side).symm]
+  exact congrArg
+    (fun value : ℝ => D.beforePlainScale side rectangle false *
+      D.beforePlainScale side rectangle true * value)
+    (prod_fin_cast (D.second_count side).symm
+      (fun i : Fin (packet.secondBranch side).keep.card =>
+        call.base ^ call.originalLength
+          (D.firstIndex side (SlotRestriction.index (packet.secondBranch side).keep i))))
 
 theorem originalPlainScale_pos (rectangle plain : Bool) :
     0 < call.originalPlainScale rectangle plain := by

@@ -1,6 +1,12 @@
 # T3a / T3b shared proof sources
 
-The following existing N1 implementation is reused verbatim from PR #32, commit `6caa522ba57bb248e62e4dd3499f7776ff20167d`. T3b uses the universal original-row atom formula, not the ordinary-only certificate. These modules retain their original names so B-line integration can share one implementation.
+The following N1 implementation uses PR #32, commit
+`7e638f772946e3f9e738761816cf2530616f6b77` as its fixed source snapshot. All 22
+source blobs were checked before the proof-only corrections recorded below.
+T3b uses its universal original-row atom formula. The modules
+retain their original paths and names so B-line integration shares one implementation.
+The initial snapshot was `6caa522ba57bb248e62e4dd3499f7776ff20167d`; its subsequent
+CI-driven corrections remain documented below.
 
 Root: `OrdinaryRawAtomFormula.lean`, specifically `RawLeafPacket.beforeAtomTable_left` and `beforeAtomTable_right`.
 
@@ -38,6 +44,26 @@ semireducible exterior-ideal projection in CI. Statements, characters, masks and
 source coefficients are unchanged. The diagnostics are from run `41448321827`,
 job `125286921697`; the shared-owner coordination is PR #31 comment `6578016005`.
 
+The first formal T3 round on real baseline bff9840c, head ad8cd07d, reached the
+shared implementation and exposed compatibility failures. PR #32 R16 logs at
+the fixed snapshot above expose the next layer. In accordance with PR #31
+comment `6577195608`, corrections retain every original public statement,
+path, namespace and theorem name and are reported for unified N1/T3 integration:
+
+- `OrdinaryOriginalCoordinates`: private Eq.mp/Eq.mpr transport lemmas match
+  the actual atlas construction; exact count casts are supplied explicitly;
+  residual columns unfold their original definition; two Bool case branches
+  receive valid continuation indentation.
+- `OrdinaryRawAtomData`: function-valued comparison conditionals are applied
+  before normalization; the true plain-divisor conditional is simplified.
+  A private scalar/extraction lemma proves the same scaled term identity on
+  a generic atom table, avoiding broad rewriting through the full packet.
+- `OrdinaryDivisorGate`: the existing residual-divisor projection equality is
+  elaborated independently before conversion to the original transport goal.
+
+These are proof compatibility corrections, not new ordinary assumptions for
+exceptional packets. CI must validate the resulting shared implementation.
+
 ## N4 frozen ideals and scale identities
 
 Reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`:
@@ -47,6 +73,13 @@ Reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`
 
 This 473-line minimal closure proves the actual first frozen ideal includes the complete pool valuation, and the second frozen ideal is the actual common ideal. T3b uses the universal packet identities, without importing an ordinary-only certificate or any placeholder task.
 
+The ad8cd07d real-baseline CI exposed three proof failures in N4ScaleProduct.
+The shared correction qualifies the existing primeSupport constant and proves
+the two original scale-product equalities by explicitly instantiated
+prod_fin_cast and congrArg. All public statements, original count transports,
+plain scales and ideals remain unchanged. PR #39 snapshot 6b1cf628 retains the
+same failing proof bodies; its unrelated helper split is not required here.
+
 ## B-line CI repair
 
 `OriginalPhaseData.lean` is synchronized verbatim with B-line
@@ -54,16 +87,15 @@ This 473-line minimal closure proves the actual first frozen ideal includes the 
 The shared process watchdog introduced at that commit remains in the newer
 public driver recorded below.
 
-`RawContracts.lean` and `OrdinaryData.lean` are synchronized verbatim with B-line
-`ad7c9c79c58582c0cb70bb115611b6e0bb92dd31` (mathematical source revision
-`828ec3b051a9cef3b6263c772f8323672fcc94da`). Existing synchronous checkpoints
-and complete context parameters are retained. `RawCovers.leaf` uses the
-original direct key projections and is explicitly `noncomputable`, with no
-new matcher in its body. `OrdinaryData` names its original finite branch type,
-branch key and field propositions separately; the branch type explicitly
-supplies the same `SourceClassKey.leftSlots`. All eight fields retain their
-order and original data, and `ordinaryBranchKey` is the same original `.val`
-projection with an explicit `noncomputable` modifier.
+The verified real baseline is B-line
+`bff9840cf0af65b7782c73799f41b59bfdbca875`, retained as a merge parent.
+Its seven changes since `ad7c9c79` are consumed verbatim: RawLeafData,
+OrdinaryData, ExceptionalRecoveryContracts, PassiveData, RefinementData,
+SourceAssembly and GlobalAssembly. RawContracts itself is unchanged.
+The b3 reindex input wrappers and D9 ordinary source wrappers retain the
+original Sigma key, AllocationKey, subtype projection, ordinary equality,
+rectangles and binding. All eight OrdinaryData fields retain their order
+and original data. This baseline contains no stubs.
 
 `SourceIndexContracts.lean` remains the exact B1f5849 snapshot, unchanged in
 Bad7c9c79: the two existing Möbius factors are fully namespace-qualified.
@@ -139,7 +171,7 @@ replace the canonical build or axiom audit.
 Coordinator comment `6580209603` and dtests-handoff commit
 `996cb49685a51cf789ea962af9f725b02dc363c7` exclude `cloud/mom-v2-*` task
 branches from the whole-project workflow, reserving it for final V2 integration.
-This branch consumes B ad7c9c79's merged workflow verbatim, retaining that
+This branch consumes B bff9840c's inherited workflow verbatim, retaining that
 exact task-prefix rule and B's existing draft/manual integration routing.
 Both V2 gates retain every original target, the required endpoints and the
 complete recursive axiom audits. Added independent proof helpers remain

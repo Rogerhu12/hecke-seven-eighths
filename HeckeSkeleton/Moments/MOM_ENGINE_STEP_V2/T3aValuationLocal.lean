@@ -2,6 +2,7 @@ import ArithmeticFrequencyRowCharacterFibers
 import RowCharacterCanonicalUniqueness
 import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
 
+set_option linter.unusedSectionVars false
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
 

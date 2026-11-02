@@ -97,7 +97,7 @@ theorem t3b_selected_column_bound (bounds : T3b.SourceBounds c p frame)
     have hZ : 1 ≤ call.base ^ p.loss := Real.one_le_rpow call.domain.scale.le p.loss_pos.le
     have hH : 1 ≤
         (1 + ‖T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)‖) ^
-          bounds.degree := one_le_pow₀ (by positivity)
+          bounds.degree := one_le_pow₀ (le_add_of_nonneg_right (norm_nonneg _))
     have hscale : bounds.coefficient * P ^ 2 ≤ bounds.coefficient * P ^ 2 *
         call.base ^ p.loss *
           (1 + ‖T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)‖) ^

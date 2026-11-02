@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuations
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
 
+set_option linter.unusedSectionVars false
 set_option autoImplicit false
 
 /-!

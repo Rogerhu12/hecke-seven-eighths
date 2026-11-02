@@ -47,6 +47,7 @@ theorem packet_exceptional_character (j : Fin raw.count) (h : (raw.packet j).R.l
         (SourceClassKey.rowLabel (raw.index j).val.1.2) h.val ∈ call.node.data.theta :=
   Iff.rfl
 
+set_option maxHeartbeats 600000 in
 theorem packet_bases_card (j : Fin raw.count) (hpacket : (raw.packet j).Realizes) :
     (raw.packet j).exceptionalBases.card ≤
       call.node.data.theta.card * Nat.card (SixthUnitClasses K (places K c)) := by
@@ -72,8 +73,21 @@ theorem packet_bases_card (j : Fin raw.count) (hpacket : (raw.packet j).Realizes
       have hex := (raw.packet_exceptional_character j h).mp
         (Finset.mem_filter.mp hh).2.1
       simp only [SecondSource.rowCharacter, dif_pos h.property] at hex
-      rw [packet.exceptional_pattern_eq hpacket h h₀] at hex
-      exact hex
+      have htheta := congrArg
+        (fun pattern =>
+          call.localizedSource.source.recipe.correction *
+            ((expansion.moving (raw.index j).val.1.1).append
+              (secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)
+                (Arithmetic.context c) packet.R.primes
+                packet.R.leftMultiplicity packet.R.rightMultiplicity pattern)).character *
+            completeIdealRowCharacter K
+              ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+              (probeData K c) (momentRowCharacters K c)
+              ((packet.R.extractedRow (Arithmetic.context c) h).sector (probeData K c))
+              (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal ∈
+                call.node.data.theta)
+        (packet.exceptional_pattern_eq hpacket h h₀)
+      exact htheta.mp hex
     have hc := T3a.sixthBases_card_le_theta_unitSectors
       ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
       (probeData K c) (momentRowCharacters K c) packet.exceptionalRows

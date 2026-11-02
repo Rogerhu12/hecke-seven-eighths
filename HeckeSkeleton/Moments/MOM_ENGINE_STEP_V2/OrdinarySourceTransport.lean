@@ -20,7 +20,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
 open EngineStep EngineInduction.Source
-open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.Moments

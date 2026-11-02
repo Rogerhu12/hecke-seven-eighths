@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingFactorAppend
 
+set_option linter.unusedSectionVars false
 set_option autoImplicit false
 set_option relaxedAutoImplicit false
 
