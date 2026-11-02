@@ -83,10 +83,10 @@ theorem t3b_originalPlainScale_centered_lower (call : Call c)
     cases plain with
     | false =>
       change _ ≤ call.base ^ call.workingComparison₁
-      rw [workingComparison₁, hc, if_true, call.domain.comparison_left hc]
+      rw [workingComparison₁, hc, if_pos rfl, call.domain.comparison_left hc]
     | true =>
       change _ ≤ call.base ^ call.workingComparison₂
-      rw [workingComparison₂, hc, if_true, call.domain.comparison_right hc]
+      rw [workingComparison₂, hc, if_pos rfl, call.domain.comparison_right hc]
       apply Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
       have hl := call.domain.centered_left hc
       have hr := call.domain.centered_right hc
