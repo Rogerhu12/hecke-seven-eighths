@@ -286,7 +286,18 @@ theorem literalLeftMainExceptionalSource_eq
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
           (sides.2.val.comparison classRows C .right) characters (WithLp.toLp 2 z) := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := hlive
+  let allocation := v.literalAllocation exceptional F firstPoint j live
+  have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
+    firstPoint j 1 live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
+    (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
+    characters hpredicate thetaPair z
+  have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
+    sides.1 sides.2 C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
+    (Finset.mem_filter.mp allocation.property).2.2.1
+    (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
+  exact hb.trans hp.symm
 
 include hroot hemb domain hS hlive in
 /-- A nonzero original allocated coefficient forces each actual
@@ -295,7 +306,9 @@ partition or any completed source estimate is used. -/
 theorem literalLeftMainExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := hlive
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end LeftMainExceptionalBinding
 
@@ -470,7 +483,19 @@ theorem literalRightMainExceptionalSource_eq
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
           (sides.2.val.comparison classRows C .right) characters (WithLp.toLp 2 z) := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := hlive
+  let allocation := v.literalAllocation exceptional F firstPoint j live
+  have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
+    firstPoint j (-1) live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
+    (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
+    characters hpredicate thetaPair z
+  have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
+    sides.1 sides.2 C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
+    (Finset.mem_filter.mp allocation.property).2.2.1
+    (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
+  simp only [show -(-(1 : ℝ)) = 1 from neg_neg (1 : ℝ)] at hb
+  exact hb.trans hp.symm
 
 include hroot hemb domain hS hlive in
 /-- A nonzero original allocated coefficient forces each actual
@@ -479,7 +504,9 @@ partition or any completed source estimate is used. -/
 theorem literalRightMainExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := hlive
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end RightMainExceptionalBinding
 
@@ -669,7 +696,18 @@ theorem literalLeftPoolExceptionalSource_eq
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
           (sides.2.val.comparison classRows C .right) characters (WithLp.toLp 2 z) := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
+  let allocation := v.literalAllocation exceptional F firstPoint j live
+  have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
+    firstPoint j 1 live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
+    (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
+    characters hpredicate thetaPair z
+  have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
+    sides.1 sides.2 C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
+    (Finset.mem_filter.mp allocation.property).2.2.1
+    (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
+  exact hb.trans hp.symm
 
 include hroot hemb domain hS hlive in
 /-- A nonzero original allocated coefficient forces each actual
@@ -678,7 +716,9 @@ partition or any completed source estimate is used. -/
 theorem literalLeftPoolExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end LeftPoolExceptionalBinding
 
@@ -866,7 +906,19 @@ theorem literalRightPoolExceptionalSource_eq
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
           (sides.2.val.comparison classRows C .right) characters (WithLp.toLp 2 z) := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
+  let allocation := v.literalAllocation exceptional F firstPoint j live
+  have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
+    firstPoint j (-1) live (construction).val (construction).property.1
+    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
+    (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
+    characters hpredicate thetaPair z
+  have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
+    sides.1 sides.2 C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
+    (Finset.mem_filter.mp allocation.property).2.2.1
+    (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
+  simp only [show -(-(1 : ℝ)) = 1 from neg_neg (1 : ℝ)] at hb
+  exact hb.trans hp.symm
 
 include hroot hemb domain hS hlive in
 /-- A nonzero original allocated coefficient forces each actual
@@ -875,7 +927,9 @@ partition or any completed source estimate is used. -/
 theorem literalRightPoolExceptionalCommon_nonzero :
     (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch ≠ 0 ∧
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch ≠ 0 := by
-  sorry
+  have live : (v.leaf exceptional F firstPoint j).Live := ((v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive)
+  exact ⟨(construction).val.leftScalar_ne_zero_of_live live,
+    (construction).val.rightScalar_ne_zero_of_live live⟩
 
 end RightPoolExceptionalBinding
 

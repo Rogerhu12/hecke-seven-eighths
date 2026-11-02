@@ -109,7 +109,7 @@ theorem literalPrimitivePreparedDirect_parent_kernels
     (j : (prepared).CoveredLeafKey atlas) :
     ((prepared).parentLeaf atlas exceptional N j).firstKernel = firstKernel ∧
       ((prepared).parentLeaf atlas exceptional N j).secondKernel = secondKernel := by
-  sorry
+  rcases j with ⟨DE, D, S, χ, j | j⟩ <;> exact ⟨rfl, rfl⟩
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

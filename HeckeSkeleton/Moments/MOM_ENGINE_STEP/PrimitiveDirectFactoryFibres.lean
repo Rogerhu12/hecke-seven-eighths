@@ -210,7 +210,44 @@ theorem literalPrimitiveDirectFamily_index_fibre
         kernelSourceFibreConstant K cap
           (Fintype.card (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
           0 0 columnBound (ε / 2) hcolumnBound (by positivity)) * Z ^ (ε / 4) := by
-  sorry
+  let rows := Q.literalPrimitivePreparedDirectStagesOriginalFibreRows
+    (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+    (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
+    (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
+    (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (cap := cap) (annulus := hi) (loss := loss) (cutoffExponent := cutoffExponent)
+    (hannulus := hhi) (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
+    (profiles := originalWindow) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
+    (hcutoffPower := hcutoffPower) (step := step) (hstep := hstep)
+    (hloss := hloss) (hcutoffExponent := hcutoffExponent)
+    (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+    (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) columnBound hcolumnBound hN
+  have hmask : OriginalMaskPrimeData (source).mask (1 : Ideal (𝓞 K)) :=
+    emptyOriginalSIntegerMask
+  have hmaskNorm : (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) ≤ Z ^ columnBound := by
+    simpa only [map_one, Nat.cast_one] using Real.one_le_rpow hZ.le hcolumnBound
+  have hsource := (stages).prepared.original_image_kernel_source_fibre
+    (raw).originalAtlas hcap (ε / 2) hcolumnBound (by positivity) hZ.le rows
+    (1 : Ideal (𝓞 K)) one_ne_zero hmask hmaskNorm hN exceptional normalization
+  have hinner (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
+      (Fintype.card (factories j).Label : ℝ) ≤
+        PrimitivePassiveFactoryCard.directConstant K cap columnBound (ε / 8)
+          hcolumnBound (by positivity) * Z ^ (ε / 8) :=
+    cardCertificate columnBound (ε / 8) hcolumnBound (by positivity) hN j
+  have h := ActualNormalizedPairFamily.activeSigma_index_fibre_subpower
+    (PrimitivePassiveFactoryCard.directConstant K cap columnBound (ε / 8)
+      hcolumnBound (by positivity))
+    (kernelSourceFibreConstant K cap
+      (Fintype.card (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
+      0 0 columnBound (ε / 2) hcolumnBound (by positivity))
+    Z (ε / 8) ((ε / 2) / 4) (zero_lt_one.trans hZ)
+    (PrimitivePassiveFactoryCard.directConstant_pos K cap columnBound (ε / 8)
+      hcolumnBound (by positivity)).le
+    (fun j => (factories j).family (analytic j))
+    ((stages).prepared.arithmeticLabels (raw).originalAtlas hcap exceptional normalization).index
+    hinner hsource
+  have he : ε / 8 + (ε / 2) / 4 = ε / 4 := by ring
+  simpa only [he] using h
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

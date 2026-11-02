@@ -629,7 +629,19 @@ theorem literalPrimitiveDirect_kernelMass
               (((stages).prepared.unscaledParentLeaf (raw).originalAtlas exceptional j.val).weight *
                 (sourceCertificates j).frozen) *
                   ((factories j).family (analytic j)).weight Finset.univ ((internal).m + (internal).q) b) := by
-  sorry
+  constructor
+  · intro b
+    exact (stages).prepared.dependent_kernel_finite (raw).originalAtlas exceptional normalization
+      (fun j => (factories j).Label) (fun j => (factories j).family (analytic j))
+      (fun j => (sourceCertificates j).frozen) ((internal).m + (internal).q)
+      (fun j => (massCertificates j).finite (analytic j)) b
+  · apply ((stages).prepared.dependent_kernel_mass_sum (raw).originalAtlas exceptional normalization
+      (fun j => (factories j).Label) (fun j => (factories j).family (analytic j))
+      (fun j => (sourceCertificates j).frozen) ((internal).m + (internal).q)).trans_le
+    apply Finset.sum_le_sum
+    intro j _
+    exact mul_le_mul_of_nonneg_left ((massCertificates j).bound (analytic j))
+      ((stages).prepared.parentOuterScalar_nonneg (raw).originalAtlas normalization j.val)
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -119,16 +119,20 @@ def constant : ℝ :=
 /-- A fixed lower threshold for the original scale. -/
 def threshold : ℝ := CanonicalPrimitiveUniformEngine.threshold A box exceptionalZ
 
-theorem outputOrders_subset : outputOrders ⊆ allOrders := by
-  sorry
+theorem outputOrders_subset : outputOrders ⊆ allOrders :=
+  CanonicalPrimitiveEngineSetup.outputOrders_subset
+    (A := A) (σ := σ) (η := η) (hS := hS) box theta outputOrders volume
 
 theorem constant_pos :
     0 < constant (ω := ω) μv ν μ C hDiff Drecipe hD
-      b mesh theta outputOrders primitive provider := by
-  sorry
+      b mesh theta outputOrders primitive provider :=
+  CanonicalPrimitiveUniformEngine.constant_pos
+    (A := A) (σ := σ) (ω := ω) (ψ := ψ)
+    μv ν C hDiff box mesh allOrders first second heightC exceptionalC
+    (CanonicalPrimitiveExceptionalChoices.constant_pos μv ν C hDiff box volume).le
 
-theorem threshold_gt_one : 1 < threshold μv ν C hDiff b theta primitive := by
-  sorry
+theorem threshold_gt_one : 1 < threshold μv ν C hDiff b theta primitive :=
+  CanonicalPrimitiveUniformEngine.threshold_gt_one A box exceptionalZ
 
 end CanonicalPairedEngineStep
 
@@ -289,8 +293,19 @@ theorem paired_engine_step_exists :
         MovingEngineChildAdmissible A P R
           (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ)
           Set.univ (Set.Icc (0 : ℝ) (box).hi) allOrders Z child parameters ∧
-        ∀ i, (child.slotCoefficient i)⁻¹ ∈ child.theta)) := by
-  sorry
+        ∀ i, (child.slotCoefficient i)⁻¹ ∈ child.theta)) :=
+  ⟨paired_engine_step
+    (μv := μv) (ν := ν) (μ := μ) (C := C) (hDiff := hDiff)
+    (Drecipe := Drecipe) (hD := hD) (b := b) (mesh := mesh) (hmesh := hmesh) (theta := theta)
+    (outputOrders := outputOrders) (primitive := primitive) (provider := provider)
+    (Q := Q) (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+    (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+    (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+    (hcap := hcap) (hlarge := hlarge) (hfit := hfit)
+    (amplitude := amplitude) (hamplitude := hamplitude) (profiles := profiles)
+    (hrows := hrows) (htime := htime) (hprime := hprime) (htheta := htheta)
+    (hplaces := hplaces) (boundary := boundary) (hone := hone)
+    (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)⟩
 
 local notation "pairedOutput" => paired_engine_step
     (μv := μv) (ν := ν) (μ := μ) (C := C) (hDiff := hDiff)
@@ -311,7 +326,73 @@ include mesh hmesh Q W hroot hemb domain hbudget hwidth hpadding hcap hlarge hfi
 sides of its existing selected output, including its empty and zero-slot cases. -/
 theorem paired_engine_step_samePlainBackground :
     (pairedOutput).SamePlainBackground := by
-  sorry
+  subst theta
+  let theta : Finset (HeckeCharacter K) := (data ξ).theta
+  have htheta : (data ξ).theta = theta := rfl
+  by_cases hempty : pairedRows (data ξ) a Z = ∅
+  · apply (pairedOutput).samePlainBackground_of_zero_branches
+    simp only [paired_engine_step, dif_pos hempty, PairedEngineConclusion.ofEmptyParent_branches]
+  · have hnonempty : (pairedRows (data ξ) a Z).Nonempty :=
+      Finset.nonempty_iff_ne_empty.mpr hempty
+    let reference := hnonempty.choose
+    have href : reference ∈ pairedRows (data ξ) a Z := hnonempty.choose_spec
+    let rawWindow := CanonicalPrimitiveEngineAnnulus.rawWindow b profiles
+    have hrawPrime : ∀ i,
+        Function.support (rawWindow.primeRep i t) ⊆ Set.Ioo (1 : ℝ) 2 := hprime
+    have hvolOrders : CanonicalPrimitiveExceptionalChoices.orders
+        (A := A) (σ := σ) (η := η) (hS := hS) box volume ⊆ allOrders :=
+      CanonicalPrimitiveEngineSetup.volumeOrders_subset
+        (A := A) (σ := σ) (η := η) (hS := hS)
+        box (data ξ).theta outputOrders volume
+    have hprimeOrders : CanonicalFullKappaPrime.orders ⊆ allOrders :=
+      CanonicalPrimitiveEngineSetup.primeOrders_subset
+        (A := A) (σ := σ) (η := η) (hS := hS)
+        box (data ξ).theta outputOrders volume
+    have h := CanonicalPrimitiveUniformEngine.produceWithInheritedSlots_samePlainBackground
+      (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := box) (mesh := mesh) (hmesh := hmesh) (orders := allOrders)
+      («first» := first) («second» := second) («heightC» := heightC)
+      (exceptionalConstant := exceptionalC)
+      (exceptionalDegree := CanonicalPrimitiveExceptionalChoices.degree box)
+      (Zexceptional := exceptionalZ)
+      (hexceptionalConstant :=
+        (CanonicalPrimitiveExceptionalChoices.constant_pos μv ν C hDiff box volume).le)
+      (hprimeOrders := hprimeOrders) (Drecipe := Drecipe) (hD := hD)
+      (Q := Q) (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+      (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+      (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+      (hcap := hcap) (hlarge := hlarge) (hfit := hfit)
+      (amplitude := amplitude) (hamplitude := hamplitude) (profiles := rawWindow)
+      (hrows := hrows) (htime := htime) (hprime := hrawPrime)
+      (analyticWindow := CanonicalPrimitiveEngineSetup.primeWindow
+        (A := A) (P := P) (R := R) box (data ξ).theta provider)
+      (boundary := boundary) (hone := hone) (hbackground := hbackground)
+      (hslot := hslot) (hslotInverse := hslotInverse)
+      (hdirect := fun hexceptionalLarge _ =>
+        Q.literalPrimitiveDirectEngineExceptionalCost_le
+          (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := box) (orders := allOrders)
+          (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+          (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+          (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+          (hcap := hcap) (reference := reference) (href := href)
+          (amplitude := amplitude) (hamplitude := hamplitude) (profiles := rawWindow)
+          (hrows := hrows) (htime := htime) (hprime := hrawPrime)
+          (hone := hone) (hplaces := hplaces) (primitive := volume)
+          (hlower := CanonicalPrimitiveEngineAnnulus.inverse_hi_le_lo b)
+          (hvolumeOrders := hvolOrders) (hlarge := hexceptionalLarge))
+      (hpool := fun hexceptionalLarge selectedReference hselectedReference selection =>
+        Q.literalPrimitivePooledEngineExceptionalCost_le
+          (μv := μv) (ν := ν) (C := C) (hDiff := hDiff) (b := box) (orders := allOrders)
+          (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+          (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+          (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+          (hcap := hcap) (reference := selectedReference) (href := hselectedReference)
+          (amplitude := amplitude) (hamplitude := hamplitude) (profiles := rawWindow)
+          (hrows := hrows) (htime := htime) (hprime := hrawPrime)
+          (hone := hone) (hplaces := hplaces) (primitive := volume)
+          (hlower := CanonicalPrimitiveEngineAnnulus.inverse_hi_le_lo b)
+          (horders := hvolOrders) (hexceptionalLarge := hexceptionalLarge)
+          (pool := selection.pool) (hdensity := selection.density_pos))
+    simpa only [paired_engine_step, dif_neg hempty] using h
 
 include mesh hmesh Q W hroot hemb domain hbudget hwidth hpadding hcap hlarge hfit hamplitude
   hrows htime hprime htheta hplaces boundary hone hbackground hslot hslotInverse in
@@ -325,7 +406,19 @@ theorem paired_engine_step_next_background
     (((pairedOutput).rightData branch z).plainBackground⁻¹ ∈
         ((pairedOutput).rightData branch z).theta ∨
       ¬ FiniteOrder ((pairedOutput).rightData branch z).plainBackground) := by
-  sorry
+  exact (pairedOutput).next_background_of_samePlainBackground
+    (paired_engine_step_samePlainBackground
+    (μv := μv) (ν := ν) (μ := μ) (C := C) (hDiff := hDiff)
+    (Drecipe := Drecipe) (hD := hD) (b := b) (mesh := mesh) (hmesh := hmesh) (theta := theta)
+    (outputOrders := outputOrders) (primitive := primitive) (provider := provider)
+    (Q := Q) (W := W) (ξ := ξ) (hroot := hroot) (hemb := hemb)
+    (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+    (domain := domain) (hbudget := hbudget) (hwidth := hwidth) (hpadding := hpadding)
+    (hcap := hcap) (hlarge := hlarge) (hfit := hfit)
+    (amplitude := amplitude) (hamplitude := hamplitude) (profiles := profiles)
+    (hrows := hrows) (htime := htime) (hprime := hprime) (htheta := htheta)
+    (hplaces := hplaces) (boundary := boundary) (hone := hone)
+    (hbackground := hbackground) (hslot := hslot) (hslotInverse := hslotInverse)) hbackground branch z
 
 end HeckeSkeleton.Moments.EngineStep
 

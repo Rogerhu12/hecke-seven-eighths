@@ -27,35 +27,44 @@ theorem constant_pos {first second exceptional mass : ℝ}
     (hfirst : 0 ≤ first) (hsecond : 0 ≤ second)
     (hexceptional : 0 ≤ exceptional) (hmass : 0 ≤ mass) :
     0 < constant first second exceptional mass := by
-  sorry
+  unfold constant
+  linarith
 
 theorem terminals_le {first second exceptional mass : ℝ} (hmass : 0 ≤ mass) :
     2 * first + 2 * second + exceptional ≤ constant first second exceptional mass := by
-  sorry
+  unfold constant
+  linarith
 
 theorem mass_le {first second exceptional mass : ℝ}
     (hfirst : 0 ≤ first) (hsecond : 0 ≤ second) (hexceptional : 0 ≤ exceptional) :
     mass ≤ constant first second exceptional mass := by
-  sorry
+  unfold constant
+  linarith
 
 theorem second_degree_le (b : Box) (exceptional : ℕ) :
     2 * (b.cap + 2) ≤ degree b exceptional := by
-  sorry
+  have h : 2 * (b.cap + 2) ≤ CanonicalPrimitiveEngineMassChoices.degree b := by
+    rw [CanonicalPrimitiveEngineMassChoices.degree_eq]
+    omega
+  exact h.trans (le_max_left _ _)
 
 theorem first_degree_le (b : Box) (exceptional : ℕ) :
     firstDualOriginalProfileDegree b.cap 1 ≤ degree b exceptional := by
-  sorry
+  simpa only [firstDualOriginalProfileDegree, Nat.mul_one] using
+    second_degree_le b exceptional
 
 theorem mass_degree_le (b : Box) (exceptional : ℕ) :
-    CanonicalPrimitiveEngineMassChoices.degree b ≤ degree b exceptional := by
-  sorry
+    CanonicalPrimitiveEngineMassChoices.degree b ≤ degree b exceptional := le_max_left _ _
 
 theorem exceptional_degree_le (b : Box) (exceptional : ℕ) :
-    exceptional ≤ degree b exceptional := by
-  sorry
+    exceptional ≤ degree b exceptional := le_max_right _ _
 
 theorem terminalExponent_pos (b : Box) : 0 < terminalExponent b := by
-  sorry
+  have hp := b.padding_nonneg
+  have hs := b.step_pos
+  have hε := b.ε_pos
+  unfold terminalExponent
+  positivity
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineFinalBudget
 

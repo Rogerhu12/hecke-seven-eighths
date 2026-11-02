@@ -501,7 +501,16 @@ local notation "backgroundEngine" => Q.literalPrimitivePooledEngine
 its same finite enumeration and comparison-scale transport. -/
 theorem literalPrimitivePooledEngine_samePlainBackground :
     (backgroundEngine).SamePlainBackground := by
-  sorry
+  change ∀ (i : Fin (Fintype.card ((backgroundFamily).active Finset.univ)))
+      (z : WithLp 2 (ℝ × ℝ)),
+    (((backgroundFamily).leftData Finset.univ
+      ((Fintype.equivFin ((backgroundFamily).active Finset.univ)).symm i) z).plainBackground =
+        (data ξ).plainBackground) ∧
+    (((backgroundFamily).rightData Finset.univ
+      ((Fintype.equivFin ((backgroundFamily).active Finset.univ)).symm i) z).plainBackground =
+        (data ξ).plainBackground)
+  exact fun i z => CanonicalPlainBackgroundTransport.selectedFin
+    backgroundFamily (data ξ) backgroundRaw i z
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

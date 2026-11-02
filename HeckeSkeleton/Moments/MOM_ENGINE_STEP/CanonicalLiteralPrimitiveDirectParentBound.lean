@@ -242,7 +242,42 @@ theorem literalPrimitiveDirect_rawCost_le_kernel
         ∑ b : (completeFamily analytic).active Finset.univ,
           ∫ z, (completeFamily analytic).childPair Finset.univ b z
             ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by
-  sorry
+  have hcanonical : 0 ≤ (sIntegerTensorTerm K A.Sf
+      (traceSchwartzToMixed K (CanonicalRowBall.archTest K A.Sf 1))
+      (rowBallFiniteFamily K A.Sf 1) 0).re := by
+    rw [CanonicalRowBall.originalTensor_zero, Complex.ofReal_re]
+    exact inv_nonneg.mpr (CanonicalRowBall.mass_pos K A.Sf).le
+  have conditions : (stages).DualSourceConditions := by
+    intro DE D
+    exact {
+      left_mask := fun _ _ => rfl
+      right_mask := fun _ _ => rfl
+      left_origin_nonneg := fun _ _ => hcanonical
+      right_origin_nonneg := fun _ _ => hcanonical }
+  have hraw := (stages).prepared.rawRowCost_le_dual_live
+    T.prepared conditions.prepared (raw).originalAtlas exceptional normalization
+    εzero Cerror Czero hstage
+  have hzero := T.prepared_dualSecondZeroBudget_le normalization εzero Czero hCzero
+  have htail := T.prepared_dualSecondTailBudget_le normalization Cerror hCerror
+  have hfiber : (source).fiber = 1 := rfl
+  rw [hfiber, Nat.cast_one, one_mul] at hraw
+  have htotal : (source).rawRowCost hDiff ≤
+      (stages).dualSecondZeroBudget T normalization εzero Czero +
+        (stages).dualSecondTailBudget T normalization Cerror +
+        (stages).prepared.exceptionalBudget (raw).originalAtlas exceptional normalization +
+        (stages).prepared.ordinaryBudget (raw).originalAtlas exceptional normalization :=
+    hraw.trans (add_le_add (add_le_add (add_le_add hzero htail) le_rfl) le_rfl)
+  have hnormalized := div_le_div_of_nonneg_right htotal
+    (Real.rpow_nonneg (zero_le_one.trans hZ.le) (a.m + a.q))
+  simp only [add_div] at hnormalized
+  have hord : (stages).prepared.ordinaryBudget (raw).originalAtlas exceptional normalization /
+      Z ^ (a.m + a.q) ≤
+      ∑ b : (completeFamily analytic).active Finset.univ,
+          ∫ z, (completeFamily analytic).childPair Finset.univ b z
+            ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by
+    simpa only [ActualDirectFirstSource.SecondStages.ordinaryBudget, ActualDirectFirstSource.SecondStages.liveLeaf] using
+      ordinaryKernel analytic (a.m + a.q)
+  exact hnormalized.trans (add_le_add le_rfl hord)
 
 local notation "rawKernel" => literalPrimitiveDirect_rawCost_le_kernel
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
@@ -293,7 +328,8 @@ theorem literalPrimitiveDirect_parent_le_kernel
         ∑ b : (completeFamily analytic).active Finset.univ,
           ∫ z, (completeFamily analytic).childPair Finset.univ b z
             ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by
-  sorry
+  have hraw := rawKernel T hCerror hCzero hstage analytic
+  linarith only [hfirst, hraw, hexceptional]
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

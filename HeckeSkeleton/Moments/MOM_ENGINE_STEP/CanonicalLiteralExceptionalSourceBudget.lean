@@ -46,7 +46,8 @@ def profileDegree (cap : ℕ) : ℕ :=
   CanonicalLiteralExceptionalAtomBudget.pairDegree cap + 4
 
 theorem profileDegree_eq (cap : ℕ) : profileDegree cap = 10 * cap + 8 := by
-  sorry
+  unfold profileDegree CanonicalLiteralExceptionalAtomBudget.pairDegree
+  omega
 
 private theorem scalar_coefficient_le
     (index pair growth profile amplitude bound constant height : ℝ) (degree : ℕ)
@@ -57,7 +58,17 @@ private theorem scalar_coefficient_le
     index * pair * (profile * amplitude) ^ 4 * growth ≤
       index * (bound * profile ^ (degree + 4) * constant) *
         amplitude ^ (degree + 4) * height := by
-  sorry
+  have h := mul_le_mul hpair hgrowth hg
+    (mul_nonneg hb (pow_nonneg (mul_nonneg hp ha) _))
+  have h' := mul_le_mul_of_nonneg_left h
+    (mul_nonneg hi (pow_nonneg (mul_nonneg hp ha) 4))
+  calc
+    _ = (index * (profile * amplitude) ^ 4) * (pair * growth) := by ring
+    _ ≤ (index * (profile * amplitude) ^ 4) *
+        ((bound * (profile * amplitude) ^ degree) * (constant * height)) := h'
+    _ = index * (bound * constant) *
+        ((profile * amplitude) ^ degree * (profile * amplitude) ^ 4) * height := by ring
+    _ = _ := by rw [← pow_add, mul_pow]; ring
 
 private theorem coefficient_mono
     (value envelope oldCoefficient newCoefficient power radical divisor : ℝ)
@@ -65,8 +76,11 @@ private theorem coefficient_mono
     (hradical : 0 ≤ radical) (hdivisor : 0 ≤ divisor)
     (hvalue : value ≤ envelope * oldCoefficient * power / radical * divisor)
     (hcoefficient : oldCoefficient ≤ newCoefficient) :
-    value ≤ envelope * newCoefficient * power / radical * divisor := by
-  sorry
+    value ≤ envelope * newCoefficient * power / radical * divisor :=
+  hvalue.trans (mul_le_mul_of_nonneg_right
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left hcoefficient henvelope) hpower) hradical) hdivisor)
 
 section FixedCoefficient
 
@@ -95,7 +109,14 @@ theorem coefficient_pos (hannulus : 1 ≤ annulus) :
     0 < coefficient (A := A) (σ := σ) (η := η) (hS := hS)
       primitive ε widthMax columnLoss cutoffExponent hε hwidthMax hcolumnLoss
         hcutoffExponent δ₁ δ₂ annulus cap := by
-  sorry
+  unfold coefficient
+  exact mul_pos
+    (mul_pos (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant_pos cap annulus hannulus)
+      (pow_pos (zero_lt_one.trans_le
+        (CanonicalLiteralExceptionalProfileWindow.coefficient_one window primitive.compact
+          primitive.positive δ₁ δ₂ _)) _))
+    (CanonicalLiteralExceptionalUnifiedChoice.constant_pos
+      (A := A) (σ := σ) (η := η) (hS := hS) primitive ε _ hε _)
 
 end FixedCoefficient
 
@@ -127,7 +148,11 @@ heterogeneous identity; no table is reconstructed or selected again. -/
 theorem result_original_property
     (property : ∀ n, CanonicalLiteralRectangles.Atoms (K := K) n → Prop)
     (h : property n seed) : property result.val.history.originalCount result.val.history.original := by
-  sorry
+  have he : (⟨result.val.history.originalCount, result.val.history.original⟩ :
+      Σ n : ℕ, CanonicalLiteralRectangles.Atoms (K := K) n) = ⟨n, seed⟩ :=
+    Sigma.ext result.property.2.2.2.2.2.2.2.1 result.property.2.2.2.2.2.2.2.2.1
+  exact (congrArg (fun q : Σ n : ℕ, CanonicalLiteralRectangles.Atoms (K := K) n =>
+    property q.1 q.2) he).mpr h
 
 end ResultProvenance
 
@@ -299,7 +324,14 @@ local notation "uniformCoefficient" ξ =>
 include hslotLossNonneg hslots in
 private theorem removed_slot_sum_le {n : ℕ} (keep : Finset (Fin n))
     (hn : n ≤ cap) : ∑ i ∈ Finset.univ \ keep, slotLoss ≤ loss / 16 := by
-  sorry
+  have hc : (Finset.univ \ keep).card ≤ cap :=
+    (by simpa only [Fintype.card_fin] using Finset.card_le_univ (Finset.univ \ keep)).trans hn
+  calc
+    _ = ((Finset.univ \ keep).card : ℝ) * slotLoss := by
+      simp only [Finset.sum_const, nsmul_eq_mul]
+    _ ≤ (cap : ℝ) * slotLoss :=
+      mul_le_mul_of_nonneg_right (Nat.cast_le.mpr hc) hslotLossNonneg
+    _ ≤ loss / 16 := hslots
 
 section Centered
 
@@ -322,7 +354,234 @@ theorem centered_small_loss_bound (hc : centered = true) (hpadding : 0 ≤ paddi
       envelope * uniformCoefficient ξ *
         Z ^ ((padding + 3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step) /
           radical * Z ^ (-idealLogLength Z divisor) := by
-  sorry
+  have hdomain : PairedEngineDomain true (data x) a Z Y₁ Y₂ floor padding := by
+    simpa only [hc] using domain
+  have hcorrection : Q.correction ∈ (data x).theta := by
+    rcases Q.correction_mem x with h | h
+    · simpa only [h] using hone
+    · exact h
+  have hseedPrime : (seed).PrimeNormWindow annulus :=
+    Q.literalOriginalAtoms_primeNormWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      original annulus ht hwindowUpper
+  have hseedLower : ∀ i, ∀ p ∈ (seed).slots i,
+      Z ^ (seed).length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+    Q.literalOriginalAtoms_primeLowerWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      original annulus (zero_lt_one.trans_le hannulus) ht hwindowLower
+  have hseedProduct : (seed).scaleProduct false = Z ^ (G).skeleton.A := by
+    change (seed).scaleProduct false = Z ^ (a.n₁ + a.n₂ + a.z)
+    simp only [CanonicalLiteralRectangles.Atoms.scaleProduct,
+      CompleteMovingRowRecipe.literalOriginalAtoms, Bool.false_eq_true, if_false,
+      domain.total_length, SlotGeometry.totalLength,
+      Real.rpow_add (zero_lt_one.trans hZ), Real.rpow_sum_of_pos (zero_lt_one.trans hZ)]
+  have hcapL : (LD).history.originalCount ≤ cap := by
+    rw [leftResult.property.2.2.2.2.2.2.2.1]
+    exact hcap
+  have hprimeOriginalL : (LD).history.original.PrimeNormWindow annulus :=
+    result_original_property (result := leftResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
+  have hproductOriginalL : (LD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
+    result_original_property (result := leftResult)
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerL : ∀ i, ∀ p ∈ (LD).history.original.slots i,
+      Z ^ (LD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+    result_original_property (result := leftResult)
+      (fun _ d => ∀ i, ∀ p ∈ d.slots i,
+        Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
+  have hprimeL : (LD).atoms.PrimeNormWindow annulus :=
+    leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
+  have hslotL : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((LD).model.slot i) ≤ amplitude := by
+    intro i
+    exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
+      (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+      ((LD).model.slot i) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+  have hprofileL₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((LD).model.left false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hprofileL₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((LD).model.right false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hcL : SamePlainProfiles (LD).model := leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hc
+  have hseedLeftL : ∀ r, (LD).history.original.scale₁ r =
+      if r then Y₁ else Z ^ a.n₁ :=
+    result_original_property (result := leftResult)
+      (fun _ d => ∀ r, d.scale₁ r = if r then Y₁ else Z ^ a.n₁) (fun _ => rfl)
+  have hseedRightL : ∀ r, (LD).history.original.scale₂ r =
+      if r then Y₂ else Z ^ a.n₂ :=
+    result_original_property (result := leftResult)
+      (fun _ d => ∀ r, d.scale₂ r = if r then Y₂ else Z ^ a.n₂) (fun _ => rfl)
+  have hslotsL : ∑ i ∈ Finset.univ \ (LF).allocation.keep, slotLoss ≤ loss / 16 :=
+    removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
+      (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
+      (LF).allocation.keep ((LD).count_le cap hcapL)
+  have hcapR : (RD).history.originalCount ≤ cap := by
+    rw [rightResult.property.2.2.2.2.2.2.2.1]
+    exact hcap
+  have hprimeOriginalR : (RD).history.original.PrimeNormWindow annulus :=
+    result_original_property (result := rightResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
+  have hproductOriginalR : (RD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
+    result_original_property (result := rightResult)
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerR : ∀ i, ∀ p ∈ (RD).history.original.slots i,
+      Z ^ (RD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+    result_original_property (result := rightResult)
+      (fun _ d => ∀ i, ∀ p ∈ d.slots i,
+        Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
+  have hprimeR : (RD).atoms.PrimeNormWindow annulus :=
+    rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
+  have hslotR : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((RD).model.slot i) ≤ amplitude := by
+    intro i
+    exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
+      (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+      ((RD).model.slot i) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+  have hprofileR₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((RD).model.left false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hprofileR₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((RD).model.right false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hcR : SamePlainProfiles (RD).model := rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.1 hc
+  have hseedLeftR : ∀ r, (RD).history.original.scale₁ r =
+      if r then Y₁ else Z ^ a.n₁ :=
+    result_original_property (result := rightResult)
+      (fun _ d => ∀ r, d.scale₁ r = if r then Y₁ else Z ^ a.n₁) (fun _ => rfl)
+  have hseedRightR : ∀ r, (RD).history.original.scale₂ r =
+      if r then Y₂ else Z ^ a.n₂ :=
+    result_original_property (result := rightResult)
+      (fun _ d => ∀ r, d.scale₂ r = if r then Y₂ else Z ^ a.n₂) (fun _ => rfl)
+  have hslotsR : ∑ i ∈ Finset.univ \ (RF).allocation.keep, slotLoss ≤ loss / 16 :=
+    removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
+      (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
+      (RF).allocation.keep ((RD).count_le cap hcapR)
+  have hscalarActual : (historyActualSecondInput P R extra (LD).history).commonScalar
+      (LD).history.second ≠ 0 := by
+    rw [leftResult.property.2.2.2.2.2.2.2.2.2.2.2.1]
+    exact hscalar
+  have hpair : (UL).constant * (UR).constant ≤
+      CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus *
+        amplitude ^ CanonicalLiteralExceptionalAtomBudget.pairDegree cap :=
+    CanonicalLiteralExceptionalPaidAtomBudget.original_pair_constant_le cap annulus amplitude
+      hannulus hamplitudeOne (LF).allocation (RF).allocation
+      Z ((LD).targetTotal (G).skeleton.A) Z ((RD).targetTotal (G).skeleton.A)
+      (LD).atoms.length (RD).atoms.length (fun i => ((LD).atoms.length_pos i).le)
+      (fun i => ((RD).atoms.length_pos i).le) ((LD).count_le cap hcapL) ((RD).count_le cap hcapR)
+  have hgrowth := CanonicalLiteralExceptionalUnifiedChoice.growth_le
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    (fourierHeight ξ) (fourierHeight_nonneg ξ)
+  have hcoefficient (c H : ℝ) (hcH : 0 ≤ c * H)
+      (hbound : c * H ≤ allConstant * (1 + fourierHeight ξ) ^ heightOrder) :
+      ((Γ.index : ℝ) * c * ((UL).constant * (UR).constant)) * amplitude ^ 4 * H ≤
+        uniformCoefficient ξ := by
+    have h := scalar_coefficient_le (Γ.index : ℝ) ((UL).constant * (UR).constant) (c * H)
+      profileCoefficient rawAmplitude
+      (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus)
+      allConstant ((1 + fourierHeight ξ) ^ heightOrder)
+      (CanonicalLiteralExceptionalAtomBudget.pairDegree cap)
+      (Nat.cast_nonneg _) (zero_le_one.trans hprofileCoefficient)
+      (zero_le_one.trans hrawAmplitude)
+      (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant_pos cap annulus hannulus).le
+      hcH hpair hbound
+    calc
+      _ = (Γ.index : ℝ) * ((UL).constant * (UR).constant) * amplitude ^ 4 * (c * H) := by ring
+      _ ≤ _ := h
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  by_cases horder : idealLogLength Z (primePowerProduct b.primes b.leftMultiplicity).val ≤
+      idealLogLength Z (primePowerProduct b.primes b.rightMultiplicity).val
+  · have hb := CanonicalLiteralExceptionalRelativeSource.centered_small_loss_bound
+      (chart := chart) (P := P) (R := R)
+      (hclass := hclass) (hsector := hsector) (X := X)
+      (hX := hX) (label := label) (F := F)
+      (parent := data x) (oldMoving := Q.moving) (correction := Q.correction)
+      (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair)
+      (hcorr := hcorrection) (remaining := Q.remaining) («extra» := extra)
+      (firstSupport := firstSupport) (hfirst := hfirstSupport) (hextra := rfl)
+      (hone := hone) (hroot := hroot) (hemb := hemb)
+      (annulus := annulus) («amplitude» := amplitude) (hannulus := hannulus)
+      («hamplitude» := hamplitude) (cap := cap) («LD» := LD)
+      («RD» := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+      (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound) (hrowProfile := hrowProfile)
+      (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+      (hfirstL := leftResult.property.2.2.2.2.2.2.2.2.2.1) (hfirstR := rightResult.property.2.2.2.2.2.2.2.2.2.1) (hsecondL := leftResult.property.2.2.2.2.2.2.2.2.2.2.1)
+      (hsecondR := rightResult.property.2.2.2.2.2.2.2.2.2.2.1) (hplaces := hplaces) (hscalar := hscalarActual)
+      (primitive := primitive) (hZ := hZ) (hstep := hstep)
+      (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+      (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff)
+      (hproduct := hproduct) (hcapL := hcapL) (hcapR := hcapR)
+      (hprimeOriginalL := hprimeOriginalL) (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+      (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+      (hslotL := hslotL) (hslotR := hslotR) («hamplitudeOne» := hamplitudeOne)
+      (hslotLoss := hslotLoss) (normalization := normalization) (firstTotal := firstTotal)
+      (hprimeLowerL := hprimeLowerL) (hprimeLowerR := hprimeLowerR) (hnormalization := hnormalization)
+      (domain := hdomain) (ε := ε) (widthMax := widthMax)
+      (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hcolumnLoss)
+      (hcutoffExponent := hcutoffExponent) (hseedLeftL := hseedLeftL) (hseedRightL := hseedRightL)
+      (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR) (hcL := hcL)
+      (hcR := hcR) (horder := horder) (hwidth := hwidth)
+      (hthreshold := hthreshold) (hold := hold) (hprofileL₁ := hprofileL₁.1)
+      (hprofileL₂ := hprofileL₂.1) (hprofileR₁ := hprofileR₁.1) (hprofileR₂ := hprofileR₂.1)
+      (htotal := htotal) (loss := loss) (hloss := hloss)
+      (hsupport := hsupport) (hcutoffPaid := hcutoffPaid) (hpadding := hpadding)
+      (hvolume := hvolume) (hslots := hslotsR)
+      ξ
+    have hpositive := CanonicalLiteralExceptionalPaidSource.centeredConstant_pos
+      (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    have hc := hcoefficient
+      (CanonicalLiteralExceptionalPaidSource.centeredConstant (A := A) (σ := σ) (η := η) (hS := hS)
+        primitive ε maskExp hε hmaskExp)
+      ((1 + fourierHeight ξ) ^ (CanonicalLiteralExceptionalPaidSource.centeredOrder
+        (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp))
+      (mul_nonneg hpositive.le (by positivity)) hgrowth.1
+    apply coefficient_mono (henvelope := henv) (hpower := Real.rpow_nonneg (zero_le_one.trans hZ.le) _)
+      (hradical := Nat.cast_nonneg _) (hdivisor := Real.rpow_nonneg (zero_le_one.trans hZ.le) _) (hcoefficient := hc)
+    simpa only [rightResult.property.2.2.2.2.2.1] using hb
+  · have horder := lt_of_not_ge horder
+    have hb := CanonicalLiteralExceptionalRightRelativeSource.centered_right_small_loss_bound
+      (chart := chart) (P := P) (R := R)
+      (hclass := hclass) (hsector := hsector) (X := X)
+      (hX := hX) (label := label) (F := F)
+      (parent := data x) (oldMoving := Q.moving) (correction := Q.correction)
+      (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair)
+      (hcorr := hcorrection) (remaining := Q.remaining) («extra» := extra)
+      (firstSupport := firstSupport) (hfirst := hfirstSupport) (hextra := rfl)
+      (hone := hone) (hroot := hroot) (hemb := hemb)
+      (annulus := annulus) («amplitude» := amplitude) (hannulus := hannulus)
+      («hamplitude» := hamplitude) (cap := cap) («LD» := LD)
+      («RD» := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+      (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound) (hrowProfile := hrowProfile)
+      (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+      (hfirstL := leftResult.property.2.2.2.2.2.2.2.2.2.1) (hfirstR := rightResult.property.2.2.2.2.2.2.2.2.2.1) (hsecondL := leftResult.property.2.2.2.2.2.2.2.2.2.2.1)
+      (hsecondR := rightResult.property.2.2.2.2.2.2.2.2.2.2.1) (hplaces := hplaces) (hscalar := hscalarActual)
+      (primitive := primitive) (hZ := hZ) (hstep := hstep)
+      (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+      (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff)
+      (hproduct := hproduct) (hcapL := hcapL) (hcapR := hcapR)
+      (hprimeOriginalL := hprimeOriginalL) (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+      (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+      (hslotL := hslotL) (hslotR := hslotR) («hamplitudeOne» := hamplitudeOne)
+      (hslotLoss := hslotLoss) (normalization := normalization) (firstTotal := firstTotal)
+      (hprimeLowerL := hprimeLowerL) (hprimeLowerR := hprimeLowerR) (hnormalization := hnormalization)
+      (domain := hdomain) (ε := ε) (widthMax := widthMax)
+      (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hcolumnLoss)
+      (hcutoffExponent := hcutoffExponent) (hseedLeftL := hseedLeftL) (hseedRightL := hseedRightL)
+      (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR) (hcL := hcL)
+      (hcR := hcR) (horder := horder) (hwidth := hwidth)
+      (hthreshold := hthreshold) (hold := hold) (hprofileL₁ := hprofileL₁.2.1)
+      (hprofileL₂ := hprofileL₂.2.1) (hprofileR₁ := hprofileR₁.2.1) (hprofileR₂ := hprofileR₂.2.1)
+      (htotal := htotal) (loss := loss) (hloss := hloss)
+      (hsupport := hsupport) (hcutoffPaid := hcutoffPaid) (hpadding := hpadding)
+      (hvolume := hvolume) (hslots := hslotsL)
+      ξ
+    have hpositive := CanonicalLiteralExceptionalPaidRightSource.rightConstant_pos
+      (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    have hc := hcoefficient
+      (CanonicalLiteralExceptionalPaidRightSource.rightConstant (A := A) (σ := σ) (η := η) (hS := hS)
+        primitive ε maskExp hε hmaskExp)
+      ((1 + fourierHeight ξ) ^ (CanonicalLiteralExceptionalPaidRightSource.rightOrder
+        (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp))
+      (mul_nonneg hpositive.le (by positivity)) hgrowth.2.1
+    apply coefficient_mono (henvelope := henv) (hpower := Real.rpow_nonneg (zero_le_one.trans hZ.le) _)
+      (hradical := Nat.cast_nonneg _) (hdivisor := Real.rpow_nonneg (zero_le_one.trans hZ.le) _) (hcoefficient := hc)
+    simpa only [leftResult.property.2.2.2.2.2.1] using hb
 end Centered
 
 include hclass hsector hrawAmplitude hannulus firstProfile original ht hwindowUpper hwindowLower domain hcap
@@ -337,7 +596,158 @@ theorem ordinary_small_loss_bound (hc : centered = false) (ξ : Joint) :
       envelope * uniformCoefficient ξ *
         Z ^ ((3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step) /
           radical * Z ^ (-idealLogLength Z divisor) := by
-  sorry
+  have hdomain : PairedEngineDomain false (data x) a Z Y₁ Y₂ floor padding := by
+    simpa only [hc] using domain
+  have hcorrection : Q.correction ∈ (data x).theta := by
+    rcases Q.correction_mem x with h | h
+    · simpa only [h] using hone
+    · exact h
+  have hseedPrime : (seed).PrimeNormWindow annulus :=
+    Q.literalOriginalAtoms_primeNormWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      original annulus ht hwindowUpper
+  have hseedLower : ∀ i, ∀ p ∈ (seed).slots i,
+      Z ^ (seed).length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+    Q.literalOriginalAtoms_primeLowerWindow x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      original annulus (zero_lt_one.trans_le hannulus) ht hwindowLower
+  have hseedProduct : (seed).scaleProduct false = Z ^ (G).skeleton.A := by
+    change (seed).scaleProduct false = Z ^ (a.n₁ + a.n₂ + a.z)
+    simp only [CanonicalLiteralRectangles.Atoms.scaleProduct,
+      CompleteMovingRowRecipe.literalOriginalAtoms, Bool.false_eq_true, if_false,
+      domain.total_length, SlotGeometry.totalLength,
+      Real.rpow_add (zero_lt_one.trans hZ), Real.rpow_sum_of_pos (zero_lt_one.trans hZ)]
+  have hcapL : (LD).history.originalCount ≤ cap := by
+    rw [leftResult.property.2.2.2.2.2.2.2.1]
+    exact hcap
+  have hprimeOriginalL : (LD).history.original.PrimeNormWindow annulus :=
+    result_original_property (result := leftResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
+  have hproductOriginalL : (LD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
+    result_original_property (result := leftResult)
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerL : ∀ i, ∀ p ∈ (LD).history.original.slots i,
+      Z ^ (LD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+    result_original_property (result := leftResult)
+      (fun _ d => ∀ i, ∀ p ∈ d.slots i,
+        Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
+  have hprimeL : (LD).atoms.PrimeNormWindow annulus :=
+    leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
+  have hslotL : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((LD).model.slot i) ≤ amplitude := by
+    intro i
+    exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
+      (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+      ((LD).model.slot i) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+  have hprofileL₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((LD).model.left false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hprofileL₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((LD).model.right false) amplitude (leftResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hslotsL : ∑ i ∈ Finset.univ \ (LF).allocation.keep, slotLoss ≤ loss / 16 :=
+    removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
+      (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
+      (LF).allocation.keep ((LD).count_le cap hcapL)
+  have hcapR : (RD).history.originalCount ≤ cap := by
+    rw [rightResult.property.2.2.2.2.2.2.2.1]
+    exact hcap
+  have hprimeOriginalR : (RD).history.original.PrimeNormWindow annulus :=
+    result_original_property (result := rightResult) (fun _ d => d.PrimeNormWindow annulus) hseedPrime
+  have hproductOriginalR : (RD).history.original.scaleProduct false = Z ^ (G).skeleton.A :=
+    result_original_property (result := rightResult)
+      (fun _ d => d.scaleProduct false = Z ^ (G).skeleton.A) hseedProduct
+  have hprimeLowerR : ∀ i, ∀ p ∈ (RD).history.original.slots i,
+      Z ^ (RD).history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ) :=
+    result_original_property (result := rightResult)
+      (fun _ d => ∀ i, ∀ p ∈ d.slots i,
+        Z ^ d.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) hseedLower
+  have hprimeR : (RD).atoms.PrimeNormWindow annulus :=
+    rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2 annulus hseedPrime
+  have hslotR : ∀ i, SchwartzMap.seminorm ℂ 0 0 ((RD).model.slot i) ≤ amplitude := by
+    intro i
+    exact CanonicalLiteralExceptionalUnifiedChoice.zero_order_bound
+      (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+      ((RD).model.slot i) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 i)
+  have hprofileR₁ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((RD).model.left false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hprofileR₂ := CanonicalLiteralExceptionalUnifiedChoice.profile_bounds
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    ((RD).model.right false) amplitude (rightResult.property.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.1 false)
+  have hslotsR : ∑ i ∈ Finset.univ \ (RF).allocation.keep, slotLoss ≤ loss / 16 :=
+    removed_slot_sum_le (cap := cap) (slotLoss := slotLoss) (loss := loss)
+      (hslotLossNonneg := hslotLossNonneg) (hslots := hslots)
+      (RF).allocation.keep ((RD).count_le cap hcapR)
+  have hscalarActual : (historyActualSecondInput P R extra (LD).history).commonScalar
+      (LD).history.second ≠ 0 := by
+    rw [leftResult.property.2.2.2.2.2.2.2.2.2.2.2.1]
+    exact hscalar
+  have hpair : (UL).constant * (UR).constant ≤
+      CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus *
+        amplitude ^ CanonicalLiteralExceptionalAtomBudget.pairDegree cap :=
+    CanonicalLiteralExceptionalPaidAtomBudget.original_pair_constant_le cap annulus amplitude
+      hannulus hamplitudeOne (LF).allocation (RF).allocation
+      Z ((LD).targetTotal (G).skeleton.A) Z ((RD).targetTotal (G).skeleton.A)
+      (LD).atoms.length (RD).atoms.length (fun i => ((LD).atoms.length_pos i).le)
+      (fun i => ((RD).atoms.length_pos i).le) ((LD).count_le cap hcapL) ((RD).count_le cap hcapR)
+  have hgrowth := CanonicalLiteralExceptionalUnifiedChoice.growth_le
+    (A := A) (σ := σ) (η := η) (hS := hS) primitive ε maskExp hε hmaskExp
+    (fourierHeight ξ) (fourierHeight_nonneg ξ)
+  have hcoefficient (c H : ℝ) (hcH : 0 ≤ c * H)
+      (hbound : c * H ≤ allConstant * (1 + fourierHeight ξ) ^ heightOrder) :
+      ((Γ.index : ℝ) * c * ((UL).constant * (UR).constant)) * amplitude ^ 4 * H ≤
+        uniformCoefficient ξ := by
+    have h := scalar_coefficient_le (Γ.index : ℝ) ((UL).constant * (UR).constant) (c * H)
+      profileCoefficient rawAmplitude
+      (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant (K := K) cap annulus)
+      allConstant ((1 + fourierHeight ξ) ^ heightOrder)
+      (CanonicalLiteralExceptionalAtomBudget.pairDegree cap)
+      (Nat.cast_nonneg _) (zero_le_one.trans hprofileCoefficient)
+      (zero_le_one.trans hrawAmplitude)
+      (CanonicalLiteralExceptionalPaidAtomBudget.pairConstant_pos cap annulus hannulus).le
+      hcH hpair hbound
+    calc
+      _ = (Γ.index : ℝ) * ((UL).constant * (UR).constant) * amplitude ^ 4 * (c * H) := by ring
+      _ ≤ _ := h
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  have hb := CanonicalLiteralExceptionalRelativeSource.ordinary_small_loss_bound
+    (chart := chart) (P := P) (R := R)
+    (hclass := hclass) (hsector := hsector) (X := X)
+    (hX := hX) (label := label) (F := F)
+    (parent := data x) (oldMoving := Q.moving) (correction := Q.correction)
+    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair)
+    (hcorr := hcorrection) (remaining := Q.remaining) («extra» := extra)
+    (firstSupport := firstSupport) (hfirst := hfirstSupport) (hextra := rfl)
+    (hone := hone) (hroot := hroot) (hemb := hemb)
+    (annulus := annulus) («amplitude» := amplitude) (hannulus := hannulus)
+    («hamplitude» := hamplitude) (cap := cap) («LD» := LD)
+    («RD» := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+    (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound) (hrowProfile := hrowProfile)
+    (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+    (hfirstL := leftResult.property.2.2.2.2.2.2.2.2.2.1) (hfirstR := rightResult.property.2.2.2.2.2.2.2.2.2.1) (hsecondL := leftResult.property.2.2.2.2.2.2.2.2.2.2.1)
+    (hsecondR := rightResult.property.2.2.2.2.2.2.2.2.2.2.1) (hplaces := hplaces) (hscalar := hscalarActual)
+    (primitive := primitive) (hZ := hZ) (hstep := hstep)
+    (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+    (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff)
+    (hproduct := hproduct) (hcapL := hcapL) (hcapR := hcapR)
+    (hprimeOriginalL := hprimeOriginalL) (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+    (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+    (hslotL := hslotL) (hslotR := hslotR) («hamplitudeOne» := hamplitudeOne)
+    (hslotLoss := hslotLoss) (normalization := normalization) (firstTotal := firstTotal)
+    (hprimeLowerL := hprimeLowerL) (hprimeLowerR := hprimeLowerR) (hnormalization := hnormalization)
+    (domain := hdomain) (hprofileL₁ := hprofileL₁.2.2) (hprofileL₂ := hprofileL₂.2.2)
+    (hprofileR₁ := hprofileR₁.2.2) (hprofileR₂ := hprofileR₂.2.2) (htotal := htotal)
+    (loss := loss) (hloss := hloss) (hsupport := hsupport)
+    (hcutoffPaid := hcutoffPaid) (hslots := hslotsR)
+    ξ
+  have hpositive := ordinaryConstant_pos (A := A) (σ := σ) (η := η) (hS := hS) primitive
+  have hc := hcoefficient
+    (ordinaryConstant (A := A) (σ := σ) (η := η) (hS := hS) primitive) 1
+    (by simpa only [mul_one] using hpositive.le)
+    (by simpa only [mul_one] using hgrowth.2.2)
+  simp only [mul_one] at hc
+  apply coefficient_mono (henvelope := henv) (hpower := Real.rpow_nonneg (zero_le_one.trans hZ.le) _)
+    (hradical := Nat.cast_nonneg _) (hdivisor := Real.rpow_nonneg (zero_le_one.trans hZ.le) _) (hcoefficient := hc)
+  simpa only [rightResult.property.2.2.2.2.2.1] using hb
 
 end ActualPair
 

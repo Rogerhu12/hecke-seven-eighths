@@ -39,7 +39,9 @@ def profileDegree (cap : ℕ) : ℕ :=
     CanonicalLiteralExceptionalSourceBudget.profileDegree cap
 
 theorem profileDegree_eq (cap : ℕ) : profileDegree cap = 12 * cap + 10 := by
-  sorry
+  unfold profileDegree CanonicalLiteralExceptionalAtomBudget.commonDegree
+  rw [CanonicalLiteralExceptionalSourceBudget.profileDegree_eq]
+  omega
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -74,7 +76,15 @@ local notation "placed" => placedAtoms (σ := σ) Q x recipe a Z t Y₁ Y₂ cen
 
 /-- All masks are calculated from the original binary mask operations. -/
 theorem placedAtoms_mask : (placed).characters.MaskIndicator := by
-  sorry
+  have hbase : (bare).characters.MaskIndicator :=
+    ((((Q.literalSourceCharacters_maskIndicator x).restrictSlots first.keep).movingSingleton
+      P R phases.firstIdeal phases.firstElement phases.first_generates).movingSingleton
+      P R phases.poolIdeal phases.poolElement phases.pool_generates).movingSingleton
+      P R phases.unitIdeal phases.unitElement phases.unit_generates
+  have hplaced : ((bare).onAtlas atlas count).characters.MaskIndicator := by
+    cases count
+    exact hbase
+  exact hplaced.deleteMask extra
 
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
@@ -88,7 +98,14 @@ include original hzero ht hprime hδ in
 vanishes. No carrier is removed to obtain the estimate. -/
 theorem placedAtoms_primeCost_le (i : Fin atlas.slotCount) (p : HeightOneSpectrum (𝓞 K)) :
     (placed).primeAtomCost i p ≤ amplitude ^ 2 := by
-  sorry
+  change (((bare).onAtlas atlas count).redistributeNormFactors δ₁ δ₂).primeAtomCost i p ≤ _
+  rw [← CanonicalLiteralRectangles.Atoms.redistributeNormFactors_onAtlas,
+    CanonicalLiteralRectangles.Atoms.primeAtomCost_onAtlas,
+    CanonicalLiteralRectangles.Atoms.secondInput_redistributeNormFactors]
+  exact Q.literalOriginalAtoms_redistributedSecondInput_primeAtomCost_le x recipe a Z t Y₁ Y₂
+    centered hZ hY₁ hY₂ original hzero ht hprime first power phases.firstIdeal phases.poolIdeal
+    phases.unitIdeal phases.firstElement phases.poolElement phases.unitElement
+    phases.first_generates phases.pool_generates phases.unit_generates δ₁ δ₂ hδ _ p
 
 end PlacedAtoms
 
@@ -145,8 +162,11 @@ include hlive in
 /-- The actual fibre multiplier and its live original source prove the
 row window. A bare leaf's nonemptiness is never substituted for it. -/
 theorem rowProfile_one : ∀ q ∈ (v.chart.actualRows ∅ cutoff hcutoff v.rowLabel).rows,
-    ‖v.chart.weight q‖ ≤ 1 := by
-  sorry
+    ‖v.chart.weight q‖ ≤ 1 :=
+  ActualGaussStage.canonicalSector_fiberLeaf_rowProfile_one
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    P δ₂ hδ₂ hδ₂half source retainedScale Z g hscale (zero_lt_one.trans hZ)
+    cutoff hcutoff hnorm dimension width character dyad LC RC exceptional kernel point ⟨v, j⟩ hlive
 
 local notation "hclass" => ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock_nonunitLabelStable
   (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν) P δ₂ hδ₂ hδ₂half source
@@ -204,15 +224,45 @@ include original hzero ht hprime hδ hcap hamplitude in
 The first atlas count and both original occurrence maps are retained. -/
 theorem commonEnvelope_le :
     (W).commonEnvelope ≤ amplitude ^ CanonicalLiteralExceptionalAtomBudget.commonDegree cap := by
-  sorry
+  have hleftCap : (LC.branch v.2.2.1).slotCount ≤ cap := by
+    rw [congrArg Sigma.fst dictionaryLeft]
+    exact (by simpa only [Fintype.card_fin] using Finset.card_le_univ firstLeft.keep).trans hcap
+  have hrightCap : (RC.branch v.2.2.2.1).slotCount ≤ cap := by
+    rw [congrArg Sigma.fst dictionaryRight]
+    exact (by simpa only [Fintype.card_fin] using Finset.card_le_univ firstRight.keep).trans hcap
+  have hB : 1 ≤ amplitude ^ 2 := one_le_pow₀ hamplitude
+  have hleft : ∀ i ∈ Finset.univ \ (W).leftAtoms.keep,
+      (W).leftAtoms.annulus i * (W).leftAtoms.profile i ≤ amplitude ^ 2 := by
+    intro i _
+    change (v.literalLeftOriginal leftAtoms).primeAtomCost i (v.literalLeftBranch.witness.2 i) ≤ _
+    rw [CanonicalLiteralRectangles.Atoms.primeAtomCost_onAtlas]
+    exact placedAtoms_primeCost_le (σ := σ) Q x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      phases power δ₁ δ₂ extra firstLeft v.literalLeftParent (congrArg Sigma.fst dictionaryLeft).symm
+      original hzero ht hprime hδ _ _
+  have hright : ∀ i ∈ Finset.univ \ (W).rightAtoms.keep,
+      (W).rightAtoms.annulus i * (W).rightAtoms.profile i ≤ amplitude ^ 2 := by
+    intro i _
+    change (v.literalRightOriginal rightAtoms).primeAtomCost i (v.literalRightBranch.witness.2 i) ≤ _
+    rw [CanonicalLiteralRectangles.Atoms.primeAtomCost_onAtlas]
+    exact placedAtoms_primeCost_le (σ := σ) Q x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      phases power δ₁ δ₂ extra firstRight v.literalRightParent (congrArg Sigma.fst dictionaryRight).symm
+      original hzero ht hprime hδ _ _
+  have h := (W).commonEnvelope_le_from_atoms cap (amplitude ^ 2) hB hleftCap hrightCap hB hleft hright
+  simpa only [← pow_mul, CanonicalLiteralExceptionalAtomBudget.commonDegree,
+    Nat.mul_add, Nat.mul_one] using h
 
 include original hzero ht hprime hδ hcap hamplitude in
 /-- The actual theta restriction leaves this same numerical envelope. -/
 theorem restricted_commonEnvelope_le
     (predicate : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop) :
     ((W).restrictRows predicate).commonEnvelope ≤
-      amplitude ^ CanonicalLiteralExceptionalAtomBudget.commonDegree cap := by
-  sorry
+      amplitude ^ CanonicalLiteralExceptionalAtomBudget.commonDegree cap :=
+  commonEnvelope_le (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    Q x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ phases power δ₁ δ₂ extra
+      hδ₂ hδ₂half source retainedScale g hscale cutoff hcutoff hnorm dimension width
+        character dyad v exceptional kernel point j hlive firstLeft firstRight
+          indexLeft indexRight dictionaryLeft dictionaryRight
+            original hzero ht hprime hδ cap hcap hamplitude
 
 include original hzero ht hprime hδ hcap hamplitude in
 /-- The actual common envelope is absorbed into the same raw amplitude
@@ -226,7 +276,25 @@ theorem common_source_coefficient_le
           frequency) ≤
       (annulus ^ cap * orbitalFieldFactor K * coefficient) *
         amplitude ^ profileDegree cap * frequency := by
-  sorry
+  have henv := commonEnvelope_le (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    Q x recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ phases power δ₁ δ₂ extra
+      hδ₂ hδ₂half source retainedScale g hscale cutoff hcutoff hnorm dimension width
+        character dyad v exceptional kernel point j hlive firstLeft firstRight
+          indexLeft indexRight dictionaryLeft dictionaryRight
+            original hzero ht hprime hδ cap hcap hamplitude
+  have hfactor : 0 ≤ annulus ^ cap * orbitalFieldFactor K * coefficient *
+      amplitude ^ CanonicalLiteralExceptionalSourceBudget.profileDegree cap * frequency :=
+    mul_nonneg (mul_nonneg (mul_nonneg (mul_nonneg (pow_nonneg hannulus _)
+      (orbitalFieldFactor_nonneg K)) hcoefficient)
+        (pow_nonneg (le_trans (by norm_num) hamplitude) _)) hfrequency
+  calc
+    _ = (W).commonEnvelope * (annulus ^ cap * orbitalFieldFactor K * coefficient *
+        amplitude ^ CanonicalLiteralExceptionalSourceBudget.profileDegree cap * frequency) := by ring
+    _ ≤ amplitude ^ CanonicalLiteralExceptionalAtomBudget.commonDegree cap *
+        (annulus ^ cap * orbitalFieldFactor K * coefficient *
+          amplitude ^ CanonicalLiteralExceptionalSourceBudget.profileDegree cap * frequency) :=
+      mul_le_mul_of_nonneg_right henv hfactor
+    _ = _ := by rw [profileDegree, pow_add]; ring
 
 end ActualPhysicalSource
 

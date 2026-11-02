@@ -294,7 +294,48 @@ theorem literalPrimitivePooled_rawCost_le_kernel
         ∑ b : (completeFamily analytic).active Finset.univ,
           ∫ z, (completeFamily analytic).childPair Finset.univ b z
             ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by
-  sorry
+  have hcanonical : 0 ≤ (sIntegerTensorTerm K A.Sf
+      (traceSchwartzToMixed K (CanonicalRowBall.archTest K A.Sf 1))
+      (rowBallFiniteFamily K A.Sf 1) 0).re := by
+    rw [CanonicalRowBall.originalTensor_zero, Complex.ofReal_re]
+    exact inv_nonneg.mpr (CanonicalRowBall.mass_pos K A.Sf).le
+  have conditions : (stages).DualSourceConditions := by
+    intro DE D
+    constructor
+    · intro S χ
+      exact {
+        mask := by intro tag; rcases tag with u | p | p | p <;> rfl
+        origin_nonneg := by intro tag; rcases tag with u | p | p | p <;> exact hcanonical }
+    · intro S χ
+      exact {
+        mask := by intro tag; rcases tag with u | p | p | p <;> rfl
+        origin_nonneg := by intro tag; rcases tag with u | p | p | p <;> exact hcanonical }
+  have hraw := (stages).supported.gated.rawRowCost_le_dual_live
+    T.supported.gated conditions.supported.gated (raw).originalAtlas exceptional normalization
+    εzero Cerror Czero hstage
+  have hzero := T.supported_gated_dualSecondZeroBudget_le normalization εzero Czero hCzero
+  have htail := T.supported_gated_dualSecondTailBudget_le normalization Cerror hCerror
+  have hfiber : (source).fiber = 1 := rfl
+  rw [hfiber, Nat.cast_one, one_mul] at hraw
+  have hsame : (source).rawRowCost hDiff = (firstSource).rawRowCost hDiff := rfl
+  rw [hsame] at hraw
+  have htotal : (firstSource).rawRowCost hDiff ≤
+      (stages).dualSecondZeroBudget T normalization εzero Czero +
+        (stages).dualSecondTailBudget T normalization Cerror +
+        (stages).supported.gated.exceptionalBudget (raw).originalAtlas exceptional normalization +
+        (stages).supported.gated.ordinaryBudget (raw).originalAtlas exceptional normalization :=
+    hraw.trans (add_le_add (add_le_add (add_le_add hzero htail) le_rfl) le_rfl)
+  have hnormalized := div_le_div_of_nonneg_right htotal
+    (Real.rpow_nonneg (zero_le_one.trans hZ.le) (a.m + a.q))
+  simp only [add_div] at hnormalized
+  have hord : (stages).supported.gated.ordinaryBudget (raw).originalAtlas exceptional normalization /
+      Z ^ (a.m + a.q) ≤
+      ∑ b : (completeFamily analytic).active Finset.univ,
+          ∫ z, (completeFamily analytic).childPair Finset.univ b z
+            ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by
+    simpa only [ActualFirstSource.SecondStages.ordinaryBudget] using
+      ordinaryKernel analytic (a.m + a.q)
+  exact hnormalized.trans (add_le_add le_rfl hord)
 
 local notation "rawKernel" => literalPrimitivePooled_rawCost_le_kernel
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
@@ -347,7 +388,8 @@ theorem literalPrimitivePooled_parent_le_kernel
         ∑ b : (completeFamily analytic).active Finset.univ,
           ∫ z, (completeFamily analytic).childPair Finset.univ b z
             ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by
-  sorry
+  have hraw := rawKernel T hCerror hCzero hstage analytic
+  linarith only [hfirst, hraw, hexceptional]
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

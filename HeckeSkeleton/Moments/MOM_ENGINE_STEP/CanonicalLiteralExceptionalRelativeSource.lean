@@ -46,10 +46,14 @@ variable {leaf : ActualHybridLeaf K H U V} (X : leaf.ConstantAtomExtraction)
 /-- The original live coefficient, before its ordinary/exceptional
 partition, proves that its actual extracted common scalar is nonzero. -/
 theorem leftScalar_ne_zero_of_live (hlive : leaf.Live) : X.leftScalar ≠ 0 := by
-  sorry
+  obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.1
+  rw [X.left h hh i hi] at hc
+  exact left_ne_zero_of_mul hc
 
 theorem rightScalar_ne_zero_of_live (hlive : leaf.Live) : X.rightScalar ≠ 0 := by
-  sorry
+  obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.2
+  rw [X.right h hh i hi] at hc
+  exact left_ne_zero_of_mul hc
 
 end ActualHybridLeaf.ConstantAtomExtraction
 
@@ -75,7 +79,9 @@ theorem literalOriginalAtoms_primeLowerWindow
     ∀ i, ∀ p ∈ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slots i,
       Z ^ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).length i ≤
         annulus * (Ideal.absNorm p.asIdeal : ℝ) := by
-  sorry
+  intro i p hp
+  exact profiles.primeScale_le_annulus_mul_norm annulus Z t hannulus
+    (zero_lt_one.trans hZ) ht hwindow i p (Finset.mem_filter.mp hp).1
 
 end CompleteMovingRowRecipe
 
@@ -96,8 +102,8 @@ variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
 variable (S : ActualSecondCorrelationRows A σ H ι)
 variable (C : A.GeneralArithmeticContext σ η hS) (side : SecondColumnSide)
 
-theorem original_base : D.history.original.base = Z := by
-  sorry
+theorem original_base : D.history.original.base = Z :=
+  D.history.base_eq.symm.trans D.base_eq
 
 /-- The final source retains the complete first Gauss product. All
 second removed occurrences, scalar extractions and balancing are
@@ -106,7 +112,18 @@ theorem normalizationScale_eq_original :
     (D.frame S C side).normalizationScale =
       D.history.first.residualGaussScale Z D.history.original.length
         (D.history.original.scale₁ false) (D.history.original.scale₂ false) := by
-  sorry
+  change extraGaussScale D.atoms.gauss₁ D.atoms.gauss₂ D.atoms.gaussSlot = _
+  rw [D.gauss_eq]
+  have h := CanonicalLiteralExceptionalGauss.secondInput_scale D.history.original
+    D.history.first P R D.history.power D.history.firstFixed D.history.poolFixed
+    D.history.unitFixed D.history.firstElement D.history.poolElement D.history.unitElement
+    D.history.first_generates D.history.pool_generates D.history.unit_generates
+    D.history.firstTilt D.history.secondTilt (σ := σ)
+  change extraGaussScale (historySecondInput P R D.history).gauss₁
+    (historySecondInput P R D.history).gauss₂ (historySecondInput P R D.history).gaussSlot =
+      extraGaussScale D.history.original.gauss₁ D.history.original.gauss₂
+        D.history.original.gaussSlot * _ at h
+  rw [h, D.original_gauss, one_mul, D.original_base]
 
 /-- The lower central window is proved from original prime norms and
 the original scale-product identity, before the second allocation. -/
@@ -118,7 +135,29 @@ theorem normalizationScale_annulus_lower
       Z ^ D.history.original.length i ≤ annulus * (Ideal.absNorm p.asIdeal : ℝ)) :
     Z ^ (originalTotal - idealLogLength Z D.history.firstIdeal) ≤
       annulus ^ cap * (D.frame S C side).normalizationScale := by
-  sorry
+  have hZ : 1 < Z := D.base_eq ▸ D.atoms.base_gt_one
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hp := D.history.first.originalScale_le_compensated Z D.history.original.length
+    (D.history.original.scale₁ false) (D.history.original.scale₂ false) annulus cap
+    hz (D.history.original.scale₁_pos false).le (D.history.original.scale₂_pos false).le
+    hannulus hcap (fun i _ => hprime i (D.history.first.witness.2 i)
+      (Finset.mem_filter.mp (D.history.first.witness_slots i)).1)
+  have hproduct' : D.history.original.scale₁ false * D.history.original.scale₂ false *
+      (∏ i, Z ^ D.history.original.length i) = Z ^ originalTotal := by
+    simpa only [CanonicalLiteralRectangles.Atoms.scaleProduct, D.original_base] using hproduct
+  rw [hproduct'] at hp
+  change Z ^ originalTotal ≤ annulus ^ cap *
+    (D.history.first.residualGaussScale Z D.history.original.length
+      (D.history.original.scale₁ false) (D.history.original.scale₂ false) *
+        (Ideal.absNorm D.history.firstIdeal : ℝ)) at hp
+  have hnorm : 0 < (Ideal.absNorm D.history.firstIdeal : ℝ) := by
+    exact_mod_cast Nat.pos_of_ne_zero (fun h =>
+      D.history.firstIdeal_ne_zero (Ideal.absNorm_eq_zero_iff.mp h))
+  rw [Real.rpow_sub hz,
+    rpow_idealLogLength Z hZ D.history.firstIdeal D.history.firstIdeal_ne_zero]
+  apply (div_le_iff₀ hnorm).mpr
+  rw [D.normalizationScale_eq_original S C side]
+  convert hp using 1 <;> ring
 
 end CanonicalLiteralExceptionalPaidSource.OriginalSide
 
@@ -156,7 +195,24 @@ theorem original_pair_central
     Z ^ (originalTotal - idealLogLength Z left.history.firstIdeal) ≤
       annulus ^ cap * (Real.sqrt (left.frame S C .left).normalizationScale *
         Real.sqrt (right.frame S C .right).normalizationScale) := by
-  sorry
+  have hZ : 1 < Z := left.base_eq ▸ left.atoms.base_gt_one
+  have hl := left.normalizationScale_annulus_lower S C .left annulus hannulus cap
+    hcapL originalTotal hproductL hprimeL
+  have hr := right.normalizationScale_annulus_lower S C .right annulus hannulus cap
+    hcapR originalTotal hproductR hprimeR
+  rw [← hcommon] at hr
+  have h := second_source_central_scale_lower Z (zero_lt_one.trans hZ)
+    (originalTotal - idealLogLength Z left.history.firstIdeal)
+    (annulus ^ cap * (left.frame S C .left).normalizationScale)
+    (annulus ^ cap * (right.frame S C .right).normalizationScale) hl hr
+  have ha : 0 ≤ annulus ^ cap := pow_nonneg (zero_le_one.trans hannulus) _
+  apply h.trans_eq
+  rw [Real.sqrt_mul ha, Real.sqrt_mul ha]
+  calc
+    _ = (Real.sqrt (annulus ^ cap) * Real.sqrt (annulus ^ cap)) *
+        (Real.sqrt (left.frame S C .left).normalizationScale *
+          Real.sqrt (right.frame S C .right).normalizationScale) := by ring
+    _ = _ := by rw [← pow_two, Real.sq_sqrt ha]
 
 /-- The complete first ideal includes the original pool valuation.
 Its literal norm identity gives the nominal exponent without paying
@@ -176,7 +232,23 @@ theorem original_pair_central_for_geometry
     Z ^ (G.skeleton.A - G.skeleton.c - G.skeleton.w) ≤
       annulus ^ cap * (Real.sqrt (left.frame S C .left).normalizationScale *
         Real.sqrt (right.frame S C .right).normalizationScale) := by
-  sorry
+  have hfirst : (Ideal.absNorm G.ideals.first.val : ℝ) ≠ 0 :=
+    (idealNorm_pos K G.ideals.first).ne'
+  have htag : (Ideal.absNorm G.tag.extractionIdeal.val : ℝ) ≠ 0 :=
+    (idealNorm_pos K G.tag.extractionIdeal).ne'
+  have hlog : idealLogLength Z (G.ideals.first * G.tag.extractionIdeal).val =
+      idealLogLength Z G.ideals.first.val + idealLogLength Z G.tag.extractionIdeal.val := by
+    change idealLogLength Z (G.ideals.first.val * G.tag.extractionIdeal.val) = _
+    simp only [idealLogLength, map_mul, Nat.cast_mul, Real.log_mul hfirst htag]
+    ring
+  have he : G.skeleton.A - idealLogLength Z left.history.firstIdeal =
+      G.skeleton.A - G.skeleton.c - G.skeleton.w := by
+    rw [hfirstL, hlog, G.tag.extractionIdeal_length Z]
+    dsimp only [OriginalNominalGeometry.skeleton]
+    ring
+  have hp := original_pair_central left right S C annulus hannulus cap hcapL hcapR
+    G.skeleton.A hproductL hproductR hprimeL hprimeR (hfirstL.trans hfirstR.symm)
+  rwa [he] at hp
 
 end CanonicalLiteralExceptionalRelativeSource
 
@@ -276,7 +348,28 @@ theorem actual_row_budget
         normalization ≤
       annulus ^ cap * ((mass).commonEnvelope * orbitalFieldFactor K) * Z ^ (n).remaining /
         (Ideal.absNorm (commonRadical (mass).leftIdeal (mass).rightIdeal) : ℝ) := by
-  sorry
+  have hcentral := original_pair_central_for_geometry LD RD S C G annulus hannulus cap
+    hcapL hcapR hproductL hproductR hprimeL hprimeR hfirstL hfirstR
+  have hrow := CanonicalLiteralExceptionalNumbers.radius_window chart P R hclass X hX
+    label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleft hright
+    bound hbound hprofile first r₁ r₂ slotError firstProfile hZ hradius
+  have hdyad := (G).exceptionalNumbers_dyad_window mass (G).centeredExtractionLength
+    r₁ r₂ slotError firstProfile
+  have hremain := (G).exceptionalNumbersAtNormalization_remaining_window mass
+    (G).centeredExtractionLength r₁ r₂ slotError firstProfile normalization firstTotal
+    hZ hnormalization
+  have hcost : 0 < annulus ^ cap := pow_pos (zero_lt_one.trans_le hannulus) _
+  have hb := (mass).original_rowFactor_budget_with_centralCost Z hZ
+    ((n).Aexp - (n).c - (n).w) (a.q + (n).R₀ + (n).E₀) (n).wo (n).w (n).Bcommon (n).K₀ (n).g (n).ell
+    (LD.frame S C .left).normalizationScale (RD.frame S C .right).normalizationScale
+    (n).parentWidth (n).remaining (n).g₂ (n).t₂ (n).rowError (annulus ^ cap)
+    hcost hrow hcentral hdyad hremain
+  have hNpos : 0 < normalization := by
+    rw [hnormalization]
+    exact firstLeftAllowance_pos Z firstTotal (zero_lt_one.trans hZ) _ _
+  have hN := (G).exceptionalNumbersAtNormalization_normalizer mass (G).centeredExtractionLength
+    r₁ r₂ slotError firstProfile normalization firstTotal hZ hNpos
+  rwa [hN] at hb
 
 end ActualRows
 
@@ -479,7 +572,66 @@ theorem centered_relative_bound (ξ : Joint) :
     (LF).exceptionalMagnitude RF EL ER characters ξ / normalization ≤
       envelope * coefficient ξ * Z ^ ((n).remaining + margin) / radical *
         Z ^ (-idealLogLength Z RD.divisor) := by
-  sorry
+  have hsource := CanonicalLiteralExceptionalPaidSource.centered_magnitude_bound
+    (chart := chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector) (X := X) (hX := hX)
+    (label := label) (F := F) (parent := parent) (oldMoving := oldMoving) (correction := correction)
+    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair) (hcorr := hcorr)
+    (remaining := remaining) (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst)
+    (hextra := hextra) (hone := hone) (hroot := hroot) (hemb := hemb) (annulus := annulus)
+    (amplitude := amplitude) (hannulus := hannulus) (hamplitude := hamplitude) (cap := cap) (LD := LD)
+    (RD := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+    (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound)
+    (hrowProfile := hrowProfile) (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+    (hfirstL := hfirstL) (hfirstR := hfirstR) (hsecondL := hsecondL) (hsecondR := hsecondR)
+    (hplaces := hplaces) (hscalar := hscalar) (primitive := primitive) (hZ := hZ) (hstep := hstep)
+    (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+    (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff) (hproduct := hproduct)
+    (hcapL := hcapL) (hcapR := hcapR) (hprimeOriginalL := hprimeOriginalL)
+    (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+    (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+    (hslotL := hslotL) (hslotR := hslotR) (hamplitudeOne := hamplitudeOne) (hslotLoss := hslotLoss)
+    (ε := ε) (widthMax := widthMax) (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hcolumnLoss)
+    (hcutoffExponent := hcutoffExponent) (domain := domain) (hseedLeftL := hseedLeftL)
+    (hseedRightL := hseedRightL) (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR) (hcL := hcL)
+    (hcR := hcR) (hprofileL₁ := hprofileL₁) (hprofileL₂ := hprofileL₂) (hprofileR₁ := hprofileR₁)
+    (hprofileR₂ := hprofileR₂) (horder := horder) (hwidth := hwidth) (hthreshold := hthreshold)
+    (hold := hold) ξ
+  have hexponent : max ((n).Aexp - (a.m + a.q)) 0 + 3 * (n).stepσ + 5 * (n).δ / 6 + ε +
+        (n).slotError - idealLogLength Z RD.divisor + cutoffLoss / 6 =
+      margin - idealLogLength Z RD.divisor := by ring
+  rw [hexponent] at hsource
+  have hsource' : Z ^ (-actualWidth) * (LF).exceptionalMagnitude RF EL ER characters ξ ≤
+      rowFactor * coefficient ξ * Z ^ (margin - idealLogLength Z RD.divisor) := by
+    simpa only [secondCommonChildWidth, secondCommonChildAllowance, mul_assoc] using hsource
+  have hNpos : 0 < normalization := by
+    rw [hnormalization]
+    exact firstLeftAllowance_pos Z firstTotal (zero_lt_one.trans hZ) _ _
+  have hN := (G).exceptionalNumbersAtNormalization_normalizer mass (G).centeredExtractionLength
+    rL rR slotError firstProfile normalization firstTotal hZ hNpos
+  have hrow := actual_row_budget chart P R hclass X hX label F parent oldMoving
+    correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon rowProfileBound
+    hrowProfileBound hrowProfile first LD RD rL rR slotError firstProfile normalization firstTotal
+    annulus hannulus cap hcapL hcapR hproductOriginalL hproductOriginalR
+    hprimeLowerL hprimeLowerR hfirstL hfirstR hZ hradius hnormalization
+  have hrow' : rowFactor * Z ^ actualWidth / Z ^ (n).parentWidth ≤
+      envelope * Z ^ (n).remaining / radical := by
+    simpa only [hN] using hrow
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  have hradical : 0 ≤ radical := Nat.cast_nonneg _
+  have hC := centeredConstant_pos (A := A) (σ := σ) (η := η) (hS := hS)
+    primitive ε maskExp hε hmaskExp
+  have hheight := fourierHeight_nonneg ξ
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  have hcoefficient : 0 ≤ coefficient ξ := by positivity
+  have hb := CanonicalExceptionalPaidNormalization.relative_of_magnitude
+    Z ((LF).exceptionalMagnitude RF EL ER characters ξ) rowFactor envelope radical (coefficient ξ)
+    actualWidth actualWidth (n).parentWidth (n).remaining 0 margin
+    (idealLogLength Z RD.divisor) hZ.le hcoefficient henv hradical
+    hsource' hrow' (by simp)
+  simpa only [hN, add_zero] using hb
 
 include hclass hsector hcorr hfirst hextra hone hroot hemb
   hfirstL hfirstR hsecondL hsecondR hplaces hscalar hZ hstep hq herrorPrime
@@ -501,7 +653,54 @@ theorem centered_small_loss_bound
     (LF).exceptionalMagnitude RF EL ER characters ξ / normalization ≤
       envelope * coefficient ξ * Z ^ ((padding + 3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step) /
         radical * Z ^ (-idealLogLength Z RD.divisor) := by
-  sorry
+  have hb := centered_relative_bound
+    (chart := chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector) (X := X) (hX := hX)
+    (label := label) (F := F) (parent := parent) (oldMoving := oldMoving) (correction := correction)
+    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair) (hcorr := hcorr)
+    (remaining := remaining) (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst)
+    (hextra := hextra) (hone := hone) (hroot := hroot) (hemb := hemb) (annulus := annulus)
+    (amplitude := amplitude) (hannulus := hannulus) (hamplitude := hamplitude) (cap := cap) (LD := LD)
+    (RD := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+    (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound)
+    (hrowProfile := hrowProfile) (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+    (hfirstL := hfirstL) (hfirstR := hfirstR) (hsecondL := hsecondL) (hsecondR := hsecondR)
+    (hplaces := hplaces) (hscalar := hscalar) (primitive := primitive) (hZ := hZ) (hstep := hstep)
+    (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+    (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff) (hproduct := hproduct)
+    (hcapL := hcapL) (hcapR := hcapR) (hprimeOriginalL := hprimeOriginalL)
+    (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+    (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+    (hslotL := hslotL) (hslotR := hslotR) (hamplitudeOne := hamplitudeOne) (hslotLoss := hslotLoss)
+    (normalization := normalization) (firstTotal := firstTotal) (hprimeLowerL := hprimeLowerL)
+    (hprimeLowerR := hprimeLowerR) (hnormalization := hnormalization) (ε := ε) (widthMax := widthMax)
+    (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hcolumnLoss)
+    (hcutoffExponent := hcutoffExponent) (domain := domain) (hseedLeftL := hseedLeftL)
+    (hseedRightL := hseedRightL) (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR) (hcL := hcL)
+    (hcR := hcR) (hprofileL₁ := hprofileL₁) (hprofileL₂ := hprofileL₂) (hprofileR₁ := hprofileR₁)
+    (hprofileR₂ := hprofileR₂) (horder := horder) (hwidth := hwidth) (hthreshold := hthreshold)
+    (hold := hold) ξ
+  have hr := CanonicalLiteralExceptionalGeometry.centered_remainder_at_normalization
+    G mass (G).centeredExtractionLength rL rR slotError firstProfile normalization firstTotal
+    hZ hnormalization htotal domain hpadding loss ε cutoffLoss hloss hsupport hvolume
+    hslots hcutoffPaid
+  have hexponent : (n).remaining + margin ≤
+      (padding + 3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step := by
+    simpa only [OriginalNominalGeometry.exceptionalNumbersAtNormalization,
+      OriginalNominalGeometry.exceptionalNumbers, add_zero] using hr
+  have hC := centeredConstant_pos (A := A) (σ := σ) (η := η) (hS := hS)
+    primitive ε maskExp hε hmaskExp
+  have hheight := fourierHeight_nonneg ξ
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  have hcoefficient : 0 ≤ coefficient ξ := by positivity
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  have hp := mul_le_mul_of_nonneg_left
+    (Real.rpow_le_rpow_of_exponent_le hZ.le hexponent) (mul_nonneg henv hcoefficient)
+  have hd := div_le_div_of_nonneg_right hp (show 0 ≤ radical from Nat.cast_nonneg _)
+  exact hb.trans (mul_le_mul_of_nonneg_right hd
+    (Real.rpow_nonneg (zero_le_one.trans hZ.le) _))
 
 end Centered
 
@@ -531,7 +730,60 @@ theorem ordinary_relative_bound (ξ : Joint) :
     (LF).ordinaryExceptionalMagnitude RF characters ξ / normalization ≤
       envelope * coefficient ξ * Z ^ ((n).remaining + margin) / radical *
         Z ^ (-idealLogLength Z RD.divisor) := by
-  sorry
+  have hsource := CanonicalLiteralExceptionalPaidSource.ordinary_magnitude_bound
+    (chart := chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector) (X := X) (hX := hX)
+    (label := label) (F := F) (parent := parent) (oldMoving := oldMoving) (correction := correction)
+    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair) (hcorr := hcorr)
+    (remaining := remaining) (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst)
+    (hextra := hextra) (hone := hone) (hroot := hroot) (hemb := hemb) (annulus := annulus)
+    (amplitude := amplitude) (hannulus := hannulus) (hamplitude := hamplitude) (cap := cap) (LD := LD)
+    (RD := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+    (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound)
+    (hrowProfile := hrowProfile) (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+    (hfirstL := hfirstL) (hfirstR := hfirstR) (hsecondL := hsecondL) (hsecondR := hsecondR)
+    (hplaces := hplaces) (hscalar := hscalar) (primitive := primitive) (hZ := hZ) (hstep := hstep)
+    (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+    (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff) (hproduct := hproduct)
+    (hcapL := hcapL) (hcapR := hcapR) (hprimeOriginalL := hprimeOriginalL)
+    (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+    (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+    (hslotL := hslotL) (hslotR := hslotR) (hamplitudeOne := hamplitudeOne) (hslotLoss := hslotLoss)
+    (domain := domain) (hprofileL₁ := hprofileL₁) (hprofileL₂ := hprofileL₂) (hprofileR₁ := hprofileR₁)
+    (hprofileR₂ := hprofileR₂) ξ
+  have hexponent : 3 * (n).stepσ + 5 * (n).δ / 6 + (n).slotError -
+        idealLogLength Z RD.divisor + cutoffLoss / 6 =
+      margin - idealLogLength Z RD.divisor := by ring
+  rw [hexponent] at hsource
+  have hsource' : Z ^ (-actualWidth) * (LF).ordinaryExceptionalMagnitude RF characters ξ ≤
+      rowFactor * coefficient ξ * Z ^ (margin - idealLogLength Z RD.divisor) := by
+    simpa only [secondCommonChildWidth, secondCommonChildAllowance, mul_assoc] using hsource
+  have hNpos : 0 < normalization := by
+    rw [hnormalization]
+    exact firstLeftAllowance_pos Z firstTotal (zero_lt_one.trans hZ) _ _
+  have hN := (G).exceptionalNumbersAtNormalization_normalizer mass (G).centeredExtractionLength
+    rL rR slotError firstProfile normalization firstTotal hZ hNpos
+  have hrow := actual_row_budget chart P R hclass X hX label F parent oldMoving
+    correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon rowProfileBound
+    hrowProfileBound hrowProfile first LD RD rL rR slotError firstProfile normalization firstTotal
+    annulus hannulus cap hcapL hcapR hproductOriginalL hproductOriginalR
+    hprimeLowerL hprimeLowerR hfirstL hfirstR hZ hradius hnormalization
+  have hrow' : rowFactor * Z ^ actualWidth / Z ^ (n).parentWidth ≤
+      envelope * Z ^ (n).remaining / radical := by
+    simpa only [hN] using hrow
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  have hradical : 0 ≤ radical := Nat.cast_nonneg _
+  have hC := ordinaryConstant_pos (A := A) (σ := σ) (η := η) (hS := hS) primitive
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  have hcoefficient : 0 ≤ coefficient ξ := by positivity
+  have hb := CanonicalExceptionalPaidNormalization.relative_of_magnitude
+    Z ((LF).ordinaryExceptionalMagnitude RF characters ξ) rowFactor envelope radical (coefficient ξ)
+    actualWidth actualWidth (n).parentWidth (n).remaining 0 margin
+    (idealLogLength Z RD.divisor) hZ.le hcoefficient henv hradical
+    hsource' hrow' (by simp)
+  simpa only [hN, add_zero] using hb
 
 include hclass hsector hcorr hfirst hextra hone hroot hemb
   hfirstL hfirstR hsecondL hsecondR hplaces hscalar hZ hstep hq herrorPrime
@@ -552,7 +804,48 @@ theorem ordinary_small_loss_bound
     (LF).ordinaryExceptionalMagnitude RF characters ξ / normalization ≤
       envelope * coefficient ξ * Z ^ ((3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step) /
         radical * Z ^ (-idealLogLength Z RD.divisor) := by
-  sorry
+  have hb := ordinary_relative_bound
+    (chart := chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector) (X := X) (hX := hX)
+    (label := label) (F := F) (parent := parent) (oldMoving := oldMoving) (correction := correction)
+    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair) (hcorr := hcorr)
+    (remaining := remaining) (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst)
+    (hextra := hextra) (hone := hone) (hroot := hroot) (hemb := hemb) (annulus := annulus)
+    (amplitude := amplitude) (hannulus := hannulus) (hamplitude := hamplitude) (cap := cap) (LD := LD)
+    (RD := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+    (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound)
+    (hrowProfile := hrowProfile) (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+    (hfirstL := hfirstL) (hfirstR := hfirstR) (hsecondL := hsecondL) (hsecondR := hsecondR)
+    (hplaces := hplaces) (hscalar := hscalar) (primitive := primitive) (hZ := hZ) (hstep := hstep)
+    (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+    (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff) (hproduct := hproduct)
+    (hcapL := hcapL) (hcapR := hcapR) (hprimeOriginalL := hprimeOriginalL)
+    (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+    (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+    (hslotL := hslotL) (hslotR := hslotR) (hamplitudeOne := hamplitudeOne) (hslotLoss := hslotLoss)
+    (normalization := normalization) (firstTotal := firstTotal) (hprimeLowerL := hprimeLowerL)
+    (hprimeLowerR := hprimeLowerR) (hnormalization := hnormalization) (domain := domain)
+    (hprofileL₁ := hprofileL₁) (hprofileL₂ := hprofileL₂) (hprofileR₁ := hprofileR₁)
+    (hprofileR₂ := hprofileR₂) ξ
+  have hr := CanonicalLiteralExceptionalGeometry.ordinary_remainder_with_cutoff
+    G mass (G).centeredExtractionLength rL rR slotError firstProfile loss cutoffLoss
+    hloss hsupport hslots hcutoffPaid
+  have hn := (G).exceptionalNumbersAtNormalization_eq mass (G).centeredExtractionLength
+    rL rR slotError firstProfile normalization firstTotal hZ hnormalization htotal
+  have hexponent : (n).remaining + margin ≤
+      (3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step := by
+    simpa only [hn, OriginalNominalGeometry.exceptionalNumbers, add_zero] using hr
+  have hC := ordinaryConstant_pos (A := A) (σ := σ) (η := η) (hS := hS) primitive
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  have hcoefficient : 0 ≤ coefficient ξ := by positivity
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  have hp := mul_le_mul_of_nonneg_left
+    (Real.rpow_le_rpow_of_exponent_le hZ.le hexponent) (mul_nonneg henv hcoefficient)
+  have hd := div_le_div_of_nonneg_right hp (show 0 ≤ radical from Nat.cast_nonneg _)
+  exact hb.trans (mul_le_mul_of_nonneg_right hd
+    (Real.rpow_nonneg (zero_le_one.trans hZ.le) _))
 
 end Ordinary
 

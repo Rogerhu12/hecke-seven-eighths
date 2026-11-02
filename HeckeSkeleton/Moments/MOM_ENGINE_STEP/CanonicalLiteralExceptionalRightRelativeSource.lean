@@ -225,7 +225,66 @@ theorem centered_right_relative_bound (ξ : Joint) :
     (LF).exceptionalMagnitude RF EL ER characters ξ / normalization ≤
       envelope * coefficient ξ * Z ^ ((n).remaining + margin) / radical *
         Z ^ (-idealLogLength Z LD.divisor) := by
-  sorry
+  have hsource := CanonicalLiteralExceptionalPaidRightSource.centered_right_magnitude_bound
+    (chart := chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector) (X := X) (hX := hX)
+    (label := label) (F := F) (parent := parent) (oldMoving := oldMoving) (correction := correction)
+    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair) (hcorr := hcorr)
+    (remaining := remaining) (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst)
+    (hextra := hextra) (hone := hone) (hroot := hroot) (hemb := hemb) (annulus := annulus)
+    (amplitude := amplitude) (hannulus := hannulus) (hamplitude := hamplitude) (cap := cap) (LD := LD)
+    (RD := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+    (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound)
+    (hrowProfile := hrowProfile) (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+    (hfirstL := hfirstL) (hfirstR := hfirstR) (hsecondL := hsecondL) (hsecondR := hsecondR)
+    (hplaces := hplaces) (hscalar := hscalar) (primitive := primitive) (hZ := hZ) (hstep := hstep)
+    (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+    (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff) (hproduct := hproduct)
+    (hcapL := hcapL) (hcapR := hcapR) (hprimeOriginalL := hprimeOriginalL)
+    (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+    (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+    (hslotL := hslotL) (hslotR := hslotR) (hamplitudeOne := hamplitudeOne) (hslotLoss := hslotLoss)
+    (ε := ε) (widthMax := widthMax) (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hcolumnLoss)
+    (hcutoffExponent := hcutoffExponent) (domain := domain) (hseedLeftL := hseedLeftL)
+    (hseedRightL := hseedRightL) (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR) (hcL := hcL)
+    (hcR := hcR) (hprofileL₁ := hprofileL₁) (hprofileL₂ := hprofileL₂) (hprofileR₁ := hprofileR₁)
+    (hprofileR₂ := hprofileR₂) (horder := horder) (hwidth := hwidth) (hthreshold := hthreshold)
+    (hold := hold) ξ
+  have hexponent : max ((n).Aexp - (a.m + a.q)) 0 + 3 * (n).stepσ + 5 * (n).δ / 6 + ε +
+        (n).slotError - idealLogLength Z LD.divisor + cutoffLoss / 6 =
+      margin - idealLogLength Z LD.divisor := by ring
+  rw [hexponent] at hsource
+  have hsource' : Z ^ (-actualWidth) * (LF).exceptionalMagnitude RF EL ER characters ξ ≤
+      rowFactor * coefficient ξ * Z ^ (margin - idealLogLength Z LD.divisor) := by
+    simpa only [secondCommonChildWidth, secondCommonChildAllowance, mul_assoc] using hsource
+  have hNpos : 0 < normalization := by
+    rw [hnormalization]
+    exact firstLeftAllowance_pos Z firstTotal (zero_lt_one.trans hZ) _ _
+  have hN := (G).exceptionalNumbersAtNormalization_normalizer mass (G).centeredExtractionLength
+    rL rR slotError firstProfile normalization firstTotal hZ hNpos
+  have hrow := CanonicalLiteralExceptionalRelativeSource.actual_row_budget chart P R hclass X hX label F parent oldMoving
+    correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon rowProfileBound
+    hrowProfileBound hrowProfile first LD RD rL rR slotError firstProfile normalization firstTotal
+    annulus hannulus cap hcapL hcapR hproductOriginalL hproductOriginalR
+    hprimeLowerL hprimeLowerR hfirstL hfirstR hZ hradius hnormalization
+  have hrow' : rowFactor * Z ^ actualWidth / Z ^ (n).parentWidth ≤
+      envelope * Z ^ (n).remaining / radical := by
+    simpa only [hN] using hrow
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  have hradical : 0 ≤ radical := Nat.cast_nonneg _
+  have hC := rightConstant_pos (A := A) (σ := σ) (η := η) (hS := hS)
+    primitive ε maskExp hε hmaskExp
+  have hheight := fourierHeight_nonneg ξ
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  have hcoefficient : 0 ≤ coefficient ξ := by positivity
+  have hb := CanonicalExceptionalPaidNormalization.relative_of_magnitude
+    Z ((LF).exceptionalMagnitude RF EL ER characters ξ) rowFactor envelope radical (coefficient ξ)
+    actualWidth actualWidth (n).parentWidth (n).remaining 0 margin
+    (idealLogLength Z LD.divisor) hZ.le hcoefficient henv hradical
+    hsource' hrow' (by simp)
+  simpa only [hN, add_zero] using hb
 
 include hclass hsector hcorr hfirst hextra hone hroot hemb
   hfirstL hfirstR hsecondL hsecondR hplaces hscalar hZ hstep hq herrorPrime
@@ -247,7 +306,54 @@ theorem centered_right_small_loss_bound
     (LF).exceptionalMagnitude RF EL ER characters ξ / normalization ≤
       envelope * coefficient ξ * Z ^ ((padding + 3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step) /
         radical * Z ^ (-idealLogLength Z LD.divisor) := by
-  sorry
+  have hb := centered_right_relative_bound
+    (chart := chart) (P := P) (R := R) (hclass := hclass) (hsector := hsector) (X := X) (hX := hX)
+    (label := label) (F := F) (parent := parent) (oldMoving := oldMoving) (correction := correction)
+    (leftAtoms := leftAtoms) (rightAtoms := rightAtoms) (thetaPair := thetaPair) (hcorr := hcorr)
+    (remaining := remaining) (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst)
+    (hextra := hextra) (hone := hone) (hroot := hroot) (hemb := hemb) (annulus := annulus)
+    (amplitude := amplitude) (hannulus := hannulus) (hamplitude := hamplitude) (cap := cap) (LD := LD)
+    (RD := RD) (hleftCommon := hleftCommon) (hrightCommon := hrightCommon)
+    (rowProfileBound := rowProfileBound) (hrowProfileBound := hrowProfileBound)
+    (hrowProfile := hrowProfile) (first := first) (slotLoss := slotLoss) (firstProfile := firstProfile)
+    (hfirstL := hfirstL) (hfirstR := hfirstR) (hsecondL := hsecondL) (hsecondR := hsecondR)
+    (hplaces := hplaces) (hscalar := hscalar) (primitive := primitive) (hZ := hZ) (hstep := hstep)
+    (hq := hq) (herrorPrime := herrorPrime) (columnLoss := columnLoss)
+    (cutoffExponent := cutoffExponent) (hradius := hradius) (hcutoff := hcutoff) (hproduct := hproduct)
+    (hcapL := hcapL) (hcapR := hcapR) (hprimeOriginalL := hprimeOriginalL)
+    (hprimeOriginalR := hprimeOriginalR) (hproductOriginalL := hproductOriginalL)
+    (hproductOriginalR := hproductOriginalR) (hprimeL := hprimeL) (hprimeR := hprimeR)
+    (hslotL := hslotL) (hslotR := hslotR) (hamplitudeOne := hamplitudeOne) (hslotLoss := hslotLoss)
+    (normalization := normalization) (firstTotal := firstTotal) (hprimeLowerL := hprimeLowerL)
+    (hprimeLowerR := hprimeLowerR) (hnormalization := hnormalization) (ε := ε) (widthMax := widthMax)
+    (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hcolumnLoss)
+    (hcutoffExponent := hcutoffExponent) (domain := domain) (hseedLeftL := hseedLeftL)
+    (hseedRightL := hseedRightL) (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR) (hcL := hcL)
+    (hcR := hcR) (hprofileL₁ := hprofileL₁) (hprofileL₂ := hprofileL₂) (hprofileR₁ := hprofileR₁)
+    (hprofileR₂ := hprofileR₂) (horder := horder) (hwidth := hwidth) (hthreshold := hthreshold)
+    (hold := hold) ξ
+  have hr := CanonicalLiteralExceptionalGeometry.centered_remainder_at_normalization
+    G mass (G).centeredExtractionLength rL rR slotError firstProfile normalization firstTotal
+    hZ hnormalization htotal domain hpadding loss ε cutoffLoss hloss hsupport hvolume
+    hslots hcutoffPaid
+  have hexponent : (n).remaining + margin ≤
+      (padding + 3 * step + loss / 2) + (G).tag.exceptionalMovingLength Z step := by
+    simpa only [OriginalNominalGeometry.exceptionalNumbersAtNormalization,
+      OriginalNominalGeometry.exceptionalNumbers, add_zero] using hr
+  have hC := rightConstant_pos (A := A) (σ := σ) (η := η) (hS := hS)
+    primitive ε maskExp hε hmaskExp
+  have hheight := fourierHeight_nonneg ξ
+  have hUL := (UL).constant_nonneg
+  have hUR := (UR).constant_nonneg
+  have hcoefficient : 0 ≤ coefficient ξ := by positivity
+  have henv : 0 ≤ envelope := mul_nonneg
+    (pow_nonneg (zero_le_one.trans hannulus) _)
+    (mul_nonneg (mass).commonEnvelope_nonneg (orbitalFieldFactor_nonneg K))
+  have hp := mul_le_mul_of_nonneg_left
+    (Real.rpow_le_rpow_of_exponent_le hZ.le hexponent) (mul_nonneg henv hcoefficient)
+  have hd := div_le_div_of_nonneg_right hp (show 0 ≤ radical from Nat.cast_nonneg _)
+  exact hb.trans (mul_le_mul_of_nonneg_right hd
+    (Real.rpow_nonneg (zero_le_one.trans hZ.le) _))
 
 end Centered
 

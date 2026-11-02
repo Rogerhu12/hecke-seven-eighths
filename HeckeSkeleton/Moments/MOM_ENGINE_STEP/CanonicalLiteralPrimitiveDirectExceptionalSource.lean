@@ -246,7 +246,69 @@ theorem literalPrimitiveLeftDirectExceptional_pointwise
         (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (padding + 3 * step + finalLoss / 2) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  sorry
+  have hactive : ∀ i ∈ ((source).pieces DE D).leftData.columns,
+      ((source).pieces DE D).leftDivisorCoefficient S χ i ≠ 0 →
+      A.exteriorNorm (((source).pieces DE D).leftData.ideal i) ≤
+        Z ^ ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + loss) := by
+    intro i hcol hci
+    change A.exteriorNorm (((source).pieces DE D).leftData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
+        idealLogLength Z (((source).block DE).literalLeftCoordinates D.val).first.val - 0 + loss)
+    rw [((source).block DE).literalLeftCoordinates_first, sub_zero]
+    exact literalPrimitiveDirectLeft_active_norm
+      (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+      (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
+      (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
+      (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+      (cap := cap) (annulus := hi) (loss := loss)
+      (hannulus := hhi) (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
+      (profiles := originalWindow) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
+      DE D S χ i hcol hci
+  have hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff loss cutoffExponent 0 / 6 ≤
+      finalLoss / 16 := by
+    unfold CanonicalLiteralExceptionalGeometry.paidCutoff
+    linarith
+  have hwidthInternal : (internal).m + (internal).q ≤ widthMax := by
+    simpa only [Q.fullSupportParameters_width] using hwidth
+  have hDE : DE.val ∈ commonSupportPool (raw).exteriorColumns (raw).exteriorColumns
+      (fun i => ((raw).columnExterior i).val) (fun i => ((raw).columnExterior i).val) := DE.property
+  have hcolumns : ∀ i ∈ (raw).exteriorColumns,
+      A.exteriorNorm ((raw).columnExterior i) ≤ Z ^ widthMax := by
+    intro i hi
+    exact (hN i hi).trans (Real.rpow_le_rpow_of_exponent_le hZ.le hfirstBox)
+  exact literalLeftDirectExceptional_pointwise
+    (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
+    (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+    (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := (source).block DE) (C := C)
+    (φ := CanonicalRowBall.archTest K A.Sf 1) (finiteTest := rowBallFiniteFamily K A.Sf 1)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
+    (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
+    (hroot := hroot) (hemb := hemb) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+    (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) (dimension := 0) (width := 0)
+    (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
+    (dyad := fun _ _ i => Fin.elim0 i)
+    (step := step) («supportError» := supportError) («hsupportError» := hsupportError)
+    (lo := lo) (hi := hi) (hlo := hlo) (primitive := primitive)
+    (ε := ε) (widthMax := widthMax) (columnLoss := loss) (cutoffExponent := cutoffExponent)
+    (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hloss) (hcutoffExponent := hcutoffExponent)
+    (originalBound := originalBound) (annulus := hi) (hamplitude := hamplitude) (hannulus := hhi)
+    (reference := reference) (href := by
+      simpa only [Q.literalPrimitiveFirstSource_pairedRows] using href)
+    (originalWindow := originalWindow) (hreference := hrows reference href) (htime := htime)
+    (hprime := hprime) (hupper := le_rfl) (hlower := hlower) (hδsum := hδsum)
+    (domain := domainInternal) («v» := v) (F := ((source).charts DE D).kernel) («j» := j)
+    (hS := hsquarefree) (hfiber := hlive) (thetaPair := thetaPair)
+    (cap := cap) (hcap := hcap) (slotLoss := slotLoss) (loss := finalLoss)
+    (hslotLossNonneg := hslotLossNonneg) (hloss := hfinalLoss) (hslotLoss := hslotLoss)
+    (hslots := hslots) (hstep := hstep.le) (hq := Q.fullSupportParameters_q_nonneg a Z hZ)
+    (hone := hone) (hplaces := hplaces) (hsupport := hsupport)
+    (hcutoffPaid := hcutoffPaid) (hcutoffPower := hcutoffPower₂) (hactiveColumns := hactive)
+    (hwidth := hwidthInternal) (hthreshold := hthreshold) (hvolume := hvolume)
+    (hDE := hDE) (horiginalColumns := hcolumns)
+    (holdOriginal := literalPrimitiveFirstSource_oldSupport (Q := Q) (a := a) (Z := Z) (hZ := hZ))
+    hcentered hpadding z
 
 include originalWindow hrows htime hprime href hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
   hslotLossNonneg hfinalLoss
@@ -262,7 +324,58 @@ theorem literalPrimitiveLeftDirectOrdinaryExceptional_pointwise
         (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (3 * step + finalLoss / 2) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  sorry
+  have hactive : ∀ i ∈ ((source).pieces DE D).leftData.columns,
+      ((source).pieces DE D).leftDivisorCoefficient S χ i ≠ 0 →
+      A.exteriorNorm (((source).pieces DE D).leftData.ideal i) ≤
+        Z ^ ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + loss) := by
+    intro i hcol hci
+    change A.exteriorNorm (((source).pieces DE D).leftData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
+        idealLogLength Z (((source).block DE).literalLeftCoordinates D.val).first.val - 0 + loss)
+    rw [((source).block DE).literalLeftCoordinates_first, sub_zero]
+    exact literalPrimitiveDirectLeft_active_norm
+      (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+      (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
+      (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
+      (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+      (cap := cap) (annulus := hi) (loss := loss)
+      (hannulus := hhi) (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
+      (profiles := originalWindow) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
+      DE D S χ i hcol hci
+  have hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff loss cutoffExponent 0 / 6 ≤
+      finalLoss / 16 := by
+    unfold CanonicalLiteralExceptionalGeometry.paidCutoff
+    linarith
+  exact literalLeftDirectOrdinaryExceptional_pointwise
+    (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
+    (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+    (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := (source).block DE) (C := C)
+    (φ := CanonicalRowBall.archTest K A.Sf 1) (finiteTest := rowBallFiniteFamily K A.Sf 1)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
+    (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
+    (hroot := hroot) (hemb := hemb) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+    (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) (dimension := 0) (width := 0)
+    (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
+    (dyad := fun _ _ i => Fin.elim0 i)
+    (step := step) («supportError» := supportError) («hsupportError» := hsupportError)
+    (lo := lo) (hi := hi) (hlo := hlo) (primitive := primitive)
+    (ε := ε) (widthMax := widthMax) (columnLoss := loss) (cutoffExponent := cutoffExponent)
+    (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hloss) (hcutoffExponent := hcutoffExponent)
+    (originalBound := originalBound) (annulus := hi) (hamplitude := hamplitude) (hannulus := hhi)
+    (reference := reference) (href := by
+      simpa only [Q.literalPrimitiveFirstSource_pairedRows] using href)
+    (originalWindow := originalWindow) (hreference := hrows reference href) (htime := htime)
+    (hprime := hprime) (hupper := le_rfl) (hlower := hlower) (hδsum := hδsum)
+    (domain := domainInternal) («v» := v) (F := ((source).charts DE D).kernel) («j» := j)
+    (hS := hsquarefree) (hfiber := hlive) (thetaPair := thetaPair)
+    (cap := cap) (hcap := hcap) (slotLoss := slotLoss) (loss := finalLoss)
+    (hslotLossNonneg := hslotLossNonneg) (hloss := hfinalLoss) (hslotLoss := hslotLoss)
+    (hslots := hslots) (hstep := hstep.le) (hq := Q.fullSupportParameters_q_nonneg a Z hZ)
+    (hone := hone) (hplaces := hplaces) (hsupport := hsupport)
+    (hcutoffPaid := hcutoffPaid) (hcutoffPower := hcutoffPower₂) (hactiveColumns := hactive)
+    hcentered z
 
 end LeftDirect
 
@@ -359,7 +472,69 @@ theorem literalPrimitiveRightDirectExceptional_pointwise
         (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (padding + 3 * step + finalLoss / 2) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  sorry
+  have hactive : ∀ i ∈ ((source).pieces DE D).rightData.columns,
+      ((source).pieces DE D).rightDivisorCoefficient S χ i ≠ 0 →
+      A.exteriorNorm (((source).pieces DE D).rightData.ideal i) ≤
+        Z ^ ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + loss) := by
+    intro i hcol hci
+    change A.exteriorNorm (((source).pieces DE D).rightData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
+        idealLogLength Z (((source).block DE).literalRightCoordinates D.val).first.val - 0 + loss)
+    rw [((source).block DE).literalRightCoordinates_first, sub_zero]
+    exact literalPrimitiveDirectRight_active_norm
+      (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+      (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
+      (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
+      (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+      (cap := cap) (annulus := hi) (loss := loss)
+      (hannulus := hhi) (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
+      (profiles := originalWindow) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
+      DE D S χ i hcol hci
+  have hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff loss cutoffExponent 0 / 6 ≤
+      finalLoss / 16 := by
+    unfold CanonicalLiteralExceptionalGeometry.paidCutoff
+    linarith
+  have hwidthInternal : (internal).m + (internal).q ≤ widthMax := by
+    simpa only [Q.fullSupportParameters_width] using hwidth
+  have hDE : DE.val ∈ commonSupportPool (raw).exteriorColumns (raw).exteriorColumns
+      (fun i => ((raw).columnExterior i).val) (fun i => ((raw).columnExterior i).val) := DE.property
+  have hcolumns : ∀ i ∈ (raw).exteriorColumns,
+      A.exteriorNorm ((raw).columnExterior i) ≤ Z ^ widthMax := by
+    intro i hi
+    exact (hN i hi).trans (Real.rpow_le_rpow_of_exponent_le hZ.le hfirstBox)
+  exact literalRightDirectExceptional_pointwise
+    (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
+    (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+    (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := (source).block DE) (C := C)
+    (φ := CanonicalRowBall.archTest K A.Sf 1) (finiteTest := rowBallFiniteFamily K A.Sf 1)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
+    (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
+    (hroot := hroot) (hemb := hemb) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+    (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) (dimension := 0) (width := 0)
+    (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
+    (dyad := fun _ _ i => Fin.elim0 i)
+    (step := step) («supportError» := supportError) («hsupportError» := hsupportError)
+    (lo := lo) (hi := hi) (hlo := hlo) (primitive := primitive)
+    (ε := ε) (widthMax := widthMax) (columnLoss := loss) (cutoffExponent := cutoffExponent)
+    (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hloss) (hcutoffExponent := hcutoffExponent)
+    (originalBound := originalBound) (annulus := hi) (hamplitude := hamplitude) (hannulus := hhi)
+    (reference := reference) (href := by
+      simpa only [Q.literalPrimitiveFirstSource_pairedRows] using href)
+    (originalWindow := originalWindow) (hreference := hrows reference href) (htime := htime)
+    (hprime := hprime) (hupper := le_rfl) (hlower := hlower) (hδsum := hδsum)
+    (domain := domainInternal) («v» := v) (F := ((source).charts DE D).kernel) («j» := j)
+    (hS := hsquarefree) (hfiber := hlive) (thetaPair := thetaPair)
+    (cap := cap) (hcap := hcap) (slotLoss := slotLoss) (loss := finalLoss)
+    (hslotLossNonneg := hslotLossNonneg) (hloss := hfinalLoss) (hslotLoss := hslotLoss)
+    (hslots := hslots) (hstep := hstep.le) (hq := Q.fullSupportParameters_q_nonneg a Z hZ)
+    (hone := hone) (hplaces := hplaces) (hsupport := hsupport)
+    (hcutoffPaid := hcutoffPaid) (hcutoffPower := hcutoffPower₂) (hactiveColumns := hactive)
+    (hwidth := hwidthInternal) (hthreshold := hthreshold) (hvolume := hvolume)
+    (hDE := hDE) (horiginalColumns := hcolumns)
+    (holdOriginal := literalPrimitiveFirstSource_oldSupport (Q := Q) (a := a) (Z := Z) (hZ := hZ))
+    hcentered hpadding z
 
 include originalWindow hrows htime hprime href hamplitude hlo hhi hcap hY₁ hY₂ hlower hδsum
   hslotLossNonneg hfinalLoss
@@ -375,7 +550,58 @@ theorem literalPrimitiveRightDirectOrdinaryExceptional_pointwise
         (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ heightOrder *
         Z ^ (3 * step + finalLoss / 2) / radical *
         Z ^ (-idealLogLength Z j.1.val) := by
-  sorry
+  have hactive : ∀ i ∈ ((source).pieces DE D).rightData.columns,
+      ((source).pieces DE D).rightDivisorCoefficient S χ i ≠ 0 →
+      A.exteriorNorm (((source).pieces DE D).rightData.ideal i) ≤
+        Z ^ ((first).skeleton.A - (first).skeleton.c - (first).skeleton.w + loss) := by
+    intro i hcol hci
+    change A.exteriorNorm (((source).pieces DE D).rightData.ideal i) ≤
+      Z ^ ((internal).n₁ + (internal).n₂ + (internal).z -
+        idealLogLength Z (((source).block DE).literalRightCoordinates D.val).first.val - 0 + loss)
+    rw [((source).block DE).literalRightCoordinates_first, sub_zero]
+    exact literalPrimitiveDirectRight_active_norm
+      (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+      (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
+      (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
+      (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+      (cap := cap) (annulus := hi) (loss := loss)
+      (hannulus := hhi) (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
+      (profiles := originalWindow) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
+      DE D S χ i hcol hci
+  have hcutoffPaid : CanonicalLiteralExceptionalGeometry.paidCutoff loss cutoffExponent 0 / 6 ≤
+      finalLoss / 16 := by
+    unfold CanonicalLiteralExceptionalGeometry.paidCutoff
+    linarith
+  exact literalRightDirectOrdinaryExceptional_pointwise
+    (hΓ := hΓ₀) (μv := μv) (ν := ν) (Q := Q) (ξ := ξ) (W := W.at ξ)
+    (a := internal) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (centered := centered)
+    (hZ := hZ) (hY₁ := hY₁) (hY₂ := hY₂) (b := (source).block DE) (C := C)
+    (φ := CanonicalRowBall.archTest K A.Sf 1) (finiteTest := rowBallFiniteFamily K A.Sf 1)
+    (hlc := rowBallFiniteFamily_locallyConstant K A.Sf 1)
+    (hcs := rowBallFiniteFamily_compactSupport K A.Sf 1)
+    (radius := (source).radius) (D := D.val) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
+    (p := (source).pieces DE D) (S := S) (χ := χ) (hDiff := hDiff)
+    (hroot := hroot) (hemb := hemb) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+    (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) (dimension := 0) (width := 0)
+    (hnorm := rowWindow) (character := fun _ _ => (PUnit.unit : PUnit.{1}))
+    (dyad := fun _ _ i => Fin.elim0 i)
+    (step := step) («supportError» := supportError) («hsupportError» := hsupportError)
+    (lo := lo) (hi := hi) (hlo := hlo) (primitive := primitive)
+    (ε := ε) (widthMax := widthMax) (columnLoss := loss) (cutoffExponent := cutoffExponent)
+    (hε := hε) (hwidthMax := hwidthMax) (hcolumnLoss := hloss) (hcutoffExponent := hcutoffExponent)
+    (originalBound := originalBound) (annulus := hi) (hamplitude := hamplitude) (hannulus := hhi)
+    (reference := reference) (href := by
+      simpa only [Q.literalPrimitiveFirstSource_pairedRows] using href)
+    (originalWindow := originalWindow) (hreference := hrows reference href) (htime := htime)
+    (hprime := hprime) (hupper := le_rfl) (hlower := hlower) (hδsum := hδsum)
+    (domain := domainInternal) («v» := v) (F := ((source).charts DE D).kernel) («j» := j)
+    (hS := hsquarefree) (hfiber := hlive) (thetaPair := thetaPair)
+    (cap := cap) (hcap := hcap) (slotLoss := slotLoss) (loss := finalLoss)
+    (hslotLossNonneg := hslotLossNonneg) (hloss := hfinalLoss) (hslotLoss := hslotLoss)
+    (hslots := hslots) (hstep := hstep.le) (hq := Q.fullSupportParameters_q_nonneg a Z hZ)
+    (hone := hone) (hplaces := hplaces) (hsupport := hsupport)
+    (hcutoffPaid := hcutoffPaid) (hcutoffPower := hcutoffPower₂) (hactiveColumns := hactive)
+    hcentered z
 
 end RightDirect
 

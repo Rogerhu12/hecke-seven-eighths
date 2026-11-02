@@ -523,7 +523,14 @@ local notation "totalConstant" => literalPrimitiveDirectMassConstant
   (hwidthMax := hwidthMax) (hmassLoss := hmassLoss)
 
 theorem literalPrimitiveDirectMassConstant_pos : 0 < totalConstant := by
-  sorry
+  have hp := profileConstantPos
+  have hc := PrimitivePassiveFactoryCard.directConstant_pos K cap columnBound
+    (massLoss / 8) hcolumnBound (by positivity)
+  have hf := kernelSourceFibreConstant_pos K cap
+    (Fintype.card (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
+    0 0 columnBound (massLoss / 2) hcolumnBound (by positivity)
+  have hh := directHarmonicConstant_pos K cap columnBound massLoss hcolumnBound hmassLoss
+  exact mul_pos (mul_pos hp (mul_pos hc hf)) hh
 
 variable (htotal : a.n₁ + a.n₂ + a.z ≤ lengthBound)
 variable (hwidth : a.m + a.q ≤ widthMax)
@@ -541,7 +548,18 @@ theorem literalPrimitiveDirect_coefficient_product
     (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     (massCertificates j).coefficient * (indexCertificates j).cost ≤
       profileConstant * control ^ degree * Z ^ (massLoss + 5 * error / 3 + mesh) := by
-  sorry
+  have hw := widthWindow columnBound hN j
+  have hn := firstWindows lengthBound columnBound htotal hN j
+  have hbox : rawWidthAt j ≤ widthBox := by linarith
+  have h := numericBound Z T (rawWidthAt j) analyticHeight control originalBound error
+    (internal).m ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength)
+    (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val)
+    (idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2)) 0
+    hZ.le hT hbox hheight hcontrol horiginalBound hprofile hn.1
+    (hn.2.1.trans (le_max_left _ _))
+    (hn.2.2.1.trans (le_max_right _ _)) (hn.2.2.2.trans (le_max_right _ _))
+  rw [coefficientIdentity j, costIdentity j]
+  simpa only [htilt₁, htilt₂, hcontour, Real.rpow_zero, mul_one] using h
 
 local notation "productBound" => literalPrimitiveDirect_coefficient_product
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
@@ -586,7 +604,101 @@ theorem literalPrimitiveDirect_global_kernelMass
       ((completeFamily analytic).kernel Finset.univ completeMeasure
         ((internal).m + (internal).q) b).real Set.univ) ≤
       totalConstant * control ^ degree * Z ^ (9 * massLoss / 4 + 5 * error / 3 + mesh) := by
-  sorry
+  have hm := sourceMass analytic
+  refine ⟨hm.1, ?_⟩
+  let common := profileConstant * control ^ degree * Z ^ (massLoss + 5 * error / 3 + mesh)
+  have hcontrol0 : 0 ≤ control := by linarith
+  have hcommon : 0 ≤ common := by
+    have hp := (profileConstantPos).le
+    dsimp only [common]
+    positivity
+  have hpoint (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization)
+      (b : ((factories j).family (analytic j)).active Finset.univ) :
+      (stages).prepared.parentOuterScalar (raw).originalAtlas normalization j.val *
+        ((massCertificates j).coefficient *
+          ((((stages).prepared.unscaledParentLeaf (raw).originalAtlas exceptional j.val).weight *
+              (sourceCertificates j).frozen) *
+            ((factories j).family (analytic j)).weight Finset.univ ((internal).m + (internal).q) b)) ≤
+      common * (arithmetic).carrier.indexWeight ((arithmetic).index j) := by
+    have hc : 0 ≤ (massCertificates j).coefficient := by
+      rw [coefficientIdentity j]
+      exact CanonicalLiteralPrimitiveMassCoefficient.kernelCoefficient_nonneg
+        K A σ ω ψ cap orders lo hi hlo hhi δ₁ δ₂ δ mesh Z analyticHeight
+        (rawWidthAt j) originalBound fixedFirstKernel fixedSecondKernel
+        (zero_lt_one.trans hZ) horiginalBound (by positivity) (by positivity)
+    have hs := scalarWindows j
+    have hs1 : (stages).prepared.originalScalarAt (raw).originalAtlas j.val ≤ 1 := by linarith [hs.2]
+    have hp := mul_le_mul_of_nonneg_left (productBound j) hs.1
+    have hp' : (stages).prepared.originalScalarAt (raw).originalAtlas j.val *
+        ((massCertificates j).coefficient * (indexCertificates j).cost) ≤ common :=
+      hp.trans ((mul_le_mul_of_nonneg_right hs1 hcommon).trans_eq (one_mul common))
+    have hi := mul_le_mul_of_nonneg_left (outerIndex j (analytic j) b) hc
+    calc
+      _ = (massCertificates j).coefficient *
+        ((stages).prepared.parentOuterScalar (raw).originalAtlas normalization j.val *
+          ((((stages).prepared.unscaledParentLeaf (raw).originalAtlas exceptional j.val).weight *
+              (sourceCertificates j).frozen) *
+            ((factories j).family (analytic j)).weight Finset.univ ((internal).m + (internal).q) b)) := by ring
+      _ ≤ (massCertificates j).coefficient *
+          ((stages).prepared.originalScalarAt (raw).originalAtlas j.val *
+            ((indexCertificates j).cost * (arithmetic).carrier.indexWeight ((arithmetic).index j))) := hi
+      _ = ((stages).prepared.originalScalarAt (raw).originalAtlas j.val *
+          ((massCertificates j).coefficient * (indexCertificates j).cost)) *
+            (arithmetic).carrier.indexWeight ((arithmetic).index j) := by ring
+      _ ≤ _ := mul_le_mul_of_nonneg_right hp' ((arithmetic).carrier.indexWeight_nonneg _)
+  have hsum :
+      (∑ b : (completeFamily analytic).active Finset.univ,
+        (arithmetic).carrier.indexWeight ((arithmetic).index b.val.1)) =
+      ∑ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
+        ∑ _b : ((factories j).family (analytic j)).active Finset.univ,
+          (arithmetic).carrier.indexWeight ((arithmetic).index j) := by
+    simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
+      ActualNormalizedPairFamily.sum_sigmaCombine_active
+        (fun j => (factories j).family (analytic j)) Finset.univ (fun _ => Finset.univ)
+        (fun b => (arithmetic).carrier.indexWeight ((arithmetic).index b.val.1))
+  have harithmetic := (stages).arithmeticLabels_admissible (raw).originalAtlas hcap
+    exceptional normalization columnBound 1 (by simp) (fun _ _ => one_dvd _) hN
+  have hcard := fibreBound columnBound massLoss hcolumnBound hmassLoss hN analytic
+  have hpassive := (PrimitivePassiveFactoryCard.directConstant_pos K cap columnBound
+    (massLoss / 8) hcolumnBound (by positivity)).le
+  have hphysical := (kernelSourceFibreConstant_pos K cap
+    (Fintype.card (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
+    0 0 columnBound (massLoss / 2) hcolumnBound (by positivity)).le
+  have hh := direct_harmonic_sum K cap columnBound massLoss hcolumnBound hmassLoss Z hZ.le
+    (arithmetic).carrier harithmetic
+    (fun b : (completeFamily analytic).active Finset.univ => (arithmetic).index b.val.1)
+    ((passiveConstant * physicalConstant) * Z ^ (massLoss / 4)) (by positivity) hcard
+  calc
+    _ ≤ ∑ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
+        (stages).prepared.parentOuterScalar (raw).originalAtlas normalization j.val *
+          ((massCertificates j).coefficient *
+            ∑ b : ((factories j).family (analytic j)).active Finset.univ,
+              (((stages).prepared.unscaledParentLeaf (raw).originalAtlas exceptional j.val).weight *
+                (sourceCertificates j).frozen) *
+                  ((factories j).family (analytic j)).weight Finset.univ ((internal).m + (internal).q) b) := hm.2
+    _ ≤ ∑ j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization,
+        ∑ _b : ((factories j).family (analytic j)).active Finset.univ,
+          common * (arithmetic).carrier.indexWeight ((arithmetic).index j) := by
+      apply Finset.sum_le_sum
+      intro j _
+      simp only [Finset.mul_sum]
+      exact Finset.sum_le_sum (fun b _ => hpoint j b)
+    _ = common * ∑ b : (completeFamily analytic).active Finset.univ,
+        (arithmetic).carrier.indexWeight ((arithmetic).index b.val.1) := by
+      rw [hsum]
+      simp only [Finset.mul_sum]
+    _ ≤ common *
+        (((passiveConstant * physicalConstant) * Z ^ (massLoss / 4)) *
+          harmonicConstant * Z ^ massLoss) := mul_le_mul_of_nonneg_left hh hcommon
+    _ = _ := by
+      dsimp only [common, literalPrimitiveDirectMassConstant]
+      rw [show 9 * massLoss / 4 + 5 * error / 3 + mesh =
+        (massLoss + 5 * error / 3 + mesh) + (massLoss / 4) + massLoss by ring,
+        Real.rpow_add (zero_lt_one.trans hZ)
+          ((massLoss + 5 * error / 3 + mesh) + (massLoss / 4)) massLoss,
+        Real.rpow_add (zero_lt_one.trans hZ)
+          (massLoss + 5 * error / 3 + mesh) (massLoss / 4)]
+      ring
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
