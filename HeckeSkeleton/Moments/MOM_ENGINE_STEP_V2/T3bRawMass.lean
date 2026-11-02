@@ -76,9 +76,8 @@ private theorem square_mass_composition
     _ ≤ B ^ (4 * cap) * (B ^ (2 * cap) * total) :=
       mul_le_mul_of_nonneg_left hscale (pow_nonneg hB _)
     _ = (B ^ (3 * cap) * Real.sqrt total) ^ 2 := by
-      rw [mul_pow, Real.sq_sqrt hX, ← pow_mul, ← mul_assoc, ← pow_add]
-      congr 1
-      omega
+      rw [mul_pow, Real.sq_sqrt hX, ← pow_mul, ← mul_assoc, ← pow_add,
+        show 4 * cap + 2 * cap = (3 * cap) * 2 by omega]
 
 /-- The only analytic inputs are the actual individual prime profile
 and annulus bounds. In particular no source mass or scalar inequality

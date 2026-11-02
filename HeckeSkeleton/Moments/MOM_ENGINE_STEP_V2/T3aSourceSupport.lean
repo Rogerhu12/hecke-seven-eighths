@@ -172,7 +172,9 @@ theorem packet_moving_unramified (j : Fin raw.count)
       ((raw.packet j).R.primes i).val := by
   rw [← OrdinaryPhaseFacts.ofRaw_moving_false trace htrace raw j]
   exact T3a.moving_unramified_of_coprime_support _ _
-    ((raw.packet j).R.primes i).property
+    ((HeckeAxiom.exteriorEquiv (Arithmetic.data c)
+      (LocalFiniteSums.primeIdeal ((raw.packet j).R.primes i))).property
+        ((raw.packet j).R.primes i).val dvd_rfl)
     ((raw.packet j).exceptional_moving_support_coprime hpacket
       (OrdinaryPhaseFacts.ofRaw trace htrace raw j) i)
 

@@ -87,7 +87,6 @@
         "TasksAmplification",
         "TasksChildArithmetic",
         "TasksChildProfiles",
-        "TasksExceptionalSummation",
         "TasksFiniteLeaves",
         "TasksFirstAllowance",
         "TasksFirstTransform",
@@ -131,6 +130,8 @@
         "T3bActualMass",
         "T3bAtomComparison",
         "T3bAtomFrames",
+        "T3bCommonBounds",
+        "T3bCommonBudget",
         "T3bFirstColumnBounds",
         "T3bFirstWeights",
         "T3bFrozenAssembly",
@@ -139,6 +140,7 @@
         "T3bKernels",
         "T3bMaskBounds",
         "T3bMaskGeometry",
+        "T3bNormalizer",
         "T3bNumericalLedger",
         "T3bOldMaskBounds",
         "T3bOrbitFibrePackets",
@@ -146,14 +148,18 @@
         "T3bOrbitFibres",
         "T3bOriginalGeometry",
         "T3bOriginalSupport",
+        "T3bOuterNormalizer",
         "T3bOuterWeights",
+        "T3bPacketNormalizer",
         "T3bPairedAssembly",
         "T3bPairedRows",
         "T3bPlainCharts",
         "T3bPlainSupport",
+        "T3bPointwise",
         "T3bPointwiseData",
         "T3bPoolOuter",
         "T3bPrimeProfiles",
+        "T3bProfileBudget",
         "T3bProfiles",
         "T3bRawMass",
         "T3bRowAmplitude",
@@ -167,11 +173,14 @@
         "T3bSources",
         "T3bSupportedVolume",
         "T3bTimeBounds",
+        "T3bUniformAssembly",
         "T3bUniformBudget",
+        "T3bUniformNormalizer",
         "T3bUnscaledAtoms",
         "T3bVolumeApplication",
         "T3bWholeBinding",
-        "TasksExceptionalRecovery"
+        "TasksExceptionalRecovery",
+        "TasksExceptionalSummation"
       ]
     },
     {
@@ -210,6 +219,15 @@
       "modules": [
         "N4FrozenIdeals",
         "N4ScaleProduct"
+      ]
+    },
+    {
+      "id": "t3_shared_n8",
+      "name": "PR42 原profile与完整common frozen理想共享界（原样复用）",
+      "proved": true,
+      "modules": [
+        "N8CommonScalarBounds",
+        "N8FrozenProfileBounds"
       ]
     }
   ]
