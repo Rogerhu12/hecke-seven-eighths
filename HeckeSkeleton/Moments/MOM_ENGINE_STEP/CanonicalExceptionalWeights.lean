@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredLabels
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityRelativeScalar
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal canonical weights for the exceptional terminal
 
@@ -23,6 +25,8 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
+
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}

@@ -443,8 +443,10 @@ jobs:
     name: Complete G1 production modules and fresh audit
     if: github.ref == 'refs/heads/cloud/mom-engine-step-b2'
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 240
     env:
+      GROUP: g1
+      GROUP_KILL_AFTER: '1200'
       LEAN_NUM_THREADS: '2'
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -479,6 +481,21 @@ jobs:
           from mom_engine_b2_native_watch import source_identity, atomic_json
           atomic_json(Path('mom-b2-g1-identity/before.json'), source_identity(Path.cwd()))
           G1PY
+      - name: Build the real G1 modules with the original official scan and watcher
+        run: |
+          python3 - <<'G1PY'
+          import hashlib
+          from pathlib import Path
+          pins = {
+              '.github/groups/group_build.py': 'df3332a6f1d7fd1c4487bf8d2ee86e586265ebba9ebbf21e9dbc322ff742a1c2',
+              '.github/groups/skeleton.py': '462e28934f21679cbe1cad548536c869c37a91749d8cfbfdda56f8c3f1341122',
+              '.github/probe/probe_map.py': '78f2a76122f3fe2b79491960286accbbf2ebb169fc59c85be6ff93a2e50e346d',
+              '.github/groups/g1.txt': '19809e5489ca407279db695b0ca0e51c7aa9edf091ab20b0e5c26ca4f004806a',
+          }
+          for path, expected in pins.items():
+              assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
+          G1PY
+          python3 -u .github/groups/group_build.py
       - name: Verify all eighty-one original G1 modules and their 265 original declarations
         run: |
           python3 -u - <<'G1PY'
@@ -534,5 +551,108 @@ jobs:
           path: |
             mom-b2-g1-production/
             mom-b2-g1-identity/
+            group-build/
           if-no-files-found: warn
+          retention-days: 14
+
+  source_chain:
+    name: Complete source-chain normal and fresh audit (${{ matrix.case }})
+    if: github.ref == 'refs/heads/cloud/mom-engine-step-b2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        case: [calibration, dual_source]
+    env:
+      LEAN_NUM_THREADS: '2'
+      B2_SOURCE_CASE: ${{ matrix.case }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and match the official mapping limit
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+          sysctl vm.max_map_count
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore normal project and branch artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Bind every tracked production source before validation
+        run: |
+          mkdir -p mom-b2-source-chain/identity
+          python3 - <<'SOURCEPY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from mom_engine_b2_native_watch import source_identity, atomic_json
+          atomic_json(Path('mom-b2-source-chain/identity/before.json'), source_identity(Path.cwd()))
+          SOURCEPY
+      - name: Run the original verifier and full fresh namespace audit
+        run: |
+          timeout --kill-after=30s 1200s python3 -u - <<'SOURCEPY'
+          import json, os, re, sys
+          from pathlib import Path
+          cases = {
+              'calibration': ('OriginalFirstTerminalCalibration', ['OriginalFirstTerminalCalibration'], 4),
+              'dual_source': ('DualFirstSourceFiniteLeaves', ['FirstSourceFiniteLeaves', 'DualFirstSourceFiniteLeaves'], 6),
+          }
+          module, sources, print_count = cases[os.environ['B2_SOURCE_CASE']]
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          names = []
+          for source in sources:
+              names.extend(re.findall(r'^#print axioms ([A-Za-z_][A-Za-z_0-9.]*)[ \t]*$',
+                                      (task / (source + '.lean')).read_text(), re.MULTILINE))
+          assert len(names) == len(set(names)) == print_count, 'Original prints changed'
+          if os.environ['B2_SOURCE_CASE'] == 'calibration':
+              names.extend('HeckeSkeleton.Moments.EngineStep.' + name for name in [
+                  'originalFirstMaskConstant', 'originalFirstMaskConstant_pos', 'originalFirstMaskConstant_bound'])
+          evidence = Path('mom-b2-source-chain')
+          command = [sys.executable, '-u', str(task / 'verify.py'),
+                     'HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + module,
+                     '--namespace', 'HeckeSkeleton.Moments.EngineStep',
+                     '--evidence', str(evidence / 'verification')]
+          for name in names:
+              command.extend(['--declaration', name])
+          (evidence / 'command.json').write_text(json.dumps(command, indent=2) + '\n')
+          (evidence / 'scope.json').write_text(json.dumps({
+              'case': os.environ['B2_SOURCE_CASE'], 'complete_real_target': module,
+              'original_print_sources': sources, 'declarations': names,
+              'skeleton_overlay_used': False, 'full_loaded_namespace_audit': True,
+              'wall_seconds': 1200, 'kill_grace_seconds': 30,
+          }, indent=2) + '\n')
+          os.execvp(sys.executable, command)
+          SOURCEPY
+      - name: Verify identical complete production sources after validation
+        if: always()
+        run: |
+          python3 - <<'SOURCEPY'
+          import json, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from mom_engine_b2_native_watch import source_identity, atomic_json
+          before = json.loads(Path('mom-b2-source-chain/identity/before.json').read_text())
+          after = source_identity(Path.cwd())
+          atomic_json(Path('mom-b2-source-chain/identity/after.json'), after)
+          assert before == after, 'Tracked production source changed during validation'
+          SOURCEPY
+      - name: Preserve complete source-chain compiler and fresh evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-source-chain-${{ matrix.case }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: mom-b2-source-chain/
+          if-no-files-found: error
           retention-days: 14

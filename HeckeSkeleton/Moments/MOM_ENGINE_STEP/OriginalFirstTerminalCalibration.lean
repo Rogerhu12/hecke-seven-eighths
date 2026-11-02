@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonLabelConditions
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSourceBudgets
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first zero and tail calibrations are constructed
 
@@ -34,11 +36,14 @@ variable {K : Type} [Field K] [NumberField K]
 
 /-- This constant is selected before every moving original source. -/
 def originalFirstMaskConstant (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ) : ℝ :=
-  Classical.choose (first_block_mask_labels_subpower (K := K) B δ hB hδ)
+  (Classical.choose (support_tuple_multiplicity_subpower (K := K)
+    1 B (δ / 2) hB (by positivity))) ^ 2
 
 theorem originalFirstMaskConstant_pos (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ) :
-    0 < originalFirstMaskConstant (K := K) B δ hB hδ :=
-  (Classical.choose_spec (first_block_mask_labels_subpower (K := K) B δ hB hδ)).1
+    0 < originalFirstMaskConstant (K := K) B δ hB hδ := by
+  unfold originalFirstMaskConstant
+  exact pow_pos (Classical.choose_spec (support_tuple_multiplicity_subpower (K := K)
+    1 B (δ / 2) hB (by positivity))).1 2
 
 theorem originalFirstMaskConstant_bound (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ)
     (Z : ℝ) (hZ : 1 ≤ Z) {A : SArithmeticData K} {ι κ : Type*}
@@ -47,9 +52,36 @@ theorem originalFirstMaskConstant_bound (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < �
     (M : Finset (HeightOneSpectrum A.R)) (R : Ideal (𝓞 K)) (hR : R ≠ 0)
     (hNR : (Ideal.absNorm R : ℝ) ≤ Z ^ B) (hND : (Ideal.absNorm DE.1 : ℝ) ≤ Z ^ B)
     (W : OriginalMaskPrimeData M R) :
-    ((b.mask M).powerset.card : ℝ) ≤ originalFirstMaskConstant (K := K) B δ hB hδ * Z ^ δ :=
-  (Classical.choose_spec (first_block_mask_labels_subpower (K := K) B δ hB hδ)).2
-    Z hZ b M R hR hNR hND W
+    ((b.mask M).powerset.card : ℝ) ≤ originalFirstMaskConstant (K := K) B δ hB hδ * Z ^ δ := by
+  let C : ℝ := Classical.choose (support_tuple_multiplicity_subpower (K := K)
+    1 B (δ / 2) hB (by positivity))
+  have hC : 0 < C := (Classical.choose_spec (support_tuple_multiplicity_subpower (K := K)
+    1 B (δ / 2) hB (by positivity))).1
+  have hb : ∀ (Y : ℝ), 1 ≤ Y →
+      ∀ D : Ideal (𝓞 K), (Ideal.absNorm D : ℝ) ≤ Y ^ B →
+        (DedekindZetaZeroFree.LargeSieve.idealDivisorCount D : ℝ) ^ (1 : ℕ) ≤
+          C * Y ^ (δ / 2) :=
+    (Classical.choose_spec (support_tuple_multiplicity_subpower (K := K)
+      1 B (δ / 2) hB (by positivity))).2
+  have hRbound : (DedekindZetaZeroFree.LargeSieve.idealDivisorCount R : ℝ) ≤
+      C * Z ^ (δ / 2) := by
+    simpa only [pow_one] using hb Z hZ R hNR
+  have hDbound : (DedekindZetaZeroFree.LargeSieve.idealDivisorCount DE.1 : ℝ) ≤
+      C * Z ^ (δ / 2) := by
+    simpa only [pow_one] using hb Z hZ DE.1 hND
+  have hcard : ((b.mask M).powerset.card : ℝ) ≤
+      (DedekindZetaZeroFree.LargeSieve.idealDivisorCount R : ℝ) *
+        (DedekindZetaZeroFree.LargeSieve.idealDivisorCount DE.1 : ℝ) := by
+    exact_mod_cast b.mask_powerset_card_le M R hR W
+  calc
+    _ ≤ (DedekindZetaZeroFree.LargeSieve.idealDivisorCount R : ℝ) *
+        (DedekindZetaZeroFree.LargeSieve.idealDivisorCount DE.1 : ℝ) := hcard
+    _ ≤ (C * Z ^ (δ / 2)) * (C * Z ^ (δ / 2)) :=
+      mul_le_mul hRbound hDbound (Nat.cast_nonneg _) (by positivity)
+    _ = C ^ 2 * (Z ^ (δ / 2) * Z ^ (δ / 2)) := by ring
+    _ = _ := by
+      rw [← Real.rpow_add (zero_lt_one.trans_le hZ), show δ / 2 + δ / 2 = δ by ring]
+      rfl
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
