@@ -65,7 +65,7 @@ theorem rawRowCost_le_dual_live
     (L : SourceCartesianAtlas s.columns s.ideal)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (ε Cerror Czero : ℝ)
-    (hstage : ∀ {j : Type*} (G : ActualGaussSource C j)
+    (hstage : ∀ {j : Type} (G : ActualGaussSource C j)
       (stage : ActualGaussStage (E := ℝ) hΓ μv hDiff G finiteTest)
       (hmask : stage.mask = ∅)
       (hpositive : 0 ≤ (sIntegerTensorTerm K A.Sf
