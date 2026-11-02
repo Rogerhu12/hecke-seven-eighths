@@ -1,6 +1,9 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstTerminal
 
+set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
+
 /-!
 # The original direct parent produces the canonical finite hybrid leaves
 
@@ -197,8 +200,9 @@ theorem actual_parent_direct_two_stage_finite_leaf_bound
     intro D _
     exact (T v D).linearized_le_finiteCost L L (exceptional v D)
       (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
-      ε Cerror Czero (fun {ι} G S T LC RC ex F x =>
-        (hsecond Z G S T LC RC ex F x).2)
+      ε Cerror Czero
+      (fun G S T LC RC ex F x => (hsecond Z G S T LC RC ex F x).2)
+      (fun G S T LC RC ex F x => (hsecond Z G S T LC RC ex F x).2)
   refine ⟨?_, hp.trans ?_⟩
   · rw [F.cutoff_eq]
     exact Real.rpow_le_rpow_of_exponent_le F.windows.base_ge_one hq
