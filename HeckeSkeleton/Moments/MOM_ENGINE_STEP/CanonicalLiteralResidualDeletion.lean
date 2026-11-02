@@ -72,7 +72,10 @@ theorem atlas_full_mask_one (hprime : ∀ p ∈ support, Prime p)
   have he := b.residual_full_mask_one hprime
     (CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i)
     ((CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi)
-  simpa only [CanonicalLiteralAtlasAtoms.castColumn_ideal] using he
+  have hideal := CanonicalLiteralAtlasAtoms.castColumn_ideal
+    (congrArg Sigma.fst e) i
+  exact (congrArg (originalCoprimeMask (literalDeletionIdeal support hprime))
+    hideal).symm.trans he
 
 end SupportCartesianBranch
 end HeckeSkeleton.Moments.EngineStep

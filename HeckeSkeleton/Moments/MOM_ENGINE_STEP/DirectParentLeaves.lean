@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstTerminal
+
 set_option linter.unusedSectionVars false
 set_option synthInstance.maxHeartbeats 400000
 
@@ -23,14 +24,6 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup MeasureTheory
-
-private abbrev direct_parent_nested_sum_fintype
-    {I : Type*} {J : I → Type*} {S : (i : I) → J i → Type*} {Χ : Type*}
-    {L R : (i : I) → (j : J i) → S i j → Χ → Type*}
-    [Fintype I] [∀ i, Fintype (J i)] [∀ i j, Fintype (S i j)] [Fintype Χ]
-    [∀ i j s χ, Fintype (L i j s χ)] [∀ i j s χ, Fintype (R i j s χ)] :
-    Fintype (Σ i, Σ j, Σ s, Σ χ, L i j s χ ⊕ R i j s χ) :=
-  inferInstance
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -88,27 +81,6 @@ abbrev CoverHybridPredicates (L : SourceCartesianAtlas s.columns s.ideal) :=
 abbrev CoveredLeafKey (L : SourceCartesianAtlas s.columns s.ideal) :=
   Σ v : s.CommonLabel, Σ D : ((s.block v).mask s.mask).powerset,
     (R v D).CoveredLeafKey L L
-
-abbrev coveredLeafKeyFintype
-    (L : SourceCartesianAtlas s.columns s.ideal) : Fintype (R.CoveredLeafKey L) :=
-  @direct_parent_nested_sum_fintype
-    s.CommonLabel
-    (fun v => ((s.block v).mask s.mask).powerset)
-    (fun v D => divisorPool (s.pieces v D).rightData.columns
-      (fun j => ((s.pieces v D).rightData.ideal j).val))
-    ((PUnit × PUnit) →* Circle)
-    (fun v D S χ => ((R v D).left S χ).CoveredLeafKey
-      ((s.pieces v D).leftSourceCover L S χ) ((s.pieces v D).leftSourceCover L S χ))
-    (fun v D S χ => ((R v D).right S χ).CoveredLeafKey
-      ((s.pieces v D).rightSourceCover L S χ) ((s.pieces v D).rightSourceCover L S χ))
-    inferInstance
-    (fun v => inferInstance)
-    (fun v D => inferInstance)
-    inferInstance
-    (fun v D S χ => inferInstance)
-    (fun v D S χ => inferInstance)
-
-attribute [instance] coveredLeafKeyFintype
 
 def parentLeaf (L : SourceCartesianAtlas s.columns s.ideal)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)

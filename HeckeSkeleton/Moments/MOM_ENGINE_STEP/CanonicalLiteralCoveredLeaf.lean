@@ -115,12 +115,18 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 
 @[simp] theorem literalLeftAtoms_whole (i : AllocationColumn K v.leftSlots) :
     (v.literalLeftAtoms leftAtoms).whole i =
-      ((v.literalLeftOriginal leftAtoms).extract v.literalLeftBranch).whole i := rfl
+      ((v.literalLeftOriginal leftAtoms).extract v.literalLeftBranch).whole i := by
+  exact CanonicalLiteralRectangles.Atoms.onAtlas_whole
+    (d := (v.literalLeftOriginal leftAtoms).extract v.literalLeftBranch)
+    (T := v.literalLeftResidualAtlas) (h := rfl) (i := i)
 
 @[simp] theorem literalRightAtoms_whole
     (i : AllocationColumn K v.literalRightBranch.keep.card) :
     (v.literalRightAtoms rightAtoms).whole i =
-      ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := rfl
+      ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
+  exact CanonicalLiteralRectangles.Atoms.onAtlas_whole
+    (d := (v.literalRightOriginal rightAtoms).extract v.literalRightBranch)
+    (T := v.literalRightResidualAtlas) (h := rfl) (i := i)
 
 theorem literalLeft_cartesian (i : AllocationColumn K v.leftSlots) :
     i ∈ v.leftReindex.cartesian ↔ i ∈ v.literalLeftBranch.residualColumns := by

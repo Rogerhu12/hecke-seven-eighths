@@ -147,10 +147,25 @@ theorem secondInput_eq_scale_core
       (d.secondInputCore P R b firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale
           (d.secondInputScalar (σ := σ) b power firstElement δ₁) := by
-  unfold secondInput secondInputCore secondInputScalar
-  dsimp only [firstExtracted]
-  erw [scale_twoStageNorms, scale_movingSingleton, scale_movingSingleton,
-    scale_movingSingleton, scale_scale]
+  have hscale (e : CanonicalLiteralRectangles.Atoms (K := K) b.keep.card)
+      (c₁ c₂ : ℂ) :
+      let n := (e.scale c₁).twoStageNorms (e.scale₁ false) (e.scale₂ false)
+        (fun i => e.base ^ e.length i) (e.scale₁_pos false) (e.scale₂_pos false)
+        (fun _ => Real.rpow_pos_of_pos (zero_lt_one.trans e.base_gt_one) _) δ₁ δ₂
+      (((n.movingSingleton P R firstFixed firstElement hfirst).movingSingleton
+        P R poolFixed poolElement hpool).movingSingleton P R unitFixed unitElement hunit).scale c₂ =
+        (let n := e.twoStageNorms (e.scale₁ false) (e.scale₂ false)
+          (fun i => e.base ^ e.length i) (e.scale₁_pos false) (e.scale₂_pos false)
+          (fun _ => Real.rpow_pos_of_pos (zero_lt_one.trans e.base_gt_one) _) δ₁ δ₂
+        ((n.movingSingleton P R firstFixed firstElement hfirst).movingSingleton
+          P R poolFixed poolElement hpool).movingSingleton P R unitFixed unitElement hunit).scale
+            (c₁ * c₂) := by
+    dsimp only
+    rw [scale_twoStageNorms, scale_movingSingleton, scale_movingSingleton,
+      scale_movingSingleton, scale_scale]
+  exact hscale (d.extract b) (d.commonScalar b)
+    (((A.exteriorNorm power ^ δ₁ : ℝ) : ℂ) *
+      actualIdealResidue (A := A) (σ := σ) power.val firstElement)
 
 theorem secondInput_whole_eq_scalar_core
     (power firstFixed poolFixed unitFixed : A.Exterior)

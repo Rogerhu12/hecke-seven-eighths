@@ -209,8 +209,7 @@ theorem joint_mask_allocations (M : Ideal (𝓞 K)) (hM : M ≠ 0)
   rw [Finset.sum_attach (liveLabels M S₁ S₂ S id id HeightOneSpectrum.asIdeal)
     (fun a => sign a * jointFourierColumn
       (columns S₁ S₂ S id id HeightOneSpectrum.asIdeal a) C x ξ)]
-  simpa only [allocationColumnIdeal, id_eq] using
-    joint_mask_liveLabels M hM S₁ S₂ S id id HeightOneSpectrum.asIdeal C x ξ
+  exact joint_mask_liveLabels M hM S₁ S₂ S id id HeightOneSpectrum.asIdeal C x ξ
 
 /-- Literal deletion of a whole two-rectangle table is the preceding
 finite expansion, with the original normalizer and subtraction. -/

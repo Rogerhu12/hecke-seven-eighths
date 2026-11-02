@@ -132,7 +132,7 @@ theorem canonicalLeftDirect_atlasCoefficient
         actualIdealResidue (A := A) (σ := σ) (b.leftResidual (T.reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
+  erw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
   let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
   have hj : j ∈ branch.residualColumns :=
     (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
@@ -184,7 +184,7 @@ theorem canonicalRightDirect_atlasCoefficient
         actualIdealResidue (A := A) (σ := σ) (b.rightResidual (T.reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
+  erw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
   let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
   have hj : j ∈ branch.residualColumns :=
     (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
