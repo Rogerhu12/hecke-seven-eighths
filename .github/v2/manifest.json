@@ -109,6 +109,57 @@
       "modules": [
         "Interface"
       ]
+    },
+    {
+      "id": "t3_proved",
+      "name": "T3a/T3b 已完成的原源私有辅助证明",
+      "proved": true,
+      "modules": [
+        "T3aBaseCount",
+        "T3aCharacters",
+        "T3aElementary",
+        "T3aRealization",
+        "T3aSupport",
+        "T3aValuationLocal",
+        "T3aValuationPackets",
+        "T3aValuations",
+        "T3bAtomComparison",
+        "T3bAtomFrames",
+        "T3bIndexAssembly",
+        "T3bKernels",
+        "T3bPairedRows",
+        "T3bSupportedVolume",
+        "T3bWholeBinding"
+      ]
+    },
+    {
+      "id": "t3_shared_n1",
+      "name": "PR32 任意原行 atom 公式的共享实现（原样复用）",
+      "proved": true,
+      "modules": [
+        "OrdinaryAtomExtraction",
+        "OrdinaryAtomModel",
+        "OrdinaryCharacterFacts",
+        "OrdinaryDivisorGate",
+        "OrdinaryFirstAtomFormula",
+        "OrdinaryLeafBinding",
+        "OrdinaryLeafLocations",
+        "OrdinaryMultiplierTransport",
+        "OrdinaryNormPower",
+        "OrdinaryNormProfile",
+        "OrdinaryOccurrenceFacts",
+        "OrdinaryOriginalCoordinates",
+        "OrdinaryOriginalTerms",
+        "OrdinaryPhaseCoefficients",
+        "OrdinaryPhaseFacts",
+        "OrdinaryPointTransport",
+        "OrdinaryRawAtomData",
+        "OrdinaryRawAtomFormula",
+        "OrdinaryRectangleFactors",
+        "OrdinaryScaleFacts",
+        "OrdinarySourceFacts",
+        "OrdinarySourceTransport"
+      ]
     }
   ]
 }
