@@ -77,10 +77,9 @@ theorem mainAtlasForLabel_literalDictionary (a : T.labels S D) :
           (T.reindex.slots (SlotRestriction.index (T.branch S D a).keep j)) S),
         (fun i => T.reindex.index ((T.branch S D a).reconstruct i))⟩ := by
   unfold mainAtlasForLabel
-  simp only [eqRec_eq_cast]
-  rw [SourceCartesianAtlas.literalDictionary_cast
+  refine (SourceCartesianAtlas.literalDictionary_cast
     (congrArg (fun t : Finset ι => t.filter
-      (fun i => T.reindex.supportExtractionLabel S i = a.val)) hcolumns).symm]
+      (fun i => T.reindex.supportExtractionLabel S i = a.val)) hcolumns).symm _ _).trans ?_
   dsimp only [SourceCartesianAtlas.literalDictionary, SourceCartesianAtlas.ofReindex]
   rw [T.residualReindex_plain₁, T.residualReindex_plain₂,
     T.residualReindex_slots, T.residualReindex_index]
@@ -144,9 +143,7 @@ theorem combinedAtlasForLabel_literalDictionary
   rw [hb.1] at he
   dsimp only
   unfold combinedAtlasForLabel
-  simp only [eqRec_eq_cast]
-  rw [SourceCartesianAtlas.literalDictionary_cast he]
-  rfl
+  exact SourceCartesianAtlas.literalDictionary_cast he _ _
 
 /-- Both the actual first common support and the pool valuation are
 kept in the cover key, before any continuous Fourier parameter. -/
@@ -154,8 +151,7 @@ theorem residualSourceCartesianCover_literalDictionary
     (a : d.combinedLabels T S p n) :
     let b := d.combinedBranchForLabel T S D hcolumns p n a
     let hb := (d.combinedBranchForLabel_spec T S D hcolumns p n a).2
-    ((d.residualSourceCartesianCover T S D hcolumns hideal p n c).branch a)
-        .literalDictionary =
+    ((d.residualSourceCartesianCover T S D hcolumns hideal p n c).branch a).literalDictionary =
       ⟨b.keep.card,
         (SupportCartesian.plainResidual T.reindex.plain₁ (S ∪ {p.val.asIdeal})
             b.plainExtract₁,

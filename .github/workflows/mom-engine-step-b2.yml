@@ -182,6 +182,20 @@ jobs:
             mom-b2-profile-identity/
           if-no-files-found: warn
           retention-days: 14
+      - name: Verify the repaired literal roots and their six original declarations
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExtraction \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlas \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMovingTwist \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.extract_whole \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.extract_gaussScale \
+            --declaration HeckeSkeleton.Moments.EngineStep.CartesianSourceReindex.supportResidualLabelBranch_index \
+            --declaration HeckeSkeleton.Moments.EngineStep.SourceCartesianAtlas.residualReindex_index \
+            --declaration HeckeSkeleton.Moments.EngineStep.FixedChildCharacters.movingSingleton_bare \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.movingSingleton_whole \
+            --evidence mom-b2-literal-roots
       - name: Verify all forty-six Actual-independent modules in the owned downstream closure
         run: |
           python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
@@ -223,6 +237,7 @@ jobs:
           path: |
             mom-b2-profile-root/
             mom-b2-profile-independent/
+            mom-b2-literal-roots/
             mom-b2-profile-identity/
           if-no-files-found: warn
           retention-days: 14

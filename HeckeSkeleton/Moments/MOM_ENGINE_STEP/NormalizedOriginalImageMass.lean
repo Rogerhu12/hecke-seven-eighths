@@ -148,8 +148,8 @@ theorem original_direct_image_kernel_mass
   have hscale : 4 * (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) =
       (4 * Cfiber) * profile ^ dFiber * Z ^ (ε / 4) := by ring
   convert hfour.trans_eq hscale using 1 <;> congr 2 <;> ext b <;>
-    simp only [Finset.mem_filter, Finset.mem_univ,
-      OriginalArithmeticLabels.rectangleIndex]
+    exact (@Finset.mem_filter _ _ _ _ b).trans
+      (@Finset.mem_filter _ _ _ _ b).symm
 
 /-- The amplified image uses the original prime and valuation tag. Its
 moving norm is already inside amplifiedIndexWeight, so the pointwise
