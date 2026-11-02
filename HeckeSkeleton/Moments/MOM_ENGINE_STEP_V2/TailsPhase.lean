@@ -71,11 +71,25 @@ private theorem transformedZero_profile_smul
           (Arithmetic.data c).Sf (traceSchwartzToMixed K pair.profile)
           (rowBallFiniteFamily K (Arithmetic.data c).Sf 1) 0 := by
     unfold sIntegerDualTensorTerm
+    change AdelicFourier.fourierIntegral (standardMixedAddCharacter K) volume
+        (traceSchwartzToMixed K (a • pair.profile))
+        ((InfiniteAdeleRing.ringEquiv_mixedSpace K) (0 : InfiniteAdeleRing K)) *
+          sIntegerLocalFourierProduct K (Arithmetic.localMeasures (K := K))
+            (Arithmetic.data c).Sf (rowBallFiniteFamily K (Arithmetic.data c).Sf 1)
+            (0 : FiniteAdeleRing (𝓞 K) K) =
+      a * (AdelicFourier.fourierIntegral (standardMixedAddCharacter K) volume
+        (traceSchwartzToMixed K pair.profile)
+        ((InfiniteAdeleRing.ringEquiv_mixedSpace K) (0 : InfiniteAdeleRing K)) *
+          sIntegerLocalFourierProduct K (Arithmetic.localMeasures (K := K))
+            (Arithmetic.data c).Sf (rowBallFiniteFamily K (Arithmetic.data c).Sf 1)
+            (0 : FiniteAdeleRing (𝓞 K) K))
     simp only [map_zero]
-    rw [show (0 : mixedEmbedding.mixedSpace K) = traceToMixed K 0 by simp,
-      fourierIntegral_traceSchwartzToMixed_traceToMixed,
-      fourierIntegral_traceSchwartzToMixed_traceToMixed,
-      engine_traceSchwartzFourier_smul]
+    have hfourierZero (φ : SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ) :
+        AdelicFourier.fourierIntegral (standardMixedAddCharacter K) volume
+          (traceSchwartzToMixed K φ) 0 = traceSchwartzFourier K φ 0 := by
+      simpa only [map_zero] using
+        fourierIntegral_traceSchwartzToMixed_traceToMixed (K := K) φ 0
+    rw [hfourierZero, hfourierZero, engine_traceSchwartzFourier_smul]
     simp only [SchwartzMap.smul_apply, smul_eq_mul, mul_assoc]
   have horiginal :
       sIntegerTensorTerm K (Arithmetic.data c).Sf (traceSchwartzToMixed K (a • pair.profile))
@@ -243,7 +257,19 @@ private theorem phase_transform_integrable (source : SecondSource call p)
     have hrows := source.stage.withMultiplier_rows
       (fun i => Real.fourierChar (inner ℝ x (source.physical.firstPoint i))) DE
     dsimp only [f]
-    rw [hrows]
+    exact congrArg
+      (fun rows : Finset (SIntegerOrbits K
+          ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) (Arithmetic.unitSubgroup c)) =>
+        ((source.phaseStage x).sources DE).zeroTerm
+            (Arithmetic.localMeasures (K := K)) (Arithmetic.different c)
+            (rowBallFiniteFamily K (Arithmetic.data c).Sf 1) +
+          ∑ D ∈ source.stage.mask.powerset, ∑ q ∈ rows,
+            ∑ i ∈ (source.stage.sources DE).leftColumns,
+              ∑ j ∈ (source.stage.sources DE).rightColumns,
+                (((source.phaseStage x).sources DE).pairs i j).transformedRow
+                  (Arithmetic.localMeasures (K := K)) (Arithmetic.different c)
+                  (rowBallFiniteFamily K (Arithmetic.data c).Sf 1) source.stage.radius D q)
+      hrows
   rw [he]
   exact hf
 

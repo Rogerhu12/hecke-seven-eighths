@@ -66,7 +66,7 @@ theorem empty_generator_coprime (a : (Arithmetic.data c).R) :
 theorem empty_divisor_eq_empty
     (D : (∅ : Finset (HeightOneSpectrum (Arithmetic.data c).R)).powerset) :
     D.val = ∅ :=
-  Finset.eq_empty_of_subset_empty (Finset.mem_powerset.mp D.property)
+  le_antisymm (Finset.mem_powerset.mp D.property) (Finset.empty_subset _)
 
 theorem orbit_fiber_le (source : PhysicalSource call p)
     (q : SIntegerOrbits K ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
@@ -78,7 +78,15 @@ theorem orbit_fiber_le (source : PhysicalSource call p)
       (fun h => engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).Nonempty
   · obtain ⟨h, hh⟩ := hne
     obtain ⟨hr, he⟩ := Finset.mem_filter.mp hh
-    exact Finset.le_sup (Finset.mem_image.mpr ⟨h, hr, he⟩)
+    exact Finset.le_sup
+      (s := source.source.rows.image
+        (engineElementOrbit (Γ := Arithmetic.unitSubgroup c)))
+      (f := fun r : SIntegerOrbits K
+          ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+          (Arithmetic.unitSubgroup c) =>
+        (source.source.rows.filter
+          (fun k => engineElementOrbit (Γ := Arithmetic.unitSubgroup c) k = r)).card)
+      (Finset.mem_image.mpr ⟨h, hr, he⟩)
   · rw [Finset.not_nonempty_iff_eq_empty.mp hne, Finset.card_empty]
     exact Nat.zero_le _
 

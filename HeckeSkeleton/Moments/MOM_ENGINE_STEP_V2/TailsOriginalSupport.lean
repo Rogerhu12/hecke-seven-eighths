@@ -147,8 +147,9 @@ theorem tailsV2_original_active_rectangle_column_norm_le_annulus
   calc
     _ = (idealNorm K v.1.1 * idealNorm K v.1.2) *
         ∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ) := by
-      simp only [ParentRawAtoms.columnIdeal, idealNorm, map_mul, map_prod,
+      simp only [ParentRawAtoms.columnIdeal, map_mul, map_prod,
         Nat.cast_mul, Nat.cast_prod]
+      rfl
     _ ≤ ((annulus * (if comparison then Y₁ else Z ^ a.n₁)) *
           (annulus * (if comparison then Y₂ else Z ^ a.n₂))) *
         ∏ i, annulus * Z ^ (d.geometry.slots i).length :=
@@ -249,7 +250,7 @@ theorem tailsV2_physical_ideal_norm_le_of_dvd
     (D I : Ideal (𝓞 K)) (hI : I ≠ 0) (h : D ∣ I) :
     (Ideal.absNorm D : ℝ) ≤ (Ideal.absNorm I : ℝ) := by
   have hpos : 0 < Ideal.absNorm I :=
-    Nat.pos_of_ne_zero (by simpa only [Ideal.absNorm_eq_zero_iff] using hI)
+    Nat.pos_of_ne_zero (fun hzero => hI (Ideal.absNorm_eq_zero_iff.mp hzero))
   exact_mod_cast Nat.le_of_dvd hpos
     (Ideal.absNorm_dvd_absNorm_of_le (Ideal.le_of_dvd h))
 
