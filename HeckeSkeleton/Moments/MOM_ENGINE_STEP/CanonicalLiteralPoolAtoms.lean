@@ -163,10 +163,29 @@ theorem literalLeftMainAtoms_coefficient
     (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
   have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
     (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
-  unfold literalLeftMainAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
-  simpa only [p.divisorPools.left_ideal S, p.left_ideal] using hc
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have hdelete := CanonicalLiteralRectangles.Atoms.deleteMask_whole
+    (input.onAtlas T (congrArg Sigma.fst e).symm)
+    (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)) i hi
+  have hsource :
+      (p.divisorPools.leftData S).ideal (T.reindex.index i) =
+        b.leftResidual (T.reindex.index i) :=
+    congrFun ((p.divisorPools.left_ideal S).trans p.left_ideal) (T.reindex.index i)
+  have hcoefficient := hc.trans
+    (congrArg (fun J : A.Exterior =>
+      p.leftDivisorCoefficient S χ (T.reindex.index i) *
+        ((A.exteriorNorm J ^ δ₂ : ℝ) : ℂ) *
+        actualIdealResidue (A := A) (σ := σ) J.val
+          (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))) hsource.symm)
+  exact hdelete.trans
+    ((congrArg₂ (fun x y : ℂ => x * y) hcoefficient hm).trans (mul_one _))
 
 theorem literalLeftPoolCover_dictionary (q : pool.primes) (n : ℕ)
     (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
@@ -260,10 +279,19 @@ theorem literalLeftPoolAtoms_coefficient
       subst p
       exact q.val.val.prime
   have hm := branch.atlas_full_mask_one T hprime index e i hi
-  unfold literalLeftPoolAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
-  exact hc
+  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
+    (powerIdeal q.val (2 * n)) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q.val (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have hdelete := CanonicalLiteralRectangles.Atoms.deleteMask_whole
+    (input.onAtlas T (congrArg Sigma.fst e).symm)
+    (literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) hprime) i hi
+  exact hdelete.trans
+    ((congrArg₂ (fun x y : ℂ => x * y) hc hm).trans (mul_one _))
 
 theorem literalRightMainCover_dictionary
     (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels) :
@@ -333,10 +361,29 @@ theorem literalRightMainAtoms_coefficient
     (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
   have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
     (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
-  unfold literalRightMainAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
-  simpa only [p.divisorPools.right_ideal S, p.right_ideal] using hc
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have hdelete := CanonicalLiteralRectangles.Atoms.deleteMask_whole
+    (input.onAtlas T (congrArg Sigma.fst e).symm)
+    (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)) i hi
+  have hsource :
+      (p.divisorPools.rightData S).ideal (T.reindex.index i) =
+        b.rightResidual (T.reindex.index i) :=
+    congrFun ((p.divisorPools.right_ideal S).trans p.right_ideal) (T.reindex.index i)
+  have hcoefficient := hc.trans
+    (congrArg (fun J : A.Exterior =>
+      p.rightDivisorCoefficient S χ (T.reindex.index i) *
+        ((A.exteriorNorm J ^ δ₂ : ℝ) : ℂ) *
+        actualIdealResidue (A := A) (σ := σ) J.val
+          (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))) hsource.symm)
+  exact hdelete.trans
+    ((congrArg₂ (fun x y : ℂ => x * y) hcoefficient hm).trans (mul_one _))
 
 theorem literalRightPoolCover_dictionary (q : pool.primes) (n : ℕ)
     (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
@@ -430,10 +477,19 @@ theorem literalRightPoolAtoms_coefficient
       subst p
       exact q.val.val.prime
   have hm := branch.atlas_full_mask_one T hprime index e i hi
-  unfold literalRightPoolAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
-  exact hc
+  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
+    (powerIdeal q.val (2 * n)) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q.val (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have hdelete := CanonicalLiteralRectangles.Atoms.deleteMask_whole
+    (input.onAtlas T (congrArg Sigma.fst e).symm)
+    (literalDeletionIdeal (primeSupport DE.1 ∪ {q.val.val.asIdeal}) hprime) i hi
+  exact hdelete.trans
+    ((congrArg₂ (fun x y : ℂ => x * y) hc hm).trans (mul_one _))
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -109,19 +109,23 @@ theorem covered_innerDivisor_norm_le (Y : ℝ)
     (hN : ∀ i ∈ G.columns, (Ideal.absNorm (G.ideal i).val : ℝ) ≤ Y)
     (j : s.CoveredLeafKey LC RC) : Nat.cast (R := ℝ) (Ideal.absNorm j.2.1.val) ≤ Y := by
   let v := j.1
-  apply actual_divisorPool_norm_le
+  have hcolumns :
+      ∀ i ∈ childCartesianColumns
+          v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots,
+        (Ideal.absNorm (v.block.rightResidual (v.rightReindex.index i)).val : ℝ) ≤ Y := by
+    intro i hi
+    have hf := v.rightReindex.maps i hi
+    have hc := (RC.branch v.2.2.2.1).commonFibre_subset
+      (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2 hf
+    have horiginal : v.rightReindex.index i ∈ G.columns :=
+      (Finset.mem_filter.mp (Finset.mem_filter.mp hc).1).1
+    rw [v.block.right_residual]
+    exact (actual_supportResidual_norm_le _ (G.ideal (v.rightReindex.index i)).property.1 _).trans
+      (hN _ horiginal)
+  exact actual_divisorPool_norm_le
     (childCartesianColumns v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots)
     (fun i => (v.block.rightResidual (v.rightReindex.index i)).val) Y
-    (fun i _ => (v.block.rightResidual (v.rightReindex.index i)).property.1) _ j.2.1
-  intro i hi
-  have hf := v.rightReindex.maps i hi
-  have hc := (RC.branch v.2.2.2.1).commonFibre_subset
-    (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2 hf
-  have horiginal : v.rightReindex.index i ∈ G.columns :=
-    (Finset.mem_filter.mp (Finset.mem_filter.mp hc).1).1
-  rw [v.block.right_residual]
-  exact (actual_supportResidual_norm_le _ (G.ideal (v.rightReindex.index i)).property.1 _).trans
-    (hN _ horiginal)
+    (fun i _ => (v.block.rightResidual (v.rightReindex.index i)).property.1) hcolumns j.2.1
 
 end ActualGaussStage
 
@@ -287,7 +291,9 @@ theorem arithmeticLabels_admissible {cap : ℕ} (hcap : L.slotCount ≤ cap)
     (hN : ∀ i ∈ s.columns, (Ideal.absNorm (s.ideal i).val : ℝ) ≤ Z ^ B) :
     (R.supported.gated.arithmeticLabels L hcap exceptional N).carrier.Admissible
       (cap + 2) B Z oldMask := by
-  apply OriginalArithmeticLabels.carrier_admissible
+  refine OriginalArithmeticLabels.carrier_admissible
+    (R.supported.gated.arithmeticLabels L hcap exceptional N) B Z oldMask
+    ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
   · intro j
     have hp := actual_common_pair_properties _ _ _ _ j.val.1
     have hdiv : oldMask ∣ j.val.1.val.1 ∧ oldMask ∣ j.val.1.val.2 := by

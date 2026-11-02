@@ -123,9 +123,13 @@ theorem dependent_child_integral_sum (parentWidth : ℝ) :
     _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
           ∫ ξ, (families j).childPair Finset.univ b ξ
             ∂(families j).kernel Finset.univ (scaledMeasure j) parentWidth b := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_child_integral families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      have h := ActualNormalizedPairFamily.sum_sigmaCombine_child_integral families
+        Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      simp only [Finset.univ_sigma_univ] at h
+      refine h.trans ?_
+      exact Fintype.sum_equiv
+        (Equiv.subtypeUnivEquiv (fun j : Leaves => Finset.mem_univ j)) _ _
+        (fun _ => rfl)
     _ = _ := by
       apply Finset.sum_congr rfl
       intro j _
@@ -146,9 +150,13 @@ theorem dependent_kernel_mass_sum (parentWidth : ℝ) :
   calc
     _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
           ((families j).kernel Finset.univ (scaledMeasure j) parentWidth b).real Set.univ := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_kernel_mass families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      have h := ActualNormalizedPairFamily.sum_sigmaCombine_kernel_mass families
+        Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      simp only [Finset.univ_sigma_univ] at h
+      refine h.trans ?_
+      exact Fintype.sum_equiv
+        (Equiv.subtypeUnivEquiv (fun j : Leaves => Finset.mem_univ j)) _ _
+        (fun _ => rfl)
     _ = _ := by
       apply Finset.sum_congr rfl
       intro j _
@@ -295,9 +303,13 @@ theorem dependent_child_integral_sum (parentWidth : ℝ) :
     _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
           ∫ ξ, (families j).childPair Finset.univ b ξ
             ∂(families j).kernel Finset.univ (scaledMeasure j) parentWidth b := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_child_integral families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      have h := ActualNormalizedPairFamily.sum_sigmaCombine_child_integral families
+        Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      simp only [Finset.univ_sigma_univ] at h
+      refine h.trans ?_
+      exact Fintype.sum_equiv
+        (Equiv.subtypeUnivEquiv (fun j : Leaves => Finset.mem_univ j)) _ _
+        (fun _ => rfl)
     _ = _ := by
       apply Finset.sum_congr rfl
       intro j _
@@ -318,9 +330,13 @@ theorem dependent_kernel_mass_sum (parentWidth : ℝ) :
   calc
     _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
           ((families j).kernel Finset.univ (scaledMeasure j) parentWidth b).real Set.univ := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_kernel_mass families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      have h := ActualNormalizedPairFamily.sum_sigmaCombine_kernel_mass families
+        Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
+      simp only [Finset.univ_sigma_univ] at h
+      refine h.trans ?_
+      exact Fintype.sum_equiv
+        (Equiv.subtypeUnivEquiv (fun j : Leaves => Finset.mem_univ j)) _ _
+        (fun _ => rfl)
     _ = _ := by
       apply Finset.sum_congr rfl
       intro j _

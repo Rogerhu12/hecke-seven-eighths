@@ -314,12 +314,11 @@ theorem twoStageProfileFactor_product (δ₁ δ₂ : ℝ) (r : Bool)
     (fun i : Fin b.keep.card => (d.extract b).base ^ (d.extract b).length i)
     (fun i _ => Real.rpow_nonneg (zero_le_one.trans (d.extract b).base_gt_one.le)
       ((d.extract b).length i)) (-1 / 2 + δ₁ + δ₂)]
-  exact (Real.mul_rpow
+  exact (Real.mul_rpow (z := -1 / 2 + δ₁ + δ₂)
     (mul_pos ((d.extract b).scale₁_pos false) ((d.extract b).scale₂_pos false)).le
-    (Finset.prod_nonneg fun i _ =>
+    (Finset.prod_nonneg (s := Finset.univ) fun i _ =>
       Real.rpow_nonneg (zero_le_one.trans (d.extract b).base_gt_one.le)
-        ((d.extract b).length i))
-    (-1 / 2 + δ₁ + δ₂)).symm
+        ((d.extract b).length i))).symm
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))

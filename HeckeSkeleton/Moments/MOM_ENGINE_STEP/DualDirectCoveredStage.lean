@@ -153,11 +153,12 @@ theorem rawCost_le_finiteCost
     (classWeight_nonneg NL NR S χ)
   convert hh using 1
   · dsimp only [classWeight]
-    ring
+    simp only [mul_assoc]
   · simp only [Fintype.sum_sum_type, classLeaf, ActualHybridLeaf.scale_cost]
     rw [← Finset.mul_sum, ← Finset.mul_sum]
     unfold classZeroBudget classTailBudget
-    ring
+    simp only [mul_add, add_div, mul_comm_div]
+    ac_rfl
 
 end SecondStages.DualTerminalCalibration
 end FirstBlockDirectData
@@ -262,17 +263,42 @@ theorem actual_parent_direct_two_stage_dual_finite_leaf_bound
         (s.fiber : ℝ) * F.cost hB δ hδ ε CfirstError CfirstZero +
         R.dualSecondZeroBudget T N ε Czero + R.dualSecondTailBudget T N Cerror +
         ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-      CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hparent⟩ :=
-    actual_parent_direct_two_stage_dual_raw_terminal_bound
+  refine Exists.elim
+    (actual_parent_direct_two_stage_dual_raw_terminal_bound
       (W := W) (E := E) (ν := ν) (μ := μ) hΓ μv hDiff C Drecipe hD
-      rowBallSize normBound hB δ hδ k ε hε Lmax Nsave ξmax hξmax
+      rowBallSize normBound hB δ hδ k ε hε Lmax Nsave ξmax hξmax) ?_
+  intro decay hdecayExists
+  refine Exists.elim hdecayExists ?_
+  intro hdecay hsetup
+  have hchoice := hsetup.1
+  have hq := hsetup.2.1
+  refine Exists.elim hsetup.2.2 ?_
+  intro sFirst hsFirstZero
+  refine Exists.elim hsFirstZero ?_
+  intro sFirstZero hsTail
+  refine Exists.elim hsTail ?_
+  intro sTail hsZero
+  refine Exists.elim hsZero ?_
+  intro sZero hCfirstErrorExists
+  refine Exists.elim hCfirstErrorExists ?_
+  intro CfirstError hCfirstZeroExists
+  refine Exists.elim hCfirstZeroExists ?_
+  intro CfirstZero hCerrorExists
+  refine Exists.elim hCerrorExists ?_
+  intro Cerror hCzeroExists
+  refine Exists.elim hCzeroExists ?_
+  intro Czero hbounds
+  have hCfE := hbounds.1
+  have hCfZ := hbounds.2.1
+  have hCE := hbounds.2.2.1
+  have hCZ := hbounds.2.2.2.1
+  have hparent := hbounds.2.2.2.2
   refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
     CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
   intro Z ω ψ centered d a t Y₁ Y₂ X hX s coefficient hprofiles N R conditions T F L exceptional
-  obtain ⟨hcutoff, hraw⟩ :=
+  have hcutoffRaw :=
     hparent Z centered d a t Y₁ Y₂ X hX s coefficient hprofiles N R conditions T F
-  refine ⟨hcutoff, hraw.trans ?_⟩
+  refine ⟨hcutoffRaw.1, hcutoffRaw.2.trans ?_⟩
   calc
     _ ≤ (s.fiber : ℝ) * (F.cost hB δ hδ ε CfirstError CfirstZero +
         R.dualFiniteCost T L exceptional N ε Cerror Czero) :=
@@ -281,7 +307,7 @@ theorem actual_parent_direct_two_stage_dual_finite_leaf_bound
         (Nat.cast_nonneg s.fiber)
     _ = _ := by
       rw [mul_add, R.dualFiniteCost_eq_budgets_leaves T L exceptional N ε Cerror Czero]
-      ring
+      simp only [add_assoc]
 
 end HeckeSkeleton.Moments.EngineStep
 

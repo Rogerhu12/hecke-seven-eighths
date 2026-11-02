@@ -173,10 +173,19 @@ theorem literalLeftDirectAtoms_coefficient
     (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
   have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
     (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
-  unfold literalLeftDirectAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi]
-  rw [hc, hm, mul_one]
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have hdelete := CanonicalLiteralRectangles.Atoms.deleteMask_whole
+    (input.onAtlas T (congrArg Sigma.fst e).symm)
+    (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)) i hi
+  exact hdelete.trans
+    ((congrArg₂ (fun x y : ℂ => x * y) hc hm).trans (mul_one _))
 
 theorem literalRightDirectCover_dictionary
     (label : (p.rightSourceCover (raw).originalAtlas S χ).labels) :
@@ -258,10 +267,19 @@ theorem literalRightDirectAtoms_coefficient
     (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
   have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
     (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
-  unfold literalRightDirectAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi]
-  rw [hc, hm, mul_one]
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  have hdelete := CanonicalLiteralRectangles.Atoms.deleteMask_whole
+    (input.onAtlas T (congrArg Sigma.fst e).symm)
+    (literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp)) i hi
+  exact hdelete.trans
+    ((congrArg₂ (fun x y : ℂ => x * y) hc hm).trans (mul_one _))
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

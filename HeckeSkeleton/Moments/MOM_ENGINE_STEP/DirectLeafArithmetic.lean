@@ -144,7 +144,9 @@ theorem prepared_live_old_mask
   rcases j with ⟨S, χ, j | j⟩
   · have hlive := ((R.left S χ).supported.gated.fiberCoveredLeaf
       (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
-      chart.kernel chart.leftPoint j).live_of_scale_live _ _ hj
+      chart.kernel chart.leftPoint j).live_of_scale_live
+        (classWeight (p := p) NL NR S χ / NL S χ)
+        (div_nonneg (classWeight_nonneg (p := p) NL NR S χ) (hNL S χ).le) hj
     have hs := (R.left S χ).supported_gated_fiberLeaf_live
       (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
       chart.kernel chart.leftPoint j hlive
@@ -154,7 +156,9 @@ theorem prepared_live_old_mask
       j.1.1.val hs.2.1
   · have hlive := ((R.right S χ).supported.gated.fiberCoveredLeaf
       (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
-      chart.kernel (fun i => -chart.rightPoint i) j).live_of_scale_live _ _ hj
+      chart.kernel (fun i => -chart.rightPoint i) j).live_of_scale_live
+        (classWeight (p := p) NL NR S χ / NR S χ)
+        (div_nonneg (classWeight_nonneg (p := p) NL NR S χ) (hNR S χ).le) hj
     have hs := (R.right S χ).supported_gated_fiberLeaf_live
       (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
       chart.kernel (fun i => -chart.rightPoint i) j hlive
@@ -232,7 +236,8 @@ theorem prepared_arithmeticLabels_second_valid (hcap : L.slotCount ≤ cap)
   have hlive := ((R.prepared j.val.1 j.val.2.1).coveredLeaf L L
     (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
     (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
-    (exceptional j.val.1 j.val.2.1) j.val.2.2).live_of_scale_live _ _
+    (exceptional j.val.1 j.val.2.1) j.val.2.2).live_of_scale_live
+      (s.fiber : ℝ) (Nat.cast_nonneg s.fiber)
       (R.prepared.liveLeaves_spec L exceptional N j)
   exact (R j.val.1 j.val.2.1).prepared_live_second_valid L L
     (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
