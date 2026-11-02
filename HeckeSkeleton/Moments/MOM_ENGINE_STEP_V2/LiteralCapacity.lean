@@ -391,7 +391,7 @@ variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 variable {ω ψ : HeckeCharacter K} {X : Type*} {data : X → MomentData K ω ψ}
 variable (Q : CompleteMovingRowRecipe A P R data) (ξ : X)
-variable (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+variable (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
 variable (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
 variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 

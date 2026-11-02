@@ -140,7 +140,7 @@ valuation-seven sources on each independent side. -/
 def pooledStages : (pooledSource request frequency).SecondStages
     (E := ℝ) (hDiff := TargetArithmetic.different c) := fun DE D => {
   left := fun S χ =>
-    (FirstGaussPoolData.literalCanonicalStages (d := (((pooledSource request frequency).pools DE D).divisorPools.leftData S)))
+    FirstGaussPoolData.literalCanonicalStages (d := (((pooledSource request frequency).pools DE D).divisorPools.leftData S))
       (hΓ := actualSixthUnits_are_sixth (places K c))
       (μv := TargetArithmetic.localMeasures (K := K))
       (hDiff := TargetArithmetic.different c) (ν := TargetArithmetic.finiteMeasure (K := K))
@@ -153,7 +153,7 @@ def pooledStages : (pooledSource request frequency).SecondStages
       ((selectedBox c frame).secondCutoff request.base)
       ((selectedBox c frame).secondCutoff_ge_one (base_gt_one request).le)
   right := fun S χ =>
-    (FirstGaussPoolData.literalCanonicalStages (d := (((pooledSource request frequency).pools DE D).divisorPools.rightData S)))
+    FirstGaussPoolData.literalCanonicalStages (d := (((pooledSource request frequency).pools DE D).divisorPools.rightData S))
       (hΓ := actualSixthUnits_are_sixth (places K c))
       (μv := TargetArithmetic.localMeasures (K := K))
       (hDiff := TargetArithmetic.different c) (ν := TargetArithmetic.finiteMeasure (K := K))

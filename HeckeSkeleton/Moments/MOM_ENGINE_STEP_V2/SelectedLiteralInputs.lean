@@ -61,7 +61,8 @@ variable (request : Request c frame Cp Hp hCp hminimum hHp) (frequency : ℝ × 
 
 def seed :=
   CompleteMovingRowRecipe.literalOriginalAtoms (recipe request frequency) PUnit.unit
-    ((normProfiles request frequency).at PUnit.unit) (parameters request frequency)
+    ((normProfiles request frequency).at PUnit.unit :
+      NormProfileRecipe (fun _ : PUnit.{1} => _)) (parameters request frequency)
     request.base 0 (request.base ^ (model request frequency).comparison₁)
     (request.base ^ (model request frequency).comparison₂) (model request frequency).centered
     (base_gt_one request)

@@ -195,7 +195,7 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 moving-row source. Before the first transform there is no extra Gauss
 denominator, so its three kinds of Gauss scale are all exactly one. -/
 def literalOriginalAtoms (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂) :
     CanonicalLiteralRectangles.Atoms (K := K) (data ξ).geometry.slotCount where
@@ -234,7 +234,7 @@ def literalOriginalAtoms (ξ : X)
   gaussSlot_pos _ := zero_lt_one
 
 @[simp] theorem literalOriginalAtoms_normalizer (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂) :
     ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).normalizer = 1 := by
@@ -244,7 +244,7 @@ def literalOriginalAtoms (ξ : X)
 two plain profiles and all prime occurrences. There is no supplied
 complete-coefficient equality. -/
 theorem literalOriginalAtoms_term (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered comparison : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (i : AllocationColumn K (data ξ).geometry.slotCount) :
@@ -258,7 +258,7 @@ theorem literalOriginalAtoms_term (ξ : X)
 Cartesian atlas, is the constructed whole rectangle. Empty slot sets
 are covered by the same finite product. -/
 theorem literalOriginalAtoms_whole (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (i : AllocationColumn K (data ξ).geometry.slotCount) :

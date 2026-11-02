@@ -308,7 +308,7 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 original allowed row. The original norm identity makes that choice
 agree with every original row in the source. -/
 def literalOriginalProfileData (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -345,7 +345,7 @@ def literalOriginalProfileData (ξ : X)
 /-- A positive original support window supplies every positivity fact
 used above. No new final-child profile or support condition is needed. -/
 def literalOriginalProfileDataOfWindow (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -368,7 +368,7 @@ def literalOriginalProfileDataOfWindow (ξ : X)
 at any actual original paired row. The exterior filter is discharged
 by the original arithmetic mask, separately from the smooth profile. -/
 theorem literalOriginalAtoms_left_weight_mem (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -379,7 +379,7 @@ theorem literalOriginalAtoms_left_weight_mem (ξ : X)
   sorry
 
 theorem literalOriginalAtoms_right_weight_mem (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -392,7 +392,7 @@ theorem literalOriginalAtoms_right_weight_mem (ξ : X)
 /-- Prime profiles have no row parameter. Only the original exterior
 prime condition is needed in addition to their actual nonzero value. -/
 theorem literalOriginalAtoms_slot_weight_mem (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (j : Fin (data ξ).geometry.slotCount) (p : HeightOneSpectrum (𝓞 K))

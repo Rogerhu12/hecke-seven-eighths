@@ -109,12 +109,12 @@ namespace SecondStages
 
 variable {p}
 
-structure TerminalCalibration (s : (FirstBlockDirectData.SecondStages (p := p)) (E := E) (hDiff := hDiff))
+structure TerminalCalibration (s : FirstBlockDirectData.SecondStages (p := p) (E := E) (hDiff := hDiff))
     (sTail sZero : Finset (ℕ × ℕ)) (k : ℕ) (Z Lmax Nsave decay : ℝ) where
   left : ∀ S χ, (s.left S χ).TerminalCalibration sTail sZero k Z Lmax Nsave decay
   right : ∀ S χ, (s.right S χ).TerminalCalibration sTail sZero k Z Lmax Nsave decay
 
-structure CoverHybridPredicates (s : (FirstBlockDirectData.SecondStages (p := p)) (E := E) (hDiff := hDiff))
+structure CoverHybridPredicates (s : FirstBlockDirectData.SecondStages (p := p) (E := E) (hDiff := hDiff))
     (LA : SourceCartesianAtlas left fullI) (RA : SourceCartesianAtlas right fullJ) where
   left : ∀ S χ, (s.left S χ).CoverHybridPredicates
     ((FirstBlockDirectData.leftSourceCover (p := p)) LA S χ) ((FirstBlockDirectData.leftSourceCover (p := p)) LA S χ)

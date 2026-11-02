@@ -504,7 +504,7 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 /-- The original atom table supplies its support data from an original
 paired row. No later ordinary row or normalized child is consulted. -/
 def literalOriginalSupportData (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)

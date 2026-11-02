@@ -67,7 +67,8 @@ def budget := (request.preparedSourceData (selectedCall request) frequency).loca
 def recipe := (budget request frequency).source.recipe
 
 def normProfiles := localizedNormProfileRecipe
-  ((request.preparedNormProfiles (selectedCall request)).at frequency)
+  ((request.preparedNormProfiles (selectedCall request)).at frequency :
+    NormProfileRecipe (fun _ : PUnit.{1} => (model request frequency).data))
   (model request frequency).parameters request.base
 
 def parameters : RealParameters :=
@@ -75,7 +76,8 @@ def parameters : RealParameters :=
 
 def raw :=
   (((recipe request frequency).arithmeticAtoms PUnit.unit).constantAtoms
-    ((normProfiles request frequency).at PUnit.unit)
+    ((normProfiles request frequency).at PUnit.unit :
+      NormProfileRecipe (fun _ : PUnit.{1} => _))
     (parameters request frequency) request.base 0).raw
       (request.base ^ (model request frequency).comparison₁)
       (request.base ^ (model request frequency).comparison₂)

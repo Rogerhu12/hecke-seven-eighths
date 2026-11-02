@@ -482,7 +482,7 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 /-- The original window constructs the literal frozen representatives.
 Only one original allowed row is used, before any descendant exists. -/
 def literalOriginalSchwartzModel (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -513,7 +513,7 @@ def literalOriginalSchwartzModel (ξ : X)
   slot_support j := closure_minimal (original.prime_support j t ht) hclosed
 
 theorem literalOriginalSchwartzModel_bound (ξ : X)
-    (W : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (W : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -2290,7 +2290,7 @@ two-stage scalar-free balanced constructor. The extra prime-window
 clause is the original single-prime support condition. -/
 def literalScalarFreeComputedProfiles
     (Q : CompleteMovingRowRecipe A P R data) (ξ : X)
-    (recipe : NormProfileRecipe (fun _ : PUnit => data ξ))
+    (recipe : NormProfileRecipe (fun _ : PUnit.{1} => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)

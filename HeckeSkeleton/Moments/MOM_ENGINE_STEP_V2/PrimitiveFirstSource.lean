@@ -76,7 +76,8 @@ variable (centered : Bool) (cutoff : ℝ) (hcutoff : 1 ≤ cutoff)
 variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
 local notation "internal" => (CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z
-local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
+local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms
+  (W.at ξ : NormProfileRecipe (fun _ : PUnit.{1} => data ξ)) internal Z t
 local notation "raw" => (atoms).raw Y₁ Y₂
 
 /-- The first source is selected before any original common label or

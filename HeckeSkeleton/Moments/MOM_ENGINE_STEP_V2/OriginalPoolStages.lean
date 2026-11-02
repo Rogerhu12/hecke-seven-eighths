@@ -113,11 +113,11 @@ def literalCanonicalStages : ActualPoolStages (E := ℝ) hΓ μv hDiff d c
     P δ hδ hδhalf (d.mainSource c) (mainGeometry).retainedScale Z (mainGeometry).enlargement
     (mainGeometry).retainedScale_pos (zero_lt_one.trans pool.base_gt_one) cutoff hcutoff
     ((FirstGaussPoolData.literalMainRows (d := d)) a I supportError herr hstep hrows)
-  one p := (FirstGaussPoolData.literalValuationStage (d := d)) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+  one p := FirstGaussPoolData.literalValuationStage (d := d) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     c P a I supportError herr hstep hrows δ hδ hδhalf cutoff hcutoff .one p
-  six p := (FirstGaussPoolData.literalValuationStage (d := d)) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+  six p := FirstGaussPoolData.literalValuationStage (d := d) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     c P a I supportError herr hstep hrows δ hδ hδhalf cutoff hcutoff .six p
-  seven p := (FirstGaussPoolData.literalValuationStage (d := d)) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+  seven p := FirstGaussPoolData.literalValuationStage (d := d) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     c P a I supportError herr hstep hrows δ hδ hδhalf cutoff hcutoff .seven p
 
 

@@ -172,7 +172,8 @@ theorem fullSupportRadius_row_window
   calc
     _ = (idealNorm K u * A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining)) /
         Z ^ width := by ring
-    _ ≤ 1 := (div_le_iff₀ (Real.rpow_pos_of_pos hZ width)).mpr (by simpa only [one_mul] using hb)
+    _ ≤ 1 := (div_le_iff₀ (Real.rpow_pos_of_pos hZ width)).mpr (by
+      simpa only [one_mul, Q.effectiveMovingMaskRecipe_support] using hb)
 
 /-- The original moving-row recipe constructs the actual first source
 at the full-support radius. Its arithmetic coefficient and all of its
@@ -191,7 +192,8 @@ def canonicalFullSupportDirectFirstSource
       (E := ℝ) (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv C Z (rowBallFiniteFamily K A.Sf 1)
       centered (data ξ) a t Y₁ Y₂ cutoff hcutoff := by
-  let atoms := (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t
+  let atoms := (Q.arithmeticAtoms ξ).constantAtoms
+    (W.at ξ : NormProfileRecipe (fun _ : PUnit.{1} => data ξ)) a Z t
   let raw := atoms.raw Y₁ Y₂
   let radius := (CompleteMovingRowRecipe.fullSupportRadius (Q := Q)) Z (a.m + a.q) hZ
   have hideal (u) (hu : u ∈ pairedRows (data ξ) a Z) :
