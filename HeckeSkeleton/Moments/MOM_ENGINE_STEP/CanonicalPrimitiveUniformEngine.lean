@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineFinalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyParentEngineOutput
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The uniform internal engine on the original parent
