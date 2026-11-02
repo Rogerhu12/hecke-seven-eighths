@@ -45,6 +45,16 @@ B 线在 PR #31 发布了任务总表（S1–S6、N1–N9、T1–T4、U1，共 2
 3. 边写边编，分批推送，等每一轮 CI 跑完再推下一批。今天踩过的坑（linter、全局实例、记号检查）见上文的规矩。
 4. 完成标准：本任务文件里没有 `sorry`，CI 全绿，对本任务声明做的公理检查只含三条标准公理。达到后在 PR #31 留言，由 B 线合入 `cloud/mom-engine-step-v2`。
 
+## 组装会话（2026-11-02 22:15 起）
+
+组装定理交给一个单独的会话，B 线专心修基线、冻结陈述。组装会话的规矩如下：
+
+1. 目标：在 V2 里写出并证明 `pairedStepHypothesis_of_blueprint`。它以全部 23 个任务的陈述作为前提（显式参数，或者一个汇总所有任务证明的结构体），推出 `EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c`，本身不能有 `sorry`。B 线已经写好的组装零件（AssemblyCore、BudgetAssembly、OutputAssembly、EmptyAssembly、NormalizationAssembly、PrimitiveAssembly、UniformAssembly 等）直接用。
+2. 分支 `cloud/mom-v2-assembly`，从 `cloud/mom-engine-step-v2` 最新 head 切出，开 `[不合并]` draft PR 到 `dtests-handoff`。
+3. 只新增组装模块，必要时也可以改 Interface 和 manifest。不改任何任务文件，也不改任务陈述。发现陈述拼不上（缺条件、类型对不上、两个任务的接口不一致）时，在 PR #31 写清楚，由 B 线改陈述，各任务会话跟着调整。这是蓝图最重要的检验。
+4. 有些任务陈述放在 RawContracts / OrdinaryData 里，这两个模块在基线修好前编不过。可以先写完、先编不依赖它们的部分，基线修好后再整体编通。
+5. 完成标准：组装模块没有 `sorry`；CI 只编组装模块，并对这些模块做公理检查，只出现三条标准公理（任务陈述作为前提不会引入 sorryAx）；在 PR #31 报告。
+
 ## 做法
 
 ### 第一阶段：设计和陈述骨架
