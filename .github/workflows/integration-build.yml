@@ -19,9 +19,10 @@ concurrency:
 
 jobs:
   build:
-    # V2 uses its exhaustive module gate while the authorized skeleton is a draft.
-    # The unchanged whole-project gate runs when V2 is marked ready, or manually.
-    if: github.event_name == 'workflow_dispatch' || github.head_ref != 'cloud/mom-engine-step-v2' || github.event.pull_request.draft == false
+    # V2 task branches are verified by their own scoped workflow; the whole
+    # project is built once on the V2 integration PR instead.
+    # Preserve the B-line draft gate and allow manual dispatches.
+    if: ${{ !startsWith(github.head_ref, 'cloud/mom-v2-') && (github.event_name == 'workflow_dispatch' || github.head_ref != 'cloud/mom-engine-step-v2' || github.event.pull_request.draft == false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 300
     env:
