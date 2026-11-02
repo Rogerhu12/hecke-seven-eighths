@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCapacityMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondRowMassSwap
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The existing literal capacity is the actual row-mass capacity
