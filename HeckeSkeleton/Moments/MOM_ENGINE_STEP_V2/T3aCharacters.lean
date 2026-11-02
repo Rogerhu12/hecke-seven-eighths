@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aElementary
+import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
 import ArithmeticFrequencyRowCharacterFibers
 import RowCharacterCanonicalUniqueness
 
