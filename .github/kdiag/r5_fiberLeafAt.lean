@@ -215,8 +215,12 @@ run_cmd do
     stderr.flush
 
 
+noncomputable def leafFiber (key : covers.ClassKey) (allocation : covers.AllocationFiber key) :
+    ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  covers.leafAt key.1 key.2 allocation
+
 noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  covers.leafAt key.1.1 key.1.2 key.2
+  covers.leafFiber key.1 key.2
 
 
 run_cmd do
@@ -270,7 +274,7 @@ example : Fintype covers.LiveKey := inferInstance
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG r3_instTactic done"
+    stderr.putStrLn "KDIAG r5_fiberLeafAt done"
     stderr.flush
 
 end RawCovers

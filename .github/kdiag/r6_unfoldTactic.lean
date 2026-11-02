@@ -175,11 +175,8 @@ run_cmd do
     stderr.putStrLn "KDIAG r AllocationFiber def done"
     stderr.flush
 
-instance allocationFiberFintype (key : covers.ClassKey) : Fintype (covers.AllocationFiber key) :=
-  inferInstanceAs (Fintype (SourceClassKey.AllocationKey (s := (second.source key.1).stage)
-    (LC := (covers.left key.1).cover) (RC := (covers.right key.1).cover)
-    (show SourceClassKey (second.source key.1).stage (covers.left key.1).cover
-      (covers.right key.1).cover from key.2)))
+instance allocationFiberFintype (key : covers.ClassKey) : Fintype (covers.AllocationFiber key) := by
+  unfold AllocationFiber; infer_instance
 
 abbrev Key := Σ key : covers.ClassKey, covers.AllocationFiber key
 
@@ -218,8 +215,11 @@ run_cmd do
     stderr.flush
 
 
-noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  covers.leafAt key.1.1 key.1.2 key.2
+noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ := by
+  obtain ⟨⟨i, v⟩, allocation⟩ := key
+  unfold ClassFiber at v
+  unfold AllocationFiber at allocation
+  exact covers.leafAt i v allocation
 
 
 run_cmd do
@@ -273,7 +273,7 @@ example : Fintype covers.LiveKey := inferInstance
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG r2_instExplicit done"
+    stderr.putStrLn "KDIAG r6_unfoldTactic done"
     stderr.flush
 
 end RawCovers
