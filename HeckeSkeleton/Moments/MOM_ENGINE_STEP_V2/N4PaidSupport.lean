@@ -52,9 +52,9 @@ private theorem powerProduct_radical_mul_dvd
   apply support_product_dvd htarget
   intro Q hQ
   have hprime := support_prime hQ
-  have hd := (prime_mem_support_iff_dvd Q _ hprime
+  have hd := (HeckePort.Moments.prime_mem_support_iff_dvd Q _ hprime
     (mul_ne_zero D.property.1 (primePowerProduct primes powers).property.1)).mp hQ
-  apply (prime_mem_support_iff_dvd Q _ hprime htarget).mpr
+  apply (HeckePort.Moments.prime_mem_support_iff_dvd Q _ hprime htarget).mpr
   rcases hprime.dvd_or_dvd hd with hD | hprod
   · exact dvd_mul_of_dvd_left hD _
   · change Q ∣ ∏ i, (primes i).val.asIdeal ^ powers i at hprod
@@ -72,7 +72,10 @@ private theorem singleton_one_support :
     (OriginalMovingFactors.singleton (P := P) (R := R) ⟨1, one_ne_zero⟩ 1).support.val = 1 := by
   rw [OriginalMovingFactors.singleton_support
     (unitExterior A) 1 (unitExterior_generates A) 1]
-  change commonRadical (1 : Ideal (𝓞 K)) 1 = 1
+  have hu : (unitExterior A).val = (1 : Ideal (𝓞 K)) := by
+    change (⊤ : Ideal (𝓞 K)) = 1
+    exact Ideal.one_eq_top.symm
+  rw [hu]
   simp only [commonRadical, primeSupport, normalizedFactors_one,
     Multiset.toFinset_zero, Finset.inter_self, Finset.prod_empty]
 
@@ -165,6 +168,7 @@ private theorem expansion_paid_support (expansion : PoolExpansion family)
       (paidPoolMoving poolChoice).support.val ∣ (expansion.source i).first.paidSupport.val := by
   cases expansion with
   | direct =>
+    dsimp only [PoolExpansion.source] at ha htag ⊢
     have hp : poolChoice = none := by
       cases hc : poolChoice with
       | none => rfl
@@ -174,9 +178,12 @@ private theorem expansion_paid_support (expansion : PoolExpansion family)
           simpa only [hc] using htag
         rw [hfamily.tag i] at ht
         cases ht
-    simpa only [hp, paidPoolMoving, singleton_one_support, mul_one] using
-      firstSource_support_dvd hfamily i ha
+    rw [hp]
+    dsimp only [paidPoolMoving]
+    rw [singleton_one_support (P := probeData K c) (R := momentRowCharacters K c), mul_one]
+    exact firstSource_support_dvd hfamily i ha
   | pooled pool count index source =>
+    dsimp only [PoolExpansion.source] at ha htag ⊢
     obtain ⟨_, _, horigin⟩ := hexpansion
     cases hindex : (index i).2 with
     | inl u =>
@@ -194,7 +201,10 @@ private theorem expansion_paid_support (expansion : PoolExpansion family)
           cases ht
       have ha' : (family.source (index i).1).first.firstElement ≠ 0 := by
         simpa only [hfirst] using ha
-      simpa only [hp, paidPoolMoving, singleton_one_support, mul_one, hfirst] using
+      rw [hp]
+      dsimp only [paidPoolMoving]
+      rw [singleton_one_support (P := probeData K c) (R := momentRowCharacters K c), mul_one]
+      simpa only [hfirst] using
         firstSource_support_dvd hfamily (index i).1 ha'
     | inr qe =>
       rcases qe with ⟨q, e⟩
@@ -221,8 +231,11 @@ private theorem expansion_paid_support (expansion : PoolExpansion family)
         exact ha
       have hd := mul_dvd_mul (firstSource_support_dvd hfamily (index i).1 ha')
         (dvd_refl (q.val.val.asIdeal ^ e.movingMultiplicity))
-      simpa only [hp, paidPoolMoving, CanonicalLiteralPassivePhases.activeMoving_support,
-        helement, hpaid] using hd
+      rw [hp]
+      dsimp only [paidPoolMoving]
+      rw [CanonicalLiteralPassivePhases.activeMoving_support
+        (probeData K c) (momentRowCharacters K c) (Arithmetic.context c) q.val e]
+      simpa only [helement, hpaid] using hd
 
 variable {packet : RawLeafPacket call p}
 
@@ -251,10 +264,9 @@ theorem paidMoving_effectiveSupport_dvd
       exact phases.pool_tag
     have hd := expansion_paid_support trace.expansion htrace.cauchy htrace.expansion
       i ha phases.pool ht
-    have hp : paidPoolMoving phases.pool = phases.poolMoving true := by
-      cases hpool : phases.pool <;> rfl
+    have hp : paidPoolMoving phases.pool = phases.poolMoving true := rfl
     rw [hp] at hd
-    simpa only [← hphysical, OriginalPhaseData.firstMoving] using hd
+    simpa only [← hphysical, OriginalPhaseData.firstMoving, RawFamily.packet, i] using hd
   let old := call.localizedSource.source.recipe.moving
   let remaining := call.localizedSource.source.recipe.remaining
   let empty := CanonicalLiteralFixedPhases.emptyDivisorMoving (probeData K c) (momentRowCharacters K c)
@@ -268,7 +280,7 @@ theorem paidMoving_effectiveSupport_dvd
   have hunit : empty.support.val = 1 :=
     CanonicalLiteralFixedPhases.emptyDivisorMoving_support (probeData K c) (momentRowCharacters K c)
   change ((phases.moving true).effectiveFullSupport remaining).val ∣ _
-  exact hfull.trans (by simpa only [hunit, mul_one] using hfixed)
+  exact hfull.trans (by simpa only [hunit, mul_one, Call.oldSupport, old, remaining] using hfixed)
 
 private def appendAtoms
     (D E : OriginalMovingFactors A P R) (old unit nonunit : A.Exterior)
@@ -313,7 +325,7 @@ private def paidOldAtoms
       dvd_mul_of_dvd_left hpaid _
     have hp := (D.factorIdeal_dvd_effectiveFullSupport_pow remaining i).trans
       (pow_dvd_pow_of_dvd hd (normalizedFactors (D.factorIdeal i).val).card)
-    simpa only [pow_zero, mul_one] using hp
+    simpa only [pow_zero, mul_one, ExteriorIdealEuler.mul] using hp
   remaining_divides := by
     have hr := (D.remainingMaskIdeal_dvd_effectiveFullSupport remaining).trans hpaid
     exact dvd_mul_of_dvd_left
