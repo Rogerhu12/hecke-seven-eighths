@@ -471,7 +471,9 @@ end FirstBlockPoolData
 namespace OriginalFiniteFibre
 
 def firstMaskConstant (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) : ℝ :=
-  Classical.choose (first_block_mask_labels_subpower (K := K) B ε hB hε)
+  let C : ℝ := Classical.choose
+    (support_tuple_multiplicity_subpower (K := K) 1 B (ε / 2) hB (by positivity))
+  C * C
 
 theorem firstMaskConstant_pos (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) :
     0 < firstMaskConstant (K := K) B ε hB hε := by

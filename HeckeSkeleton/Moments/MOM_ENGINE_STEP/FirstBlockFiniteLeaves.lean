@@ -94,12 +94,12 @@ abbrev coveredClassKeyFintype
     (χ : (PUnit × PUnit) →* Circle) : Fintype (s.CoveredClassKey LA RA S χ) :=
   firstBlock_sum_fintype
 
-attribute [instance] coveredClassKeyFintype
+attribute [local instance] coveredClassKeyFintype
 
 abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
   firstBlock_sigma_sigma_fintype
 
-attribute [instance] coveredLeafKeyFintype
+attribute [local instance] coveredLeafKeyFintype
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
