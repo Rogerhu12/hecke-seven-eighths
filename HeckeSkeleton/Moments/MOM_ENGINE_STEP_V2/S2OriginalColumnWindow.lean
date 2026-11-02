@@ -132,7 +132,10 @@ theorem rectangle_column_norm_bounds
   have hid : (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnIdeal v) : ℝ) =
       (idealNorm K v.1.1 * idealNorm K v.1.2) *
         ∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ) := by
-    simp only [ParentRawAtoms.columnIdeal, idealNorm, map_mul, map_prod,
+    change (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnIdeal v) : ℝ) =
+      ((Ideal.absNorm v.1.1.val : ℝ) * (Ideal.absNorm v.1.2.val : ℝ)) *
+        ∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ)
+    simp only [ParentRawAtoms.columnIdeal, map_mul, map_prod,
       Nat.cast_mul, Nat.cast_prod]
   have hfactor (r : ℝ) :
       ((r * (if comparison then Y₁ else Z ^ a.n₁)) *

@@ -58,7 +58,7 @@ theorem frameRange_subset (c : TargetContext K) (frame : SourceFrame) :
       Set.Icc (columnAnnulus c frame)⁻¹ (columnAnnulus c frame) := by
   have hA : 0 < columnAnnulus c frame := zero_lt_one.trans_le (columnAnnulus_one c frame)
   have hlow : (columnAnnulus c frame)⁻¹ ≤ (frameRange c frame).lower := by
-    change 1 / columnAnnulus c frame ≤ _
+    rw [← one_div]
     apply (div_le_iff₀ hA).mpr
     have hi : 1 / (frameRange c frame).lower ≤ columnAnnulus c frame :=
       (le_max_right _ _).trans (le_max_right _ _)
@@ -109,6 +109,7 @@ theorem source_full_column_window (input : ProfileInput call) (hframe : call.fra
   have hannulus_pos : 0 < annulus := zero_lt_one.trans_le hannulus
   have hw := original_column_norm_bounds
     (A := Arithmetic.data c) (Γ := Arithmetic.unitSubgroup c)
+    (Y₁ := call.base ^ call.workingComparison₁) (Y₂ := call.base ^ call.workingComparison₂)
     call.workingAtoms input.localized
     annulus⁻¹ annulus (inv_nonneg.mpr hannulus_pos.le) hannulus_pos.le call.base_pos
     (fun _ _ => Set.mem_univ _) (Set.mem_univ _) (call_window_subset input hframe)
