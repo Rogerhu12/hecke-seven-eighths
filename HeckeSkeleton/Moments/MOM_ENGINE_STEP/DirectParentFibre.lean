@@ -27,6 +27,10 @@ open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup HeckePort.Moments.Support
 open CommonSupportMass UniqueFactorizationMonoid OriginalFiniteFibre
 
+private abbrev direct_parent_sigma_fintype
+    {ι : Type*} {κ : ι → Type*} [Fintype ι] [∀ i, Fintype (κ i)] :
+    Fintype (Σ i, κ i) := inferInstance
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -154,6 +158,13 @@ namespace ActualDirectFirstSource.SecondStages
 
 variable (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable (L : SourceCartesianAtlas s.columns s.ideal)
+
+local instance directParentFibreCoveredLeafKeyFintype : Fintype (R.CoveredLeafKey L) :=
+  @direct_parent_sigma_fintype s.CommonLabel
+    (fun v => Σ D : ((s.block v).mask s.mask).powerset, (R v D).CoveredLeafKey L L)
+    inferInstance (fun v =>
+      @direct_parent_sigma_fintype ((s.block v).mask s.mask).powerset
+        (fun D => (R v D).CoveredLeafKey L L) inferInstance (fun D => inferInstance))
 
 def rowPresent (j : R.CoveredLeafKey L) : Prop :=
   (R j.1 j.2.1).rowPresent L L j.2.2
