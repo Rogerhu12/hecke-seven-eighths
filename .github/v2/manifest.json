@@ -24,7 +24,8 @@
         "SourceFrame",
         "ChoiceBox",
         "PreparedCall",
-        "UniformChoices"
+        "UniformChoices",
+        "VolumeChoices"
       ]
     },
     {
@@ -37,7 +38,16 @@
         "FirstGaussData",
         "CoveredStage",
         "SourceProduction",
-        "ChildProduction"
+        "ChildProduction",
+        "NormalizedFamilyAdapter",
+        "GaussOrbitRows",
+        "GaussStage",
+        "BlockGaussStage",
+        "UnmaskedStage",
+        "RowClasses",
+        "PatternRows",
+        "SectorRows",
+        "SectorStage"
       ]
     },
     {
