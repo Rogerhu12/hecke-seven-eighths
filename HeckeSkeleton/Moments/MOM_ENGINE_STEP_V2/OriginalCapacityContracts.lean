@@ -13,8 +13,8 @@ are the actual S5 data of this packet, including its original common
 ideals and branch tag. No normalized child is chosen by this record.
 
 The two explicit window errors remain available to the later mass
-ledger. The raw scale error is computed from the actual scale product;
-it need not be small for an empty comparison rectangle.
+ledger. The raw scale error is computed from the actual scale product.
+Its small bound is proved separately after the fixed annulus threshold.
 
 Paper: Section 4.8, lines 2883--2946.
 -/

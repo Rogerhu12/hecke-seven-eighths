@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4PacketGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalRefinement
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationContracts
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -61,31 +61,6 @@ variable (seed : OrdinarySeed packet) (support : seed.ordinary.PassiveSupport in
 variable (side : Bool) (a : support.labels side) (rectangle : Bool)
 variable (D : OriginalCalibration call (seed.canonicalSource input support side a rectangle))
 variable (pattern : Fin packet.block.primeCount → Bool)
-
-/-- Each field concerns the actual calibration before any capacity
-construction. The normalized old remaining mask keeps all outside-S
-primes, and the full second sixth root is retained literally. -/
-structure CalibrationBinding : Prop where
-  pattern_actual : ∀ h : packet.R.live,
-    actualNonunitPattern (Arithmetic.context c) packet.R.primes
-      packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val) = pattern
-  m : D.calibration.parameters.m = (packet.nominal side).skeleton.nominalRow + 12 * p.loss
-  q : D.calibration.parameters.q = (packet.nominal side).skeleton.nominalSupport + 4 * p.loss +
-    idealLogLength call.base (secondSixthRootIdeal packet.R.primes
-      packet.R.leftMultiplicity packet.R.rightMultiplicity).val
-  moving : D.recipe.moving = (seed.phases.moving true).append
-    (secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)
-      (Arithmetic.context c) packet.R.primes packet.R.leftMultiplicity
-      packet.R.rightMultiplicity pattern)
-  remaining : D.recipe.remaining =
-    remainingMaskIdeal (Arithmetic.data c) call.localizedSource.source.recipe.remaining *
-      exteriorMomentIdeal (secondSixthRootIdeal packet.R.primes
-        packet.R.leftMultiplicity packet.R.rightMultiplicity)
-  allowed_exact : ∀ ξ u, (D.calibration.data ξ).allowedRow u ↔
-    ∃ h ∈ (seed.canonicalSource input support side a rectangle).rows,
-      ((seed.canonicalSource input support side a rectangle).row h).momentIdeal = u
-  timeIndependent : ∀ ξ, ProfileTimeIndependent (D.calibration.data ξ)
-  primeSupport : ∀ ξ, PrimeProfileSupport (D.calibration.data ξ)
 
 variable {seed support side a rectangle D pattern}
 variable (binding : CalibrationBinding seed support side a rectangle D pattern)

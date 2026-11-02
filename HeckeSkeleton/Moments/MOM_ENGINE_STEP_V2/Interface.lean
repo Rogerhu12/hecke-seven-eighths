@@ -105,6 +105,15 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4OriginalCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4RecipeBridge
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksOriginalCapacity
 
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationContracts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4FrozenIdeals
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4InnerScale
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4NominalScale
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4OriginalPrimeWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleProduct
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4UniformCapacity
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4UniformThreshold
+
 set_option linter.unusedSectionVars false
 
 /-! Blueprint input data and completed common induction adapters.

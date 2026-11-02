@@ -108,14 +108,22 @@
       "proved": true,
       "modules": [
         "N4CalibrationBinding",
+        "N4CalibrationContracts",
         "N4ComputedLengths",
+        "N4FrozenIdeals",
+        "N4InnerScale",
+        "N4NominalScale",
         "N4OriginalCapacity",
+        "N4OriginalPrimeWindows",
         "N4PacketGeometry",
         "N4PaidSupport",
         "N4RecipeBridge",
+        "N4ScaleProduct",
         "N4ScaleWindows",
         "N4SixthPattern",
         "N4SourceConditions",
+        "N4UniformCapacity",
+        "N4UniformThreshold",
         "OriginalCapacityContracts",
         "TasksOriginalCapacity"
       ]
