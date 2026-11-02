@@ -80,9 +80,11 @@
     },
     {
       "id": "t1_t2",
-      "name": "T1 原始第一零频完整证明与 T2 已完成辅助证明",
+      "name": "T1/T2 原始两次零频的完整证明",
       "proved": true,
       "modules": [
+        "FirstPhysicalMaskBounds",
+        "FirstSourceCarrierBounds",
         "FirstZeroCentral",
         "FirstZeroColumnWindows",
         "FirstZeroFactorization",
@@ -94,9 +96,21 @@
         "FirstZeroUniformEstimate",
         "SecondZeroCoefficients",
         "SecondZeroDivisor",
+        "SecondZeroFactors",
+        "SecondZeroFirstMass",
+        "SecondZeroFrozenBounds",
         "SecondZeroLocal",
+        "SecondZeroLocalEstimate",
+        "SecondZeroNormalization",
+        "SecondZeroOrbitMultiplicity",
+        "SecondZeroPoolMass",
+        "SecondZeroRowSizeBounds",
         "SecondZeroStage",
-        "TasksFirstZero"
+        "SecondZeroTransport",
+        "SecondZeroUniformEstimate",
+        "SourceEqualityTransport",
+        "TasksFirstZero",
+        "TasksSecondZero"
       ]
     },
     {
@@ -117,7 +131,6 @@
         "TasksOriginalAtoms",
         "TasksPassiveRefinement",
         "TasksSecondTransform",
-        "TasksSecondZero",
         "TasksSourceIndex",
         "TasksTails"
       ]

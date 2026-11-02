@@ -149,7 +149,7 @@ theorem squarefree_dvd_square_root (D root : Ideal (𝓞 K))
   apply (dvd_iff_normalizedFactors_le_normalizedFactors hD.ne_zero hroot).mpr
   rw [Multiset.le_iff_count]
   intro P
-  have hP := Multiset.count_le_of_le P hle
+  have hP := (Multiset.le_iff_count.mp hle) P
   rw [normalizedFactors_pow, Multiset.count_nsmul] at hP
   have hDone := Multiset.nodup_iff_count_le_one.mp
     ((squarefree_iff_nodup_normalizedFactors hD.ne_zero).mp hD) P

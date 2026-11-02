@@ -245,7 +245,7 @@ theorem original_active_column_norm_le_power
   have hpower :=
     (pow_le_pow_right₀ hannulus (Nat.add_le_add_right hcap 2)).trans hannulusZ
   exact (hraw.trans (mul_le_mul_of_nonneg_right hpower (Real.rpow_nonneg hZ.le _))).trans_eq
-    (by rw [Real.rpow_add hZ]; ring)
+    (by simp only [Real.rpow_add hZ]; ring)
 
 /-- The original pair product has twice the sharp original total
 length on the support of its actual two whole coefficients. -/

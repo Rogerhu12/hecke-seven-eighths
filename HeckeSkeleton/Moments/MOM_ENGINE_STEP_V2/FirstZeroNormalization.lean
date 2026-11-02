@@ -49,9 +49,8 @@ theorem first_counting_loss_le (p : SourceParameters c) (call : Call c) :
     linarith
   have hproduct : 2 * firstColumnExponent c p * firstCountingExponent c p = p.loss := by
     dsimp only [firstCountingExponent]
-    have hden : 2 * firstColumnExponent c p ≠ 0 :=
-      ne_of_gt (mul_pos (by norm_num) (firstColumnExponent_pos p))
-    field_simp [hden] <;> ring
+    have hbase : firstColumnExponent c p ≠ 0 := (firstColumnExponent_pos p).ne'
+    field_simp [hbase] <;> ring
   exact (mul_le_mul_of_nonneg_right hbound (firstCountingExponent_pos p).le).trans_eq hproduct
 
 /-- One amplitude pays both the literal divisor-weighted profile and
@@ -82,7 +81,7 @@ theorem first_profile_normalization
       profile * mask ≤ (P * Z ^ (-L)) * (C * Z ^ (m + δ)) :=
         mul_le_mul hprofile hmask hmask0 (mul_nonneg hP (Real.rpow_nonneg hZpos.le _))
       _ = C * P * Z ^ (-L + m + δ) := by
-        rw [show -L + m + δ = -L + (m + δ) by ring, Real.rpow_add hZpos]
+        simp only [Real.rpow_add hZpos]
         ring
       _ ≤ (1 + C) * P * Z ^ (-L + m + δ) := by
         apply mul_le_mul_of_nonneg_right _ (Real.rpow_nonneg hZpos.le _)
