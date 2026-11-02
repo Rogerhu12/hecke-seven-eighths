@@ -76,9 +76,20 @@ abbrev CoveredClassKey
   ActualGaussStage.CoveredLeafKey (s.left S χ) (FirstBlockDirectData.leftSourceCover p LA S χ) (FirstBlockDirectData.leftSourceCover p LA S χ) ⊕
     ActualGaussStage.CoveredLeafKey (s.right S χ) (FirstBlockDirectData.rightSourceCover p RA S χ) (FirstBlockDirectData.rightSourceCover p RA S χ)
 
+abbrev coveredClassKeyFintype
+    (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (χ : (PUnit × PUnit) →* Circle) :
+    Fintype (CoveredClassKey s LA RA S χ) := inferInstance
+
+attribute [local instance] coveredClassKeyFintype
+
 abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
     Σ χ : (PUnit × PUnit) →* Circle, FirstBlockDirectData.SecondStages.CoveredClassKey s LA RA S χ
+
+abbrev coveredLeafKeyFintype : Fintype (CoveredLeafKey s LA RA) := inferInstance
+
+attribute [local instance] coveredLeafKeyFintype
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
