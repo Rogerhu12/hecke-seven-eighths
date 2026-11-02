@@ -114,10 +114,14 @@ noncomputable def leafFamilyFourierControl_of_originalFields
   · intro b _
     exact ((leaves b.1).normalization true b.2.2.1 b.2.2.2.2).profiles.coefficient_nonnegative
   · intro b _ z
-    simpa only [WithLp.ofLp_toLp] using
+    simpa only [WithLp.ofLp_toLp,
+      ActualAllocatedSource.Calibration.FullKappaProfileInput.coefficient,
+      ActualAllocatedSource.Calibration.FullKappaProfileInput.factor] using
       ((leaves b.1).normalization false b.2.1 b.2.2.2.1).capacity_radius (WithLp.toLp 2 z)
   · intro b _ z
-    simpa only [WithLp.ofLp_toLp] using
+    simpa only [WithLp.ofLp_toLp,
+      ActualAllocatedSource.Calibration.FullKappaProfileInput.coefficient,
+      ActualAllocatedSource.Calibration.FullKappaProfileInput.factor] using
       ((leaves b.1).normalization true b.2.2.1 b.2.2.2.2).capacity_radius (WithLp.toLp 2 z)
 
 /-- The same N3 specifications and the same N6 capacities provide
