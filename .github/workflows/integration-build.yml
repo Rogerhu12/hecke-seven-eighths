@@ -49,6 +49,8 @@ jobs:
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
       - name: Build every project library
+        env:
+          LEAN_NUM_THREADS: "1"
         shell: bash
         run: |
           set -o pipefail
