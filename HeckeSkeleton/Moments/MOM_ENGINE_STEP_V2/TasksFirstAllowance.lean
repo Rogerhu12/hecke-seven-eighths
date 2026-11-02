@@ -19,7 +19,11 @@ open NumberField HeckeGeneral.ThetaSkeleton.Global
 
 variable {K : Type} [Field K] [NumberField K]
 
-attribute [local instance] sourcePrincipal
+attribute [local instance]
+  sourcePrincipal sourceNormOneSpace sourceNormOneBorel
+  Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
 theorem firstAllowance (c : TargetContext K) (p : SourceParameters c) :
     FirstAllowanceTask c p := by
@@ -29,7 +33,7 @@ theorem firstAllowance (c : TargetContext K) (p : SourceParameters c) :
   refine ⟨S2.family F, S2.family_realizes F, S2.family_cost F, ?_⟩
   intro i
   let key : FirstCauchyKey F := (S2.family F).index i
-  let N : F.source.Normalization := S2.normalization F
+  let N := S2.normalization F
   change (S2.source key N).Windows
   refine {
     retained_upper := ?_
