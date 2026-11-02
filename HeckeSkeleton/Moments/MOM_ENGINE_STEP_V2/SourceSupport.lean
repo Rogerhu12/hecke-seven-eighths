@@ -68,7 +68,7 @@ def activeCommon : Finset (Ideal (𝓞 K) × Ideal (𝓞 K)) :=
     (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)
 
 theorem energy_eq_zero_of_rows_eq_empty (h : G.rows = ∅) : G.energy hDiff = 0 := by
-  simp only [energy, h, Finset.sum_empty]
+  simp only [EngineStep.ActualGaussSource.energy, h, Finset.sum_empty]
 
 /-- The old divisor is inherited on the genuine support of the whole
 coefficient; columns on which the coefficient is zero need no condition. -/
