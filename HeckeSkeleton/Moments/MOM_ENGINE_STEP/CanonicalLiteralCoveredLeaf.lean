@@ -7,6 +7,14 @@ set_option linter.unusedSectionVars false
 set_option profiler true
 set_option profiler.threshold 1000
 
+set_option Elab.async false
+set_option stderrAsMessages false
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf imports_done"
+  log.flush
+
 /-!
 # Literal common extraction on the stored covered leaf
 
@@ -43,6 +51,11 @@ private theorem literal_coefficient_assoc (c a b d : ℂ) :
 private theorem literal_row_weight_comm (w q a b : ℂ) :
     (w * q) * a * b = (w * a * b) * q := by
   sorry
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf helpers_done"
+  log.flush
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -111,6 +124,11 @@ variable (rightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 abbrev literalLeftOriginal := leftAtoms.onAtlas v.literalLeftParent rfl
 abbrev literalRightOriginal := rightAtoms.onAtlas v.literalRightParent rfl
 
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf atoms_before"
+  log.flush
+
 /-- The complete original Gauss product stays in the actual residual
 atom table. The common scalar is extracted separately exactly once. -/
 def literalLeftAtoms : CanonicalLiteralRectangles.Atoms (K := K) v.leftSlots :=
@@ -121,6 +139,11 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
     v.literalRightBranch.keep.card :=
   ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).onAtlas
     v.literalRightResidualAtlas rfl
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf atoms_done"
+  log.flush
 
 @[simp] theorem literalLeftAtoms_whole (i : AllocationColumn K v.leftSlots) :
     (v.literalLeftAtoms leftAtoms).whole i =
@@ -134,6 +157,11 @@ set_option maxHeartbeats 1000000 in
       (k := v.literalRightResidualAtlas.slotCount) i =
       ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
   sorry
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf whole_done"
+  log.flush
 
 theorem literalLeft_cartesian (i : AllocationColumn K v.leftSlots) :
     i ∈ v.leftReindex.cartesian ↔ i ∈ v.literalLeftBranch.residualColumns := by
@@ -160,9 +188,19 @@ private theorem literal_left_mem (i : AllocationColumn K v.leftSlots)
     (hi : i ∈ (v.leaf exceptional F x j).left) : i ∈ v.leftReindex.cartesian := by
   sorry
 
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf left_mem_done"
+  log.flush
+
 private theorem literal_right_mem (i : AllocationColumn K v.literalRightBranch.keep.card)
     (hi : i ∈ (v.leaf exceptional F x j).right) : i ∈ v.rightReindex.cartesian := by
   sorry
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf right_mem_done"
+  log.flush
 
 variable (leftCoefficient : ∀ i ∈ (LC.branch v.2.2.1).reindex.cartesian,
   (LC.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns G.columns →
@@ -187,6 +225,11 @@ private theorem literal_right_coefficient
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch *
         (v.literalRightAtoms rightAtoms).whole i := by
   sorry
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf coefficients_done"
+  log.flush
 
 /-- The extraction is attached to the original stored finite leaf.
 All coefficient equalities are proved at its actual allocated columns. -/
@@ -222,6 +265,11 @@ def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
         (v.literal_right_mem exceptional F x j i hi))).trans
       (literal_coefficient_assoc _ _ _ _)
 
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf extraction_done"
+  log.flush
+
 /-- This reweighting is the one forced by the two constants just
 extracted from the stored whole coefficients. -/
 def literalRows : ActualSecondCorrelationRows A σ
@@ -236,6 +284,11 @@ def literalSupportedRows : ActualSecondCorrelationRows A σ
     (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) (Fin v.block.primeCount) :=
   (v.literalRows leftAtoms rightAtoms).restrictRows (fun h =>
     (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).correlation h ≠ 0)
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf rows_done"
+  log.flush
 
 /-- Nonempty original allocated columns and squarefreeness come from
 the stored live leaf. No fresh allocation or nonempty-source premise
@@ -253,6 +306,11 @@ def literalAllocation (hlive : (v.leaf exceptional F x j).Live) :
   · exact hlive.2.1.elim (fun _ hh => hh.2.elim (fun i hi => ⟨i, hi.1⟩))
   · exact hlive.2.2.elim (fun _ hh => hh.2.elim (fun i hi => ⟨i, hi.1⟩))
 
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf allocation_done"
+  log.flush
+
 /-- Both rectangles now belong to the exact same stored allocation and
 the exact original correlation support. -/
 def literalRectangles (firstSign : ℝ) (hlive : (v.leaf exceptional F x j).Live) :=
@@ -263,6 +321,11 @@ def literalRectangles (firstSign : ℝ) (hlive : (v.leaf exceptional F x j).Live
     v.leftReindex.ideal_product v.rightReindex.ideal_product
     (v.literalAllocation exceptional F x j hlive)
     (v.leaf exceptional F x j).exceptional firstSign (-firstSign)
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf rectangles_done"
+  log.flush
 
 variable (firstSign : ℝ) (hlive : (v.leaf exceptional F x j).Live)
 variable (leftPoint : ∀ h ∈ (v.leaf exceptional F x j).rows,
@@ -315,6 +378,11 @@ def literalOrdinaryBinding :
   leftPoint := leftPoint
   rightPoint := rightPoint
 
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf binding_done"
+  log.flush
+
 @[simp] theorem literalExtraction_firstKernel :
     (v.literalExtraction leftAtoms rightAtoms exceptional F x j
       leftCoefficient rightCoefficient).leaf.firstKernel = F := rfl
@@ -326,6 +394,11 @@ def literalOrdinaryBinding :
 @[simp] theorem literalExtraction_outerWeight :
     (v.literalExtraction leftAtoms rightAtoms exceptional F x j
       leftCoefficient rightCoefficient).leaf.weight = (v.leaf exceptional F x j).weight := rfl
+
+#eval do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf three_simp_done"
+  log.flush
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep
