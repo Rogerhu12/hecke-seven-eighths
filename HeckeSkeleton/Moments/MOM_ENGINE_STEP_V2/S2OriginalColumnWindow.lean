@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option maxHeartbeats 2000000
 
 /-!
 # Two-sided norm windows on original nonzero coefficients

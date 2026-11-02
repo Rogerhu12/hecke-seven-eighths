@@ -166,13 +166,13 @@ theorem family_realizes (F : FirstPresentation call p) : (family F).Realizes whe
   point _ := HEq.rfl
   outer _ := rfl
   selected i := by
-    change (selected _).val = _
-    unfold selected
-    split <;> rfl
+    dsimp only [family, source, coordinates]
+    by_cases hs : FirstCauchyKey.side ((Fintype.equivFin (FirstCauchyKey F)).symm i) = true <;>
+      simp only [selected, hs, if_true, if_false]
   opposite i := by
-    change (opposite _).val = _
-    unfold opposite
-    split <;> rfl
+    dsimp only [family, source, coordinates]
+    by_cases hs : FirstCauchyKey.side ((Fintype.equivFin (FirstCauchyKey F)).symm i) = true <;>
+      simp only [opposite, hs, if_true, if_false]
   complementary _ := rfl
   residual _ := rfl
   firstElement _ := rfl
