@@ -76,7 +76,11 @@ private theorem first_signed_zero_pair_amplitude_uniform
   have heval (φ : SchwartzMap V ℂ) :
       ‖φ 0‖ ≤ seminorms.sup (schwartzSeminormFamily ℂ V ℂ) φ :=
     (SchwartzMap.norm_le_seminorm ℂ φ 0).trans
-      (Seminorm.le_finset_sup_apply (Finset.mem_insert_self (0, 0) s))
+      (by
+        simpa only [SchwartzMap.schwartzSeminormFamily_apply] using
+          (Seminorm.le_finset_sup_apply
+            (p := schwartzSeminormFamily ℂ V ℂ) (x := φ)
+            (Finset.mem_insert_self (0, 0) s)))
   refine ⟨seminorms, Cdual, H * B, hCdual, mul_nonneg hH hB, ?_⟩
   intro p hres hDiff radius M
   have hpoint (D : Finset (HeightOneSpectrum A.R)) :

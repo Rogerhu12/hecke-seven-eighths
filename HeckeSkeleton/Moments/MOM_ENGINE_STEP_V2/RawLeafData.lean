@@ -186,6 +186,8 @@ def secondSourceLeafLive {call : Call c} {p : SourceParameters c}
 
 set_option diagnostics true in
 set_option maxHeartbeats 1000000 in
+set_option genInjectivity false in
+set_option genSizeOf false in
 /-- One nonzero physical leaf with both original occurrence labels.
 Empty source rows or a non-live polynomial produce no member of the
 eventual finite family; neither an arbitrary reference row nor a

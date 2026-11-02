@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroContracts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroUniformEstimate
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -20,7 +20,8 @@ variable {K : Type} [Field K] [NumberField K]
 
 theorem firstZero (c : TargetContext K) (p : SourceParameters c) :
     FirstZeroTask c p := by
-  sorry
+  intro frame
+  exact FirstZeroProof.uniform_first_zero_certificate c p frame
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
 

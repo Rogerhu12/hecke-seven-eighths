@@ -50,9 +50,14 @@ theorem generated_residue_zero_powerful
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a)
     (hnonzero : (generatedOriginalColumn (σ := σ) hΓ I a ha).residue hDiff 0 ≠ 0) :
     Powerful I.val := by
-  apply actual_sInteger_zero_gauss_nonzero_powerful C hDiff I a ha
-  simpa only [OrbitalGaussColumn.residue, generatedOriginalColumn,
-    actualSIntegerGauss, map_zero] using hnonzero
+  letI : Finite (A.R ⧸ Ideal.span {a}) :=
+    finite_sIntegerPrincipalResidue K
+      (A.Sf : Set (HeightOneSpectrum (𝓞 K))) a ha.1
+  letI : Fintype (A.R ⧸ Ideal.span {a}) := Fintype.ofFinite _
+  let T := actualSIntegerTrace K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) hDiff
+  apply actual_zero_gauss_nonzero_powerful_of_generates C T I a ha
+  change completeResidueGauss T a (generatedIdealCharacter (σ := σ) I a ha) 0 ≠ 0 at hnonzero
+  exact hnonzero
 
 /-- The origin of a genuine generated pair is zero away from the
 powerful-product support. No annularity of its Schwartz test is used. -/
@@ -153,7 +158,10 @@ theorem original_tensor_zero_norm_le
   rw [he, norm_mul]
   have hp : ‖φ 0‖ ≤ seminorms.sup (schwartzSeminormFamily ℂ V ℂ) φ :=
     (SchwartzMap.norm_le_seminorm ℂ φ 0).trans
-      (Seminorm.le_finset_sup_apply hzero)
+      (by
+        simpa only [SchwartzMap.schwartzSeminormFamily_apply] using
+          (Seminorm.le_finset_sup_apply
+            (p := schwartzSeminormFamily ℂ V ℂ) (x := φ) hzero))
   exact (mul_le_mul_of_nonneg_right hp (norm_nonneg _)).trans_eq (mul_comm _ _)
 
 /-- The origin amplitude retains both complete original ideal norms.
@@ -178,7 +186,8 @@ theorem second_originZero_amplitude
     (b.second_modulus_norm hΓ hDiff C left right profiles i hi j hj)
   have hres' : ‖(b.secondPair hΓ hDiff C profiles i j).residue 0‖ ≤
       A.exteriorNorm (fullI i) * A.exteriorNorm (fullJ j) := by
-    simpa only [map_mul, Nat.cast_mul, SArithmeticData.exteriorNorm] using hres
+    simpa only [map_mul, Nat.cast_mul, SArithmeticData.exteriorNorm,
+      DedekindZetaZeroFree.idealNorm] using hres
   have ht := original_tensor_zero_norm_le (A := A) finiteTest seminorms hzero (profiles i j)
   change ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ) *
     ((sUnitHaarCovolume K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ).toReal : ℂ) *
@@ -316,9 +325,9 @@ theorem second_signedZero_diagonal_supported_of_fibers
     (∀ v ∈ firstZeroPairs left right fullI fullJ,
       seminorms.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) *
         (∑ D ∈ M.powerset,
-          firstZeroDivisorWeight radius D * A.exteriorNorm (fullI v.2.1) +
+          (firstZeroDivisorWeight radius D * A.exteriorNorm (fullI v.2.1) +
             ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ *
-              A.exteriorNorm (fullI v.2.1) * A.exteriorNorm (fullJ v.2.2)) ≤
+              A.exteriorNorm (fullI v.2.1) * A.exteriorNorm (fullJ v.2.2))) ≤
           Amp / Real.sqrt N) →
     (∑ DE, ‖((blocks DE).secondFiniteSource hΓ hDiff C left right profiles M radius cutoff hcutoff).zeroTerm
       μv hDiff finiteTest‖) ≤ Cbound * multiplicity * Amp * N ^ ε := by
@@ -345,9 +354,9 @@ theorem second_signedZero_diagonal_supported_of_fibers
   have hpoint (v) (hv : v ∈ allPairs) : amp v ≤
       C₀ * (seminorms.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) *
         (∑ D ∈ M.powerset,
-          firstZeroDivisorWeight radius D * A.exteriorNorm (fullI v.2.1) +
+          (firstZeroDivisorWeight radius D * A.exteriorNorm (fullI v.2.1) +
             ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ *
-              A.exteriorNorm (fullI v.2.1) * A.exteriorNorm (fullJ v.2.2))) := by
+              A.exteriorNorm (fullI v.2.1) * A.exteriorNorm (fullJ v.2.2)))) := by
     change ‖∑ D ∈ M.powerset,
       ((blocks v.1).secondPair hΓ hDiff C profiles v.2.1 v.2.2).transformedZero
         μv hDiff finiteTest radius D‖ ≤ _
@@ -392,9 +401,9 @@ theorem second_signedZero_diagonal_supported_of_fibers
     calc
       _ ≤ C₀ * (seminorms.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) *
           (∑ D ∈ M.powerset,
-            firstZeroDivisorWeight radius D * A.exteriorNorm (fullI v.2.1) +
+            (firstZeroDivisorWeight radius D * A.exteriorNorm (fullI v.2.1) +
               ‖(moebius (IdealMobiusMask.primeProduct D) : ℂ)‖ *
-                A.exteriorNorm (fullI v.2.1) * A.exteriorNorm (fullJ v.2.2))) :=
+                A.exteriorNorm (fullI v.2.1) * A.exteriorNorm (fullJ v.2.2)))) :=
           hpoint v (hall v hv)
       _ ≤ C₀ * (Amp / Real.sqrt N) :=
         mul_le_mul_of_nonneg_left (hprofile v (hall v hv)) hC₀

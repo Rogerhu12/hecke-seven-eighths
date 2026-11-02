@@ -40,11 +40,11 @@ variable (values : raw.ConstantValues)
 scales and every slot remain in the displayed product. -/
 theorem rectangle_norm_le_original_atoms
     (leftBound rightBound : Bool → ℝ) (primeBound : Fin d.geometry.slotCount → ℝ)
-    (hleft : ∀ comparison, 0 ≤ leftBound comparison)
-    (hright : ∀ comparison, 0 ≤ rightBound comparison)
-    (hleftAtom : ∀ comparison I, I ∈ raw.leftColumns →
+    (hleft : ∀ comparison : Bool, 0 ≤ leftBound comparison)
+    (hright : ∀ comparison : Bool, 0 ≤ rightBound comparison)
+    (hleftAtom : ∀ (comparison : Bool) I, I ∈ raw.leftColumns →
       ‖values.left comparison I‖ ≤ leftBound comparison)
-    (hrightAtom : ∀ comparison I, I ∈ raw.rightColumns →
+    (hrightAtom : ∀ (comparison : Bool) I, I ∈ raw.rightColumns →
       ‖values.right comparison I‖ ≤ rightBound comparison)
     (hprimeAtom : ∀ i p, p ∈ raw.slotColumns i → ‖values.prime i p‖ ≤ primeBound i)
     (comparison : Bool) (v : raw.Column) (hv : v ∈ raw.columns) :
@@ -52,8 +52,8 @@ theorem rectangle_norm_le_original_atoms
       leftBound comparison * rightBound comparison * ∏ i, primeBound i := by
   have hm : (v.1.1 ∈ raw.leftColumns ∧ v.1.2 ∈ raw.rightColumns) ∧
       (∀ i, v.2 i ∈ raw.slotColumns i) := by
-    simpa only [ParentRawAtoms.columns, childCartesianColumns,
-      Finset.mem_product, Fintype.mem_piFinset] using hv
+    have hproduct := Finset.mem_product.mp hv
+    exact ⟨Finset.mem_product.mp hproduct.1, Fintype.mem_piFinset.mp hproduct.2⟩
   rw [ParentRawAtoms.ConstantValues.rectangle, norm_mul, norm_mul, norm_prod]
   exact mul_le_mul
     (mul_le_mul (hleftAtom comparison _ hm.1.1) (hrightAtom comparison _ hm.1.2)
@@ -123,10 +123,10 @@ variable (atoms : ParentConstantAtoms Q d a Z t)
 atom bounds do not contain any central scale or whole-column product. -/
 theorem rectangle_norm_le_original_central_scales
     (B : ℝ) (hB : 0 ≤ B) (hZ : 0 < Z)
-    (hleft : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
+    (hleft : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
       ‖atoms.leftArithmetic I * atoms.leftProfile
         (idealNorm K I / (if comparison then Y₁ else Z ^ a.n₁))‖ ≤ B)
-    (hright : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
+    (hright : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
       ‖atoms.rightArithmetic I * atoms.rightProfile
         (idealNorm K I / (if comparison then Y₂ else Z ^ a.n₂))‖ ≤ B)
     (hprime : ∀ i p, p ∈ (atoms.raw Y₁ Y₂).slotColumns i →
@@ -163,10 +163,10 @@ and every original slot; the constant uses only the fixed slot cap. -/
 theorem coefficient_norm_le_original_central_cap
     (cap : ℕ) (hcap : d.geometry.slotCount ≤ cap)
     (B : ℝ) (hB : 1 ≤ B) (hZ : 0 < Z)
-    (hleft : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
+    (hleft : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
       ‖atoms.leftArithmetic I * atoms.leftProfile
         (idealNorm K I / (if comparison then Y₁ else Z ^ a.n₁))‖ ≤ B)
-    (hright : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
+    (hright : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
       ‖atoms.rightArithmetic I * atoms.rightProfile
         (idealNorm K I / (if comparison then Y₂ else Z ^ a.n₂))‖ ≤ B)
     (hprime : ∀ i p, p ∈ (atoms.raw Y₁ Y₂).slotColumns i →

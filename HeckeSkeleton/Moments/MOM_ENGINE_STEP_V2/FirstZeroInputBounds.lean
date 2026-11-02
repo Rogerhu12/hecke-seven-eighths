@@ -25,6 +25,12 @@ open HeckeSkeleton.Moments.EngineInduction.Source
 
 variable {K : Type} [Field K] [NumberField K]
 
+attribute [local instance]
+  sourcePrincipal sourceNormOneSpace sourceNormOneBorel
+  Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
+
 /-- One upper endpoint is fixed before choosing the actual call. -/
 def uniformAnnulus (c : TargetContext K) (frame : SourceFrame) : ℝ :=
   2 * (frame.upper * (2 : ℝ) ^ (6 * (widthBand (recipeInductionSigma c) 2 + 1)))
@@ -146,7 +152,7 @@ theorem original_total_nonneg :
 theorem original_total_le :
     call.node.parameters.n₁ + call.node.parameters.n₂ + call.node.parameters.z ≤
       2 + recipeInductionSigma c / 16 := by
-  exact call.domain.padded_core.trans (add_le_add_right call.width_le _)
+  linarith [call.domain.padded_core, call.width_le]
 
 theorem working_total_eq :
     call.workingParameters.n₁ + call.workingParameters.n₂ + call.workingParameters.z =
@@ -163,6 +169,61 @@ theorem working_total_le :
 theorem working_total_length :
     call.workingParameters.z = call.localizedData.geometry.totalLength :=
   call.domain.total_length
+
+/-- The ordinary branch uses its original plain lengths; the centered
+branch retains the node's literal comparison sum. -/
+theorem working_comparison_sum :
+    call.workingComparison₁ + call.workingComparison₂ =
+      call.workingParameters.n₁ + call.workingParameters.n₂ := by
+  cases hcentered : call.node.centered with
+  | false =>
+      simp only [Call.workingComparison₁, Call.workingComparison₂, hcentered,
+        Bool.false_eq_true, if_false, Call.workingParameters]
+  | true =>
+      simpa only [Call.workingComparison₁, Call.workingComparison₂, hcentered,
+        if_true, Call.workingParameters] using call.node.comparison_sum
+
+theorem working_comparison_product :
+    call.base ^ call.workingComparison₁ * call.base ^ call.workingComparison₂ =
+      call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂) := by
+  rw [← Real.rpow_add call.base_pos, working_comparison_sum]
+
+theorem working_comparison₁_scale_pos : 0 < call.base ^ call.workingComparison₁ :=
+  Real.rpow_pos_of_pos call.base_pos _
+
+theorem working_comparison₂_scale_pos : 0 < call.base ^ call.workingComparison₂ :=
+  Real.rpow_pos_of_pos call.base_pos _
+
+theorem working_comparison₁_scale_nonneg : 0 ≤ call.base ^ call.workingComparison₁ :=
+  (working_comparison₁_scale_pos call).le
+
+theorem working_comparison₂_scale_nonneg : 0 ≤ call.base ^ call.workingComparison₂ :=
+  (working_comparison₂_scale_pos call).le
+
+theorem working_comparison₁_scale_one_le : 1 ≤ call.base ^ call.workingComparison₁ := by
+  cases hcentered : call.node.centered with
+  | false =>
+      simpa only [Call.workingComparison₁, hcentered, Bool.false_eq_true, if_false] using
+        Real.one_le_rpow call.domain.scale.le call.domain.plain_left_nonneg
+  | true =>
+      simp only [Call.workingComparison₁, hcentered, if_true]
+      rw [call.domain.comparison_left hcentered]
+      exact Real.one_le_rpow call.domain.scale.le
+        (div_nonneg call.domain.width_nonneg (by norm_num))
+
+theorem working_comparison₂_scale_one_le : 1 ≤ call.base ^ call.workingComparison₂ := by
+  cases hcentered : call.node.centered with
+  | false =>
+      simpa only [Call.workingComparison₂, hcentered, Bool.false_eq_true, if_false] using
+        Real.one_le_rpow call.domain.scale.le call.domain.plain_right_nonneg
+  | true =>
+      simp only [Call.workingComparison₂, hcentered, if_true]
+      rw [call.domain.comparison_right hcentered]
+      apply Real.one_le_rpow call.domain.scale.le
+      have hl := call.domain.centered_left hcentered
+      have hr := call.domain.centered_right hcentered
+      have hw := call.domain.width_nonneg
+      linarith
 
 variable {call} {p : SourceParameters c}
 
