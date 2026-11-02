@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Compile every V2 module and audit each group whose proofs are complete.
+"""Build all V2 modules on B, or the explicitly registered task scope.
 
-The skeleton permits proof placeholders only in groups marked unproved.
-Lake is the build authority; the fresh Lean audit checks every loaded V2
-declaration, including private and generated declarations, recursively.
+The full skeleton permits placeholders only in groups marked unproved.
+Every task-owned module is strict. Lake is the build authority; fresh Lean
+audits check every loaded V2 declaration, including private and generated
+declarations, and recursively allow only the three standard axioms.
 """
 from __future__ import annotations
 
@@ -30,6 +31,7 @@ WATCH_INTERVAL_SECONDS = 15
 WATCHDOG_RESULTS: dict[str, dict] = {}
 TASK_BRANCH_PREFIX = "cloud/mom-v2-"
 BASE_BRANCH = "cloud/mom-engine-step-v2"
+TASK_ROUTING: dict = {}
 
 
 def code_only(text: str) -> str:
@@ -242,9 +244,13 @@ def logged(command: list[str], name: str) -> int:
 
 
 def task_targets(names: list[str]) -> list[str] | None:
-    """The V2 modules a task branch changed relative to the v2 base, or None."""
+    """Preserve incoming merge-base discovery for unregistered task branches."""
     head = os.environ.get("GITHUB_HEAD_REF") or os.environ.get("GITHUB_REF_NAME", "")
+    TASK_ROUTING.clear()
+    TASK_ROUTING.update({"method": "merge_base_diff", "branch": head,
+                         "base_branch": BASE_BRANCH})
     if not head.startswith(TASK_BRANCH_PREFIX):
+        TASK_ROUTING["fallback_reason"] = "No task branch in the GitHub environment"
         return None
     try:
         for ref, local in ((BASE_BRANCH, "v2-base"), (head, "task-head")):
@@ -252,129 +258,162 @@ def task_targets(names: list[str]) -> list[str] | None:
                             f"+refs/heads/{ref}:refs/remotes/origin/{local}"], check=True)
         base = subprocess.check_output(["git", "merge-base", "HEAD", "origin/v2-base"],
                                        text=True).strip()
+        TASK_ROUTING["merge_base"] = base
         changed = subprocess.check_output(
             ["git", "diff", "--name-only", base, "HEAD", "--", str(TASK.relative_to(ROOT))],
             text=True).split()
     except (OSError, subprocess.SubprocessError) as error:
-        print(f"V2_SCOPE_FALLBACK full build ({type(error).__name__}: {error})", flush=True)
+        reason = f"{type(error).__name__}: {error}"
+        TASK_ROUTING["fallback_reason"] = reason
+        print(f"V2_SCOPE_FALLBACK full build ({reason})", flush=True)
         return None
     targets = sorted(({Path(f).stem for f in changed if f.endswith(".lean")} & set(names))
                      - {"Interface"})
+    TASK_ROUTING["targets"] = targets
+    if not targets:
+        TASK_ROUTING["fallback_reason"] = "No changed current V2 modules after excluding Interface"
     print(f"V2_SCOPE task branch {head}: base {base[:12]}, targets {targets}", flush=True)
     return targets or None
 
 
-TASK_AUDIT = """
-import Lean.Elab.Command
-import Lean.Util.CollectAxioms
-
-open Lean Elab Command in
-run_cmd do
-  let env ← getEnv
-  let targets : Array Name := #[MODULES]
-  let mut names : Array Name := #[]
-  for (name, _) in env.constants.toList do
-    match env.getModuleIdxFor? name with
-    | some idx =>
-      if targets.contains (env.header.moduleNames[idx.toNat]!) then names := names.push name
-    | none => pure ()
-  unless !names.isEmpty do
-    throwError "No declarations found in the task modules"
-  let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
-  let mut bad : Nat := 0
-  for name in names.qsort Name.lt do
-    let dependencies ← collectAxioms name
-    let extra := dependencies.filter fun ax => !permitted.contains ax
-    unless extra.isEmpty do
-      bad := bad + 1
-      logInfo m!"V2_TASK_EXTRA_AXIOMS {name}: {extra}"
-  if bad == 0 then
-    logInfo m!"V2_TASK_AXIOMS_PASSED: {names.size} declarations"
-  else
-    throwError "{bad} task declarations use axioms beyond the standard three (sorryAx means an unfinished proof)"
-"""
+def checked_names(value, label: str, pattern: str, *, nonempty: bool = False) -> list[str]:
+    if (not isinstance(value, list) or
+            any(not isinstance(item, str) or not re.fullmatch(pattern, item) for item in value) or
+            len(value) != len(set(value)) or (nonempty and not value)):
+        raise ValueError("Invalid or duplicate " + label)
+    return value
 
 
-def scoped_audit(targets: list[str]) -> dict:
-    """Audit the axioms of exactly the declarations defined in the target modules."""
-    imports = "".join(f"import {PREFIX}.{name}\n" for name in targets)
-    modules = ", ".join(f"`{PREFIX}.{name}" for name in targets)
-    audit_path = EVIDENCE / "task_AxiomAudit.lean"
-    audit_path.write_text(imports + TASK_AUDIT.replace("MODULES", modules), encoding="utf-8")
-    code = logged(["lake", "env", "lean", str(audit_path)], "task_axioms.log")
-    output = (EVIDENCE / "task_axioms.log").read_text()
-    return {"exit_code": code, "success_marker": "V2_TASK_AXIOMS_PASSED:" in output}
-
-
-def main() -> int:
-    EVIDENCE.mkdir(exist_ok=True)
-    manifest_path = ROOT / ".github/v2/manifest.json"
-    files = sorted(TASK.glob("*.lean"))
-    names = [path.stem for path in files]
-    manifest = (json.loads(manifest_path.read_text()) if manifest_path.exists()
-                else {"groups": [{"id": "skeleton", "proved": False, "modules": names}]})
+def select_scope(manifest: dict, names: list[str], branch: str) -> dict:
+    """Resolve only the current task; inactive task maps need no files on B."""
     groups = manifest["groups"]
-    listed = [name for group in groups for name in group["modules"]]
-    if sorted(listed) != names or len(listed) != len(set(listed)):
-        raise SystemExit("The group manifest must cover every V2 module exactly once")
-    if any(len(group["modules"]) > 100 for group in groups):
-        raise SystemExit("Each group must have at most 100 modules")
-    snapshots = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
-                 for path in files}
-    bad = []
+    group_ids = checked_names([group["id"] for group in groups],
+                              "group identifiers", r"[a-z0-9_]+")
     for group in groups:
-        pattern = r"\b(?:axiom|native_decide|admit|sorryAx)\b"
-        if group["proved"]:
-            pattern = r"\b(?:axiom|native_decide|admit|sorryAx|sorry)\b"
-        for module in group["modules"]:
-            path = TASK / (module + ".lean")
-            if re.search(pattern, code_only(path.read_text())):
-                bad.append(str(path.relative_to(ROOT)))
-    if bad:
-        raise SystemExit("Forbidden proof tokens: " + ", ".join(bad))
-    environment = {
-        "head": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
-        "toolchain": (ROOT / "lean-toolchain").read_text().strip(),
-        "manifest": manifest,
-        "source_sha256": snapshots,
-        "allowed_axioms": ALLOWED,
-        "module_timeout_seconds": MODULE_TIMEOUT_SECONDS,
-        "watch_interval_seconds": WATCH_INTERVAL_SECONDS,
-    }
-    (EVIDENCE / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
-    targets = task_targets(names)
-    environment["task_targets"] = targets
-    (EVIDENCE / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
-    start = time.monotonic()
-    build_exit = logged(["lake", "build", *("+" + PREFIX + "." + name + ":olean"
-                                          for name in (targets or names))], "build.log")
-    results = {"build_exit": build_exit, "module_count": len(targets or names),
-               "task_targets": targets,
-               "elapsed_seconds": time.monotonic() - start, "group_audits": {},
-               "watchdogs": WATCHDOG_RESULTS}
-    if build_exit == 0 and targets:
-        results["group_audits"]["task"] = scoped_audit(targets)
-    elif build_exit == 0:
-        for group in groups:
-            if not group["proved"]:
-                continue
-            group_id = group["id"]
-            if not re.fullmatch(r"[a-z0-9_]+", group_id):
-                raise SystemExit("Invalid group identifier")
-            audit = "\n".join("import " + PREFIX + "." + name for name in group["modules"])
-            audit += """
+        checked_names(group["modules"], "group modules", r"[A-Za-z][A-Za-z0-9_]*")
+        if type(group["proved"]) is not bool or len(group["modules"]) > 100:
+            raise ValueError("Invalid proved flag or group exceeds 100 modules")
+    listed = [name for group in groups for name in group["modules"]]
+    if not names or sorted(listed) != names or len(listed) != len(set(listed)):
+        raise ValueError("The group manifest must cover every V2 module exactly once")
+    full = {"mode": "full", "branch": branch, "modules": names,
+            "groups": [group["id"] for group in groups if group["proved"]],
+            "roots": [], "required_declarations": [], "forced_unproved_modules": [], "note": ""}
+    # Never let a task-map entry weaken the original B-branch gate.
+    if branch == BASE_BRANCH:
+        return full
+    specs = manifest.get("task_scopes", {})
+    if not isinstance(specs, dict):
+        raise ValueError("task_scopes must be an object")
+    if branch not in specs:
+        if branch.startswith(TASK_BRANCH_PREFIX):
+            TASK_ROUTING.clear()
+            targets = task_targets(names)
+            note = ("Unregistered task branch: public task entry points are not registered "
+                    "or accepted by this run.")
+            if targets:
+                unproved = {name for group in groups if not group["proved"]
+                            for name in group["modules"]}
+                return {"mode": "unregistered_diff", "branch": branch, "modules": targets,
+                        "groups": [], "roots": [], "required_declarations": [],
+                        "forced_unproved_modules": sorted(set(targets) & unproved),
+                        "note": note, "routing": dict(TASK_ROUTING)}
+            return {**full, "note": note + " Empty/failed diff discovery uses the full gate.",
+                    "routing": dict(TASK_ROUTING)}
+        return full
+    spec = specs[branch]
+    owned_groups = checked_names(spec.get("groups", []), "task groups", r"[a-z0-9_]+")
+    if not set(owned_groups) <= set(group_ids):
+        raise ValueError("Task groups are missing from this branch's manifest")
+    explicit = checked_names(spec.get("modules", []), "task modules", r"[A-Za-z][A-Za-z0-9_]*")
+    owned = set(explicit)
+    for group in groups:
+        if group["id"] in owned_groups:
+            owned.update(group["modules"])
+    roots = checked_names(spec.get("roots", []), "task roots",
+                          r"[A-Za-z][A-Za-z0-9_]*", nonempty=True)
+    required = checked_names(spec.get("required_declarations", []), "required task declarations",
+                             r"[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)+",
+                             nonempty=True)
+    if not owned or not owned <= set(names) or not set(roots) <= owned:
+        raise ValueError("Task modules must exist and must include every task root")
+    if not isinstance(spec.get("note", ""), str):
+        raise ValueError("Task scope note must be text")
+    unproved = {name for group in groups if not group["proved"] for name in group["modules"]}
+    return {"mode": "task", "branch": branch, "modules": sorted(owned),
+            "groups": owned_groups, "roots": roots, "required_declarations": required,
+            # These are still scanned and audited strictly, never skipped.
+            "forced_unproved_modules": sorted(owned & unproved), "note": spec.get("note", "")}
+
+
+def current_branch() -> str:
+    return (os.environ.get("GITHUB_HEAD_REF") or os.environ.get("GITHUB_REF_NAME") or
+            subprocess.check_output(["git", "branch", "--show-current"], text=True).strip())
+
+
+def exact_head() -> str:
+    return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+
+
+def input_snapshots() -> tuple[dict[str, str], dict[str, str]]:
+    sources = sorted(TASK.glob("*.lean"))
+    config_names = (
+        ".github/v2/build.py", ".github/v2/manifest.json",
+        "lean-toolchain", "lakefile.toml", "lakefile.lean", "lake-manifest.json",
+    )
+    configs = {ROOT / name for name in config_names if (ROOT / name).is_file()}
+    for pattern in ("*.yml", "*.yaml"):
+        configs.update((ROOT / ".github/workflows").glob(pattern))
+
+    def digest(paths):
+        return {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
+                for path in sorted(paths)}
+    return digest(sources), digest(configs)
+
+
+def audit_source(modules: list[str], roots: list[str], required: list[str]) -> str:
+    """Fresh audit of all loaded V2 declarations and their recursive axioms."""
+    tick = chr(96)
+
+    def lean_names(names):
+        return "#[" + ", ".join(tick + name for name in names) + "]"
+
+    imports = "\n".join("import " + PREFIX + "." + name for name in modules)
+    return imports + """
 import Lean.Elab.Command
 import Lean.Util.CollectAxioms
 
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
-  let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
+  let moduleNames : Array Name := env.header.moduleNames
+  let nsPrefix : Name := @@HeckeSkeleton.Moments.EngineStepV2
+  let modulePrefix : Name := @@HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
+  let moduleOf (name : Name) : Option Name := do
+    let idx ← env.getModuleIdxFor? name
+    moduleNames[idx.toNat]?
   let names := (env.constants.toList.filterMap fun (name, _) =>
-    if nsPrefix.isPrefixOf (privateToUserName name) then some name else none).toArray.qsort Name.lt
+    if nsPrefix.isPrefixOf (privateToUserName name) ||
+        (moduleOf name).any (modulePrefix.isPrefixOf ·)
+    then some name else none).toArray.qsort Name.lt
   unless !names.isEmpty do
-    throwError "No V2 declarations found"
-  let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
+    throwError "No loaded V2 declarations found"
+""".replace("@@", tick) + (
+        "  let roots : Array Name := " + lean_names([PREFIX + "." + name for name in roots]) + "\n"
+        "  let required : Array Name := " + lean_names(required) + "\n"
+    ) + """
+  for name in required do
+    let some (.thmInfo _) := env.find? name
+      | throwError "Required task theorem is missing or not a theorem: {name}"
+    let some owner := moduleOf name
+      | throwError "Required task theorem has no source module: {name}"
+    unless roots.contains owner && names.contains name do
+      throwError "Required task theorem is not declared in an owned task root: {name}"
+    logInfo m!"V2_REQUIRED_THEOREM {name}"
+  for root in roots do
+    unless required.any (fun name => moduleOf name == some root) do
+      throwError "Task root has no required theorem: {root}"
+  let permitted : Array Name := #[@@propext, @@Classical.choice, @@Quot.sound]
   for name in names do
     let dependencies ← collectAxioms name
     let extra := dependencies.filter fun ax => !permitted.contains ax
@@ -382,32 +421,118 @@ run_cmd do
       throwError "Unexpected axiom dependency in {name}: {extra}"
     logInfo m!"AXIOMS {name}: {dependencies}"
   logInfo m!"V2_GROUP_AXIOMS_PASSED: {names.size} declarations"
-"""
-            audit_path = EVIDENCE / (group_id + "_AxiomAudit.lean")
-            audit_path.write_text(audit)
-            code = logged(["lake", "env", "lean", str(audit_path)], group_id + "_axioms.log")
-            output = (EVIDENCE / (group_id + "_axioms.log")).read_text()
-            results["group_audits"][group_id] = {
-                "exit_code": code,
-                "success_marker": "V2_GROUP_AXIOMS_PASSED:" in output,
-            }
-    for path, digest in snapshots.items():
-        if hashlib.sha256((ROOT / path).read_bytes()).hexdigest() != digest:
-            raise SystemExit("Source changed during verification: " + path)
+""".replace("@@", tick)
+
+
+def main() -> int:
+    EVIDENCE.mkdir(exist_ok=True)
+    start = time.monotonic()
+    errors = []
+    snapshots, config_snapshots = input_snapshots()
+    names = sorted(Path(path).stem for path in snapshots)
+    scope = {"mode": "invalid", "branch": "", "modules": []}
+    environment = {"source_sha256": snapshots, "verification_sha256": config_snapshots,
+                   "allowed_axioms": ALLOWED, "module_timeout_seconds": MODULE_TIMEOUT_SECONDS,
+                   "watch_interval_seconds": WATCH_INTERVAL_SECONDS}
+    groups = []
+    try:
+        environment["head"] = exact_head()
+        scope["branch"] = current_branch()
+        manifest = json.loads((ROOT / ".github/v2/manifest.json").read_text())
+        environment["manifest"] = manifest
+        environment["toolchain"] = (ROOT / "lean-toolchain").read_text().strip()
+        scope = select_scope(manifest, names, scope["branch"])
+        groups = manifest["groups"]
+        if scope["mode"] != "full":
+            scans = [(module, True) for module in scope["modules"]]
+        else:
+            scans = [(module, group["proved"]) for group in groups for module in group["modules"]]
+        for module, proved in scans:
+            pattern = (r"\b(?:axiom|native_decide|admit|sorryAx|sorry)\b" if proved else
+                       r"\b(?:axiom|native_decide|admit|sorryAx)\b")
+            path = TASK / (module + ".lean")
+            source = code_only(path.read_text())
+            for match in re.finditer(pattern, source):
+                line = source.count("\n", 0, match.start()) + 1
+                errors.append(f"{path.relative_to(ROOT)}:{line}: forbidden {match.group()}")
+    except (OSError, subprocess.SubprocessError, ValueError, KeyError, TypeError) as error:
+        errors.append(f"{type(error).__name__}: {error}")
+    environment["scope"] = scope
+    environment["audit_scope"] = (
+        "Every loaded V2 declaration by source module OR namespace, "
+        "including private and generated declarations; collectAxioms is recursive.")
+    (EVIDENCE / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
+    preflight = ("\n".join(errors) if errors else
+                 f"PASS: {scope['mode']} scope; {len(scope['modules'])} of {len(names)} V2 targets; "
+                 f"task roots={scope['roots']}; forced strict={scope['forced_unproved_modules']}")
+    (EVIDENCE / "preflight.log").write_text(preflight + "\n")
+    print(preflight, flush=True)
+    results = {"preflight_passed": not errors, "scope": scope, "build_exit": None,
+               "module_count": len(scope["modules"]), "available_module_count": len(names),
+               "group_audits": {}, "watchdogs": WATCHDOG_RESULTS, "errors": errors}
+    if not errors:
+        try:
+            results["build_exit"] = logged(
+                ["lake", "build", *("+" + PREFIX + "." + name + ":olean"
+                                   for name in scope["modules"])], "build.log")
+            if results["build_exit"] == 0:
+                scope_id = "task_scope" if scope["mode"] == "task" else "unregistered_diff"
+                audits = ([{"id": scope_id, "modules": scope["modules"],
+                            "roots": scope["roots"],
+                            "required_declarations": scope["required_declarations"]}]
+                          if scope["mode"] != "full" else
+                          [group for group in groups if group["proved"]])
+                for group in audits:
+                    group_id = group["id"]
+                    audit_path = EVIDENCE / (group_id + "_AxiomAudit.lean")
+                    audit_path.write_text(audit_source(group["modules"], group.get("roots", []),
+                                                       group.get("required_declarations", [])))
+                    code = logged(["lake", "env", "lean", str(audit_path)], group_id + "_axioms.log")
+                    output = (EVIDENCE / (group_id + "_axioms.log")).read_text()
+                    marker = re.search(r"V2_GROUP_AXIOMS_PASSED: (\d+) declarations", output)
+                    results["group_audits"][group_id] = {
+                        "exit_code": code, "success_marker": marker is not None,
+                        "audited_declaration_count": int(marker.group(1)) if marker else 0,
+                    }
+        except Exception as error:
+            errors.append(f"{type(error).__name__}: {error}")
+    try:
+        after_sources, after_configs = input_snapshots()
+        for label, before, after in (("source", snapshots, after_sources),
+                                     ("verification input", config_snapshots, after_configs)):
+            for path in sorted(before.keys() | after.keys()):
+                if before.get(path) != after.get(path):
+                    errors.append(f"Changed {label} during verification: {path}")
+        results["head_after"] = exact_head()
+        if results["head_after"] != environment.get("head"):
+            errors.append("Git HEAD changed during verification")
+    except Exception as error:
+        errors.append(f"Final integrity check failed: {type(error).__name__}: {error}")
     results["elapsed_seconds"] = time.monotonic() - start
-    (EVIDENCE / "result.json").write_text(json.dumps(results, indent=2) + "\n")
-    success = build_exit == 0 and all(
+    success = not errors and results["build_exit"] == 0 and all(
         result["exit_code"] == 0 and result["success_marker"]
         for result in results["group_audits"].values())
+    if scope["mode"] in ("task", "unregistered_diff"):
+        scope_id = "task_scope" if scope["mode"] == "task" else "unregistered_diff"
+        success = success and scope_id in results["group_audits"]
+    results["success"] = success
+    results["public_task_certified"] = success and scope["mode"] == "task"
+    (EVIDENCE / "result.json").write_text(json.dumps(results, indent=2) + "\n")
+    tick = chr(96)
     summary = ("# MOM_ENGINE_STEP_V2\n\n"
-               + f"- Exact head: `{environment['head']}`\n"
-               + (f"- Task branch scope: {', '.join(targets)}\n" if targets else "")
-               + f"- V2 modules built: {len(targets or names)}\n"
-               + f"- Lake exit: {build_exit}\n"
+               + f"- Exact head: {tick}{environment.get('head', 'unavailable')}{tick}\n"
+               + f"- Scope: {scope['mode']} ({scope['branch'] or 'detached/unknown'})\n"
+               + f"- V2 targets: {len(scope['modules'])} of {len(names)}\n"
+               + f"- Required theorems: {', '.join(scope.get('required_declarations', [])) or ('none registered' if scope['mode'] == 'unregistered_diff' else 'original full gate')}\n"
+               + f"- Lake exit: {results['build_exit']}\n"
                + f"- Per-module Lean timeout: {MODULE_TIMEOUT_SECONDS}s\n"
                + f"- Modules terminated: {sum(len(item['killed']) for item in WATCHDOG_RESULTS.values())}\n"
-               + f"- Proved groups audited: {', '.join(results['group_audits']) or 'none (skeleton)'}\n"
+               + f"- Audits: {', '.join(results['group_audits']) or 'none'}\n"
                + f"- Result: {'PASS' if success else 'FAIL'}\n")
+    if scope.get("note"):
+        summary += "\nScope note: " + scope["note"] + "\n"
+    if errors:
+        summary += "\nVerification errors:\n\n" + "\n".join("- " + error for error in errors) + "\n"
     (EVIDENCE / "summary.md").write_text(summary)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as stream:

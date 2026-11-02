@@ -115,11 +115,12 @@ def audit_source(stage: str, modules: list[str], required: list[str]) -> str:
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
+  let moduleNames : Array Name := env.header.moduleNames
   let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
   let modulePrefix : Name := `HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
   let sourceModule? (name : Name) : Option Name := do
     let idx ← env.getModuleIdxFor? name
-    env.header.moduleNames[idx.toNat]?
+    moduleNames[idx.toNat]?
   let names := (env.constants.toList.filterMap fun (name, _) =>
     let fromModule := (sourceModule? name).any (modulePrefix.isPrefixOf ·)
     if fromModule || nsPrefix.isPrefixOf (privateToUserName name)
@@ -138,7 +139,7 @@ run_cmd do
     unless extra.isEmpty do
       throwError "Unexpected axiom dependency in {{name}}: {{extra}}"
     logInfo m!"AXIOMS {{name}}: {{dependencies}}"
-  let modules := env.header.moduleNames.filter (modulePrefix.isPrefixOf ·)
+  let modules := moduleNames.filter (modulePrefix.isPrefixOf ·)
   for moduleName in modules do
     let count : Nat := names.foldl (fun (n : Nat) name =>
       if sourceModule? name == some moduleName then n + 1 else n) 0
@@ -221,7 +222,9 @@ def main() -> int:
         "preflight_passed": not errors,
         "warmup_exits": {},
         "build_exit": None,
+        "build_skipped_reason": None,
         "audit_exit": None,
+        "audit_skipped_reason": None,
         "audit_success_marker": False,
         "watchdogs": shared.WATCHDOG_RESULTS,
         "errors": errors,
@@ -230,8 +233,9 @@ def main() -> int:
     if not errors:
         if stage == "complete":
             # Isolate the two shared roots before the full task build.  A
-            # failed warmup remains a gate failure even if a later build
-            # succeeds; it never substitutes for the complete build/audit.
+            # failed warmup is a hard gate failure.  Both warmups still
+            # run, but their failed dependencies are not rebuilt a third
+            # time by the full task command.
             for module in COMPLETE_WARMUP_MODULES:
                 log_name = "warmup-" + module + ".log"
                 try:
@@ -248,23 +252,32 @@ def main() -> int:
                     with (evidence / log_name).open("a", encoding="utf-8") as stream:
                         stream.write(message + "\n")
                     print(message, file=sys.stderr, flush=True)
-        try:
-            results["build_exit"] = shared.logged(
-                ["lake", "build", *("+" + PREFIX + "." + module + ":olean" for module in modules)], "build.log")
-            if results["build_exit"] == 0:
-                audit = evidence / "N8N9_AxiomAudit.lean"
-                audit.write_text(audit_source(stage, modules, required), encoding="utf-8")
-                results["audit_exit"] = shared.logged(["lake", "env", "lean", str(audit)], "axioms.log")
-                output = (evidence / "axioms.log").read_text(encoding="utf-8")
-                marker = re.search(r"N8_N9_" + stage.upper() + r"_AXIOMS_PASSED: (\d+) declarations", output)
-                results["audit_success_marker"] = marker is not None
-                if marker:
-                    results["audited_declaration_count"] = int(marker.group(1))
-        except Exception as error:
-            message = f"{type(error).__name__}: {error}"
-            errors.append(message)
-            (evidence / "driver-error.log").write_text(message + "\n", encoding="utf-8")
-            print(message, file=sys.stderr, flush=True)
+        warmup_failed = stage == "complete" and any(
+            results["warmup_exits"].get(module) != 0 for module in COMPLETE_WARMUP_MODULES)
+        if warmup_failed:
+            reason = "A sequential shared-root warmup failed; the full task build and fresh axiom audit were not run"
+            results["build_skipped_reason"] = reason
+            results["audit_skipped_reason"] = reason
+            (evidence / "skipped-verification.log").write_text(reason + "\n", encoding="utf-8")
+            print("SKIPPED (gate remains FAIL): " + reason, flush=True)
+        else:
+            try:
+                results["build_exit"] = shared.logged(
+                    ["lake", "build", *("+" + PREFIX + "." + module + ":olean" for module in modules)], "build.log")
+                if results["build_exit"] == 0:
+                    audit = evidence / "N8N9_AxiomAudit.lean"
+                    audit.write_text(audit_source(stage, modules, required), encoding="utf-8")
+                    results["audit_exit"] = shared.logged(["lake", "env", "lean", str(audit)], "axioms.log")
+                    output = (evidence / "axioms.log").read_text(encoding="utf-8")
+                    marker = re.search(r"N8_N9_" + stage.upper() + r"_AXIOMS_PASSED: (\d+) declarations", output)
+                    results["audit_success_marker"] = marker is not None
+                    if marker:
+                        results["audited_declaration_count"] = int(marker.group(1))
+            except Exception as error:
+                message = f"{type(error).__name__}: {error}"
+                errors.append(message)
+                (evidence / "driver-error.log").write_text(message + "\n", encoding="utf-8")
+                print(message, file=sys.stderr, flush=True)
     if source_snapshot() != snapshots:
         errors.append("V2 source inventory or contents changed during verification")
     if config_snapshot() != configurations:
@@ -296,6 +309,8 @@ def main() -> int:
                + f"- Result: {'PASS' if success else 'FAIL'}\n"
                + f"- N8b status: {results['n8b_status']}.\n"
                + "- The complete V2 and repository gates remain required.\n")
+    if results["build_skipped_reason"]:
+        summary += "\nSkipped verification (not passed): " + results["build_skipped_reason"] + ".\n"
     if errors:
         summary += "\nVerification errors:\n\n" + "\n".join("- " + error for error in errors) + "\n"
     (evidence / "summary.md").write_text(summary, encoding="utf-8")

@@ -168,7 +168,8 @@ theorem working_column_norm_le (frame : SourceFrame) (input : ProfileInput call)
       (Nat.add_le_add_right hcap 2)).trans hannulusZ
   have hz : 0 ≤ call.workingParameters.z := by
     rw [working_total_length]
-    exact slotGeometry_totalLength_nonneg call.localizedData.geometry
+    exact HeckeSkeleton.Moments.EngineInduction.slotGeometry_totalLength_nonneg
+      call.localizedData.geometry
   have hexponent :
       2 * (call.workingParameters.n₁ + call.workingParameters.n₂) +
         call.localizedData.geometry.totalLength + loss ≤
