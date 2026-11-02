@@ -42,6 +42,14 @@ theorem sum_branch {α : Type} [Fintype α]
   rw [Fintype.sum_sum_type, Fintype.sum_prod_type]
   simp only [Fintype.sum_unique, sum_valuation]
 
+theorem principalCharacter_congr {A : SArithmeticData K} (σ : K →+* ℂ)
+    {I J : A.Exterior} (a : A.R) (hI : A.Generates I a)
+    (hJ : A.Generates J a) (he : I = J) :
+    GlobalPairCancel.principalCharacter A σ I a hI =
+      GlobalPairCancel.principalCharacter A σ J a hJ := by
+  cases he
+  rfl
+
 /-- The original arithmetic context supplies the four literal CRT
 recipes required by the finite amplifier. The unused theta field plays
 no part in this dictionary. -/
@@ -82,8 +90,7 @@ theorem exists_coefficient_recipes {A : SArithmeticData K} {σ : K →+* ℂ}
     rw [dif_neg ha.1]
     have hI := generatedIdeal_unique
       (PrincipalProbeConstruction.Inputs.rowIdeal_generates A a ha.1) ha
-    cases hI
-    rfl
+    exact principalCharacter_congr σ a _ ha hI
   · intro x
     rfl
   · intro q
@@ -116,7 +123,8 @@ theorem branch_integral (P : PoolPresentation family) (i : Fin family.count)
     (∫ ξ, branchIntegrand P i key ξ
       ∂actualFourierMeasure (family.source i).firstKernel) =
         (physical P ⟨i, key⟩).cost := by
-  rw [branchIntegrand, integral_const_mul]
+  unfold branchIntegrand
+  rw [integral_const_mul]
   unfold PhysicalSource.cost
   rw [physical_kernel]
 
@@ -142,7 +150,7 @@ theorem pointwise_energy (P : PoolPresentation family) (hP : P.Realizes)
   rw [sum_branch]
   simp only [branchIntegrand, physical, main, error, AmplifierValuation.multiplicity,
     ActualGaussSource.phaseEnergy, Finset.sum_add_distrib, mul_add, Finset.mul_sum,
-    mul_assoc]
+    mul_assoc, add_assoc]
 
 theorem source_cost_le_branches (P : PoolPresentation family) (hP : P.Realizes)
     (i : Fin family.count) :

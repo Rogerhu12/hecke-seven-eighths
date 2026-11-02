@@ -23,7 +23,7 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
-open HeckePort.Moments
+open HeckePort.Moments HeckePort.IdealMobiusDivisorSum
 
 attribute [local instance]
   sourcePrincipal sourceNormOneSpace sourceNormOneBorel
@@ -38,9 +38,14 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p)
 
-def firstAtlas (side : Bool) :=
-  if side then packet.rightCover.branch packet.key.2.2.2.1
-  else packet.leftCover.branch packet.key.2.2.1
+def firstColumns : Bool → Finset packet.second.physical.Column
+  | false => packet.leftCover.fibre packet.key.2.2.1.val
+  | true => packet.rightCover.fibre packet.key.2.2.2.1.val
+
+def firstAtlas : (side : Bool) →
+    SourceCartesianAtlas (packet.firstColumns side) packet.second.physical.source.ideal
+  | false => packet.leftCover.branch packet.key.2.2.1
+  | true => packet.rightCover.branch packet.key.2.2.2.1
 
 def secondIdeal (side : Bool) : Ideal (𝓞 K) :=
   if side then packet.key.1.val.2 else packet.key.1.val.1

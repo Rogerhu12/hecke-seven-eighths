@@ -96,7 +96,8 @@ namespace RawCovers
 variable {second : SecondFamily expansion} (covers : RawCovers second)
 
 def predicates (i : Fin expansion.count) :
-    (second.source i).stage.CoverHybridPredicates (covers.left i).cover (covers.right i).cover :=
+    ActualGaussStage.CoverHybridPredicates.{0, 0, 0, 0}
+      (second.source i).stage (covers.left i).cover (covers.right i).cover :=
   fun DE D _ _ label _ _ _ _ _ _ h =>
     (second.source i).rowCharacter (expansion := expansion) i DE D label h ∈ call.node.data.theta
 

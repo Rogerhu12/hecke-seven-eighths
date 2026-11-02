@@ -22,7 +22,7 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c}
 
 theorem nominal_width
-    (G : OriginalNominalGeometry call.workingParameters call.base
+    (G : OriginalNominalGeometry (K := K) call.workingParameters call.base
       (recipeInductionSigma c)) :
     G.skeleton.nominalWidth ≤
       call.workingParameters.m + call.workingParameters.q - recipeInductionSigma c := by
@@ -32,7 +32,7 @@ theorem nominal_width
   linarith
 
 theorem nominal_slack
-    (G : OriginalNominalGeometry call.workingParameters call.base
+    (G : OriginalNominalGeometry (K := K) call.workingParameters call.base
       (recipeInductionSigma c)) :
     G.tag.removedLength call.base + G.tag.poolLength (recipeInductionSigma c) ≤
       G.halfSecond - G.secondRadical + G.tag.removedLength call.base +

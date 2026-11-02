@@ -58,7 +58,7 @@ theorem originalFrequencyIdeal_out_norm {A : SArithmeticData K}
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {F : FirstPresentation call p} {family : FirstCauchyFamily F}
 
-theorem gaussRows_of_heq {ι κ : Type*}
+theorem gaussRows_of_heq {ι κ : Type}
     (G : ActualGaussSource (Arithmetic.context c) ι)
     (H : ActualGaussSource (Arithmetic.context c) κ)
     (hcol : ι = κ) (hsource : HEq G H) : G.rows = H.rows := by
@@ -110,7 +110,7 @@ theorem pool_prime_sixth (P : PoolPresentation family)
     _ ≤ (call.base ^ (recipeInductionSigma c / 3)) ^ 6 :=
       pow_le_pow_left₀ (primeNorm_pos q).le (P.pool.norm_upper q hq) 6
     _ = call.base ^ ((recipeInductionSigma c / 3) * (6 : ℝ)) := by
-      rw [Real.rpow_mul call.base_pos.le, Real.rpow_natCast]
+      rw [Real.rpow_mul call.base_pos.le]
     _ = _ := by congr 1 <;> ring
 
 theorem rpow_prime_multiple (q : ExteriorPrime (Arithmetic.data c)) (n : ℕ) :
