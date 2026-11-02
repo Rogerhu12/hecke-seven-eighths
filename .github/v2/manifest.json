@@ -201,12 +201,11 @@
       ],
       "modules": [],
       "roots": [
-        "AssemblyArithmeticBridge",
-        "AssemblyCalibrationBridge"
+        "BlueprintAssembly"
       ],
       "required_declarations": [
-        "HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass_of_tasks",
-        "HeckeSkeleton.Moments.EngineStepV2.Assembly.calibrations_with_bindings"
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_taskProofs"
       ],
       "note": "Only assembly modules are owned targets; every loaded V2 declaration is audited recursively."
     }
@@ -328,7 +327,12 @@
       "proved": true,
       "modules": [
         "AssemblyArithmeticBridge",
-        "AssemblyCalibrationBridge"
+        "AssemblyCalibrationBridge",
+        "AssemblyFourierBridge",
+        "AssemblyLeafConstruction",
+        "AssemblyNormalizationCertificate",
+        "AssemblyNormalizationGeometry",
+        "BlueprintAssembly"
       ]
     }
   ]
