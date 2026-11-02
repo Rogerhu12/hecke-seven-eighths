@@ -206,6 +206,7 @@ theorem classGeometry_enlargement (key : SecondClassKey trace.second) (active : 
       PhysicalSource.enlargement, PhysicalSource.firstFrequency]
   all_goals congr 2 <;> ring
 
+set_option maxHeartbeats 800000 in
 theorem classGeometry_normFactor (key : SecondClassKey trace.second) (active : key.Active)
     (side : Bool) (h : key.R.live) :
     key.R.normFactor (Arithmetic.context c) h.val =
@@ -222,10 +223,17 @@ theorem classGeometry_normFactor (key : SecondClassKey trace.second) (active : k
       (nonZeroDivisors.coe_ne_zero G.ideals.nonunitPart)]
   rw [show G.ideals.nonunitPart.val = _ from
     classGeometry_nonunitPart trace realized key active side h]
+  rw [show G.ideals.second.val = _ from classGeometry_second trace realized key active side,
+    show G.ideals.secondOpposite.val = _ from
+      classGeometry_secondOpposite trace realized key active side]
+  change
+    (Ideal.absNorm (gcd (primePowerProduct key.R.primes key.R.leftMultiplicity).val
+      (primePowerProduct key.R.primes key.R.rightMultiplicity).val) : ℝ) *
+        (Ideal.absNorm (nonunitFrequencyRadical (Arithmetic.context c) key.R.primes
+          key.R.leftMultiplicity key.R.rightMultiplicity (key.R.frequency h.val)).val : ℝ) = _
+  rw [key.block.common_left, key.block.common_right]
   cases side <;>
-    simp [G, classGeometry, sideIdeals, leftIdeals, OriginalNominalIdeals.swapSecond,
-      exteriorMomentIdeal, ActualSecondCorrelationRows.normFactor,
-      SArithmeticData.exteriorNorm, DedekindZetaZeroFree.idealNorm, gcd_comm]
+    simp only [Bool.false_eq_true, ↓reduceIte, gcd_comm]
 
 theorem classGeometry_rowWindow (key : SecondClassKey trace.second) (active : key.Active)
     (side : Bool) (h : key.R.live) :

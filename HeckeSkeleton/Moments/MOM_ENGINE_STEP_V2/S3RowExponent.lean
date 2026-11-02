@@ -208,9 +208,11 @@ theorem cauchy_complementary_dvd_opposite {F : FirstPresentation call p}
       rcases Finset.mem_union.mp (hsub hq) with hq | hq
       · have hempty : q ∈ (∅ : Finset (HeightOneSpectrum (Arithmetic.data c).R)) :=
           hF.mask ▸ hq
-        exact (Finset.not_mem_empty q hempty).elim
+        exact (Finset.notMem_empty q hempty).elim
       · exact hq
-    exact hprincipal.trans (Finset.image_mono (Finset.subset_univ _))
+    exact hprincipal.trans
+      (Finset.image_mono (fun j => actualExteriorSPrime (b.primes j))
+        (Finset.subset_univ _))
   have hleft := firstPhysicalDivisorIdeal_dvd_product b.primes b.leftMultiplicity
     b.left_positive key.2.1.val hD
   have hright := firstPhysicalDivisorIdeal_dvd_product b.primes b.rightMultiplicity

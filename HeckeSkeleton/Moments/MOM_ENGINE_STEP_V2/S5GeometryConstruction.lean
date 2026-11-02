@@ -142,6 +142,7 @@ theorem classGeometry_nonunitPart (key : SecondClassKey trace.second) (active : 
   sideIdeals_nonunitPart key (realized.second.stage key.sourceIndex)
     (classWitness trace key active) h side
 
+set_option maxHeartbeats 800000 in
 theorem classGeometry_correlation (key : SecondClassKey trace.second) (active : key.Active)
     (side : Bool) (h : key.R.live) :
     ‖key.R.correlation h.val‖ ≤
@@ -162,11 +163,17 @@ theorem classGeometry_correlation (key : SecondClassKey trace.second) (active : 
     key.R.leftMultiplicity key.R.rightMultiplicity key.block.left_positive
     key.R.leftGenerator key.R.rightGenerator key.R.leftGenerates key.R.rightGenerates
     (key.R.frequency h.val)
+  change ‖key.R.correlation h.val‖ ≤
+    (Ideal.absNorm (gcd (primePowerProduct key.R.primes key.R.leftMultiplicity).val
+      (primePowerProduct key.R.primes key.R.rightMultiplicity).val) : ℝ) /
+      (Ideal.absNorm (unitFrequencyRadical (Arithmetic.context c) key.R.primes
+        key.R.leftMultiplicity key.R.rightMultiplicity (key.R.frequency h.val)).val : ℝ) at hb
+  rw [key.block.common_left, key.block.common_right] at hb
+  rw [show G.ideals.second.val = _ from classGeometry_second trace realized key active side,
+    show G.ideals.secondOpposite.val = _ from
+      classGeometry_secondOpposite trace realized key active side]
   cases side <;>
-    simpa [G, classGeometry, sideIdeals, leftIdeals,
-      OriginalNominalIdeals.swapSecond, exteriorMomentIdeal,
-      ActualSecondCorrelationRows.correlation, SArithmeticData.exteriorNorm,
-      DedekindZetaZeroFree.idealNorm, gcd_comm] using hb
+    simpa only [Bool.false_eq_true, ↓reduceIte, gcd_comm] using hb
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.S5Proof
 

@@ -70,15 +70,15 @@ theorem main_windows (P : PoolPresentation family) (hP : P.Realizes)
     rw [hrows] at hr
     exact hW.retained_upper ⟨rq.1, hr⟩
   · intro j hj hjnz
-    have hj' : j ∈ (family.source i).source.columns := by
-      simpa only [main, FirstGaussPoolData.mainSource, hcolumns] using hj
+    change j ∈ (P.data i).columns at hj
+    rw [hcolumns] at hj
     simpa only [main, FirstGaussPoolData.mainSource, hideal,
-      hfamily.tag i, OriginalNominalTag.removedLength] using hW.column_lower j hj' hjnz
+      hfamily.tag i, OriginalNominalTag.removedLength] using hW.column_lower j hj hjnz
   · intro j hj hjnz
-    have hj' : j ∈ (family.source i).source.columns := by
-      simpa only [main, FirstGaussPoolData.mainSource, hcolumns] using hj
+    change j ∈ (P.data i).columns at hj
+    rw [hcolumns] at hj
     simpa only [main, FirstGaussPoolData.mainSource, hideal,
-      hfamily.tag i, OriginalNominalTag.removedLength] using hW.column_upper j hj' hjnz
+      hfamily.tag i, OriginalNominalTag.removedLength] using hW.column_upper j hj hjnz
   · intro h hh
     change h ∈ (P.data i).mainRows at hh
     obtain ⟨⟨r, q⟩, hmem, rfl⟩ := Finset.mem_image.mp hh
