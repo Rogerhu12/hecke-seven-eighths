@@ -119,14 +119,24 @@ theorem literalPrimitiveLeftDirectRows
     ∀ h ∈ ((source).pieces DE D).leftData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
         (leftGeometry DE D).retainedScale * Z ^ (leftGeometry DE D).enlargement := by
-  sorry
+  intro h hh
+  have hp := Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
+    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
+    cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
+    hcutoffPower DE D
+  exact (hp.1 h hh).trans ((leftGeometry DE D).retainedScale_le_enlarged hZ.le hstep.le)
 
 theorem literalPrimitiveRightDirectRows
     (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     ∀ h ∈ ((source).pieces DE D).rightData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
         (rightGeometry DE D).retainedScale * Z ^ (rightGeometry DE D).enlargement := by
-  sorry
+  intro h hh
+  have hp := Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
+    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
+    cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
+    hcutoffPower DE D
+  exact (hp.2 h hh).trans ((rightGeometry DE D).retainedScale_le_enlarged hZ.le hstep.le)
 
 local notation "leftRows" => Q.literalPrimitiveLeftDirectRows μv ν C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half

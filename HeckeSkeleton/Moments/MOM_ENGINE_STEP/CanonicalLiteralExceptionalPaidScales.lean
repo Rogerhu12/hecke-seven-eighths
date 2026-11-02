@@ -44,7 +44,11 @@ def scales : ExceptionalAtomicScales B :=
 theorem scales_exponent :
     (scales B Z targetTotal length hlength annulus amplitude cap hannulus hamplitude).exponent =
       targetTotal / 2 - B.rawExtractionLength Z length := by
-  sorry
+  change (B.originalAtomicScales Z (targetTotal - ∑ i, length i) length hlength
+    (fun _ => annulus) (fun _ => amplitude) (fun _ => hannulus)
+      (fun _ => hamplitude)).exponent = _
+  rw [B.originalAtomicScales_exponent]
+  ring
 
 theorem rectangle_root_window (hZ : 1 < Z)
     (X₁ X₂ : ℝ) (hX₁ : 0 < X₁) (hX₂ : 0 < X₂)
@@ -52,7 +56,22 @@ theorem rectangle_root_window (hZ : 1 < Z)
     Z ^ (2 * ((Real.log (X₁ * X₂) / Real.log Z - B.plainExtractionLength Z) / 2)) ≤
       (annulus ^ cap) ^ 2 *
         Z ^ (2 * ((targetTotal - ∑ i, length i - B.plainExtractionLength Z) / 2)) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hprod : X₁ * X₂ * Z ^ (∑ i, length i) ≤ (annulus ^ cap) ^ 2 * Z ^ targetTotal := by
+    simpa only [Real.rpow_sum_of_pos hz] using hproduct
+  have hp : X₁ * X₂ ≤ (annulus ^ cap) ^ 2 * Z ^ (targetTotal - ∑ i, length i) := by
+    calc
+      _ ≤ ((annulus ^ cap) ^ 2 * Z ^ targetTotal) / Z ^ (∑ i, length i) :=
+        (le_div_iff₀ (Real.rpow_pos_of_pos hz _)).mpr hprod
+      _ = _ := by rw [Real.rpow_sub hz]; ring
+  rw [show 2 * ((Real.log (X₁ * X₂) / Real.log Z - B.plainExtractionLength Z) / 2) =
+      Real.log (X₁ * X₂) / Real.log Z - B.plainExtractionLength Z by ring,
+    show 2 * ((targetTotal - ∑ i, length i - B.plainExtractionLength Z) / 2) =
+      targetTotal - ∑ i, length i - B.plainExtractionLength Z by ring,
+    Real.rpow_sub hz, Real.rpow_logb hz (ne_of_gt hZ) (mul_pos hX₁ hX₂),
+    Real.rpow_sub hz]
+  simpa only [mul_div_assoc] using
+    div_le_div_of_nonneg_right hp (Real.rpow_nonneg hz.le (B.plainExtractionLength Z))
 
 end Scales
 
@@ -129,7 +148,23 @@ Only their individual prime annuli are bounded, and each is paid once. -/
 theorem two_extraction_product (rectangle : Bool) :
     ((beforeSecond).extract b₂).scaleProduct rectangle * (N₁ * N₂) ≤
       (annulus ^ cap) ^ 2 * d.scaleProduct rectangle := by
-  sorry
+  have hc₂ : b₁.keep.card ≤ cap :=
+    (by simpa only [Fintype.card_fin] using Finset.card_le_univ b₁.keep).trans hcap
+  have hp₂ : (beforeSecond).PrimeNormWindow annulus :=
+    d.secondInput_primeNormWindow P R b₁ power firstFixed poolFixed unitFixed
+      firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hprime
+  have h₁ := d.extract_scaleProduct_mul_frozenNorm_le hprime hannulus cap hcap b₁ rectangle
+  have h₂ := (beforeSecond).extract_scaleProduct_mul_frozenNorm_le hp₂ hannulus cap hc₂ b₂ rectangle
+  calc
+    _ = (((beforeSecond).extract b₂).scaleProduct rectangle * N₂) * N₁ := by ring
+    _ ≤ (annulus ^ cap * (beforeSecond).scaleProduct rectangle) * N₁ :=
+      mul_le_mul_of_nonneg_right h₂ (Nat.cast_nonneg _)
+    _ = annulus ^ cap * ((d.extract b₁).scaleProduct rectangle * N₁) := by
+      rw [d.secondInput_scaleProduct P R b₁]
+      ring
+    _ ≤ annulus ^ cap * (annulus ^ cap * d.scaleProduct rectangle) :=
+      mul_le_mul_of_nonneg_left h₁ (pow_nonneg (zero_le_one.trans hannulus) _)
+    _ = _ := by ring
 
 variable {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
 variable (atlas : SourceCartesianAtlas columns ideal) (count : b₂.keep.card = atlas.slotCount)
@@ -148,7 +183,26 @@ theorem final_scaleProduct_window (rectangle : Bool) (originalTotal : ℝ)
         (frozenSourceIdeal b₁.plainDivisor₁ b₁.plainDivisor₂ b₁.keep b₁.witness.2) -
           idealLogLength d.base
             (frozenSourceIdeal b₂.plainDivisor₁ b₂.plainDivisor₂ b₂.keep b₂.witness.2)) := by
-  sorry
+  have hz := zero_lt_one.trans d.base_gt_one
+  have h₁ := rpow_idealLogLength d.base d.base_gt_one
+    (frozenSourceIdeal b₁.plainDivisor₁ b₁.plainDivisor₂ b₁.keep b₁.witness.2)
+    (frozenSourceIdeal_ne_zero _ _ _ _)
+  have h₂ := rpow_idealLogLength d.base d.base_gt_one
+    (frozenSourceIdeal b₂.plainDivisor₁ b₂.plainDivisor₂ b₂.keep b₂.witness.2)
+    (frozenSourceIdeal_ne_zero _ _ _ _)
+  have hn₁ : 0 < N₁ := by rw [← h₁]; exact Real.rpow_pos_of_pos hz _
+  have hn₂ : 0 < N₂ := by rw [← h₂]; exact Real.rpow_pos_of_pos hz _
+  have hp := two_extraction_product d b₁ P R power firstFixed poolFixed unitFixed
+    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ b₂
+    annulus hannulus cap hcap hprime rectangle
+  rw [horiginal] at hp
+  rw [CanonicalLiteralRectangles.Atoms.balancePlain_scaleProduct,
+    CanonicalLiteralRectangles.Atoms.scale_scaleProduct,
+    CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct]
+  calc
+    _ ≤ ((annulus ^ cap) ^ 2 * d.base ^ originalTotal) / (N₁ * N₂) :=
+      (le_div_iff₀ (mul_pos hn₁ hn₂)).mpr hp
+    _ = _ := by rw [Real.rpow_sub hz, Real.rpow_sub hz, h₁, h₂]; ring
 
 end OriginalExtractions
 
@@ -206,10 +260,8 @@ def History.firstIdeal : Ideal (𝓞 K) :=
 def History.secondIdeal : Ideal (𝓞 K) :=
   frozenSourceIdeal H.second.plainDivisor₁ H.second.plainDivisor₂ H.second.keep H.second.witness.2
 
-theorem History.firstIdeal_ne_zero : H.firstIdeal ≠ 0 := by
-  sorry
-theorem History.secondIdeal_ne_zero : H.secondIdeal ≠ 0 := by
-  sorry
+theorem History.firstIdeal_ne_zero : H.firstIdeal ≠ 0 := frozenSourceIdeal_ne_zero _ _ _ _
+theorem History.secondIdeal_ne_zero : H.secondIdeal ≠ 0 := frozenSourceIdeal_ne_zero _ _ _ _
 
 /-- The original prime window and original scale product produce the
 final table window, with both actual frozen ideals retained. -/
@@ -220,7 +272,28 @@ theorem History.window (annulus : ℝ) (hannulus : 1 ≤ annulus) (cap : ℕ)
     d.scaleProduct false ≤ (annulus ^ cap) ^ 2 *
       d.base ^ (originalTotal - idealLogLength d.base H.firstIdeal -
         idealLogLength d.base H.secondIdeal) := by
-  sorry
+  have hz := zero_lt_one.trans H.original.base_gt_one
+  have hp := two_extraction_product H.original H.first P R H.power H.firstFixed
+    H.poolFixed H.unitFixed H.firstElement H.poolElement H.unitElement H.first_generates
+    H.pool_generates H.unit_generates H.firstTilt H.secondTilt H.second
+    annulus hannulus cap hcap hprime false
+  change _ * ((Ideal.absNorm H.firstIdeal : ℝ) * (Ideal.absNorm H.secondIdeal : ℝ)) ≤
+    (annulus ^ cap) ^ 2 * H.original.scaleProduct false at hp
+  rw [horiginal, ← H.scale_eq] at hp
+  have h₁ := rpow_idealLogLength H.original.base H.original.base_gt_one
+    H.firstIdeal H.firstIdeal_ne_zero
+  have h₂ := rpow_idealLogLength H.original.base H.original.base_gt_one
+    H.secondIdeal H.secondIdeal_ne_zero
+  have hn₁ : 0 < (Ideal.absNorm H.firstIdeal : ℝ) := by
+    rw [← h₁]; exact Real.rpow_pos_of_pos hz _
+  have hn₂ : 0 < (Ideal.absNorm H.secondIdeal : ℝ) := by
+    rw [← h₂]; exact Real.rpow_pos_of_pos hz _
+  rw [H.base_eq]
+  calc
+    _ ≤ ((annulus ^ cap) ^ 2 * H.original.base ^ originalTotal) /
+        ((Ideal.absNorm H.firstIdeal : ℝ) * (Ideal.absNorm H.secondIdeal : ℝ)) :=
+      (le_div_iff₀ (mul_pos hn₁ hn₂)).mpr hp
+    _ = _ := by rw [Real.rpow_sub hz, Real.rpow_sub hz, h₁, h₂]; ring
 
 variable {n : ℕ} (original : CanonicalLiteralRectangles.Atoms (K := K) n)
 variable {firstSupport : Finset (Ideal (𝓞 K))}

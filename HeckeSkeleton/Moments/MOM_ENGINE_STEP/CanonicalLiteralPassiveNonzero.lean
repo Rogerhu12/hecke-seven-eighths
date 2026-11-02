@@ -37,17 +37,21 @@ def nonzeroLabels :=
     (fun a => sign a.val ≠ 0)
 
 theorem nonzeroLabels_subset :
-    nonzeroLabels W B A M ⊆ (CanonicalLiteralPassiveSource.labels W B A M).attach := by
-  sorry
+    nonzeroLabels W B A M ⊆ (CanonicalLiteralPassiveSource.labels W B A M).attach :=
+  Finset.filter_subset _ _
 
 variable (a : { a // a ∈ CanonicalLiteralPassiveSource.labels W B A M })
 
-theorem sign_ne_zero (ha : a ∈ nonzeroLabels W B A M) : sign a.val ≠ 0 := by
-  sorry
+theorem sign_ne_zero (ha : a ∈ nonzeroLabels W B A M) : sign a.val ≠ 0 :=
+  (Finset.mem_filter.mp ha).2
 
 theorem divisor_squarefree (ha : a ∈ nonzeroLabels W B A M) :
     Squarefree (branch W B A M a).divisor := by
-  sorry
+  change Squarefree a.val.1
+  by_contra hsq
+  have hz : sign a.val = 0 := by
+    simp only [sign, moebius_of_not_squarefree hsq, Int.cast_zero, zero_mul]
+  exact sign_ne_zero W B A M a ha hz
 
 /-- The original live allocation already has a valid occurrence
 selection. The additional nonzero filter never changes that selection. -/
@@ -55,7 +59,8 @@ theorem selection_mem :
     (branch W B A M a).selection ∈
       AllocationMass.idealAllocations (branch W B A M a).divisor
         (B.keep.card + 2) := by
-  sorry
+  change a.val.2 ∈ AllocationMass.idealAllocations a.val.1 (B.keep.card + 2)
+  exact (Finset.mem_sigma.mp (Finset.mem_filter.mp a.property).1).2
 
 variable {σ : K →+* ℂ}
 variable (paid : FixedChildCharacters K B.keep.card)
@@ -70,7 +75,14 @@ theorem passiveColumn_eq_sum_nonzero (g h : A.R)
           ((table W B A paid).frequencyWhole (σ := σ) g h)
           (rawSourceLocation (plainLocation₁ B firstSign negative)
             (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)) ξ := by
-  sorry
+  unfold passiveColumn
+  symm
+  apply Finset.sum_subset (nonzeroLabels_subset W B A M)
+  intro a ha hn
+  have hz : sign a.val = 0 := by
+    by_contra h
+    exact hn (Finset.mem_filter.mpr ⟨ha, h⟩)
+  simp only [hz, zero_mul]
 
 /-- Weighted Minkowski is used only after the zero coefficients have
 been removed. Every resulting branch therefore has a squarefree
@@ -85,7 +97,31 @@ theorem sqrt_passiveColumn_le_nonzero {H : Type*} (rows : Finset H)
           (fun j => (table W B A paid).frequencyWhole (σ := σ) (g j) (h j))
           (fun _ => rawSourceLocation (plainLocation₁ B firstSign negative)
             (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)) ξ) := by
-  sorry
+  simp_rw [passiveColumn_eq_sum_nonzero (σ := σ) W B A M paid]
+  refine (sqrt_row_energy_sum rows (nonzeroLabels W B A M) weight
+    (fun a j => sign a.val * jointFourierColumn (branch W B A M a).columns
+      ((table W B A paid).frequencyWhole (σ := σ) (g j) (h j))
+      (rawSourceLocation (plainLocation₁ B firstSign negative)
+        (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)) ξ)).trans ?_
+  apply Finset.sum_le_sum
+  intro a _
+  apply Real.sqrt_le_sqrt
+  unfold jointColumnEnergy
+  apply Finset.sum_le_sum
+  intro j _
+  rw [norm_mul, mul_pow]
+  have hs : ‖sign a.val‖ ^ 2 ≤ 1 := by
+    simpa only [one_pow] using
+      pow_le_pow_left₀ (norm_nonneg _) (norm_sign_le_one a.val) 2
+  calc
+    _ ≤ ‖weight j‖ * (1 *
+        ‖jointFourierColumn (branch W B A M a).columns
+          ((table W B A paid).frequencyWhole (σ := σ) (g j) (h j))
+          (rawSourceLocation (plainLocation₁ B firstSign negative)
+            (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)) ξ‖ ^ 2) :=
+      mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right hs (sq_nonneg _))
+        (norm_nonneg _)
+    _ = _ := by rw [one_mul]
 
 end CanonicalLiteralPassiveNonzero
 end HeckeSkeleton.Moments.EngineStep

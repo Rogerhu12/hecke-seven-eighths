@@ -54,51 +54,72 @@ def paidTotalConstant (cap : ℕ) (annulus : ℝ) (centralPower : ℕ) : ℝ :=
   annulus ^ centralPower * totalConstant (K := K) cap annulus
 
 theorem pairConstant_one (cap : ℕ) (annulus : ℝ) (hannulus : 1 ≤ annulus) :
-    1 ≤ pairConstant (K := K) cap annulus := by
-  sorry
+    1 ≤ pairConstant (K := K) cap annulus :=
+  one_le_mul_of_one_le_of_one_le
+    (one_le_pow₀ (one_le_idealCountConstant K)) (one_le_pow₀ hannulus)
 
 theorem pairConstant_pos (cap : ℕ) (annulus : ℝ) (hannulus : 1 ≤ annulus) :
-    0 < pairConstant (K := K) cap annulus := by
-  sorry
+    0 < pairConstant (K := K) cap annulus :=
+  zero_lt_one.trans_le (pairConstant_one cap annulus hannulus)
 
 theorem commonConstant_one (cap : ℕ) (annulus : ℝ) (hannulus : 1 ≤ annulus) :
-    1 ≤ commonConstant cap annulus := by
-  sorry
+    1 ≤ commonConstant cap annulus := one_le_pow₀ hannulus
 
 theorem totalConstant_pos (cap : ℕ) (annulus : ℝ) (hannulus : 1 ≤ annulus) :
-    0 < totalConstant (K := K) cap annulus := by
-  sorry
+    0 < totalConstant (K := K) cap annulus :=
+  mul_pos (zero_lt_one.trans_le (commonConstant_one cap annulus hannulus))
+    (pairConstant_pos cap annulus hannulus)
 
 theorem paidTotalConstant_pos (cap : ℕ) (annulus : ℝ) (centralPower : ℕ)
     (hannulus : 1 ≤ annulus) :
-    0 < paidTotalConstant (K := K) cap annulus centralPower := by
-  sorry
+    0 < paidTotalConstant (K := K) cap annulus centralPower :=
+  mul_pos (pow_pos (zero_lt_one.trans_le hannulus) _)
+    (totalConstant_pos cap annulus hannulus)
 
 private theorem atomRadius_one (annulus amplitude : ℝ)
     (hannulus : 1 ≤ annulus) (hamplitude : 1 ≤ amplitude) :
-    1 ≤ annulus * amplitude ^ 2 := by
-  sorry
+    1 ≤ annulus * amplitude ^ 2 :=
+  one_le_mul_of_one_le_of_one_le hannulus (one_le_pow₀ hamplitude)
 
 private theorem annulus_le_atomRadius (annulus amplitude : ℝ)
     (hannulus : 1 ≤ annulus) (hamplitude : 1 ≤ amplitude) :
     annulus ≤ annulus * amplitude ^ 2 := by
-  sorry
+  simpa only [mul_one] using mul_le_mul_of_nonneg_left
+    (one_le_pow₀ hamplitude (n := 2)) (zero_le_one.trans hannulus)
 
 private theorem amplitude_le_atomRadius (annulus amplitude : ℝ)
     (hannulus : 1 ≤ annulus) (hamplitude : 1 ≤ amplitude) :
     amplitude ≤ annulus * amplitude ^ 2 := by
-  sorry
+  have hs : amplitude ≤ amplitude ^ 2 := by
+    nlinarith [mul_nonneg (zero_le_one.trans hamplitude) (sub_nonneg.mpr hamplitude)]
+  have ha : amplitude ^ 2 ≤ annulus * amplitude ^ 2 := by
+    simpa only [one_mul] using
+      mul_le_mul_of_nonneg_right hannulus (sq_nonneg amplitude)
+  exact hs.trans ha
 
 private theorem pair_polynomial (cap : ℕ) (annulus amplitude : ℝ) :
     (annulus * amplitude ^ 2) ^ (cap + 2) *
         (idealCountConstant K * (annulus * amplitude ^ 2) ^ 2) ^ (2 * cap) =
       pairConstant (K := K) cap annulus * amplitude ^ pairDegree cap := by
-  sorry
+  let B := annulus * amplitude ^ 2
+  calc
+    _ = idealCountConstant K ^ (2 * cap) *
+        (B ^ (cap + 2) * (B ^ 2) ^ (2 * cap)) := by
+      rw [mul_pow (idealCountConstant K) (B ^ 2) (2 * cap)]
+      ring
+    _ = idealCountConstant K ^ (2 * cap) * B ^ (5 * cap + 2) := by
+      rw [← pow_mul, ← pow_add,
+        show cap + 2 + 2 * (2 * cap) = 5 * cap + 2 by omega]
+    _ = _ := by
+      dsimp only [B, pairConstant, pairDegree]
+      rw [mul_pow, ← pow_mul,
+        show 2 * (5 * cap + 2) = 10 * cap + 4 by omega]
+      ring
 
 private theorem common_polynomial (cap : ℕ) (annulus amplitude : ℝ) :
     (annulus * amplitude ^ 2) ^ (cap + 1) =
       commonConstant cap annulus * amplitude ^ commonDegree cap := by
-  sorry
+  simp only [commonConstant, commonDegree, mul_pow, ← pow_mul, Nat.mul_add, Nat.mul_one]
 
 /-- The fixed constants and the original profile powers combine before
 any summation or integration. -/
@@ -106,7 +127,17 @@ theorem budget_product (cap : ℕ) (annulus amplitude : ℝ) :
     (commonConstant cap annulus * amplitude ^ commonDegree cap) *
         (pairConstant (K := K) cap annulus * amplitude ^ pairDegree cap) =
       totalConstant (K := K) cap annulus * amplitude ^ totalDegree cap := by
-  sorry
+  calc
+    _ = totalConstant (K := K) cap annulus *
+        (amplitude ^ commonDegree cap * amplitude ^ pairDegree cap) := by
+      unfold totalConstant
+      ring
+    _ = _ := by
+      rw [← pow_add]
+      congr 1
+      congr 1
+      simp only [commonDegree, pairDegree, totalDegree]
+      omega
 
 /-- A central-scale compensation changes only the fixed constant;
 the original profile power and the original source remain unchanged. -/
@@ -115,7 +146,9 @@ theorem paid_budget_product (cap : ℕ) (annulus amplitude : ℝ) (centralPower 
         ((commonConstant cap annulus * amplitude ^ commonDegree cap) *
           (pairConstant (K := K) cap annulus * amplitude ^ pairDegree cap)) =
       paidTotalConstant (K := K) cap annulus centralPower * amplitude ^ totalDegree cap := by
-  sorry
+  rw [budget_product]
+  unfold paidTotalConstant
+  ring
 
 /-- This applies to the original allocation records themselves. Each
 frozen occurrence and each retained prime is paid by the same original
@@ -135,7 +168,19 @@ theorem original_pair_constant_le
         (fun _ => annulus) (fun _ => amplitude)
         (fun _ => hannulus) (fun _ => zero_le_one.trans hamplitude)).constant ≤
       pairConstant (K := K) cap annulus * amplitude ^ pairDegree cap := by
-  sorry
+  let UL := left.originalAtomicScales baseLeft plainTotalLeft lengthLeft hleftLength
+    (fun _ => annulus) (fun _ => amplitude)
+    (fun _ => hannulus) (fun _ => zero_le_one.trans hamplitude)
+  let UR := right.originalAtomicScales baseRight plainTotalRight lengthRight hrightLength
+    (fun _ => annulus) (fun _ => amplitude)
+    (fun _ => hannulus) (fun _ => zero_le_one.trans hamplitude)
+  have hB := atomRadius_one annulus amplitude hannulus hamplitude
+  have ha := annulus_le_atomRadius annulus amplitude hannulus hamplitude
+  have hp := amplitude_le_atomRadius annulus amplitude hannulus hamplitude
+  have h := UL.pair_constant_le_from_atoms UR cap (annulus * amplitude ^ 2)
+    hB hk hl (fun _ _ => le_rfl) (fun _ _ => le_rfl) hB hB
+    (fun _ => ha) (fun _ => ha) (fun _ => hp) (fun _ => hp)
+  exact h.trans_eq (pair_polynomial (K := K) cap annulus amplitude)
 
 section ActualFrames
 
@@ -174,8 +219,13 @@ theorem actual_pair_constant_le
       (CanonicalLiteralExceptionalAtoms.scales dR S C .right χR idealR hidealR firstSignR
         divisorR selectionR hneR annulus amplitude hannulus
         (zero_le_one.trans hamplitude)).constant ≤
-      pairConstant (K := K) cap annulus * amplitude ^ pairDegree cap := by
-  sorry
+      pairConstant (K := K) cap annulus * amplitude ^ pairDegree cap :=
+  original_pair_constant_le cap annulus amplitude hannulus hamplitude
+    ((dL.factors S .left χL idealL hidealL firstSignL false).frame C divisorL selectionL hneL).allocation
+    ((dR.factors S .right χR idealR hidealR firstSignR false).frame C divisorR selectionR hneR).allocation
+    dL.base (Real.log (dL.scale₁ false * dL.scale₂ false) / Real.log dL.base)
+    dR.base (Real.log (dR.scale₁ false * dR.scale₂ false) / Real.log dR.base)
+    dL.length dR.length (fun i => (dL.length_pos i).le) (fun i => (dR.length_pos i).le) hk hl
 
 end ActualFrames
 
@@ -187,7 +237,9 @@ variable {W : d.ProfileData} {window : Set ℝ} (E : W.SchwartzModel window)
 private theorem common_witness_slot_mem {support : Finset (Ideal (𝓞 K))}
     (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support) (i : Fin k) :
     b.witness.2 i ∈ d.slots i := by
-  sorry
+  have hw : b.witness ∈ b.originalColumns := b.witness_mem
+  rw [b.originalColumns_eq_filter] at hw
+  exact Fintype.mem_piFinset.mp (Finset.mem_product.mp (Finset.mem_filter.mp hw).1).2 i
 
 /-- The common atom cost is computed on the original witness. Its
 annulus ratio and squared profile are bounded separately from the
@@ -201,7 +253,14 @@ theorem common_atom_le {support : Finset (Ideal (𝓞 K))}
     (i : Fin k) :
     (d.commonAtomBounds b hmask).annulus i * (d.commonAtomBounds b hmask).profile i ≤
       annulus * amplitude ^ 2 := by
-  sorry
+  have ha : (d.commonAtomBounds b hmask).annulus i ≤ annulus := by
+    change (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i ≤ annulus
+    exact (div_le_iff₀ (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)).mpr
+      (hprime i _ (common_witness_slot_mem d b i))
+  have hp : (d.commonAtomBounds b hmask).profile i ≤ amplitude ^ 2 :=
+    pow_le_pow_left₀ (norm_nonneg _)
+      (CanonicalLiteralExceptionalAtoms.slot_norm_le d E amplitude hprofile i (b.witness.2 i)) 2
+  exact mul_le_mul ha hp (sq_nonneg _) (zero_le_one.trans hannulus)
 
 end OriginalCommonAtoms
 
@@ -253,7 +312,16 @@ theorem actual_commonEnvelope_le
     (v.literalSupportedRowMass leftAtoms rightAtoms leftMask rightMask hclass
       amplitude (zero_le_one.trans hamplitude) hrow).commonEnvelope ≤
       commonConstant cap annulus * amplitude ^ commonDegree cap := by
-  sorry
+  let mass := v.literalSupportedRowMass leftAtoms rightAtoms leftMask rightMask hclass
+    amplitude (zero_le_one.trans hamplitude) hrow
+  have h := mass.commonEnvelope_le_from_atoms cap (annulus * amplitude ^ 2)
+    (atomRadius_one annulus amplitude hannulus hamplitude) hleftCap hrightCap
+    (amplitude_le_atomRadius annulus amplitude hannulus hamplitude)
+    (fun i _ => common_atom_le (v.literalLeftOriginal leftAtoms) leftModel
+      v.literalLeftBranch annulus amplitude hannulus leftMask hleftPrime hleftProfile i)
+    (fun i _ => common_atom_le (v.literalRightOriginal rightAtoms) rightModel
+      v.literalRightBranch annulus amplitude hannulus rightMask hrightPrime hrightProfile i)
+  exact h.trans_eq (common_polynomial cap annulus amplitude)
 
 end CoveredCommonSource
 

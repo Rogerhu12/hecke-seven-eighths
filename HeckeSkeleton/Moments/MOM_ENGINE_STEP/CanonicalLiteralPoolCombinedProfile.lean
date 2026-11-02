@@ -138,7 +138,26 @@ theorem literalLeftMainCombinedProfile_le
           (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + qLength + mask + active) +
           CanonicalFirstResidualProfileCost.tiltError m
             (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂) := by
-  sorry
+  have hL := literalLeftMainResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ labelL
+  have hR := literalLeftMainResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ labelR
+  have hpair := CanonicalFirstResidualProfileCost.normPair_le_of_residualBounds
+    (zero_lt_one.trans hZ) (pow_nonneg
+      (zero_le_one.trans (CanonicalLiteralFirstScalarCost.atomBudget_one annulus bound)) cap) hL hR
+  rw [hweight]
+  exact CanonicalFirstLog.rowWeightBound_mul_scalarPair_le
+    (actualActiveColumn hΓ C b.primes b.primes_injective
+      b.leftMultiplicity b.rightMultiplicity) radius D
+    Z m qLength (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂
+    ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) _ _
+    (zero_lt_one.trans hZ) hradius hmask hactive hpair
 
 /-- The original right main first weight pays the two
 actual redistributed scalars with their full negative degree. -/
@@ -185,7 +204,26 @@ theorem literalRightMainCombinedProfile_le
           (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + qLength + mask + active) +
           CanonicalFirstResidualProfileCost.tiltError m
             (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂) := by
-  sorry
+  have hL := literalRightMainResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ labelL
+  have hR := literalRightMainResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ labelR
+  have hpair := CanonicalFirstResidualProfileCost.normPair_le_of_residualBounds
+    (zero_lt_one.trans hZ) (pow_nonneg
+      (zero_le_one.trans (CanonicalLiteralFirstScalarCost.atomBudget_one annulus bound)) cap) hL hR
+  rw [hweight]
+  exact CanonicalFirstLog.rowWeightBound_mul_scalarPair_le
+    (actualActiveColumn hΓ C b.primes b.primes_injective
+      b.leftMultiplicity b.rightMultiplicity) radius D
+    Z m qLength (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂
+    ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) _ _
+    (zero_lt_one.trans hZ) hradius hmask hactive hpair
 
 /-- The original left pool first weight pays the two
 actual redistributed scalars with their full negative degree. -/
@@ -233,7 +271,26 @@ theorem literalLeftPoolCombinedProfile_le
           (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + qLength + mask + active) +
           CanonicalFirstResidualProfileCost.tiltError m
             (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂) := by
-  sorry
+  have hL := literalLeftPoolResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ q n labelL
+  have hR := literalLeftPoolResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ q n labelR
+  have hpair := CanonicalFirstResidualProfileCost.normPair_le_of_residualBounds
+    (zero_lt_one.trans hZ) (pow_nonneg
+      (zero_le_one.trans (CanonicalLiteralFirstScalarCost.atomBudget_one annulus bound)) cap) hL hR
+  rw [hweight]
+  exact CanonicalFirstLog.rowWeightBound_mul_scalarPair_le
+    (actualActiveColumn hΓ C b.primes b.primes_injective
+      b.leftMultiplicity b.rightMultiplicity) radius D
+    Z m qLength (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂
+    ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) _ _
+    (zero_lt_one.trans hZ) hradius hmask hactive hpair
 
 /-- The original right pool first weight pays the two
 actual redistributed scalars with their full negative degree. -/
@@ -281,7 +338,26 @@ theorem literalRightPoolCombinedProfile_le
           (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + qLength + mask + active) +
           CanonicalFirstResidualProfileCost.tiltError m
             (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂) := by
-  sorry
+  have hL := literalRightPoolResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ q n labelL
+  have hR := literalRightPoolResidualScalar_norm_le
+    (profiles := profiles) (hzero := hzero) (ht := ht) (hprime := hprime)
+    hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    firstFixed hfirst annulus hannulus hwindow cap hcap δ₂ hδ₂ hδ q n labelR
+  have hpair := CanonicalFirstResidualProfileCost.normPair_le_of_residualBounds
+    (zero_lt_one.trans hZ) (pow_nonneg
+      (zero_le_one.trans (CanonicalLiteralFirstScalarCost.atomBudget_one annulus bound)) cap) hL hR
+  rw [hweight]
+  exact CanonicalFirstLog.rowWeightBound_mul_scalarPair_le
+    (actualActiveColumn hΓ C b.primes b.primes_injective
+      b.leftMultiplicity b.rightMultiplicity) radius D
+    Z m qLength (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂
+    ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) _ _
+    (zero_lt_one.trans hZ) hradius hmask hactive hpair
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -117,7 +117,34 @@ theorem literalLeftDirectResidualScalar_norm_le
       firstFixed hfirst δ₂ label).normProfileFactor δ₁ δ₂ : ℂ)‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) *
         Z ^ ((a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (-1 / 2 + δ₁ + δ₂)) := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let I := primePowerProduct b.primes b.leftMultiplicity
+  have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
+      branch.keep branch.witness.2 = I.val :=
+    (branch.frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)).trans
+        b.common_left.symm
+  have hfactor : (literalLeftDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+      firstFixed hfirst δ₂ label).normProfileFactor δ₁ δ₂ =
+      (seed).twoStageProfileFactor branch δ₁ δ₂ := by
+    simp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.normProfileFactor,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.twoStageProfileFactor, branch]
+  have hbound := Q.literalOriginalAtoms_residualScalar_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    C profiles hzero ht hprime annulus hannulus hwindow cap hcap branch I (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    δ₁ δ₂ hδ₁.le hδ₂ hδ hfrozen (by change (1 : Ideal (𝓞 K)) ∣ I.val; exact one_dvd _)
+  rw [hfactor]
+  calc
+    _ = ‖((seed).twoStageProfileFactor branch δ₁ δ₂ : ℂ) *
+      (literalLeftDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label)‖ := congrArg norm (mul_comm _ _)
+    _ ≤ _ := hbound
 
 /-- The complete actual first scalar includes the residual profile
 factor once. Its decay is the original total degree, with only the
@@ -139,7 +166,34 @@ theorem literalRightDirectResidualScalar_norm_le
       firstFixed hfirst δ₂ label).normProfileFactor δ₁ δ₂ : ℂ)‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) *
         Z ^ ((a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (-1 / 2 + δ₁ + δ₂)) := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let I := primePowerProduct b.primes b.rightMultiplicity
+  have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
+      branch.keep branch.witness.2 = I.val :=
+    (branch.frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)).trans
+        b.common_right.symm
+  have hfactor : (literalRightDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+      firstFixed hfirst δ₂ label).normProfileFactor δ₁ δ₂ =
+      (seed).twoStageProfileFactor branch δ₁ δ₂ := by
+    simp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.normProfileFactor,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.twoStageProfileFactor, branch]
+  have hbound := Q.literalOriginalAtoms_residualScalar_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    C profiles hzero ht hprime annulus hannulus hwindow cap hcap branch I (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    δ₁ δ₂ hδ₁.le hδ₂ hδ hfrozen (by change (1 : Ideal (𝓞 K)) ∣ I.val; exact one_dvd _)
+  rw [hfactor]
+  calc
+    _ = ‖((seed).twoStageProfileFactor branch δ₁ δ₂ : ℂ) *
+      (literalRightDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label)‖ := congrArg norm (mul_comm _ _)
+    _ ≤ _ := hbound
 
 /-- The actual redistributed table retains the original squared
 profile budget for every common and allocation occurrence. -/
@@ -156,7 +210,27 @@ theorem literalLeftDirectRedistributedAtoms_primeAtomCost_le
     ((literalLeftDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).redistributeNormFactors δ₁ δ₂).primeAtomCost i prime ≤ bound ^ 2 := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let T := (p.leftSourceCover (raw).originalAtlas S χ).branch label
+  have e := literalLeftDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  change ((input.onAtlas T (congrArg Sigma.fst e).symm).redistributeNormFactors
+    δ₁ δ₂).primeAtomCost i prime ≤ bound ^ 2
+  rw [← CanonicalLiteralRectangles.Atoms.redistributeNormFactors_onAtlas,
+    CanonicalLiteralRectangles.Atoms.primeAtomCost_onAtlas,
+    CanonicalLiteralRectangles.Atoms.secondInput_redistributeNormFactors]
+  exact Q.literalOriginalAtoms_redistributedSecondInput_primeAtomCost_le ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ profiles hzero ht hprime branch (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A) _ 1 _ hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ hδ _ prime
 
 /-- The actual redistributed table retains the original squared
 profile budget for every common and allocation occurrence. -/
@@ -173,7 +247,27 @@ theorem literalRightDirectRedistributedAtoms_primeAtomCost_le
     ((literalRightDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).redistributeNormFactors δ₁ δ₂).primeAtomCost i prime ≤ bound ^ 2 := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let T := (p.rightSourceCover (raw).originalAtlas S χ).branch label
+  have e := literalRightDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  change ((input.onAtlas T (congrArg Sigma.fst e).symm).redistributeNormFactors
+    δ₁ δ₂).primeAtomCost i prime ≤ bound ^ 2
+  rw [← CanonicalLiteralRectangles.Atoms.redistributeNormFactors_onAtlas,
+    CanonicalLiteralRectangles.Atoms.primeAtomCost_onAtlas,
+    CanonicalLiteralRectangles.Atoms.secondInput_redistributeNormFactors]
+  exact Q.literalOriginalAtoms_redistributedSecondInput_primeAtomCost_le ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ profiles hzero ht hprime branch (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A) _ 1 _ hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ hδ _ prime
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

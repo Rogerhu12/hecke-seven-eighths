@@ -106,14 +106,18 @@ theorem sourcePair (parentWidth : ℝ) (b : Labels) (ξ : WithLp 2 (ℝ × ℝ))
     (production).sourcePair parentWidth b ξ =
       Real.sqrt ((leftFrame b.1).energy ξ) * Real.sqrt ((rightFrame b.2).energy ξ) /
         leftAtoms.base ^ parentWidth := by
-  sorry
+  change (Real.sqrt (‖(leftFrame b.1).normalizer‖ ^ 2 *
+      (leftFrame b.1).source.energy (σ := σ) ξ) *
+    Real.sqrt (‖(rightFrame b.2).normalizer‖ ^ 2 *
+      (rightFrame b.2).source.energy (σ := σ) ξ)) / leftAtoms.base ^ parentWidth = _
+  rw [← (leftFrame b.1).energy_eq_source, ← (rightFrame b.2).energy_eq_source]
 
 theorem sum_sourcePair (parentWidth : ℝ) (ξ : WithLp 2 (ℝ × ℝ)) :
     (∑ b : Labels, (production).sourcePair parentWidth b ξ) =
       ((∑ b : LeftLabel, Real.sqrt ((leftFrame b).energy ξ)) *
         (∑ b : RightLabel, Real.sqrt ((rightFrame b).energy ξ))) /
           leftAtoms.base ^ parentWidth := by
-  sorry
+  simp only [sourcePair, Fintype.sum_prod_type, ← Finset.sum_div, Finset.sum_mul_sum]
 
 /-- The exact passive polynomials still contain their complete
 centered difference and the original row weight. -/
@@ -131,7 +135,48 @@ theorem integrand_le_sourcePairs (parentWidth : ℝ) (ξ : WithLp 2 (ℝ × ℝ)
     integrand C R leftProfiles rightProfiles leftAllocation rightAllocation
       leftPaid rightPaid leftMask rightMask leftSign rightSign ξ / leftAtoms.base ^ parentWidth ≤
       ∑ b : Labels, (production).sourcePair parentWidth b ξ := by
-  sorry
+  have hl := sqrt_passiveColumn_le_frames leftAllocation leftProfiles leftPaid C R
+    leftMask leftSign false ξ
+  have hr := sqrt_passiveColumn_le_frames rightAllocation rightProfiles rightPaid C R
+    rightMask rightSign true ξ
+  have hleft :
+      (∑ a ∈ nonzeroLabels leftProfiles leftAllocation A leftMask,
+        (Real.sqrt ((frame leftProfiles leftAllocation A leftPaid C R .left
+          leftMask a leftSign false).energy ξ) +
+          Real.sqrt ((frame leftProfiles leftAllocation A leftPaid C R .left
+            leftMask a leftSign true).energy ξ))) =
+        ∑ b : LeftLabel, Real.sqrt ((leftFrame b).energy ξ) := by
+    rw [Fintype.sum_prod_type]
+    refine Eq.trans ?_
+      (Finset.sum_coe_sort (nonzeroLabels leftProfiles leftAllocation A leftMask)
+        (fun a => ∑ r : Bool, Real.sqrt ((frame leftProfiles leftAllocation A leftPaid C R
+          .left leftMask a leftSign r).energy ξ))).symm
+    apply Finset.sum_congr rfl
+    intro a ha
+    simp [add_comm]
+  have hright :
+      (∑ a ∈ nonzeroLabels rightProfiles rightAllocation A rightMask,
+        (Real.sqrt ((frame rightProfiles rightAllocation A rightPaid C R .right
+          rightMask a rightSign false).energy ξ) +
+          Real.sqrt ((frame rightProfiles rightAllocation A rightPaid C R .right
+            rightMask a rightSign true).energy ξ))) =
+        ∑ b : RightLabel, Real.sqrt ((rightFrame b).energy ξ) := by
+    rw [Fintype.sum_prod_type]
+    refine Eq.trans ?_
+      (Finset.sum_coe_sort (nonzeroLabels rightProfiles rightAllocation A rightMask)
+        (fun a => ∑ r : Bool, Real.sqrt ((frame rightProfiles rightAllocation A rightPaid C R
+          .right rightMask a rightSign r).energy ξ))).symm
+    apply Finset.sum_congr rfl
+    intro a ha
+    simp [add_comm]
+  change _ ≤ ∑ a ∈ nonzeroLabels leftProfiles leftAllocation A leftMask, _ at hl
+  change _ ≤ ∑ a ∈ nonzeroLabels rightProfiles rightAllocation A rightMask, _ at hr
+  rw [hleft] at hl
+  rw [hright] at hr
+  rw [sum_sourcePair]
+  apply div_le_div_of_nonneg_right _ (Real.rpow_nonneg
+    (zero_lt_one.trans leftAtoms.base_gt_one).le parentWidth)
+  exact mul_le_mul hl hr (Real.sqrt_nonneg _) (Finset.sum_nonneg fun _ _ => Real.sqrt_nonneg _)
 
 /-- The active filter is computed only after every passive label has
 its actual capacity input. The children and removals precede ξ. -/
@@ -141,7 +186,11 @@ theorem integrand_le_normalized_family (parentWidth : ℝ) (ξ : WithLp 2 (ℝ �
       ∑ b : (production).active Finset.univ,
         (production).weight Finset.univ parentWidth b * (production).envelope Finset.univ b ξ *
           (production).childPair Finset.univ b ξ := by
-  sorry
+  exact (integrand_le_sourcePairs C R leftProfiles rightProfiles leftAllocation rightAllocation
+    leftPaid rightPaid leftMask rightMask leftSign rightSign leftNormalization rightNormalization
+    sameBase parentWidth ξ).trans
+      ((production).finite_pointwise Finset.univ parentWidth
+        (zero_lt_one.trans leftAtoms.base_gt_one) ξ)
 
 theorem in_fixed_window
     (leftHeight : ∀ b ξ, (leftNormalization b).calibration.height ξ ∈ heightDomain)
@@ -151,7 +200,11 @@ theorem in_fixed_window
         ((production).leftData Finset.univ b ξ) ∧
       InFixedProfileWindow rowDomain Set.univ window orders
         ((production).rightData Finset.univ b ξ) := by
-  sorry
+  intro b ξ
+  exact ⟨(leftNormalization b.val.1).frozen_child_in_fixed_window
+      ((production).leftChild Finset.univ b) ξ (leftHeight b.val.1 ξ),
+    (rightNormalization b.val.2).frozen_child_in_fixed_window
+      ((production).rightChild Finset.univ b) ξ (rightHeight b.val.2 ξ)⟩
 
 end CanonicalLiteralPassiveNormalizedFamily
 end HeckeSkeleton.Moments.EngineStep

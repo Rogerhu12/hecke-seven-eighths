@@ -34,7 +34,8 @@ theorem combined_nonneg {B Cshape Cfourier factor clipping : ℝ}
     (hB : 0 ≤ B) (hshape : 0 ≤ Cshape) (hfourier : 0 ≤ Cfourier)
     (hfactor : 0 ≤ factor) (hclipping : 0 ≤ clipping) :
     0 ≤ combined B Cshape Cfourier factor clipping := by
-  sorry
+  unfold combined
+  positivity
 
 theorem combined_mono {B Cshape Cfourier factor factor' clipping clipping' : ℝ}
     (hB : 0 ≤ B) (hshape : 0 ≤ Cshape) (hfourier : 0 ≤ Cfourier)
@@ -42,7 +43,11 @@ theorem combined_mono {B Cshape Cfourier factor factor' clipping clipping' : ℝ
     (hclipping : clipping ≤ clipping') (hclipping' : 0 ≤ clipping') :
     combined B Cshape Cfourier factor clipping ≤
       combined B Cshape Cfourier factor' clipping' := by
-  sorry
+  have hpre : B + B * Cshape * (1 + factor) ≤ B + B * Cshape * (1 + factor') :=
+    add_le_add le_rfl (mul_le_mul_of_nonneg_left (add_le_add le_rfl hfactor')
+      (mul_nonneg hB hshape))
+  have hmult := mul_le_mul_of_nonneg_right hpre (add_nonneg zero_le_one hfourier)
+  exact mul_le_mul hclipping (add_le_add le_rfl hmult) (by positivity) hclipping'
 
 def shapeCoefficient (lo hi : ℝ) (hlo : 0 < lo) (δ₁ δ₂ : ℝ)
     (s : Finset (ℕ × ℕ)) : ℝ :=
@@ -90,11 +95,29 @@ theorem actualCoefficient_le_fixed
       (CanonicalLiteralBalancedSchwartz.factor d b δ₁ δ₂ r)
       (CanonicalLiteralAllSideClipping.cost d.base parameters s) ≤
       fixedCoefficient B lo hi hlo δ₁ δ₂ firstSign s := by
-  sorry
+  have hlower := CanonicalLiteralActiveProfileBounds.quotient_product_lower_of_nonzero
+    child parameters d.base time lo hi ((d.extract b).scale₁ r) ((d.extract b).scale₂ r)
+    (zero_lt_one.trans d.base_gt_one) (zero_lt_one.trans_le hhi)
+    ((d.extract b).scale₁_pos r) ((d.extract b).scale₂_pos r)
+    I₁ I₂ hscale₁ hscale₂ raw hrows ht hne
+  have hlower' := hlower.trans_eq (d.extract_scale_product b r hproduct)
+  have hfactor := CanonicalLiteralBalancedSchwartz.factor_le d b δ₁ δ₂ hi r hhi
+    hδlo hδhi hproduct hlower'
+  have hcost := CanonicalLiteralAllSideClipping.cost_le_of_nonzero
+    child parameters d.base time lo hi d.base_gt_one hhi s rawBound raw hrows ht hne
+  have hshape : 0 ≤ shapeCoefficient lo hi hlo δ₁ δ₂ s :=
+    CanonicalLogProfiles.shapeCoefficient_nonneg _ _ _ _ _
+  have hfourier : 0 ≤ fourierCoefficient lo hi hlo firstSign s :=
+    CanonicalLiteralFourierWindows.coefficient_nonneg _ _ _ _ _
+  have hclip : 0 ≤ 1 + 2 * CanonicalLogProfiles.clippingCoefficient hi s := by
+    have h := CanonicalLogProfiles.clippingCoefficient_one_le hi hhi s
+    linarith
+  exact combined_mono hB hshape hfourier (Real.sqrt_nonneg _) hfactor hcost hclip
 
 theorem radius_le_of_coefficient {B C : ℝ} (h : B ≤ C) (J₁ J₂ : ℕ) (ξ : ℝ × ℝ) :
-    polynomialProfileRadius B J₁ J₂ ξ ≤ polynomialProfileRadius C J₁ J₂ ξ := by
-  sorry
+    polynomialProfileRadius B J₁ J₂ ξ ≤ polynomialProfileRadius C J₁ J₂ ξ :=
+  add_le_add le_rfl (mul_le_mul_of_nonneg_right h
+    (mul_nonneg (pow_nonneg (by positivity) _) (pow_nonneg (by positivity) _)))
 
 end CanonicalLiteralRadiusBound
 end HeckeSkeleton.Moments.EngineStep

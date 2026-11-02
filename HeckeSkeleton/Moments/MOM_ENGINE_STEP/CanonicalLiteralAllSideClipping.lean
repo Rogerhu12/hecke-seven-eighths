@@ -29,7 +29,10 @@ theorem clippingCoefficient_mono (s : Finset (ℕ × ℕ))
     {c B : ℝ} (hc : 1 ≤ c) (h : c ≤ B) :
     CanonicalLogProfiles.clippingCoefficient c s ≤
       CanonicalLogProfiles.clippingCoefficient B s := by
-  sorry
+  unfold CanonicalLogProfiles.clippingCoefficient
+  exact mul_le_mul (Real.sqrt_le_sqrt h)
+    (pow_le_pow_left₀ (zero_le_one.trans hc) h _)
+    (pow_nonneg (zero_le_one.trans hc) _) (Real.sqrt_nonneg _)
 
 def cost (Z : ℝ) (parameters : RealParameters) (s : Finset (ℕ × ℕ)) : ℝ :=
   1 + CanonicalLogProfiles.clippingCoefficient (plainClippingFactor Z parameters.n₁) s +
@@ -42,16 +45,29 @@ theorem cost_bounds (Z : ℝ) (parameters : RealParameters) (hZ : 1 ≤ Z)
         cost Z parameters s ∧
       CanonicalLogProfiles.clippingCoefficient (plainClippingFactor Z parameters.n₂) s ≤
         cost Z parameters s := by
-  sorry
+  have h₁ := CanonicalLogProfiles.clippingCoefficient_one_le _
+    (plainClippingFactor_one_le Z parameters.n₁ hZ) s
+  have h₂ := CanonicalLogProfiles.clippingCoefficient_one_le _
+    (plainClippingFactor_one_le Z parameters.n₂ hZ) s
+  unfold cost
+  constructor
+  · linarith
+  constructor <;> linarith
 
 theorem dilation_support (lo hi c : ℝ) (hlo : 0 < lo) (hc : 1 ≤ c)
     (φ : 𝓢(ℝ, ℂ)) (hφ : Function.support φ ⊆ Set.Icc lo hi) :
     Function.support (CanonicalLogProfiles.dilationSchwartz c hc φ) ⊆ Set.Icc 0 hi := by
-  sorry
+  intro y hy
+  rw [Function.mem_support, CanonicalLogProfiles.dilationSchwartz_apply] at hy
+  have harg := hφ (right_ne_zero_of_mul hy)
+  have hy0 : 0 ≤ y := by
+    by_contra h
+    have hcy : c * y < 0 := mul_neg_of_pos_of_neg (zero_lt_one.trans_le hc) (lt_of_not_ge h)
+    linarith [harg.1]
+  exact ⟨hy0, (le_mul_of_one_le_left hy0 hc).trans harg.2⟩
 
 theorem original_support (lo hi : ℝ) (hlo : 0 < lo) :
-    Set.Icc lo hi ⊆ Set.Icc 0 hi := by
-  sorry
+    Set.Icc lo hi ⊆ Set.Icc 0 hi := fun _ hy => ⟨hlo.le.trans hy.1, hy.2⟩
 
 variable {K : Type} [Field K] [NumberField K] {ω ψ : HeckeCharacter K}
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)} {heightDomain : Set ℝ}
@@ -134,7 +150,10 @@ theorem cost_le_of_factors (Z : ℝ) (parameters : RealParameters) (hZ : 1 ≤ Z
     (hleft : plainClippingFactor Z parameters.n₁ ≤ hi)
     (hright : plainClippingFactor Z parameters.n₂ ≤ hi) :
     cost Z parameters s ≤ 1 + 2 * CanonicalLogProfiles.clippingCoefficient hi s := by
-  sorry
+  have hl := clippingCoefficient_mono s (plainClippingFactor_one_le Z parameters.n₁ hZ) hleft
+  have hr := clippingCoefficient_mono s (plainClippingFactor_one_le Z parameters.n₂ hZ) hright
+  unfold cost
+  linarith
 
 /-- The active clipping cost is bounded from the actual nonzero
 energy and the original annulus, without a final profile bound. -/
@@ -145,7 +164,9 @@ theorem cost_le_of_nonzero (d : MomentData K ω ψ) (parameters : RealParameters
     (hrows : ∀ u ∈ pairedRows d parameters Z, u ∈ rowDomain)
     (ht : time ∈ heightDomain) (hne : pairedEnergy d parameters Z time ≠ 0) :
     cost Z parameters s ≤ 1 + 2 * CanonicalLogProfiles.clippingCoefficient hi s := by
-  sorry
+  have hc := CanonicalLogProfiles.clipping_factors_le_of_window_nonzero
+    d parameters Z time lo hi hZ hhi s B w hrows ht hne
+  exact cost_le_of_factors Z parameters hZ.le hi s hc.1 hc.2
 
 /-- A polynomial radius for every side. Active sides later use
 `cost_le_of_nonzero`; inactive sides never enter the kernel carrier. -/

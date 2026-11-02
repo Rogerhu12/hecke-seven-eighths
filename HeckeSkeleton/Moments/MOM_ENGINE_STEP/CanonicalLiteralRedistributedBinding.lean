@@ -103,7 +103,13 @@ private theorem redistributed_left_common_whole
         (v.literalLeftAtoms newLeft).whole i =
       (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch *
         (v.literalLeftAtoms leftAtoms).whole i := by
-  sorry
+  have hr := (v.literalLeft_cartesian i).mp hi
+  calc
+    _ = (v.literalLeftOriginal newLeft).whole (v.literalLeftBranch.reconstruct i) :=
+      ((v.literalLeftOriginal newLeft).extract_whole v.literalLeftBranch i hr).symm
+    _ = (v.literalLeftOriginal leftAtoms).whole (v.literalLeftBranch.reconstruct i) :=
+      leftAtoms.redistributeNormFactors_whole δ₁ δ₂ hproductLeft _
+    _ = _ := (v.literalLeftOriginal leftAtoms).extract_whole v.literalLeftBranch i hr
 
 include hproductRight in
 private theorem redistributed_right_common_whole
@@ -113,12 +119,21 @@ private theorem redistributed_right_common_whole
         (v.literalRightAtoms newRight).whole i =
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch *
         (v.literalRightAtoms rightAtoms).whole i := by
-  sorry
+  have hr := (v.literalRight_cartesian i).mp hi
+  calc
+    _ = (v.literalRightOriginal newRight).whole (v.literalRightBranch.reconstruct i) :=
+      ((v.literalRightOriginal newRight).extract_whole v.literalRightBranch i hr).symm
+    _ = (v.literalRightOriginal rightAtoms).whole (v.literalRightBranch.reconstruct i) :=
+      rightAtoms.redistributeNormFactors_whole δ₁ δ₂ hproductRight _
+    _ = _ := (v.literalRightOriginal rightAtoms).extract_whole v.literalRightBranch i hr
 
 private theorem scalar_coefficient_congr {a b c d : ℂ}
     (h : a * b = c * d) (u w : ℂ) :
     a * (b * u * w) = c * (d * u * w) := by
-  sorry
+  calc
+    _ = (a * b) * u * w := by ring
+    _ = (c * d) * u * w := by rw [h]
+    _ = _ := by ring
 
 variable (exceptional : s.CoverHybridPredicates LC RC)
 variable (firstKernel : SchwartzMap ℝ ℂ) (x : ι → ℝ) (j : v.AllocationKey)

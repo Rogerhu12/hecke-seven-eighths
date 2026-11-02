@@ -75,8 +75,8 @@ def tableOriginalSlots (parent : MomentData K ω ψ)
 theorem tableOriginalSlots_length (parent : MomentData K ω ψ)
     (slots : OriginalSlotDictionary parent d.length) (i : Fin B.keep.card) :
     (table W B A paid).length i =
-      (parent.geometry.slots (slots.index (SlotRestriction.index B.keep i))).length := by
-  sorry
+      (parent.geometry.slots (slots.index (SlotRestriction.index B.keep i))).length :=
+  slots.length_eq (SlotRestriction.index B.keep i)
 
 /-- The negative right source preserves the same occurrence lengths. -/
 def frameOriginalSlots (parent : MomentData K ω ψ)
@@ -89,7 +89,7 @@ def frameOriginalSlots (parent : MomentData K ω ψ)
     (slots : OriginalSlotDictionary parent d.length) (i : Fin B.keep.card) :
     (frameOriginalSlots W B A paid C R side M a firstSign rectangle parent slots).index i =
       slots.index (SlotRestriction.index B.keep i) := by
-  sorry
+  cases side <;> rfl
 
 /-- A child retains two actual keep maps in order. No new embedding
 or capacity choice is used to identify the original slot. -/
@@ -100,7 +100,7 @@ theorem frame_childLength_eq_parent (parent : MomentData K ω ψ)
       (parent.geometry.slots (slots.index (SlotRestriction.index B.keep
         (SlotRestriction.index
           (frame W B A paid C R side M a firstSign rectangle).source.allocation.keep i)))).length := by
-  sorry
+  cases side <;> exact slots.length_eq _
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralPassiveFrames
 

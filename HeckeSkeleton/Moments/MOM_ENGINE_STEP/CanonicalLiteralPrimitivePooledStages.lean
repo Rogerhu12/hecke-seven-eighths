@@ -131,7 +131,11 @@ theorem literalPrimitiveLeftPooledRows
       A.exteriorNorm (originalFrequencyIdeal h) ≤
         (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
           internal Z (2 * loss + cutoffExponent) := by
-  sorry
+  rw [((source).pools DE D).divisorPools.left_rows S]
+  exact (Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
+    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
+    cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
+    hcutoffPower DE D).1
 
 /-- The pool retains the actual original signed rows at each internal divisor. -/
 theorem literalPrimitiveRightPooledRows
@@ -142,7 +146,11 @@ theorem literalPrimitiveRightPooledRows
       A.exteriorNorm (originalFrequencyIdeal h) ≤
         (((source).block DE).literalRightCoordinates D.val).canonicalRetainedScale
           internal Z (2 * loss + cutoffExponent) := by
-  sorry
+  rw [((source).pools DE D).divisorPools.right_rows S]
+  exact (Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
+    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
+    cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
+    hcutoffPower DE D).2
 
 variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
   HeckeGeneral.Characters.localDifferentExponent K v = 0)

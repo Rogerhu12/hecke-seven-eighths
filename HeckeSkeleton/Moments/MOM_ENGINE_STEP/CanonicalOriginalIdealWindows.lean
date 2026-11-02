@@ -79,7 +79,38 @@ theorem literalPrimitiveFirstIdealLengths
       idealLogLength Z DE.val.2 ≤ normBound ∧
       idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) ≤ normBound ∧
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val ≤ normBound := by
-  sorry
+  let b := (source).block DE
+  have hDE := actual_common_pair_properties (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) DE
+  have hnorm := actual_common_pair_norm (source).columns (source).columns
+    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) (Z ^ normBound)
+    (fun i _ => ((source).ideal i).property.1) (fun i _ => ((source).ideal i).property.1)
+    hN hN DE
+  have hactiveDvd : firstActiveRadical DE.val.1 DE.val.2 ∣ DE.val.1 := by
+    rw [← b.activeIdeal_eq, ← b.common_left]
+    exact firstActiveIdeal_dvd_common b.primes b.leftMultiplicity b.rightMultiplicity b.left_positive
+  have hactiveNorm : (Ideal.absNorm (firstActiveRadical DE.val.1 DE.val.2) : ℝ) ≤
+      Z ^ normBound := (norm_le_of_dvd hDE.1 hactiveDvd).trans hnorm.1
+  have hsub : D.val ⊆ b.mask ∅ := Finset.mem_powerset.mp D.property
+  have hdiv := original_submask_generator_dvd hsub
+  have hmask := sIntegerElementNorm_le_of_dvd A.Sf
+    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val
+    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅)).val
+    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).property
+    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅)).property hdiv
+  have hphysicalNorm : A.exteriorNorm (firstPhysicalDivisorIdeal (A := A) D.val) ≤
+      Z ^ normBound := by
+    rw [firstPhysicalDivisorIdeal_norm]
+    exact hmask.trans ((b.principal_mask_norm_le_common C).trans hnorm.1)
+  have hlog (I : Ideal (𝓞 K)) (hI : I ≠ 0)
+      (hIbound : (Ideal.absNorm I : ℝ) ≤ Z ^ normBound) :
+      idealLogLength Z I ≤ normBound := by
+    apply (Real.rpow_le_rpow_left_iff hZ).mp
+    rw [rpow_idealLogLength Z hZ I hI]
+    exact hIbound
+  exact ⟨hlog _ hDE.1 hnorm.1, hlog _ hDE.2.1 hnorm.2,
+    hlog _ (firstActiveRadical_ne_zero _ _) hactiveNorm,
+    hlog _ (firstPhysicalDivisorIdeal (A := A) D.val).property.1 hphysicalNorm⟩
 
 end CompleteMovingRowRecipe
 
@@ -95,7 +126,25 @@ theorem original_frozen_length_le
     (hDN : (Ideal.absNorm D : ℝ) ≤ Z ^ bound)
     (valuation : AmplifierValuation) (p : pool.primes) :
     idealLogLength Z (D * p.val.val.asIdeal ^ valuation.multiplicity) ≤ bound + 7 * ell := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans pool.base_gt_one
+  have hp := pool.norm_upper p.val p.property
+  have hdegree : (valuation.multiplicity : ℝ) ≤ 7 := by
+    cases valuation <;> norm_num [AmplifierValuation.multiplicity]
+  have hnorm : (Ideal.absNorm (D * p.val.val.asIdeal ^ valuation.multiplicity) : ℝ) ≤
+      Z ^ (bound + 7 * ell) := by
+    rw [map_mul, map_pow, Nat.cast_mul, Nat.cast_pow]
+    calc
+      _ ≤ Z ^ bound * (Z ^ ell) ^ valuation.multiplicity :=
+        mul_le_mul hDN (pow_le_pow_left₀ (Nat.cast_nonneg _) hp _)
+          (pow_nonneg (Nat.cast_nonneg _) _) (Real.rpow_nonneg hz.le _)
+      _ = Z ^ (bound + ell * valuation.multiplicity) := by
+        rw [← Real.rpow_natCast, ← Real.rpow_mul hz.le, ← Real.rpow_add hz]
+      _ ≤ _ := Real.rpow_le_rpow_of_exponent_le pool.base_gt_one.le
+        (by nlinarith [mul_le_mul_of_nonneg_left hdegree pool.exponent_pos.le])
+  apply (Real.rpow_le_rpow_left_iff pool.base_gt_one).mp
+  rw [rpow_idealLogLength Z pool.base_gt_one _
+    (mul_ne_zero hD (pow_ne_zero _ p.val.val.ne_bot))]
+  exact hnorm
 
 end PowerScaleExteriorPool
 end HeckeSkeleton.Moments.EngineStep

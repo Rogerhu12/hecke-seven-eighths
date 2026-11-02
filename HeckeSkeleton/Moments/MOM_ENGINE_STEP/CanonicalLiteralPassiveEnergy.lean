@@ -51,7 +51,7 @@ private theorem joint_scalar {I V : Type*}
     (columns : Finset I) (z : ℂ) (c : I → ℂ) (x : I → V) (ξ : V) :
     jointFourierColumn columns (fun i => z * c i) x ξ =
       z * jointFourierColumn columns c x ξ := by
-  sorry
+  simp only [jointFourierColumn, Finset.mul_sum, mul_assoc]
 
 /-- The old allocation scalar contains its entire actual frequency.
 The frozen translation has modulus one but is present in this identity. -/
@@ -63,7 +63,30 @@ theorem originalColumn_eq_centered (g h : A.R) (firstSign : ℝ) (negative : Boo
         jointPhase ξ (originalFrozenLocation B firstSign negative) *
           centeredColumn (σ := σ) (d := d) B (d.characters.restrictSlots B.keep)
             g h firstSign negative ξ := by
-  sorry
+  have hwhole : d.frequencyWhole (σ := σ) g h = fun i => d.normalizer *
+      (rawSourceCoefficient (σ := σ) d.characters g h
+          (d.scale₁ false) (d.scale₂ false) d.base d.length
+          (d.rectangleLeftWeight false) (d.rightWeight false) d.slotWeight i -
+        rawSourceCoefficient (σ := σ) d.characters g h
+          (d.scale₁ true) (d.scale₂ true) d.base d.length
+          (d.rectangleLeftWeight true) (d.rightWeight true) d.slotWeight i) := by
+    funext i
+    unfold CanonicalLiteralRectangles.Atoms.frequencyWhole
+      CanonicalLiteralRectangles.Atoms.frequencyTerm
+    ring
+  rw [hwhole, joint_scalar]
+  rw [B.centered_joint_polynomial (σ := σ) d.characters g h
+    (d.scale₁ false) (d.scale₂ false) (d.scale₁ true) (d.scale₂ true) d.base d.length
+    (d.rectangleLeftWeight false) (d.rightWeight false)
+    (d.rectangleLeftWeight true) (d.rightWeight true) d.slotWeight
+    (fun I => CanonicalLiteralProfileData.orientedLocation negative
+      (CanonicalLiteralLocations.plain firstSign I))
+    (fun I => CanonicalLiteralProfileData.orientedLocation negative
+      (CanonicalLiteralLocations.plain firstSign I))
+    (fun i p => CanonicalLiteralProfileData.orientedLocation negative
+      (CanonicalLiteralLocations.prime firstSign i p)) ξ]
+  change d.normalizer * (_ * _ * _) = _ * _ * (d.normalizer * _)
+  ring
 
 theorem originalColumn_norm (g h : A.R) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) :
@@ -72,7 +95,8 @@ theorem originalColumn_norm (g h : A.R) (firstSign : ℝ) (negative : Bool)
       ‖B.scalar (σ := σ) d.characters g h d.base d.length d.slotWeight‖ *
         ‖centeredColumn (σ := σ) (d := d) B (d.characters.restrictSlots B.keep)
           g h firstSign negative ξ‖ := by
-  sorry
+  rw [originalColumn_eq_centered B]
+  simp only [norm_mul, norm_jointPhase, mul_one]
 
 /-- A row-uniform bound on the actual old frozen scalar is used before
 the square root.  It is not treated as a constant complex phase. -/
@@ -89,7 +113,19 @@ theorem original_sqrt_le_centered {H : Type*} (rows : Finset H)
         (∑ j ∈ rows, ‖weight j‖ *
           ‖centeredColumn (σ := σ) (d := d) B (d.characters.restrictSlots B.keep)
             (g j) (h j) firstSign negative ξ‖ ^ 2) := by
-  sorry
+  rw [← Real.sqrt_mul hE]
+  apply Real.sqrt_le_sqrt
+  rw [Finset.mul_sum]
+  unfold jointColumnEnergy
+  apply Finset.sum_le_sum
+  intro j hj
+  rw [originalColumn_norm B, mul_pow]
+  calc
+    _ = ‖B.scalar (σ := σ) d.characters (g j) (h j) d.base d.length d.slotWeight‖ ^ 2 *
+        (‖weight j‖ * ‖centeredColumn (σ := σ) (d := d) B (d.characters.restrictSlots B.keep)
+          (g j) (h j) firstSign negative ξ‖ ^ 2) := by ring
+    _ ≤ _ := mul_le_mul_of_nonneg_right (hscalar j hj)
+      (mul_nonneg (norm_nonneg _) (sq_nonneg _))
 
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 
@@ -122,7 +158,13 @@ theorem original_sqrt_le_of_atoms {H : Type*}
         (∑ j ∈ rows, ‖weight j‖ *
           ‖centeredColumn (σ := σ) (d := d) B (d.characters.restrictSlots B.keep)
             (g j) (h j) firstSign negative ξ‖ ^ 2) := by
-  sorry
+  apply original_sqrt_le_centered B rows weight g h firstSign negative _
+    (div_nonneg (Finset.prod_nonneg fun i _ => mul_nonneg (hA i) (hP i))
+      (Nat.cast_nonneg _)) _ ξ
+  intro j _
+  exact B.scalar_norm_sq_le_divisor C d.characters (g j) (h j) d.base
+    (zero_lt_one.trans d.base_gt_one) d.length d.slotWeight annulus profile
+    hplain₁ hplain₂ hprime hannulus hprofile hA hP hsquarefree hselection
 
 section PassiveMinkowski
 
@@ -141,7 +183,31 @@ theorem sqrt_passiveColumn_le {H : Type*} (rows : Finset H)
           (fun j => (table W B A T).frequencyWhole (σ := σ) (g j) (h j))
           (fun _ => rawSourceLocation (plainLocation₁ B firstSign negative)
             (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)) ξ) := by
-  sorry
+  unfold passiveColumn
+  refine (sqrt_row_energy_sum rows (CanonicalLiteralPassiveSource.labels W B A M).attach weight
+    (fun a j => sign a.val * jointFourierColumn (branch W B A M a).columns
+      ((table W B A T).frequencyWhole (σ := σ) (g j) (h j))
+      (rawSourceLocation (plainLocation₁ B firstSign negative)
+        (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)) ξ)).trans ?_
+  apply Finset.sum_le_sum
+  intro a _
+  apply Real.sqrt_le_sqrt
+  unfold jointColumnEnergy
+  apply Finset.sum_le_sum
+  intro j _
+  rw [norm_mul, mul_pow]
+  have hs : ‖sign a.val‖ ^ 2 ≤ 1 := by
+    simpa only [one_pow] using
+      pow_le_pow_left₀ (norm_nonneg _) (norm_sign_le_one a.val) 2
+  calc
+    _ ≤ ‖weight j‖ * (1 *
+        ‖jointFourierColumn (branch W B A M a).columns
+          ((table W B A T).frequencyWhole (σ := σ) (g j) (h j))
+          (rawSourceLocation (plainLocation₁ B firstSign negative)
+            (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)) ξ‖ ^ 2) :=
+      mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right hs (sq_nonneg _))
+        (norm_nonneg _)
+    _ = _ := by rw [one_mul]
 
 end PassiveMinkowski
 end CanonicalLiteralPassiveEnergy

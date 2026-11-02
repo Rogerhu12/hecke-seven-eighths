@@ -95,7 +95,9 @@ variable (hcutoff : s.cutoff = Z ^ firstTailCutoffExponent
 
 include domain in
 private theorem originalTotal_nonneg : 0 ≤ a.n₁ + a.n₂ + d.geometry.totalLength := by
-  sorry
+  have hlength : 0 ≤ d.geometry.totalLength :=
+    Finset.sum_nonneg (fun i _ => (d.geometry.slots i).length_pos.le)
+  exact add_nonneg (add_nonneg domain.plain_left_nonneg domain.plain_right_nonneg) hlength
 
 /-- The tail degree is computed from numerical original length windows.
 No bound on a terminal, child energy or transformed profile is an input. -/
@@ -133,12 +135,14 @@ local notation "calibration" => s.canonicalOriginalDualCalibrationOfTuples atoms
 valuation-allocation factor in the pool cases. -/
 theorem canonicalOriginalDualCalibrationOfTuples_multiplicity :
     (calibration).windows.multiplicity = multiplicity := by
-  sorry
+  unfold canonicalOriginalDualCalibrationOfTuples canonicalOriginalDualCalibration
+  split <;> rfl
 
 theorem canonicalOriginalDualCalibrationOfTuples_zeroProductExponent :
     (calibration).zeroProductExponent =
       2 * max 0 (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z post.frozen) := by
-  sorry
+  unfold canonicalOriginalDualCalibrationOfTuples canonicalOriginalDualCalibration
+  split <;> rfl
 
 /-- A nonzero supported fibre supplies the physical-row premise.
 The zero coefficient case has already been discharged by the factory. -/
@@ -153,7 +157,14 @@ theorem canonicalOriginalDualCalibrationOfTuples_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + d.geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z common.val) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  sorry
+  unfold canonicalOriginalDualCalibrationOfTuples
+  exact s.canonicalOriginalDualCalibration_amplitude_bounds atoms D post hdivisor hδ
+    hleftArithmetic hrightArithmetic hprimeArithmetic cap orders B lo hi loss leftExponent rightExponent
+    hB hlo hloOne hhi hcap hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower
+    hY₁le hY₂le profiles hrows ht hlowerWindow hupperWindow sTail sZero k
+    (CanonicalOriginalTerminalPowers.tailDegree k totalBound coarseBound frozenBound radiusBound)
+    Nsave decay 0 inverseRadiusExponent hcoarseNonneg tuples.factors multiplicity
+    tuples.fiber_card tuples.product _ hradius _ hcutoff hphysical hmaskEmpty
 
 end ActualGaussStage
 end HeckeSkeleton.Moments.EngineStep

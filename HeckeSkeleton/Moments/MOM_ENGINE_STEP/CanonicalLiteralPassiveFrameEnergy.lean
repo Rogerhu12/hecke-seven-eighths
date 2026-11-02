@@ -35,13 +35,17 @@ private theorem plain_mul (firstSign : ℝ)
     CanonicalLiteralLocations.plain firstSign (I * J) =
       CanonicalLiteralLocations.plain firstSign I +
         CanonicalLiteralLocations.plain firstSign J := by
-  sorry
+  unfold CanonicalLiteralLocations.plain
+  rw [CanonicalLiteralProfileData.idealNorm_mul,
+    Real.log_mul (ne_of_gt (idealNorm_pos K I)) (ne_of_gt (idealNorm_pos K J)),
+    neg_add, add_smul]
 
 private theorem oriented_add (negative : Bool) (x y : WithLp 2 (ℝ × ℝ)) :
     CanonicalLiteralProfileData.orientedLocation negative (x + y) =
       CanonicalLiteralProfileData.orientedLocation negative x +
         CanonicalLiteralProfileData.orientedLocation negative y := by
-  sorry
+  cases negative <;> simp only [CanonicalLiteralProfileData.orientedLocation,
+    Bool.false_eq_true, if_false, if_true, neg_add]
 
 variable (B : ActualColumnAllocation K k)
 
@@ -58,14 +62,20 @@ theorem shifted_location (firstSign : ℝ) (negative : Bool)
       (plainLocation₂ B firstSign negative)
       (CanonicalLiteralPassiveSource.slotLocation B firstSign negative) i =
         plainTranslation B firstSign negative + canonicalPoint firstSign negative i := by
-  sorry
+  simp only [rawSourceLocation, childCartesianLocation, plainLocation₁, plainLocation₂,
+    CanonicalLiteralPassiveSource.slotLocation, plain_mul, oriented_add,
+    plainTranslation, canonicalPoint, CanonicalLiteralLocations.prime]
+  abel
 
 private theorem joint_translation {J V : Type*}
     [NormedAddCommGroup V] [InnerProductSpace ℝ V]
     (columns : Finset J) (c : J → ℂ) (x : J → V) (z ξ : V) :
     jointFourierColumn columns c (fun i => z + x i) ξ =
       jointPhase ξ z * jointFourierColumn columns c x ξ := by
-  sorry
+  simp only [jointFourierColumn, jointPhase_add, Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  ring
 
 /-- Only the common Fourier phase is discarded; the coefficient and
 the actual allocation carrier remain the same. -/
@@ -79,7 +89,13 @@ theorem shifted_energy {H : Type*} (rows : Finset H)
         (CanonicalLiteralPassiveSource.slotLocation B firstSign negative)) ξ =
       jointColumnEnergy rows columns weight c
         (fun _ => canonicalPoint firstSign negative) ξ := by
-  sorry
+  have hlocation : rawSourceLocation (plainLocation₁ B firstSign negative)
+      (plainLocation₂ B firstSign negative)
+      (CanonicalLiteralPassiveSource.slotLocation B firstSign negative) =
+        fun i => plainTranslation B firstSign negative + canonicalPoint firstSign negative i :=
+    funext (shifted_location B firstSign negative)
+  rw [hlocation]
+  simp only [jointColumnEnergy, joint_translation, norm_mul, norm_jointPhase, one_mul]
 
 private theorem energy_scalar {H J V : Type*}
     [NormedAddCommGroup V] [InnerProductSpace ℝ V]
@@ -87,7 +103,15 @@ private theorem energy_scalar {H J V : Type*}
     (c : H → J → ℂ) (x : H → J → V) (ξ : V) (z : ℂ) :
     jointColumnEnergy rows columns weight (fun h i => z * c h i) x ξ =
       ‖z‖ ^ 2 * jointColumnEnergy rows columns weight c x ξ := by
-  sorry
+  have hcolumn (h : H) :
+      jointFourierColumn columns (fun i => z * c h i) (x h) ξ =
+        z * jointFourierColumn columns (c h) (x h) ξ := by
+    simp only [jointFourierColumn, Finset.mul_sum, mul_assoc]
+  unfold jointColumnEnergy
+  simp only [hcolumn, norm_mul, mul_pow, Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro h _
+  ring
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -111,7 +135,31 @@ theorem frame_energy (firstSign : ℝ) (negative rectangle : Bool)
           (if negative then -(R.factor C h.val) else R.factor C h.val)
           (R.extractedRow C h).element rectangle)
         (fun _ => canonicalPoint firstSign negative) ξ := by
-  sorry
+  let c := fun h : R.live => rawSourceCoefficient (σ := σ) paid
+    (if negative then -(R.factor C h.val) else R.factor C h.val)
+    (R.extractedRow C h).element
+    ((table W B A paid).scale₁ rectangle) ((table W B A paid).scale₂ rectangle)
+    (table W B A paid).base (table W B A paid).length
+    ((table W B A paid).rectangleLeftWeight rectangle)
+    ((table W B A paid).rightWeight rectangle) (table W B A paid).slotWeight
+  calc
+    _ = ‖(table W B A paid).normalizer‖ ^ 2 *
+        jointColumnEnergy (Finset.univ : Finset R.live) (branch W B A M a).columns
+          (fun h => R.weight h.val * R.correlation h.val) c
+          (fun _ => canonicalPoint firstSign negative) ξ := by
+      rw [(frame W B A paid C R (if negative then .right else .left)
+        M a firstSign rectangle).energy_eq_source]
+      cases negative <;> rfl
+    _ = _ := by
+      change ‖(table W B A paid).normalizer‖ ^ 2 *
+          jointColumnEnergy (Finset.univ : Finset R.live) (branch W B A M a).columns
+            (fun h => R.weight h.val * R.correlation h.val) c
+            (fun _ => canonicalPoint firstSign negative) ξ =
+        jointColumnEnergy (Finset.univ : Finset R.live) (branch W B A M a).columns
+          (fun h => R.weight h.val * R.correlation h.val)
+          (fun h i => (table W B A paid).normalizer * c h i)
+          (fun _ => canonicalPoint firstSign negative) ξ
+      exact (energy_scalar _ _ _ c _ ξ _).symm
 
 /-- The complete difference is split only after the passive source
 identity and its fixed translation have been proved. -/
@@ -129,7 +177,9 @@ theorem sqrt_branch_le_frames (firstSign : ℝ) (negative : Bool)
         M a firstSign false).energy ξ) +
         Real.sqrt ((frame W B A paid C R (if negative then .right else .left)
           M a firstSign true).energy ξ) := by
-  sorry
+  rw [shifted_energy, frame_energy B W paid C R M a firstSign negative false ξ,
+    frame_energy B W paid C R M a firstSign negative true ξ]
+  exact sqrt_joint_energy_sub _ _ _ _ _ _ _
 
 /-- Every retained label is the original label and allocation. The
 nonzero filter supplies squarefreeness for the later scalar bounds. -/
@@ -144,7 +194,13 @@ theorem sqrt_passiveColumn_le_frames (firstSign : ℝ) (negative : Bool)
           M a firstSign false).energy ξ) +
           Real.sqrt ((frame W B A paid C R (if negative then .right else .left)
             M a firstSign true).energy ξ)) := by
-  sorry
+  refine (sqrt_passiveColumn_le_nonzero W B A M paid
+    (Finset.univ : Finset R.live) (fun h => R.weight h.val * R.correlation h.val)
+    (fun h => if negative then -(R.factor C h.val) else R.factor C h.val)
+    (fun h => (R.extractedRow C h).element) firstSign negative ξ).trans ?_
+  apply Finset.sum_le_sum
+  intro a _
+  exact sqrt_branch_le_frames B W paid C R M a firstSign negative ξ
 
 end CanonicalLiteralPassiveFrameEnergy
 end HeckeSkeleton.Moments.EngineStep

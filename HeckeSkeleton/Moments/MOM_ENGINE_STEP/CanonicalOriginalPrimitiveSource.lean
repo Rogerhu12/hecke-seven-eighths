@@ -94,7 +94,12 @@ theorem primitiveSource_parent :
         (comparisonScale centered Z a.n₁ Y₁) (comparisonScale centered Z a.n₂ Y₂) /
           Z ^ ((internal).m + (internal).q) =
       pairedStageEnergy centered (data index) a Z t Y₁ Y₂ / Z ^ (a.m + a.q) := by
-  sorry
+  rw [Q.fullSupportParameters_width]
+  change pairedStageEnergy centered (data index)
+      (withSupportLength a (Q.fullSupportLength Z)) Z t
+      (comparisonScale centered Z a.n₁ Y₁) (comparisonScale centered Z a.n₂ Y₂) /
+      Z ^ (a.m + a.q) = _
+  rw [pairedStageEnergy_withSupportLength, same_parent_energy]
 
 variable {floor padding : ℝ}
 variable (domain : PairedEngineDomain centered (data index) a Z Y₁ Y₂ floor padding)

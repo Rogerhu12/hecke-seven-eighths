@@ -66,8 +66,8 @@ def profiles (A : SArithmeticData K) (T : FixedChildCharacters K B.keep.card) :
   slot_eval := (W.allocate B).slot_eval
 
 @[simp] theorem table_normalizer (A : SArithmeticData K)
-    (T : FixedChildCharacters K B.keep.card) : (table W B A T).normalizer = d.normalizer := by
-  sorry
+    (T : FixedChildCharacters K B.keep.card) : (table W B A T).normalizer = d.normalizer :=
+  d.allocate_normalizer B
 
 def plainLocation₁ (firstSign : ℝ) (negative : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) : WithLp 2 (ℝ × ℝ) :=
@@ -146,7 +146,15 @@ theorem table_frequencyWhole (T : FixedChildCharacters K B.keep.card)
           (fun I => d.rectangleLeftWeight true (B.plainDivisor 0 * I))
           (fun I => d.rightWeight true (B.plainDivisor (Fin.succ 0) * I))
           (fun j => d.slotWeight (SlotRestriction.index B.keep j)) i) := by
-  sorry
+  unfold CanonicalLiteralRectangles.Atoms.frequencyWhole
+    CanonicalLiteralRectangles.Atoms.frequencyTerm
+  simp only [table_normalizer]
+  have hw (r : Bool) : (table W B A T).rectangleLeftWeight r =
+      fun I => d.rectangleLeftWeight r (B.plainDivisor 0 * I) :=
+    funext (d.allocate_rectangleLeftWeight B r)
+  rw [hw false, hw true]
+  change d.normalizer * _ - d.normalizer * _ = _
+  ring
 
 /-- Each passive summand is now the genuine quotient table and its
 actual frequency-dependent frozen scalar.  Nothing is estimated in
@@ -167,7 +175,9 @@ theorem passiveColumn_eq_quotients (T : FixedChildCharacters K B.keep.card)
               (fun i => rawSourceLocation (plainLocation₁ B firstSign negative)
                 (plainLocation₂ B firstSign negative) (slotLocation B firstSign negative)
                 (CanonicalLiteralAllocationAtoms.reconstruct (branch W B A M a) i)) ξ) := by
-  sorry
+  apply Finset.sum_congr rfl
+  intro a _
+  rw [(table W B A T).allocate_frequency_polynomial (branch W B A M a)]
 
 section PhaseChoice
 
@@ -288,7 +298,61 @@ theorem actual_centered_allocations
       ((CanonicalLiteralPaidCharacters.paidSourceCharacters P R choice.phases parent oldMoving
         correction remaining index).restrictSlots B.keep)
       (choice.mask extra) signedFactor rowElement firstSign negative ξ := by
-  sorry
+  let T := (CanonicalLiteralPaidCharacters.paidSourceCharacters P R choice.phases parent
+    oldMoving correction remaining index).restrictSlots B.keep
+  have original (r : Bool) := actualSignedDictionary W B P R F parent oldMoving correction
+    hcorr C S pattern ν remaining extra m q inverse index firstSign negative hone hroot hemb row r ξ
+  have oldDictionary (r : Bool) :
+      (d.characters.restrictSlots B.keep).Calibration (σ := σ) (child r ξ) rfl
+        rowIdeal signedFactor rowElement := by
+    simpa only [hcharacters] using original r
+  have paidDictionary (r : Bool) :
+      (T.deleteMask (choice.mask extra)).Calibration (σ := σ) (child r ξ) rfl
+        rowIdeal signedFactor rowElement :=
+    choice.calibration P R parent oldMoving correction remaining extra
+      (fun i => index (SlotRestriction.index B.keep i)) hroot hemb
+      (child r ξ) rfl rowIdeal signedFactor rowElement (original r)
+  have oldSupport (r : Bool) :=
+    CanonicalLiteralAllocatedSupport.effectiveSupports_of_original_deletions P R W B F parent
+      oldMoving correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity pattern ν
+      remaining extra m q inverse index r firstSign negative firstSupport hfirst hextra hl hr
+      support hplain₁ hplain₂ hslots 0 ξ rowIdeal
+  have fullSupport (r : Bool) :=
+    CanonicalLiteralSmoothCarrier.actual_effectiveSupports P R W B F parent oldMoving correction
+      hcorr C S.primes S.leftMultiplicity S.rightMultiplicity pattern ν remaining extra m q
+      inverse index r firstSign negative ξ rowIdeal
+  have h₁ (r : Bool) : EffectivePlainSupport (child r ξ) (child r ξ).plainTest₁
+      rowIdeal (d.scale₁ r / idealNorm K (B.plainDivisor 0)) 0 B.childPlain₁ := by
+    simpa only [CanonicalLiteralAllocatedData.left_scale, height] using (oldSupport r).1
+  have h₂ (r : Bool) : EffectivePlainSupport (child r ξ) (child r ξ).plainTest₂
+      rowIdeal (d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) 0 B.childPlain₂ := by
+    simpa only [CanonicalLiteralAllocatedData.right_scale, height] using (oldSupport r).2.1
+  have he := calibrated_centered_allocations
+    (d.characters.restrictSlots B.keep) T (choice.mask extra) (fun r => child r ξ)
+    (fun _ => rfl) (fun i => d.length (SlotRestriction.index B.keep i))
+    (fun r i => CanonicalLiteralAllocatedData.data_lengths P R W B F parent oldMoving
+      correction hcorr C S.primes S.leftMultiplicity S.rightMultiplicity pattern ν remaining
+      extra m q inverse index r firstSign negative ξ i)
+    rowIdeal signedFactor rowElement oldDictionary paidDictionary
+    (fun r => d.scale₁ r / idealNorm K (B.plainDivisor 0))
+    (fun r => d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) d.base 0
+    B.childPlain₁ B.childPlain₂ (W.exteriorSmoothPlain₁ B A) (W.exteriorSmoothPlain₂ B A)
+    B.childSlots (W.exteriorSmoothSlots B A) h₁ h₂ (fun r => (oldSupport r).2.2)
+    (fun r => (fullSupport r).1) (fun r => (fullSupport r).2.1)
+    (fun r => (fullSupport r).2.2)
+    (fun r I => d.rectangleLeftWeight r (B.plainDivisor 0 * I))
+    (fun r I => d.rightWeight r (B.plainDivisor (Fin.succ 0) * I))
+    (fun i => d.slotWeight (SlotRestriction.index B.keep i))
+    (plainLocation₁ B firstSign negative) (plainLocation₂ B firstSign negative)
+    (slotLocation B firstSign negative) d.normalizer ξ
+    (fun r I => (W.fourierLeft_allocated r firstSign negative ξ rowIdeal 0
+      (B.plainDivisor 0) I).symm)
+    (fun r I => (W.fourierRight_allocated r firstSign negative ξ rowIdeal 0
+      (B.plainDivisor (Fin.succ 0)) I).symm)
+    (fun _ i p => CanonicalLiteralAllocatedData.slot_profile W B firstSign negative ξ i p)
+  have hfrequency := funext (table_frequencyWhole (σ := σ) W B T signedFactor rowElement)
+  simpa only [centeredColumn, passiveColumn, hfrequency,
+    joint_normalized_difference, labels, branch] using he
 
 end ActualSource
 

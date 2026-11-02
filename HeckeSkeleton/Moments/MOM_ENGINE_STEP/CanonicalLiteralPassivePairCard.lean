@@ -41,7 +41,9 @@ theorem pairLabel_card
     (Fintype.card (PairLabel (A := A) left right BL BR ML MR) : ℝ) =
       4 * (((nonzeroLabels left BL A ML).card : ℝ) *
         ((nonzeroLabels right BR A MR).card : ℝ)) := by
-  sorry
+  simp only [PairLabel, SideLabel, Fintype.card_prod, Fintype.card_coe,
+    Fintype.card_bool, Nat.cast_mul, Nat.cast_ofNat]
+  ring
 
 /-- The direct/main pair uses the actual radical deletion of the
 original first common ideal. All occurrence counts, including the two
@@ -59,7 +61,29 @@ theorem direct_pair_card (cap : ℕ) (columnBound ε : ℝ)
         k ≤ cap → l ≤ cap →
         (Fintype.card (PairLabel (A := A) left right BL BR (firstMask D) (firstMask D)) : ℝ) ≤
           C * Z ^ ε := by
-  sorry
+  obtain ⟨C, hC, hcard⟩ := direct_source_card (K := K)
+    cap columnBound (ε / 2) hcolumnBound (by positivity)
+  refine ⟨4 * C ^ 2, by positivity, ?_⟩
+  intro Z hZ A D hD hnorm k l leftAtoms rightAtoms left right BL BR hk hl
+  have hleft := hcard Z hZ A D D hD (firstMask_dvd D hD)
+    hnorm k leftAtoms left BL hk
+  have hright := hcard Z hZ A D D hD (firstMask_dvd D hD)
+    hnorm l rightAtoms right BR hl
+  have hpower : Z ^ (ε / 2) * Z ^ (ε / 2) = Z ^ ε := by
+    rw [← Real.rpow_add (zero_lt_one.trans hZ)]
+    congr 1
+    ring
+  calc
+    _ = 4 * (((nonzeroLabels left BL A (firstMask D)).card : ℝ) *
+        ((nonzeroLabels right BR A (firstMask D)).card : ℝ)) :=
+      pairLabel_card left right BL BR (firstMask D) (firstMask D)
+    _ ≤ 4 * ((C * Z ^ (ε / 2)) * (C * Z ^ (ε / 2))) :=
+      mul_le_mul_of_nonneg_left
+        (mul_le_mul hleft hright (Nat.cast_nonneg _) (by positivity)) (by norm_num)
+    _ = (4 * C ^ 2) * Z ^ ε := by
+      calc
+        _ = (4 * C ^ 2) * (Z ^ (ε / 2) * Z ^ (ε / 2)) := by ring
+        _ = _ := by rw [hpower]
 
 /-- At valuation six the actual mask retains its second copy of the
 pool prime. The already proved nonzero-label count pays it before the
@@ -78,7 +102,29 @@ theorem pool_pair_card (cap : ℕ) (columnBound primeBound ε : ℝ)
         k ≤ cap → l ≤ cap →
         (Fintype.card (PairLabel (A := A) left right BL BR
           (poolMask D p e) (poolMask D p e)) : ℝ) ≤ C * Z ^ ε := by
-  sorry
+  obtain ⟨C, hC, hcard⟩ := pool_source_card (K := K)
+    cap columnBound primeBound (ε / 2) hcolumnBound hprimeBound (by positivity)
+  refine ⟨4 * C ^ 2, by positivity, ?_⟩
+  intro Z hZ A D hD hnorm p hp e k l leftAtoms rightAtoms left right BL BR hk hl
+  have hleft := hcard Z hZ A D D hD (firstMask_dvd D hD)
+    hnorm p hp e k leftAtoms left BL hk
+  have hright := hcard Z hZ A D D hD (firstMask_dvd D hD)
+    hnorm p hp e l rightAtoms right BR hl
+  have hpower : Z ^ (ε / 2) * Z ^ (ε / 2) = Z ^ ε := by
+    rw [← Real.rpow_add (zero_lt_one.trans hZ)]
+    congr 1
+    ring
+  calc
+    _ = 4 * (((nonzeroLabels left BL A (poolMask D p e)).card : ℝ) *
+        ((nonzeroLabels right BR A (poolMask D p e)).card : ℝ)) :=
+      pairLabel_card left right BL BR (poolMask D p e) (poolMask D p e)
+    _ ≤ 4 * ((C * Z ^ (ε / 2)) * (C * Z ^ (ε / 2))) :=
+      mul_le_mul_of_nonneg_left
+        (mul_le_mul hleft hright (Nat.cast_nonneg _) (by positivity)) (by norm_num)
+    _ = (4 * C ^ 2) * Z ^ ε := by
+      calc
+        _ = (4 * C ^ 2) * (Z ^ (ε / 2) * Z ^ (ε / 2)) := by ring
+        _ = _ := by rw [hpower]
 
 end CanonicalLiteralPassiveNormalizedFamily
 end HeckeSkeleton.Moments.EngineStep

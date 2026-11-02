@@ -36,7 +36,12 @@ theorem plainScale_lower (W : IdealTest K)
     (hN : 0 < N) (hhi : 0 < hi)
     (hannulus : ∀ y, W.profile u time y ≠ 0 → y ≤ hi)
     (hne : (W.support u time N).Nonempty) : 1 / hi ≤ N := by
-  sorry
+  obtain ⟨I, hI⟩ := hne
+  have hratio := hannulus (idealNorm K I / N) ((W.support_spec _ _ _ _).mp hI)
+  have hnorm : idealNorm K I ≤ hi * N := (div_le_iff₀ hN).mp hratio
+  apply (div_le_iff₀ hhi).mpr
+  have h := (one_le_idealNorm K I).trans hnorm
+  simpa only [mul_comm] using h
 
 theorem pairedScale_lower (d : MomentData K ω ψ) (parameters : RealParameters)
     (Z time lo hi : ℝ) (hZ : 0 < Z) (hhi : 0 < hi)
@@ -46,7 +51,19 @@ theorem pairedScale_lower (d : MomentData K ω ψ) (parameters : RealParameters)
     (hrows : ∀ u ∈ pairedRows d parameters Z, u ∈ rowDomain)
     (ht : time ∈ heightDomain) (hne : pairedEnergy d parameters Z time ≠ 0) :
     1 / hi ≤ Z ^ parameters.n₁ ∧ 1 / hi ≤ Z ^ parameters.n₂ := by
-  sorry
+  obtain ⟨u, hu, hleft, hright⟩ := nonzero_pairedEnergy_plain_witness d parameters Z time hne
+  have hleftAnnulus : ∀ y, d.plainTest₁.profile u time y ≠ 0 → y ≤ hi := by
+    intro y hy
+    rw [w.left_eq] at hy
+    exact (w.left_support u (hrows u hu) time ht hy).2
+  have hrightAnnulus : ∀ y, d.plainTest₂.profile u time y ≠ 0 → y ≤ hi := by
+    intro y hy
+    rw [w.right_eq] at hy
+    exact (w.right_support u (hrows u hu) time ht hy).2
+  exact ⟨plainScale_lower d.plainTest₁ u _ time hi (Real.rpow_pos_of_pos hZ _)
+      hhi hleftAnnulus (plainPolynomial_support_nonempty d d.plainTest₁ u _ time hleft),
+    plainScale_lower d.plainTest₂ u _ time hi (Real.rpow_pos_of_pos hZ _)
+      hhi hrightAnnulus (plainPolynomial_support_nonempty d d.plainTest₂ u _ time hright)⟩
 
 /-- The ideals may be the products of the actual second-common and
 allocation divisors. Their norm lower bound is proved internally. -/
@@ -63,7 +80,17 @@ theorem quotient_product_lower_of_nonzero
     (hrows : ∀ u ∈ pairedRows d parameters Z, u ∈ rowDomain)
     (ht : time ∈ heightDomain) (hne : pairedEnergy d parameters Z time ≠ 0) :
     hi ^ (-2 : ℝ) ≤ N₁ * N₂ := by
-  sorry
+  have hscales := pairedScale_lower d parameters Z time lo hi hZ hhi w hrows ht hne
+  have h₁ : 1 / hi ≤ N₁ := hscales.1.trans
+    (hscale₁.le.trans (div_le_self hN₁.le (one_le_idealNorm K I₁)))
+  have h₂ : 1 / hi ≤ N₂ := hscales.2.trans
+    (hscale₂.le.trans (div_le_self hN₂.le (one_le_idealNorm K I₂)))
+  have heq : hi ^ (-2 : ℝ) = (1 / hi) * (1 / hi) := by
+    rw [show (-2 : ℝ) = -(2 : ℝ) by norm_num, Real.rpow_neg hhi.le,
+      Real.rpow_two]
+    simp only [pow_two, one_div, mul_inv_rev]
+  rw [heq]
+  exact mul_le_mul h₁ h₂ (div_nonneg zero_le_one hhi.le) hN₁.le
 
 end CanonicalLiteralActiveProfileBounds
 
@@ -109,7 +136,36 @@ theorem scalarFreeBalanced_original_bounds
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.left r) ≤ bound ∧
       s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.right r) ≤ bound ∧
       ∀ j, s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.slot j) ≤ bound := by
-  sorry
+  let Cshape := CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
+    (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s
+  have hC : 0 ≤ Cshape := CanonicalLogProfiles.shapeCoefficient_nonneg
+    window hcompact hpositive _ s
+  have hf := CanonicalLiteralBalancedSchwartz.factor_le d b δ₁ δ₂ hi r hhi
+    hδlo hδhi hproduct hlower
+  have hcompare (M : ℝ) (hM : 0 ≤ M) (hMB : M ≤ B) :
+      CanonicalLiteralBalancedSchwartz.factor d b δ₁ δ₂ r * Cshape * M ≤
+        B * Cshape * (1 + Real.sqrt hi) := by
+    calc
+      _ ≤ Real.sqrt hi * Cshape * B :=
+        mul_le_mul (mul_le_mul_of_nonneg_right hf hC) hMB hM
+          (mul_nonneg (Real.sqrt_nonneg _) hC)
+      _ ≤ _ := by nlinarith [mul_nonneg hB hC]
+  refine ⟨?_, ?_, ?_⟩
+  · exact (E.scalarFreeBalanced_left_bound (σ := σ) b P R
+      power firstFixed poolFixed unitFixed firstElement poolElement unitElement
+      hfirst hpool hunit δ₁ δ₂ hcompact hpositive r s).trans
+        (hcompare _ (apply_nonneg _ _) hleft)
+  · exact (E.scalarFreeBalanced_right_bound (σ := σ) b P R
+      power firstFixed poolFixed unitFixed firstElement poolElement unitElement
+      hfirst hpool hunit δ₁ δ₂ hcompact hpositive r s).trans
+        (hcompare _ (apply_nonneg _ _) hright)
+  · intro j
+    apply (E.scalarFreeBalanced_slot_bound (σ := σ) b P R
+      power firstFixed poolFixed unitFixed firstElement poolElement unitElement
+      hfirst hpool hunit δ₁ δ₂ hcompact hpositive j s hδhi).trans
+    calc
+      _ ≤ Cshape * B := mul_le_mul_of_nonneg_left (hslot (SlotRestriction.index b.keep j)) hC
+      _ ≤ _ := by nlinarith [mul_nonneg (mul_nonneg hB hC) (Real.sqrt_nonneg hi)]
 
 /-- Every rectangle, including a zero rectangle, gets a radius from
 its actual scale product. No nonzero-source premise or maximum over
@@ -134,7 +190,30 @@ theorem scalarFreeBalanced_computed_bounds
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.left r) ≤ bound ∧
       s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.right r) ≤ bound ∧
       ∀ j, s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (T.slot j) ≤ bound := by
-  sorry
+  let Cshape := CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
+    (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s
+  let f := CanonicalLiteralBalancedSchwartz.factor d b δ₁ δ₂ r
+  have hC : 0 ≤ Cshape := CanonicalLogProfiles.shapeCoefficient_nonneg
+    window hcompact hpositive _ s
+  have hf : 0 ≤ f := Real.sqrt_nonneg _
+  have hcompare (M : ℝ) (hMB : M ≤ B) : f * Cshape * M ≤ B + B * Cshape * (1 + f) := by
+    calc
+      _ ≤ f * Cshape * B := mul_le_mul_of_nonneg_left hMB (mul_nonneg hf hC)
+      _ ≤ _ := by nlinarith [mul_nonneg hB hC]
+  refine ⟨?_, ?_, ?_⟩
+  · exact (E.scalarFreeBalanced_left_bound (σ := σ) b P R
+      power firstFixed poolFixed unitFixed firstElement poolElement unitElement
+      hfirst hpool hunit δ₁ δ₂ hcompact hpositive r s).trans (hcompare _ hleft)
+  · exact (E.scalarFreeBalanced_right_bound (σ := σ) b P R
+      power firstFixed poolFixed unitFixed firstElement poolElement unitElement
+      hfirst hpool hunit δ₁ δ₂ hcompact hpositive r s).trans (hcompare _ hright)
+  · intro j
+    apply (E.scalarFreeBalanced_slot_bound (σ := σ) b P R
+      power firstFixed poolFixed unitFixed firstElement poolElement unitElement
+      hfirst hpool hunit δ₁ δ₂ hcompact hpositive j s hδhi).trans
+    calc
+      _ ≤ Cshape * B := mul_le_mul_of_nonneg_left (hslot (SlotRestriction.index b.keep j)) hC
+      _ ≤ _ := by nlinarith [mul_nonneg (mul_nonneg hB hC) hf]
 
 end CanonicalLiteralRectangles.Atoms.ProfileData.SchwartzModel
 end HeckeSkeleton.Moments.EngineStep

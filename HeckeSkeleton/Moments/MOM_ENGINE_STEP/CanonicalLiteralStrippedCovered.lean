@@ -90,21 +90,40 @@ ordinary/exceptional split. -/
 theorem literal_left_whole_present (hlive : (v.leaf exceptional firstKernel x j).Live) :
     ∃ i ∈ (v.leaf exceptional firstKernel x j).left,
       (v.literalLeftAtoms leftAtoms).whole i ≠ 0 := by
-  sorry
+  let X := v.literalExtraction leftAtoms rightAtoms exceptional firstKernel x j
+    leftCoefficient rightCoefficient
+  obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.1
+  rw [X.left h hh i hi] at hc
+  have hr := right_ne_zero_of_mul hc
+  change (v.literalLeftAtoms leftAtoms).whole i * _ * _ ≠ 0 at hr
+  exact ⟨i, hi, left_ne_zero_of_mul (left_ne_zero_of_mul hr)⟩
 
 include leftCoefficient rightCoefficient in
 theorem literal_right_whole_present (hlive : (v.leaf exceptional firstKernel x j).Live) :
     ∃ i ∈ (v.leaf exceptional firstKernel x j).right,
       (v.literalRightAtoms rightAtoms).whole i ≠ 0 := by
-  sorry
+  let X := v.literalExtraction leftAtoms rightAtoms exceptional firstKernel x j
+    leftCoefficient rightCoefficient
+  obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.2
+  rw [X.right h hh i hi] at hc
+  have hr := right_ne_zero_of_mul hc
+  change star (star ((v.literalRightAtoms rightAtoms).whole i * _ * _)) ≠ 0 at hr
+  rw [star_star] at hr
+  exact ⟨i, hi, left_ne_zero_of_mul (left_ne_zero_of_mul hr)⟩
 
 theorem literalLeftAtoms_scale (c : ℂ) :
     v.literalLeftAtoms (leftAtoms.scale c) = (v.literalLeftAtoms leftAtoms).scale c := by
-  sorry
+  unfold literalLeftAtoms literalLeftOriginal
+  rw [CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_extract,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas]
 
 theorem literalRightAtoms_scale (c : ℂ) :
     v.literalRightAtoms (rightAtoms.scale c) = (v.literalRightAtoms rightAtoms).scale c := by
-  sorry
+  unfold literalRightAtoms literalRightOriginal
+  rw [CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_extract,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas]
 
 include leftCoefficient rightCoefficient in
 /-- The equality argument is the already proved atom-table normal form
@@ -113,14 +132,22 @@ theorem literal_left_scalar_nonzero
     (core : CanonicalLiteralRectangles.Atoms (K := K) (LC.branch v.2.2.1).slotCount)
     (c : ℂ) (hform : leftAtoms = core.scale c)
     (hlive : (v.leaf exceptional firstKernel x j).Live) : c ≠ 0 := by
-  sorry
+  obtain ⟨i, _, hi⟩ := v.literal_left_whole_present leftAtoms rightAtoms
+    exceptional firstKernel x j leftCoefficient rightCoefficient hlive
+  rw [hform, v.literalLeftAtoms_scale core c,
+    CanonicalLiteralRectangles.Atoms.scale_whole] at hi
+  exact left_ne_zero_of_mul hi
 
 include leftCoefficient rightCoefficient in
 theorem literal_right_scalar_nonzero
     (core : CanonicalLiteralRectangles.Atoms (K := K) (RC.branch v.2.2.2.1).slotCount)
     (c : ℂ) (hform : rightAtoms = core.scale c)
     (hlive : (v.leaf exceptional firstKernel x j).Live) : c ≠ 0 := by
-  sorry
+  obtain ⟨i, _, hi⟩ := v.literal_right_whole_present leftAtoms rightAtoms
+    exceptional firstKernel x j leftCoefficient rightCoefficient hlive
+  rw [hform, v.literalRightAtoms_scale core c,
+    CanonicalLiteralRectangles.Atoms.scale_whole] at hi
+  exact left_ne_zero_of_mul hi
 
 variable (leftScalar rightScalar : ℂ) (hleftScalar : leftScalar ≠ 0)
 variable (hrightScalar : rightScalar ≠ 0)

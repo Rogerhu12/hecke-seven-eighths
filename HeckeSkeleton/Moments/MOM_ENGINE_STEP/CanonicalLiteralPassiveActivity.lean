@@ -47,12 +47,16 @@ theorem frame_source_leftWeight (r : Bool) (h : R.live)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (frame W B A paid C R side M a firstSign r).source.leftWeight h I =
       (table W B A paid).rectangleLeftWeight r I := by
-  sorry
+  cases side <;> rfl
 
 theorem comparison_source_energy_zero (hordinary : d.centered = false)
     (ξ : WithLp 2 (ℝ × ℝ)) :
     (frame W B A paid C R side M a firstSign true).source.energy (σ := σ) ξ = 0 := by
-  sorry
+  apply ActualAllocatedSource.energy_zero_of_leftWeight
+  intro h _ I
+  rw [frame_source_leftWeight W B A paid C R side M a firstSign true h I]
+  have ht : (table W B A paid).centered = false := hordinary
+  simp [CanonicalLiteralRectangles.Atoms.rectangleLeftWeight, ht]
 
 /-- This activity is the new passive branch's own source activity.
 It excludes the ordinary comparison rectangle before a child or
@@ -61,7 +65,16 @@ theorem active_rectangle (r : Bool)
     (hactive : ¬ ∀ ξ,
       (frame W B A paid C R side M a firstSign r).source.energy (σ := σ) ξ = 0) :
     r = false ∨ d.centered = true := by
-  sorry
+  cases r with
+  | false => exact Or.inl rfl
+  | true =>
+    cases hc : d.centered with
+    | false =>
+        exfalso
+        apply hactive
+        intro ξ
+        exact comparison_source_energy_zero W B A paid C R side M a firstSign hc ξ
+    | true => exact Or.inr (by simp only [hc])
 
 end CanonicalLiteralPassiveFrames
 end HeckeSkeleton.Moments.EngineStep

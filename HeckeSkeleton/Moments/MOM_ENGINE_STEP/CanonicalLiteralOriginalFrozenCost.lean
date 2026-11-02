@@ -41,7 +41,13 @@ def originalFrozenCost : ℝ :=
     (Ideal.absNorm B.divisor : ℝ)
 
 theorem originalFrozenCost_nonneg : 0 ≤ d.originalFrozenCost B := by
-  sorry
+  apply div_nonneg _ (Nat.cast_nonneg _)
+  apply Finset.prod_nonneg
+  intro i _
+  exact mul_nonneg
+    (div_nonneg (Nat.cast_nonneg _)
+      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _).le)
+    (sq_nonneg _)
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -56,7 +62,28 @@ theorem originalFrozenCost_scalar_bound
     (g h : A.R) :
     ‖B.scalar (σ := σ) d.characters g h d.base d.length d.slotWeight‖ ^ 2 ≤
       d.originalFrozenCost B := by
-  sorry
+  refine B.scalar_norm_sq_le_divisor C d.characters g h d.base
+    (zero_lt_one.trans d.base_gt_one) d.length d.slotWeight
+    (fun i => (Ideal.absNorm (B.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i)
+    (fun i => ‖d.slotWeight i (B.witness.2 i)‖ ^ 2)
+    ?_ ?_ ?_ ?_ ?_ ?_ ?_ hsquarefree hselection
+  · exact OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one
+      d.characters.plain d.characters.plainTwist d.characters.mask _ (hmask _)
+  · exact OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one
+      d.characters.plain d.characters.plainTwist d.characters.mask _ (hmask _)
+  · intro i _
+    exact OriginalProfileAtomBounds.sourcePrimeCoefficient_norm_le_one
+      (d.characters.slot i) (d.characters.slotTwist i) d.characters.mask _ (hmask _)
+  · intro i _
+    exact le_of_eq (div_mul_cancel₀ _
+      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _).ne').symm
+  · intro i _
+    exact le_rfl
+  · intro i
+    exact div_nonneg (Nat.cast_nonneg _)
+      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _).le
+  · intro i
+    exact sq_nonneg _
 
 /-- Only the actual removed occurrences are counted. The old shared
 divisor, when present, is identified later when the two sides pair. -/
@@ -66,7 +93,17 @@ theorem originalFrozenCost_le_power
       ((Ideal.absNorm (B.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i) *
         ‖d.slotWeight i (B.witness.2 i)‖ ^ 2 ≤ budget) :
     d.originalFrozenCost B ≤ budget ^ cap / (Ideal.absNorm B.divisor : ℝ) := by
-  sorry
+  unfold originalFrozenCost
+  apply div_le_div_of_nonneg_right _ (Nat.cast_nonneg _)
+  calc
+    _ ≤ ∏ _i ∈ Finset.univ \ B.keep, budget :=
+      Finset.prod_le_prod₀ (fun i _ => mul_nonneg
+        (div_nonneg (Nat.cast_nonneg _)
+          (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _).le)
+        (sq_nonneg _)) hslot
+    _ = budget ^ (Finset.univ \ B.keep).card := Finset.prod_const budget
+    _ ≤ _ := pow_le_pow_right₀ hbudget ((Finset.card_le_univ _).trans
+      (by simpa only [Fintype.card_fin] using hcap))
 
 end CanonicalLiteralRectangles.Atoms
 
@@ -93,7 +130,10 @@ theorem original_sqrt_le_actualCost {H : Type*}
         (∑ j ∈ rows, ‖weight j‖ *
           ‖CanonicalLiteralPassiveSource.centeredColumn (σ := σ) (d := d)
             B (d.characters.restrictSlots B.keep) (g j) (h j) firstSign negative ξ‖ ^ 2) := by
-  sorry
+  apply original_sqrt_le_centered B rows weight g h firstSign negative
+    (d.originalFrozenCost B) (d.originalFrozenCost_nonneg B) _ ξ
+  intro j _
+  exact d.originalFrozenCost_scalar_bound B C hmask hsquarefree hselection (g j) (h j)
 
 end CanonicalLiteralPassiveEnergy
 end HeckeSkeleton.Moments.EngineStep
