@@ -168,9 +168,15 @@ run_cmd do
     stderr.flush
 
 def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
-    (second.source key.1.1) (covers.left key.1.1).cover
-    (covers.right key.1.1).cover key.1.2 (covers.predicates key.1.1) key.2
+  match key with
+  | ⟨⟨i, v⟩, allocation⟩ =>
+      secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
+        (second.source i) (covers.left i).cover (covers.right i).cover v
+        (RawCovers.predicates
+          (K := K) (c := c) (call := call) (p := p)
+          (F := F) (family := family) (expansion := expansion)
+          (second := second) covers i)
+        allocation
 
 run_cmd do
   Lean.Elab.Command.liftIO do
