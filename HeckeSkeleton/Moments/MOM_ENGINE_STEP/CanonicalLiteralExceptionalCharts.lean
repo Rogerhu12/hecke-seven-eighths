@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalCharacte
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCharacters
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The exceptional charts of the literal original profiles

@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveProfileBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaNormalization
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Constructing the full-kappa input on actual literal Fourier data
