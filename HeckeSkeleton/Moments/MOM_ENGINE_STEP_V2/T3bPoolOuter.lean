@@ -68,14 +68,14 @@ private theorem t3bAllowance_eq_of_scalarCoordinates
     (first second : FirstCoordinates call)
     (h : first.t3bScalarCoordinates = second.t3bScalarCoordinates) :
     first.t3bAllowance = second.t3bAllowance := by
-  exact congrArg
-    (fun x : Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) =>
-      call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
-        call.workingParameters.z + call.workingParameters.q +
-        idealLogLength call.base (firstActiveRadical x.1 x.2.1) +
-        idealLogLength call.base x.2.2.1 - idealLogLength call.base x.1 +
-        firstAllowance (idealLogLength call.base x.1) (idealLogLength call.base x.2.1)
-          (idealLogLength call.base (firstActiveRadical x.1 x.2.1)))) h
+  have hs := congrArg Prod.fst h
+  have ho := congrArg (fun x => x.2.1) h
+  have hc := congrArg (fun x => x.2.2.1) h
+  change first.selected.val = second.selected.val at hs
+  change first.opposite.val = second.opposite.val at ho
+  change first.complementary.val = second.complementary.val at hc
+  unfold t3bAllowance
+  rw [hs, ho, hc]
 
 end FirstCoordinates
 

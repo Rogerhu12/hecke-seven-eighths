@@ -127,7 +127,7 @@ theorem t3b_paired_commonScalar_scale_le
     (hfirst true) (hsecond true)
   have h := mul_le_mul hL hR
     (mul_nonneg (norm_nonneg _) (Real.sqrt_nonneg _))
-    (by positivity)
+    ((mul_nonneg (norm_nonneg _) (Real.sqrt_nonneg _)).trans hL)
   calc
     _ = (‖packet.secondAtomScalar hpacket phases false‖ *
         Real.sqrt (packet.t3bBeforeScaleProduct hpacket false)) *
@@ -153,6 +153,7 @@ theorem t3b_paired_commonScalar_scale_le
         _ = _ := by
           rw [Real.sq_sqrt (mul_nonneg hC₁ hC₂), ← pow_mul,
             ← Real.rpow_mul_natCast call.base_pos.le]
+          norm_num only [Nat.cast_ofNat]
           simp only [show 2 * c.geometry.slots * 2 = 4 * c.geometry.slots by omega,
             mul_comm _ (2 : ℝ), he]
     

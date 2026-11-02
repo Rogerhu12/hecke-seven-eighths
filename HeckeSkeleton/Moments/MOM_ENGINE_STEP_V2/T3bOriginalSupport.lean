@@ -50,8 +50,9 @@ theorem t3b_workingRows (call : Call c) :
   change pairedRows (restrictOriginalRows call.node.data
     (fun u => u ∈ pairedRows call.node.data call.node.parameters call.base))
       call.workingParameters call.base = _
-  rw [pairedRows_restrictOriginalRows, hwork]
-  exact Finset.filter_eq_self.mpr (fun _ h => h)
+  exact (pairedRows_restrictOriginalRows_eq call.node.data
+    (fun u => u ∈ pairedRows call.node.data call.node.parameters call.base)
+    call.workingParameters call.base (fun _ hu => hwork ▸ hu)).trans hwork
 
 theorem t3b_originalPlainScale_pos (call : Call c) (rectangle plain : Bool) :
     0 < call.originalPlainScale rectangle plain := by
@@ -80,7 +81,7 @@ def t3bOriginalPlainWeight (plain rectangle : Bool) (I : HeckeGeneral.Analysis.N
 
 def t3bOriginalPlainSupport (plain : Bool) :
     T3b.PlainSupportData (packet.t3bOriginalPlainWeight plain)
-      (packet.t3bOriginalPlainCarrier plain) {(Arithmetic.data c).cS} := by
+      (t3bOriginalPlainCarrier (call := call) plain) {(Arithmetic.data c).cS} := by
   have href : packet.originalReference hpacket ∈
       pairedRows call.localizedData call.workingParameters call.base := by
     rw [call.t3b_workingRows]
@@ -108,8 +109,8 @@ def t3bOriginalPlainSupport (plain : Bool) :
         (pairedRows call.localizedData call.workingParameters call.base)
         call.localizedData.plainTest₁ 0 (call.base ^ call.workingParameters.n₁)
         (call.base ^ call.workingComparison₁) r (packet.originalReference hpacket) href hs
-      exact Finset.mem_image.mpr
-        ⟨I, Finset.mem_filter.mpr ⟨hm, hcop _ (Finset.mem_singleton_self _)⟩, rfl⟩
+      refine Finset.mem_image.mpr ⟨I, ?_, rfl⟩
+      exact Finset.mem_filter.mpr ⟨hm, hcop _ (Finset.mem_singleton_self _)⟩
   | true =>
     refine ⟨call.workingRaw.originalPlain₂_nonzero, ?_, ?_⟩
     · intro I hI Q hQ
@@ -130,8 +131,8 @@ def t3bOriginalPlainSupport (plain : Bool) :
         (pairedRows call.localizedData call.workingParameters call.base)
         call.localizedData.plainTest₂ 0 (call.base ^ call.workingParameters.n₂)
         (call.base ^ call.workingComparison₂) r (packet.originalReference hpacket) href hs
-      exact Finset.mem_image.mpr
-        ⟨I, Finset.mem_filter.mpr ⟨hm, hcop _ (Finset.mem_singleton_self _)⟩, rfl⟩
+      refine Finset.mem_image.mpr ⟨I, ?_, rfl⟩
+      exact Finset.mem_filter.mpr ⟨hm, hcop _ (Finset.mem_singleton_self _)⟩
 
 def t3bFirstPlainCarrier (side plain : Bool) : Finset (Ideal (𝓞 K)) :=
   if plain then (packet.firstAtlas side).reindex.plain₂

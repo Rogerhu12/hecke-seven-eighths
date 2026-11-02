@@ -60,7 +60,7 @@ theorem t3b_plainScale_le (rectangle plain : Bool) :
   | false =>
     cases plain <;>
       apply Real.rpow_le_rpow_of_exponent_le call.domain.scale.le <;>
-      dsimp only [originalPlainScale, Bool.false_eq_true, if_false, if_true] <;> linarith
+      linarith
   | true =>
     cases hc : call.node.centered with
     | false =>

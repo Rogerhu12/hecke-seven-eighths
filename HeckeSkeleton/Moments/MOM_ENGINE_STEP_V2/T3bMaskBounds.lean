@@ -55,6 +55,8 @@ theorem activeSupport_mul_sixthRoot_dvd_gcd
   intro i _
   apply pow_dvd_pow
   have hi := secondSixthRootBudget_exponent (m i) (n i) (hm i) (hn i)
+  change (if secondActiveExponent m n pattern i ≠ 0 then 1 else 0) +
+    min (m i) (n i) / 6 ≤ min (m i) (n i)
   split_ifs <;> omega
 
 theorem completePhaseMask_dvd_original {H : Type*}
