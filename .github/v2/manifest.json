@@ -169,6 +169,7 @@
         "T3bRowCount",
         "T3bSavings",
         "T3bScalarArithmetic",
+        "T3bScaleArithmetic",
         "T3bScaleBounds",
         "T3bScaleCompensation",
         "T3bSourceBinding",
