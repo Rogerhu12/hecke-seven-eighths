@@ -7,6 +7,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 
 set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
 
 /-!
 # Direct Gauss sources produce the same normalized children
@@ -32,8 +33,6 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments
-
-attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualDirectFirstSource.SecondStages.coveredLeafKeyFintype
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
