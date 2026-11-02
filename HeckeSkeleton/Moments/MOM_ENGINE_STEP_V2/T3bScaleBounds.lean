@@ -46,7 +46,7 @@ theorem idealLogLength_mul (Z : ℝ) (I J : Ideal (𝓞 K)) (hI : I ≠ 0) (hJ :
   ring
 
 theorem plainDivisor_dvd_frozenSourceIdeal {k : ℕ}
-    (D₁ D₂ : NonzeroIdeal K) (keep : Finset (Fin k))
+    (D₁ D₂ : HeckeGeneral.Analysis.NonzeroIdeal K) (keep : Finset (Fin k))
     (primes : Fin k → HeightOneSpectrum (𝓞 K)) (plain : Bool) :
     (if plain then D₂ else D₁).val ∣ frozenSourceIdeal D₁ D₂ keep primes := by
   cases plain with
