@@ -101,7 +101,7 @@ abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey B) :=
     (I₆ := fun p => (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6))
     (I₇ := fun p => (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))
 
-attribute [instance] coveredLeafKeyFintype
+attribute [local instance] coveredLeafKeyFintype
 
 def coveredLeaf (exceptional : s.CoverHybridPredicates B)
     (F : SchwartzMap W ℂ) (x : ι → W) : s.CoveredLeafKey B → ActualHybridLeaf K Q W E

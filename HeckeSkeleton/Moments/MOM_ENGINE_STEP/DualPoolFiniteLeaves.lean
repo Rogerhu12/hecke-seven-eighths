@@ -56,6 +56,8 @@ variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K �
 local instance dualPoolFiniteLeavesCircleCharacterFintype :
     Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
+attribute [local instance] ActualPoolStages.coveredLeafKeyFintype
+
 namespace ActualPoolStages.DualTerminalCalibration
 
 variable {s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest}
