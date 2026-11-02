@@ -19,10 +19,9 @@ concurrency:
 
 jobs:
   build:
-    # V2 task branches use their scoped build and complete recursive axiom gate,
-    # as required by dtests-handoff 996cb496 and PR #31 comment 6580209603.
-    # Preserve the B integration branch's existing draft/manual routing.
-    if: ${{ !startsWith(github.head_ref, 'cloud/mom-v2-') && (github.event_name == 'workflow_dispatch' || github.head_ref != 'cloud/mom-engine-step-v2' || github.event.pull_request.draft == false) }}
+    # V2 task branches use their scoped gates; B uses its full V2 gate while a draft.
+    # The unchanged whole-project build runs for B when ready, or manually.
+    if: github.event_name == 'workflow_dispatch' || (!startsWith(github.head_ref, 'cloud/mom-v2-') && (github.head_ref != 'cloud/mom-engine-step-v2' || github.event.pull_request.draft == false))
     runs-on: ubuntu-latest
     timeout-minutes: 300
     env:

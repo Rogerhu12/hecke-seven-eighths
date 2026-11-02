@@ -55,17 +55,18 @@ The shared process watchdog introduced at that commit remains in the newer
 public driver recorded below.
 
 `RawContracts.lean` and `OrdinaryData.lean` are synchronized verbatim with B-line
-`008113e7ae04b37c4e0e2d0caeea7142fbff99bc`. The existing synchronous checkpoints
-and explicit context parameters are retained. `RawCovers.leaf` now destructures
-the two original Sigma keys before applying the same original source leaf.
-`OrdinaryData` names its original finite branch type, branch key and field
-propositions separately, with a checkpoint after each definition; its eight
-fields retain their order and original data. B008113e7 additionally marks
-`RawCovers.leaf` and `ordinaryBranchKey` explicitly `noncomputable`, preserving
-their exact types and bodies and the same kernel declaration checking.
+`ad7c9c79c58582c0cb70bb115611b6e0bb92dd31` (mathematical source revision
+`828ec3b051a9cef3b6263c772f8323672fcc94da`). Existing synchronous checkpoints
+and complete context parameters are retained. `RawCovers.leaf` uses the
+original direct key projections and is explicitly `noncomputable`, with no
+new matcher in its body. `OrdinaryData` names its original finite branch type,
+branch key and field propositions separately; the branch type explicitly
+supplies the same `SourceClassKey.leftSlots`. All eight fields retain their
+order and original data, and `ordinaryBranchKey` is the same original `.val`
+projection with an explicit `noncomputable` modifier.
 
 `SourceIndexContracts.lean` remains the exact B1f5849 snapshot, unchanged in
-B8ee15070/B008113e7: the two existing Möbius factors are fully namespace-qualified.
+Bad7c9c79: the two existing Möbius factors are fully namespace-qualified.
 Mathematical fields, carrier types, coefficients and task statements are preserved.
 
 ## N8 original frozen-profile and common-scalar bounds
@@ -131,6 +132,6 @@ source output is diagnostic only and cannot replace the canonical build or axiom
 Coordinator comment `6580209603` and dtests-handoff commit
 `996cb49685a51cf789ea962af9f725b02dc363c7` exclude `cloud/mom-v2-*` task
 branches from the whole-project workflow, reserving it for final V2 integration.
-This branch consumes that exact prefix condition while retaining B's existing
-draft/manual integration routing. Both V2 gates, all 94 targets, required
+This branch consumes B ad7c9c79's merged workflow verbatim, retaining that
+exact task-prefix rule and B's existing draft/manual integration routing. Both V2 gates, all 94 targets, required
 endpoints and complete recursive axiom audits remain unchanged.
