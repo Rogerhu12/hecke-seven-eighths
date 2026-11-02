@@ -161,8 +161,12 @@ theorem source_ideal_dvd_original (hF : F.Realizes) (hf : family.Realizes)
     ∀ j : (second.source i).physical.Column,
       ((second.source i).physical.source.ideal j).val ∣
         (call.workingRaw.columnExterior ((second.source i).physical.ancestor j)).val := by
-  simpa only [hsecond.physical i] using
+  let property (s : PhysicalSource call p) : Prop :=
+    ∀ j : s.Column, (s.source.ideal j).val ∣
+      (call.workingRaw.columnExterior (s.ancestor j)).val
+  have hs : property (expansion.source i) :=
     expansion.source_ideal_dvd_original hF hf hexpansion i
+  exact Eq.mpr (congrArg property (hsecond.physical i)) hs
 
 theorem source_column_norm (input : ProfileInput call)
     (large : N8Source.normThreshold c call.frame ≤ call.base)

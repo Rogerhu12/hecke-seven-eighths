@@ -117,7 +117,9 @@ theorem commonDecoration_card_le (hsource : source.Realizes)
           Nat.card (SixthUnitClasses K ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))) + 1) *
         (idealDivisors DE.val.1).card ^ (c.geometry.slots + 2) *
         (idealDivisors DE.val.2).card ^ (c.geometry.slots + 2) := by
-  rw [CommonDecoration, Fintype.card_sigma]
+  change Fintype.card
+    (Σ D : source.stage.mask.powerset, source.Decoration LC RC DE D) ≤ _
+  rw [Fintype.card_sigma]
   calc
     _ ≤ ∑ _D : source.stage.mask.powerset,
         LC.cover.labels.card * RC.cover.labels.card *

@@ -180,8 +180,41 @@ private theorem firstAtlas_slot_mem_of_count {packet : RawLeafPacket call p}
       let stderr ← IO.getStderr
       stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right branch"
       stderr.flush
-    exact originalCover_slot_mem (raw.covers.right (raw.index j).val.1.1)
-      (hraw (raw.index j).val.1.1).2 (raw.index j).val.1.2.2.2.2.1 i q hq
+    let key : raw.covers.Key := (raw.index j).val
+    let sourceIndex : Fin trace.expansion.count := key.1.1
+    let cover : OriginalCover (trace.second.source sourceIndex).physical :=
+      raw.covers.right sourceIndex
+    have hcover : cover.Realizes := (hraw sourceIndex).2
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right cover ready"
+      stderr.flush
+    let v : SourceClassKey (trace.second.source sourceIndex).stage
+        (raw.covers.left sourceIndex).cover cover.cover := key.1.2
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right class key ready"
+      stderr.flush
+    let a : cover.cover.labels := v.2.2.2.1
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right label ready"
+      stderr.flush
+    let i' : Fin (cover.cover.branch a).slotCount := i
+    have hq' : q ∈ (cover.cover.branch a).reindex.slots i' := hq
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right slot membership ready"
+      stderr.flush
+    have hmem : q ∈ call.workingRaw.exteriorSlots
+        (SlotRestriction.index (cover.first a).keep
+          (Fin.cast (hcover.count a).symm i')) :=
+      originalCover_slot_mem cover hcover a i' q hq'
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right slot witness ready"
+      stderr.flush
+    exact hmem
     run_tac do
       let stderr ← IO.getStderr
       stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right proof complete"
