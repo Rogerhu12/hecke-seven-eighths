@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [a9_canonical_slots, a10_explicit_terms, a11_typed_terms, a12_ordinary_projection]
+        probe: [a13_b3_slots, a14_b3_named_slots]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -46,6 +46,10 @@ jobs:
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
         with:
           branch-cache: 'true'
+      - name: Select B's adopted Raw dependency for compatibility probes
+        run: |
+          cp .github/kdiag/b3_rawleaf_adopted.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
+          git hash-object HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
       - name: Build the imports of the probe
         run: |
           mkdir -p kdiag-out

@@ -47,7 +47,19 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p)
 
-def leftIdeal (i : AllocationColumn K packet.leaf.leftSlots) :
+theorem leaf_leftSlots_eq :
+    packet.leaf.leftSlots = SourceClassKey.leftSlots packet.key := rfl
+
+theorem leaf_rightSlots_eq :
+    packet.leaf.rightSlots = SourceClassKey.rightSlots packet.key := rfl
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: slot equalities"
+    stderr.flush
+
+def leftIdeal (i : AllocationColumn K (SourceClassKey.leftSlots packet.key)) :
     (Arithmetic.data c).Exterior :=
   packet.block.leftResidual (packet.leftReindex.index i)
 
@@ -57,7 +69,7 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftIdeal"
     stderr.flush
 
-def rightIdeal (i : AllocationColumn K packet.leaf.rightSlots) :
+def rightIdeal (i : AllocationColumn K (SourceClassKey.rightSlots packet.key)) :
     (Arithmetic.data c).Exterior :=
   packet.block.rightResidual (packet.rightReindex.index i)
 
@@ -67,7 +79,7 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightIdeal"
     stderr.flush
 
-def leftWhole (i : AllocationColumn K packet.leaf.leftSlots) : ℂ :=
+def leftWhole (i : AllocationColumn K (SourceClassKey.leftSlots packet.key)) : ℂ :=
   packet.chart.sourceLeftCoefficient (packet.leftReindex.index i)
 
 run_cmd do
@@ -76,7 +88,7 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftWhole"
     stderr.flush
 
-def rightWhole (i : AllocationColumn K packet.leaf.rightSlots) : ℂ :=
+def rightWhole (i : AllocationColumn K (SourceClassKey.rightSlots packet.key)) : ℂ :=
   packet.chart.sourceRightCoefficient (packet.rightReindex.index i)
 
 run_cmd do
@@ -88,6 +100,9 @@ run_cmd do
 /-- The same finite subtype, kept reducible for its local finite instances. -/
 abbrev ordinaryBranchType : Type :=
   ↥(liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
+    (k := SourceClassKey.leftSlots
+      (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
+      packet.key)
     packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
     packet.rightIdeal)
@@ -123,14 +138,14 @@ run_cmd do
 /-- The original rectangle type; all source fields and the branch are unchanged. -/
 def ordinaryRectanglesType
     (leftPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.leftSlots packet.key) → EngineParameter)
     (rightPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.rightSlots packet.key) → EngineParameter)
     (branch : packet.ordinaryBranchType) : Type :=
   HybridOrdinaryRectangles
     (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
     (H := Arithmetic.Orbit c) (ι := Fin packet.block.primeCount)
-    (V := EngineParameter) (k := packet.leaf.leftSlots) (l := packet.leaf.rightSlots)
+    (V := EngineParameter) (k := (SourceClassKey.leftSlots packet.key)) (l := (SourceClassKey.rightSlots packet.key))
     packet.R PUnit.{1}
     packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
@@ -146,12 +161,12 @@ run_cmd do
 
 def ordinaryLeftRectangleMatches
     (leftPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.leftSlots packet.key) → EngineParameter)
     (rightPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.rightSlots packet.key) → EngineParameter)
     (branch : packet.ordinaryBranchType)
     (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
-  ∀ (r : Bool) (i : AllocationColumn K packet.leaf.leftSlots),
+  ∀ (r : Bool) (i : AllocationColumn K (SourceClassKey.leftSlots packet.key)),
     i ∈ childCartesianColumns packet.leftReindex.plain₁
     packet.leftReindex.plain₂ packet.leftReindex.slots →
       rectangles.leftTerms r i = packet.originalLeftRectangle r i
@@ -164,12 +179,12 @@ run_cmd do
 
 def ordinaryRightRectangleMatches
     (leftPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.leftSlots packet.key) → EngineParameter)
     (rightPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.rightSlots packet.key) → EngineParameter)
     (branch : packet.ordinaryBranchType)
     (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
-  ∀ (r : Bool) (i : AllocationColumn K packet.leaf.rightSlots),
+  ∀ (r : Bool) (i : AllocationColumn K (SourceClassKey.rightSlots packet.key)),
     i ∈ childCartesianColumns packet.rightReindex.plain₁
     packet.rightReindex.plain₂ packet.rightReindex.slots →
       rectangles.rightTerms r i = packet.originalRightRectangle r i
@@ -183,9 +198,9 @@ run_cmd do
 /-- A name for the same complete ordinary binding proposition. -/
 def ordinaryBindingProp
     (leftPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.leftSlots packet.key) → EngineParameter)
     (rightPoint : Arithmetic.Orbit c →
-      AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+      AllocationColumn K (SourceClassKey.rightSlots packet.key) → EngineParameter)
     (branch : packet.ordinaryBranchType)
     (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
   ActualHybridLeaf.OrdinaryBinding
@@ -228,9 +243,9 @@ single-atom binding permits the common row translation which cancels
 inside the polynomial norm, before either continuous integration. -/
 structure OrdinaryData (packet : RawLeafPacket call p) where
   leftPoint : Arithmetic.Orbit c →
-    AllocationColumn K packet.leaf.leftSlots → EngineParameter
+    AllocationColumn K (SourceClassKey.leftSlots packet.key) → EngineParameter
   rightPoint : Arithmetic.Orbit c →
-    AllocationColumn K packet.leaf.rightSlots → EngineParameter
+    AllocationColumn K (SourceClassKey.rightSlots packet.key) → EngineParameter
   branch : packet.ordinaryBranchType
   branch_eq : packet.ordinaryBranchMatches branch
   rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch
@@ -258,7 +273,17 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rows"
     stderr.flush
 
-abbrev leftFrame (rectangle : Bool) :=
+/-- A short name for the original left frame type. -/
+def LeftFrameType : Type :=
+  SecondSideFrame (V := EngineParameter) (Arithmetic.context c)
+    O.rows PUnit.{1} .left (SourceClassKey.leftSlots packet.key)
+
+/-- A short name for the original right frame type. -/
+def RightFrameType : Type :=
+  SecondSideFrame (V := EngineParameter) (Arithmetic.context c)
+    O.rows PUnit.{1} .right (SourceClassKey.rightSlots packet.key)
+
+def leftFrame (rectangle : Bool) : LeftFrameType O :=
   O.rectangles.leftFrame (Arithmetic.context c) rectangle
 
 run_cmd do
@@ -267,7 +292,7 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftFrame"
     stderr.flush
 
-abbrev rightFrame (rectangle : Bool) :=
+def rightFrame (rectangle : Bool) : RightFrameType O :=
   O.rectangles.rightFrame (Arithmetic.context c) rectangle
 
 run_cmd do
@@ -278,3 +303,4 @@ run_cmd do
 
 end OrdinaryData
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
+
