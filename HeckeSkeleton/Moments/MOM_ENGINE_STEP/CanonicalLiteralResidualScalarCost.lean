@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstScalarCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileFactorExtraction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pay the complete first residual profile factor in the original scalar
 

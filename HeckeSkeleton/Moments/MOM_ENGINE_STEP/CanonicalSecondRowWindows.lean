@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualJointRowWindows
 import Mathlib.Analysis.SpecialFunctions.Log.Base
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual second frequencies and full joint support windows
 

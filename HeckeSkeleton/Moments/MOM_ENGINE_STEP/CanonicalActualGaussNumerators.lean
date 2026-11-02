@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveGaussLower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportedGaussStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The literal six Gauss numerators and the original central scale
 

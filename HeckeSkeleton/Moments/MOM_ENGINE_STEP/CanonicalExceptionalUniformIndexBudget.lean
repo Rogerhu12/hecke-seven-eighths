@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectNormalizedChildren
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalPoolAllowanceTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolMonotonicity
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sum the proved exceptional estimates over the actual source labels
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualParentFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectCoveredFibreMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectLeafNormWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original finite fibres for the direct parent entrance
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaKernelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRadiusBound
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Profile mass on the same actual nonzero carrier
 

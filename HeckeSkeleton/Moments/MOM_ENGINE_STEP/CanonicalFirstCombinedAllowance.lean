@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstResidualProfileCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityRelativeScalar
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first allowance with both residual scalars
 

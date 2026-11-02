@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalLabelMass
 import Mathlib.Analysis.SpecialFunctions.Log.Base
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original scalar windows produce the actual first-allowance input
 

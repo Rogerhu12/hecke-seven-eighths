@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrameCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinarySecondExceptionalBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exceptional charts on the original literal side frames
 

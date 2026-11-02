@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveEnergy
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrozenBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual frozen cost of the preceding original allocation
 

@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The direct signed source reaches its original finite hybrid leaves
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorBlockTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolTerminalMasks
 
+set_option linter.unusedSectionVars false
+
 /-!
 # True first-source terminal sums from original coefficient atoms
 

@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRelativeBudget
 import HeckeGeneral.Characters.FiniteRamification
 import HeckeAxiom.ArithmeticChoice
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Arithmetic and original fibres of the literal exceptional class
 

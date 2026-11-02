@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Effective support of the actual allocated literal child
 

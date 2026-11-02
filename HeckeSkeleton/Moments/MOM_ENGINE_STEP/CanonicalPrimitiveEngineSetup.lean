@@ -8,6 +8,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPhysical
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveExceptionalChoices
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original choices for the uniform primitive engine
 

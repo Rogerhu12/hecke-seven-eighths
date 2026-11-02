@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCapacityLengths
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthRootSupportBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The raw literal width from the original second common ideal
 

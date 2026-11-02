@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualDirectScalarCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstResidualProfileCost
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual first profile and both residual scalars
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFactorFreeSchwartz
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFullKappaInput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The full-kappa profile input after the complete scalar extraction
 

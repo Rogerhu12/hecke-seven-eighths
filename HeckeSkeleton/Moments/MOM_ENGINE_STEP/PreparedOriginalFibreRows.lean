@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original row classifiers on prepared stages
 

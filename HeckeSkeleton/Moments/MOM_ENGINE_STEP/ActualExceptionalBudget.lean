@@ -8,6 +8,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafRowZero
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalColumnOrientation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original exceptional terminal on the actual parent family
 

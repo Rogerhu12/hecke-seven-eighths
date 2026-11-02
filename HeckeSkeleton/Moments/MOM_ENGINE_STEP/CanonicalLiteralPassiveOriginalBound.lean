@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralOriginalEnergy
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralOriginalFrozenCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original allocated energy reaches its passive frames
 

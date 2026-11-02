@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExteriorChildBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualChildCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSupportedRowMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual child row windows and unchanged arithmetic fibre mass
 

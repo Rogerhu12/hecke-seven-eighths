@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original characters in the same selected passive child
 

@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first-label terminal mass without a prime pool
 

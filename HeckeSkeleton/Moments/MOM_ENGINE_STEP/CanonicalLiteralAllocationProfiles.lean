@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFullKappaInput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original analytic profiles on the actual passive branches
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPaidCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogMetadata
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual support of the paid literal source
 

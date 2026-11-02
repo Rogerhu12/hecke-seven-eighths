@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineInheritance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveDirectExceptionalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledExceptionalBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The paired engine step from the original data
 

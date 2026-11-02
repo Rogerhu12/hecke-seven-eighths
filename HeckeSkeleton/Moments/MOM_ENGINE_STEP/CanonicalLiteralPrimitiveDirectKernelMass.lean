@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectSour
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectPassiveKernelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual direct kernels have finite mass
 

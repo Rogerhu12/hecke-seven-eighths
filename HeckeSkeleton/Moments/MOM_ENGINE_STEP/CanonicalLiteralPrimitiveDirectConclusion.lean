@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectGlob
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveEngineConclusion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectNormalizedChildren
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual direct family gives the engine conclusion
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EffectiveChildSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveDeletion
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Restoring the full smooth finite carrier before passive deletion
 

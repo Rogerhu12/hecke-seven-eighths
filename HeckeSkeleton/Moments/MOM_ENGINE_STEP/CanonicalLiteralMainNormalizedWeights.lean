@@ -10,6 +10,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredComputedProf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStripExistingBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralQuotientScales
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The two actual main normalizations have their original allowance bound
 

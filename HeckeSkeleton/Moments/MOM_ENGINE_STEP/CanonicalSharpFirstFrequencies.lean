@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPhysicalSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnNorm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFullSupportParameters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp first frequencies on the actual divisor branch
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GatedGaussStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original parent reaches its actual finite live two-transform leaves
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualGaussHybridTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredLabels
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual terminal calibrations on the original one-pool source
 

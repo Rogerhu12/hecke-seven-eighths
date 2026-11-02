@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassivePhases
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPhaseCalibration
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Paid moving characters with the passive deletion outside the source
 

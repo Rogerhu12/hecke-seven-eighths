@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrozenBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSupportedRowMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Canonical arithmetic mass of the same literal common rows
 

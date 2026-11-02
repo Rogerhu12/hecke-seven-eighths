@@ -12,6 +12,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeCom
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRedistributedBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralComparisonProduct
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original direct sources enter their actual passive kernels
 

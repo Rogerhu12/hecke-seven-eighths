@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualTerminalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondRawSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original parent through both signed transforms
 

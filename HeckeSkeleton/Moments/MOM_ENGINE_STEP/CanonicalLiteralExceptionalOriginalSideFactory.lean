@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalProfileW
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeComputed
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRedistributedBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual original exceptional side from its two occurrence branches
 

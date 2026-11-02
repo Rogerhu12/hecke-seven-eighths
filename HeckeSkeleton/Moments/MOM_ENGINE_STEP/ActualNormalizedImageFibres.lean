@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualParentFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalImageMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Physical source fibres in the normalized-kernel mass window
 

@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveFrameIdentit
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocationProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSideProductionAll
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original analytic certificates for the actual passive side
 

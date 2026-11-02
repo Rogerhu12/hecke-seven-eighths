@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPatternChildWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual extracted sector is fixed before the second row partition
 

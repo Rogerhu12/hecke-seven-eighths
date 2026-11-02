@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalOriginalIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual exceptional leaf is the original centered row sum
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstRowGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original coordinates before and after the second transform
 

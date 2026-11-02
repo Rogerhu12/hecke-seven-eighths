@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMassConsta
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledScalar
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitivePooledFactoryFibres
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform mass of the complete original amplified family
 

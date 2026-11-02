@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveDirectTerminalBud
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledTerminalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualOriginalExponent
 
+set_option linter.unusedSectionVars false
+
 /-!
 # One fixed coefficient for the four original second terminals
 

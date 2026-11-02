@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveFirstTerminalBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineChoices
 
+set_option linter.unusedSectionVars false
+
 /-!
 # First terminal choices before the moving parent
 

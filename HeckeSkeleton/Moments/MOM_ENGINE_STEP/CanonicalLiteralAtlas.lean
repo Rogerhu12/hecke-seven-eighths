@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianCover
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExtraction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual source index after occurrence extraction
 

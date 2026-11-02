@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRawWidth
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalIdealWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Computed coefficient windows on the actual direct dispatcher
 

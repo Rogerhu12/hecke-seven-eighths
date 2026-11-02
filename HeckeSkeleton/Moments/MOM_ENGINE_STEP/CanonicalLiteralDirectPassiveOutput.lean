@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectPassiveSourceIntegral
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Complete output facts for the actual direct sources
 

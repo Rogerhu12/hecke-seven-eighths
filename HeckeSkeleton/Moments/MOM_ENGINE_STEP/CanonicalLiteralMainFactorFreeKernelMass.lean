@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainFactorFreeNorma
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedRadii
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNominalWeightWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Kernel mass of the actual redistributed main families
 

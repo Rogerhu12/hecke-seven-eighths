@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalParentWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainIndexedWeight
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolIndexedWeight
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original tagged arithmetic index of every amplified source
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualArithmeticIndex
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifiedExceptionalMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exceptional dyad mass on the actual parent leaves
 

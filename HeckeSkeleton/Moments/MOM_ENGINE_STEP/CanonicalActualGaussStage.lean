@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalGaussOrbitRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondLogChart
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCoverCardinality
 
+set_option linter.unusedSectionVars false
+
 /-!
 # A constructed actual second Gauss stage
 

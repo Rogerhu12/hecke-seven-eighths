@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedData
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The complete moving recipe of the computed literal child
 

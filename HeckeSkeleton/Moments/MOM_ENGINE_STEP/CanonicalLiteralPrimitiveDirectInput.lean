@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectSourceIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectPassiveInput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Analytic inputs for the original direct factories
 

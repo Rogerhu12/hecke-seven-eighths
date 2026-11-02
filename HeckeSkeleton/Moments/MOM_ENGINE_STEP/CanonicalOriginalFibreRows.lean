@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualGaussStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualParentFibre
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original row coordinates for the constructed Gauss stage
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScalarNormalForm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPlainBalance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform costs of the actual frozen prime occurrences
 

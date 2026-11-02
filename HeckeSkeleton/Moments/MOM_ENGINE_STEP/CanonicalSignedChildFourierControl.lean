@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSignedProfileBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The signed original profiles control the same Fourier children
 

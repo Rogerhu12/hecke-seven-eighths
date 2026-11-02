@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartCoefficients
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The two stored chart coordinates give the actual atom locations
 

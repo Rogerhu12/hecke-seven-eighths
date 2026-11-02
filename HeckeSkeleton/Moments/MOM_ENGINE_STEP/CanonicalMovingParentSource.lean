@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstParent
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Construct the actual first source from the original moving model
 

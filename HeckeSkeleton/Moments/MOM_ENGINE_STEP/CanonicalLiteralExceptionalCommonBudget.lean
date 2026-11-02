@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowProfileBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFactorFreeAtomCosts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormFactorTransport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original common atoms and the actual constant-one row window
 

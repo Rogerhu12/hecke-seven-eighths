@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonLabelConditions
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSourceBudgets
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first zero and tail calibrations are constructed
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PassiveAllocationScalarMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Passive allocation under the original finite row measure
 

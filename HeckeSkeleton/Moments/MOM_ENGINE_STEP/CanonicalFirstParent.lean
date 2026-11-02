@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalParentSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstGaussData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualDirectFirstSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Constructing the actual first parent source
 

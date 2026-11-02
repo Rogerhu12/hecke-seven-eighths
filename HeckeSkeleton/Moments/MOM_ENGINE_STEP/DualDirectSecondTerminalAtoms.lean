@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectCoveredStage
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual direct terminals from the same original atoms
 

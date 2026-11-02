@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScaleProduct
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Scale products on the same second common-support leaf
 

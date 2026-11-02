@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstParent
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstMaskWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstRowGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first source at its actual row radius
 

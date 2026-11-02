@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineSetup
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectExceptionalIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalExactIndex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The complete direct exceptional budget from the original inputs
 

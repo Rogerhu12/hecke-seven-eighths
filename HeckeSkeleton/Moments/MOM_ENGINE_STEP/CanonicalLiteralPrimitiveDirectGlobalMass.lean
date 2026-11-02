@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMassConstants
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitiveDirectFactoryFibres
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform mass of the actual complete direct family
 

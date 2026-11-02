@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledGlob
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveEngineConclusion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceTerminalNonneg
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual amplified family gives the engine conclusion
 

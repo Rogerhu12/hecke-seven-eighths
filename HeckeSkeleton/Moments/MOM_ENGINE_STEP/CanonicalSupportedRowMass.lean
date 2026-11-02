@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridZeroRowSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalOrbitFibre
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual row mass on the original nonzero correlation support
 

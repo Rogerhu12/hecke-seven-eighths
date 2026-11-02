@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EffectiveChildSupportFinsets
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingPhaseCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original norm profiles on the actual quotient column supports
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassivePairCard
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCharacters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed constants for the actual passive factory labels
 

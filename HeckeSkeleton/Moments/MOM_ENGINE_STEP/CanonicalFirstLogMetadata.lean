@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSharpFirstFrequencies
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstResidualProfileCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original ideal lengths in the actual first Poisson weight
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCalibratedDeletion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # One fixed smooth carrier for both original rectangles
 

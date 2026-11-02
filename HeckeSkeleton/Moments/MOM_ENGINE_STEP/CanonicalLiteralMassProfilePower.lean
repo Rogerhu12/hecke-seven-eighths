@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstScalarCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveRadius
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed original-profile powers for the literal mass coefficient
 

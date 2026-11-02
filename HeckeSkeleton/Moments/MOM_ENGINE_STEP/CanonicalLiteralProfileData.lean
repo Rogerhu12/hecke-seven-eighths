@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralTwoStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original individual profiles of the literal two-stage source
 

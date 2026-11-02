@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectStag
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual direct stage family has its own dual terminal calibration
 

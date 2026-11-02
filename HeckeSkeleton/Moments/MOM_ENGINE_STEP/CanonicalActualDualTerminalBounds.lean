@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualDualTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Closed amplitudes of the six original dual calibrations
 

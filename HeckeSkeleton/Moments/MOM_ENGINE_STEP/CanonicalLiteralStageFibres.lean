@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralOriginalPoolStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual orbital fibres of the fixed second-stage classifier
 

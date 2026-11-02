@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainFactor
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainPassiveSourceIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual main source inequality on its existing family
 

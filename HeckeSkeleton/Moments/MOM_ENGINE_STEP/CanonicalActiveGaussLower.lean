@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveGaussColumns
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnLower
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp lower windows for the six actual Gauss sources
 

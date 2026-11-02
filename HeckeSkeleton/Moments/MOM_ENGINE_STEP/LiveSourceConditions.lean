@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportedGaussStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Live leaves retain genuine physical and arithmetic support
 

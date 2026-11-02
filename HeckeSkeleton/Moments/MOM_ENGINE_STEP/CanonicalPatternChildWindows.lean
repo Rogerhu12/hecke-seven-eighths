@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBlockRowClasses
 
+set_option linter.unusedSectionVars false
+
 /-!
 # A fixed original pattern before ordinary-row normalization
 

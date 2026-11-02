@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PreparedOriginalFibreRows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Enlarging the norm box of the original physical classifier
 

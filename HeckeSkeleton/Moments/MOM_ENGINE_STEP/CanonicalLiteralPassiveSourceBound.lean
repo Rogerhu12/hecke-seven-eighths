@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveCoveredBound
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual original integrand enters the same passive normalized family
 

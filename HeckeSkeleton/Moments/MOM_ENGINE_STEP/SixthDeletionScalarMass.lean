@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalPairAllowance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondRowMassSwap
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The same full-deletion children pay the original scalar
 

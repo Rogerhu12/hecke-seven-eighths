@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Package the actual finite family with its complete moving admissibility
 

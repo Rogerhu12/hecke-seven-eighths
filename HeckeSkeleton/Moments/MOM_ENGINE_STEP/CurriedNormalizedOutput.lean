@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOutputConditions
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Complete output facts for the same curried family
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNormalizedImageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualArithmeticIndex
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectLeafNormWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual physical source images give the normalized kernel mass
 

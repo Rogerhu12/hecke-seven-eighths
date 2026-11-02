@@ -6,6 +6,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowProfileBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual direct live-key dispatcher
 

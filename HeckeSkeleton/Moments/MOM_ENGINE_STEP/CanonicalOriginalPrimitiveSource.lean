@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstTerminals
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveFirstSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The fixed-box factory is the same literal primitive first source
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstDualTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualGaussHybridTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Both signed transforms on the actual direct source
 

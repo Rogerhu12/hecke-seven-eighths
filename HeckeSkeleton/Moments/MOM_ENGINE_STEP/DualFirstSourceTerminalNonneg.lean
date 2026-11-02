@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminalMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Nonnegativity of the signed-source terminal budgets
 

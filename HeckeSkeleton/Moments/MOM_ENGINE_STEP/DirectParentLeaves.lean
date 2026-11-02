@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original direct parent produces the canonical finite hybrid leaves
 

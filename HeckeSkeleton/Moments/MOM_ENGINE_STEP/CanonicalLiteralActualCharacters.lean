@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual character recipes and original slot embeddings
 

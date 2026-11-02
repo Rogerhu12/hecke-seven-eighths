@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNonzero
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveLabelMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exact mass of the nonzero passive labels
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledStag
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSecondSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual pooled stage family has its own dual terminal calibration
 

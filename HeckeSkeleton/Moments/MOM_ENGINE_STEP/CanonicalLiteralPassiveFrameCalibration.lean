@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPaidSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual paid frame calibration after passive allocation
 

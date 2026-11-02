@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingParentSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RemainingMaskRadical
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual first source uses the full original joint row budget
 

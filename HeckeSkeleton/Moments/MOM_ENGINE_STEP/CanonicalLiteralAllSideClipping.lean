@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRawWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Clipping every literal side, including an identically zero side
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralUniformMassCoefficient
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstResidualProfileCost
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed choices for the complete redistributed mass coefficient
 

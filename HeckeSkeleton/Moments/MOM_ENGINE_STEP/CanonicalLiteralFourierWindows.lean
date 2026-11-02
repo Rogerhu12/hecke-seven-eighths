@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSchwartzProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual Fourier profiles and their computed windows
 

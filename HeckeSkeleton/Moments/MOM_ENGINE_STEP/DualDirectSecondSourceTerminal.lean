@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondTerminalAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondSourceTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Direct pure-dual source sums on the original arithmetic carrier
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exact scalar costs in the actual two-stage profiles
 

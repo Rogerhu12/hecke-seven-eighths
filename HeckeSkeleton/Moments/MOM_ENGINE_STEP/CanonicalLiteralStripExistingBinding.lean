@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStrippedCovered
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Strip the original constants from an already constructed literal binding
 

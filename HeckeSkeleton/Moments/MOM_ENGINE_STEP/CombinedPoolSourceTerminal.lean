@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedPoolSecondTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstDivisorSourceTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original pooled source sums after the central degree cancels
 

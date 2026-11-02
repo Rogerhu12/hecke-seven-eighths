@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafExceptionalBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalWeights
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original exceptional leaf pays its terminal budget
 

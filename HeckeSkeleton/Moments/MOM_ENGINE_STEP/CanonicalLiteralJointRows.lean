@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExistingJointNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedRecipe
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The complete joint budget of the same literal normalized children
 

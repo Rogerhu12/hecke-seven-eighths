@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledMassWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalTaggedLocalIndex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual pooled outer scalar and its arithmetic index
 

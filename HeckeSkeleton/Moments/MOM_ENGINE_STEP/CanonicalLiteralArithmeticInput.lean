@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticNormalizedLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original arithmetic costs for the literal normalized family
 

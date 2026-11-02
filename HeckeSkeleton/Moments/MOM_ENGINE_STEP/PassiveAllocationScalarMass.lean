@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveDeletion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual frozen scalar of a passive-deletion allocation
 

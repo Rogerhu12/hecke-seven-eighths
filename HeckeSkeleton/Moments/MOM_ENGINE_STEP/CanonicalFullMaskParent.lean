@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingParentSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original parent radius pays its complete fixed deletion support
 

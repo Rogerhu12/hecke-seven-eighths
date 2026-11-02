@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual side frames for the passive allocations
 

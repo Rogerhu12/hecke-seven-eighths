@@ -10,6 +10,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeCom
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRedistributedBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralComparisonProduct
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original sources normalize after exact residual-factor redistribution
 

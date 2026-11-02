@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartCoefficients
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolAtlas
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original chart and pool coefficients are the computed atom table
 

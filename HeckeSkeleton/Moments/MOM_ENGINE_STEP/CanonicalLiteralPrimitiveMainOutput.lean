@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainSourceIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainPassiveOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Complete output facts for the original main factories
 

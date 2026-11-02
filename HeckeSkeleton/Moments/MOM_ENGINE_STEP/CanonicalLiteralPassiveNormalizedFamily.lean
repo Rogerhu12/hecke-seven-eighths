@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveFrameEnergy
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The normalized family of independent passive allocations
 

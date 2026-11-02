@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCoefficients
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlasAtoms
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual amplified source coefficients on their existing atlases
 

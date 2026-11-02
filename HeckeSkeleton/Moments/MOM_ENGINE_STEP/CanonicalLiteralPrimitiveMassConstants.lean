@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMassCoefficient
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifiedFiniteIndex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed constants for the actual primitive mass estimate
 

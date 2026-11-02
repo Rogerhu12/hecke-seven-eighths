@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalGaussTuples
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalTerminalPowers
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original tuple and fixed-degree inputs for the actual dual calibration
 

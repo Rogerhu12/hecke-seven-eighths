@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralOriginalPoolStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualPredicates
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCharacters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # All original amplified second stages and their finite classifiers
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormFactorTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveOriginalScale
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original comparison products through the actual atom operations
 

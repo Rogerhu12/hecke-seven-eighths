@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafOrdinaryBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Reciprocal balancing of the two actual plain profiles
 

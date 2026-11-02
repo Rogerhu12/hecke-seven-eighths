@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalExistingBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPairBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The stored original theta class is the actual exceptional source
 

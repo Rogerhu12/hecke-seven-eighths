@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSideProductionAll
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exact profile radius of the produced literal side
 

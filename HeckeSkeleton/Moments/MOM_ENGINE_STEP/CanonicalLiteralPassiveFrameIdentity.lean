@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveFrames
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The stored passive frame and its original occurrence dictionary
 

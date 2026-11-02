@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # One fixed second-terminal choice for both original sources
 

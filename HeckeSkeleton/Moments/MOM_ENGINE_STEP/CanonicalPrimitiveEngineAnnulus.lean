@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPaidSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRawWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # An internal annulus containing the original profile support
 

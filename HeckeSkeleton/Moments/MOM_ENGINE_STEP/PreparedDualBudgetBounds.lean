@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectCoveredStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalPower
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original terminal budgets after the justified source preparation
 

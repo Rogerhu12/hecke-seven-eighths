@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveFirstSourc
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveGaussColumns
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnNorm
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp active columns on the actual original direct source
 

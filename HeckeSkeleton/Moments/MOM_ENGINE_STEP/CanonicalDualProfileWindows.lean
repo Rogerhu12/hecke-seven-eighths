@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDualTerminalWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original Mellin powers in the canonical pure-dual terminal windows
 

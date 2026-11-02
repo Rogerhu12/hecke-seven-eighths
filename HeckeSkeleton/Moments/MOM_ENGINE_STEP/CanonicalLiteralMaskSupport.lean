@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAppendedPhaseCalibration
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The support actually excluded by the literal child mask
 

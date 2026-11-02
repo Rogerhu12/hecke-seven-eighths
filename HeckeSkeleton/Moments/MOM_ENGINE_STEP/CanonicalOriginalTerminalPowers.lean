@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSharpSecondZeroLedger
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualGaussStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original normalization powers for the actual second terminals
 

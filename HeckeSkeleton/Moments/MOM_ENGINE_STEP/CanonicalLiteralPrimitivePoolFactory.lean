@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolPassiveNormaliz
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowProfileBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original one, six and seven source factories on both sides
 

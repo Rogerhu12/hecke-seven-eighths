@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceMassInputs
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Complete Cartesian union windows at the two actual comparison scales
 

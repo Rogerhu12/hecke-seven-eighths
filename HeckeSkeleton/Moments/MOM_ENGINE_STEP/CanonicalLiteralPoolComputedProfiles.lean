@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolScalars
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveRadius
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Computed scalar-free profiles on the actual pool tables
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafRowZero
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Empty actual correlation classes and inherited second savings
 

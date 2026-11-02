@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOrdinaryWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectLeafArithmetic
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Canonical direct first allowances and the literal parent weight
 

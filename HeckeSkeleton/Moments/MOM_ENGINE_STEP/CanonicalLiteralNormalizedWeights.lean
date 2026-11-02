@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtomCosts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionSeparateMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original windows bound the same literal normalized pairs
 

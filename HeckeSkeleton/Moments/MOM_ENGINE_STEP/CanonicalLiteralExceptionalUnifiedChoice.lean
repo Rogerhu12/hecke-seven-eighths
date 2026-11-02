@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPaidRightSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # One original choice for all literal exceptional terminals
 

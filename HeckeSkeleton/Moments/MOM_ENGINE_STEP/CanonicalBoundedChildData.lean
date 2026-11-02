@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalCoreProfileIdentification
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual child data with the original bounded profiles
 

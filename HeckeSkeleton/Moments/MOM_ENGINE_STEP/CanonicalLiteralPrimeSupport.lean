@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralBalancedSchwartz
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSelectedRawWindow
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllSideClipping
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original prime window through the literal construction
 

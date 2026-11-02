@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralTerms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralLocations
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalGaussScaleProduction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual ordinary rectangles from the original individual atoms
 

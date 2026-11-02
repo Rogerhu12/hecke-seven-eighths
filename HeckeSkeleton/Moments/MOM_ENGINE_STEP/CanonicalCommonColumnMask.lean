@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalEffectiveChildSupport
 import HeckePort.Moments.Descent.MarkedTwists
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original common-column deletion in the child remaining mask
 

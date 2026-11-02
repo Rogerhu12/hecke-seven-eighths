@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalRelativeBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalOriginalIntegral
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Ordinary exceptional labels and their original Fourier integrals
 

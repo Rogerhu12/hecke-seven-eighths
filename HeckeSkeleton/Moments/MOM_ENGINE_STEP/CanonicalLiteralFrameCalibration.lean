@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrozenBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowCharacters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Full calibration of an actual literal rectangle frame
 

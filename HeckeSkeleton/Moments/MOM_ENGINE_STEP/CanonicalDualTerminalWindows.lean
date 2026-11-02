@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalUnmaskedBlockStage
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual terminal windows for the actual canonical second stage
 

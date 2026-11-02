@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDualProfileWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveGaussLower
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Same-source dual terminal calibration on the actual Gram support
 

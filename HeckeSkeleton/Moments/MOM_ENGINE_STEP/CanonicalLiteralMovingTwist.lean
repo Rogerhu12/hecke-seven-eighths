@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExtraction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFixedPhases
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual fixed source phase enters every original arithmetic atom
 

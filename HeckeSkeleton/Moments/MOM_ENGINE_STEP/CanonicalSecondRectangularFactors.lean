@@ -7,6 +7,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingFactorAppend
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original arithmetic factors in the second rectangles
 

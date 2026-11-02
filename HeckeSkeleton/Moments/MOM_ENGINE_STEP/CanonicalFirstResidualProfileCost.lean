@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualScalarCost
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first Poisson weight and the residual profile scalar
 

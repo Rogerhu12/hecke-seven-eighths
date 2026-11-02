@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveDeletion
 import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform cost of the actual passive-deletion labels
 

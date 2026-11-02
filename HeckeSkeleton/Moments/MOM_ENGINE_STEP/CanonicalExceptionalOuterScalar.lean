@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantRowWeightOuter
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstCombinedAllowance
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pay only the first scalar pair outside the actual exceptional row
 

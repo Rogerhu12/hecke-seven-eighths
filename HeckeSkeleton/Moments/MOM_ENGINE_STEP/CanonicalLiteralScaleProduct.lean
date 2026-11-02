@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScalarNormalForm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalGaussScaleProduction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original scale product after actual occurrence extraction
 

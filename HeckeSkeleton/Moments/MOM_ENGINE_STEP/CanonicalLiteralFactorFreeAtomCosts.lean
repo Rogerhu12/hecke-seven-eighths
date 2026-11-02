@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtomCosts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileFactorExtraction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Frozen prime costs after extracting the complete profile factor
 

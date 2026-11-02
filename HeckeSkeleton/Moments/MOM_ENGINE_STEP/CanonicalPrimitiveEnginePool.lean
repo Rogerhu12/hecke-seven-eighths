@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPool
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The one actual pool of the primitive engine
 

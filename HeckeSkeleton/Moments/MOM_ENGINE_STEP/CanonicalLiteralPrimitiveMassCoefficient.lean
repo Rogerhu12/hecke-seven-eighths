@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveMassCoefficient
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The numerical coefficient of the original primitive source
 

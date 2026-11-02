@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Kernel mass on the same computed source measure
 

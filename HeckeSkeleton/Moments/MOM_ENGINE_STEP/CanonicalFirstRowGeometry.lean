@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSharpFirstFrequencies
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalGaussOrbitRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original first rows and their canonical retained scale
 

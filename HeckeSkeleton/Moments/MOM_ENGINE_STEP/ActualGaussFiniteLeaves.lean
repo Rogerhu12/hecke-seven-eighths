@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoverHybridPhaseIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual covered second source has a literal finite leaf carrier
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The stored covered leaf retains its original Gauss lower scale
 

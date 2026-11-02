@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveCoveredProduction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveOriginalBound
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original covered integrand and the passive finite family
 

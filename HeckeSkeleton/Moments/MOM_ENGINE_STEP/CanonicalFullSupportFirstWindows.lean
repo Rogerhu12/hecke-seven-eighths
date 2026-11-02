@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFirstPhysicalWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFullSupportParameters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original full-support first terminal calibration
 

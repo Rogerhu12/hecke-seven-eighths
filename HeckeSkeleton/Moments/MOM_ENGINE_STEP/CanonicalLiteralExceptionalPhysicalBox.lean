@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSourceCoordinates
 
+set_option linter.unusedSectionVars false
+
 /-!
 # A fixed box for the actual complete exceptional mask
 

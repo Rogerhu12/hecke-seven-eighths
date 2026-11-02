@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondRectangularFactors
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Assembling the second factors from the original arithmetic tables
 

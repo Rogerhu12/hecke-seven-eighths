@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualGaussNumerators
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveDualTerminalWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp original numerator calibration for the same dual terminal
 

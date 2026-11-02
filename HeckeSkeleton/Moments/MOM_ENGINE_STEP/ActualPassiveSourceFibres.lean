@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNormalizedImageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentOriginalArithmetic
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassivePairCard
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original physical fibres with their actual passive allocations
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainFactor
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolFactory
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original amplified live-key dispatcher
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualOriginalExponent
 
+set_option linter.unusedSectionVars false
+
 /-!
 # A single original amplitude and height control
 

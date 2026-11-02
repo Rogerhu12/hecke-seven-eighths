@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOuterScalar
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalFactory
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStrippedCovered
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Bind the actual exceptional columns, including original row translations
 

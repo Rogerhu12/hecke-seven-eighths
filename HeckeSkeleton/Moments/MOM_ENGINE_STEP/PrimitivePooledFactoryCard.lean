@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitiveMainPassiveFactoryCard
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitivePoolPassiveFactoryCard
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledFactory
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The label count of the complete original pooled factory
 

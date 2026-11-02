@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualGaussNumerators
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exact post-pool frozen ideals of the six original Gauss sources
 

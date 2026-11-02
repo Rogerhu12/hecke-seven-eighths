@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The complete common-prime deletion in the literal source
 

@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingFactorAppend
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActiveNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original output dictionaries of the same passive normalized family
 

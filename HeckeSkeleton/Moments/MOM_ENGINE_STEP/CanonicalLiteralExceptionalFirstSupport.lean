@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPaidSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveLabelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonLabelConditions
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first deletion in the complete exceptional mask
 

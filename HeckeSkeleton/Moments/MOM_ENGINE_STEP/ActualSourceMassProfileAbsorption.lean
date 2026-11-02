@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceMassInputs
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Paying the original Mellin profile powers in the same actual mass
 

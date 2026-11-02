@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalLabelIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The ordinary exceptional terminal of the same literal hybrid leaf
 

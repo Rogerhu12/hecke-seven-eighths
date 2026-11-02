@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussDualRawTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussHybridTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual second terminals with the original finite hybrid leaves
 

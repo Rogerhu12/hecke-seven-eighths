@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralOriginalWeightWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCapacityLengths
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original table windows in the same nominal coordinates
 

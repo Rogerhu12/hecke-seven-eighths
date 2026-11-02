@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralOriginalFrozenCost
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The old allocation contributes one additional slot cost
 

@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafNormWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolMonotonicity
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual first Gauss data from the original orbital rows
 

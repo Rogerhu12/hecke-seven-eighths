@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredLabels
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityRelativeScalar
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal canonical weights for the exceptional terminal
 

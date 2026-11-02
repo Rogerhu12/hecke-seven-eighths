@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingFactorAppend
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp second physical windows on the original nonzero Gram profiles
 

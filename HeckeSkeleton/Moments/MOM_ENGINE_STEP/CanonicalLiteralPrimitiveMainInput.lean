@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRawWidth
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainSourceIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainPassiveInput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Analytic inputs for the original main factories
 

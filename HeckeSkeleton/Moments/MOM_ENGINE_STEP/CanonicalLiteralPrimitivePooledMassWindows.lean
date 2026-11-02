@@ -7,6 +7,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSourceMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Computed coefficient windows on the actual pooled dispatcher
 

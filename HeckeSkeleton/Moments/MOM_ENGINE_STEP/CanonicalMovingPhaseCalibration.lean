@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondFactorAssembly
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual quotient-row calibration with the original moving prefix
 

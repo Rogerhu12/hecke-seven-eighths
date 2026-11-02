@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledTerminalWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstTerminalWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Complete original pooled terminal budgets
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlasAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSourceCover
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal occurrence data of the unamplified source cover
 

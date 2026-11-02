@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNominalWeightWindow
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveIndexedWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original source weights for the same passive normalized children
 

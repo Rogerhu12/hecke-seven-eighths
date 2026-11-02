@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonAtomBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original frozen costs of a literal rectangle frame
 

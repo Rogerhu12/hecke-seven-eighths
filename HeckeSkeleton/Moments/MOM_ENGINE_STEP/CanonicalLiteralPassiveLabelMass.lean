@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPaidSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PassiveDeletionMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform mass of the genuine passive labels
 

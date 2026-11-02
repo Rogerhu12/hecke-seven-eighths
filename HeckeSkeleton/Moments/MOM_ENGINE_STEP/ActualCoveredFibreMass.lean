@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCoordinateSubpower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceSlotCaps
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform fibres for the actual main and valuation source covers
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolSourceIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolPassiveOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Complete output facts for the original pool factories
 

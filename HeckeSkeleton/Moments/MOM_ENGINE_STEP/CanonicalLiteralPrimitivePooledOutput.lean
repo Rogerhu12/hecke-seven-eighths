@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Complete output on every original pooled live key
 

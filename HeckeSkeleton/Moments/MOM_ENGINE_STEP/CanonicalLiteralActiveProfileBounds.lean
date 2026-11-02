@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralBalancedSchwartz
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSelectedRawWindow
 import HeckeGeneral.Analysis.IdealDirichlet
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original norm lower bounds for active balanced profiles
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSourceFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonLabelConditions
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Physical and arithmetic source support before the second estimates
 

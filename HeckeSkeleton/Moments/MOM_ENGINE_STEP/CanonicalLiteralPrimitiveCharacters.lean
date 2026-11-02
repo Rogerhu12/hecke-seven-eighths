@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalClassifi
 import ArithmeticFrequencyRowCharacterFibers
 import RowCharacterCanonicalUniqueness
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The primitive character laws of the same original probe
 

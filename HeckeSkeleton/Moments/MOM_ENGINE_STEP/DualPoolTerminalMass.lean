@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPoolTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original coefficient atoms pay the pure-dual pool terminals
 

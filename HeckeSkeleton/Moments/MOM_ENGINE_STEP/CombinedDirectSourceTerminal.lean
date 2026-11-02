@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedDirectSecondTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondSourceTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original direct source sums after the central degree cancels
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveCoveredProdu
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSideAnalyticInput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original analytic window fills the actual passive family input
 

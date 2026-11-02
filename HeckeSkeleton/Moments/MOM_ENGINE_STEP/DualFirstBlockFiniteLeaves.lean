@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSecondCoveredSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual first-block budgets on the original hybrid leaves
 

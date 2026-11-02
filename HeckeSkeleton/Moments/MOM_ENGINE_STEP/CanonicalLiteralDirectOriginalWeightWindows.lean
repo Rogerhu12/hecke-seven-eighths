@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectActiveScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectAtomCosts
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual direct source tables supply their original weight windows
 

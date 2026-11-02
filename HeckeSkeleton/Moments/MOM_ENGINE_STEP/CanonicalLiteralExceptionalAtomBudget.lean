@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAtomBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform original atom costs for the literal exceptional source
 

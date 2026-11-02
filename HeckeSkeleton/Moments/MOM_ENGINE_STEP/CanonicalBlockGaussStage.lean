@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFibreRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyClassStability
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Canonical second charts with their actual common-block row classes
 

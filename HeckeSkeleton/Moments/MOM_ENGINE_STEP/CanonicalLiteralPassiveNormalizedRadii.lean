@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveActiveRadius
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveActivity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralKernelConstants
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The radii of the actual covered passive family
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDirectParentWeights
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original arithmetic index of a computed family
 

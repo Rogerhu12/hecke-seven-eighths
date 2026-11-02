@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectCoveredStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectNormalizedChildren
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The signed direct parent reaches the same normalized children
 

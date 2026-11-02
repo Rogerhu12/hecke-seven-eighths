@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveProfileKernelMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fourier mass constants fixed before the literal source
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMaskCardinality
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDirectParentWeights
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Direct first-source terminal sums from original coefficient atoms
 

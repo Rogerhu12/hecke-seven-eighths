@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPhaseCalibration
 import Mathlib.Analysis.SpecialFunctions.Log.Base
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual Fourier profiles and parameters of one allocated literal source
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSupport
 import HeckePort.Moments.Descent.Quotients
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Residual occurrence carriers as filtered quotient carriers
 

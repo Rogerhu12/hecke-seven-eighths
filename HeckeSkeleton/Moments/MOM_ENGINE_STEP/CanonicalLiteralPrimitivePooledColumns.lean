@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledSour
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectColumns
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveGaussColumns
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp original active columns for the main and valuation sources
 

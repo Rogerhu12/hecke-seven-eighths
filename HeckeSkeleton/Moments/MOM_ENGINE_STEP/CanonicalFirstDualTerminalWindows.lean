@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFirstDualCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDualTerminalWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalParentSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # First pure-dual windows for the fixed original row-ball test
 

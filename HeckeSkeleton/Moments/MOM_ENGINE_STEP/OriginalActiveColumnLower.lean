@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnNorm
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The sharp lower norm window on the original coefficient support
 

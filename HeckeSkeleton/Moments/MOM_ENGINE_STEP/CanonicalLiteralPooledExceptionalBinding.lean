@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectExceptionalBi
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainFactorFreeNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolFactorFreeNormalization
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The four actual pooled exceptional sources on their original leaves
 

@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveEnergy
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Remove zero passive coefficients before producing children
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveParentBoun
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PreparedDualBudgetBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonGaussOrigin
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original direct parent reaches its existing complete family
 

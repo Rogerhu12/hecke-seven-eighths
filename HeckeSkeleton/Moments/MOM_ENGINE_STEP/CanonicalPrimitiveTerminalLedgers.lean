@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual first allowances in the original second-terminal ledger
 

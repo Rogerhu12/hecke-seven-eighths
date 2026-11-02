@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlasAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDeletion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPlainBalance
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual literal Gauss scale from the original prime window
 

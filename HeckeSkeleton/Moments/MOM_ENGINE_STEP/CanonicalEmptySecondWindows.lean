@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondRowWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual empty-mask second frequencies enter the canonical child
 

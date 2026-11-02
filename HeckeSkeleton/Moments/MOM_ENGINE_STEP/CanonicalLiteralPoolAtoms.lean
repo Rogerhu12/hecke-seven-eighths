@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolAtlasCoefficien
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualDeletion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original atom tables on the main and valuation source covers
 

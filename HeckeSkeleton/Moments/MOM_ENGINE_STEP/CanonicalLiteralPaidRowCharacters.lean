@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPaidCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowCharacters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The same ordinary rows after removing an amplifier sixth power
 

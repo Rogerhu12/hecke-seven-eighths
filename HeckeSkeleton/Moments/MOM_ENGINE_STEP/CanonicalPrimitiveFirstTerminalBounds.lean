@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimitiveSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstDualTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exact first terminals in the original parent inequality
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityMassBridge
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalLabelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOrdinaryWeights
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original arithmetic label bounds for the same selected rectangle
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalTerminalPowers
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original pool charges in a sharp terminal amplitude
 

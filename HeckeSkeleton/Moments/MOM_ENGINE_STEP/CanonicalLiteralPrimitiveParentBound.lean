@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectCoveredStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectNormalizedChildren
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original finite rows reach the same live parent leaves
 

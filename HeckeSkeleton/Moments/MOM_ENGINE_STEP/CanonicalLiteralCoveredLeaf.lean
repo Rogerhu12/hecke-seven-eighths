@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCommonLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal common extraction on the stored covered leaf
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOriginalIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalPoolAllowanceTransport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exact divisor saving is the original harmonic index weight
 

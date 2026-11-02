@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineMassChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualOriginalExponent
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The final common scalar budget
 

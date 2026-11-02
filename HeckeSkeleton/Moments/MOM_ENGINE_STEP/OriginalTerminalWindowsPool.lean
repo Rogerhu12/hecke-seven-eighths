@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedDirectSourceTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedPoolSourceTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstParent
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The same original first terminal windows after pool installation
 

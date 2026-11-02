@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSecondRectangles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedSupportPoolAtlas
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual pool phases on the original combined occurrence branch
 

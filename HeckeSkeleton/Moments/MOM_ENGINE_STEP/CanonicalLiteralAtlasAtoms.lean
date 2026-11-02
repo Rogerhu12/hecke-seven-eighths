@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolAtlas
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original atom table on the existing covered source dictionary
 

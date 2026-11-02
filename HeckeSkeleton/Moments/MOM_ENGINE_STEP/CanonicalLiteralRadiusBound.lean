@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveProfileBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllSideClipping
 
+set_option linter.unusedSectionVars false
+
 /-!
 # A fixed bound for the same computed literal profile radius
 

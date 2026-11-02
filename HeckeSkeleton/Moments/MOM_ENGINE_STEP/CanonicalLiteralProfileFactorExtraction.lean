@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPlainBalance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileScalars
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScaleProduct
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Extract the actual positive factors of every original profile
 

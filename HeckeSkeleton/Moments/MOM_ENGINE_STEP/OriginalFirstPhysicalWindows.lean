@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalJointFirstSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual first mask and modulus windows
 

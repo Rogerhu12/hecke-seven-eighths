@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPooledTerminalGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Summable amplitudes of the actual original pool stages
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolAtoms
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal character and slot recipes of the actual main and pool tables
 

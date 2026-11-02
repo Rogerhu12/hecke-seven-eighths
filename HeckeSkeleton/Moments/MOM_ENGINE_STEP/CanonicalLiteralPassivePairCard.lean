@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNonzeroMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform count of the actual independent passive pairs
 

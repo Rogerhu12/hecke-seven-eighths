@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafExceptionalBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaPartition
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Integrate the paid exceptional estimate on the original leaf
 

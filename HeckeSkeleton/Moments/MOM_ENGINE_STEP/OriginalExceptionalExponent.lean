@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exceptional remainder from the original parent domain
 

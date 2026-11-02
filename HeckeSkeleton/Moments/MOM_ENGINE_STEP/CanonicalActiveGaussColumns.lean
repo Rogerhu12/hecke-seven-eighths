@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveSecondWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSourceCoefficients
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp actual Gauss column windows on the original coefficient support
 

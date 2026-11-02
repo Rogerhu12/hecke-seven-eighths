@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileCarrier
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Calibrated finite sources enter the passive divisor expansion
 

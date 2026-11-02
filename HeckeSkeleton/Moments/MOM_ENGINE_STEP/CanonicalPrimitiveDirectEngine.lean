@@ -6,6 +6,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveSecondTerminalUni
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineMassChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineOriginalWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual direct branch at fixed engine choices
 

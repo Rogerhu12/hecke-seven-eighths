@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteEngineOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The conclusion of the complete literal source family
 

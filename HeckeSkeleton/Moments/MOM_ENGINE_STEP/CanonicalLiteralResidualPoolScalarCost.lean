@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormFactorTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualScalarCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFactorFreeAtomCosts
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp residual scalar costs on the actual pool tables
 

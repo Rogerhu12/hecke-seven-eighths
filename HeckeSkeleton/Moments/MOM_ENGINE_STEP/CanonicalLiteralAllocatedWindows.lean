@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowSectors
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveSecondWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Physical row windows for the same literal allocated data
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Parent geometry of the same literal normalized family
 

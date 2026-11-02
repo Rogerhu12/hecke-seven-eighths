@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafNormWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAmplifiedCarrier
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual parent-to-arithmetic index and its original windows
 

@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnNorm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalUnionColumnNorm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingParentSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # First terminal windows from the actual original atoms
 

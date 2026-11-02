@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalJointFirstSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Repartition the original width using the actual full support length
 

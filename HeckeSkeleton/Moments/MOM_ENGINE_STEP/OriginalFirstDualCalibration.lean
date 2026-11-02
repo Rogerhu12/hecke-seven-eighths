@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualTerminalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFirstTerminalCalibration
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The first pure-dual calibration from original individual windows
 

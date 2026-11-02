@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainPassiveNormaliz
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowProfileBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual main-source factories on both original sides
 

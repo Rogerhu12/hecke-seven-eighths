@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralArithmeticInput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedRadii
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual original capacity inputs of the literal normalization
 

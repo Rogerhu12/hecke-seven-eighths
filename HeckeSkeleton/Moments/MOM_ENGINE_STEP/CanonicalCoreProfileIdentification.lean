@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualPoolRectangles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalClippedGaussProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHilbertPhase
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The computed core weights are the bounded original signed profiles
 

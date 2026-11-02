@@ -1006,6 +1006,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitivePooledExceptional
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineStep
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalSupportedVolume
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPlainBackgroundTransport
+
+set_option linter.unusedSectionVars false
 /-!
 # The complete paired fourth-moment engine step
 

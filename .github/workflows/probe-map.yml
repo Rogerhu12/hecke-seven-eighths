@@ -1,0 +1,127 @@
+name: MOM_ENGINE_STEP sorry-probe error map
+
+# Throwaway coordinator probe; lives only on probe/** branches and is never
+# merged.  It builds HeckeSkeleton.Moments.MOM_ENGINE_STEP.Interface (without
+# fail-fast, so independent targets keep building after a failure), records
+# every error, replaces ONLY the erroring theorem/lemma proof bodies with
+# `sorry`, and rebuilds, round after round, to expose the full remaining error
+# map.  The `sorry`s exist only to expose errors; this is not a fix.
+on:
+  push:
+    branches: ['probe/**']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: probe-map-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    env:
+      LEAN_NUM_THREADS: '2'
+      PROBE_BUDGET_MIN: '325'
+      PROBE_KILL_AFTER: '600'
+    steps:
+      - name: Record the job start
+        run: echo "PROBE_JOB_START=$(date +%s)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          mkdir -p probe-evidence
+          sysctl vm.max_map_count > probe-evidence/memory-mapping.txt
+          git show --no-patch --format=fuller HEAD > probe-evidence/checkout.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+
+      - name: Round 1
+        id: r1
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 1
+      - name: Upload round 1
+        if: ${{ !cancelled() && steps.r1.outputs.ran == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-map-round-1
+          path: probe-evidence/
+          retention-days: 14
+      - name: Round 2
+        id: r2
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 2
+      - name: Upload round 2
+        if: ${{ !cancelled() && steps.r2.outputs.ran == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-map-round-2
+          path: probe-evidence/
+          retention-days: 14
+      - name: Round 3
+        id: r3
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 3
+      - name: Upload round 3
+        if: ${{ !cancelled() && steps.r3.outputs.ran == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-map-round-3
+          path: probe-evidence/
+          retention-days: 14
+      - name: Round 4
+        id: r4
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 4
+      - name: Upload round 4
+        if: ${{ !cancelled() && steps.r4.outputs.ran == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-map-round-4
+          path: probe-evidence/
+          retention-days: 14
+      - name: Round 5
+        id: r5
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 5
+      - name: Upload round 5
+        if: ${{ !cancelled() && steps.r5.outputs.ran == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-map-round-5
+          path: probe-evidence/
+          retention-days: 14
+      - name: Round 6
+        id: r6
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 6
+      - name: Round 7
+        id: r7
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 7
+      - name: Round 8
+        id: r8
+        if: ${{ !cancelled() }}
+        run: python3 -u .github/probe/probe_map.py round 8
+      - name: Upload the final probe evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-map-final
+          path: probe-evidence/
+          retention-days: 14

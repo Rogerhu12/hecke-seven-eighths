@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LiveSourceConditions
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exact outer scalar of every original parent leaf
 

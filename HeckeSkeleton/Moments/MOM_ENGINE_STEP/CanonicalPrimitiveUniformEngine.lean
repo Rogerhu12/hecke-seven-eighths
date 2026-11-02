@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEnginePool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineFinalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyParentEngineOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The uniform internal engine on the original parent
 

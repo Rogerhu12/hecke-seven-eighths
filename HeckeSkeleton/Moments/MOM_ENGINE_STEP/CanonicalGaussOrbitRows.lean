@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalRowBallChart
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstGaussData
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual orbital fibres of the original Gauss rows
 

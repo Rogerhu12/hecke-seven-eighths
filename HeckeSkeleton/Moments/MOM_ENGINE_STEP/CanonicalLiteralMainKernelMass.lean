@@ -8,6 +8,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredComputedProf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStripExistingBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralQuotientScales
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Kernel mass of the two original amplified main families
 

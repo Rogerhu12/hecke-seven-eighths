@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstCombinedAllowance
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original index after the first Poisson and profile costs combine
 

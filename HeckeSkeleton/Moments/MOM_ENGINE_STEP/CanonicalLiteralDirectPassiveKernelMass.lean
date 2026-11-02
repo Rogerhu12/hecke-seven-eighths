@@ -15,6 +15,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeCom
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRedistributedBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralComparisonProduct
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Kernel mass of the actual direct passive families
 

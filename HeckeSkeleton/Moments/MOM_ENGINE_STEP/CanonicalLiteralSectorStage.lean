@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBlockRowSectors
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFirstPhysicalWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # A fixed finite classifier for every original second source
 

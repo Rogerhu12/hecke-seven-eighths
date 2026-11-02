@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledTerminalBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalTerminalPoolCharges
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original geometry and norm charge of each actual pool tag
 

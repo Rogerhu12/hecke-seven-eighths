@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCenteredPassive
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocationAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPaidCharacters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual finite source after passive-mask allocation
 

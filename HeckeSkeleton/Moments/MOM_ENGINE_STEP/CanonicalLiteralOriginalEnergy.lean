@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveEnergy
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original complete columns on their actual frequency rows
 

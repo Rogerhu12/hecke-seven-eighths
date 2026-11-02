@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalExceptionalSavingCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAtomEnvelope
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original plain scales and the exact exceptional extraction lengths
 

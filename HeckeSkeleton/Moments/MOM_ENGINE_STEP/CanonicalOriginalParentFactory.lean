@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalRadiusParentSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPool
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalComparisonScales
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original parent source and its first windows in a fixed box
 

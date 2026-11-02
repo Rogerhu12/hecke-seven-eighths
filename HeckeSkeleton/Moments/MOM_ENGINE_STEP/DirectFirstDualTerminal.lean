@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SignedDirectFirstSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFirstDualCalibration
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Direct first terminals from original windows
 

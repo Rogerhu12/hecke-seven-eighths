@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original character determines every exceptional predicate
 

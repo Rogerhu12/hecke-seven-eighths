@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFourierWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Raw and clipped windows on the same actual allocated data
 

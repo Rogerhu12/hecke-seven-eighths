@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDualTerminalWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussDualRawTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual canonical second terminals from the original coefficient atoms
 

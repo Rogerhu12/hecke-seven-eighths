@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDirectParentWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectNormalizedChildren
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The literal direct-source exceptional terminal
 

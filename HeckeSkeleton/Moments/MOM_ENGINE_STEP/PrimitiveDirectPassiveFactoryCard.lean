@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectSourceIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitivePassiveFactoryCard
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The genuine primitive factory label count
 

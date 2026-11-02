@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual windows on the original supported stages
 

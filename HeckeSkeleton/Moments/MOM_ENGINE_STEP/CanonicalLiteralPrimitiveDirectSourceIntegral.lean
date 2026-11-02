@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectFact
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectPassiveSourceIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual direct family bounds all original ordinary sources
 

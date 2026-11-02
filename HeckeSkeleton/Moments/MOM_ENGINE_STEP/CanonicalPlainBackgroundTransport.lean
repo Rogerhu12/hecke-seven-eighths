@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyBase
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PairedEngineAdmissibilityTransport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exact background transport on the existing engine output
 

@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnLower
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed positive lower annuli on the actual original coefficient support
 

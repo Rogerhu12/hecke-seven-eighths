@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalEngineSmallParameters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPairAllowanceProduction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed numerical choices before the original engine sources
 

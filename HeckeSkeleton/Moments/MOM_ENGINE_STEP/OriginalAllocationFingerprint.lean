@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationPadding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual allocation labels have an injective fixed-cap fingerprint
 

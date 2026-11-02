@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredScaleProduct
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalExceptionalPlainWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionCapacity
 
+set_option linter.unusedSectionVars false
+
 /-!+# The actual upper endpoints in the capacity length dictionary
 
 The second source uses the upper endpoint of the proved physical row

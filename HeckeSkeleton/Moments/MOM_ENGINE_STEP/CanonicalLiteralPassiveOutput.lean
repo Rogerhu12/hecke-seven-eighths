@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveOutputInputs
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSourceIntegral
+
+set_option linter.unusedSectionVars false
 /-!
 # Output certificates of the constructed passive family
 

@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledExce
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledScalar
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalExactIndex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The complete exceptional budget of the original pooled engine
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartCoefficients
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Computed common-atom extraction of the literal two-stage leaf
 

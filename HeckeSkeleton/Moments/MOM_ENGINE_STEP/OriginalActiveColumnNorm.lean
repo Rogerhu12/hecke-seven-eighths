@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceMassInputs
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCentralCoefficientBound
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp original column norms on the actual coefficient support
 

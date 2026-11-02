@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStageFibres
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Closed bounds on the actual pooled terminal family
 

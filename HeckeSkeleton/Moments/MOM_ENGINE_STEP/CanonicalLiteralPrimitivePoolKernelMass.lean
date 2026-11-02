@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolPassiveKernelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual pool kernels have finite mass
 

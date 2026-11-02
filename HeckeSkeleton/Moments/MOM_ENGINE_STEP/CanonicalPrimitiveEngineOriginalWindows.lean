@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineChoices
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original numerical windows for the fixed engine choices
 

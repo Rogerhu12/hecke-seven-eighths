@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonLabelConditions
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSourceFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first-label mass of the real zero and tail budgets
 

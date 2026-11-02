@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBlockGaussStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The unmasked second majorant with the actual common-block classifier
 

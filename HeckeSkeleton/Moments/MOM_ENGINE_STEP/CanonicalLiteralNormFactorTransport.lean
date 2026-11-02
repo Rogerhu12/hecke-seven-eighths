@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileFactorExtraction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualProfiles
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The factor extraction on an actual first-stage atom table
 

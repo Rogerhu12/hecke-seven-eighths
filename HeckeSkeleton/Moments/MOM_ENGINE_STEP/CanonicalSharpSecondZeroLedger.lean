@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstRowGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The sharp second-zero exponent on every original source tag
 

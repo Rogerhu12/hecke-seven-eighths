@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedDualTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondTerminalAtoms
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Direct second terminals with the original central degree
 

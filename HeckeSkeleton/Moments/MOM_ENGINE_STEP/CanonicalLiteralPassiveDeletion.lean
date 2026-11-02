@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationKernel
 import HeckePort.CenteredMoment.Mask
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Finite deletion after the two actual Gauss transforms
 

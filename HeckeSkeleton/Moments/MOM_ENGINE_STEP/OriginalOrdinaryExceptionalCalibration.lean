@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalExceptionalSavingCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryActualExceptionalBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original numerical inputs for the ordinary exceptional terminal
 

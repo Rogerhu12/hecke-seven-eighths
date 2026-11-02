@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyGeometry
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Geometry and original dictionaries of dependent normalized families
 

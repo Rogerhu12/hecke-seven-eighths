@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPatternChildWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RemainingMaskRadical
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Append the actual second factor to every original moving factor
 

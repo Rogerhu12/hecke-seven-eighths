@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPaidRowCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaPartition
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual exceptional ideal character and its complete mask
 

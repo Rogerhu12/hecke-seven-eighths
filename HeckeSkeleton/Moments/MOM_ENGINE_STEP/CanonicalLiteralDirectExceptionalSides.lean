@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalOriginal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeComputed
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectCharacters
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual exceptional sides of the two direct first branches
 

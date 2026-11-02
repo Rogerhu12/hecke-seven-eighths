@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPairBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalLabelIntegral
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The literal ordinary branch has no comparison column
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstProfilePower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedDirectSourceTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalDualTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original first windows for the complete second terminal sum
 

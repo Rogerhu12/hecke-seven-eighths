@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimeActualSourceMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSixthSourceMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual full-sixth source mass with the separated prime loss
 

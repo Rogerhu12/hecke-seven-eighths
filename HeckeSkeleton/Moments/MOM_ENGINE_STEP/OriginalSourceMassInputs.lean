@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSourceImageKernelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original support windows and the two distinct mask roles
 

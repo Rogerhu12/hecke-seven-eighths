@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredScaleProduct
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralComputedLengths
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralInactiveRectangle
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The existing capacity error on each actual active rectangle
 

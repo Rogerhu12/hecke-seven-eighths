@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimeSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileFactorExtraction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual Schwartz profiles after extracting every scale factor
 

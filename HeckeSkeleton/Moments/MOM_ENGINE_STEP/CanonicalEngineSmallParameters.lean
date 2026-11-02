@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCombinedMassCoeffic
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSharpSecondZeroLedger
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed small parameters for the unified original engine
 

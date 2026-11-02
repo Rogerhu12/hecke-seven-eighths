@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAmplifiedCarrier
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The local arithmetic branch of the original amplifier tag
 

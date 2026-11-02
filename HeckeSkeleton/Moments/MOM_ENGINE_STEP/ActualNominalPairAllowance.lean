@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPairAllowanceProduction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original nominal construction supplies the pair allowance
 

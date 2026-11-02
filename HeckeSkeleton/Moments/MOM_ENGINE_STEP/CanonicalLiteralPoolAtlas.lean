@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlas
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original occurrence indices in the actual pool cover
 

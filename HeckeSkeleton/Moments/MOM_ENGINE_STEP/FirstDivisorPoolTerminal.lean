@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorTerminalCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalTerminalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMaskCardinality
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual pooled terminal sums from the first-divisor profile atoms
 

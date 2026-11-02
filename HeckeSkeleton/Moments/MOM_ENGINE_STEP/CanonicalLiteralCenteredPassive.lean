@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSmoothCarrier
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Both calibrated rectangles enter one passive allocation
 

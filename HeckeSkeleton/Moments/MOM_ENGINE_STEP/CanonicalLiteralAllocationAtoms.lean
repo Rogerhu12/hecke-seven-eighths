@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileCarrier
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal atoms on an actual passive-deletion allocation
 

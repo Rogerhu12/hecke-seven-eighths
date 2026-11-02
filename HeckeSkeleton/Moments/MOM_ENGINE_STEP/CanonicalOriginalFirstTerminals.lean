@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalParentFactory
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstDualTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original fixed-box first source with its two paid terminals
 

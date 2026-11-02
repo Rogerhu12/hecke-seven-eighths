@@ -6,6 +6,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalPairAllowance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolMonotonicity
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original windows give the actual source-image scalar
 

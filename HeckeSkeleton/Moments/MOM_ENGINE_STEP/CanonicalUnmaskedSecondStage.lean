@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualGaussStage
 
+set_option linter.unusedSectionVars false
+
 /-!
 # A second positive row ball with no additional row avoidance mask
 

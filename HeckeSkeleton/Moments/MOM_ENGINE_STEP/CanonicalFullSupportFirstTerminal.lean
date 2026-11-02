@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullSupportFirstWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualOriginalExponent
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Numerical first terminals for the actual full-support source
 

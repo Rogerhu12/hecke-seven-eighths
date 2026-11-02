@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedDualTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminalMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp original coefficients in the same one-pool terminal sum
 

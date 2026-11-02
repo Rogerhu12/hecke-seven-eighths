@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryLiteralExceptionalLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Ordinary exceptional budget on the original amplified family
 

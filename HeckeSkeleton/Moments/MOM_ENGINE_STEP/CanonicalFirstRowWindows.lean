@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalGaussOrbitRows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original radius windows bound the actual first frequencies
 

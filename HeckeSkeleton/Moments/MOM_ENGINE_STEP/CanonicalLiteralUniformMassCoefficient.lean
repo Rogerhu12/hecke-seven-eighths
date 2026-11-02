@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMassProfilePower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralKernelConstants
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Uniform payment of the literal mass coefficient
 

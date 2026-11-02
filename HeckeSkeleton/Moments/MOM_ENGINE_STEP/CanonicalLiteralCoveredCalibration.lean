@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrameCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPreparedBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Calibrations on the actual two rectangle families of a covered leaf
 

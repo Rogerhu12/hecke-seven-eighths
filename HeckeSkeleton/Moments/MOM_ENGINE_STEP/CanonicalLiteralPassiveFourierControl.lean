@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNormalizedRadii
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Finite Fourier control of the actual passive children
 

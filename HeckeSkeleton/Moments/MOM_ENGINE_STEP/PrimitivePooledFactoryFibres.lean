@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNormalizedImageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentOriginalArithmetic
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFibreRowsMonotone
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual pooled family over its original amplified arithmetic fibres
 

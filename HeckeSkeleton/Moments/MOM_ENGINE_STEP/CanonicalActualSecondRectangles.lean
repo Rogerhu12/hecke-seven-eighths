@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorHybridBridge
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual second rectangles from the original occurrence tables
 

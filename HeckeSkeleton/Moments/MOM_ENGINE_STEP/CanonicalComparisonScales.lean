@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalUnionColumnNorm
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Choose unused ordinary comparison scales before constructing the source
 

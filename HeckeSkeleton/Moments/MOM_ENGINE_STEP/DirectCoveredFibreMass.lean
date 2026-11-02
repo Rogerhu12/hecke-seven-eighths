@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCoordinateSubpower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceSlotCaps
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The pool-free original entrance has the same uniform finite fibres
 

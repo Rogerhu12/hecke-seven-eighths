@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalArithmeticCarrier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifiedFiniteIndex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original tagged source computes its amplified arithmetic carrier
 

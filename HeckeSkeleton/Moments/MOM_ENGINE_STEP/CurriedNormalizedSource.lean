@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalParentKernelFamily
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The source inequality for an already constructed family
 

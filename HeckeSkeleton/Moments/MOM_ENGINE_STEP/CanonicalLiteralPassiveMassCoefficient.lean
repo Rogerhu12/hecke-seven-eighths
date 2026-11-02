@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCombinedMassCoefficient
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed profile powers after independent passive allocation
 

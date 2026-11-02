@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSideProducti
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNormalizedFamily
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyBase
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original covered row class produces all passive normalized sides
 

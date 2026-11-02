@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolAllowanceTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifiedExceptionalMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The exceptional source keeps the same original pool allowance
 

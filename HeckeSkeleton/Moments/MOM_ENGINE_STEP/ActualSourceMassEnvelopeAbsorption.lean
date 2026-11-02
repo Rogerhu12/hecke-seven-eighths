@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSourceMassProfileAbsorption
 
+set_option linter.unusedSectionVars false
+
 /-!
 # One original profile envelope pays every part of the actual kernel mass
 

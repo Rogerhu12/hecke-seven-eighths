@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowSectors
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual common row character before either rectangle is normalized
 

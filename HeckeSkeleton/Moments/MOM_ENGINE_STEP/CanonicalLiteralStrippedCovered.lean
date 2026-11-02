@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectScalars
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolScalars
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantProfileExtraction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # One payment of the actual constant factors on the stored leaf
 

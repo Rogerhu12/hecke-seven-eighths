@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorBlockTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstTerminalWeights
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Direct second terminals from their original coefficient atoms
 

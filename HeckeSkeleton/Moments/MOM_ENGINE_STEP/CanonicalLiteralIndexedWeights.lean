@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedWeights
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual normalized pair on its original two-divisor index
 

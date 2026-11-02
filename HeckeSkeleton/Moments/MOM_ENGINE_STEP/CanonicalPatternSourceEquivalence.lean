@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualJointSources
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBlockRowClasses
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The existing row label retains the same calibrated source
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScalarNormalForm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussScaleCompensation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalExceptionalPlainWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The literal exceptional Gauss scale and its original annulus cost
 

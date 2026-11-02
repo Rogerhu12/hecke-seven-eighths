@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimitiveSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstDualTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # First zero, tail and parent bounds on the literal dispatcher's source
 

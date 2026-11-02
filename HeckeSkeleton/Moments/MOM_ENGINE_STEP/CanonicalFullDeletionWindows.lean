@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FullSecondDeletionSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalEmptySecondWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyClassStability
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual second windows with the complete sixth-root deletion
 

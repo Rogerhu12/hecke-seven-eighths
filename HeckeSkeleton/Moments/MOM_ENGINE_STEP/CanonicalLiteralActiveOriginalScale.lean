@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralInactiveRectangle
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScaleProduct
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCentralCoefficientBound
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original scale products on the actual active rectangle
 

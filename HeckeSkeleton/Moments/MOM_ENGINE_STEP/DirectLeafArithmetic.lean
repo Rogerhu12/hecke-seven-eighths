@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafArithmetic
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal arithmetic coordinates of the direct parent leaves
 

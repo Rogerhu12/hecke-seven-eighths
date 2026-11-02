@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalUnmaskedBlockStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportedGaussStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartLocations
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual prepared chart fields used by the literal child binding
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual left/right pool leaves of one original first-transform block
 

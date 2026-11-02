@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRawWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original Fourier window of one actual rectangle
 

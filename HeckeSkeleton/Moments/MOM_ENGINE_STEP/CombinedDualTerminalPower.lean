@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorBlockTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Combine the original first weight with the actual second coefficients
 

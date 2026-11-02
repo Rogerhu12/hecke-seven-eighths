@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingFactorAppend
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingFactorAppend
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exact raw deletion budgets after exterior normalization
 

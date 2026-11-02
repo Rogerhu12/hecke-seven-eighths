@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualPredicates
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalOrdinaryMagnitude
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalFirstSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual right direct exceptional leaf from original inputs
 

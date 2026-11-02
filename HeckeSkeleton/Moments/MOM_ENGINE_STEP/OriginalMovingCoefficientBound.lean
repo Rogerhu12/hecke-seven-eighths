@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCentralCoefficientBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Sharp original coefficients from the actual moving arithmetic recipe
 

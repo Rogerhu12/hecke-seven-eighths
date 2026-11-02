@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectExce
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveExceptionalFirstProfile
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalExactIndex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Integrate the same original direct exceptional leaves
 

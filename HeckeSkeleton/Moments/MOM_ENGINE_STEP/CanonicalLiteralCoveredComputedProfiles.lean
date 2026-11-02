@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFullKappaInput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualProfiles
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Computed profiles on the same second covered occurrence
 

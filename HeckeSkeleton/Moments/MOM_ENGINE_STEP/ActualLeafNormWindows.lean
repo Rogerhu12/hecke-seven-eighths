@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafArithmetic
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original ideal windows reach every actual arithmetic label
 

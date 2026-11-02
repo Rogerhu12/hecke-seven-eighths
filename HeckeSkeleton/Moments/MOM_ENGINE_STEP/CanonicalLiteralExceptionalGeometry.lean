@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalOrdinaryExceptionalCalibrat
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalEngineSmallParameters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalUnmaskedSecondStage
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original exceptional geometry keeps its physical cutoff loss
 

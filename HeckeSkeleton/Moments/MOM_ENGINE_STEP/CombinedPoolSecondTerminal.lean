@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedPoolTerminalPower
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstBlockFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original first allowances after the same one-pool sharp calibration
 

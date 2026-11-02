@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAmplifiedCarrier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredFibreMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fibres of the actual parent arithmetic map
 

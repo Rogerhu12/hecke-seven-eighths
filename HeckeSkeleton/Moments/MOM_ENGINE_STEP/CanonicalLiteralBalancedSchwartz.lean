@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSchwartzProfiles
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Quantitative profiles after exact scalar extraction and balancing
 

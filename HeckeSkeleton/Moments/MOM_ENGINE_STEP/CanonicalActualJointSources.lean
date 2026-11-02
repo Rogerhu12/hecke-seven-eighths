@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalJointAllocatedSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBoundedChildData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed actual sources for both Fourier variables
 

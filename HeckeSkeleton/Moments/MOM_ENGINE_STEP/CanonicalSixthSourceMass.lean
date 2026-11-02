@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSourceMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionFamilyMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual source-image weight after complete sixth-root deletion
 

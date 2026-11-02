@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportedGaussStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Genuine live arithmetic support in the direct entrance
 

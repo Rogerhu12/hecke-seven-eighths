@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstRowWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual first-mask and modulus windows from the original full columns
 

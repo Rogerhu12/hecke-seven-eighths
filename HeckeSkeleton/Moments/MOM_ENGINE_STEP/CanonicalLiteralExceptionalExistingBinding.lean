@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStripExistingBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Keep the actual second common row after the first scalar extraction
 

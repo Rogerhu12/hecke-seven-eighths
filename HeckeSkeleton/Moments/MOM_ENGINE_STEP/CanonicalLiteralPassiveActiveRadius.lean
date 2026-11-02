@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveRadius
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocationProfiles
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The same computed radius on an active passive-allocation branch
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAmplifiedCarrier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedRectangleFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedIndexedKernelMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original arithmetic image controls the same normalized kernels
 

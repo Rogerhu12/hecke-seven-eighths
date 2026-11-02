@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileScaleBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed budgets for the signed original norm powers
 

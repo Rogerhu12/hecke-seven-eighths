@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDeletion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMaskSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal source characters and the actual appended child calibration
 

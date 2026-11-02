@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalParentWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDirectParentWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOuterScalar
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exact original parent weights after the first scalar extraction
 

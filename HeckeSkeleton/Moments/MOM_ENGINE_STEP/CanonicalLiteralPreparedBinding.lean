@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPreparedChart
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Inserting the proved literal atom calculations into the stored leaf
 

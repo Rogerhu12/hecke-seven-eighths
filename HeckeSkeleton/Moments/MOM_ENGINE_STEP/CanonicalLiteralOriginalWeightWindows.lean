@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScaleProduct
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMassProfilePower
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original per-occurrence windows of an actual literal table
 

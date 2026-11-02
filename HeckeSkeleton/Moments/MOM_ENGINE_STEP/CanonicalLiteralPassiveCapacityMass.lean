@@ -5,6 +5,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtomCosts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionIndependentMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual passive family pays its independent allocation costs
 

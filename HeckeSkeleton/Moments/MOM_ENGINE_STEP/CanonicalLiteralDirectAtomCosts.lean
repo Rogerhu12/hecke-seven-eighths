@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectScalars
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstScalarCost
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original atom costs on the two actual direct source tables
 

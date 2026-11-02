@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtomCosts
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first scalar is paid once with its full frozen ideal
 

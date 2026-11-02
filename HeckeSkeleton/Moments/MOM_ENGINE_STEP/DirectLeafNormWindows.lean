@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectLeafArithmetic
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafNormWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original norm windows on the genuine direct arithmetic carrier
 

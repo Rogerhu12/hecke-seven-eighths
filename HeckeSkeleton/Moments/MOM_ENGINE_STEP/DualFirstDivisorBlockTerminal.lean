@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstBlockFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorBlockTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual terminals on the original first common block
 

@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalDualFactory
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Six actual dual terminal calibrations from the original moving recipe
 

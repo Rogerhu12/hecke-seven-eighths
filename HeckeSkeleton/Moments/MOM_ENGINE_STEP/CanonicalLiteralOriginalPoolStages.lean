@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstRowGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualParentFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PreparedOriginalFibreRows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The four original pool sources with their computed row endpoints
 

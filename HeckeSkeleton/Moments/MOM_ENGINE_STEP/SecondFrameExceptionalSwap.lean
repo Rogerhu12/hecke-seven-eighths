@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalColumnOrientation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondRowMassSwap
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original exceptional atom charts in either column orientation
 

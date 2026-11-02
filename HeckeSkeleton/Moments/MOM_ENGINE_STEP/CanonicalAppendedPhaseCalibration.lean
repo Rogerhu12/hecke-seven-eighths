@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalMovingFactorAppend
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal residue calibration after appending the new moving factor
 

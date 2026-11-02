@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSharpDualTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualGaussReconstruction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalActiveColumnWindow
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual second terminal windows from the original raw profile atoms
 

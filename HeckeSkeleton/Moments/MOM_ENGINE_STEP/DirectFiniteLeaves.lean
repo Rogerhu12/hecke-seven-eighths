@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual canonical leaves of the direct entrance
 

@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimeSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original inverse test on every actual child row
 

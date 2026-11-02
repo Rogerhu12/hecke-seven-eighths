@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFactorFreeProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStripExistingBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original profile windows on the actual exceptional atom model
 

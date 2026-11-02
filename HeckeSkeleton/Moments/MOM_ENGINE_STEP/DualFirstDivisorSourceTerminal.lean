@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorSourceTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstDivisorBlockTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual first-source terminal sums from original coefficient atoms
 

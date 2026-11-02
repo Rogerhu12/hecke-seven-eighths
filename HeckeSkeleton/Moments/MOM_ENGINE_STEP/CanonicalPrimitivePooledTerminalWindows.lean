@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalLedgers
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedPoolSourceTerminal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original pooled zero and tail windows for the same actual family
 

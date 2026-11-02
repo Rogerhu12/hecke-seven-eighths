@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalAtomBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPaidScales
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed costs of the paid original exceptional atomic scales
 

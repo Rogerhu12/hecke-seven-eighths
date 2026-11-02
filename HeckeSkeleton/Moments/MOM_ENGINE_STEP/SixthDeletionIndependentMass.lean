@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionSeparateMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Full-deletion mass for two independent occurrence allocations
 

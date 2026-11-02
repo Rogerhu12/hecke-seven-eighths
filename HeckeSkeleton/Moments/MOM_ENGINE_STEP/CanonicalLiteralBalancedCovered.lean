@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPlainBalance
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Balanced plain factors on the original covered leaf
 

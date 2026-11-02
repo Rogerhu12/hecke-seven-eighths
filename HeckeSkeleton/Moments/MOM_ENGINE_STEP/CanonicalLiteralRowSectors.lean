@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBlockRowSectors
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSupportedRowMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original sector on the actual ordinary arithmetic rows
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalUnmaskedBlockStage
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullDeletionWindows
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original block labels already fix the moving frequency class
 

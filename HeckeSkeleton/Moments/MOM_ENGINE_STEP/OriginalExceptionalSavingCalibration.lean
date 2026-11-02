@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalExceptionalExponent
 import Mathlib.Analysis.SpecialFunctions.Log.Base
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exceptional numerical fields from the actual original geometry
 

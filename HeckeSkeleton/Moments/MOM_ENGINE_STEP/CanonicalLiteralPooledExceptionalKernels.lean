@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOriginalPointwise
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledScalar
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Fixed kernels of the actual pooled exceptional family
 

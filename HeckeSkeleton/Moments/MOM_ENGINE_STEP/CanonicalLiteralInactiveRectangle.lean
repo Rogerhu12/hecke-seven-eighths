@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRectangles
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The absent ordinary comparison rectangle on the same source
 

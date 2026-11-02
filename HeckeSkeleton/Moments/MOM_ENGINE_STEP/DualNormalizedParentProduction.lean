@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedParentProduction
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The signed original parent reaches the same normalized child kernels
 

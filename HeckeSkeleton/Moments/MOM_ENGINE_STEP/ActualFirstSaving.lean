@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolAllowanceTransport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The first saving from the actual original ideal windows
 
