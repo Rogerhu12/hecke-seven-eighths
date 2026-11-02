@@ -78,7 +78,7 @@ theorem t3b_innerDivisor_dvd_frozenIdeal (side : Bool) :
 
 theorem t3b_innerDivisor_ne_zero : packet.allocation.1.val ≠ 0 := by
   have hmem := packet.allocation.1.property
-  simp only [MOMInvStep.FullMobius.divisorPool] at hmem
+  simp only [HeckePort.Moments.MobiusRegroup.divisorPool] at hmem
   obtain ⟨x, hx, hdiv⟩ := Finset.mem_biUnion.mp hmem
   exact LargeSieve.ne_bot_of_mem_idealDivisors hdiv
 

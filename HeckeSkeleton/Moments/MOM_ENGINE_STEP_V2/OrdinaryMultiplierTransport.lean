@@ -112,6 +112,8 @@ theorem residualCoefficient_formula (d : FirstGaussPoolData C P ι)
     Complex.ofReal_mul, (d.residualPresentation q e.multiplicity i).reconstructed,
     actualIdealResidue_ideal_mul]
   unfold formula poolElement
+  rw [show (powerIdeal q e.multiplicity).val =
+    q.val.asIdeal ^ e.multiplicity from rfl]
   ring
 
 def TagMatches (tag : OriginalNominalTag K)
@@ -156,6 +158,31 @@ attribute [local instance]
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
+
+namespace OrdinaryMultiplierTransport
+
+private theorem tagMatches_of_phaseFacts {source : PhysicalSource call p}
+    {first : (Arithmetic.data c).R}
+    {pool : Option (AmplifierValuation × ExteriorPrime (Arithmetic.data c))}
+    (facts : OrdinaryPhaseFacts.PhaseFacts source first pool) :
+    TagMatches source.first.tag pool := by
+  cases pool with
+  | none => exact facts.tag
+  | some ep =>
+    rcases ep with ⟨e, q⟩
+    exact facts.tag
+
+private theorem tagMatches_of_phaseData {packet : RawLeafPacket call p}
+    (phases : OriginalPhaseData packet) :
+    TagMatches packet.second.physical.first.tag phases.pool := by
+  have h := phases.pool_tag
+  cases hp : phases.pool with
+  | none => simpa only [TagMatches, hp] using h
+  | some ep =>
+    rcases ep with ⟨e, q⟩
+    simpa only [TagMatches, hp] using h
+
+end OrdinaryMultiplierTransport
 
 namespace PhysicalSource
 
@@ -225,9 +252,12 @@ theorem main_multiplierRealizes (hP : P.Realizes) (i : Fin family.count)
     (family.source i).multiplier (family.source i).first.residualDivisor.val
     (family.source i).first.firstElement (family.source i).first.poolPower none
     hcolumn hsource hmultiplier
-    (congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
-    (congrArg FirstCoordinates.firstElement hcoordinates)
-    (congrArg FirstCoordinates.poolPower hcoordinates)
+    (by simpa only using
+      congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
+    (by simpa only using
+      congrArg (fun f : FirstCoordinates call => f.firstElement) hcoordinates)
+    (by simpa only using
+      congrArg (fun f : FirstCoordinates call => f.poolPower) hcoordinates)
   intro j hj
   have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
   change (P.data i).ideal j = _ at hideal
@@ -311,9 +341,11 @@ theorem realizes_multiplier (hpacket : packet.Realizes) (phases : OriginalPhaseD
     change OrdinaryMultiplierTransport.TagMatches
       (trace.second.source (raw.index j).val.1.1).physical.first.tag _
     rw [hphysical]
-    exact (OrdinaryPhaseFacts.phase_facts htrace.cauchy trace.expansion
-      htrace.expansion (raw.index j).val.1.1).tag
-  have hpool := OrdinaryMultiplierTransport.pool_eq_of_tag phases.pool_tag htag
+    exact OrdinaryMultiplierTransport.tagMatches_of_phaseFacts
+      (OrdinaryPhaseFacts.phase_facts htrace.cauchy trace.expansion
+        htrace.expansion (raw.index j).val.1.1)
+  have hpool := OrdinaryMultiplierTransport.pool_eq_of_tag
+    (OrdinaryMultiplierTransport.tagMatches_of_phaseData phases) htag
   rw [hpool]
   change (trace.second.source (raw.index j).val.1.1).physical.MultiplierRealizes _
   rw [hphysical]
@@ -322,8 +354,9 @@ theorem realizes_multiplier (hpacket : packet.Realizes) (phases : OriginalPhaseD
 
 theorem secondDivisor_eq_empty (hpacket : packet.Realizes) : packet.key.2.1.val = ∅ := by
   have hs := Finset.mem_powerset.mp packet.key.2.1.property
-  rw [(packet.realizes_second hpacket).mask] at hs
-  exact Finset.subset_empty.mp hs
+  have he := congrArg (fun mask => packet.key.2.1.val ⊆ mask)
+    (packet.realizes_second hpacket).mask
+  exact Finset.subset_empty.mp (he.mp hs)
 
 theorem leftSecondMultiplier_eq_residue (hpacket : packet.Realizes)
     (i : AllocationColumn K packet.leaf.leftSlots) (hi : i ∈ packet.leftReindex.cartesian) :

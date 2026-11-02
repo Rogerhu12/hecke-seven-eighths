@@ -72,7 +72,12 @@ theorem packet_bases_card (j : Fin raw.count) (hpacket : (raw.packet j).Realizes
             call.node.data.theta := by
       have hex := (raw.packet_exceptional_character j h).mp
         (Finset.mem_filter.mp hh).2.1
-      simp only [SecondSource.rowCharacter, dif_pos h.property] at hex
+      have hlive : h.val ∈
+          ((second.source (raw.index j).val.1.1).rows
+            (raw.index j).val.1.2.1 (raw.index j).val.1.2.2.1
+            (SourceClassKey.rowLabel (raw.index j).val.1.2)).live :=
+        h.property
+      simp only [SecondSource.rowCharacter, dif_pos hlive] at hex
       have htheta := congrArg
         (fun pattern =>
           call.localizedSource.source.recipe.correction *

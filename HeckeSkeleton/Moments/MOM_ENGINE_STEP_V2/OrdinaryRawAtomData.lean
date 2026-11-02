@@ -203,6 +203,12 @@ theorem beforeAtomTable_slotWeight (O : OrdinaryData packet)
       (packet.ordinaryOccurrences hpacket O).beforeSlotWeight side i q := by
   cases side <;> rfl
 
+private theorem bool_zero_mul (b : Bool) (z w : ℂ) :
+    (if b then 0 else z * w) = z * (if b then 0 else w) := by
+  cases b with
+  | false => rfl
+  | true => exact (mul_zero z).symm
+
 theorem beforeAtomTable_comparisonWeight (O : OrdinaryData packet)
     (phases : OriginalPhaseData packet) (side r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -217,7 +223,7 @@ theorem beforeAtomTable_comparisonWeight (O : OrdinaryData packet)
         (idealNorm K I / (packet.firstPlainScale _ r false / idealNorm K _))) <;>
     rw [original_norm_quotient _ I _ (packet.firstPlainScale_pos _ r false)] <;>
     simp only [Bool.not_false, Bool.and_true] <;>
-    split_ifs <;> simp only [mul_zero]
+    exact bool_zero_mul (r && !call.node.centered) _ _
 
 theorem beforeAtomTable_rightWeight (O : OrdinaryData packet)
     (phases : OriginalPhaseData packet) (side r : Bool)

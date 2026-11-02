@@ -89,7 +89,12 @@ theorem packet_original_count_dvd_six_of_moving_unramified
         ((raw.packet j).R.primes i).val dvd_rfl
   have hfull := call.theta_unramified _ hmem
     ((raw.packet j).R.primes i).val hout
-  simp only [SecondSource.rowCharacter, dif_pos h.property,
+  have hlive : h.val ∈
+      ((second.source (raw.index j).val.1.1).rows
+        (raw.index j).val.1.2.1 (raw.index j).val.1.2.2.1
+        (SourceClassKey.rowLabel (raw.index j).val.1.2)).live :=
+    h.property
+  simp only [SecondSource.rowCharacter, dif_pos hlive,
     OriginalMovingFactors.append_character] at hfull
   have hprefix := (call.correction_unramified
     ((raw.packet j).R.primes i).val hout).mul K hmoving

@@ -64,9 +64,27 @@ path, namespace and theorem name and are reported for unified N1/T3 integration:
 These are proof compatibility corrections, not new ordinary assumptions for
 exceptional packets. CI must validate the resulting shared implementation.
 
+Formal head `938c15eb6a8d89aece94d8deef04716914a75a93` built the N1 source,
+phase, leaf-binding, occurrence, location, divisor and scale dependencies and
+validated the generic scaled extraction term. Its complete public/strict
+logs and strict artifact agree on the remaining failures. The next proof
+corrections stay in the same shared files:
+
+- `OrdinaryRawAtomData`: the Boolean zero-versus-product identity is proved
+  on scalars before application, avoiding a simplifier call on the expanded
+  packet's dependent exterior-ideal types.
+- `OrdinaryMultiplierTransport`: normalize the actual powerIdeal projection
+  before the existing ring calculation; independently type the three original
+  main-tag record projections; convert the original two tag matchers by
+  explicit Option cases; transport the second-mask subset as a proposition
+  rather than rewriting its dependent carrier.
+- `OrdinaryOriginalCoordinates`: retain the public proofs and add synchronous,
+  flushed declaration/step checkpoints to locate its 300-second timeout. The
+  same canonical module remains required by both formal gates and all audits.
+
 ## N4 frozen ideals and scale identities
 
-Reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`:
+Initially reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`:
 
 - `N4ScaleProduct.lean`
 - `N4FrozenIdeals.lean`
@@ -79,6 +97,15 @@ the two original scale-product equalities by explicitly instantiated
 prod_fin_cast and congrArg. All public statements, original count transports,
 plain scales and ideals remain unchanged. PR #39 snapshot 6b1cf628 retains the
 same failing proof bodies; its unrelated helper split is not required here.
+
+`N4FrozenIdeals.lean` now follows PR #42 snapshot
+`8b17b6da79234dcdb9164e19c132df00e86cf711` verbatim (blob
+`484452c827e2c5db4e5f9bac016f0b24636bfa1a`), coordinated with N4 in PR #39
+comment `6586444523` and announced in PR #31 comment `6586480240`.
+Its three proof corrections explicitly reduce the original direct-source
+projection, identify the unit ideal with top, and transport the original
+filter membership through the actual supportExtractionLabel_fibre equality.
+Imports and every declaration header are unchanged.
 
 ## B-line CI repair
 
