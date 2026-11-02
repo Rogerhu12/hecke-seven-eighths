@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PreparedCall
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileChoices
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -32,15 +33,6 @@ local instance uniformReflectionSingleton : MeasurableSingletonClass (ℕ × Boo
   constructor
   intro x
   trivial
-
-/-- Backward orders include both actual Fourier passes and the
-Schwartz-to-Euler bridge for the next strict child rank. -/
-def selectedSchedule (c : TargetContext K) (frame : SourceFrame) : OrderSchedule := by
-  sorry
-
-theorem selectedSchedule_minimumCp_one_le (c : TargetContext K) (frame : SourceFrame) :
-    1 ≤ (selectedSchedule c frame).minimumCp := by
-  sorry
 
 /-- A finite maximum over the rank, branch and side choices is taken
 before the moving source scale, original index and node. -/
@@ -76,3 +68,4 @@ theorem selectedCall_budget (request : Request c frame Cp Hp hCp hminimum hHp) :
   sorry
 
 end HeckeSkeleton.Moments.EngineStepV2
+

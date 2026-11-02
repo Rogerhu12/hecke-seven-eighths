@@ -76,10 +76,13 @@ def logged(command: list[str], name: str) -> int:
                               stderr=subprocess.STDOUT, text=True,
                               encoding="utf-8", errors="replace") as process:
             assert process.stdout is not None
+            show_block = False
             for line in process.stdout:
                 log.write(line)
                 log.flush()
-                if (name != "build.log" or "MOM_ENGINE_STEP_V2" in line or
+                if line.startswith(("⚠", "✔", "✖", "ℹ")):
+                    show_block = "MOM_ENGINE_STEP_V2" in line or line.startswith("✖")
+                if (name != "build.log" or show_block or "MOM_ENGINE_STEP_V2" in line or
                         line.startswith(("error:", "✖", "Build completed", "Some required"))):
                     print(line, end="", flush=True)
             return process.wait()

@@ -25,7 +25,9 @@
         "ChoiceBox",
         "PreparedCall",
         "UniformChoices",
-        "VolumeChoices"
+        "VolumeChoices",
+        "ProfileChoices",
+        "TargetArithmetic"
       ]
     },
     {
@@ -47,7 +49,25 @@
         "RowClasses",
         "PatternRows",
         "SectorRows",
-        "SectorStage"
+        "SectorStage",
+        "FirstGeometry",
+        "SourceCoordinates",
+        "SourcePool",
+        "PoolAttachment",
+        "FirstNormalization",
+        "PrimitiveFirstSource",
+        "DirectStages",
+        "DirectLeaves",
+        "DirectParent",
+        "PoolLeaves",
+        "PooledFirstLeaves",
+        "PooledParent",
+        "LiteralAtoms",
+        "LiteralTransforms",
+        "LiteralProfiles",
+        "LiteralAtlas",
+        "LiteralPhases",
+        "LiteralWindows"
       ]
     },
     {
