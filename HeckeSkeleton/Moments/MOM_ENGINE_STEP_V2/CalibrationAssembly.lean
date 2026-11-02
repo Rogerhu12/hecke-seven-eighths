@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFixedThetaClosure
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option Elab.async false
 
 /-!
 # The calibrated canonical source
@@ -84,10 +85,14 @@ theorem slot_in_theta (ξ : EngineParameter) (i : Fin (d ξ).geometry.slotCount)
   rw [call.source.source.theta_eq]
   exact call.source.source.slot_characters _
 
-variable (atoms : ∀ ξ (h : seed.ordinary.rows.live),
-  (((s).characters h).restrictSlots (s).allocation.keep).Calibration
-    (σ := Arithmetic.embedding c) (d ξ) rfl
-    ((s).row h).momentIdeal ((s).extractedFactor h) ((s).row h).element)
+variable (atoms : ∀ (ξ : EngineParameter) (h : seed.ordinary.rows.live),
+  let source := seed.canonicalSource input support side a rectangle
+  FixedChildCharacters.Calibration (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    ((source.characters h).restrictSlots source.allocation.keep)
+    (CalibrationConstruction.data seed input support side a rectangle
+      moving correction hcorr sector remaining ξ)
+    (Eq.refl source.allocation.keep.card)
+    (source.row h).momentIdeal (source.extractedFactor h) (source.row h).element)
 
 include masks atoms in
 theorem plain_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
@@ -101,17 +106,14 @@ theorem plain_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     remaining ξ _ I (right_ne_zero_of_mul hv), ?_⟩
   by_contra hn
   have hz := masks.paid_plain_zero side I hn
-  rw [(atoms ξ h).plain I] at hv
-  change sourcePlainCoefficient
-    (seed.phases.characters true (seed.slotIndex side)).plain
-    (seed.phases.characters true (seed.slotIndex side)).plainTwist
-    (seed.phases.characters true (seed.slotIndex side)).mask I *
-      actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) I.val
-        ((s).extractedFactor h) *
-      actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) I.val
-        ((s).row h).element ≠ 0 at hv
-  rw [hz, zero_mul, zero_mul] at hv
-  exact hv rfl
+  have hz' := congrArg (fun z : ℂ => z *
+    actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) I.val
+      ((s).extractedFactor h) *
+    actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) I.val
+      ((s).row h).element) hz
+  apply hv
+  exact ((atoms ξ h).plain I).trans (by
+    simpa only [zero_mul] using hz')
 
 include masks atoms in
 theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
@@ -126,17 +128,14 @@ theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
   by_contra hn
   let j := SlotRestriction.index (s).allocation.keep i
   have hz := masks.paid_prime_zero side j q hn
-  rw [(atoms ξ h).slot i q] at hv
-  change sourcePrimeCoefficient
-    ((seed.phases.characters true (seed.slotIndex side)).slot j)
-    ((seed.phases.characters true (seed.slotIndex side)).slotTwist j)
-    (seed.phases.characters true (seed.slotIndex side)).mask q *
-      actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
-        ((s).extractedFactor h) *
-      actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
-        ((s).row h).element ≠ 0 at hv
-  rw [hz, zero_mul, zero_mul] at hv
-  exact hv rfl
+  have hz' := congrArg (fun z : ℂ => z *
+    actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
+      ((s).extractedFactor h) *
+    actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
+      ((s).row h).element) hz
+  apply hv
+  exact ((atoms ξ h).slot i q).trans (by
+    simpa only [zero_mul] using hz')
 
 include canonical masks atoms in
 theorem left_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
@@ -208,6 +207,7 @@ variable (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).ori
   (s).normFactor h * (s).base ^ (parameters.m + parameters.q))
 variable (ordinary : ∀ h ∈ (s).rows, (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
 
+set_option maxHeartbeats 1000000 in
 def calibration : (s).Calibration (σ := Arithmetic.embedding c)
     c.family.omega (targetCharacter K c) where
   data := d

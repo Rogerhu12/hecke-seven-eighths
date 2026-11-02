@@ -252,7 +252,8 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
   have hsector := sector_eq packet hpacket h
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩
   let i : Fin trace.expansion.count := (raw.index j).val.1.1
-  have hphysical := htrace.second.physical i
+  have hphysical : (raw.packet j).second.physical = trace.expansion.source i :=
+    htrace.second.physical i
   have hn : (trace.expansion.source i).first.firstElement ≠ 0 := by
     rw [← hphysical]
     exact P.first_nonzero
@@ -278,7 +279,12 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
       (raw.packet j).key.1 (raw.packet j).key.2.1
       (SourceClassKey.rowLabel (raw.packet j).key) h.val ∈ call.node.data.theta ↔ _
   dsimp only [SecondSource.rowCharacter]
-  rw [dif_pos h.property]
+  have hlive : h.val ∈
+      ((trace.second.source i).rows (raw.packet j).key.1 (raw.packet j).key.2.1
+        (SourceClassKey.rowLabel (raw.packet j).key)).live := by
+    change h.val ∈ (raw.packet j).R.live
+    exact h.property
+  erw [dif_pos hlive]
   change (call.localizedSource.source.recipe.correction *
       ((trace.expansion.moving i).append
         (secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)
@@ -293,9 +299,9 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
         (((raw.packet j).R.extractedRow (Arithmetic.context c) h).sector (probeData K c))
         ((raw.packet j).R.extractedRow (Arithmetic.context c) h).momentIdeal) ∈
       call.node.data.theta ↔ rowCharacter P h ∈ call.node.data.theta
-  rw [hm, hpattern, hsector]
+  erw [hm, hpattern, hsector]
   unfold rowCharacter
-  rw [OriginalMovingFactors.append_character, OriginalMovingFactors.append_character,
+  erw [OriginalMovingFactors.append_character, OriginalMovingFactors.append_character,
     PassivePhaseBridge.moving_character_paid P]
 
 theorem ordinary_nonexceptional (seed : OrdinarySeed packet)

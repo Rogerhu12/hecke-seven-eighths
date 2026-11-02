@@ -63,8 +63,13 @@ def scaleLeft (z : ℂ) : ActualAllocatedSource A EngineParameter H k :=
 /-- Exact energy scaling, including the zero scalar. -/
 theorem scaleLeft_energy (z : ℂ) (ξ : EngineParameter) :
     (scaleLeft s z).energy (σ := σ) ξ = ‖z‖ ^ 2 * s.energy (σ := σ) ξ := by
-  simp only [ActualAllocatedSource.energy, scaleLeft, withLeftWeight,
-    rawSourceCoefficient_left_scalar]
+  simp only [ActualAllocatedSource.energy, scaleLeft, withLeftWeight]
+  change jointColumnEnergy s.rows s.allocation.columns s.weight
+    (fun h i => rawSourceCoefficient (σ := σ) (s.characters h)
+      (s.extractedFactor h) (s.row h).element s.scale₁ s.scale₂ s.base s.length
+      (fun I => z * s.leftWeight h I) (s.rightWeight h) (s.slotWeight h) i)
+    (fun h => rawSourceLocation (s.leftLocation h) (s.rightLocation h) (s.slotLocation h)) ξ = _
+  simp only [rawSourceCoefficient_left_scalar]
   exact joint_energy_constant_coefficient s.rows s.allocation.columns s.weight
     (fun h => rawSourceCoefficient (σ := σ) (s.characters h)
       (s.extractedFactor h) (s.row h).element s.scale₁ s.scale₂ s.base s.length
