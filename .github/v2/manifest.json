@@ -109,6 +109,41 @@
       "modules": [
         "Interface"
       ]
+    },
+    {
+      "id": "n8a_proved",
+      "name": "n8a_proved",
+      "proved": true,
+      "modules": [
+        "N8SourceIndexBasic",
+        "N8SourceCoverCounts",
+        "N8SourceFirstExtraction",
+        "N8SourcePoolExtraction"
+      ]
+    },
+    {
+      "id": "n8b_proved",
+      "name": "n8b_proved",
+      "proved": true,
+      "modules": [
+        "N8NormalizedCostBounds",
+        "N8NormalizedLabels",
+        "N8NormalizedPassiveMass",
+        "N8NormalizedCanonical"
+      ]
+    },
+    {
+      "id": "n9_proved",
+      "name": "n9_proved",
+      "proved": true,
+      "modules": [
+        "N9RadiusData",
+        "N9OriginalKernels",
+        "N9FixedRadiusMass",
+        "KernelMassContracts",
+        "TasksKernelMass",
+        "N9UniformCost"
+      ]
     }
   ]
 }
