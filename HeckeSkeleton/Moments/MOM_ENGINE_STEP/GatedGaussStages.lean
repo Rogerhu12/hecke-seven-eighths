@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
+set_option linter.unusedSectionVars false
 
 /-!
 # Actual source support is imposed before either kernel estimate

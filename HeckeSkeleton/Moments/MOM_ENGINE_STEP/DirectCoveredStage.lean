@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectGaussSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
+set_option linter.unusedSectionVars false
 
 /-!
 # The direct Gauss entrance reaches the same actual finite leaves
@@ -75,10 +76,11 @@ theorem actual_direct_fourier_covered_terminal_bound
           (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey LC RC,
           (s.fiberCoveredLeaf LC RC exceptional F x b).cost := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
-    hCerror, hCzero, hb⟩ :=
+  have hterminal :=
     actual_gauss_cover_hybrid_terminal_bound (E := E) (ν := ν) (μ := μ)
       hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
+  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
+    hCerror, hCzero, hb⟩ := hterminal
   refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
     hCerror, hCzero, ?_⟩
   intro Z ι G s T LC RC exceptional F x
