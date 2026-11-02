@@ -1,0 +1,271 @@
+name: A2 Direct finite leaves normal build and fresh task axiom audit
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-direct-finite-native]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-direct-finite-native-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  direct_finite:
+    name: Normal DirectFiniteLeaves
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      ROOT_MODULE: 'DirectFiniteLeaves'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-direct-finite-native
+          git show --no-patch --format=fuller HEAD > a2-direct-finite-native/checkout.txt
+          cat > a2-direct-finite-native/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+          root = Path.cwd()
+          evidence = root / 'a2-direct-finite-native'
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          def digest(path):
+              return hashlib.sha256((root / path).read_bytes()).hexdigest()
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          sources = sorted(str(p) for p in task.glob('*.lean'))
+          configs = ['lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
+                     'vendor/class-field-theory/lean-toolchain',
+                     'vendor/class-field-theory/lakefile.toml',
+                     'vendor/class-field-theory/lake-manifest.json', str(task / 'verify.py')]
+          interface = (task / 'Interface.lean').read_text()
+          imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', interface, re.M)))
+          libraries = [x['name'] for x in tomllib.loads(Path('lakefile.toml').read_text())['lean_lib']]
+          normal_root = os.environ['ROOT_MODULE']
+          assert normal_root == 'DirectFiniteLeaves', 'Unexpected normal root'
+          source_base = '208deae7b02233439afee198ab51faebee07144c'
+          source_base_tree = git('rev-parse', source_base + '^{tree}')
+          assert source_base_tree == 'e2b10477e24f84aebb6d77e98765e7b82a8156a1', 'Unexpected frozen production owner tree'
+          assert git('rev-parse', 'HEAD^') == source_base, 'Unexpected direct parent'
+          assert len(git('rev-list', '--parents', '-n', '1', 'HEAD').split()) == 2
+          changed = git('diff', '--name-only', source_base, 'HEAD').splitlines()
+          candidate_path = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectFiniteLeaves.lean'
+          allowed = {'.github/workflows/mom-engine-step-a2-direct-finite-native.yml', candidate_path}
+          assert set(changed) == allowed, 'Only the complete reviewed DirectFinite candidate and this new normal workflow may differ'
+          assert git('diff', '--name-status', source_base, 'HEAD').splitlines() == [
+              'A\t' + '.github/workflows/mom-engine-step-a2-direct-finite-native.yml', 'M\t' + candidate_path]
+          reviewed_source_pins = {
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalAmplifiedCarrier.lean": "788de94c079afcf9428eb0c592abd1b0090c662ae0949ee3d699a8ac597f871b",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": "dbaf97fb9b6ecb7340565707af33874120f7e5db27e9f71dd8a4410e0144e364",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualGaussHybridTerminal.lean": "6de73fb29bd9434bf272000b7b3dd506b6b24d592a23ddcbc99d8192ca295cff",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalAllocationFingerprint.lean": "30f35dba5d488d40a93fbee78c1eca888aee327a109af235a9320b2c8e2c1e5b",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectCoveredStage.lean": "b57bf05548ee52e0cc5a4b60ae24a74247e54b08021218e54bd6b015b3155cc8",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/GatedGaussStages.lean": "9bfd8faeb0505dd7f47b1d824ba2562ab6cd8d168ceecc077429071c6d7cedef",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualGaussFiniteLeaves.lean": "b81c8566cf067792b4e25363381a746281df5460a1e81dad68590ec090d742e2",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExtraction.lean": "b1bc990df3791577b2e1c0cf609a65fd185715e808253f43533f1b9f9bbcd1bd",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralAtlas.lean": "ff8ab19caf36f5a9ec27ec7a6d9612511644a47b05ff33ee1bf8e4d05484b5b2",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralMovingTwist.lean": "a9639e024d61244af768073acca6479c31bc217ef0a79e0004b2ed943d9e37a5",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OrdinaryLiteralExceptionalLeaf.lean": "09e4b083c71e6773b55fda90ab3412e7f4214552afc8e74f8b96c79705f72a7f",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualExceptionalColumnOrientation.lean": "2304963616c4daf16c15b860f1bfe5634f31d984f996a4205ef00362c9b2c77c",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": "db81dff1d17c12c72746738c9296a1d4bc87ec27d33958124ce36c79455bb5df",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148",
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralChartLocations.lean": "45d84bfb9c15e5cb9793b8283f904bd25f28eea2a4a0a18f9ba64a5bdd48dbe7",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralCommonLeaf.lean": "98436f7828a1b7c7314e7d44cea5f4c48add2eaf7c77c07fcef4eb8a8cc196c4",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalOriginalGaussTuples.lean": "dfa4e97d244f5b237d9401422e9adcd686e03635a7c1376aa76666ee99a5fb9f",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectSecondStages.lean": "884eae448a40b42c145a4bba77d44aa19c3a79463a9825436a272f2c6e7559f0",
+              "cloud_tasks/MOM_ENGINE_STEP_E.md": "fd62b1e3f7891148293159587a60d7beaa4bfb42dbcf416d1c74bf08c9ac231f",
+              "cloud_tasks/MOM_ENGINE_STEP_GROUPS.md": "3c3bc0add6f48504dbc3acab59441677acbb3f79f1f978a92f3e0ff8980a667f",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredFibre.lean": "92eedf513225df33bfdd8d35baeccf3ce8f86af3e6ad5422226a2b6d4425834e",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralPoolAtlas.lean": "3bdbc3c828fd32f8e90efdd423a5a458592c964596c50e52dfa53e937a4f931c",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralTwoStages.lean": "850fcbe46f3a80b175e3379d098d135d7990c78a819b0939958ae46ced373619",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/NormalizedOriginalImageMass.lean": "5f4d2fa7eddc0bdcd87877ec71716f06f0fc8972d511c864b6d4cea453cf6363",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectFiniteLeaves.lean": "216f7788f6c6914506b173686c67ecb93eb76fb5e11c1487c52410d2c1d3220e"
+          }
+          for path, expected in reviewed_source_pins.items():
+              assert digest(path) == expected, 'Unexpected reviewed source or original configuration: ' + path
+          original_target_identity = {'bytes': 12533, 'sha256': '6cbe6b97ad293729d315b12dd98c965ace3624da3af363eec636ef23ca7a957f', 'git_blob': '173214ff01365c506ef4e69856f382a18bc9f293'}
+          candidate_target_identity = {'bytes': 17479, 'sha256': '216f7788f6c6914506b173686c67ecb93eb76fb5e11c1487c52410d2c1d3220e', 'git_blob': 'e136f90006a1d1ef0a21e2ea505a76edb1851597'}
+          original_target_bytes = subprocess.check_output(['git', 'show', source_base + ':' + candidate_path])
+          candidate_target_bytes = (root / candidate_path).read_bytes()
+          def source_identity(data):
+              return {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                      'git_blob': hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()}
+          assert source_identity(original_target_bytes) == original_target_identity
+          assert source_identity(candidate_target_bytes) == candidate_target_identity
+          assert git('rev-parse', source_base + ':' + candidate_path) == original_target_identity['git_blob']
+          assert git('rev-parse', 'HEAD:' + candidate_path) == candidate_target_identity['git_blob']
+          def verify_exact_three_edits(original, candidate):
+              option = b'set_option linter.unusedSectionVars false\n'
+              assert len(option) == 42 and candidate.count(option) == candidate.count(b'set_option ') == 1
+              assert candidate.splitlines(keepends=True)[1] == option
+              assert original.splitlines(keepends=True)[0] == candidate.splitlines(keepends=True)[0]
+              without_option = candidate.replace(option, b'', 1)
+              start = without_option.index(b'private theorem direct_finite_scalar_bound\n')
+              stop = without_option.index(b'variable {K : Type} [Field K] [NumberField K]\n', start)
+              helper = without_option[start:stop]
+              assert len(helper) == 2554
+              assert hashlib.sha256(helper).hexdigest() == '1ee05265a1a2f9154fcbce0eef663261bedd582a58fd2e4dc3e3e58176fce034'
+              without_helper = without_option[:start] + without_option[stop:]
+              header = b'theorem linearized_le_finiteCost\n'
+              original_header = original.index(header)
+              candidate_header = without_helper.index(header)
+              original_body = original.index(b' := by\n', original_header) + len(b' := by\n')
+              candidate_body = without_helper.index(b' := by\n', candidate_header) + len(b' := by\n')
+              original_end = original.index(b'\n\nend TerminalCalibration', original_body) + 1
+              candidate_end = without_helper.index(b'\n\nend TerminalCalibration', candidate_body) + 1
+              assert original[original_header:original_body] == without_helper[candidate_header:candidate_body]
+              old_proof = original[original_body:original_end]
+              new_proof = without_helper[candidate_body:candidate_end]
+              assert len(old_proof) == 1299 and len(new_proof) == 3649
+              assert hashlib.sha256(old_proof).hexdigest() == 'd47a6709b2224a082324ec704356f7e38df5a9880f48f25da06cf4efef5d9628'
+              assert hashlib.sha256(new_proof).hexdigest() == '910709ae98757db2d104838716ba5f19abab7d1332c0610dfce441dd5c5acbd1'
+              restored = without_helper[:candidate_body] + old_proof + without_helper[candidate_end:]
+              assert restored == original, 'Any bytes outside the exact three reviewed edits changed'
+              assert [l for l in original.splitlines() if l.startswith(b'import ')] == [l for l in candidate.splitlines() if l.startswith(b'import ')]
+              assert [l for l in original.splitlines() if l.startswith(b'#print axioms ')] == [l for l in candidate.splitlines() if l.startswith(b'#print axioms ')]
+              assert original.count(b'Fintype.ofFinite') == candidate.count(b'Fintype.ofFinite') == 1
+              return {'exact_three_edits': True, 'original_public_header_and_all_other_bytes_preserved': True,
+                      'file_warning_bytes': 42, 'private_generic_helper': source_identity(helper),
+                      'original_public_proof': source_identity(old_proof),
+                      'replacement_public_proof': source_identity(new_proof)}
+          proof_rewrite = verify_exact_three_edits(original_target_bytes, candidate_target_bytes)
+          original_prints = ['HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.SecondStages.TerminalCalibration.linearized_le_finiteCost']
+          assert re.findall(r'^#print axioms (\S+)$', candidate_target_bytes.decode(), re.M) == original_prints
+          record = {'source_base': source_base, 'source_base_tree': source_base_tree,
+                    'normal_root': normal_root,
+                    'one_complete_original_root_and_its_one_original_print': True,
+                    'changed_paths_from_base': changed,
+                    'owner_claim_comment': 6569346618,
+                    'all_other_production_sources_unchanged_from_frozen_owner': True,
+                    'source_candidate_not_yet_owner_adopted': True,
+                    'candidate_path': candidate_path,
+                    'original_target_identity': original_target_identity,
+                    'candidate_target_identity': candidate_target_identity,
+                    'proof_rewrite': proof_rewrite,
+                    'file_warning_option': 'linter.unusedSectionVars', 'file_warning_value': False,
+                    'original_prints': original_prints,
+                    'no_diagnostic_auxiliary_or_probe_files_added': True,
+                    'original_verifier_and_all_original_declaration_prints_used': True,
+                    'fresh_audit_scope': 'Every loaded EngineStep declaration, including private/generated declarations through the original verifier',
+                    'interface_and_whole20_acceptance_not_claimed_by_this_single_root_run': True,
+                    'reviewed_source_pins': reviewed_source_pins,
+                    'head': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                    'expected_head': os.environ['EXPECTED_SHA'],
+                    'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                    'tracked_sha256': {p: digest(p) for p in tracked},
+                    'task_source_sha256': {p: digest(p) for p in sources},
+                    'config_sha256': {p: digest(p) for p in configs},
+                    'interface_imports': imports, 'libraries': libraries}
+          assert json.loads(json.dumps(record)) == record, 'Provenance must use only stable JSON-native types'
+          phase = sys.argv[1]
+          (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+          assert record['head'] == record['expected_head'], 'Unexpected checkout SHA'
+          assert not record['tracked_status'], 'Tracked source changes detected'
+          assert len(tracked) == 9579, 'Complete tracked inventory changed'
+          assert len(sources) == 1009, 'Task module inventory changed'
+          assert len(imports) == 1008, 'Complete Interface import inventory changed'
+          assert len(libraries) == 20, 'Library inventory changed'
+          assert len(configs) == 7, 'Configuration inventory changed'
+          if phase == 'after':
+              before = json.loads((evidence / 'before-source.json').read_text())
+              assert before == record, 'Source, configuration, index inventory or HEAD changed'
+              (evidence / 'source-integrity.json').write_text(json.dumps({
+                  'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                  'tracked_files': len(tracked), 'task_modules': len(sources),
+                  'interface_imports': len(imports), 'libraries': len(libraries)}, indent=2) + '\n')
+          print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
+          PY
+          cat > a2-direct-finite-native/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-direct-finite-native')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-direct-finite-native/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-direct-finite-native/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build this original root's import closure separately
+        id: dependencies
+        run: |
+          python3 -u a2-direct-finite-native/run.py dependencies 1200 \
+            lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${ROOT_MODULE}:deps"
+      - name: Compile DirectFiniteLeaves and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a2-direct-finite-native/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFiniteLeaves \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.SecondStages.TerminalCalibration.linearized_le_finiteCost \
+            --evidence a2-direct-finite-native/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-direct-finite-native/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-direct-finite-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-direct-finite-native/
+          if-no-files-found: error
+          retention-days: 14
