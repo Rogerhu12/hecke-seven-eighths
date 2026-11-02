@@ -1,8 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.LeafNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstReduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalParentSource
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SelectedLeaves
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -40,15 +38,79 @@ def selectedInput (request : Request c frame Cp Hp hCp hminimum hHp)
 
 theorem request_base_pos (request : Request c frame Cp Hp hCp hminimum hHp) :
     0 < request.base := by
-  sorry
+  exact zero_lt_one.trans (SelectedSource.base_gt_one request)
 
-/-- The data constructor contains raw finite leaf polynomials and their
-actual transform terminal terms.  It assumes no source inequality. -/
+/-- Empty original source rows retain no physical leaf or terminal. -/
+def emptyExpansion (request : Request c frame Cp Hp hCp hminimum hHp)
+    (frequency : ℝ × ℝ) :
+    HybridExpansion c (selectedModel request frequency) request.base
+      (selectedInput request frequency) where
+  branches := 0
+  pool := ∅
+  tag b := Fin.elim0 b
+  leaf b := Fin.elim0 b
+  firstZero := 0
+  secondZero := 0
+  tail := 0
+  firstZero_nonneg := le_rfl
+  secondZero_nonneg := le_rfl
+  tail_nonneg := le_rfl
+
+/-- The direct entrance reindexes its literal live physical keys once.
+The two exact raw terminal pairs remain those of the same source. -/
+def directExpansion (request : Request c frame Cp Hp hCp hminimum hHp)
+    (frequency : ℝ × ℝ) :
+    HybridExpansion c (selectedModel request frequency) request.base
+      (selectedInput request frequency) where
+  branches := (SelectedSource.directKeys request frequency).card
+  pool := ∅
+  tag _ := .direct
+  leaf b := SelectedSource.directLeaf request frequency
+    ((SelectedSource.directKeys request frequency).equivFin.symm b)
+  firstZero := (SelectedSource.directFirstTerminals request frequency).1
+  secondZero := (SelectedSource.directSecondTerminals request frequency).1
+  tail := (SelectedSource.directFirstTerminals request frequency).2 +
+    (SelectedSource.directSecondTerminals request frequency).2
+  firstZero_nonneg := (SelectedSource.directTerminals_nonneg request frequency).1.1
+  secondZero_nonneg := (SelectedSource.directTerminals_nonneg request frequency).2.1
+  tail_nonneg := add_nonneg
+    (SelectedSource.directTerminals_nonneg request frequency).1.2
+    (SelectedSource.directTerminals_nonneg request frequency).2.2
+
+/-- Every pool label is a genuine main or valuation 1/6/7 source.
+The sole original pool, actual prime and both divisors are retained. -/
+def pooledExpansion (request : Request c frame Cp Hp hCp hminimum hHp)
+    (frequency : ℝ × ℝ) :
+    HybridExpansion c (selectedModel request frequency) request.base
+      (selectedInput request frequency) where
+  branches := (SelectedSource.pooledKeys request frequency).card
+  pool := (SelectedSource.pool request).primes.image (fun p => p.val)
+  tag b := SelectedSource.pooledTag request frequency
+    ((SelectedSource.pooledKeys request frequency).equivFin.symm b)
+  leaf b := SelectedSource.pooledLeaf request frequency
+    ((SelectedSource.pooledKeys request frequency).equivFin.symm b)
+  firstZero := (SelectedSource.pooledFirstTerminals request frequency).1
+  secondZero := (SelectedSource.pooledSecondTerminals request frequency).1
+  tail := (SelectedSource.pooledFirstTerminals request frequency).2 +
+    (SelectedSource.pooledSecondTerminals request frequency).2
+  firstZero_nonneg := (SelectedSource.pooledTerminals_nonneg request frequency).1.1
+  secondZero_nonneg := (SelectedSource.pooledTerminals_nonneg request frequency).2.1
+  tail_nonneg := add_nonneg
+    (SelectedSource.pooledTerminals_nonneg request frequency).1.2
+    (SelectedSource.pooledTerminals_nonneg request frequency).2.2
+
+/-- Actual data are constructed before the source inequality. The
+zero-slot case never invokes the prime-pool selection. -/
 def selectedExpansion (request : Request c frame Cp Hp hCp hminimum hHp)
     (frequency : ℝ × ℝ) :
     HybridExpansion c (selectedModel request frequency) request.base
-      (selectedInput request frequency) := by
-  sorry
+      (selectedInput request frequency) :=
+  if pairedRows (selectedModel request frequency).data
+      (selectedModel request frequency).parameters request.base = ∅ then
+    emptyExpansion request frequency
+  else if (selectedModel request frequency).data.geometry.slotCount = 0 then
+    directExpansion request frequency
+  else pooledExpansion request frequency
 
 /-- Empty original row carriers remain empty throughout the construction. -/
 theorem selectedExpansion_empty (request : Request c frame Cp Hp hCp hminimum hHp)
@@ -76,3 +138,4 @@ theorem selectedExpansion_parent (request : Request c frame Cp Hp hCp hminimum h
   sorry
 
 end HeckeSkeleton.Moments.EngineStepV2
+

@@ -90,7 +90,8 @@
         "SelectedPredicates",
         "LiteralCovered",
         "LiteralGeometry",
-        "LiteralAnalyticProduction"
+        "LiteralAnalyticProduction",
+        "SelectedLeaves"
       ]
     },
     {

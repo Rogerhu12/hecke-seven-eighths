@@ -41,7 +41,8 @@ namespace CanonicalOriginalParentFactory
 
 structure FixedBox where
   cap : ℕ
-  widthMax paddingMax : ℝ
+  widthMax : ℝ
+  paddingMax : ℝ
   width_nonneg : 0 ≤ widthMax
   padding_nonneg : 0 ≤ paddingMax
   annulus : ℝ
@@ -108,7 +109,12 @@ namespace CanonicalPrimitiveEngineChoices
 
 structure Box where
   cap : ℕ
-  widthMax paddingMax lo hi step ε : ℝ
+  widthMax : ℝ
+  paddingMax : ℝ
+  lo : ℝ
+  hi : ℝ
+  step : ℝ
+  ε : ℝ
   width_nonneg : 0 ≤ widthMax
   padding_nonneg : 0 ≤ paddingMax
   lo_pos : 0 < lo
