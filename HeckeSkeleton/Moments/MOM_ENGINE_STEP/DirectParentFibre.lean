@@ -332,7 +332,7 @@ theorem originalIndex_fibre_subpower
     (fun _ h => h.2.2.2.1) (fun _ h => h.2.2.2.2)
   apply le_trans (realCount_injective
     (P := fun i : R.liveLeaves L exceptional N => R.originalIndex L hcap exceptional N i = j)
-    (Q := pred) Subtype.val Subtype.coe_injective ?_) hc
+    («Q» := pred) Subtype.val Subtype.coe_injective ?_) hc
   intro i hi
   change labels.index i = j at hi
   exact ⟨R.rowPresent_of_live L exceptional N i,
