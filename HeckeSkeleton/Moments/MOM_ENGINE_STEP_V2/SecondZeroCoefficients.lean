@@ -100,6 +100,7 @@ attribute [local instance]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable (F : FirstPresentation call p) (hF : F.Realizes)
 
+include hF in
 theorem first_chart_leftCoefficient
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
     (i : F.source.Column) :
@@ -114,6 +115,7 @@ theorem first_chart_leftCoefficient
     rfl
   exact he
 
+include hF in
 theorem first_chart_rightCoefficient
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
     (i : F.source.Column) :
@@ -141,6 +143,7 @@ theorem first_key_divisor_dvd (key : FirstCauchyKey F) (i : F.source.Column)
   by_contra hn
   exact hnz (by simp only [FirstCauchyKey.coefficient, if_neg hn])
 
+include hF in
 theorem first_key_coefficient_norm_le (key : FirstCauchyKey F) (i : F.source.Column) :
     ‖FirstCauchyKey.coefficient key i‖ *
         (Arithmetic.data c).exteriorNorm ((FirstCauchyKey.data key).ideal i) ≤
@@ -190,6 +193,7 @@ theorem first_key_coefficient_norm_le (key : FirstCauchyKey F) (i : F.source.Col
     exact mul_nonneg (norm_nonneg _) (Real.rpow_nonneg
       ((Arithmetic.data c).exteriorNorm_pos _).le _)
 
+include hF in
 theorem first_key_original_coefficient_nonzero
     (key : FirstCauchyKey F) (i : F.source.Column)
     (hnz : FirstCauchyKey.coefficient key i ≠ 0) : F.coefficient i ≠ 0 := by
@@ -238,6 +242,7 @@ theorem exterior_norm_le_of_dvd {A : SArithmeticData K} (I J : A.Exterior)
   rw [hD, map_mul, Nat.cast_mul]
   simpa only [mul_one] using mul_le_mul_of_nonneg_left hnormD (Nat.cast_nonneg _)
 
+include hF in
 /-- This is the actual weighted coefficient bound used by the second
 zero. Its negative central degree comes from the unchanged input
 coefficient, and the only additional power is the original log tilt. -/

@@ -106,7 +106,7 @@ theorem working_coefficient_norm_le (input : ProfileInput call)
     (fun _ _ => Set.mem_univ _) (Set.mem_univ _)
     call.node.centered (fun _ => working_comparison₁_scale_nonneg call)
     (fun _ => working_comparison_product call) v hraw
-  simpa only [working_total_length call] using hbound
+  simpa only [Call.workingValues, working_total_length call] using hbound
 
 /-- A fixed finite mixed seminorm of the original row-ball test.
 There is no call, original profile or moving scalar in this constant. -/
@@ -213,7 +213,7 @@ theorem working_active_column_norm_le (frame : SourceFrame) (input : ProfileInpu
     (window_subset_uniformAnnulus frame call input hframe)
     call.node.centered (fun _ => working_comparison₁_scale_nonneg call)
     (fun _ => working_comparison_product call) v hv hcoefficient
-  simpa only [working_total_length call] using hbound
+  simpa only [Call.workingRaw, working_total_length call] using hbound
 
 theorem first_active_column_norm_le (frame : SourceFrame) (input : ProfileInput call)
     (hframe : call.frame = frame) (loss : ℝ)

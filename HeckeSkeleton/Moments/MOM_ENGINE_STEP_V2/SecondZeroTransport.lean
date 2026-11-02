@@ -75,6 +75,8 @@ section PoolTransport
 
 variable (P : PoolPresentation family) (hP : P.Realizes)
 
+include hP
+
 theorem main_weighted_coefficient_bound (i : Fin family.count)
     (source : PhysicalSource call p) (hsource : P.MainOrigin i source)
     (B : ℝ) (hbound : ∀ j ∈ (family.source i).source.columns,

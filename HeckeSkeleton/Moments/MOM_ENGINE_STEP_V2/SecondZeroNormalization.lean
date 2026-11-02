@@ -280,7 +280,7 @@ theorem source_column_window_nonneg (source : PhysicalSource call p)
     idealNorm_ge_one _ (source.source.ideal i).property.1
   have hupper := hone.trans (windows.column_upper i hi hcoeff)
   apply (Real.rpow_le_rpow_left_iff call.domain.scale).mp
-  simpa only [Real.rpow_zero] using hupper
+  simpa only [Real.rpow_zero, sourceColumnExponent] using hupper
 
 theorem source_product_window_one_le (source : PhysicalSource call p)
     (windows : source.Windows)

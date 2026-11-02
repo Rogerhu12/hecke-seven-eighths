@@ -25,7 +25,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.SecondZeroProof
 open EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
-open HeckeGeneral.Analysis MeasureTheory
+open HeckeGeneral.Analysis MeasureTheory UniqueFactorizationMonoid
 open HeckePort.IdealMobiusDivisorSum HeckePort.Moments HeckePort.Moments.Support
 
 variable {K : Type} [Field K] [NumberField K]
@@ -46,8 +46,9 @@ theorem gram_signed_normalization
   have hpair : (‖c‖ * NI) * (‖d‖ * NJ) ≤ B ^ 2 := by
     simpa only [pow_two] using mul_le_mul hc hd
       (mul_nonneg (norm_nonneg _) hNJ.le) hB
-  have hratio : r / NJ + 1 ≤ r / L + 1 :=
-    add_le_add_right (div_le_div_of_nonneg_left hr hL hlower) 1
+  have hratio : r / NJ + 1 ≤ r / L + 1 := by
+    simpa only [add_comm] using
+      add_le_add_right (div_le_div_of_nonneg_left hr hL hlower) 1
   calc
     _ = seminorms.sup (schwartzSeminormFamily ℂ V ℂ) φ *
         ((‖c‖ * NI) * (‖d‖ * NJ)) * (r / NJ + 1) := by
@@ -240,9 +241,14 @@ theorem second_source_zero_bound_uniform
       (Cbound * multiplicity * B ^ 2 *
         (source.physical.first.retainedScale * call.base ^ source.physical.enlargement / L + 1) *
         Real.sqrt N * N ^ ε / (Ideal.absNorm source.physical.first.residualDivisor.val : ℝ)) := by
-  obtain ⟨Cbound, hCbound, hstage⟩ := second_signed_stage_bound_uniform
-    (σ := Arithmetic.embedding c) (Arithmetic.units_are_sixth c)
+  obtain ⟨Cbound, hCbound, hstage⟩ := @second_signed_stage_bound_uniform K _ _
+    (Arithmetic.data c) (Arithmetic.embedding c) (Arithmetic.choice c).η (Arithmetic.choice c).hS
+    (Arithmetic.unitSubgroup c) inferInstance (Arithmetic.units_are_sixth c)
+    (sourcePrincipal c) (sourceNormOneSpace c) (sourceNormOneBorel c)
+    (Expansion.ActualProbeContext.localCompletionSpace K)
+    (Expansion.ActualProbeContext.localCompletionBorel K)
     (Arithmetic.localMeasures (K := K))
+    (Expansion.ActualProbeContext.allLocalMeasures_isAddHaar K)
     (rowBallFiniteFamily K (Arithmetic.data c).Sf 1)
     (CanonicalRowBall.archTest K (Arithmetic.data c).Sf 1) k ε hε
   refine ⟨Cbound, hCbound, ?_⟩

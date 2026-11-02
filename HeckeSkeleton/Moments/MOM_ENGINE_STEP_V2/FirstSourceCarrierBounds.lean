@@ -35,11 +35,11 @@ variable (raw : ParentRawAtoms
   (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t Y₁ Y₂)
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
 variable {heightDomain window : Set ℝ} {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
-variable (profiles : RawProfileWindow rowDomain heightDomain window orders d amplitude)
 
 /-- Membership in the complete union supplies the individual support
 windows without any nonvanishing assumption on a whole coefficient. -/
 private theorem raw_union_column_norm_le_annulus
+    (profiles : RawProfileWindow rowDomain heightDomain window orders d amplitude)
     (annulus exponent : ℝ) (hannulus : 0 ≤ annulus)
     (hZ : 0 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (hleftPower : Z ^ a.n₁ ≤ Z ^ exponent) (hrightPower : Z ^ a.n₂ ≤ Z ^ exponent)

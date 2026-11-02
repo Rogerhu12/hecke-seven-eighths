@@ -42,7 +42,7 @@ theorem first_family_outer_eq_zero_of_not_squarefree
     (family.source i).outerWeight = 0 := by
   rw [hfamily.residual i] at hS
   rw [hfamily.outer i]
-  simp only [FirstCauchyKey.outer, moebius_of_not_squarefree hS,
+  simp only [FirstCauchyKey.outer, UniqueFactorizationMonoid.moebius_of_not_squarefree hS,
     Int.cast_zero, norm_zero, mul_zero, zero_mul, zero_div]
 
 theorem origin_outer_eq_zero_of_not_squarefree
