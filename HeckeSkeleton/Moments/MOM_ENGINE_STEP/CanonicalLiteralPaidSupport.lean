@@ -243,8 +243,7 @@ private theorem unamplified_window (firstIdeal : A.Exterior) (a : A.R)
     (hfirst : A.exteriorNorm
       (OriginalMovingFactors.singleton (P := P) (R := R) ⟨a, ha.1⟩ 1).support ≤
       Z ^ firstCost) :
-    A.exteriorNorm (((unamplifiedPhases firstIdeal a ha).moving P R old)
-      .effectiveFullSupport remaining) ≤ Z ^ (q + firstCost) := by
+    A.exteriorNorm (((unamplifiedPhases firstIdeal a ha).moving P R old).effectiveFullSupport remaining) ≤ Z ^ (q + firstCost) := by
   have hp : A.exteriorNorm ((unamplifiedPhases firstIdeal a ha).poolMoving P R).support = 1 :=
     singleton_unit_norm P R 1 (unitExterior_generates A)
   have hu : A.exteriorNorm ((unamplifiedPhases firstIdeal a ha).unitMoving P R).support = 1 :=
@@ -263,8 +262,7 @@ private theorem reduced_window (firstIdeal : A.Exterior) (a : A.R)
       (OriginalMovingFactors.singleton (P := P) (R := R) ⟨a, ha.1⟩ 1).support ≤
       Z ^ firstCost) :
     A.exteriorNorm (((reducedPhases
-      (amplifiedPhases C firstIdeal a ha p e.multiplicity) C p e).moving P R old)
-      .effectiveFullSupport remaining) ≤
+      (amplifiedPhases C firstIdeal a ha p e.multiplicity) C p e).moving P R old).effectiveFullSupport remaining) ≤
       Z ^ (q + firstCost + (e.movingMultiplicity : ℝ) * idealLogLength Z p.val.asIdeal) := by
   let F := reducedPhases (amplifiedPhases C firstIdeal a ha p e.multiplicity) C p e
   have hu : A.exteriorNorm (F.unitMoving P R).support = 1 :=

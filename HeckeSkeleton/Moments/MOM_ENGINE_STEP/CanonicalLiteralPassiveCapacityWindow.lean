@@ -115,8 +115,7 @@ theorem literalLeftAtoms_passiveActiveRawError
     (label : { a // a ∈ CanonicalLiteralPassiveSource.labels W B A M })
     (side : SecondColumnSide) (firstSign : ℝ) (r : Bool)
     (hactive : ¬ ∀ ξ,
-      (CanonicalLiteralPassiveFrames.frame W B A paid C rows side M label firstSign r)
-        .source.energy (σ := σ) ξ = 0)
+      (CanonicalLiteralPassiveFrames.frame W B A paid C rows side M label firstSign r).source.energy (σ := σ) ξ = 0)
     (a : RealParameters) (step : ℝ)
     (geometry : OriginalNominalGeometry (K := K) a atoms.base step)
     (hsecond : geometry.ideals.second.val = v.1.val.1)
@@ -154,8 +153,7 @@ theorem literalRightAtoms_passiveActiveRawError
     (label : { a // a ∈ CanonicalLiteralPassiveSource.labels W B A M })
     (side : SecondColumnSide) (firstSign : ℝ) (r : Bool)
     (hactive : ¬ ∀ ξ,
-      (CanonicalLiteralPassiveFrames.frame W B A paid C rows side M label firstSign r)
-        .source.energy (σ := σ) ξ = 0)
+      (CanonicalLiteralPassiveFrames.frame W B A paid C rows side M label firstSign r).source.energy (σ := σ) ξ = 0)
     (a : RealParameters) (step : ℝ)
     (geometry : OriginalNominalGeometry (K := K) a atoms.base step)
     (hsecond : geometry.ideals.second.val = v.1.val.2)

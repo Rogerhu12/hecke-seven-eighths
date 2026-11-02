@@ -182,8 +182,7 @@ include hDE hcolumns hold hZ in
 the actual original column window, separate from the active radical. -/
 theorem unamplified_left (first : A.Exterior)
     (hfirst : A.Generates first leftElement) :
-    A.exteriorNorm (((unamplifiedPhases first leftElement hfirst).moving P R old)
-      .effectiveFullSupport (remaining * firstMask DE.1)) ≤
+    A.exteriorNorm (((unamplifiedPhases first leftElement hfirst).moving P R old).effectiveFullSupport (remaining * firstMask DE.1)) ≤
       Z ^ ((q + firstCost) + columnBound) := by
   have hm := old_firstMask_window P R old remaining left right hDE Z q columnBound hZ hcolumns hold
   have h := CanonicalLiteralPaidSupport.unamplified_left P R C b D old
@@ -196,8 +195,7 @@ theorem unamplified_left (first : A.Exterior)
 include hDE hcolumns hold hZ in
 theorem unamplified_right (first : A.Exterior)
     (hfirst : A.Generates first rightElement) :
-    A.exteriorNorm (((unamplifiedPhases first rightElement hfirst).moving P R old)
-      .effectiveFullSupport (remaining * firstMask DE.1)) ≤
+    A.exteriorNorm (((unamplifiedPhases first rightElement hfirst).moving P R old).effectiveFullSupport (remaining * firstMask DE.1)) ≤
       Z ^ ((q + firstCost) + columnBound) := by
   have hm := old_firstMask_window P R old remaining left right hDE Z q columnBound hZ hcolumns hold
   have h := CanonicalLiteralPaidSupport.unamplified_right P R C b D old
@@ -213,8 +211,7 @@ private theorem amplified_window (first : A.Exterior) (a : A.R)
     (hp : (Ideal.absNorm p.val.asIdeal : ℝ) ≤ Z ^ ell)
     (hfirst : A.exteriorNorm
       (OriginalMovingFactors.singleton (P := P) (R := R) ⟨a, ha.1⟩ 1).support ≤ Z ^ firstCost) :
-    A.exteriorNorm (((amplifiedPhases C first a ha p n).moving P R old)
-      .effectiveFullSupport (remaining * poolExtra DE.1 p)) ≤
+    A.exteriorNorm (((amplifiedPhases C first a ha p n).moving P R old).effectiveFullSupport (remaining * poolExtra DE.1 p)) ≤
       Z ^ ((q + firstCost) + (columnBound + 2 * ell)) := by
   have hm : idealNorm K (poolExtra DE.1 p) ≤ Z ^ (columnBound + ell) := by
     apply (poolExtra_norm_le DE.1 p).trans
@@ -248,8 +245,7 @@ The original twelfth-power support is charged, not erased. -/
 theorem amplified_left (first : A.Exterior)
     (hfirst : A.Generates first leftElement) (p : ExteriorPrime A) (n : ℕ) (ell : ℝ)
     (hp : (Ideal.absNorm p.val.asIdeal : ℝ) ≤ Z ^ ell) :
-    A.exteriorNorm (((amplifiedPhases C first leftElement hfirst p n).moving P R old)
-      .effectiveFullSupport (remaining * poolExtra DE.1 p)) ≤
+    A.exteriorNorm (((amplifiedPhases C first leftElement hfirst p n).moving P R old).effectiveFullSupport (remaining * poolExtra DE.1 p)) ≤
       Z ^ ((q + firstCost) + (columnBound + 2 * ell)) :=
   amplified_window P R C D old remaining left right hDE Z q columnBound hZ hcolumns hold
     first leftElement hfirst p n ell hp (CanonicalLiteralPaidSupport.left_first_window P R C b D Z hZ)
@@ -258,8 +254,7 @@ include hDE hcolumns hold hZ in
 theorem amplified_right (first : A.Exterior)
     (hfirst : A.Generates first rightElement) (p : ExteriorPrime A) (n : ℕ) (ell : ℝ)
     (hp : (Ideal.absNorm p.val.asIdeal : ℝ) ≤ Z ^ ell) :
-    A.exteriorNorm (((amplifiedPhases C first rightElement hfirst p n).moving P R old)
-      .effectiveFullSupport (remaining * poolExtra DE.1 p)) ≤
+    A.exteriorNorm (((amplifiedPhases C first rightElement hfirst p n).moving P R old).effectiveFullSupport (remaining * poolExtra DE.1 p)) ≤
       Z ^ ((q + firstCost) + (columnBound + 2 * ell)) :=
   amplified_window P R C D old remaining left right hDE Z q columnBound hZ hcolumns hold
     first rightElement hfirst p n ell hp (CanonicalLiteralPaidSupport.right_first_window P R C b D Z hZ)

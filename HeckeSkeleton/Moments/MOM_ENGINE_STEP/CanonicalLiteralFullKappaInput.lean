@@ -174,8 +174,7 @@ local notation "outer" => d.commonScalar b *
     actualIdealResidue (A := A) (σ := σ) power.val firstElement)
 local notation "actualProfiles" =>
   ((W.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale outer⁻¹)
-      .balancePlain (CanonicalLiteralBalancedSchwartz.balance d b δ₁ δ₂)
+    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale outer⁻¹).balancePlain (CanonicalLiteralBalancedSchwartz.balance d b δ₁ δ₂)
 
 /-- The only seminorm premises are on the original seed model. Its
 actual two-stage scalar removal and balance produce all the estimates
@@ -443,8 +442,7 @@ def literalScalarFreeComputedProfiles
       actualIdealResidue (A := A) (σ := σ) power.val firstElement)
     CanonicalLiteralFullKappaInput.ComputedProfiles
       (((W.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
-        firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale outer⁻¹)
-          .balancePlain (CanonicalLiteralBalancedSchwartz.balance d b δ₁ δ₂)) window s B := by
+        firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale outer⁻¹).balancePlain (CanonicalLiteralBalancedSchwartz.balance d b δ₁ δ₂)) window s B := by
   let E := Q.literalOriginalSchwartzModel ξ recipe a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ reference href original hreference ht hpositive hcompact.isClosed
   have hb := Q.literalOriginalSchwartzModel_bound ξ recipe a Z t Y₁ Y₂ centered

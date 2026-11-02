@@ -56,7 +56,7 @@ theorem residualCoefficient_logarithmic
           (A.exteriorNorm (d.residualPresentation p n i).residual : ℂ)) *
         actualIdealResidue (A := A) (σ := σ) (d.ideal i.val).val first *
         actualIdealResidue (A := A) (σ := σ)
-          (d.residualPresentation p n i).residual.val (generator C p ^ (2 * n)) := by
+          (d.residualPresentation p n i).residual.val (LocalFiniteSums.generator C p ^ (2 * n)) := by
   sorry
 
 end FirstGaussPoolData

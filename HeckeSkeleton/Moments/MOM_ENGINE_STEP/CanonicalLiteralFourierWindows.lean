@@ -44,8 +44,7 @@ theorem coefficient_nonneg (window : Set ℝ) (hcompact : IsCompact window)
 theorem atom_coefficient (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (scale : ℝ) (hscale : 0 < scale)
     (firstSign : ℝ) (negative : Bool) (s : Finset (ℕ × ℕ)) :
-    (CanonicalLiteralProfileData.fourierAtom scale hscale firstSign negative)
-        .profileCoefficient window hcompact hpositive s =
+    (CanonicalLiteralProfileData.fourierAtom scale hscale firstSign negative).profileCoefficient window hcompact hpositive s =
       coefficient window hcompact hpositive firstSign s := by
   cases negative <;>
     simp only [CanonicalLogProfiles.Atom.profileCoefficient,
@@ -107,17 +106,14 @@ variable (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
 variable (firstSign : ℝ) (negative : Bool)
 
 def leftFourierRep (r : Bool) (ξ : WithLp 2 (ℝ × ℝ)) : 𝓢(ℝ, ℂ) :=
-  (CanonicalLiteralProfileData.fourierAtom (d.scale₁ r) (d.scale₁_pos r) firstSign negative)
-    .schwartz window hcompact hpositive ξ (E.left r) (E.left_support r)
+  (CanonicalLiteralProfileData.fourierAtom (d.scale₁ r) (d.scale₁_pos r) firstSign negative).schwartz window hcompact hpositive ξ (E.left r) (E.left_support r)
 
 def rightFourierRep (r : Bool) (ξ : WithLp 2 (ℝ × ℝ)) : 𝓢(ℝ, ℂ) :=
-  (CanonicalLiteralProfileData.fourierAtom (d.scale₂ r) (d.scale₂_pos r) firstSign negative)
-    .schwartz window hcompact hpositive ξ (E.right r) (E.right_support r)
+  (CanonicalLiteralProfileData.fourierAtom (d.scale₂ r) (d.scale₂_pos r) firstSign negative).schwartz window hcompact hpositive ξ (E.right r) (E.right_support r)
 
 def slotFourierRep (j : Fin k) (ξ : WithLp 2 (ℝ × ℝ)) : 𝓢(ℝ, ℂ) :=
   (CanonicalLiteralProfileData.fourierAtom (d.base ^ d.length j)
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _) firstSign negative)
-    .schwartz window hcompact hpositive ξ (E.slot j) (E.slot_support j)
+    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _) firstSign negative).schwartz window hcompact hpositive ξ (E.slot j) (E.slot_support j)
 
 theorem leftFourierRep_eq (r : Bool) (ξ : WithLp 2 (ℝ × ℝ))
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t y : ℝ) :
@@ -161,8 +157,7 @@ theorem leftFourierRep_bound (r : Bool) (ξ : WithLp 2 (ℝ × ℝ)) (s : Finset
         (1 + ‖ξ‖) ^ (s.sup Prod.snd) *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) := by
   simpa only [CanonicalLiteralFourierWindows.atom_coefficient] using
-    (CanonicalLiteralProfileData.fourierAtom (d.scale₁ r) (d.scale₁_pos r) firstSign negative)
-      .schwartz_finset_bound window hcompact hpositive s ξ (E.left r) (E.left_support r)
+    (CanonicalLiteralProfileData.fourierAtom (d.scale₁ r) (d.scale₁_pos r) firstSign negative).schwartz_finset_bound window hcompact hpositive s ξ (E.left r) (E.left_support r)
 
 theorem rightFourierRep_bound (r : Bool) (ξ : WithLp 2 (ℝ × ℝ)) (s : Finset (ℕ × ℕ)) :
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ)
@@ -171,8 +166,7 @@ theorem rightFourierRep_bound (r : Bool) (ξ : WithLp 2 (ℝ × ℝ)) (s : Finse
         (1 + ‖ξ‖) ^ (s.sup Prod.snd) *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) := by
   simpa only [CanonicalLiteralFourierWindows.atom_coefficient] using
-    (CanonicalLiteralProfileData.fourierAtom (d.scale₂ r) (d.scale₂_pos r) firstSign negative)
-      .schwartz_finset_bound window hcompact hpositive s ξ (E.right r) (E.right_support r)
+    (CanonicalLiteralProfileData.fourierAtom (d.scale₂ r) (d.scale₂_pos r) firstSign negative).schwartz_finset_bound window hcompact hpositive s ξ (E.right r) (E.right_support r)
 
 theorem slotFourierRep_bound (j : Fin k) (ξ : WithLp 2 (ℝ × ℝ)) (s : Finset (ℕ × ℕ)) :
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ)
@@ -182,8 +176,7 @@ theorem slotFourierRep_bound (j : Fin k) (ξ : WithLp 2 (ℝ × ℝ)) (s : Finse
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.slot j) := by
   simpa only [CanonicalLiteralFourierWindows.atom_coefficient] using
     (CanonicalLiteralProfileData.fourierAtom (d.base ^ d.length j)
-      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _) firstSign negative)
-      .schwartz_finset_bound window hcompact hpositive s ξ (E.slot j) (E.slot_support j)
+      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _) firstSign negative).schwartz_finset_bound window hcompact hpositive s ξ (E.slot j) (E.slot_support j)
 
 end CanonicalLiteralRectangles.Atoms.ProfileData.SchwartzModel
 end HeckeSkeleton.Moments.EngineStep

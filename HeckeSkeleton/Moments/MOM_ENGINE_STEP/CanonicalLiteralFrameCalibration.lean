@@ -75,8 +75,7 @@ variable (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 variable (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
 variable {kLeft kRight : ℕ}
 variable (rowMass : ActualSecondRowMass
-  ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-    .restrictRows keep₂) C kLeft kRight)
+  ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) C kLeft kRight)
 variable {ω ψ : HeckeCharacter K} {k : ℕ}
 variable (d : CanonicalLiteralRectangles.Atoms (K := K) k) (W : d.ProfileData)
 variable (F : CanonicalLiteralPhaseCalibration.FixedPhases A)
@@ -130,8 +129,7 @@ variable (hL : Squarefree L)
 variable (hselection : selection ∈ AllocationMass.idealAllocations L (k + 2))
 
 local notation "S" =>
-  (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-    .restrictRows keep₂
+  (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂
 local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
 local notation "sector" => chart.originalSector P ∅ X hX label
 local notation "f" =>
