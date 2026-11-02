@@ -18,6 +18,9 @@ concurrency:
 
 jobs:
   build:
+    # V2 task branches are verified by their own scoped workflow; the whole
+    # project is built once on the V2 integration PR instead.
+    if: ${{ !startsWith(github.head_ref, 'cloud/mom-v2-') }}
     runs-on: ubuntu-latest
     timeout-minutes: 300
     env:
