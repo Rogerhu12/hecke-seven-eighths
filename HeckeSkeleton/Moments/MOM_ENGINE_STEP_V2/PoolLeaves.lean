@@ -24,6 +24,9 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments
 
+attribute [local instance] ActualGaussStage.coveredClassKeyFintype
+  ActualGaussStage.coveredLeafKeyFintype
+
 private abbrev pool_sum_sigma_fintype
     {P : Type*} {I₀ : Type*}
     {I₁ : P → Type*} {I₆ : P → Type*} {I₇ : P → Type*}

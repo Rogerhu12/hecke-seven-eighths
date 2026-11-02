@@ -108,6 +108,7 @@ def rawTerminalData (c : TargetContext K)
     have hn : Module.finrank ℤ
         (traceIdealLattice K (1 : (FractionalIdeal (𝓞 K)⁰ K)ˣ)) ≤
         ⌈max latticeDimension ((Module.finrank ℚ K : ℝ) * b.firstDecay)⌉₊ := by
+      dsimp only [latticeDimension] at hd
       exact_mod_cast hd
     exact Nat.lt_succ_of_le hn
   have hdegree : (Module.finrank ℚ K : ℝ) * b.firstDecay ≤ order := by

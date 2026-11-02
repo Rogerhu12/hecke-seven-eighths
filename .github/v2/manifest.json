@@ -80,7 +80,8 @@
         "SourceSupport",
         "TargetArithmetic",
         "UnmaskedStage",
-        "VolumeChoices"
+        "VolumeChoices",
+        "LiteralRowProfileBound"
       ]
     },
     {

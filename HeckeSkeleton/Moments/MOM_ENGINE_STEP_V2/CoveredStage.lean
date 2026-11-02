@@ -69,6 +69,11 @@ abbrev CoveredClassKey :=
       (LC.branch a).labels (primeSupport DE.val.1) DE.val.1 ×
         (RC.branch e).labels (primeSupport DE.val.1) DE.val.2
 
+abbrev coveredClassKeyFintype : Fintype (CoveredClassKey s LC RC) :=
+  inferInstance
+
+attribute [local instance] coveredClassKeyFintype
+
 namespace CoveredClassKey
 
 variable {s LC RC}
@@ -137,6 +142,11 @@ end CoveredClassKey
 
 /-- Every source key and every actual allocation label is retained. -/
 abbrev CoveredLeafKey := Σ v : CoveredClassKey s LC RC, v.AllocationKey
+
+abbrev coveredLeafKeyFintype : Fintype (CoveredLeafKey s LC RC) :=
+  inferInstance
+
+attribute [local instance] coveredLeafKeyFintype
 
 def coveredLeaf (exceptional : s.CoverHybridPredicates LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (b : CoveredLeafKey s LC RC) :

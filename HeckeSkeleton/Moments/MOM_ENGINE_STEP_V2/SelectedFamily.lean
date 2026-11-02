@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SelectedLiteralProfiles
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.LiteralRowProfileBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AnalyticChoices
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedFamilyAdapter
 
@@ -66,6 +67,7 @@ local notation "bare" => ActualGaussStage.CoveredClassKey.leaf p.key p.exception
 /-- This record is checked on original finite sources. None of its
 fields mentions normalized children, kernels or a moment inequality. -/
 structure Valid : Prop where
+  physicalRows : p.physical.source.rows.Nonempty
   firstSign : p.firstSign = 1 ∨ p.firstSign = -1
   leftCoefficient : ∀ i ∈ (p.cover.branch p.key.2.2.1).reindex.cartesian,
     (p.cover.branch p.key.2.2.1).reindex.index i ∈ block.leftColumns p.physical.source.columns →
@@ -142,7 +144,18 @@ def family :=
     (hcorr := by sorry) (remaining := recipe.remaining) (extra := p.leftInput.deletion)
     (leftSlots := p.leftSlots) (rightSlots := p.rightSlots)
     (hleftCharacters := valid.leftCharacters) (hrightCharacters := valid.rightCharacters)
-    (profileBound := 1) (hprofileBound := zero_le_one) (hprofile := by sorry)
+    (profileBound := 1) (hprofileBound := zero_le_one) (hprofile := by
+      intro q _
+      exact ActualGaussStage.canonicalSector_prepared_weight_norm_le_one
+        (hΓ := actualSixthUnits_are_sixth (places K c))
+        (μv := TargetArithmetic.localMeasures (K := K))
+        (hDiff := TargetArithmetic.different c) (ν := TargetArithmetic.finiteMeasure (K := K))
+        (probeData K c) box.delta box.tilt_pos box.tilt_le_half p.physical.source
+        p.physical.firstGeometry.retainedScale request.base p.physical.firstGeometry.enlargement
+        p.physical.firstGeometry.retainedScale_pos
+        (zero_lt_one.trans (SelectedSource.base_gt_one request)) cutoff hcutoff p.physical.row_bound
+        0 0 (fun _ _ => (PUnit.unit : PUnit)) (fun _ _ i => Fin.elim0 i)
+        valid.physicalRows p.key.1 p.key.2.1 q)
     (a := parameters) (step := recipeInductionSigma c) (geometry := p.geometry)
     (hretained := rfl) (henlargement := rfl)
     (hsecond := by sorry) (hopposite := by sorry) (hunit := by sorry) (hnonunit := by sorry)
