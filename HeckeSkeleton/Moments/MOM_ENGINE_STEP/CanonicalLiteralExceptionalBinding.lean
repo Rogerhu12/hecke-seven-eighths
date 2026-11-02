@@ -145,6 +145,7 @@ theorem pairMagnitude_eq (keep : H → Prop) (z : U × V) :
         unfold jointFourierColumn
         apply Finset.sum_congr rfl
         intro i hi
+        dsimp only
         rw [binding.leftCoefficient h hm i hi, hzl i hi]
       have hr : jointFourierColumn leaf.right (fun i => star (leaf.rightCoefficient h i))
           (fun i => WithLp.toLp 2 (-leaf.rightFirst h i, leaf.rightSecond h i))
@@ -156,6 +157,7 @@ theorem pairMagnitude_eq (keep : H → Prop) (z : U × V) :
         unfold jointFourierColumn
         apply Finset.sum_congr rfl
         intro i hi
+        dsimp only
         rw [binding.rightCoefficient h hm i hi, hzr i hi]
       simp only [binding.rowWeight h hm, hl, hr, norm_mul, norm_jointPhase, one_mul]
 

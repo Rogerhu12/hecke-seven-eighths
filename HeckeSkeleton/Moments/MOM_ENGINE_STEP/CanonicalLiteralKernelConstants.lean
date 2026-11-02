@@ -23,22 +23,22 @@ variable (A : SArithmeticData K) (σ : K →+* ℂ) (ω ψ : HeckeCharacter K)
 variable (cap order : ℕ)
 
 def firstOrders : Finset (ℕ × ℕ) :=
-  (actual_finite_normalized_kernel_mass_active
+  (actual_finite_normalized_kernel_mass_active.{0,0,0}
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
     cap order order order order).choose
 
 def secondOrders : Finset (ℕ × ℕ) :=
-  (actual_finite_normalized_kernel_mass_active
+  (actual_finite_normalized_kernel_mass_active.{0,0,0}
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
     cap order order order order).choose_spec.choose
 
 def constant : ℝ :=
-  (actual_finite_normalized_kernel_mass_active
+  (actual_finite_normalized_kernel_mass_active.{0,0,0}
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
     cap order order order order).choose_spec.choose_spec.choose
 
 theorem constant_pos : 0 < constant K A σ ω ψ cap order :=
-  (actual_finite_normalized_kernel_mass_active
+  (actual_finite_normalized_kernel_mass_active.{0,0,0}
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
     cap order order order order).choose_spec.choose_spec.choose_spec.1
 
