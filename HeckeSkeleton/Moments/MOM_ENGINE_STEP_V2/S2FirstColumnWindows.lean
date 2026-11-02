@@ -31,6 +31,7 @@ open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckePort.Moments
+open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -116,8 +117,13 @@ theorem source_full_column_window (input : ProfileInput call) (hframe : call.fra
     call.node.centered (fun _ => (Real.rpow_pos_of_pos call.base_pos _).le)
     (by
       intro hcentered
-      simpa only [Call.workingComparison₁, Call.workingComparison₂, hcentered, if_true]
-        using call.domain.comparison_product_eq_power hcentered)
+      simp only [Call.workingComparison₁, Call.workingComparison₂, hcentered, ite_true]
+      change call.base ^ call.node.comparison₁ * call.base ^ call.node.comparison₂ =
+        call.base ^ (call.node.parameters.n₁ + call.node.parameters.n₂)
+      rw [call.domain.comparison_left hcentered, call.domain.comparison_right hcentered,
+        ← Real.rpow_add call.base_pos]
+      congr 1
+      ring)
     (F.index i) hm hcoeff
   have hcap : call.localizedData.geometry.slotCount ≤ c.geometry.slots := call.slots_le
   have hpower : annulus ^ (call.localizedData.geometry.slotCount + 2) ≤ call.base ^ p.loss :=
@@ -125,8 +131,9 @@ theorem source_full_column_window (input : ProfileInput call) (hframe : call.fra
       (columnDemand_power input ready)
   have hnpos : 0 < annulus ^ (call.localizedData.geometry.slotCount + 2) :=
     pow_pos hannulus_pos _
-  have hlength : call.localizedData.geometry.totalLength = call.workingParameters.z :=
-    call.domain.total_length
+  have hlength : call.localizedData.geometry.totalLength = call.workingParameters.z := by
+    change call.node.data.geometry.totalLength = call.node.parameters.z
+    exact call.domain.total_length.symm
   rw [hlength] at hw
   rw [hF.ideal i]
   constructor
@@ -193,7 +200,7 @@ theorem key_coefficient_factor (F : FirstPresentation call p) (hF : F.Realizes)
     split_ifs <;>
     simp only [FirstBlockDirectData.originalLeftCoefficient,
       FirstBlockDirectData.originalRightCoefficient, FirstCauchyKey.piece,
-      chart_left_coefficient F hF, chart_right_coefficient F hF] <;> ring
+      chart_left_coefficient F hF, chart_right_coefficient F hF, zero_mul, mul_zero] <;> ring
 
 theorem key_column_mem (F : FirstPresentation call p) (key : FirstCauchyKey F)
     (i : F.source.Column) (hi : i ∈ (FirstCauchyKey.data key).columns) : i ∈ F.source.columns := by
@@ -214,13 +221,17 @@ theorem key_column_norm (F : FirstPresentation call p) (key : FirstCauchyKey F)
   · simp only [FirstCauchyKey.data, selected, hs, Bool.false_eq_true, if_false] at hi ⊢
     rw [(FirstCauchyKey.piece key).left_columns] at hi
     rw [(FirstCauchyKey.piece key).left_ideal]
-    change (Ideal.absNorm (F.source.ideal i).val : ℝ) = _
+    change (Ideal.absNorm (F.source.ideal i).val : ℝ) =
+      (Ideal.absNorm key.1.val.1 : ℝ) *
+        (Ideal.absNorm ((FirstCauchyKey.block key).leftResidual i).val : ℝ)
     rw [(FirstCauchyKey.block key).left_reconstruct F.source.columns i hi]
     simp only [map_mul, Nat.cast_mul, (FirstCauchyKey.block key).common_left]
   · simp only [FirstCauchyKey.data, selected, hs, if_true] at hi ⊢
     rw [(FirstCauchyKey.piece key).right_columns] at hi
     rw [(FirstCauchyKey.piece key).right_ideal]
-    change (Ideal.absNorm (F.source.ideal i).val : ℝ) = _
+    change (Ideal.absNorm (F.source.ideal i).val : ℝ) =
+      (Ideal.absNorm key.1.val.2 : ℝ) *
+        (Ideal.absNorm ((FirstCauchyKey.block key).rightResidual i).val : ℝ)
     rw [(FirstCauchyKey.block key).right_reconstruct F.source.columns i hi]
     simp only [map_mul, Nat.cast_mul, (FirstCauchyKey.block key).common_right]
 
@@ -250,7 +261,7 @@ theorem source_column_window (input : ProfileInput call) (hframe : call.frame = 
   let length := idealLogLength call.base (selected key).val
   have hpos : 0 < call.base ^ length := Real.rpow_pos_of_pos call.base_pos _
   constructor
-  · apply (mul_le_mul_right hpos).mp
+  · apply (mul_le_mul_iff_of_pos_right hpos).mp
     change call.base ^ (_ - length - 4 * p.loss) * call.base ^ length ≤
       (Arithmetic.data c).exteriorNorm ((FirstCauchyKey.data key).ideal i) * call.base ^ length
     rw [← Real.rpow_add call.base_pos]
@@ -260,7 +271,7 @@ theorem source_column_window (input : ProfileInput call) (hframe : call.frame = 
         Real.rpow_le_rpow_of_exponent_le call.domain.scale.le (by linarith [p.loss_pos])
       _ ≤ (Arithmetic.data c).exteriorNorm (F.source.ideal i) := hfull.1
       _ = _ := hnorm.trans (mul_comm _ _)
-  · apply (mul_le_mul_right hpos).mp
+  · apply (mul_le_mul_iff_of_pos_right hpos).mp
     change (Arithmetic.data c).exteriorNorm ((FirstCauchyKey.data key).ideal i) * call.base ^ length ≤
       call.base ^ (_ - length + 4 * p.loss) * call.base ^ length
     rw [← Real.rpow_add call.base_pos]
