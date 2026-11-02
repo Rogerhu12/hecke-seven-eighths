@@ -89,6 +89,7 @@
       "proved": false,
       "modules": [
         "ChildProduction",
+        "SelectedFamily",
         "SelectedLeafPacket",
         "SelectedLeaves",
         "SelectedLiteralInputs",
