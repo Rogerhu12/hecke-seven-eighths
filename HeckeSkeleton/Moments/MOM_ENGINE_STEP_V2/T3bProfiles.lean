@@ -95,7 +95,7 @@ theorem t3bParentPlain_apply (plain : Bool) (x : ℝ) :
 theorem t3bParentPlain_support (plain : Bool) :
     tsupport (packet.t3bParentPlain hpacket input plain) ⊆
       T3b.profileWindow c call.frame := by
-  apply Set.Subset.trans (t := call.window) ?_ (call.t3b_window_subset input)
+  refine Set.Subset.trans (b := call.window) ?_ (call.t3b_window_subset input)
   cases plain with
   | false =>
     exact closure_minimal (input.raw.left_support _ (Set.mem_univ _) 0
@@ -187,8 +187,10 @@ theorem phase_ideal (firstSign : ℝ) (ξ : EngineParameter)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     jointPhase ξ (CanonicalLiteralLocations.plain firstSign I) =
       (Ideal.absNorm I.val : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ)) := by
-  simpa only [CanonicalLiteralLocations.plain, idealNorm, Complex.ofReal_natCast] using
-    phase_log firstSign ξ (idealNorm K I) (idealNorm_pos K I)
+  have hphase := phase_log firstSign ξ (idealNorm K I) (idealNorm_pos K I)
+  change jointPhase ξ (CanonicalLiteralLocations.plain firstSign I) =
+    (((Ideal.absNorm I.val : ℝ) : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ))) at hphase
+  simpa only [Complex.ofReal_natCast] using hphase
 
 theorem plain_mul (firstSign : ℝ)
     (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -207,7 +209,7 @@ theorem phase_mul (firstSign : ℝ) (ξ : EngineParameter)
     jointPhase ξ (CanonicalLiteralLocations.plain firstSign (B * I)) =
       jointPhase ξ (CanonicalLiteralLocations.plain firstSign B) *
         (Ideal.absNorm I.val : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ)) := by
-  rw [plain_mul, jointPhase_add, phase_ideal]
+  rw [plain_mul, jointPhase_add, phase_ideal firstSign ξ I]
 
 def phasedProfile (firstSign : ℝ) (ξ : EngineParameter)
     (B : HeckeGeneral.Analysis.NonzeroIdeal K) (φ : 𝓢(ℝ, ℂ)) : 𝓢(ℝ, ℂ) :=

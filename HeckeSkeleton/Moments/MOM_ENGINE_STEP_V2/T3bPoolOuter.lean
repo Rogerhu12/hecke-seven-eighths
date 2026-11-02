@@ -115,12 +115,21 @@ theorem t3b_first_allowance (expansion : PoolExpansion family)
     (hexpansion : expansion.Realizes) (i : Fin expansion.count) :
     (expansion.source i).first.t3bAllowance =
       (family.source (expansion.t3bFirstIndex i)).first.t3bAllowance := by
-  have h := expansion.t3b_first_scalarCoordinates hexpansion i
-  have hs := congrArg Prod.fst h
-  have ho := congrArg (fun x => x.2.1) h
-  have hc := congrArg (fun x => x.2.2.1) h
-  unfold FirstCoordinates.t3bAllowance
-  rw [hs, ho, hc]
+  exact congrArg
+    (fun x : Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) =>
+      call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
+        call.workingParameters.z + call.workingParameters.q +
+        idealLogLength call.base (firstActiveRadical x.1 x.2.1) +
+        idealLogLength call.base x.2.2.1 - idealLogLength call.base x.1 +
+        firstAllowance (idealLogLength call.base x.1) (idealLogLength call.base x.2.1)
+          (idealLogLength call.base (firstActiveRadical x.1 x.2.1))))
+    (expansion.t3b_first_scalarCoordinates hexpansion i)
+
+private theorem pool_outer_mul_of_eq {w w₀ a b x y : ℝ}
+    (hw : w = w₀ * a * b) (hx : x = y) :
+    w * x = w₀ * (a * (b * y)) := by
+  exact (congrArg₂ (fun u v : ℝ => u * v) hw hx).trans
+    ((mul_assoc (w₀ * a) b y).trans (mul_assoc w₀ a (b * y)))
 
 theorem t3b_outer_poolAllowance (expansion : PoolExpansion family)
     (hfamily : family.Realizes) (hexpansion : expansion.Realizes) (i : Fin expansion.count) :
@@ -138,16 +147,28 @@ theorem t3b_outer_poolAllowance (expansion : PoolExpansion family)
     simp only [OriginalNominalTag.movingLength, OriginalNominalTag.poolLength,
       zero_add, Real.rpow_zero]
   | pooled P count index source =>
+    let prefactor : Unit ⊕ (P.pool.primes × AmplifierValuation) → ℝ := fun label =>
+      (4 / (P.data (index i).1).density) * (match label with
+        | .inl _ => (P.data (index i).1).multiplicity *
+            call.base ^ (recipeInductionSigma c / 3)
+        | .inr qe => FirstGaussPoolData.localErrorWeight qe.1.val qe.2.multiplicity *
+            Q qe.1.val ^ qe.2.movingMultiplicity)
     cases hi : (index i).2 with
     | inl u =>
       have ho : P.MainOrigin (index i).1 (source i) := by
         simpa only [PoolPresentation.Origin, hi] using hexpansion.2.2 i
       rcases ho with ⟨_, _, _, _, _, _, hout, hf⟩
-      change (source i).outerWeight * _ = _
-      rw [hout, hf]
-      simp only [t3bFirstIndex, indexPrefactor, hi, OriginalNominalTag.movingLength,
-        OriginalNominalTag.poolLength, zero_add]
-      ring
+      have htag : (source i).first.tag = OriginalNominalTag.main :=
+        congrArg (fun first : FirstCoordinates call => first.tag) hf
+      have hpow := (congrArg (fun tag : OriginalNominalTag K =>
+        call.base ^ (tag.movingLength call.base + tag.poolLength (recipeInductionSigma c)))
+          htag).trans
+        (congrArg (fun exponent : ℝ => call.base ^ exponent)
+          (zero_add (recipeInductionSigma c / 3)))
+      have hproduct := pool_outer_mul_of_eq hout hpow
+      have hpref := congrArg prefactor hi
+      exact hproduct.trans (congrArg (fun z : ℝ =>
+        (family.source (index i).1).outerWeight * z) hpref.symm)
     | inr qe =>
       have ho : P.ErrorOrigin (index i).1 qe.1 qe.2 (source i) := by
         simpa only [PoolPresentation.Origin, hi] using hexpansion.2.2 i
@@ -158,11 +179,16 @@ theorem t3b_outer_poolAllowance (expansion : PoolExpansion family)
           rpow_idealLogLength call.base call.domain.scale _ qe.1.val.val.ne_bot,
           Real.rpow_natCast]
         rfl
-      change (source i).outerWeight * _ = _
-      rw [hout, htag]
-      simp only [t3bFirstIndex, indexPrefactor, hi, OriginalNominalTag.movingLength,
-        OriginalNominalTag.poolLength, add_zero, hp]
-      ring
+      have hpow := (congrArg (fun tag : OriginalNominalTag K =>
+        call.base ^ (tag.movingLength call.base + tag.poolLength (recipeInductionSigma c)))
+          htag).trans
+        ((congrArg (fun exponent : ℝ => call.base ^ exponent)
+          (add_zero ((qe.2.movingMultiplicity : ℝ) *
+            idealLogLength call.base qe.1.val.val.asIdeal))).trans hp)
+      have hproduct := pool_outer_mul_of_eq hout hpow
+      have hpref := congrArg prefactor hi
+      exact hproduct.trans (congrArg (fun z : ℝ =>
+        (family.source (index i).1).outerWeight * z) hpref.symm)
 
 end PoolExpansion
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

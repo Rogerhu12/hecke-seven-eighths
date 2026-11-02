@@ -36,6 +36,17 @@ attribute [local instance]
   Expansion.ActualProbeContext.localCompletionBorel
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
+/-- Reassociate the same appended moving character in an abstract arithmetic context. -/
+private theorem character_append_bridge
+    {A : SArithmeticData K}
+    {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
+    {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
+    (correction : HeckeCharacter K) (D E : OriginalMovingFactors A P R)
+    (χ : HeckeCharacter K) :
+    (correction * D.character) * E.character * χ =
+      correction * (D.append E).character * χ := by
+  simp only [OriginalMovingFactors.append_character, mul_assoc]
+
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
 namespace RawLeafPacket
@@ -93,6 +104,24 @@ theorem t3bUnscaled_plain_coefficient (hpacket : packet.Realizes)
           (call.localizedData.plainBackground * packet.t3bOriginalCharacter phases h) J.val := by
   have hroot : (probeData K c).arithmetic.root6 = (Arithmetic.data c).zeta12 ^ 2 := rfl
   have hemb : (probeData K c).arithmetic.embedding = Arithmetic.embedding c := rfl
+  have hcharacter := character_append_bridge
+    (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+    call.localizedSource.source.recipe.correction (phases.moving false)
+    (secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)
+      (Arithmetic.context c) packet.R.primes packet.R.leftMultiplicity packet.R.rightMultiplicity
+      (actualNonunitPattern (Arithmetic.context c) packet.R.primes
+        packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val)))
+    (completeIdealRowCharacter K
+      ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+      (probeData K c) (momentRowCharacters K c)
+      ((packet.R.extractedRow (Arithmetic.context c) h).sector (probeData K c))
+      (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal)
+  have hcoefficient := congrArg
+    (fun character : HeckeCharacter K =>
+      (if IsCoprime J.val (packet.t3bCompleteMask phases h) then (1 : ℂ) else 0) *
+        CanonicalExceptionalVolume.coefficient
+          (call.localizedData.plainBackground * character) J.val)
+    hcharacter
   cases side with
   | false =>
     change sourcePlainCoefficient
@@ -102,7 +131,7 @@ theorem t3bUnscaled_plain_coefficient (hpacket : packet.Realizes)
       actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) J.val
         (packet.R.factor (Arithmetic.context c) h.val *
           (packet.R.extractedRow (Arithmetic.context c) h).element) = _
-    simpa only [t3bOriginalCharacter, OriginalMovingFactors.append_character, mul_assoc] using
+    have hplain :=
       T3b.extracted_plain_coefficient (probeData K c) (momentRowCharacters K c)
         hroot hemb (Arithmetic.context c) packet.R.primes
         packet.R.leftMultiplicity packet.R.rightMultiplicity
@@ -113,6 +142,7 @@ theorem t3bUnscaled_plain_coefficient (hpacket : packet.Realizes)
         call.localizedData.plainBackground
         (call.localizedSource.source.recipe.correction * (phases.moving false).character)
         (phases.mask false) J
+    exact hplain.trans hcoefficient
   | true =>
     change sourcePlainCoefficient
         (call.localizedData.plainBackground *
@@ -121,7 +151,7 @@ theorem t3bUnscaled_plain_coefficient (hpacket : packet.Realizes)
       actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) J.val
         (-packet.R.factor (Arithmetic.context c) h.val *
           (packet.R.extractedRow (Arithmetic.context c) h).element) = _
-    simpa only [t3bOriginalCharacter, OriginalMovingFactors.append_character, mul_assoc] using
+    have hplain :=
       T3b.extracted_plain_coefficient_neg (probeData K c) (momentRowCharacters K c)
         hroot hemb (Arithmetic.context c) packet.R.primes
         packet.R.leftMultiplicity packet.R.rightMultiplicity
@@ -132,6 +162,7 @@ theorem t3bUnscaled_plain_coefficient (hpacket : packet.Realizes)
         call.localizedData.plainBackground
         (call.localizedSource.source.recipe.correction * (phases.moving false).character)
         (phases.mask false) J
+    exact hplain.trans hcoefficient
 
 end RawLeafPacket
 
@@ -153,6 +184,7 @@ theorem t3bOriginalCharacter_eq_source (j : Fin raw.count) (h : (raw.packet j).R
     h.property
   simp only [RawLeafPacket.t3bOriginalCharacter, OrdinaryPhaseFacts.ofRaw_moving_false,
     SecondSource.rowCharacter, dif_pos hlive]
+  rfl
 
 /-- The catalogue is fixed by the original target. Only its finite
 index is selected from the actual exceptional membership proof. -/
