@@ -54,9 +54,10 @@ theorem tailsV2_rectangle_norm_le_original_atoms
       leftBound comparison * rightBound comparison * ∏ i, primeBound i := by
   have hm : (v.1.1 ∈ raw.leftColumns ∧ v.1.2 ∈ raw.rightColumns) ∧
       (∀ i, v.2 i ∈ raw.slotColumns i) := by
-    rcases v with ⟨⟨I, J⟩, indices⟩
-    simpa only [ParentRawAtoms.columns, childCartesianColumns,
-      Finset.mem_product, Fintype.mem_piFinset] using hv
+    change v ∈ (raw.leftColumns.product raw.rightColumns).product
+      (Fintype.piFinset raw.slotColumns) at hv
+    have hprod := Finset.mem_product.mp hv
+    exact ⟨Finset.mem_product.mp hprod.1, Fintype.mem_piFinset.mp hprod.2⟩
   rw [ParentRawAtoms.ConstantValues.rectangle, norm_mul, norm_mul, norm_prod]
   exact mul_le_mul
     (mul_le_mul (hleftAtom comparison _ hm.1.1) (hrightAtom comparison _ hm.1.2)

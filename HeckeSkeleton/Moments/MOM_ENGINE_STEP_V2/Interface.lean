@@ -64,16 +64,26 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceIndexContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceScalarData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsAnalytic
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyCoefficients
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyCounting
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyGeometry
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsEstimateAssembly
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsFirstEstimate
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsFixedCutoff
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalCarrier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPhase
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPhysicalBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolCounting
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolScalar
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsRawMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsSecondEstimate
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsSecondGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsSecondMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksAmplification
@@ -103,7 +113,6 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformMellinPreparation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformOrderPreparation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformRealizationProof
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformScalarPreparation
-
 set_option linter.unusedSectionVars false
 
 /-! Blueprint input data and completed common induction adapters.

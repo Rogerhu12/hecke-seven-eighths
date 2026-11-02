@@ -66,7 +66,8 @@ def plainProfile (plain : Bool) (x : ℝ) : ℂ :=
    else call.localizedNormProfiles.left PUnit.unit 0 x) *
     ((x ^ D.normPower : ℝ) : ℂ)
 
-def beforePlainWeight (side rectangle plain : Bool) (I : NonzeroIdeal K) : ℂ :=
+def beforePlainWeight (side rectangle plain : Bool)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) : ℂ :=
   if rectangle && !call.node.centered && !plain then 0 else
     D.plainProfile plain (idealNorm K I / D.beforePlainScale side rectangle plain)
 

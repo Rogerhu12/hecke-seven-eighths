@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailContracts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPhysicalBudget
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -20,8 +20,12 @@ variable {K : Type} [Field K] [NumberField K]
 
 theorem tails (c : TargetContext K) (p : SourceParameters c) :
     TailTask c p := by
-  sorry
+  intro frame
+  obtain ⟨first⟩ := Tails.exists_firstTailCertificate c frame p
+  obtain ⟨second⟩ := Tails.exists_secondTailCertificate c frame p
+  exact ⟨Tails.tailCertificate_of_parts first second⟩
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.tails
+

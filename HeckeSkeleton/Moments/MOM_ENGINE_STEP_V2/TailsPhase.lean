@@ -21,6 +21,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tails
 open EngineStep NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.ThetaSkeleton.Global HeckePort.Moments
+open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
 variable {K : Type} [Field K] [NumberField K]
 

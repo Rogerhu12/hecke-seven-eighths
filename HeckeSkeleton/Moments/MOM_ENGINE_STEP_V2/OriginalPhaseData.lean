@@ -45,7 +45,7 @@ namespace OriginalPhaseData
 
 variable {packet : RawLeafPacket call p} (P : OriginalPhaseData packet)
 
-def deletionIdeal : NonzeroIdeal K :=
+def deletionIdeal : HeckeGeneral.Analysis.NonzeroIdeal K :=
   ⟨∏ I ∈ packet.second.physical.first.fullDeletion, I,
     mem_nonZeroDivisors_of_ne_zero P.deletion_nonzero⟩
 
@@ -75,7 +75,7 @@ def moving (paid : Bool) : OriginalMovingFactors (Arithmetic.data c)
 
 /-- The paid recipe keeps all its actual moving zeros. The unexpanded
 recipe additionally retains the complete original first deletion. -/
-def mask (paid : Bool) : NonzeroIdeal K :=
+def mask (paid : Bool) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   exteriorMomentIdeal ((P.moving paid).effectiveFullSupport
     call.localizedSource.source.recipe.remaining) *
       if paid then 1 else P.deletionIdeal

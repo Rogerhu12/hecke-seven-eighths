@@ -70,7 +70,7 @@ theorem physical_active_ideal_le (source : PhysicalSource call p)
   apply (hwindow.column_upper i hm.1 hm.2).trans
   apply Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
   have hs := idealLogLength_nonneg call.base call.domain.scale source.first.selected.val
-    source.first.selected.property
+    (nonZeroDivisors.coe_ne_zero source.first.selected)
   have hw := source.first.tag.removedLength_nonneg call.base call.domain.scale
   have ht := working_total_z_le (call := call)
   dsimp only [secondColumnExponent]
@@ -100,7 +100,7 @@ theorem second_inverseRadius_le (source : SecondSource call p) (hs : source.Real
   have ht := working_total_z_le (call := call)
   have hm := working_m_nonneg call hactive
   have hselected := idealLogLength_nonneg call.base call.domain.scale
-    source.physical.first.selected.val source.physical.first.selected.property
+    source.physical.first.selected.val (nonZeroDivisors.coe_ne_zero source.physical.first.selected)
   have hremoved := source.physical.first.tag.removedLength_nonneg
     call.base call.domain.scale
   have hmoving := originalNominal_moving_le_removed (call := call) source.physical.first.tag

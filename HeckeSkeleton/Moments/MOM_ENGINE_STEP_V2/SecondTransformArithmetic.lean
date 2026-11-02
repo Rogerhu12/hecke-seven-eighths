@@ -39,8 +39,13 @@ theorem originalPrincipalCharacter_eq (I : A.Exterior) (a : A.R)
   rw [originalPrincipalCharacter, dif_neg ha.1]
   have hI : Inputs.rowIdeal A a ha.1 = I :=
     generatedIdeal_unique (Inputs.rowIdeal_generates A a ha.1) ha
-  subst I
-  rfl
+  have he (I J : A.Exterior) (hIJ : I = J)
+      (h₁ : A.Generates I a) (h₂ : A.Generates J a) :
+      GlobalPairCancel.principalCharacter A σ I a h₁ =
+        GlobalPairCancel.principalCharacter A σ J a h₂ := by
+    subst J
+    rfl
+  exact he _ _ hI _ _
 
 def originalPoissonData (C : A.GeneralArithmeticContext σ η hS) :
     ComparisonPoissonCoefficientData K A where
