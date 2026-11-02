@@ -1,6 +1,10 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves
 
+set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
+set_option maxHeartbeats 1000000
+
 /-!
 # Actual left/right pool leaves of one original first-transform block
 
@@ -20,6 +24,16 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
+
+private abbrev first_block_sum_fintype
+    {I J : Type*} [Fintype I] [Fintype J] : Fintype (I ⊕ J) :=
+  inferInstance
+
+private abbrev first_block_sigma_sigma_fintype
+    {I J : Type*} {F : I → J → Type*}
+    [Fintype I] [Fintype J] [∀ i j, Fintype (F i j)] :
+    Fintype (Σ i, Σ j, F i j) :=
+  inferInstance
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -44,6 +58,8 @@ variable {E W : Type*}
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local instance firstBlockFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
 
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
@@ -72,9 +88,27 @@ abbrev CoveredClassKey
   (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ) ⊕
     (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ)
 
+abbrev coveredClassKeyFintype
+    (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (χ : (PUnit × PUnit) →* Circle) :
+    Fintype (s.CoveredClassKey LA RA S χ) :=
+  first_block_sum_fintype
+    (I := (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ))
+    (J := (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ))
+
+attribute [local instance] coveredClassKeyFintype
+
 abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
     Σ χ : (PUnit × PUnit) →* Circle, s.CoveredClassKey LA RA S χ
+
+abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
+  first_block_sigma_sigma_fintype
+    (I := divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (J := (PUnit × PUnit) →* Circle)
+    (F := fun S χ => s.CoveredClassKey LA RA S χ)
+
+attribute [local instance] coveredLeafKeyFintype
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
@@ -204,7 +238,27 @@ theorem class_cost_eq_budgets_leaves
     (T.right S χ).integral_phase_cost_eq_budgets_leaves
       (p.rightSourceCovers RA S χ) (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j)]
   simp only [Fintype.sum_sum_type, classLeaf, ActualHybridLeaf.scale_cost]
-  rw [← Finset.mul_sum, ← Finset.mul_sum]
+  refine Eq.trans ?_ (by
+    simpa only [Fintype.sum_sum_type] using
+      (congrArg (fun z : ℝ =>
+        T.classZeroBudget NL NR ε Czero S χ +
+          T.classTailBudget NL NR Cerror S χ + z)
+        (congrArg₂ (fun a b : ℝ => a + b)
+          (Finset.mul_sum
+            (Finset.univ : Finset ((s.left S χ).CoveredLeafKey
+              (p.leftSourceCovers LA S χ)))
+            (fun j =>
+              ((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ)
+                (exceptional.left S χ) chart.kernel chart.leftPoint j).cost)
+            (classWeight (p := p) NL NR S χ / NL S χ))
+          (Finset.mul_sum
+            (Finset.univ : Finset ((s.right S χ).CoveredLeafKey
+              (p.rightSourceCovers RA S χ)))
+            (fun j =>
+              ((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ)
+                (exceptional.right S χ) chart.kernel
+                (fun j => -chart.rightPoint j) j).cost)
+            (classWeight (p := p) NL NR S χ / NR S χ)))))
   unfold classZeroBudget classTailBudget
   ring
 

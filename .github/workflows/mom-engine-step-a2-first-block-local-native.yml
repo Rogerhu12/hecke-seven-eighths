@@ -1,0 +1,598 @@
+# Complete real FirstBlock sum repair; shared7caf options; only local cache registrations; exact d90 parent and three-path source guards.
+name: A2 FirstBlock local instances and sum repair native verification
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-first-block-local-native]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-first-block-local-native-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  first_block:
+    name: FirstBlockFiniteLeaves normal native and fresh audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-first-block-local-native
+          git show --no-patch --format=fuller HEAD > a2-first-block-local-native/checkout.txt
+          cat > a2-first-block-local-native/contract.json <<'CONTRACT'
+          {
+            "fixture_only": false,
+            "publishable": true,
+            "source_status": "Complete FirstBlock sum-shape repair with the three exact existing shared7caf file options and strictly local caches; original normal compilation and fresh audit pending.",
+            "previous_fixture": "The 85988 normal run41399534190 failed at247:6 because a whole Sum carrier equality did not match recursively expanded branch sums; this candidate normalizes only that proof term with Fintype.sum_sum_type.",
+            "rebind_policy": "Any owner or source change requires a new independently reviewed freeze; no diagnostic or skeleton source is accepted.",
+            "base": "d90f7b55d06812fe388dd36c3bfb4bb39343d721",
+            "base_tree": "daaa8fd23cc5322a54044a3d5ff0c86de29eafeb",
+            "task_directory": "HeckeSkeleton/Moments/MOM_ENGINE_STEP",
+            "target": "FirstBlockFiniteLeaves",
+            "target_path": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstBlockFiniteLeaves.lean",
+            "workflow_path": ".github/workflows/mom-engine-step-a2-first-block-local-native.yml",
+            "original": {
+              "bytes": 12578,
+              "sha256": "499a93874358abd2291adaa6ebaab1ebd2ac993f88f799b5fbb67c3eb990a11e",
+              "git_blob": "33f49e1c5fe8ebaa62efb404aab493540c9dd2e0"
+            },
+            "candidate": {
+              "bytes": 14821,
+              "sha256": "2834839a90001f1e7311859a733e6bdfe73071a72ea29276cc111479ed23179e",
+              "git_blob": "e46f43f81cfff1d16b589fd6c5a4348c6896b4b6"
+            },
+            "source_edits": [
+              {
+                "kind": "insert",
+                "original_start": 132,
+                "original_end": 132,
+                "candidate_start": 132,
+                "candidate_end": 254,
+                "old": "",
+                "new": "\nset_option linter.unusedSectionVars false\nset_option synthInstance.maxHeartbeats 400000\nset_option maxHeartbeats 1000000\n",
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "d02681ed0a2a30f93ac25561b8686e31ec99159e014da50285deb095657a756d"
+              },
+              {
+                "kind": "insert",
+                "original_start": 869,
+                "original_end": 869,
+                "candidate_start": 991,
+                "candidate_end": 1310,
+                "old": "",
+                "new": "\nprivate abbrev first_block_sum_fintype\n    {I J : Type*} [Fintype I] [Fintype J] : Fintype (I ⊕ J) :=\n  inferInstance\n\nprivate abbrev first_block_sigma_sigma_fintype\n    {I J : Type*} {F : I → J → Type*}\n    [Fintype I] [Fintype J] [∀ i j, Fintype (F i j)] :\n    Fintype (Σ i, Σ j, F i j) :=\n  inferInstance\n",
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "36804c6e489c8fb29371cce89336d4f106138dc6fdb364f8066d1eff22dd7222"
+              },
+              {
+                "kind": "insert",
+                "original_start": 2327,
+                "original_end": 2327,
+                "old": "",
+                "new": "attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype\n\n",
+                "candidate_start": 2768,
+                "candidate_end": 2868,
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "1361f9aeb3dd9121e2dc92f9947e176220f737a1fb43980d23dd0ce147a3a130"
+              },
+              {
+                "kind": "insert",
+                "original_start": 3755,
+                "original_end": 3755,
+                "candidate_start": 4296,
+                "candidate_end": 4711,
+                "old": "",
+                "new": "abbrev coveredClassKeyFintype\n    (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))\n    (χ : (PUnit × PUnit) →* Circle) :\n    Fintype (s.CoveredClassKey LA RA S χ) :=\n  first_block_sum_fintype\n    (I := (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ))\n    (J := (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ))\n\nattribute [local instance] coveredClassKeyFintype\n\n",
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "c21409833ce64bf26355e79abd4df16cb0364d847e98c90e6b8b5502e59f89a2"
+              },
+              {
+                "kind": "insert",
+                "original_start": 3930,
+                "original_end": 3930,
+                "candidate_start": 4886,
+                "candidate_end": 5210,
+                "old": "",
+                "new": "\nabbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=\n  first_block_sigma_sigma_fintype\n    (I := divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))\n    (J := (PUnit × PUnit) →* Circle)\n    (F := fun S χ => s.CoveredClassKey LA RA S χ)\n\nattribute [local instance] coveredLeafKeyFintype\n",
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "83b39988e8faa640d3bf6f3f5d2c47395cc9598eb19c4e3cc25619d7483b8281"
+              },
+              {
+                "kind": "replace",
+                "original_start": 10768,
+                "original_end": 10814,
+                "candidate_start": 12048,
+                "candidate_end": 13057,
+                "old": "  rw [← Finset.mul_sum, ← Finset.mul_sum]\n",
+                "new": "  refine Eq.trans ?_ (by\n    simpa only [Fintype.sum_sum_type] using\n      (congrArg (fun z : ℝ =>\n        T.classZeroBudget NL NR ε Czero S χ +\n          T.classTailBudget NL NR Cerror S χ + z)\n        (congrArg₂ (fun a b : ℝ => a + b)\n          (Finset.mul_sum\n            (Finset.univ : Finset ((s.left S χ).CoveredLeafKey\n              (p.leftSourceCovers LA S χ)))\n            (fun j =>\n              ((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ)\n                (exceptional.left S χ) chart.kernel chart.leftPoint j).cost)\n            (classWeight (p := p) NL NR S χ / NL S χ))\n          (Finset.mul_sum\n            (Finset.univ : Finset ((s.right S χ).CoveredLeafKey\n              (p.rightSourceCovers RA S χ)))\n            (fun j =>\n              ((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ)\n                (exceptional.right S χ) chart.kernel\n                (fun j => -chart.rightPoint j) j).cost)\n            (classWeight (p := p) NL NR S χ / NR S χ)))))\n",
+                "old_sha256": "8c1977f45763d32fa8664f891a467326de1d6d7fdf3fa6a5bc81d42d863b633b",
+                "new_sha256": "7ebe618762fbd57164c1bfb7041d50dc849546d2b5d8306d241fe15effd2a295"
+              }
+            ],
+            "original_imports": [
+              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource",
+              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves"
+            ],
+            "original_prints": [
+              "HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.TerminalCalibration.coveredCost_eq_budgets_leaves"
+            ],
+            "candidate_options": [
+              "set_option linter.unusedSectionVars false",
+              "set_option synthInstance.maxHeartbeats 400000",
+              "set_option maxHeartbeats 1000000"
+            ],
+            "config_sha256": {
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148"
+            },
+            "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
+            "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+            "expected_STEP_closure": [
+              "ActualCapacityProduction",
+              "ActualChildInvariants",
+              "ActualChildRows",
+              "ActualChildren",
+              "ActualCorrelationBound",
+              "ActualFamilyIntegrability",
+              "ActualFirstCharacters",
+              "ActualFirstSource",
+              "ActualFirstTerminalBudget",
+              "ActualFirstZero",
+              "ActualFrequencyPartition",
+              "ActualGaussCoverHybridTerminal",
+              "ActualGaussFiniteLeaves",
+              "ActualGaussRawTerminal",
+              "ActualLengths",
+              "ActualPool",
+              "ActualScaleClipping",
+              "AllocatedCapacityProvider",
+              "AllocatedChildFamily",
+              "AllocatedChildProvider",
+              "AllocatedSubsupport",
+              "AllocationKernel",
+              "AllocationMass",
+              "AmplifierDifference",
+              "AmplifierGaussExtraction",
+              "AmplifierPoolReindex",
+              "AmplifierResidualSupport",
+              "AmplifierSupportDictionary",
+              "AmplifierValuationSupport",
+              "ArithmeticPrimePool",
+              "CanonicalFirstBlocks",
+              "Capacity",
+              "CenteredAllocatedChildren",
+              "ChildAssembly",
+              "ChildMomentDataAdapter",
+              "ChildTermDictionary",
+              "Coefficient",
+              "CombinedSupportPoolAtlas",
+              "CommonHarmonicMass",
+              "CommonRadical",
+              "CommonSupportPartition",
+              "CoprimeCoefficient",
+              "CorrelationKernel",
+              "CoverHybridPhaseIntegral",
+              "DerivedCapacity",
+              "EffectiveChildSupport",
+              "FinitePhase",
+              "FiniteProductGauss",
+              "FirstActiveDictionary",
+              "FirstBlockFiniteLeaves",
+              "FirstCharacterSource",
+              "FirstCommonGauss",
+              "FirstCommonMass",
+              "FirstCommonNormalization",
+              "FirstCommonSupportSource",
+              "FirstDivisorPhysicalSource",
+              "FirstDivisorPool",
+              "FirstFiniteSource",
+              "FirstGaussPool",
+              "FirstGaussPoolKernel",
+              "FirstKernel",
+              "FirstLinearizedSource",
+              "FirstPooledResidual",
+              "FirstPooledStage",
+              "FirstResidualSource",
+              "FirstSecondCoveredSource",
+              "FirstSecondRawSource",
+              "FirstSecondSource",
+              "FirstStage",
+              "FirstWeightedReduction",
+              "FirstZeroAmplitude",
+              "FirstZeroDiagonal",
+              "FirstZeroSupport",
+              "FixedChildFamily",
+              "GaussEnergySource",
+              "GaussPairTransform",
+              "GaussPhaseTerminal",
+              "GaussPoolDictionary",
+              "GaussSource",
+              "GaussStageKernelIntegral",
+              "GaussStagePhaseTransport",
+              "GeneratedCorrelation",
+              "GeneratedZeroGauss",
+              "HybridFiniteLeaf",
+              "IdealPool",
+              "JointKernel",
+              "JointKernelBounds",
+              "JointKernelExceptionalSplit",
+              "Ledger",
+              "LocalAmplifier",
+              "LocalCRT",
+              "LocalCorrelation",
+              "MomentDataAdapter",
+              "NestedFourierMeasure",
+              "NestedHilbertPhase",
+              "NestedHybridKernel",
+              "NestedHybridResidual",
+              "NestedSecondClassProduction",
+              "NestedSecondResidual",
+              "NonzeroQuotientSupport",
+              "NormalizedActualCapacityChild",
+              "OrbitalCorrelation",
+              "ParentMoment",
+              "ParentSource",
+              "ParentTruncation",
+              "PhaseDictionary",
+              "Pool",
+              "PoolCoverHybridStage",
+              "PoolFiniteLeaves",
+              "PoolFourierStage",
+              "PoolGaussDecomposition",
+              "PoolRawFourierStage",
+              "PoolSecondStage",
+              "PoolStageTerminalBudget",
+              "PowerfulDiagonal",
+              "PowerfulProducts",
+              "PreCauchySource",
+              "PrimePool",
+              "PrimePowerGcd",
+              "PrimePowerQuotientSupport",
+              "PrimeSupportMass",
+              "ProfileNormalizationInput",
+              "RankinLabels",
+              "RawSourcePhaseIntegral",
+              "ReductionOutput",
+              "ResidualTupleCount",
+              "ResidualZeroBudget",
+              "SIntegerFirstFourier",
+              "SecondAllocatedSource",
+              "SecondAllocationKernel",
+              "SecondBranchProduction",
+              "SecondCenteredBinding",
+              "SecondChartAllocation",
+              "SecondClassProduction",
+              "SecondCoefficientBinding",
+              "SecondCoefficientNormalization",
+              "SecondCommonSource",
+              "SecondCorrelationSource",
+              "SecondGeneratorSource",
+              "SecondHybridAllocation",
+              "SecondHybridChart",
+              "SecondHybridCoverSource",
+              "SecondHybridSource",
+              "SecondResidualSource",
+              "SecondStage",
+              "SecondTailBudget",
+              "SecondZeroAmplitude",
+              "SecondZeroDiagonal",
+              "SecondZeroSupport",
+              "SlotRestriction",
+              "SourceCartesianAtlas",
+              "SourceCartesianCover",
+              "SourceFactorExtraction",
+              "StageTerminalBudget",
+              "SupportCartesianReindex",
+              "SupportKernelPartition",
+              "TailBudget",
+              "TailFiberCount",
+              "TerminalPowerBudget",
+              "UniformLengthCapacity",
+              "ValuationAllocation",
+              "WeightedNestedFourierMeasure",
+              "WholeAllocation",
+              "ZeroTerminalBudget"
+            ],
+            "expected_tracked_files": 9585,
+            "owner_claim_comment": 6572602229,
+            "coordinator_local_instance_comments": [
+              6571400398,
+              6572087480
+            ],
+            "shared_options_source": {
+              "ref": "7cafec4a",
+              "bytes": 11870,
+              "sha256": "fdef82650acba0246170bf44dbce11ca6f457f49e61b86d31716a97895fee961",
+              "git_blob": "24b8f6ff7d1028d202144dab301088eb2038d15e"
+            },
+            "pool_path": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean",
+            "pool_overlay": {
+              "original": {
+                "bytes": 13461,
+                "sha256": "d2ffeb40fa9db40b4526f17aa9de69cd23e0679091cd4088cacda1b63be18b75",
+                "git_blob": "ac94d17f95bfc4640aedf52004b79131747d7ebd"
+              },
+              "candidate": {
+                "bytes": 13467,
+                "sha256": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+                "git_blob": "ec4568bab1589edf73a099bdc99e66f6b9f25595"
+              },
+              "old": "attribute [instance] coveredLeafKeyFintype\n",
+              "new": "attribute [local instance] coveredLeafKeyFintype\n",
+              "only_change": "Keep the public transparent cache but restrict its registration to this file."
+            },
+            "required_dependencies": {
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": {
+                "bytes": 13467,
+                "sha256": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+                "git_blob": "ec4568bab1589edf73a099bdc99e66f6b9f25595"
+              }
+            }
+          }
+          CONTRACT
+          cat > a2-first-block-local-native/provenance.py <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+          import tomllib
+          
+          
+          def identity(data):
+              return {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                      'git_blob': hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()}
+          
+          
+          def validate_source_pair(original, candidate, contract):
+              assert identity(original) == contract['original']
+              assert identity(candidate) == contract['candidate']
+              forward = original
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['original_start'], edit['original_end']
+                  old, new = edit['old'].encode(), edit['new'].encode()
+                  assert original[start:end] == old
+                  assert identity(old)['sha256'] == edit['old_sha256']
+                  assert identity(new)['sha256'] == edit['new_sha256']
+                  forward = forward[:start] + new + forward[end:]
+              assert forward == candidate
+              backward = candidate
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['candidate_start'], edit['candidate_end']
+                  assert candidate[start:end] == edit['new'].encode()
+                  backward = backward[:start] + edit['old'].encode() + backward[end:]
+              assert backward == original
+              for pattern, key in [(rb'^import (.+)$', 'original_imports'),
+                                   (rb'^#print axioms (.+)$', 'original_prints')]:
+                  assert [x.decode() for x in re.findall(pattern, original, re.M)] == contract[key]
+                  assert [x.decode() for x in re.findall(pattern, candidate, re.M)] == contract[key]
+              assert [x.decode() for x in re.findall(rb'^set_option\b.*$', candidate, re.M)] == contract['candidate_options']
+              assert b'A_FIRST_BLOCK_C127_DIAGNOSTIC' not in candidate
+              assert b'run_tac IO.eprintln' not in candidate and b'run_cmd IO.eprintln' not in candidate
+              return {'original': identity(original), 'candidate': identity(candidate),
+                      'exact_forward_and_inverse': True,
+                      'original_imports': contract['original_imports'],
+                      'original_prints': contract['original_prints'],
+                      'candidate_options': contract['candidate_options']}
+          
+          
+          def validate_pool_pair(original, candidate, contract):
+              overlay = contract['pool_overlay']
+              assert identity(original) == overlay['original']
+              assert identity(candidate) == overlay['candidate']
+              old, new = overlay['old'].encode(), overlay['new'].encode()
+              assert original.count(old) == candidate.count(new) == 1
+              assert original.replace(old, new, 1) == candidate
+              assert candidate.replace(new, old, 1) == original
+              assert len(candidate) - len(original) == 6
+              assert b'attribute [instance] coveredLeafKeyFintype' not in candidate
+              return {'original': identity(original), 'candidate': identity(candidate),
+                      'only_change': overlay['only_change'], 'exact_forward_and_inverse': True}
+          
+          
+          def closure(graph, target):
+              found, pending = set(), [target]
+              while pending:
+                  name = pending.pop()
+                  if name in found:
+                      continue
+                  assert name in graph, 'Missing STEP module: ' + name
+                  found.add(name)
+                  pending.extend(graph[name])
+              return sorted(found)
+          
+          
+          def validate_inventory(source_bytes, config_bytes, contract):
+              task = contract['task_directory']
+              configs = {path: identity(data)['sha256'] for path, data in config_bytes.items()}
+              assert configs == contract['config_sha256'] and len(configs) == 7
+              assert config_bytes['lean-toolchain'].decode().strip() == 'leanprover/lean4:v4.35.0-rc3'
+              lake = tomllib.loads(config_bytes['lakefile.toml'].decode())
+              assert lake['weakLeanArgs'] == ['-j2']
+              assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+              mathlib = [x for x in json.loads(config_bytes['lake-manifest.json'])['packages'] if x['name'] == 'mathlib']
+              assert len(mathlib) == 1 and mathlib[0]['rev'] == contract['mathlib_commit']
+              imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$',
+                                   source_bytes[task + '/Interface.lean'].decode(), re.M)
+              expected = {p[:-5].replace('/', '.') for p in source_bytes if p != task + '/Interface.lean'}
+              libraries = [x['name'] for x in lake['lean_lib']]
+              assert len(source_bytes) == 1009 and len(imports) == len(set(imports)) == 1008
+              assert set(imports) == expected and len(libraries) == 20
+              graph = {Path(path).stem: re.findall(r'^import HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.([A-Za-z_0-9]+)\s*$', data.decode(), re.M)
+                       for path, data in source_bytes.items()}
+              actual_closure = closure(graph, contract['target'])
+              assert actual_closure == contract['expected_STEP_closure']
+              for path, expected_id in contract['required_dependencies'].items():
+                  assert identity(source_bytes[path]) == expected_id
+              return {'task_source_sha256': {p: identity(b)['sha256'] for p, b in source_bytes.items()},
+                      'config_sha256': configs, 'interface_imports': imports, 'libraries': libraries,
+                      'target_STEP_closure': actual_closure}
+          
+          
+          def main():
+              root = Path.cwd()
+              evidence = Path(__file__).resolve().parent
+              contract = json.loads((evidence / 'contract.json').read_text())
+              assert not contract['fixture_only'], (
+                  'UNPUBLISHABLE FIXTURE: rebind a reviewed complete repair and the actual current owner '
+                  'before freezing a runnable original normal workflow.')
+              phase = sys.argv[1]
+              assert phase in ['before', 'after']
+              def git(*args):
+                  return subprocess.check_output(['git', *args], text=True).strip()
+              assert git('rev-parse', contract['base'] + '^{tree}') == contract['base_tree']
+              head = git('rev-parse', 'HEAD')
+              assert head == os.environ['EXPECTED_SHA']
+              assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [head, contract['base']]
+              changed = git('diff', '--no-renames', '--name-only', contract['base'], 'HEAD').splitlines()
+              assert changed == sorted([contract['target_path'], contract['pool_path'], contract['workflow_path']])
+              assert git('diff', '--no-renames', '--name-status', contract['base'], 'HEAD').splitlines() == sorted([
+                  'M\t' + contract['target_path'], 'M\t' + contract['pool_path'], 'A\t' + contract['workflow_path']])
+              original = subprocess.check_output(['git', 'show', contract['base'] + ':' + contract['target_path']])
+              candidate = Path(contract['target_path']).read_bytes()
+              source_check = validate_source_pair(original, candidate, contract)
+              assert git('rev-parse', 'HEAD:' + contract['target_path']) == contract['candidate']['git_blob']
+              pool_original = subprocess.check_output(['git', 'show', contract['base'] + ':' + contract['pool_path']])
+              pool_candidate = Path(contract['pool_path']).read_bytes()
+              pool_check = validate_pool_pair(pool_original, pool_candidate, contract)
+              assert git('rev-parse', 'HEAD:' + contract['pool_path']) == contract['pool_overlay']['candidate']['git_blob']
+              task = Path(contract['task_directory'])
+              source_bytes = {str(p): p.read_bytes() for p in sorted(task.glob('*.lean'))}
+              config_bytes = {p: Path(p).read_bytes() for p in contract['config_sha256']}
+              inventory = validate_inventory(source_bytes, config_bytes, contract)
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+              assert len(tracked) == contract['expected_tracked_files']
+              def tracked_digest(path):
+                  p = Path(path)
+                  data = os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+                  return identity(data)['sha256']
+              record = {
+                  'stage': 'Complete FirstBlock original normal verification and fresh loaded namespace audit',
+                  'source_base': contract['base'], 'source_base_tree': contract['base_tree'],
+                  'head': head, 'tree': git('rev-parse', 'HEAD^{tree}'),
+                  'expected_head': os.environ['EXPECTED_SHA'],
+                  'changed_paths': changed, 'complete_source_identity': source_check,
+                  'Pool_local_registration_identity': pool_check,
+                  'coordinator_local_instance_comments': contract['coordinator_local_instance_comments'],
+                  'shared_file_options_source': contract['shared_options_source'],
+                  'target_modules': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + contract['target']],
+                  'original_prints': contract['original_prints'],
+                  'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                  'tracked_sha256': {p: tracked_digest(p) for p in tracked},
+                  'full_task_acceptance': False, **inventory,
+              }
+              assert not record['tracked_status']
+              assert json.loads(json.dumps(record)) == record
+              (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+              if phase == 'after':
+                  assert json.loads((evidence / 'before-source.json').read_text()) == record
+                  (evidence / 'source-integrity.json').write_text(json.dumps({
+                      'unchanged': True, 'head': head, 'tree': record['tree'],
+                      'tracked_files': len(tracked), 'task_modules': 1009,
+                      'interface_imports': 1008, 'libraries': 20}, indent=2) + '\n')
+              print(phase, head, record['tree'], len(tracked), 1009, 1008, 20, flush=True)
+          
+          
+          if __name__ == '__main__':
+              main()
+          PY
+          cat > a2-first-block-local-native/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-first-block-local-native')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-first-block-local-native/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-first-block-local-native/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a2-first-block-local-native/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves:deps
+      - name: Compile the complete original module and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a2-first-block-local-native/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.TerminalCalibration.coveredCost_eq_budgets_leaves \
+            --evidence a2-first-block-local-native/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-first-block-local-native/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-first-block-local-native-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-first-block-local-native/
+          if-no-files-found: error
+          retention-days: 14
