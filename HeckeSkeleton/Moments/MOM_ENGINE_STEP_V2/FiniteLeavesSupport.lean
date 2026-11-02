@@ -169,10 +169,17 @@ theorem costs_zero_of_not_active (hsecond : second.Realizes) (key : covers.Key)
           let stderr ← IO.getStderr
           stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesSupport checkpoint: inactive coefficient vanishes"
           stderr.flush
-        change (((source.stage.charts key.1.2.1 key.1.2.2.1).leftCoefficient
-          ((SourceClassKey.leftReindex key.1.2).index j) * _) * _) * _ = 0
-        rw [hc]
-        simp only [zero_mul]
+        apply mul_eq_zero_of_left
+        run_tac do
+          let stderr ← IO.getStderr
+          stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesSupport checkpoint: inactive outer factor removed"
+          stderr.flush
+        apply mul_eq_zero_of_left
+        run_tac do
+          let stderr ← IO.getStderr
+          stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesSupport checkpoint: inactive phase factor removed"
+          stderr.flush
+        exact mul_eq_zero_of_left hc _
     · run_tac do
         let stderr ← IO.getStderr
         stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesSupport checkpoint: inactive rows branch"

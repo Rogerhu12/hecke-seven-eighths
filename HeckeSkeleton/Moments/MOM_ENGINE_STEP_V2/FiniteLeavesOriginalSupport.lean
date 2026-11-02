@@ -11,11 +11,12 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.FiniteLeaves
 
 open EngineStep EngineInduction.Source
-open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.Moments HeckePort.Moments.Support
+open HeckePort.IdealMobiusDivisorSum
 open UniqueFactorizationMonoid
 
 variable {K : Type} [Field K] [NumberField K]
@@ -32,10 +33,12 @@ theorem original_label_eq (P : Finset (Ideal (𝓞 K)))
     (v : call.workingRaw.Column) (hv : v ∈ call.workingRaw.exteriorColumns) :
     call.workingRaw.originalReindex.supportExtractionLabel P v =
       SupportCartesian.extractionKey P (call.workingRaw.originalCoordinates v) := by
-  simpa only [call.workingRaw.originalIndex_coordinates] using
-    call.workingRaw.originalReindex.supportExtractionLabel_index P
-      (call.workingRaw.originalCoordinates v)
-      (call.workingRaw.originalCoordinates_mem v hv)
+  have h := call.workingRaw.originalReindex.supportExtractionLabel_index P
+    (call.workingRaw.originalCoordinates v)
+    (call.workingRaw.originalCoordinates_mem v hv)
+  change call.workingRaw.originalReindex.supportExtractionLabel P
+    (call.workingRaw.originalIndex (call.workingRaw.originalCoordinates v)) = _ at h
+  simpa only [call.workingRaw.originalIndex_coordinates] using h
 
 theorem original_label_union_left (S T : Finset (Ideal (𝓞 K)))
     (v w : call.workingRaw.Column)
@@ -170,9 +173,9 @@ theorem fibreInput_of_first
   apply fibreInput_of_common source (e.trans F.index) (funext ancestor)
     (FirstCauchyKey.selectedIdeal key)
   · intro i
-    rw [columns i, FirstCauchyKey.data_columns, hmem, hF.ideal, deletion]
+    rw [columns i, FirstCauchyKey.data_columns, hmem, hF.ideal, deletion, Equiv.trans_apply]
   · intro i _
-    rw [ideal i, FirstCauchyKey.data_residual, hF.ideal, deletion]
+    rw [ideal i, FirstCauchyKey.data_residual, hF.ideal, deletion, Equiv.trans_apply]
 
 theorem fibreInput_congr
     (source target : PhysicalSource call p) (h : OriginalFibreInput source)

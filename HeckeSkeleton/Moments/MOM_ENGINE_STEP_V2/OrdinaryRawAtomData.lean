@@ -56,7 +56,7 @@ def secondAtomIndex (side : Bool) (i : Fin (packet.ordinarySlots side)) :
     (SlotRestriction.index (packet.secondBranch side).keep
       (Fin.cast (packet.secondAtomCount side).symm i))
 
-def normProfile (plain : Bool) (x : ℝ) : ℂ :=
+def normProfile (_packet : RawLeafPacket call p) (plain : Bool) (x : ℝ) : ℂ :=
   (if plain then call.localizedNormProfiles.right PUnit.unit 0 x
    else call.localizedNormProfiles.left PUnit.unit 0 x) *
     ((x ^ (-1 + 2 * p.tilt) : ℝ) : ℂ)
@@ -117,7 +117,7 @@ theorem beforeAtomTable_term (phases : OriginalPhaseData packet) (side : Bool)
       (packet.beforeAtomTable hpacket phases side).term r
         (cast (congrArg (AllocationColumn K) (packet.secondAtomCount side)) i) := by
   cases side <;>
-    rw [beforeAtomTable, OrdinaryAtomTable.scale_term,
+    erw [beforeAtomTable, OrdinaryAtomTable.scale_term,
       OrdinaryAtomTable.unitGaussExtract_term _ _ _ _ hi,
       packet.firstAtomTable_normalizer hpacket phases, one_mul] <;>
     exact (mul_assoc _ _ _).symm
@@ -207,8 +207,13 @@ theorem beforeAtomTable_rightWeight (O : OrdinaryData packet)
 
 theorem beforeAtomTable_normalizer (phases : OriginalPhaseData packet) (side : Bool) :
     (packet.beforeAtomTable hpacket phases side).normalizer = 1 := by
-  cases side <;>
-    exact OrdinaryAtomTable.unitGaussExtract_normalizer _ _
+  cases side with
+  | false =>
+      exact OrdinaryAtomTable.unitGaussExtract_normalizer
+        (packet.firstAtomTable hpacket phases false) (packet.secondBranch false)
+  | true =>
+      exact OrdinaryAtomTable.unitGaussExtract_normalizer
+        (packet.firstAtomTable hpacket phases true) (packet.secondBranch true)
 
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

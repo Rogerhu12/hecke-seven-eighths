@@ -77,9 +77,12 @@ theorem ordinaryLeftPoint_eq_translation (hpacket : packet.Realizes)
       rawSourceLocation (CanonicalLiteralLocations.plain packet.firstSign)
         (CanonicalLiteralLocations.plain packet.firstSign)
         (CanonicalLiteralLocations.prime packet.firstSign) i := by
+  have hresidual : (packet.block.leftResidual (packet.leftReindex.index i)).val =
+      allocationColumnIdeal i := packet.leftReindex.ideal_product i hi
   have hnonzero : allocationColumnIdeal i ≠ 0 := by
-    rw [← packet.leftReindex.ideal_product i hi]
-    exact (packet.leftIdeal i).property.1
+    intro hz
+    exact (packet.block.leftResidual (packet.leftReindex.index i)).property.1
+      (hresidual.trans hz)
   have hleft : i.1.1 ≠ 0 := by
     intro hz
     exact hnonzero (by simp only [allocationColumnIdeal, hz, zero_mul])
@@ -90,14 +93,18 @@ theorem ordinaryLeftPoint_eq_translation (hpacket : packet.Realizes)
       (packet.second.physical.source.ideal (packet.leftReindex.index i)).val =
       (packet.second.physical.first.poolPower.val * packet.block.commonLeftIdeal.val) *
         allocationColumnIdeal i := by
-    rw [packet.block.left_reconstruct _ _ (packet.leftReindex_mem_common i hi),
-      packet.leftReindex.ideal_product i hi]
+    have hsource :
+        (packet.second.physical.source.ideal (packet.leftReindex.index i)).val =
+          packet.block.commonLeftIdeal.val *
+            (packet.block.leftResidual (packet.leftReindex.index i)).val :=
+      packet.block.left_reconstruct _ _ (packet.leftReindex_mem_common i hi)
+    rw [hsource, hresidual]
     exact (mul_assoc _ _ _).symm
   have hsecond : (packet.block.secondLeftIdeal (packet.leftReindex.index i)).val =
       packet.block.commonLeftIdeal.val * allocationColumnIdeal i := by
     change packet.block.commonLeftIdeal.val *
       (packet.block.leftResidual (packet.leftReindex.index i)).val = _
-    rw [packet.leftReindex.ideal_product i hi]
+    exact congrArg (fun J : Ideal (𝓞 K) => packet.block.commonLeftIdeal.val * J) hresidual
   have hx := CanonicalLiteralLocations.actual_product_locations packet.firstSign
     (Real.log (CanonicalSecondLogChart.rowRadius packet.second.stage.radius
       packet.key.2.1.val h).val) i hleft hright _ _
@@ -111,7 +118,9 @@ theorem ordinaryLeftPoint_eq_translation (hpacket : packet.Realizes)
       packet.chart.leftPoint h (packet.leftReindex.index i)) = _
   rw [(packet.realizes_point hpacket) (packet.leftReindex.index i),
     (packet.realizes_second hpacket).leftPoint]
-  simpa only [leftRowTranslation, firstSign, map_mul, Nat.cast_mul] using hx
+  simpa only [leftRowTranslation, firstSign, SArithmeticData.exteriorNorm,
+    DedekindZetaZeroFree.idealNorm, RawLeafPacket.block, SourceClassKey.block,
+    SecondSource.block, map_mul, Nat.cast_mul] using hx
 
 /-- Conjugation reverses the first Fourier sign once on the right;
 the second coordinate remains the same negative residual logarithm. -/
@@ -122,9 +131,12 @@ theorem ordinaryRightPoint_eq_translation (hpacket : packet.Realizes)
       rawSourceLocation (CanonicalLiteralLocations.plain (-packet.firstSign))
         (CanonicalLiteralLocations.plain (-packet.firstSign))
         (CanonicalLiteralLocations.prime (-packet.firstSign)) i := by
+  have hresidual : (packet.block.rightResidual (packet.rightReindex.index i)).val =
+      allocationColumnIdeal i := packet.rightReindex.ideal_product i hi
   have hnonzero : allocationColumnIdeal i ≠ 0 := by
-    rw [← packet.rightReindex.ideal_product i hi]
-    exact (packet.rightIdeal i).property.1
+    intro hz
+    exact (packet.block.rightResidual (packet.rightReindex.index i)).property.1
+      (hresidual.trans hz)
   have hleft : i.1.1 ≠ 0 := by
     intro hz
     exact hnonzero (by simp only [allocationColumnIdeal, hz, zero_mul])
@@ -135,14 +147,18 @@ theorem ordinaryRightPoint_eq_translation (hpacket : packet.Realizes)
       (packet.second.physical.source.ideal (packet.rightReindex.index i)).val =
       (packet.second.physical.first.poolPower.val * packet.block.commonRightIdeal.val) *
         allocationColumnIdeal i := by
-    rw [packet.block.right_reconstruct _ _ (packet.rightReindex_mem_common i hi),
-      packet.rightReindex.ideal_product i hi]
+    have hsource :
+        (packet.second.physical.source.ideal (packet.rightReindex.index i)).val =
+          packet.block.commonRightIdeal.val *
+            (packet.block.rightResidual (packet.rightReindex.index i)).val :=
+      packet.block.right_reconstruct _ _ (packet.rightReindex_mem_common i hi)
+    rw [hsource, hresidual]
     exact (mul_assoc _ _ _).symm
   have hsecond : (packet.block.secondRightIdeal (packet.rightReindex.index i)).val =
       packet.block.commonRightIdeal.val * allocationColumnIdeal i := by
     change packet.block.commonRightIdeal.val *
       (packet.block.rightResidual (packet.rightReindex.index i)).val = _
-    rw [packet.rightReindex.ideal_product i hi]
+    exact congrArg (fun J : Ideal (𝓞 K) => packet.block.commonRightIdeal.val * J) hresidual
   have hx := CanonicalLiteralLocations.actual_product_locations (-packet.firstSign) 0
     i hleft hright _ _
     (packet.second.physical.first.poolPower.val * packet.block.commonRightIdeal.val)
@@ -155,8 +171,9 @@ theorem ordinaryRightPoint_eq_translation (hpacket : packet.Realizes)
       packet.chart.rightPoint h (packet.rightReindex.index i)) = _
   rw [(packet.realizes_point hpacket) (packet.rightReindex.index i),
     (packet.realizes_second hpacket).rightPoint]
-  simpa only [rightRowTranslation, firstSign, map_mul, Nat.cast_mul,
-    neg_neg, neg_mul, zero_sub] using hx
+  simpa only [rightRowTranslation, firstSign, SArithmeticData.exteriorNorm,
+    DedekindZetaZeroFree.idealNorm, RawLeafPacket.block, SourceClassKey.block,
+    SecondSource.block, map_mul, Nat.cast_mul, neg_neg, neg_mul, zero_sub] using hx
 
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

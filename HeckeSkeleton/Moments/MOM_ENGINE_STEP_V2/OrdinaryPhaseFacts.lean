@@ -183,31 +183,36 @@ theorem phase_facts (hfamily : family.Realizes)
         · rw [Finset.mem_singleton.mp hI]
           exact qe.1.val.val.ne_bot
 
+private def ofPhaseFacts (packet : RawLeafPacket call p)
+    (first : (Arithmetic.data c).R) (hfirst : first ≠ 0)
+    (pool : Option (AmplifierValuation × ExteriorPrime (Arithmetic.data c)))
+    (facts : PhaseFacts packet.second.physical first pool) : OriginalPhaseData packet where
+  first_nonzero := by
+    rw [facts.first_eq]
+    exact hfirst
+  pool := pool
+  pool_tag := by
+    cases pool with
+    | none => exact facts.tag
+    | some ep =>
+      rcases ep with ⟨e, q⟩
+      exact facts.tag
+  pool_power := by
+    cases pool with
+    | none => exact facts.power
+    | some ep =>
+      rcases ep with ⟨e, q⟩
+      exact facts.power
+  deletion_nonzero := facts.deletion
+
 def ofSource (packet : RawLeafPacket call p)
     (family : FirstCauchyFamily F) (hfamily : family.Realizes)
     (expansion : PoolExpansion family) (hexpansion : expansion.Realizes)
     (i : Fin expansion.count)
-    (physical : packet.second.physical = expansion.source i) : OriginalPhaseData packet where
-  first_nonzero := by
-    rw [physical, (phase_facts hfamily expansion hexpansion i).first_eq]
-    exact firstElement_nonzero _
-  pool := poolOption expansion i
-  pool_tag := by
-    have ht := (phase_facts hfamily expansion hexpansion i).tag
-    cases hp : poolOption expansion i with
-    | none => simpa only [hp, physical] using ht
-    | some ep =>
-      rcases ep with ⟨e, q⟩
-      simpa only [hp, physical] using ht
-  pool_power := by
-    have ht := (phase_facts hfamily expansion hexpansion i).power
-    cases hp : poolOption expansion i with
-    | none => simpa only [hp, physical] using ht
-    | some ep =>
-      rcases ep with ⟨e, q⟩
-      simpa only [hp, physical] using ht
-  deletion_nonzero := by
-    simpa only [physical] using (phase_facts hfamily expansion hexpansion i).deletion
+    (physical : packet.second.physical = expansion.source i) : OriginalPhaseData packet :=
+  ofPhaseFacts packet (FirstCauchyKey.firstElement (family.index (expansion.firstIndex i)))
+    (firstElement_nonzero _) (poolOption expansion i)
+    (by simpa only [physical] using phase_facts hfamily expansion hexpansion i)
 
 theorem ofSource_firstMoving (packet : RawLeafPacket call p)
     (family : FirstCauchyFamily F) (hfamily : family.Realizes)
@@ -234,7 +239,7 @@ theorem ofSource_poolMoving_false (packet : RawLeafPacket call p)
   | direct => rfl
   | pooled P count index source =>
     cases he : (index i).2 <;>
-      simp only [OriginalPhaseData.poolMoving, ofSource, poolOption,
+      simp only [OriginalPhaseData.poolMoving, ofSource, ofPhaseFacts, poolOption,
         PoolExpansion.poolMoving, he, Bool.false_eq_true, ↓reduceIte]
 
 theorem ofSource_moving_false (packet : RawLeafPacket call p)
