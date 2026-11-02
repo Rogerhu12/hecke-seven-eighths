@@ -74,7 +74,7 @@ theorem residual_mobius_candidates (B : Carrier K k) (mask : Ideal (𝓞 K))
       ∑ a ∈ candidates mask k, sign a * ∑ i ∈ columns B a, C i := by
   have hterm (i : AllocationColumn K k) :
       (if IsCoprime mask (columnIdeal i) then C i else 0) =
-        ∑ D ∈ idealDivisors mask, (moebius D : ℂ) *
+        ∑ D ∈ idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
           (if D ∣ columnIdeal i then C i else 0) := by
     have h := congrArg (fun z : ℂ => z * C i)
       (HeckePort.Moments.ideal_coprime_mobius mask (columnIdeal i) hmask)
@@ -82,10 +82,10 @@ theorem residual_mobius_candidates (B : Carrier K k) (mask : Ideal (𝓞 K))
       mul_ite, mul_zero] using h
   calc
     _ = ∑ i ∈ carrierColumns B, ∑ D ∈ idealDivisors mask,
-        (moebius D : ℂ) * (if D ∣ columnIdeal i then C i else 0) := by
+        (UniqueFactorizationMonoid.moebius D : ℂ) * (if D ∣ columnIdeal i then C i else 0) := by
       rw [Finset.sum_filter]
       exact Finset.sum_congr rfl fun i _ => hterm i
-    _ = ∑ D ∈ idealDivisors mask, (moebius D : ℂ) *
+    _ = ∑ D ∈ idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
         ∑ i ∈ carrierColumns B with D ∣ columnIdeal i, C i := by
       rw [Finset.sum_comm]
       simp only [Finset.sum_filter, Finset.mul_sum]
@@ -97,7 +97,7 @@ theorem residual_mobius_candidates (B : Carrier K k) (mask : Ideal (𝓞 K))
         (idealCarrier (B.plain false)) (idealCarrier (B.plain true)) B.slots
         id id HeightOneSpectrum.asIdeal C
       calc
-        _ = (moebius D : ℂ) *
+        _ = (UniqueFactorizationMonoid.moebius D : ℂ) *
             ∑ v ∈ AllocationMass.idealAllocations D (k + 2),
               AllocationMass.sign (primeSupport D) v *
                 ∑ i ∈ columns B ⟨D, v⟩, C i := by
