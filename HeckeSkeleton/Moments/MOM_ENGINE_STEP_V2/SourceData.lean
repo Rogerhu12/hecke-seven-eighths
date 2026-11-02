@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ArithmeticData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualDirectFirstSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RemainingMaskRadical
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -27,6 +28,7 @@ open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -155,6 +157,25 @@ local instance sourceNormOneBorel (c : TargetContext K) :
       ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))) := ⟨rfl⟩
 
 variable {c : TargetContext K}
+
+/-- The total original row-ideal dictionary; zero is never used on a
+physical row. This is the actual principal exterior ideal. -/
+def originalFrequencyIdeal {A : SArithmeticData K} [IsPrincipalIdealRing A.R]
+    (h : A.R) : A.Exterior :=
+  if hh : h ≠ 0 then ProbeOrbitNormSum.principalExterior A ⟨h, hh⟩
+  else unitExterior A
+
+theorem originalFrequencyIdeal_generates {A : SArithmeticData K}
+    [IsPrincipalIdealRing A.R] (h : A.R) (hh : h ≠ 0) :
+    A.Generates (originalFrequencyIdeal h) h := by
+  rw [originalFrequencyIdeal, dif_pos hh]
+  exact ProbeOrbitNormSum.principalExterior_generates A ⟨h, hh⟩
+
+/-- The original ideal of the physical first-mask divisor. -/
+def firstPhysicalDivisorIdeal {A : SArithmeticData K} [IsPrincipalIdealRing A.R]
+    (D : Finset (HeightOneSpectrum A.R)) : A.Exterior :=
+  originalFrequencyIdeal
+    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
 
 abbrev FirstSource (call : Call c) (p : SourceParameters c) :=
   ActualDirectFirstSource (Γ := Arithmetic.unitSubgroup c) (E := ℝ)

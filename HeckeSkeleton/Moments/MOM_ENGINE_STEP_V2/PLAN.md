@@ -1,80 +1,43 @@
 # MOM_ENGINE_STEP_V2：论文步骤蓝图
 
-## 生效要求
+## 原目标与当前阶段
 
-按任务文件 2026-11-02 18:20 的“方向调整”及 PR #31 [协调评论](https://github.com/Rogerhu12/hecke-seven-eighths/pull/31#issuecomment-6574713757)，第一阶段改为**必要中间陈述、完整组装证明、逐陈述任务清单**。原目标仍是：
+依据更新后的任务说明及 PR #31 [方向调整](https://github.com/Rogerhu12/hecke-seven-eighths/pull/31#issuecomment-6574713757)，本阶段交付必要中间陈述、显式假设下无 sorry 的完整组装和独立证明任务清单。原目标保持：
 
 ```lean
 EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
 ```
 
-不修改 base 的定义、原量词、mesh 或 supported-volume 假设。各证明任务的主体暂用 `sorry`；组装模块显式接收这些任务的证明，不能使用 `sorry`，也不能导入已占位的任务定理。
+不更改 base 定义、mesh、supported-volume 假设或原始量词。各任务证明单独置于 Tasks 文件；数据、命题类型和组装不能导入占位任务证明。
 
-## 当前批次：真实输入、候选任务陈述及完整组装辅助
+## 当前进度
 
-当前提交仍在固定蓝图接口，尚未登记完整蓝图里程碑。第一轮 CI 的 CallData 两个 namespace 错误已修正（原 localize/profile 构造位于 EngineInduction）。新增候选陈述只表达论文中间步骤；已存在的两个独立任务证明明确保留 sorry，完整组装辅助与数据不含占位。
+本批 54 个活动 Lean 模块，4726 物理行；g0: 42；g1: 11；g2: 1。源端六项陈述及其 SourceAssembly、四终端证书接口及 TerminalAssembly 已写出；规范化后半陈述、完整 conditional assembly 与最终入口仍在接线。**尚未宣告完整蓝图编通。**
 
-| 文件 | 当前物理行 | 角色 |
-|---|---:|---|
-| `ArithmeticData` | 71 | 同一base arithmetic choice |
-| `AssemblyCore` | 130 | Mellin strict family组装 |
-| `BudgetAssembly` | 101 | 四terminal/同核mass数值组装 |
-| `CallData` | 111 | 同一call及localization |
-| `EmptyAssembly` | 41 | 真实空原rows的零输出 |
-| `EstimateData` | 126 | 原profile、rank与明确数值资格 |
-| `FirstCauchyContracts` | 224 | S2实际first Cauchy carrier/allowance |
-| `FirstSourceContracts` | 137 | S1原first source与规范原子身份 |
-| `InputDemands` | 93 | 明确orders/threshold的并集与max |
-| `Interface` | 36 | 聚合入口，完整任务组装仍待接入 |
-| `NormalizationAssembly` | 49 | base source_integral运输 |
-| `NormalizedData` | 98 | 同一base normalized family与原核 |
-| `OrdinaryData` | 94 | 原ordinary binding |
-| `OriginalInput` | 45 | 原finite parent atoms |
-| `OutputAssembly` | 102 | 同一family→原PairedEngineConclusion |
-| `PassiveData` | 99 | 原residual-mask有限divisor/allocation carrier |
-| `PreparedCall` | 117 | 原Mellin preprocessing |
-| `PrimitiveAssembly` | 45 | 精确recursive invariant五项组装 |
-| `ProfileDictionary` | 96 | 固定父representative及完整profile字典 |
-| `ProfileFormula` | 111 | 全实数原profile变换公式 |
-| `ProfileFormulaTask` | 21 | N5a统一profile公式估计（sorry） |
-| `RawLeafData` | 214 | 原covered keys/allocations及真实full-correlation leaf |
-| `RawRectangleData` | 70 | 原two-rectangle逐项公式 |
-| `SourceData` | 219 | source数据、正loss/cutoff、空row分支 |
-| `SourceFrame` | 140 | 原始量词与source request |
-| `TasksUniform` | 28 | U1统一输入准备（sorry） |
-| `UniformAssembly` | 76 | 原目标量词包装 |
-| `UniformContracts` | 93 | 原输入准备的纯任务类型 |
-| `UniformData` | 67 | uniform输入准备 |
+前一轮 d4568a30 的 CI 已完成且日志已读：三个根错误分别是 AssemblyCore 的 let binder、SourceData 的缺失 base import/namespace、NormalizationAssembly 的加法方向。本批逐项修复。上轮已经通过的 ProfileFormula/ProfileFormulaTask 对应 N5a 已在 PR 宣告冻结。
 
-以上数据及派生定义全部具体构造，不从新 admitted existence 中选择数据。尚未使用的原 `OriginalInput` 证明陈述也已移除。原始 source 的存在证书来自 base 的 node invariant；Mellin/localization 直接调用 base 已有构造。
+候选数据同时修正真实 passive carrier：恢复原 smooth supports，保留 fixed cS 与 paidSupport 的 mask，只对 residualDeletion 做有限 Möbius 展开。唯一标签来自真实 divisor/occurrence allocation；不能引入重复标签或任意缩放 profile/normalizer。该规范化接口尚未冻结。
 
-旧 90 模块实现闭包中的 **86 个文件已从活动目录移除**；Literal/physical/selected 数值实现不进入蓝图。可通过 [旧 head 0b30d8e](https://github.com/Rogerhu12/hecke-seven-eighths/tree/0b30d8e371be1fe4028306e24c86fef3b3c5588f/HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2) 或 A 线历史查阅，不复制到新的 reference 编译目录。
+## 独立任务与冻结纪律
 
-## 下一批：固定任务陈述并证明组装
+完整的 **23 项**任务及预计陈述、依赖、论文行号、规模见 [TASKS.md](TASKS.md)，亦已提前贴到 [PR #31](https://github.com/Rogerhu12/hecke-seven-eighths/pull/31#issuecomment-6575698539)，不再等待全部组装完成才分发。
 
-源端按论文步骤拆为：原始系数与第一变换、第一轮范数预算、一次 prime pool、第二完整相关式、宽度下降、两轮除子分配。规范化侧另行区分原子字典、被动 whole-product 分解、capacity/clipping、profile、同一 child invariant、同核 integrability/mass 与实际四终端。
+- N5a：已冻结于 d4568a30。独立会话只修改 ProfileFormulaTask.lean 及相邻新建私有 helpers。公开陈述或其类型含义变更先提 PR 评论。
+- U1：本批补足原问题允许的 Hp 非负和严格 child profile 所需最小 Cp；读完 CI 后再单独宣布冻结。
+- 其余任务：当前均为草案。定稿后逐项宣布冻结，不能默改已交付的签名。
 
-每个任务先固定具体的 Lean 陈述及依赖，目标证明规模 3000–5000 行以内。统一 orders/constants/threshold 的证书必须先于移动输入；输入资格只能由明确数值与几何条件定义，不能用任意可为空的谓词代替。统一选择任务只构造输入数据与资格，不能把最终 child/output 当作前提。
+## 精确组装与预算
 
-纯数据及任务命题类型与占位任务证明分开。无占位组装模块只 import 纯类型和 base，显式取得每项任务证明后，逐层取得同一 source/leaf/child/kernel，最终构造原 `PairedStepHypothesis`。实例化这些任务的顶层入口另行记录其仍有 `sorryAx`，不把条件组装的三公理通过误报为最终目标已证明。
+组装先按原 pairedRows 是否为空分支；空行由 base 的真实零输出解决。非空分支必须沿同一原 source trace、同一 allocation/refinement、同一 normalized family 与 kernels，取得四 terminal 及实际 mass，并恢复 child 的全部五项 recursive invariant。最后通过原 Mellin 外层 budget 构造 PairedStepHypothesis。
 
-## 预算基准
+条件组装的三公理通过不代表各数学任务已证明。实例化 sorry Tasks 的最终入口必须公开保留其 sorryAx 状态，直到每项任务被实证替换。
 
-原 19 模块草图预算 **57,620 行**；旧实现方案后来重估为 **76,920 行**，增加 **19,300 行**，尚未通过完整 CI。该实现方案已经停止，不再作为蓝图路线继续扩展。
+23 项预计证明总规模为 **63,000–89,500 行**（包含各私有 helper）；另加公共蓝图数据与组装。此前不完整草图 57,620 行、旧迁移方案 76,920 行均保留为历史基准，不能改名隐藏增长。未实现的通用化不预记节省，完整成品仍以 <100,000 行为上限。
 
-本批 **29 模块、2,854 物理行**；除两个独立任务证明的显式 sorry 外，数据、纯命题类型及公共组装均已具体实现。这个数字是蓝图输入层体量，不是完整证明规模，也不是完成压缩的证据。完整蓝图会按每个任务列出预计证明行数、真实依赖、论文位置与 A 线参考，汇总后继续以 100,000 行为上限。未实现的通用化不提前计算节省。
+旧 90 模块实现中的86个文件已从活动目录移除，可在 Git 历史查询；不复制到新 reference 编译目录。
 
-## CI 与执行节奏
+## 验证与推送
 
-只用 GitHub CI 编译；每批完成即推送，等待该轮结果并读完日志才推下一批。专用 CI 精确 checkout head，验证 manifest 覆盖全部活动模块，并对 `proved` 组在 fresh Lean 中递归审计所有 V2 声明，只允许 `propext`、`Classical.choice`、`Quot.sound`。`g0` 只含真实数据、纯命题类型与完整组装辅助，并单独递归审计；`g1` 两个独立任务暂为显式 sorry；`g2` 聚合入口不计为最终任务组装完成。
+只在 GitHub CI 编译，不在本地运行 Lean/lake。完成一批即通过 GitHub 直接提交，等待该轮专用 CI 完成并读日志才推下一批。CI 精确 checkout head、检查 manifest 覆盖所有模块，并在 fresh Lean 中递归审计 g0 全部 V2 声明，只允许 propext、Classical.choice、Quot.sound。g1 显式任务占位与 g2 聚合入口不冒充最终证明。
 
-全部任务陈述与完整无占位组装在同一 head 编通后，发布正式逐任务清单供协调员安排并行会话。PR 保持 [不合并] draft；最终原目标无占位、三公理与 integration gate 通过后才进入审查。
-
-## 已固定的独立任务（清单尚未完整）
-
-| 名字 | 文件 | 输入/依赖 | 论文行号 | 预计证明行数 | 参考 |
-|---|---|---|---|---:|---|
-| `Blueprint.Tasks.uniformPreparation` | `TasksUniform.lean` | 六个固定UniformCost families、具体demands；只产生原输入及funding | 3043–3073 | 2,500–4,000 | base StrictProfileOrder、MellinSourcePreparation、ActualEngineProfiles；A finite-rank uniform choices |
-| `Blueprint.Tasks.profile_formula_control` | `ProfileFormulaTask.lean` | 固定global formula、positive support与dilation/power/phase bounds | 3043–3073 | 2,000–3,000 | base CanonicalLogProfiles；A原uniform log-profile calculus |
-
-其他 source/normalization/terminal 陈述及完整 `pairedStepHypothesis_of_blueprint` 仍在接线与审核，不作为已可分发的最终任务清单。
+PR 保持 [不合并] draft；完整蓝图与无 sorry 条件组装在同一 head 编通后登记阶段里程碑，随后继续各独立任务的实证工作。

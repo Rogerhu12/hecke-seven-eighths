@@ -41,7 +41,7 @@ theorem parentBound_of_sourceBound
     (firstZero secondZero exceptional tail : ℝ)
     (hsource : N.ParentSourceBound firstZero secondZero exceptional tail) :
     N.ParentBound firstZero secondZero exceptional tail :=
-  hsource.trans (add_le_add_left (sourceBudget_le_childBudget N atoms) _)
+  hsource.trans (add_le_add (le_refl _) (sourceBudget_le_childBudget N atoms))
 
 end HeckeSkeleton.Moments.EngineStepV2.Assembly
 

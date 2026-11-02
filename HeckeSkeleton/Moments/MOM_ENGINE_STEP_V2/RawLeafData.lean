@@ -181,10 +181,10 @@ structure RawLeafPacket (call : Call c) (p : SourceParameters c) where
     (EngineInduction.Source.recipeInductionSigma c)
   leftFirst : SupportCartesianBranch call.workingRaw.originalPlain₁
     call.workingRaw.originalPlain₂ call.workingRaw.exteriorSlots
-    (primeSupport second.physical.first.selected.val)
+    second.physical.first.fullDeletion
   rightFirst : SupportCartesianBranch call.workingRaw.originalPlain₁
     call.workingRaw.originalPlain₂ call.workingRaw.exteriorSlots
-    (primeSupport second.physical.first.selected.val)
+    second.physical.first.fullDeletion
 
 namespace RawLeafPacket
 

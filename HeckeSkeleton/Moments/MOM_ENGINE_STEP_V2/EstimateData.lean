@@ -59,6 +59,13 @@ structure Regular : Prop where
     call.rankBound call.rank
   upper : call.prepared.upper =
     rankedAnnulusUpper call.frame.upper call.rankBound call.rank
+  heightDegree_nonneg : 0 ≤ call.Hp
+  minimumCp : strictChildProfileMinimum
+    (K := K) (ω := c.family.omega) (ψ := targetCharacter K c)
+    1 call.schedule.engine call.frame.reflection (recipeInductionSigma c)
+    2 (recipeInductionSigma c / 16) call.frame.decay call.frame.lower call.frame.upper
+    call.frame.lower_pos
+    (lt_of_lt_of_le (by norm_num : (0 : ℝ) < 2) call.frame.upper_large) ≤ call.Cp
 
 def window : Set ℝ :=
   Set.Icc (call.prepared.lower / 2) (2 * call.prepared.upper)

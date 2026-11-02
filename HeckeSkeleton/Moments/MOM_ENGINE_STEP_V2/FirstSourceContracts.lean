@@ -30,6 +30,7 @@ open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
 variable {K : Type} [Field K] [NumberField K]
 

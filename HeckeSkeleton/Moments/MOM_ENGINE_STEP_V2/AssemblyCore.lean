@@ -113,7 +113,7 @@ def strictFamily (c : TargetContext K) (frame : SourceFrame) (schedule : OrderSc
   coefficient_nonneg := bounds.coefficient_nonneg
   heightDegree_nonneg := bounds.heightDegree_nonneg
   outputs := by
-    intro Z hZ T hT i x domain
+    intro Z hZ T hT i S x domain
     exact produce {
       scale := Z
       large := hZ

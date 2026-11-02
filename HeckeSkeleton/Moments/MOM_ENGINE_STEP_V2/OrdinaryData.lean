@@ -72,8 +72,12 @@ structure OrdinaryData (packet : RawLeafPacket call p) where
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
     packet.leftIdeal packet.rightIdeal (fun _ => PUnit.unit) (fun _ => PUnit.unit)
     packet.leftWhole packet.rightWhole leftPoint rightPoint branch packet.leaf.exceptional
-  left_rectangle : ∀ r i, rectangles.leftTerms r i = packet.originalLeftRectangle r i
-  right_rectangle : ∀ r i, rectangles.rightTerms r i = packet.originalRightRectangle r i
+  left_rectangle : ∀ r i, i ∈ childCartesianColumns packet.leftReindex.plain₁
+    packet.leftReindex.plain₂ packet.leftReindex.slots →
+      rectangles.leftTerms r i = packet.originalLeftRectangle r i
+  right_rectangle : ∀ r i, i ∈ childCartesianColumns packet.rightReindex.plain₁
+    packet.rightReindex.plain₂ packet.rightReindex.slots →
+      rectangles.rightTerms r i = packet.originalRightRectangle r i
   binding : packet.leaf.OrdinaryBinding rectangles
 
 namespace OrdinaryData
