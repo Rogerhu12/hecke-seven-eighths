@@ -21,6 +21,40 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments
 
+private abbrev pool_sum_sigma_fintype
+    {P : Type*} {I₀ : Type*}
+    {I₁ : P → Type*} {I₆ : P → Type*} {I₇ : P → Type*}
+    [Fintype P] [Fintype I₀]
+    [∀ p, Fintype (I₁ p)] [∀ p, Fintype (I₆ p)] [∀ p, Fintype (I₇ p)] :
+    Fintype (I₀ ⊕ ((Σ p, I₁ p) ⊕ ((Σ p, I₆ p) ⊕ (Σ p, I₇ p)))) :=
+  inferInstance
+
+private theorem scalar_pool_terminal_sum
+    {P : Type*} {I₀ : Type*}
+    {I₁ : P → Type*} {I₆ : P → Type*} {I₇ : P → Type*}
+    [Fintype P] [Fintype I₀]
+    [∀ p, Fintype (I₁ p)] [∀ p, Fintype (I₆ p)] [∀ p, Fintype (I₇ p)]
+    (a m : ℝ) (w₁ w₆ w₇ : P → ℝ) (z₀ t₀ : ℝ)
+    (z₁ t₁ z₆ t₆ z₇ t₇ : P → ℝ)
+    (f₀ : I₀ → ℝ) (f₁ : ∀ p, I₁ p → ℝ)
+    (f₆ : ∀ p, I₆ p → ℝ) (f₇ : ∀ p, I₇ p → ℝ)
+    (r : I₀ ⊕ ((Σ p, I₁ p) ⊕ ((Σ p, I₆ p) ⊕ (Σ p, I₇ p))) → ℝ)
+    (h₀ : ∀ b, r (.inl b) = (a * m) * f₀ b)
+    (h₁ : ∀ p b, r (.inr (.inl ⟨p, b⟩)) = (a * w₁ p) * f₁ p b)
+    (h₆ : ∀ p b, r (.inr (.inr (.inl ⟨p, b⟩))) = (a * w₆ p) * f₆ p b)
+    (h₇ : ∀ p b, r (.inr (.inr (.inr ⟨p, b⟩))) = (a * w₇ p) * f₇ p b) :
+    a * (m * (z₀ + t₀ + ∑ b, f₀ b) +
+      (∑ p, w₁ p * (z₁ p + t₁ p + ∑ b, f₁ p b)) +
+      (∑ p, w₆ p * (z₆ p + t₆ p + ∑ b, f₆ p b)) +
+      (∑ p, w₇ p * (z₇ p + t₇ p + ∑ b, f₇ p b))) =
+      a * (m * z₀ + (∑ p, w₁ p * z₁ p) + (∑ p, w₆ p * z₆ p) +
+        (∑ p, w₇ p * z₇ p)) +
+      a * (m * t₀ + (∑ p, w₁ p * t₁ p) + (∑ p, w₆ p * t₆ p) +
+        (∑ p, w₇ p * t₇ p)) + ∑ b, r b := by
+  simp only [Fintype.sum_sum_type, Fintype.sum_sigma, h₀, h₁, h₆, h₇,
+    Finset.sum_add_distrib, Finset.mul_sum, mul_add, mul_assoc]
+  ring
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -59,6 +93,16 @@ abbrev CoveredLeafKey :=
     ((Σ p : P.primes, (s.one p).CoveredLeafKey (B.residual p 1) (B.residual p 1)) ⊕
       ((Σ p : P.primes, (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6)) ⊕
         (Σ p : P.primes, (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))))
+
+private abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey B) :=
+  pool_sum_sigma_fintype
+    (P := P.primes)
+    (I₀ := s.main.CoveredLeafKey B.main B.main)
+    (I₁ := fun p => (s.one p).CoveredLeafKey (B.residual p 1) (B.residual p 1))
+    (I₆ := fun p => (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6))
+    (I₇ := fun p => (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))
+
+attribute [local instance] coveredLeafKeyFintype
 
 def coveredLeaf (exceptional : s.CoverHybridPredicates B)
     (F : SchwartzMap W ℂ) (x : ι → W) : s.CoveredLeafKey B → ActualHybridLeaf K Q W E
@@ -120,10 +164,46 @@ theorem phase_cost_eq_budgets_leaves
   unfold coverHybridPhaseCost
   rw [T.main.phase_cost_eq_budgets_leaves B.main B.main exceptional.main F x ξ]
   simp_rw [ActualGaussStage.TerminalCalibration.phase_cost_eq_budgets_leaves (F := F)]
-  simp only [zeroBudget, tailBudget, Fintype.sum_sum_type, Fintype.sum_sigma,
-    coveredLeaf, ActualHybridLeaf.scale_firstPhaseCost, Finset.sum_add_distrib,
-    Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  exact scalar_pool_terminal_sum
+    (P := P.primes)
+    (I₀ := s.main.CoveredLeafKey B.main B.main)
+    (I₁ := fun p => (s.one p).CoveredLeafKey (B.residual p 1) (B.residual p 1))
+    (I₆ := fun p => (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6))
+    (I₇ := fun p => (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))
+    (4 / d.density) d.multiplicity
+    (fun p => FirstGaussPoolData.localErrorWeight p.val 1)
+    (fun p => FirstGaussPoolData.localErrorWeight p.val 6)
+    (fun p => FirstGaussPoolData.localErrorWeight p.val 7)
+    (T.main.zeroBudget ε Czero) (T.main.tailBudget Cerror)
+    (fun p => (T.one p).zeroBudget ε Czero) (fun p => (T.one p).tailBudget Cerror)
+    (fun p => (T.six p).zeroBudget ε Czero) (fun p => (T.six p).tailBudget Cerror)
+    (fun p => (T.seven p).zeroBudget ε Czero) (fun p => (T.seven p).tailBudget Cerror)
+    (fun b => (s.main.fiberCoveredLeaf B.main B.main exceptional.main F x b).firstPhaseCost ξ)
+    (fun p b => ((s.one p).fiberCoveredLeaf (B.residual p 1) (B.residual p 1)
+      (exceptional.one p) F (fun i => x i.val) b).firstPhaseCost ξ)
+    (fun p b => ((s.six p).fiberCoveredLeaf (B.residual p 6) (B.residual p 6)
+      (exceptional.six p) F (fun i => x i.val) b).firstPhaseCost ξ)
+    (fun p b => ((s.seven p).fiberCoveredLeaf (B.residual p 7) (B.residual p 7)
+      (exceptional.seven p) F (fun i => x i.val) b).firstPhaseCost ξ)
+    (fun b => (s.coveredLeaf B exceptional F x b).firstPhaseCost ξ)
+    (fun b => (s.main.fiberCoveredLeaf B.main B.main exceptional.main F x b).scale_firstPhaseCost
+      ((4 / d.density) * d.multiplicity)
+      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le) d.multiplicity_nonneg) ξ)
+    (fun p b => ((s.one p).fiberCoveredLeaf (B.residual p 1) (B.residual p 1)
+      (exceptional.one p) F (fun i => x i.val) b).scale_firstPhaseCost
+      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 1)
+      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
+        (FirstGaussPoolData.localErrorWeight_nonneg p.val 1)) ξ)
+    (fun p b => ((s.six p).fiberCoveredLeaf (B.residual p 6) (B.residual p 6)
+      (exceptional.six p) F (fun i => x i.val) b).scale_firstPhaseCost
+      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 6)
+      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
+        (FirstGaussPoolData.localErrorWeight_nonneg p.val 6)) ξ)
+    (fun p b => ((s.seven p).fiberCoveredLeaf (B.residual p 7) (B.residual p 7)
+      (exceptional.seven p) F (fun i => x i.val) b).scale_firstPhaseCost
+      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 7)
+      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
+        (FirstGaussPoolData.localErrorWeight_nonneg p.val 7)) ξ)
 
 /-- The source's exact finite carrier is independent of ξ.  Each
 nonzero term now carries its original positive nested Fourier measure. -/
