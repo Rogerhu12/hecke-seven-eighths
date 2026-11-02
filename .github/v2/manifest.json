@@ -99,7 +99,8 @@
         "SelectedSource",
         "SelectedStages",
         "SourceProduction",
-        "UniformChoices"
+        "UniformChoices",
+        "SelectedMetadata"
       ]
     },
     {
