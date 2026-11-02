@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSourceMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalNormalizedPrimeAtoms
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual source weights with the original prime loss

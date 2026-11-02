@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSideProductionAll
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original character input for the pre-input literal calibration

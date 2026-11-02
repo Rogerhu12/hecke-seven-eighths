@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalTerminalPowers
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalPairAllowance
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Fixed original second-terminal geometry

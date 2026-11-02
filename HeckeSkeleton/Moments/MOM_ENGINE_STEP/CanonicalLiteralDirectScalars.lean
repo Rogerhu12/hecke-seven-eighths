@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScalarNormalForm
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Exact original constant factors in the actual direct tables

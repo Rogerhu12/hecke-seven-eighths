@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledScal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitivePooledFactoryFibres
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Uniform mass of the complete original amplified family
@@ -208,9 +209,53 @@ local notation "factories" => literalPrimitivePooledFactory
   (hlengthBound := hlengthBound) (hcolumnBound := hcolumnBound)
   (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity)
 
+local notation "completeFamily" => literalPrimitivePooledFamily
+  (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+  (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
+  (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
+  (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half) (hY₁ := hY₁) (hY₂ := hY₂)
+  (cap := cap) (loss := loss) (cutoffExponent := cutoffExponent)
+  (hloss := hloss) (hcutoffExponent := hcutoffExponent)
+  (step := step) (error := error) (mesh := mesh) (hstep := hstep)
+  (herror := herror) (hmesh := hmesh) (hfit := hfit) (hsmall := hsmall)
+  (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+  (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
+  (hcutoffPower := hcutoffPower) (hcutoffPower₂ := hcutoffPower₂)
+  (reference := reference) (href := href) (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi)
+  (orders := orders) (originalBound := originalBound) (horiginalBound := horiginalBound)
+  (originalWindow := originalWindow) (hrows := hrows) (htime := htime) (hprime := hprime)
+  (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain) (hprimeOrders := hprimeOrders)
+  (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
+  (hone := hone) (hbackground := hbackground) (hslot := hslot)
+  (lengthBound := lengthBound) (columnBound := columnBound)
+  (hlengthBound := hlengthBound) (hcolumnBound := hcolumnBound)
+  (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity)
+
+local notation "completeMeasure" => literalPrimitivePooledMeasure
+  (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
+  (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
+  (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
+  (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half) (hY₁ := hY₁) (hY₂ := hY₂)
+  (cap := cap) (loss := loss) (cutoffExponent := cutoffExponent)
+  (hloss := hloss) (hcutoffExponent := hcutoffExponent)
+  (step := step) (error := error) (mesh := mesh) (hstep := hstep)
+  (herror := herror) (hmesh := hmesh) (hfit := hfit) (hsmall := hsmall)
+  (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+  (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
+  (hcutoffPower := hcutoffPower) (hcutoffPower₂ := hcutoffPower₂)
+  (reference := reference) (href := href) (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi)
+  (orders := orders) (originalBound := originalBound) (horiginalBound := horiginalBound)
+  (originalWindow := originalWindow) (hrows := hrows) (htime := htime) (hprime := hprime)
+  (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain) (hprimeOrders := hprimeOrders)
+  (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
+  (hone := hone) (hbackground := hbackground) (hslot := hslot)
+  (lengthBound := lengthBound) (columnBound := columnBound)
+  (hlengthBound := hlengthBound) (hcolumnBound := hcolumnBound)
+  (htotal := htotal) (hN := hN) (pool := pool) (hdensity := hdensity)
+
 variable (hδsum : δ₁ + δ₂ ≤ 1 / 2)
 variable (herrorPos : 0 < error)
-variable (hannulusThreshold : hi ^ cap ≤ Z ^ error)
+variable (hannulusThreshold : OriginalPairAllowanceProduction.annulusThreshold hi error ≤ Z)
 variable (hscaleThreshold : hi ^ (2 * cap) ≤ Z ^ error)
 variable (hpaidError : 2 * loss + cutoffExponent ≤ error)
 
@@ -652,7 +697,8 @@ local notation "productBound" => literalPrimitivePooled_coefficient_product
   (hT := hT) (hcontrol := hcontrol) (hprofile := hprofile) (hheight := hheight)
   (htilt₁ := htilt₁) (htilt₂ := htilt₂) (hcontour := hcontour)
 
-include hwidth hT hcontrol hprofile hheight htilt₁ htilt₂ hcontour in
+include hwidth hT hcontrol hprofile hheight htilt₁ htilt₂ hcontour
+  hδsum herrorPos hannulusThreshold hscaleThreshold hpaidError in
 /-- The main and all 1/6/7 error sources are summed on their actual
 amplified index. The original pool density and prime average occur once. -/
 theorem literalPrimitivePooled_global_kernelMass

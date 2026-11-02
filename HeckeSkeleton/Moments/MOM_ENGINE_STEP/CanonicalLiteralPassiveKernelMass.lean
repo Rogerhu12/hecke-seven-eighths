@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNormalizedRa
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralOriginalFrozenCost
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Kernel mass of the actual independent passive family

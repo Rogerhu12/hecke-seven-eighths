@@ -7,6 +7,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolMonotonicity
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original windows give the actual source-image scalar

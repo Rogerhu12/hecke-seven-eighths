@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSideRadius
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionFamilyMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original capacity data of the same computed literal side

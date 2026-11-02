@@ -11,6 +11,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormFactorTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalOrdinaryExceptionalCalibration
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The paid exceptional terminal on the actual literal sources
@@ -76,7 +77,7 @@ variable (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
 include A σ η hS
 
 private def centeredExistence :=
-  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_cutoff
+  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_cutoff.{0, 0, 0, 0, 0}
     (A := A) (σ := σ) (η := η) (hS := hS) (V := WithLp 2 (ℝ × ℝ))
     (characterCatalogue ψ theta) primitive.density primitive.remainder
     primitive.continuous window primitive.volume primitive.compact primitive.positive
@@ -109,7 +110,7 @@ private def centeredEstimate :=
     primitive ε maskExponent hε hmask).choose_spec.2.choose_spec.choose_spec.2
 
 private def ordinaryExistence :=
-  CanonicalExceptionalTerminal.exists_original_ordinary_magnitude_terminal_with_cutoff
+  CanonicalExceptionalTerminal.exists_original_ordinary_magnitude_terminal_with_cutoff.{0, 0, 0, 0, 0}
     (A := A) (σ := σ) (η := η) (hS := hS) (V := WithLp 2 (ℝ × ℝ))
     (characterCatalogue ψ theta) primitive.density primitive.remainder
     primitive.continuous window primitive.volume primitive.compact primitive.positive

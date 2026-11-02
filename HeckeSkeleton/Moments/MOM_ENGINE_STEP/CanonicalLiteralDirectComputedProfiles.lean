@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectScalars
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveRadius
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Computed scalar-free profiles on the actual direct tables

@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualDeletion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Computed atom tables for the original direct source covers

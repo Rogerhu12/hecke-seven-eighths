@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectAtomCosts
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Actual direct source tables supply their original weight windows

@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPreparedBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LiveSourceConditions
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Literal normalization binding on the actual valuation leaves

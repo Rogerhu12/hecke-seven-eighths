@@ -9,6 +9,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalColumnOrientation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original exceptional terminal on the actual parent family
