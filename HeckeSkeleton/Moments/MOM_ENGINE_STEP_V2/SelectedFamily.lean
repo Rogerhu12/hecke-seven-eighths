@@ -187,8 +187,11 @@ def family :=
     (hδ := analyticContour_pos c frame (selectedRank request))
     (hδhi := analyticContour_le_quarter c frame (selectedRank request))
     (normBox := box.rawNormBound) (heightC := analyticHeightConstant c frame)
-    (analyticWindow := by sorry)
-    (boundary := by sorry) (hslotInverse := by sorry)
+    (analyticWindow := by
+      rw [(request.preparedSourceData (selectedCall request) frequency).source.theta_eq]
+      exact analyticHeightWindow c frame (momentRowCharacters K c))
+    (boundary := fun _ => targetDynamicFiniteOrderBoundary c _ request.kappa)
+    (hslotInverse := by sorry)
     (hwidthBox := by simpa only [show 2 * box.loss + box.loss = 3 * box.loss by ring] using valid.widthBox)
     (hheight := le_rfl)
 

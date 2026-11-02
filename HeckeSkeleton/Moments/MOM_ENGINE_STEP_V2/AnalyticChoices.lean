@@ -21,13 +21,14 @@ namespace HeckeSkeleton.Moments.EngineStepV2
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Arithmetic.ConductorNormDraft
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckeSkeleton.Moments.EngineInduction
 open HeckeSkeleton.Moments.EngineInduction.Source
 open HeckeSkeleton.ExplicitHeckeFunctionalEquation HeckeSkeleton.ActualEulerLogarithm
 open HeckeSkeleton.PrimeCancellationHecke HeckeSkeleton.PrimeCancellationMoment
-open HeckeSkeleton.PrimeCancellationBounds EngineStep
+open HeckeSkeleton.PrimeCancellationBounds EngineStep PrimeCancellation.Analytic
 open scoped Classical NumberField
 
 variable {K : Type} [Field K] [NumberField K]
@@ -57,7 +58,50 @@ theorem analyticHeightWindow (c : TargetContext K) (frame : SourceFrame)
       (A := TargetArithmetic.arithmetic c) (P := probeData K c) (R := rows)
       (Expansion.Project.canonicalDetectorTheta K (targetCharacter K c))
       (selectedBox c frame).rawNormBound (analyticHeightConstant c frame) := by
-  sorry
+  let theta := Expansion.Project.canonicalDetectorTheta K (targetCharacter K c)
+  let Cg := analyticStripConstant c
+  let Cq := analyticConductorConstant c
+  let normBox := (selectedBox c frame).rawNormBound
+  let degree : ℕ := 2 * Fintype.card (InfinitePlace K)
+  let D : ℝ := 1 + Real.log Cq + normBox
+  have hCg : 1 ≤ Cg :=
+    (exists_uniform_finiteOrder_polynomial K (isComplex_of_family K c)).choose_spec.1
+  have hgrowth :=
+    (exists_uniform_finiteOrder_polynomial K (isComplex_of_family K c)).choose_spec.2
+  have hCq : 1 ≤ Cq := primeThetaConductorConstant_one_le _ _
+  have hfiniteTheta : ∀ chi ∈ theta, FiniteOrder chi :=
+    Expansion.Project.canonicalDetectorTheta_finiteOrder K (targetCharacter K c)
+  intro kappa _ _ Z hZ boundary moving correction slot sector remaining u
+    hcorrection hslot hu hne hbudget
+  let chi := CanonicalNormalizedPrimeAtoms.originalCharacter moving correction slot sector u
+  have hc : FiniteOrder correction := by
+    rcases hcorrection with h | h
+    · rw [h]
+      exact IsOfFinOrder.one
+    · exact hfiniteTheta _ h
+  have hfinite : FiniteOrder chi :=
+    ((hc.mul moving.character_finite).mul
+      (completeIdealRowCharacter_finite K (places K c)
+        (probeData K c) rows sector u)).mul (hfiniteTheta _ hslot)
+  let analytic := finiteOrderBoundaryZeroFreeData chi hfinite hne
+    ((kappa + 1) / 2) boundary Cg degree hCg (hgrowth chi hfinite hne)
+  refine ⟨analytic, ?_⟩
+  have hQone : 1 ≤ heckeConductorScale K chi :=
+    one_le_actualConductorScale K chi (nonNorm_of_finiteOrder_ne_one K chi hfinite hne)
+  have hscale : heckeConductorScale K chi ≤ Cq * Z ^ normBox :=
+    MovingRecipe.original_character_scale_le_normBox theta moving correction slot
+      sector remaining u Z normBox hcorrection hslot hu (zero_lt_one.trans hZ).le hbudget
+  have hlog : Real.log (heckeConductorScale K chi) ≤ D * (1 + Real.log Z) :=
+    logQ_le_of_norm_polynomial _ Cq Z Z normBox
+      (zero_lt_one.trans_le hQone) hCq (zero_lt_one.trans hZ) le_rfl hZ.le
+      (selectedBox c frame).rawNormBound_nonneg hscale
+  change 1 + Real.log Cg + (5 / 8 : ℝ) * Real.log (heckeConductorScale K chi) +
+    eulerLogSize K + 3 * (degree : ℝ) ≤ analyticHeightConstant c frame * (1 + Real.log Z)
+  have h := conductor_height_budget Cg D (eulerLogSize K) (heckeConductorScale K chi)
+    Z 1 0 degree hCg (eulerLogSize_nonneg K) hZ.le (by norm_num) (by norm_num)
+    (by simpa only [Real.rpow_zero, mul_one] using hlog)
+  simpa only [Real.rpow_zero, mul_one, analyticHeightConstant, D, Cg, Cq,
+    normBox, degree] using h
 
 def massLoss (c : TargetContext K) (frame : SourceFrame) : ℝ :=
   (selectedBox c frame).ε / 16
