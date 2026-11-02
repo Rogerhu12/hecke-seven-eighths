@@ -127,11 +127,11 @@ def rawTerminalData (c : TargetContext K)
     have hε := b.ε_pos
     dsimp [zeroLoss]
     positivity
-  let firstZero := first_dual_zero_diagonal_supported
+  let firstZero := first_dual_zero_diagonal_supported.{0, 0}
     (σ := σ) (η := (TargetArithmetic.choice c).η)
     (hS := (TargetArithmetic.choice c).hS) (hΓ := hΓ) (μv := μv)
     (rowBallFiniteFamily K A.Sf 1) (2 * (b.cap + 2)) zeroLoss hzeroLoss
-  let second := actual_gauss_raw_dual_terminal_bound (E := ℝ)
+  let second := actual_gauss_raw_dual_terminal_bound.{0, 0} (E := ℝ)
     (ν := ν) (μ := μ) hΓ μv (TargetArithmetic.different c) C
     (TargetArithmetic.coefficients c) (TargetArithmetic.coefficients_recipe c)
     (rowBallFiniteFamily K A.Sf 1)

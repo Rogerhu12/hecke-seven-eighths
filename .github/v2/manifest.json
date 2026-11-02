@@ -100,7 +100,9 @@
         "SelectedStages",
         "SourceProduction",
         "UniformChoices",
-        "SelectedMetadata"
+        "SelectedMetadata",
+        "SelectedNormalizedFamily",
+        "SelectedPackets"
       ]
     },
     {

@@ -34,6 +34,11 @@ variable {K : Type} [Field K] [NumberField K]
 
 namespace MassIndexChoices
 
+local instance massIndexUnitClassesFintype (c : TargetContext K) :
+    Fintype (SixthUnitClasses K
+      ((TargetArithmetic.arithmetic c).Sf : Set (HeightOneSpectrum (𝓞 K)))) :=
+  Fintype.ofFinite _
+
 /-- The explicit witness in the passive-pair cardinality argument.
 Half the loss is assigned to each side, and then equally to divisors
 and allocations. The norm window is paid before the moving ideal. -/
@@ -49,7 +54,7 @@ theorem passivePairConstant_pos (cap : ℕ) (box ε : ℝ)
   sorry
 
 def firstMaskConstant (box ε : ℝ) (hbox : 0 ≤ box) (hε : 0 < ε) : ℝ :=
-  (first_block_mask_labels_subpower (K := K) box ε hbox hε).choose
+  (first_block_mask_labels_subpower.{0, 0} (K := K) box ε hbox hε).choose
 
 def physicalConstant (c : TargetContext K) (cap : ℕ) (box ε : ℝ)
     (hbox : 0 ≤ box) (hε : 0 < ε) : ℝ :=

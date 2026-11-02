@@ -42,7 +42,7 @@ local notation "orders" => childOrdersAtRank c frame rank
 local notation "J" => orders.sup Prod.snd
 
 private def fourierExistence :=
-  normalized_capacity_nested_kernel_uniform_mass
+  normalized_capacity_nested_kernel_uniform_mass.{0, 0, 0, 0}
     (F := K) (A := TargetArithmetic.arithmetic c) (σ := TargetArithmetic.embedding c)
     (ω := c.family.omega) (ψ := targetCharacter K c) (U := ℝ) (E := ℝ)
     b.cap J J J J
@@ -62,15 +62,24 @@ def secondKernel : ℝ :=
   (secondOrders c frame rank).sup (schwartzSeminormFamily ℝ ℝ ℂ)
     (rawTerminalData c b).kernel
 
+/-- This is exactly the window used to construct the selected raw
+representatives. The chosen shape constants do not require a
+monotonicity assertion for arbitrary existence-theorem witnesses. -/
+def rawWindow : Set ℝ :=
+  Set.Icc (lowerAtRank c frame rank / 2) (2 * upperAtRank c frame rank)
+
+theorem rawWindow_positive : rawWindow c frame rank ⊆ Set.Ioi 0 :=
+  fun _ hx => (div_pos (lowerAtRank_pos c frame rank) (by norm_num)).trans_le hx.1
+
 def shapeCoefficient : ℝ :=
-  CanonicalLogProfiles.shapeCoefficient (Set.Icc b.lo b.hi) isCompact_Icc
-    (VolumeChoices.positive b)
+  CanonicalLogProfiles.shapeCoefficient (rawWindow c frame rank) isCompact_Icc
+    (rawWindow_positive c frame rank)
     (CanonicalLiteralProfileScalars.exponent b.tilt b.tilt)
     (CanonicalLogProfiles.sourceOrders orders)
 
 def phaseCoefficient (sign : ℝ) : ℝ :=
-  CanonicalLiteralFourierWindows.coefficient (Set.Icc b.lo b.hi) isCompact_Icc
-    (VolumeChoices.positive b) sign orders
+  CanonicalLiteralFourierWindows.coefficient (rawWindow c frame rank) isCompact_Icc
+    (rawWindow_positive c frame rank) sign orders
 
 def fixedCoefficient (sign : ℝ) : ℝ :=
   (1 + 2 * CanonicalLogProfiles.clippingCoefficient b.hi orders) *
