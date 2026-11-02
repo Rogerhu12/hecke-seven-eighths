@@ -30,6 +30,7 @@ open DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global MeasureTheory
+open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.Moments.MobiusRegroup
 open HeckePort.IdealMobiusDivisorSum UniqueFactorizationMonoid
 
@@ -63,13 +64,11 @@ private theorem chart_projections_of_heq (F : FirstPresentation call p)
     (x : FirstBlockProfileChart (E := ℝ) (Arithmetic.units_are_sixth c)
       (Arithmetic.localMeasures (K := K)) (F.source.block v)
       (Arithmetic.context c) F.source.columns F.source.columns φ
-      (HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft.rowBallFiniteFamily
-        K (Arithmetic.data c).Sf 1) F.source.radius D.val)
+      (rowBallFiniteFamily K (Arithmetic.data c).Sf 1) F.source.radius D.val)
     (y : FirstBlockProfileChart (E := ℝ) (Arithmetic.units_are_sixth c)
       (Arithmetic.localMeasures (K := K)) (F.source.block v)
       (Arithmetic.context c) F.source.columns F.source.columns ψ
-      (HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft.rowBallFiniteFamily
-        K (Arithmetic.data c).Sf 1) F.source.radius D.val)
+      (rowBallFiniteFamily K (Arithmetic.data c).Sf 1) F.source.radius D.val)
     (h : HEq x y) : x.kernel = y.kernel ∧ x.weight = y.weight := by
   cases e
   have he : x = y := eq_of_heq h
@@ -161,21 +160,41 @@ theorem canonicalFirstWeightBound_nonneg (F : FirstPresentation call p)
     0 ≤ canonicalFirstWeightBound F v D :=
   CanonicalFirstLog.rowWeightBound_nonneg _ _ _ _
 
+private theorem first_canonical_chart_weight_norm_le (F : FirstPresentation call p)
+    (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
+    (q : Arithmetic.Orbit c) :
+    ‖(F.canonicalChart v D).weight q‖ ≤ canonicalFirstWeightBound F v D :=
+  CanonicalFirstLog.norm_poissonTiltWeight_le
+    (actualActiveColumn (Arithmetic.units_are_sixth c) (Arithmetic.context c)
+      (F.source.block v).primes (F.source.block v).primes_injective
+      (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity)
+    F.source.radius D.val p.tilt p.tilt_pos.le q
+
+private theorem first_chart_weight_norm_le (F : FirstPresentation call p) (hF : F.Realizes)
+    (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
+    (q : Arithmetic.Orbit c) :
+    ‖(F.source.charts v D).weight q‖ ≤ canonicalFirstWeightBound F v D := by
+  have hweight : (F.source.charts v D).weight = (F.canonicalChart v D).weight :=
+    (chart_projections_of_heq F v D hF.profile
+      (F.source.charts v D) (F.canonicalChart v D) (hF.chart v D)).2
+  exact (congrArg (fun weight : Arithmetic.Orbit c → ℂ => ‖weight q‖) hweight).trans_le
+    (first_canonical_chart_weight_norm_le F v D q)
+
+private theorem coe_finset_sup_norm_le {ι : Type*} (s : Finset ι) (f : ι → ℂ)
+    (B : ℝ) (hB : 0 ≤ B) (h : ∀ i, ‖f i‖ ≤ B) :
+    ((s.sup (fun i => ‖f i‖₊) : NNReal) : ℝ) ≤ B := by
+  let bound : NNReal := ⟨B, hB⟩
+  have hsup : s.sup (fun i => ‖f i‖₊) ≤ bound :=
+    Finset.sup_le (fun i _ => NNReal.coe_le_coe.mp (h i))
+  exact NNReal.coe_mono hsup
+
 theorem first_weightBound_le (F : FirstPresentation call p) (hF : F.Realizes)
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset) :
     (F.source.pieces v D).weightBound ≤ canonicalFirstWeightBound F v D := by
-  let qbound : NNReal := ⟨canonicalFirstWeightBound F v D,
-    canonicalFirstWeightBound_nonneg F v D⟩
-  rw [hF.weight v D]
-  change ((Finset.sup _ _ : NNReal) : ℝ) ≤ (qbound : ℝ)
-  exact_mod_cast (show ((F.source.source v).divisorRows D.val).sup
-      (fun q => ‖(F.source.charts v D).weight q‖₊) ≤ qbound from by
-    apply Finset.sup_le
-    intro q _
-    change ‖(F.source.charts v D).weight q‖ ≤ canonicalFirstWeightBound F v D
-    rw [(chart_projections_of_heq F v D hF.profile
-      (F.source.charts v D) (F.canonicalChart v D) (hF.chart v D)).2]
-    exact CanonicalFirstLog.norm_poissonTiltWeight_le _ _ _ p.tilt p.tilt_pos.le q)
+  exact (hF.weight v D).trans_le
+    (coe_finset_sup_norm_le ((F.source.source v).divisorRows D.val)
+      (F.source.charts v D).weight (canonicalFirstWeightBound F v D)
+      (canonicalFirstWeightBound_nonneg F v D) (first_chart_weight_norm_le F hF v D))
 
 /-- The standard first allowance identity also applies to the actual
 direct piece. No pool or aggregate source bound is used here. -/
@@ -196,12 +215,16 @@ theorem first_row_allowance_le (F : FirstPresentation call p)
     Real.sqrt (firstLeftAllowance call.base (firstTotal F v D) v.val.1 v.val.2) *
     Real.sqrt (firstRightAllowance call.base (firstTotal F v D) v.val.1 v.val.2) /
     call.base ^ (call.node.parameters.m + call.node.parameters.q) ≤ _
-  have hrow : (F.source.pieces v D).rowBound =
+  have hrowBound : (F.source.pieces v D).rowBound =
       (F.source.pieces v D).weightBound *
-        Real.sqrt (Ideal.absNorm (firstActiveRadical v.val.1 v.val.2) : ℝ) :=
-    congrArg (fun x : ℝ => (F.source.pieces v D).weightBound * Real.sqrt x)
+        Real.sqrt (Ideal.absNorm (firstActiveRadical v.val.1 v.val.2) : ℝ) := by
+    change (F.source.pieces v D).weightBound *
+      Real.sqrt ((Arithmetic.data c).exteriorNorm
+        (firstActiveIdeal (F.source.block v).primes
+          (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity)) = _
+    exact congrArg (fun norm : ℝ => (F.source.pieces v D).weightBound * Real.sqrt norm)
       (F.source.block v).activeNorm_eq
-  rw [hrow]
+  rw [hrowBound]
   calc
     _ ≤ (amplitude * call.base ^
         (call.node.parameters.m + call.node.parameters.q - firstTotal F v D)) *
@@ -246,17 +269,18 @@ theorem first_residual_divisor_box (F : FirstPresentation call p) (Y : ℝ)
   have hj' : j ∈ F.source.columns := by
     rw [(F.source.pieces v D).right_columns] at hj
     exact (Finset.mem_filter.mp hj).1
-  have hright : ((F.source.pieces v D).rightData.ideal j).val =
-      ((F.source.block v).rightResidual j).val :=
-    congrArg (fun f : F.source.Column → (Arithmetic.data c).Exterior => (f j).val)
-      (F.source.pieces v D).right_ideal
-  have hresidual := hright.trans ((F.source.block v).right_residual j)
   have hres : ((F.source.pieces v D).rightData.ideal j).val ∣ (F.source.ideal j).val := by
-    refine ⟨supportExtract (F.source.ideal j).val (primeSupport v.val.1), ?_⟩
-    exact ((support_reconstruct (F.source.ideal j).val (F.source.ideal j).property.1
-      (primeSupport v.val.1)).symm.trans (mul_comm _ _)).trans
-        (congrArg (fun I : Ideal (𝓞 K) =>
-          I * supportExtract (F.source.ideal j).val (primeSupport v.val.1)) hresidual.symm)
+    have hideal : ((F.source.pieces v D).rightData.ideal j).val =
+        supportResidual (F.source.ideal j).val (primeSupport v.val.1) :=
+      (congrArg (fun f : F.source.Column → (Arithmetic.data c).Exterior => (f j).val)
+        (F.source.pieces v D).right_ideal).trans ((F.source.block v).right_residual j)
+    have hdiv : supportResidual (F.source.ideal j).val (primeSupport v.val.1) ∣
+        (F.source.ideal j).val := by
+      refine ⟨supportExtract (F.source.ideal j).val (primeSupport v.val.1), ?_⟩
+      exact (support_reconstruct (F.source.ideal j).val (F.source.ideal j).property.1
+        (primeSupport v.val.1)).symm.trans (mul_comm _ _)
+    exact Eq.mp (congrArg (fun I : Ideal (𝓞 K) => I ∣ (F.source.ideal j).val)
+      hideal.symm) hdiv
   refine ⟨ne_zero_of_dvd_ne_zero ((F.source.pieces v D).rightData.ideal j).property.1 hd, ?_⟩
   exact (ideal_norm_le_of_dvd (F.source.ideal j).property.1 (hd.trans hres)).trans (hN j hj')
 
@@ -322,15 +346,15 @@ theorem first_weightBound_normalized (F : FirstPresentation call p) (hF : F.Real
       (sIntegerElementNorm K (Arithmetic.data c).Sf ⟨r.modulus, r.nonzero⟩).val⁻¹) *
       call.base ^ ((2 * B) * p.tilt) at ht
   rw [hphysical, hactive, hF.radius] at ht
-  have hphysicalLog : call.base ^ idealLogLength call.base
-      (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val =
-        (Arithmetic.data c).exteriorNorm
-          (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val) :=
-    rpow_idealLogLength call.base call.domain.scale
-      (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val
-      (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).property.1
   apply (first_weightBound_le F hF v D).trans (ht.trans_eq ?_)
-  rw [← hphysicalLog,
+  have hphysicalPow : (Arithmetic.data c).exteriorNorm
+      (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val) =
+      call.base ^ idealLogLength call.base
+        (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val :=
+    (rpow_idealLogLength call.base call.domain.scale
+      (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val
+      (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).property.1).symm
+  rw [hphysicalPow,
     ← rpow_idealLogLength call.base call.domain.scale
       (firstActiveRadical v.val.1 v.val.2) (firstActiveRadical_ne_zero _ _)]
   change (orbitalFieldFactor K *
@@ -357,26 +381,25 @@ theorem firstKeyWeight_nonneg {F : FirstPresentation call p} (key : FirstCauchyK
   div_nonneg (mul_nonneg (Real.rpow_nonneg call.base_pos.le _) (norm_nonneg _))
     (Nat.cast_nonneg _)
 
-/-- Keep the scalar algebra independent of the dependent source carrier. -/
-private theorem outer_mass_from_row
-    (outer mass allowance μ phase row divisor normalizer amplitude common : ℝ)
-    (houter : outer * allowance = μ * phase * (row / 2))
-    (hrow : row / normalizer ≤ amplitude * common)
-    (hrow0 : 0 ≤ row / normalizer) (hphase : phase / 2 ≤ 1)
-    (hfactor : 0 ≤ mass * (μ / divisor)) :
-    outer * mass * allowance / divisor / normalizer ≤
-      mass * amplitude * (common * μ / divisor) := by
+private theorem first_mass_scalar_rearrange
+    (outer mass allowance μ phase row left right norm parent : ℝ)
+    (houter : outer * allowance =
+      μ * phase * (row * Real.sqrt left * Real.sqrt right / 2)) :
+    outer * mass * allowance / norm / parent =
+      (mass * (μ / norm)) *
+        (phase / 2 * (row * Real.sqrt left * Real.sqrt right / parent)) := by
   calc
-    _ = mass * (outer * allowance) / divisor / normalizer := by ring
-    _ = (mass * (μ / divisor)) * (phase / 2 * (row / normalizer)) := by
+    _ = mass * (outer * allowance) / norm / parent := by
+      rw [mul_assoc, mul_left_comm outer mass allowance]
+    _ = _ := by
       rw [houter]
       ring
-    _ ≤ (mass * (μ / divisor)) * (row / normalizer) :=
-      mul_le_mul_of_nonneg_left
-        ((mul_le_mul_of_nonneg_right hphase hrow0).trans_eq (one_mul _)) hfactor
-    _ ≤ (mass * (μ / divisor)) * (amplitude * common) :=
-      mul_le_mul_of_nonneg_left hrow hfactor
-    _ = _ := by ring
+
+private theorem first_mass_bound_rearrange
+    (mass μ norm orbital power common : ℝ) :
+    (mass * (μ / norm)) * ((orbital * power) * common) =
+      mass * orbital * power * (common * μ / norm) := by
+  ring
 
 /-- Pointwise reduction of the actual first outer scalar. The factor
 one half and the fixed phase are bounded only in this proof. -/
@@ -393,20 +416,17 @@ theorem first_key_outer_mass_le (F : FirstPresentation call p) (hF : F.Realizes)
         call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
           call.workingParameters.z + 2 * B * p.tilt) * firstKeyWeight key := by
   let N := family.normalization
-  let row := (FirstCauchyKey.piece key).rowBound *
+  let w := (FirstCauchyKey.piece key).rowBound *
     Real.sqrt (N.left key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)) *
-    Real.sqrt (N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key))
-  let amplitude := orbitalFieldFactor K * call.base ^ (call.workingParameters.n₁ +
-    call.workingParameters.n₂ + call.workingParameters.z + 2 * B * p.tilt)
-  have hrow0 : 0 ≤ row / call.parentNormalizer := by
-    exact div_nonneg (mul_nonneg (mul_nonneg
-      (FirstBlockDirectData.rowBound_nonneg (FirstCauchyKey.piece key))
+    Real.sqrt (N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)) /
+    call.parentNormalizer
+  have hw0 : 0 ≤ w := by
+    exact div_nonneg (mul_nonneg (mul_nonneg (FirstBlockDirectData.rowBound_nonneg _)
       (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _)) call.parentNormalizer_pos.le
-  have hrow : row / call.parentNormalizer ≤
-      amplitude * firstCommonWeight call.base key.1.val.1 key.1.val.2 :=
-    first_row_allowance_le F family hfamily key.1 key.2.1
+  have hrow := first_row_allowance_le F family hfamily key.1 key.2.1
     (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
-    amplitude
+    (orbitalFieldFactor K * call.base ^ (call.workingParameters.n₁ +
+      call.workingParameters.n₂ + call.workingParameters.z + 2 * B * p.tilt))
     (first_weightBound_normalized F hF B hN key.1 key.2.1)
   have hphase : ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
       (FirstCauchyKey.character key)‖ / 2 ≤ (1 : ℝ) := by
@@ -417,27 +437,38 @@ theorem first_key_outer_mass_le (F : FirstPresentation call p) (hF : F.Realizes)
       (‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ /
         (Ideal.absNorm (FirstCauchyKey.residual key).val : ℝ)) :=
     mul_nonneg firstFourierMass_nonneg (div_nonneg (norm_nonneg _) (Nat.cast_nonneg _))
-  have houter : FirstCauchyKey.outer key N * firstSideAllowance key N =
+  have houter : FirstCauchyKey.outer key family.normalization *
+      firstSideAllowance key family.normalization =
       ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
         ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
-          (FirstCauchyKey.character key)‖ * (row / 2) := by
-    have he := first_key_outer_mul_allowance (F := F) key N
-    have hfiber : (F.source.fiber : ℝ) = 1 := by exact_mod_cast hF.fiber
-    rw [hfiber, one_mul] at he
-    exact he
+          (FirstCauchyKey.character key)‖ *
+        ((FirstCauchyKey.piece key).rowBound *
+          Real.sqrt (N.left key.1 key.2.1 (FirstCauchyKey.residual key)
+            (FirstCauchyKey.character key)) *
+          Real.sqrt (N.right key.1 key.2.1 (FirstCauchyKey.residual key)
+            (FirstCauchyKey.character key)) / 2) := by
+    simpa only [hF.fiber, Nat.cast_one, one_mul] using
+      (first_key_outer_mul_allowance key family.normalization)
   calc
-    _ ≤ firstFourierMass c p * amplitude * firstKeyWeight key :=
-      outer_mass_from_row (FirstCauchyKey.outer key N) (firstFourierMass c p)
-        (firstSideAllowance key N) ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖
-        ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
-          (FirstCauchyKey.character key)‖ row
-        (Ideal.absNorm (FirstCauchyKey.residual key).val : ℝ) call.parentNormalizer
-        amplitude (firstCommonWeight call.base key.1.val.1 key.1.val.2)
-        houter hrow hrow0 hphase hfactor
-    _ = _ := congrArg (fun t : ℝ => t * firstKeyWeight key)
-      (mul_assoc (firstFourierMass c p) (orbitalFieldFactor K)
-        (call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
-          call.workingParameters.z + 2 * B * p.tilt))).symm
+    _ = (firstFourierMass c p *
+        (‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ /
+          (Ideal.absNorm (FirstCauchyKey.residual key).val : ℝ))) *
+        (‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
+          (FirstCauchyKey.character key)‖ / 2 * w) :=
+      first_mass_scalar_rearrange _ _ _ _ _ _ _ _ _ _ houter
+    _ ≤ (firstFourierMass c p *
+        (‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ /
+          (Ideal.absNorm (FirstCauchyKey.residual key).val : ℝ))) * w :=
+      mul_le_mul_of_nonneg_left
+        ((mul_le_mul_of_nonneg_right hphase hw0).trans_eq (one_mul _)) hfactor
+    _ ≤ (firstFourierMass c p *
+        (‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ /
+          (Ideal.absNorm (FirstCauchyKey.residual key).val : ℝ))) *
+        ((orbitalFieldFactor K * call.base ^ (call.workingParameters.n₁ +
+          call.workingParameters.n₂ + call.workingParameters.z + 2 * B * p.tilt)) *
+          firstCommonWeight call.base key.1.val.1 key.1.val.2) :=
+      mul_le_mul_of_nonneg_left hrow hfactor
+    _ = _ := first_mass_bound_rearrange _ _ _ _ _ _
 
 private theorem first_common_mass_uniform (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ) :
     ∃ C : ℝ, 0 < C ∧ ∀ {call : Call c} {p : SourceParameters c}
@@ -481,13 +512,6 @@ private theorem first_common_mass_uniform (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 <
   rw [he] at hs
   simpa only [map_one, Nat.cast_one, div_one] using hs
 
-private theorem sum_phase_side_weight (a b d : ℝ) :
-    (∑ _chi : (PUnit.{1} × PUnit.{1}) →* Circle, ∑ _side : Bool, a * b / d) =
-      (2 * (Fintype.card ((PUnit.{1} × PUnit.{1}) →* Circle) : ℝ)) * (a * (b / d)) := by
-  simp only [Finset.sum_const, Finset.card_univ, Fintype.card_bool, nsmul_eq_mul,
-    Nat.cast_ofNat]
-  ring
-
 private theorem sum_firstKeyWeight (F : FirstPresentation call p) :
     (∑ key : FirstCauchyKey F, firstKeyWeight key) =
       (2 * (Fintype.card ((PUnit.{1} × PUnit.{1}) →* Circle) : ℝ)) *
@@ -505,8 +529,12 @@ private theorem sum_firstKeyWeight (F : FirstPresentation call p) :
   intro D _
   apply Finset.sum_congr rfl
   intro S _
-  exact sum_phase_side_weight (firstCommonWeight call.base v.val.1 v.val.2)
-    ‖(moebius S.val : ℂ)‖ (Ideal.absNorm S.val : ℝ)
+  change (∑ _chi : ((PUnit.{1} × PUnit.{1}) →* Circle), ∑ _side : Bool,
+    firstCommonWeight call.base v.val.1 v.val.2 *
+      ‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) = _
+  simp only [Finset.sum_const, Finset.card_univ, Fintype.card_bool,
+    nsmul_eq_mul, Nat.cast_ofNat]
+  ring
 
 /-- Constants precede the complete moving carrier. The physical-mask
 cardinality, common-support mass and one residual divisor density each
@@ -529,30 +557,30 @@ theorem first_key_mass_uniform (c : TargetContext K) (B ε : ℝ)
   have hnphase : 0 ≤ nphase := Nat.cast_nonneg _
   refine ⟨(2 * (nphase + 1)) * Ccommon * Cmask * Cdivisor, by positivity, ?_⟩
   intro call p F hF hN
-  have hbase_pos : 0 < call.base := call.base_pos
   have hdiv (v : F.source.CommonLabel)
       (D : ((F.source.block v).mask F.source.mask).powerset) :
       (∑ S : divisorPool (F.source.pieces v D).rightData.columns
         (fun i => ((F.source.pieces v D).rightData.ideal i).val),
           ‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) ≤
       Cdivisor * call.base ^ δ := by
-    calc
-      _ = ∑ S ∈ divisorPool (F.source.pieces v D).rightData.columns
-          (fun i => ((F.source.pieces v D).rightData.ideal i).val),
-          ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ) :=
-        Finset.sum_coe_sort _ (fun S : Ideal (𝓞 K) =>
-          ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ))
-      _ ≤ ∑ S ∈ divisorPool (F.source.pieces v D).rightData.columns
-          (fun i => ((F.source.pieces v D).rightData.ideal i).val),
-          1 / (Ideal.absNorm S : ℝ) := by
-        apply Finset.sum_le_sum
-        intro S _
-        apply div_le_div_of_nonneg_right _ (Nat.cast_nonneg _)
-        unfold UniqueFactorizationMonoid.moebius
-        split_ifs <;> simp
-      _ ≤ _ := hdivisor call.base call.domain.scale.le _
-        (fun S hS => (first_residual_divisor_box F _ hN v D ⟨S, hS⟩).1)
-        (fun S hS => (first_residual_divisor_box F _ hN v D ⟨S, hS⟩).2)
+    let pool : Finset (Ideal (𝓞 K)) :=
+      divisorPool (F.source.pieces v D).rightData.columns
+        (fun i => ((F.source.pieces v D).rightData.ideal i).val)
+    let weight : Ideal (𝓞 K) → ℝ := fun S =>
+      ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ)
+    have hbound : (∑ S ∈ pool, weight S) ≤ Cdivisor * call.base ^ δ := by
+      calc
+        _ ≤ ∑ S ∈ pool, 1 / (Ideal.absNorm S : ℝ) := by
+          apply Finset.sum_le_sum
+          intro S _
+          change ‖(moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ) ≤ _
+          apply div_le_div_of_nonneg_right _ (Nat.cast_nonneg _)
+          unfold UniqueFactorizationMonoid.moebius
+          split_ifs <;> simp
+        _ ≤ _ := hdivisor call.base call.domain.scale.le pool
+          (fun S hS => (first_residual_divisor_box F _ hN v D ⟨S, hS⟩).1)
+          (fun S hS => (first_residual_divisor_box F _ hN v D ⟨S, hS⟩).2)
+    exact (Finset.sum_coe_sort pool weight).trans_le hbound
   have hinner (v : F.source.CommonLabel) :
       (∑ D : ((F.source.block v).mask F.source.mask).powerset,
         ∑ S : divisorPool (F.source.pieces v D).rightData.columns
@@ -586,7 +614,9 @@ theorem first_key_mass_uniform (c : TargetContext K) (B ε : ℝ)
           ((Cmask * call.base ^ δ) * (Cdivisor * call.base ^ δ)) := by rw [Finset.sum_mul]
       _ ≤ (Ccommon * call.base ^ δ) *
           ((Cmask * call.base ^ δ) * (Cdivisor * call.base ^ δ)) :=
-        mul_le_mul_of_nonneg_right (hcommon F hN) (by positivity)
+        mul_le_mul_of_nonneg_right (hcommon F hN)
+          (mul_nonneg (mul_nonneg hCmask.le (Real.rpow_nonneg call.base_pos.le _))
+            (mul_nonneg hCdivisor.le (Real.rpow_nonneg call.base_pos.le _)))
       _ = _ := by
         rw [show ε = δ + δ + δ by dsimp only [δ]; ring,
           Real.rpow_add call.base_pos, Real.rpow_add call.base_pos]
@@ -596,7 +626,9 @@ theorem first_key_mass_uniform (c : TargetContext K) (B ε : ℝ)
     _ ≤ (2 * nphase) * ((Ccommon * Cmask * Cdivisor) * call.base ^ ε) :=
       mul_le_mul_of_nonneg_left hbase (by positivity)
     _ ≤ (2 * (nphase + 1)) * ((Ccommon * Cmask * Cdivisor) * call.base ^ ε) :=
-      mul_le_mul_of_nonneg_right (by linarith) (by positivity)
+      mul_le_mul_of_nonneg_right (by linarith)
+        (mul_nonneg (mul_nonneg (mul_nonneg hCcommon.le hCmask.le) hCdivisor.le)
+          (Real.rpow_nonneg call.base_pos.le _))
     _ = _ := by ring
 
 /-- The complete first Cauchy family carries its one actual Fourier
@@ -621,11 +653,11 @@ theorem first_family_mass_uniform (c : TargetContext K) (p : SourceParameters c)
   have horbital := orbitalFieldFactor_nonneg K
   refine ⟨1 + firstFourierMass c p * orbitalFieldFactor K * Cindex, by positivity, ?_⟩
   intro call F hF family hfamily hN
-  have hbase_pos : 0 < call.base := call.base_pos
   let prefactor := firstFourierMass c p * orbitalFieldFactor K *
     call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
       call.workingParameters.z + 2 * B * p.tilt)
-  have hprefactor : 0 ≤ prefactor := by dsimp only [prefactor]; positivity
+  have hprefactor : 0 ≤ prefactor :=
+    mul_nonneg (mul_nonneg hmass horbital) (Real.rpow_nonneg call.base_pos.le _)
   have hsum : (∑ i, (family.source i).outerWeight *
       (actualFourierMeasure (family.source i).firstKernel).real Set.univ *
       sourceSideAllowance (family.source i) /
@@ -650,7 +682,9 @@ theorem first_family_mass_uniform (c : TargetContext K) (p : SourceParameters c)
         call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
           call.workingParameters.z + 2 * B * p.tilt + ε) := by
       dsimp only [prefactor]
-      conv_rhs => rw [Real.rpow_add call.base_pos]
+      rw [Real.rpow_add call.base_pos
+        (call.workingParameters.n₁ + call.workingParameters.n₂ +
+          call.workingParameters.z + 2 * B * p.tilt) ε]
       ring
     _ ≤ _ := mul_le_mul_of_nonneg_right (by linarith)
       (Real.rpow_nonneg call.base_pos.le _)
