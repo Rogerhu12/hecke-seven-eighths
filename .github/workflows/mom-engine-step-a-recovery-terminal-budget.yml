@@ -1,0 +1,475 @@
+name: A recovery g1 CanonicalTerminalBudget native verification
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a-recovery-terminal-budget]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a-recovery-terminal-budget-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  terminal_budget:
+    name: CanonicalTerminalBudget normal native and fresh audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a-recovery-terminal-budget
+          git show --no-patch --format=fuller HEAD > a-recovery-terminal-budget/checkout.txt
+          cat > a-recovery-terminal-budget/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+
+          SOURCE_BASE = '208deae7b02233439afee198ab51faebee07144c'
+          SOURCE_TREE = 'e2b10477e24f84aebb6d77e98765e7b82a8156a1'
+          WORKFLOW = '.github/workflows/mom-engine-step-a-recovery-terminal-budget.yml'
+          TASK = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP'
+          TARGETS = ['CanonicalTerminalBudget']
+          EVIDENCE = 'a-recovery-terminal-budget'
+          CONFIG_PINS = {'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47',
+           'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0',
+           'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c',
+           'vendor/class-field-theory/lean-toolchain': '8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a',
+           'vendor/class-field-theory/lakefile.toml': '04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf',
+           'vendor/class-field-theory/lake-manifest.json': 'ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49',
+           'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148'}
+          PINS = {'CanonicalTerminalBudget': {'original': [6817,
+                                                    '48c9782766379068a6134a581b2f699e66b7a4f6d4f9525a19995f1b8336039d',
+                                                    '562c9ceb6f4b195647aa241d4d5f2b047fc18b01'],
+                                       'candidate': [6839,
+                                                     'e9ea1af616a888a246dd9a532f0bbb1b6576a223276b29a878c5683560fe4ebf',
+                                                     'c7dd2529733e39875d02a204a9ea8a87e9f37618'],
+                                       'original_imports': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolTerminalMass',
+                                                            'HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves'],
+                                       'original_prints': ['HeckeSkeleton.Moments.EngineStep.ActualPoolStages.TerminalCalibration.zeroBudget_le',
+                                                           'HeckeSkeleton.Moments.EngineStep.ActualPoolStages.TerminalCalibration.tailBudget_le'],
+                                       'proof_scopes': ['zeroBudget_eq_sum_parts', 'tailBudget_eq_sum_parts']}}
+          EDITS = [{'file': 'CanonicalTerminalBudget.lean',
+            'scope': 'zeroBudget_eq_sum_parts',
+            'original_byte_offset': 3219,
+            'original_last_tactic_line': 72,
+            'old': '    ActualGaussStage.TerminalCalibration.zeroBudget_eq_zeroPart]\n  ring\n',
+            'new': '    ActualGaussStage.TerminalCalibration.zeroBudget_eq_zeroPart]\n  ring_nf <;> rfl\n',
+            'old_sha256': '9655278f55af497ce4b273f43a72104b3618ecec93b7fe0751d23a54860add98',
+            'new_sha256': '2a18b0b8741c0b8082ee8bb1fddc60600cdd5984d943720b8af0f4030e90f1c0'},
+           {'file': 'CanonicalTerminalBudget.lean',
+            'scope': 'tailBudget_eq_sum_parts',
+            'original_byte_offset': 3585,
+            'original_last_tactic_line': 80,
+            'old': '    ActualGaussStage.TerminalCalibration.tailBudget_eq_tailPart]\n  ring\n',
+            'new': '    ActualGaussStage.TerminalCalibration.tailBudget_eq_tailPart]\n  ring_nf <;> rfl\n',
+            'old_sha256': 'd727b8c3d2bf2273b25877066c5619b3e62c818bbeb092c85f6a77e049728a5d',
+            'new_sha256': '7d771628c4a4f00945e80550cbde34954a4d610d6212559626bea32b24d55e90'}]
+          EXPECTED_CLOSURES = {'CanonicalTerminalBudget': ['ActualCapacityProduction',
+                                       'ActualChildInvariants',
+                                       'ActualChildRows',
+                                       'ActualChildren',
+                                       'ActualCorrelationBound',
+                                       'ActualCoveredLabels',
+                                       'ActualFamilyIntegrability',
+                                       'ActualFirstCharacters',
+                                       'ActualFirstSource',
+                                       'ActualFirstTerminalBudget',
+                                       'ActualFirstZero',
+                                       'ActualFrequencyPartition',
+                                       'ActualGaussCoverHybridTerminal',
+                                       'ActualGaussFiniteLeaves',
+                                       'ActualGaussRawTerminal',
+                                       'ActualLengths',
+                                       'ActualPool',
+                                       'ActualScaleClipping',
+                                       'AllocatedCapacityProvider',
+                                       'AllocatedChildFamily',
+                                       'AllocatedChildProvider',
+                                       'AllocatedSubsupport',
+                                       'AllocationKernel',
+                                       'AllocationMass',
+                                       'AmplifierDifference',
+                                       'AmplifierGaussExtraction',
+                                       'AmplifierPoolReindex',
+                                       'AmplifierResidualSupport',
+                                       'AmplifierSupportDictionary',
+                                       'AmplifierValuationSupport',
+                                       'ArithmeticPrimePool',
+                                       'CanonicalFirstBlocks',
+                                       'CanonicalTerminalBudget',
+                                       'Capacity',
+                                       'CenteredAllocatedChildren',
+                                       'ChildAssembly',
+                                       'ChildMomentDataAdapter',
+                                       'ChildTermDictionary',
+                                       'Coefficient',
+                                       'CombinedSupportPoolAtlas',
+                                       'CommonHarmonicMass',
+                                       'CommonRadical',
+                                       'CommonSupportPartition',
+                                       'CoprimeCoefficient',
+                                       'CorrelationKernel',
+                                       'CoverHybridPhaseIntegral',
+                                       'DerivedCapacity',
+                                       'EffectiveChildSupport',
+                                       'FinitePhase',
+                                       'FiniteProductGauss',
+                                       'FirstActiveDictionary',
+                                       'FirstCharacterSource',
+                                       'FirstCommonGauss',
+                                       'FirstCommonMass',
+                                       'FirstCommonNormalization',
+                                       'FirstCommonSupportSource',
+                                       'FirstDivisorPhysicalSource',
+                                       'FirstDivisorPool',
+                                       'FirstFiniteSource',
+                                       'FirstGaussPool',
+                                       'FirstGaussPoolKernel',
+                                       'FirstKernel',
+                                       'FirstLinearizedSource',
+                                       'FirstPooledResidual',
+                                       'FirstPooledStage',
+                                       'FirstResidualSource',
+                                       'FirstSecondCoveredSource',
+                                       'FirstSecondRawSource',
+                                       'FirstSecondSource',
+                                       'FirstStage',
+                                       'FirstWeightedReduction',
+                                       'FirstZeroAmplitude',
+                                       'FirstZeroDiagonal',
+                                       'FirstZeroSupport',
+                                       'FixedChildFamily',
+                                       'GaussEnergySource',
+                                       'GaussPairTransform',
+                                       'GaussPhaseTerminal',
+                                       'GaussPoolDictionary',
+                                       'GaussSource',
+                                       'GaussStageKernelIntegral',
+                                       'GaussStagePhaseTransport',
+                                       'GeneratedCorrelation',
+                                       'GeneratedZeroGauss',
+                                       'HybridFiniteLeaf',
+                                       'HybridOrdinaryProduction',
+                                       'IdealPool',
+                                       'JointKernel',
+                                       'JointKernelBounds',
+                                       'JointKernelExceptionalSplit',
+                                       'Ledger',
+                                       'LocalAmplifier',
+                                       'LocalCRT',
+                                       'LocalCorrelation',
+                                       'MomentDataAdapter',
+                                       'NestedCommonMass',
+                                       'NestedFourierMeasure',
+                                       'NestedHilbertPhase',
+                                       'NestedHybridKernel',
+                                       'NestedHybridResidual',
+                                       'NestedSecondClassProduction',
+                                       'NestedSecondResidual',
+                                       'NonzeroQuotientSupport',
+                                       'NormalizedActualCapacityChild',
+                                       'OrbitalCorrelation',
+                                       'ParentMoment',
+                                       'ParentSource',
+                                       'ParentTruncation',
+                                       'PhaseDictionary',
+                                       'Pool',
+                                       'PoolCoverHybridStage',
+                                       'PoolFiniteLeaves',
+                                       'PoolFourierStage',
+                                       'PoolGaussDecomposition',
+                                       'PoolMass',
+                                       'PoolRawFourierStage',
+                                       'PoolSecondStage',
+                                       'PoolStageTerminalBudget',
+                                       'PoolTerminalMass',
+                                       'PowerfulDiagonal',
+                                       'PowerfulProducts',
+                                       'PreCauchySource',
+                                       'PrimePool',
+                                       'PrimePowerGcd',
+                                       'PrimePowerQuotientSupport',
+                                       'PrimeSupportMass',
+                                       'ProfileNormalizationInput',
+                                       'RankinLabels',
+                                       'RawSourcePhaseIntegral',
+                                       'ReductionOutput',
+                                       'ResidualTerminalCalibration',
+                                       'ResidualTupleCount',
+                                       'ResidualZeroBudget',
+                                       'SIntegerFirstFourier',
+                                       'SameCarrierTerminalBudget',
+                                       'SecondAllocatedSource',
+                                       'SecondAllocationKernel',
+                                       'SecondBranchPartition',
+                                       'SecondBranchProduction',
+                                       'SecondCenteredBinding',
+                                       'SecondChartAllocation',
+                                       'SecondClassProduction',
+                                       'SecondCoefficientBinding',
+                                       'SecondCoefficientNormalization',
+                                       'SecondCommonSource',
+                                       'SecondCorrelationSource',
+                                       'SecondGeneratorSource',
+                                       'SecondHybridAllocation',
+                                       'SecondHybridChart',
+                                       'SecondHybridCoverSource',
+                                       'SecondHybridSource',
+                                       'SecondResidualSource',
+                                       'SecondStage',
+                                       'SecondTailBudget',
+                                       'SecondZeroAmplitude',
+                                       'SecondZeroDiagonal',
+                                       'SecondZeroSupport',
+                                       'SlotRestriction',
+                                       'SourceCartesianAtlas',
+                                       'SourceCartesianCover',
+                                       'SourceFactorExtraction',
+                                       'StageTerminalBudget',
+                                       'SupportCartesianReindex',
+                                       'SupportKernelPartition',
+                                       'TailBudget',
+                                       'TailFiberCount',
+                                       'TerminalPowerBudget',
+                                       'UniformLengthCapacity',
+                                       'ValuationAllocation',
+                                       'WeightedNestedFourierMeasure',
+                                       'WholeAllocation',
+                                       'ZeroTerminalBudget']}
+          EXCLUDED_KNOWN_ROOTS = ['OriginalTaggedLocalIndex',
+           'CanonicalLiteralProfileData',
+           'CanonicalLiteralSourceCoefficients',
+           'CanonicalLiteralSupport',
+           'CanonicalLiteralProfileScalars',
+           'CanonicalLiteralCommonLeaf',
+           'CanonicalLiteralChartLocations',
+           'CanonicalLiteralTwoStages',
+           'ActualCoveredFibre',
+           'NormalizedOriginalImageMass',
+           'ActualCoveredFibreMass',
+           'DualPoolTerminal',
+           'DirectParentLeaves',
+           'FirstBlockFiniteLeaves',
+           'DualPoolFiniteLeaves',
+           'CanonicalOriginalGaussTuples',
+           'DirectFirstTerminalMass']
+
+          def git(root, *args):
+              return subprocess.check_output(['git', *args], cwd=root, text=True).strip()
+
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+
+          def identity(data):
+              return [len(data), sha(data), hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()]
+
+          def one_replace(data, old, new):
+              assert data.count(old) == 1, 'Original proof edit anchor is not unique'
+              return data.replace(old, new, 1)
+
+          def validate_source_bytes(stem, original, current):
+              pin = PINS[stem]
+              assert identity(original) == pin['original'], 'Unexpected direct-parent source: ' + stem
+              assert identity(current) == pin['candidate'], 'Unexpected complete proof candidate: ' + stem
+              edits = [x for x in EDITS if x['file'] == stem + '.lean']
+              expected = original
+              for edit in edits:
+                  old, new = edit['old'].encode(), edit['new'].encode()
+                  offset = edit['original_byte_offset']
+                  assert original[offset:offset + len(old)] == old
+                  assert sha(old) == edit['old_sha256'] and sha(new) == edit['new_sha256']
+                  expected = one_replace(expected, old, new)
+              assert expected == current, 'The candidate must contain exactly the frozen proof edits'
+              assert stem == 'CanonicalTerminalBudget'
+              assert len(current) - len(original) == 22 and len(edits) == 2
+              for order in [edits, list(reversed(edits))]:
+                  recovered = current
+                  for edit in order:
+                      recovered = one_replace(recovered, edit['new'].encode(), edit['old'].encode())
+                  assert recovered == original, 'Proof-only inverse must recover the exact owner bytes'
+              for pattern, key in [(rb'^import (.+)$', 'original_imports'), (rb'^#print axioms (.+)$', 'original_prints')]:
+                  before = [x.decode() for x in re.findall(pattern, original, re.M)]
+                  after = [x.decode() for x in re.findall(pattern, current, re.M)]
+                  assert before == after == pin[key], 'Original imports or print targets changed'
+              assert re.findall(rb'^set_option\b.*$', original, re.M) == re.findall(rb'^set_option\b.*$', current, re.M)
+              return {'original': pin['original'], 'candidate': pin['candidate'],
+                      'exact_forward_and_two_inverse_orders': True, 'proof_scopes': pin['proof_scopes'],
+                      'original_imports': pin['original_imports'], 'original_prints': pin['original_prints']}
+
+          def validate_source_files(root):
+              result = {}
+              for stem in PINS:
+                  path = TASK + '/' + stem + '.lean'
+                  original = subprocess.check_output(['git', 'show', SOURCE_BASE + ':' + path], cwd=root)
+                  assert git(root, 'rev-parse', SOURCE_BASE + ':' + path) == PINS[stem]['original'][2]
+                  result[path] = validate_source_bytes(stem, original, (root / path).read_bytes())
+              return result
+
+          def validate_inventory_bytes(source_bytes, config_bytes):
+              sources = sorted(source_bytes)
+              config = {p: sha(config_bytes[p]) for p in CONFIG_PINS}
+              assert config == CONFIG_PINS, 'Fixed verifier or configuration changed'
+              assert config_bytes['lean-toolchain'].decode().strip() == 'leanprover/lean4:v4.35.0-rc3'
+              lake = tomllib.loads(config_bytes['lakefile.toml'].decode())
+              assert lake['weakLeanArgs'] == ['-j2']
+              assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+              mathlib = [p for p in json.loads(config_bytes['lake-manifest.json'])['packages'] if p['name'] == 'mathlib']
+              assert len(mathlib) == 1 and mathlib[0]['rev'] == '0493595ecd5da8ef14742febab99728f98e948e8'
+              imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', source_bytes[TASK + '/Interface.lean'].decode(), re.M)))
+              libraries = [x['name'] for x in lake['lean_lib']]
+              assert len(sources) == 1009 and len(imports) == 1008 and len(libraries) == 20
+              graph = {Path(p).stem: re.findall(r'^import HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.([A-Za-z_0-9]+)\s*$', source_bytes[p].decode(), re.M) for p in sources}
+              closures = {}
+              for target in TARGETS:
+                  closure, pending = set(), [target]
+                  while pending:
+                      name = pending.pop()
+                      if name in closure:
+                          continue
+                      assert name in graph, 'Missing STEP import: ' + name
+                      closure.add(name)
+                      pending.extend(graph[name])
+                  closures[target] = sorted(closure)
+              assert closures == EXPECTED_CLOSURES, 'The original TerminalBudget import closure changed'
+              union = sorted(set().union(*[set(c) for c in closures.values()]))
+              assert not set(EXCLUDED_KNOWN_ROOTS).intersection(union)
+              return {'task_source_sha256': {p: sha(source_bytes[p]) for p in sources},
+                      'config_sha256': config, 'interface_imports': imports, 'libraries': libraries,
+                      'target_STEP_import_closures': closures, 'combined_STEP_import_closure': union,
+                      'excluded_known_roots': EXCLUDED_KNOWN_ROOTS}
+
+          def main():
+              root = Path.cwd()
+              evidence = root / EVIDENCE
+              phase = sys.argv[1]
+              assert phase in ['before', 'after']
+              assert git(root, 'rev-parse', SOURCE_BASE + '^{tree}') == SOURCE_TREE
+              parents = git(root, 'rev-list', '--parents', '-n', '1', 'HEAD').split()[1:]
+              assert parents == [SOURCE_BASE], 'Auxiliary commit must have the exact single owner parent'
+              expected_sources = sorted(TASK + '/' + stem + '.lean' for stem in PINS)
+              changed = git(root, 'diff', '--no-renames', '--name-only', SOURCE_BASE, 'HEAD').splitlines()
+              assert changed == sorted([WORKFLOW, *expected_sources]), 'Only the complete TerminalBudget proof candidate and this new workflow may change'
+              statuses = git(root, 'diff', '--no-renames', '--name-status', SOURCE_BASE, 'HEAD').splitlines()
+              assert statuses == sorted(['A\t' + WORKFLOW, *('M\t' + p for p in expected_sources)])
+              source_identity = validate_source_files(root)
+              source_bytes = {str(p.relative_to(root)): p.read_bytes() for p in (root / TASK).glob('*.lean')}
+              config_bytes = {p: (root / p).read_bytes() for p in CONFIG_PINS}
+              inventory = validate_inventory_bytes(source_bytes, config_bytes)
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=root).decode().split('\0')[:-1]
+              record = {'stage': 'Complete g1 TerminalBudget module: normal native and fresh loaded namespace audit',
+                        'source_base': SOURCE_BASE, 'source_base_tree': SOURCE_TREE, 'parents': parents,
+                        'complete_proof_candidates': source_identity,
+                        'target_modules': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + x for x in TARGETS],
+                        'original_target_prints': {x: PINS[x]['original_prints'] for x in TARGETS},
+                        'full_task_acceptance': False, 'changed_paths_from_base': changed,
+                        'head': git(root, 'rev-parse', 'HEAD'), 'tree': git(root, 'rev-parse', 'HEAD^{tree}'),
+                        'expected_head': os.environ['EXPECTED_SHA'],
+                        'tracked_status': git(root, 'status', '--porcelain=v1', '--untracked-files=no'),
+                        'tracked_sha256': {p: sha((root / p).read_bytes()) for p in tracked}, **inventory}
+              (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+              assert record['head'] == record['expected_head'], 'Unexpected checkout SHA'
+              assert not record['tracked_status'], 'Tracked source changes detected'
+              if phase == 'after':
+                  before = json.loads((evidence / 'before-source.json').read_text())
+                  assert before == record, 'Source, configuration, inventories or HEAD changed'
+                  (evidence / 'source-integrity.json').write_text(json.dumps({
+                      'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                      'tracked_files': len(tracked), 'task_modules': len(inventory['task_source_sha256']),
+                      'interface_imports': len(inventory['interface_imports']),
+                      'libraries': len(inventory['libraries'])}, indent=2) + '\n')
+              print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, 1009 task modules, 20 libraries')
+
+          if __name__ == '__main__':
+              main()
+          PY
+          cat > a-recovery-terminal-budget/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a-recovery-terminal-budget')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a-recovery-terminal-budget/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a-recovery-terminal-budget/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a-recovery-terminal-budget/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalTerminalBudget:deps
+      - name: Compile the complete original module and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a-recovery-terminal-budget/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalTerminalBudget \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.TerminalCalibration.zeroBudget_le \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.TerminalCalibration.tailBudget_le \
+            --evidence a-recovery-terminal-budget/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a-recovery-terminal-budget/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-recovery-terminal-budget-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a-recovery-terminal-budget/
+          if-no-files-found: error
+          retention-days: 14
