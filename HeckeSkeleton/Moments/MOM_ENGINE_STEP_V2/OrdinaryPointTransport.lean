@@ -20,7 +20,7 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
 open EngineStep EngineInduction.Source
-open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.Moments
@@ -126,8 +126,8 @@ theorem pointRealizes (hF : F.Realizes) (hfamily : family.Realizes)
     (hfamily.firstRight i) (hfamily.poolPower i)
   intro j
   have hunit : (Arithmetic.data c).exteriorNorm (unitExterior (Arithmetic.data c)) = 1 := by
-    change (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) = 1
-    simp only [map_one, Nat.cast_one]
+    change (Ideal.absNorm (⊤ : Ideal (𝓞 K)) : ℝ) = 1
+    simp only [Ideal.absNorm_top, Nat.cast_one]
   rw [hunit, one_mul]
   exact FirstCauchyKey.point_eq_log (family.index i) hF j
 
@@ -147,8 +147,8 @@ theorem main_pointRealizes (hP : P.Realizes) (i : Fin family.count)
     ((P.data i).mainSource (family.source i).source.coefficient)
     (family.source i).firstPoint (family.source i).first.firstRight
     (family.source i).first.poolPower hcolumn hsource hpoint
-    (congrArg FirstCoordinates.firstRight hcoordinates)
-    (congrArg FirstCoordinates.poolPower hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.firstRight) hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.poolPower) hcoordinates)
   intro j
   have hideal : (P.data i).ideal j = (family.source i).source.ideal j :=
     congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
@@ -175,8 +175,8 @@ theorem error_pointRealizes (hP : P.Realizes) (i : Fin family.count)
   have hideal : (P.data i).ideal j.val = (family.source i).source.ideal j.val :=
     congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j.val) (hP.original i)
   have hunit : (Arithmetic.data c).exteriorNorm (unitExterior (Arithmetic.data c)) = 1 := by
-    change (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) = 1
-    simp only [map_one, Nat.cast_one]
+    change (Ideal.absNorm (⊤ : Ideal (𝓞 K)) : ℝ) = 1
+    simp only [Ideal.absNorm_top, Nat.cast_one]
   have hnorm : (Arithmetic.data c).exteriorNorm ((P.data i).ideal j.val) =
       (Arithmetic.data c).exteriorNorm (powerIdeal q.val e.multiplicity) *
         (Arithmetic.data c).exteriorNorm

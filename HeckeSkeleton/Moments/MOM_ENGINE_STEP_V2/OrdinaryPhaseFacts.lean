@@ -200,7 +200,12 @@ def ofSource (packet : RawLeafPacket call p)
       rcases ep with ⟨e, q⟩
       simpa only [hp, physical] using ht
   pool_power := by
-    simpa only [physical] using (phase_facts hfamily expansion hexpansion i).power
+    have ht := (phase_facts hfamily expansion hexpansion i).power
+    cases hp : poolOption expansion i with
+    | none => simpa only [hp, physical] using ht
+    | some ep =>
+      rcases ep with ⟨e, q⟩
+      simpa only [hp, physical] using ht
   deletion_nonzero := by
     simpa only [physical] using (phase_facts hfamily expansion hexpansion i).deletion
 

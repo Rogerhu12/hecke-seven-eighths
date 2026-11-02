@@ -79,13 +79,15 @@ private theorem slotIndex_injective {k : ℕ} (keep : Finset (Fin k)) :
 theorem firstIndex_injective (side : Bool) : Function.Injective (D.firstIndex side) := by
   intro i j hij
   have h := slotIndex_injective (packet.firstBranch side).keep hij
-  exact Fin.ext (congrArg Fin.val h)
+  have hval := congrArg (fun x : Fin (packet.firstBranch side).keep.card => x.val) h
+  exact Fin.ext hval
 
 theorem secondIndex_injective (side : Bool) : Function.Injective (D.secondIndex side) := by
   intro i j hij
   have hfirst := D.firstIndex_injective side hij
   have hsecond := slotIndex_injective (packet.secondBranch side).keep hfirst
-  exact Fin.ext (congrArg Fin.val hsecond)
+  have hval := congrArg (fun x : Fin (packet.secondBranch side).keep.card => x.val) hsecond
+  exact Fin.ext hval
 
 theorem remainingIndex_injective (side : Bool) :
     Function.Injective (D.remainingIndex side) := by

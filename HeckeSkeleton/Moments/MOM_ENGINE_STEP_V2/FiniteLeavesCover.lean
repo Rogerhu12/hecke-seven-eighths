@@ -237,7 +237,7 @@ def cover : OriginalCover source where
   first := h.first
 
 theorem cover_realizes : h.cover.Realizes where
-  labels a := Finset.mem_image.mp a.property
+  labels a := (Finset.mem_image (f := label (source := source))).mp a.property
   label _ _ := rfl
   first := h.first_key
   count _ := rfl

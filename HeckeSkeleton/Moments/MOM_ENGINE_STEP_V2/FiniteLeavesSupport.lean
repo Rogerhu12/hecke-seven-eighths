@@ -161,10 +161,14 @@ theorem costs_zero_of_not_active (hsecond : second.Realizes) (key : covers.Key)
             ((SourceClassKey.leftReindex key.1.2).index j) = 0 := by
           run_tac do
             let stderr ← IO.getStderr
-            stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesSupport checkpoint: inactive coefficient rewrite"
+            stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesSupport checkpoint: inactive coefficient identity"
             stderr.flush
-          rw [hs.leftCoefficient]
-          simp only [hcommon, if_false]
+          exact (hs.leftCoefficient key.1.2.1 key.1.2.2.1
+            ((SourceClassKey.leftReindex key.1.2).index j)).trans (if_neg hcommon)
+        run_tac do
+          let stderr ← IO.getStderr
+          stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesSupport checkpoint: inactive coefficient vanishes"
+          stderr.flush
         change (((source.stage.charts key.1.2.1 key.1.2.2.1).leftCoefficient
           ((SourceClassKey.leftReindex key.1.2).index j) * _) * _) * _ = 0
         rw [hc]
