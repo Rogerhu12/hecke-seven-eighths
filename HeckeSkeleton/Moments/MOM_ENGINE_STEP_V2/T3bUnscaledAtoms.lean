@@ -47,6 +47,24 @@ theorem pairMagnitude_scalar
   intro h _
   ring
 
+private theorem pairMagnitude_scalar_of_eq
+    {H I J V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+    (rows : Finset H) (left : Finset I) (right : Finset J)
+    (q : H → ℂ) (c₀ c₁ : H → I → ℂ) (d₀ d₁ : H → J → ℂ)
+    (x : H → I → V) (y : H → J → V) (a b : ℂ) (ξ : V)
+    (hc : ∀ h i, c₀ h i = a * c₁ h i)
+    (hd : ∀ h j, d₀ h j = star b * d₁ h j) :
+    jointColumnPairMagnitude rows left right q c₀ d₀ x y ξ =
+      (‖a‖ * ‖b‖) * jointColumnPairMagnitude rows left right q c₁ d₁ x y ξ := by
+  have hc' : c₀ = fun h i => a * c₁ h i := funext (fun h => funext (hc h))
+  have hd' : d₀ = fun h j => star b * d₁ h j := funext (fun h => funext (hd h))
+  have heq := congrArg₂ (fun (cl : H → I → ℂ) (cr : H → J → ℂ) =>
+    jointColumnPairMagnitude rows left right q cl cr x y ξ) hc' hd'
+  have hscalar := pairMagnitude_scalar rows left right q c₁ d₁ x y a (star b) ξ
+  exact heq.trans (hscalar.trans
+    (congrArg (fun t : ℝ => (‖a‖ * t) *
+      jointColumnPairMagnitude rows left right q c₁ d₁ x y ξ) (norm_star b)))
+
 end T3b
 
 attribute [local instance]
@@ -150,9 +168,19 @@ theorem t3b_left_scalar (h : Arithmetic.Orbit c)
     a * ((d.t3bComparison phase _ _ _).centeredCoefficient
       (Real.sqrt d.gauss₁ : ℂ)⁻¹ (Real.sqrt d.gauss₂ : ℂ)⁻¹
       (fun j => (Real.sqrt (d.gaussSlot j) : ℂ)⁻¹) i * _ * _)
-  rw [(d.scale a).t3bComparison_centeredCoefficient,
-    d.t3bComparison_centeredCoefficient, d.scale_whole]
-  ring
+  let phaseValue := (fixedLeftPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ)
+  let residueValue := Arithmetic.embedding c ((Arithmetic.data c).sexticResidue
+    (packet.leftIdeal i) (packet.R.frequency h))
+  have hscaled := (d.scale a).t3bComparison_centeredCoefficient phase
+    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots i
+  have hplain := d.t3bComparison_centeredCoefficient phase
+    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots i
+  have hcenter := hscaled.trans ((d.scale_whole a i).trans
+    (congrArg (fun z : ℂ => a * z) hplain.symm))
+  have hmul := congrArg (fun z : ℂ => z * phaseValue * residueValue) hcenter
+  exact hmul.trans
+    ((congrArg (fun z : ℂ => z * residueValue) (mul_assoc a _ phaseValue)).trans
+      (mul_assoc a _ residueValue))
 
 theorem t3b_right_scalar (h : Arithmetic.Orbit c)
     (i : AllocationColumn K packet.leaf.rightSlots) :
@@ -170,10 +198,20 @@ theorem t3b_right_scalar (h : Arithmetic.Orbit c)
     star a * star ((d.t3bComparison phase _ _ _).centeredCoefficient
       (Real.sqrt d.gauss₁ : ℂ)⁻¹ (Real.sqrt d.gauss₂ : ℂ)⁻¹
       (fun j => (Real.sqrt (d.gaussSlot j) : ℂ)⁻¹) i * _ * _)
-  rw [(d.scale a).t3bComparison_centeredCoefficient,
-    d.t3bComparison_centeredCoefficient, d.scale_whole]
-  simp only [star_mul']
-  ring
+  let phaseValue := (fixedRightPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ)
+  let residueValue := Arithmetic.embedding c ((Arithmetic.data c).sexticResidue
+    (packet.rightIdeal i) (-packet.R.frequency h))
+  have hscaled := (d.scale a).t3bComparison_centeredCoefficient phase
+    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots i
+  have hplain := d.t3bComparison_centeredCoefficient phase
+    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots i
+  have hcenter := hscaled.trans ((d.scale_whole a i).trans
+    (congrArg (fun z : ℂ => a * z) hplain.symm))
+  have hmul := congrArg (fun z : ℂ => z * phaseValue * residueValue) hcenter
+  have hfactor := hmul.trans
+    ((congrArg (fun z : ℂ => z * residueValue) (mul_assoc a _ phaseValue)).trans
+      (mul_assoc a _ residueValue))
+  exact (congrArg (star : ℂ → ℂ) hfactor).trans (star_mul' a _)
 
 theorem t3b_magnitude_scalar {theta : Finset (HeckeCharacter K)}
     (Q : PairedFiniteCharacters theta (Arithmetic.Orbit c)) (ξ : EngineParameter) :
@@ -187,9 +225,25 @@ theorem t3b_magnitude_scalar {theta : Finset (HeckeCharacter K)}
           (packet.t3bUnscaledRightFrame hpacket phases)
           (packet.t3bUnscaledLeftComparison hpacket phases)
           (packet.t3bUnscaledRightComparison hpacket phases) Q ξ := by
-  unfold SecondSideFrame.exceptionalMagnitude
-  simp_rw [packet.t3b_left_scalar hpacket phases, packet.t3b_right_scalar hpacket phases]
-  rw [T3b.pairMagnitude_scalar, norm_star]
+  let fL := packet.t3bLeftFrame hpacket phases
+  let fR := packet.t3bRightFrame hpacket phases
+  let uL := packet.t3bUnscaledLeftFrame hpacket phases
+  let uR := packet.t3bUnscaledRightFrame hpacket phases
+  exact T3b.pairMagnitude_scalar_of_eq (packet.R.exceptionalRows Q)
+    fL.allocation.columns fR.allocation.columns
+    (fun h : packet.R.live => packet.R.weight h.val * packet.R.correlation h.val)
+    (fun h => fL.centeredCoefficient (packet.t3bLeftComparison hpacket phases) h.val)
+    (fun h => uL.centeredCoefficient (packet.t3bUnscaledLeftComparison hpacket phases) h.val)
+    (fun h => fR.centeredCoefficient (packet.t3bRightComparison hpacket phases) h.val)
+    (fun h => uR.centeredCoefficient (packet.t3bUnscaledRightComparison hpacket phases) h.val)
+    (fun h => rawSourceLocation (fL.leftLocation h.val) (fL.rightLocation h.val)
+      (fL.slotLocation h.val))
+    (fun h => rawSourceLocation (fR.leftLocation h.val) (fR.rightLocation h.val)
+      (fR.slotLocation h.val))
+    (packet.secondAtomScalar hpacket phases false)
+    (packet.secondAtomScalar hpacket phases true) ξ
+    (fun h i => packet.t3b_left_scalar hpacket phases h.val i)
+    (fun h i => packet.t3b_right_scalar hpacket phases h.val i)
 
 theorem t3b_exceptional_integrand_unscaled {theta : Finset (HeckeCharacter K)}
     (Q : PairedFiniteCharacters theta (Arithmetic.Orbit c))

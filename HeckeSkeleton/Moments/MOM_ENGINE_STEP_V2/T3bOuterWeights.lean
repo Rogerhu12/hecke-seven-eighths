@@ -96,7 +96,7 @@ theorem firstCauchy_outer_mul_allowance_mobius
       ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
         (firstRowMajorant F key.1 key.2.1 * Real.sqrt NL * Real.sqrt NR / 2) := by
   exact firstCauchy_outer_scalar_mul_allowance_mobius F.source.fiber
-    ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖
+    ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖
     ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle))
       (FirstCauchyKey.character key)‖
     (FirstCauchyKey.piece key).rowBound (firstRowMajorant F key.1 key.2.1)
