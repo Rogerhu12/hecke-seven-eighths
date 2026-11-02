@@ -293,6 +293,43 @@ theorem t3b_firstLengths_le (v : F.source.CommonLabel)
   have hR := hnorm _ (firstActiveRadical_ne_zero _ _) (F.t3b_firstActive_norm_le hF input v)
   linarith
 
+theorem t3b_firstTilt_le (v : F.source.CommonLabel)
+    (D : ((F.source.block v).mask F.source.mask).powerset)
+    (hannulus : T3b.firstColumnAnnulus c call.frame ≤ call.base) :
+    p.tilt *
+      (idealLogLength call.base (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val -
+        call.workingParameters.m +
+        idealLogLength call.base (firstActiveRadical v.val.1 v.val.2)) ≤
+      p.loss * (10 + recipeInductionSigma c / 4) := by
+  have he := F.t3b_firstLengths_le hF input v D 1
+    (by simpa only [Real.rpow_one] using hannulus)
+  have hm := call.t3b_working_m_nonneg hF.active
+  have hA := call.t3b_totalLength_le
+  have hbound :
+      idealLogLength call.base (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val -
+        call.workingParameters.m +
+        idealLogLength call.base (firstActiveRadical v.val.1 v.val.2) ≤
+          10 + recipeInductionSigma c / 4 := by
+    change call.node.parameters.n₁ + call.node.parameters.n₂ + call.node.parameters.z ≤
+      2 + recipeInductionSigma c / 16 at hA
+    linarith
+  have hpositive : 0 ≤ 10 + recipeInductionSigma c / 4 := by
+    have hs := (recipeInduction_budget (c := c)).1
+    positivity
+  exact (mul_le_mul_of_nonneg_left hbound p.tilt_pos.le).trans
+    (mul_le_mul_of_nonneg_right p.tilt_le_loss hpositive)
+
+theorem t3b_firstTilt_rpow_le (v : F.source.CommonLabel)
+    (D : ((F.source.block v).mask F.source.mask).powerset)
+    (hannulus : T3b.firstColumnAnnulus c call.frame ≤ call.base) :
+    call.base ^ (p.tilt *
+      (idealLogLength call.base (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val -
+        call.workingParameters.m +
+        idealLogLength call.base (firstActiveRadical v.val.1 v.val.2))) ≤
+      call.base ^ (p.loss * (10 + recipeInductionSigma c / 4)) :=
+  Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
+    (F.t3b_firstTilt_le hF input v D hannulus)
+
 end FirstPresentation
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

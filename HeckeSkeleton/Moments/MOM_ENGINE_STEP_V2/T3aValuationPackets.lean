@@ -83,12 +83,16 @@ theorem packet_original_count_dvd_six_of_moving_unramified
       ((raw.packet j).R.primes i).val.asIdeal := by
   have hmem := (raw.packet_exceptional_character j h).mp
     (Finset.mem_filter.mp hh).2.1
+  have hout : ((raw.packet j).R.primes i).val ∉ places K c :=
+    (HeckeAxiom.exteriorEquiv (Arithmetic.data c)
+      (primeIdeal ((raw.packet j).R.primes i))).property
+        ((raw.packet j).R.primes i).val dvd_rfl
   have hfull := call.theta_unramified _ hmem
-    ((raw.packet j).R.primes i).val ((raw.packet j).R.primes i).property
+    ((raw.packet j).R.primes i).val hout
   simp only [SecondSource.rowCharacter, dif_pos h.property,
     OriginalMovingFactors.append_character] at hfull
   have hprefix := (call.correction_unramified
-    ((raw.packet j).R.primes i).val ((raw.packet j).R.primes i).property).mul K hmoving
+    ((raw.packet j).R.primes i).val hout).mul K hmoving
   apply T3a.actualSecondRow_original_exponent_dvd_six
     (probeData K c) (momentRowCharacters K c) (Arithmetic.context c)
     (raw.packet j).R h i hi

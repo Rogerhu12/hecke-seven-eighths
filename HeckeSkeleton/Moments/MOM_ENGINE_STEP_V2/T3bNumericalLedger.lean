@@ -127,7 +127,7 @@ once, and the original second-divisor saving is retained explicitly. -/
 theorem normalized_leaf_le_actual_dyad
     (raw : RawFamily geometry) (j : Fin raw.count)
     (hpacket : (raw.packet j).Realizes)
-    (nominalNorm scalar coefficient exponent divisorLower normalizerLoss : ℝ)
+    (nominalNorm scalar coefficient exponent divisorLower normalizerLoss normalizerCoefficient : ℝ)
     (J₁ J₂ : ℕ) (hcoefficient : 0 ≤ coefficient)
     (hpoint : ∀ z : ℝ × ℝ,
       call.base ^ (-nominalNorm) * (raw.packet j).leaf.exceptionalIntegrand z ≤
@@ -135,10 +135,10 @@ theorem normalized_leaf_le_actual_dyad
           call.base ^ (exponent - divisorLower))
     (hnormalizer : (raw.packet j).leaf.weight * scalar * call.base ^ nominalNorm /
         call.parentNormalizer ≤
-      expansion.indexPrefactor (raw.sourceIndex j) * raw.commonIndexFactor j *
+      normalizerCoefficient * expansion.indexPrefactor (raw.sourceIndex j) * raw.commonIndexFactor j *
         call.base ^ normalizerLoss) :
     call.normalizedScalar (raw.packet j).leaf.exceptionalCost ≤
-      (coefficient * kernelMoment c p J₁ J₂) * raw.exceptionalDyadWeight divisorLower j *
+      (normalizerCoefficient * coefficient * kernelMoment c p J₁ J₂) * raw.exceptionalDyadWeight divisorLower j *
         call.base ^ (exponent + normalizerLoss) := by
   have hcancel : call.base ^ nominalNorm * call.base ^ (-nominalNorm) = 1 := by
     rw [← Real.rpow_add call.base_pos, add_neg_cancel, Real.rpow_zero]
@@ -170,7 +170,7 @@ theorem normalized_leaf_le_actual_dyad
       div_le_div_of_nonneg_right hcost call.parentNormalizer_pos.le
     _ = ((raw.packet j).leaf.weight * scalar * call.base ^ nominalNorm / call.parentNormalizer) *
         (coefficient * kernelMoment c p J₁ J₂ * call.base ^ (exponent - divisorLower)) := by ring
-    _ ≤ (expansion.indexPrefactor (raw.sourceIndex j) * raw.commonIndexFactor j *
+    _ ≤ (normalizerCoefficient * expansion.indexPrefactor (raw.sourceIndex j) * raw.commonIndexFactor j *
         call.base ^ normalizerLoss) *
         (coefficient * kernelMoment c p J₁ J₂ * call.base ^ (exponent - divisorLower)) :=
       mul_le_mul_of_nonneg_right hnormalizer hfactor
@@ -184,29 +184,29 @@ is the per-leaf bound consumed by the existing N8a summation lemma. -/
 theorem normalized_leaf_le_index
     (raw : RawFamily geometry) (j : Fin raw.count)
     (hpacket : (raw.packet j).Realizes)
-    (nominalNorm scalar coefficient exponent normalizerLoss loss : ℝ)
-    (J₁ J₂ : ℕ) (hcoefficient : 0 ≤ coefficient)
+    (nominalNorm scalar coefficient exponent normalizerLoss loss normalizerCoefficient : ℝ)
+    (J₁ J₂ : ℕ) (hcoefficient : 0 ≤ coefficient) (hnormalizerCoefficient : 0 ≤ normalizerCoefficient)
     (hpoint : ∀ z : ℝ × ℝ,
       call.base ^ (-nominalNorm) * (raw.packet j).leaf.exceptionalIntegrand z ≤
         scalar * coefficient * ((1 + ‖z.1‖) ^ J₁ * (1 + ‖z.2‖) ^ J₂) *
           call.base ^ (exponent - idealLogLength call.base (raw.innerDivisor j)))
     (hnormalizer : (raw.packet j).leaf.weight * scalar * call.base ^ nominalNorm /
         call.parentNormalizer ≤
-      expansion.indexPrefactor (raw.sourceIndex j) * raw.commonIndexFactor j *
+      normalizerCoefficient * expansion.indexPrefactor (raw.sourceIndex j) * raw.commonIndexFactor j *
         call.base ^ normalizerLoss)
     (hexponent : exponent + normalizerLoss ≤ recipeInductionTerminalLoss c - loss - p.loss) :
     call.normalizedScalar (raw.packet j).leaf.exceptionalCost ≤
-      (coefficient * kernelMoment c p J₁ J₂) * raw.indexWeight j *
+      (normalizerCoefficient * coefficient * kernelMoment c p J₁ J₂) * raw.indexWeight j *
         call.base ^ (recipeInductionTerminalLoss c - loss - p.loss) := by
   have h := normalized_leaf_le_actual_dyad raw j hpacket
     nominalNorm scalar coefficient exponent
-    (idealLogLength call.base (raw.innerDivisor j)) normalizerLoss
+    (idealLogLength call.base (raw.innerDivisor j)) normalizerLoss normalizerCoefficient
     J₁ J₂ hcoefficient hpoint hnormalizer
   rw [raw.t3b_exceptionalDyadWeight_actual_length] at h
   apply h.trans
   exact mul_le_mul_of_nonneg_left
     (Real.rpow_le_rpow_of_exponent_le call.domain.scale.le hexponent)
-    (mul_nonneg (mul_nonneg hcoefficient (kernelMoment_nonneg c p J₁ J₂))
+    (mul_nonneg (mul_nonneg (mul_nonneg hnormalizerCoefficient hcoefficient) (kernelMoment_nonneg c p J₁ J₂))
       (raw.t3b_indexWeight_nonneg j))
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.T3b

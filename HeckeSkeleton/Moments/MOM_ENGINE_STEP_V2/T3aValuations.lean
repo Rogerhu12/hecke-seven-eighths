@@ -101,11 +101,13 @@ theorem secondActive_original_count_dvd_six
     (secondActiveFrequencyIdeal p m n (actualNonunitPattern C p m n h)) Ir
     (secondActiveFrequencyGenerator C p m n (actualNonunitPattern C p m n h))
     (secondActiveFrequencyGenerator_generates C p m n (actualNonunitPattern C p m n h))
-    sector (p i).val (p i).property hχ
+    sector (p i).val
+    ((HeckeAxiom.exteriorEquiv A (primeIdeal (p i))).property (p i).val dvd_rfl) hχ
   have hactive :
       (normalizedFactors (secondActiveFrequencyIdeal p m n
         (actualNonunitPattern C p m n h)).val).count (p i).val.asIdeal = 2 := by
     obtain ⟨hm, hn, hnonunit⟩ := (Finset.mem_filter.mp hi).2
+    simp only [hm, hn] at hnonunit
     rw [secondActiveFrequencyIdeal, primePowerProduct_count p hp]
     simp [secondActiveExponent, actualNonunitPattern, hm, hn, hnonunit]
   rw [hactive] at hsum
@@ -135,13 +137,13 @@ theorem actualSecondRow_original_exponent_dvd_six
 /-- An unramified original prefix can be removed directly on local
 units, without asserting that either remaining factor is unramified. -/
 theorem unramified_product_of_unramified_prefix
-    (prefix χ ψ : HeckeCharacter K) (p : HeightOneSpectrum (𝓞 K))
-    (hprefix : UnramifiedAt K prefix p)
-    (hfull : UnramifiedAt K (prefix * χ * ψ) p) :
+    (preχ χ ψ : HeckeCharacter K) (p : HeightOneSpectrum (𝓞 K))
+    (hprefix : UnramifiedAt K preχ p)
+    (hfull : UnramifiedAt K (preχ * χ * ψ) p) :
     UnramifiedAt K (χ * ψ) p := by
   intro u hu
   have he := hfull u hu
-  change localComponent K p prefix u * localComponent K p χ u *
+  change localComponent K p preχ u * localComponent K p χ u *
     localComponent K p ψ u = 1 at he
   rw [hprefix u hu, one_mul] at he
   exact he

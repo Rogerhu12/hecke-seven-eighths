@@ -73,7 +73,7 @@ theorem character_covers (c : TargetContext K) (omega theta : HeckeCharacter K)
       character c j = omega * (if conjugate then theta⁻¹ else theta) := by
   rcases homega with h | h | h
   · refine ⟨(0, conjugate, ⟨theta, htheta⟩), ?_⟩
-    simp only [character, background, if_pos rfl, h]
+    simp [character, background, h]
   · refine ⟨(1, conjugate, ⟨theta, htheta⟩), ?_⟩
     simp [character, background, h]
   · refine ⟨(2, conjugate, ⟨theta, htheta⟩), ?_⟩
