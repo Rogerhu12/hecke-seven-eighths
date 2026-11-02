@@ -50,7 +50,8 @@ jobs:
       - name: Elaborate the probes one at a time
         run: |
           mkdir -p kdiag-out
-          for v in skipkernel heartbeats sorrybody; do
+          for v in sorrybody curried skipkernel heartbeats; do
+            [ -f .github/kdiag/${{ matrix.side }}_$v.lean ] || continue
             n=${{ matrix.side }}_$v
             echo "===== $n"
             ( while true; do sleep 30; ps -eo etimes=,rss=,args= | awk '$3 ~ /lean$/ {printf "MEM %ss %dMiB\n", $1, $2/1024}'; done ) &
