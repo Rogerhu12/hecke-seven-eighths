@@ -179,11 +179,18 @@ theorem amplified_carriers_admissible (B Z : ℝ) (oldMask : Ideal (𝓞 K))
     (L.mainCarrier tag).Admissible (cap + 2) B Z oldMask ∧
       ∀ n p, (L.errorCarrier tag n p).Admissible (cap + 2) B Z oldMask :=
   by
-    unfold mainCarrier mainLabels errorCarrier errorLabels
-    exact ⟨L.restricted_carrier_admissible (fun i => tag i = none) B Z oldMask
-        hfirst hfirstN hS hSN hsecond hsecondN hL hLN,
-      fun n p => L.restricted_carrier_admissible (fun i => tag i = some (n, p)) B Z oldMask
-        hfirst hfirstN hS hSN hsecond hsecondN hL hLN⟩
+    constructor
+    · exact (L.mainLabels tag).carrier_admissible B Z oldMask
+        (fun i => hfirst i.val) (fun i => hfirstN i.val)
+        (fun i => hS i.val) (fun i => hSN i.val)
+        (fun i => hsecond i.val) (fun i => hsecondN i.val)
+        (fun i => hL i.val) (fun i => hLN i.val)
+    · intro n p
+      exact (L.errorLabels tag n p).carrier_admissible B Z oldMask
+        (fun i => hfirst i.val) (fun i => hfirstN i.val)
+        (fun i => hS i.val) (fun i => hSN i.val)
+        (fun i => hsecond i.val) (fun i => hsecondN i.val)
+        (fun i => hL i.val) (fun i => hLN i.val)
 
 /-- The internally computed tagged image has the official one-pool
 mass. Constants precede the actual pool, all source labels and their
