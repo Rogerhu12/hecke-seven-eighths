@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrozenBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRowCharacters
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Full calibration of an actual literal rectangle frame

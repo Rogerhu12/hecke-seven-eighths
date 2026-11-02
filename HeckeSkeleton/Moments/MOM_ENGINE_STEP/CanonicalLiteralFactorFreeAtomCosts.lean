@@ -34,14 +34,14 @@ namespace CanonicalLiteralFactorFreeAtomCosts
 second common or allocation divisor is extracted. -/
 theorem transform_divide_factor (N np δ₁ δ₂ : ℝ)
     (hN : 0 < N) (hp : 0 < np) (z : ℂ) :
-    ((((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-        (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)) *
+    ((((z * (Real.sqrt N : ℂ)) * ((np ^ (-1 : ℝ) : ℝ) : ℂ)) *
+        ((np ^ δ₁ : ℝ) : ℂ)) * ((np ^ δ₂ : ℝ) : ℂ)) *
         (CanonicalLiteralProfileScalars.plainFactor N N δ₁ δ₂ : ℂ)⁻¹ =
-      z * ((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ) := by
+      z * (((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ) := by
   sorry
 
 theorem weighted_power_norm_sq (y δ₁ δ₂ : ℝ) (hy : 0 < y) (z : ℂ) :
-    y * ‖z * (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)‖ ^ 2 =
+    y * ‖z * ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)‖ ^ 2 =
       y ^ (-1 + 2 * (δ₁ + δ₂)) * ‖z‖ ^ 2 := by
   sorry
 
