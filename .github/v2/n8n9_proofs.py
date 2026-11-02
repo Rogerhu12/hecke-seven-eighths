@@ -158,8 +158,14 @@ run_cmd do
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stage", required=True, choices=("analysis", "complete"))
+    parser.add_argument(
+        "--warmup-shared-roots", action="store_true",
+        help="For complete only: diagnose the two shared roots sequentially before the mandatory full build")
     args = parser.parse_args()
+    if args.warmup_shared_roots and args.stage != "complete":
+        parser.error("--warmup-shared-roots is only valid with --stage complete")
     stage = args.stage
+    warmup_shared_roots = stage == "complete" and args.warmup_shared_roots
     evidence = ROOT / ("v2-n8n9-" + stage + "-build")
     evidence.mkdir(exist_ok=True)
     # Reuse the B driver's actual logger and Watcher, including future fixes.
@@ -207,9 +213,10 @@ def main() -> int:
         "stage": stage,
         "toolchain": (ROOT / "lean-toolchain").read_text(encoding="utf-8").strip(),
         "targets": [PREFIX + "." + module for module in modules],
+        "warmup_shared_roots_requested": warmup_shared_roots,
         "sequential_warmup_targets": (
             [PREFIX + "." + module for module in COMPLETE_WARMUP_MODULES]
-            if stage == "complete" else []
+            if warmup_shared_roots else []
         ),
         "required_theorems": required,
         "manifest": manifest,
@@ -229,6 +236,7 @@ def main() -> int:
     results = {
         "stage": stage,
         "preflight_passed": not errors,
+        "warmup_shared_roots_requested": warmup_shared_roots,
         "warmup_exits": {},
         "build_exit": None,
         "build_skipped_reason": None,
@@ -240,8 +248,8 @@ def main() -> int:
         "n8b_status": environment["n8b_status"],
     }
     if not errors:
-        if stage == "complete":
-            # Isolate the two shared roots before the full task build.  A
+        if warmup_shared_roots:
+            # Optional diagnostic: isolate the shared roots before the full build. A
             # failed warmup is a hard gate failure.  Both warmups still
             # run, but their failed dependencies are not rebuilt a third
             # time by the full task command.
@@ -261,7 +269,7 @@ def main() -> int:
                     with (evidence / log_name).open("a", encoding="utf-8") as stream:
                         stream.write(message + "\n")
                     print(message, file=sys.stderr, flush=True)
-        warmup_failed = stage == "complete" and any(
+        warmup_failed = warmup_shared_roots and any(
             results["warmup_exits"].get(module) != 0 for module in COMPLETE_WARMUP_MODULES)
         if warmup_failed:
             reason = "A sequential shared-root warmup failed; the full task build and fresh axiom audit were not run"
@@ -310,7 +318,7 @@ def main() -> int:
                + f"- Exact head: `{head}`\n"
                + f"- Selected modules: {len(modules)}\n"
                + f"- Task scope: {task_scope}.\n"
-               + (f"- Sequential shared-root warmup exits: {results['warmup_exits']}.\n"
+               + (f"- Optional shared-root warmup requested: {warmup_shared_roots}; exits: {results['warmup_exits']}.\n"
                   if stage == "complete" else "")
                + f"- Lake exit: {results['build_exit']}\n"
                + f"- Fresh Lean audit exit: {results['audit_exit']}\n"

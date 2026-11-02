@@ -60,10 +60,9 @@ jobs:
           retention-days: 14
 
   raw-contracts-diagnostics:
+    # Central diagnosis owns the shared hotspot; retain this only for explicit dispatch.
     if: >-
-      github.event.pull_request.number == 42 ||
-      github.head_ref == 'cloud/mom-v2-n8-n9' ||
-      (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-v2-n8-n9')
+      github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-v2-n8-n9'
     name: RawContracts checkpoints (diagnostic only)
     runs-on: ubuntu-24.04
     timeout-minutes: 45
