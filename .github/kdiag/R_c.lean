@@ -168,8 +168,6 @@ run_cmd do
     stderr.flush
 
 
-set_option maxHeartbeats 20000 in
-set_option diagnostics true in
 noncomputable def leafAt (i : Fin expansion.count)
     (v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
     (allocation : SourceClassKey.AllocationKey v) :
@@ -185,7 +183,17 @@ noncomputable def leafAt (i : Fin expansion.count)
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_curried done"
+    stderr.putStrLn "KDIAG R_c leafAt done"
+    stderr.flush
+
+
+noncomputable def leaf : covers.Key → ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  Sigma.uncurry fun k a => covers.leafAt k.1 k.2 a
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG R_c done"
     stderr.flush
 
 end RawCovers

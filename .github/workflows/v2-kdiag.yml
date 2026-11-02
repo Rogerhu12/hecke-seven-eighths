@@ -49,29 +49,29 @@ jobs:
           lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' $D/$f.lean) 2>&1 | tail -5; test ${PIPESTATUS[0]} -eq 0
       - name: Install gdb for stack samples
         run: sudo apt-get install -y -qq gdb > /dev/null
-      - name: Elaborate the probes one at a time, sampling stacks
+      - name: Elaborate the probes one at a time
         run: |
           mkdir -p kdiag-out
-          for v in orig curried nolint; do
-            [ -f .github/kdiag/${{ matrix.side }}_$v.lean ] || continue
-            n=${{ matrix.side }}_$v
-            echo "===== $n"
+          for path in .github/kdiag/${{ matrix.side }}_*.lean; do
+            n=$(basename $path .lean)
+            limit=90; case $n in *_0orig) limit=60;; esac
+            echo "===== $n (limit ${limit}s)"
             start=$(date +%s)
-            lake env lean -DstderrAsMessages=false .github/kdiag/$n.lean > kdiag-out/$n.log 2>&1 &
+            lake env lean -DstderrAsMessages=false $path > kdiag-out/$n.log 2>&1 &
             wrapper=$!
-            for t in 100 160 220; do
-              while [ $(( $(date +%s) - start )) -lt $t ] && kill -0 $wrapper 2>/dev/null; do sleep 2; done
-              kill -0 $wrapper 2>/dev/null || break
+            while [ $(( $(date +%s) - start )) -lt $limit ] && kill -0 $wrapper 2>/dev/null; do sleep 2; done
+            if kill -0 $wrapper 2>/dev/null; then
               pid=$(pgrep -n -x lean || true)
-              [ -n "$pid" ] || continue
-              echo "--- KDIAG_STACK $n at ${t}s pid $pid rss $(( $(ps -o rss= -p $pid) / 1024 ))MiB"
-              sudo gdb -p $pid -batch -ex "set pagination off" -ex "thread apply all bt 60" 2>/dev/null                 | grep -E '^#|^Thread' | sed -E 's/ \(.*\) at / at /; s/0x[0-9a-f]+ in //' | cut -c1-200                 > kdiag-out/$n.stack.$t.txt
-              grep -B1 -A45 -E 'Thread 1 ' kdiag-out/$n.stack.$t.txt | head -50
-              grep -c '^#' kdiag-out/$n.stack.$t.txt | sed 's/^/frames total: /'
-            done
-            if kill -0 $wrapper 2>/dev/null; then pkill -KILL -x lean; code=killed; else wait $wrapper; code=$?; fi
+              if [ -n "$pid" ]; then
+                sudo gdb -p $pid -batch -ex "set pagination off" -ex "thread apply all bt -70" 2>/dev/null > kdiag-out/$n.outer.txt
+                echo "--- outer frames of the busy thread"
+                awk '/^Thread/{t=$0} /collectDeps/{busy=t} {a[t]=a[t] "
+" $0} END{print a[busy]}' kdiag-out/$n.outer.txt                   | sed -E 's/ \(.*\) from .*//; s/^#[0-9]+ +(0x[0-9a-f]+ in )?//' | grep -v -E 'collectDeps|SnapshotTree|^$' | cut -c1-170 | head -70
+              fi
+              pkill -KILL -x lean; code=killed
+            else wait $wrapper; code=$?; fi
             echo "KDIAG_RESULT $n exit=$code seconds=$(( $(date +%s) - start ))"
-            head -c 4000 kdiag-out/$n.log
+            grep -v -E 'semireducible|checkpoint' kdiag-out/$n.log | head -c 2500
           done
       - name: Upload the probe logs
         if: always()
