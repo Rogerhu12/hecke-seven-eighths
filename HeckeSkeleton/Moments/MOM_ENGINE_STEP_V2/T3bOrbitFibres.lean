@@ -95,8 +95,15 @@ theorem generatedIdeal_eq_of_engineElementOrbit_eq
       (engineElementOrbit (Γ := Γ) b).out = J := by
     simpa only [engineElementOrbit, dif_pos hb.1, parentGeneratorOrbit] using
       parentGeneratorOrbit_originalIdeal A Γ J b hb
-  exact hI.symm.trans ((congrArg
-    (fun q => ProbeOrbitNormSum.principalExterior A q.out) he).trans hJ)
+  have hrepresentatives :
+      ProbeOrbitNormSum.principalExterior A
+          (engineElementOrbit (Γ := Γ) a).out =
+        ProbeOrbitNormSum.principalExterior A
+          (engineElementOrbit (Γ := Γ) b).out :=
+    congrArg
+      (fun q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ =>
+        ProbeOrbitNormSum.principalExterior A q.out) he
+  exact hI.symm.trans (hrepresentatives.trans hJ)
 
 variable {σ : K →+* ℂ} {η : RayClassCharacter K A.modulus}
 variable {hS : A.ContainsTraceBadPlaces}
