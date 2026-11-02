@@ -103,6 +103,7 @@ variable (packets : ∀ j : Fin raw.count, CanonicalMassPacket (raw.packet j) in
 
 local notation "N" => canonicalMassData raw input choices packets
 
+set_option maxHeartbeats 1000000 in
 /-- The kappa and mesh fields use the exact already selected child. -/
 theorem canonicalKappaMesh : (N).KappaMeshInvariant := by
   intro side b ξ
@@ -120,6 +121,7 @@ theorem canonicalKappaMesh : (N).KappaMeshInvariant := by
     exact ⟨child.kappa_eq.trans (D.kappa_eq.trans call.kappa),
       fullKappaChild_mesh result child ξ⟩
 
+set_option maxHeartbeats 1000000 in
 /-- All output geometry comes from N4/N6 and the original N7b windows.
 In particular no completed engine output is used as an input. -/
 def canonicalOutputGeometry (windows : (N).UnitWindows) :
