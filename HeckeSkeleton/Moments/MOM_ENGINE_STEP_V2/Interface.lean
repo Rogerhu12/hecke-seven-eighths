@@ -1,4 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.BlueprintAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyMomentDataExt
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyProfilePhase
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyNormalizationGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyNormalizationCertificate
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyLeafConstruction
@@ -95,8 +97,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformScalarPreparation
 
 set_option linter.unusedSectionVars false
 
-/-! Blueprint input data and completed common induction adapters.
-The fixed paper tasks and their complete assembly follow in the next batch. -/
+/-! Blueprint contracts, original task entry points, and the complete
+paired-step assembly with the task statements as explicit premises. -/
 
 #check HeckeSkeleton.Moments.EngineStepV2.Blueprint.Call
 #check HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_preparations
+#check HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint

@@ -1,4 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyLeafConstruction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyMomentDataExt
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyProfilePhase
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
 
 set_option linter.unusedSectionVars false
@@ -34,35 +36,7 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 
-private theorem idealTest_eq_of_profile {left right : IdealTest K}
-    (hprofile : left.profile = right.profile) : left = right := by
-  have hsupport : left.support = right.support := by
-    funext u t scale
-    apply Finset.ext
-    intro I
-    rw [left.support_spec, right.support_spec, hprofile]
-  cases left
-  cases right
-  cases hprofile
-  cases hsupport
-  rfl
-
-private theorem primeWindow_eq_of_profile {left right : PrimeWindow K}
-    (hlength : left.length = right.length)
-    (hprofile : left.profile = right.profile) : left = right := by
-  have hsupport : left.support = right.support := by
-    funext t scale
-    apply Finset.ext
-    intro q
-    rw [left.support_spec, right.support_spec, hprofile]
-  cases left
-  cases right
-  cases hlength
-  cases hprofile
-  cases hsupport
-  rfl
-
-private def phaseAtom (seed : OrdinarySeed packet) (side : Bool)
+private noncomputable def phaseAtom (seed : OrdinarySeed packet) (side : Bool)
     (scale : ℝ) (hscale : 0 < scale) : CanonicalLogProfiles.Atom EngineParameter where
   scale := scale
   scale_pos := hscale
@@ -95,7 +69,7 @@ private theorem original_plain_positive (seed : OrdinarySeed packet)
       (CalibrationConstruction.plainTest seed input side rectangle plain ξ) := by
   intro u t x hx
   cases plain <;>
-    exact ProfileFormula.argument_pos_of_value_ne_zero _ ξ x hx
+    exact ProfilePhase.argument_pos_of_value_ne_zero _ ξ x hx
 
 private theorem original_prime_positive (seed : OrdinarySeed packet)
     (input : ProfileInput call) (side : Bool)
@@ -103,7 +77,7 @@ private theorem original_prime_positive (seed : OrdinarySeed packet)
     CanonicalLogProfiles.PositivePrimeProfile
       (CalibrationConstruction.primeTest seed input side i ξ) := by
   intro t x hx
-  exact ProfileFormula.argument_pos_of_value_ne_zero _ ξ x hx
+  exact ProfilePhase.argument_pos_of_value_ne_zero _ ξ x hx
 
 private theorem original_plain_eq (seed : OrdinarySeed packet)
     (input : ProfileInput call) (side rectangle plain : Bool) (ξ : EngineParameter) :
@@ -112,7 +86,7 @@ private theorem original_plain_eq (seed : OrdinarySeed packet)
         (seed.occurrences.plainScale_pos side rectangle plain)).idealTest
         (CalibrationConstruction.plainTest seed input side rectangle plain 0)
         (original_plain_positive seed input side rectangle plain 0) ξ := by
-  apply idealTest_eq_of_profile
+  apply idealTest_ext_profile
   funext u t x
   cases plain
   · change (seed.profile input (.plain false) side
@@ -143,7 +117,7 @@ private theorem original_prime_eq (seed : OrdinarySeed packet)
         (Real.rpow_pos_of_pos call.base_pos _)).primeWindow
         (CalibrationConstruction.primeTest seed input side i 0)
         (original_prime_positive seed input side i 0) ξ := by
-  apply primeWindow_eq_of_profile rfl
+  apply primeWindow_ext_profile rfl
   funext t x
   change (seed.profile input (.prime (seed.slotIndex side i)) side
       (call.base ^ (call.node.data.geometry.slots (seed.slotIndex side i)).length)
@@ -159,7 +133,7 @@ private theorem original_inverse_eq (seed : OrdinarySeed packet)
     (input : ProfileInput call) (ξ : EngineParameter) :
     CalibrationConstruction.inverseTest seed input ξ =
       CalibrationConstruction.inverseTest seed input 0 := by
-  apply idealTest_eq_of_profile
+  apply idealTest_ext_profile
   funext u t x
   change (seed.inverseProfile input).formula.value ξ x =
     (seed.inverseProfile input).formula.value 0 x
@@ -167,7 +141,7 @@ private theorem original_inverse_eq (seed : OrdinarySeed packet)
 
 /-- The fixed profile at zero already contains the original norm power.
 Only the unit Fourier multiplier is introduced by these atoms. -/
-def originalLogProfiles (seed : OrdinarySeed packet) (input : ProfileInput call)
+noncomputable def originalLogProfiles (seed : OrdinarySeed packet) (input : ProfileInput call)
     (support : seed.ordinary.PassiveSupport input)
     (side : Bool) (a : support.labels side) (rectangle : Bool) :
     CanonicalLogProfiles.OriginalLogProfiles K c.family.omega
@@ -257,7 +231,7 @@ variable {frame : SourceFrame} {orders : Finset (ℕ × ℕ)}
 
 /-- The same N3 data and N6 capacities supply all finite atom controls.
 The Fourier degrees are exactly the common N5 degree, on both sides. -/
-def leafFamilyFourierControl
+noncomputable def leafFamilyFourierControl
     (input : ProfileInput call) (raw : RawFamily geometry)
     (choices : FullKappaChoices c p.loss)
     (W : UniformProfileWindowCertificate c frame CalibrationConstruction.shape orders)

@@ -56,7 +56,7 @@ theorem normalizationCertificate_of_tasks (c : TargetContext K)
   obtain ⟨capacityDemand, produceCapacity⟩ := capacityProducer_exists capacity frame
   obtain ⟨choices, normalize⟩ := fullKappaProducer_exists fullKappa p.loss p.loss_pos
   obtain ⟨arithmeticCost, arithmeticBound⟩ :=
-    canonicalArithmeticMass_of_tasks c p sourceIndex normalizedMass frame
+    canonicalArithmeticMass_of_blueprintTasks c p sourceIndex normalizedMass frame
   let W (orders : Finset (ℕ × ℕ)) :
       UniformProfileWindowCertificate c frame CalibrationConstruction.shape orders :=
     Classical.choice (profileWindows frame CalibrationConstruction.shape orders)

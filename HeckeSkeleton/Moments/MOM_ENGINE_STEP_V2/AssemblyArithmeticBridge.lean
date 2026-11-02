@@ -31,7 +31,7 @@ variable {K : Type} [Field K] [NumberField K]
 
 /-- The N8 task contracts supply one uniform arithmetic-mass
 allowance for the same actual canonical family and original index. -/
-theorem canonicalArithmeticMass_of_tasks (c : TargetContext K) (p : SourceParameters c)
+theorem canonicalArithmeticMass_of_blueprintTasks (c : TargetContext K) (p : SourceParameters c)
     (hindex : SourceIndexTask c p) (hmass : NormalizedMassTask c p)
     (frame : SourceFrame) :
     ∃ cost : UniformCost,
@@ -58,5 +58,5 @@ theorem canonicalArithmeticMass_of_tasks (c : TargetContext K) (p : SourceParame
 
 end HeckeSkeleton.Moments.EngineStepV2.Assembly
 
-#print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass_of_tasks
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass_of_blueprintTasks
 

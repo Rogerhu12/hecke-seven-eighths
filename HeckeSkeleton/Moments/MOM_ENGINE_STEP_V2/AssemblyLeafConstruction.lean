@@ -110,7 +110,7 @@ variable (L : LeafNormalization packet input choices W horders)
 
 /-- The N8 packet keeps the exact coefficient selected by the original
 N5 clipping construction and the same N6 result. -/
-def massPacket : CanonicalMassPacket packet input choices where
+noncomputable def massPacket : CanonicalMassPacket packet input choices where
   seed := L.seed
   support := L.support
   support_actual := L.support_actual
@@ -128,11 +128,11 @@ def massPacket : CanonicalMassPacket packet input choices where
 
 /-- N9 receives the actual geometry and N6 result, retaining the richer
 raw/clipped N5 windows needed for its active-source cost. -/
-def fullKappaResults : L.calibrations.FullKappaResults choices horders L.windows :=
+noncomputable def fullKappaResults : L.calibrations.FullKappaResults choices horders L.windows :=
   fun side a rectangle =>
     ⟨L.geometry.geometry side a rectangle, L.normalization side a rectangle⟩
 
-def capacities : L.calibrations.Capacities :=
+noncomputable def capacities : L.calibrations.Capacities :=
   L.calibrations.fullKappaCapacities L.fullKappaResults
 
 @[simp] theorem massPacket_capacities : L.massPacket.capacities = L.capacities := rfl

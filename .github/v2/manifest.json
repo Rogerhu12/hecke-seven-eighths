@@ -330,8 +330,10 @@
         "AssemblyCalibrationBridge",
         "AssemblyFourierBridge",
         "AssemblyLeafConstruction",
+        "AssemblyMomentDataExt",
         "AssemblyNormalizationCertificate",
         "AssemblyNormalizationGeometry",
+        "AssemblyProfilePhase",
         "BlueprintAssembly"
       ]
     }
