@@ -42,7 +42,7 @@ def branchInput (_b : SupportCartesianBranch S₁ S₂ S P) (plain : Bool) :
     Finset (Ideal (𝓞 K)) := if plain then S₂ else S₁
 
 def branchDivisor (b : SupportCartesianBranch S₁ S₂ S P) (plain : Bool) :
-    NonzeroIdeal K := if plain then b.plainDivisor₂ else b.plainDivisor₁
+    HeckeGeneral.Analysis.NonzeroIdeal K := if plain then b.plainDivisor₂ else b.plainDivisor₁
 
 def branchWitness (b : SupportCartesianBranch S₁ S₂ S P) (plain : Bool) :
     Ideal (𝓞 K) := if plain then b.witness.1.2 else b.witness.1.1
@@ -81,10 +81,10 @@ def allocationInput (B : ActualColumnAllocation K k) (plain : Bool) :
     Finset (Ideal (𝓞 K)) := if plain then B.plain₂ else B.plain₁
 
 def allocationDivisor (B : ActualColumnAllocation K k) (plain : Bool) :
-    NonzeroIdeal K := B.plainDivisor (if plain then Fin.succ 0 else 0)
+    HeckeGeneral.Analysis.NonzeroIdeal K := B.plainDivisor (if plain then Fin.succ 0 else 0)
 
 def allocationChild (B : ActualColumnAllocation K k) (plain : Bool) :
-    Finset (NonzeroIdeal K) := if plain then B.childPlain₂ else B.childPlain₁
+    Finset (HeckeGeneral.Analysis.NonzeroIdeal K) := if plain then B.childPlain₂ else B.childPlain₁
 
 def allocationWitness (B : ActualColumnAllocation K k) (plain : Bool) :
     Ideal (𝓞 K) := if plain then B.witness.1.2 else B.witness.1.1
@@ -104,7 +104,7 @@ theorem allocation_coprime (B : ActualColumnAllocation K k) (plain : Bool)
     (allocation_witness B plain).2
 
 theorem allocationChild_mem (B : ActualColumnAllocation K k) (plain : Bool)
-    (I : NonzeroIdeal K) : I ∈ allocationChild B plain ↔
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) : I ∈ allocationChild B plain ↔
       (allocationDivisor B plain).val * I.val ∈ allocationInput B plain := by
   cases plain <;>
     exact mem_nonzeroQuotientMomentSupport _ (nonZeroDivisors.coe_ne_zero _) _ _
@@ -141,7 +141,7 @@ theorem nested_divisor_coprime (G : Ideal (𝓞 K))
 inner divisor can all be reconstructed from a nonzero original profile.
 The old witness forces the extracted divisors to retain the earlier gates. -/
 theorem nested_mem (hP : ∀ q ∈ P, Prime q) (hQ : ∀ q ∈ Q, Prime q)
-    (I : NonzeroIdeal K) (hIP : ∀ q ∈ P, IsCoprime I.val q)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hIP : ∀ q ∈ P, IsCoprime I.val q)
     (hIQ : ∀ q ∈ Q, IsCoprime I.val q)
     (hmem : (branchDivisor b₁ plain).val *
       ((branchDivisor b₂ plain).val * ((allocationDivisor B plain).val * I.val)) ∈

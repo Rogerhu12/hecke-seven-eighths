@@ -60,7 +60,7 @@ private theorem original_factor (O : OrdinaryData packet) (side rectangle : Bool
   cases side <;> rfl
 
 theorem residue_common_coprime (O : OrdinaryData packet) (side rectangle : Bool)
-    (h : O.rows.live) (J : NonzeroIdeal K)
+    (h : O.rows.live) (J : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hn : actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) J.val
       ((O.originalSource side rectangle).extractedFactor h *
         ((O.originalSource side rectangle).row h).element) ≠ 0) :
@@ -85,7 +85,8 @@ theorem residue_common_coprime (O : OrdinaryData packet) (side rectangle : Bool)
 
 theorem plainTerm_common_coprime (O : OrdinaryData packet) (side rectangle : Bool)
     (h : O.rows.live) (χ θ : HeckeCharacter K) (mask : Ideal (𝓞 K) →* ℂ)
-    (w : NonzeroIdeal K → ℂ) (N : ℝ) (J : NonzeroIdeal K)
+    (w : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ) (N : ℝ)
+    (J : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hn : sourcePlainTerm (σ := Arithmetic.embedding c) χ θ mask
       ((O.originalSource side rectangle).extractedFactor h)
       ((O.originalSource side rectangle).row h).element w N J ≠ 0) :
@@ -111,7 +112,7 @@ theorem primeTerm_common_coprime (O : OrdinaryData packet) (side rectangle : Boo
 
 theorem raw_common_coprime {k : ℕ} (O : OrdinaryData packet) (side rectangle : Bool)
     (h : O.rows.live) (T : FixedChildCharacters K k) (N₁ N₂ Z : ℝ)
-    (length : Fin k → ℝ) (w₁ w₂ : NonzeroIdeal K → ℂ)
+    (length : Fin k → ℝ) (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ) (i : AllocationColumn K k)
     (hleft : i.1.1 ≠ 0) (hright : i.1.2 ≠ 0)
     (hn : rawSourceCoefficient (σ := Arithmetic.embedding c) T

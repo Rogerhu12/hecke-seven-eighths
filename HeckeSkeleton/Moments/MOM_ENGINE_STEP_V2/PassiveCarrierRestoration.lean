@@ -61,7 +61,7 @@ theorem second_plain_input (side plain : Bool) :
   · exact seed.ordinary.originalAllocation_plain₂ side
 
 theorem restoredPlain_fixed (hpacket : packet.Realizes) (side plain : Bool)
-    (I : NonzeroIdeal K) (hI : IsCoprime I.val (Arithmetic.data c).cS) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : IsCoprime I.val (Arithmetic.data c).cS) :
     IsCoprime (seed.restoredPlainIdeal side plain I).val (Arithmetic.data c).cS := by
   have hd := nested_divisor_coprime (packet.firstBranch side) (packet.secondBranch side)
     (seed.ordinary.originalAllocation side) plain
@@ -81,7 +81,8 @@ theorem restoredPlain_fixed (hpacket : packet.Realizes) (side plain : Bool)
   simpa only [mul_assoc] using hh
 
 theorem canonicalPlainTerm_mem_originalChild (hpacket : packet.Realizes)
-    (side rectangle plain : Bool) (h : seed.ordinary.rows.live) (I : NonzeroIdeal K)
+    (side rectangle plain : Bool) (h : seed.ordinary.rows.live)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hn : seed.canonicalPlainTerm input false side rectangle h plain I ≠ 0) :
     I ∈ (seed.originalChildCarrier side).plain plain := by
   have hd := seed.canonicalPlainTerm_data input side rectangle plain h I hn

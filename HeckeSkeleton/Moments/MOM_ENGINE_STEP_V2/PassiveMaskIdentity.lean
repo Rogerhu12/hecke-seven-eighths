@@ -33,7 +33,7 @@ variable (P : OriginalPhaseData packet) (hpacket : packet.Realizes)
 variable {k : ℕ} (index : Fin k → Fin call.node.data.geometry.slotCount)
 
 include hpacket in
-theorem paid_plain_coefficient_zero (I : NonzeroIdeal K)
+theorem paid_plain_coefficient_zero (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hpaid : ¬IsCoprime I.val packet.second.physical.first.paidSupport.val) :
     sourcePlainCoefficient (P.characters true index).plain
       (P.characters true index).plainTwist (P.characters true index).mask I = 0 := by

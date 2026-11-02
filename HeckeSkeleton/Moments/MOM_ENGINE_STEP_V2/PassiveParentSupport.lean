@@ -39,12 +39,14 @@ theorem reference_mem_working :
   rw [he, Call.localizedData, EngineInduction.localizeOriginalParent_pairedRows]
   exact seed.reference_mem
 
-def restoredPlainIdeal (side plain : Bool) (I : NonzeroIdeal K) : NonzeroIdeal K :=
+def restoredPlainIdeal (side plain : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
+    HeckeGeneral.Analysis.NonzeroIdeal K :=
   branchDivisor (packet.firstBranch side) plain *
     (branchDivisor (packet.secondBranch side) plain *
       (allocationDivisor (seed.ordinary.originalAllocation side) plain * I))
 
-theorem restoredPlain_argument (side rectangle plain : Bool) (I : NonzeroIdeal K) :
+theorem restoredPlain_argument (side rectangle plain : Bool)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K I / seed.occurrences.plainScale side rectangle plain =
       idealNorm K (seed.restoredPlainIdeal side plain I) /
         call.originalPlainScale rectangle plain := by
@@ -65,7 +67,8 @@ theorem first_input_fixed (side plain : Bool) (I : Ideal (𝓞 K))
 
 /-- The smooth original argument is exactly the norm of the ideal
 before both support extractions and the inner divisor quotient. -/
-theorem restoredPlain_mem_parent (side rectangle plain : Bool) (I : NonzeroIdeal K)
+theorem restoredPlain_mem_parent (side rectangle plain : Bool)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hprofile : (seed.plainProfile input side rectangle plain).formula.value 0
       (idealNorm K I / seed.occurrences.plainScale side rectangle plain) ≠ 0)
     (hfixed : IsCoprime (seed.restoredPlainIdeal side plain I).val

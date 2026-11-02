@@ -56,7 +56,7 @@ namespace OrdinarySeed
 variable (seed : OrdinarySeed packet) (input : ProfileInput call)
 
 def canonicalPlainTerm (paid side rectangle : Bool) (h : seed.ordinary.rows.live)
-    (plain : Bool) (I : NonzeroIdeal K) : ℂ :=
+    (plain : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) : ℂ :=
   sourcePlainTerm (σ := Arithmetic.embedding c)
     (seed.phases.characters paid (seed.slotIndex side)).plain
     (seed.phases.characters paid (seed.slotIndex side)).plainTwist
@@ -107,7 +107,7 @@ theorem canonicalCoefficient_terms_nonzero (paid side rectangle : Bool)
     exact (Finset.prod_ne_zero_iff.mp hp.2) j (Finset.mem_univ j)
 
 theorem canonicalPlainTerm_data (side rectangle plain : Bool)
-    (h : seed.ordinary.rows.live) (I : NonzeroIdeal K)
+    (h : seed.ordinary.rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hn : seed.canonicalPlainTerm input false side rectangle h plain I ≠ 0) :
     (seed.plainProfile input side rectangle plain).formula.value 0
         (idealNorm K I / seed.occurrences.plainScale side rectangle plain) ≠ 0 ∧
@@ -152,7 +152,8 @@ theorem canonicalPrimeTerm_data (side : Bool) (h : seed.ordinary.rows.live)
   exact ⟨hn'.2.2, hr, hd⟩
 
 theorem canonicalPlainTerm_paid (hpacket : packet.Realizes)
-    (side rectangle plain : Bool) (h : seed.ordinary.rows.live) (I : NonzeroIdeal K)
+    (side rectangle plain : Bool) (h : seed.ordinary.rows.live)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hn : seed.canonicalPlainTerm input false side rectangle h plain I ≠ 0) :
     IsCoprime I.val packet.second.physical.first.paidSupport.val := by
   by_contra hp
