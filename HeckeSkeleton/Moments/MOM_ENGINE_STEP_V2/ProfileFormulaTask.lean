@@ -198,7 +198,7 @@ private theorem frequency_bound (shape : ProfileShape) (f : ProfileFormula)
     unfold ProfileFormula.linear
     calc
       _ ≤ |f.phase.1 * (WithLp.ofLp ξ).1| +
-          |f.phase.2 * (WithLp.ofLp ξ).2| := abs_add _ _
+          |f.phase.2 * (WithLp.ofLp ξ).2| := abs_add_le _ _
       _ = |f.phase.1| * |(WithLp.ofLp ξ).1| +
           |f.phase.2| * |(WithLp.ofLp ξ).2| := by rw [abs_mul, abs_mul]
       _ ≤ shape.phaseBound * |(WithLp.ofLp ξ).1| +
@@ -266,7 +266,10 @@ theorem profile_formula_control : ProfileFormulaTask := by
     (Finset.Iic (orders.sup Prod.fst, orders.sup Prod.snd))
   let J := orders.sup Prod.snd
   let F := (1 + 2 * Real.pi * shape.phaseBound) ^ J
-  have hF : 0 ≤ F := by dsimp [F]; positivity
+  have hF : 0 ≤ F := by
+    dsimp only [F]
+    exact pow_nonneg (add_nonneg zero_le_one
+      (mul_nonneg (by positivity : 0 ≤ 2 * Real.pi) shape.phaseBound_nonneg)) J
   let coefficient := 1 + D * C * F
   have hcoefficient : 0 < coefficient := by dsimp [coefficient]; positivity
   refine ⟨{
