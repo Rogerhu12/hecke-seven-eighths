@@ -136,7 +136,9 @@ private theorem finite_seminorm_dilate_interval
       (f := fun j : ℕ × ℕ => (max 1 upper) ^ j.2 * (max 1 lower⁻¹) ^ j.1)
       (fun j (_ : j ∈ q) => by positivity) hi
   exact (seminorm_dilate_interval lower upper a hlower ha hla hau φ i.1 i.2).trans
-    (mul_le_mul hsingle (Seminorm.le_finset_sup_apply hi) (apply_nonneg _ _) hC)
+    (mul_le_mul hsingle
+      (Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℂ ℝ ℂ) (x := φ) hi)
+      (apply_nonneg _ _) hC)
 
 /-- The prescribed conjugation and positive dilation, before powers and phase. -/
 def inputProfile (f : ProfileFormula) : 𝓢(ℝ, ℂ) :=

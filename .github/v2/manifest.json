@@ -136,5 +136,11 @@
         "Interface"
       ]
     }
-  ]
+  ],
+  "task_branches": {
+    "cloud/mom-v2-n5a-n5b": [
+      "g_n5a",
+      "g_n5b"
+    ]
+  }
 }
