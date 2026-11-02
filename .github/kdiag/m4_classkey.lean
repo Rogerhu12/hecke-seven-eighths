@@ -168,21 +168,33 @@ run_cmd do
     stderr.flush
 
 
-noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  match key with
-  | ⟨⟨i, v⟩, allocation⟩ =>
-      secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
-        (second.source i) (covers.left i).cover (covers.right i).cover v
-        (RawCovers.predicates
-          (K := K) (c := c) (call := call) (p := p)
-          (F := F) (family := family) (expansion := expansion)
-          (second := second) covers i)
-        allocation
+noncomputable def leafAt (i : Fin expansion.count)
+    (v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
+    (allocation : SourceClassKey.AllocationKey v) :
+    ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
+    (second.source i) (covers.left i).cover (covers.right i).cover v
+    (RawCovers.predicates
+      (K := K) (c := c) (call := call) (p := p)
+      (F := F) (family := family) (expansion := expansion)
+      (second := second) covers i)
+    allocation
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_0orig done"
+    stderr.putStrLn "KDIAG m4_classkey leafAt done"
+    stderr.flush
+
+
+noncomputable example (k : covers.ClassKey) (a : SourceClassKey.AllocationKey k.2) :
+    ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  covers.leafAt k.1 k.2 a
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG m4_classkey done"
     stderr.flush
 
 end RawCovers

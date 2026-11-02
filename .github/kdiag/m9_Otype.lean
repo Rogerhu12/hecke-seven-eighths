@@ -98,16 +98,12 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryBranchType"
     stderr.flush
 
-noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
-    SourceClassKey.AllocationKey
-      (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
-      packet.key :=
-  by exact branch.1
+noncomputable example (branch : packet.ordinaryBranchType) := branch.val
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG O_b done"
+    stderr.putStrLn "KDIAG m9 done"
     stderr.flush
 
 end RawLeafPacket

@@ -183,17 +183,32 @@ noncomputable def leafAt (i : Fin expansion.count)
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_a leafAt done"
+    stderr.putStrLn "KDIAG m6_struct leafAt done"
     stderr.flush
 
 
-noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  covers.leafAt key.1.1 key.1.2 key.2
+set_option genInjectivity false in
+set_option genSizeOf false in
+structure KeyS where
+  i : Fin expansion.count
+  v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover
+  allocation : SourceClassKey.AllocationKey v
+
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_a done"
+    stderr.putStrLn "KDIAG m6 structure done"
+    stderr.flush
+
+
+noncomputable def leafS (key : covers.KeyS) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  covers.leafAt key.i key.v key.allocation
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG m6_struct done"
     stderr.flush
 
 end RawCovers

@@ -168,33 +168,21 @@ run_cmd do
     stderr.flush
 
 
-noncomputable def leafAt (i : Fin expansion.count)
-    (v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
-    (allocation : SourceClassKey.AllocationKey v) :
-    ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
-    (second.source i) (covers.left i).cover (covers.right i).cover v
-    (RawCovers.predicates
-      (K := K) (c := c) (call := call) (p := p)
-      (F := F) (family := family) (expansion := expansion)
-      (second := second) covers i)
-    allocation
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_b leafAt done"
-    stderr.flush
-
-
 noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  Sigma.casesOn (motive := fun _ => ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ) key
-    (fun k a => covers.leafAt k.1 k.2 a)
+  match key with
+  | ⟨⟨i, v⟩, allocation⟩ =>
+      secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
+        (second.source i) (covers.left i).cover (covers.right i).cover v
+        (RawCovers.predicates
+          (K := K) (c := c) (call := call) (p := p)
+          (F := F) (family := family) (expansion := expansion)
+          (second := second) covers i)
+        allocation
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_b done"
+    stderr.putStrLn "KDIAG m7 done"
     stderr.flush
 
 end RawCovers

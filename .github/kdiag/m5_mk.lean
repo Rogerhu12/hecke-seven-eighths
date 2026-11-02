@@ -183,17 +183,19 @@ noncomputable def leafAt (i : Fin expansion.count)
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_c leafAt done"
+    stderr.putStrLn "KDIAG m5_mk leafAt done"
     stderr.flush
 
 
-noncomputable def leaf : covers.Key → ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  Sigma.uncurry fun k a => covers.leafAt k.1 k.2 a
+noncomputable example (i : Fin expansion.count)
+    (v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
+    (a : SourceClassKey.AllocationKey v) : covers.Key :=
+  ⟨⟨i, v⟩, a⟩
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_c done"
+    stderr.putStrLn "KDIAG m5_mk done"
     stderr.flush
 
 end RawCovers
