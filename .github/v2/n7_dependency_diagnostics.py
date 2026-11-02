@@ -10,8 +10,9 @@ Elab.async and print flushed stderr checkpoints at complete command boundaries.
 stderrAsMessages is disabled in probes so #eval cannot buffer stderr as messages.
 
 Use --module OrdinaryData or --module RawContracts for a smaller job; the default
-runs both import-only probes before either full-copy probe. Four probes can each
-consume the watchdog limit, so budget the diagnostic job accordingly. A local
+runs both import-only probes before either full-copy probe. Optional Raw variants
+run as separate full-source probes with separate logs and watchdogs. Each can
+consume the shared limit, so budget the diagnostic job accordingly. A local
 --prepare-only invocation only creates probes/metadata and never imports the gate
 or executes Lean/Lake. Execution otherwise requires GITHUB_ACTIONS=true.
 """
@@ -84,7 +85,8 @@ def marker(module: str, stage: str, label: str) -> str:
 
 def boundary(source: str, needle: str) -> int:
     """Exact known declaration anchor; keep its doc/`set_option ... in` wrapper."""
-    matches = list(re.finditer(r"^" + re.escape(needle), source, re.MULTILINE))
+    modifier = r"(?:noncomputable )?" if needle.startswith("def ") else ""
+    matches = list(re.finditer(r"^" + modifier + re.escape(needle), source, re.MULTILINE))
     if len(matches) != 1:
         raise ValueError(f"Expected one complete-command anchor {needle!r}, got {len(matches)}")
     position = matches[0].start()
@@ -131,8 +133,35 @@ def configured_watchdog_limit(source: str) -> int:
     return int(values[0])
 
 
+def raw_source_variant(source: str, variant: str) -> str:
+    """Change only a temporary full-source probe; never the canonical file."""
+    anchor = "noncomputable def leaf "
+    if len(re.findall(r"^" + re.escape(anchor), source, re.MULTILINE)) != 1:
+        raise ValueError("Raw variants require the canonical explicit noncomputable leaf")
+    if variant == "canonical":
+        return source
+    if variant == "trace":
+        options = (
+            "set_option maxHeartbeats 20000 in\n"
+            "set_option diagnostics true in\n"
+            "set_option trace.Elab.definition.header true in\n"
+            "set_option trace.Elab.definition.value true in\n"
+            "set_option trace.addDecl true in\n"
+            "set_option trace.Kernel true in\n"
+            "set_option trace.Compiler true in\n")
+        return source.replace(anchor, options + anchor, 1)
+    if variant == "projections":
+        original = "  match key with\n  | ⟨⟨i, v⟩, allocation⟩ =>\n      secondSourceLeaf (K := K) (c := c) (call := call) (p := p)\n        (second.source i) (covers.left i).cover (covers.right i).cover v\n        (RawCovers.predicates\n          (K := K) (c := c) (call := call) (p := p)\n          (F := F) (family := family) (expansion := expansion)\n          (second := second) covers i)\n        allocation"
+        replacement = "  secondSourceLeaf (K := K) (c := c) (call := call) (p := p)\n    (second.source key.1.1) (covers.left key.1.1).cover (covers.right key.1.1).cover\n    key.1.2\n    (RawCovers.predicates\n      (K := K) (c := c) (call := call) (p := p)\n      (F := F) (family := family) (expansion := expansion)\n      (second := second) covers key.1.1)\n    key.2"
+        if source.count(original) != 1:
+            raise ValueError("Raw projection diagnostic requires the exact B008 two-Sigma body")
+        return source.replace(original, replacement, 1)
+    raise ValueError(f"Unknown Raw source diagnostic variant: {variant}")
+
+
 def prepare(root: Path, evidence: Path, modules: list[str],
-            raw_noncomputable_leaf: bool = False) -> dict:
+            raw_noncomputable_leaf: bool = False,
+            raw_variants: list[str] | None = None) -> dict:
     probes = evidence / "probes"
     probes.mkdir(parents=True, exist_ok=True)
     manifest = {"purpose": "DIAGNOSTIC ONLY; NOT ACCEPTED PROOF OUTPUT",
@@ -143,6 +172,9 @@ def prepare(root: Path, evidence: Path, modules: list[str],
                 "module_timeout_seconds": configured_watchdog_limit(
                     (root / ".github/v2/build.py").read_text(encoding="utf-8")),
                 "import_modules": [], "probes": []}
+    if raw_variants:
+        manifest["diagnostic_variants"]["RawContracts"] = raw_variants
+        manifest["trace_heartbeat_limit"] = 20000 if "trace" in raw_variants else None
     for module in modules:
         relative = SOURCE_DIR / f"{module}.lean"
         source = (root / relative).read_text(encoding="utf-8")
@@ -166,12 +198,27 @@ def prepare(root: Path, evidence: Path, modules: list[str],
             if copied.replace(replacement, anchor, 1) != original_copy:
                 raise RuntimeError("The noncomputable-leaf diagnostic changed more than its modifier")
         copied += marker(module, "source", "source-end")
-        for stage, text in (("imports", header + probe_options + marker(module, "imports", "imports-ok")),
-                            ("source", copied)):
-            path = probes / f"N7Diag{module}{stage.title()}.lean"
+        copies = [("imports", None,
+                   header + probe_options + marker(module, "imports", "imports-ok"))]
+        if module == "RawContracts" and raw_variants:
+            copies.extend(("source", variant, raw_source_variant(copied, variant))
+                          for variant in raw_variants)
+        else:
+            copies.append(("source", None, copied))
+        for stage, variant, text in copies:
+            suffix = variant.title() if variant else ""
+            path = probes / f"N7Diag{module}{stage.title()}{suffix}.lean"
             path.write_text(text, encoding="utf-8")
-            manifest["probes"].append({"module": module, "stage": stage,
-                                       "path": str(path), "sha256": digest(path)})
+            entry = {"module": module, "stage": stage,
+                     "path": str(path), "sha256": digest(path)}
+            if variant:
+                entry["variant"] = variant
+                original_anchor = re.search(r"^(?:noncomputable )?def leaf ", source, re.MULTILINE)
+                probe_anchor = re.search(r"^(?:noncomputable )?def leaf ", text, re.MULTILINE)
+                assert original_anchor is not None and probe_anchor is not None
+                entry["leaf_canonical_line"] = source.count("\n", 0, original_anchor.start()) + 1
+                entry["leaf_probe_line"] = text.count("\n", 0, probe_anchor.start()) + 1
+            manifest["probes"].append(entry)
     manifest["import_modules"] = list(dict.fromkeys(manifest["import_modules"]))
     manifest.update(prerequisite_plan(manifest["import_modules"]))
     (evidence / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -187,6 +234,9 @@ def main() -> int:
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--raw-noncomputable-leaf", action="store_true",
                         help="Diagnostic copy only: make RawCovers.leaf explicitly noncomputable")
+    parser.add_argument("--raw-variant", action="append",
+                        choices=("canonical", "trace", "projections"),
+                        help="Independent full-source Raw probe variants; none is proof evidence")
     args = parser.parse_args()
     if not args.prepare_only and os.environ.get("GITHUB_ACTIONS") != "true":
         parser.error("Lean/Lake execution is CI-only; local usage requires --prepare-only")
@@ -196,7 +246,12 @@ def main() -> int:
     modules = list(dict.fromkeys(args.module or MODULES))
     if args.raw_noncomputable_leaf and "RawContracts" not in modules:
         parser.error("--raw-noncomputable-leaf requires RawContracts")
-    manifest = prepare(root, evidence, modules, args.raw_noncomputable_leaf)
+    if args.raw_variant and "RawContracts" not in modules:
+        parser.error("--raw-variant requires RawContracts")
+    if args.raw_variant and args.raw_noncomputable_leaf:
+        parser.error("Raw variants use the canonical noncomputable leaf; do not combine modifiers")
+    raw_variants = list(dict.fromkeys(args.raw_variant or []))
+    manifest = prepare(root, evidence, modules, args.raw_noncomputable_leaf, raw_variants)
     print(f"DIAGNOSTIC ONLY; NOT ACCEPTED PROOF OUTPUT: {evidence}", flush=True)
     if args.prepare_only:
         print("Prepared probes only; Lean/Lake were not executed.", flush=True)
@@ -246,7 +301,8 @@ def main() -> int:
                     results["stages"].append({**probe, "skipped": "import probe failed"})
                     save()
                     continue
-                log_name = f"{module}_{stage}.log"
+                variant_suffix = "_" + probe["variant"] if probe.get("variant") else ""
+                log_name = f"{module}_{stage}{variant_suffix}.log"
                 started = time.monotonic()
                 code = gate.logged(["lake", "env", "lean", probe["path"]], log_name)
                 lines = (evidence / log_name).read_text(encoding="utf-8", errors="replace").splitlines()

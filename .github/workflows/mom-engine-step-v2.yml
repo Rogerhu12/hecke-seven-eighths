@@ -80,8 +80,8 @@ jobs:
           use-github-cache: 'false'
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
-      - name: Diagnose RawContracts with only an explicit noncomputable leaf modifier
-        run: python3 -u .github/v2/n7_dependency_diagnostics.py --module RawContracts --raw-noncomputable-leaf --output v2-build/n2-n3-rawcontracts-diagnostics
+      - name: Diagnose RawContracts leaf stages and its equivalent projection form
+        run: python3 -u .github/v2/n7_dependency_diagnostics.py --module RawContracts --raw-variant trace --raw-variant projections --output v2-build/n2-n3-rawcontracts-diagnostics
       - name: Upload RawContracts diagnostic evidence
         if: always()
         uses: actions/upload-artifact@v4
