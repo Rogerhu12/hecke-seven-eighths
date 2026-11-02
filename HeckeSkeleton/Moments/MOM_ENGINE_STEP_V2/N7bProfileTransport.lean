@@ -1,4 +1,5 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ChildProfileContracts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ChildInvariantData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationData
 import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActiveChildAnnulus
 
 set_option linter.unusedSectionVars false
@@ -44,7 +45,13 @@ variable {G : D.calibration.NormalizedCapacityData}
 /-- Strengthen only the support proof on the already selected child.
 Its radius, removed slots, smooth representatives and frozen height
 are exactly the ones supplied by the original capacity construction. -/
-theorem active_windows (profiles : SideChildProfileInput D G)
+theorem active_windows
+    {originalOrders : Finset (ℕ × ℕ)} {originalBudget : EngineParameter → ℝ}
+    (original : ∀ ξ, RawProfileWindow Set.univ Set.univ call.window
+      originalOrders (D.calibration.data ξ) (originalBudget ξ))
+    (clipped : ∀ ξ, RawProfileWindow Set.univ Set.univ
+      (Set.Icc 0 (2 * call.prepared.upper)) call.childOrders
+        (D.calibration.clippedData ξ) (G.radius ξ))
     (out : G.Child) (hupper : 1 ≤ 2 * call.prepared.upper)
     (hactive : ¬ ∀ ξ, s.energy (σ := Arithmetic.embedding c) ξ = 0)
     (ξ : EngineParameter) :
@@ -54,7 +61,7 @@ theorem active_windows (profiles : SideChildProfileInput D G)
     div_nonneg call.prepared.lower_pos.le (by norm_num)
   exact (ActiveChildAnnulus.active_child_windows out
     (lo := call.prepared.lower / 2) (hi := 2 * call.prepared.upper)
-    hlower hupper profiles.original profiles.clipped
+    hlower hupper original clipped
     (fun _ _ _ => Set.mem_univ _) (fun _ => Set.mem_univ _) hactive ξ).2
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.N7bProfileTransport

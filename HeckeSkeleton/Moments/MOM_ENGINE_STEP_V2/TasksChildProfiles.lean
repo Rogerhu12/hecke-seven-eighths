@@ -38,13 +38,19 @@ theorem child_profiles (c : TargetContext K) (p : SourceParameters c) :
     change InFixedProfileWindow Set.univ Set.univ call.childWindow call.childOrders
       (N.family.leftData N.labels b ξ)
     exact N7bProfileTransport.active_windows
-      (profiles b.val.1 false b.val.2.1 b.val.2.2.2.1)
+      (D := (C b.val.1).side false b.val.2.1 b.val.2.2.2.1)
+      (G := (G b.val.1).side false b.val.2.1 b.val.2.2.2.1)
+      (profiles b.val.1 false b.val.2.1 b.val.2.2.2.1).original
+      (profiles b.val.1 false b.val.2.1 b.val.2.2.2.1).clipped
       (N.family.leftChild N.labels b) hupper hactive.2.1 ξ
   | true =>
     change InFixedProfileWindow Set.univ Set.univ call.childWindow call.childOrders
       (N.family.rightData N.labels b ξ)
     exact N7bProfileTransport.active_windows
-      (profiles b.val.1 true b.val.2.2.1 b.val.2.2.2.2)
+      (D := (C b.val.1).side true b.val.2.2.1 b.val.2.2.2.2)
+      (G := (G b.val.1).side true b.val.2.2.1 b.val.2.2.2.2)
+      (profiles b.val.1 true b.val.2.2.1 b.val.2.2.2.2).original
+      (profiles b.val.1 true b.val.2.2.1 b.val.2.2.2.2).clipped
       (N.family.rightChild N.labels b) hupper hactive.2.2 ξ
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
