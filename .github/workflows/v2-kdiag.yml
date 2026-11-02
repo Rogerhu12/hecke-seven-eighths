@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [b1_full_finite, b2_full_packet]
+        probe: [b3_rawleaf_bundle, b4_bundle_funinfo, b5_original_raw, b6_original_ordinary, b7_generic_cases, b8_named_fibres]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -46,6 +46,11 @@ jobs:
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
         with:
           branch-cache: 'true'
+      - name: Install the bundled reindex candidate for dependent probes
+        if: matrix.probe == 'b4_bundle_funinfo' || matrix.probe == 'b5_original_raw' || matrix.probe == 'b6_original_ordinary'
+        run: |
+          cp .github/kdiag/b3_rawleaf_bundle.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
+          sha256sum HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
       - name: Build the imports of the probe
         run: |
           lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' .github/kdiag/${{ matrix.probe }}.lean) 2>&1 | tail -3; test ${PIPESTATUS[0]} -eq 0
