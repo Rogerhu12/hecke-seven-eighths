@@ -383,7 +383,7 @@ kernel mass, child admissibility or source integral is an input. -/
 def literalPrimitiveDirectConclusion
     (terminal : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
-    (hstage : ∀ {j : Type*} (G : ActualGaussSource C j)
+    (hstage : ∀ {j : Type} (G : ActualGaussSource C j)
       (stage : ActualGaussStage (E := ℝ)
         (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
         μv hDiff G (rowBallFiniteFamily K A.Sf 1))

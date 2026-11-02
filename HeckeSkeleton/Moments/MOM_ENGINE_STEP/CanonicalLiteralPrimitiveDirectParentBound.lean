@@ -222,7 +222,7 @@ terminals, the actual exceptional rows and the existing ordinary kernels. -/
 theorem literalPrimitiveDirect_rawCost_le_kernel
     (T : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
-    (hstage : ∀ {j : Type*} (G : ActualGaussSource C j)
+    (hstage : ∀ {j : Type} (G : ActualGaussSource C j)
       (stage : ActualGaussStage (E := ℝ)
         (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
         μv hDiff G (rowBallFiniteFamily K A.Sf 1))
@@ -304,7 +304,7 @@ are combined with the proved source inequality on this exact family. -/
 theorem literalPrimitiveDirect_parent_le_kernel
     (T : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
-    (hstage : ∀ {j : Type*} (G : ActualGaussSource C j)
+    (hstage : ∀ {j : Type} (G : ActualGaussSource C j)
       (stage : ActualGaussStage (E := ℝ)
         (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
         μv hDiff G (rowBallFiniteFamily K A.Sf 1))

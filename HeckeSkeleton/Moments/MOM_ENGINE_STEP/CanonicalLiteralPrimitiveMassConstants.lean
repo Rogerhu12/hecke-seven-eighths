@@ -82,7 +82,7 @@ section Harmonic
 variable (normBox harmonicLoss : ℝ) (hbox : 0 ≤ normBox) (hloss : 0 < harmonicLoss)
 
 def directHarmonicConstant : ℝ :=
-  Classical.choose (TwoDivisorCommonBranch.uniform_index_mass (K := K)
+  Classical.choose (TwoDivisorCommonBranch.uniform_mass (K := K)
     (cap + 2) normBox harmonicLoss hbox hloss)
 
 theorem directHarmonicConstant_pos :

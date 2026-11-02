@@ -26,6 +26,8 @@ set_option autoImplicit false
 noncomputable section
 open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
+universe u
+
 namespace HeckeSkeleton.Moments.EngineStep
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums MeasureTheory
@@ -112,7 +114,7 @@ def degree (b : Box) : ℕ :=
 
 /-- One fixed constant pays every terminal term and the actual family mass. -/
 def constant : ℝ :=
-  CanonicalPrimitiveUniformEngine.constant
+  CanonicalPrimitiveUniformEngine.constant.{u}
     (A := A) (σ := σ) (ω := ω) (ψ := ψ)
     μv ν C hDiff box mesh allOrders first second heightC exceptionalC
 
@@ -124,9 +126,9 @@ theorem outputOrders_subset : outputOrders ⊆ allOrders :=
     (A := A) (σ := σ) (η := η) (hS := hS) box theta outputOrders volume
 
 theorem constant_pos :
-    0 < constant (ω := ω) μv ν μ C hDiff Drecipe hD
+    0 < constant.{u} (ω := ω) μv ν μ C hDiff Drecipe hD
       b mesh theta outputOrders primitive provider :=
-  CanonicalPrimitiveUniformEngine.constant_pos
+  CanonicalPrimitiveUniformEngine.constant_pos.{u}
     (A := A) (σ := σ) (ω := ω) (ψ := ψ)
     μv ν C hDiff box mesh allOrders first second heightC exceptionalC
     (CanonicalPrimitiveExceptionalChoices.constant_pos μv ν C hDiff box volume).le
@@ -154,13 +156,11 @@ local notation "exceptionalC" => CanonicalPrimitiveExceptionalChoices.constant
   μv ν C hDiff box volume
 local notation "exceptionalZ" => CanonicalPrimitiveExceptionalChoices.threshold
   μv ν C hDiff box volume
-local notation "finalConstant" => CanonicalPairedEngineStep.constant
-  (ω := ω) μv ν μ C hDiff Drecipe hD b mesh theta outputOrders primitive provider
 local notation "finalDegree" => CanonicalPairedEngineStep.degree b
 local notation "scaleThreshold" => CanonicalPairedEngineStep.threshold
   μv ν C hDiff b theta primitive
 
-variable {Index : Type*} {data : Index → MomentData K ω ψ}
+variable {Index : Type u} {data : Index → MomentData K ω ψ}
 variable (Q : CompleteMovingRowRecipe A P R data)
 variable (W : NormProfileRecipe data) (ξ : Index)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
@@ -200,7 +200,9 @@ an input to this public producer. -/
 def paired_engine_step :
     PairedEngineConclusion (Ω := WithLp 2 (ℝ × ℝ)) centered (data ξ) a Z t Y₁ Y₂
       b.step (b.ε + mesh) (b.paddingMax + 3 * b.step + b.ε)
-      finalConstant (control ^ finalDegree)
+      (CanonicalPairedEngineStep.constant.{u}
+        (ω := ω) μv ν μ C hDiff Drecipe hD b mesh theta outputOrders primitive provider)
+      (control ^ finalDegree)
       (fun child parameters =>
         MovingEngineChildAdmissible A P R
           (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ)
@@ -208,11 +210,16 @@ def paired_engine_step :
         ∀ i, (child.slotCoefficient i)⁻¹ ∈ child.theta) := by
   subst theta
   let theta : Finset (HeckeCharacter K) := (data ξ).theta
-  have hc : 0 < finalConstant := CanonicalPairedEngineStep.constant_pos
-    (ω := ω) μv ν μ C hDiff Drecipe hD b mesh (data ξ).theta outputOrders primitive provider
+  have hc : 0 < CanonicalPairedEngineStep.constant.{u}
+      (ω := ω) μv ν μ C hDiff Drecipe hD b mesh theta outputOrders primitive provider :=
+    CanonicalPairedEngineStep.constant_pos.{u}
+      (ω := ω) μv ν μ C hDiff Drecipe hD b mesh (data ξ).theta outputOrders primitive provider
   by_cases hempty : pairedRows (data ξ) a Z = ∅
   · exact PairedEngineConclusion.ofEmptyParent centered (data ξ) a Z t Y₁ Y₂
-      b.step (b.ε + mesh) (b.paddingMax + 3 * b.step + b.ε) finalConstant (control ^ finalDegree)
+      b.step (b.ε + mesh) (b.paddingMax + 3 * b.step + b.ε)
+      (CanonicalPairedEngineStep.constant.{u}
+        (ω := ω) μv ν μ C hDiff Drecipe hD b mesh theta outputOrders primitive provider)
+      (control ^ finalDegree)
       (fun child parameters =>
         MovingEngineChildAdmissible A P R
           (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ)
@@ -288,7 +295,9 @@ include mesh hmesh Q W hroot hemb domain hbudget hwidth hpadding hcap hlarge hfi
 theorem paired_engine_step_exists :
     Nonempty (PairedEngineConclusion (Ω := WithLp 2 (ℝ × ℝ))
       centered (data ξ) a Z t Y₁ Y₂ b.step (b.ε + mesh) (b.paddingMax + 3 * b.step + b.ε)
-      finalConstant (control ^ finalDegree)
+      (CanonicalPairedEngineStep.constant.{u}
+        (ω := ω) μv ν μ C hDiff Drecipe hD b mesh theta outputOrders primitive provider)
+      (control ^ finalDegree)
       (fun child parameters =>
         MovingEngineChildAdmissible A P R
           (ActualSIntegerOrbit K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (data ξ)
