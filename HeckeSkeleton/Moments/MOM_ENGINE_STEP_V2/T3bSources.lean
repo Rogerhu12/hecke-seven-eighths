@@ -100,7 +100,7 @@ def t3bExceptionalAt (input : ProfileInput call) (hc : call.node.centered = true
       (packet.t3bPlainProfile hpacket phases input side false ξ)
       (packet.t3bPlainProfile hpacket phases input side true ξ) ξ h where
   mask := packet.t3bCompleteMask phases h
-  time := T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)
+  time := T3b.time (packet.t3bFourierSign side) (t3bFourierMode side ξ)
   product := packet.t3bScaleProduct hpacket phases side
   lower := packet.t3bScaleLower hpacket phases side
   lower_pos := packet.t3bScaleLower_pos hpacket phases side
@@ -132,7 +132,7 @@ def t3bOrdinaryExceptionalAt (input : ProfileInput call)
       (packet.t3bPlainProfile hpacket phases input side false ξ)
       (packet.t3bPlainProfile hpacket phases input side true ξ) ξ h where
   mask := packet.t3bCompleteMask phases h
-  time := T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)
+  time := T3b.time (packet.t3bFourierSign side) (t3bFourierMode side ξ)
   product := packet.t3bScaleProduct hpacket phases side
   lower := packet.t3bScaleLower hpacket phases side
   lower_pos := packet.t3bScaleLower_pos hpacket phases side

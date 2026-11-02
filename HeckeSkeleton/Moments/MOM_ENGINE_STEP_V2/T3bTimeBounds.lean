@@ -75,7 +75,7 @@ theorem t3b_firstSign_norm : ‖packet.firstSign‖ = 1 := by
 
 theorem t3b_time_norm_le (side : Bool) (z : ℝ × ℝ) :
     ‖T3b.time (packet.t3bFourierSign side)
-      (packet.t3bFourierMode side (WithLp.toLp 2 z))‖ ≤
+      (t3bFourierMode side (WithLp.toLp 2 z))‖ ≤
         2 * Real.pi * (‖z.1‖ + ‖z.2‖) := by
   cases side with
   | false => exact T3b.norm_time_pair_le packet.firstSign packet.t3b_firstSign_norm z
@@ -87,28 +87,28 @@ theorem t3b_time_norm_le (side : Bool) (z : ℝ × ℝ) :
 
 theorem t3b_time_one_add_le (side : Bool) (z : ℝ × ℝ) :
     1 + ‖T3b.time (packet.t3bFourierSign side)
-      (packet.t3bFourierMode side (WithLp.toLp 2 z))‖ ≤
+      (t3bFourierMode side (WithLp.toLp 2 z))‖ ≤
         (1 + 2 * Real.pi) * (1 + ‖z.1‖) * (1 + ‖z.2‖) :=
   (add_le_add_left (packet.t3b_time_norm_le side z) 1).trans
     (T3b.one_add_scaled_sum_le_product _ _ (norm_nonneg _) (norm_nonneg _))
 
 theorem t3b_time_power_le (side : Bool) (z : ℝ × ℝ) (degree : ℕ) :
     (1 + ‖T3b.time (packet.t3bFourierSign side)
-      (packet.t3bFourierMode side (WithLp.toLp 2 z))‖) ^ degree ≤
+      (t3bFourierMode side (WithLp.toLp 2 z))‖) ^ degree ≤
         (1 + 2 * Real.pi) ^ degree * (1 + ‖z.1‖) ^ degree * (1 + ‖z.2‖) ^ degree := by
   simpa only [mul_pow] using pow_le_pow_left₀
     (add_nonneg zero_le_one (norm_nonneg _)) (packet.t3b_time_one_add_le side z) degree
 
 theorem t3b_time_power_pair_le (z : ℝ × ℝ) (leftDegree rightDegree : ℕ) :
     (1 + ‖T3b.time (packet.t3bFourierSign false)
-      (packet.t3bFourierMode false (WithLp.toLp 2 z))‖) ^ leftDegree *
+      (t3bFourierMode false (WithLp.toLp 2 z))‖) ^ leftDegree *
     (1 + ‖T3b.time (packet.t3bFourierSign true)
-      (packet.t3bFourierMode true (WithLp.toLp 2 z))‖) ^ rightDegree ≤
+      (t3bFourierMode true (WithLp.toLp 2 z))‖) ^ rightDegree ≤
       (1 + 2 * Real.pi) ^ (leftDegree + rightDegree) *
         ((1 + ‖z.1‖) ^ (leftDegree + rightDegree) *
           (1 + ‖z.2‖) ^ (leftDegree + rightDegree)) := by
   have hright : 0 ≤ (1 + ‖T3b.time (packet.t3bFourierSign true)
-      (packet.t3bFourierMode true (WithLp.toLp 2 z))‖) ^ rightDegree :=
+      (t3bFourierMode true (WithLp.toLp 2 z))‖) ^ rightDegree :=
     pow_nonneg (add_nonneg zero_le_one (norm_nonneg _)) _
   have hleft : 0 ≤
       (1 + 2 * Real.pi) ^ leftDegree * (1 + ‖z.1‖) ^ leftDegree *

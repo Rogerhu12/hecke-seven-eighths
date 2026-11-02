@@ -15,7 +15,7 @@ their effect is the exact opposite Fourier mode, before either norm.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField nonZeroDivisors
+open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
@@ -110,7 +110,7 @@ def t3bPlainLocation (side : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) : 
 
 theorem t3bPlainLocation_phase (side : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ξ : EngineParameter) :
     jointPhase ξ (packet.t3bPlainLocation side I) =
-      jointPhase (packet.t3bFourierMode side ξ)
+      jointPhase (t3bFourierMode side ξ)
         (CanonicalLiteralLocations.plain (packet.t3bFourierSign side) I) := by
   cases side with
   | false => rfl
@@ -118,7 +118,7 @@ theorem t3bPlainLocation_phase (side : Bool) (I : HeckeGeneral.Analysis.NonzeroI
 
 def t3bPlainProfile (input : ProfileInput call) (side plain : Bool)
     (ξ : EngineParameter) : 𝓢(ℝ, ℂ) :=
-  T3b.phasedProfile (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)
+  T3b.phasedProfile (packet.t3bFourierSign side) (t3bFourierMode side ξ)
     (packet.t3bPlainDivisor hpacket phases side plain)
     (packet.t3bNormProfile hpacket input plain)
 
@@ -153,7 +153,7 @@ theorem t3bPlainProfile_identity (input : ProfileInput call)
         (packet.t3bPlainDivisor hpacket phases side plain * I)) =
       (Ideal.absNorm I.val : ℂ) ^
         (Complex.I * (T3b.time (packet.t3bFourierSign side)
-          (packet.t3bFourierMode side ξ) : ℂ)) *
+          (t3bFourierMode side ξ) : ℂ)) *
         packet.t3bPlainProfile hpacket phases input side plain ξ
           ((Ideal.absNorm I.val : ℝ) /
             packet.t3bQuotientScale hpacket phases side rectangle plain) := by
@@ -198,7 +198,7 @@ theorem t3bPlainProfile_mem (input : ProfileInput call)
   have hn : packet.normProfile plain
       ((Ideal.absNorm I.val : ℝ) /
         packet.t3bQuotientScale hpacket phases side rectangle plain) ≠ 0 := by
-    apply right_ne_zero_of_mul (a := jointPhase (packet.t3bFourierMode side ξ)
+    apply right_ne_zero_of_mul (a := jointPhase (t3bFourierMode side ξ)
       (CanonicalLiteralLocations.plain (packet.t3bFourierSign side) D))
     simpa only [t3bPlainProfile, T3b.phasedProfile, SchwartzMap.smul_apply,
       smul_eq_mul, packet.t3bNormProfile_apply hpacket input] using hW
@@ -230,7 +230,7 @@ def t3bPlainChart (input : ProfileInput call) (side rectangle plain : Bool)
         (call.localizedData.plainBackground * packet.t3bOriginalCharacter phases h))
       (packet.t3bCompleteMask phases h)
       (packet.t3bPlainProfile hpacket phases input side plain ξ)
-      (T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ))
+      (T3b.time (packet.t3bFourierSign side) (t3bFourierMode side ξ))
       (packet.t3bQuotientScale hpacket phases side rectangle plain)
       (packet.t3bChildPlain hpacket phases side plain)
       (fun I => (packet.t3bUnscaledTable hpacket phases side).t3bPlainWeight plain rectangle

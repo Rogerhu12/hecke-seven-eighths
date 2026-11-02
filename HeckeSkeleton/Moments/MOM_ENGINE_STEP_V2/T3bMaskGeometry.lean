@@ -126,9 +126,13 @@ theorem t3b_originalRow_norm_uniform (packet : RawLeafPacket call p)
   have hgcd : gcd (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val
         (primePowerProduct packet.R.primes packet.R.rightMultiplicity).val =
       gcd G.ideals.second.val G.ideals.secondOpposite.val := by
-    rw [packet.block.common_left, packet.block.common_right]
-    rw [hG.second false, hG.secondOpposite false]
-    rfl
+    have hleft : (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val =
+        G.ideals.second.val :=
+      packet.block.common_left.trans (hG.second false).symm
+    have hright : (primePowerProduct packet.R.primes packet.R.rightMultiplicity).val =
+        G.ideals.secondOpposite.val :=
+      packet.block.common_right.trans (hG.secondOpposite false).symm
+    exact congrArg₂ (fun I J : Ideal (𝓞 K) => gcd I J) hleft hright
   have hnonunit : (nonunitFrequencyRadical (Arithmetic.context c) packet.R.primes
       packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val)).val =
       G.ideals.nonunitPart.val := (hG.nonunitPart false h).symm
@@ -151,8 +155,7 @@ theorem t3b_originalRow_norm_uniform (packet : RawLeafPacket call p)
   apply hnorm.trans
   apply Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
   have hretained : 1 ≤ G.retainedScale := by
-    rw [hG.retainedScale false]
-    exact packet.t3b_retainedScale_one hpacket
+    exact (packet.t3b_retainedScale_one hpacket).trans_eq (hG.retainedScale false).symm
   have hcenter := T3b.nominal_frequencyCenter_le G hretained
   have hA := call.t3b_totalLength_le
   unfold T3b.secondOriginalRowExponentBound

@@ -77,7 +77,7 @@ theorem t3b_selected_column_bound (bounds : T3b.SourceBounds c p frame)
         (packet.t3bNormProfile hpacket input plain) ≤ P) :
     ‖packet.t3bColumnValue hpacket phases side ξ h‖ ≤
       bounds.coefficient * P ^ 2 * call.base ^ p.loss *
-        (1 + ‖T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)‖) ^
+        (1 + ‖T3b.time (packet.t3bFourierSign side) (t3bFourierMode side ξ)‖) ^
           bounds.degree * packet.t3bColumnRawMass hpacket phases input side ξ h *
             call.base ^ (-packet.t3bAnalyticSaving hpacket phases side) := by
   have hP0 : 0 ≤ P := zero_le_one.trans hP
@@ -96,11 +96,11 @@ theorem t3b_selected_column_bound (bounds : T3b.SourceBounds c p frame)
       mul_nonneg bounds.coefficient_pos.le (sq_nonneg _)
     have hZ : 1 ≤ call.base ^ p.loss := Real.one_le_rpow call.domain.scale.le p.loss_pos.le
     have hH : 1 ≤
-        (1 + ‖T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)‖) ^
+        (1 + ‖T3b.time (packet.t3bFourierSign side) (t3bFourierMode side ξ)‖) ^
           bounds.degree := one_le_pow₀ (le_add_of_nonneg_right (norm_nonneg _))
     have hscale : bounds.coefficient * P ^ 2 ≤ bounds.coefficient * P ^ 2 *
         call.base ^ p.loss *
-          (1 + ‖T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)‖) ^
+          (1 + ‖T3b.time (packet.t3bFourierSign side) (t3bFourierMode side ξ)‖) ^
             bounds.degree :=
       (le_mul_of_one_le_right hC hZ).trans
         (le_mul_of_one_le_right (mul_nonneg hC (Real.rpow_nonneg call.base_pos.le _)) hH)
@@ -145,7 +145,7 @@ theorem t3b_source_sum_bound (bounds : T3b.SourceBounds c p frame)
   · obtain ⟨h₀, hh₀⟩ := hne
     let ξ : EngineParameter := WithLp.toLp 2 z
     let H := (1 + ‖T3b.time (packet.t3bFourierSign side)
-      (packet.t3bFourierMode side ξ)‖) ^ bounds.degree
+      (t3bFourierMode side ξ)‖) ^ bounds.degree
     let CL := bounds.coefficient * P ^ 2 * call.base ^ p.loss * H *
       call.base ^ (-packet.t3bAnalyticSaving hpacket phases side)
     let CR := bounds.coefficient * P ^ 2

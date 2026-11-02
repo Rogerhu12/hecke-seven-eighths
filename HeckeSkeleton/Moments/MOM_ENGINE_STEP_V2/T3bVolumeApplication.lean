@@ -146,7 +146,7 @@ theorem t3b_column_centered_bound (bounds : T3b.SourceBounds c p frame)
     (hlower : call.base ^ lowerLength ≤ packet.t3bScaleLower hpacket phases side) :
     ‖packet.t3bColumnValue hpacket phases side ξ h‖ ≤
       bounds.coefficient * P ^ 2 * call.base ^ p.loss *
-        (1 + ‖T3b.time (packet.t3bFourierSign side) (packet.t3bFourierMode side ξ)‖) ^
+        (1 + ‖T3b.time (packet.t3bFourierSign side) (t3bFourierMode side ξ)‖) ^
           bounds.degree * packet.t3bColumnRawMass hpacket phases input side ξ h *
             call.base ^ (-max lowerLength 0) := by
   obtain ⟨index, hindex⟩ := hcatalogue
@@ -197,7 +197,7 @@ theorem t3b_column_centered_bound (bounds : T3b.SourceBounds c p frame)
         (OrdinaryPhaseFacts.ofRaw trace htrace raw j) side ξ h‖ ≤
       bounds.coefficient * P ^ 2 * call.base ^ p.loss *
         (1 + ‖T3b.time ((raw.packet j).t3bFourierSign side)
-          ((raw.packet j).t3bFourierMode side ξ)‖) ^ bounds.degree *
+          (RawLeafPacket.t3bFourierMode side ξ)‖) ^ bounds.degree *
         (raw.packet j).t3bColumnRawMass (raw.packet_realizes trace htrace hgeometry hraw j)
           (OrdinaryPhaseFacts.ofRaw trace htrace raw j) input side ξ h *
         call.base ^ (-max lowerLength 0) :=
