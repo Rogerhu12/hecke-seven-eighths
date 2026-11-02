@@ -1,9 +1,9 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SectorRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceGates
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceSupport
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogTiltWindows
 
 set_option linter.unusedSectionVars false
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogTiltWindows
 
 /-!
 # The literal row profile of a live original source is bounded by one
