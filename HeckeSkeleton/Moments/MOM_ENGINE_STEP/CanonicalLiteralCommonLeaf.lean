@@ -88,8 +88,7 @@ private theorem right_mem_residual
 /-- The same second common scalar is extracted from both centered
 rectangles, by the individual occurrence product proved earlier. -/
 def extraction :
-    (sourceLeaf R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog)
-      .ConstantAtomExtraction where
+    (sourceLeaf R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).ConstantAtomExtraction where
   leftScalar := left.commonScalar bL
   rightScalar := right.commonScalar bR
   leftResidual := secondAllocatedLeftCoefficient (σ := σ) PUnit.{1} IL R.frequency
@@ -129,8 +128,7 @@ def rectangles :=
 /-- Exact binding to the same source leaf. The translations are
 calculated from the original pool power and common occurrence ideals. -/
 def ordinaryBinding :
-    (extraction R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).leaf
-      .OrdinaryBinding (rectangles R left right bL bR IL IR b exceptional firstSign hIL hIR) where
+    (extraction R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).leaf.OrdinaryBinding (rectangles R left right bL bR IL IR b exceptional firstSign hIL hIR) where
   rows := Finset.Subset.refl _
   rows_zero h hh hn := False.elim (hn hh)
   left := rfl
@@ -195,8 +193,7 @@ def supportedRectangles :=
 while both computed logarithmic translations remain unchanged. This is
 the binding used by the same canonical row-mass and capacity records. -/
 def supportedOrdinaryBinding :
-    (extraction R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).leaf
-      .OrdinaryBinding (supportedRectangles R left right bL bR IL IR b exceptional
+    (extraction R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).leaf.OrdinaryBinding (supportedRectangles R left right bL bR IL IR b exceptional
         firstSign hIL hIR) where
   rows h hh := (Finset.mem_filter.mp hh).1
   rows_zero h hh hn := by
