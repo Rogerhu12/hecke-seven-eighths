@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalEngineSmallParameters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalUnmaskedSecondStage
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original exceptional geometry keeps its physical cutoff loss

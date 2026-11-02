@@ -84,12 +84,12 @@ section Harmonic
 variable (normBox harmonicLoss : ℝ) (hbox : 0 ≤ normBox) (hloss : 0 < harmonicLoss)
 
 def directHarmonicConstant : ℝ :=
-  Classical.choose (TwoDivisorCommonBranch.uniform_index_mass (K := K)
+  Classical.choose (TwoDivisorCommonBranch.uniform_mass (K := K)
     (cap + 2) normBox harmonicLoss hbox hloss)
 
 theorem directHarmonicConstant_pos :
     0 < directHarmonicConstant K cap normBox harmonicLoss hbox hloss :=
-  (Classical.choose_spec (TwoDivisorCommonBranch.uniform_index_mass (K := K)
+  (Classical.choose_spec (TwoDivisorCommonBranch.uniform_mass (K := K)
     (cap + 2) normBox harmonicLoss hbox hloss)).1
 
 /-- The compulsory old divisor is the unit.  The complete deletion
@@ -103,10 +103,16 @@ theorem direct_harmonic_sum (Z : ℝ) (hZ : 1 ≤ Z)
     (∑ i : I, b.indexWeight (index i)) ≤
       multiplicity * directHarmonicConstant K cap normBox harmonicLoss hbox hloss *
         Z ^ harmonicLoss := by
-  have h := (Classical.choose_spec (TwoDivisorCommonBranch.uniform_index_mass (K := K)
+  have hmass := (Classical.choose_spec (TwoDivisorCommonBranch.uniform_mass (K := K)
     (cap + 2) normBox harmonicLoss hbox hloss)).2
-      Z hZ 1 (by simp) one_ne_zero b hb index multiplicity hmultiplicity hcard
-  simpa only [map_one, Nat.cast_one, div_one] using h
+      Z hZ 1 (by simp) one_ne_zero b hb
+  simp only [map_one, Nat.cast_one, div_one] at hmass
+  have hf := sum_weighted_fibres_le index b.indexWeight b.indexWeight_nonneg
+    multiplicity (fun j => by
+      convert hcard j using 1 <;> congr 2 <;> ext i <;> simp)
+  rw [b.sum_indexWeight] at hf
+  simpa only [directHarmonicConstant, mul_assoc] using
+    hf.trans (mul_le_mul_of_nonneg_left hmass hmultiplicity)
 
 variable (ell poolLoss rowBound frozenBound : ℝ)
 variable (hell : 0 < ell) (hpoolLoss : 0 < poolLoss) (hpoolSmall : poolLoss < ell)
