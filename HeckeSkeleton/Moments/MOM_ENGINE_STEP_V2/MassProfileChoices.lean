@@ -26,6 +26,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.Analysis.ActualSIntegerMoments
 open EngineStep CommonSupportMass
 open HeckeSkeleton.Moments.EngineInduction
 open scoped Classical NumberField SchwartzMap

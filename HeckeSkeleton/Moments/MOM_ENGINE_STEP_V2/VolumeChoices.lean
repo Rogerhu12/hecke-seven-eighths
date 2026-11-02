@@ -84,14 +84,14 @@ theorem volume (i : Catalogue c) (φ : 𝓢(ℝ, ℂ)) (X : ℝ)
     (hX : 0 < X) (hsupport : tsupport φ ⊆ Icc b.lo b.hi) :
     ‖(∑' I : Ideal (𝓞 K), CanonicalExceptionalVolume.coefficient (character c i) I *
         φ ((Ideal.absNorm I : ℝ) / X)) - (X : ℂ) * density c i φ‖ ≤
-      remainder c b i :=
+      remainder c b i φ :=
   (annularExistence c b i).choose_spec.2 φ hsupport X hX
 
 theorem positive : Icc b.lo b.hi ⊆ Ioi 0 :=
   fun _ hx => b.lo_pos.trans_le hx.1
 
 private def leftExistence :=
-  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_cutoff
+  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_cutoff.{0, 0, 0, 0, 0}
     (A := (axiomChoice K c).A) (σ := complexEmbedding K c)
     (η := (axiomChoice K c).η) (hS := (axiomChoice K c).hS) (V := EngineParameter)
     (character c) (density c) (remainder c b) (remainder_continuous c b)
@@ -99,7 +99,7 @@ private def leftExistence :=
     b.volumeLoss b.maskExponent b.volumeLoss_pos b.maskExponent_nonneg
 
 private def rightExistence :=
-  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_right_cutoff
+  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_right_cutoff.{0, 0, 0, 0, 0}
     (A := (axiomChoice K c).A) (σ := complexEmbedding K c)
     (η := (axiomChoice K c).η) (hS := (axiomChoice K c).hS) (V := EngineParameter)
     (character c) (density c) (remainder c b) (remainder_continuous c b)
@@ -107,7 +107,7 @@ private def rightExistence :=
     b.volumeLoss b.maskExponent b.volumeLoss_pos b.maskExponent_nonneg
 
 private def ordinaryExistence :=
-  CanonicalExceptionalTerminal.exists_original_ordinary_magnitude_terminal_with_cutoff
+  CanonicalExceptionalTerminal.exists_original_ordinary_magnitude_terminal_with_cutoff.{0, 0, 0, 0, 0}
     (A := (axiomChoice K c).A) (σ := complexEmbedding K c)
     (η := (axiomChoice K c).η) (hS := (axiomChoice K c).hS) (V := EngineParameter)
     (character c) (density c) (remainder c b) (remainder_continuous c b)

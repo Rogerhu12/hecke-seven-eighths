@@ -28,6 +28,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2
 open EngineStep NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.Analysis.ActualSIntegerMoments
 open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
 variable {K : Type} [Field K] [NumberField K]

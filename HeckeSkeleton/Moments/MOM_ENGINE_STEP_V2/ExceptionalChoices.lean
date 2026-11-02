@@ -25,6 +25,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2
 open EngineStep EngineStep.CommonSupportMass
 open NumberField IsDedekindDomain DedekindZetaZeroFree MeasureTheory
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Analysis.ActualSIntegerMoments
 open HeckePort.Moments HeckePort.CenteredMomentCounting
 
 variable {K : Type} [Field K] [NumberField K]
@@ -43,7 +44,7 @@ local instance exceptionalChoiceUnitClassesFintype :
 
 def profileCoefficient : ℝ :=
   1 + CanonicalLogProfiles.shapeCoefficient (Set.Icc b.lo b.hi) isCompact_Icc
-    (CanonicalLogProfiles.positiveAnnulus b.lo b.hi b.lo_pos)
+    (VolumeChoices.positive b)
     (-1 + b.tilt + b.tilt) (CanonicalLogProfiles.sourceOrders (VolumeChoices.orders c b))
 
 /-- The original two atom budgets include the central annulus payment. -/
