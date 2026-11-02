@@ -241,23 +241,25 @@ variable (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).ori
 variable (ordinary : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
   (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
 
-include ordinary in
-set_option maxHeartbeats 1000000 in
-private theorem nonexceptional_at (ξ : EngineParameter) (h : seed.ordinary.rows.live)
+private theorem nonexceptional_at
+    (ordinaryRows : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
+      (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
+    (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (hh : h ∈ (s).rows) :
     if parameters.z = 0 then
       (d ξ).plainBackground * (d ξ).rowCharacter ((s).row h).momentIdeal ≠ 1
     else (d ξ).rowCharacter ((s).row h).momentIdeal ∉ (d ξ).theta := by
-  have hrow : ∀ h : seed.ordinary.rows.live,
-      (d ξ).rowCharacter ((s).row h).momentIdeal =
-        (d 0).rowCharacter ((s).row h).momentIdeal := fun _ => rfl
-  have htheta : (d ξ).theta = call.node.data.theta := rfl
-  exact nonexceptional_on_rows (H := seed.ordinary.rows.live) (s).rows parameters.z
-    (fun h => (d 0).rowCharacter ((s).row h).momentIdeal)
-    (fun h => (d ξ).rowCharacter ((s).row h).momentIdeal) (d ξ).plainBackground
-    call.node.data.theta (d ξ).theta hrow htheta ordinary
-    (fun h => principal_in_theta seed input support side a rectangle moving correction hcorr
-      sector remaining ξ ((s).row h).momentIdeal) h hh
+  set_option maxHeartbeats 1000000 in
+    have hrow : ∀ h : seed.ordinary.rows.live,
+        (d ξ).rowCharacter ((s).row h).momentIdeal =
+          (d 0).rowCharacter ((s).row h).momentIdeal := fun _ => rfl
+    have htheta : (d ξ).theta = call.node.data.theta := rfl
+    exact nonexceptional_on_rows (H := seed.ordinary.rows.live) (s).rows parameters.z
+      (fun h => (d 0).rowCharacter ((s).row h).momentIdeal)
+      (fun h => (d ξ).rowCharacter ((s).row h).momentIdeal) (d ξ).plainBackground
+      call.node.data.theta (d ξ).theta hrow htheta ordinaryRows
+      (fun h => principal_in_theta seed input support side a rectangle moving correction hcorr
+        sector remaining ξ ((s).row h).momentIdeal) h hh
 
 set_option maxHeartbeats 1000000 in
 def calibration : (s).Calibration (σ := Arithmetic.embedding c)
@@ -295,7 +297,7 @@ def calibration : (s).Calibration (σ := Arithmetic.embedding c)
     (seed := seed) (input := input) (support := support) (side := side) (a := a)
     (rectangle := rectangle) (moving := moving) (correction := correction)
     (hcorr := hcorr) (sector := sector) (remaining := remaining)
-    (parameters := parameters) (ordinary := ordinary) ξ h hh
+    (parameters := parameters) (ordinaryRows := ordinary) ξ h hh
   rowBound := SourceCost.row s
   rowBound_nonneg := SourceCost.row_nonneg s
   row_bound := SourceCost.row_bound s

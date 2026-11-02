@@ -181,15 +181,15 @@ theorem oldExtractedCoefficient_eq (paid side rectangle : Bool) :
     funext j
     change (seed.ordinary.originalSource false rectangle).length
       (SlotRestriction.index (seed.ordinary.originalSource false rectangle).allocation.keep j) = _
-    rw [seed.atoms.length, indexFalse]
-    all_goals rfl
+    exact (seed.atoms.length false rectangle _).trans
+      ((congrArg (seed.occurrences.beforeLength false) (indexFalse rectangle j)).trans rfl)
   have hlengthTrue : (seed.unscaledOriginal true rectangle).childLength =
       (fun j => (call.node.data.geometry.slots (seed.slotIndex true j)).length) := by
     funext j
     change (seed.ordinary.originalSource true rectangle).length
       (SlotRestriction.index (seed.ordinary.originalSource true rectangle).allocation.keep j) = _
-    rw [seed.atoms.length, indexTrue]
-    all_goals rfl
+    exact (seed.atoms.length true rectangle _).trans
+      ((congrArg (seed.occurrences.beforeLength true) (indexTrue rectangle j)).trans rfl)
   have hslotFalse (h : seed.ordinary.rows.live) :
       (fun j => (seed.unscaledOriginal false rectangle).slotWeight h
         (SlotRestriction.index (seed.unscaledOriginal false rectangle).allocation.keep j)) =
@@ -199,8 +199,9 @@ theorem oldExtractedCoefficient_eq (paid side rectangle : Bool) :
     funext j q
     change (seed.ordinary.originalSource false rectangle).slotWeight h
       (SlotRestriction.index (seed.ordinary.originalSource false rectangle).allocation.keep j) q = _
-    rw [seed.atoms.slotWeight, indexFalse]
-    exact seed.beforeSlotWeight_remaining input false j q
+    exact (seed.atoms.slotWeight false rectangle h _ q).trans
+      ((congrArg (fun index => seed.occurrences.beforeSlotWeight false index q)
+        (indexFalse rectangle j)).trans (seed.beforeSlotWeight_remaining input false j q))
   have hslotTrue (h : seed.ordinary.rows.live) :
       (fun j => (seed.unscaledOriginal true rectangle).slotWeight h
         (SlotRestriction.index (seed.unscaledOriginal true rectangle).allocation.keep j)) =
@@ -210,8 +211,9 @@ theorem oldExtractedCoefficient_eq (paid side rectangle : Bool) :
     funext j q
     change (seed.ordinary.originalSource true rectangle).slotWeight h
       (SlotRestriction.index (seed.ordinary.originalSource true rectangle).allocation.keep j) q = _
-    rw [seed.atoms.slotWeight, indexTrue]
-    exact seed.beforeSlotWeight_remaining input true j q
+    exact (seed.atoms.slotWeight true rectangle h _ q).trans
+      ((congrArg (fun index => seed.occurrences.beforeSlotWeight true index q)
+        (indexTrue rectangle j)).trans (seed.beforeSlotWeight_remaining input true j q))
   funext h i
   cases side <;>
     dsimp only [oldExtractedCoefficient, PassiveSource.paidCoefficient,
@@ -245,8 +247,8 @@ theorem oldExtractedLocation_eq (side rectangle : Bool) :
       seed.originalSource_allocation, seed.location_mul, plainDivisorTranslation]
   all_goals exact rearrange _ _ _ _ _
 
-/-- Exact extraction, still on the old finite quotient carrier. -/
 set_option maxHeartbeats 500000 in
+/-- Exact extraction, still on the old finite quotient carrier. -/
 theorem unscaledOriginal_energy_old (side rectangle : Bool) (ξ : EngineParameter) :
     (seed.unscaledOriginal side rectangle).energy (σ := Arithmetic.embedding c) ξ =
       jointColumnEnergy (seed.ordinary.originalSource side false).rows
@@ -289,7 +291,7 @@ theorem unscaledOriginal_energy_old (side rectangle : Bool) (ξ : EngineParamete
         (call.localizedSource.source.recipe.correction * (seed.phases.moving false).character)
         (seed.phases.mask false)) hindex
     rw [hw, hcarrier, hrows, hcharacters] at he
-    simpa only [oldExtractedCoefficient, oldExtractedLocation] using he
+    exact he
   · have he := PassiveSource.energy_eq_oldCarrier (σ := Arithmetic.embedding c)
       (seed.unscaledOriginal true rectangle) ξ
     have hcarrier : PassiveSource.oldCarrier (seed.unscaledOriginal true rectangle) =
@@ -321,7 +323,7 @@ theorem unscaledOriginal_energy_old (side rectangle : Bool) (ξ : EngineParamete
         (call.localizedSource.source.recipe.correction * (seed.phases.moving false).character)
         (seed.phases.mask false)) hindex
     rw [hw, hcarrier, hrows, hcharacters] at he
-    simpa only [oldExtractedCoefficient, oldExtractedLocation] using he
+    exact he
 
 /-- The old exact carrier now has the canonical global atoms. The two
 constant plain-divisor translations cost precisely one in norm. -/
