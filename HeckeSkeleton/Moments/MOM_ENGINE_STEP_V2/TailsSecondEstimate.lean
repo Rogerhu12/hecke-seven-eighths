@@ -265,10 +265,12 @@ theorem secondTailCertificate_of_physical_bounds
   have hconstant : 0 ≤ budget.coefficient c estimate *
       input.amplitude ^ (2 * budget.profileDegree) *
         (p.secondCutoff call) ^ (1 - decay) * call.base ^ budget.degree c p := by
-    have hc := budget.coefficient_nonneg c estimate
-    have ha := zero_le_one.trans input.amplitude_one_le
-    have hcut := zero_le_one.trans (p.secondCutoff_one call)
-    positivity
+    exact mul_nonneg
+      (mul_nonneg
+        (mul_nonneg (budget.coefficient_nonneg c estimate)
+          (pow_nonneg (zero_le_one.trans input.amplitude_one_le) _))
+        (Real.rpow_nonneg (zero_le_one.trans (p.secondCutoff_one call)) _))
+      (Real.rpow_nonneg call.base_pos.le _)
   have hfamily : trace.second.tail ≤
       (countConstant * budget.coefficient c estimate) *
         input.amplitude ^ (2 * budget.profileDegree) *

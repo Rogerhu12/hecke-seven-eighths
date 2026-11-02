@@ -149,8 +149,10 @@ theorem first_key_complementary_dvd (F : FirstPresentation call p) (hF : F.Reali
     have hsub := Finset.mem_powerset.mp key.2.1.property
     change key.2.1.val ⊆ F.source.mask ∪
       firstPrincipalPrimeMask b.primes b.leftMultiplicity b.rightMultiplicity at hsub
-    rw [hF.mask, Finset.empty_union] at hsub
-    exact hsub.trans (Finset.image_mono (Finset.subset_univ _))
+    have hmask := (congrArg (fun M => M ∪
+      firstPrincipalPrimeMask b.primes b.leftMultiplicity b.rightMultiplicity)
+      hF.mask).trans (Finset.empty_union _)
+    exact (hsub.trans hmask.le).trans (Finset.image_mono (Finset.subset_univ _))
   have hl := firstPhysicalDivisorIdeal_dvd_product b.primes b.leftMultiplicity
     b.left_positive key.2.1.val hD
   have hr := firstPhysicalDivisorIdeal_dvd_product b.primes b.rightMultiplicity
