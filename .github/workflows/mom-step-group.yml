@@ -1,0 +1,169 @@
+name: MOM_ENGINE_STEP group build
+
+# G1 / PR9 production checkout. Reuse the unchanged official group tools
+# for forbidden-source scan, module watcher and interface report. No skeleton
+# Lean sources are copied into this checkout. Group=g1 is explicit.
+on:
+  push:
+    branches: [cloud/mom-engine-step]
+  pull_request:
+    branches: [dtests-handoff]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-step-group-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: >-
+      (github.event_name == 'pull_request' && github.event.pull_request.number == 9 && github.head_ref == 'cloud/mom-engine-step') ||
+      (github.event_name != 'pull_request' && github.ref == 'refs/heads/cloud/mom-engine-step')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      GROUP: g1
+      LEAN_NUM_THREADS: '2'
+      GROUP_KILL_AFTER: '1200'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Bind the actual G1 production checkout and official tooling
+        run: |
+          mkdir -p group-build
+          cat > group-build/source_guard.py <<'PY'
+          import hashlib, json, os, subprocess, sys, tomllib
+          from pathlib import Path
+
+          CONFIG_PINS = {'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47',
+           'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0',
+           'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c',
+           'vendor/class-field-theory/lean-toolchain': '8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a',
+           'vendor/class-field-theory/lakefile.toml': '04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf',
+           'vendor/class-field-theory/lake-manifest.json': 'ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49',
+           'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148'}
+          OFFICIAL_TOOL_PINS = {'.github/groups/group_build.py': 'df3332a6f1d7fd1c4487bf8d2ee86e586265ebba9ebbf21e9dbc322ff742a1c2',
+           '.github/groups/skeleton.py': '462e28934f21679cbe1cad548536c869c37a91749d8cfbfdda56f8c3f1341122',
+           '.github/probe/probe_map.py': '78f2a76122f3fe2b79491960286accbbf2ebb169fc59c85be6ff93a2e50e346d'}
+          G1_SHA256 = '19809e5489ca407279db695b0ca0e51c7aa9edf091ab20b0e5c26ca4f004806a'
+
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+
+          phase = sys.argv[1]
+          assert phase in ['before', 'after']
+          root = Path.cwd()
+          assert os.environ['GROUP'] == 'g1'
+          assert os.environ['GROUP_KILL_AFTER'] == '1200'
+          assert os.environ['LEAN_NUM_THREADS'] == '2'
+          assert git('rev-parse', 'HEAD') == os.environ['GITHUB_SHA']
+          assert not git('status', '--porcelain=v1', '--untracked-files=no')
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          required = [*CONFIG_PINS, *OFFICIAL_TOOL_PINS, '.github/groups/g1.txt', '.github/groups/interface.json']
+          assert all(p in tracked for p in required), 'Adopt the unchanged official group tools and current interface snapshot first'
+          assert {p: sha(Path(p).read_bytes()) for p in CONFIG_PINS} == CONFIG_PINS
+          assert {p: sha(Path(p).read_bytes()) for p in OFFICIAL_TOOL_PINS} == OFFICIAL_TOOL_PINS
+          membership = Path('.github/groups/g1.txt').read_bytes()
+          assert sha(membership) == G1_SHA256
+          g1 = membership.decode().splitlines()
+          assert len(g1) == len(set(g1)) == 81
+          assert all(p in tracked for p in g1)
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          sources = sorted(task.glob('*.lean'))
+          imports = [line.removeprefix('import ').strip() for line in (task/'Interface.lean').read_text().splitlines() if line.startswith('import ')]
+          expected = {str(p)[:-5].replace('/', '.') for p in sources if p.name != 'Interface.lean'}
+          lake = tomllib.loads(Path('lakefile.toml').read_text())
+          libraries = [lib['name'] for lib in lake['lean_lib']]
+          assert len(sources) == 1009 and len(imports) == 1008 and set(imports) == expected and len(libraries) == 20
+          assert lake['weakLeanArgs'] == ['-j2']
+          assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+          def tracked_sha(path):
+              p = Path(path)
+              return sha(os.fsencode(os.readlink(p))) if p.is_symlink() else sha(p.read_bytes())
+          record = {
+              'head': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+              'expected_checkout': os.environ['GITHUB_SHA'],
+              'event': os.environ['GITHUB_EVENT_NAME'], 'head_ref': os.environ.get('GITHUB_HEAD_REF', ''),
+              'group': 'g1', 'group_modules': g1,
+              'group_membership_sha256': sha(membership),
+              'interface_reference_sha256': sha(Path('.github/groups/interface.json').read_bytes()),
+              'official_tool_sha256': OFFICIAL_TOOL_PINS,
+              'tracked_sha256': {p: tracked_sha(p) for p in tracked},
+              'task_source_sha256': {str(p): sha(p.read_bytes()) for p in sources},
+              'config_sha256': CONFIG_PINS, 'interface_imports': imports, 'libraries': libraries,
+              'no_skeleton_source_overlay': True,
+          }
+          evidence = Path('group-build')
+          (evidence/(phase+'-source.json')).write_text(json.dumps(record, indent=2)+'\n')
+          if phase == 'after':
+              before = json.loads((evidence/'before-source.json').read_text())
+              assert before == record, 'Actual checkout, sources, tools, interface snapshot or configuration changed'
+              (evidence/'source-integrity.json').write_text(json.dumps({'unchanged': True, 'head': record['head'],
+                  'tree': record['tree'], 'tracked': len(tracked), 'STEP':1009, 'Interface_imports':1008, 'libraries':20}, indent=2)+'\n')
+          print(f'{phase}: actual HEAD {record["head"]}; {len(tracked)} unchanged tracked paths; G1=81')
+          PY
+          python3 group-build/source_guard.py before
+      - name: Reserve disk space and memory mappings
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build G1 production modules with the official scan and watcher
+        run: python3 -u .github/groups/group_build.py
+      - name: Freshly audit all loaded EngineStep declarations and 265 original prints
+        run: |
+          python3 -u - <<'G1PY'
+          import hashlib, json, re, subprocess, sys
+          from pathlib import Path
+          membership = Path('.github/groups/g1.txt').read_bytes()
+          assert hashlib.sha256(membership).hexdigest() == '19809e5489ca407279db695b0ca0e51c7aa9edf091ab20b0e5c26ca4f004806a'
+          paths = membership.decode().splitlines()
+          assert len(paths) == len(set(paths)) == 81
+          assert all(re.fullmatch(r'HeckeSkeleton/Moments/MOM_ENGINE_STEP/[A-Za-z_][A-Za-z_0-9]*[.]lean', p) for p in paths)
+          modules = [p[:-5].replace('/', '.') for p in paths]
+          names = []
+          for path in paths:
+              found = re.findall(r'^#print axioms ([A-Za-z_][A-Za-z_0-9.]*)[ \t]*$', Path(path).read_text(), re.MULTILINE)
+              assert found, f'Original declaration prints missing from {path}'
+              names.extend(found)
+          assert len(names) == len(set(names)) == 265
+          evidence = Path('group-build/fresh')
+          evidence.mkdir(exist_ok=True)
+          command = [sys.executable, '-u', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py',
+              *modules, '--namespace', 'HeckeSkeleton.Moments.EngineStep', '--evidence', str(evidence)]
+          for name in names:
+              command += ['--declaration', name]
+          (evidence/'group-scope.json').write_text(json.dumps({'group':'g1','production_modules':modules,
+              'original_declarations':names,'skeleton_overlay_used':False}, indent=2)+'\n')
+          (evidence/'verification-command.json').write_text(json.dumps(command, indent=2)+'\n')
+          raise SystemExit(subprocess.call(command))
+          G1PY
+      - name: Check the same complete production source identity after G1 validation
+        if: always()
+        run: python3 group-build/source_guard.py after
+      - name: Upload the group build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: group-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: group-build/
+          retention-days: 14
