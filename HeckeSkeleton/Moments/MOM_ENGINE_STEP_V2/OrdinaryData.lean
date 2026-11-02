@@ -1,8 +1,17 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawRectangleData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafOrdinaryBinding
+import Lean.Elab.Command
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option Elab.async false
+set_option stderrAsMessages false
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: imports"
+    stderr.flush
 
 /-!
 # Individual ordinary rectangles of an original finite leaf
@@ -42,17 +51,47 @@ def leftIdeal (i : AllocationColumn K packet.leaf.leftSlots) :
     (Arithmetic.data c).Exterior :=
   packet.block.leftResidual (packet.leftReindex.index i)
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftIdeal"
+    stderr.flush
+
 def rightIdeal (i : AllocationColumn K packet.leaf.rightSlots) :
     (Arithmetic.data c).Exterior :=
   packet.block.rightResidual (packet.rightReindex.index i)
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightIdeal"
+    stderr.flush
+
 def leftWhole (i : AllocationColumn K packet.leaf.leftSlots) : ℂ :=
   packet.chart.sourceLeftCoefficient (packet.leftReindex.index i)
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftWhole"
+    stderr.flush
 
 def rightWhole (i : AllocationColumn K packet.leaf.rightSlots) : ℂ :=
   packet.chart.sourceRightCoefficient (packet.rightReindex.index i)
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightWhole"
+    stderr.flush
+
 end RawLeafPacket
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: before structure"
+    stderr.flush
 
 set_option diagnostics true in
 set_option genInjectivity false in
@@ -84,6 +123,12 @@ structure OrdinaryData (packet : RawLeafPacket call p) where
       rectangles.rightTerms r i = packet.originalRightRectangle r i
   binding : packet.leaf.OrdinaryBinding rectangles
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: structure"
+    stderr.flush
+
 namespace OrdinaryData
 
 variable {packet : RawLeafPacket call p} (O : OrdinaryData packet)
@@ -92,11 +137,29 @@ variable {packet : RawLeafPacket call p} (O : OrdinaryData packet)
 abbrev rows (_O : OrdinaryData packet) :=
   packet.R.restrictRows (fun h => ¬packet.leaf.exceptional h)
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rows"
+    stderr.flush
+
 abbrev leftFrame (rectangle : Bool) :=
   O.rectangles.leftFrame (Arithmetic.context c) rectangle
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftFrame"
+    stderr.flush
+
 abbrev rightFrame (rectangle : Bool) :=
   O.rectangles.rightFrame (Arithmetic.context c) rectangle
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightFrame"
+    stderr.flush
 
 end OrdinaryData
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
