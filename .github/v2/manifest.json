@@ -12,6 +12,7 @@
         "BudgetAssembly",
         "CalibrationData",
         "CallData",
+        "CanonicalRefinement",
         "ChildArithmeticContracts",
         "ChildInvariantData",
         "ChildProfileAssembly",
@@ -25,14 +26,17 @@
         "FirstSourceContracts",
         "FirstZeroContracts",
         "GeometryContracts",
+        "GlobalAssembly",
         "InputDemands",
         "KernelMassAssembly",
         "LocalAssembly",
         "NormalizationAssembly",
+        "NormalizationCertificate",
         "NormalizedData",
         "NormalizedOutputAssembly",
         "OrdinaryContracts",
         "OrdinaryData",
+        "OrdinarySeedAtomBinding",
         "OriginalInput",
         "OriginalOccurrenceData",
         "OriginalPhaseData",
@@ -48,13 +52,18 @@
         "RawLeafData",
         "RawRectangleData",
         "RefinementAssembly",
+        "RefinementContracts",
         "RefinementData",
+        "S3Assembly",
         "S3Energy",
         "S3ExpansionData",
         "S3FrozenDivisor",
+        "S3OriginalColumnBound",
         "S3PoolData",
         "S3RowExponent",
+        "S3RowTransport",
         "S3UniformDensity",
+        "S3Windows",
         "S5ClassIdeals",
         "S5GeometryConstruction",
         "S5NominalLedger",
@@ -71,13 +80,16 @@
         "SourceIndexContracts",
         "SourceScalarData",
         "TailContracts",
+        "TasksUniform",
         "TerminalAssembly",
         "TerminalContracts",
         "TerminalData",
         "UniformAssembly",
         "UniformContracts",
         "UniformData",
+        "UniformMellinPreparation",
         "UniformOrderPreparation",
+        "UniformRealizationProof",
         "UniformScalarPreparation"
       ]
     },
@@ -87,7 +99,6 @@
       "proved": false,
       "modules": [
         "ProfileFormulaTask",
-        "TasksAmplification",
         "TasksChildArithmetic",
         "TasksChildProfiles",
         "TasksExceptionalRecovery",
@@ -97,11 +108,11 @@
         "TasksFirstTransform",
         "TasksFirstZero",
         "TasksOriginalAtoms",
+        "TasksPassiveRefinement",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
-        "TasksTails",
-        "TasksUniform"
+        "TasksTails"
       ]
     },
     {
@@ -110,6 +121,14 @@
       "proved": false,
       "modules": [
         "Interface"
+      ]
+    },
+    {
+      "id": "s3",
+      "name": "S3 one-pool amplification proof and recursive dependencies",
+      "proved": true,
+      "modules": [
+        "TasksAmplification"
       ]
     },
     {
@@ -122,3 +141,4 @@
     }
   ]
 }
+

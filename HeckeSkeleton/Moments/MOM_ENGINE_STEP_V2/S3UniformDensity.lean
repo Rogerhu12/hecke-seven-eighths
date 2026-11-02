@@ -57,9 +57,11 @@ theorem exists_pool_with_power_density
     congr 1
     ring
   have hdouble : 2 * Z ^ (ell - 2 * eps) ≤ Z ^ (ell - eps) := by
-    have hm := mul_le_mul_of_nonneg_left hfactor
-      (Real.rpow_nonneg hZpos.le (ell - 2 * eps))
-    simpa only [hpower, mul_comm] using hm
+    calc
+      _ = Z ^ (ell - 2 * eps) * 2 := mul_comm _ _
+      _ ≤ Z ^ (ell - 2 * eps) * Z ^ eps :=
+        mul_le_mul_of_nonneg_left hfactor (Real.rpow_nonneg hZpos.le _)
+      _ = _ := hpower
   exact (show Z ^ (ell - 2 * eps) ≤ Z ^ (ell - eps) / 2 by linarith).trans
     (pool.density_half M B hlarge)
 

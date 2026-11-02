@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorNormCalibration
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOriginalData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
 
@@ -26,7 +27,7 @@ open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
-open HeckePort.Moments HeckePort.Moments.MobiusRegroup
+open HeckePort.Moments HeckePort.Moments.MobiusRegroup HeckePort.IdealMobiusDivisorSum
 open UniqueFactorizationMonoid
 
 variable {K : Type} [Field K] [NumberField K]

@@ -131,13 +131,33 @@ def workingAtoms :=
   (call.localizedSource.source.recipe.arithmeticAtoms PUnit.unit).constantAtoms
     call.localizedNormProfiles call.workingParameters call.base 0
 
+/-- Unused ordinary comparison windows are replaced by the original
+plain windows before forming any finite carrier. Centered inputs retain
+their two actual comparison lengths. -/
+def workingComparison₁ : ℝ :=
+  if call.node.centered then call.node.comparison₁ else call.node.parameters.n₁
+
+def workingComparison₂ : ℝ :=
+  if call.node.centered then call.node.comparison₂ else call.node.parameters.n₂
+
 def workingRaw :=
-  call.workingAtoms.raw (call.base ^ call.node.comparison₁)
-    (call.base ^ call.node.comparison₂)
+  call.workingAtoms.raw (call.base ^ call.workingComparison₁)
+    (call.base ^ call.workingComparison₂)
 
 def workingValues :=
-  call.workingAtoms.values (call.base ^ call.node.comparison₁)
-    (call.base ^ call.node.comparison₂)
+  call.workingAtoms.values (call.base ^ call.workingComparison₁)
+    (call.base ^ call.workingComparison₂)
+
+/-- Normalizing an unused comparison carrier leaves the original whole
+coefficient unchanged, on every original column, including zero columns. -/
+theorem workingCoefficient_eq (i : call.workingRaw.Column) :
+    call.workingValues.coefficient call.node.centered i =
+      (call.workingAtoms.values (call.base ^ call.node.comparison₁)
+        (call.base ^ call.node.comparison₂)).coefficient call.node.centered i := by
+  cases h : call.node.centered <;>
+    simp [workingValues, workingComparison₁, workingComparison₂, h,
+      ParentRawAtoms.ConstantValues.coefficient,
+      ParentRawAtoms.ConstantValues.rectangle, ParentConstantAtoms.values]
 
 end Call
 
@@ -184,7 +204,7 @@ abbrev FirstSource (call : Call c) (p : SourceParameters c) :=
     (Arithmetic.context c) call.base
     (rowBallFiniteFamily K (Arithmetic.data c).Sf 1)
     call.node.centered call.localizedData call.workingParameters 0
-    (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂)
+    (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂)
     (p.firstCutoff call) (p.firstCutoff_one call)
 
 /-- The first common pair, physical mask divisor and residual

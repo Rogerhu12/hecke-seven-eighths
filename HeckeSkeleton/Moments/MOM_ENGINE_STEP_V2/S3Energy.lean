@@ -1,5 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3ExpansionData
-import DedekindZetaZeroFree.Moments.Probes.PrincipalArithmeticEnlargement
+import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.ProbeRowCharacters
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -63,7 +63,10 @@ theorem exists_coefficient_recipes {A : SArithmeticData K} {σ : K →+* ℂ}
     { generator := r
       generates := hr
       finiteResidue := PrincipalProbeConstruction.Inputs.finiteResidue A
-      character := PrincipalProbeConstruction.Inputs.rowCharacter A σ
+      character := fun a => if ha : a = 0 then 1 else
+        GlobalPairCancel.principalCharacter A σ
+          (PrincipalProbeConstruction.Inputs.rowIdeal A a ha) a
+          (PrincipalProbeConstruction.Inputs.rowIdeal_generates A a ha)
       additiveCharacter := e
       gammaTwo := fun q => A.idealGauss σ hS q.val (r q.val) (hr q.val) 2
       theta := fun _ => 0 }
@@ -71,7 +74,16 @@ theorem exists_coefficient_recipes {A : SArithmeticData K} {σ : K →+* ℂ}
   · intro I
     obtain ⟨a, _, ha, hallowed⟩ := Classical.choose_spec (C.allowed_integral I)
     exact ⟨a, ha, hallowed⟩
-  · exact PrincipalProbeConstruction.Inputs.rowCharacter_apply A σ
+  · intro I a ha
+    change (if ha0 : a = 0 then 1 else
+      GlobalPairCancel.principalCharacter A σ
+        (PrincipalProbeConstruction.Inputs.rowIdeal A a ha0) a
+        (PrincipalProbeConstruction.Inputs.rowIdeal_generates A a ha0)) = _
+    rw [dif_neg ha.1]
+    have hI := generatedIdeal_unique
+      (PrincipalProbeConstruction.Inputs.rowIdeal_generates A a ha.1) ha
+    cases hI
+    rfl
   · intro x
     rfl
   · intro q

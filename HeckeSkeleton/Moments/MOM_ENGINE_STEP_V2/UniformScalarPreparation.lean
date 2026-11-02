@@ -56,10 +56,14 @@ def mul (left right : HeightEnvelope) : HeightEnvelope where
 
 theorem add_value (left right : HeightEnvelope) {height : ℝ} (hheight : 0 ≤ height) :
     left.value height + right.value height ≤ (left.add right).value height := by
-  have hl := mul_le_mul_of_nonneg_left
+  have hl : left.coefficient * (1 + height) ^ left.degree ≤
+      left.coefficient * (1 + height) ^ (left.degree + right.degree) :=
+    mul_le_mul_of_nonneg_left
     (Real.rpow_le_rpow_of_exponent_le (by linarith : 1 ≤ 1 + height)
       (le_add_of_nonneg_right right.degree_nonneg)) left.coefficient_nonneg
-  have hr := mul_le_mul_of_nonneg_left
+  have hr : right.coefficient * (1 + height) ^ right.degree ≤
+      right.coefficient * (1 + height) ^ (left.degree + right.degree) :=
+    mul_le_mul_of_nonneg_left
     (Real.rpow_le_rpow_of_exponent_le (by linarith : 1 ≤ 1 + height)
       (le_add_of_nonneg_left left.degree_nonneg)) right.coefficient_nonneg
   exact (add_le_add hl hr).trans_eq (by simp only [value, add]; ring)
@@ -95,7 +99,7 @@ theorem value_le_finite (depth : ℕ) (E : ℕ → HeightEnvelope) {rank : ℕ}
 theorem threshold_le_finite (depth : ℕ) (E : ℕ → HeightEnvelope)
     {rank : ℕ} (hrank : rank ≤ depth) :
     (E rank).threshold ≤ (finite depth E).threshold :=
-  le_finiteStageBound _ _ hrank
+  le_finiteStageBound depth (fun r => (E r).threshold) hrank
 
 end HeightEnvelope
 
@@ -141,16 +145,23 @@ theorem terminalEnvelope_bound {height : ℝ} (hheight : 0 ≤ height) :
         (costs.exceptional orders).value amplitude height +
           (costs.tail orders).value amplitude height ≤
       (costs.terminalEnvelope orders amplitude hamplitude).value height := by
-  apply le_trans (add_le_add_right
-    (add_le_add_right (HeightEnvelope.add_value _ _ hheight) _) _)
-  apply le_trans (add_le_add_right (HeightEnvelope.add_value _ _ hheight) _)
-  exact HeightEnvelope.add_value _ _ hheight
+  let first := (costs.firstZero orders).envelope amplitude hamplitude
+  let second := (costs.secondZero orders).envelope amplitude hamplitude
+  let exceptional := (costs.exceptional orders).envelope amplitude hamplitude
+  let tail := (costs.tail orders).envelope amplitude hamplitude
+  exact (add_le_add (add_le_add (first.add_value second hheight)
+    (le_refl (exceptional.value height))) (le_refl (tail.value height))).trans
+      ((add_le_add ((first.add second).add_value exceptional hheight)
+        (le_refl (tail.value height))).trans
+          (((first.add second).add exceptional).add_value tail hheight))
 
 theorem massEnvelope_eq {height : ℝ} (hheight : 0 ≤ height) :
     (costs.arithmeticMass orders).value amplitude height *
       (costs.profileMass orders).value amplitude height =
         (costs.massEnvelope orders amplitude hamplitude).value height :=
-  HeightEnvelope.mul_value _ _ hheight
+  HeightEnvelope.mul_value
+    ((costs.arithmeticMass orders).envelope amplitude hamplitude)
+    ((costs.profileMass orders).envelope amplitude hamplitude) hheight
 
 theorem thresholds_le_total :
     (costs.firstZero orders).threshold ≤

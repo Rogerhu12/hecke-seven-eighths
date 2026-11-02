@@ -63,7 +63,7 @@ theorem rpow_rowExponent (source : PhysicalSource call p) :
   have hlog : Real.log call.base ≠ 0 := (Real.log_pos call.domain.scale).ne'
   have he : Real.log call.base *
       (Real.log source.rowSize / Real.log call.base) = Real.log source.rowSize := by
-    field_simp
+    field_simp [hlog]
   rw [PhysicalSource.rowExponent, Real.rpow_def_of_pos call.base_pos, he,
     Real.exp_log (zero_lt_one.trans_le (rowSize_one source))]
 
