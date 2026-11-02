@@ -1,0 +1,59 @@
+{
+  "phase": "statement-skeleton",
+  "groups": [
+    {
+      "id": "g1",
+      "name": "公共有限族与原始叶子接口",
+      "proved": false,
+      "modules": [
+        "ChildFamily",
+        "FiniteKernelFamily",
+        "ScalarLedger",
+        "Output",
+        "OriginalInput",
+        "HybridExpansion",
+        "LeafCoverage",
+        "LeafNormalization"
+      ]
+    },
+    {
+      "id": "g2",
+      "name": "原源请求、Mellin 准备与统一选择",
+      "proved": false,
+      "modules": [
+        "SourceFrame",
+        "PreparedCall",
+        "UniformChoices"
+      ]
+    },
+    {
+      "id": "g3",
+      "name": "实际两次变换与同一子项构造",
+      "proved": false,
+      "modules": [
+        "SourceProduction",
+        "ChildProduction"
+      ]
+    },
+    {
+      "id": "g4",
+      "name": "四个终端与完整核质量",
+      "proved": false,
+      "modules": [
+        "TerminalCalibration",
+        "KernelCalibration",
+        "LocalProduction"
+      ]
+    },
+    {
+      "id": "g5",
+      "name": "严格输出族与原目标",
+      "proved": false,
+      "modules": [
+        "StrictFamily",
+        "SourceHypothesis",
+        "Interface"
+      ]
+    }
+  ]
+}
