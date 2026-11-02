@@ -125,16 +125,16 @@ recovered from the node's existing invariant before any transform. -/
 def sourceData (request : SourceRequest c frame schedule Cp Hp bounds) :
     CompleteSourceBudgetData c
       (Expansion.Project.canonicalDetectorTheta K (targetCharacter K c))
-      request.base request.parent.data (pairedInvariantParameters request.parent.parameters) := by
-  sorry
+      request.base request.parent.data (pairedInvariantParameters request.parent.parameters) :=
+  Classical.choice request.node.down.property.admissible.2.1
 
 theorem fitsMesh (request : SourceRequest c frame schedule Cp Hp bounds) :
-    request.parent.data.geometry.fitsMesh (momentMesh K c.family).val := by
-  sorry
+    request.parent.data.geometry.fitsMesh (momentMesh K c.family).val :=
+  request.node.down.property.admissible.2.2.1
 
 theorem kappa (request : SourceRequest c frame schedule Cp Hp bounds) :
-    request.parent.parameters.κ = 2 * c.family.B - 1 := by
-  sorry
+    request.parent.parameters.κ = 2 * c.family.B - 1 :=
+  request.node.down.property.admissible.1
 
 end SourceRequest
 end HeckeSkeleton.Moments.EngineStepV2

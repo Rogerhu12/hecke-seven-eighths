@@ -71,12 +71,10 @@ def mellinCost (call : PreparedCall n) : ℝ :=
         (call.engineCoefficient * call.engineControl)
 
 theorem model_parameters (call : PreparedCall n) (frequency : ℝ × ℝ) :
-    (call.model frequency).parameters = n.parameters := by
-  sorry
+    (call.model frequency).parameters = n.parameters := rfl
 
 theorem model_slotCount (call : PreparedCall n) (frequency : ℝ × ℝ) :
-    (call.model frequency).data.geometry.slotCount = n.data.geometry.slotCount := by
-  sorry
+    (call.model frequency).data.geometry.slotCount = n.data.geometry.slotCount := rfl
 
 end PreparedCall
 
@@ -92,14 +90,20 @@ def preparedSourceData (request : SourceRequest c frame schedule Cp Hp bounds)
     CompleteSourceBudgetData c
       (Expansion.Project.canonicalDetectorTheta K (targetCharacter K c))
       request.base (call.model frequency).data
-      (pairedInvariantParameters (call.model frequency).parameters) := by
-  sorry
+      (pairedInvariantParameters (call.model frequency).parameters) :=
+  request.sourceData.mellinStrictModel (Ω := CombinedParameter) request.parent
+    call.cap call.order call.weight call.lower call.upper
+    call.weight_nonneg call.lower_pos call.interval
+    call.profileBudget call.profileBudget_one_le frequency
 
 def preparedNormProfiles (request : SourceRequest c frame schedule Cp Hp bounds)
     (call : PreparedCall request.parent) :
     EngineStep.NormProfileRecipe (fun frequency : ℝ × ℝ =>
-      (call.model frequency).data) := by
-  sorry
+      (call.model frequency).data) :=
+  request.parent.mellinStrictModel_normProfileRecipe (Ω := CombinedParameter)
+    call.cap call.order call.weight call.lower call.upper
+    call.weight_nonneg call.lower_pos call.interval
+    call.profileBudget call.profileBudget_one_le
 
 /-- The leaf producer starts with these literal arithmetic atoms. -/
 def originalInput (request : SourceRequest c frame schedule Cp Hp bounds)

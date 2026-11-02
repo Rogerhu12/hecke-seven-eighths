@@ -81,7 +81,8 @@ def strictBranch (request : Request c frame Cp Hp hCp hminimum hHp) :
     ((selectedCall request).model frequency) request.base
     (recipeInductionEdgeLoss c) (recipeInductionTerminalLoss c)
     (selectedCall request).engineCoefficient (selectedCall request).engineControl
-    (by sorry) (by sorry) (by sorry) (by sorry)
+    request.node.down.property.kappa_lower request.node.down.property.kappa_upper
+    request.node.down.property.width_le request.node.down.property.slot_count
     (parameterOutput request frequency)
   budget := selectedCall_budget request
 
