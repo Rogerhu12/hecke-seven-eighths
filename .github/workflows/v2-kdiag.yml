@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [a0_rawleaf, a2_rawcontracts, a3_ordinarydata, a6_projections, a7_previous_projections, a8_raw_projections]
+        probe: [a9_canonical_slots, a10_explicit_terms, a11_typed_terms, a12_ordinary_projection]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
