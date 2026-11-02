@@ -84,7 +84,8 @@ theorem source_zero_eq_zero_of_rows_empty (source : SecondSource call p)
     source.zero = 0 := by
   have hempty : source.physical.source.rows = ∅ := Finset.not_nonempty_iff_eq_empty.mp hrows
   simp only [SecondSource.zero, hsource.fiber, PhysicalSource.orbitMultiplicity,
-    hempty, Finset.image_empty, Finset.sup_empty, Nat.cast_zero, mul_zero, zero_mul]
+    hempty, Finset.image_empty, Finset.sup_empty, show (⊥ : ℕ) = 0 from rfl,
+    Nat.cast_zero, mul_zero, zero_mul]
 
 /-- The norm window applies only to genuinely active columns. Its two
 upper endpoints control the actual ideal product used by square counting. -/
@@ -222,6 +223,7 @@ theorem second_zero_local_estimate_uniform (c : TargetContext K) (p : SourcePara
   have hmass : 0 ≤ mass :=
     mul_nonneg (mul_nonneg G.outerWeight_nonneg (Nat.cast_nonneg _)) measureReal_nonneg
   have hSpos : 0 < S := by
+    change (0 : ℝ) < (Ideal.absNorm G.first.residualDivisor.val : ℝ)
     exact_mod_cast Ideal.absNorm_pos_of_nonZeroDivisors G.first.residualDivisor
   have hallowance : 0 ≤ sourceSideAllowance G := Real.rpow_nonneg hZ.le _
   have hN : 1 ≤ N := source_product_window_one_le G windows hactive
