@@ -1,6 +1,9 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstTerminal
 
+set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
+
 /-!
 # The original direct parent produces the canonical finite hybrid leaves
 
@@ -21,6 +24,45 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup MeasureTheory
+
+private theorem direct_parent_sigma_sum_cost
+    {I : Type*} {D : I → Type*} {J : (i : I) → D i → Type*}
+    [Fintype I] [instD : ∀ i, Fintype (D i)]
+    [instJ : ∀ i d, Fintype (J i d)]
+    (w : ℝ) (zero tail : ∀ i, D i → ℝ)
+    (leaf : ∀ i d, J i d → ℝ)
+    (parent : (Σ i, Σ d : D i, J i d) → ℝ)
+    (hparent : ∀ i d j, parent ⟨i, d, j⟩ = w * leaf i d j) :
+    w * (∑ i, ∑ d, (zero i d + tail i d + ∑ j, leaf i d j)) =
+      w * (∑ i, ∑ d, zero i d) + w * (∑ i, ∑ d, tail i d) +
+        ∑ j, parent j := by
+  simp only [Fintype.sum_sigma, hparent, Finset.sum_add_distrib,
+    Finset.mul_sum, mul_add]
+
+private theorem direct_parent_sum_le_sum
+    {I : Type*} {D : I → Type*}
+    [Fintype I] [instD : ∀ i, Fintype (D i)]
+    (f g : ∀ i, D i → ℝ) (h : ∀ i d, f i d ≤ g i d) :
+    (∑ i, ∑ d, f i d) ≤ ∑ i, ∑ d, g i d := by
+  exact Finset.sum_le_sum fun i _ => Finset.sum_le_sum fun d _ => h i d
+
+private theorem direct_parent_scalar_bound
+    (energy w zero linearCost tail firstCost secondCost
+      zeroBudget tailBudget leaves : ℝ)
+    (hw : 0 ≤ w)
+    (hparent : energy ≤ w * (zero + linearCost + tail))
+    (hfirst : zero + tail ≤ firstCost)
+    (hsecond : linearCost ≤ secondCost)
+    (hcost : w * secondCost = zeroBudget + tailBudget + leaves) :
+    energy ≤ w * firstCost + zeroBudget + tailBudget + leaves := by
+  calc
+    energy ≤ w * (zero + linearCost + tail) := hparent
+    _ = w * ((zero + tail) + linearCost) := by ring
+    _ ≤ w * (firstCost + secondCost) :=
+      mul_le_mul_of_nonneg_left (add_le_add hfirst hsecond) hw
+    _ = w * firstCost + zeroBudget + tailBudget + leaves := by
+      rw [mul_add, hcost]
+      ring
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -116,9 +158,21 @@ theorem finiteCost_eq_budgets_leaves
     (s.fiber : ℝ) * R.finiteCost T L exceptional N ε Cerror Czero =
       R.secondZeroBudget T N ε Czero + R.secondTailBudget T N Cerror +
       ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
-  simp only [finiteCost, FirstBlockDirectData.SecondStages.TerminalCalibration.finiteCost,
-    secondZeroBudget, secondTailBudget, Fintype.sum_sigma, parentLeaf,
-    ActualHybridLeaf.scale_cost, Finset.sum_add_distrib, Finset.mul_sum, mul_add]
+  exact direct_parent_sigma_sum_cost
+    (I := s.CommonLabel)
+    (D := fun v => ((s.block v).mask s.mask).powerset)
+    (J := fun v D => (R v D).CoveredLeafKey L L)
+    (instD := fun v => inferInstance) (instJ := fun v D => inferInstance)
+    (w := (s.fiber : ℝ))
+    (zero := fun v D => (T v D).zeroBudget (N.left v D) (N.right v D) ε Czero)
+    (tail := fun v D => (T v D).tailBudget (N.left v D) (N.right v D) Cerror)
+    (leaf := fun v D j => ((R v D).coveredLeaf L L
+      (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
+      (exceptional v D) j).cost)
+    (parent := fun j => (R.parentLeaf L exceptional N j).cost)
+    (hparent := fun v D j => ((R v D).coveredLeaf L L
+      (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
+      (exceptional v D) j).scale_cost (s.fiber : ℝ) (Nat.cast_nonneg _))
 
 end SecondStages
 end ActualDirectFirstSource
@@ -162,22 +216,25 @@ theorem actual_parent_direct_two_stage_finite_leaf_bound
         (s.fiber : ℝ) * F.cost ε CfirstError CfirstZero +
         R.secondZeroBudget T N ε Czero + R.secondTailBudget T N Cerror +
         ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
-      hCerror, hCzero, hsecond⟩ :=
+  have hsecondData :=
     actual_direct_fourier_covered_terminal_bound (W := W) (E := E) (ν := ν) (μ := μ)
       hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
+  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
+      hCerror, hCzero, hsecond⟩ := hsecondData
   obtain ⟨order, horder⟩ := exists_nat_gt
     (max (Module.finrank ℤ Lattice : ℝ) ((Module.finrank ℚ K : ℝ) * decay))
   have hlattice : Module.finrank ℤ Lattice < order := by
     exact_mod_cast (lt_of_le_of_lt (le_max_left _ _) horder)
   have hdegree : (Module.finrank ℚ K : ℝ) * decay ≤ order :=
     (lt_of_le_of_lt (le_max_right _ _) horder).le
-  obtain ⟨sFirst, Cfirst, hCfirst, hparent⟩ :=
+  have hparentData :=
     actual_parent_first_direct_linearized (E := W) (ν := ν) (μ := μ) hΓ μv
       C hDiff finiteTest hlc hcs decay hdecay order hlattice hdegree
-  obtain ⟨sFirstZero, CfirstZero, hCfirstZero, hterminal⟩ :=
+  obtain ⟨sFirst, Cfirst, hCfirst, hparent⟩ := hparentData
+  have hterminalData :=
     actual_direct_first_terminal_cost_bound (E := W) (C := C) (hΓ := hΓ) (μv := μv)
       finiteTest k ε hε
+  obtain ⟨sFirstZero, CfirstZero, hCfirstZero, hterminal⟩ := hterminalData
   let Cnum := 2 * firstTailFieldConstant K * idealCountConstant K ^ k
   have hCnum : 0 ≤ Cnum := mul_nonneg
     (mul_nonneg (by norm_num) firstTailFieldConstant_nonneg)
@@ -190,27 +247,35 @@ theorem actual_parent_direct_two_stage_finite_leaf_bound
   have ht := hterminal sFirst Cfirst hCfirst Z
     centered d a t Y₁ Y₂ X hX s Lmax Nsave decay hdecay F hDiff
   have hf : s.linearizedCost hDiff N ≤ R.finiteCost T L exceptional N ε Cerror Czero := by
-    unfold ActualDirectFirstSource.linearizedCost ActualDirectFirstSource.SecondStages.finiteCost
-    apply Finset.sum_le_sum
-    intro v _
-    apply Finset.sum_le_sum
-    intro D _
-    exact (T v D).linearized_le_finiteCost L L (exceptional v D)
-      (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
-      ε Cerror Czero (fun {ι} G S T LC RC ex F x =>
-        (hsecond Z G S T LC RC ex F x).2)
-  refine ⟨?_, hp.trans ?_⟩
-  · rw [F.cutoff_eq]
-    exact Real.rpow_le_rpow_of_exponent_le F.windows.base_ge_one hq
-  · calc
-      _ ≤ (s.fiber : ℝ) * (F.cost ε (Cfirst * Cnum) CfirstZero +
-          R.finiteCost T L exceptional N ε Cerror Czero) := by
-        apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-        have hs := add_le_add ht hf
-        convert hs using 1 <;> ring
-      _ = _ := by
-        rw [mul_add, R.finiteCost_eq_budgets_leaves T L exceptional N ε Cerror Czero]
-        ring
+    exact direct_parent_sum_le_sum
+      (I := s.CommonLabel)
+      (D := fun v => ((s.block v).mask s.mask).powerset)
+      (instD := fun v => inferInstance)
+      (f := fun v D => (s.pieces v D).linearizedCost hDiff (N.left v D) (N.right v D))
+      (g := fun v D => (T v D).finiteCost L L (exceptional v D)
+        (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero)
+      (h := fun v D => (T v D).linearized_le_finiteCost L L (exceptional v D)
+        (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
+        ε Cerror Czero
+        (fun G S T LC RC ex F x => (hsecond Z G S T LC RC ex F x).2)
+        (fun G S T LC RC ex F x => (hsecond Z G S T LC RC ex F x).2))
+  refine ⟨?_, ?_⟩
+  · exact F.cutoff_eq.trans_le
+      (Real.rpow_le_rpow_of_exponent_le F.windows.base_ge_one hq)
+  · exact direct_parent_scalar_bound
+      (energy := pairedStageEnergy centered d a Z t Y₁ Y₂)
+      (w := (s.fiber : ℝ))
+      (zero := s.zeroCost hDiff)
+      (linearCost := s.linearizedCost hDiff N)
+      (tail := Cfirst * X ^ (1 - decay) * s.tailCost sFirst)
+      (firstCost := F.cost ε (Cfirst * Cnum) CfirstZero)
+      (secondCost := R.finiteCost T L exceptional N ε Cerror Czero)
+      (zeroBudget := R.secondZeroBudget T N ε Czero)
+      (tailBudget := R.secondTailBudget T N Cerror)
+      (leaves := ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost)
+      (hw := Nat.cast_nonneg s.fiber)
+      (hparent := hp) (hfirst := ht) (hsecond := hf)
+      (hcost := R.finiteCost_eq_budgets_leaves T L exceptional N ε Cerror Czero)
 
 end HeckeSkeleton.Moments.EngineStep
 
