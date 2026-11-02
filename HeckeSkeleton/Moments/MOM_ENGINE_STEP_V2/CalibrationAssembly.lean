@@ -53,10 +53,10 @@ local notation "d" => CalibrationConstruction.data seed input support side a rec
 
 theorem mask_fixed (ξ : EngineParameter) (u I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (h : maskValue (d ξ) u I.val ≠ 0) : IsCoprime I.val (Arithmetic.data c).cS := by
-  have hout : sexticIdealOutsideS K
+  have hout : HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
       ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) I := by
     by_contra hn
-    change (if ((decide (sexticIdealOutsideS K
+    change (if ((decide (HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
         ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) I ∧
           IsCoprime I.val u.val) && decide (IsCoprime I.val moving.support.val)) &&
         decide (IsCoprime I.val remaining.val)) then (1 : ℂ) else 0) ≠ 0 at h
@@ -85,16 +85,16 @@ theorem slot_in_theta (ξ : EngineParameter) (i : Fin (d ξ).geometry.slotCount)
   exact call.source.source.slot_characters _
 
 variable (atoms : ∀ ξ (h : seed.ordinary.rows.live),
-  ((s.characters h).restrictSlots s.allocation.keep).Calibration
+  (((s).characters h).restrictSlots (s).allocation.keep).Calibration
     (σ := Arithmetic.embedding c) (d ξ) rfl
-    (s.row h).momentIdeal (s.extractedFactor h) (s.row h).element)
+    ((s).row h).momentIdeal ((s).extractedFactor h) ((s).row h).element)
 
 include masks atoms in
 theorem plain_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hv : heckeIdealCoefficient K ((d ξ).plainBackground *
-      (d ξ).rowCharacter (s.row h).momentIdeal) I *
-      maskValue (d ξ) (s.row h).momentIdeal I.val ≠ 0) :
+      (d ξ).rowCharacter ((s).row h).momentIdeal) I *
+      maskValue (d ξ) ((s).row h).momentIdeal I.val ≠ 0) :
     IsCoprime I.val (Arithmetic.data c).cS ∧
       IsCoprime I.val packet.second.physical.first.paidSupport.val := by
   refine ⟨mask_fixed seed input support side a rectangle moving correction hcorr sector
@@ -107,24 +107,24 @@ theorem plain_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (seed.phases.characters true (seed.slotIndex side)).plainTwist
     (seed.phases.characters true (seed.slotIndex side)).mask I *
       actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) I.val
-        (s.extractedFactor h) *
+        ((s).extractedFactor h) *
       actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) I.val
-        (s.row h).element ≠ 0 at hv
+        ((s).row h).element ≠ 0 at hv
   rw [hz, zero_mul, zero_mul] at hv
   exact hv rfl
 
 include masks atoms in
 theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (i : Fin (d ξ).geometry.slotCount) (q : HeightOneSpectrum (𝓞 K))
-    (hv : primeCoefficient K ((d ξ).rowCharacter (s.row h).momentIdeal *
-      (d ξ).slotCoefficient i) q * maskValue (d ξ) (s.row h).momentIdeal q.asIdeal ≠ 0) :
+    (hv : primeCoefficient K ((d ξ).rowCharacter ((s).row h).momentIdeal *
+      (d ξ).slotCoefficient i) q * maskValue (d ξ) ((s).row h).momentIdeal q.asIdeal ≠ 0) :
     IsCoprime q.asIdeal (Arithmetic.data c).cS ∧
       IsCoprime q.asIdeal packet.second.physical.first.paidSupport.val := by
   refine ⟨mask_fixed seed input support side a rectangle moving correction hcorr sector
     remaining ξ _ (CanonicalOriginalPhaseCalibration.primeIdeal q)
       (right_ne_zero_of_mul hv), ?_⟩
   by_contra hn
-  let j := SlotRestriction.index s.allocation.keep i
+  let j := SlotRestriction.index (s).allocation.keep i
   have hz := masks.paid_prime_zero side j q hn
   rw [(atoms ξ h).slot i q] at hv
   change sourcePrimeCoefficient
@@ -132,17 +132,17 @@ theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     ((seed.phases.characters true (seed.slotIndex side)).slotTwist j)
     (seed.phases.characters true (seed.slotIndex side)).mask q *
       actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
-        (s.extractedFactor h) *
+        ((s).extractedFactor h) *
       actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
-        (s.row h).element ≠ 0 at hv
+        ((s).row h).element ≠ 0 at hv
   rw [hz, zero_mul, zero_mul] at hv
   exact hv rfl
 
 include canonical masks atoms in
 theorem left_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
-    EffectivePlainSupport (d ξ) (d ξ).plainTest₁ (s.row h).momentIdeal
-      (s.scale₁ / idealNorm K (s.allocation.plainDivisor 0)) 0
-      s.allocation.childPlain₁ := by
+    EffectivePlainSupport (d ξ) (d ξ).plainTest₁ ((s).row h).momentIdeal
+      ((s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0)) 0
+      (s).allocation.childPlain₁ := by
   intro I hv
   have hp := right_ne_zero_of_mul (left_ne_zero_of_mul hv)
   have hg := plain_gates seed input support masks side a rectangle moving correction hcorr
@@ -150,7 +150,7 @@ theorem left_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
     (mul_ne_zero (left_ne_zero_of_mul (left_ne_zero_of_mul hv)) (right_ne_zero_of_mul hv))
   change (seed.plainProfile input side rectangle false).formula.value ξ
     (idealNorm K I / (seed.occurrences.plainScale side rectangle false /
-      idealNorm K (s.allocation.plainDivisor 0))) ≠ 0 at hp
+      idealNorm K ((s).allocation.plainDivisor 0))) ≠ 0 at hp
   rw [← canonical.plain side rectangle false] at hp
   have hs := (support.scale_eq side rectangle false).trans
     (seed.plain_scales side rectangle false)
@@ -161,9 +161,9 @@ theorem left_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
 
 include canonical masks atoms in
 theorem right_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
-    EffectivePlainSupport (d ξ) (d ξ).plainTest₂ (s.row h).momentIdeal
-      (s.scale₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0))) 0
-      s.allocation.childPlain₂ := by
+    EffectivePlainSupport (d ξ) (d ξ).plainTest₂ ((s).row h).momentIdeal
+      ((s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0))) 0
+      (s).allocation.childPlain₂ := by
   intro I hv
   have hp := right_ne_zero_of_mul (left_ne_zero_of_mul hv)
   have hg := plain_gates seed input support masks side a rectangle moving correction hcorr
@@ -171,7 +171,7 @@ theorem right_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
     (mul_ne_zero (left_ne_zero_of_mul (left_ne_zero_of_mul hv)) (right_ne_zero_of_mul hv))
   change (seed.plainProfile input side rectangle true).formula.value ξ
     (idealNorm K I / (seed.occurrences.plainScale side rectangle true /
-      idealNorm K (s.allocation.plainDivisor (Fin.succ 0)))) ≠ 0 at hp
+      idealNorm K ((s).allocation.plainDivisor (Fin.succ 0)))) ≠ 0 at hp
   rw [← canonical.plain side rectangle true] at hp
   have hs := (support.scale_eq side rectangle true).trans
     (seed.plain_scales side rectangle true)
@@ -183,14 +183,14 @@ theorem right_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
 include canonical masks atoms in
 theorem slot_support (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (i : Fin (d ξ).geometry.slotCount) :
-    EffectivePrimeSupport (d ξ) i (s.row h).momentIdeal s.base 0
-      (s.allocation.childSlots i) := by
+    EffectivePrimeSupport (d ξ) i ((s).row h).momentIdeal (s).base 0
+      ((s).allocation.childSlots i) := by
   intro q hv
   have hp := right_ne_zero_of_mul (left_ne_zero_of_mul hv)
   have hg := prime_gates seed input support masks side a rectangle moving correction hcorr
     sector remaining atoms ξ h i q
     (mul_ne_zero (left_ne_zero_of_mul (left_ne_zero_of_mul hv)) (right_ne_zero_of_mul hv))
-  let j := SlotRestriction.index s.allocation.keep i
+  let j := SlotRestriction.index (s).allocation.keep i
   change (seed.primeProfile input side j).formula.value ξ
     ((Ideal.absNorm q.asIdeal : ℝ) /
       call.base ^ (call.node.data.geometry.slots (seed.slotIndex side j)).length) ≠ 0 at hp
@@ -199,16 +199,16 @@ theorem slot_support (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     packet.second.physical.first.paidSupport seed.ordinary.passiveMask a i ξ q hp hg.1 hg.2
 
 variable (parameters : RealParameters)
-variable (left_scale : s.base ^ parameters.n₁ =
-  s.scale₁ / idealNorm K (s.allocation.plainDivisor 0))
-variable (right_scale : s.base ^ parameters.n₂ =
-  s.scale₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0)))
-variable (slot_sum : parameters.z = ∑ i, s.childLength i)
-variable (cutoff : ∀ h ∈ s.rows, (Arithmetic.data c).exteriorNorm (s.originalIdeal h) ≤
-  s.normFactor h * s.base ^ (parameters.m + parameters.q))
-variable (ordinary : ∀ h ∈ s.rows, (d 0).rowCharacter (s.row h).momentIdeal ∉ call.node.data.theta)
+variable (left_scale : (s).base ^ parameters.n₁ =
+  (s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0))
+variable (right_scale : (s).base ^ parameters.n₂ =
+  (s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0)))
+variable (slot_sum : parameters.z = ∑ i, (s).childLength i)
+variable (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).originalIdeal h) ≤
+  (s).normFactor h * (s).base ^ (parameters.m + parameters.q))
+variable (ordinary : ∀ h ∈ (s).rows, (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
 
-def calibration : s.Calibration (σ := Arithmetic.embedding c)
+def calibration : (s).Calibration (σ := Arithmetic.embedding c)
     c.family.omega (targetCharacter K c) where
   data := d
   parameters := parameters

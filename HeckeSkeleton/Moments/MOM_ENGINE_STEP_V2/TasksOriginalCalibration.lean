@@ -17,8 +17,17 @@ theorem original_calibration (c : TargetContext K) (p : SourceParameters c) :
   intro call input packet hpacket seed support canonical masks
   refine ⟨CanonicalCalibration.family seed input support hpacket canonical masks, ?_⟩
   intro side a rectangle
+  let profiles := CanonicalCalibration.dictionary seed input support hpacket canonical masks
+    side a rectangle
   exact {
-    data := CanonicalCalibration.data_eq seed input support hpacket canonical masks side a rectangle
+    inverse_background := fun _ => rfl
+    direction := fun _ => rfl
+    row_character := fun _ _ => rfl
+    inverse_profile := profiles.inverse_eq
+    left_profile := profiles.left_eq
+    right_profile := profiles.right_eq
+    prime_profile := profiles.prime_eq
+    slot_coefficient := fun _ _ => rfl
     parameters := CanonicalCalibration.parameters_eq seed input support hpacket canonical masks
       side a rectangle
     height := CanonicalCalibration.height_eq seed input support hpacket canonical masks side a rectangle
@@ -28,7 +37,7 @@ theorem original_calibration (c : TargetContext K) (p : SourceParameters c) :
     remaining := CanonicalCalibration.remaining_eq seed input support hpacket canonical masks
       side a rectangle
     sector := CanonicalCalibration.sector_eq seed input support hpacket canonical masks side a rectangle
-    original_slots := rfl
+    original_slots := fun _ => rfl
     norm_left := rfl
     norm_right := rfl
     allowed_exact := CanonicalCalibration.allowed_exact seed input support hpacket canonical masks

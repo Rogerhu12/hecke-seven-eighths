@@ -68,7 +68,6 @@ theorem error_prime_mem_fullDeletion (expansion : PoolExpansion family)
       have hq : q'.val.val = q := by
         have hh := ht.symm.trans htag
         injection hh with _ hq
-        exact hq
       rw [hd, ← hq]
       exact Finset.mem_union_right _ (Finset.mem_singleton_self _)
 
@@ -114,12 +113,15 @@ theorem poolPassiveIdeal_dvd_deletion (P : OriginalPhaseData packet)
       Finset.dvd_prod_of_mem (fun I : Ideal (𝓞 K) => I) hmem
     simp only [poolPassiveIdeal, hp]
     cases e with
-    | one => simp [CanonicalLiteralPassivePhases.passiveIdeal,
-        CanonicalLiteralPassivePhases.passiveExponent, powerIdeal]
-    | six => simpa only [CanonicalLiteralPassivePhases.passiveIdeal,
-        CanonicalLiteralPassivePhases.passiveExponent, powerIdeal, pow_one] using hdiv
-    | seven => simp [CanonicalLiteralPassivePhases.passiveIdeal,
-        CanonicalLiteralPassivePhases.passiveExponent, powerIdeal]
+    | one =>
+      change (q.val.asIdeal ^ 0) ∣ P.deletionIdeal.val
+      simp only [pow_zero, one_dvd]
+    | six =>
+      change (q.val.asIdeal ^ 1) ∣ P.deletionIdeal.val
+      simpa only [pow_one] using hdiv
+    | seven =>
+      change (q.val.asIdeal ^ 0) ∣ P.deletionIdeal.val
+      simp only [pow_zero, one_dvd]
 
 end PassivePhaseBridge
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

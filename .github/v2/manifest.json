@@ -97,6 +97,7 @@
         "CalibrationRows",
         "CalibrationSupport",
         "CanonicalCalibration",
+        "CanonicalCalibrationData",
         "PassiveBounds",
         "PassiveCanonicalAtoms",
         "PassiveCanonicalProfiles",

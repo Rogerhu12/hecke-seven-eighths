@@ -26,7 +26,7 @@ open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
 
 variable {K : Type} [Field K] [NumberField K]
-variable {A : SArithmeticData K} {σ : K →+* ℂ} {H : Type*} {k : ℕ}
+variable {A : DedekindZetaZeroFree.SArithmeticData K} {σ : K →+* ℂ} {H : Type*} {k : ℕ}
 
 variable (s : ActualAllocatedSource A EngineParameter H k)
 

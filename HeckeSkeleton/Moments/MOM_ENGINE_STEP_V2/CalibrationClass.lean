@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassivePhaseBridge
 
@@ -97,7 +98,7 @@ private theorem expansion_poolMoving (expansion : PoolExpansion family)
       | some eq =>
         rcases eq with ⟨e, q⟩
         have ht : (family.source i).first.tag = .error e q.val := by
-          simpa only [hc] using htag
+          simpa only [hc, PoolExpansion.source] using htag
         rw [hfamily.tag i] at ht
         cases ht
     simp only [PoolExpansion.poolMoving, hp, unpaidPoolMoving]
@@ -114,7 +115,7 @@ private theorem expansion_poolMoving (expansion : PoolExpansion family)
         | some eq =>
           rcases eq with ⟨e, q⟩
           have ht : (source i).first.tag = .error e q.val := by
-            simpa only [hc] using htag
+            simpa only [hc, PoolExpansion.source] using htag
           rw [hfirst] at ht
           cases ht
       simp only [PoolExpansion.poolMoving, hindex, hp, unpaidPoolMoving]
@@ -126,13 +127,13 @@ private theorem expansion_poolMoving (expansion : PoolExpansion family)
       cases hc : poolChoice with
       | none =>
         have hh : (source i).first.tag = .direct ∨ (source i).first.tag = .main := by
-          simpa only [hc] using htag
+          simpa only [hc, PoolExpansion.source] using htag
         rw [ht] at hh
         rcases hh with hh | hh <;> cases hh
       | some eq =>
         rcases eq with ⟨e', q'⟩
         have hh : (source i).first.tag = .error e' q'.val := by
-          simpa only [hc] using htag
+          simpa only [hc, PoolExpansion.source] using htag
         have hsame := ht.symm.trans hh
         injection hsame with heq hq
         have hq' : q.val = q' := Subtype.ext hq
@@ -160,21 +161,6 @@ private theorem expansion_moving (expansion : PoolExpansion family)
 end SourceMoving
 
 variable (packet : RawLeafPacket call p)
-
-/-- The empty class has no later row obligation. In a nonempty class,
-both fixed values below are taken from an actual original live row. -/
-def pattern : Fin packet.block.primeCount → Bool :=
-  if h : Nonempty packet.R.live then
-    actualNonunitPattern (Arithmetic.context c) packet.R.primes
-      packet.R.leftMultiplicity packet.R.rightMultiplicity
-      (packet.R.frequency (Classical.choice h).val)
-  else fun _ => false
-
-def sector : SixthUnitClasses K
-    ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) :=
-  if h : Nonempty packet.R.live then
-    (packet.R.extractedRow (Arithmetic.context c) (Classical.choice h)).sector (probeData K c)
-  else 1
 
 private theorem secondRealizes (hpacket : packet.Realizes) : packet.second.Realizes := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩
@@ -256,6 +242,7 @@ def rowCharacter (P : OriginalPhaseData packet) (h : packet.R.live) : HeckeChara
       (probeData K c) (momentRowCharacters K c) (sector packet)
         (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal
 
+set_option maxHeartbeats 1000000 in
 /-- The original exceptional predicate and the paid child use exactly
 the same finite character on every genuine live row. -/
 theorem exceptional_iff (P : OriginalPhaseData packet)
@@ -277,7 +264,16 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
     exact P.pool_tag
   have hm : trace.expansion.moving i = P.moving false := by
     have he := expansion_moving trace.expansion htrace.cauchy htrace.expansion i hn P.pool ht
-    simpa only [← hphysical] using he
+    have hpool : unpaidPoolMoving P.pool = P.poolMoving false := by
+      cases hp : P.pool with
+      | none =>
+        simp only [unpaidPoolMoving, OriginalPhaseData.poolMoving, hp]
+      | some qe =>
+        rcases qe with ⟨e, q⟩
+        simp only [unpaidPoolMoving, OriginalPhaseData.poolMoving, hp,
+          Bool.false_eq_true, ite_false]
+    simpa only [← hphysical, OriginalPhaseData.moving,
+      OriginalPhaseData.firstMoving, ← hpool] using he
   change (trace.second.source i).rowCharacter (expansion := trace.expansion) i
       (raw.packet j).key.1 (raw.packet j).key.2.1
       (SourceClassKey.rowLabel (raw.packet j).key) h.val ∈ call.node.data.theta ↔ _
@@ -305,8 +301,12 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
 theorem ordinary_nonexceptional (seed : OrdinarySeed packet)
     (hpacket : packet.Realizes) (h : seed.ordinary.rows.live) :
     rowCharacter seed.phases (seed.ordinary.originalLiveRow h) ∉ call.node.data.theta := by
+  have hrestricted : ∀ (predicate : Arithmetic.Orbit c → Prop)
+      (row : (packet.R.restrictRows predicate).live), predicate row.val := by
+    intro predicate row
+    exact (Finset.mem_filter.mp (Finset.mem_filter.mp row.property).1).2
   have hn : ¬packet.leaf.exceptional h.val :=
-    (Finset.mem_filter.mp (Finset.mem_filter.mp h.property).1).2
+    hrestricted (fun row => ¬packet.leaf.exceptional row) h
   exact fun hm => hn ((exceptional_iff seed.phases hpacket
     (seed.ordinary.originalLiveRow h)).mpr hm)
 

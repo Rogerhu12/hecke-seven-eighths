@@ -43,12 +43,24 @@ theorem ordinary_le_sum_rectangles (O : OrdinaryData packet) (z : ℝ × ℝ) :
       ∑ r : Bool, ∑ s : Bool,
         Real.sqrt (O.rectangleEnergy false r (WithLp.toLp 2 z)) *
           Real.sqrt (O.rectangleEnergy true s (WithLp.toLp 2 z)) := by
+  have hbool (L R : Bool → ℝ) :
+      (∑ r : Bool, ∑ s : Bool, L r * R s) =
+        L false * R false + L false * R true +
+          L true * R false + L true * R true := by
+    simp only [Fintype.sum_bool]
+    ring
   have hbinding : packet.leaf.ordinaryIntegrand z =
       O.rectangles.originalIntegrand (WithLp.toLp 2 z) :=
     O.binding.ordinaryIntegrand_eq z
   rw [hbinding]
-  simpa [rectangleEnergy, Fintype.sum_bool, add_comm, add_left_comm, add_assoc] using
-    O.rectangles.ordinary_le_rectangles (Arithmetic.context c) (WithLp.toLp 2 z)
+  change O.rectangles.originalIntegrand (WithLp.toLp 2 z) ≤
+    ∑ r : Bool, ∑ s : Bool,
+      Real.sqrt ((O.leftFrame r).energy (WithLp.toLp 2 z)) *
+        Real.sqrt ((O.rightFrame s).energy (WithLp.toLp 2 z))
+  exact (O.rectangles.ordinary_le_rectangles
+    (Arithmetic.context c) (WithLp.toLp 2 z)).trans_eq
+      (hbool (fun r => Real.sqrt ((O.leftFrame r).energy (WithLp.toLp 2 z)))
+        (fun s => Real.sqrt ((O.rightFrame s).energy (WithLp.toLp 2 z)))).symm
 
 end OrdinaryData
 

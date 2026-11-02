@@ -81,7 +81,7 @@ end PassiveAllocation
 
 namespace PassiveSource
 
-variable {A : SArithmeticData K} {σ : K →+* ℂ} {H : Type*}
+variable {A : DedekindZetaZeroFree.SArithmeticData K} {σ : K →+* ℂ} {H : Type*}
 variable (s : ActualAllocatedSource A EngineParameter H k)
 
 /-- The exact child carrier of the old second allocation, prior to

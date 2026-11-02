@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationPhases
@@ -37,17 +38,6 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 variable (seed : OrdinarySeed packet) (input : ProfileInput call)
-
-/-- One shape works for every original branch, side and rectangle. -/
-def shape : ProfileShape where
-  dilationLower := 1
-  dilationUpper := 1
-  dilationLower_pos := zero_lt_one
-  dilation_interval := le_rfl
-  powerBound := 1
-  powerBound_nonneg := zero_le_one
-  phaseBound := 1
-  phaseBound_nonneg := zero_le_one
 
 theorem profile_bounded (kind : ParentProfileKind call) (side : Bool)
     (scale : ℝ) (absent : Bool) :

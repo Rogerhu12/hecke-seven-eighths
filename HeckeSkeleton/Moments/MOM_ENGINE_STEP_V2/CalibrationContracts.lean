@@ -1,6 +1,5 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationParameters
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationClass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RefinementContracts
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -24,6 +23,7 @@ open EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical
 
 attribute [local instance]
   sourcePrincipal sourceNormOneSpace sourceNormOneBorel
@@ -42,8 +42,40 @@ structure OriginalCalibrationSpec (seed : OrdinarySeed packet) (input : ProfileI
     (support : seed.ordinary.PassiveSupport input) (side : Bool)
     (a : support.labels side) (rectangle : Bool)
     (D : OriginalCalibration call (seed.canonicalSource input support side a rectangle)) : Prop where
-  data : D.calibration.data = CalibrationAtoms.data seed input support side a rectangle
-    (CalibrationClass.pattern packet) (CalibrationClass.sector packet)
+  inverse_background : ∀ ξ,
+    (D.calibration.data ξ).inverseBackground = call.node.data.inverseBackground
+  direction : ∀ ξ,
+    (D.calibration.data ξ).direction = call.node.data.direction
+  row_character : ∀ ξ u,
+    (D.calibration.data ξ).rowCharacter u =
+      CalibrationAtoms.correction seed *
+        (CalibrationAtoms.moving seed (CalibrationClass.pattern packet)).character *
+        completeIdealRowCharacter K
+          ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+          (probeData K c) (momentRowCharacters K c)
+          (CalibrationClass.sector packet) u
+  inverse_profile : ∀ ξ u t x,
+    (D.calibration.data ξ).inverseTest.profile u t x =
+      (seed.inverseProfile input).formula.value ξ x
+  left_profile : ∀ ξ u t x,
+    (D.calibration.data ξ).plainTest₁.profile u t x =
+      (seed.plainProfile input side rectangle false).formula.value ξ x
+  right_profile : ∀ ξ u t x,
+    (D.calibration.data ξ).plainTest₂.profile u t x =
+      (seed.plainProfile input side rectangle true).formula.value ξ x
+  prime_profile : ∀ ξ (i : Fin (D.calibration.data ξ).geometry.slotCount) t x,
+    ((D.calibration.data ξ).geometry.slots i).profile t x =
+      (seed.primeProfile input side
+        (SlotRestriction.index
+          (seed.canonicalSource input support side a rectangle).allocation.keep
+          (Fin.cast (D.calibration.count ξ) i))).formula.value ξ x
+  slot_coefficient : ∀ ξ (i : Fin (D.calibration.data ξ).geometry.slotCount),
+    (D.calibration.data ξ).slotCoefficient i =
+      call.node.data.slotCoefficient
+        (seed.slotIndex side
+          (SlotRestriction.index
+            (seed.canonicalSource input support side a rectangle).allocation.keep
+            (Fin.cast (D.calibration.count ξ) i)))
   parameters : D.calibration.parameters =
     CalibrationParameters.parameters seed input support side a rectangle
   height : ∀ ξ, D.calibration.height ξ = 0
@@ -51,7 +83,7 @@ structure OriginalCalibrationSpec (seed : OrdinarySeed packet) (input : ProfileI
   correction : D.recipe.correction = CalibrationAtoms.correction seed
   remaining : D.recipe.remaining = CalibrationAtoms.remaining seed
   sector : D.recipe.sector = fun _ => CalibrationClass.sector packet
-  original_slots : D.originalSlots.index = ⟨seed.slotIndex side, seed.slotIndex_injective side⟩
+  original_slots : ∀ i, D.originalSlots.index i = seed.slotIndex side i
   norm_left : D.normProfiles.left =
     fun ξ _ => (seed.plainProfile input side rectangle false).formula.value ξ
   norm_right : D.normProfiles.right =

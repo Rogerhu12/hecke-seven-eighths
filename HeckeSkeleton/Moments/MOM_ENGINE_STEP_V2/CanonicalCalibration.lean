@@ -51,7 +51,7 @@ abbrev data : EngineParameter → MomentData K c.family.omega (targetCharacter K
 
 include hpacket in
 theorem ordinary (h : seed.ordinary.rows.live) :
-    (data seed input support side a rectangle 0).rowCharacter (s.row h).momentIdeal ∉
+    (data seed input support side a rectangle 0).rowCharacter ((s).row h).momentIdeal ∉
       call.node.data.theta := by
   change call.localizedSource.source.recipe.correction *
       ((seed.phases.moving true).append
@@ -121,7 +121,7 @@ def dictionary :
 
 theorem allowed_exact (ξ : EngineParameter) (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((original seed input support hpacket canonical masks side a rectangle).calibration.data ξ).allowedRow u ↔
-      ∃ h ∈ s.rows, (s.row h).momentIdeal = u :=
+      ∃ h ∈ (s).rows, ((s).row h).momentIdeal = u :=
   CalibrationConstruction.allowed_exact seed input support side a rectangle
     (CalibrationAtoms.moving seed pattern) (CalibrationAtoms.correction seed)
     (Or.inr (CalibrationAtoms.correction_mem seed)) (fun _ => ν)

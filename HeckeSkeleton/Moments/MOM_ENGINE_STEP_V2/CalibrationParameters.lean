@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalSupport
 
@@ -35,20 +36,10 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable (packet : RawLeafPacket call p)
 
-def rootLength : ℝ :=
-  idealLogLength call.base
-    (secondSixthRootIdeal packet.R.primes packet.R.leftMultiplicity packet.R.rightMultiplicity).val
-
 theorem rootLength_nonneg : 0 ≤ rootLength packet :=
   idealLogLength_nonneg call.base call.domain.scale _
     (secondSixthRootIdeal packet.R.primes packet.R.leftMultiplicity
       packet.R.rightMultiplicity).property.1
-
-def rowExponent (side : Bool) : ℝ :=
-  (packet.nominal side).skeleton.nominalRow + 12 * p.loss
-
-def supportExponent (side : Bool) : ℝ :=
-  (packet.nominal side).skeleton.nominalSupport + 4 * p.loss + rootLength packet
 
 theorem supportExponent_nonneg (hpacket : packet.Realizes) (side : Bool) :
     0 ≤ supportExponent packet side :=
@@ -61,15 +52,6 @@ variable (side : Bool) (a : support.labels side) (rectangle : Bool)
 
 local notation "s" => seed.canonicalSource input support side a rectangle
 
-def parameters : RealParameters :=
-  { call.node.parameters with
-    m := rowExponent packet side
-    q := supportExponent packet side
-    n₁ := Real.log (s.scale₁ / idealNorm K (s.allocation.plainDivisor 0)) / Real.log s.base
-    n₂ := Real.log (s.scale₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0))) /
-      Real.log s.base
-    z := ∑ i, s.childLength i }
-
 private theorem rpow_log_ratio (Z scale : ℝ) (hZ : 1 < Z) (hscale : 0 < scale) :
     Z ^ (Real.log scale / Real.log Z) = scale := by
   rw [Real.rpow_def_of_pos (zero_lt_one.trans hZ)]
@@ -77,24 +59,24 @@ private theorem rpow_log_ratio (Z scale : ℝ) (hZ : 1 < Z) (hscale : 0 < scale)
     rw [mul_comm, div_mul_cancel₀ _ (Real.log_pos hZ).ne']
   rw [he, Real.exp_log hscale]
 
-theorem left_scale : s.base ^ (parameters seed input support side a rectangle).n₁ =
-    s.scale₁ / idealNorm K (s.allocation.plainDivisor 0) :=
-  rpow_log_ratio s.base _ s.base_gt_one
+theorem left_scale : (s).base ^ (parameters seed input support side a rectangle).n₁ =
+    (s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0) :=
+  rpow_log_ratio (s).base _ (s).base_gt_one
     (div_pos (seed.occurrences.plainScale_pos side rectangle false) (idealNorm_pos K _))
 
-theorem right_scale : s.base ^ (parameters seed input support side a rectangle).n₂ =
-    s.scale₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0)) :=
-  rpow_log_ratio s.base _ s.base_gt_one
+theorem right_scale : (s).base ^ (parameters seed input support side a rectangle).n₂ =
+    (s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0)) :=
+  rpow_log_ratio (s).base _ (s).base_gt_one
     (div_pos (seed.occurrences.plainScale_pos side rectangle true) (idealNorm_pos K _))
 
 theorem slot_sum : (parameters seed input support side a rectangle).z =
-    ∑ i, s.childLength i := rfl
+    ∑ i, (s).childLength i := rfl
 
 theorem kappa : (parameters seed input support side a rectangle).κ = call.node.parameters.κ := rfl
 
 theorem cutoff (hpacket : packet.Realizes) (h : seed.ordinary.rows.live) :
-    (Arithmetic.data c).exteriorNorm (s.originalIdeal h) ≤ s.normFactor h *
-      s.base ^ ((parameters seed input support side a rectangle).m +
+    (Arithmetic.data c).exteriorNorm ((s).originalIdeal h) ≤ (s).normFactor h *
+      (s).base ^ ((parameters seed input support side a rectangle).m +
         (parameters seed input support side a rectangle).q) :=
   seed.canonicalSource_cutoff input support hpacket side a rectangle
     (supportExponent packet side) (supportExponent_nonneg packet hpacket side) h
