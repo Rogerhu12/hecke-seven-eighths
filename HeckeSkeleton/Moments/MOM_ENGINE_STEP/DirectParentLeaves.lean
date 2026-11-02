@@ -108,7 +108,7 @@ abbrev coveredLeafKeyFintype
     (fun v D S χ => inferInstance)
     (fun v D S χ => inferInstance)
 
-attribute [instance] coveredLeafKeyFintype
+attribute [local instance] coveredLeafKeyFintype
 
 def parentLeaf (L : SourceCartesianAtlas s.columns s.ideal)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
