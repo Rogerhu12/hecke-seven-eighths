@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRawAtomFormula
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bAtomComparison
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bWholeBinding
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalOriginalLabel
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -35,6 +36,23 @@ attribute [local instance]
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
+
+private theorem t3b_allocated_mem_cartesian {k : ℕ} (D : Ideal (𝓞 K))
+    (v : HeckePort.IdealMobiusDivisorSum.primeSupport D → Finset (Fin (k + 2)))
+    (S₁ S₂ : Finset (Ideal (𝓞 K)))
+    (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
+    (i : AllocationColumn K k)
+    (hi : i ∈ pairedAllocatedColumns D v S₁ S₂ S id id HeightOneSpectrum.asIdeal) :
+    i ∈ childCartesianColumns S₁ S₂ S := by
+  rw [paired_allocated_columns_eq_filter] at hi
+  exact (Finset.mem_filter.mp hi).1
+
+private theorem t3b_whole_of_terms {k : ℕ} (d : OrdinaryAtomTable (K := K) k)
+    (i : AllocationColumn K k) {a b z : ℂ}
+    (h₀ : d.term false i = a) (h₁ : d.term true i = b) (hz : z = a - b) :
+    d.whole i = z := by
+  change d.term false i - d.term true i = z
+  exact (congrArg₂ (fun x y : ℂ => x - y) h₀ h₁).trans hz.symm
 
 namespace RawLeafPacket
 
@@ -91,33 +109,31 @@ def t3bRightComparison :
 
 theorem t3b_left_cartesian (i : AllocationColumn K packet.leaf.leftSlots)
     (hi : i ∈ packet.leaf.left) : i ∈ packet.leftReindex.cartesian := by
-  change i ∈ pairedAllocatedColumns _ _ _ _ _ id id HeightOneSpectrum.asIdeal at hi
-  rw [paired_allocated_columns_eq_filter] at hi
-  exact (Finset.mem_filter.mp hi).1
+  exact t3b_allocated_mem_cartesian packet.allocation.1.val packet.allocation.2.2.1.val
+    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots i hi
 
 theorem t3b_right_cartesian (i : AllocationColumn K packet.leaf.rightSlots)
     (hi : i ∈ packet.leaf.right) : i ∈ packet.rightReindex.cartesian := by
-  change i ∈ pairedAllocatedColumns _ _ _ _ _ id id HeightOneSpectrum.asIdeal at hi
-  rw [paired_allocated_columns_eq_filter] at hi
-  exact (Finset.mem_filter.mp hi).1
+  exact t3b_allocated_mem_cartesian packet.allocation.1.val packet.allocation.2.2.2.val
+    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots i hi
 
 theorem t3b_left_whole (i : AllocationColumn K packet.leaf.leftSlots)
     (hi : i ∈ packet.leftReindex.cartesian) :
     (packet.beforeAtomTable hpacket phases false).whole i = packet.leftWhole i := by
-  rw [OrdinaryAtomTable.whole,
-    packet.beforeAtomTable_left hpacket phases false i hi,
-    packet.beforeAtomTable_left hpacket phases true i hi]
-  exact (packet.leftWhole_eq_rectangle_sub hpacket i
-    (packet.realizes_coefficient hpacket _)).symm
+  exact t3b_whole_of_terms (packet.beforeAtomTable hpacket phases false) i
+    (packet.beforeAtomTable_left hpacket phases false i hi)
+    (packet.beforeAtomTable_left hpacket phases true i hi)
+    (packet.leftWhole_eq_rectangle_sub hpacket i
+      (packet.realizes_coefficient hpacket _))
 
 theorem t3b_right_whole (i : AllocationColumn K packet.leaf.rightSlots)
     (hi : i ∈ packet.rightReindex.cartesian) :
     (packet.beforeAtomTable hpacket phases true).whole i = packet.rightWhole i := by
-  rw [OrdinaryAtomTable.whole,
-    packet.beforeAtomTable_right hpacket phases false i hi,
-    packet.beforeAtomTable_right hpacket phases true i hi]
-  exact (packet.rightWhole_eq_rectangle_sub hpacket i
-    (packet.realizes_coefficient hpacket _)).symm
+  exact t3b_whole_of_terms (packet.beforeAtomTable hpacket phases true) i
+    (packet.beforeAtomTable_right hpacket phases false i hi)
+    (packet.beforeAtomTable_right hpacket phases true i hi)
+    (packet.rightWhole_eq_rectangle_sub hpacket i
+      (packet.realizes_coefficient hpacket _))
 
 /-- The complete left subtraction, followed by its original residual
 character, is the stored leaf coefficient on every row. -/
@@ -129,8 +145,8 @@ theorem t3b_left_coefficient (h : Arithmetic.Orbit c)
   let d := packet.beforeAtomTable hpacket phases false
   change packet.leaf.leftCoefficient h i =
     (d.t3bComparison (SecondColumnSide.left.phase PUnit.{1} packet.allocation.2.1)
-      packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots).
-      centeredCoefficient (Real.sqrt d.gauss₁ : ℂ)⁻¹
+      packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots).centeredCoefficient
+        (Real.sqrt d.gauss₁ : ℂ)⁻¹
         (Real.sqrt d.gauss₂ : ℂ)⁻¹ (fun j => (Real.sqrt (d.gaussSlot j) : ℂ)⁻¹) i *
       (fixedLeftPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ) *
       Arithmetic.embedding c ((Arithmetic.data c).sexticResidue
@@ -149,8 +165,8 @@ theorem t3b_right_coefficient (h : Arithmetic.Orbit c)
   let d := packet.beforeAtomTable hpacket phases true
   change star (packet.leaf.rightCoefficient h i) = star (
     (d.t3bComparison (SecondColumnSide.right.phase PUnit.{1} packet.allocation.2.1)
-      packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots).
-      centeredCoefficient (Real.sqrt d.gauss₁ : ℂ)⁻¹
+      packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots).centeredCoefficient
+        (Real.sqrt d.gauss₁ : ℂ)⁻¹
         (Real.sqrt d.gauss₂ : ℂ)⁻¹ (fun j => (Real.sqrt (d.gaussSlot j) : ℂ)⁻¹) i *
       (fixedRightPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ) *
       Arithmetic.embedding c ((Arithmetic.data c).sexticResidue

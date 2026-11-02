@@ -186,6 +186,34 @@ The two T3 tasks and four fresh audits remain unaccepted at this stage.
 ValuationAtomCharacters, FirstColumnBounds and ScaleCompensation were not
 reached by R6 and are still candidate proofs awaiting the task's own CI.
 
+At T3 head `317d293da0da1b7b1d0bb05af80e133849606f54`, the original
+Geometry blob `6d79603725051e8786cf0844a6949fe9c0049736` built in 31s/25s
+and RawAtomFormula blob `534c121331721881e4d38c7feaf9ac16764458f1` built
+in 71s/83s in the public/strict gates. Their four printed theorem dependencies
+were all standard. Both complete official logs and strict artifact
+`13178527782` were read, with all 183 source and 10 configuration hashes
+matching the exact head. The archive SHA256 is
+`e511d3a07ab7766e7cd3e01350105987cda57a55d662909c96f2c38b3469efa3`.
+The build exited 1 on newly reached proof files, with no watchdog kill or
+monitor error and no fresh audit yet.
+
+The next proof repair uses the independently reviewed SourceSupport candidate
+`256b7dbb0c1ce4f4fdf0d65d4d25d5c8e7d43a10` and AtomFrames candidate
+`a6010c0ccab45d69e83d49b1882316fb4064ccaa`, both based on that exact head.
+SourceSupport directly extracts nonzero factors and composes the two original
+atom equations at their identical cast. AtomFrames factors allocation
+membership and whole subtraction into private shallow proofs, imports the
+existing base ExceptionalOriginalLabel definition, and repairs two field
+notation line breaks. The allocation helper's parameter shape matches N1
+R21 `c50de627c4ad94e4bc01a4c62ea5ffcc067cfde5`, whose OrdinaryFromAtoms
+built in 183s in its successful supplemental gate; the private helper and
+both public membership theorems passed its fresh recursive audit.
+OrbitFibreUniform proves the existing real addition inequality directly,
+without relying on the ambiguous add_le_add_right argument order.
+Public statements, original computational definitions, the 97-module scope,
+four fresh audits, and all verification budgets remain unchanged. These T3
+repairs still require their own exact-head CI and full recursive audit.
+
 ## N4 frozen ideals and scale identities
 
 Initially reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`:

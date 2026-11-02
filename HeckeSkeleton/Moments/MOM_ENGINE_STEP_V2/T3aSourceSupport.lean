@@ -88,20 +88,18 @@ theorem exceptional_nonzero_left_rectangle (hpacket : packet.Realizes) :
     ∃ x ∈ packet.leftReindex.cartesian, ∃ rectangle : Bool,
       packet.originalLeftRectangle rectangle x ≠ 0 := by
   obtain ⟨h, hh, x, hx, hc⟩ := packet.live.2.1
-  have hwhole : packet.leftWhole x ≠ 0 := by
-    intro hz
-    apply hc
-    change packet.leftWhole x * _ * _ = 0
-    rw [hz, zero_mul, zero_mul]
+  have hwhole : packet.leftWhole x ≠ 0 :=
+    (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hc).1).1
   have hx' : x ∈ packet.leftReindex.cartesian :=
     packet.ordinaryAllocation.val.leftColumns_subset hx
-  rw [packet.leftWhole_eq_rectangle_sub hpacket x
-    (packet.realizes_coefficient hpacket (packet.leftReindex.index x))] at hwhole
+  have hsplit := packet.leftWhole_eq_rectangle_sub hpacket x
+    (packet.realizes_coefficient hpacket (packet.leftReindex.index x))
   refine ⟨x, hx', ?_⟩
   by_cases hfalse : packet.originalLeftRectangle false x = 0
   · refine ⟨true, ?_⟩
     intro htrue
-    exact hwhole (by rw [hfalse, htrue, sub_self])
+    exact hwhole (hsplit.trans
+      ((congrArg₂ (fun a b : ℂ => a - b) hfalse htrue).trans (sub_self 0)))
   · exact ⟨false, hfalse⟩
 
 /-- The nonzero rectangle is inspected before the second common
@@ -117,12 +115,16 @@ theorem exceptional_moving_support_coprime (hpacket : packet.Realizes)
   let y := (packet.secondBranch false).reconstruct x
   have hterm : (packet.firstAtomTable hpacket phases false).term rectangle y ≠ 0 := by
     intro hz
-    apply hrectangle
-    rw [← packet.beforeAtomTable_left hpacket phases rectangle x hx,
-      ← packet.beforeAtomTable_term hpacket phases false rectangle x hx']
-    change packet.firstExternalScalar false *
-      (packet.firstAtomTable hpacket phases false).term rectangle y = 0
-    rw [hz, mul_zero]
+    have htable : packet.firstExternalScalar false *
+        (packet.firstAtomTable hpacket phases false).term rectangle y =
+        packet.originalLeftRectangle rectangle x :=
+      (packet.beforeAtomTable_term hpacket phases false rectangle x hx').trans
+        (packet.beforeAtomTable_eq_originalRectangle hpacket phases false rectangle x hx')
+    have hzero : packet.firstExternalScalar false *
+        (packet.firstAtomTable hpacket phases false).term rectangle y = 0 :=
+      (congrArg (fun z : ℂ => packet.firstExternalScalar false * z) hz).trans
+        (mul_zero _)
+    exact hrectangle (htable.symm.trans hzero)
   have hideal :
       (packet.second.physical.source.ideal (packet.leftReindex.index x)).val =
         allocationColumnIdeal y :=

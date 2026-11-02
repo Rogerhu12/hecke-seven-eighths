@@ -135,7 +135,7 @@ theorem t3bOrbitFibreAllowance_le_constant (expansion : PoolExpansion family)
         (P.data (index i).1).multiplicity ≤
             (T3b.firstRowExponentBound c p + 6 * (recipeInductionSigma c / 3)) /
               ((recipeInductionSigma c / 3) / 2) :=
-          div_le_div_of_nonneg_right (add_le_add_right hr _) hs
+          div_le_div_of_nonneg_right (by linarith only [hr]) hs
         _ ≤ _ := le_max_right _ _
     | inr qe => exact T3b.physicalOrbitFibreConstant_one_le
 
