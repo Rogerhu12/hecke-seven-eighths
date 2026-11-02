@@ -151,8 +151,14 @@ open Lean Elab Command in
 run_cmd do
   let env ← getEnv
   let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
+  let modulePrefix : Name := `HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
   let names := (env.constants.toList.filterMap fun (name, _) =>
-    if nsPrefix.isPrefixOf (privateToUserName name) then some name else none).toArray.qsort Name.lt
+    let fromV2Module := match env.getModuleIdxFor? name with
+      | some idx => modulePrefix.isPrefixOf (env.header.moduleNames[idx.toNat]!)
+      | none => false
+    if nsPrefix.isPrefixOf (privateToUserName name) || fromV2Module then
+      some name
+    else none).toArray.qsort Name.lt
   unless !names.isEmpty do
     throwError "No V2 declarations found"
   let required : Array Name := #[

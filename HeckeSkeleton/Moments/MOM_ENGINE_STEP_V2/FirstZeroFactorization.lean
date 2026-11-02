@@ -25,6 +25,9 @@ open HeckeGeneral.ThetaSkeleton.Global
 open HeckeSkeleton.Moments.EngineStep
 
 variable {K : Type} [Field K] [NumberField K]
+
+attribute [local instance] sourcePrincipal
+
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
 /-- The literal two-column factor tuple, with only unit padding. -/

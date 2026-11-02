@@ -61,6 +61,8 @@ theorem gram_signed_normalization
         (add_nonneg (div_nonneg hr hNJ.le) zero_le_one)
     _ ≤ _ := mul_le_mul_of_nonneg_left hratio (mul_nonneg hs (sq_nonneg B))
 
+section GeneralStage
+
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {Γ : Subgroup A.U} [Γ.FiniteIndex]
@@ -195,6 +197,8 @@ theorem second_signed_stage_bound_uniform
       mul_le_mul_of_nonneg_right
         (mul_le_mul_of_nonneg_left (by linarith : P ≤ 1 + P) hCzero.le) hpay
     _ = _ := by ring
+
+end GeneralStage
 
 section OriginalSource
 
