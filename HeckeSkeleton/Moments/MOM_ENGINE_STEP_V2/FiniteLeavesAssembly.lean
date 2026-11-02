@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesIntegral
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option Elab.async false
+set_option stderrAsMessages false
 
 /-!
 # S6: exact finite enumeration and the original nonzero bound
@@ -40,6 +42,30 @@ variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
 namespace FiniteLeaves
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: generic sum"
+    stderr.flush
+
+private theorem sum_le_sigma_of_source_bounds
+    {ι : Type*} [Fintype ι] {α : ι → Type*}
+    [∀ i, Fintype (α i)] {β : (Σ i : ι, α i) → Type*}
+    [∀ key, Fintype (β key)]
+    (source : ι → ℝ)
+    (term : (Σ key : (Σ i : ι, α i), β key) → ℝ)
+    (h : ∀ i, source i ≤ ∑ key : (Σ a : α i, β ⟨i, a⟩),
+      term ⟨⟨i, key.1⟩, key.2⟩) :
+    (∑ i, source i) ≤ ∑ key, term key := by
+  simp only [Fintype.sum_sigma] at h ⊢
+  exact Finset.sum_le_sum (fun i _ => h i)
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: source bound"
+    stderr.flush
+
 /-- The base positive Fourier comparison, with the original orbital
 fibre and outer scalar each paid once. -/
 theorem source_nonzero_le_sum (source : SecondSource call p)
@@ -61,20 +87,50 @@ theorem source_nonzero_le_sum (source : SecondSource call p)
           SourceClassKey.AllocationKey v),
         (secondSourceLeaf source LC RC key.1 exceptional key.2).cost := by
       rw [FiniteLeavesIntegral.ActualGaussStage.integral_coverHybridPhaseNonzeroCost_eq_leaf_sum]
-      simp only [Finset.mul_sum, secondSourceLeaf, ActualHybridLeaf.scale_cost]
+      simp only [Finset.mul_sum, secondSourceLeaf, ActualHybridLeaf.scale_cost,
+        FiniteLeavesIntegral.ActualGaussStage.coveredLeaf,
+        FiniteLeavesIntegral.ActualGaussStage.CoveredClassKey.leaf]
 
 variable {F : FirstPresentation call p} {family : FirstCauchyFamily F}
 variable {expansion : PoolExpansion family} {second : SecondFamily expansion}
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: family bound"
+    stderr.flush
+
 /-- Every source and every class/allocation key occurs once. -/
 theorem nonzero_le_sum (covers : RawCovers second) :
     second.nonzero ≤ ∑ key : covers.Key, (covers.leaf key).cost := by
-  have hs (i : Fin expansion.count) := source_nonzero_le_sum (second.source i)
-    (covers.left i).cover (covers.right i).cover (covers.predicates i)
-  simp only [Fintype.sum_sigma] at hs
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: family bound enter"
+    stderr.flush
   change (∑ i, (second.source i).nonzero) ≤ _
-  simp only [RawCovers.Key, RawCovers.ClassKey, Fintype.sum_sigma]
-  exact Finset.sum_le_sum (fun i _ => hs i)
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: family bound scalar goal"
+    stderr.flush
+  refine sum_le_sigma_of_source_bounds
+    (α := fun i : Fin expansion.count =>
+      SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
+    (β := fun key => SourceClassKey.AllocationKey key.2)
+    (fun i => (second.source i).nonzero)
+    (fun key => (covers.leaf key).cost) ?_
+  intro i
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: family bound source application"
+    stderr.flush
+  exact source_nonzero_le_sum (second.source i)
+    (covers.left i).cover (covers.right i).cover (covers.predicates i)
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: retained sum"
+    stderr.flush
 
 theorem sum_cost_eq_retained (covers : RawCovers second) (hsecond : second.Realizes) :
     (∑ key : covers.Key, (covers.leaf key).cost) =
@@ -97,6 +153,12 @@ theorem sum_cost_eq_retained (covers : RawCovers second) (hsecond : second.Reali
       Finset.sum_subtype retained (by intro key; simp only [retained,
         Finset.mem_filter, Finset.mem_univ, true_and]) _
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: from covers"
+    stderr.flush
+
 /-- An equivalence, rather than a surjection, prevents duplicated leaves. -/
 def fromCovers (geometry : GeometryFamily second) (covers : RawCovers second) :
     RawFamily geometry where
@@ -104,19 +166,51 @@ def fromCovers (geometry : GeometryFamily second) (covers : RawCovers second) :
   count := Fintype.card covers.LiveKey
   index := (Fintype.equivFin covers.LiveKey).symm
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: packet leaf"
+    stderr.flush
+
 theorem packet_leaf (geometry : GeometryFamily second) (covers : RawCovers second)
     (j : Fin (fromCovers geometry covers).count) :
     ((fromCovers geometry covers).packet j).leaf =
       covers.leaf ((fromCovers geometry covers).index j).val := rfl
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: raw sum"
+    stderr.flush
+
 theorem sum_cost_eq_raw (geometry : GeometryFamily second) (covers : RawCovers second) :
     (∑ key : covers.LiveKey, (covers.leaf key.val).cost) =
       (fromCovers geometry covers).exceptional + (fromCovers geometry covers).ordinary := by
-  rw [← (fromCovers geometry covers).index.sum_comp
-    (fun key : covers.LiveKey => (covers.leaf key.val).cost)]
-  change (∑ j, ((fromCovers geometry covers).packet j).leaf.cost) = _
-  simp only [ActualHybridLeaf.cost, Finset.sum_add_distrib,
-    RawFamily.exceptional, RawFamily.ordinary]
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: raw sum enter"
+    stderr.flush
+  calc
+    (∑ key : covers.LiveKey, (covers.leaf key.val).cost) =
+        ∑ j : Fin (fromCovers geometry covers).count,
+          (covers.leaf ((fromCovers geometry covers).index j).val).cost :=
+      ((fromCovers geometry covers).index.sum_comp
+        (fun key : covers.LiveKey => (covers.leaf key.val).cost)).symm
+    _ = ∑ j : Fin (fromCovers geometry covers).count,
+        ((fromCovers geometry covers).packet j).leaf.cost := by
+      apply Finset.sum_congr rfl
+      intro j _
+      exact congrArg ActualHybridLeaf.cost (packet_leaf geometry covers j).symm
+    _ = (fromCovers geometry covers).exceptional +
+        (fromCovers geometry covers).ordinary := by
+      simp only [ActualHybridLeaf.cost, Finset.sum_add_distrib,
+        RawFamily.exceptional, RawFamily.ordinary]
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: task assembly"
+    stderr.flush
 
 /-- Once the original covers are built, the public S6 conclusion
 follows from the base Fourier comparison and exact zero deletion. -/
@@ -128,6 +222,12 @@ theorem finiteLeaves_of_covers (geometry : GeometryFamily second)
   refine ⟨fromCovers geometry covers, hcovers, ?_⟩
   exact (nonzero_le_sum covers).trans_eq
     ((sum_cost_eq_retained covers hsecond).trans (sum_cost_eq_raw geometry covers))
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 FiniteLeavesAssembly checkpoint: complete"
+    stderr.flush
 
 end FiniteLeaves
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

@@ -128,6 +128,7 @@ theorem fibreInput_residual_heq
   intro i
   change (d.residualPresentation q n i).residual.val = _
   rw [(d.residualPresentation q n i).residual_eq_supportResidual, hideal]
+  rfl
 
 end Pool
 

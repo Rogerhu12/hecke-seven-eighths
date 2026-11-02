@@ -233,8 +233,7 @@ theorem beforeAtomTable_rightWeight (O : OrdinaryData packet)
       (if r && !call.node.centered && !true then 0 else packet.normProfile true
         (idealNorm K I / (packet.firstPlainScale _ r true / idealNorm K _))) <;>
     rw [original_norm_quotient _ I _ (packet.firstPlainScale_pos _ r true)] <;>
-    simp only [Bool.not_true, Bool.and_false, Bool.false_eq_true,
-      Bool.true_eq_true, if_false, if_true]
+    simp only [Bool.not_true, Bool.and_false, Bool.false_eq_true, if_false, ite_true]
 
 theorem beforeAtomTable_normalizer (phases : OriginalPhaseData packet) (side : Bool) :
     (packet.beforeAtomTable hpacket phases side).normalizer = 1 := by

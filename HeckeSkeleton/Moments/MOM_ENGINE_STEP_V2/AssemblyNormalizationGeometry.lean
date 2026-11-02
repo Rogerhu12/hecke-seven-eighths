@@ -103,6 +103,7 @@ variable (packets : ∀ j : Fin raw.count, CanonicalMassPacket (raw.packet j) in
 
 local notation "N" => canonicalMassData raw input choices packets
 
+set_option maxHeartbeats 1000000 in
 /-- The kappa and mesh fields use the exact already selected child. -/
 theorem canonicalKappaMesh : (N).KappaMeshInvariant := by
   intro side b ξ
@@ -120,6 +121,7 @@ theorem canonicalKappaMesh : (N).KappaMeshInvariant := by
     exact ⟨child.kappa_eq.trans (D.kappa_eq.trans call.kappa),
       fullKappaChild_mesh result child ξ⟩
 
+set_option maxHeartbeats 1000000 in
 /-- All output geometry comes from N4/N6 and the original N7b windows.
 In particular no completed engine output is used as an input. -/
 def canonicalOutputGeometry (windows : (N).UnitWindows) :
@@ -159,11 +161,17 @@ def canonicalOutputGeometry (windows : (N).UnitWindows) :
     (((packets b.val.1).calibrations.side true b.val.2.2.1 b.val.2.2.2.2).theta_eq ξ)
   left_slot_characters b ξ i := by
     have h := ((N).family.leftChild (N).labels b).frozen_slot_in_theta ξ i
-    rw [((packets b.val.1).calibrations.side false b.val.2.1 b.val.2.2.2.1).theta_eq ξ] at h
+    have htheta : (((N).family.leftCalibration b.val).data ξ).theta =
+        call.node.data.theta :=
+      ((packets b.val.1).calibrations.side false b.val.2.1 b.val.2.2.2.1).theta_eq ξ
+    rw [htheta] at h
     exact h
   right_slot_characters b ξ i := by
     have h := ((N).family.rightChild (N).labels b).frozen_slot_in_theta ξ i
-    rw [((packets b.val.1).calibrations.side true b.val.2.2.1 b.val.2.2.2.2).theta_eq ξ] at h
+    have htheta : (((N).family.rightCalibration b.val).data ξ).theta =
+        call.node.data.theta :=
+      ((packets b.val.1).calibrations.side true b.val.2.2.1 b.val.2.2.2.2).theta_eq ξ
+    rw [htheta] at h
     exact h
   left_admissible b ξ :=
     ⟨windows false b ξ, normalizedChild_rowMask
