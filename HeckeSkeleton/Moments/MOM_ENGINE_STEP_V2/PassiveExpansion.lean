@@ -74,18 +74,18 @@ theorem residual_mobius_candidates (B : Carrier K k) (mask : Ideal (𝓞 K))
       ∑ a ∈ candidates mask k, sign a * ∑ i ∈ columns B a, C i := by
   have hterm (i : AllocationColumn K k) :
       (if IsCoprime mask (columnIdeal i) then C i else 0) =
-        ∑ D ∈ idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
+        ∑ D ∈ DedekindZetaZeroFree.LargeSieve.idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
           (if D ∣ columnIdeal i then C i else 0) := by
     have h := congrArg (fun z : ℂ => z * C i)
       (HeckePort.Moments.ideal_coprime_mobius mask (columnIdeal i) hmask)
     simpa only [ite_mul, one_mul, zero_mul, Finset.sum_mul,
       mul_ite, mul_zero] using h
   calc
-    _ = ∑ i ∈ carrierColumns B, ∑ D ∈ idealDivisors mask,
+    _ = ∑ i ∈ carrierColumns B, ∑ D ∈ DedekindZetaZeroFree.LargeSieve.idealDivisors mask,
         (UniqueFactorizationMonoid.moebius D : ℂ) * (if D ∣ columnIdeal i then C i else 0) := by
       rw [Finset.sum_filter]
       exact Finset.sum_congr rfl fun i _ => hterm i
-    _ = ∑ D ∈ idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
+    _ = ∑ D ∈ DedekindZetaZeroFree.LargeSieve.idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
         ∑ i ∈ carrierColumns B with D ∣ columnIdeal i, C i := by
       rw [Finset.sum_comm]
       simp only [Finset.sum_filter, Finset.mul_sum]

@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalRows
+import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -25,6 +26,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 open EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
+open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckePort.Moments UniqueFactorizationMonoid
 
@@ -109,3 +111,4 @@ def ExceptionalRecoveryTask (c : TargetContext K) (p : SourceParameters c) : Pro
     packet.ExceptionalRecovery
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
+

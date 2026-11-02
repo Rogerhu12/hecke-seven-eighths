@@ -137,7 +137,7 @@ private theorem pool_residue_eq_coefficient (paid : Bool)
     (A := Arithmetic.data c) (probeData K c) (momentRowCharacters K c)
     (poolIdeal P paid) (poolElement P paid) (pool_generates P paid) J
   have hmask :
-      (if sexticIdealOutsideS K
+      (if HeckeGeneral.Analysis.SquarefreeAmplification.sexticIdealOutsideS K
           ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) J ∧
           IsCoprime J.val (poolIdeal P paid).val then (1 : ℂ) else 0) = 1 :=
     if_pos ⟨(CanonicalOriginalPhaseCalibration.outside_iff_coprime

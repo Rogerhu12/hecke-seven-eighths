@@ -55,6 +55,31 @@ B 线在 PR #31 发布了任务总表（S1–S6、N1–N9、T1–T4、U1，共 2
 4. 有些任务陈述放在 RawContracts / OrdinaryData 里，这两个模块在基线修好前编不过。可以先写完、先编不依赖它们的部分，基线修好后再整体编通。
 5. 完成标准：组装模块没有 `sorry`；CI 只编组装模块，并对这些模块做公理检查，只出现三条标准公理（任务陈述作为前提不会引入 sorryAx）；在 PR #31 报告。
 
+## 基线并行修复（2026-11-03 01:00 起）
+
+RawContracts 和 OrdinaryData 编不过，挡住了 8 个任务和组装。协调员的诊断（PR #31 上的评论，分支 `diag/v2-kernel`）结论如下：
+- 卡在 Lean 内部的 `getFunInfo → collectDeps`。计时已确认具体常量：`SourceClassKey.rightReindex` 的推断类型深度 171，对它调用 getFunInfo 100s 内没有返回；`block`（深度 82）只要 3ms。这一步不检查心跳，也不缓存，所以心跳上限、skipKernelTC、noncomputable、关 linter 都不起作用。
+- 一旦要比较两个写法不同的 `SourceClassKey.AllocationKey …`（或这一族的其他 abbrev），就会卡住。
+- 能编过的写法：柯里化的 `leafAt (i) (v : SourceClassKey …) (allocation : SourceClassKey.AllocationKey v)`（10s）；结构体键 `KeyS`，用字段调 `leafAt`（14s）；用有名字的 def 包起 fibre 的 Σ 键，Fintype 用 `unfold …; infer_instance`。
+- 仍然卡住的写法：Σ 键与柯里化参数互相转换，即投影、match、`Sigma.casesOn`、`Sigma.uncurry`、`obtain` 加 `unfold` 这几种；Ordinary 的 `branch.val : AllocationKey packet.key`，以及它与 `HybridAllocationLabel …` 之间的 `rfl`。
+
+下面的修法同时进行，**哪个先通过就由 B 采纳**，其余停止：
+
+| 方案 | 负责会话 | 内容 |
+|---|---|---|
+| A | 新会话 1 | 直接修根因：给 RawLeafData 里的 `SourceClassKey.leftReindex` / `rightReindex`（以及同类没有类型标注、结果类型很深的 abbrev）配上短类型。例如先定义 `def RightReindexType (v) : Type := …`，再写 `def rightReindex (v) : RightReindexType v := …`。对这些常量做 getFunInfo 计时（探针 `.github/kdiag/f1_funinfo.lean`），应该在毫秒级；然后编整份原 RawContracts 和 OrdinaryData。 |
+| B | 新会话 2 | 把 reindex 用到的字段（plain₁、plain₂、slots、index 等）打包成一个小结构体，或者把 Key 改成结构体 `KeyS`（i、v、allocation，`leaf` 用字段调 `leafAt`，已测 14s）。目标是不论 A 成功与否，RawContracts 都有一条能编过的路。 |
+| D | 新会话 3 | OrdinaryData：先在 A 的思路下确认 `ordinaryBranchKey` 能不能编过；不行就重写 `ordinaryBranchType` / `ordinaryBranchKey`，不再要求 `branch.val` 直接是 `AllocationKey packet.key`（例如分支类型改成 `AllocationKey packet.key` 的子类型，或者返回分支本身再给对应关系）。下游陈述的意思不变。 |
+
+规矩：
+1. 从 `diag/v2-kernel` 切出 `diag/v2-fix-<方案字母小写>`。把 `.github/workflows/v2-kdiag.yml` 的触发分支改成自己的分支，在 `.github/kdiag/` 放自己的探针（可以是 B 当前 head 的整份 RawContracts.lean 或 OrdinaryData.lean 的改写版），矩阵列出探针名。每个探针 100s 上限，超时自动抓调用栈。一次可以并行好几个探针。
+2. 通过标准：改写后的整份 RawContracts.lean（或 OrdinaryData.lean）每个都在 100s 内编完；冻结陈述的数学意思不变；列出下游要跟着改的地方。
+3. 每轮结果贴到 PR #31，写明哪些写法过了、哪些卡了。不要推送 `cloud/mom-engine-step-v2`，B 负责采纳。
+
+## 桩基线（2026-11-03 01:30 起，用户批准）
+
+修复方案还在试的时候，B 在 `cloud/mom-engine-step-v2` 上以 `STUB:` 提交，把编不过的几个定义体（`leaf`、`ordinaryBranchKey`、`leftFrame` / `rightFrame` 等）换成 `opaque` 占位，陈述一字不改。桩清单贴在 PR #31。被挡住的任务和组装同步桩基线后继续：只依赖陈述的证明照常写；需要展开这些定义的地方先写成独立引理并标出来。修复方案通过、真定义换回后，所有任务按真基线重新验收一次，桩基线上的绿色只算阶段性结果。
+
 ## 做法
 
 ### 第一阶段：设计和陈述骨架
