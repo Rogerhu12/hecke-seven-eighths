@@ -149,6 +149,22 @@ theorem selectedRank_lt (request : Request c frame Cp Hp hCp hminimum hHp) :
   parameterCoreRank_lt_bound request.parent.parameters
     (recipeInduction_budget (c := c)).1 request.node.down.property.width_le
 
+/-- A strict call is above the original positive width floor, so its
+predecessor profile order is always an actual earlier schedule entry. -/
+theorem selectedRank_pos (request : Request c frame Cp Hp hCp hminimum hHp) :
+    0 < selectedRank request := by
+  have hσ := (recipeInduction_budget (c := c)).1
+  have hwidth : 16 * recipeInductionSigma c <
+      request.parent.parameters.m + request.parent.parameters.q := request.domain.width_floor
+  have hband : 0 < widthBand (recipeInductionSigma c)
+      (request.parent.parameters.m + request.parent.parameters.q) := by
+    have h := widthBand_strict hσ (le_refl (0 : ℝ))
+      (show (0 : ℝ) + recipeInductionSigma c / 2 ≤
+        request.parent.parameters.m + request.parent.parameters.q by linarith)
+    simpa only [widthBand, mul_zero, zero_div, Nat.floor_zero] using h
+  unfold selectedRank parameterCoreRank
+  split_ifs <;> omega
+
 theorem selectedBase_large (request : Request c frame Cp Hp hCp hminimum hHp) :
     selectedBaseThreshold c frame ≤ request.base :=
   _root_.ExpansionRecipe.shell_base_ge_of_physical_cutoff
@@ -163,7 +179,16 @@ theorem selectedProfiles (request : Request c frame Cp Hp hCp hminimum hHp) :
       (profileFamilyBudget Cp Hp request.height) 0
       (lowerAtRank c frame (selectedRank request))
       (upperAtRank c frame (selectedRank request)) 0 := by
-  sorry
+  have hprofile : admissibleOfInvariant
+      (rankedAnnulusProfilePrimitive 1 (selectedSchedule c frame).engine frame.reflection
+        (recipeInductionSigma c) 2 (recipeInductionSigma c / 16) frame.decay
+        (profileFamilyBudget Cp Hp request.height) frame.lower frame.upper)
+      request.parent.data request.parent.parameters :=
+    request.node.down.property.admissible.2.2.2.2
+  rw [rankedAnnulusProfilePrimitive_iff] at hprofile
+  exact modelProfileControl_mono_order hprofile
+    (backwardProfileOrder_parent_orders 1 (selectedSchedule c frame).engine
+      frame.reflection (selectedRank_pos request)).1
 
 /-- The literal node's scheduled Euler profiles choose the actual
 Mellin order and positive annulus before any Fourier frequency. -/
