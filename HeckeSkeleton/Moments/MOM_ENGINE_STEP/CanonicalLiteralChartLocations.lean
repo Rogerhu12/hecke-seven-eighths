@@ -126,6 +126,11 @@ theorem canonicalLog_right_jointLocation
         rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.prime (-firstSign)) j := by
+  change WithLp.toLp 2
+      (firstSign * Real.log (Ideal.absNorm
+        (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val)) : ℝ),
+        -Real.log (Ideal.absNorm
+          (b.commonRightIdeal.val * (b.rightResidual i).val) : ℝ)) = _
   have he := CanonicalLiteralLocations.actual_product_locations
     (-firstSign) 0 j hplain₁ hplain₂
     (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val))

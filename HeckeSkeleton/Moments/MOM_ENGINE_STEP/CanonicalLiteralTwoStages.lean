@@ -131,10 +131,10 @@ theorem secondInput_whole
   unfold secondInput
   dsimp only
   rw [scale_whole,
-    movingSingleton_whole _ P R hroot hemb unitFixed unitElement hunit i J hJ,
-    movingSingleton_whole _ P R hroot hemb poolFixed poolElement hpool i J hJ,
-    movingSingleton_whole _ P R hroot hemb firstFixed firstElement hfirst i J hJ,
-    twoStageNorms_whole _ _ _ _ _ _ _ δ₁ δ₂ i hi,
+    movingSingleton_whole (P := P) (R := R) _ hroot hemb unitFixed unitElement hunit i J hJ,
+    movingSingleton_whole (P := P) (R := R) _ hroot hemb poolFixed poolElement hpool i J hJ,
+    movingSingleton_whole (P := P) (R := R) _ hroot hemb firstFixed firstElement hfirst i J hJ,
+    twoStageNorms_whole (d.firstExtracted b) _ _ _ _ _ _ δ₁ δ₂ i hi,
     d.firstExtracted_whole b i hi, hN, hNc, hnorm,
     Real.mul_rpow (A.exteriorNorm_pos power).le (A.exteriorNorm_pos J).le]
   change _ = _ * actualIdealResidue (A := A) (σ := σ) (power.val * J.val) firstElement * _ * _ * _

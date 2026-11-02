@@ -141,7 +141,8 @@ def ordinaryBinding :
     ring
   leftCoefficient _ _ _ _ := rfl
   rightCoefficient _ _ _ _ := by simp only [extraction,
-    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms, star_star]
+    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms,
+    star_star, commonRows]
   leftPoint h _ := by
     refine ⟨WithLp.toLp 2
       (-firstSign * Real.log (Ideal.absNorm (power.val * bL.literalExtractedIdeal) : ℝ),
@@ -158,7 +159,9 @@ def ordinaryBinding :
       (power.val * bL.literalExtractedIdeal) bL.literalExtractedIdeal
       (mul_ne_zero power.property.1 bL.literalExtractedIdeal_ne_zero)
       bL.literalExtractedIdeal_ne_zero
-    · rw [bL.reconstruct_literalIdeal i hm, mul_assoc]
+    · exact (congrArg (fun I : Ideal (𝓞 K) => power.val * I)
+        (bL.reconstruct_literalIdeal i hm)).trans
+          (mul_assoc power.val bL.literalExtractedIdeal (allocationColumnIdeal i)).symm
     · exact bL.reconstruct_literalIdeal i hm
   rightPoint h _ := by
     refine ⟨WithLp.toLp 2
@@ -176,8 +179,14 @@ def ordinaryBinding :
       (power.val * bR.literalExtractedIdeal) bR.literalExtractedIdeal
       (mul_ne_zero power.property.1 bR.literalExtractedIdeal_ne_zero)
       bR.literalExtractedIdeal_ne_zero
-      (by rw [bR.reconstruct_literalIdeal j hm, mul_assoc])
+      ((congrArg (fun I : Ideal (𝓞 K) => power.val * I)
+        (bR.reconstruct_literalIdeal j hm)).trans
+          (mul_assoc power.val bR.literalExtractedIdeal (allocationColumnIdeal j)).symm)
       (bR.reconstruct_literalIdeal j hm)
+    change WithLp.toLp 2
+        (-(-firstSign * Real.log
+          (Ideal.absNorm (power.val * allocationColumnIdeal (bR.reconstruct j)) : ℝ)),
+          -Real.log (Ideal.absNorm (allocationColumnIdeal (bR.reconstruct j)) : ℝ)) = _
     simpa only [neg_neg, zero_sub, neg_mul] using he
 
 /-- Only genuinely nonzero complete correlations enter the arithmetic
@@ -195,11 +204,18 @@ the binding used by the same canonical row-mass and capacity records. -/
 def supportedOrdinaryBinding :
     (extraction R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).leaf.OrdinaryBinding (supportedRectangles R left right bL bR IL IR b exceptional
         firstSign hIL hIR) where
-  rows h hh := (Finset.mem_filter.mp hh).1
+  rows h hh := by
+    letI : DecidablePred (fun a : H => R.correlation a ≠ 0) :=
+      fun a => Classical.propDecidable (R.correlation a ≠ 0)
+    exact ((Finset.mem_filter (p := fun a : H => R.correlation a ≠ 0)
+      (s := R.rows) (a := h)).mp hh).1
   rows_zero h hh hn := by
+    letI : DecidablePred (fun a : H => R.correlation a ≠ 0) :=
+      fun a => Classical.propDecidable (R.correlation a ≠ 0)
     have hc : R.correlation h = 0 := by
       by_contra hc
-      exact hn (Finset.mem_filter.mpr ⟨hh, hc⟩)
+      exact hn ((Finset.mem_filter (p := fun a : H => R.correlation a ≠ 0)
+        (s := R.rows) (a := h)).mpr ⟨hh, hc⟩)
     change (R.weight h * R.correlation h) * left.commonScalar bL *
       star (right.commonScalar bR) = 0
     simp only [hc, mul_zero, zero_mul]
