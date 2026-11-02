@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4SourceBudget
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalRefinement
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4PacketGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4PaidSupport
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalPartition
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -46,9 +47,7 @@ section Canonical
 variable {p : SourceParameters c} {packet : RawLeafPacket call p}
 
 private def originalLiveRow (O : OrdinaryData packet) (h : O.rows.live) : packet.R.live :=
-  ⟨h.val, Finset.mem_filter.mpr
-    ⟨(Finset.mem_filter.mp (Finset.mem_filter.mp h.property).1).1,
-      (Finset.mem_filter.mp h.property).2⟩⟩
+  packet.R.liveInclusion (fun h => ¬packet.leaf.exceptional h) h
 
 private theorem originalSource_momentIdeal (O : OrdinaryData packet)
     (side rectangle : Bool) (h : O.rows.live) :
