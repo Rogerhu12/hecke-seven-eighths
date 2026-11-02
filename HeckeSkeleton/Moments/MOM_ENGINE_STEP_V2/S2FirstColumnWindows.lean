@@ -200,7 +200,9 @@ theorem key_coefficient_factor (F : FirstPresentation call p) (hF : F.Realizes)
     split_ifs <;>
     simp only [FirstBlockDirectData.originalLeftCoefficient,
       FirstBlockDirectData.originalRightCoefficient, FirstCauchyKey.piece,
-      chart_left_coefficient F hF, chart_right_coefficient F hF, zero_mul, mul_zero] <;> ring
+      chart_left_coefficient F hF, chart_right_coefficient F hF, zero_mul, mul_zero] <;>
+    dsimp only [FirstCauchyKey.block, FirstCauchyKey.divisor, ActualDirectFirstSource.block] <;>
+    ring
 
 theorem key_column_mem (F : FirstPresentation call p) (key : FirstCauchyKey F)
     (i : F.source.Column) (hi : i ∈ (FirstCauchyKey.data key).columns) : i ∈ F.source.columns := by
