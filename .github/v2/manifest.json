@@ -89,6 +89,20 @@
       "modules": [
         "Interface"
       ]
+    },
+    {
+      "id": "s6_n1_helpers",
+      "name": "S6/N1 exact source proof helpers",
+      "proved": true,
+      "modules": [
+        "FiniteLeavesCover",
+        "FiniteLeavesSupport",
+        "FiniteLeavesIntegral",
+        "FiniteLeavesAssembly",
+        "OrdinaryLeafBinding",
+        "OrdinarySourceFacts",
+        "OrdinaryRectangleFactors"
+      ]
     }
   ]
 }
