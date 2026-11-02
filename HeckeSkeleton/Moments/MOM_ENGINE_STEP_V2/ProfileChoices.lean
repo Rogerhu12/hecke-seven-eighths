@@ -107,6 +107,18 @@ def inputOrdersAtRank (c : TargetContext K) (frame : SourceFrame) (rank : ℕ) :
     (K := K) (ω := c.family.omega) (ψ := targetCharacter K c)
     (selectedVolumeOrders c frame) (childOrderAtRank c frame rank) frame.decay
 
+/-- This equality records the full input contract of both actual
+logarithmic transforms, including the original atom and kappa orders. -/
+theorem inputOrdersAtRank_eq (c : TargetContext K) (frame : SourceFrame) (rank : ℕ) :
+    inputOrdersAtRank c frame rank =
+      EngineStep.CanonicalPrimitiveEngineProfileOrders.originalOrders
+        (outputOrdersAtRank c frame rank) (selectedVolumeOrders c frame) := rfl
+
+theorem childOrdersAtRank_eq (c : TargetContext K) (frame : SourceFrame) (rank : ℕ) :
+    childOrdersAtRank c frame rank =
+      EngineStep.CanonicalPrimitiveEngineProfileOrders.orders
+        (outputOrdersAtRank c frame rank) (selectedVolumeOrders c frame) := rfl
+
 def rawAmplitudeAtRank (c : TargetContext K) (frame : SourceFrame) (rank : ℕ) : ℝ :=
   (profileRange c frame).amplitude
     (K := K) (ω := c.family.omega) (ψ := targetCharacter K c)

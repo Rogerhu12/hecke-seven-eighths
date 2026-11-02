@@ -101,9 +101,21 @@ def rawTerminalData (c : TargetContext K)
     ((Module.finrank ℚ K : ℝ) * b.firstDecay)⌉₊ + 1
   have horder : Module.finrank ℤ
       (traceIdealLattice K (1 : (FractionalIdeal (𝓞 K)⁰ K)ˣ)) < order := by
-    sorry
+    have hd : latticeDimension ≤
+        (⌈max latticeDimension ((Module.finrank ℚ K : ℝ) * b.firstDecay)⌉₊ : ℝ) :=
+      (le_max_left _ _).trans (Nat.le_ceil _)
+    have hn : Module.finrank ℤ
+        (traceIdealLattice K (1 : (FractionalIdeal (𝓞 K)⁰ K)ˣ)) ≤
+        ⌈max latticeDimension ((Module.finrank ℚ K : ℝ) * b.firstDecay)⌉₊ := by
+      exact_mod_cast hd
+    exact Nat.lt_succ_of_le hn
   have hdegree : (Module.finrank ℚ K : ℝ) * b.firstDecay ≤ order := by
-    sorry
+    have hd : (Module.finrank ℚ K : ℝ) * b.firstDecay ≤
+        (⌈max latticeDimension ((Module.finrank ℚ K : ℝ) * b.firstDecay)⌉₊ : ℝ) :=
+      (le_max_right _ _).trans (Nat.le_ceil _)
+    apply hd.trans
+    exact_mod_cast Nat.le_succ
+      ⌈max latticeDimension ((Module.finrank ℚ K : ℝ) * b.firstDecay)⌉₊
   let firstTail := actual_parent_first_direct_dual (E := ℝ)
     (hΓ := hΓ) (μv := μv) (ν := ν) (μ := μ) C
     (TargetArithmetic.different c) 1 b.firstDecay b.firstDecay_gt_one
