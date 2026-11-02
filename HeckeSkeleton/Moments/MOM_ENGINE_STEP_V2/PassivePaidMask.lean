@@ -231,7 +231,7 @@ theorem paidPool_support :
   | none =>
     have hg : (Arithmetic.data c).Generates (unitExterior (Arithmetic.data c))
         (1 : (Arithmetic.data c).R) :=
-      ⟨one_ne_zero, by simp [unitExterior, SArithmeticData.extendIdeal]⟩
+      ⟨one_ne_zero, by simp [unitExterior, SArithmeticData.extendIdeal, Ideal.map_top]⟩
     simp only [poolMoving, hp, PassivePaidMask.poolSupport,
       OriginalMovingFactors.singleton_support _ _ hg 1]
     simp [CommonSupportMass.commonRadical, unitExterior,

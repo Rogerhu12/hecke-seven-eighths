@@ -18,7 +18,8 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep NumberField IsDedekindDomain LocalFiniteSums
+open EngineStep NumberField IsDedekindDomain
+open DedekindZetaZeroFree.LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
 
@@ -83,9 +84,7 @@ namespace OrdinaryData
 variable {packet : RawLeafPacket call p} (O : OrdinaryData packet)
 
 def originalLiveRow (h : O.rows.live) : packet.R.live :=
-  ⟨h.val, Finset.mem_filter.mpr
-    ⟨(Finset.mem_filter.mp (Finset.mem_filter.mp h.property).1).1,
-      (Finset.mem_filter.mp h.property).2⟩⟩
+  packet.R.liveInclusion (fun h => ¬packet.leaf.exceptional h) h
 
 theorem originalSource_momentIdeal (side rectangle : Bool) (h : O.rows.live) :
     ((O.originalSource side rectangle).row h).momentIdeal =
