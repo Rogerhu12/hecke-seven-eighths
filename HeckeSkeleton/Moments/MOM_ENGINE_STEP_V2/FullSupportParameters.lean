@@ -128,13 +128,13 @@ theorem of_parent_parameters
 theorem withSupportLength
     (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding) (supportLength : ℝ) :
     PairedEngineDomain centered d
-      ((PairedEngineDomain.withSupportLength (domain := HeckeSkeleton.Moments.EngineStepV2)) a supportLength)
+      (HeckeSkeleton.Moments.EngineStepV2.withSupportLength a supportLength)
       Z Y₁ Y₂ floor padding :=
   (PairedEngineDomain.of_parent_parameters (domain := domain)) (withSupportLength_width a supportLength) rfl rfl rfl rfl
 
 theorem withSupportLength_iff (supportLength : ℝ) :
     PairedEngineDomain centered d
-      ((PairedEngineDomain.withSupportLength (domain := HeckeSkeleton.Moments.EngineStepV2)) a supportLength)
+      (HeckeSkeleton.Moments.EngineStepV2.withSupportLength a supportLength)
       Z Y₁ Y₂ floor padding ↔
         PairedEngineDomain centered d a Z Y₁ Y₂ floor padding := by
   constructor

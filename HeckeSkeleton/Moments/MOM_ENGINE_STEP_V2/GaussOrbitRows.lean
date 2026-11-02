@@ -107,7 +107,12 @@ theorem engineOrbit_fibre_le_multiplicity (rows : Finset A.R) (q : Q) :
   · obtain ⟨h, hh⟩ := he
     obtain ⟨hr, hq⟩ := Finset.mem_filter.mp hh
     rw [← hq]
-    exact Finset.le_sup hr
+    change (rows.filter (fun h' => engineElementOrbit (Γ := Γ) h' =
+      engineElementOrbit (Γ := Γ) h)).card ≤
+        rows.sup (fun h => (rows.filter (fun h' =>
+          engineElementOrbit (Γ := Γ) h' = engineElementOrbit (Γ := Γ) h)).card)
+    exact Finset.le_sup (f := fun h => (rows.filter (fun h' =>
+      engineElementOrbit (Γ := Γ) h' = engineElementOrbit (Γ := Γ) h)).card) hr
   · rw [Finset.not_nonempty_iff_eq_empty.mp he, Finset.card_empty]
     exact Nat.zero_le _
 
@@ -342,12 +347,16 @@ theorem canonicalFirstLeftGaussData_orbit_multiplicity_le_one (rows : Finset Q) 
     engineOrbitMultiplicity (Γ := Γ)
       (canonicalFirstLeftGaussData C left right fullI fullJ DE hDE rows).rows ≤ 1 := by
   apply engineOrbit_image_multiplicity_le_one rows 1 one_ne_zero
+  change rows.image (fun q : Q => q.out.val) ⊆
+    rows.image (fun q : Q => q.out.val * 1)
   simpa only [mul_one] using (Finset.Subset.refl (rows.image (fun q : Q => q.out.val)))
 
 theorem canonicalFirstRightGaussData_orbit_multiplicity_le_one (rows : Finset Q) :
     engineOrbitMultiplicity (Γ := Γ)
       (canonicalFirstRightGaussData C left right fullI fullJ DE hDE rows).rows ≤ 1 := by
   apply engineOrbit_image_multiplicity_le_one rows (-1) (neg_ne_zero.mpr one_ne_zero)
+  change rows.image (fun q : Q => -q.out.val) ⊆
+    rows.image (fun q : Q => q.out.val * (-1))
   simpa only [mul_neg_one] using
     (Finset.Subset.refl (rows.image (fun q : Q => -q.out.val)))
 
