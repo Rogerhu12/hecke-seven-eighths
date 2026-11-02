@@ -95,7 +95,7 @@ abbrev CoveredLeafKey :=
       ((Σ p : P.primes, (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6)) ⊕
         (Σ p : P.primes, (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))))
 
-private abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey B) :=
+abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey B) :=
   pool_sum_sigma_fintype
     (P := P.primes)
     (I₀ := s.main.CoveredLeafKey B.main B.main)
@@ -103,7 +103,7 @@ private abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey B) :=
     (I₆ := fun p => (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6))
     (I₇ := fun p => (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))
 
-attribute [local instance] coveredLeafKeyFintype
+attribute [instance] coveredLeafKeyFintype
 
 def coveredLeaf (exceptional : s.CoverHybridPredicates B)
     (F : SchwartzMap W ℂ) (x : ι → W) : s.CoveredLeafKey B → ActualHybridLeaf K Q W E

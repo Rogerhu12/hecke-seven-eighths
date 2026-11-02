@@ -69,7 +69,7 @@ theorem zeroBudget_eq_sum_parts (ε Czero : ℝ) :
   simp only [zeroBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
     FirstGaussPoolData.tagWeight, tag,
     ActualGaussStage.TerminalCalibration.zeroBudget_eq_zeroPart]
-  ring
+  ring_nf <;> rfl
 
 theorem tailBudget_eq_sum_parts (Cerror : ℝ) :
     T.tailBudget Cerror = (4 / d.density) *
@@ -77,7 +77,7 @@ theorem tailBudget_eq_sum_parts (Cerror : ℝ) :
   simp only [tailBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
     FirstGaussPoolData.tagWeight, tag,
     ActualGaussStage.TerminalCalibration.tailBudget_eq_tailPart]
-  ring
+  ring_nf <;> rfl
 
 theorem zeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     0 ≤ T.zeroBudget ε Czero := by
