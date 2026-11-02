@@ -192,6 +192,7 @@ theorem phase_tail_le (estimate : UniformEstimate c decay)
     _ = estimate.coefficient * source.stage.cutoff ^ (1 - decay) *
         (source.phaseStage x).rawTailMass estimate.orders := by
       simp only [ActualGaussStage.rawTailMass, Finset.mul_sum]
+      rfl
     _ = _ := by rw [phase_rawTailMass_eq]
 
 /-- Integrating the phase-bound pays the same first Fourier mass once. -/

@@ -215,7 +215,9 @@ theorem original_active_ideal_norm_le (input : ProfileInput call)
       mul_le_mul_of_nonneg_right hlarge (Real.rpow_nonneg call.base_pos.le _)
     _ = call.base ^ originalColumnExponent c := by
       rw [show originalColumnExponent c = 1 + (2 + recipeInductionSigma c / 16) by
-        dsimp [originalColumnExponent]; ring, Real.rpow_add call.base_pos, Real.rpow_one]
+        dsimp [originalColumnExponent]; ring]
+      simpa only [Real.rpow_one] using
+        (Real.rpow_add call.base_pos (1 : ℝ) (2 + recipeInductionSigma c / 16)).symm
 
 def activeOriginalColumns : Finset call.workingRaw.Column :=
   call.workingRaw.exteriorColumns.filter

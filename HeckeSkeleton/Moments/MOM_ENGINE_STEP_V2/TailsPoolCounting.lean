@@ -63,10 +63,7 @@ theorem pool_density_one_le (P : PoolPresentation family) (hP : P.Realizes)
 
 theorem pool_density_factor_le (P : PoolPresentation family) (hP : P.Realizes)
     (i : Fin family.count) : 4 / (P.data i).density ≤ 4 := by
-  apply (div_le_iff₀ (P.data i).density_pos).mpr
-  simpa only [mul_one] using
-    mul_le_mul_of_nonneg_left (pool_density_one_le P hP i)
-      (show (0 : ℝ) ≤ 4 by norm_num)
+  exact div_le_self (by norm_num) (pool_density_one_le P hP i)
 
 def poolMultiplicityBound (c : TargetContext K) (degree : ℝ) : ℝ :=
   (degree + 2 * recipeInductionSigma c) / (recipeInductionSigma c / 6)
