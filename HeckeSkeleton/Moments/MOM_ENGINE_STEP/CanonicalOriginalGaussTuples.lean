@@ -24,6 +24,7 @@ open DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments MeasureTheory
 open HeckePort.IdealMobiusDivisorSum HeckePort.Moments.Support
+open HeckePort.Moments.MobiusRegroup
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}

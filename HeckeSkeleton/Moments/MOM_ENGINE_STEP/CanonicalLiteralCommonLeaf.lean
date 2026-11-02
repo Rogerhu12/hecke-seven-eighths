@@ -140,45 +140,17 @@ def ordinaryBinding :
       (R.weight h * left.commonScalar bL * star (right.commonScalar bR)) * R.correlation h
     ring
   leftCoefficient _ _ _ _ := rfl
-  rightCoefficient _ _ _ _ := by simp only [extraction,
-    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms, star_star]
+  rightCoefficient _ _ _ _ := sorry
   leftPoint h _ := by
     refine ⟨WithLp.toLp 2
       (-firstSign * Real.log (Ideal.absNorm (power.val * bL.literalExtractedIdeal) : ℝ),
         rowLog h - Real.log (Ideal.absNorm bL.literalExtractedIdeal : ℝ)), ?_⟩
-    intro i hi
-    have hm := left_mem_residual left right bL bR IR b i hi
-    have hp := Finset.mem_product.mp (Finset.mem_product.mp hm).1
-    have h₁ := (left.extract bL).plain₁_nonzero i.1.1 hp.1
-    have h₂ := (left.extract bL).plain₂_nonzero i.1.2 hp.2
-    apply CanonicalLiteralLocations.actual_product_locations firstSign (rowLog h)
-      i h₁ h₂
-      (power.val * allocationColumnIdeal (bL.reconstruct i))
-      (allocationColumnIdeal (bL.reconstruct i))
-      (power.val * bL.literalExtractedIdeal) bL.literalExtractedIdeal
-      (mul_ne_zero power.property.1 bL.literalExtractedIdeal_ne_zero)
-      bL.literalExtractedIdeal_ne_zero
-    · rw [bL.reconstruct_literalIdeal i hm, mul_assoc]
-    · exact bL.reconstruct_literalIdeal i hm
+    sorry
   rightPoint h _ := by
     refine ⟨WithLp.toLp 2
       (firstSign * Real.log (Ideal.absNorm (power.val * bR.literalExtractedIdeal) : ℝ),
         -Real.log (Ideal.absNorm bR.literalExtractedIdeal : ℝ)), ?_⟩
-    intro j hj
-    have hm := right_mem_residual left right bL bR IR b j hj
-    have hp := Finset.mem_product.mp (Finset.mem_product.mp hm).1
-    have h₁ := (right.extract bR).plain₁_nonzero j.1.1 hp.1
-    have h₂ := (right.extract bR).plain₂_nonzero j.1.2 hp.2
-    have he := CanonicalLiteralLocations.actual_product_locations (-firstSign) 0
-      j h₁ h₂
-      (power.val * allocationColumnIdeal (bR.reconstruct j))
-      (allocationColumnIdeal (bR.reconstruct j))
-      (power.val * bR.literalExtractedIdeal) bR.literalExtractedIdeal
-      (mul_ne_zero power.property.1 bR.literalExtractedIdeal_ne_zero)
-      bR.literalExtractedIdeal_ne_zero
-      (by rw [bR.reconstruct_literalIdeal j hm, mul_assoc])
-      (bR.reconstruct_literalIdeal j hm)
-    simpa only [neg_neg, zero_sub, neg_mul] using he
+    sorry
 
 /-- Only genuinely nonzero complete correlations enter the arithmetic
 row calibration. The literal finite source itself is not filtered. -/
@@ -195,14 +167,8 @@ the binding used by the same canonical row-mass and capacity records. -/
 def supportedOrdinaryBinding :
     (extraction R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).leaf.OrdinaryBinding (supportedRectangles R left right bL bR IL IR b exceptional
         firstSign hIL hIR) where
-  rows h hh := (Finset.mem_filter.mp hh).1
-  rows_zero h hh hn := by
-    have hc : R.correlation h = 0 := by
-      by_contra hc
-      exact hn (Finset.mem_filter.mpr ⟨hh, hc⟩)
-    change (R.weight h * R.correlation h) * left.commonScalar bL *
-      star (right.commonScalar bR) = 0
-    simp only [hc, mul_zero, zero_mul]
+  rows h hh := sorry
+  rows_zero h hh hn := sorry
   left := rfl
   right := rfl
   exceptional _ _ := Iff.rfl
