@@ -55,7 +55,7 @@ def innerDivisors : Finset (Ideal (𝓞 K)) :=
 /-- Both full occurrence-allocation families remain in this exact sum. -/
 def allocationIndexMass : ℝ :=
   ∑ a : SourceClassKey.AllocationKey key,
-    ‖(moebius a.1.val : ℂ)‖ / (Ideal.absNorm a.1.val : ℝ)
+    ‖(UniqueFactorizationMonoid.moebius a.1.val : ℂ)‖ / (Ideal.absNorm a.1.val : ℝ)
 
 theorem allocationIndexMass_nonneg : 0 ≤ key.allocationIndexMass :=
   Finset.sum_nonneg (fun _ _ => div_nonneg (norm_nonneg _) (Nat.cast_nonneg _))

@@ -36,6 +36,8 @@ namespace RawFamily
 variable (trace : SourceTrace call p) (htrace : trace.Realizes)
 variable {geometry : GeometryFamily trace.second} (raw : RawFamily geometry)
 
+include htrace
+
 theorem second_realizes (j : Fin raw.count) : (raw.packet j).second.Realizes :=
   htrace.second.stage (raw.index j).val.1.1
 
@@ -44,6 +46,8 @@ end RawFamily
 namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p) (hpacket : packet.Realizes)
+
+include hpacket
 
 theorem second_realizes : packet.second.Realizes := by
   obtain ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩ := hpacket

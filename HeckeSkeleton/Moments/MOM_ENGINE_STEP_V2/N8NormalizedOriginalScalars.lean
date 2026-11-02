@@ -71,6 +71,7 @@ theorem second_witness_original_slot (hpacket : packet.Realizes) (side : Bool)
   rw [D.firstAtlas_slots hpacket side i] at h
   exact (Finset.mem_filter.mp h).1
 
+include D in
 theorem firstAtlas_count_le (side : Bool) :
     (packet.firstAtlas side).slotCount ≤ c.geometry.slots := by
   rw [← D.first_count side]

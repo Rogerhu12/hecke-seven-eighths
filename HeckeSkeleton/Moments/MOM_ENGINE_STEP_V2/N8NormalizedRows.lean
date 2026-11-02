@@ -91,6 +91,7 @@ namespace RawFamily
 variable (trace : SourceTrace call p) (htrace : trace.Realizes)
 variable {geometry : GeometryFamily trace.second} (raw : RawFamily geometry)
 
+include htrace in
 theorem second_radius_le_one (j : Fin raw.count) :
     (raw.packet j).second.stage.radius.val ≤ 1 := by
   change (trace.second.source (raw.index j).val.1.1).stage.radius.val ≤ 1

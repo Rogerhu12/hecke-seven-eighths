@@ -125,6 +125,7 @@ namespace RawFamily
 variable (trace : SourceTrace call p) (htrace : trace.Realizes)
 variable {geometry : GeometryFamily trace.second}
 
+include htrace in
 /-- This is the literal raw index weight, with neither a second first
 divisor payment nor an independently chosen reference source. -/
 theorem outerArithmeticWeight_le (input : ProfileInput call)
@@ -158,7 +159,7 @@ theorem outerArithmeticWeight_le (input : ProfileInput call)
       (Real.rpow_nonneg call.base_pos.le _)) (trace.expansion.indexPrefactor_nonneg i))
       packet.second.physical.firstCommonFactor_nonneg
   have hboth := mul_le_mul hledger hfiber (Nat.cast_nonneg _) hmajorant
-  have htail : 0 ≤ ‖(moebius packet.allocation.1.val : ℂ)‖ /
+  have htail : 0 ≤ ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ /
       (Ideal.absNorm (commonRadical packet.key.1.val.1 packet.key.1.val.2) : ℝ) /
       (Ideal.absNorm packet.allocation.1.val : ℝ) := by positivity
   have h := mul_le_mul_of_nonneg_right hboth htail
@@ -167,7 +168,7 @@ theorem outerArithmeticWeight_le (input : ProfileInput call)
   calc
     _ = ((packet.second.physical.outerWeight * call.base ^ packet.firstOuterExponent) *
         (packet.second.stage.fiber : ℝ)) *
-        (‖(moebius packet.allocation.1.val : ℂ)‖ /
+        (‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ /
           (Ideal.absNorm (commonRadical packet.key.1.val.1 packet.key.1.val.2) : ℝ) /
           (Ideal.absNorm packet.allocation.1.val : ℝ)) := by
       change packet.outerArithmeticWeight = _

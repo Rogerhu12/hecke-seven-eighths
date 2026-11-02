@@ -119,11 +119,11 @@ theorem outer_sideAllowance_le (input : ProfileInput call)
     (firstCommonWeight_le_radical call.base call.domain.scale key.1.val.1 key.1.val.2
       hD hE key.common_support_eq) hamp
   have hmu := mul_le_mul_of_nonneg_left (hrow.trans hrad)
-    (div_nonneg (norm_nonneg (moebius (FirstCauchyKey.residual key).val : ℂ))
+    (div_nonneg (norm_nonneg (UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ))
       (by norm_num : (0 : ℝ) ≤ 2))
   have he : (family.source i).outerWeight * sourceSideAllowance (family.source i) /
         call.parentNormalizer =
-      (‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ / 2) *
+      (‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ / 2) *
         ((FirstCauchyKey.piece key).rowBound *
           Real.sqrt (family.normalization.left key.1 key.2.1
             (FirstCauchyKey.residual key) (FirstCauchyKey.character key)) *
@@ -137,9 +137,9 @@ theorem outer_sideAllowance_le (input : ProfileInput call)
     ring
   rw [he]
   apply hmu.trans
-  have hhalf : ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ / 2 ≤
-      ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ := by
-    nlinarith [norm_nonneg (moebius (FirstCauchyKey.residual key).val : ℂ)]
+  have hhalf : ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ / 2 ≤
+      ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ := by
+    nlinarith [norm_nonneg (UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)]
   apply (mul_le_mul_of_nonneg_right hhalf
     (mul_nonneg hamp (one_div_nonneg.mpr (Nat.cast_nonneg _)))).trans_eq
   unfold PhysicalSource.firstCommonFactor

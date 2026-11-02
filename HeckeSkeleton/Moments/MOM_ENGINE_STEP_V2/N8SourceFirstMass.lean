@@ -41,7 +41,7 @@ variable {F : FirstPresentation call p}
 
 namespace N8Source
 
-theorem moebius_norm_le_one (I : Ideal (𝓞 K)) : ‖(moebius I : ℂ)‖ ≤ 1 := by
+theorem moebius_norm_le_one (I : Ideal (𝓞 K)) : ‖(UniqueFactorizationMonoid.moebius I : ℂ)‖ ≤ 1 := by
   unfold UniqueFactorizationMonoid.moebius
   split_ifs <;> simp
 
@@ -55,7 +55,7 @@ namespace PhysicalSource
 
 def firstIndexWeight (source : PhysicalSource call p) : ℝ :=
   (1 / (Ideal.absNorm (commonRadical source.first.selected.val source.first.opposite.val) : ℝ)) *
-    ‖(moebius source.first.residualDivisor.val : ℂ)‖ /
+    ‖(UniqueFactorizationMonoid.moebius source.first.residualDivisor.val : ℂ)‖ /
       (Ideal.absNorm source.first.residualDivisor.val : ℝ)
 
 theorem firstIndexWeight_nonneg (source : PhysicalSource call p) :
@@ -69,7 +69,7 @@ namespace FirstCauchyKey
 
 def arithmeticWeight (key : FirstCauchyKey F) : ℝ :=
   (1 / (Ideal.absNorm (commonRadical key.1.val.1 key.1.val.2) : ℝ)) *
-    ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ /
+    ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ /
       (Ideal.absNorm (FirstCauchyKey.residual key).val : ℝ)
 
 end FirstCauchyKey
@@ -84,7 +84,7 @@ def arithmeticMass : ℝ :=
       ∑ D : ((F.source.block v).mask F.source.mask).powerset,
         ∑ S : divisorPool (F.source.pieces v D).rightData.columns
           (fun j => ((F.source.pieces v D).rightData.ideal j).val),
-          ‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)
+          ‖(UniqueFactorizationMonoid.moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)
 
 theorem arithmeticMass_nonneg : 0 ≤ F.arithmeticMass := by
   apply Finset.sum_nonneg
@@ -176,7 +176,7 @@ theorem original_first_arithmetic_mass (c : TargetContext K) (ε : ℝ) (hε : 0
       (D : ((F.source.block v).mask F.source.mask).powerset) :
       (∑ S : divisorPool (F.source.pieces v D).rightData.columns
         (fun j => ((F.source.pieces v D).rightData.ideal j).val),
-        ‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) ≤ A * call.base ^ δ := by
+        ‖(UniqueFactorizationMonoid.moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) ≤ A * call.base ^ δ := by
     rw [Finset.sum_coe_sort]
     apply (Finset.sum_le_sum (fun S hS =>
       div_le_div_of_nonneg_right (moebius_norm_le_one S) (Nat.cast_nonneg _))).trans
@@ -194,7 +194,7 @@ theorem original_first_arithmetic_mass (c : TargetContext K) (ε : ℝ) (hε : 0
       (∑ mask : ((F.source.block v).mask F.source.mask).powerset,
         ∑ S : divisorPool (F.source.pieces v mask).rightData.columns
           (fun j => ((F.source.pieces v mask).rightData.ideal j).val),
-          ‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) ≤ M := by
+          ‖(UniqueFactorizationMonoid.moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) ≤ M := by
     have hc : (((F.source.block v).mask F.source.mask).powerset.card : ℝ) ≤
         D * call.base ^ δ := by
       have h : (((F.source.block v).mask F.source.mask).powerset.card : ℝ) ≤

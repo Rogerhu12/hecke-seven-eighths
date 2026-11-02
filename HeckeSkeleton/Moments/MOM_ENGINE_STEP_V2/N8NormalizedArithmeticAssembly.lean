@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ArithmeticMassAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedArithmeticFromTasks
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksNormalizedMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksSourceIndex
 
@@ -8,9 +8,8 @@ set_option autoImplicit false
 /-!
 # N8: the two proved estimates give the original arithmetic allowance
 
-The same source index is consumed once. Its fixed loss is p.loss,
-so its two-loss exponent cancels the two losses retained by N8b.
-The coefficient and the maximum threshold are chosen before the
+The public endpoint supplies the proved N8a and N8b tasks to the pure
+assembly helper. The coefficient and maximum threshold precede the
 moving call, without rebuilding any normalized or raw label.
 -/
 
@@ -43,18 +42,9 @@ theorem canonicalArithmeticMass (c : TargetContext K) (p : SourceParameters c)
           (packets : ∀ j : Fin raw.count, CanonicalMassPacket (raw.packet j) input choices),
           (canonicalMassData raw input choices packets).arithmeticMass ≤
             cost.value input.amplitude call.request.height *
-              call.base ^ (recipeInductionEdgeLoss c / 2) := by
-  obtain ⟨index⟩ := Tasks.sourceIndex c p frame p.loss p.loss_pos
-  obtain ⟨cost, hcost⟩ := Tasks.normalizedMass c p frame
-  refine ⟨index.combinedCost cost, ?_⟩
-  intro call input hframe ready trace htrace geometry hgeometry raw hraw choices packets
-  have reduction := hcost call input hframe
-    (SourceIndexCertificate.ready_original ready) trace htrace geometry hgeometry raw hraw
-    choices packets
-  apply arithmeticMass_of_sourceIndex index cost call input hframe ready trace htrace
-    geometry hgeometry raw hraw (canonicalMassData raw input choices packets)
-  simpa only [show recipeInductionEdgeLoss c / 2 - p.loss - p.loss =
-    recipeInductionEdgeLoss c / 2 - 2 * p.loss by ring] using reduction
+              call.base ^ (recipeInductionEdgeLoss c / 2) :=
+  canonicalArithmeticMass_of_tasks c p
+    (Tasks.sourceIndex c p) (Tasks.normalizedMass c p) frame
 
 end HeckeSkeleton.Moments.EngineStepV2.Assembly
 

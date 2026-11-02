@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8CommonScalarBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8FrozenProfileBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedArithmeticAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedArithmeticFromTasks
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedMassProof
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceOuterLedger
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceOuterMass

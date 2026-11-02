@@ -18,7 +18,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep NumberField IsDedekindDomain DedekindZetaZeroFree
+open EngineStep NumberField
 open HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.IdealMobiusDivisorSum
 
@@ -43,9 +43,10 @@ variable (packet : RawLeafPacket call p)
 
 theorem leaf_weight_eq :
     packet.leaf.weight = packet.second.physical.outerWeight *
-      (packet.second.stage.fiber : ℝ) * ‖(moebius packet.allocation.1.val : ℂ)‖ := by
+      (packet.second.stage.fiber : ℝ) *
+        ‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ := by
   change (packet.second.physical.outerWeight * (packet.second.stage.fiber : ℝ)) *
-    (‖(moebius packet.allocation.1.val : ℂ)‖ *
+    (‖(UniqueFactorizationMonoid.moebius packet.allocation.1.val : ℂ)‖ *
       ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) packet.allocation.2.1‖) = _
   rw [punitPhaseCoefficient_eq_one, norm_one, mul_one]
 

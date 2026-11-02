@@ -72,9 +72,9 @@ def arithmeticWeight (expansion : PoolExpansion family)
     (key : ArithmeticKey (K := K) expansion.count) : ℝ :=
   expansion.indexPrefactor key.1 *
     ((1 / (Ideal.absNorm (commonRadical key.2.1.1 key.2.1.2) : ℝ)) *
-      ‖(moebius key.2.2.1 : ℂ)‖ *
+      ‖(UniqueFactorizationMonoid.moebius key.2.2.1 : ℂ)‖ *
       (1 / (Ideal.absNorm (commonRadical key.2.2.2.1.1 key.2.2.2.1.2) : ℝ)) *
-      ‖(moebius key.2.2.2.2 : ℂ)‖) /
+      ‖(UniqueFactorizationMonoid.moebius key.2.2.2.2 : ℂ)‖) /
     (Ideal.absNorm key.2.2.2.2 : ℝ)
 
 theorem arithmeticWeight_nonneg (expansion : PoolExpansion family)

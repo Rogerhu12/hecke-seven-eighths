@@ -111,6 +111,8 @@ namespace RawFamily
 variable (trace : SourceTrace call p) (htrace : trace.Realizes)
 variable {geometry : GeometryFamily trace.second} (raw : RawFamily geometry)
 
+include htrace
+
 theorem firstKernel_eq_original (j : Fin raw.count) :
     (raw.packet j).leaf.firstKernel = secondKernel c p := by
   change (trace.second.source (raw.index j).val.1.1).physical.firstKernel = _
@@ -157,6 +159,8 @@ variable {geometry : GeometryFamily trace.second} (raw : RawFamily geometry)
 variable (O : ∀ j : Fin raw.count, OrdinaryData (raw.packet j))
 variable (R : ∀ j, RefinementData (O j) input)
 variable (C : ∀ j, (R j).Calibrations) (G : ∀ j, (C j).Capacities)
+
+include htrace
 
 theorem refinedNormalizedData_original_kernels
     (b : (refinedNormalizedData raw O R C G).Label) :

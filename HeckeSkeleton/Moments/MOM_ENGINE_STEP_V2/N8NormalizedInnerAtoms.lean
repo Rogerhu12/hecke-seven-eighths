@@ -64,6 +64,7 @@ theorem originalAllocation_divisor_ne_zero (side : Bool) :
   rw [hz, zero_dvd_iff] at h
   exact (O.originalAllocation side).frozenIdeal_ne_zero h
 
+include O in
 theorem innerDivisor_ne_zero : packet.allocation.1.val ≠ 0 := by
   rw [← O.originalAllocation_divisor false]
   exact O.originalAllocation_divisor_ne_zero false
@@ -74,6 +75,7 @@ namespace OriginalOccurrenceData
 
 variable {O : OrdinaryData packet} (D : OriginalOccurrenceData O)
 
+include D in
 theorem originalSlotCount_le (side : Bool) :
     O.originalSlotCount side ≤ c.geometry.slots := by
   have hc := Fintype.card_le_of_injective (D.secondIndex side)

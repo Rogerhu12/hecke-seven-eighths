@@ -75,9 +75,9 @@ def commonIndexFactor (j : Fin raw.count) : ℝ :=
   let packet := raw.packet j
   (1 / (Ideal.absNorm (commonRadical packet.second.physical.first.selected.val
     packet.second.physical.first.opposite.val) : ℝ)) *
-    ‖(moebius packet.second.physical.first.residualDivisor.val : ℂ)‖ *
+    ‖(UniqueFactorizationMonoid.moebius packet.second.physical.first.residualDivisor.val : ℂ)‖ *
     (1 / (Ideal.absNorm (commonRadical packet.key.1.val.1 packet.key.1.val.2) : ℝ)) *
-    ‖(moebius (raw.innerDivisor j) : ℂ)‖
+    ‖(UniqueFactorizationMonoid.moebius (raw.innerDivisor j) : ℂ)‖
 
 def indexWeight (j : Fin raw.count) : ℝ :=
   expansion.indexPrefactor (raw.sourceIndex j) * raw.commonIndexFactor j /
@@ -116,3 +116,4 @@ def SourceIndexTask (c : TargetContext K) (p : SourceParameters c) : Prop :=
     Nonempty (SourceIndexCertificate c frame p loss)
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
+

@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationCosts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityScalarMass
 
 set_option linter.unusedSectionVars false
@@ -24,40 +24,6 @@ open EngineStep
 
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {H : Type} {k : ℕ}
-
-namespace SourceCost
-
-variable (s : ActualAllocatedSource (Arithmetic.data c) EngineParameter H k)
-
-theorem row_nonneg : 0 ≤ row s := NNReal.coe_nonneg _
-
-theorem scalar_nonneg : 0 ≤ scalar s := NNReal.coe_nonneg _
-
-theorem row_le {bound : ℝ} (bound_nonneg : 0 ≤ bound)
-    (h : ∀ r ∈ s.rows, ‖s.weight r‖ ≤ bound) : row s ≤ bound := by
-  change s.rows.sup (fun r => ‖s.weight r‖₊) ≤ (⟨bound, bound_nonneg⟩ : NNReal)
-  apply Finset.sup_le
-  intro r hr
-  exact h r hr
-
-theorem scalar_le {bound : ℝ} (bound_nonneg : 0 ≤ bound)
-    (h : ∀ r ∈ s.rows, ‖s.frozenScalar (σ := Arithmetic.embedding c) r‖ ^ 2 ≤ bound) :
-    scalar s ≤ bound := by
-  change s.rows.sup (fun r => ‖s.frozenScalar (σ := Arithmetic.embedding c) r‖₊ ^ 2) ≤
-    (⟨bound, bound_nonneg⟩ : NNReal)
-  apply Finset.sup_le
-  intro r hr
-  exact h r hr
-
-theorem fiber_le {bound : ℕ}
-    (h : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal K,
-      (s.rows.filter (fun r => (s.row r).momentIdeal = I)).card ≤ bound) :
-    fiber s ≤ bound := by
-  apply Finset.sup_le
-  intro r _
-  exact h (s.row r).momentIdeal
-
-end SourceCost
 
 namespace OriginalCalibration
 

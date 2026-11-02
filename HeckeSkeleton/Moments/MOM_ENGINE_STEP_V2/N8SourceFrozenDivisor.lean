@@ -103,7 +103,7 @@ theorem residual_squarefree_of_outer_pos (N : F.source.Normalization)
     (h : 0 < FirstCauchyKey.outer key N) :
     Squarefree (FirstCauchyKey.residual key).val := by
   by_contra hS
-  have hmu : (moebius (FirstCauchyKey.residual key).val : ℂ) = 0 := by
+  have hmu : (UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ) = 0 := by
     simp [UniqueFactorizationMonoid.moebius, hS]
   simp only [FirstCauchyKey.outer, hmu, norm_zero, mul_zero, zero_mul,
     zero_div, lt_self_iff_false] at h

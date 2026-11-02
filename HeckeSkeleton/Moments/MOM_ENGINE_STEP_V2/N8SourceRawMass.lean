@@ -36,7 +36,7 @@ namespace PhysicalSource
 
 def firstCommonFactor (source : PhysicalSource call p) : ℝ :=
   (1 / (Ideal.absNorm (commonRadical source.first.selected.val source.first.opposite.val) : ℝ)) *
-    ‖(moebius source.first.residualDivisor.val : ℂ)‖
+    ‖(UniqueFactorizationMonoid.moebius source.first.residualDivisor.val : ℂ)‖
 
 theorem firstCommonFactor_nonneg (source : PhysicalSource call p) :
     0 ≤ source.firstCommonFactor := by

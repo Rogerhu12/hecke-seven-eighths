@@ -41,7 +41,7 @@ namespace OrdinarySeed
 variable {packet : RawLeafPacket call p} (seed : OrdinarySeed packet)
 variable (input : ProfileInput call) (support : seed.ordinary.PassiveSupport input)
 
-theorem primeProfile_zero (side : Bool) (i : Fin (seed.ordinary.residualSlotCount side))
+theorem n8_primeProfile_zero (side : Bool) (i : Fin (seed.ordinary.residualSlotCount side))
     (x : ℝ) (hx : 0 < x) :
     (seed.primeProfile input side i).formula.value 0 x =
       (call.node.data.geometry.slots (seed.slotIndex side i)).profile 0 x *
@@ -83,6 +83,7 @@ theorem passive_witness_window
     simpa only [input.raw.prime_eq] using hprofile
   exact input.raw.prime_support (seed.slotIndex side i) 0 (Set.mem_univ _) hrep
 
+include input support in
 theorem residualSlotCount_le (side : Bool) :
     seed.ordinary.residualSlotCount side ≤ c.geometry.slots := by
   have hc := Fintype.card_le_of_injective (support.side side).slotEmbedding
@@ -130,7 +131,7 @@ theorem canonicalSource_frozenScalar_bound
   · intro r hr i hi
     have hw := seed.passive_witness_window input support hsupport side a i
     change ‖(seed.primeProfile input side i).formula.value 0 _‖ ^ 2 ≤ _
-    rw [seed.primeProfile_zero input side i _ (call.window_positive hw)]
+    rw [seed.n8_primeProfile_zero input side i _ (call.window_positive hw)]
     exact pow_le_pow_left₀ (norm_nonneg _)
       (input.tilted_prime_norm_le horders (seed.slotIndex side i) _ hw) 2
 
