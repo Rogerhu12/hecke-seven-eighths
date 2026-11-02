@@ -328,6 +328,7 @@
       "modules": [
         "AssemblyArithmeticBridge",
         "AssemblyCalibrationBridge",
+        "AssemblyCalibrationProfiles",
         "AssemblyFourierBridge",
         "AssemblyLeafConstruction",
         "AssemblyLogProfileData",

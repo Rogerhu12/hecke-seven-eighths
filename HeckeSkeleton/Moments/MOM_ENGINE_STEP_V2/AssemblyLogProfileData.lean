@@ -64,6 +64,8 @@ variable {left right : ProfileFormula}
 variable {slot : Fin (data 0).geometry.slotCount → ProfileFormula}
 variable (H : LogProfileData data left right slot)
 
+include H
+
 /-- The zero-frequency count proof does not change any slot index. -/
 theorem cast_zero (i : Fin (data 0).geometry.slotCount) :
     Fin.cast (H.count 0) i = i := by
@@ -108,9 +110,14 @@ theorem data_eq_moving (ξ : EngineParameter) : data ξ = H.profiles.moving ξ :
       (data 0).plainTest₂.profile u t x * (ProfilePhase.atom right).multiplier ξ x
     rw [H.right_profile ξ u t x, H.right_profile 0 u t x]
     exact ProfilePhase.value_eq_zero_mul_multiplier right ξ x
-  · apply slotGeometry_ext_cast (H.count ξ)
+  · apply slotGeometry_ext_cast
+      (left := (data ξ).geometry) (right := (H.profiles.moving ξ).geometry)
+      (H.count ξ)
     intro i
-    apply primeWindow_ext_profile (H.lengths ξ i)
+    apply primeWindow_ext_profile
+      (left := (data ξ).geometry.slots i)
+      (right := (H.profiles.moving ξ).geometry.slots (Fin.cast (H.count ξ) i))
+      (H.lengths ξ i)
     funext t x
     change ((data ξ).geometry.slots i).profile t x =
       ((data 0).geometry.slots (Fin.cast (H.count ξ) i)).profile t x *

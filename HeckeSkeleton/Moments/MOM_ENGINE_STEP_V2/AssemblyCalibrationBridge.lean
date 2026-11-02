@@ -10,7 +10,7 @@ set_option autoImplicit false
 The public N3 specification fixes the actual parameters, moving factors,
 remaining mask and finite row dictionary. Projecting those identities
 gives the N4 consumption view on the same calibration. The original
-packet's existing pattern lemma supplies its one common pattern.
+S4 pattern stability supplies the packet's one common pattern.
 
 Both task proofs remain explicit parameters. No capacity estimate,
 normalized child or additional source hypothesis is introduced here.
@@ -36,6 +36,36 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p} {input : ProfileInput call}
 
+/-- The common pattern follows from the same realized S4 source and
+its original row labels, independently of a calibration construction. -/
+theorem packetPattern_of_realizes
+    (packet : RawLeafPacket call p)
+    (hpacket : packet.Realizes) (h : packet.R.live) :
+    actualNonunitPattern (Arithmetic.context c) packet.R.primes
+      packet.R.leftMultiplicity packet.R.rightMultiplicity
+      (packet.R.frequency h.val) = CalibrationClass.pattern packet := by
+  have hsecond : packet.second.Realizes := by
+    rcases hpacket with
+      ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩
+    exact htrace.second.stage (raw.index j).val.1.1
+  have hlabel (q : packet.R.live) :
+      packet.chart.rowLabel q.val =
+        SourceClassKey.rowLabel packet.key :=
+    (Finset.mem_filter.mp
+      (Finset.mem_filter.mp q.property).1).2
+  have hstable (q r : packet.R.live) :
+      actualNonunitPattern (Arithmetic.context c) packet.R.primes
+          packet.R.leftMultiplicity packet.R.rightMultiplicity
+          (packet.R.frequency q.val) =
+        actualNonunitPattern (Arithmetic.context c) packet.R.primes
+          packet.R.leftMultiplicity packet.R.rightMultiplicity
+          (packet.R.frequency r.val) :=
+    hsecond.patternStable packet.key.1 packet.key.2.1 q.val r.val
+      ((hlabel q).trans (hlabel r).symm)
+  rw [CalibrationClass.pattern,
+    dif_pos (show Nonempty packet.R.live from ⟨h⟩)]
+  exact hstable h _
+
 /-- Every field is a projection of the original N3 specification,
 except pattern constancy, which is already proved for the same packet. -/
 theorem calibrationBinding_of_spec
@@ -46,7 +76,7 @@ theorem calibrationBinding_of_spec
     (spec : OriginalCalibrationSpec seed input support side a rectangle D) :
     N4.CalibrationBinding seed support side a rectangle D
       (CalibrationClass.pattern packet) where
-  pattern_actual h := CalibrationClass.pattern_eq packet hpacket h
+  pattern_actual h := packetPattern_of_realizes packet hpacket h
   m := by
     simpa only [CalibrationParameters.parameters, CalibrationParameters.rowExponent]
       using congrArg RealParameters.m spec.parameters
@@ -85,4 +115,5 @@ theorem calibrations_with_bindings
 end HeckeSkeleton.Moments.EngineStepV2.Assembly
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.calibrationBinding_of_spec
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.packetPattern_of_realizes
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.calibrations_with_bindings
