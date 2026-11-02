@@ -225,9 +225,9 @@ theorem main_multiplierRealizes (hP : P.Realizes) (i : Fin family.count)
     (family.source i).multiplier (family.source i).first.residualDivisor.val
     (family.source i).first.firstElement (family.source i).first.poolPower none
     hcolumn hsource hmultiplier
-    (congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
-    (congrArg FirstCoordinates.firstElement hcoordinates)
-    (congrArg FirstCoordinates.poolPower hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.firstElement) hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.poolPower) hcoordinates)
   intro j hj
   have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
   change (P.data i).ideal j = _ at hideal

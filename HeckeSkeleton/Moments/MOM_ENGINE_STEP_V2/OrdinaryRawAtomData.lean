@@ -35,6 +35,20 @@ variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
 namespace RawLeafPacket
 
+private theorem scaled_unitGaussExtract_term {k : ℕ}
+    (d : OrdinaryAtomTable (K := K) k)
+    {S₁ S₂ : Finset (Ideal (𝓞 K))}
+    {S : Fin k → Finset (HeightOneSpectrum (𝓞 K))}
+    {deletion : Finset (Ideal (𝓞 K))}
+    (b : SupportCartesianBranch S₁ S₂ S deletion)
+    (z : ℂ) (hn : d.normalizer = 1) (r : Bool)
+    (i : AllocationColumn K b.keep.card) (hi : i ∈ b.residualColumns) :
+    z * d.term r (b.reconstruct i) =
+      ((d.unitGaussExtract b).scale (z * d.commonScalar b)).term r i := by
+  rw [OrdinaryAtomTable.scale_term,
+    OrdinaryAtomTable.unitGaussExtract_term d b r i hi, hn, one_mul]
+  exact (mul_assoc _ _ _).symm
+
 variable (packet : RawLeafPacket call p) (hpacket : packet.Realizes)
 
 def ordinarySlots : Bool → ℕ
@@ -116,11 +130,11 @@ theorem beforeAtomTable_term (phases : OriginalPhaseData packet) (side : Bool)
           ((packet.secondBranch side).reconstruct i) =
       (packet.beforeAtomTable hpacket phases side).term r
         (cast (congrArg (AllocationColumn K) (packet.secondAtomCount side)) i) := by
-  cases side <;>
-    erw [beforeAtomTable, OrdinaryAtomTable.scale_term,
-      OrdinaryAtomTable.unitGaussExtract_term _ _ _ _ hi,
-      packet.firstAtomTable_normalizer hpacket phases, one_mul] <;>
-    exact (mul_assoc _ _ _).symm
+  have h := scaled_unitGaussExtract_term
+    (packet.firstAtomTable hpacket phases side) (packet.secondBranch side)
+    (packet.firstExternalScalar side)
+    (packet.firstAtomTable_normalizer hpacket phases side) r i hi
+  cases side <;> exact h
 
 theorem ordinaryOccurrences_firstIndex (O : OrdinaryData packet) (side : Bool) :
     (packet.ordinaryOccurrences hpacket O).firstIndex side = packet.firstAtomIndex hpacket side := rfl
@@ -184,14 +198,30 @@ theorem beforeAtomTable_comparisonWeight (O : OrdinaryData packet)
     (packet.beforeAtomTable hpacket phases side).comparisonWeight r I =
       (packet.ordinaryOccurrences hpacket O).normalizer phases side *
         (packet.ordinaryOccurrences hpacket O).beforePlainWeight side r false I := by
-  cases side <;>
-    change (if r && !call.node.centered then 0 else _ * packet.normProfile false
-      (idealNorm K (_ * I) / packet.firstPlainScale _ r false)) =
-      _ * (if r && !call.node.centered && !false then 0 else packet.normProfile false
-        (idealNorm K I / (packet.firstPlainScale _ r false / idealNorm K _))) <;>
-    rw [original_norm_quotient _ I _ (packet.firstPlainScale_pos _ r false)] <;>
-    simp only [Bool.not_false, Bool.and_true] <;>
-    split_ifs <;> simp only [mul_zero]
+  let d := packet.firstAtomTable hpacket phases side
+  let b := packet.secondBranch side
+  let z := packet.secondAtomScalar hpacket phases side
+  have hscaled :
+      (packet.beforeAtomTable hpacket phases side).comparisonWeight r I =
+        z * d.comparisonWeight r (b.plainDivisor₁ * I) := by
+    have h := ((d.unitGaussExtract b).scale_comparisonWeight z r I).trans
+      (congrArg (fun value : ℂ => z * value)
+        (d.unitGaussExtract_comparisonWeight b r I))
+    cases side <;> exact h
+  have hprofile : d.comparisonWeight r (b.plainDivisor₁ * I) =
+      (packet.ordinaryOccurrences hpacket O).beforePlainWeight side r false I := by
+    have hn := original_norm_quotient b.plainDivisor₁ I
+      (packet.firstPlainScale side r false) (packet.firstPlainScale_pos side r false)
+    simpa only [d, b, OrdinaryAtomTable.comparisonWeight, firstAtomTable,
+      OriginalOccurrenceData.beforePlainWeight, OriginalOccurrenceData.beforePlainScale,
+      OriginalOccurrenceData.plainProfile, OriginalOccurrenceData.normPower, normProfile,
+      Bool.not_false, Bool.and_true, Bool.false_eq_true, if_false, ite_apply]
+      using congrArg (fun x : ℝ =>
+        if r && !call.node.centered then (0 : ℂ) else packet.normProfile false x) hn
+  exact hscaled.trans ((congrArg (fun value : ℂ => z * value) hprofile).trans
+    (congrArg (fun value : ℂ => value *
+      (packet.ordinaryOccurrences hpacket O).beforePlainWeight side r false I)
+      (packet.ordinaryOccurrences_normalizer hpacket O phases side).symm))
 
 theorem beforeAtomTable_rightWeight (O : OrdinaryData packet)
     (phases : OriginalPhaseData packet) (side r : Bool)
@@ -203,7 +233,8 @@ theorem beforeAtomTable_rightWeight (O : OrdinaryData packet)
       (if r && !call.node.centered && !true then 0 else packet.normProfile true
         (idealNorm K I / (packet.firstPlainScale _ r true / idealNorm K _))) <;>
     rw [original_norm_quotient _ I _ (packet.firstPlainScale_pos _ r true)] <;>
-    simp only [Bool.not_true, Bool.and_false, Bool.false_eq_true, if_false]
+    simp only [Bool.not_true, Bool.and_false, Bool.false_eq_true,
+      Bool.true_eq_true, if_false, if_true]
 
 theorem beforeAtomTable_normalizer (phases : OriginalPhaseData packet) (side : Bool) :
     (packet.beforeAtomTable hpacket phases side).normalizer = 1 := by

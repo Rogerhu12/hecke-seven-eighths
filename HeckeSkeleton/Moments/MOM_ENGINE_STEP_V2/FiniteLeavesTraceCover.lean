@@ -16,11 +16,12 @@ open scoped Classical BigOperators NumberField
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.FiniteLeaves
 
 open EngineStep EngineInduction.Source
-open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
+open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.Moments HeckePort.Moments.Support
+open HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -85,7 +86,16 @@ theorem fibreInput_main_heq
   have hcolumns : d.columns = source.source.columns :=
     congrArg ActualGaussSource.columns original
   have hideal : d.ideal = source.source.ideal := congrArg ActualGaussSource.ideal original
-  apply fibreInput_congr source _ h (Equiv.refl _) (fun _ => rfl) ?_ ?_ hdeletion
+  apply fibreInput_congr source
+    { Column := source.Column
+      source := d.mainSource source.source.coefficient
+      ancestor := source.ancestor
+      multiplier := multiplier
+      firstKernel := kernel
+      firstPoint := point
+      outerWeight := outer
+      outerWeight_nonneg := houter
+      first := first } h (Equiv.refl _) (fun _ => rfl) ?_ ?_ hdeletion
   · intro i
     change i ∈ d.columns ↔ i ∈ source.source.columns
     rw [hcolumns]
@@ -157,7 +167,8 @@ theorem covers_of_trace
       OriginalFibreInput (trace.second.source i).physical := by
     rw [htrace.second.physical i]
     exact fibreInput_expansion trace.expansion htrace.expansion hfirst i
-  refine ⟨{ left := fun i => (hsource i).cover,
+  refine ⟨{
+    left := fun i => (hsource i).cover
     right := fun i => (hsource i).cover }, ?_⟩
   intro i
   exact ⟨(hsource i).cover_realizes, (hsource i).cover_realizes⟩

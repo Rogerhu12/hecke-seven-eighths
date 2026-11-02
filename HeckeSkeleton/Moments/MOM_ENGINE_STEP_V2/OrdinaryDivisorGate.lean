@@ -132,7 +132,7 @@ theorem main_divisorRealizes (hP : P.Realizes) (i : Fin family.count)
   apply source.divisorRealizes_of_transport
     ((P.data i).mainSource (family.source i).source.coefficient)
     (family.source i).first.residualDivisor.val hcolumn hsource
-    (congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
   intro j hj hc
   have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
   have hcolumns := congrArg ActualGaussSource.columns (hP.original i)

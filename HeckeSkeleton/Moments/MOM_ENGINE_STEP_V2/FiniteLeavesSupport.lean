@@ -86,6 +86,7 @@ theorem orbitMultiplicity_eq_zero (source : PhysicalSource call p)
   have he : source.source.rows = ∅ := Finset.not_nonempty_iff_eq_empty.mp hrows
   simp only [PhysicalSource.orbitMultiplicity, he, Finset.image_empty,
     Finset.sup_empty]
+  rfl
 
 run_cmd do
   Lean.Elab.Command.liftIO do
