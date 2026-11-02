@@ -56,7 +56,7 @@ def originalSlotWeight (i : Fin call.localizedData.geometry.slotCount)
 
 def originalPlainScale (rectangle plain : Bool) : ℝ :=
   if rectangle then
-    call.base ^ (if plain then call.node.comparison₂ else call.node.comparison₁)
+    call.base ^ (if plain then call.workingComparison₂ else call.workingComparison₁)
   else call.base ^ (if plain then call.node.parameters.n₂ else call.node.parameters.n₁)
 
 end Call
