@@ -82,6 +82,25 @@ corrections stay in the same shared files:
   flushed declaration/step checkpoints to locate its 300-second timeout. The
   same canonical module remains required by both formal gates and all audits.
 
+Formal head `287033f7b52ceb9f59acee374c00f8b0d8d9da35` then built
+`OrdinaryRawAtomData` in 32s/53s and `OrdinaryMultiplierTransport` in 68s/114s
+in the public/strict gates. Their exact blobs are respectively
+`21772903feb205fec023147b122f73e14287c719` and
+`b0ec3e0822bc6a9ee8b120d0f350ec02fcec8514`. These same-path sources are
+reported to N1 in PR #31 comment `6587076397`. N1 R17 snapshot
+`2abc270913f32620d3bda15412abc1ad699c6db5` still failed its RawAtomData module
+on `Bool.true_eq_true`; it does not replace the two validated T3 source blobs.
+The complete T3 tasks and fresh audits remain unaccepted at this stage.
+
+The 67 flushed Coordinates labels in both official logs and the full strict
+artifact locate its remaining timeout after the `realizes_firstIndex` true
+branch and before `secondColumn`. The next proof correction factors the
+realization elimination into a private helper with an independent count
+equality; the public theorem supplies its same original count proof afterward.
+The original ancestor, column, cast, public statement and watchdog remain
+unchanged. Additional branch-completion labels distinguish construction of
+the existing cover equality from its final type alignment.
+
 ## N4 frozen ideals and scale identities
 
 Initially reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`:
@@ -98,14 +117,22 @@ prod_fin_cast and congrArg. All public statements, original count transports,
 plain scales and ideals remain unchanged. PR #39 snapshot 6b1cf628 retains the
 same failing proof bodies; its unrelated helper split is not required here.
 
-`N4FrozenIdeals.lean` now follows PR #42 snapshot
+`N4FrozenIdeals.lean` first followed PR #42 snapshot
 `8b17b6da79234dcdb9164e19c132df00e86cf711` verbatim (blob
 `484452c827e2c5db4e5f9bac016f0b24636bfa1a`), coordinated with N4 in PR #39
 comment `6586444523` and announced in PR #31 comment `6586480240`.
-Its three proof corrections explicitly reduce the original direct-source
-projection, identify the unit ideal with top, and transport the original
-filter membership through the actual supportExtractionLabel_fibre equality.
-Imports and every declaration header are unchanged.
+Those corrections explicitly reduce the original direct-source projection
+and identify the unit ideal with top. T3 head `287033f7` confirmed that its
+remaining filter-to-image step used different DecidableEq algorithms.
+
+The current file follows PR #42 snapshot
+`01f544a14c07f339126e36ed0933eba2dc1ccd99` verbatim (blob
+`ef8048edd1f3d05b0a9e2bdf2db01e6f6b1eaa3c`), coordinated in PR #39 comment
+`6586842459` and PR #31 comment `6586880188`. The original fibre equality is
+first transported to a membership proposition, then filter/image membership
+is reduced and rebuilt using the target's own image constructor. No ideal,
+index or premise changes. Imports and every declaration header are unchanged;
+this final compatibility step still requires the next T3 formal CI run.
 
 ## B-line CI repair
 

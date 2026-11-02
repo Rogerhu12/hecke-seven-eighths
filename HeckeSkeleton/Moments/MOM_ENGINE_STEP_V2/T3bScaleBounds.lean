@@ -227,8 +227,8 @@ theorem t3b_poolLength_eq :
     simp only [hp] at htag hpower
     rw [hpower]
     rcases htag with htag | htag <;>
-      simp only [htag, OriginalNominalTag.removedLength, unitExterior, idealLogLength,
-        map_one, Nat.cast_one, Real.log_one, zero_div]
+      simp only [htag, OriginalNominalTag.removedLength, unitExterior, ← Ideal.one_eq_top,
+        idealLogLength, map_one, Nat.cast_one, Real.log_one, zero_div]
   | some eq =>
     rcases eq with ⟨e, q⟩
     simp only [hp] at htag hpower

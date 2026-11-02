@@ -54,11 +54,26 @@ theorem correction_unramified (q : HeightOneSpectrum (𝓞 K))
   · rw [h]
     exact unramifiedAt_one K q
   · apply actualCanonicalTheta_unramified K c _
-    · rw [← call.localizedSource.source.theta_eq]
-      exact h
+    · exact (congrArg
+        (fun theta : Finset (HeckeCharacter K) =>
+          call.localizedSource.source.recipe.correction ∈ theta)
+        call.localizedSource.source.theta_eq).mp h
     · exact hq
 
 end Call
+
+private theorem unramified_append_product
+    {A : SArithmeticData K}
+    {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
+    {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
+    (correction : HeckeCharacter K) (D E : OriginalMovingFactors A P R)
+    (χ : HeckeCharacter K) (q : HeightOneSpectrum (𝓞 K))
+    (hprefix : UnramifiedAt K (correction * D.character) q)
+    (hfull : UnramifiedAt K (correction * (D.append E).character * χ) q) :
+    UnramifiedAt K (E.character * χ) q := by
+  apply T3a.unramified_product_of_unramified_prefix
+    (correction * D.character) E.character χ q hprefix
+  simpa only [OriginalMovingFactors.append_character, mul_assoc] using hfull
 
 namespace RawFamily
 
@@ -94,17 +109,17 @@ theorem packet_original_count_dvd_six_of_moving_unramified
         (raw.index j).val.1.2.1 (raw.index j).val.1.2.2.1
         (SourceClassKey.rowLabel (raw.index j).val.1.2)).live :=
     h.property
-  simp only [SecondSource.rowCharacter, dif_pos hlive,
-    OriginalMovingFactors.append_character] at hfull
+  simp only [SecondSource.rowCharacter, dif_pos hlive] at hfull
   have hprefix := (call.correction_unramified
     ((raw.packet j).R.primes i).val hout).mul K hmoving
   apply T3a.actualSecondRow_original_exponent_dvd_six
     (probeData K c) (momentRowCharacters K c) (Arithmetic.context c)
     (raw.packet j).R h i hi
-  apply T3a.unramified_product_of_unramified_prefix
-    (call.localizedSource.source.recipe.correction *
-      (expansion.moving (raw.index j).val.1.1).character) _ _ _ hprefix
-  simpa only [mul_assoc] using hfull
+  apply unramified_append_product
+    (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+    call.localizedSource.source.recipe.correction
+    (expansion.moving (raw.index j).val.1.1) _ _ _ hprefix
+  exact hfull
 
 end RawFamily
 

@@ -575,6 +575,57 @@ theorem realizes_firstCartesian (hpacket : packet.Realizes) (side : Bool)
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before RawLeafPacket.realizes_firstIndex_of_count"
+    stderr.flush
+
+/-- Keep the count proof independent of the realization witness while
+eliminating that witness. The public statement supplies its original
+count proof only after this transport has been checked. -/
+private theorem realizes_firstIndex_of_count (hpacket : packet.Realizes) (side : Bool)
+    (hcount : (packet.firstBranch side).keep.card = (packet.firstAtlas side).slotCount)
+    (x : AllocationColumn K (packet.firstAtlas side).slotCount)
+    (hx : x ∈ (packet.firstAtlas side).reindex.cartesian) :
+    packet.second.physical.ancestor ((packet.firstAtlas side).reindex.index x) =
+      call.workingRaw.originalIndex ((packet.firstBranch side).reconstruct
+        (cast (congrArg (AllocationColumn K) hcount.symm) x)) := by
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.proof"
+    stderr.flush
+  rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.packet"
+    stderr.flush
+  cases side with
+  | false =>
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.false"
+      stderr.flush
+    have h := (hraw (raw.index j).val.1.1).1.ancestor_index
+      (raw.index j).val.1.2.2.2.1 x hx
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.false.index"
+      stderr.flush
+    exact h
+  | true =>
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true"
+      stderr.flush
+    have h := (hraw (raw.index j).val.1.1).2.ancestor_index
+      (raw.index j).val.1.2.2.2.2.1 x hx
+    run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.index"
+      stderr.flush
+    exact h
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before RawLeafPacket.realizes_firstIndex"
     stderr.flush
 
@@ -589,26 +640,8 @@ theorem realizes_firstIndex (hpacket : packet.Realizes) (side : Bool)
     let stderr ← IO.getStderr
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: RawLeafPacket.realizes_firstIndex.proof"
     stderr.flush
-  rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
-  run_tac do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex.packet"
-    stderr.flush
-  cases side with
-  | false =>
-    run_tac do
-      let stderr ← IO.getStderr
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex.false"
-      stderr.flush
-    exact (hraw (raw.index j).val.1.1).1.ancestor_index
-      (raw.index j).val.1.2.2.2.1 x hx
-  | true =>
-    run_tac do
-      let stderr ← IO.getStderr
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex.true"
-      stderr.flush
-    exact (hraw (raw.index j).val.1.1).2.ancestor_index
-      (raw.index j).val.1.2.2.2.2.1 x hx
+  exact realizes_firstIndex_of_count packet hpacket side
+    (packet.realizes_firstCount hpacket side) x hx
 
 run_cmd do
   Lean.Elab.Command.liftIO do

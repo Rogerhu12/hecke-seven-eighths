@@ -146,9 +146,14 @@ theorem t3b_firstScaleProduct_full (side rectangle : Bool) :
         ∏ i : Fin (packet.firstAtlas side).slotCount,
           call.base ^ call.originalLength (packet.firstAtomIndex hpacket side i) =
       packet.firstScaleProduct side := by
-  unfold firstAtomIndex
-  rw [T3b.prod_fin_cast (packet.realizes_firstCount hpacket side).symm]
-  exact packet.firstScaleProduct_rectangle side rectangle
+  exact (congrArg
+    (fun value : ℝ => packet.firstPlainScale side rectangle false *
+      packet.firstPlainScale side rectangle true * value)
+    (T3b.prod_fin_cast (packet.realizes_firstCount hpacket side).symm
+      (fun i : Fin (packet.firstBranch side).keep.card =>
+        call.base ^ call.originalLength
+          (SlotRestriction.index (packet.firstBranch side).keep i)))).trans
+    (packet.firstScaleProduct_rectangle side rectangle)
 
 /-- The literal scale product immediately before the inner divisor. -/
 def t3bBeforeScaleProduct (side : Bool) : ℝ :=

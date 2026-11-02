@@ -43,12 +43,12 @@ theorem t3b_orbitMultiplicity_le (source : PhysicalSource call p)
   · obtain ⟨q, hq, he⟩ := Finset.exists_mem_eq_sup image hi (fun q =>
       (source.source.rows.filter (fun h =>
         engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card)
-    change (image.sup (fun q => (source.source.rows.filter (fun h =>
-      engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card) : ℝ) ≤ B
+    change ((image.sup (fun q => (source.source.rows.filter (fun h =>
+      engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card) : ℕ) : ℝ) ≤ B
     rw [he]
     exact hfibres q
-  · change (image.sup (fun q => (source.source.rows.filter (fun h =>
-      engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card) : ℝ) ≤ B
+  · change ((image.sup (fun q => (source.source.rows.filter (fun h =>
+      engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card) : ℕ) : ℝ) ≤ B
     rw [Finset.not_nonempty_iff_eq_empty.mp hi, Finset.sup_empty]
     exact hB
 
@@ -69,9 +69,17 @@ theorem t3b_source_orbit_injective (family : FirstCauchyFamily F)
   change Set.InjOn _ ((FirstCauchyKey.data (family.index i)).rows : Set (Arithmetic.data c).R)
   unfold FirstCauchyKey.data
   split_ifs
-  · rw [hF.rightRows]
+  · have hrows : (FirstCauchyKey.piece (family.index i)).rightData.rows =
+        ((F.source.source (FirstCauchyKey.common (family.index i))).divisorRows
+          (FirstCauchyKey.divisor (family.index i)).val).image (fun q => -q.out.val) :=
+      hF.rightRows _ _
+    rw [hrows]
     exact T3b.negative_representative_image_orbit_injective _
-  · rw [hF.leftRows]
+  · have hrows : (FirstCauchyKey.piece (family.index i)).leftData.rows =
+        ((F.source.source (FirstCauchyKey.common (family.index i))).divisorRows
+          (FirstCauchyKey.divisor (family.index i)).val).image (fun q => q.out.val) :=
+      hF.leftRows _ _
+    rw [hrows]
     exact T3b.representative_image_orbit_injective _
 
 theorem t3b_orbitMultiplicity_le_one (family : FirstCauchyFamily F)
@@ -79,9 +87,14 @@ theorem t3b_orbitMultiplicity_le_one (family : FirstCauchyFamily F)
     ((family.source i).orbitMultiplicity : ℝ) ≤ 1 := by
   apply (family.source i).t3b_orbitMultiplicity_le 1 zero_le_one
   intro q
-  exact_mod_cast factor_fiber_card_le_one (family.source i).source.rows
-    (engineElementOrbit (Γ := Arithmetic.unitSubgroup c))
-    (family.t3b_source_orbit_injective hF hfamily i) q
+  have hcard : ((family.source i).source.rows.filter (fun h =>
+      engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card ≤ 1 := by
+    apply Finset.card_le_one.mpr
+    intro a ha b hb
+    exact (family.t3b_source_orbit_injective hF hfamily i)
+      (Finset.mem_filter.mp ha).1 (Finset.mem_filter.mp hb).1
+      ((Finset.mem_filter.mp ha).2.trans (Finset.mem_filter.mp hb).2.symm)
+  exact_mod_cast hcard
 
 end FirstCauchyFamily
 
@@ -144,8 +157,14 @@ theorem t3b_orbitMultiplicity_le (expansion : PoolExpansion family)
           ((P.data (index i).1).errorRows qe.1.val : Set (Arithmetic.data c).R) := by
         intro a ha b hb he
         exact hinj (Finset.mem_filter.mp ha).1 (Finset.mem_filter.mp hb).1 he
-      exact_mod_cast factor_fiber_card_le_one ((P.data (index i).1).errorRows qe.1.val)
-        (engineElementOrbit (Γ := Arithmetic.unitSubgroup c)) hinjerror q
+      have hcard : (((P.data (index i).1).residualSource qe.1.val qe.2.multiplicity
+          (family.source (index i).1).source.coefficient).rows.filter (fun h =>
+          engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card ≤ 1 := by
+        apply Finset.card_le_one.mpr
+        intro a ha b hb
+        exact hinjerror (Finset.mem_filter.mp ha).1 (Finset.mem_filter.mp hb).1
+          ((Finset.mem_filter.mp ha).2.trans (Finset.mem_filter.mp hb).2.symm)
+      exact_mod_cast hcard
 
 end PoolExpansion
 

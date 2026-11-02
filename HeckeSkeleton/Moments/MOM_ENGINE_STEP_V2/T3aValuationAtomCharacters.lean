@@ -146,8 +146,13 @@ theorem t3bOriginalCharacter_eq_source (j : Fin raw.count) (h : (raw.packet j).R
         (expansion := trace.expansion) (raw.index j).val.1.1
         (raw.index j).val.1.2.1 (raw.index j).val.1.2.2.1
         (SourceClassKey.rowLabel (raw.index j).val.1.2) h.val := by
+  have hlive : h.val ∈
+      ((trace.second.source (raw.index j).val.1.1).rows
+        (raw.index j).val.1.2.1 (raw.index j).val.1.2.2.1
+        (SourceClassKey.rowLabel (raw.index j).val.1.2)).live :=
+    h.property
   simp only [RawLeafPacket.t3bOriginalCharacter, OrdinaryPhaseFacts.ofRaw_moving_false,
-    SecondSource.rowCharacter, dif_pos h.property]
+    SecondSource.rowCharacter, dif_pos hlive]
 
 /-- The catalogue is fixed by the original target. Only its finite
 index is selected from the actual exceptional membership proof. -/
