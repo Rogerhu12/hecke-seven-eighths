@@ -28,7 +28,7 @@ structure OriginalInput (c : TargetContext K)
     (n : Node K c.family.omega (targetCharacter K c)) (Z : ℝ) where
   theta : Finset (HeckeCharacter K)
   source : CompleteSourceData c theta n.data
-  normProfiles : NormProfileRecipe (fun _ : PUnit => n.data)
+  normProfiles : NormProfileRecipe (fun _ : PUnit.{1} => n.data)
 
 namespace OriginalInput
 
@@ -40,30 +40,6 @@ def raw (input : OriginalInput c n Z) :
       Z 0 (Z ^ n.comparison₁) (Z ^ n.comparison₂) :=
   (input.source.arithmeticAtoms.constantAtoms input.normProfiles n.parameters Z 0).raw
     (Z ^ n.comparison₁) (Z ^ n.comparison₂)
-
-/-- Both rectangles use the original finite Cartesian carrier. -/
-theorem polynomial (input : OriginalInput c n Z) (u : NonzeroIdeal K)
-    (hu : u ∈ pairedRows n.data n.parameters Z) :
-    pairedStagePolynomial n.centered n.data u (Z ^ n.parameters.n₁)
-      (Z ^ n.parameters.n₂) (Z ^ n.comparison₁) (Z ^ n.comparison₂) Z 0 =
-      ∑ v ∈ input.raw.columns,
-        input.raw.coefficient n.centered (input.raw.rowMap u) v *
-          input.raw.phase (input.raw.rowMap u) v := by
-  sorry
-
-/-- The norm recipe only fixes row independence; every original ideal
-and prime phase is still the canonical arithmetic residue. -/
-theorem phase_dictionary (input : OriginalInput c n Z) :
-    (∀ I ∈ input.raw.leftColumns, ∀ q : ActualSIntegerOrbit K (places K c),
-      input.raw.leftPhase q I = actualIdealResidue (A := (axiomChoice K c).A)
-        (σ := complexEmbedding K c) I.val q.out.val) ∧
-    (∀ I ∈ input.raw.rightColumns, ∀ q : ActualSIntegerOrbit K (places K c),
-      input.raw.rightPhase q I = actualIdealResidue (A := (axiomChoice K c).A)
-        (σ := complexEmbedding K c) I.val q.out.val) ∧
-    (∀ i, ∀ p ∈ input.raw.slotColumns i, ∀ q : ActualSIntegerOrbit K (places K c),
-      input.raw.primePhase q i p = actualIdealResidue (A := (axiomChoice K c).A)
-        (σ := complexEmbedding K c) p.asIdeal q.out.val) := by
-  sorry
 
 end OriginalInput
 end HeckeSkeleton.Moments.EngineStepV2

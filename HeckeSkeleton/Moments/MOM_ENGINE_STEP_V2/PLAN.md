@@ -1,143 +1,59 @@
-# MOM_ENGINE_STEP_V2 数据构造与分组证明计划
+# MOM_ENGINE_STEP_V2：论文步骤蓝图
 
-## 原目标与当前阶段
+## 生效要求
 
-公开入口仍为 `HeckeSkeleton.Moments.EngineStepV2.pairedStepHypothesis`，目标为原 `EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c`。全部原始参数、mesh、支持受限 volume 量词及 induction 输入保持不变；没有添加 parent bound、child admissibility、terminal 或 mass 结论作前提。
+按任务文件 2026-11-02 18:20 的“方向调整”及 PR #31 [协调评论](https://github.com/Rogerhu12/hecke-seven-eighths/pull/31#issuecomment-6574713757)，第一阶段改为**必要中间陈述、完整组装证明、逐陈述任务清单**。原目标仍是：
 
-按 PR #31 评论 6573415153，**当前阶段是具体数据构造与 CI 修复，尚未达到正式陈述骨架里程碑**。截至 `43d3f5587e12e74a36cddc0e61296ec2e06daa43`，90 个模块、27,039 物理行（含注释与空行）已直接推送。统一 schedule/bounds/call、两次变换的实际有限展开和 selectedNormalization 的同一叶子接线均已具体定义；完整实际闭包等待 CI 全量通过。解析窗口和 arithmetic recipe 中用于提取数据的存在性证明也已展开，不能留作证明占位。逐定义构造来源与状态见 [DATA_CONSTRUCTIONS.md](DATA_CONSTRUCTIONS.md)。
+```lean
+EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
+```
 
-数据字段必须是实际 record、有限集合、原核、原 profile、原 label 的构造。结构内 Prop 字段及 theorem 的证明可在此阶段使用显式 `sorry`；不得用新写的占位存在性定理配合 choice 隐藏数据。引用已合入且已证明的原分析/算术存在性定理选择统一常数和原 Mellin profile 是实际构造。
+不修改 base 的定义、原量词、mesh 或 supported-volume 假设。各证明任务的主体暂用 `sorry`；组装模块显式接收这些任务的证明，不能使用 `sorry`，也不能导入已占位的任务定理。
 
-## 共享设计
+## 第 1 批：只保留真实输入
 
-- 左右使用同一 Bool 参数化 ChildFamily、共同正 Fourier 测度、同一最终 child 与 kernel。
-- 第一次源保留原系数、原物理行、实际 cutoff、原 common/mask/divisor/phase labels；第二次源保留完整相关式。
-- direct 与 pooled 共用 ActualGaussStage → covered leaf → literal normalization；main/1/6/7 保留同一个 prime pool、各自原 prime 和 valuation。零槽采用 direct；空原行采用真实空有限族。
-- 规范化 carrier 同时保留两侧独立被动 divisor 与矩形标记；whole-slot capacity 删除仅作用于真实 literal profile，不能换成裸 seminorm 或任意同型输出。
-- profile orders 先于 Cp/Hp；统一常数与 threshold 先于 moving recipe、node、频率。调用 control 是实际 Mellin amplitude 的明确幂；所有生产规格仅针对 selectedCall。
-- 原输出通过 PairedEngineConclusion.ofFintype 一次收口，额外性质沿同一输出运输。
-- 仅引用已合入的 STEP/INDUCTION API；A 线用作构造来源，迁移后的新声明全部位于 EngineStepV2。abbrev 的实例仅 local 启用。
+当前提交是蓝图的输入层，不是已完成的蓝图里程碑。活动 Lean 文件仅为：
 
-## 分组、顺序与预算
+| 文件 | 实际行数 | 必要角色 |
+|---|---:|---|
+| `SourceFrame` | 140 | 原 annulus/reflection、schedule/bounds、原 recursive request |
+| `OriginalInput` | 45 | base CompleteSourceData、原 NormProfileRecipe、原 finite parent atoms |
+| `PreparedCall` | 117 | 原 Mellin preprocessing、同源 source/profile 运输及外 Mellin 成本 |
+| `CallData` | 111 | 单次原输入及其 localization、domain、geometry 的实际派生 |
+| `ArithmeticData` | 71 | 同一 target 的 base arithmetic choice、unit subgroup、Haar measures |
+| `UniformData` | 67 | 原量词顺序下的 schedule/bounds/prepared 与外 Mellin budget |
+| `EstimateData` | 126 | 固定 rank/annulus、真实原 RawProfileWindow、具体 orders/threshold 资格 |
+| `SourceData` | 196 | 原 first/second source 数据、小正 loss/cutoff 的实际构造 |
+| `RawLeafData` | 214 | base covered physical carrier、实际 allocation 与 full-correlation leaf |
+| `NormalizedData` | 98 | 同一个 base normalized family、原两个 Fourier kernel、实际有限质量表达式 |
+| `UniformContracts` | 93 | 纯 numerical funding 及 uniform preparation 命题类型，无占位定理 |
+| `AssemblyCore` | 130 | 参数嵌入、exact universal child labels、Mellin strict family |
+| `OutputAssembly` | 102 | 同一 normalized family 接入原 ofFintype 与 exact recursive admissibility |
+| `NormalizationAssembly` | 49 | base source_integral 把同源预算运到同一 child/kernel |
+| `BudgetAssembly` | 101 | 四 terminal 加总及算术/Fourier 两份质量的纯数值组装 |
+| `UniformAssembly` | 76 | 显式 prepare/produce 下完整恢复原目标量词 |
+| `Interface` | 24 | 活动模块聚合入口；完整论文任务入口随后接入 |
 
-分组已按实际 import 图调整，当前不存在后组被前组导入的逆向依赖。公共 literal/物理数据和数值预算同属 G2，解决旧草图中 G2 与 G3 交叉依赖的问题。每组少于 100 模块；后续 helper 按依赖加入对应组并同步 manifest/Interface。
+以上数据及派生定义全部具体构造，不从新 admitted existence 中选择数据。尚未使用的原 `OriginalInput` 证明陈述也已移除。原始 source 的存在证书来自 base 的 node invariant；Mellin/localization 直接调用 base 已有构造。
 
-| 组 | 当前模块数 | 可依赖的前组 | 责任 | 当前模块完成预算 |
-|---|---:|---|---|---:|
-| G1 | 8 | 无 | 公共有限族与原始叶子接口 | 1870 |
-| G2 | 61 | G1 | 公共物理数据、规范化构造与统一数值预算 | 48050 |
-| G3 | 15 | G1–G2 | 选定原源、同一叶子与实际输出 | 11250 |
-| G4 | 3 | G1–G3 | 四个终端与完整核质量 | 11200 |
-| G5 | 3 | G1–G4 | 严格输出族与原目标 | 1050 |
+旧 90 模块实现闭包中的 **86 个文件已从活动目录移除**；Literal/physical/selected 数值实现不进入蓝图。可通过 [旧 head 0b30d8e](https://github.com/Rogerhu12/hecke-seven-eighths/tree/0b30d8e371be1fe4028306e24c86fef3b3c5588f/HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2) 或 A 线历史查阅，不复制到新的 reference 编译目录。
 
-现有模块逐项预算合计 **73,420 行**。另外预留 **3,500 行**给最终 normalization 接线、CI 发现的必要 helper 和不可省略的证明，合计规划 **76,920 行**，保持低于 100,000 行目标。这是根据真实迁移闭包修正后的工程估计，取代最初 19 模块草图的 57,620 行；不是完成证明后的实测压缩结果。新增 helper 会从对应预算/预留中列账，不能只统计包装入口。
+## 下一批：固定任务陈述并证明组装
 
-当前保留的 theorem/Prop 占位尚未验收。真实对象全部接通后，CI 必须逐一编译全部声明；此后先推进 G1 八模块证明。每组完成时，清空本组占位并在 fresh Lean 中对本组所有加载声明（含 private/generated）的依赖递归检查公理，仅允许 propext、Classical.choice、Quot.sound。
+源端按论文步骤拆为：原始系数与第一变换、第一轮范数预算、一次 prime pool、第二完整相关式、宽度下降、两轮除子分配。规范化侧另行区分原子字典、被动 whole-product 分解、capacity/clipping、profile、同一 child invariant、同核 integrability/mass 与实际四终端。
 
-## 逐模块当前行数与完成预算
+每个任务先固定具体的 Lean 陈述及依赖，目标证明规模 3000–5000 行以内。统一 orders/constants/threshold 的证书必须先于移动输入；输入资格只能由明确数值与几何条件定义，不能用任意可为空的谓词代替。统一选择任务只构造输入数据与资格，不能把最终 child/output 当作前提。
 
-| 组 | 模块 | 当前物理行 | 预计完成行数 |
-|---|---|---:|---:|
-| G1 | `ChildFamily` | 126 | 180 |
-| G1 | `FiniteKernelFamily` | 98 | 220 |
-| G1 | `ScalarLedger` | 100 | 160 |
-| G1 | `Output` | 101 | 160 |
-| G1 | `OriginalInput` | 69 | 200 |
-| G1 | `HybridExpansion` | 89 | 350 |
-| G1 | `LeafCoverage` | 53 | 200 |
-| G1 | `LeafNormalization` | 81 | 400 |
-| G2 | `AnalyticChoices` | 147 | 350 |
-| G2 | `BlockGaussStage` | 305 | 400 |
-| G2 | `ChoiceBox` | 275 | 400 |
-| G2 | `CoveredStage` | 175 | 250 |
-| G2 | `DirectLeaves` | 148 | 200 |
-| G2 | `DirectParent` | 97 | 150 |
-| G2 | `DirectPreparation` | 167 | 250 |
-| G2 | `DirectStages` | 130 | 200 |
-| G2 | `ExceptionalChoices` | 161 | 250 |
-| G2 | `FirstGaussData` | 340 | 500 |
-| G2 | `FirstGeometry` | 142 | 200 |
-| G2 | `FirstNormalization` | 97 | 150 |
-| G2 | `FirstSource` | 234 | 300 |
-| G2 | `FullSupportParameters` | 339 | 400 |
-| G2 | `GaussOrbitRows` | 395 | 450 |
-| G2 | `GaussStage` | 341 | 400 |
-| G2 | `LiteralAnalyticProduction` | 245 | 300 |
-| G2 | `LiteralAtlas` | 1191 | 3400 |
-| G2 | `LiteralAtoms` | 274 | 550 |
-| G2 | `LiteralCalibration` | 1319 | 2700 |
-| G2 | `LiteralCapacity` | 942 | 2750 |
-| G2 | `LiteralCovered` | 1122 | 2350 |
-| G2 | `LiteralCoveredProduction` | 423 | 500 |
-| G2 | `LiteralCoveredStrip` | 234 | 500 |
-| G2 | `LiteralGeometry` | 121 | 500 |
-| G2 | `LiteralInput` | 125 | 250 |
-| G2 | `LiteralPassive` | 2691 | 7200 |
-| G2 | `LiteralPhases` | 1959 | 5150 |
-| G2 | `LiteralProduction` | 1197 | 1600 |
-| G2 | `LiteralProfiles` | 542 | 1300 |
-| G2 | `LiteralTransforms` | 575 | 1800 |
-| G2 | `LiteralWindows` | 2337 | 5300 |
-| G2 | `MassIndexChoices` | 133 | 200 |
-| G2 | `MassProfileChoices` | 143 | 300 |
-| G2 | `NormalizedFamilyAdapter` | 161 | 250 |
-| G2 | `OriginalPoolStages` | 126 | 250 |
-| G2 | `ParentTerminals` | 159 | 250 |
-| G2 | `PatternRows` | 207 | 300 |
-| G2 | `PhysicalConstants` | 168 | 250 |
-| G2 | `PoolAttachment` | 104 | 200 |
-| G2 | `PoolLeaves` | 116 | 200 |
-| G2 | `PooledFirstLeaves` | 180 | 250 |
-| G2 | `PooledParent` | 114 | 200 |
-| G2 | `PreparedCall` | 117 | 200 |
-| G2 | `PrimitiveFirstSource` | 198 | 300 |
-| G2 | `ProfileChoices` | 146 | 300 |
-| G2 | `RawTerminalData` | 168 | 250 |
-| G2 | `RawTerminals` | 104 | 200 |
-| G2 | `RowClasses` | 258 | 350 |
-| G2 | `SectorRows` | 322 | 400 |
-| G2 | `SectorStage` | 95 | 150 |
-| G2 | `SourceCoordinates` | 206 | 300 |
-| G2 | `SourceFrame` | 140 | 200 |
-| G2 | `SourceGates` | 197 | 250 |
-| G2 | `SourcePool` | 71 | 150 |
-| G2 | `SourcePredicates` | 123 | 200 |
-| G2 | `SourceSupport` | 293 | 350 |
-| G2 | `TargetArithmetic` | 145 | 150 |
-| G2 | `UnmaskedStage` | 139 | 200 |
-| G2 | `VolumeChoices` | 148 | 200 |
-| G2 | `LiteralRowProfileBound` | 151 | 250 |
-| G3 | `ChildProduction` | 117 | 2200 |
-| G3 | `SelectedFamily` | 199 | 1000 |
-| G3 | `SelectedLeafPacket` | 129 | 200 |
-| G3 | `SelectedLeaves` | 123 | 250 |
-| G3 | `SelectedLiteralInputs` | 237 | 500 |
-| G3 | `SelectedLiteralProfiles` | 196 | 800 |
-| G3 | `SelectedPredicates` | 169 | 250 |
-| G3 | `SelectedProfileData` | 107 | 200 |
-| G3 | `SelectedSource` | 193 | 300 |
-| G3 | `SelectedStages` | 174 | 300 |
-| G3 | `SourceProduction` | 141 | 1800 |
-| G3 | `UniformChoices` | 200 | 1000 |
-| G3 | `SelectedMetadata` | 142 | 350 |
-| G3 | `SelectedNormalizedFamily` | 89 | 250 |
-| G3 | `SelectedPackets` | 238 | 1850 |
-| G4 | `TerminalCalibration` | 69 | 6000 |
-| G4 | `KernelCalibration` | 69 | 5000 |
-| G4 | `LocalProduction` | 47 | 200 |
-| G5 | `StrictFamily` | 115 | 700 |
-| G5 | `SourceHypothesis` | 51 | 150 |
-| G5 | `Interface` | 95 | 200 |
+纯数据及任务命题类型与占位任务证明分开。无占位组装模块只 import 纯类型和 base，显式取得每项任务证明后，逐层取得同一 source/leaf/child/kernel，最终构造原 `PairedStepHypothesis`。实例化这些任务的顶层入口另行记录其仍有 `sorryAx`，不把条件组装的三公理通过误报为最终目标已证明。
 
-## 数据优先的执行顺序
+## 预算基准
 
-1. 按 DATA_CONSTRUCTIONS 清单完成真实数据及 helper，写完一批即通过 GitHub 推送。
-2. 全部下游在真实对象上编译通过后，在 PR #31 记录精确 head、完整模块数、CI run 和本计划的最终版本。
-3. 随即填完并验收 G1；再按 G2 → G3 → G4 → G5 推进。不以含数据占位的旧骨架作为里程碑。
-4. 原目标全部无占位、递归三公理审计和全项目门禁通过后才考虑 ready for review；目前保持 [不合并] draft。
+原 19 模块草图预算 **57,620 行**；旧实现方案后来重估为 **76,920 行**，增加 **19,300 行**，尚未通过完整 CI。该实现方案已经停止，不再作为蓝图路线继续扩展。
 
-## 论文与编译依据
+本批 **17 模块、1,760 物理行**，全部为真实输入、纯任务命题类型或已完成的公共组装。这个数字是蓝图输入层体量，不是完整证明规模，也不是完成压缩的证据。完整蓝图会按每个任务列出预计证明行数、真实依赖、论文位置与 A 线参考，汇总后继续以 100,000 行为上限。未实现的通用化不提前计算节省。
 
-论文对应 `weil_seven_eighths_revised.tex` §4.8（2741–3074 行）：原 common-support 变换、一次 pool 放大、完整第二 correlation、allocation、同核 children 与一次 whole-slot capacity 删除。PR #9 指出的 volume/mesh 原量词保留（1548–1559、2687–2745、2936–2941、3023–3025、3122–3138 行）。
+## CI 与执行节奏
 
-所有编译交给 GitHub CI，未运行本地 Lean。专用 workflow 精确 checkout PR head、使用固定工具链和原项目缓存，build.py 验证 manifest 无重无漏、编译全部模块、记录源哈希与真实退出码。只有标记 proved 的组才要求无 sorry 并执行递归三公理审计。draft 期间专用门禁持续运行；ready-for-review 或手动触发时执行原全项目门禁。
+只用 GitHub CI 编译；每批完成即推送，等待该轮结果并读完日志才推下一批。专用 CI 精确 checkout head，验证 manifest 覆盖全部活动模块，并对 `proved` 组在 fresh Lean 中递归审计所有 V2 声明，只允许 `propext`、`Classical.choice`、`Quot.sound`。本批全为无占位真实数据及公共组装，作为 `g0` 审计。
+
+全部任务陈述与完整无占位组装在同一 head 编通后，发布正式逐任务清单供协调员安排并行会话。PR 保持 [不合并] draft；最终原目标无占位、三公理与 integration gate 通过后才进入审查。
