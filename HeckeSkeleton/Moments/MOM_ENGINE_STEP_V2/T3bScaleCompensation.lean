@@ -248,7 +248,8 @@ theorem t3b_poolNorm_le_firstFrozenNorm (side : Bool) :
   rw [N4.firstFrozenIdeal_eq hpacket side, map_mul, Nat.cast_mul]
   have hsel : 1 ≤ (Ideal.absNorm packet.second.physical.first.selected.val : ℝ) := by
     exact_mod_cast Nat.one_le_iff_ne_zero.mpr
-      (Ideal.absNorm_eq_zero_iff.not.mpr packet.second.physical.first.selected.property.1)
+      (Ideal.absNorm_eq_zero_iff.not.mpr
+        (nonZeroDivisors.coe_ne_zero packet.second.physical.first.selected))
   change (Ideal.absNorm packet.second.physical.first.poolPower.val : ℝ) ≤ _
   simpa only [one_mul] using mul_le_mul_of_nonneg_right hsel
     (Nat.cast_nonneg (Ideal.absNorm packet.second.physical.first.poolPower.val))

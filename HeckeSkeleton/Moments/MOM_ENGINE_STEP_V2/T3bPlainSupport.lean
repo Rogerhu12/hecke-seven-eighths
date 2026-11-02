@@ -66,7 +66,7 @@ def extract (deleted : Finset (Ideal (𝓞 K)))
       exact (support_reconstruct J (d.nonzero J hJmem) deleted).symm.trans (mul_comm _ _)
     intro Q hQ
     rcases Finset.mem_union.mp hQ with hQ | hQ
-    · exact IsCoprime.of_dvd_left hdiv (d.avoids J hJmem Q hQ)
+    · exact (d.avoids J hJmem Q hQ).of_isCoprime_of_dvd_left hdiv
     · exact (outside_iff_coprime deleted hdeleted
         ⟨supportResidual J deleted, supportResidual_ne_zero J deleted⟩).mp
         (residual_outside deleted hdeleted J) Q hQ
@@ -76,7 +76,7 @@ def extract (deleted : Finset (Ideal (𝓞 K)))
       rw [← hextract]
       exact (support_reconstruct witness (d.nonzero witness hwitness) deleted).symm
     have hDold : Avoids D.val excluded := fun Q hQ =>
-      IsCoprime.of_dvd_left hDdiv (d.avoids witness hwitness Q hQ)
+      (d.avoids witness hwitness Q hQ).of_isCoprime_of_dvd_left hDdiv
     have hIold : Avoids I.val excluded := fun Q hQ => hI Q (Finset.mem_union_left _ hQ)
     have hInew : Avoids I.val deleted := fun Q hQ => hI Q (Finset.mem_union_right _ hQ)
     have hm : (D * I).val ∈ carrier :=
@@ -100,7 +100,7 @@ include d
 same support and hence avoids every previously deleted prime. -/
 theorem divisor_avoids (D J : Ideal (𝓞 K)) (hJ : J ∈ carrier) (hD : D ∣ J) :
     Avoids D excluded :=
-  fun Q hQ => IsCoprime.of_dvd_left hD (d.avoids J hJ Q hQ)
+  fun Q hQ => (d.avoids J hJ Q hQ).of_isCoprime_of_dvd_left hD
 
 end PlainSupportData
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.T3b

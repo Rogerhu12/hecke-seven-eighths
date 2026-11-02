@@ -126,13 +126,17 @@ theorem t3bCompleteMask_coprime_secondDeletion
     (hcop : IsCoprime J.val (packet.t3bCompleteMask phases h))
     (Q : Ideal (𝓞 K)) (hQ : Q ∈ primeSupport packet.key.1.val.1) :
     IsCoprime J.val Q := by
+  have hcommon :
+      (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val =
+        packet.key.1.val.1 :=
+    packet.block.common_left
   have hQ' : Q ∈ primeSupport
-      (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val := by
-    rw [packet.block.common_left]
-    exact hQ
-  rw [primePowerProduct_support packet.R.primes packet.R.primes_injective
-    packet.R.leftMultiplicity packet.block.left_positive] at hQ'
-  obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hQ'
+      (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val :=
+    (congrArg (fun I : Ideal (𝓞 K) => Q ∈ primeSupport I) hcommon).mpr hQ
+  have hsupport := primePowerProduct_support packet.R.primes packet.R.primes_injective
+    packet.R.leftMultiplicity packet.block.left_positive
+  have himage := (congrArg (fun S : Finset (Ideal (𝓞 K)) => Q ∈ S) hsupport).mp hQ'
+  obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp himage
   exact packet.t3bCompleteMask_coprime_commonPrime phases h J hcop i
 
 end RawLeafPacket

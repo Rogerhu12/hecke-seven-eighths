@@ -64,6 +64,19 @@ def t3bScalarCoordinates (first : FirstCoordinates call) :=
 theorem t3bAllowance_pos (first : FirstCoordinates call) : 0 < first.t3bAllowance :=
   Real.rpow_pos_of_pos call.base_pos _
 
+private theorem t3bAllowance_eq_of_scalarCoordinates
+    (first second : FirstCoordinates call)
+    (h : first.t3bScalarCoordinates = second.t3bScalarCoordinates) :
+    first.t3bAllowance = second.t3bAllowance := by
+  exact congrArg
+    (fun x : Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) =>
+      call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
+        call.workingParameters.z + call.workingParameters.q +
+        idealLogLength call.base (firstActiveRadical x.1 x.2.1) +
+        idealLogLength call.base x.2.2.1 - idealLogLength call.base x.1 +
+        firstAllowance (idealLogLength call.base x.1) (idealLogLength call.base x.2.1)
+          (idealLogLength call.base (firstActiveRadical x.1 x.2.1)))) h
+
 end FirstCoordinates
 
 namespace FirstCauchyFamily
@@ -115,14 +128,8 @@ theorem t3b_first_allowance (expansion : PoolExpansion family)
     (hexpansion : expansion.Realizes) (i : Fin expansion.count) :
     (expansion.source i).first.t3bAllowance =
       (family.source (expansion.t3bFirstIndex i)).first.t3bAllowance := by
-  exact congrArg
-    (fun x : Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) × Ideal (𝓞 K) =>
-      call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂ +
-        call.workingParameters.z + call.workingParameters.q +
-        idealLogLength call.base (firstActiveRadical x.1 x.2.1) +
-        idealLogLength call.base x.2.2.1 - idealLogLength call.base x.1 +
-        firstAllowance (idealLogLength call.base x.1) (idealLogLength call.base x.2.1)
-          (idealLogLength call.base (firstActiveRadical x.1 x.2.1))))
+  exact FirstCoordinates.t3bAllowance_eq_of_scalarCoordinates
+    (expansion.source i).first (family.source (expansion.t3bFirstIndex i)).first
     (expansion.t3b_first_scalarCoordinates hexpansion i)
 
 private theorem pool_outer_mul_of_eq {w w₀ a b x y : ℝ}
