@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstTerminal
 
 set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
 
 /-!
 # The original direct parent produces the canonical finite hybrid leaves

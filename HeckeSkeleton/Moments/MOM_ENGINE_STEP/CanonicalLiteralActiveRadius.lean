@@ -172,8 +172,7 @@ variable {A : SArithmeticData K} {ι : Type*}
 variable {columns : Finset ι} {ideal : ι → A.Exterior}
 variable (atlas : SourceCartesianAtlas columns ideal) (count : second.keep.card = atlas.slotCount)
 variable (scalar : ℂ) (balance : Bool → ℝ)
-variable (W : ((((beforeSecond.extract second).onAtlas atlas count).scale scalar)
-  .balancePlain balance).ProfileData)
+variable (W : ((((beforeSecond.extract second).onAtlas atlas count).scale scalar).balancePlain balance).ProfileData)
 variable (allocation : ActualColumnAllocation K atlas.slotCount)
 variable {lo hi B : ℝ} {s : Finset (ℕ × ℕ)}
 variable (T : CanonicalLiteralFullKappaInput.ComputedProfiles W (Set.Icc lo hi) s B)
