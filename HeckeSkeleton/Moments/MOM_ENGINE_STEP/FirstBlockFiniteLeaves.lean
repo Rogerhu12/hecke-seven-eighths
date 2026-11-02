@@ -49,6 +49,8 @@ local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local instance firstBlockFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
+
 private abbrev firstBlock_sum_fintype {α β : Type*} [Fintype α] [Fintype β] :
     Fintype (α ⊕ β) :=
   inferInstance
