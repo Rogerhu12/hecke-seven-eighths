@@ -117,7 +117,11 @@ def literalLeftMainRecipe
   have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
   have E := original.onAtlas ((p.leftSourceCovers (raw).originalAtlas S χ).main.branch label) (congrArg Sigma.fst e).symm
-  simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
+  exact Eq.mp
+    (congrArg
+      (Recipe P R F (data ξ) Q.moving Q.correction Q.remaining extra)
+      (CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas _ _ _ _))
+    E
 
 /-- Exact original characters and the injective occurrence dictionary
 of the existing right main table, constructed before any child bound. -/
@@ -145,7 +149,11 @@ def literalRightMainRecipe
   have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
   have E := original.onAtlas ((p.rightSourceCovers (raw).originalAtlas S χ).main.branch label) (congrArg Sigma.fst e).symm
-  simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
+  exact Eq.mp
+    (congrArg
+      (Recipe P R F (data ξ) Q.moving Q.correction Q.remaining extra)
+      (CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas _ _ _ _))
+    E
 
 /-- Exact original characters and the injective occurrence dictionary
 of the existing left pool table, constructed before any child bound. -/
@@ -183,7 +191,11 @@ def literalLeftPoolRecipe
   have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
   have E := original.onAtlas (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label) (congrArg Sigma.fst e).symm
-  simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
+  exact Eq.mp
+    (congrArg
+      (Recipe P R F (data ξ) Q.moving Q.correction Q.remaining extra)
+      (CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas _ _ _ _))
+    E
 
 /-- Exact original characters and the injective occurrence dictionary
 of the existing right pool table, constructed before any child bound. -/
@@ -221,7 +233,11 @@ def literalRightPoolRecipe
   have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
   have E := original.onAtlas (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label) (congrArg Sigma.fst e).symm
-  simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
+  exact Eq.mp
+    (congrArg
+      (Recipe P R F (data ξ) Q.moving Q.correction Q.remaining extra)
+      (CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas _ _ _ _))
+    E
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
