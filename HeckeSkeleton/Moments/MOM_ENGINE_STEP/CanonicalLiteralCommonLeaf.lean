@@ -140,17 +140,54 @@ def ordinaryBinding :
       (R.weight h * left.commonScalar bL * star (right.commonScalar bR)) * R.correlation h
     ring
   leftCoefficient _ _ _ _ := rfl
-  rightCoefficient _ _ _ _ := sorry
+  rightCoefficient _ _ _ _ := by simp only [extraction,
+    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms,
+    star_star, commonRows]
   leftPoint h _ := by
     refine ⟨WithLp.toLp 2
       (-firstSign * Real.log (Ideal.absNorm (power.val * bL.literalExtractedIdeal) : ℝ),
         rowLog h - Real.log (Ideal.absNorm bL.literalExtractedIdeal : ℝ)), ?_⟩
-    sorry
+    intro i hi
+    have hm := left_mem_residual left right bL bR IR b i hi
+    have hp := Finset.mem_product.mp (Finset.mem_product.mp hm).1
+    have h₁ := (left.extract bL).plain₁_nonzero i.1.1 hp.1
+    have h₂ := (left.extract bL).plain₂_nonzero i.1.2 hp.2
+    apply CanonicalLiteralLocations.actual_product_locations firstSign (rowLog h)
+      i h₁ h₂
+      (power.val * allocationColumnIdeal (bL.reconstruct i))
+      (allocationColumnIdeal (bL.reconstruct i))
+      (power.val * bL.literalExtractedIdeal) bL.literalExtractedIdeal
+      (mul_ne_zero power.property.1 bL.literalExtractedIdeal_ne_zero)
+      bL.literalExtractedIdeal_ne_zero
+    · exact (congrArg (fun I : Ideal (𝓞 K) => power.val * I)
+        (bL.reconstruct_literalIdeal i hm)).trans
+          (mul_assoc power.val bL.literalExtractedIdeal (allocationColumnIdeal i)).symm
+    · exact bL.reconstruct_literalIdeal i hm
   rightPoint h _ := by
     refine ⟨WithLp.toLp 2
       (firstSign * Real.log (Ideal.absNorm (power.val * bR.literalExtractedIdeal) : ℝ),
         -Real.log (Ideal.absNorm bR.literalExtractedIdeal : ℝ)), ?_⟩
-    sorry
+    intro j hj
+    have hm := right_mem_residual left right bL bR IR b j hj
+    have hp := Finset.mem_product.mp (Finset.mem_product.mp hm).1
+    have h₁ := (right.extract bR).plain₁_nonzero j.1.1 hp.1
+    have h₂ := (right.extract bR).plain₂_nonzero j.1.2 hp.2
+    have he := CanonicalLiteralLocations.actual_product_locations (-firstSign) 0
+      j h₁ h₂
+      (power.val * allocationColumnIdeal (bR.reconstruct j))
+      (allocationColumnIdeal (bR.reconstruct j))
+      (power.val * bR.literalExtractedIdeal) bR.literalExtractedIdeal
+      (mul_ne_zero power.property.1 bR.literalExtractedIdeal_ne_zero)
+      bR.literalExtractedIdeal_ne_zero
+      ((congrArg (fun I : Ideal (𝓞 K) => power.val * I)
+        (bR.reconstruct_literalIdeal j hm)).trans
+          (mul_assoc power.val bR.literalExtractedIdeal (allocationColumnIdeal j)).symm)
+      (bR.reconstruct_literalIdeal j hm)
+    change WithLp.toLp 2
+        (-(-firstSign * Real.log
+          (Ideal.absNorm (power.val * allocationColumnIdeal (bR.reconstruct j)) : ℝ)),
+          -Real.log (Ideal.absNorm (allocationColumnIdeal (bR.reconstruct j)) : ℝ)) = _
+    simpa only [neg_neg, zero_sub, neg_mul] using he
 
 /-- Only genuinely nonzero complete correlations enter the arithmetic
 row calibration. The literal finite source itself is not filtered. -/
@@ -167,8 +204,21 @@ the binding used by the same canonical row-mass and capacity records. -/
 def supportedOrdinaryBinding :
     (extraction R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).leaf.OrdinaryBinding (supportedRectangles R left right bL bR IL IR b exceptional
         firstSign hIL hIR) where
-  rows h hh := sorry
-  rows_zero h hh hn := sorry
+  rows h hh := by
+    letI : DecidablePred (fun a : H => R.correlation a ≠ 0) :=
+      fun a => Classical.propDecidable (R.correlation a ≠ 0)
+    exact ((Finset.mem_filter (p := fun a : H => R.correlation a ≠ 0)
+      (s := R.rows) (a := h)).mp hh).1
+  rows_zero h hh hn := by
+    letI : DecidablePred (fun a : H => R.correlation a ≠ 0) :=
+      fun a => Classical.propDecidable (R.correlation a ≠ 0)
+    have hc : R.correlation h = 0 := by
+      by_contra hc
+      exact hn ((Finset.mem_filter (p := fun a : H => R.correlation a ≠ 0)
+        (s := R.rows) (a := h)).mpr ⟨hh, hc⟩)
+    change (R.weight h * R.correlation h) * left.commonScalar bL *
+      star (right.commonScalar bR) = 0
+    simp only [hc, mul_zero, zero_mul]
   left := rfl
   right := rfl
   exceptional _ _ := Iff.rfl
