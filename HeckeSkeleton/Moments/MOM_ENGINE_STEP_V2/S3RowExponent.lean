@@ -19,7 +19,7 @@ open scoped Classical BigOperators NumberField nonZeroDivisors
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.S3
 
 open EngineStep EngineInduction EngineInduction.Source
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
@@ -152,8 +152,9 @@ theorem firstPhysicalDivisorIdeal_eq_under {A : SArithmeticData K}
   let delta := sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D
   have hspan : A.extendIdeal (firstPhysicalDivisorIdeal (A := A) D) =
       IdealMobiusMask.primeProduct D := by
-    rw [← (originalFrequencyIdeal_generates (A := A) delta.val delta.property).2]
-    exact Ideal.span_singleton_generator _
+    change A.extendIdeal (originalFrequencyIdeal (A := A) delta.val) = _
+    exact (originalFrequencyIdeal_generates (A := A) delta.val delta.property).2.symm.trans
+      (Ideal.span_singleton_generator _)
   calc
     _ = (A.extendIdeal (firstPhysicalDivisorIdeal (A := A) D)).under (𝓞 K) :=
       (SIntegerLocalization.under_map_exterior A.Sf _
@@ -199,9 +200,17 @@ theorem cauchy_complementary_dvd_opposite {F : FirstPresentation call p}
   have hD : key.2.1.val ⊆
       Finset.univ.image (fun j => actualExteriorSPrime (b.primes j)) := by
     have hsub := Finset.mem_powerset.mp key.2.1.property
-    change key.2.1.val ⊆ b.mask F.source.mask at hsub
-    rw [FirstCommonCharacterBlock.mask, hF.mask, Finset.empty_union] at hsub
-    exact hsub.trans (Finset.image_mono (Finset.subset_univ _))
+    change key.2.1.val ⊆ F.source.mask ∪
+      firstPrincipalPrimeMask b.primes b.leftMultiplicity b.rightMultiplicity at hsub
+    have hprincipal : key.2.1.val ⊆
+        firstPrincipalPrimeMask b.primes b.leftMultiplicity b.rightMultiplicity := by
+      intro q hq
+      rcases Finset.mem_union.mp (hsub hq) with hq | hq
+      · have hempty : q ∈ (∅ : Finset (HeightOneSpectrum (Arithmetic.data c).R)) :=
+          hF.mask ▸ hq
+        exact (Finset.not_mem_empty q hempty).elim
+      · exact hq
+    exact hprincipal.trans (Finset.image_mono (Finset.subset_univ _))
   have hleft := firstPhysicalDivisorIdeal_dvd_product b.primes b.leftMultiplicity
     b.left_positive key.2.1.val hD
   have hright := firstPhysicalDivisorIdeal_dvd_product b.primes b.rightMultiplicity

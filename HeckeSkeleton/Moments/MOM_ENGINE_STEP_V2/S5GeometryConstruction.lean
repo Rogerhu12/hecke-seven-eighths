@@ -66,12 +66,14 @@ theorem expansion_error_prime_lower
 
 variable (trace : SourceTrace call p) (realized : trace.Realizes)
 
+include realized in
 theorem source_windows (key : SecondClassKey trace.second) :
     key.source.physical.Windows := by
   change (trace.second.source key.sourceIndex).physical.Windows
   rw [realized.second.physical key.sourceIndex]
   exact realized.poolWindows key.sourceIndex
 
+include realized in
 theorem source_error_prime_lower (key : SecondClassKey trace.second)
     (e : AmplifierValuation) (q : HeightOneSpectrum (𝓞 K))
     (htag : key.source.physical.first.tag = .error e q) :

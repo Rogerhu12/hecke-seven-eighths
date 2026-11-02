@@ -81,7 +81,7 @@ theorem original_row_sharp (hF : F.Realizes) (hfamily : family.Realizes)
     rw [originalFrequencyIdeal_neg, originalFrequencyIdeal_out_norm]
     exact ((F.source.source (family.index i).1).mem_divisorRows
       (family.index i).2.1.val q).mp hq
-  · simp only [FirstCauchyKey.data, hs, if_false] at hh
+  · simp only [FirstCauchyKey.data, hs, Bool.false_eq_true, if_false] at hh
     rw [hF.leftRows (family.index i).1 (family.index i).2.1] at hh
     obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hh
     rw [originalFrequencyIdeal_out_norm]
@@ -111,6 +111,7 @@ theorem pool_prime_sixth (P : PoolPresentation family)
       pow_le_pow_left₀ (primeNorm_pos q).le (P.pool.norm_upper q hq) 6
     _ = call.base ^ ((recipeInductionSigma c / 3) * (6 : ℝ)) := by
       rw [Real.rpow_mul call.base_pos.le]
+      exact (Real.rpow_natCast (call.base ^ (recipeInductionSigma c / 3)) 6).symm
     _ = _ := by congr 1 <;> ring
 
 theorem rpow_prime_multiple (q : ExteriorPrime (Arithmetic.data c)) (n : ℕ) :

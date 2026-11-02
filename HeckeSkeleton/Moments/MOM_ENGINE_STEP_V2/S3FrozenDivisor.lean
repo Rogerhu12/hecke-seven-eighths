@@ -16,7 +16,7 @@ open scoped Classical NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.S3
 
-open NumberField IsDedekindDomain DedekindZetaZeroFree
+open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open EngineStep EngineInduction.Source
 open HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup
@@ -41,10 +41,22 @@ theorem residual_dvd_original_column (key : FirstCauchyKey F) :
   have hd := (mem_idealDivisors
     ((FirstCauchyKey.piece key).rightData.ideal j).property.1).mp hdivisor
   rw [(FirstCauchyKey.piece key).right_columns] at hj
-  rw [(FirstCauchyKey.piece key).right_ideal] at hd
-  refine ⟨j, (Finset.mem_filter.mp hj).1, hd.trans ?_⟩
-  rw [(FirstCauchyKey.block key).right_reconstruct F.source.columns j hj]
-  exact dvd_mul_left _ _
+  let b := FirstCauchyKey.block key
+  have hideal : ((FirstCauchyKey.piece key).rightData.ideal j).val =
+      (b.rightResidual j).val :=
+    congrArg (fun I : (Arithmetic.data c).Exterior => I.val)
+      (congrFun (FirstCauchyKey.piece key).right_ideal j)
+  refine ⟨j, (Finset.mem_filter.mp hj).1,
+    hd.trans ⟨(primePowerProduct b.primes b.rightMultiplicity).val, ?_⟩⟩
+  calc
+    (F.source.ideal j).val =
+        (primePowerProduct b.primes b.rightMultiplicity).val * (b.rightResidual j).val :=
+      b.right_reconstruct F.source.columns j hj
+    _ = (primePowerProduct b.primes b.rightMultiplicity).val *
+        ((FirstCauchyKey.piece key).rightData.ideal j).val :=
+      congrArg (fun I : Ideal (𝓞 K) =>
+        (primePowerProduct b.primes b.rightMultiplicity).val * I) hideal.symm
+    _ = _ := mul_comm _ _
 
 theorem residual_norm_le (key : FirstCauchyKey F) (B : ℝ)
     (columns : ∀ j ∈ F.source.columns,

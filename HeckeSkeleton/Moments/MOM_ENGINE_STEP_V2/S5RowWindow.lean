@@ -173,6 +173,7 @@ theorem second_physicalCutoff_bound (source : SecondSource call p)
 
 variable (trace : SourceTrace call p) (realized : trace.Realizes)
 
+include realized in
 theorem live_originalNorm_bound (key : SecondClassKey trace.second) (h : key.R.live) :
     (Arithmetic.data c).exteriorNorm (key.R.originalIdeal h.val) ≤
       call.base ^ (physicalFrequencyCenter key.source.physical + 12 * p.loss) := by
