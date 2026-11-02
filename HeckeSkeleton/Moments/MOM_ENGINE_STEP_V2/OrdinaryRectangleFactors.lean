@@ -175,9 +175,11 @@ theorem coefficient_eq_multiplier (hF : F.Realizes) (i : F.source.Column) :
     cases hs : FirstCauchyKey.side key
     · simp only [hs, Bool.false_eq_true, if_false, FirstBlockDirectData.originalLeftCoefficient]
       rw [F.chart_leftCoefficient hF key.1 key.2.1 i]
+      simp only [FirstCauchyKey.block, FirstCauchyKey.divisor, ActualDirectFirstSource.block]
       ring
     · simp only [hs, if_true, FirstBlockDirectData.originalRightCoefficient]
       rw [F.chart_rightCoefficient hF key.1 key.2.1 i]
+      simp only [FirstCauchyKey.block, FirstCauchyKey.divisor, ActualDirectFirstSource.block]
       ring
   · simp only [FirstCauchyKey.coefficient, FirstCauchyKey.multiplier, if_neg hdiv, zero_mul]
 
