@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinarySecondExceptionalBinding
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Exceptional charts on the original literal side frames

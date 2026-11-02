@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrameLengths
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # A capacity scale error computed for every original rectangle
