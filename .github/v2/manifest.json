@@ -71,7 +71,13 @@
         "LiteralPassive",
         "LiteralCapacity",
         "RawTerminals",
-        "ParentTerminals"
+        "ParentTerminals",
+        "LiteralCalibration",
+        "LiteralProduction",
+        "SourceGates",
+        "SourceSupport",
+        "DirectPreparation",
+        "SourcePredicates"
       ]
     },
     {
