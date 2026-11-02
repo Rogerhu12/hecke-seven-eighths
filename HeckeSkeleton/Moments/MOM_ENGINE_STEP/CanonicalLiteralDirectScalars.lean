@@ -140,7 +140,7 @@ theorem literalLeftDirectAtoms_eq_scale_core
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
   unfold literalLeftDirectAtoms literalLeftDirectCore literalLeftDirectScalar
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
     CanonicalLiteralRectangles.Atoms.scale_onAtlas,
     CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
@@ -197,7 +197,7 @@ theorem literalRightDirectAtoms_eq_scale_core
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
   unfold literalRightDirectAtoms literalRightDirectCore literalRightDirectScalar
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
     CanonicalLiteralRectangles.Atoms.scale_onAtlas,
     CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 

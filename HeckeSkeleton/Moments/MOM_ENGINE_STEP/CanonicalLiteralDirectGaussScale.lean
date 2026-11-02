@@ -118,7 +118,7 @@ theorem literalLeftDirectAtoms_gaussScale_lower
     1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
     hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
+  erw [hfrozen] at h
   simpa only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
     CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
 
@@ -153,7 +153,7 @@ theorem literalRightDirectAtoms_gaussScale_lower
     1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
     hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
+  erw [hfrozen] at h
   simpa only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
     CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
 
