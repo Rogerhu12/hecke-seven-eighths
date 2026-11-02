@@ -26,13 +26,11 @@ open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckePort.Moments
 
 variable {K : Type} [Field K] [NumberField K]
-variable {A : SArithmeticData K} {Γ : Subgroup A.U}
+variable {Q₀ : Type*}
 variable {ω ψ : HeckeCharacter K} {d : MomentData K ω ψ}
 variable {a : RealParameters} {Z t Y₁ Y₂ : ℝ}
 
-local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
-
-theorem coefficient_has_rectangle {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
+theorem coefficient_has_rectangle {raw : ParentRawAtoms Q₀ d a Z t Y₁ Y₂}
     (values : raw.ConstantValues) (centered : Bool) (v : raw.Column)
     (hv : values.coefficient centered v ≠ 0) :
     ∃ comparison : Bool, (comparison = true → centered = true) ∧
@@ -48,7 +46,7 @@ theorem coefficient_has_rectangle {raw : ParentRawAtoms Q d a Z t Y₁ Y₂}
         exact hv (by simp [ParentRawAtoms.ConstantValues.coefficient, hz, htrue])
 
 theorem rectangle_profiles_nonzero
-    (atoms : ParentConstantAtoms Q d a Z t) (comparison : Bool)
+    (atoms : ParentConstantAtoms Q₀ d a Z t) (comparison : Bool)
     (v : (atoms.raw Y₁ Y₂).Column)
     (hv : (atoms.values Y₁ Y₂).rectangle comparison v ≠ 0) :
     atoms.leftProfile (idealNorm K v.1.1 / (if comparison then Y₁ else Z ^ a.n₁)) ≠ 0 ∧
@@ -76,11 +74,11 @@ theorem rectangle_profiles_nonzero
         ((Ideal.absNorm (v.2 i).asIdeal : ℝ) / Z ^ (d.geometry.slots i).length)) ≠ 0 at hi
     exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).2).2
 
-variable (atoms : ParentConstantAtoms Q d a Z t)
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
 variable {heightDomain window : Set ℝ} {orders : Finset (ℕ × ℕ)} {amplitude : ℝ}
 
 theorem rectangle_column_norm_bounds
+    (atoms : ParentConstantAtoms Q₀ d a Z t)
     (profiles : RawProfileWindow rowDomain heightDomain window orders d amplitude)
     (lower upper : ℝ) (hlower : 0 ≤ lower) (hupper : 0 ≤ upper) (hZ : 0 < Z)
     (hrows : ∀ u ∈ pairedRows d a Z, u ∈ rowDomain) (ht : t ∈ heightDomain)
@@ -98,7 +96,7 @@ theorem rectangle_column_norm_bounds
   have hm := Finset.mem_product.mp hv
   have hplain := Finset.mem_product.mp hm.1
   obtain ⟨u, hu, _⟩ := Finset.mem_biUnion.mp hplain.1
-  have hp := rectangle_profiles_nonzero (A := A) (Γ := Γ) atoms comparison v hrectangle
+  have hp := rectangle_profiles_nonzero atoms comparison v hrectangle
   have hleftRep : profiles.leftRep u t
       (idealNorm K v.1.1 / (if comparison then Y₁ else Z ^ a.n₁)) ≠ 0 := by
     simpa only [← atoms.left_profile u hu, profiles.left_eq] using hp.1
@@ -162,6 +160,9 @@ theorem rectangle_column_norm_bounds
       (mul_nonneg (mul_nonneg hupper hleftScale.le) (mul_nonneg hupper hrightScale.le))
 
 theorem original_column_norm_bounds
+    {A : SArithmeticData K} {Γ : Subgroup A.U}
+    (atoms : ParentConstantAtoms
+      (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) d a Z t)
     (profiles : RawProfileWindow rowDomain heightDomain window orders d amplitude)
     (lower upper : ℝ) (hlower : 0 ≤ lower) (hupper : 0 ≤ upper) (hZ : 0 < Z)
     (hrows : ∀ u ∈ pairedRows d a Z, u ∈ rowDomain) (ht : t ∈ heightDomain)
@@ -177,12 +178,11 @@ theorem original_column_norm_bounds
       upper ^ (d.geometry.slotCount + 2) * Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength) := by
   rw [(atoms.raw Y₁ Y₂).columnExterior_val_of_mem (A := A) (Γ := Γ) v hv]
   obtain ⟨comparison, hallowed, hrectangle⟩ :=
-    coefficient_has_rectangle (A := A) (Γ := Γ) (atoms.values Y₁ Y₂) centered v hcoefficient
+    coefficient_has_rectangle (atoms.values Y₁ Y₂) centered v hcoefficient
   have hmem : v ∈ (atoms.raw Y₁ Y₂).columns := (Finset.mem_filter.mp hv).1
   cases comparison with
   | false =>
-      exact rectangle_column_norm_bounds (A := A) (Γ := Γ)
-        atoms profiles lower upper hlower hupper hZ
+      exact rectangle_column_norm_bounds atoms profiles lower upper hlower hupper hZ
         hrows ht hwindow false (Real.rpow_pos_of_pos hZ _) (Real.rpow_pos_of_pos hZ _)
         (by simpa only [Bool.false_eq_true, if_false] using
           (Real.rpow_add hZ a.n₁ a.n₂).symm) v hmem hrectangle
@@ -195,8 +195,7 @@ theorem original_column_norm_bounds
         rcases mul_pos_iff.mp hproduct with hpos | hneg
         · exact hpos
         · exact False.elim ((not_lt_of_ge (hY₁ hc)) hneg.1)
-      exact rectangle_column_norm_bounds (A := A) (Γ := Γ)
-        atoms profiles lower upper hlower hupper hZ
+      exact rectangle_column_norm_bounds atoms profiles lower upper hlower hupper hZ
         hrows ht hwindow true hscales.1 hscales.2 (hcomparison hc) v hmem hrectangle
 
 theorem annulus_power_threshold (cap : ℕ) (annulus loss : ℝ) (hloss : 0 < loss) :

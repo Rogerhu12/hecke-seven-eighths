@@ -64,11 +64,15 @@ theorem source_cost_two_sides (F : FirstPresentation call p)
                 (Arithmetic.different c) / N.right v D S chi
                   ∂actualFourierMeasure (F.source.charts v D).kernel) := by
   simp only [Fintype.sum_bool, source, PhysicalSource.cost,
-    FirstCauchyKey.outer, FirstCauchyKey.data, FirstCauchyKey.coefficient,
-    FirstCauchyKey.point, FirstCauchyKey.phase, FirstCauchyKey.side,
+    FirstCauchyKey.outer, FirstCauchyKey.data, FirstCauchyKey.side,
     FirstCauchyKey.piece, FirstCauchyKey.chart, FirstCauchyKey.residual,
-    FirstCauchyKey.character, Bool.false_eq_true, if_false, if_true,
+    FirstCauchyKey.character, Bool.false_eq_true, ite_false, ite_true,
     DirectGaussData.directSource_phaseEnergy, integral_div]
+  -- Both fields occur as unapplied functions inside the twisted source.
+  unfold FirstCauchyKey.coefficient FirstCauchyKey.point
+  simp only [FirstCauchyKey.data, FirstCauchyKey.phase, FirstCauchyKey.side,
+    FirstCauchyKey.piece, FirstCauchyKey.chart, FirstCauchyKey.residual,
+    FirstCauchyKey.character, Bool.false_eq_true, ite_false, ite_true]
   ring
 
 theorem sum_source_cost (F : FirstPresentation call p) (N : F.source.Normalization) :
