@@ -166,8 +166,17 @@ end RawMovingOutputData
 theorem ParentGeometry.onActive {family : ActualNormalizedPairFamily A σ V Λ ω ψ Z}
     {labels : Finset Λ} {parent : MomentData K ω ψ} {a : RealParameters} {step : ℝ}
     (G : family.ParentGeometry labels parent a step) :
-    family.ParentGeometry (family.active labels) parent a step := by
-  sorry
+    family.ParentGeometry (family.active labels) parent a step where
+  left_parent b hb := G.left_parent b (Finset.mem_filter.mp hb).1
+  right_parent b hb := G.right_parent b (Finset.mem_filter.mp hb).1
+  left_gap b hb := G.left_gap b (Finset.mem_filter.mp hb).1
+  right_gap b hb := G.right_gap b (Finset.mem_filter.mp hb).1
+  left_kappa b hb := G.left_kappa b (Finset.mem_filter.mp hb).1
+  right_kappa b hb := G.right_kappa b (Finset.mem_filter.mp hb).1
+  left_slots b hb := G.left_slots b (Finset.mem_filter.mp hb).1
+  right_slots b hb := G.right_slots b (Finset.mem_filter.mp hb).1
+  left_theta b hb := G.left_theta b (Finset.mem_filter.mp hb).1
+  right_theta b hb := G.right_theta b (Finset.mem_filter.mp hb).1
 
 end ActualNormalizedPairFamily
 end RawOutput
@@ -623,7 +632,52 @@ theorem literalPassiveNormalizedFamily_active_support :
       A.exteriorNorm
         ((choice.phases.moving P Rchar oldMoving).appendSecondFactor C v.block.primes
           v.block.leftMultiplicity v.block.rightMultiplicity pattern).support ≤ Z ^ q := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b
+  obtain ⟨anchor⟩ := activeRows analyticLeft analyticRight heightLeft heightRight b
+  let S := v.chart.actualRows ∅ cutoff hcutoff v.rowLabel
+  have hrow : anchor.val ∈ S.rows :=
+    (Finset.mem_filter.mp (Finset.mem_filter.mp anchor.property).1).1
+  have hcorrelation : S.correlation anchor.val ≠ 0 :=
+    (Finset.mem_filter.mp (Finset.mem_filter.mp anchor.property).1).2
+  let live : S.live := ⟨anchor.val, Finset.mem_filter.mpr ⟨hrow, hcorrelation⟩⟩
+  have hclass : v.chart.NonunitLabelStable :=
+    ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock_nonunitLabelStable
+      (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+      P δ₂ hδ₂ hδ₂half G retainedScale Z g hscale hZ cutoff hcutoff hnorm
+      dimension width character dyad v.1 v.2.1
+  let hp := v.chart.originalNonunitClass hclass ∅ cutoff hcutoff v.rowLabel live
+  let paid := choice.phases.moving P Rchar oldMoving
+  let W := S.appendedNonunitClassSupportAtoms paid remaining C
+    v.block.left_positive v.block.right_positive pattern hp
+  have hunitNorm :
+      A.exteriorNorm (unitFrequencyRadical C S.primes S.leftMultiplicity S.rightMultiplicity
+        (S.frequency hp.val.val)) ≤ Z ^ geometry.skeleton.t₂ := by
+    rw [← S.secondPatternUnitIdeal_eq_live C pattern hp.val hp.property]
+    change (Ideal.absNorm (secondPatternUnitIdeal v.block.primes v.block.leftMultiplicity
+      v.block.rightMultiplicity pattern).val : ℝ) ≤ Z ^ idealLogLength Z geometry.ideals.unitPart.val
+    rw [← hunit]
+    exact (rpow_idealLogLength Z domain.scale _
+      (nonZeroDivisors.coe_ne_zero geometry.ideals.unitPart)).symm.le
+  have hnonunitNorm :
+      A.exteriorNorm (nonunitFrequencyRadical C S.primes S.leftMultiplicity S.rightMultiplicity
+        (S.frequency hp.val.val)) ≤ Z ^ geometry.skeleton.V := by
+    rw [← S.secondPatternNonunitIdeal_eq C pattern hp.val.val hp.property]
+    change (Ideal.absNorm (secondPatternNonunitIdeal v.block.primes pattern).val : ℝ) ≤
+      Z ^ idealLogLength Z geometry.ideals.nonunitPart.val
+    rw [← hnonunit]
+    exact (rpow_idealLogLength Z domain.scale _
+      (nonZeroDivisors.coe_ne_zero geometry.ideals.nonunitPart)).symm.le
+  have hold : A.exteriorNorm (ExteriorIdealEuler.mul (paid.effectiveFullSupport remaining)
+      (secondSixthRootIdeal S.primes S.leftMultiplicity S.rightMultiplicity)) ≤
+      Z ^ (geometry.supportCenter + rootLength) :=
+    secondOldWithSixthRoot_norm_window S.primes S.leftMultiplicity S.rightMultiplicity
+      (paid.effectiveFullSupport remaining) Z geometry.supportCenter domain.scale hpaidSupport
+  have h := W.support_norm_window Z (geometry.supportCenter + rootLength)
+    geometry.skeleton.t₂ geometry.skeleton.V (zero_lt_one.trans domain.scale)
+    hold hunitNorm hnonunitNorm
+  exact h.trans_eq (congrArg (fun t : ℝ => Z ^ t) (by
+    dsimp only [OriginalNominalGeometry.literalSupportParameter]
+    ring))
 
 local notation "activeSupport" =>
   v.literalPassiveNormalizedFamily_active_support
@@ -826,7 +880,16 @@ theorem literalPassiveNormalizedFamily_moving_admissible :
           Set.univ (Set.Icc (0 : ℝ) hi) orders Z
           ((production analyticLeft analyticRight heightLeft heightRight).rightData Finset.univ b ξ)
           ((production analyticLeft analyticRight heightLeft heightRight).rightParameters Finset.univ b) := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b ξ
+  let family := production analyticLeft analyticRight heightLeft heightRight
+  let raw := (rawOutput analyticLeft analyticRight heightLeft heightRight).onActive
+  let b' := (family.activeActiveEquiv Finset.univ).symm b
+  let geometry' := activeGeometry analyticLeft analyticRight heightLeft heightRight
+  let moving := activeMoving analyticLeft analyticRight heightLeft heightRight
+  exact ⟨ActualNormalizedPairFamily.moving_left_admissible geometry' moving
+      raw.characters raw.profiles raw.arithmeticInputs raw.slots b' ξ,
+    ActualNormalizedPairFamily.moving_right_admissible geometry' moving
+      raw.characters raw.profiles raw.arithmeticInputs raw.slots b' ξ⟩
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

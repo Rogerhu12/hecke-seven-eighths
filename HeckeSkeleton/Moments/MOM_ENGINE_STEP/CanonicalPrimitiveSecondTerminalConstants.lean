@@ -81,7 +81,9 @@ theorem direct_bound (Z : ℝ) {ι : Type u} (G : ActualGaussSource C ι)
     (x : ι → ℝ) (ξ : ℝ) :
     G.phaseEnergy (hDiff := hDiff) x ξ ≤
       (T.fourierPhase x ξ).rawCost b.tilt F.Cerror F.Czero := by
-  sorry
+  exact (F.raw_bound Z (G.withMultiplier (fun i => jointPhase ξ (x i)))
+    (s.withMultiplier (fun i => jointPhase ξ (x i))) hmask hpositive
+      (T.fourierPhase x ξ)).2
 
 /-- The same choice controls all four genuine pool tags. Their actual
 prime, valuation, density and local weights remain in `rawPhaseCost`. -/
@@ -97,7 +99,15 @@ theorem pool_bound
       b.secondDegree b.saving b.secondDecay) (ξ : ℝ) :
     d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
       T.rawPhaseCost x ξ b.tilt F.Cerror F.Czero := by
-  sorry
+  rw [d.energy_eq_tag_sources hDiff Drecipe hD]
+  simp_rw [d.tagSource_twisted c x ξ]
+  unfold ActualPoolStages.DualTerminalCalibration.rawPhaseCost
+  apply mul_le_mul_of_nonneg_left _ (div_nonneg (by norm_num) d.density_pos.le)
+  exact Finset.sum_le_sum fun tag _ => mul_le_mul_of_nonneg_left
+    (F.raw_bound Z _ ((s.tag tag).withMultiplier (fun i => jointPhase ξ (d.tagPoint x tag i)))
+      (hs.tag_fourierPhase_mask x ξ tag) (hs.tag_fourierPhase_origin_nonneg x ξ tag)
+      ((T.tag tag).fourierPhase (d.tagPoint x tag) ξ)).2
+    (d.tagWeight_nonneg tag)
 
 end Fixed
 
@@ -119,7 +129,21 @@ theorem exists_fixed
     (hlc : ∀ v ∈ A.Sf, IsLocallyConstant (finiteTest v))
     (hcs : ∀ v ∈ A.Sf, HasCompactSupport (finiteTest v))
     (b : Box) : Nonempty (Fixed.{u} hΓ μv hDiff C finiteTest b) := by
-  sorry
+  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
+      hCerror, hCzero, hraw⟩ :=
+    actual_gauss_raw_dual_terminal_bound (E := ℝ) (ν := ν) (μ := μ)
+      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs (2 * (b.cap + 2))
+      b.tilt b.tilt_pos b.secondDegree b.saving b.loss b.loss_pos
+  have he : decay = b.secondDecay := hchoice
+  rw [he] at hraw
+  exact ⟨{
+    sTail := sTail
+    sZero := sZero
+    Cerror := Cerror
+    Czero := Czero
+    Cerror_nonneg := hCerror
+    Czero_pos := hCzero
+    raw_bound := hraw }⟩
 
 /-- This selection depends only on fixed arithmetic and analytic data,
 before every parent, scale, allocation and individual character input. -/

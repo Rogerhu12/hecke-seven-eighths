@@ -100,7 +100,15 @@ include μ in
 /-- Choose the two first terminals once, from the original source
 mother theorem and the same requested finite profile orders. -/
 theorem exists_fixed : Nonempty (Fixed μv ν C hDiff b orders) := by
-  sorry
+  have hε : 0 < b.ε / 8 := div_pos b.ε_pos (by norm_num)
+  have hloss : b.firstBox.loss ≤ (b.ε / 8) / 4 := by
+    have h := b.loss_le_ε
+    change b.loss ≤ (b.ε / 8) / 4
+    linarith [b.ε_pos]
+  obtain ⟨sTail, sZero, Ctail, Cfirst, hCtail, hCfirst, hbound⟩ :=
+    CanonicalOriginalParentFactory.exists_original_primitive_exact_first_bound
+      (μv := μv) (ν := ν) (μ := μ) C hDiff b.firstBox 1 (b.ε / 8) hε hloss orders
+  exact ⟨⟨sTail, sZero, Ctail, Cfirst, hCtail, hCfirst, hbound⟩⟩
 
 def choose : Fixed μv ν C hDiff b orders :=
   Classical.choice (exists_fixed (μv := μv) (ν := ν) (μ := μ)

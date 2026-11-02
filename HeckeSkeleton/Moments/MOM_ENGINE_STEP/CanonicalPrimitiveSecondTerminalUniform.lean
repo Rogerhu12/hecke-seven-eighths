@@ -64,8 +64,7 @@ def kernelBound : ℝ :=
       (A := A) (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv ν b.tilt b.tilt_pos b.tilt_le_half)
 
-theorem kernelBound_nonneg : 0 ≤ kernelBound (A := A) μv ν b := by
-  sorry
+theorem kernelBound_nonneg : 0 ≤ kernelBound (A := A) μv ν b := apply_nonneg _ _
 
 /-- The row exponent used by the actual pooled source and its fibre cap. -/
 def rowExponent : ℝ := CompleteMovingRowRecipe.literalPrimitivePoolRowExponent
@@ -73,7 +72,11 @@ def rowExponent : ℝ := CompleteMovingRowRecipe.literalPrimitivePoolRowExponent
   (loss := b.loss) (cutoffExponent := b.loss)
 
 theorem rowExponent_nonneg : 0 ≤ rowExponent b := by
-  sorry
+  have hlength := b.lengthBound_nonneg
+  have hcolumn := b.columnBound_nonneg
+  have hloss := b.loss_pos.le
+  dsimp only [rowExponent, CompleteMovingRowRecipe.literalPrimitivePoolRowExponent]
+  positivity
 
 /-- The exact four constants already selected by the original source sums. -/
 def sumConstant (pooled tail : Bool) : ℝ :=
@@ -93,7 +96,19 @@ def sumConstant (pooled tail : Bool) : ℝ :=
 
 theorem sumConstant_pos (pooled tail : Bool) :
     0 < sumConstant μv C hDiff b pooled tail := by
-  sorry
+  cases pooled <;> cases tail
+  · exact CanonicalPrimitiveDirectTerminalBudget.zeroSumConstant_pos
+      μv C hDiff b.cap b.columnBound (b.ε / 8) b.columnBound_nonneg
+        (div_pos b.ε_pos (by norm_num))
+  · exact CanonicalPrimitiveDirectTerminalBudget.tailSumConstant_pos
+      μv C hDiff b.cap b.columnBound (b.ε / 8) b.columnBound_nonneg
+        (div_pos b.ε_pos (by norm_num))
+  · exact CanonicalPrimitivePooledTerminalBudget.zeroSumConstant_pos
+      μv C hDiff b.cap b.columnBound (b.ε / 8) b.columnBound_nonneg
+        (div_pos b.ε_pos (by norm_num))
+  · exact CanonicalPrimitivePooledTerminalBudget.tailSumConstant_pos
+      μv C hDiff b.cap b.columnBound (b.ε / 8) b.columnBound_nonneg
+        (div_pos b.ε_pos (by norm_num))
 
 def terminalOrders (tail : Bool) : Finset (ℕ × ℕ) :=
   if tail then F.sTail else F.sZero
@@ -102,7 +117,9 @@ def terminalConstant (tail : Bool) : ℝ := if tail then F.Cerror else F.Czero
 
 theorem terminalConstant_nonneg (tail : Bool) :
     0 ≤ terminalConstant μv C hDiff b F tail := by
-  sorry
+  cases tail
+  · exact F.Czero_pos.le
+  · exact F.Cerror_nonneg
 
 /-- All factors preceding the individual profile constant, in their
 original order. The amplified density has already been paid by its budget. -/
@@ -118,7 +135,13 @@ def multiplier (pooled tail : Bool) : ℝ :=
 
 theorem multiplier_nonneg (pooled tail : Bool) :
     0 ≤ multiplier μv ν C hDiff b F pooled tail := by
-  sorry
+  have hterminal := terminalConstant_nonneg μv C hDiff b F tail
+  have hfield := orbitalFieldFactor_nonneg K
+  have hkernel := kernelBound_nonneg (A := A) μv ν b
+  have hpool := (poolTerminalConstant_pos (K := K) (b.step / 3) (rowExponent b)
+    (div_pos b.step_pos (by norm_num)) (rowExponent_nonneg b)).le
+  cases pooled <;> simp only [multiplier, Bool.false_eq_true, if_false, if_true] <;>
+    positivity
 
 /-- Its four values are literally the four complete budget coefficients. -/
 def coefficient (pooled tail : Bool) (amplitude : ℝ) : ℝ :=
@@ -127,8 +150,10 @@ def coefficient (pooled tail : Bool) (amplitude : ℝ) : ℝ :=
       (terminalOrders μv C hDiff b F tail) * sumConstant μv C hDiff b pooled tail
 
 theorem coefficient_nonneg (pooled tail : Bool) (amplitude : ℝ) :
-    0 ≤ coefficient μv ν C hDiff b F pooled tail amplitude := by
-  sorry
+    0 ≤ coefficient μv ν C hDiff b F pooled tail amplitude :=
+  mul_nonneg (mul_nonneg (multiplier_nonneg μv ν C hDiff b F pooled tail)
+    (CanonicalPrimitiveDirectTerminalWindows.profileConstant_nonneg (A := A) _ _ _))
+      (sumConstant_pos μv C hDiff b pooled tail).le
 
 /-- A positive source-independent majorant of all four unit amplitudes. -/
 def Csecond : ℝ :=
@@ -138,11 +163,20 @@ def Csecond : ℝ :=
     coefficient μv ν C hDiff b F true true 1
 
 theorem Csecond_pos : 0 < Csecond μv ν C hDiff b F := by
-  sorry
+  have h₁ := coefficient_nonneg μv ν C hDiff b F false false 1
+  have h₂ := coefficient_nonneg μv ν C hDiff b F false true 1
+  have h₃ := coefficient_nonneg μv ν C hDiff b F true false 1
+  have h₄ := coefficient_nonneg μv ν C hDiff b F true true 1
+  dsimp only [Csecond]
+  linarith
 
 theorem coefficient_one_le (pooled tail : Bool) :
     coefficient μv ν C hDiff b F pooled tail 1 ≤ Csecond μv ν C hDiff b F := by
-  sorry
+  have h₁ := coefficient_nonneg μv ν C hDiff b F false false 1
+  have h₂ := coefficient_nonneg μv ν C hDiff b F false true 1
+  have h₃ := coefficient_nonneg μv ν C hDiff b F true false 1
+  have h₄ := coefficient_nonneg μv ν C hDiff b F true true 1
+  cases pooled <;> cases tail <;> dsimp only [Csecond] <;> linarith
 
 /-- Every original plain and prime occurrence is paid in the same degree. -/
 theorem coefficient_le (pooled tail : Bool) (amplitude control : ℝ)
@@ -150,24 +184,65 @@ theorem coefficient_le (pooled tail : Bool) (amplitude control : ℝ)
     (hprofile : amplitude ≤ control) :
     coefficient μv ν C hDiff b F pooled tail amplitude ≤
       Csecond μv ν C hDiff b F * control ^ (2 * (b.cap + 2)) := by
-  sorry
+  let s := terminalOrders μv C hDiff b F tail
+  have hp := first_dual_original_profile_constant_le b.cap 1 amplitude control
+    (CanonicalRowBall.terminalSeminorm A s) hamplitude hcontrol
+    (CanonicalRowBall.terminalSeminorm_nonneg s) (by simpa only [pow_one] using hprofile)
+  have hprofile' : CanonicalPrimitiveDirectTerminalWindows.profileConstant (A := A)
+      b.cap amplitude s ≤
+      CanonicalPrimitiveDirectTerminalWindows.profileConstant (A := A) b.cap 1 s *
+        control ^ (2 * (b.cap + 2)) := by
+    simpa only [CanonicalPrimitiveDirectTerminalWindows.profileConstant,
+      CanonicalRowBall.terminalSeminorm, firstDualOriginalProfileDegree, Nat.mul_one,
+      one_pow, mul_one, show (2 : ℝ) ^ 2 = 4 by norm_num] using hp
+  calc
+    coefficient μv ν C hDiff b F pooled tail amplitude ≤
+        coefficient μv ν C hDiff b F pooled tail 1 * control ^ (2 * (b.cap + 2)) := by
+      unfold coefficient
+      calc
+        _ ≤ multiplier μv ν C hDiff b F pooled tail *
+            (CanonicalPrimitiveDirectTerminalWindows.profileConstant (A := A) b.cap 1 s *
+              control ^ (2 * (b.cap + 2))) * sumConstant μv C hDiff b pooled tail :=
+          mul_le_mul_of_nonneg_right
+            (mul_le_mul_of_nonneg_left hprofile'
+              (multiplier_nonneg μv ν C hDiff b F pooled tail))
+            (sumConstant_pos μv C hDiff b pooled tail).le
+        _ = _ := by dsimp only [s]; ring
+    _ ≤ Csecond μv ν C hDiff b F * control ^ (2 * (b.cap + 2)) :=
+      mul_le_mul_of_nonneg_right (coefficient_one_le μv ν C hDiff b F pooled tail)
+        (pow_nonneg (zero_le_one.trans hcontrol) _)
 
 /-- The direct zero loss with both physical losses and both fixed tilts. -/
 theorem directZero_exponent_le (padding : ℝ) (hpadding : padding ≤ b.paddingMax) :
     CanonicalPrimitiveDirectTerminalWindows.zeroLoss padding b.step b.loss b.loss
         b.lengthBound b.columnBound b.tilt b.tilt + b.ε / 8 ≤
       b.paddingMax + 3 * b.step + b.ε := by
-  sorry
+  have hsmall := b.secondZero_loss
+  have hstep := b.step_pos
+  have hloss := b.loss_pos
+  have hε := b.ε_pos
+  dsimp only [Box.normBound] at hsmall
+  unfold CanonicalPrimitiveDirectTerminalWindows.zeroLoss
+  linarith
 
 /-- The pooled zero loss keeps the extra, actually paid density exponent. -/
 theorem pooledZero_exponent_le (padding : ℝ) (hpadding : padding ≤ b.paddingMax) :
     CanonicalPrimitivePooledTerminalWindows.zeroLoss padding b.step b.loss b.loss
         b.lengthBound b.columnBound b.tilt b.tilt b.loss + b.ε / 8 ≤
       b.paddingMax + 3 * b.step + b.ε := by
-  sorry
+  have hsmall := b.secondZero_loss
+  have hstep := b.step_pos
+  have hε := b.ε_pos
+  dsimp only [Box.normBound] at hsmall
+  unfold CanonicalPrimitivePooledTerminalWindows.zeroLoss
+  linarith
 
 theorem tail_exponent_le : b.loss + b.ε / 8 ≤ b.paddingMax + 3 * b.step + b.ε := by
-  sorry
+  have hloss := b.loss_le_ε
+  have hpadding := b.padding_nonneg
+  have hstep := b.step_pos
+  have hε := b.ε_pos
+  linarith
 
 /-- The exact exponent in each of the four complete budget bounds. -/
 def exponent (pooled tail : Bool) (padding : ℝ) : ℝ :=
@@ -181,7 +256,11 @@ def exponent (pooled tail : Bool) (padding : ℝ) : ℝ :=
 
 theorem exponent_le (pooled tail : Bool) (padding : ℝ) (hpadding : padding ≤ b.paddingMax) :
     exponent b pooled tail padding ≤ b.paddingMax + 3 * b.step + b.ε := by
-  sorry
+  cases tail
+  · cases pooled
+    · exact directZero_exponent_le b padding hpadding
+    · exact pooledZero_exponent_le b padding hpadding
+  · exact tail_exponent_le b
 
 /-- The existing actual budget may be followed directly by this numerical
 comparison; no source, terminal, measure or divisor is changed. -/
@@ -191,7 +270,12 @@ theorem bound (pooled tail : Bool) (amplitude control Z padding : ℝ)
     coefficient μv ν C hDiff b F pooled tail amplitude * Z ^ exponent b pooled tail padding ≤
       Csecond μv ν C hDiff b F * control ^ (2 * (b.cap + 2)) *
         Z ^ (b.paddingMax + 3 * b.step + b.ε) := by
-  sorry
+  exact mul_le_mul (coefficient_le μv ν C hDiff b F pooled tail amplitude control
+    hamplitude hcontrol hprofile)
+    (Real.rpow_le_rpow_of_exponent_le hZ (exponent_le b pooled tail padding hpadding))
+    (Real.rpow_nonneg (zero_le_one.trans hZ) _)
+    (mul_nonneg (Csecond_pos μv ν C hDiff b F).le
+      (pow_nonneg (zero_le_one.trans hcontrol) _))
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveSecondTerminalUniform
 

@@ -361,7 +361,16 @@ theorem literalPassiveNormalizedFamily_in_fixed_window :
         ((production analyticLeft analyticRight heightLeft heightRight).leftData Finset.univ b ξ) ∧
       InFixedProfileWindow Set.univ Set.univ (Set.Icc (0 : ℝ) hi) orders
         ((production analyticLeft analyticRight heightLeft heightRight).rightData Finset.univ b ξ) := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b ξ
+  constructor
+  · exact (leftSide analyticLeft analyticRight heightLeft heightRight b.val)
+      .frozen_child_in_fixed_window
+        ((production analyticLeft analyticRight heightLeft heightRight).leftChild Finset.univ b)
+        ξ (Set.mem_univ _)
+  · exact (rightSide analyticLeft analyticRight heightLeft heightRight b.val)
+      .frozen_child_in_fixed_window
+        ((production analyticLeft analyticRight heightLeft heightRight).rightChild Finset.univ b)
+        ξ (Set.mem_univ _)
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

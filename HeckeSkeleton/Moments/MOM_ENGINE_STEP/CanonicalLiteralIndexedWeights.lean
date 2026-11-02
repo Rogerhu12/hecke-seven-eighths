@@ -697,7 +697,46 @@ theorem literalNormalizationData_index_from_original_atoms
     (b : (normalization).family.active Finset.univ) :
     firstFactor * ((normalization).family.weight Finset.univ 0 b / firstNormalization) ≤
       firstCost * rowCost * Z ^ remainingExponent * branch.indexWeight index := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans domain.scale
+  have hNpos : 0 < firstNormalization := by
+    rw [hfirstNormalization]
+    exact firstLeftAllowance_pos Z _ hz _ _
+  have hsecondWeight := allowanceProof cap hcountL hcountR atomBound hAtomBound
+    hcostL hcostR hprimeL hprimeR hslotsL hslotsR hfirstL hfirstR hgaussL hgaussR
+    herrorPos hannulusThreshold hscaleThreshold hsupportError hphysicalError
+    firstNormalization hfirstNormalization b
+  have hfirstWeight := firstOriginalAllowanceWeight_le_radical
+    Z parentWidth total rawProfile firstCost domain.scale hfirstCost hfirstProfile
+    index.1.val.1.1 index.1.val.1.2 hD hE hsupportFirst
+  have hpair := mul_le_mul hfirstWeight hsecondWeight
+    (div_nonneg ((normalization).family.weight_nonneg Finset.univ 0 b hz) hNpos.le)
+    (div_nonneg hfirstCost (Nat.cast_nonneg _))
+  have hcoeff :
+      ‖(moebius index.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
+        ‖(moebius index.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
+      ‖(moebius index.2.1.val : ℂ)‖ * ‖(moebius index.2.2.2.1.val : ℂ)‖ := by
+    have hc₁ := mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
+      (norm_nonneg (moebius index.2.2.2.1.val : ℂ))
+    simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
+      (norm_nonneg _) (by positivity)
+  have hconstant : 0 ≤ rowCost :=
+    mul_nonneg
+      (mul_nonneg (mul_nonneg (Nat.cast_nonneg _)
+        (mul_nonneg (mul_nonneg hprofileBound (norm_nonneg _)) (norm_nonneg _)))
+        (pow_nonneg (zero_le_one.trans hAtomBound) _)) (orbitalFieldFactor_nonneg K)
+  have hupper : 0 ≤
+      firstCost / (Ideal.absNorm (commonRadical index.1.val.1.1 index.1.val.1.2) : ℝ) *
+        (rowCost * Z ^ remainingExponent *
+          (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
+            (Ideal.absNorm j.1.val : ℝ)) :=
+    mul_nonneg (div_nonneg hfirstCost (Nat.cast_nonneg _))
+      (div_nonneg
+        (mul_nonneg (mul_nonneg hconstant (Real.rpow_nonneg hz.le _))
+          (one_div_nonneg.mpr (Nat.cast_nonneg _))) (Nat.cast_nonneg _))
+  have h := mul_le_mul hpair hcoeff (by positivity) hupper
+  convert h using 1 <;>
+    simp only [TwoDivisorCommonBranch.indexWeight, hleftIndex, hrightIndex, hdivisorIndex] <;> ring
 
 local notation "indexProof" =>
   v.literalNormalizationData_index_from_original_atoms
@@ -825,7 +864,26 @@ theorem literalNormalizationData_outer_index_from_original_atoms
     (houter : X.leaf.weight / Z ^ parentWidth = factor * firstFactor / firstNormalization) :
     X.leaf.weight * (normalization).family.weight Finset.univ parentWidth b ≤
       factor * (firstCost * rowCost * Z ^ remainingExponent * branch.indexWeight index) := by
-  sorry
+  have hindex := indexProof cap hcountL hcountR atomBound hAtomBound
+    hcostL hcostR hprimeL hprimeR hslotsL hslotsR hfirstL hfirstR hgaussL hgaussR
+    herrorPos hannulusThreshold hscaleThreshold hsupportError hphysicalError
+    firstNormalization hfirstNormalization index hleftIndex hrightIndex hdivisorIndex
+    parentWidth total rawProfile firstCost hfirstCost hfirstProfile hD hE hsupportFirst
+    phase₁ χ₁ phase₂ χ₂ b
+  calc
+    _ = (X.leaf.weight / Z ^ parentWidth) *
+        (normalization).family.weight Finset.univ 0 b :=
+      normalizedCapacityPairWeight_outer_parent_zero
+        ((normalization).family.leftChild Finset.univ b)
+        ((normalization).family.rightChild Finset.univ b)
+        ((normalization).family.leftNormalizer b.val)
+        ((normalization).family.rightNormalizer b.val)
+        Z parentWidth X.leaf.weight
+    _ = factor * (firstFactor *
+        ((normalization).family.weight Finset.univ 0 b / firstNormalization)) := by
+      rw [houter]
+      ring
+    _ ≤ _ := mul_le_mul_of_nonneg_left hindex hfactor
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

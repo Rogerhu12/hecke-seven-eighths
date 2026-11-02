@@ -40,8 +40,9 @@ variable {K : Type} [Field K] [NumberField K]
 complementary ideal give the first support window internally. -/
 theorem support_window {a : RealParameters} {Z step : ℝ}
     (G : OriginalNominalGeometry (K := K) a Z step) (hZ : 1 < Z) (hq : 0 ≤ a.q) :
-    1 ≤ Z ^ a.q * (Ideal.absNorm G.ideals.complementary.val : ℝ) := by
-  sorry
+    1 ≤ Z ^ a.q * (Ideal.absNorm G.ideals.complementary.val : ℝ) :=
+  one_le_mul_of_one_le_of_one_le (Real.one_le_rpow hZ.le hq)
+    (one_le_idealNorm K G.ideals.complementary)
 
 /-- This is the support parameter used by the literal producer,
 computed from its complete original mask before the first transform. -/
@@ -53,8 +54,8 @@ theorem fullSupport_window {A : SArithmeticData K} {ω ψ : HeckeCharacter K}
     (G : OriginalNominalGeometry (K := K) (Q.fullSupportParameters a Z) Z step)
     (hZ : 1 < Z) :
     1 ≤ Z ^ (Q.fullSupportParameters a Z).q *
-      (Ideal.absNorm G.ideals.complementary.val : ℝ) := by
-  sorry
+      (Ideal.absNorm G.ideals.complementary.val : ℝ) :=
+  support_window G hZ (Q.fullSupportParameters_q_nonneg a Z hZ)
 
 /-- The selected error prime has the same upper endpoint as its
 original pool. No post-transform length window is supplied. -/
@@ -66,7 +67,12 @@ theorem pool_error_upper {A : SArithmeticData K} {a : RealParameters} {Z step : 
     ∀ e' p',
       (OriginalNominalGeometry.canonicalPoolError (a := a) pool e p I supportError herr).tag =
         .error e' p' → (Ideal.absNorm p'.asIdeal : ℝ) ≤ Z ^ (step / 3) := by
-  sorry
+  intro e' p' he
+  change OriginalNominalTag.error e p.val.val = .error e' p' at he
+  obtain ⟨he, hp⟩ := OriginalNominalTag.error.inj he
+  subst e'
+  subst p'
+  exact pool.norm_upper p.val p.property
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -142,38 +148,42 @@ local notation "n" => numbers chart P R hclass X hX label F parent oldMoving cor
 
 theorem second_saving (hZ : 1 < Z) (h : (S).live) :
     2 * (n).b₂ / 3 ≤ 2 * (n).b₂ - 5 * (n).g₂ / 6 - (n).p₂ + (n).t₂ + (n).V₀ / 6 +
-      (2 * (n).v) / 6 := by
-  sorry
+      (2 * (n).v) / 6 :=
+  (G).exceptionalNumbers_second_saving mass (G).centeredExtractionLength r₁ r₂ slotError
+    firstProfile hZ b.right_positive h
 
-theorem v_sum : (n).vStar ≤ (n).c + (n).w + (n).b₂ := by
-  sorry
+theorem v_sum : (n).vStar ≤ (n).c + (n).w + (n).b₂ :=
+  (G).exceptionalNumbers_original_v_sum mass r₁ r₂ slotError firstProfile rfl rfl
 
-theorem v_nonneg (hZ : 1 < Z) : 0 ≤ (n).v := by
-  sorry
+theorem v_nonneg (hZ : 1 < Z) : 0 ≤ (n).v :=
+  (G).exceptionalNumbers_v_nonneg mass (G).centeredExtractionLength r₁ r₂ slotError firstProfile hZ
 
 theorem radical_window (hZ : 1 < Z) (h : Orbit) (hh : h ∈ (S).rows) :
     Z ^ (n).v ≤ A.exteriorNorm (multiplicityOneNonunitRadical C (S).primes
-      (S).leftMultiplicity (S).rightMultiplicity ((S).frequency h)) := by
-  sorry
+      (S).leftMultiplicity (S).rightMultiplicity ((S).frequency h)) :=
+  (G).exceptionalNumbers_radical_window mass (G).centeredExtractionLength r₁ r₂
+    slotError firstProfile hZ h hh
 
 theorem gcd_window (hZ : 1 < Z) :
-    (Ideal.absNorm (gcd (mass).leftIdeal (mass).rightIdeal) : ℝ) ≤ Z ^ (n).g₂ := by
-  sorry
+    (Ideal.absNorm (gcd (mass).leftIdeal (mass).rightIdeal) : ℝ) ≤ Z ^ (n).g₂ :=
+  (G).exceptionalNumbers_gcd_window mass (G).centeredExtractionLength r₁ r₂ slotError firstProfile hZ
 
 theorem unit_window (hZ : 1 < Z) (h : Orbit) (hh : h ∈ (S).rows) :
     Z ^ (n).t₂ ≤ A.exteriorNorm (unitFrequencyRadical C (S).primes
       (S).leftMultiplicity (S).rightMultiplicity ((S).frequency h)) := by
-  sorry
+  rw [(mass).unit_ideal h hh]
+  exact (G).exceptionalNumbers_unit_window mass (G).centeredExtractionLength r₁ r₂
+    slotError firstProfile hZ
 
 theorem dyad_window :
     (n).g₂ - (n).t₂ ≤ idealLogLength Z (gcd (mass).leftIdeal (mass).rightIdeal) -
-      idealLogLength Z (mass).unitIdeal.val + (n).rowError := by
-  sorry
+      idealLogLength Z (mass).unitIdeal.val + (n).rowError :=
+  (G).exceptionalNumbers_dyad_window mass (G).centeredExtractionLength r₁ r₂ slotError firstProfile
 
 theorem remaining_window :
     ((n).Aexp - (n).c - (n).w) + (a.q + (n).R₀ + (n).E₀) + (n).w + (n).Bcommon +
-      (n).wo + (n).ell + (n).rowError - (n).parentWidth ≤ (n).remaining := by
-  sorry
+      (n).wo + (n).ell + (n).rowError - (n).parentWidth ≤ (n).remaining :=
+  (G).exceptionalNumbers_remaining_window mass (G).centeredExtractionLength r₁ r₂ slotError firstProfile
 
 theorem width_window :
     ((2 * ((n).Aexp - (n).c - (n).w) - (n).K₀ - (n).g - (n).g₂ - (n).V₀) +
@@ -182,16 +192,17 @@ theorem width_window :
       (secondCommonChildWidth Z ((n).Aexp - (n).c - (n).w) (a.q + (n).R₀ + (n).E₀)
         (n).wo (n).K₀ (n).g (mass).leftIdeal (mass).rightIdeal (mass).unitIdeal.val (mass).nonunitIdeal.val +
       secondCommonChildAllowance Z (n).w (n).Bcommon (n).ell (mass).leftIdeal (mass).rightIdeal) ≤
-      (n).widthError := by
-  sorry
+      (n).widthError :=
+  (G).exceptionalNumbers_width_window mass (G).centeredExtractionLength r₁ r₂ slotError firstProfile
 
 theorem first_saving (hZ : 1 < Z) (hstep : 0 ≤ step) (hq : 0 ≤ a.q)
     (hprime : ∀ e p, first.tag = .error e p →
       (Ideal.absNorm p.asIdeal : ℝ) ≤ Z ^ (step / 3)) :
     2 * ((n).c + (n).w) / 3 - 3 * (n).stepσ - 5 * (n).δ / 6 ≤
       firstSaving (n).c ((n).d + (2 * (n).Aexp - (n).c - (n).d + (n).R₀ + (n).E₀ - a.m) - (n).K₀)
-        (n).w (a.q + (n).R₀ + (n).E₀) (n).wo (n).Bcommon (n).g (n).ell := by
-  sorry
+        (n).w (a.q + (n).R₀ + (n).E₀) (n).wo (n).Bcommon (n).g (n).ell :=
+  (G).exceptionalNumbers_first_saving mass (G).centeredExtractionLength r₁ r₂ slotError
+    firstProfile hZ hstep (support_window G hZ hq) hprime
 
 theorem radius_window (hZ : 1 < Z)
     (hradius : radius = CanonicalRowBall.gaussRadius first.retainedScale Z first.enlargement
@@ -199,7 +210,9 @@ theorem radius_window (hZ : 1 < Z)
     Z ^ (-(n).K₀ - (n).g) ≤ (mass).radius.val *
       (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (mass).mask)).val := by
-  sorry
+  rw [CanonicalLiteralExceptionalArithmetic.actualMass_mask,
+    CanonicalLiteralExceptionalArithmetic.actualMass_radius, hradius]
+  exact CanonicalLiteralExceptionalGeometry.unmasked_radius_window first hZ
 
 theorem cutoff_window (columnLoss cutoffExponent : ℝ) (hZ : 1 < Z)
     (hradius : radius = CanonicalRowBall.gaussRadius first.retainedScale Z first.enlargement
@@ -212,7 +225,17 @@ theorem cutoff_window (columnLoss cutoffExponent : ℝ) (hZ : 1 < Z)
     A.exteriorNorm ((S).originalIdeal h.val) ≤ (S).normFactor C h.val *
       Z ^ (2 * ((n).Aexp - (n).c - (n).w) - (n).K₀ - (n).g - (n).g₂ - (n).V₀ +
         CanonicalLiteralExceptionalGeometry.paidCutoff columnLoss cutoffExponent 0) := by
-  sorry
+  have hmask : ∀ M' ∈ (∅ : Finset (HeightOneSpectrum A.R)).powerset,
+      (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) M')).val ≤ Z ^ (0 : ℝ) := by
+    intro M' hM'
+    have he := Finset.subset_empty.mp (Finset.mem_powerset.mp hM')
+    simpa only [he, empty_mask_generator_norm, Real.rpow_zero] using (le_refl (1 : ℝ))
+  exact CanonicalLiteralExceptionalGeometry.reweighted_restricted_cutoff chart G ∅
+    X hX label columnLoss cutoffExponent 0 hZ hradius hcutoff hmask hproduct
+    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
+    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair)
+    mass (G).centeredExtractionLength r₁ r₂ slotError firstProfile h
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralExceptionalNumbers
 

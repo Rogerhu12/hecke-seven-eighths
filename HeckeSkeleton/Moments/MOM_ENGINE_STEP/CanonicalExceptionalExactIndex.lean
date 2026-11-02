@@ -33,7 +33,10 @@ theorem exceptionalDyadWeight_at_divisor
     (i : b.Index) (hdivisor : i.2.2.2.1.val ≠ 0) :
     b.exceptionalDyadWeight Z (idealLogLength Z i.2.2.2.1.val) i =
       b.indexWeight i := by
-  sorry
+  unfold exceptionalDyadWeight indexWeight
+  rw [Real.rpow_neg (zero_lt_one.trans hZ).le,
+    rpow_idealLogLength Z hZ _ hdivisor]
+  rfl
 
 end CommonSupportMass.TwoDivisorCommonBranch
 
@@ -51,7 +54,22 @@ theorem amplifiedExceptionalDyadWeight_at_divisor
     amplifiedExceptionalDyadWeight pool M B main error
         (idealLogLength Z (amplifiedInnerDivisor i)) i =
       amplifiedIndexWeight pool M B main error i := by
-  sorry
+  cases i with
+  | inl j =>
+    change (4 / pool.rowDensity M B) *
+      (((M + 6 * ell) / (ell / 2)) * Z ^ ell *
+        main.exceptionalDyadWeight Z (idealLogLength Z j.2.2.2.1.val) j) = _
+    rw [main.exceptionalDyadWeight_at_divisor Z pool.base_gt_one j hdivisor]
+    rfl
+  | inr j =>
+    change (4 / pool.rowDensity M B) *
+      ((FirstGaussPoolData.localErrorWeight j.2.1.val j.1.val *
+        LocalFiniteSums.Q j.2.1.val ^ amplifierMovingExponent j.1.val) *
+        (error j.1.val j.2.1.val).exceptionalDyadWeight Z
+          (idealLogLength Z j.2.2.2.2.2.1.val) j.2.2) = _
+    rw [(error j.1.val j.2.1.val).exceptionalDyadWeight_at_divisor
+      Z pool.base_gt_one j.2.2 hdivisor]
+    rfl
 
 end HeckeSkeleton.Moments.EngineStep
 

@@ -40,7 +40,10 @@ theorem ordinary_comparison_coefficient (phase : PUnit.{1} →* Circle)
       (d.dictionary phase false).normalizedCoefficient
         (Real.sqrt d.gauss₁ : ℂ)⁻¹ (Real.sqrt d.gauss₂ : ℂ)⁻¹
         (fun j => (Real.sqrt (d.gaussSlot j) : ℂ)⁻¹) i := by
-  sorry
+  rw [d.exceptional_comparison_coefficient,
+    SecondCoefficientTermDictionary.normalizedCoefficient_eq]
+  change d.whole i = d.term false i
+  simp only [whole, d.term_true i, hordinary, Bool.false_eq_true, if_false, sub_zero]
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -62,7 +65,9 @@ theorem exceptional_frame_coefficient_ordinary
     ((d.factors R side χ ideal hideal firstSign false).frame C L selection hne).centeredCoefficient
           (CanonicalLiteralExceptionalFactory.comparison d (side.phase PUnit.{1} χ)) h i =
       ((d.factors R side χ ideal hideal firstSign false).frame C L selection hne).coefficient h i := by
-  sorry
+  cases side <;>
+    simp only [SecondSideFrame.centeredCoefficient, SecondSideFrame.coefficient,
+      SecondRectangularFactors.frame, factors, d.ordinary_comparison_coefficient _ hordinary]
 
 end CanonicalLiteralRectangles.Atoms
 
@@ -110,7 +115,16 @@ theorem pair_magnitude_eq (hleft : left.centered = false)
     (hright : right.centered = false) (ξ : WithLp 2 (ℝ × ℝ)) :
     (leftFrame).exceptionalMagnitude rightFrame EL ER Q ξ =
       (leftFrame).ordinaryExceptionalMagnitude rightFrame Q ξ := by
-  sorry
+  have hL : (leftFrame).centeredCoefficient EL = (leftFrame).coefficient := by
+    funext h i
+    exact left.exceptional_frame_coefficient_ordinary rows .left phase leftIdeal hleftIdeal
+      firstLeftSign L leftSelection hleftColumns hleft h i
+  have hR : (rightFrame).centeredCoefficient ER = (rightFrame).coefficient := by
+    funext h i
+    exact right.exceptional_frame_coefficient_ordinary rows .right phase rightIdeal hrightIdeal
+      firstRightSign L rightSelection hrightColumns hright h i
+  simp only [SecondSideFrame.exceptionalMagnitude,
+    SecondSideFrame.ordinaryExceptionalMagnitude, hL, hR]
 
 end CanonicalLiteralExceptionalOrdinaryMagnitude
 end HeckeSkeleton.Moments.EngineStep
