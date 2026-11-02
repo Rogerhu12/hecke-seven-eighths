@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPaidSour
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalRightTerminal
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual right cancellation window on the same literal rows

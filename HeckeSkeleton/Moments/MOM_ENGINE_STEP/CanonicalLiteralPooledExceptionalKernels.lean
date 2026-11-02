@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOriginalPointwi
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledScalar
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Fixed kernels of the actual pooled exceptional family

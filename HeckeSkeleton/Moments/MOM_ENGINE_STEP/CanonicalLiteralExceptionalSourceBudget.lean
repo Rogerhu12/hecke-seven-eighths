@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalRightRel
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPaidAtomBudget
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # One actual pair at its original exceptional source budget

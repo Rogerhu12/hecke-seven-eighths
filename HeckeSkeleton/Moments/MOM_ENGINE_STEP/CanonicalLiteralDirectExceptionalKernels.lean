@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOriginalPointwise
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Fixed kernels of the actual direct exceptional family

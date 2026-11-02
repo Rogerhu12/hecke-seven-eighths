@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPooledExceptionalKe
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOriginalIntegral
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Integrate the original pooled exceptional leaves

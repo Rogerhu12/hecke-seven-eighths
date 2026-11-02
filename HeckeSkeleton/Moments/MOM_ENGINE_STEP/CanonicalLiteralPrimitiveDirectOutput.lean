@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectSour
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectPassiveOutput
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Complete output facts for the original direct factories

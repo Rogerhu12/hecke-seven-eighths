@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainFactorFreeNorma
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolFactorFreeNormalization
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The four actual pooled exceptional sources on their original leaves

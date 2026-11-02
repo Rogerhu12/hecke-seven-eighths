@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNormalizedImageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentOriginalArithmetic
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual direct family over its original arithmetic fibres

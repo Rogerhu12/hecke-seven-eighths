@@ -6,6 +6,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformIndexBud
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOriginalIntegral
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Fixed choices for the complete original exceptional term

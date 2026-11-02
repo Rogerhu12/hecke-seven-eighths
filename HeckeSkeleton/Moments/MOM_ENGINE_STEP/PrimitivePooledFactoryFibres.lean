@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentOriginalArithmetic
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFibreRowsMonotone
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual pooled family over its original amplified arithmetic fibres

@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalRelative
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalPaidRightSource
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Right cancellation at the same original first normalization

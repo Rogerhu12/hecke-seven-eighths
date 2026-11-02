@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalStoredSo
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeNormalization
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Actual direct exceptional sides and the stored original integrand

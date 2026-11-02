@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitiveDirectPassiveFactoryCard
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The label count of the complete original direct factory
