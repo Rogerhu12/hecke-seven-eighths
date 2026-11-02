@@ -66,7 +66,9 @@ theorem movingSingleton_plain
       T.mask J.val) * actualIdealResidue (A := A) (σ := σ) J.val a
   calc
     _ = (heckeIdealCoefficient K _ J * (if IsCoprime J.val I.val then 1 else 0)) *
-        heckeIdealCoefficient K T.plainTwist J * T.mask J.val := by ring
+        heckeIdealCoefficient K T.plainTwist J * T.mask J.val := by
+      dsimp only [movingSingleton]
+      ring
     _ = (heckeIdealCoefficient K T.plain J *
           actualIdealResidue (A := A) (σ := σ) J.val a) *
         heckeIdealCoefficient K T.plainTwist J * T.mask J.val :=
@@ -94,7 +96,9 @@ theorem movingSingleton_prime
       T.mask p.asIdeal) * actualIdealResidue (A := A) (σ := σ) p.asIdeal a
   calc
     _ = (primeCoefficient K _ p * (if IsCoprime p.asIdeal I.val then 1 else 0)) *
-        primeCoefficient K (T.slotTwist j) p * T.mask p.asIdeal := by ring
+        primeCoefficient K (T.slotTwist j) p * T.mask p.asIdeal := by
+      dsimp only [movingSingleton]
+      ring
     _ = (primeCoefficient K (T.slot j) p *
           actualIdealResidue (A := A) (σ := σ) p.asIdeal a) *
         primeCoefficient K (T.slotTwist j) p * T.mask p.asIdeal :=

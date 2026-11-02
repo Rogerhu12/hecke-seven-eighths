@@ -103,32 +103,35 @@ variable (a : T.labels P D)
     (T.residualReindex P D J hJ a).plain₁ =
       SupportCartesian.plainResidual T.reindex.plain₁ P (T.branch P D a).plainExtract₁ := by
   unfold residualReindex
-  rw [CartesianSourceReindex.carrier_cast_plain₁ (T.commonFibre_eq_full P D a).symm]
-  rw [CartesianSourceReindex.carrier_cast_plain₁
-    (congrArg (fun key => columns.filter
-      (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a))]
-  exact T.reindex.supportResidualLabelBranch_plain₁ P (T.branch P D a) J hJ
+  exact
+    (CartesianSourceReindex.carrier_cast_plain₁ (T.commonFibre_eq_full P D a).symm _ _).trans
+      ((CartesianSourceReindex.carrier_cast_plain₁
+        (congrArg (fun key => columns.filter
+          (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a)) _ _).trans
+        (T.reindex.supportResidualLabelBranch_plain₁ P (T.branch P D a) J hJ))
 
 @[simp] theorem residualReindex_plain₂ :
     (T.residualReindex P D J hJ a).plain₂ =
       SupportCartesian.plainResidual T.reindex.plain₂ P (T.branch P D a).plainExtract₂ := by
   unfold residualReindex
-  rw [CartesianSourceReindex.carrier_cast_plain₂ (T.commonFibre_eq_full P D a).symm]
-  rw [CartesianSourceReindex.carrier_cast_plain₂
-    (congrArg (fun key => columns.filter
-      (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a))]
-  exact T.reindex.supportResidualLabelBranch_plain₂ P (T.branch P D a) J hJ
+  exact
+    (CartesianSourceReindex.carrier_cast_plain₂ (T.commonFibre_eq_full P D a).symm _ _).trans
+      ((CartesianSourceReindex.carrier_cast_plain₂
+        (congrArg (fun key => columns.filter
+          (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a)) _ _).trans
+        (T.reindex.supportResidualLabelBranch_plain₂ P (T.branch P D a) J hJ))
 
 @[simp] theorem residualReindex_slots :
     (T.residualReindex P D J hJ a).slots = fun j =>
       SupportCartesian.primeLive
         (T.reindex.slots (SlotRestriction.index (T.branch P D a).keep j)) P := by
   unfold residualReindex
-  rw [CartesianSourceReindex.carrier_cast_slots (T.commonFibre_eq_full P D a).symm]
-  rw [CartesianSourceReindex.carrier_cast_slots
-    (congrArg (fun key => columns.filter
-      (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a))]
-  exact T.reindex.supportResidualLabelBranch_slots P (T.branch P D a) J hJ
+  exact
+    (CartesianSourceReindex.carrier_cast_slots (T.commonFibre_eq_full P D a).symm _ _).trans
+      ((CartesianSourceReindex.carrier_cast_slots
+        (congrArg (fun key => columns.filter
+          (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a)) _ _).trans
+        (T.reindex.supportResidualLabelBranch_slots P (T.branch P D a) J hJ))
 
 /-- The original column is reconstructed by the actual occurrence map,
 not selected anew from an equality of complete ideals. -/
@@ -136,11 +139,12 @@ not selected anew from an equality of complete ideals. -/
     (T.residualReindex P D J hJ a).index =
       fun i => T.reindex.index ((T.branch P D a).reconstruct i) := by
   unfold residualReindex
-  rw [CartesianSourceReindex.carrier_cast_index (T.commonFibre_eq_full P D a).symm]
-  rw [CartesianSourceReindex.carrier_cast_index
-    (congrArg (fun key => columns.filter
-      (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a))]
-  exact T.reindex.supportResidualLabelBranch_index P (T.branch P D a) J hJ
+  exact
+    (CartesianSourceReindex.carrier_cast_index (T.commonFibre_eq_full P D a).symm _ _).trans
+      ((CartesianSourceReindex.carrier_cast_index
+        (congrArg (fun key => columns.filter
+          (fun i => T.reindex.supportExtractionLabel P i = key)) (T.branch_key P D a)) _ _).trans
+        (T.reindex.supportResidualLabelBranch_index P (T.branch P D a) J hJ))
 
 end SourceCartesianAtlas
 end HeckeSkeleton.Moments.EngineStep
