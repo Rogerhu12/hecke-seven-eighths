@@ -113,8 +113,11 @@ The public V2 driver `.github/v2/build.py` follows B commit
 300-second per-module watchdog and the typed `moduleNames` cache accepted in
 PR #31 comment `6578888764`. The selected declaration set and axiom whitelist
 are unchanged. Public manifest task scopes follow the same B commit, with
-`t3_shared_n8` included in this branch's explicit
-94-module T3 scope. The separate T3 proof job also requires both task endpoints.
+`t3_shared_n8` included in this branch's complete explicit T3 scope. The
+current manifest retains every original target and also registers the
+independent finite-support, first-kernel and scale-arithmetic helpers. The
+separate T3 proof job derives its full scope from those same T3 groups and
+also requires both task endpoints.
 
 The diagnostic script follows N7 commit
 `054b434f2acab53a1ff5e7cfc79e56ea06803cbf`, including explicit `IO Unit` markers,
@@ -124,8 +127,12 @@ new 300-second timeout and the value is recorded in diagnostic results.
 After B008113e7, declaration anchors accept an optional explicit `noncomputable`
 prefix while preserving exact uniqueness and complete wrapper boundaries. This
 only adapts temporary checkpoint placement to the new canonical source spelling.
-This branch probes RawContracts; N7 probes OrdinaryData. Temporary instrumented
-source output is diagnostic only and cannot replace the canonical build or axiom audit.
+The previously completed branch probe targeted RawContracts. Since commit
+`3e0a6cfeeaac51b5563401d77d143860a78c0c69`, this non-acceptance job is
+manual-only; its probe script, commands and watchdog are retained. Shared
+baseline diagnosis follows the coordinator's central and parallel repair
+branches. Temporary instrumented source output is diagnostic only and cannot
+replace the canonical build or axiom audit.
 
 ## Task CI routing from dtests-handoff
 
@@ -133,5 +140,8 @@ Coordinator comment `6580209603` and dtests-handoff commit
 `996cb49685a51cf789ea962af9f725b02dc363c7` exclude `cloud/mom-v2-*` task
 branches from the whole-project workflow, reserving it for final V2 integration.
 This branch consumes B ad7c9c79's merged workflow verbatim, retaining that
-exact task-prefix rule and B's existing draft/manual integration routing. Both V2 gates, all 94 targets, required
-endpoints and complete recursive axiom audits remain unchanged.
+exact task-prefix rule and B's existing draft/manual integration routing.
+Both V2 gates retain every original target, the required endpoints and the
+complete recursive axiom audits. Added independent proof helpers remain
+explicitly listed in the manifest and Interface and are included in both
+task builds and the fresh full-closure audits.

@@ -73,9 +73,11 @@ theorem t3b_originalPlainScale_centered_lower (call : Call c)
   cases rectangle with
   | false =>
     cases plain with
-    | false => exact Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
+    | false =>
+      exact Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
         (call.domain.centered_left hc)
-    | true => exact Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
+    | true =>
+      exact Real.rpow_le_rpow_of_exponent_le call.domain.scale.le
         (call.domain.centered_right hc)
   | true =>
     cases plain with
