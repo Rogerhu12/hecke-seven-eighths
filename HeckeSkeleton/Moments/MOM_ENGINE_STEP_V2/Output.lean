@@ -49,8 +49,28 @@ child, its shared measure, all four terminals, and both numerical bounds. -/
 def toConclusion (out : Output I Ω centered d a
     Z t Y₁ Y₂ σ ε terminalExponent C control admissible) :
     PairedEngineConclusion (Ω := Ω) centered d a
-      Z t Y₁ Y₂ σ ε terminalExponent C control admissible := by
-  sorry
+      Z t Y₁ Y₂ σ ε terminalExponent C control admissible :=
+  PairedEngineConclusion.ofFintype
+    (out.children.data false) (out.children.data true)
+    (out.children.parameters false) (out.children.parameters true)
+    (fun _ _ => 0) (fun _ _ => 0) out.kernels.kernel
+    (fun _ _ => rfl) (fun _ _ => rfl) out.kernels.finite_kernel
+    (out.children.width false) (out.children.width true)
+    (out.children.width_nonneg false) (out.children.width_nonneg true)
+    (out.children.plain_left_nonneg false) (out.children.plain_right_nonneg false)
+    (out.children.plain_left_nonneg true) (out.children.plain_right_nonneg true)
+    (out.children.length false) (out.children.length true)
+    (out.children.kappa false) (out.children.kappa true)
+    (out.children.slots false) (out.children.slots true)
+    (out.children.theta false) (out.children.theta true)
+    (out.children.slot_characters false) (out.children.slot_characters true)
+    (out.children.admissible_data false) (out.children.admissible_data true)
+    (out.children.capacity false) (out.children.capacity true)
+    out.terminals.firstZero out.terminals.secondZero out.terminals.exceptional out.terminals.tail
+    out.terminals.firstZero_nonneg out.terminals.secondZero_nonneg
+    out.terminals.exceptional_nonneg out.terminals.tail_nonneg out.terminal_bound
+    (out.kernels.integrable false) (out.kernels.integrable true) out.kernels.cauchy_integrable
+    out.parent_bound out.mass_bound
 
 /-- Arbitrary extra invariants follow the exact same selected children.
 This transports support, inverse-character and profile predicates without
