@@ -1,9 +1,18 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.GeometryContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawRectangleData
+import Lean.Elab.Command
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option Elab.async false
+set_option stderrAsMessages false
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: imports"
+    stderr.flush
 
 /-!
 # S6: the original finite cover, two divisors and live hybrid leaves
@@ -46,6 +55,14 @@ local instance rawContractsCircleFintype : Fintype ((PUnit.{1} × PUnit.{1}) →
 
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: before OriginalCover"
+    stderr.flush
+
+set_option genInjectivity false in
+set_option genSizeOf false in
 /-- Only original occurrence tuples can label a source cover. -/
 structure OriginalCover (source : PhysicalSource call p) where
   cover : SourceCartesianCover source.source.columns source.source.ideal
@@ -53,6 +70,12 @@ structure OriginalCover (source : PhysicalSource call p) where
   first : ∀ a : cover.labels,
     SupportCartesianBranch call.workingRaw.originalPlain₁
       call.workingRaw.originalPlain₂ call.workingRaw.exteriorSlots source.first.fullDeletion
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after OriginalCover"
+    stderr.flush
 
 namespace OriginalCover
 
@@ -84,12 +107,26 @@ structure Realizes : Prop where
 
 end OriginalCover
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after OriginalCover.Realizes"
+    stderr.flush
+
 variable {F : FirstPresentation call p} {family : FirstCauchyFamily F}
 variable {expansion : PoolExpansion family}
 
+set_option genInjectivity false in
+set_option genSizeOf false in
 structure RawCovers (second : SecondFamily expansion) where
   left : ∀ i, OriginalCover (second.source i).physical
   right : ∀ i, OriginalCover (second.source i).physical
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after RawCovers"
+    stderr.flush
 
 namespace RawCovers
 
@@ -101,10 +138,22 @@ def predicates (i : Fin expansion.count) :
   fun DE D _ _ label _ _ _ _ _ _ h =>
     (second.source i).rowCharacter (expansion := expansion) i DE D label h ∈ call.node.data.theta
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after predicates"
+    stderr.flush
+
 abbrev ClassKey := Σ i : Fin expansion.count,
   SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover
 
 abbrev Key := Σ key : covers.ClassKey, SourceClassKey.AllocationKey key.2
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after ClassKey and Key"
+    stderr.flush
 
 def classKey (key : covers.Key) : SecondClassKey second where
   sourceIndex := key.1.1
@@ -112,9 +161,28 @@ def classKey (key : covers.Key) : SecondClassKey second where
   divisor := key.1.2.2.1
   rowLabel := SourceClassKey.rowLabel key.1.2
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after classKey"
+    stderr.flush
+
 def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  secondSourceLeaf (second.source key.1.1) (covers.left key.1.1).cover
-    (covers.right key.1.1).cover key.1.2 (covers.predicates key.1.1) key.2
+  match key with
+  | ⟨⟨i, v⟩, allocation⟩ =>
+      secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
+        (second.source i) (covers.left i).cover (covers.right i).cover v
+        (RawCovers.predicates
+          (K := K) (c := c) (call := call) (p := p)
+          (F := F) (family := family) (expansion := expansion)
+          (second := second) covers i)
+        allocation
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after leaf"
+    stderr.flush
 
 /-- Zero physical sources and classes with identically zero complete
 correlation are removed as well as zero whole-column leaves. The S6
@@ -123,6 +191,12 @@ abbrev LiveKey := {key : covers.Key //
   (covers.leaf key).Live ∧ (covers.classKey key).Active}
 
 end RawCovers
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after LiveKey"
+    stderr.flush
 
 set_option diagnostics true in
 set_option genInjectivity false in
@@ -133,6 +207,12 @@ structure RawFamily {second : SecondFamily expansion} (geometry : GeometryFamily
   covers : RawCovers second
   count : ℕ
   index : Fin count ≃ covers.LiveKey
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after RawFamily"
+    stderr.flush
 
 namespace RawFamily
 
@@ -156,6 +236,12 @@ def packet (j : Fin raw.count) : RawLeafPacket call p :=
     nominal := (geometry.geometry (raw.covers.classKey key) (raw.active j)).nominal
     leftFirst := (raw.covers.left key.1.1).first key.1.2.2.2.1
     rightFirst := (raw.covers.right key.1.1).first key.1.2.2.2.2.1 }
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after packet"
+    stderr.flush
 
 def Realizes : Prop := ∀ i, (raw.covers.left i).Realizes ∧ (raw.covers.right i).Realizes
 
@@ -205,5 +291,11 @@ def FiniteLeafTask (c : TargetContext K) (p : SourceParameters c) : Prop :=
     ∀ geometry : GeometryFamily trace.second, geometry.Realizes →
       ∃ raw : RawFamily geometry, raw.Realizes ∧
         trace.second.nonzero ≤ raw.exceptional + raw.ordinary
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: complete"
+    stderr.flush
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
