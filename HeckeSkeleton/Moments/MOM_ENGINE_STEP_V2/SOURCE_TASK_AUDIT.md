@@ -124,6 +124,21 @@ part of the blueprint dependency closure.
     active-capacity fibres, plus the original Fourier/profile factor.
     Combining that independent work with N8a is the concrete reason the
     previous single N8 unit risked exceeding 5,000 proof lines.
+11. The first genuine truncation discrepancy uses each finite common
+    source's own radius and mask, including the principal common-prime
+    mask, and subtracts its `divisorTransform`. These are the same
+    divisor-specific cutoffs used by the first physical rows.
+12. Ordinary inputs use the original `n₁/n₂` as their unused working
+    comparison lengths. Centered inputs retain their actual comparisons.
+    Otherwise arbitrary unused comparison supports can create very large
+    zero-coefficient residual divisors and make the prescribed pool
+    density negative. The original whole coefficient is unchanged;
+    `Call.workingCoefficient_eq` proves this directly. The original node
+    and final step conclusion keep their original comparison parameters.
+13. First-Cauchy and pool origin records include their literal column
+    type equalities. These representation identities let later tasks
+    transport the accompanying source, ancestor and multiplier `HEq`
+    fields consistently; they add no analytic or numerical premise.
 
 ## Assembly status
 

@@ -62,6 +62,7 @@ def sourceBudget : ℝ :=
   ∑ b : R.Label, R.outer b *
     ∫ z : ℝ × ℝ, R.sourcePair b (WithLp.toLp 2 z) ∂packet.leaf.measure
 
+include C G in
 theorem ordinaryCost_le_sourceBudget
     (pointwise : ∀ z : ℝ × ℝ,
       packet.leaf.weight * packet.leaf.ordinaryIntegrand z /

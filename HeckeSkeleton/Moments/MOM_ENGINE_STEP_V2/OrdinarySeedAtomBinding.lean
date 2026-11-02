@@ -5,7 +5,7 @@ set_option linter.unusedSectionVars false
 set_option autoImplicit false
 
 /-!
-# Proposed global atom fields for the ordinary seed
+# Global original atom fields for the ordinary seed
 
 Every right-hand side below is computed from the original call and its
 two occurrence extractions. No calibration or energy estimate is an
@@ -75,7 +75,7 @@ def originalCharacters (P : OriginalPhaseData packet) (side : Bool) :=
 
 end OriginalOccurrenceData
 
-/-- Proposed extra field of `OrdinarySeed`: bind the actual frame's
+/-- The global atom field of `OrdinarySeed`: bind the actual frame's
 single-atom fields on all ideals and primes, before any finite support
 restriction or Fourier integration. -/
 structure OriginalAtomBinding {packet : RawLeafPacket call p}
@@ -100,15 +100,15 @@ structure OriginalAtomBinding {packet : RawLeafPacket call p}
     (O.originalSource side rectangle).slotWeight h i q = D.beforeSlotWeight side i q
   leftLocation : ∀ side rectangle h I,
     (O.originalSource side rectangle).leftLocation h I =
-      if side then -CanonicalLiteralLocations.plain packet.firstSign I
+      if side then -CanonicalLiteralLocations.plain (-packet.firstSign) I
       else CanonicalLiteralLocations.plain packet.firstSign I
   rightLocation : ∀ side rectangle h I,
     (O.originalSource side rectangle).rightLocation h I =
-      if side then -CanonicalLiteralLocations.plain packet.firstSign I
+      if side then -CanonicalLiteralLocations.plain (-packet.firstSign) I
       else CanonicalLiteralLocations.plain packet.firstSign I
   slotLocation : ∀ side rectangle h i q,
     (O.originalSource side rectangle).slotLocation h i q =
-      if side then -CanonicalLiteralLocations.prime packet.firstSign i q
+      if side then -CanonicalLiteralLocations.prime (-packet.firstSign) i q
       else CanonicalLiteralLocations.prime packet.firstSign i q
   gaussNormalizer : ∀ side rectangle, O.originalGaussNormalizer side rectangle = 1
 

@@ -115,6 +115,25 @@ theorem childData_mask_eq (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     oldMoving.fullMaskSupport_mask (remainingMaskIdeal A remaining)]
   exact common_mask_reorder_four _ _ _ _
 
+/-- A surviving child term retains the fixed gate and the full old paid
+moving gate. This statement is independent of the chosen profiles. -/
+theorem childData_mask_gates (u J : HeckeGeneral.Analysis.NonzeroIdeal K)
+    (h : maskValue (childData P R parent oldMoving correction hcorr C primes m n pattern ν
+      remaining budget inverse left right geometry index) u J.val ≠ 0) :
+    IsCoprime J.val A.cS ∧
+      IsCoprime J.val (oldMoving.effectiveFullSupport remaining).val := by
+  rw [childData_mask_eq P R parent oldMoving correction hcorr C primes m n pattern ν
+    remaining budget inverse left right geometry index u J,
+    CanonicalOriginalPhaseCalibration.childData_mask P R parent correction hcorr
+      C primes m n pattern ν (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining))
+      budget inverse left right geometry index u J] at h
+  have hg : phaseMask u (secondOriginalMovingFactors P R C primes m n pattern).support.val
+      (secondSixthRootIdeal primes m n) J ∧
+      IsCoprime J.val (oldMoving.effectiveFullSupport remaining).val := by
+    by_contra hn
+    exact h (if_neg hn)
+  exact ⟨(outside_iff_coprime J).mp hg.1.1, hg.2⟩
+
 /-- The original moving character is multiplied into the unchanged
 source background; only the genuinely new active and row characters
 are separated by the original residue dictionary. -/
@@ -208,6 +227,14 @@ def calibration
     subst θ
     exact hone
   plain J := by
+    let d := childData P R parent oldMoving correction hcorr C primes m n pattern ν
+      remaining budget inverse left right geometry index
+    change heckeIdealCoefficient K (parent.plainBackground * d.rowCharacter row.momentIdeal) J *
+        maskValue d row.momentIdeal J.val =
+      sourcePlainCoefficient (parent.plainBackground * (correction * oldMoving.character)) 1
+          (originalCoprimeMask (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining))) J *
+        actualIdealResidue (A := A) (σ := σ) J.val g *
+          actualIdealResidue (A := A) (σ := σ) J.val row.element
     have he := childData_row_coefficient P R parent oldMoving correction hcorr C primes m n
       pattern ν remaining budget inverse left right geometry index hroot hemb
       row hfactor hsector parent.plainBackground J
@@ -216,6 +243,12 @@ def calibration
   slot i p := by
     let d := childData P R parent oldMoving correction hcorr C primes m n pattern ν
       remaining budget inverse left right geometry index
+    change primeCoefficient K (d.rowCharacter row.momentIdeal * parent.slotCoefficient (index i)) p *
+        maskValue d row.momentIdeal p.asIdeal =
+      sourcePrimeCoefficient (parent.slotCoefficient (index i) * (correction * oldMoving.character)) 1
+          (originalCoprimeMask (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining))) p *
+        actualIdealResidue (A := A) (σ := σ) p.asIdeal g *
+          actualIdealResidue (A := A) (σ := σ) p.asIdeal row.element
     have he := childData_row_coefficient P R parent oldMoving correction hcorr C primes m n
       pattern ν remaining budget inverse left right geometry index hroot hemb
       row hfactor hsector (parent.slotCoefficient (index i)) (primeIdeal p)
@@ -227,8 +260,6 @@ def calibration
             p.asIdeal *
         actualIdealResidue (A := A) (σ := σ) p.asIdeal g *
           actualIdealResidue (A := A) (σ := σ) p.asIdeal row.element at he
-    change primeCoefficient K (d.rowCharacter row.momentIdeal * parent.slotCoefficient (index i)) p *
-      maskValue d row.momentIdeal p.asIdeal = _
     rw [mul_comm (d.rowCharacter row.momentIdeal) (parent.slotCoefficient (index i))]
     simpa only [sourceCharacters, CanonicalOriginalPhaseCalibration.sourceCharacters,
       sourcePrimeCoefficient, primeCoefficient_one, Fin.cast_refl, id_eq, mul_one,
@@ -327,6 +358,7 @@ end ActualIndices
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationPhases
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationPhases.childData_mask_eq
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationPhases.childData_mask_gates
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationPhases.childData_row_coefficient
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationPhases.recipe
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationPhases.recipe_fullJointBudget
