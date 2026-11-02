@@ -52,6 +52,20 @@ def toConclusion (out : Output I Ω centered d a
       Z t Y₁ Y₂ σ ε terminalExponent C control admissible := by
   sorry
 
+/-- Arbitrary extra invariants follow the exact same selected children.
+This transports support, inverse-character and profile predicates without
+selecting another output or changing its kernels. -/
+theorem toConclusion_property (out : Output I Ω centered d a
+    Z t Y₁ Y₂ σ ε terminalExponent C control admissible)
+    (property : Bool → MomentData K ω ψ → RealParameters → Prop)
+    (h : ∀ side b ξ, property side (out.children.data side b ξ)
+      (out.children.parameters side b)) :
+    (∀ b ξ, property false (out.toConclusion.leftData b ξ)
+      (out.toConclusion.leftParameters b)) ∧
+    (∀ b ξ, property true (out.toConclusion.rightData b ξ)
+      (out.toConclusion.rightParameters b)) := by
+  sorry
+
 theorem linearized (out : Output I Ω centered d a
     Z t Y₁ Y₂ σ ε terminalExponent C control admissible) (hZ : 0 < Z) :
     pairedStageEnergy centered d a Z t Y₁ Y₂ / Z ^ (a.m + a.q) ≤
