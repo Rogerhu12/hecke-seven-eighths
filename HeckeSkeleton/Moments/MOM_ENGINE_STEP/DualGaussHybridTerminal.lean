@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussDualRawTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussHybridTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
+set_option linter.unusedSectionVars false
 
 /-!
 # Pure-dual second terminals with the original finite hybrid leaves
@@ -27,6 +28,65 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis MeasureTheory
 open HeckePort.Moments
+
+private theorem dual_scalar_integral_const_nonzero_const
+    {X : Type*} [MeasurableSpace X]
+    (μ : Measure X) [IsFiniteMeasure μ]
+    (weight zeroTerm tailTerm : ℝ) (f : X → ℝ) (hf : Integrable f μ) :
+    (∫ x, weight * (zeroTerm + f x + tailTerm) ∂μ) =
+      weight * (μ.real Set.univ * (zeroTerm + tailTerm) + ∫ x, f x ∂μ) := by
+  rw [integral_const_mul,
+    integral_add (f := fun x : X => zeroTerm + f x) (g := fun _ : X => tailTerm)
+      ((integrable_const zeroTerm).add hf) (integrable_const tailTerm),
+    integral_add (f := fun _ : X => zeroTerm) (g := f)
+      (integrable_const zeroTerm) hf, integral_const, integral_const]
+  simp only [smul_eq_mul]
+  ring
+
+private theorem dual_scalar_weighted_terminal_sum
+    {J : Type*} [Fintype J]
+    (weight zeroCoefficient zeroAmplitude zeroPower
+      tailCoefficient tailAmplitude tailPower nonzero : ℝ)
+    (leaves scaledLeaves : J → ℝ)
+    (hsum : nonzero = ∑ b : J, leaves b)
+    (hscaled : ∀ b : J, scaledLeaves b = weight * leaves b) :
+    weight * (zeroCoefficient * zeroAmplitude * zeroPower + nonzero +
+      tailCoefficient * tailAmplitude * tailPower) =
+      weight * zeroCoefficient * zeroAmplitude * zeroPower +
+      weight * tailCoefficient * tailAmplitude * tailPower +
+      ∑ b : J, scaledLeaves b := by
+  rw [hsum]
+  simp only [hscaled, Finset.mul_sum, mul_add, mul_assoc]
+  ring
+
+private theorem dual_scalar_integral_const_add_sum
+    {X J : Type*} [MeasurableSpace X] [Fintype J]
+    (μ : Measure X) [IsFiniteMeasure μ]
+    (c : ℝ) (f : X → ℝ) (leaves : J → X → ℝ) (costs : J → ℝ)
+    (leafMeasures : J → Measure X)
+    (hpoint : ∀ ξ, f ξ = c + ∑ b : J, leaves b ξ)
+    (hmeasure : ∀ b : J, leafMeasures b = μ)
+    (hterms : ∀ b : J, Integrable (leaves b) (leafMeasures b))
+    (hcosts : ∀ b : J, (∫ ξ, leaves b ξ ∂(leafMeasures b)) = costs b) :
+    (∫ ξ, f ξ ∂μ) = μ.real Set.univ * c + ∑ b : J, costs b := by
+  have hterms' : ∀ b : J, Integrable (leaves b) μ :=
+    fun b => (hmeasure b) ▸ hterms b
+  have hcosts' : ∀ b : J, (∫ ξ, leaves b ξ ∂μ) = costs b :=
+    fun b => (hmeasure b) ▸ hcosts b
+  calc
+    (∫ ξ, f ξ ∂μ) = ∫ ξ, c + ∑ b : J, leaves b ξ ∂μ :=
+      integral_congr_ae (Filter.Eventually.of_forall hpoint)
+    _ = (∫ _ : X, c ∂μ) + ∫ ξ, ∑ b : J, leaves b ξ ∂μ :=
+      integral_add (integrable_const c)
+        (integrable_finsetSum Finset.univ (fun b _ => hterms' b))
+    _ = μ.real Set.univ * c + ∑ b : J, ∫ ξ, leaves b ξ ∂μ := by
+      simpa only [integral_const, smul_eq_mul] using
+        congrArg (fun z : ℝ => (∫ _ : X, c ∂μ) + z)
+          (integral_finsetSum (μ := μ) (f := leaves) Finset.univ
+            (fun b _ => hterms' b))
+    _ = μ.real Set.univ * c + ∑ b : J, costs b :=
+      congrArg (fun z : ℝ => μ.real Set.univ * c + z)
+        (Finset.sum_congr rfl (fun b _ => hcosts' b))
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -118,12 +178,11 @@ theorem integral_rawPhaseCost
       s.rawPhaseNonzeroCost x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
         ∂actualFourierMeasure F) = _
-  rw [integral_const_mul,
-    integral_add ((integrable_const _).add (s.rawPhaseNonzeroCost_integrable F x)) (integrable_const _),
-    integral_add (integrable_const _) (s.rawPhaseNonzeroCost_integrable F x),
-    integral_const, integral_const]
-  simp only [smul_eq_mul]
-  ring
+  exact dual_scalar_integral_const_nonzero_const
+    (actualFourierMeasure F) (s.fiber : ℝ)
+    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε))
+    (Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
+    (s.rawPhaseNonzeroCost x) (s.rawPhaseNonzeroCost_integrable F x)
 
 theorem coverHybridPhaseCost_integrable
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -178,10 +237,17 @@ theorem phase_cost_eq_budgets_leaves
     (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
       s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) = _
-  rw [s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ]
-  simp only [fiberCoveredLeaf, ActualHybridLeaf.scale_firstPhaseCost,
-    zeroBudget, tailBudget, Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  exact dual_scalar_weighted_terminal_sum
+    (J := s.CoveredLeafKey LC RC)
+    (s.fiber : ℝ)
+    Czero (T.windows.multiplicity * T.zeroAmplitude) (Z ^ (T.zeroProductExponent * ε))
+    Cerror (T.windows.multiplicity * T.tailAmplitude) (Z ^ (-Nsave))
+    (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).scale_firstPhaseCost
+      (s.fiber : ℝ) (Nat.cast_nonneg _) ξ)
 
 theorem integral_phase_cost_eq_budgets_leaves
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -193,17 +259,19 @@ theorem integral_phase_cost_eq_budgets_leaves
       (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey LC RC, (s.fiberCoveredLeaf LC RC exceptional F x b).cost := by
   letI := actualFourierMeasure_finite F
-  simp_rw [T.phase_cost_eq_budgets_leaves LC RC exceptional F x]
-  rw [integral_add (integrable_const _) (integrable_finsetSum _ (fun b _ =>
-    (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable))]
-  rw [integral_const, integral_finsetSum]
-  · simp only [smul_eq_mul]
-    congr 1
-    apply Finset.sum_congr rfl
-    intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).integral_firstPhaseCost
-  · intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable
+  exact dual_scalar_integral_const_add_sum
+    (X := W) (J := s.CoveredLeafKey LC RC)
+    (actualFourierMeasure F)
+    (T.zeroBudget ε Czero + T.tailBudget Cerror)
+    (fun ξ => (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).cost)
+    (fun b => actualFourierMeasure (s.fiberCoveredLeaf LC RC exceptional F x b).firstKernel)
+    (fun ξ => T.phase_cost_eq_budgets_leaves LC RC exceptional F x ξ ε Cerror Czero)
+    (fun b => congrArg (fun H : SchwartzMap W ℂ => actualFourierMeasure H)
+      (s.fiberCoveredLeaf_firstKernel LC RC exceptional F x b))
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).integral_firstPhaseCost)
 
 end ActualGaussStage.DualTerminalCalibration
 
