@@ -46,7 +46,7 @@ jobs:
         run: |
           D=HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2
           f=$([ "${{ matrix.side }}" = R ] && echo RawContracts || echo OrdinaryData)
-          lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' $D/$f.lean) +Lean.Elab.Command:olean 2>&1 | tail -5
+          lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' $D/$f.lean) 2>&1 | tail -5; test ${PIPESTATUS[0]} -eq 0
       - name: Elaborate the probes one at a time
         run: |
           mkdir -p kdiag-out
