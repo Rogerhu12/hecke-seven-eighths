@@ -1,0 +1,28 @@
+name: MOM Engine Step V2 modules
+on:
+  push:
+    branches: [cloud/mom-engine-step-v2]
+    paths:
+      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/**'
+      - '.github/workflows/mom-engine-step-v2.yml'
+  pull_request:
+    paths:
+      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/**'
+      - '.github/workflows/mom-engine-step-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  v2-modules:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build V2 interface
+        run: lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.Interface:olean
