@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [b3_rawleaf_bundle, b4_bundle_funinfo, b5_original_raw, b6_original_ordinary, b7_generic_cases, b8_named_fibres]
+        probe: [bo0_rawleaf_rows, bo1_direct_slots, bo2_typed_rows, bo3_slots_rows_frames, bo4_rectangle_inputs, bo5_funinfo]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -46,10 +46,14 @@ jobs:
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
         with:
           branch-cache: 'true'
-      - name: Install the bundled reindex candidate for dependent probes
-        if: matrix.probe == 'b4_bundle_funinfo' || matrix.probe == 'b5_original_raw' || matrix.probe == 'b6_original_ordinary'
+      - name: Install the exact reindex and row-type candidate
+        if: matrix.probe != 'bo0_rawleaf_rows'
         run: |
-          cp .github/kdiag/b3_rawleaf_bundle.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
+          if [ "${{ matrix.probe }}" = bo1_direct_slots ]; then
+            cp .github/kdiag/b3_rawleaf_bundle.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
+          else
+            cp .github/kdiag/bo0_rawleaf_rows.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
+          fi
           sha256sum HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
       - name: Build the imports of the probe
         run: |
