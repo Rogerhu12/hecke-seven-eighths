@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActiveOriginalScale
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Fixed annulus payment in the actual exceptional atomic scales

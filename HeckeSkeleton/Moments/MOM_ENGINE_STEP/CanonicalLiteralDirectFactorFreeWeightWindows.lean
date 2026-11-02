@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectOriginalWeigh
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualDirectScalarCost
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original windows after exact residual-factor redistribution

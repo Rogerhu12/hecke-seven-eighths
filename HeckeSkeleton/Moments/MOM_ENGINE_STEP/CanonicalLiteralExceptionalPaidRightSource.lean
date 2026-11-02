@@ -42,7 +42,7 @@ variable (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent)
 include A σ η hS
 
 private def rightExistence :=
-  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_right_cutoff
+  CanonicalExceptionalTerminal.exists_original_magnitude_terminal_with_right_cutoff.{0, 0, 0, 0, 0}
     (A := A) (σ := σ) (η := η) (hS := hS) (V := WithLp 2 (ℝ × ℝ))
     (characterCatalogue ψ theta) primitive.density primitive.remainder
     primitive.continuous window primitive.volume primitive.compact primitive.positive

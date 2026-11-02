@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalDirectParentWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogMetadata
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The literal first source from the original moving recipe

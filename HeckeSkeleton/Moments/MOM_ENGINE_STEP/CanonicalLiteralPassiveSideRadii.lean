@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSideProducti
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSideRadius
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Exact radii of the actual passive side

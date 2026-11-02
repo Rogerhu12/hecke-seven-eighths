@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveTerminalLedgers
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedPoolSourceTerminal
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original pooled zero and tail windows for the same actual family

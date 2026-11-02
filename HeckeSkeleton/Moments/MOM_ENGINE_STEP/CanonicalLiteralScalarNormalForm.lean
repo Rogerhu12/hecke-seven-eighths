@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlasAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPlainBalance
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDeletion
 
 set_option linter.unusedSectionVars false
 

@@ -64,10 +64,10 @@ def firstTerminalArithmeticMass : ℝ :=
   ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
     ∑ S : divisorPool (s.pools v D).rightData.columns
       (fun j => ((s.pools v D).rightData.ideal j).val),
-    ∑ χ : (PUnit × PUnit) →* Circle,
+    ∑ χ : (PUnit.{1} × PUnit.{1}) →* Circle,
       firstCommonWeight Z v.val.1 v.val.2 *
         (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
-          ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
+          ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) χ‖
 
 theorem first_divisor_original_norm
     (v : s.CommonLabel) (D : ((s.block v).mask s.mask).powerset)

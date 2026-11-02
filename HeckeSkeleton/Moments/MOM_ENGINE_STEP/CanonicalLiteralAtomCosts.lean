@@ -39,16 +39,16 @@ annulus factor is not paid again after the original inverse norm. -/
 theorem weighted_transform_norm_sq (N np δ₁ δ₂ : ℝ)
     (hN : 0 < N) (hp : 0 < np) (z : ℂ) :
     (np / N) *
-        ‖(((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-          (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)‖ ^ 2 =
+        ‖(((z * (Real.sqrt N : ℂ)) * ((np ^ (-1 : ℝ) : ℝ) : ℂ)) *
+          ((np ^ δ₁ : ℝ) : ℂ)) * ((np ^ δ₂ : ℝ) : ℂ)‖ ^ 2 =
       np ^ (-1 + 2 * (δ₁ + δ₂)) * ‖z‖ ^ 2 := by
   sorry
 
 theorem weighted_transform_norm_sq_le (N np δ₁ δ₂ : ℝ)
     (hN : 0 < N) (hp : 1 ≤ np) (hδ : δ₁ + δ₂ ≤ 1 / 2) (z : ℂ) :
     (np / N) *
-        ‖(((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-          (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)‖ ^ 2 ≤ ‖z‖ ^ 2 := by
+        ‖(((z * (Real.sqrt N : ℂ)) * ((np ^ (-1 : ℝ) : ℝ) : ℂ)) *
+          ((np ^ δ₁ : ℝ) : ℂ)) * ((np ^ δ₂ : ℝ) : ℂ)‖ ^ 2 ≤ ‖z‖ ^ 2 := by
   sorry
 
 end CanonicalLiteralAtomCosts
