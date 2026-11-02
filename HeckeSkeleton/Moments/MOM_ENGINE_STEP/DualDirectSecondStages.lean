@@ -118,13 +118,21 @@ theorem linearized_le_rawCost
       ((PUnit × PUnit) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
     (ε Cerror Czero : ℝ)
-    (hstage : ∀ {j : Type*} (G : ActualGaussSource C j)
+    (hstageLeft : ∀ (G : ActualGaussSource C ι)
       (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
       (hmask : s.mask = ∅)
       (hpositive : 0 ≤ (sIntegerTensorTerm K A.Sf
         (traceSchwartzToMixed K s.profile) finiteTest 0).re)
       (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
-      (x : j → W) (ξ : W),
+      (x : ι → W) (ξ : W),
+      G.phaseEnergy (hDiff := hDiff) x ξ ≤ (T.fourierPhase x ξ).rawCost ε Cerror Czero)
+    (hstageRight : ∀ (G : ActualGaussSource C κ)
+      (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
+      (hmask : s.mask = ∅)
+      (hpositive : 0 ≤ (sIntegerTensorTerm K A.Sf
+        (traceSchwartzToMixed K s.profile) finiteTest 0).re)
+      (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
+      (x : κ → W) (ξ : W),
       G.phaseEnergy (hDiff := hDiff) x ξ ≤ (T.fourierPhase x ξ).rawCost ε Cerror Czero) :
     p.linearizedCost hDiff NL NR ≤ T.rawCost NL NR ε Cerror Czero := by
   sorry
