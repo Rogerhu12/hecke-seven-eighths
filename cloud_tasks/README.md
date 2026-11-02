@@ -25,6 +25,7 @@
    - 还差什么；
    - 编译了哪些模块、在什么环境下编译；
    - 公理清单。
+6. **编译选项不用审批**：只改编译选项、不改任何声明内容的修改，不算修改共享定义，也不需要 owner 批准，谁修这个文件谁直接加。例如在 import 之后加一行 `set_option linter.unusedSectionVars false`。这类改动只影响警告或编译速度，不改变任何定理证明了什么；验收照旧以编译通过和公理检查为准。如果一个文件编译很慢，而调用栈停在 `containsFVar`/`elabFunValues`（unusedSectionVars 检查），就直接整文件关掉这个 linter，不要逐个声明二分。
 
 ## CI 预编译缓存
 
