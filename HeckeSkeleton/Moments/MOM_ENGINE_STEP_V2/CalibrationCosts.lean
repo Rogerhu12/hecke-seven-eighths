@@ -18,7 +18,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep NumberField DedekindZetaZeroFree
+open EngineStep EngineInduction EngineInduction.Source NumberField DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
@@ -44,21 +44,21 @@ theorem scalar_bound (h : H) (hh : h ∈ s.rows) :
     ‖s.frozenScalar (σ := Arithmetic.embedding c) h‖ ^ 2 ≤ scalar s := by
   change ((‖s.frozenScalar (σ := Arithmetic.embedding c) h‖₊ : NNReal) : ℝ) ^ 2 ≤
     ((s.rows.sup (fun j =>
-      ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ 2) : NNReal) : ℝ)
+      ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ (2 : ℕ)) : NNReal) : ℝ)
   exact_mod_cast (Finset.le_sup
-    (f := fun j => ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ 2) hh)
+    (f := fun j => ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ (2 : ℕ)) hh)
 
-theorem fiber_bound (I : NonzeroIdeal K) :
+theorem fiber_bound (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (s.rows.filter (fun h => (s.row h).momentIdeal = I)).card ≤ fiber s := by
   by_cases hI : (s.rows.filter (fun h => (s.row h).momentIdeal = I)).Nonempty
   · obtain ⟨h, hh⟩ := hI
     obtain ⟨hrow, hideal⟩ := Finset.mem_filter.mp hh
     unfold fiber
-    simpa only [hideal] using
-      (Finset.le_sup
-        (f := fun j =>
-          (s.rows.filter (fun h => (s.row h).momentIdeal = (s.row j).momentIdeal)).card)
-        hrow)
+    rw [← hideal]
+    exact Finset.le_sup
+      (f := fun j =>
+        (s.rows.filter (fun r => (s.row r).momentIdeal = (s.row j).momentIdeal)).card)
+      hrow
   · rw [Finset.not_nonempty_iff_eq_empty.mp hI, Finset.card_empty]
     exact Nat.zero_le _
 
@@ -75,17 +75,17 @@ theorem scalar_le {bound : ℝ} (hbound : 0 ≤ bound)
     (h : ∀ j ∈ s.rows, ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖ ^ 2 ≤ bound) :
     scalar s ≤ bound := by
   have hs : s.rows.sup (fun j =>
-      ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ 2) ≤
+      ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ (2 : ℕ)) ≤
       (⟨bound, hbound⟩ : NNReal) := by
     apply Finset.sup_le
     intro j hj
     exact_mod_cast h j hj
   change ((s.rows.sup (fun j =>
-    ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ 2) : NNReal) : ℝ) ≤ bound
+    ‖s.frozenScalar (σ := Arithmetic.embedding c) j‖₊ ^ (2 : ℕ)) : NNReal) : ℝ) ≤ bound
   exact_mod_cast hs
 
 theorem fiber_le {bound : ℕ}
-    (h : ∀ I : NonzeroIdeal K,
+    (h : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal K,
       (s.rows.filter (fun j => (s.row j).momentIdeal = I)).card ≤ bound) :
     fiber s ≤ bound := by
   apply Finset.sup_le
@@ -145,6 +145,7 @@ def ofRaw (D : s.Calibration (σ := Arithmetic.embedding c)
     (normProfiles : NormProfileRecipe D.data)
     (base_eq : s.base = call.base)
     (kappa_eq : D.parameters.κ = call.node.parameters.κ)
+    (plain_background : ∀ ξ, (D.data ξ).plainBackground = call.node.data.plainBackground)
     (originalSlots : OriginalSlotDictionary call.node.data s.length)
     (theta_eq : ∀ ξ, (D.data ξ).theta = call.node.data.theta)
     (slot_characters : ∀ ξ i, (D.data ξ).slotCoefficient i ∈ call.node.data.theta) :
@@ -154,6 +155,7 @@ def ofRaw (D : s.Calibration (σ := Arithmetic.embedding c)
   normProfiles := normProfiles
   base_eq := base_eq
   kappa_eq := kappa_eq
+  plain_background := plain_background
   originalSlots := originalSlots
   theta_eq := theta_eq
   slot_characters := slot_characters

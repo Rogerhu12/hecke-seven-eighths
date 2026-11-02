@@ -61,7 +61,7 @@ theorem sqrt_residual_energy_le (B : Carrier K k) (mask : Ideal (𝓞 K))
   unfold jointColumnEnergy
   simp_rw [joint_residual_expansion B mask hmask]
   refine (sqrt_row_energy_sum rows Finset.univ q
-    (fun a h => sign a.val *
+    (fun (a : labels B mask) h => sign a.val *
       jointFourierColumn (columns B a.val) (c h) (x h) ξ)).trans_eq ?_
   apply Finset.sum_congr rfl
   intro a _

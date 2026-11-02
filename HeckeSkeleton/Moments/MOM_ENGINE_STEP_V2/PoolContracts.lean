@@ -40,9 +40,9 @@ variable {F : FirstPresentation call p}
 namespace PhysicalSource
 
 def rowSize (source : PhysicalSource call p) : ℝ :=
-  max 1 (source.source.rows.sup (fun h =>
+  max 1 ((source.source.rows.sup (fun h =>
     (⟨(Arithmetic.data c).exteriorNorm (originalFrequencyIdeal h),
-      ((Arithmetic.data c).exteriorNorm_pos (originalFrequencyIdeal h)).le⟩ : NNReal)) : ℝ)
+      ((Arithmetic.data c).exteriorNorm_pos (originalFrequencyIdeal h)).le⟩ : NNReal)) : NNReal) : ℝ)
 
 def rowExponent (source : PhysicalSource call p) : ℝ :=
   Real.log source.rowSize / Real.log call.base
@@ -74,6 +74,7 @@ abbrev Index := Σ i : Fin family.count,
   Unit ⊕ (P.pool.primes × AmplifierValuation)
 
 def MainOrigin (i : Fin family.count) (source : PhysicalSource call p) : Prop :=
+  source.Column = (family.source i).Column ∧
   HEq source.source ((P.data i).mainSource (family.source i).source.coefficient) ∧
   HEq source.ancestor (family.source i).ancestor ∧
   HEq source.multiplier (family.source i).multiplier ∧
@@ -85,6 +86,7 @@ def MainOrigin (i : Fin family.count) (source : PhysicalSource call p) : Prop :=
 
 def ErrorOrigin (i : Fin family.count) (q : P.pool.primes)
     (e : AmplifierValuation) (source : PhysicalSource call p) : Prop :=
+  source.Column = (P.data i).valuationColumns q.val e.multiplicity ∧
   HEq source.source
     ((P.data i).residualSource q.val e.multiplicity (family.source i).source.coefficient) ∧
   HEq source.ancestor (fun j : (P.data i).valuationColumns q.val e.multiplicity =>
