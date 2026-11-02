@@ -103,6 +103,37 @@
       ]
     },
     {
+      "id": "n4",
+      "name": "N4 original capacity proofs and candidate contract",
+      "proved": true,
+      "modules": [
+        "N4CalibrationBinding",
+        "N4ComputedLengths",
+        "N4OriginalCapacity",
+        "N4PacketGeometry",
+        "N4PaidSupport",
+        "N4RecipeBridge",
+        "N4ScaleWindows",
+        "N4SixthPattern",
+        "N4SourceConditions",
+        "OriginalCapacityContracts",
+        "TasksOriginalCapacity"
+      ]
+    },
+    {
+      "id": "n6",
+      "name": "N6 original full-kappa normalization proof",
+      "proved": true,
+      "modules": [
+        "FullKappaContracts",
+        "N6AnalyticChoices",
+        "N6FullKappaConstruction",
+        "N6OriginalAnalytic",
+        "N6SourceBounds",
+        "TasksFullKappa"
+      ]
+    },
+    {
       "id": "g2",
       "name": "蓝图聚合入口",
       "proved": false,
