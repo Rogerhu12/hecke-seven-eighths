@@ -42,7 +42,7 @@ namespace PhysicalSource
 def rowSize (source : PhysicalSource call p) : ℝ :=
   max 1 (source.source.rows.sup (fun h =>
     (⟨(Arithmetic.data c).exteriorNorm (originalFrequencyIdeal h),
-      ((Arithmetic.data c).exteriorNorm_pos (originalFrequencyIdeal h)).le⟩ : ℝ≥0)) : ℝ)
+      ((Arithmetic.data c).exteriorNorm_pos (originalFrequencyIdeal h)).le⟩ : NNReal)) : ℝ)
 
 def rowExponent (source : PhysicalSource call p) : ℝ :=
   Real.log source.rowSize / Real.log call.base
@@ -100,6 +100,9 @@ def ErrorOrigin (i : Fin family.count) (q : P.pool.primes)
   source.first.opposite = (family.source i).first.opposite ∧
   source.first.complementary = (family.source i).first.complementary ∧
   source.first.residualDivisor = (family.source i).first.residualDivisor ∧
+  source.first.firstElement = (family.source i).first.firstElement ∧
+  source.first.firstRight = (family.source i).first.firstRight ∧
+  source.first.poolPower = powerIdeal q.val e.multiplicity ∧
   source.first.retainedScale = (family.source i).first.retainedScale ∧
   source.first.tag = .error e q.val.val ∧
   source.first.fullDeletion = (family.source i).first.fullDeletion ∪ {q.val.val.asIdeal} ∧

@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorNormCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOriginalData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -68,6 +69,20 @@ def data : DirectGaussData (Arithmetic.context c) F.source.Column :=
 def point (i : F.source.Column) : ℝ :=
   if FirstCauchyKey.side key then -(FirstCauchyKey.chart key).rightPoint i
   else (FirstCauchyKey.chart key).leftPoint i
+
+/-- The fixed first reciprocity element, before either continuous
+Fourier variable. It includes the actual physical mask generator. -/
+def firstElement : (Arithmetic.data c).R :=
+  let b := FirstCauchyKey.block key
+  let delta := (sIntegerMaskGenerator K
+    ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+      (FirstCauchyKey.divisor key).val).val
+  if FirstCauchyKey.side key then
+    CanonicalLiteralFirstPhase.rightElement (Arithmetic.context c)
+      b.primes b.leftMultiplicity b.rightMultiplicity delta
+  else
+    CanonicalLiteralFirstPhase.leftElement (Arithmetic.context c)
+      b.primes b.leftMultiplicity b.rightMultiplicity delta
 
 def phase : ℂ :=
   if FirstCauchyKey.side key then
@@ -196,6 +211,11 @@ structure Realizes : Prop where
     (firstPhysicalDivisorIdeal (A := Arithmetic.data c) (family.index i).2.1.val).val
   residual : ∀ i, (family.source i).first.residualDivisor.val =
     (FirstCauchyKey.residual (family.index i)).val
+  firstElement : ∀ i, (family.source i).first.firstElement =
+    FirstCauchyKey.firstElement (family.index i)
+  firstRight : ∀ i, (family.source i).first.firstRight =
+    FirstCauchyKey.side (family.index i)
+  poolPower : ∀ i, (family.source i).first.poolPower = unitExterior (Arithmetic.data c)
   tag : ∀ i, (family.source i).first.tag = .direct
   retained : ∀ i, (family.source i).first.retainedScale =
     max 1 ((F.source.source (family.index i).1).divisorPhysicalCutoff (family.index i).2.1.val)

@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TerminalContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.BudgetAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ExceptionalSummationContracts
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -7,7 +8,7 @@ set_option autoImplicit false
 /-!
 # The four separate terminal tasks pay their same original source
 
-All four proofs are explicit parameters. Their numerical witnesses
+All terminal-task proofs are explicit parameters. Their numerical witnesses
 are selected before the uniform preparation. The later estimates apply
 to the same source trace and the same actual exceptional predicate.
 -/
@@ -24,11 +25,13 @@ variable {K : Type} [Field K] [NumberField K]
 def terminalCertificates (c : TargetContext K) (frame : SourceFrame)
     (p : SourceParameters c)
     (first : FirstZeroTask c p) (second : SecondZeroTask c p)
-    (exceptional : ExceptionalTask c p) (tail : TailTask c p) :
+    (recovery : ExceptionalRecoveryTask c p)
+    (sourceIndex : SourceIndexTask c p)
+    (exceptional : ExceptionalSummationTask c p) (tail : TailTask c p) :
     TerminalCertificates c frame p where
   first := Classical.choice (first frame)
   second := Classical.choice (second frame)
-  exceptional := Classical.choice (exceptional frame)
+  exceptional := Classical.choice (exceptional recovery sourceIndex frame)
   tail := Classical.choice (tail frame)
 
 variable {c : TargetContext K} {frame : SourceFrame} {p : SourceParameters c}

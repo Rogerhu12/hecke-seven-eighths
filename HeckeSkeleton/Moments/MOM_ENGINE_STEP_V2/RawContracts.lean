@@ -115,7 +115,11 @@ def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
   secondSourceLeaf (second.source key.1.1) (covers.left key.1.1).cover
     (covers.right key.1.1).cover key.1.2 (covers.predicates key.1.1) key.2
 
-abbrev LiveKey := {key : covers.Key // (covers.leaf key).Live}
+/-- Zero physical sources and classes with identically zero complete
+correlation are removed as well as zero whole-column leaves. The S6
+proof must show that each removed class has both costs zero. -/
+abbrev LiveKey := {key : covers.Key //
+  (covers.leaf key).Live ∧ (covers.classKey key).Active}
 
 end RawCovers
 
@@ -125,12 +129,15 @@ structure RawFamily {second : SecondFamily expansion} (geometry : GeometryFamily
   covers : RawCovers second
   count : ℕ
   index : Fin count ≃ covers.LiveKey
-  active : ∀ j, (covers.classKey (index j).val).Active
 
 namespace RawFamily
 
 variable {second : SecondFamily expansion} {geometry : GeometryFamily second}
 variable (raw : RawFamily geometry)
+
+theorem active (j : Fin raw.count) :
+    (raw.covers.classKey (raw.index j).val).Active :=
+  (raw.index j).property.2
 
 def packet (j : Fin raw.count) : RawLeafPacket call p :=
   let key := (raw.index j).val
@@ -141,7 +148,7 @@ def packet (j : Fin raw.count) : RawLeafPacket call p :=
     exceptional := raw.covers.predicates key.1.1
     allocation := key.2
     physicalRows := (raw.active j).2.1
-    live := (raw.index j).property
+    live := (raw.index j).property.1
     nominal := (geometry.geometry (raw.covers.classKey key) (raw.active j)).nominal
     leftFirst := (raw.covers.left key.1.1).first key.1.2.2.2.1
     rightFirst := (raw.covers.right key.1.1).first key.1.2.2.2.2.1 }
@@ -186,7 +193,9 @@ theorem packet_realizes (trace : SourceTrace call p) (htrace : trace.Realizes)
 end RawFamily
 
 /-- S6. Exact original finite covers, both independent divisors,
-their occurrence allocations, and the whole exceptional/ordinary split. -/
+their occurrence allocations, and the whole exceptional/ordinary split.
+The proof removes an inactive class only after proving its original
+whole-source coefficient or complete correlation is identically zero. -/
 def FiniteLeafTask (c : TargetContext K) (p : SourceParameters c) : Prop :=
   ∀ (call : Call c) (trace : SourceTrace call p), trace.Realizes →
     ∀ geometry : GeometryFamily trace.second, geometry.Realizes →

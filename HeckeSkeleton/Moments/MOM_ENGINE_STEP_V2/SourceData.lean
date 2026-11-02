@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualDirectFirstSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RemainingMaskRadical
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalRowBallChart
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -194,6 +195,9 @@ structure FirstCoordinates (call : Call c) where
   opposite : HeckeGeneral.Analysis.NonzeroIdeal K
   complementary : HeckeGeneral.Analysis.NonzeroIdeal K
   residualDivisor : HeckeGeneral.Analysis.NonzeroIdeal K
+  firstElement : (Arithmetic.data c).R
+  firstRight : Bool
+  poolPower : (Arithmetic.data c).Exterior
   tag : OriginalNominalTag K
   retainedScale : ℝ
   retainedScale_pos : 0 < retainedScale

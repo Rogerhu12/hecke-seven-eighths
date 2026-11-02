@@ -34,10 +34,10 @@ namespace SourceCost
 
 variable (s : ActualAllocatedSource (Arithmetic.data c) EngineParameter H k)
 
-def row : ℝ := (s.rows.sup (fun h => ‖s.weight h‖₊) : ℝ≥0)
+def row : ℝ := ((s.rows.sup (fun h => ‖s.weight h‖₊) : NNReal) : ℝ)
 
 def scalar : ℝ :=
-  (s.rows.sup (fun h => ‖s.frozenScalar (σ := Arithmetic.embedding c) h‖₊ ^ 2) : ℝ≥0)
+  ((s.rows.sup (fun h => ‖s.frozenScalar (σ := Arithmetic.embedding c) h‖₊ ^ 2) : NNReal) : ℝ)
 
 def fiber : ℕ :=
   s.rows.sup (fun h =>

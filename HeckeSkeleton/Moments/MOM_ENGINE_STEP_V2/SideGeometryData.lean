@@ -26,7 +26,7 @@ open HeckeGeneral.ThetaSkeleton.Global
 
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c}
-variable {H ι : Type} [Fintype ι] [DecidableEq ι]
+variable {H Row ι : Type} [Fintype ι] [DecidableEq ι]
 
 def columnSide : Bool → SecondColumnSide
   | false => .left
@@ -44,12 +44,11 @@ def oppositeMultiplicity
 
 variable (R : ActualSecondCorrelationRows (Arithmetic.data c) (Arithmetic.embedding c) H ι)
 variable (side : Bool) {k : ℕ}
-variable (f : SecondSideFrame (V := EngineParameter) (Arithmetic.context c)
-  R PUnit (columnSide side) k)
-variable (D : OriginalCalibration call f.source)
+variable (s : ActualAllocatedSource (Arithmetic.data c) EngineParameter Row k)
+variable (D : OriginalCalibration call s)
 
 structure SideGeometryData where
-  nominal : OriginalNominalGeometry call.workingParameters f.source.base
+  nominal : OriginalNominalGeometry call.workingParameters s.base
     (recipeInductionSigma c)
   pattern : ι → Bool
   selected_pos : ∀ i, 0 < selectedMultiplicity R side i
@@ -63,15 +62,15 @@ structure SideGeometryData where
       (oppositeMultiplicity R side) pattern).val
   lengths : D.calibration.OriginalSixthLengthBinding call.node.data
     call.workingParameters (recipeInductionSigma c) nominal
-    (idealLogLength f.source.base
+    (idealLogLength s.base
       (secondSixthRootIdeal R.primes (selectedMultiplicity R side)
         (oppositeMultiplicity R side)).val)
   mesh_nonneg : 0 ≤ (momentMesh K c.family).val
 
 namespace SideGeometryData
 
-variable {R side f D}
-variable (G : SideGeometryData R side f D)
+variable {R side s D}
+variable (G : SideGeometryData R side s D)
 variable {window : Set ℝ} {orders : Finset (ℕ × ℕ)}
 variable {B δ lengthBound analyticHeight width : ℝ} {J₁ J₂ : ℕ}
 
@@ -81,19 +80,13 @@ The base then normalizes all profiles and chooses whole slots once. -/
 def normalization
     (profiles : D.calibration.FullKappaProfileInput D.recipe
       Set.univ Set.univ window orders B J₁ J₂ δ lengthBound analyticHeight width) :
-    SecondSideNormalization f c.family.omega (targetCharacter K c)
-      Set.univ Set.univ window orders where
-  calibration := D.calibration
-  capacity := G.lengths.capacityInputOfPattern R.primes_injective
+    D.calibration.NormalizedCapacityData :=
+  (G.lengths.capacityInputOfPattern R.primes_injective
     G.selected_pos G.opposite_pos G.pattern G.second_eq G.opposite_eq G.unit_eq
     (recipeInduction_budget (c := c)).1 (momentMesh K c.family).val
-    G.mesh_nonneg call.fitsMesh profiles.atoms
-  amplitude := profiles.amplitude
-  amplitude_pos := profiles.amplitude_pos
-  bounds := fun _ => 1
-  bounds_nonneg := fun _ => zero_le_one
-  factor := profiles.atoms_primeBound
-  profile := profiles.clippedWindow
+    G.mesh_nonneg call.fitsMesh profiles.atoms).normalized
+      profiles.amplitude profiles.amplitude_pos (fun _ => 1)
+      (fun _ => zero_le_one) profiles.atoms_primeBound
 
 end SideGeometryData
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

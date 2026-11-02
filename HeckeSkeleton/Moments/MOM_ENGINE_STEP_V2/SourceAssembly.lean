@@ -39,6 +39,14 @@ structure SourceCertificate (c : TargetContext K) (frame : SourceFrame)
               (trace.first.normalizedTail + trace.second.normalizedTail) +
               raw.normalizedOrdinary
 
+end HeckeSkeleton.Moments.EngineStepV2.Blueprint
+
+namespace HeckeSkeleton.Moments.EngineStepV2.Assembly
+
+open Blueprint NumberField HeckeGeneral.ThetaSkeleton.Global
+
+variable {K : Type} [Field K] [NumberField K]
+
 theorem sourceCertificate (c : TargetContext K) (frame : SourceFrame)
     (p : SourceParameters c)
     (firstTransform : FirstTransformTask c p)
@@ -78,6 +86,6 @@ theorem sourceCertificate (c : TargetContext K) (frame : SourceFrame)
     RawFamily.normalizedExceptional, RawFamily.normalizedOrdinary,
     Call.normalizedScalar, add_div] using hnormalized
 
-end HeckeSkeleton.Moments.EngineStepV2.Blueprint
+end HeckeSkeleton.Moments.EngineStepV2.Assembly
 
-#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.sourceCertificate
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.sourceCertificate
