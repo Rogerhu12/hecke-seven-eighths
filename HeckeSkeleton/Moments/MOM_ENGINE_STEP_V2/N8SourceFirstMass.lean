@@ -94,13 +94,19 @@ theorem arithmeticMass_nonneg : 0 ≤ F.arithmeticMass := by
   intro D _
   exact Finset.sum_nonneg (fun _ _ => div_nonneg (norm_nonneg _) (Nat.cast_nonneg _))
 
+private theorem sum_phase_side_arithmetic_weight (a b d : ℝ) :
+    (∑ _chi : (PUnit.{1} × PUnit.{1}) →* Circle, ∑ _side : Bool, a * b / d) =
+      ((Fintype.card ((PUnit.{1} × PUnit.{1}) →* Circle) : ℝ) * 2) * (a * (b / d)) := by
+  simp only [Finset.sum_const, Finset.card_univ, Fintype.card_bool, nsmul_eq_mul,
+    Nat.cast_ofNat]
+  ring
+
 theorem cauchyKey_sum :
     (∑ key : FirstCauchyKey F, FirstCauchyKey.arithmeticWeight key) =
       ((Fintype.card ((PUnit.{1} × PUnit.{1}) →* Circle) : ℝ) * 2) *
         F.arithmeticMass := by
   simp only [FirstCauchyKey, Fintype.sum_sigma, Fintype.sum_prod_type,
     FirstCauchyKey.arithmeticWeight, FirstCauchyKey.residual,
-    Finset.sum_const, Finset.card_univ, Fintype.card_bool, nsmul_eq_mul,
     arithmeticMass, Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro v _
@@ -108,7 +114,9 @@ theorem cauchyKey_sum :
   intro D _
   apply Finset.sum_congr rfl
   intro S _
-  ring
+  exact sum_phase_side_arithmetic_weight
+    (1 / (Ideal.absNorm (commonRadical v.val.1 v.val.2) : ℝ))
+    ‖(UniqueFactorizationMonoid.moebius S.val : ℂ)‖ (Ideal.absNorm S.val : ℝ)
 
 theorem mask_card_le_divisorCount (hF : F.Realizes) (v : F.source.CommonLabel) :
     ((F.source.block v).mask F.source.mask).powerset.card ≤ idealDivisorCount v.val.1 := by
@@ -177,7 +185,11 @@ theorem original_first_arithmetic_mass (c : TargetContext K) (ε : ℝ) (hε : 0
       (∑ S : divisorPool (F.source.pieces v D).rightData.columns
         (fun j => ((F.source.pieces v D).rightData.ideal j).val),
         ‖(UniqueFactorizationMonoid.moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) ≤ A * call.base ^ δ := by
-    rw [Finset.sum_coe_sort]
+    refine (Finset.sum_coe_sort
+      (divisorPool (F.source.pieces v D).rightData.columns
+        (fun j => ((F.source.pieces v D).rightData.ideal j).val))
+      (fun S : Ideal (𝓞 K) =>
+        ‖(UniqueFactorizationMonoid.moebius S : ℂ)‖ / (Ideal.absNorm S : ℝ))).trans_le ?_
     apply (Finset.sum_le_sum (fun S hS =>
       div_le_div_of_nonneg_right (moebius_norm_le_one S) (Nat.cast_nonneg _))).trans
     apply hdiv call.base call.domain.scale.le
