@@ -12,6 +12,7 @@
         "BudgetAssembly",
         "CalibrationData",
         "CallData",
+        "CanonicalRefinement",
         "ChildArithmeticContracts",
         "ChildInvariantData",
         "ChildProfileAssembly",
@@ -25,14 +26,17 @@
         "FirstSourceContracts",
         "FirstZeroContracts",
         "GeometryContracts",
+        "GlobalAssembly",
         "InputDemands",
         "KernelMassAssembly",
         "LocalAssembly",
         "NormalizationAssembly",
+        "NormalizationCertificate",
         "NormalizedData",
         "NormalizedOutputAssembly",
         "OrdinaryContracts",
         "OrdinaryData",
+        "OrdinarySeedAtomBinding",
         "OriginalInput",
         "OriginalOccurrenceData",
         "OriginalPhaseData",
@@ -48,6 +52,7 @@
         "RawLeafData",
         "RawRectangleData",
         "RefinementAssembly",
+        "RefinementContracts",
         "RefinementData",
         "SecondContracts",
         "SecondData",
@@ -60,13 +65,16 @@
         "SourceIndexContracts",
         "SourceScalarData",
         "TailContracts",
+        "TasksUniform",
         "TerminalAssembly",
         "TerminalContracts",
         "TerminalData",
         "UniformAssembly",
         "UniformContracts",
         "UniformData",
+        "UniformMellinPreparation",
         "UniformOrderPreparation",
+        "UniformRealizationProof",
         "UniformScalarPreparation"
       ]
     },
@@ -82,15 +90,14 @@
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
         "TasksFiniteLeaves",
-        "TasksFirstAllowance",
         "TasksFirstZero",
         "TasksNominalGeometry",
         "TasksOriginalAtoms",
+        "TasksPassiveRefinement",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
-        "TasksTails",
-        "TasksUniform"
+        "TasksTails"
       ]
     },
     {
@@ -103,7 +110,7 @@
     },
     {
       "id": "s1_s2_helpers",
-      "name": "S1/S2 实际源、Cauchy族与精确行窗口",
+      "name": "S1/S2 实际源、Cauchy族与精确窗口",
       "proved": true,
       "modules": [
         "S1ExactBound",
@@ -111,7 +118,10 @@
         "S2FirstFamilyData",
         "S2FirstFamilyCost",
         "S2FirstRowWindow",
-        "S2FirstPhysicalCutoff"
+        "S2FirstPhysicalCutoff",
+        "S2OriginalColumnWindow",
+        "S2FirstColumnWindows",
+        "S2FirstRetainedWindow"
       ]
     },
     {
@@ -120,6 +130,14 @@
       "proved": true,
       "modules": [
         "TasksFirstTransform"
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "S2 原始Cauchy允许量与精确物理窗口",
+      "proved": true,
+      "modules": [
+        "TasksFirstAllowance"
       ]
     }
   ]

@@ -23,6 +23,8 @@ open EngineStep EngineInduction EngineInduction.Source
 open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
+open HeckeGeneral.Analysis.ActualSIntegerMoments
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Physical
 open HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup
@@ -43,18 +45,26 @@ variable {c : TargetContext K}
 
 theorem energy_eq (call : Call c) :
     pairedStageEnergy call.node.centered call.localizedData call.workingParameters
-      call.base 0 (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂) =
+      call.base 0 (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) =
       call.node.energy call.base 0 := by
   have hworking :
       pairedStageEnergy call.node.centered call.localizedData call.workingParameters
-        call.base 0 (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂) =
+        call.base 0 (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) =
       pairedStageEnergy call.node.centered call.localizedData call.node.parameters
-        call.base 0 (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂) := by
-    simp only [pairedStageEnergy, pairedRows, Call.workingParameters, sub_add_cancel]
+        call.base 0 (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) := by
+    simp only [pairedStageEnergy, pairedRows, Call.workingParameters, sub_add_cancel] <;> rfl
   rw [hworking]
-  exact localizeOriginalParent_pairedStageEnergy call.node.data call.node.parameters
-    call.node.centered call.base 0 (call.base ^ call.node.comparison₁)
-    (call.base ^ call.node.comparison₂)
+  have hlocal := localizeOriginalParent_pairedStageEnergy call.node.data call.node.parameters
+    call.node.centered call.base 0 (call.base ^ call.workingComparison₁)
+    (call.base ^ call.workingComparison₂)
+  apply hlocal.trans
+  change pairedStageEnergy call.node.centered call.node.data call.node.parameters
+      call.base 0 (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) =
+    pairedStageEnergy call.node.centered call.node.data call.node.parameters
+      call.base 0 (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂)
+  cases hc : call.node.centered with
+  | false => simp only [pairedStageEnergy_uncentered]
+  | true => simp only [Call.workingComparison₁, Call.workingComparison₂, hc, ite_true]
 
 def radius (call : Call c) : {r : ℝ // 0 < r} :=
   ⟨(Arithmetic.data c).exteriorNorm call.oldSupport /
@@ -94,6 +104,9 @@ theorem row_window (call : Call c)
   have hb := call.localizedSource.source.recipe.effectiveMovingMaskRecipe_jointBudget
     call.base (call.node.parameters.m + call.node.parameters.q)
     call.source.localizedFullJointBudget PUnit.unit u ha
+  rw [CompleteMovingRowRecipe.effectiveMovingMaskRecipe_support] at hb
+  change idealNorm K u * (Arithmetic.data c).exteriorNorm call.oldSupport ≤
+    call.base ^ (call.node.parameters.m + call.node.parameters.q) at hb
   rw [parent_orbit_norm_of_originalIdeal _ u (row_originalIdeal call u hu)]
   change (Arithmetic.data c).exteriorNorm call.oldSupport /
     call.base ^ (call.node.parameters.m + call.node.parameters.q) * idealNorm K u ≤ 1
@@ -274,7 +287,7 @@ theorem presentation_realizes (call : Call c) (p : SourceParameters c)
     leftRows := fun _ _ => rfl
     rightRows := fun _ _ => rfl
     weight := fun _ _ => rfl }
-  exact Finset.map_refl _
+  exact Finset.map_refl
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.S1
 

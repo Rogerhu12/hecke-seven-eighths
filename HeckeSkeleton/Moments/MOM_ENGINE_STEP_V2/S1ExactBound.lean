@@ -61,13 +61,13 @@ majorant is selected, and the positive normalizers are arbitrary. -/
 theorem pairedStageEnergy_le (s : FirstSource call p) (N : s.Normalization) :
     pairedStageEnergy call.node.centered call.localizedData
       call.workingParameters call.base 0
-      (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂) ≤
+      (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) ≤
       (s.fiber : ℝ) * s.zeroCost (Arithmetic.different c) + exactTail s +
         (s.fiber : ℝ) * s.linearizedCost (Arithmetic.different c) N := by
   have hp := parent_orbital_source_bound
     (K := K) (S := (Arithmetic.data c).Sf) (Γ := Arithmetic.unitSubgroup c)
     call.node.centered call.localizedData call.workingParameters call.base 0
-    (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂)
+    (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂)
     s.columns _
     (sIntegerFiniteTestFunction K (Arithmetic.data c).Sf
       (rowBallFiniteFamily K (Arithmetic.data c).Sf 1))
@@ -83,7 +83,7 @@ theorem pairedStageEnergy_le (s : FirstSource call p) (N : s.Normalization) :
       s.columns s.columns s.ideal s.ideal DE hDE)] at hp
   change pairedStageEnergy call.node.centered call.localizedData
     call.workingParameters call.base 0
-    (call.base ^ call.node.comparison₁) (call.base ^ call.node.comparison₂) ≤
+    (call.base ^ call.workingComparison₁) (call.base ^ call.workingComparison₂) ≤
       (s.fiber : ℝ) * (∑ v : s.CommonLabel, sourceSeries s v).re at hp
   apply hp.trans
   dsimp only [exactTail]
@@ -129,7 +129,7 @@ theorem pairedStageEnergy_le (s : FirstSource call p) (N : s.Normalization) :
         (s.charts v D).kernelCost (Arithmetic.different c) s.mask
           (p.firstCutoff call) (p.firstCutoff_one call) at htransform
   have hfinite' := hfinite.trans
-    (htransform.trans (add_le_add_left hlinear _))
+    (htransform.trans (add_le_add le_rfl hlinear))
   linarith only [hre, hfinite']
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.S1ExactBound

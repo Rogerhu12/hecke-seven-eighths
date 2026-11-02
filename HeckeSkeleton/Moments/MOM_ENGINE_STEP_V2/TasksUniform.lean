@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformRealizationProof
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -22,7 +23,7 @@ variable {K : Type} [Field K] [NumberField K]
 
 theorem uniformPreparation (c : TargetContext K) :
     UniformChoiceTask c := by
-  sorry
+  exact UniformRealizationProof.uniformChoice c
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
 

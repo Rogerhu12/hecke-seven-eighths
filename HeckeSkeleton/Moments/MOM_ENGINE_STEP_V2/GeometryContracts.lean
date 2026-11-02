@@ -60,7 +60,8 @@ def Active : Prop :=
 end SecondClassKey
 
 structure ClassGeometry {second : SecondFamily expansion} (key : SecondClassKey second) where
-  nominal : Bool → OriginalNominalGeometry call.workingParameters call.base (recipeInductionSigma c)
+  nominal : Bool → OriginalNominalGeometry (K := K) call.workingParameters call.base
+    (recipeInductionSigma c)
 
 namespace ClassGeometry
 
