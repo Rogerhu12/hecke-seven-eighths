@@ -22,16 +22,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - probe: d0_rawleaf_short
+          - probe: d5_heq_frames_direct
+            rawleaf: bundle
+          - probe: d6_original_expr
             rawleaf: original
-          - probe: d1_funinfo_short
-            rawleaf: short
-          - probe: d2_ordinary_short
-            rawleaf: short
-          - probe: d3_ordinary_heq
-            rawleaf: original
-          - probe: d4_ordinary_heq_equiv
-            rawleaf: short
+          - probe: d7_heq_expr_equiv
+            rawleaf: bundle
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -45,6 +41,7 @@ jobs:
             sudo sysctl -w vm.max_map_count=262144
           fi
       - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        timeout-minutes: 8
         with:
           auto-config: 'false'
           build: 'false'
@@ -59,6 +56,9 @@ jobs:
       - name: Prepare the named-type candidate
         if: matrix.rawleaf == 'short'
         run: cp .github/kdiag/d0_rawleaf_short.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
+      - name: Prepare the accepted bundle candidate
+        if: matrix.rawleaf == 'bundle'
+        run: cp .github/kdiag/d_bundle_rawleaf.lean HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/RawLeafData.lean
       - name: Build the imports of the probe
         run: |
           mkdir -p kdiag-out
