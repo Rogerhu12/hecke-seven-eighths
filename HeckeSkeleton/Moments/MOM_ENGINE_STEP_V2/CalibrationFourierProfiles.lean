@@ -18,7 +18,7 @@ open scoped Classical NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep NumberField
+open EngineStep NumberField IsDedekindDomain
 open HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
@@ -57,6 +57,7 @@ theorem withLogPhase_value (f : ProfileFormula) (a b : ℝ × ℝ)
   rw [jointPhase, Real.fourierChar_apply, logPhase_inner, value_zero]
   by_cases hx : 0 < x
   · simp only [value, withLogPhase, hx, if_true]
+    rfl
   · simp only [value, withLogPhase, hx, if_false, zero_mul]
 
 /-- The translation records the original scale, before any divisor

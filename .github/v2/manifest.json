@@ -83,19 +83,25 @@
       "name": "N2/N3 原支持、实际相位展开与校准构造",
       "proved": true,
       "modules": [
+        "CalibrationAssembly",
+        "CalibrationClass",
         "CalibrationConstruction",
         "CalibrationCosts",
         "CalibrationFourierProfiles",
+        "CalibrationOrigin",
         "CalibrationPhases",
         "CalibrationProfiles",
         "CalibrationRows",
         "CalibrationSupport",
+        "PassiveCanonicalAtoms",
         "PassiveCanonicalProfiles",
         "PassiveCanonicalSupport",
         "PassiveColumnBridge",
         "PassiveEnergy",
         "PassiveExpansion",
+        "PassiveFiniteSupport",
         "PassiveMask",
+        "PassiveMaskIdentity",
         "PassivePaidMask",
         "PassivePairing",
         "PassivePhaseBridge",
@@ -103,7 +109,8 @@
         "PassiveSmoothSupport",
         "PassiveSource",
         "PassiveSourceOrigin",
-        "PassiveSourceReindex"
+        "PassiveSourceReindex",
+        "PassiveSupportRecovery"
       ]
     },
     {

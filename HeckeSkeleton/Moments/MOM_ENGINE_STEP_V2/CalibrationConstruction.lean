@@ -38,6 +38,56 @@ variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 variable (seed : OrdinarySeed packet) (input : ProfileInput call)
 
+/-- One shape works for every original branch, side and rectangle. -/
+def shape : ProfileShape where
+  dilationLower := 1
+  dilationUpper := 1
+  dilationLower_pos := zero_lt_one
+  dilation_interval := le_rfl
+  powerBound := 1
+  powerBound_nonneg := zero_le_one
+  phaseBound := 1
+  phaseBound_nonneg := zero_le_one
+
+theorem profile_bounded (kind : ParentProfileKind call) (side : Bool)
+    (scale : ℝ) (absent : Bool) :
+    (seed.profile input kind side scale absent).Bounded shape 1 call.window where
+  shape_bound := {
+    dilation_lower := le_rfl
+    dilation_upper := le_rfl
+    power := by
+      change |-1 + 2 * p.tilt| ≤ 1
+      rw [abs_le]
+      constructor <;> linarith [p.tilt_pos, p.tilt_half]
+    phase_first := by
+      change |-(if packet.second.physical.first.firstRight then (-1 : ℝ) else 1)| ≤ 1
+      split <;> norm_num
+    phase_second := by
+      change |(if side then (1 : ℝ) else -1)| ≤ 1
+      cases side <;> norm_num }
+  scalar := by
+    change ‖(if absent then (0 : ℂ) else 1)‖ ≤ 1
+    cases absent <;> norm_num
+  support := by
+    change Set.Icc ((call.prepared.lower / 2) / 1) ((2 * call.prepared.upper) / 1) ⊆
+      Set.Icc (call.prepared.lower / 2) (2 * call.prepared.upper)
+    simp only [div_one]
+    exact Set.Subset.rfl
+
+theorem inverse_bounded : (seed.inverseProfile input).Bounded shape 1 call.window where
+  shape_bound := {
+    dilation_lower := le_rfl
+    dilation_upper := le_rfl
+    power := by change |(0 : ℝ)| ≤ 1; norm_num
+    phase_first := by change |(0 : ℝ)| ≤ 1; norm_num
+    phase_second := by change |(0 : ℝ)| ≤ 1; norm_num }
+  scalar := by change ‖(1 : ℂ)‖ ≤ 1; norm_num
+  support := by
+    change Set.Icc ((call.prepared.lower / 2) / 1) ((2 * call.prepared.upper) / 1) ⊆
+      Set.Icc (call.prepared.lower / 2) (2 * call.prepared.upper)
+    simp only [div_one]
+    exact Set.Subset.rfl
+
 def inverseTest (ξ : EngineParameter) : IdealTest K :=
   (seed.inverseProfile input).inverseTest rfl ξ
 
@@ -216,6 +266,44 @@ theorem timeIndependent (ξ : EngineParameter) : ProfileTimeIndependent
     (data seed input support side a rectangle moving correction hcorr sector remaining ξ) := by
   constructor <;> intros <;> rfl
 
+theorem primeSupport (ξ : EngineParameter) : PrimeProfileSupport
+    (data seed input support side a rectangle moving correction hcorr sector remaining ξ) := by
+  intro i t x hx
+  let j := SlotRestriction.index (allocation seed input support side a).keep i
+  let f := seed.primeProfile input side j
+  have hv : f.formula.value ξ x ≠ 0 := hx
+  have ho := f.formula.original_ne_zero_of_value_ne_zero ξ x hv
+  rw [show f.formula.dilation = 1 from rfl, one_mul,
+    f.prime_original (seed.slotIndex side j) rfl] at ho
+  exact call.source.primeSupport (seed.slotIndex side j) 0 ho
+
+/-- All equalities hold globally in the profile argument. The scalar
+allowance is exactly one after the original common scalar was moved
+outside the source by the canonical refinement definition. -/
+def dictionary : GlobalProfileDictionary input
+    (data seed input support side a rectangle moving correction hcorr sector remaining)
+    (allocation seed input support side a).keep.card (fun _ => rfl) shape 1 call.window where
+  slotEmbedding := index seed input support side a
+  slotEmbedding_injective := index_injective seed input support side a
+  inverse _ _ := seed.inverseProfile input
+  plain plain _ _ := seed.plainProfile input side rectangle plain
+  prime i _ := seed.primeProfile input side
+    (SlotRestriction.index (allocation seed input support side a).keep i)
+  inverse_kind _ _ := rfl
+  plain_kind _ _ _ := rfl
+  prime_kind _ _ := rfl
+  inverse_bounded _ _ := inverse_bounded seed input
+  plain_bounded plain _ _ := profile_bounded seed input (.plain plain) side
+    (seed.occurrences.plainScale side rectangle plain)
+    (rectangle && !call.node.centered && !plain)
+  prime_bounded i _ := profile_bounded seed input
+    (.prime (index seed input support side a i)) side
+    (call.base ^ (call.node.data.geometry.slots (index seed input support side a i)).length) false
+  inverse_eq _ _ _ _ := rfl
+  left_eq _ _ _ _ := rfl
+  right_eq _ _ _ _ := rfl
+  prime_eq _ _ _ _ := rfl
+
 end Arithmetic
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationConstruction
 
@@ -224,3 +312,5 @@ end HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationConstruction
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationConstruction.recipe
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationConstruction.normProfiles
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationConstruction.timeIndependent
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationConstruction.primeSupport
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.CalibrationConstruction.dictionary

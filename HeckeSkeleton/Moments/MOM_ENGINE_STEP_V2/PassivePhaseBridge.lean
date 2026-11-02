@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveMask
+import RowCharacterInputUniqueness
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -113,6 +114,95 @@ theorem pool_residue (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
           (probeData K c) (momentRowCharacters K c) rfl rfl
           (Arithmetic.context c) q e J
 
+private theorem pool_residue_eq_coefficient (paid : Bool)
+    (J : HeckeGeneral.Analysis.NonzeroIdeal K)
+    (hfixed : IsCoprime J.val (Arithmetic.data c).cS)
+    (hpool : IsCoprime J.val (poolIdeal P paid).val) :
+    actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+        J.val (poolElement P paid) =
+      heckeIdealCoefficient K (P.poolMoving paid).character J := by
+  rw [CanonicalOriginalPhaseCalibration.residue_eq_probe_evaluation
+    (probeData K c) rfl rfl]
+  rw [CanonicalLiteralFirstPhase.singleton_evaluation
+    (probeData K c) (momentRowCharacters K c)
+    (poolIdeal P paid) (poolElement P paid) (pool_generates P paid) J,
+    ← poolMoving_eq P paid]
+  rw [if_pos ⟨(CanonicalOriginalPhaseCalibration.outside_iff_coprime J).mpr hfixed,
+    hpool⟩, mul_one]
+
+/-- Global equality is proved, not postulated: the actual residue
+identity determines the two finite-order characters at all primes
+outside one explicitly finite set.  Merged GL(1) uniqueness then also
+determines their values at the excluded primes. -/
+theorem poolMoving_character : (P.poolMoving false).character = (P.poolMoving true).character := by
+  let M : Ideal (𝓞 K) :=
+    (poolIdeal P false).val * (poolIdeal P true).val * (poolPassiveIdeal P).val
+  have hM : M ≠ 0 := mul_ne_zero
+    (mul_ne_zero (poolIdeal P false).property.1 (poolIdeal P true).property.1)
+    (poolPassiveIdeal P).property.1
+  have hfinite := idealPrimeDivisors_finite K M hM
+  let bad : Finset (HeightOneSpectrum (𝓞 K)) := (Arithmetic.data c).Sf ∪ hfinite.toFinset
+  apply HeckeGeneral.Characters.RowUniquenessDraft.finiteOrder_heckeCharacter_eq_of_primeCoefficient_eq_away
+    K (P.poolMoving false).character (P.poolMoving true).character
+    (P.poolMoving false).character_finite (P.poolMoving true).character_finite bad
+  intro q hq
+  have hqS : q ∉ ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) := by
+    intro h
+    exact hq (Finset.mem_union_left _ h)
+  have hqM : ¬q.asIdeal ∣ M := by
+    intro h
+    exact hq (Finset.mem_union_right _ (hfinite.mem_toFinset.mpr h))
+  have hcop := isCoprime_primeIdeal_of_not_dvd K q M hqM
+  have hparts :
+      (IsCoprime q.asIdeal (poolIdeal P false).val ∧
+        IsCoprime q.asIdeal (poolIdeal P true).val) ∧
+          IsCoprime q.asIdeal (poolPassiveIdeal P).val := by
+    simpa only [M, IsCoprime.mul_right_iff] using hcop
+  have hfixed : IsCoprime (CanonicalOriginalPhaseCalibration.primeIdeal q).val
+      (Arithmetic.data c).cS :=
+    (CanonicalOriginalPhaseCalibration.outside_iff_coprime _).mp
+      (CanonicalOriginalPhaseCalibration.outside_prime (probeData K c) q hqS)
+  have he := pool_residue P (CanonicalOriginalPhaseCalibration.primeIdeal q)
+  rw [pool_residue_eq_coefficient P false _ hfixed hparts.1.1,
+    pool_residue_eq_coefficient P true _ hfixed hparts.1.2] at he
+  simpa only [gate, if_pos hparts.2, mul_one,
+    CanonicalOriginalPhaseCalibration.coefficient_prime] using he
+
+private theorem pool_coprime (I : Ideal (𝓞 K)) :
+    IsCoprime I (poolIdeal P false).val ↔
+      IsCoprime I (poolIdeal P true).val ∧ IsCoprime I (poolPassiveIdeal P).val := by
+  cases hp : P.pool with
+  | none => simp [poolIdeal, poolPassiveIdeal, hp, unitExterior]
+  | some qe =>
+      rcases qe with ⟨e, q⟩
+      simp only [poolIdeal, poolPassiveIdeal, hp, Bool.false_eq_true, if_false, if_true,
+        CanonicalLiteralPassivePhases.activeIdeal, CanonicalLiteralPassivePhases.activeExponent,
+        CanonicalLiteralPassivePhases.passiveIdeal]
+      cases e with
+      | one =>
+          change IsCoprime I (q.val.asIdeal ^ 2) ↔
+            IsCoprime I (q.val.asIdeal ^ 2) ∧ IsCoprime I (1 : Ideal (𝓞 K))
+          simp only [isCoprime_one_right, and_true]
+      | six =>
+          change IsCoprime I (q.val.asIdeal ^ 12) ↔
+            IsCoprime I (1 : Ideal (𝓞 K)) ∧ IsCoprime I (q.val.asIdeal ^ 1)
+          simp only [isCoprime_one_right, true_and, pow_one]
+          exact IsCoprime.pow_right_iff (by decide : 0 < (12 : ℕ))
+      | seven =>
+          change IsCoprime I (q.val.asIdeal ^ 14) ↔
+            IsCoprime I (q.val.asIdeal ^ 2) ∧ IsCoprime I (1 : Ideal (𝓞 K))
+          simp only [isCoprime_one_right, and_true]
+          rw [IsCoprime.pow_right_iff (by decide : 0 < (14 : ℕ)),
+            IsCoprime.pow_right_iff (by decide : 0 < (2 : ℕ))]
+
+private theorem pool_gate_split (I : Ideal (𝓞 K)) :
+    gate (poolIdeal P false).val I =
+      gate (poolIdeal P true).val I * gate (poolPassiveIdeal P).val I := by
+  unfold gate
+  rw [pool_coprime P I]
+  by_cases ha : IsCoprime I (poolIdeal P true).val <;>
+    by_cases hp : IsCoprime I (poolPassiveIdeal P).val <;> simp [ha, hp]
+
 private def commonMoving : OriginalMovingFactors (Arithmetic.data c)
     (probeData K c) (momentRowCharacters K c) :=
   (call.localizedSource.source.recipe.moving.append P.firstMoving).append
@@ -123,6 +213,11 @@ private theorem moving_character (paid : Bool) :
     (P.moving paid).character = (commonMoving P).character * (P.poolMoving paid).character := by
   simp only [OriginalPhaseData.moving, commonMoving, OriginalMovingFactors.append_character]
   ac_rfl
+
+/-- The same complete moving character is used by the original
+exceptional predicate and by the paid child's row recipe. -/
+theorem moving_character_paid : (P.moving false).character = (P.moving true).character := by
+  rw [moving_character P false, moving_character P true, poolMoving_character P]
 
 private theorem moving_coprime (paid : Bool) (I : Ideal (𝓞 K)) :
     IsCoprime I (P.moving paid).support.val ↔
@@ -164,6 +259,31 @@ private theorem mask_eq (paid : Bool) (I : Ideal (𝓞 K)) :
       call.localizedSource.source.recipe.remaining).val <;>
     cases paid <;>
     simp [gate, hfull, commonGate, deletionGate, hc, hp, hr]
+
+/-- The full original deletion absorbs the pool's only passive mask.
+Unlike the element calibration, this is an ideal identity at every
+candidate ideal, including primes in the fixed exceptional set. -/
+theorem mask_fullDeletion (hpassive : (poolPassiveIdeal P).val ∣ P.deletionIdeal.val)
+    (I : Ideal (𝓞 K)) :
+    originalCoprimeMask (P.mask false) I =
+      originalCoprimeMask (P.mask true) I * originalCoprimeMask P.deletionIdeal I := by
+  rw [mask_eq P false I, mask_eq P true I]
+  change commonGate P I * gate (poolIdeal P false).val I * gate P.deletionIdeal.val I =
+    (commonGate P I * gate (poolIdeal P true).val I * 1) * gate P.deletionIdeal.val I
+  rw [pool_gate_split P I, mul_one]
+  calc
+    _ = (commonGate P I * gate (poolIdeal P true).val I) *
+        (gate (poolPassiveIdeal P).val I * gate P.deletionIdeal.val I) := by ring
+    _ = _ := by rw [gate_absorb hpassive I]
+
+theorem coefficient_fullDeletion_global (χ : HeckeCharacter K)
+    (hpassive : (poolPassiveIdeal P).val ∣ P.deletionIdeal.val)
+    (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
+    heckeIdealCoefficient K (χ * (P.moving false).character) J *
+        originalCoprimeMask (P.mask false) J.val =
+      (heckeIdealCoefficient K (χ * (P.moving true).character) J *
+        originalCoprimeMask (P.mask true) J.val) * originalCoprimeMask P.deletionIdeal J.val := by
+  rw [moving_character_paid P, mask_fullDeletion P hpassive J.val, mul_assoc]
 
 private def coefficient (paid : Bool) (χ : HeckeCharacter K)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K) : ℂ :=
@@ -236,6 +356,34 @@ theorem coefficient_residual (O : OrdinaryData packet) (χ : HeckeCharacter K)
   rw [O.residual_coprime_iff J.val hpaid]
 
 variable {k : ℕ} (index : Fin k → Fin call.localizedData.geometry.slotCount)
+
+theorem plain_coefficient_global (hpassive : (poolPassiveIdeal P).val ∣ P.deletionIdeal.val)
+    (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
+    sourcePlainCoefficient (P.characters false index).plain
+        (P.characters false index).plainTwist (P.characters false index).mask J =
+      sourcePlainCoefficient (P.characters true index).plain
+        (P.characters true index).plainTwist (P.characters true index).mask J *
+          originalCoprimeMask P.deletionIdeal J.val := by
+  simpa only [OriginalPhaseData.characters, CanonicalOriginalPhaseCalibration.sourceCharacters,
+    sourcePlainCoefficient, CanonicalOriginalPhaseCalibration.coefficient_one, mul_one,
+    mul_assoc] using
+      coefficient_fullDeletion_global P
+        (call.localizedData.plainBackground * call.localizedSource.source.recipe.correction)
+        hpassive J
+
+theorem prime_coefficient_global (hpassive : (poolPassiveIdeal P).val ∣ P.deletionIdeal.val)
+    (i : Fin k) (q : HeightOneSpectrum (𝓞 K)) :
+    sourcePrimeCoefficient ((P.characters false index).slot i)
+        ((P.characters false index).slotTwist i) (P.characters false index).mask q =
+      sourcePrimeCoefficient ((P.characters true index).slot i)
+        ((P.characters true index).slotTwist i) (P.characters true index).mask q *
+          originalCoprimeMask P.deletionIdeal q.asIdeal := by
+  simpa only [OriginalPhaseData.characters, CanonicalOriginalPhaseCalibration.sourceCharacters,
+    sourcePrimeCoefficient, CanonicalOriginalPhaseCalibration.coefficient_prime,
+    primeCoefficient_one, mul_one, mul_assoc] using
+      coefficient_fullDeletion_global P
+        (call.localizedData.slotCoefficient (index i) * call.localizedSource.source.recipe.correction)
+        hpassive (CanonicalOriginalPhaseCalibration.primeIdeal q)
 
 theorem plain_coefficient (hpassive : (poolPassiveIdeal P).val ∣ P.deletionIdeal.val)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K) (hJ : IsCoprime J.val (Arithmetic.data c).cS) :
@@ -330,6 +478,11 @@ theorem prime_term_residual (O : OrdinaryData packet)
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.pool_residue
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.poolMoving_character
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.moving_character_paid
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.mask_fullDeletion
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.plain_coefficient_global
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.prime_coefficient_global
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.coefficient_reduced
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.coefficient_fullDeletion
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassivePhaseBridge.coefficient_residual
