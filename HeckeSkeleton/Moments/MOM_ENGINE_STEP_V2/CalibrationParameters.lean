@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalSupport
 
@@ -35,20 +36,10 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable (packet : RawLeafPacket call p)
 
-def rootLength : ℝ :=
-  idealLogLength call.base
-    (secondSixthRootIdeal packet.R.primes packet.R.leftMultiplicity packet.R.rightMultiplicity).val
-
 theorem rootLength_nonneg : 0 ≤ rootLength packet :=
   idealLogLength_nonneg call.base call.domain.scale _
     (secondSixthRootIdeal packet.R.primes packet.R.leftMultiplicity
       packet.R.rightMultiplicity).property.1
-
-def rowExponent (side : Bool) : ℝ :=
-  (packet.nominal side).skeleton.nominalRow + 12 * p.loss
-
-def supportExponent (side : Bool) : ℝ :=
-  (packet.nominal side).skeleton.nominalSupport + 4 * p.loss + rootLength packet
 
 theorem supportExponent_nonneg (hpacket : packet.Realizes) (side : Bool) :
     0 ≤ supportExponent packet side :=
@@ -60,15 +51,6 @@ variable (support : seed.ordinary.PassiveSupport input)
 variable (side : Bool) (a : support.labels side) (rectangle : Bool)
 
 local notation "s" => seed.canonicalSource input support side a rectangle
-
-def parameters : RealParameters :=
-  { call.node.parameters with
-    m := rowExponent packet side
-    q := supportExponent packet side
-    n₁ := Real.log ((s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0)) / Real.log (s).base
-    n₂ := Real.log ((s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0))) /
-      Real.log (s).base
-    z := ∑ i, (s).childLength i }
 
 private theorem rpow_log_ratio (Z scale : ℝ) (hZ : 1 < Z) (hscale : 0 < scale) :
     Z ^ (Real.log scale / Real.log Z) = scale := by

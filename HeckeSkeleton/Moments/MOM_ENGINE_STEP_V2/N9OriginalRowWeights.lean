@@ -69,7 +69,7 @@ theorem chart_weight_eq (q : Arithmetic.Orbit c) :
 
 theorem chart_mask_eq : packet.key.2.1.val = ∅ := by
   have hsubset := Finset.mem_powerset.mp packet.key.2.1.property
-  exact Finset.eq_empty_of_subset_empty
+  exact Finset.subset_empty.mp
     (hsubset.trans (packet.stage_mask_eq hpacket).le)
 
 end RawLeafPacket

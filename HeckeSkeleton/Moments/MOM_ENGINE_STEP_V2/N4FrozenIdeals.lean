@@ -116,7 +116,7 @@ private theorem first_column_facts {F : FirstPresentation call p}
   have h := firstKey_column_facts hF (family.index i) j hj
   dsimp only [columnFact]
   rw [hfamily.deletion i, hfamily.selected i, hfamily.poolPower i]
-  simpa only [unitExterior, mul_one] using h
+  simpa only [unitExterior, mul_one, Ideal.mul_top] using h
 
 private theorem pool_main_column_facts {F : FirstPresentation call p}
     {family : FirstCauchyFamily F} (pool : PoolPresentation family)
@@ -159,7 +159,8 @@ private theorem pool_error_column_facts {F : FirstPresentation call p}
   obtain ⟨hmem, hextract, hresidual⟩ := hold j.val hj
   have hpower0 : (family.source i).first.poolPower.val = 1 := by
     rw [hfamily.poolPower i]
-    rfl
+    change (⊤ : Ideal (𝓞 K)) = 1
+    exact Ideal.one_eq_top.symm
   rw [hpower0, mul_one] at hextract
   have hν : MaskedQuotientCRT.primeExponent q.val
       ((family.source i).source.ideal j.val) = e.multiplicity := by
@@ -210,9 +211,11 @@ private theorem cover_frozen_ideal {source : PhysicalSource call p}
     rw [← hcover.label i hi, hlabel, hcover.first a]
   have hmem : source.ancestor i ∈
       (cover.first a).originalColumns.image call.workingRaw.originalReindex.index := by
-    rw [← call.workingRaw.originalReindex.supportExtractionLabel_fibre
-      source.first.fullDeletion (cover.first a)]
-    exact Finset.mem_filter.mpr ⟨hancestor, hkey⟩
+    exact Eq.mp
+      (congrArg (fun S : Finset call.workingRaw.Column => source.ancestor i ∈ S)
+        (call.workingRaw.originalReindex.supportExtractionLabel_fibre
+          source.first.fullDeletion (cover.first a)))
+      (Finset.mem_filter.mpr ⟨hancestor, hkey⟩)
   obtain ⟨x, hx, hxi⟩ := Finset.mem_image.mp hmem
   rw [← hxi,
     call.workingRaw.originalReindex.ideal_product x ((cover.first a).original_subset hx),

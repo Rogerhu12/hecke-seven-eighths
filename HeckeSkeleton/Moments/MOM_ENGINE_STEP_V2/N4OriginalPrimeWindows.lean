@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
 import Lean.Elab.Command
 
 set_option linter.unusedSectionVars false
+set_option linter.unusedTactic false
 set_option autoImplicit false
 set_option Elab.async false
 set_option stderrAsMessages false
@@ -148,34 +149,55 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: after originalCover_slot_mem / before firstAtlas_slot_mem"
     stderr.flush
 
+private theorem firstAtlas_slot_mem_of_count {packet : RawLeafPacket call p}
+    (hpacket : packet.Realizes) (side : Bool)
+    (hcount : (packet.firstBranch side).keep.card = (packet.firstAtlas side).slotCount)
+    (i : Fin (packet.firstAtlas side).slotCount) (q : HeightOneSpectrum (𝓞 K))
+    (hq : q ∈ (packet.firstAtlas side).reindex.slots i) :
+    q ∈ call.workingRaw.exteriorSlots
+      (SlotRestriction.index (packet.firstBranch side).keep (Fin.cast hcount.symm i)) := by
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count proof entered"
+    stderr.flush
+  rcases hpacket with ⟨trace, geometry, raw, j, _, _, hraw, rfl⟩
+  run_tac do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count after packet substitution"
+    stderr.flush
+  cases side
+  · run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count left branch"
+      stderr.flush
+      Lean.Elab.Tactic.evalTactic
+        (← `(tactic| exact originalCover_slot_mem (raw.covers.left (raw.index j).val.1.1)
+          (hraw (raw.index j).val.1.1).1 (raw.index j).val.1.2.2.2.1 i q hq))
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count left proof complete"
+      stderr.flush
+  · run_tac do
+      let stderr ← IO.getStderr
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right branch"
+      stderr.flush
+      Lean.Elab.Tactic.evalTactic
+        (← `(tactic| exact originalCover_slot_mem (raw.covers.right (raw.index j).val.1.1)
+          (hraw (raw.index j).val.1.1).2 (raw.index j).val.1.2.2.2.2.1 i q hq))
+      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem_of_count right proof complete"
+      stderr.flush
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: after firstAtlas_slot_mem_of_count"
+    stderr.flush
+
 theorem firstAtlas_slot_mem {packet : RawLeafPacket call p}
     (hpacket : packet.Realizes) {O : OrdinaryData packet}
     (D : OriginalOccurrenceData O) (side : Bool)
     (i : Fin (packet.firstAtlas side).slotCount) (q : HeightOneSpectrum (𝓞 K))
     (hq : q ∈ (packet.firstAtlas side).reindex.slots i) :
     q ∈ call.workingRaw.exteriorSlots (D.firstIndex side i) := by
-  run_tac do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem proof entered"
-    stderr.flush
-  rcases hpacket with ⟨trace, geometry, raw, j, _, _, hraw, rfl⟩
-  run_tac do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem after packet substitution"
-    stderr.flush
-  cases side
-  · run_tac do
-      let stderr ← IO.getStderr
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem left branch"
-      stderr.flush
-    exact originalCover_slot_mem (raw.covers.left (raw.index j).val.1.1)
-      (hraw (raw.index j).val.1.1).1 (raw.index j).val.1.2.2.2.1 i q hq
-  · run_tac do
-      let stderr ← IO.getStderr
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 N4OriginalPrimeWindows checkpoint: firstAtlas_slot_mem right branch"
-      stderr.flush
-    exact originalCover_slot_mem (raw.covers.right (raw.index j).val.1.1)
-      (hraw (raw.index j).val.1.1).2 (raw.index j).val.1.2.2.2.2.1 i q hq
+  exact firstAtlas_slot_mem_of_count hpacket side (D.first_count side) i q hq
 
 run_cmd do
   Lean.Elab.Command.liftIO do

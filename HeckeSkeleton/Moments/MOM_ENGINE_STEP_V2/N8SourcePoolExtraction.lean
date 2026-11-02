@@ -73,7 +73,7 @@ theorem main_original_columns_extract (hF : F.Realizes) (hf : family.Realizes)
     (family.source i).first.fullDeletion =
       (family.source i).first.selected.val * (family.source i).first.poolPower.val
   rw [hf.poolPower i]
-  simpa only [unitExterior, mul_one] using h.2
+  simpa only [unitExterior, Ideal.mul_top] using h.2
 
 theorem error_original_columns_extract (hF : F.Realizes) (hf : family.Realizes)
     (hpool : pool.Realizes) (i : Fin family.count) (q : pool.pool.primes)
@@ -153,7 +153,7 @@ theorem original_columns_extract (hF : F.Realizes) (hf : family.Realizes)
       (family.source i).first.fullDeletion =
         (family.source i).first.selected.val * (family.source i).first.poolPower.val
     rw [hf.poolPower i]
-    simpa only [unitExterior, mul_one] using h.2
+    simpa only [unitExterior, Ideal.mul_top] using h.2
   | pooled pool count index source =>
     exact pool.original_columns_extract hF hf hexpansion.2.1
       (index i) (source i) (hexpansion.2.2 i) j hj

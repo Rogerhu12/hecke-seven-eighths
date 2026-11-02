@@ -83,6 +83,7 @@ variable (windows : ∀ j, (C j).ProfileWindows orders
   (certificate.costCoefficient * input.amplitude * (1 + 1)) certificate.degree)
 variable (results : ∀ j, (C j).FullKappaResults choices horders (windows j))
 
+set_option maxHeartbeats 1000000 in
 /-- Every field is projected from the same original upstream records;
 the active bounds are not additional hypotheses. -/
 def originalWindowRadiusData :

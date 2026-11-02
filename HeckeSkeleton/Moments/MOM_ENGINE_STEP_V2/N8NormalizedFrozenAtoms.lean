@@ -131,10 +131,9 @@ theorem canonicalSource_frozenScalar_bound
     exact (div_le_iff₀ (Real.rpow_pos_of_pos call.base_pos _)).mp hw.2
   · intro r hr i hi
     have hw := seed.passive_witness_window input support hsupport side a i
-    change ‖(seed.primeProfile input side i).formula.value 0 _‖ ^ 2 ≤ _
-    rw [seed.n8_primeProfile_zero input side i _ (call.window_positive hw)]
-    exact pow_le_pow_left₀ (norm_nonneg _)
-      (input.tilted_prime_norm_le horders (seed.slotIndex side i) _ hw) 2
+    have hb := input.tilted_prime_norm_le (p := p) horders (seed.slotIndex side i) _ hw
+    rw [← seed.n8_primeProfile_zero input side i _ (call.window_positive hw)] at hb
+    exact pow_le_pow_left₀ (norm_nonneg _) hb 2
 
 theorem canonicalSource_scalarCost_bound
     (hsupport : seed.CanonicalSupport input support) (horders : (0, 0) ∈ input.orders)

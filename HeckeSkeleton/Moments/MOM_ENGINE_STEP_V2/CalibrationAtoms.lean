@@ -1,3 +1,4 @@
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationConstruction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
 
@@ -35,21 +36,6 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 variable (seed : OrdinarySeed packet)
-
-def moving (pattern : Fin packet.block.primeCount → Bool) :
-    OriginalMovingFactors (Arithmetic.data c) (probeData K c) (momentRowCharacters K c) :=
-  (seed.phases.moving true).append
-    (secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)
-      (Arithmetic.context c) packet.R.primes packet.R.leftMultiplicity
-      packet.R.rightMultiplicity pattern)
-
-def correction (_seed : OrdinarySeed packet) : HeckeCharacter K :=
-  call.localizedSource.source.recipe.correction
-
-def remaining (_seed : OrdinarySeed packet) : HeckeGeneral.Analysis.NonzeroIdeal K :=
-  remainingMaskIdeal (Arithmetic.data c) call.localizedSource.source.recipe.remaining *
-    exteriorMomentIdeal
-      (secondSixthRootIdeal packet.R.primes packet.R.leftMultiplicity packet.R.rightMultiplicity)
 
 theorem one_mem : (1 : HeckeCharacter K) ∈ call.node.data.theta := by
   rw [call.source.source.theta_eq]
@@ -91,6 +77,7 @@ variable (hsector : ∀ h : seed.ordinary.rows.live,
     (probeData K c) = ν)
 
 include hpattern hsector in
+set_option maxHeartbeats 1000000 in
 /-- No coefficient or residue identity is assumed: both dictionaries
 come from the actual extracted-factor decomposition and original sector. -/
 def dictionary (ξ : EngineParameter) (h : seed.ordinary.rows.live) :

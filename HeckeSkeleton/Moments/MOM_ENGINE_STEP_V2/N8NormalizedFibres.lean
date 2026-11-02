@@ -104,7 +104,6 @@ theorem extracted_fibres_of_pattern (pattern : ι → Bool)
       congrArg (fun J : HeckeGeneral.Analysis.NonzeroIdeal K => J.val) (Finset.mem_filter.mp hx).2
     refine Finset.mem_filter.mpr ⟨(Finset.mem_filter.mp x.property).1, ?_⟩
     rw [R.extractedRow_ideal_factor C x, hnonunit x, hi]
-    rfl
   calc
     _ = (T.image Subtype.val).card :=
       (Finset.card_image_of_injective T Subtype.val_injective).symm
@@ -154,10 +153,7 @@ theorem originalSource_fibres (pattern : Fin packet.block.primeCount → Bool)
   apply N8Normalized.extracted_fibres_of_pattern O.rows (Arithmetic.context c)
     pattern ?_ (Arithmetic.unitSubgroup c).index O.original_rows_fibres I
   intro h
-  let h' : packet.R.live := ⟨h.val, Finset.mem_filter.mpr
-    ⟨(Finset.mem_filter.mp (Finset.mem_filter.mp h.property).1).1,
-      (Finset.mem_filter.mp h.property).2⟩⟩
-  exact hpattern h'
+  exact hpattern (O.originalLiveRow h)
 
 theorem originalSource_fibres_realized (hpacket : packet.Realizes)
     (side rectangle : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
