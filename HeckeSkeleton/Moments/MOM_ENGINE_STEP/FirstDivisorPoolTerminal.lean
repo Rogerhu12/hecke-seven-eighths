@@ -188,11 +188,14 @@ theorem zeroBudget_le_original_profiles
       poolTagNormCharge P b) (T.zeroExponent b) budget hC
     (mul_nonneg hcost (poolTagNormCharge_nonneg b))
     (T.zeroAmplitude_le_raw b profileConstant hprofile maskCap (hmask b) (hraw b))
-    (by simpa only [T.calibration_tag] using hbudget b)
+    (by
+      rw [T.calibration_tag]
+      change T.zeroExponent b + (T.profile b).productExponent * ε ≤ budget
+      exact hbudget b)
   have hcounts : ((s.tag b).fiber : ℝ) * (T.calibration.tag b).windows.multiplicity ≤
       (fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k * 15 ^ k : ℕ) := by
     rw [T.calibration_tag]
-    exact mul_le_mul (by exact_mod_cast hfiber b) (by exact_mod_cast Q.tag_le b)
+    exact mul_le_mul (by exact_mod_cast hfiber b) (by exact_mod_cast OriginalTupleMultiplicities.tag_le T Q b)
       (Nat.cast_nonneg _) (Nat.cast_nonneg _)
   apply hpart.trans
   convert mul_le_mul_of_nonneg_right hcounts
@@ -238,7 +241,7 @@ theorem tailBudget_le_original_profiles
   have hcounts : ((s.tag b).fiber : ℝ) * (T.calibration.tag b).windows.multiplicity ≤
       (fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k * 15 ^ k : ℕ) := by
     rw [T.calibration_tag]
-    exact mul_le_mul (by exact_mod_cast hfiber b) (by exact_mod_cast Q.tag_le b)
+    exact mul_le_mul (by exact_mod_cast hfiber b) (by exact_mod_cast OriginalTupleMultiplicities.tag_le T Q b)
       (Nat.cast_nonneg _) (Nat.cast_nonneg _)
   apply hpart.trans
   convert mul_le_mul_of_nonneg_right hcounts
