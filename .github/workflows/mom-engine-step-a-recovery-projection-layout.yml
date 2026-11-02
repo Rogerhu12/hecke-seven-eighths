@@ -1,0 +1,259 @@
+name: A recovery approved projection layout native verification
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a-recovery-projection-layout]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a-recovery-projection-layout-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  gauss_scale:
+    name: CanonicalLiteralGaussScale normal native and fresh audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a-recovery-projection-layout
+          git show --no-patch --format=fuller HEAD > a-recovery-projection-layout/checkout.txt
+          cat > a-recovery-projection-layout/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+          root = Path.cwd()
+          evidence = root / 'a-recovery-projection-layout'
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          def digest(path):
+              return hashlib.sha256((root / path).read_bytes()).hexdigest()
+          def blob(data):
+              return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          sources = sorted(str(p) for p in task.glob('*.lean'))
+          interface = (task / 'Interface.lean').read_text()
+          imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', interface, re.M)))
+          lake_config = tomllib.loads(Path('lakefile.toml').read_text())
+          libraries = [x['name'] for x in lake_config['lean_lib']]
+          source_base = 'fc81504445e862ba6a310b308f0673bdaf2195cb'
+          expected_source_tree = '56fe2c341598fa7e6465de2f19f1649557094496'
+          workflow_path = '.github/workflows/mom-engine-step-a-recovery-projection-layout.yml'
+          layout_pins = {'CanonicalLiteralComputedLengths': {'original_sha256': 'eb1641b2320b09f033ae38102e9041606e6eac50cb6c788e7723e76c348b4c22', 'original_blob': 'db1295bdfb3dce0edc9ea0206960de5d173b873a', 'original_bytes': 10227, 'approved_sha256': 'd8b6dc782074b33b1ab2ffb4d40ef1d95ef01b94db2a642da2883281b7d26362', 'approved_blob': '4d14b7bf6b6153bce21d21f7357d40bee05d1455', 'approved_bytes': 10204, 'prints': 4, 'edits': [(7044, ')\n        .reparameterize', ').reparameterize'), (7821, ')\n      .rawScaleError', ').rawScaleError'), (8161, ')\n      .scales.error', ').scales.error')]}, 'CanonicalLiteralExceptionalGauss': {'original_sha256': 'd406d2e262d992ca8740808286f3c77a3840b7edd6befb756e2caae3629220d0', 'original_blob': '41c3b327c571a4b178c5864828053e4e2f910c8c', 'original_bytes': 10311, 'approved_sha256': '82f55c7bd4290ed88591c3f29b2fbdb90961d3757ff9214fe09b9e082bb0c685', 'approved_blob': '00699355d91917e88b9a58a9c10c37d29be964d1', 'approved_bytes': 10304, 'prints': 5, 'edits': [(5357, ')\n      .normalizationScale', ').normalizationScale')]}, 'CanonicalLiteralFrameLengths': {'original_sha256': 'c14e4e8fe40d9db4d06a36d80ef3a1249e5e0f4e625ddb717cb75e555fbe997e', 'original_blob': 'a4a7aada2d185ebed2f7168f2d8a3b18d5f500b2', 'original_bytes': 10229, 'approved_sha256': '2f9d01144de0038145a130bbc2d0d61c1faf46665d1d2c94fbb3db87c9c6a79d', 'approved_blob': '8846e9bd998b99f119704e47d17218c265f9262c', 'approved_bytes': 10220, 'prints': 3, 'edits': [(7998, ')\n        .reparameterize', ').reparameterize')]}, 'CanonicalLiteralGaussScale': {'original_sha256': 'cac6262fbb31127a75d1adbfbd65ebe1c6e68dbd83bc2927c927bc64b4aea74d', 'original_blob': '5832ae8b12ff19367f1cf516ea85c5bfe9b33e63', 'original_bytes': 12039, 'approved_sha256': '1e50c77f7dd43d63c09c101770a0a4d0508653d307d1f83ab71c5fe995939a29', 'approved_blob': 'bff6e41960c9f3d23554fad8019b66c01f778d27', 'approved_bytes': 12032, 'prints': 4, 'edits': [(8264, ')\n      .normalizationScale', ').normalizationScale')]}}
+          dependency_pins = {'CanonicalLiteralExtraction': 'b1bc990df3791577b2e1c0cf609a65fd185715e808253f43533f1b9f9bbcd1bd', 'CanonicalLiteralAllocationAtoms': 'ad502297d4da3b3e0b8ecc579b12ccf6b9a91fe9ff3031796a277b163d8a73d2', 'CanonicalLiteralAtlas': 'ff8ab19caf36f5a9ec27ec7a6d9612511644a47b05ff33ee1bf8e4d05484b5b2', 'CanonicalLiteralMovingTwist': 'a9639e024d61244af768073acca6479c31bc217ef0a79e0004b2ed943d9e37a5', 'CanonicalLiteralTwoStages': '850fcbe46f3a80b175e3379d098d135d7990c78a819b0939958ae46ced373619', 'CanonicalLiteralPoolAtlas': '3bdbc3c828fd32f8e90efdd423a5a458592c964596c50e52dfa53e937a4f931c'}
+          dependency_repair = {'stem': 'CanonicalLiteralTwoStages', 'original_bytes': 10202, 'original_sha256': '63a2b16e383fd7b36632641cc6c4b3ebaf9ac1cf80c2e9c0c19d93b548cefe75', 'original_blob': 'bd3a8fb16c5d532e551921fc098430136bd22107', 'candidate_bytes': 10221, 'candidate_sha256': '850fcbe46f3a80b175e3379d098d135d7990c78a819b0939958ae46ced373619', 'candidate_blob': 'fafe9f8db8ea768ef2e58f48ef902e476e0c966a', 'offset': 6661, 'old': '_', 'new': '(d.firstExtracted b)', 'contribution_comment': 6567829455}
+          config_pins = {'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47', 'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0', 'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c', 'vendor/class-field-theory/lean-toolchain': '8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a', 'vendor/class-field-theory/lakefile.toml': '04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf', 'vendor/class-field-theory/lake-manifest.json': 'ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148'}
+          target_stem = 'CanonicalLiteralGaussScale'
+          declarations = ['HeckeSkeleton.Moments.EngineStep.RawProfileWindow.primeScale_le_norm_of_open_prime_window', 'HeckeSkeleton.Moments.EngineStep.SupportCartesianBranch.residualGaussScale_lower_one', 'HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.factors_normalizationScale', 'HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalAtoms_secondInput_gaussScale_lower']
+          source_base_tree = git('rev-parse', source_base + '^{tree}')
+          assert source_base_tree == expected_source_tree, 'Unexpected direct-parent source tree'
+          parents = git('rev-list', '--parents', '-n', '1', 'HEAD').split()[1:]
+          assert parents == [source_base], 'The auxiliary commit must be a single direct child of fc815'
+          changed = git('diff', '--name-only', source_base, 'HEAD').splitlines()
+          layout_paths = sorted(str(task / (stem + '.lean')) for stem in layout_pins)
+          repair_path = str(task / (dependency_repair['stem'] + '.lean'))
+          expected_modified_paths = sorted([*layout_paths, repair_path])
+          assert changed == sorted([workflow_path, *expected_modified_paths]), 'Only four approved layout sources, the exact B2 TwoStages repair and this workflow may change'
+          statuses = git('diff', '--name-status', source_base, 'HEAD').splitlines()
+          assert statuses == sorted(['A\t' + workflow_path, *('M\t' + path for path in expected_modified_paths)]), 'Unexpected file status'
+          layout_identity = {}
+          total_sites = total_removed = 0
+          for stem, pin in layout_pins.items():
+              relative = str(task / (stem + '.lean'))
+              original = subprocess.check_output(['git', 'show', source_base + ':' + relative])
+              current = (root / relative).read_bytes()
+              assert len(original) == pin['original_bytes']
+              assert hashlib.sha256(original).hexdigest() == pin['original_sha256']
+              assert blob(original) == pin['original_blob'], 'Direct-parent bytes must match the approved immutable fcc8 original'
+              expected = original
+              for offset, old, new in sorted(pin['edits'], reverse=True):
+                  old, new = old.encode(), new.encode()
+                  assert expected[offset:offset + len(old)] == old
+                  assert old.startswith(b')\n') and new == re.sub(rb'\s+', b'', old)
+                  expected = expected[:offset] + new + expected[offset + len(old):]
+              assert expected == current, 'Source differs from the exact six-site approved layout transformation'
+              inverse = current
+              for offset, old, new in sorted(pin['edits']):
+                  old, new = old.encode(), new.encode()
+                  assert inverse[offset:offset + len(new)] == new
+                  inverse = inverse[:offset] + old + inverse[offset + len(new):]
+              assert inverse == original, 'Inverse must recover the complete approved original'
+              assert re.sub(rb'\s+', b'', original) == re.sub(rb'\s+', b'', current)
+              assert len(current) == pin['approved_bytes']
+              assert hashlib.sha256(current).hexdigest() == pin['approved_sha256']
+              assert blob(current) == pin['approved_blob']
+              original_prints = re.findall(rb'^#print axioms (.+)$', original, re.M)
+              assert original_prints == re.findall(rb'^#print axioms (.+)$', current, re.M)
+              assert len(original_prints) == pin['prints']
+              total_sites += len(pin['edits'])
+              total_removed += len(original) - len(current)
+              layout_identity[relative] = {'original_sha256': pin['original_sha256'],
+                  'original_blob': pin['original_blob'], 'approved_sha256': pin['approved_sha256'],
+                  'approved_blob': pin['approved_blob'], 'sites': len(pin['edits']),
+                  'removed_bytes': len(original) - len(current), 'positive_and_inverse_exact': True}
+          assert total_sites == 6 and total_removed == 46
+          dependency_identity = {}
+          for stem, expected_hash in dependency_pins.items():
+              relative = str(task / (stem + '.lean'))
+              baseline = subprocess.check_output(['git', 'show', source_base + ':' + relative])
+              current = (root / relative).read_bytes()
+              if stem == dependency_repair['stem']:
+                  pin = dependency_repair
+                  assert len(baseline) == pin['original_bytes']
+                  assert hashlib.sha256(baseline).hexdigest() == pin['original_sha256']
+                  assert blob(baseline) == pin['original_blob']
+                  offset, old, new = pin['offset'], pin['old'].encode(), pin['new'].encode()
+                  assert baseline[offset:offset + len(old)] == old
+                  assert baseline[:offset] + new + baseline[offset + len(old):] == current
+                  assert current[offset:offset + len(new)] == new
+                  assert current[:offset] + old + current[offset + len(new):] == baseline
+                  assert len(current) == pin['candidate_bytes'] and len(current) - len(baseline) == 19
+                  assert blob(current) == pin['candidate_blob']
+                  assert expected_hash == pin['candidate_sha256']
+                  assert re.findall(rb'^#print axioms (.+)$', baseline, re.M) == re.findall(rb'^#print axioms (.+)$', current, re.M)
+                  dependency_identity[relative] = {'original_sha256': pin['original_sha256'],
+                      'original_blob': pin['original_blob'], 'candidate_sha256': pin['candidate_sha256'],
+                      'candidate_blob': pin['candidate_blob'], 'changed_bytes': 19,
+                      'positive_and_inverse_exact': True, 'contribution_comment': pin['contribution_comment']}
+              else:
+                  assert current == baseline, 'The other five B2 dependencies must remain the exact inherited whole files'
+                  dependency_identity[relative] = {'inherited_whole_file_unchanged': True, 'sha256': expected_hash}
+              assert hashlib.sha256(current).hexdigest() == expected_hash
+          assert {p: digest(p) for p in config_pins} == config_pins, 'Fixed verifier or configuration changed'
+          assert Path('lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.35.0-rc3'
+          assert lake_config['weakLeanArgs'] == ['-j2']
+          assert lake_config['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+          assert os.environ['LEAN_NUM_THREADS'] == '2'
+          mathlib = [p for p in json.loads(Path('lake-manifest.json').read_text())['packages'] if p['name'] == 'mathlib']
+          assert len(mathlib) == 1 and mathlib[0]['rev'] == '0493595ecd5da8ef14742febab99728f98e948e8'
+          actual_declarations = re.findall(r'^#print axioms (.+)$', (task / (target_stem + '.lean')).read_text(), re.M)
+          assert actual_declarations == declarations, 'All four original GaussScale prints must be retained in order'
+          record = {'stage': 'CanonicalLiteralGaussScale normal verification only',
+                    'source_base': source_base, 'source_base_tree': source_base_tree, 'parents': parents,
+                    'approved_original_source_reference': 'fcc8dd6a84f709c6666da23b761f1b63643eaffb',
+                    'approval_comment': 6567600432, 'approved_layout_identity': layout_identity,
+                    'dependency_source_pins': dependency_pins, 'dependency_identity': dependency_identity,
+                    'target_module': target_stem,
+                    'original_print_targets': declarations,
+                    'other_approved_sources_claimed_native_verified': False,
+                    'other_approved_sources_pending': sorted(stem for stem in layout_pins if stem != target_stem),
+                    'full_task_acceptance': False,
+                    'changed_paths_from_base': changed,
+                    'head': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                    'expected_head': os.environ['EXPECTED_SHA'],
+                    'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                    'tracked_sha256': {p: digest(p) for p in tracked},
+                    'task_source_sha256': {p: digest(p) for p in sources},
+                    'config_sha256': {p: digest(p) for p in config_pins},
+                    'interface_imports': imports, 'libraries': libraries}
+          phase = sys.argv[1]
+          assert phase in ['before', 'after']
+          (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+          assert record['head'] == record['expected_head'], 'Unexpected checkout SHA'
+          assert not record['tracked_status'], 'Tracked source changes detected'
+          assert len(sources) == 1009, 'Task module inventory changed'
+          assert len(imports) == 1008, 'Complete Interface import inventory changed'
+          assert len(libraries) == 20, 'Library inventory changed'
+          if phase == 'after':
+              before = json.loads((evidence / 'before-source.json').read_text())
+              assert before == record, 'Source, configuration, index inventory or HEAD changed'
+              (evidence / 'source-integrity.json').write_text(json.dumps({
+                  'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                  'tracked_files': len(tracked), 'task_modules': len(sources),
+                  'interface_imports': len(imports), 'libraries': len(libraries)}, indent=2) + '\n')
+          print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
+          PY
+          cat > a-recovery-projection-layout/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a-recovery-projection-layout')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a-recovery-projection-layout/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a-recovery-projection-layout/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a-recovery-projection-layout/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralGaussScale:deps
+      - name: Compile the complete original module and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a-recovery-projection-layout/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralGaussScale \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.RawProfileWindow.primeScale_le_norm_of_open_prime_window \
+            --declaration HeckeSkeleton.Moments.EngineStep.SupportCartesianBranch.residualGaussScale_lower_one \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.factors_normalizationScale \
+            --declaration HeckeSkeleton.Moments.EngineStep.CompleteMovingRowRecipe.literalOriginalAtoms_secondInput_gaussScale_lower \
+            --evidence a-recovery-projection-layout/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a-recovery-projection-layout/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-recovery-projection-layout-gauss-scale-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a-recovery-projection-layout/
+          if-no-files-found: error
+          retention-days: 14

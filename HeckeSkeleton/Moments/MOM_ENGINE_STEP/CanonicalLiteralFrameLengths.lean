@@ -163,8 +163,7 @@ def factorsOriginalSixthLengths
       parent_region := ⟨domain.kappa_lower, domain.kappa_upper, domain.capacity⟩
       kappa := hκ
       direct_slots := ?_
-      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall)
-        .reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
+      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall).reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
       rawScaleError := error
       rawScaleError_nonneg := herr
       original_scale_product := hproduct }

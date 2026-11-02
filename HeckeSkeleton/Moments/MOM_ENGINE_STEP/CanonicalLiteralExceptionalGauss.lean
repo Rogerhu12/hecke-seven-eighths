@@ -115,8 +115,7 @@ variable (hne : (pairedAllocatedColumns L selection d.plain₁ d.plain₂ d.slot
   id id HeightOneSpectrum.asIdeal).Nonempty)
 
 theorem frame_scale :
-    ((d.factors S side χ columnIdeal hideal firstSign false).frame C L selection hne)
-      .normalizationScale = scale d := rfl
+    ((d.factors S side χ columnIdeal hideal firstSign false).frame C L selection hne).normalizationScale = scale d := rfl
 
 end FinalFrame
 
