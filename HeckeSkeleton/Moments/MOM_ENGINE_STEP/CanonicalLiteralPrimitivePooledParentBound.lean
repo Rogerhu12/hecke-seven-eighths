@@ -333,7 +333,7 @@ theorem literalPrimitivePooled_rawCost_le_kernel
             ∂(completeFamily analytic).kernel Finset.univ completeMeasure (a.m + a.q) b := by
     simpa only [ActualFirstSource.SecondStages.ordinaryBudget] using
       ordinaryKernel analytic (a.m + a.q)
-  exact hnormalized.trans (add_le_add_left hord _)
+  exact hnormalized.trans (add_le_add le_rfl hord)
 
 local notation "rawKernel" => literalPrimitivePooled_rawCost_le_kernel
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)

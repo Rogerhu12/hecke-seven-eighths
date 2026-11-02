@@ -95,6 +95,7 @@ theorem swapSecond_skeleton :
     G.swapSecond.skeleton =
       { G.skeleton with c₂ := idealLogLength Z G.ideals.secondOpposite.val } := by
   simp only [skeleton, swapSecond, OriginalNominalIdeals.swapSecond, gcd_comm]
+  rfl
 
 theorem swapSecond_boundary : G.swapSecond.boundary = G.boundary := rfl
 
@@ -205,18 +206,30 @@ def OriginalPairAllowanceWindow.ofNominalGeometry
       (G.skeleton.q + G.skeleton.R + G.skeleton.E)
       G.skeleton.wo G.skeleton.w G.skeleton.Krow G.skeleton.g (G.tag.poolLength step)
       W.leftIdeal W.rightIdeal W.unitIdeal.val W.nonunitIdeal.val := by
-    simpa only [OriginalNominalGeometry.atBase_skeleton, hbaseL,
-      hsecond, hopposite, hunit, hnonunit] using
-      bindingL.normLengths hstep mesh hmesh hfit atomsL
+    have lengths := bindingL.normLengths hstep mesh hmesh hfit atomsL
+    simp only [OriginalNominalGeometry.atBase_skeleton] at lengths
+    change ActualCapacityNormLengths IL left.source.base
+      (G.skeleton.A - G.skeleton.c - G.skeleton.w)
+      (G.skeleton.q + G.skeleton.R + G.skeleton.E)
+      G.skeleton.wo G.skeleton.w G.skeleton.Krow G.skeleton.g (G.tag.poolLength step)
+      G.ideals.second.val G.ideals.secondOpposite.val
+      G.ideals.unitPart.val G.ideals.nonunitPart.val at lengths
+    simpa only [hbaseL, hsecond, hopposite, hunit, hnonunit] using lengths
   let LR : ActualCapacityNormLengths IR Z
       (G.skeleton.A - G.skeleton.c - G.skeleton.w)
       (G.skeleton.q + G.skeleton.R + G.skeleton.E)
       G.skeleton.wo G.skeleton.w G.skeleton.Krow G.skeleton.g (G.tag.poolLength step)
       W.leftIdeal W.rightIdeal W.unitIdeal.val W.nonunitIdeal.val := by
-    simpa only [OriginalNominalGeometry.atBase_skeleton,
-      OriginalNominalGeometry.swapSecond_skeleton, hbaseR,
-      hsecond, hopposite, hunit, hnonunit] using
-      (bindingR.normLengths hstep mesh hmesh hfit atomsR).swap
+    have lengths := (bindingR.normLengths hstep mesh hmesh hfit atomsR).swap
+    simp only [OriginalNominalGeometry.atBase_skeleton,
+      OriginalNominalGeometry.swapSecond_skeleton] at lengths
+    change ActualCapacityNormLengths IR right.source.base
+      (G.skeleton.A - G.skeleton.c - G.skeleton.w)
+      (G.skeleton.q + G.skeleton.R + G.skeleton.E)
+      G.skeleton.wo G.skeleton.w G.skeleton.Krow G.skeleton.g (G.tag.poolLength step)
+      G.ideals.second.val G.ideals.secondOpposite.val
+      G.ideals.unitPart.val G.ideals.nonunitPart.val at lengths
+    simpa only [hbaseR, hsecond, hopposite, hunit, hnonunit] using lengths
   have hbL : IL.boundary = G.boundary :=
     G.atBase_boundary left.source.base hbaseL
   have hbR : IR.boundary = G.boundary :=

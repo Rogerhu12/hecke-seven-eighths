@@ -282,12 +282,31 @@ theorem actual_sixth_capacity_pair_weight_le
     hstep mesh hmesh hfit atomsL lc
   have hr := bindingR.child_budget (W.swapColumns hn) W.left_positive anchor
     hopposite hsecond hunit hstep mesh hmesh hfit atomsR rc
-  simp only [OriginalNominalGeometry.atBase_skeleton, hbaseL,
-    hsecond, hopposite, hunit, hnonunit] at hl
+  simp only [OriginalNominalGeometry.atBase_skeleton] at hl
+  change lc.parameters.m + lc.parameters.q +
+      (bindingL.capacityInput W hn anchor hsecond hopposite hunit
+        hstep mesh hmesh hfit atomsL).exponent ≤
+    secondCommonChildWidth left.source.base
+      (G.skeleton.A - G.skeleton.c - G.skeleton.w)
+      (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
+      G.skeleton.Krow G.skeleton.g G.ideals.second.val G.ideals.secondOpposite.val
+      G.ideals.unitPart.val G.ideals.nonunitPart.val +
+    secondCommonChildAllowance left.source.base G.skeleton.w (bindingL.massSlack mesh atomsL)
+      (G.tag.poolLength step) G.ideals.second.val G.ideals.secondOpposite.val at hl
+  simp only [hbaseL, hsecond, hopposite, hunit, hnonunit] at hl
   simp only [OriginalNominalGeometry.atBase_skeleton,
-    OriginalNominalGeometry.swapSecond_skeleton, hbaseR,
-    OriginalNominalGeometry.atBase, OriginalNominalGeometry.swapSecond,
-    OriginalNominalIdeals.swapSecond, hsecond, hopposite, hunit, hnonunit] at hr
+    OriginalNominalGeometry.swapSecond_skeleton] at hr
+  change rc.parameters.m + rc.parameters.q +
+      (bindingR.capacityInput (W.swapColumns hn) W.left_positive anchor
+        hopposite hsecond hunit hstep mesh hmesh hfit atomsR).exponent ≤
+    secondCommonChildWidth right.source.base
+      (G.skeleton.A - G.skeleton.c - G.skeleton.w)
+      (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
+      G.skeleton.Krow G.skeleton.g G.ideals.secondOpposite.val G.ideals.second.val
+      G.ideals.unitPart.val G.ideals.nonunitPart.val +
+    secondCommonChildAllowance right.source.base G.skeleton.w (bindingR.massSlack mesh atomsR)
+      (G.tag.poolLength step) G.ideals.secondOpposite.val G.ideals.second.val at hr
+  simp only [hbaseR, hsecond, hopposite, hunit, hnonunit] at hr
   have hwidthSwap :
       secondCommonChildWidth Z
         (G.skeleton.A - G.skeleton.c - G.skeleton.w)

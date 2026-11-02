@@ -23,6 +23,55 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 open WholeAllocation
 
+private theorem scalar_sum_sigma_of_class_sum
+    {α : Type*} [Fintype α] {β : α → Type*} [∀ a, Fintype (β a)]
+    (total : ℝ) (classes : α → ℝ) (leaves : (Σ a : α, β a) → ℝ)
+    (hclasses : total = ∑ a : α, classes a)
+    (hleaves : ∀ a : α, classes a = ∑ b : β a, leaves ⟨a, b⟩) :
+    total = ∑ key : (Σ a : α, β a), leaves key := by
+  exact hclasses.trans
+    ((Finset.sum_congr rfl (fun a _ => hleaves a)).trans
+      (Fintype.sum_sigma leaves).symm)
+
+private theorem scalar_weighted_terminal_sum
+    {J : Type*} [Fintype J]
+    (weight zeroCoefficient zeroAmplitude zeroPower
+      tailCoefficient tailAmplitude tailPower nonzero : ℝ)
+    (leaves scaledLeaves : J → ℝ)
+    (hsum : nonzero = ∑ b : J, leaves b)
+    (hscaled : ∀ b : J, scaledLeaves b = weight * leaves b) :
+    weight * (zeroCoefficient * zeroAmplitude * zeroPower + nonzero +
+      tailCoefficient * tailAmplitude * tailPower) =
+      weight * zeroCoefficient * zeroAmplitude * zeroPower +
+      weight * tailCoefficient * tailAmplitude * tailPower +
+      ∑ b : J, scaledLeaves b := by
+  rw [hsum]
+  simp only [hscaled, Finset.mul_sum, mul_add, mul_assoc]
+  ring
+
+private theorem scalar_integral_const_add_sum
+    {X J : Type*} [MeasurableSpace X] [Fintype J]
+    (μ : Measure X) [IsFiniteMeasure μ]
+    (c : ℝ) (f : X → ℝ) (leaves : J → X → ℝ) (costs : J → ℝ)
+    (hpoint : ∀ ξ, f ξ = c + ∑ b : J, leaves b ξ)
+    (hterms : ∀ b : J, Integrable (leaves b) μ)
+    (hcosts : ∀ b : J, (∫ ξ, leaves b ξ ∂μ) = costs b) :
+    (∫ ξ, f ξ ∂μ) = μ.real Set.univ * c + ∑ b : J, costs b := by
+  calc
+    (∫ ξ, f ξ ∂μ) = ∫ ξ, c + ∑ b : J, leaves b ξ ∂μ :=
+      integral_congr_ae (Filter.Eventually.of_forall hpoint)
+    _ = (∫ _ : X, c ∂μ) + ∫ ξ, ∑ b : J, leaves b ξ ∂μ :=
+      integral_add (integrable_const c)
+        (integrable_finsetSum Finset.univ (fun b _ => hterms b))
+    _ = μ.real Set.univ * c + ∑ b : J, ∫ ξ, leaves b ξ ∂μ := by
+      simpa only [integral_const, smul_eq_mul] using
+        congrArg (fun z : ℝ => (∫ _ : X, c ∂μ) + z)
+          (integral_finsetSum (μ := μ) (f := leaves) Finset.univ
+            (fun b _ => hterms b))
+    _ = μ.real Set.univ * c + ∑ b : J, costs b :=
+      congrArg (fun z : ℝ => μ.real Set.univ * c + z)
+        (Finset.sum_congr rfl (fun b _ => hcosts b))
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -327,6 +376,7 @@ private theorem phase_point_reindex_congr
     (fun h i => points₁ h (index i)) = (fun h i => points₂ h (index i)) :=
   congrArg (fun points : Row → Source → Point => fun h i => points h (index i)) hpoints
 
+omit [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W] in
 private theorem phase_class_eq_fixed_fullCorrelation
     (exceptional : s.CoverHybridPredicates LC RC)
     (x : ι → W) (ξ : W) :
@@ -432,6 +482,7 @@ private theorem phase_class_eq_fixed_fullCorrelation
         v.2.2.2.2.2.1 v.2.2.2.2.2.2))
     hkernel hrows hrowCoefficient hleftCoefficient hrightCoefficient hleftPoint hrightPoint
 
+set_option linter.unusedSectionVars false in
 private theorem fixed_fullCorrelation_eq_leaf_sum
     (exceptional : s.CoverHybridPredicates LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
@@ -502,6 +553,7 @@ private theorem fixed_fullCorrelation_eq_leaf_sum
         (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ)
 
+set_option linter.unusedSectionVars false in
 /-- This is the actual phase multiplication from the first transform,
 followed by the literal finite allocation sum from the second. -/
 theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
@@ -624,11 +676,7 @@ private theorem coverHybridPhaseNonzeroCost_eq_class_sum
   exact (phase_coverHybridNonzeroCost_eq_nested_sum s LC RC exceptional x ξ).trans
     (coveredClassNestedSum_eq_sum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ))
 
-private theorem coveredLeaf_sum_eq_class_sum (f : s.CoveredLeafKey LC RC → ℝ) :
-    (∑ b : s.CoveredLeafKey LC RC, f b) =
-      ∑ v : s.CoveredClassKey LC RC, ∑ j : v.AllocationKey, f ⟨v, j⟩ := by
-  exact Fintype.sum_sigma f
-
+set_option linter.unusedSectionVars false in
 /-- Exact finite flattening of the covered source, at the first
 continuous Fourier parameter. -/
 theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
@@ -636,20 +684,13 @@ theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
     s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
       ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
-  have hclasses :
-      s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
-        ∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v :=
-    coverHybridPhaseNonzeroCost_eq_class_sum s LC RC exceptional x ξ
-  have hleaves :
-      (∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v) =
-        ∑ v : s.CoveredClassKey LC RC,
-          ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-    apply Finset.sum_congr rfl
-    intro v _
-    exact v.phase_class_eq_leaf_sum exceptional F x ξ
-  exact hclasses.trans (hleaves.trans
-    (coveredLeaf_sum_eq_class_sum s LC RC
-      (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)).symm)
+  exact scalar_sum_sigma_of_class_sum
+    (α := s.CoveredClassKey LC RC) (β := fun v => v.AllocationKey)
+    (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
+    (coveredClassPhaseCost s LC RC exceptional x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (coverHybridPhaseNonzeroCost_eq_class_sum s LC RC exceptional x ξ)
+    (fun v => v.phase_class_eq_leaf_sum exceptional F x ξ)
 
 private theorem leaf_firstPhaseCost_integrable_of_firstKernel
     {H : Type*} (B : ActualHybridLeaf K H W E)
@@ -729,6 +770,7 @@ def tailBudget (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (Cerror : ℝ) : ℝ :=
   (s.fiber : ℝ) * Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)
 
+set_option linter.unusedSectionVars false in
 /-- Exact terminal and nonzero separation on the original second
 source.  Neither terminal budget is a new assumed aggregate estimate. -/
 theorem phase_cost_eq_budgets_leaves
@@ -744,10 +786,17 @@ theorem phase_cost_eq_budgets_leaves
     (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
       s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
       Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) = _
-  rw [s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ]
-  simp only [fiberCoveredLeaf, ActualHybridLeaf.scale_firstPhaseCost,
-    zeroBudget, tailBudget, Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  exact scalar_weighted_terminal_sum
+    (J := s.CoveredLeafKey LC RC)
+    (s.fiber : ℝ)
+    Czero (T.windows.multiplicity * T.zeroAmplitude) (Z ^ (T.productExponent * ε))
+    Cerror (T.windows.multiplicity * T.tailAmplitude) (Z ^ (-Nsave))
+    (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ)
+    (fun b => (s.coveredLeaf LC RC exceptional F x b).scale_firstPhaseCost
+      (s.fiber : ℝ) (Nat.cast_nonneg _) ξ)
 
 theorem integral_phase_cost_eq_budgets_leaves
     (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -759,17 +808,20 @@ theorem integral_phase_cost_eq_budgets_leaves
       (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey LC RC, (s.fiberCoveredLeaf LC RC exceptional F x b).cost := by
   letI := actualFourierMeasure_finite F
-  simp_rw [T.phase_cost_eq_budgets_leaves LC RC exceptional F x]
-  rw [integral_add (integrable_const _) (integrable_finsetSum _ (fun b _ =>
-    (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable))]
-  rw [integral_const, integral_finsetSum]
-  · simp only [smul_eq_mul]
-    congr 1
-    apply Finset.sum_congr rfl
-    intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).integral_firstPhaseCost
-  · intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable
+  exact scalar_integral_const_add_sum
+    (X := W) (J := s.CoveredLeafKey LC RC)
+    (actualFourierMeasure F)
+    (T.zeroBudget ε Czero + T.tailBudget Cerror)
+    (fun ξ => (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost)
+    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).cost)
+    (fun ξ => T.phase_cost_eq_budgets_leaves LC RC exceptional F x ξ ε Cerror Czero)
+    (fun b => leaf_firstPhaseCost_integrable_of_firstKernel
+      (s.fiberCoveredLeaf LC RC exceptional F x b) F
+      (s.fiberCoveredLeaf_firstKernel LC RC exceptional F x b))
+    (fun b => leaf_integral_firstPhaseCost_of_firstKernel
+      (s.fiberCoveredLeaf LC RC exceptional F x b) F
+      (s.fiberCoveredLeaf_firstKernel LC RC exceptional F x b))
 
 end TerminalCalibration
 
