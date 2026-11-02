@@ -48,12 +48,12 @@ private theorem shapeSchwartz_seminorm_bound_uniform
       (normalShape_smoothOn δ ν) hΩ.uniqueDiffOn hy0
       (show (n : ℕ∞ω) ≤ ∞ by simp)
     change ‖iteratedFDerivWithin ℝ n (shapeProduct δ ν φ) (Set.Ioi 0) y‖ ≤ _ at hb
-    rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
+    rw [iteratedFDerivWithin_eq_iteratedFDeriv (s := Set.Ioi (0 : ℝ)) hΩ.uniqueDiffOn
       (((shapeProduct_smooth δ ν φ (hsupport.trans hpositive)).contDiffAt).of_le (by simp))
       hy0] at hb
-    simp_rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
+    simp_rw [iteratedFDerivWithin_eq_iteratedFDeriv (s := Set.Ioi (0 : ℝ)) hΩ.uniqueDiffOn
         (φ.smooth'.contDiffAt.of_le (by simp)) hy0,
-      iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
+      iteratedFDerivWithin_eq_iteratedFDeriv (s := Set.Ioi (0 : ℝ)) hΩ.uniqueDiffOn
         ((normalShape_smoothAt δ ν hy0).of_le (by simp)) hy0] at hb
     have hweighted : ‖y‖ ^ k * ‖iteratedFDeriv ℝ n (shapeProduct δ ν φ) y‖ ≤
         ∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ) *

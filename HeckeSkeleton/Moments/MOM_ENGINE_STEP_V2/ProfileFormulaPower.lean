@@ -95,17 +95,17 @@ theorem normalShape_derivative_bound_uniform
   refine ⟨(2 : ℝ) ^ J * R * P,
     mul_nonneg (mul_nonneg (by positivity) hR0) hP,
     fun δ hδ ν y hy n hn => ?_⟩
-  have hy0 : 0 < y := hpositive hy
+  have hy0 : y ∈ Set.Ioi (0 : ℝ) := hpositive hy
   have hpon : ContDiffOn ℝ ∞ (fun x : ℝ => ((x ^ δ : ℝ) : ℂ)) (Set.Ioi 0) :=
     fun _ hx => (complexPower_smoothAt δ hx).contDiffWithinAt
   have hb := norm_iteratedFDerivWithin_mul_le hpon (normalShape_smoothOn 0 ν)
     hΩ.uniqueDiffOn hy0 (show (n : ℕ∞ω) ≤ ∞ by simp)
   rw [← hfactor δ ν] at hb
-  rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
+  rw [iteratedFDerivWithin_eq_iteratedFDeriv (s := Set.Ioi (0 : ℝ)) hΩ.uniqueDiffOn
     ((normalShape_smoothAt δ ν hy0).of_le (by simp)) hy0] at hb
-  simp_rw [iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
+  simp_rw [iteratedFDerivWithin_eq_iteratedFDeriv (s := Set.Ioi (0 : ℝ)) hΩ.uniqueDiffOn
       ((complexPower_smoothAt δ hy0).of_le (by simp)) hy0,
-    iteratedFDerivWithin_eq_iteratedFDeriv hΩ.uniqueDiffOn
+    iteratedFDerivWithin_eq_iteratedFDeriv (s := Set.Ioi (0 : ℝ)) hΩ.uniqueDiffOn
       ((normalShape_smoothAt 0 ν hy0).of_le (by simp)) hy0] at hb
   have hsum : (∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ)) = (2 : ℝ) ^ n := by
     exact_mod_cast Nat.sum_range_choose n

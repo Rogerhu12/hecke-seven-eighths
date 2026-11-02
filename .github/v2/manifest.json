@@ -86,6 +86,23 @@
         "ProfileFormulaPower",
         "ProfileFormulaTask",
         "ProfileFormulaTransforms"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_formula_control"
+      ]
+    },
+    {
+      "id": "g_n5b",
+      "name": "N5b actual clipping, separate windows and active cost (draft contract; strict audit required)",
+      "proved": true,
+      "modules": [
+        "ProfileWindowAssembly",
+        "ProfileWindowClipping",
+        "ProfileWindowContracts",
+        "TasksProfileWindows"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_windows"
       ]
     },
     {

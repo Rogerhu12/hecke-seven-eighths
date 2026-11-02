@@ -40,6 +40,12 @@ private theorem oriented_support (b : Bool) (φ : 𝓢(ℝ, ℂ)) :
   rw [oriented_apply, hzero]
   cases b <;> simp
 
+private theorem complex_real_finset_seminorm (q : Finset (ℕ × ℕ)) (φ : 𝓢(ℝ, ℂ)) :
+    q.sup (schwartzSeminormFamily ℂ ℝ ℂ) φ =
+      q.sup (schwartzSeminormFamily ℝ ℝ ℂ) φ := by
+  rw [Seminorm.finset_sup_apply, Seminorm.finset_sup_apply]
+  rfl
+
 private theorem conjugation_finset_bound (q : Finset (ℕ × ℕ)) :
     ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧ ∀ φ : 𝓢(ℝ, ℂ),
       q.sup (schwartzSeminormFamily ℂ ℝ ℂ) (conjugation φ) ≤
@@ -53,8 +59,7 @@ private theorem conjugation_finset_bound (q : Finset (ℕ × ℕ)) :
   obtain ⟨s, C, hC, hb⟩ := Seminorm.bound_of_continuous
     (schwartz_withSeminorms ℝ ℝ ℂ) p (hq.comp conjugation.continuous)
   refine ⟨s, C, C.property, fun φ => ?_⟩
-  change q.sup (schwartzSeminormFamily ℝ ℝ ℂ) (conjugation φ) ≤
-    (C : ℝ) * s.sup (schwartzSeminormFamily ℝ ℝ ℂ) φ
+  rw [complex_real_finset_seminorm, complex_real_finset_seminorm]
   exact Seminorm.le_def.mp hb φ
 
 private theorem oriented_finset_bound (q : Finset (ℕ × ℕ)) :
@@ -125,8 +130,11 @@ private theorem finite_seminorm_dilate_interval
   apply Seminorm.finset_sup_apply_le (mul_nonneg hC (apply_nonneg _ _))
   intro i hi
   have hsingle : (max 1 upper) ^ i.2 * (max 1 lower⁻¹) ^ i.1 ≤
-      dilationCoefficient lower upper q :=
-    Finset.single_le_sum (fun _ _ => by positivity) hi
+      dilationCoefficient lower upper q := by
+    unfold dilationCoefficient
+    exact Finset.single_le_sum
+      (f := fun j : ℕ × ℕ => (max 1 upper) ^ j.2 * (max 1 lower⁻¹) ^ j.1)
+      (fun j (_ : j ∈ q) => by positivity) hi
   exact (seminorm_dilate_interval lower upper a hlower ha hla hau φ i.1 i.2).trans
     (mul_le_mul hsingle (Seminorm.le_finset_sup_apply hi) (apply_nonneg _ _) hC)
 
