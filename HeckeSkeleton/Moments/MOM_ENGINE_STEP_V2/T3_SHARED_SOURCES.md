@@ -55,13 +55,16 @@ The shared process watchdog introduced at that commit remains in the newer
 public driver recorded below.
 
 `RawContracts.lean` and `OrdinaryData.lean` are synchronized verbatim with B-line
-`1f5849c7025a1bd57589ab3d3e580503a159a3c3`: local structure-generation options,
-synchronous elaboration and flushed command checkpoints, plus explicit existing
-context parameters in `RawCovers.leaf`, the original arithmetic data in
-`OrdinaryData.branch`, and the complete original telescope in `OrdinaryBinding`.
-`SourceIndexContracts.lean` also follows that exact B snapshot: the two existing
-Möbius factors are fully namespace-qualified. Mathematical fields, carrier
-types, coefficients and task statements are preserved.
+`8ee15070eaf295765b628eeae47888f15e002963`. The existing synchronous checkpoints
+and explicit context parameters are retained. `RawCovers.leaf` now destructures
+the two original Sigma keys before applying the same original source leaf.
+`OrdinaryData` names its original finite branch type, branch key and field
+propositions separately, with a checkpoint after each definition; its eight
+fields retain their order and original data.
+
+`SourceIndexContracts.lean` remains the exact B1f5849 snapshot, unchanged in
+B8ee15070: the two existing Möbius factors are fully namespace-qualified.
+Mathematical fields, carrier types, coefficients and task statements are preserved.
 
 ## N8 original frozen-profile and common-scalar bounds
 
