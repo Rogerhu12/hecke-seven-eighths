@@ -569,17 +569,13 @@ theorem literalRightDirectOrdinaryExceptional_pointwise
     (Finset.mem_filter.mp allocation.property).2.2.1
     (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
   have hflagL : leftTable.centered = (seed).centered := by
-    change (v.literalLeftAtoms oldLeftAtoms).centered = (seed).centered
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal, literalRightDirectAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (oldLeftAtoms).centered = (seed).centered
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hflagR : rightTable.centered = (seed).centered := by
-    change (v.literalRightAtoms oldRightAtoms).centered = (seed).centered
-    simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal, literalRightDirectAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (oldRightAtoms).centered = (seed).centered
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hord := CanonicalLiteralExceptionalOrdinaryMagnitude.pair_magnitude_eq
     classRows characters leftTable rightTable j.2.1
     (fun i => v.block.leftResidual (v.leftReindex.index i))
