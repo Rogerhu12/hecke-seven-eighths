@@ -321,6 +321,20 @@ jobs:
             --declaration HeckeSkeleton.Moments.EngineStep.InternalMassAssembly.original_direct_image_kernel_mass \
             --declaration HeckeSkeleton.Moments.EngineStep.InternalMassAssembly.original_amplified_image_kernel_mass \
             --evidence mom-b2-fibre-image-roots
+      - name: Verify the new group-one fibre-mass and dual-pool roots and seven original declarations
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredFibreMass \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminal \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.main_covered_index_fibre_subpower \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.residual_covered_index_fibre_subpower \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.energy_eq_tag_sources \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstGaussPoolData.tagSource_twisted \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.DualTerminalCalibration.integral_rawPhaseCost_le_coverHybrid \
+            --declaration HeckeSkeleton.Moments.EngineStep.actual_pool_dual_raw_fourier_stage_bound \
+            --declaration HeckeSkeleton.Moments.EngineStep.actual_pool_dual_cover_hybrid_fourier_stage_bound \
+            --evidence mom-b2-fibre-mass-dual-pool-roots
       - name: Verify the four inherited original image modules
         run: |
           python3 -u - <<'PY'
@@ -402,6 +416,7 @@ jobs:
           path: |
             mom-b2-inherited-actual-root/
             mom-b2-fibre-image-roots/
+            mom-b2-fibre-mass-dual-pool-roots/
             mom-b2-inherited-actual-independent/
             mom-b2-inherited-actual-identity/
           if-no-files-found: warn

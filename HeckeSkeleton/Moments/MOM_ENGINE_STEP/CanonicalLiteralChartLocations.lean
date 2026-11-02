@@ -83,8 +83,7 @@ theorem canonicalLog_left_jointLocation
       (-firstSign * Real.log (A.exteriorNorm
           (ExteriorIdealEuler.mul power (b.secondLeftIdeal i))),
         (canonicalLogWithCoefficients hΓ μv hDiff ν b C left right φ c e
-          finiteTest hlc hcs radius D rowLabelCount rowLabel hleft hright δ hδ hδhalf)
-            .leftPoint q i) =
+          finiteTest hlc hcs radius D rowLabelCount rowLabel hleft hright δ hδ hδhalf).leftPoint q i) =
       WithLp.toLp 2
           (-firstSign * Real.log (A.exteriorNorm
               (ExteriorIdealEuler.mul power b.commonLeftIdeal)),
@@ -119,8 +118,7 @@ theorem canonicalLog_right_jointLocation
       (firstSign * Real.log (A.exteriorNorm
           (ExteriorIdealEuler.mul power (b.secondRightIdeal i))),
         (canonicalLogWithCoefficients hΓ μv hDiff ν b C left right φ c e
-          finiteTest hlc hcs radius D rowLabelCount rowLabel hleft hright δ hδ hδhalf)
-            .rightPoint q i) =
+          finiteTest hlc hcs radius D rowLabelCount rowLabel hleft hright δ hδ hδhalf).rightPoint q i) =
       WithLp.toLp 2
           (firstSign * Real.log (A.exteriorNorm
               (ExteriorIdealEuler.mul power b.commonRightIdeal)),
