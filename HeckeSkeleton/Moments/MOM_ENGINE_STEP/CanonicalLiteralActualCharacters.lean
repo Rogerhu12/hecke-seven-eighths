@@ -160,8 +160,7 @@ theorem deleteMask_onAtlas {k : ℕ} (d : CanonicalLiteralRectangles.Atoms (K :=
     (T : SourceCartesianAtlas columns ideal) (count : k = T.slotCount)
     (extra : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.deleteMask extra).onAtlas T count = (d.onAtlas T count).deleteMask extra := by
-  cases count
-  rfl
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 

@@ -48,33 +48,24 @@ def time (firstSign : ℝ) (ξ : Joint) : ℝ :=
 theorem phase_log (firstSign : ℝ) (ξ : Joint) (N : ℝ) (hN : 0 < N) :
     jointPhase ξ (-Real.log N • CanonicalLiteralLocations.direction firstSign) =
       (N : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ)) := by
-  have hN' : (N : ℂ) ≠ 0 := by exact_mod_cast hN.ne'
-  rw [Complex.cpow_def_of_ne_zero hN', ← Complex.ofReal_log hN.le]
-  simp only [jointPhase, Real.fourierChar_apply, inner_smul_right, time,
-    Complex.ofReal_mul, Complex.ofReal_neg, Complex.ofReal_ofNat]
-  congr 1
-  ring
+  sorry
 
 theorem phase_ideal (firstSign : ℝ) (ξ : Joint) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     jointPhase ξ (CanonicalLiteralLocations.plain firstSign I) =
       (Ideal.absNorm I.val : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ)) := by
-  simpa only [CanonicalLiteralLocations.plain, idealNorm, Complex.ofReal_natCast] using
-    phase_log firstSign ξ (idealNorm K I) (idealNorm_pos K I)
+  sorry
 
 theorem plain_mul (firstSign : ℝ) (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     CanonicalLiteralLocations.plain firstSign (B * I) =
       CanonicalLiteralLocations.plain firstSign B +
         CanonicalLiteralLocations.plain firstSign I := by
-  simp only [CanonicalLiteralLocations.plain,
-    CanonicalLiteralProfileData.idealNorm_mul,
-    Real.log_mul (idealNorm_pos K B).ne' (idealNorm_pos K I).ne',
-    neg_add, add_smul]
+  sorry
 
 theorem phase_mul (firstSign : ℝ) (ξ : Joint) (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     jointPhase ξ (CanonicalLiteralLocations.plain firstSign (B * I)) =
       jointPhase ξ (CanonicalLiteralLocations.plain firstSign B) *
         (Ideal.absNorm I.val : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ)) := by
-  rw [plain_mul, jointPhase_add, phase_ideal]
+  sorry
 
 /-- The divisor phase is the same in both original rectangles. -/
 def profile (firstSign : ℝ) (ξ : Joint) (B : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -87,15 +78,14 @@ def profile (firstSign : ℝ) (ξ : Joint) (B : HeckeGeneral.Analysis.NonzeroIde
       jointPhase ξ (CanonicalLiteralLocations.plain firstSign B) * φ y := rfl
 
 theorem profile_support (firstSign : ℝ) (ξ : Joint) (B : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (φ : 𝓢(ℝ, ℂ)) : tsupport (profile firstSign ξ B φ) ⊆ tsupport φ :=
-  tsupport_smul_subset_right
-    (fun _ : ℝ => jointPhase ξ (CanonicalLiteralLocations.plain firstSign B)) φ
+    (φ : 𝓢(ℝ, ℂ)) : tsupport (profile firstSign ξ B φ) ⊆ tsupport φ := by
+  sorry
 
 theorem profile_seminorm (firstSign : ℝ) (ξ : Joint) (B : HeckeGeneral.Analysis.NonzeroIdeal K)
     (φ : 𝓢(ℝ, ℂ)) (s : Finset (ℕ × ℕ)) :
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (profile firstSign ξ B φ) =
       s.sup (schwartzSeminormFamily ℂ ℝ ℂ) φ := by
-  rw [profile, map_smul_eq_mul, norm_jointPhase, one_mul]
+  sorry
 
 /-- Negative source locations are represented by the same original
 profile at the opposite joint Fourier mode. -/
@@ -130,14 +120,12 @@ variable (E : W.SchwartzModel window)
 theorem left_quotient_eval (r : Bool) (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     E.left r (idealNorm K I / (d.scale₁ r / idealNorm K B)) =
       d.rectangleLeftWeight r (B * I) := by
-  rw [CanonicalLiteralProfileData.quotient_argument]
-  exact (E.left_eq r 1 0 _).symm.trans (W.left_eval r 1 0 (B * I))
+  sorry
 
 theorem right_quotient_eval (r : Bool) (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     E.right r (idealNorm K I / (d.scale₂ r / idealNorm K B)) =
       d.rightWeight r (B * I) := by
-  rw [CanonicalLiteralProfileData.quotient_argument]
-  exact (E.right_eq r 1 0 _).symm.trans (W.right_eval r 1 0 (B * I))
+  sorry
 
 /-- This is the full allocated occurrence, including the logarithm of
 its actual divisor. The quotient scale is never replaced. -/
@@ -147,10 +135,7 @@ theorem left_profile (r : Bool) (firstSign : ℝ) (ξ : Joint) (B I : HeckeGener
       (Ideal.absNorm I.val : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ)) *
         profile firstSign ξ B (E.left r)
           ((Ideal.absNorm I.val : ℝ) / (d.scale₁ r / idealNorm K B)) := by
-  change _ = _ * profile firstSign ξ B (E.left r)
-    (idealNorm K I / (d.scale₁ r / idealNorm K B))
-  rw [profile_apply, left_quotient_eval E, phase_mul]
-  ring
+  sorry
 
 theorem right_profile (r : Bool) (firstSign : ℝ) (ξ : Joint) (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     d.rightWeight r (B * I) *
@@ -158,10 +143,7 @@ theorem right_profile (r : Bool) (firstSign : ℝ) (ξ : Joint) (B I : HeckeGene
       (Ideal.absNorm I.val : ℂ) ^ (Complex.I * (time firstSign ξ : ℂ)) *
         profile firstSign ξ B (E.right r)
           ((Ideal.absNorm I.val : ℝ) / (d.scale₂ r / idealNorm K B)) := by
-  change _ = _ * profile firstSign ξ B (E.right r)
-    (idealNorm K I / (d.scale₂ r / idealNorm K B))
-  rw [profile_apply, right_quotient_eval E, phase_mul]
-  ring
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {excluded : Finset (Ideal (𝓞 K))}
@@ -173,8 +155,7 @@ primes. This only transports its coprimality to those same primes. -/
 theorem avoids_of_coprime
     (hdeleted : ∀ p ∈ excluded, p ∣ mask) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hI : IsCoprime I.val mask) : CanonicalLiteralSupport.Avoids I.val excluded := by
-  intro p hp
-  exact hI.of_isCoprime_of_dvd_right (hdeleted p hp)
+  sorry
 
 include support in
 /-- Construct the first actual plain chart from its individual
@@ -261,22 +242,23 @@ def SamePlainProfiles : Prop :=
 theorem samePlainProfiles_extract
     (hc : SamePlainProfiles E) {support : Finset (Ideal (𝓞 K))}
     (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support) :
-    SamePlainProfiles (E.extract b) := hc
+    SamePlainProfiles (E.extract b) := by
+  sorry
 
 theorem samePlainProfiles_onAtlas
     (hc : SamePlainProfiles E) {A : SArithmeticData K} {ι : Type*}
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (T : SourceCartesianAtlas columns ideal) (count : k = T.slotCount) :
     SamePlainProfiles (E.onAtlas T count) := by
-  cases count
-  exact hc
+  sorry
 
 theorem samePlainProfiles_deleteMask (hc : SamePlainProfiles E)
-    (M : HeckeGeneral.Analysis.NonzeroIdeal K) : SamePlainProfiles (E.deleteMask M) := hc
+    (M : HeckeGeneral.Analysis.NonzeroIdeal K) : SamePlainProfiles (E.deleteMask M) := by
+  sorry
 
 theorem samePlainProfiles_scale (hc : SamePlainProfiles E) (c : ℂ) :
     SamePlainProfiles (E.scale c) := by
-  exact ⟨congrArg (fun φ : 𝓢(ℝ, ℂ) => c • φ) hc.1, hc.2⟩
+  sorry
 
 variable {support : Finset (Ideal (𝓞 K))}
 variable (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support)
@@ -303,27 +285,7 @@ theorem samePlainProfiles_factorFreeSecondInput (hc : SamePlainProfiles E)
     SamePlainProfiles (E.factorFreeSecondInput (σ := σ) b P R
       power firstFixed poolFixed unitFixed firstElement poolElement unitElement
       hfirst hpool hunit δ₁ δ₂ hcompact hpositive) := by
-  constructor
-  · apply SchwartzMap.ext
-    intro y
-    change CanonicalLiteralSchwartzProfiles.powerSchwartz window hcompact hpositive
-      (combinedScalar⁻¹ * combinedScalar) (CanonicalLiteralProfileScalars.exponent δ₁ δ₂)
-      (E.left true) (E.left_support true) y =
-      CanonicalLiteralSchwartzProfiles.powerSchwartz window hcompact hpositive
-        (combinedScalar⁻¹ * combinedScalar) (CanonicalLiteralProfileScalars.exponent δ₁ δ₂)
-        (E.left false) (E.left_support false) y
-    rw [CanonicalLiteralSchwartzProfiles.powerSchwartz_apply,
-      CanonicalLiteralSchwartzProfiles.powerSchwartz_apply, hc.1]
-  · apply SchwartzMap.ext
-    intro y
-    change CanonicalLiteralSchwartzProfiles.powerSchwartz window hcompact hpositive
-      1 (CanonicalLiteralProfileScalars.exponent δ₁ δ₂)
-      (E.right true) (E.right_support true) y =
-      CanonicalLiteralSchwartzProfiles.powerSchwartz window hcompact hpositive
-        1 (CanonicalLiteralProfileScalars.exponent δ₁ δ₂)
-        (E.right false) (E.right_support false) y
-    rw [CanonicalLiteralSchwartzProfiles.powerSchwartz_apply,
-      CanonicalLiteralSchwartzProfiles.powerSchwartz_apply, hc.2]
+  sorry
 
 end CommonProfiles
 
@@ -347,7 +309,8 @@ theorem original_samePlainProfiles (Q : CompleteMovingRowRecipe A P R data) (ξ 
     (hreference : reference ∈ rowDomain) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Ioi 0) (hclosed : IsClosed window) :
     SamePlainProfiles (Q.literalOriginalSchwartzModel ξ W a Z t Y₁ Y₂ true
-      hZ hY₁ hY₂ reference href original hreference ht hwindow hclosed) := ⟨rfl, rfl⟩
+      hZ hY₁ hY₂ reference href original hreference ht hwindow hclosed) := by
+  sorry
 
 end OriginalCommonProfiles
 
@@ -395,17 +358,7 @@ theorem actualCoefficient (negative : Bool) (I : HeckeGeneral.Analysis.NonzeroId
         (signedFrequency (S.factor C row.val.val.val) negative *
           (S.extractedRow C row.val.val).element) =
       (if IsCoprime I.val actualMask then (1 : ℂ) else 0) * actualCharacter I.val := by
-  rw [recipe.characters]
-  cases negative with
-  | false =>
-      exact CanonicalLiteralExceptionalCharacters.actual_plain_of_exceptional
-        P R F parent oldMoving correction hcorr C S pattern ν remaining extra
-        recipe.slots.index hone hroot hemb row he I
-  | true =>
-      exact CanonicalLiteralExceptionalCharacters.actual_negative_plain
-        P R F parent oldMoving correction hcorr C S pattern ν remaining extra
-        recipe.slots.index hone hroot hemb row
-        ⟨S.literalCharacter C P R F oldMoving correction pattern ν row.val.val.val, he⟩ rfl I
+  sorry
 
 variable {W : d.ProfileData} {window : Set ℝ} (E : W.SchwartzModel window)
 variable (firstSupport : Finset (Ideal (𝓞 K)))

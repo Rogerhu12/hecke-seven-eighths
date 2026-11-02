@@ -83,18 +83,7 @@ theorem outer_bound (I : S.IndexedWeight branch index)
     (b : (f.family input).active Finset.univ) :
     outerWeight * S.frozen * (f.family input).weight Finset.univ parentWidth b ≤
       factor * (I.cost * branch.indexWeight index) := by
-  have hpw : (f.family input).weight Finset.univ parentWidth b =
-      (f.family input).weight Finset.univ 0 b / Z ^ parentWidth := by
-    simp only [ActualNormalizedPairFamily.weight, normalizedCapacityPairWeight,
-      Real.rpow_zero, div_one]
-  calc
-    _ = (outerWeight / Z ^ parentWidth) *
-        (S.frozen * (f.family input).weight Finset.univ 0 b) := by rw [hpw]; ring
-    _ = factor * (I.firstFactor *
-        (S.frozen * (f.family input).weight Finset.univ 0 b / I.normalization)) := by
-      rw [houter]
-      ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left (I.bound input b) hfactor
+  sorry
 
 end IndexedWeight
 end CurriedNormalizedFamily.SourceIntegral

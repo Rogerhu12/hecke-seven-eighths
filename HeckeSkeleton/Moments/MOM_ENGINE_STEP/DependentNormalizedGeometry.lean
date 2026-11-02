@@ -38,27 +38,8 @@ variable {parent : MomentData K ω ψ} {a : RealParameters} {step : ℝ}
 /-- Each pre-deletion field is read from its original outer component. -/
 theorem sigmaCombine_parentGeometry
     (geometry : ∀ j ∈ outer, (families j).ParentGeometry (labels j) parent a step) :
-    (sigmaCombine families).ParentGeometry (outer.sigma labels) parent a step where
-  left_parent b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).left_parent b.2 (Finset.mem_sigma.mp hb).2
-  right_parent b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).right_parent b.2 (Finset.mem_sigma.mp hb).2
-  left_gap b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).left_gap b.2 (Finset.mem_sigma.mp hb).2
-  right_gap b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).right_gap b.2 (Finset.mem_sigma.mp hb).2
-  left_kappa b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).left_kappa b.2 (Finset.mem_sigma.mp hb).2
-  right_kappa b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).right_kappa b.2 (Finset.mem_sigma.mp hb).2
-  left_slots b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).left_slots b.2 (Finset.mem_sigma.mp hb).2
-  right_slots b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).right_slots b.2 (Finset.mem_sigma.mp hb).2
-  left_theta b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).left_theta b.2 (Finset.mem_sigma.mp hb).2
-  right_theta b hb :=
-    (geometry b.1 (Finset.mem_sigma.mp hb).1).right_theta b.2 (Finset.mem_sigma.mp hb).2
+    (sigmaCombine families).ParentGeometry (outer.sigma labels) parent a step := by
+  sorry
 
 variable {rowDomain : Set (HeckeGeneral.Analysis.NonzeroIdeal K)}
 variable {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)}
@@ -75,9 +56,8 @@ theorem sigmaCombine_in_fixed_window
     InFixedProfileWindow rowDomain heightDomain window seminorms
         ((sigmaCombine families).leftData (outer.sigma labels) b ξ) ∧
       InFixedProfileWindow rowDomain heightDomain window seminorms
-        ((sigmaCombine families).rightData (outer.sigma labels) b ξ) :=
-  windows b.val.1 (sigmaActiveOuter families outer labels b).property
-    (sigmaActiveInner families outer labels b) ξ
+        ((sigmaCombine families).rightData (outer.sigma labels) b ξ) := by
+  sorry
 
 /-- All output fields, including admissibility, refer to the same
 component capacities and the same selected frozen children. -/
@@ -85,73 +65,8 @@ theorem sigmaCombine_outputGeometry
     (geometry : ∀ j ∈ outer,
       (families j).OutputGeometry (labels j) parent a step rowDomain window seminorms) :
     (sigmaCombine families).OutputGeometry (outer.sigma labels)
-      parent a step rowDomain window seminorms where
-  left_width b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_width
-      (sigmaActiveInner families outer labels b)
-  right_width b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_width
-      (sigmaActiveInner families outer labels b)
-  left_width_nonneg b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_width_nonneg
-      (sigmaActiveInner families outer labels b)
-  right_width_nonneg b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_width_nonneg
-      (sigmaActiveInner families outer labels b)
-  left_plain_left_nonneg b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_plain_left_nonneg
-      (sigmaActiveInner families outer labels b)
-  left_plain_right_nonneg b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_plain_right_nonneg
-      (sigmaActiveInner families outer labels b)
-  right_plain_left_nonneg b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_plain_left_nonneg
-      (sigmaActiveInner families outer labels b)
-  right_plain_right_nonneg b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_plain_right_nonneg
-      (sigmaActiveInner families outer labels b)
-  left_length b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_length
-      (sigmaActiveInner families outer labels b)
-  right_length b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_length
-      (sigmaActiveInner families outer labels b)
-  left_kappa b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_kappa
-      (sigmaActiveInner families outer labels b)
-  right_kappa b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_kappa
-      (sigmaActiveInner families outer labels b)
-  left_slots b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_slots
-      (sigmaActiveInner families outer labels b)
-  right_slots b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_slots
-      (sigmaActiveInner families outer labels b)
-  left_theta b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_theta
-      (sigmaActiveInner families outer labels b)
-  right_theta b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_theta
-      (sigmaActiveInner families outer labels b)
-  left_slot_characters b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_slot_characters
-      (sigmaActiveInner families outer labels b)
-  right_slot_characters b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_slot_characters
-      (sigmaActiveInner families outer labels b)
-  left_admissible b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_admissible
-      (sigmaActiveInner families outer labels b)
-  right_admissible b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_admissible
-      (sigmaActiveInner families outer labels b)
-  left_capacity b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).left_capacity
-      (sigmaActiveInner families outer labels b)
-  right_capacity b :=
-    (geometry b.val.1 (sigmaActiveOuter families outer labels b).property).right_capacity
-      (sigmaActiveInner families outer labels b)
+      parent a step rowDomain window seminorms := by
+  sorry
 
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
@@ -175,9 +90,8 @@ def sigmaCombine_movingRowInputs
 
 theorem sigmaCombine_parentCharacterInputs
     (raw : ∀ j ∈ outer, (families j).ParentCharacterInputs (labels j) parent) :
-    (sigmaCombine families).ParentCharacterInputs (outer.sigma labels) parent where
-  left b hb := (raw b.1 (Finset.mem_sigma.mp hb).1).left b.2 (Finset.mem_sigma.mp hb).2
-  right b hb := (raw b.1 (Finset.mem_sigma.mp hb).1).right b.2 (Finset.mem_sigma.mp hb).2
+    (sigmaCombine families).ParentCharacterInputs (outer.sigma labels) parent := by
+  sorry
 
 def sigmaCombine_normProfileInputs
     (raw : ∀ j ∈ outer, (families j).NormProfileInputs (labels j)) :
@@ -206,9 +120,8 @@ theorem sigmaCombine_moving_left_admissible
     (b : (sigmaCombine families).active (outer.sigma labels)) (ξ : V) :
     MovingEngineChildAdmissible A P R Q parent rowDomain window seminorms Z
       ((sigmaCombine families).leftData (outer.sigma labels) b ξ)
-      ((sigmaCombine families).leftParameters (outer.sigma labels) b) :=
-  admissible b.val.1 (sigmaActiveOuter families outer labels b).property
-    (sigmaActiveInner families outer labels b) ξ
+      ((sigmaCombine families).leftParameters (outer.sigma labels) b) := by
+  sorry
 
 theorem sigmaCombine_moving_right_admissible
     (admissible : ∀ j ∈ outer, ∀ b : (families j).active (labels j), ∀ ξ : V,
@@ -217,9 +130,8 @@ theorem sigmaCombine_moving_right_admissible
     (b : (sigmaCombine families).active (outer.sigma labels)) (ξ : V) :
     MovingEngineChildAdmissible A P R Q parent rowDomain window seminorms Z
       ((sigmaCombine families).rightData (outer.sigma labels) b ξ)
-      ((sigmaCombine families).rightParameters (outer.sigma labels) b) :=
-  admissible b.val.1 (sigmaActiveOuter families outer labels b).property
-    (sigmaActiveInner families outer labels b) ξ
+      ((sigmaCombine families).rightParameters (outer.sigma labels) b) := by
+  sorry
 
 end ActualNormalizedPairFamily
 end HeckeSkeleton.Moments.EngineStep

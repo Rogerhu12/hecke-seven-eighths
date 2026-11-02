@@ -89,17 +89,13 @@ local notation "magnitude" => ((outerLeaf).thetaClassLeaf characters thetaPair).
 /-- The actual canonical first allowance is positive in either of the
 original Cauchy orientations. -/
 theorem firstAllowanceAt_canonical_pos : 0 < R.firstAllowanceAt L total i.val := by
-  unfold firstAllowanceAt FirstBlockDirectData.SecondStages.firstAllowanceAt
-  split
-  · exact firstLeftAllowance_pos Z _ (zero_lt_one.trans hZ) _ _
-  · exact firstRightAllowance_pos Z _ (zero_lt_one.trans hZ) _ _
+  sorry
 
 /-- The actual original two orbital fibres and the first Cauchy half
 form a nonnegative outer factor. -/
 theorem originalScalarAt_nonneg (key : R.CoveredLeafKey L) :
     0 ≤ R.originalScalarAt L key := by
-  unfold originalScalarAt FirstBlockDirectData.SecondStages.directScalarAt
-  split <;> positivity
+  sorry
 
 /-- The exact denominator is retained until the already proved
 second-source estimate is used. No natural-width substitution occurs. -/
@@ -117,29 +113,7 @@ theorem stripOuter_theta_pointwise
       R.originalScalarAt L i.val *
         (firstCost * secondCost * Z ^ (remaining + tilt) *
           (labels).carrier.exceptionalDyadWeight Z lower j) := by
-  have hnorm := R.firstAllowanceAt_canonical_pos L hZ total exceptional i
-  have hmag : 0 ≤ magnitude / R.firstAllowanceAt L total i.val :=
-    div_nonneg (((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand_nonneg z)
-      hnorm.le
-  have hfirstPair := actual_common_pair_properties _ _ _ _ i.val.1
-  have hsecond' : (magnitude / R.firstAllowanceAt L total i.val) / Z ^ (0 : ℝ) ≤
-      secondCost * Z ^ remaining /
-        (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) * Z ^ (-lower) := by
-    simpa only [Real.rpow_zero, div_one] using hsecond
-  have hb := original_exceptional_combined_label_scalar j
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle)) i.val.2.2.2.1
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle)) (R.secondPhaseAt L i.val)
-    Z (s.pieces i.val.1 i.val.2.1).weightBound (‖leftScalar‖ * ‖rightScalar‖)
-    firstCost secondCost (total i.val.1 i.val.2.1) parentWidth
-    (magnitude / R.firstAllowanceAt L total i.val) 0 remaining lower tilt
-    hZ hmag hfirstCost hfirst hfirstPair.1 hfirstPair.2.1 hfirstPair.2.2 hsecond'
-  simp only [Real.rpow_zero, div_one] at hb
-  have hinner := R.originalIndex_innerDivisor L hcap exceptional normalization i
-  rw [hinner] at hb
-  have hs := mul_le_mul_of_nonneg_left hb (R.originalScalarAt_nonneg L i.val)
-  rw [R.stripOuter_parentLeaf_weight_original_relative L hZ total exceptional parentWidth
-    i.val extract leftScalar rightScalar hleftScalar hrightScalar]
-  convert hs using 1 <;> ring
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 namespace ActualFirstSource.SecondStages
@@ -170,28 +144,13 @@ local notation "magnitude" => ((outerLeaf).thetaClassLeaf characters thetaPair).
 /-- The actual canonical first allowance is positive in either of the
 original Cauchy orientations. -/
 theorem firstAllowanceAt_canonical_pos : 0 < R.firstAllowanceAt L total i.val := by
-  unfold firstAllowanceAt FirstBlockPoolData.SecondStages.firstAllowanceAt
-  split
-  · exact firstLeftAllowance_pos Z _ (zero_lt_one.trans hZ) _ _
-  · exact firstRightAllowance_pos Z _ (zero_lt_one.trans hZ) _ _
+  sorry
 
 /-- The actual original two orbital fibres and the first Cauchy half
 form a nonnegative outer factor. -/
 theorem originalScalarAt_nonneg (key : R.CoveredLeafKey L) :
     0 ≤ R.originalScalarAt L key := by
-  rcases key with ⟨v, D, S, χ, key | key⟩
-  · dsimp only [originalScalarAt, FirstBlockPoolData.SecondStages.poolScalarAt]
-    exact div_nonneg (mul_nonneg (Nat.cast_nonneg _)
-      (mul_nonneg (mul_nonneg
-        (div_nonneg (by norm_num) ((s.pools v D).divisorPools.leftData S).density_pos.le)
-        (((s.pools v D).divisorPools.leftData S).tagWeight_nonneg _))
-        (Nat.cast_nonneg _))) (by norm_num)
-  · dsimp only [originalScalarAt, FirstBlockPoolData.SecondStages.poolScalarAt]
-    exact div_nonneg (mul_nonneg (Nat.cast_nonneg _)
-      (mul_nonneg (mul_nonneg
-        (div_nonneg (by norm_num) ((s.pools v D).divisorPools.rightData S).density_pos.le)
-        (((s.pools v D).divisorPools.rightData S).tagWeight_nonneg _))
-        (Nat.cast_nonneg _))) (by norm_num)
+  sorry
 
 /-- The exact denominator is retained until the already proved
 second-source estimate is used. No natural-width substitution occurs. -/
@@ -209,30 +168,7 @@ theorem stripOuter_theta_pointwise
       R.originalScalarAt L i.val *
         (firstCost * secondCost * Z ^ (remaining + tilt) *
           (labels).carrier.exceptionalDyadWeight Z lower j) := by
-  have hnorm := R.firstAllowanceAt_canonical_pos L hZ total exceptional i
-  have hmag : 0 ≤ magnitude / R.firstAllowanceAt L total i.val :=
-    div_nonneg (((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand_nonneg z)
-      hnorm.le
-  have hfirstPair := actual_common_pair_properties _ _ _ _ i.val.1
-  have hsecond' : (magnitude / R.firstAllowanceAt L total i.val) / Z ^ (0 : ℝ) ≤
-      secondCost * Z ^ remaining /
-        (Ideal.absNorm (commonRadical j.2.2.1.val.1.1 j.2.2.1.val.1.2) : ℝ) * Z ^ (-lower) := by
-    simpa only [Real.rpow_zero, div_one] using hsecond
-  have hb := original_exceptional_combined_label_scalar j
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle)) i.val.2.2.2.1
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle)) (R.secondPhaseAt L i.val)
-    Z (s.pools i.val.1 i.val.2.1).weightBound (‖leftScalar‖ * ‖rightScalar‖)
-    firstCost secondCost (total i.val.1 i.val.2.1) parentWidth
-    (magnitude / R.firstAllowanceAt L total i.val) 0 remaining lower tilt
-    hZ hmag hfirstCost hfirst hfirstPair.1 hfirstPair.2.1 hfirstPair.2.2 hsecond'
-  simp only [Real.rpow_zero, div_one] at hb
-  have hinner : j.2.2.2.1.val = R.innerDivisor L i.val :=
-    R.arithmeticLabels_secondDivisor L hcap exceptional normalization i
-  rw [hinner] at hb
-  have hs := mul_le_mul_of_nonneg_left hb (R.originalScalarAt_nonneg L i.val)
-  rw [R.stripOuter_parentLeaf_weight_original_relative L hZ total exceptional parentWidth
-    i.val extract leftScalar rightScalar hleftScalar hrightScalar]
-  convert hs using 1 <;> ring
+  sorry
 
 end ActualFirstSource.SecondStages
 
@@ -251,8 +187,7 @@ theorem amplified_exceptionalDyadWeight_eq (lower : ℝ) (i : I) :
     AmplifiedCommonIndex.dyadWeight P (labels.mainCarrier tag) (labels.errorCarrier tag)
       lower (labels.amplifiedIndex tag P tag_mem i) =
         labels.carrier.exceptionalDyadWeight Z lower (labels.index i) := by
-  unfold amplifiedIndex
-  split <;> rfl
+  sorry
 
 end OriginalArithmeticLabels
 

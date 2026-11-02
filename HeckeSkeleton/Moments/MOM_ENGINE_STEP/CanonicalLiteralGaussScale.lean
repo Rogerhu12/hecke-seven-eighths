@@ -50,14 +50,7 @@ theorem primeScale_le_norm_of_open_prime_window
     (i : Fin d.geometry.slotCount) (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∈ (d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length)) :
     Z ^ (d.geometry.slots i).length ≤ (Ideal.absNorm p.asIdeal : ℝ) := by
-  have hprofile := ((d.geometry.slots i).support_spec t
-    (Z ^ (d.geometry.slots i).length) p).mp hp
-  have hrep : profiles.primeRep i t
-      ((Ideal.absNorm p.asIdeal : ℝ) / Z ^ (d.geometry.slots i).length) ≠ 0 := by
-    simpa only [profiles.prime_eq] using hprofile
-  have hratio := (hprime i hrep).1
-  have h := (lt_div_iff₀ (Real.rpow_pos_of_pos hZ (d.geometry.slots i).length)).mp hratio
-  simpa only [one_mul] using h.le
+  sorry
 
 end RawProfileWindow
 
@@ -78,9 +71,7 @@ theorem residualGaussScale_lower_one
     Z ^ (total + (∑ i, length i) -
       idealLogLength Z (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2)) ≤
         b.residualGaussScale Z length X₁ X₂ := by
-  simpa only [one_pow, one_mul] using
-    b.residualGaussScale_lower Z hZ length X₁ X₂ total 1 k hX₁ hX₂ le_rfl le_rfl
-      hproduct (by simpa only [one_mul] using hprime)
+  sorry
 
 end SupportCartesianBranch
 
@@ -90,8 +81,8 @@ variable {k : ℕ} (d : CanonicalLiteralRectangles.Atoms (K := K) k)
 
 def gaussScale : ℝ := extraGaussScale d.gauss₁ d.gauss₂ d.gaussSlot
 
-theorem gaussScale_pos : 0 < d.gaussScale :=
-  extraGaussScale_pos _ _ _ d.gauss₁_pos d.gauss₂_pos d.gaussSlot_pos
+theorem gaussScale_pos : 0 < d.gaussScale := by
+  sorry
 
 @[simp] theorem gaussScale_scale (c : ℂ) : (d.scale c).gaussScale = d.gaussScale := rfl
 
@@ -105,12 +96,12 @@ theorem gaussScale_pos : 0 < d.gaussScale :=
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (atlas : SourceCartesianAtlas columns ideal) (count : k = atlas.slotCount) :
     (d.onAtlas atlas count).gaussScale = d.gaussScale := by
-  cases count
-  rfl
+  sorry
 
 @[simp] theorem gaussScale_extract {support : Finset (Ideal (𝓞 K))}
     (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support) :
-    (d.extract b).gaussScale = d.gaussScale := d.extract_gaussScale b
+    (d.extract b).gaussScale = d.gaussScale := by
+  sorry
 
 section FirstTransform
 
@@ -128,9 +119,8 @@ variable (hunit : A.Generates unitFixed unitElement) (δ₁ δ₂ : ℝ)
 theorem gaussScale_secondInput :
     (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).gaussScale =
-        d.gaussScale * b.residualGaussScale d.base d.length (d.scale₁ false) (d.scale₂ false) :=
-  d.secondInput_gaussScale (σ := σ) b P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂
+        d.gaussScale * b.residualGaussScale d.base d.length (d.scale₁ false) (d.scale₂ false) := by
+  sorry
 
 theorem secondInput_gaussScale_lower_one
     (total : ℝ) (hproduct : d.scale₁ false * d.scale₂ false = d.base ^ total)
@@ -141,12 +131,7 @@ theorem secondInput_gaussScale_lower_one
         (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2)) ≤
       (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).gaussScale := by
-  rw [d.gaussScale_secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂]
-  exact mul_le_mul_of_nonneg_left
-    (b.residualGaussScale_lower_one d.base d.base_gt_one d.length
-      (d.scale₁ false) (d.scale₂ false) total
-      (d.scale₁_pos false).le (d.scale₂_pos false).le hproduct hprime) d.gaussScale_pos.le
+  sorry
 
 end FirstTransform
 
@@ -185,8 +170,7 @@ variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 local notation "seed" => Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
 
 @[simp] theorem literalOriginalAtoms_gaussScale : (seed).gaussScale = 1 := by
-  simp only [literalOriginalAtoms, CanonicalLiteralRectangles.Atoms.gaussScale,
-    extraGaussScale, Finset.prod_const_one, mul_one]
+  sorry
 
 /-- The actual original support provides every prime lower bound. The
 result concerns the actual first-extracted table before the second
@@ -208,20 +192,7 @@ theorem literalOriginalAtoms_secondInput_gaussScale_lower
         (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2)) ≤
       ((seed).secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).gaussScale := by
-  have hp (i) (_hi : i ∈ Finset.univ \ b.keep) :
-      (seed).base ^ (seed).length i ≤ (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) := by
-    have hslot := (Finset.mem_filter.mp (b.witness_slots i)).1
-    change b.witness.2 i ∈
-      (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).exteriorSlots i at hslot
-    exact profiles.primeScale_le_norm_of_open_prime_window Z t (zero_lt_one.trans hZ)
-      hprime i (b.witness.2 i) (Finset.mem_filter.mp hslot).1
-  have hproduct : (seed).scale₁ false * (seed).scale₂ false = (seed).base ^ (a.n₁ + a.n₂) :=
-    (Real.rpow_add (zero_lt_one.trans hZ) a.n₁ a.n₂).symm
-  have h := (seed).secondInput_gaussScale_lower_one (σ := σ) b P R
-    power firstFixed poolFixed unitFixed firstElement poolElement unitElement
-    hfirst hpool hunit δ₁ δ₂ (a.n₁ + a.n₂) hproduct hp
-  simpa only [Q.literalOriginalAtoms_gaussScale ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂,
-    one_mul, SlotGeometry.totalLength] using h
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

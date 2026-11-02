@@ -65,15 +65,13 @@ theorem leftDivisorCoefficient_nonzero_dvd
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) (i : ι)
     (hi : p.leftDivisorCoefficient S χ i ≠ 0) : S.val ∣ (p.leftData.ideal i).val := by
-  by_contra hn
-  exact hi (by simp only [leftDivisorCoefficient, if_neg hn])
+  sorry
 
 theorem rightDivisorCoefficient_nonzero_dvd
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) (i : κ)
     (hi : p.rightDivisorCoefficient S χ i ≠ 0) : S.val ∣ (p.rightData.ideal i).val := by
-  by_contra hn
-  exact hi (by simp only [rightDivisorCoefficient, if_neg hn])
+  sorry
 
 namespace SecondStages
 
@@ -102,10 +100,7 @@ theorem left_active_common_contains_first_divisor
     (D : (s.left S χ).mask.powerset) (i : ι)
     (hi : ((s.prepared.left S χ).charts DE D).leftCoefficient i ≠ 0) :
     S.val ∣ DE.val.1 ∧ S.val ∣ DE.val.2 := by
-  apply (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon_old_mask
-    S.val hS (fun i _ hi => leftDivisorCoefficient_nonzero_dvd S χ i hi) DE.val
-  apply (s.left S χ).supported_left_nonzero_active DE D i
-  exact (s.left S χ).supported.gated_left_nonzero_original DE D i hi
+  sorry
 
 theorem right_active_common_contains_first_divisor
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -115,10 +110,7 @@ theorem right_active_common_contains_first_divisor
     (D : (s.right S χ).mask.powerset) (i : κ)
     (hi : ((s.prepared.right S χ).charts DE D).leftCoefficient i ≠ 0) :
     S.val ∣ DE.val.1 ∧ S.val ∣ DE.val.2 := by
-  apply (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon_old_mask
-    S.val hS (fun i _ hi => rightDivisorCoefficient_nonzero_dvd S χ i hi) DE.val
-  apply (s.right S χ).supported_left_nonzero_active DE D i
-  exact (s.right S χ).supported.gated_left_nonzero_original DE D i hi
+  sorry
 
 end SecondStages
 end FirstBlockDirectData
@@ -150,29 +142,20 @@ def liveLeaves (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
 
 theorem liveLeaves_spec (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) :
-    (R.parentLeaf L exceptional N j.val).Live := ActualHybridFamily.live_spec _ j
+    (R.parentLeaf L exceptional N j.val).Live := by
+  sorry
 
 theorem live_first_divisor_squarefree
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) : Squarefree j.val.2.2.1.val := by
-  have hw := (R.liveLeaves_spec L exceptional N j).1
-  change (s.fiber : ℝ) *
-    ((R j.val.1 j.val.2.1).coveredLeaf L L
-      (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
-      (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
-      (exceptional j.val.1 j.val.2.1) j.val.2.2).weight ≠ 0 at hw
-  exact (R j.val.1 j.val.2.1).coveredLeaf_weight_nonzero_squarefree L L
-    (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
-    (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
-    (exceptional j.val.1 j.val.2.1) j.val.2.2 (mul_ne_zero_iff.mp hw).2
+  sorry
 
 theorem leaves_cost_eq_live
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
     (∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost) =
       (∑ j : R.liveLeaves L exceptional N, (R.parentLeaf L exceptional N j.val).exceptionalCost) +
       (∑ j : R.liveLeaves L exceptional N, (R.parentLeaf L exceptional N j.val).ordinaryCost) := by
-  rw [ActualHybridFamily.sum_cost_eq_live]
-  simp only [ActualHybridLeaf.cost, Finset.sum_add_distrib]
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep

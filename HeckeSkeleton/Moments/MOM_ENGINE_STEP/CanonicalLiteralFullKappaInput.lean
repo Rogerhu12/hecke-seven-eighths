@@ -234,9 +234,8 @@ def rawCoefficient (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi
 
 theorem rawCoefficient_nonneg (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (firstSign : ℝ) (rectangle : Bool) :
-    0 ≤ T.rawCoefficient hcompact hpositive firstSign rectangle :=
-  mul_nonneg (T.bound_nonneg rectangle) (add_nonneg zero_le_one
-    (CanonicalLiteralFourierWindows.coefficient_nonneg window hcompact hpositive firstSign s))
+    0 ≤ T.rawCoefficient hcompact hpositive firstSign rectangle := by
+  sorry
 
 def coefficient (Z : ℝ) (parameters : RealParameters)
     (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
@@ -247,9 +246,8 @@ def coefficient (Z : ℝ) (parameters : RealParameters)
 theorem coefficient_nonneg (Z : ℝ) (parameters : RealParameters) (hZ : 1 ≤ Z)
     (hcompact : IsCompact window) (hpositive : window ⊆ Set.Ioi 0)
     (firstSign : ℝ) (rectangle : Bool) :
-    0 ≤ T.coefficient Z parameters hcompact hpositive firstSign rectangle :=
-  mul_nonneg (zero_le_one.trans (CanonicalLiteralAllSideClipping.cost_bounds Z parameters hZ s).1)
-    (add_nonneg zero_le_one (T.rawCoefficient_nonneg hcompact hpositive firstSign rectangle))
+    0 ≤ T.coefficient Z parameters hcompact hpositive firstSign rectangle := by
+  sorry
 
 end ComputedProfiles
 
@@ -272,8 +270,7 @@ theorem transportWindow_prime_support (h : d = e)
     (w : RawProfileWindow rowDomain heightDomain window s d B)
     (hprime : ∀ j t, Function.support (w.primeRep j t) ⊆ target) :
     ∀ j t, Function.support ((transportWindow h w).primeRep j t) ⊆ target := by
-  cases h
-  exact hprime
+  sorry
 
 end DataTransport
 

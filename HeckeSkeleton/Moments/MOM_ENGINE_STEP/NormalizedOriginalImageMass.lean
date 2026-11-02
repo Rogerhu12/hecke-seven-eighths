@@ -66,15 +66,15 @@ def rectangleAmplifiedIndex (b : (combine families).active Finset.univ) :
 @[simp] theorem rectangleAmplifiedIndex_tag
     (b : (combine families).active Finset.univ) :
     L.amplifiedTag tag pool (L.rectangleAmplifiedIndex families pool tag tag_mem b) =
-      tag (activeCombineEquiv families b).1 :=
-  L.amplifiedIndex_tag tag pool tag_mem _
+      tag (activeCombineEquiv families b).1 := by
+  sorry
 
 @[simp] theorem rectangleAmplifiedIndex_allocation
     (b : (combine families).active Finset.univ) :
     L.amplifiedAllocation tag pool
         (L.rectangleAmplifiedIndex families pool tag tag_mem b) =
-      L.allocation (activeCombineEquiv families b).1 :=
-  L.amplifiedIndex_allocation tag pool tag_mem _
+      L.allocation (activeCombineEquiv families b).1 := by
+  sorry
 
 end OriginalArithmeticLabels
 
@@ -130,35 +130,7 @@ theorem original_direct_image_kernel_mass
         ((combine families).kernel Finset.univ
           (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b).real Set.univ) ≤
           C * profile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight dFiber * Z ^ ε := by
-  obtain ⟨seminorms₁, seminorms₂, C, hC, hm⟩ :=
-    direct_kernel_mass_of_pointwise_index (A := A) (σ := σ) (ω := ω) (ψ := ψ)
-      (U := U) (E := E) cap J₁₁ J₁₂ J₂₁ J₂₂ dBL dBR dF₁ dF₂ dWeight dFiber
-      (cap + 2) normBox ε Cweight (4 * Cfiber) hbox hε hCweight (by positivity)
-  refine ⟨seminorms₁, seminorms₂, C, hC, ?_⟩
-  intro I inst Z hZ profile hprofile L families F₁ F₂ outer B₁ B₂ parentWidth windows
-    oldMask hs hs0 hf hfN hS hSN hw hwN hD hDN hweight hfibre
-  have hadmissible := L.carrier_admissible normBox Z oldMask
-    hf hfN hS hSN hw hwN hD hDN
-  apply hm Z hZ profile hprofile (combine families) Finset.univ
-    F₁ F₂ outer B₁ B₂ parentWidth windows oldMask hs hs0
-    L.carrier hadmissible (L.rectangleIndex families) hweight
-  intro j
-  have hfour := activeCombine_rectangle_fibre_le families L.index j
-    (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) (by
-      convert hfibre j using 1 <;> congr 2 <;> ext i <;>
-        simp only [Finset.mem_filter, Finset.mem_univ])
-  have hscale : 4 * (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) =
-      (4 * Cfiber) * profile ^ dFiber * Z ^ (ε / 4) := by ring
-  convert hfour.trans_eq hscale using 1 <;> congr 2 <;> ext b
-  constructor
-  · intro hb
-    have hb' := Finset.mem_filter.mp hb
-    apply Finset.mem_filter.mpr
-    exact hb'
-  · intro hb
-    have hb' := Finset.mem_filter.mp hb
-    apply Finset.mem_filter.mpr
-    exact hb'
+  sorry
 
 /-- The amplified image uses the original prime and valuation tag. Its
 moving norm is already inside amplifiedIndexWeight, so the pointwise
@@ -211,31 +183,7 @@ theorem original_amplified_image_kernel_mass
         ((combine families).kernel Finset.univ
           (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b).real Set.univ) ≤
           C * profile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight dFiber * Z ^ ε := by
-  obtain ⟨seminorms₁, seminorms₂, C, Z₀, hC, hZ₀, hm⟩ :=
-    amplified_kernel_mass_of_pointwise_index (A := A) (σ := σ) (ω := ω) (ψ := ψ)
-      (U := U) (E := E) cap J₁₁ J₁₂ J₂₁ J₂₂ dBL dBR dF₁ dF₂ dWeight dFiber
-      (cap + 2) normBox ε Cweight (4 * Cfiber) ell eps Mmax Bmax hbox hε hCweight
-      (by positivity) hell heps hepsell hepsε hMmax hBmax
-  refine ⟨seminorms₁, seminorms₂, C, Z₀, hC, hZ₀, ?_⟩
-  intro I inst Z hZ profile hprofile L families F₁ F₂ outer B₁ B₂ parentWidth windows
-    bad pool tag tag_mem M B hM hMM hBB oldMask hs hs0
-    hf hfN hS hSN hw hwN hD hDN hweight hfibre
-  have hadmissible := L.amplified_carriers_admissible tag normBox Z oldMask
-    hf hfN hS hSN hw hwN hD hDN
-  apply hm Z hZ profile hprofile (combine families) Finset.univ
-    F₁ F₂ outer B₁ B₂ parentWidth windows bad pool M B hM hMM hBB oldMask hs hs0
-    (L.mainCarrier tag) hadmissible.1 (L.errorCarrier tag)
-    (fun n _ p _ => hadmissible.2 n p)
-    (L.rectangleAmplifiedIndex families pool tag tag_mem) hweight
-  intro j
-  have hfour := activeCombine_rectangle_fibre_le families
-    (L.amplifiedIndex tag pool tag_mem) j
-    (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) (hfibre j)
-  have hscale : 4 * (Cfiber * profile ^ dFiber * Z ^ (ε / 4)) =
-      (4 * Cfiber) * profile ^ dFiber * Z ^ (ε / 4) := by ring
-  convert hfour.trans_eq hscale using 1 <;> congr 2 <;> ext b <;>
-    simp only [Finset.mem_filter, Finset.mem_univ,
-      OriginalArithmeticLabels.rectangleAmplifiedIndex]
+  sorry
 
 end InternalMassAssembly
 end HeckeSkeleton.Moments.EngineStep

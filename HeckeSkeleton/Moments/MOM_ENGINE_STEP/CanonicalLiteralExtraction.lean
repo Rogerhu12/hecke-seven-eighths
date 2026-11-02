@@ -76,32 +76,16 @@ total positive scale, even if the last slot is removed. -/
 theorem extract_gaussScale :
     extraGaussScale (d.extract b).gauss₁ (d.extract b).gauss₂ (d.extract b).gaussSlot =
       extraGaussScale d.gauss₁ d.gauss₂ d.gaussSlot := by
-  have hsplit : (∏ j, d.gaussSlot j) =
-      (∏ j ∈ Finset.univ \ b.keep, d.gaussSlot j) *
-        ∏ j, d.gaussSlot (SlotRestriction.index b.keep j) := by
-    simpa only [Finset.sdiff_eq_filter, Finset.mem_univ, true_and] using
-      (SlotRestriction.product_extend (P := PUnit.{1}) b.keep (fun _ => PUnit.unit)
-        (fun _ => PUnit.unit) (fun j _ => d.gaussSlot j))
-  change (d.gauss₁ * ∏ j ∈ Finset.univ \ b.keep, d.gaussSlot j) * d.gauss₂ *
-      (∏ j, d.gaussSlot (SlotRestriction.index b.keep j)) =
-    d.gauss₁ * d.gauss₂ * ∏ j, d.gaussSlot j
-  rw [hsplit]
-  ring
+  sorry
 
 @[simp] theorem extract_normalizer : (d.extract b).normalizer = d.normalizer := by
-  unfold normalizer
-  rw [CanonicalLiteralTransforms.normalizer_eq_inv_sqrt _ _ _
-      (d.extract b).gauss₁_pos (d.extract b).gauss₂_pos (d.extract b).gaussSlot_pos,
-    CanonicalLiteralTransforms.normalizer_eq_inv_sqrt _ _ _
-      d.gauss₁_pos d.gauss₂_pos d.gaussSlot_pos,
-    d.extract_gaussScale b]
+  sorry
 
 theorem extract_rectangleLeftWeight (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.extract b).rectangleLeftWeight r I =
       d.rectangleLeftWeight r (b.plainDivisor₁ * I) := by
-  unfold rectangleLeftWeight extract
-  split_ifs <;> rfl
+  sorry
 
 /-- This scalar contains the actual frozen arithmetic and every frozen
 prime profile. The comparison rectangle has the same scalar. -/
@@ -111,29 +95,14 @@ def commonScalar : ℂ :=
 theorem extract_term (r : Bool) (i : AllocationColumn K b.keep.card)
     (hi : i ∈ b.residualColumns) :
     d.term r (b.reconstruct i) = d.commonScalar b * (d.extract b).term r i := by
-  have hres : (d.extract b).term r i =
-      d.normalizer * b.bareResidualCoefficient d.characters (d.scale₁ r) (d.scale₂ r)
-        d.base d.length (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight i := by
-    rw [term, d.extract_normalizer b,
-      funext (d.extract_rectangleLeftWeight b r)]
-    rfl
-  rw [hres]
-  change d.normalizer * rawBareSourceCoefficient d.characters
-      (d.scale₁ r) (d.scale₂ r) d.base d.length
-      (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight (b.reconstruct i) = _
-  rw [b.raw_bare_extract d.characters (d.scale₁ r) (d.scale₂ r) d.base d.length
-    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight i hi]
-  unfold commonScalar
-  ring
+  sorry
 
 /-- Extraction acts on the full centered source. No absolute-value
 split of its two original rectangles is taken at this step. -/
 theorem extract_whole (i : AllocationColumn K b.keep.card)
     (hi : i ∈ b.residualColumns) :
     d.whole (b.reconstruct i) = d.commonScalar b * (d.extract b).whole i := by
-  unfold whole
-  rw [d.extract_term b false i hi, d.extract_term b true i hi]
-  ring
+  sorry
 
 /-- The residual character keeps the actual moving frequency. Its
 common fixed scalar is extracted from the same original whole column. -/
@@ -142,8 +111,7 @@ theorem extract_whole_residue {A : SArithmeticData K} {σ : K →+* ℂ}
     (I : A.Exterior) (frequency : A.R) :
     d.whole (b.reconstruct i) * σ (A.sexticResidue I frequency) =
       d.commonScalar b * ((d.extract b).whole i * σ (A.sexticResidue I frequency)) := by
-  rw [d.extract_whole b i hi]
-  ring
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

@@ -122,14 +122,7 @@ theorem factorFree_left_bound (hcompact : IsCompact window)
       CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) := by
-  apply (CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound
-    window hcompact hpositive (combinedScalar⁻¹ * combinedScalar)
-    (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s (E.left r) (E.left_support r)).trans
-  simpa only [one_mul] using mul_le_mul_of_nonneg_right
-    (mul_le_mul_of_nonneg_right
-      (CanonicalLiteralBalancedSchwartz.norm_inv_mul_self_le_one combinedScalar)
-      (CanonicalLogProfiles.shapeCoefficient_nonneg window hcompact hpositive _ s))
-    (apply_nonneg _ _)
+  sorry
 
 theorem factorFree_right_bound (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (r : Bool) (s : Finset (ℕ × ℕ)) :
@@ -139,9 +132,7 @@ theorem factorFree_right_bound (hcompact : IsCompact window)
       CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) := by
-  simpa only [norm_one, one_mul] using
-    CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound window hcompact hpositive
-      1 (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s (E.right r) (E.right_support r)
+  sorry
 
 theorem factorFree_slot_bound (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (j : Fin b.keep.card) (s : Finset (ℕ × ℕ)) :
@@ -152,11 +143,7 @@ theorem factorFree_slot_bound (hcompact : IsCompact window)
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ)
           (E.slot (SlotRestriction.index b.keep j)) := by
-  simpa only [norm_one, one_mul] using
-    CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound window hcompact hpositive
-      1 (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s
-      (E.slot (SlotRestriction.index b.keep j))
-      (E.slot_support (SlotRestriction.index b.keep j))
+  sorry
 
 theorem factorFreeSecondInput_prime_support (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) {target : Set ℝ}
@@ -165,11 +152,7 @@ theorem factorFreeSecondInput_prime_support (hcompact : IsCompact window)
       ((E.factorFreeSecondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hcompact hpositive).slot j)
       ⊆ target := by
-  intro j
-  exact (CanonicalLiteralSchwartzProfiles.powerSchwartz_support_subset
-    window hcompact hpositive 1 _ (E.slot (SlotRestriction.index b.keep j))
-    (E.slot_support (SlotRestriction.index b.keep j))).trans
-      (hprime (SlotRestriction.index b.keep j))
+  sorry
 
 end CanonicalLiteralRectangles.Atoms.ProfileData.SchwartzModel
 end HeckeSkeleton.Moments.EngineStep

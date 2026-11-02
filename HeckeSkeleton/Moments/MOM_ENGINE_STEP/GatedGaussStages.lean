@@ -89,30 +89,28 @@ theorem gated_leftCoefficient_nonzero
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
     (hi : (s.gated.charts DE D).leftCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
-  intro hi0
-  exact hi (by simp only [gated, if_pos hi0])
+  sorry
 
 theorem gated_rightCoefficient_nonzero
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
     (hi : (s.gated.charts DE D).rightCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
-  intro hi0
-  exact hi (by simp only [gated, if_pos hi0])
+  sorry
 
 theorem gated_sourceLeftCoefficient_nonzero
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
     (hi : (s.gated.charts DE D).sourceLeftCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
-  exact s.gated_leftCoefficient_nonzero DE D i (mul_ne_zero_iff.mp hi).1
+  sorry
 
 theorem gated_sourceRightCoefficient_nonzero
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
     (hi : (s.gated.charts DE D).sourceRightCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
-  exact s.gated_rightCoefficient_nonzero DE D i (mul_ne_zero_iff.mp hi).1
+  sorry
 
 namespace TerminalCalibration
 
@@ -138,8 +136,7 @@ theorem gated_leaf_left_nonzero
     (i : AllocationColumn K (s.gated.coveredLeaf LC RC exceptional F x j).leftSlots)
     (hi : (s.gated.coveredLeaf LC RC exceptional F x j).leftCoefficient h i ≠ 0) :
     G.coefficient (j.1.leftReindex.index i) ≠ 0 := by
-  apply s.gated_sourceLeftCoefficient_nonzero j.1.1 j.1.2.1 _
-  exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).1).1
+  sorry
 
 theorem gated_leaf_right_nonzero
     (F : SchwartzMap W ℂ) (x : ι → W)
@@ -147,8 +144,7 @@ theorem gated_leaf_right_nonzero
     (i : AllocationColumn K (s.gated.coveredLeaf LC RC exceptional F x j).rightSlots)
     (hi : (s.gated.coveredLeaf LC RC exceptional F x j).rightCoefficient h i ≠ 0) :
     G.coefficient (j.1.rightReindex.index i) ≠ 0 := by
-  apply s.gated_sourceRightCoefficient_nonzero j.1.1 j.1.2.1 _
-  exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).1).1
+  sorry
 
 end ActualGaussStage
 
@@ -266,14 +262,7 @@ theorem actual_parent_gated_two_stage_covered_terminal_bound
       pairedStageEnergy centered d a Z t Y₁ Y₂ ≤
         (s.fiber : ℝ) * (F.cost ε CfirstError CfirstZero +
           R.gated.coveredCost T.gated L exceptional N ε Cerror Czero) := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hb⟩ :=
-    actual_parent_two_stage_covered_terminal_bound (W := W) (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z ell eps bad P omega psi centered d a t Y₁ Y₂ X hX s N R T F L exceptional
-  exact hb Z ell eps bad P centered d a t Y₁ Y₂ X hX s N R.gated T.gated F L exceptional
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

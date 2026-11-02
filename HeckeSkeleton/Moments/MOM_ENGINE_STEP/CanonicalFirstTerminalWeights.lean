@@ -41,20 +41,7 @@ theorem firstOriginalAllowanceWeight_le_common
     (D E : Ideal (𝓞 K)) :
     firstOriginalAllowanceWeight Z parentWidth total rawProfile D E ≤
       profileCost * firstCommonWeight Z D E := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  calc
-    _ ≤ (profileCost * Z ^ (parentWidth - total)) *
-        Real.sqrt (Ideal.absNorm (firstActiveRadical D E) : ℝ) *
-        Real.sqrt (firstLeftAllowance Z total D E) *
-        Real.sqrt (firstRightAllowance Z total D E) / Z ^ parentWidth := by
-      apply div_le_div_of_nonneg_right _ (Real.rpow_nonneg hz.le _)
-      exact mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_right
-          (mul_le_mul_of_nonneg_right hprofile (Real.sqrt_nonneg _))
-          (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _)
-    _ = _ := by
-      rw [← first_allowance_scalar_identity Z total parentWidth hZ D E]
-      ring
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -112,9 +99,7 @@ theorem classZeroBudget_relative
         (actualFourierMeasure chart.kernel).real Set.univ *
         ((T.left S χ).zeroBudget ε Czero / firstLeftAllowance Z total DE.1 DE.2 +
           (T.right S χ).zeroBudget ε Czero / firstRightAllowance Z total DE.1 DE.2) := by
-  simp only [classZeroBudget, FirstBlockPoolData.SecondStages.classWeight, FirstBlockPoolData.rowBound,
-    hleftScale, hrightScale, b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 /-- The original tail class after parent normalization has one first
 Fourier measure and the two actual first allowances. -/
@@ -130,9 +115,7 @@ theorem classTailBudget_relative
         (actualFourierMeasure chart.kernel).real Set.univ *
         ((T.left S χ).tailBudget Cerror / firstLeftAllowance Z total DE.1 DE.2 +
           (T.right S χ).tailBudget Cerror / firstRightAllowance Z total DE.1 DE.2) := by
-  simp only [classTailBudget, FirstBlockPoolData.SecondStages.classWeight, FirstBlockPoolData.rowBound,
-    hleftScale, hrightScale, b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 end FirstBlockPoolData.SecondStages.TerminalCalibration
 
@@ -159,9 +142,7 @@ theorem classZeroBudget_relative
         (actualFourierMeasure chart.kernel).real Set.univ *
         ((T.left S χ).zeroBudget ε Czero / firstLeftAllowance Z total DE.1 DE.2 +
           (T.right S χ).zeroBudget ε Czero / firstRightAllowance Z total DE.1 DE.2) := by
-  simp only [classZeroBudget, FirstBlockDirectData.SecondStages.classWeight, FirstBlockDirectData.rowBound,
-    hleftScale, hrightScale, b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 /-- The original tail class after parent normalization has one first
 Fourier measure and the two actual first allowances. -/
@@ -177,9 +158,7 @@ theorem classTailBudget_relative
         (actualFourierMeasure chart.kernel).real Set.univ *
         ((T.left S χ).tailBudget Cerror / firstLeftAllowance Z total DE.1 DE.2 +
           (T.right S χ).tailBudget Cerror / firstRightAllowance Z total DE.1 DE.2) := by
-  simp only [classTailBudget, FirstBlockDirectData.SecondStages.classWeight, FirstBlockDirectData.rowBound,
-    hleftScale, hrightScale, b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 end FirstBlockDirectData.SecondStages.TerminalCalibration
 

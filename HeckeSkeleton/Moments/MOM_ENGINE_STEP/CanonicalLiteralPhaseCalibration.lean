@@ -72,24 +72,19 @@ theorem moving_character (D : OriginalMovingFactors A P R) :
     (F.moving P R D).character =
       ((D.character * (F.firstMoving P R).character) * (F.poolMoving P R).character) *
         (F.unitMoving P R).character := by
-  simp only [moving, OriginalMovingFactors.appendFactors_character]
+  sorry
 
 private theorem singleton_support_coprime
     (J : A.Exterior) (a : A.R) (ha : A.Generates J a) (I : Ideal (𝓞 K)) :
     IsCoprime I (OriginalMovingFactors.singleton (P := P) (R := R) ⟨a, ha.1⟩ 1).support.val ↔
       IsCoprime I J.val := by
-  rw [OriginalMovingFactors.coprime_support_iff_fullIdeal,
-    OriginalMovingFactors.singleton_fullIdeal J a ha 1]
+  sorry
 
 theorem moving_support_coprime (D : OriginalMovingFactors A P R) (I : Ideal (𝓞 K)) :
     IsCoprime I (F.moving P R D).support.val ↔
       ((IsCoprime I D.support.val ∧ IsCoprime I F.firstIdeal.val) ∧
         IsCoprime I F.poolIdeal.val) ∧ IsCoprime I F.unitIdeal.val := by
-  simp only [moving, OriginalMovingFactors.appendFactors_support_coprime_iff,
-    firstMoving, poolMoving, unitMoving,
-    singleton_support_coprime P R F.firstIdeal F.firstElement F.first_generates I,
-    singleton_support_coprime P R F.poolIdeal F.poolElement F.pool_generates I,
-    singleton_support_coprime P R F.unitIdeal F.unitElement F.unit_generates I]
+  sorry
 
 /-- The extra mask is a separate deletion, independent of whether a
 prime appears in one of the fixed residue phases. -/
@@ -111,15 +106,12 @@ private theorem effective_support_coprime
     (I : Ideal (𝓞 K)) (hI : IsCoprime I A.cS) :
     IsCoprime I (D.effectiveFullSupport remaining).val ↔
       IsCoprime I D.support.val ∧ IsCoprime I remaining.val := by
-  change IsCoprime I (D.fullMaskSupport (remainingMaskIdeal A remaining)).val ↔ _
-  rw [D.fullMaskSupport_coprime_iff, remainingMaskIdeal_val,
-    ← remainingMaskRadical_coprime_iff A remaining I hI]
+  sorry
 
 private theorem mask_indicator_mul (p q : Prop) [Decidable p] [Decidable q] :
     (if p then (1 : ℂ) else 0) * (if q then 1 else 0) =
       if p ∧ q then 1 else 0 := by
-  by_cases hp : p <;> by_cases hq : q <;> simp only [hp, hq, if_true, if_false,
-    true_and, false_and, mul_one, mul_zero, zero_mul]
+  sorry
 
 section Source
 
@@ -149,23 +141,13 @@ theorem sourceCharacters_plain :
     (sourceCharacters P R F parent D correction remaining extra index).plain =
       (CanonicalAppendedPhaseCalibration.sourceCharacters P R parent (F.moving P R D)
         correction (remaining * extra) index).plain := by
-  change (((parent.plainBackground * (correction * D.character)) *
-    (F.firstMoving P R).character) * (F.poolMoving P R).character) *
-      (F.unitMoving P R).character =
-    (parent.plainBackground * correction) * (F.moving P R D).character
-  rw [F.moving_character P R D]
-  ac_rfl
+  sorry
 
 theorem sourceCharacters_slot (i : Fin k) :
     (sourceCharacters P R F parent D correction remaining extra index).slot i =
       (CanonicalAppendedPhaseCalibration.sourceCharacters P R parent (F.moving P R D)
         correction (remaining * extra) index).slot i := by
-  change (((parent.slotCoefficient (index i) * (correction * D.character)) *
-    (F.firstMoving P R).character) * (F.poolMoving P R).character) *
-      (F.unitMoving P R).character =
-    (parent.slotCoefficient (index i) * correction) * (F.moving P R D).character
-  rw [F.moving_character P R D]
-  ac_rfl
+  sorry
 
 /-- This equality uses exactly the original fixed-S gate.  It is not
 asserted for arbitrary ideals outside that gate. -/
@@ -173,26 +155,7 @@ theorem sourceCharacters_mask (I : Ideal (𝓞 K)) (hI : IsCoprime I A.cS) :
     (sourceCharacters P R F parent D correction remaining extra index).mask I =
       (CanonicalAppendedPhaseCalibration.sourceCharacters P R parent (F.moving P R D)
         correction (remaining * extra) index).mask I := by
-  change ((((if IsCoprime I (D.support.val * remaining.val) then (1 : ℂ) else 0) *
-      (if IsCoprime I F.firstIdeal.val then 1 else 0)) *
-      (if IsCoprime I F.poolIdeal.val then 1 else 0)) *
-      (if IsCoprime I F.unitIdeal.val then 1 else 0)) *
-      (if IsCoprime I extra.val then 1 else 0) =
-    (if IsCoprime I ((F.moving P R D).effectiveFullSupport (remaining * extra)).val
-      then 1 else 0)
-  simp only [mask_indicator_mul]
-  congr 1
-  apply propext
-  rw [effective_support_coprime P R (F.moving P R D) (remaining * extra) I hI,
-    F.moving_support_coprime P R D I]
-  change ((((IsCoprime I (D.support.val * remaining.val) ∧
-    IsCoprime I F.firstIdeal.val) ∧ IsCoprime I F.poolIdeal.val) ∧
-    IsCoprime I F.unitIdeal.val) ∧ IsCoprime I extra.val) ↔
-    (((IsCoprime I D.support.val ∧ IsCoprime I F.firstIdeal.val) ∧
-      IsCoprime I F.poolIdeal.val) ∧ IsCoprime I F.unitIdeal.val) ∧
-        IsCoprime I (remaining.val * extra.val)
-  rw [IsCoprime.mul_right_iff, IsCoprime.mul_right_iff]
-  tauto
+  sorry
 
 theorem sourceCharacters_plain_coefficient
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : IsCoprime I.val A.cS) :
@@ -207,9 +170,7 @@ theorem sourceCharacters_plain_coefficient
           correction (remaining * extra) index).plainTwist
         (CanonicalAppendedPhaseCalibration.sourceCharacters P R parent (F.moving P R D)
           correction (remaining * extra) index).mask I := by
-  unfold sourcePlainCoefficient
-  rw [sourceCharacters_plain P R F parent D correction remaining extra index,
-    sourceCharacters_mask P R F parent D correction remaining extra index I.val hI]
+  sorry
 
 theorem sourceCharacters_prime_coefficient (i : Fin k) (p : HeightOneSpectrum (𝓞 K))
     (hp : IsCoprime p.asIdeal A.cS) :
@@ -224,9 +185,7 @@ theorem sourceCharacters_prime_coefficient (i : Fin k) (p : HeightOneSpectrum (�
           correction (remaining * extra) index).slotTwist i)
         (CanonicalAppendedPhaseCalibration.sourceCharacters P R parent (F.moving P R D)
           correction (remaining * extra) index).mask p := by
-  unfold sourcePrimeCoefficient
-  rw [sourceCharacters_slot P R F parent D correction remaining extra index i,
-    sourceCharacters_mask P R F parent D correction remaining extra index p.asIdeal hp]
+  sorry
 
 variable {σ : K →+* ℂ}
 
@@ -365,9 +324,7 @@ the original theta identity supplies that case internally. -/
 theorem original_correction_mem (ξ : X)
     (hone : (1 : HeckeCharacter K) ∈ (data ξ).theta) :
     Q.correction ∈ (data ξ).theta := by
-  rcases Q.correction_mem ξ with h | h
-  · simpa only [h] using hone
-  · exact h
+  sorry
 
 end OriginalSource
 

@@ -532,8 +532,7 @@ private theorem literalCapacity_leftEndpoints
           (secondSixthRootIdeal rows.primes rows.leftMultiplicity rows.rightMultiplicity).val) =
         geometry₀.literalSupportParameter (idealLogLength Z₀
           (secondSixthRootIdeal rows.primes rows.leftMultiplicity rows.rightMultiplicity).val) := by
-  refine ⟨geometry₀.atBase_literalRowParameter base hbase physicalError, ?_⟩
-  rw [OriginalNominalGeometry.atBase_literalSupportParameter, hbase]
+  sorry
 
 private theorem literalCapacity_rightEndpoints
     {H J : Type*} [Fintype J] [DecidableEq J]
@@ -548,14 +547,7 @@ private theorem literalCapacity_rightEndpoints
           (secondSixthRootIdeal rows.primes rows.rightMultiplicity rows.leftMultiplicity).val) =
         geometry₀.literalSupportParameter (idealLogLength Z₀
           (secondSixthRootIdeal rows.primes rows.leftMultiplicity rows.rightMultiplicity).val) := by
-  have hroot : secondSixthRootIdeal rows.primes rows.rightMultiplicity rows.leftMultiplicity =
-      secondSixthRootIdeal rows.primes rows.leftMultiplicity rows.rightMultiplicity :=
-    SecondColumnSide.literal_root .right rows
-  constructor
-  · rw [OriginalNominalGeometry.atBase_literalRowParameter,
-      OriginalNominalGeometry.swapSecond_literalRowParameter]
-  · rw [OriginalNominalGeometry.atBase_literalSupportParameter,
-      OriginalNominalGeometry.swapSecond_literalSupportParameter, hroot, hbase]
+  sorry
 
 local notation "leftGeometry" => geometry.atBase (leftTable).base hbaseLeft
 local notation "rightGeometry" => geometry.swapSecond.atBase (rightTable).base hbaseRight
@@ -773,14 +765,11 @@ local notation "rightCapacityAtoms" =>
 
 @[simp] theorem literalNormalizationLeftLengthBinding_rawError (r : Bool) :
     (leftLengths r).rawScaleError = (leftTable).computedRawError geometry.skeleton.rawDegree error r := by
-  change (leftTable).computedRawError (leftGeometry).skeleton.rawDegree error r = _
-  rw [OriginalNominalGeometry.atBase_skeleton]
+  sorry
 
 @[simp] theorem literalNormalizationLeftLengthBinding_widthError (r : Bool) :
     (leftLengths r).scales.error = paidCutoff := by
-  simp only [literalNormalizationLeftLengthBinding,
-    CanonicalLiteralRectangles.Atoms.literalCapacityBinding,
-    CanonicalLiteralRectangles.Atoms.factorsOriginalSixthLengthsAll_error]
+  sorry
 
 @[simp] theorem literalNormalizationLeftCapacityAtoms_leftAnnulus (r : Bool) :
     (leftCapacityAtoms r).leftAnnulus = hi := rfl
@@ -793,14 +782,11 @@ local notation "rightCapacityAtoms" =>
 
 @[simp] theorem literalNormalizationRightLengthBinding_rawError (r : Bool) :
     (rightLengths r).rawScaleError = (rightTable).computedRawError geometry.swapSecond.skeleton.rawDegree error r := by
-  change (rightTable).computedRawError (rightGeometry).skeleton.rawDegree error r = _
-  rw [OriginalNominalGeometry.atBase_skeleton]
+  sorry
 
 @[simp] theorem literalNormalizationRightLengthBinding_widthError (r : Bool) :
     (rightLengths r).scales.error = paidCutoff := by
-  simp only [literalNormalizationRightLengthBinding,
-    CanonicalLiteralRectangles.Atoms.literalCapacityBinding,
-    CanonicalLiteralRectangles.Atoms.factorsOriginalSixthLengthsAll_error]
+  sorry
 
 @[simp] theorem literalNormalizationRightCapacityAtoms_leftAnnulus (r : Bool) :
     (rightCapacityAtoms r).leftAnnulus = hi := rfl
@@ -817,22 +803,7 @@ theorem literalNormalizationData_leftCapacity_actual (r : Bool) (anchor : (ordin
     HEq ((normalization).left r).capacity
       ((leftLengths r).capacityInput originalMass v.block.right_positive anchor hsecond hopposite hunit
         hstep mesh hmesh hfit (leftCapacityAtoms r)) := by
-  have hcoordinates := literalCapacity_leftEndpoints ordinaryRows geometry (leftTable).base hbaseLeft paidCutoff
-  have hm := hcoordinates.1
-  have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a (leftTable).base Y₁ Y₂ floor padding := by
-    have hb : (leftTable).base = Z := hbaseLeft
-    simpa only [hb] using domain
-  exact (leftTable).produceLiteralLeftSideAll_capacity_actual_heq leftTests ordinaryRows j.2.1
-    (fun i => v.block.leftResidual (v.leftReindex.index i)) v.leftReindex.ideal_product
-    firstSign r j.1.val j.2.2.1.val (Finset.mem_filter.mp (allocation).property).2.2.1
-    (calibrations.1 r) P Rchar F parent oldMoving correction hcorr remaining extra a step leftGeometry
-    pattern sector leftRecipe.slots paidCutoff reference time
-    (by intro ξ; rw [hm, hq]; rfl) (by rw [hm, hq]; rfl) hdomain direct
-    (by positivity) hsmall error herror v.block.left_positive v.block.right_positive
-    hsecond hopposite hunit hstep mesh hmesh hfit lo hi hlo hhi orders original
-    hreference htime horders leftComputed hprimeOrders δ analyticHeight hδ hδhi
-    (analyticLeft r) (hanalyticLeft r) originalMass anchor rfl
+  sorry
 
 /-- The existing right capacity, with the actual internally constructed
 row mass and its original row witness. -/
@@ -841,27 +812,7 @@ theorem literalNormalizationData_rightCapacity_actual (r : Bool) (anchor : (ordi
       ((rightLengths r).capacityInput ((originalMass).swapColumns v.block.right_positive) (originalMass).left_positive
         anchor hopposite hsecond hunit
         hstep mesh hmesh hfit (rightCapacityAtoms r)) := by
-  have hcoordinates := literalCapacity_rightEndpoints ordinaryRows geometry (rightTable).base hbaseRight paidCutoff
-  have hm := hcoordinates.1
-  have hq := hcoordinates.2
-  have hdomain : PairedEngineDomain centered parent a (rightTable).base Y₁ Y₂ floor padding := by
-    have hb : (rightTable).base = Z := hbaseRight
-    simpa only [hb] using domain
-  have hunitR : (rightGeometry).ideals.unitPart.val =
-      (secondPatternUnitIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
-        (ordinaryRows).leftMultiplicity pattern).val := by
-    rw [secondPatternUnitIdeal_swap]
-    exact hunit
-  exact (rightTable).produceLiteralRightSideAll_capacity_actual_heq rightTests ordinaryRows j.2.1
-    (fun i => v.block.rightResidual (v.rightReindex.index i)) v.rightReindex.ideal_product
-    (-firstSign) r j.1.val j.2.2.2.val (Finset.mem_filter.mp (allocation).property).2.2.2
-    (calibrations.2 r) P Rchar F parent oldMoving correction hcorr remaining extra a step rightGeometry
-    pattern sector rightRecipe.slots paidCutoff reference time
-    (by intro ξ; rw [hm, hq]; rfl) (by rw [hm, hq]; rfl) hdomain direct
-    (by positivity) hsmall error herror v.block.left_positive v.block.right_positive
-    hopposite hsecond hunitR hstep mesh hmesh hfit lo hi hlo hhi orders original
-    hreference htime horders rightComputed hprimeOrders δ analyticHeight hδ hδhi
-    (analyticRight r) (hanalyticRight r) originalMass anchor rfl
+  sorry
 
 local notation "leftCapacityProof" =>
   v.literalNormalizationData_leftCapacity_actual
@@ -936,8 +887,7 @@ theorem literalNormalizationData_activeCapacities
         ((rightLengths b.val.2).capacityInput
           ((originalMass).swapColumns v.block.right_positive) (originalMass).left_positive anchor
           hopposite hsecond hunit hstep mesh hmesh hfit (rightCapacityAtoms b.val.2)) := by
-  exact ⟨leftCapacityProof b.val.1 ((normalization).activeOrdinaryAnchor b),
-    rightCapacityProof b.val.2 ((normalization).activeOrdinaryAnchor b)⟩
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

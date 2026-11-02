@@ -50,16 +50,7 @@ theorem massSlack_le_original_windows
     (hsupport : G.supportError ≤ error) (hraw : B.rawScaleError ≤ error)
     (hwidth : B.scales.error ≤ error) :
     B.massSlack mesh atoms ≤ G.boundary + 5 * error / 3 + mesh := by
-  have hannulus := OriginalPairAllowanceProduction.annulus_error_le
-    annulus error s.base atoms.leftAnnulus atoms.rightAnnulus herror hZ
-    atoms.leftAnnulus_one hleft atoms.rightAnnulus_one hright
-  have hkappa : D.parameters.κ ≤ 1 := by
-    rw [B.kappa]
-    exact B.parent_region.2.1
-  have hovershoot : D.parameters.κ * mesh ≤ mesh := by
-    simpa only [one_mul] using mul_le_mul_of_nonneg_right hkappa hmesh
-  unfold massSlack
-  linarith
+  sorry
 
 end ActualAllocatedSource.Calibration.OriginalSixthLengthBinding
 
@@ -86,20 +77,14 @@ variable (boundsR : Fin right.source.allocation.keep.card → ℝ)
 
 private theorem sixth_sqrt_rpow_half (Z : ℝ) (hZ : 0 < Z) (x : ℝ) :
     Real.sqrt (Z ^ x) = Z ^ (x / 2) := by
-  rw [Real.sqrt_eq_rpow, ← Real.rpow_mul hZ.le]
-  congr 1
-  ring
+  sorry
 
 private theorem sixth_sqrt_arithmetic_cost (q E F B N Z d : ℝ)
     (hq : 0 ≤ q) (hE : 0 ≤ E) (hF : 0 ≤ F) (hB : 0 ≤ B)
     (hN : 0 ≤ N) (hZ : 0 < Z) :
     Real.sqrt ((q * (E / N) * F) * (B * Z ^ d)) =
       Real.sqrt q * Real.sqrt E * Real.sqrt F * Real.sqrt B * Z ^ (d / 2) / Real.sqrt N := by
-  rw [Real.sqrt_mul (mul_nonneg (mul_nonneg hq (div_nonneg hE hN)) hF),
-    Real.sqrt_mul (mul_nonneg hq (div_nonneg hE hN)),
-    Real.sqrt_mul hq, Real.sqrt_mul hB, Real.sqrt_div hE,
-    sixth_sqrt_rpow_half Z hZ]
-  ring
+  sorry
 
 private theorem sixth_pair_cost_identity
     (q EL ER F BL BR N NL NR Z dL dR mL mR parent : ℝ)
@@ -112,27 +97,7 @@ private theorem sixth_pair_cost_identity
         (N * Z ^ parent) *
       (q / (Real.sqrt NL * Real.sqrt NR) *
         Z ^ ((mL + mR + dL + dR) / 2)) := by
-  rw [sixth_sqrt_arithmetic_cost q EL F BL N Z dL hq hEL hF hBL hN hZ,
-    sixth_sqrt_arithmetic_cost q ER F BR N Z dR hq hER hF hBR hN hZ]
-  have hq₂ : Real.sqrt q * Real.sqrt q = q := by nlinarith [Real.sq_sqrt hq]
-  have hF₂ : Real.sqrt F * Real.sqrt F = F := by nlinarith [Real.sq_sqrt hF]
-  have hN₂ : (Real.sqrt N)⁻¹ * (Real.sqrt N)⁻¹ = N⁻¹ := by
-    rw [← mul_inv]
-    congr 1
-    nlinarith [Real.sq_sqrt hN]
-  have hp : Z ^ (dL / 2) * Z ^ (dR / 2) * Z ^ ((mL + mR) / 2) =
-      Z ^ ((mL + mR + dL + dR) / 2) := by
-    rw [← Real.rpow_add hZ, ← Real.rpow_add hZ]
-    congr 1
-    ring
-  simp only [div_eq_mul_inv, mul_inv_rev]
-  calc
-    _ = (Real.sqrt q * Real.sqrt q) * (Real.sqrt F * Real.sqrt F) *
-        (Real.sqrt EL * Real.sqrt ER * Real.sqrt BL * Real.sqrt BR) *
-        ((Real.sqrt N)⁻¹ * (Real.sqrt N)⁻¹) *
-        ((Real.sqrt NR)⁻¹ * (Real.sqrt NL)⁻¹) *
-        (Z ^ (dL / 2) * Z ^ (dR / 2) * Z ^ ((mL + mR) / 2)) * (Z ^ parent)⁻¹ := by ring
-    _ = _ := by rw [hq₂, hF₂, hN₂, hp]; ring
+  sorry
 
 /-- This identity holds for the actual capacity input, including the
 full-deletion input.  It does not identify its changed coordinates with
@@ -149,17 +114,7 @@ theorem actual_capacity_pair_weight_eq_original_row
         (W.rowBound / (Real.sqrt left.normalizationScale * Real.sqrt right.normalizationScale) *
           Z ^ ((lc.parameters.m + lc.parameters.q + (rc.parameters.m + rc.parameters.q) +
             IL.exponent + IR.exponent) / 2)) := by
-  unfold actualCapacityPairWeight actualCapacityPairEnvelope
-  rw [left.arithmetic_child_cost calL W frozenL lc boundsL,
-    right.arithmetic_child_cost calR W frozenR rc boundsR, hbaseL, hbaseR, ← hdivisor]
-  exact sixth_pair_cost_identity W.rowBound frozenL.envelope frozenR.envelope (W.originalFiber : ℝ)
-    (∏ i ∈ lc.removed, boundsL i) (∏ i ∈ rc.removed, boundsR i)
-    (Ideal.absNorm left.source.allocation.divisor : ℝ)
-    left.normalizationScale right.normalizationScale Z IL.exponent IR.exponent
-    (lc.parameters.m + lc.parameters.q) (rc.parameters.m + rc.parameters.q) parentWidth
-    W.rowBound_nonneg frozenL.envelope_nonneg frozenR.envelope_nonneg (Nat.cast_nonneg _)
-    (Finset.prod_nonneg fun i _ => hBL i) (Finset.prod_nonneg fun i _ => hBR i)
-    frozenL.divisorNorm_pos.le hZ
+  sorry
 
 /-- Internal scalar calculation.  The two child inequalities are
 proved from the original sixth-root bindings below, not supplied by the
@@ -189,28 +144,7 @@ private theorem sixth_pair_weight_le_from_child_budgets
       (W.commonEnvelope *
         (orbitalFieldFactor K * Z ^ (a₀ + q + w + (slackL + slackR) / 2) *
           Z ^ wo * Z ^ ell / (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ))) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hcentral := second_source_central_scale_lower Z hz a₀
-    left.normalizationScale right.normalizationScale hscaleL hscaleR
-  have hexp :
-      (lc.parameters.m + lc.parameters.q + (rc.parameters.m + rc.parameters.q) +
-        IL.exponent + IR.exponent) / 2 ≤
-      secondCommonChildWidth Z a₀ q wo krow g
-        W.leftIdeal W.rightIdeal W.unitIdeal.val W.nonunitIdeal.val +
-      secondCommonChildAllowance Z w ((slackL + slackR) / 2) ell W.leftIdeal W.rightIdeal := by
-    unfold secondCommonChildAllowance at *
-    linarith
-  have hbudget := W.normalized_row_budget Z hZ a₀ q wo w ((slackL + slackR) / 2)
-    krow g ell left.normalizationScale right.normalizationScale hradius hcentral
-  rw [actual_capacity_pair_weight_eq_original_row left right calL calR W frozenL frozenR
-    lc rc boundsL boundsR Z parentWidth hz hbaseL hbaseR hBL hBR hdivisor]
-  apply mul_le_mul_of_nonneg_left _
-    (div_nonneg (actualCapacityPairEnvelope_nonneg left right calL calR W frozenL frozenR
-      lc rc boundsL boundsR) (mul_nonneg frozenL.divisorNorm_pos.le (Real.rpow_nonneg hz.le _)))
-  exact (mul_le_mul_of_nonneg_left
-    (Real.rpow_le_rpow_of_exponent_le hZ.le hexp)
-    (div_nonneg W.rowBound_nonneg (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)))).trans
-      hbudget
+  sorry
 
 end ExactPair
 
@@ -280,64 +214,7 @@ theorem actual_sixth_capacity_pair_weight_le
           (bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2) *
         Z ^ G.skeleton.wo * Z ^ (G.tag.poolLength step) /
           (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ))) := by
-  have hl := bindingL.child_budget W hn anchor hsecond hopposite hunit
-    hstep mesh hmesh hfit atomsL lc
-  have hr := bindingR.child_budget (W.swapColumns hn) W.left_positive anchor
-    hopposite hsecond hunit hstep mesh hmesh hfit atomsR rc
-  simp only [OriginalNominalGeometry.atBase_skeleton] at hl
-  change lc.parameters.m + lc.parameters.q +
-      (bindingL.capacityInput W hn anchor hsecond hopposite hunit
-        hstep mesh hmesh hfit atomsL).exponent ≤
-    secondCommonChildWidth left.source.base
-      (G.skeleton.A - G.skeleton.c - G.skeleton.w)
-      (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
-      G.skeleton.Krow G.skeleton.g G.ideals.second.val G.ideals.secondOpposite.val
-      G.ideals.unitPart.val G.ideals.nonunitPart.val +
-    secondCommonChildAllowance left.source.base G.skeleton.w (bindingL.massSlack mesh atomsL)
-      (G.tag.poolLength step) G.ideals.second.val G.ideals.secondOpposite.val at hl
-  simp only [hbaseL, hsecond, hopposite, hunit, hnonunit] at hl
-  simp only [OriginalNominalGeometry.atBase_skeleton,
-    OriginalNominalGeometry.swapSecond_skeleton] at hr
-  change rc.parameters.m + rc.parameters.q +
-      (bindingR.capacityInput (W.swapColumns hn) W.left_positive anchor
-        hopposite hsecond hunit hstep mesh hmesh hfit atomsR).exponent ≤
-    secondCommonChildWidth right.source.base
-      (G.skeleton.A - G.skeleton.c - G.skeleton.w)
-      (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
-      G.skeleton.Krow G.skeleton.g G.ideals.secondOpposite.val G.ideals.second.val
-      G.ideals.unitPart.val G.ideals.nonunitPart.val +
-    secondCommonChildAllowance right.source.base G.skeleton.w (bindingR.massSlack mesh atomsR)
-      (G.tag.poolLength step) G.ideals.secondOpposite.val G.ideals.second.val at hr
-  simp only [hbaseR, hsecond, hopposite, hunit, hnonunit] at hr
-  have hwidthSwap :
-      secondCommonChildWidth Z
-        (G.skeleton.A - G.skeleton.c - G.skeleton.w)
-        (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
-        G.skeleton.Krow G.skeleton.g W.rightIdeal W.leftIdeal
-        W.unitIdeal.val W.nonunitIdeal.val =
-      secondCommonChildWidth Z
-        (G.skeleton.A - G.skeleton.c - G.skeleton.w)
-        (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
-        G.skeleton.Krow G.skeleton.g W.leftIdeal W.rightIdeal
-        W.unitIdeal.val W.nonunitIdeal.val := by
-    unfold secondCommonChildWidth
-    rw [gcd_comm W.rightIdeal W.leftIdeal]
-  have hallowanceSwap :
-      secondCommonChildAllowance Z G.skeleton.w (bindingR.massSlack mesh atomsR)
-        (G.tag.poolLength step) W.rightIdeal W.leftIdeal =
-      secondCommonChildAllowance Z G.skeleton.w (bindingR.massSlack mesh atomsR)
-        (G.tag.poolLength step) W.leftIdeal W.rightIdeal := by
-    unfold secondCommonChildAllowance commonRadical
-    rw [Finset.inter_comm (primeSupport W.rightIdeal) (primeSupport W.leftIdeal),
-      add_comm (idealLogLength Z W.rightIdeal) (idealLogLength Z W.leftIdeal)]
-  rw [hwidthSwap, hallowanceSwap] at hr
-  exact sixth_pair_weight_le_from_child_budgets left right calL calR W frozenL frozenR
-    lc rc boundsL boundsR Z hZ
-    (G.skeleton.A - G.skeleton.c - G.skeleton.w)
-    (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo G.skeleton.w
-    G.skeleton.Krow G.skeleton.g (G.tag.poolLength step) parentWidth
-    (bindingL.massSlack mesh atomsL) (bindingR.massSlack mesh atomsR)
-    hbaseL hbaseR hBL hBR hdivisor hl hr hscaleL hscaleR hradius
+  sorry
 
 include hnonunit in
 /-- Divide by the literal original first Cauchy allowance.  The
@@ -362,42 +239,7 @@ theorem actual_sixth_capacity_pair_relative_allowance_le
         Z ^ G.skeleton.wo * Z ^ (G.tag.poolLength step) / Z ^ parentWidth) *
         (1 / (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ)) /
           (Ideal.absNorm left.source.allocation.divisor : ℝ) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hNpower : firstNormalization =
-      Z ^ ((G.skeleton.A - G.skeleton.c - G.skeleton.w) +
-        (G.skeleton.q + G.skeleton.R + G.skeleton.E) + G.skeleton.w + G.boundary) := by
-    rw [hN]
-    exact firstLeftAllowance_second_exponent Z G.skeleton.A
-      (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.w
-      G.ideals.first.val G.ideals.opposite.val
-  have hNpos : 0 < firstNormalization := by
-    rw [hNpower]
-    exact Real.rpow_pos_of_pos hz _
-  have hcancel :
-      Z ^ ((G.skeleton.A - G.skeleton.c - G.skeleton.w) +
-        (G.skeleton.q + G.skeleton.R + G.skeleton.E) + G.skeleton.w +
-        (bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2) /
-        firstNormalization =
-      Z ^ ((bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2 - G.boundary) := by
-    rw [hNpower, ← Real.rpow_sub hz]
-    congr 1
-    ring
-  have h := actual_sixth_capacity_pair_weight_le left right calL calR W frozenL frozenR
-    parent a Z step G hbaseL hbaseR hn anchor hsecond hopposite hunit hnonunit
-    bindingL bindingR atomsL atomsR hstep mesh hmesh hfit lc rc boundsL boundsR
-    hZ parentWidth hBL hBR hdivisor hscaleL hscaleR hradius
-  apply (div_le_div_of_nonneg_right h hNpos.le).trans_eq
-  calc
-    _ = (actualCapacityPairEnvelope left right calL calR W frozenL frozenR lc rc boundsL boundsR *
-        W.commonEnvelope * orbitalFieldFactor K *
-        (Z ^ ((G.skeleton.A - G.skeleton.c - G.skeleton.w) +
-          (G.skeleton.q + G.skeleton.R + G.skeleton.E) + G.skeleton.w +
-          (bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2) /
-          firstNormalization) * Z ^ G.skeleton.wo * Z ^ (G.tag.poolLength step) /
-          Z ^ parentWidth) *
-        (1 / (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ)) /
-          (Ideal.absNorm left.source.allocation.divisor : ℝ) := by ring
-    _ = _ := by rw [hcancel]
+  sorry
 
 end OriginalSixthPair
 

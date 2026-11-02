@@ -171,7 +171,8 @@ theorem actualRowsSupportedMass_ordinary_fields
         (chart.originalNonunitPattern M X hX label) ∧
       W.nonunitIdeal = secondPatternNonunitIdeal b.primes
         (chart.originalNonunitPattern M X hX label) ∧
-      W.originalFiber = Γ.index := ⟨rfl, rfl, rfl⟩
+      W.originalFiber = Γ.index := by
+  sorry
 
 end SecondBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

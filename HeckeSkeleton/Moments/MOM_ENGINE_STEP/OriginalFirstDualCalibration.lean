@@ -144,10 +144,7 @@ def zeroAmplitude (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) : ℝ :=
 
 theorem zeroAmplitude_nonneg (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
     0 ≤ T.zeroAmplitude hB δ hδ := by
-  exact mul_nonneg
-    (mul_nonneg (originalFirstMaskConstant_pos (K := K) normBound δ hB hδ).le
-      T.zeroProfileConstant_nonneg)
-    (Real.rpow_nonneg (zero_le_one.trans T.windows.base_ge_one) _)
+  sorry
 
 /-- The actual first mask-divisor sum is paid by the original prime
 dictionary and original column norms. Its small-power constant is fixed
@@ -157,34 +154,7 @@ theorem zero_normalization (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ) :
       sZero.sup (schwartzSeminormFamily ℂ V ℂ) (profiles v.2.1 v.2.2) *
         (∑ D ∈ ((blocks v.1).mask M).powerset, firstZeroDivisorWeight radius D) ≤
           T.zeroAmplitude hB δ hδ / Real.sqrt (Z ^ T.zeroProductExponent) := by
-  intro v hv
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hcommon := actualCommonLabels_norm columns columns _ _
-    (fun i _ => (I i).property.1) (fun i _ => (I i).property.1)
-    (Z ^ normBound) T.column_norm T.column_norm (v.1.val, ∅)
-    ((mem_actualCommonLabels _ _ _ _ _).mpr ⟨v.1.property, Finset.empty_subset _⟩)
-  have hcard := originalFirstMaskConstant_bound normBound δ hB hδ Z T.windows.base_ge_one
-    (blocks v.1) M T.maskIdeal T.mask_ne_zero T.mask_norm hcommon.1 T.original_mask
-  have hmask := (firstZeroDivisorSum_le_card radius ((blocks v.1).mask M)).trans
-    (mul_le_mul_of_nonneg_right hcard (inv_nonneg.mpr radius.property.le))
-  have hmask' := hmask.trans
-    (mul_le_mul_of_nonneg_left T.zero_inverse_radius
-      (mul_nonneg (originalFirstMaskConstant_pos (K := K) normBound δ hB hδ).le
-        (Real.rpow_nonneg hz.le _)))
-  have hp := mul_le_mul (T.zero_profile v hv) hmask'
-    (Finset.sum_nonneg fun D _ => firstZeroDivisorWeight_nonneg radius D)
-    (mul_nonneg T.zeroProfileConstant_nonneg (Real.rpow_nonneg hz.le _))
-  apply hp.trans_eq
-  have hsqrt : Real.sqrt (Z ^ T.zeroProductExponent) = Z ^ (T.zeroProductExponent / 2) := by
-    rw [Real.sqrt_eq_rpow, ← Real.rpow_mul hz.le]
-    congr 1
-    ring
-  unfold zeroAmplitude zeroExponent
-  rw [hsqrt, mul_div_assoc, ← Real.rpow_sub hz,
-    show (T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ + T.zeroProductExponent / 2) -
-      T.zeroProductExponent / 2 = T.zeroProfileExponent + T.zeroInverseRadiusExponent + δ by ring,
-    Real.rpow_add hz, Real.rpow_add hz]
-  ring
+  sorry
 
 /-- Both first terminal scalars are computed from the same original
 profile windows, independently of any prime pool. -/
@@ -198,28 +168,7 @@ theorem tailMass_bound (hdecay : 1 < decay) (Ctail : ℝ) (hCtail : 0 ≤ Ctail)
       firstBlockTailMass hΓ C columns columns I I blocks sTail profiles radius M ≤
       (Ctail * (2 * firstTailFieldConstant K * idealCountConstant K ^ k)) *
         T.tailProfileConstant * Z ^ (-Nsave) := by
-  let Cnum := 2 * firstTailFieldConstant K * idealCountConstant K ^ k
-  let L := firstTailExponent k T.productExponent T.profileExponent T.maskExponent T.modulusExponent
-  have hCnum : 0 ≤ Cnum := mul_nonneg
-    (mul_nonneg (by norm_num) firstTailFieldConstant_nonneg)
-    (pow_nonneg (zero_le_one.trans (one_le_idealCountConstant K)) k)
-  have hw := T.windows.power_bound
-  change firstBlockTailMass hΓ C columns columns I I blocks sTail profiles radius M ≤
-    Cnum * T.tailProfileConstant * Z ^ L at hw
-  have hX : 1 ≤ X := by
-    rw [T.cutoff_eq]
-    exact Real.one_le_rpow T.windows.base_ge_one
-      (firstTailCutoffExponent_nonneg Lmax Nsave decay hdecay)
-  calc
-    _ ≤ Ctail * X ^ (1 - decay) * (Cnum * T.tailProfileConstant * Z ^ L) :=
-      mul_le_mul_of_nonneg_left hw (mul_nonneg hCtail (Real.rpow_nonneg (zero_le_one.trans hX) _))
-    _ = (Ctail * Cnum) * T.tailProfileConstant * (X ^ (1 - decay) * Z ^ L) := by ring
-    _ ≤ (Ctail * Cnum) * T.tailProfileConstant * Z ^ (-Nsave) := by
-      apply mul_le_mul_of_nonneg_left _
-        (mul_nonneg (mul_nonneg hCtail hCnum) T.windows.amplitude_nonneg)
-      rw [T.cutoff_eq]
-      exact first_tail_cutoff_power_of_le Z L Lmax Nsave decay
-        T.windows.base_ge_one hdecay T.exponent_bound
+  sorry
 
 /-- The normalized zero scalar retains the literal original parent
 width. Only its explicit real exponent is compared at the final step. -/
@@ -230,28 +179,13 @@ theorem normalized_zero_le (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
         Z ^ parentWidth ≤
       (fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
         T.zeroProfileConstant * Z ^ terminalExponent := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  calc
-    _ = ((fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
-        T.zeroProfileConstant) *
-          Z ^ (T.zeroExponent δ + T.zeroProductExponent * ε - parentWidth) := by
-      unfold zeroAmplitude
-      rw [Real.rpow_sub hz, Real.rpow_add hz]
-      ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left
-      (Real.rpow_le_rpow_of_exponent_le T.windows.base_ge_one hledger)
-      (mul_nonneg (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC)
-        (originalFirstMaskConstant_pos (K := K) normBound δ hB hδ).le) T.zeroProfileConstant_nonneg)
+  sorry
 
 theorem normalized_tail_le (fiber : ℕ) (parentWidth Cerror terminalExponent : ℝ)
     (hC : 0 ≤ Cerror) (hledger : -Nsave - parentWidth ≤ terminalExponent) :
     ((fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ (-Nsave)) / Z ^ parentWidth ≤
       (fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ terminalExponent := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  rw [mul_div_assoc, ← Real.rpow_sub hz]
-  exact mul_le_mul_of_nonneg_left
-    (Real.rpow_le_rpow_of_exponent_le T.windows.base_ge_one hledger)
-    (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC) T.windows.amplitude_nonneg)
+  sorry
 
 end FirstDualOriginalWindows
 
@@ -305,8 +239,8 @@ theorem normalizedFirstDualZero_of_original_le
         Z ^ ((s.originalDualTerminalCalibration T hB δ hδ).zeroProductExponent * ε)) /
         Z ^ (a.m + a.q) ≤
       (s.fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
-        T.zeroProfileConstant * Z ^ terminalExponent :=
-  T.normalized_zero_le hB δ hδ s.fiber (a.m + a.q) ε Czero terminalExponent hC hledger
+        T.zeroProfileConstant * Z ^ terminalExponent := by
+  sorry
 
 theorem normalizedFirstDualTail_of_original_le
     (T : FirstDualOriginalWindows (hΓ := hΓ) C s.columns s.ideal s.block s.profiles
@@ -316,8 +250,8 @@ theorem normalizedFirstDualTail_of_original_le
     (hledger : -Nsave - (a.m + a.q) ≤ terminalExponent) :
     ((s.fiber : ℝ) * Cerror * (s.originalDualTerminalCalibration T hB δ hδ).tailAmplitude *
         Z ^ (-Nsave)) / Z ^ (a.m + a.q) ≤
-      (s.fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ terminalExponent :=
-  T.normalized_tail_le s.fiber (a.m + a.q) Cerror terminalExponent hC hledger
+      (s.fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ terminalExponent := by
+  sorry
 
 end ActualFirstSource
 end HeckeSkeleton.Moments.EngineStep

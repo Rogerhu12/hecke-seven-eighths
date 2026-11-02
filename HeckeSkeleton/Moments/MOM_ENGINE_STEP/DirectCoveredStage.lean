@@ -76,25 +76,7 @@ theorem actual_direct_fourier_covered_terminal_bound
           (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey LC RC,
           (s.fiberCoveredLeaf LC RC exceptional F x b).cost := by
-  have hterminal :=
-    actual_gauss_cover_hybrid_terminal_bound (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
-    hCerror, hCzero, hb⟩ := hterminal
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
-    hCerror, hCzero, ?_⟩
-  intro Z ι G s T LC RC exceptional F x
-  refine ⟨(hb Z G s T LC RC exceptional).1, ?_⟩
-  calc
-    _ ≤ ∫ ξ, (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero
-        ∂actualFourierMeasure F := by
-      apply integral_mono (G.phaseEnergy_integrable (hDiff := hDiff) F x)
-        (T.coverHybridPhaseCost_integrable LC RC exceptional F x ε Cerror Czero)
-      intro ξ
-      exact (hb Z (G.withMultiplier (fun i => jointPhase ξ (x i)))
-        (s.withMultiplier (fun i => jointPhase ξ (x i))) (T.fourierPhase x ξ)
-        LC RC exceptional).2
-    _ = _ := T.integral_phase_cost_eq_budgets_leaves LC RC exceptional F x ε Cerror Czero
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

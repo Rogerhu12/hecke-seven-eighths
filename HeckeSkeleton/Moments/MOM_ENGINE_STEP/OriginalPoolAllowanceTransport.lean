@@ -32,9 +32,7 @@ theorem rpow_amplifier_moving_length (hZ : 1 < Z)
     (p : ExteriorPrime A) (n : ℕ) :
     Z ^ ((amplifierMovingExponent n : ℝ) * idealLogLength Z p.val.asIdeal) =
       Q p ^ amplifierMovingExponent n := by
-  rw [mul_comm, Real.rpow_mul_natCast (zero_lt_one.trans hZ).le,
-    rpow_idealLogLength Z hZ p.val.asIdeal p.val.ne_bot]
-  rfl
+  sorry
 
 namespace AmplifiedCommonIndex
 
@@ -64,19 +62,11 @@ def harmonicWeight : AmplifiedCommonIndex P main error → ℝ
 theorem originalTagWeight_nonneg (hell : 0 < ell) (hM : 0 ≤ M)
     (hdensity : 0 ≤ P.rowDensity M B) (i : AmplifiedCommonIndex P main error) :
     0 ≤ originalTagWeight P M B main error i := by
-  cases i with
-  | inl j =>
-    exact mul_nonneg (div_nonneg (by norm_num) hdensity)
-      (div_nonneg (by positivity) (by positivity))
-  | inr j =>
-    exact mul_nonneg (div_nonneg (by norm_num) hdensity)
-      (FirstGaussPoolData.localErrorWeight_nonneg _ _)
+  sorry
 
 theorem harmonicWeight_nonneg (i : AmplifiedCommonIndex P main error) :
     0 ≤ harmonicWeight P main error i := by
-  cases i with
-  | inl j => exact main.indexWeight_nonneg j
-  | inr j => exact (error j.1.val j.2.1.val).indexWeight_nonneg j.2.2
+  sorry
 
 /-- The main pool power and error moving norm are precisely the powers
 already present in amplifiedIndexWeight. -/
@@ -85,14 +75,7 @@ theorem originalTagWeight_mul_rpow (hZ : 1 < Z)
     originalTagWeight P M B main error i *
         Z ^ movingLength P main error i * harmonicWeight P main error i =
       amplifiedIndexWeight P M B main error i := by
-  cases i with
-  | inl j =>
-    dsimp only [originalTagWeight, movingLength, harmonicWeight, amplifiedIndexWeight]
-    ring
-  | inr j =>
-    dsimp only [originalTagWeight, movingLength, harmonicWeight, amplifiedIndexWeight]
-    rw [rpow_amplifier_moving_length hZ]
-    ring
+  sorry
 
 /-- Only the small original error remains outside the actual index. -/
 theorem originalTagWeight_mul_remaining (hZ : 1 < Z) (δ : ℝ)
@@ -100,9 +83,7 @@ theorem originalTagWeight_mul_remaining (hZ : 1 < Z) (δ : ℝ)
     originalTagWeight P M B main error i *
         Z ^ (δ + movingLength P main error i) * harmonicWeight P main error i =
       Z ^ δ * amplifiedIndexWeight P M B main error i := by
-  rw [Real.rpow_add (zero_lt_one.trans hZ),
-    ← originalTagWeight_mul_rpow P M B main error hZ i]
-  ring
+  sorry
 
 /-- A bound on the original per-label scalar can now be read by the
 uniform amplified-index mass theorem with no additional prime count. -/
@@ -115,25 +96,7 @@ theorem pointwise_of_original_tag
     (hraw : actual ≤ C * control * originalTagWeight P M B main error i *
       Z ^ remaining * harmonicWeight P main error i) :
     actual ≤ C * control * Z ^ δ * amplifiedIndexWeight P M B main error i := by
-  have htag := originalTagWeight_nonneg P M B main error hell hM hdensity i
-  have hharm := harmonicWeight_nonneg P main error i
-  calc
-    actual ≤ C * control * originalTagWeight P M B main error i *
-        Z ^ remaining * harmonicWeight P main error i := hraw
-    _ ≤ C * control * originalTagWeight P M B main error i *
-        Z ^ (δ + movingLength P main error i) * harmonicWeight P main error i :=
-      mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_left
-          (Real.rpow_le_rpow_of_exponent_le hZ.le hremaining)
-          (mul_nonneg (mul_nonneg hC hcontrol) htag)) hharm
-    _ = _ := by
-      rw [show C * control * originalTagWeight P M B main error i *
-          Z ^ (δ + movingLength P main error i) * harmonicWeight P main error i =
-        C * control *
-          (originalTagWeight P M B main error i *
-            Z ^ (δ + movingLength P main error i) * harmonicWeight P main error i) by ring,
-        originalTagWeight_mul_remaining P M B main error hZ]
-      ring
+  sorry
 
 end AmplifiedCommonIndex
 end HeckeSkeleton.Moments.EngineStep

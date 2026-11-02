@@ -90,22 +90,8 @@ theorem arithmeticCosts_family_original_index_weight
       ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖) *
       ((N.withArithmeticCosts W BL BR).family.weight Finset.univ 0 b / firstNormalization) ≤
       firstCost * ((W.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor K) *
-        Z ^ remaining * branch.indexWeight j :=
-  normalized_pair_original_index_weight
-    (N.rectangles.leftFrame C b.val.1) (N.rectangles.rightFrame C b.val.2)
-    (N.left b.val.1).calibration (N.right b.val.2).calibration W
-    (BL b.val.1) (BR b.val.2)
-    ((N.withArithmeticCosts W BL BR).left b.val.1).capacity
-    ((N.withArithmeticCosts W BL BR).right b.val.2).capacity
-    (N.left b.val.1).amplitude (N.right b.val.2).amplitude
-    (N.left b.val.1).amplitude_pos (N.right b.val.2).amplitude_pos
-    (N.left b.val.1).bounds (N.right b.val.2).bounds
-    (N.left b.val.1).bounds_nonneg (N.right b.val.2).bounds_nonneg
-    (N.left b.val.1).factor (N.right b.val.2).factor
-    ((N.withArithmeticCosts W BL BR).family.leftChild Finset.univ b)
-    ((N.withArithmeticCosts W BL BR).family.rightChild Finset.univ b)
-    L hZ cap B hB atoms j hleft hright hdivisor
-    parentWidth total rawProfile firstCost hfirst hprofile hD hE hsupport phase₁ χ₁ phase₂ χ₂
+        Z ^ remaining * branch.indexWeight j := by
+  sorry
 
 include L in
 /-- The actual original leaf scalar is inserted by equality. The
@@ -137,25 +123,7 @@ theorem arithmeticCosts_family_outer_index_weight
     leaf.weight * (N.withArithmeticCosts W BL BR).family.weight Finset.univ parentWidth b ≤
       factor * (firstCost * ((W.originalFiber : ℝ) * B ^ (3 * cap + 1) * orbitalFieldFactor K) *
         Z ^ remaining * branch.indexWeight j) := by
-  have h := N.arithmeticCosts_family_original_index_weight W BL BR b L
-    hZ cap B hB atoms j hleft hright hdivisor parentWidth total rawProfile firstCost
-    hfirst hprofile hD hE hsupport phase₁ χ₁ phase₂ χ₂
-  calc
-    _ = (leaf.weight / Z ^ parentWidth) *
-        (N.withArithmeticCosts W BL BR).family.weight Finset.univ 0 b :=
-      normalizedCapacityPairWeight_outer_parent_zero
-        ((N.withArithmeticCosts W BL BR).family.leftChild Finset.univ b)
-        ((N.withArithmeticCosts W BL BR).family.rightChild Finset.univ b)
-        ((N.withArithmeticCosts W BL BR).family.leftNormalizer b.val)
-        ((N.withArithmeticCosts W BL BR).family.rightNormalizer b.val)
-        Z parentWidth leaf.weight
-    _ = factor *
-        ((firstOriginalAllowanceWeight Z parentWidth total rawProfile j.1.val.1.1 j.1.val.1.2 *
-          ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-          ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖) *
-            ((N.withArithmeticCosts W BL BR).family.weight Finset.univ 0 b /
-              firstNormalization)) := by rw [houter]; ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left h hfactor
+  sorry
 
 end ActualHybridLeaf.NormalizationData
 end HeckeSkeleton.Moments.EngineStep

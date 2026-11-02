@@ -41,23 +41,20 @@ def literalDeletionIdeal (S : Finset (Ideal (𝓞 K))) (hS : ∀ p ∈ S, Prime 
 
 theorem literalDeletionIdeal_coprime (S : Finset (Ideal (𝓞 K)))
     (hS : ∀ p ∈ S, Prime p) (I : Ideal (𝓞 K)) :
-    IsCoprime I (literalDeletionIdeal S hS).val ↔ CanonicalLiteralSupport.Avoids I S :=
-  IsCoprime.prod_right_iff
+    IsCoprime I (literalDeletionIdeal S hS).val ↔ CanonicalLiteralSupport.Avoids I S := by
+  sorry
 
 /-- The deletion is charged to the genuine original common ideal. -/
 theorem literalDeletionIdeal_dvd (S : Finset (Ideal (𝓞 K)))
     (hS : ∀ p ∈ S, Prime p) (D : Ideal (𝓞 K)) (hD : D ≠ 0)
-    (hsub : S ⊆ primeSupport D) : (literalDeletionIdeal S hS).val ∣ D :=
-  support_product_dvd hD hsub
+    (hsub : S ⊆ primeSupport D) : (literalDeletionIdeal S hS).val ∣ D := by
+  sorry
 
 theorem literalDeletionIdeal_norm_le (S : Finset (Ideal (𝓞 K)))
     (hS : ∀ p ∈ S, Prime p) (D : Ideal (𝓞 K)) (hD : D ≠ 0)
     (hsub : S ⊆ primeSupport D) :
     idealNorm K (literalDeletionIdeal S hS) ≤ (Ideal.absNorm D : ℝ) := by
-  have hn := Nat.le_of_dvd
-    (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hD))
-    (map_dvd Ideal.absNorm (literalDeletionIdeal_dvd S hS D hD hsub))
-  exact_mod_cast hn
+  sorry
 
 namespace FixedChildCharacters
 
@@ -74,7 +71,7 @@ theorem deleteMask_plain (M I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     sourcePlainCoefficient (T.deleteMask M).plain (T.deleteMask M).plainTwist
         (T.deleteMask M).mask I =
       sourcePlainCoefficient T.plain T.plainTwist T.mask I * originalCoprimeMask M I.val := by
-  simp only [deleteMask, sourcePlainCoefficient, MonoidHom.mul_apply, mul_assoc]
+  sorry
 
 theorem deleteMask_prime (M : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin k)
     (p : HeightOneSpectrum (𝓞 K)) :
@@ -82,7 +79,7 @@ theorem deleteMask_prime (M : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin k)
         (T.deleteMask M).mask p =
       sourcePrimeCoefficient (T.slot i) (T.slotTwist i) T.mask p *
         originalCoprimeMask M p.asIdeal := by
-  simp only [deleteMask, sourcePrimeCoefficient, MonoidHom.mul_apply, mul_assoc]
+  sorry
 
 /-- The new factor is the actual multiplicative mask of the complete
 ideal. This is proved before any whole polynomial is formed. -/
@@ -94,11 +91,7 @@ theorem rawBare_deleteMask (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     rawBareSourceCoefficient (T.deleteMask M) N₁ N₂ Z length w₁ w₂ w i =
       rawBareSourceCoefficient T N₁ N₂ Z length w₁ w₂ w i *
         originalCoprimeMask M (allocationColumnIdeal i) := by
-  simp only [rawBareSourceCoefficient, bareCoefficient, childCartesianCoefficient,
-    T.deleteMask_plain M, T.deleteMask_prime M, allocationColumnIdeal,
-    map_mul, map_prod, sourceMomentIdeal_val_of_ne_zero _ h₁,
-    sourceMomentIdeal_val_of_ne_zero _ h₂, Finset.prod_mul_distrib]
-  ring
+  sorry
 
 end FixedChildCharacters
 
@@ -117,21 +110,14 @@ theorem deleteMask_term (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hi : i ∈ childCartesianColumns d.plain₁ d.plain₂ d.slots) :
     (d.deleteMask M).term r i =
       d.term r i * originalCoprimeMask M (allocationColumnIdeal i) := by
-  have hp := Finset.mem_product.mp (Finset.mem_product.mp hi).1
-  change d.normalizer * rawBareSourceCoefficient (d.characters.deleteMask M)
-    (d.scale₁ r) (d.scale₂ r) d.base d.length (d.rectangleLeftWeight r)
-    (d.rightWeight r) d.slotWeight i = _
-  rw [d.characters.rawBare_deleteMask M _ _ _ _ _ _ _ i
-    (d.plain₁_nonzero _ hp.1) (d.plain₂_nonzero _ hp.2)]
-  exact (mul_assoc _ _ _).symm
+  sorry
 
 theorem deleteMask_whole (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (i : AllocationColumn K k)
     (hi : i ∈ childCartesianColumns d.plain₁ d.plain₂ d.slots) :
     (d.deleteMask M).whole i =
       d.whole i * originalCoprimeMask M (allocationColumnIdeal i) := by
-  rw [whole, d.deleteMask_term M false i hi, d.deleteMask_term M true i hi, ← sub_mul]
-  rfl
+  sorry
 
 namespace SupportData
 
@@ -153,19 +139,7 @@ theorem deleteMask_whole_eq (W : d.SupportData excluded)
     (i : AllocationColumn K k)
     (hi : i ∈ childCartesianColumns d.plain₁ d.plain₂ d.slots) :
     (d.deleteMask M).whole i = d.whole i := by
-  have hpair := Finset.mem_product.mp hi
-  have hp := Finset.mem_product.mp hpair.1
-  have hcop : IsCoprime (allocationColumnIdeal i) M.val := by
-    apply (coprime_support_iff _ M.val (nonZeroDivisors.coe_ne_zero M)).mpr
-    intro p hpM
-    have hslot : IsCoprime (∏ j, (i.2 j).asIdeal) p :=
-      IsCoprime.prod_left_iff.mpr (fun j _ =>
-        W.slot_avoids j (i.2 j) (Fintype.mem_piFinset.mp hpair.2 j) p (hM hpM))
-    exact ((W.left_avoids i.1.1 hp.1 p (hM hpM)).mul_left
-      (W.right_avoids i.1.2 hp.2 p (hM hpM))).mul_left hslot
-  rw [d.deleteMask_whole M i hi]
-  change d.whole i * (if IsCoprime (allocationColumnIdeal i) M.val then 1 else 0) = _
-  rw [if_pos hcop, mul_one]
+  sorry
 
 end SupportData
 

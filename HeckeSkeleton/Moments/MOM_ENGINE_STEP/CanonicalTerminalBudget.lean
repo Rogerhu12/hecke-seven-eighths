@@ -68,32 +68,20 @@ variable (T : s.TerminalCalibration sTail sZero k Lmax Nsave decay)
 theorem zeroBudget_eq_sum_parts (ε Czero : ℝ) :
     T.zeroBudget ε Czero = (4 / d.density) *
       ∑ b : PoolSourceTag P, d.tagWeight b * (T.tag b).zeroPart ε Czero := by
-  simp only [zeroBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
-    FirstGaussPoolData.tagWeight, tag,
-    ActualGaussStage.TerminalCalibration.zeroBudget_eq_zeroPart]
-  ring
+  sorry
 
 theorem tailBudget_eq_sum_parts (Cerror : ℝ) :
     T.tailBudget Cerror = (4 / d.density) *
       ∑ b : PoolSourceTag P, d.tagWeight b * (T.tag b).tailPart Cerror := by
-  simp only [tailBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
-    FirstGaussPoolData.tagWeight, tag,
-    ActualGaussStage.TerminalCalibration.tailBudget_eq_tailPart]
-  ring
+  sorry
 
 theorem zeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     0 ≤ T.zeroBudget ε Czero := by
-  rw [T.zeroBudget_eq_sum_parts]
-  exact mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-    (Finset.sum_nonneg fun b _ =>
-      mul_nonneg (d.tagWeight_nonneg b) ((T.tag b).zeroPart_nonneg ε Czero hC))
+  sorry
 
 theorem tailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     0 ≤ T.tailBudget Cerror := by
-  rw [T.tailBudget_eq_sum_parts]
-  exact mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-    (Finset.sum_nonneg fun b _ =>
-      mul_nonneg (d.tagWeight_nonneg b) ((T.tag b).tailPart_nonneg Cerror hC))
+  sorry
 
 /-- This is the zero budget occurring in the canonical integral/leaf
 identity, bounded from the original individual profile windows. -/
@@ -110,9 +98,7 @@ theorem zeroBudget_le (ε Czero profileConstant budget Mmax : ℝ)
     (hbudget : ∀ b, profileExponent b + (T.tag b).productExponent * ε ≤ budget) :
     T.zeroBudget ε Czero ≤ poolTerminalConstant K ell Mmax *
       ((fiberBound : ℝ) * (15 ^ k : ℕ) * Czero * profileConstant) * Z ^ (budget + eps) := by
-  rw [T.zeroBudget_eq_sum_parts]
-  exact T.zeroPart_sum_le ε Czero profileConstant budget Mmax profileExponent fiberBound
-    hC hprofile hrow hlarge hfiber hmult hAmplitude hbudget
+  sorry
 
 /-- The canonical tail budget has exactly the same original pool
 normalization.  The chosen decay appears only in the raw exponent ledger. -/
@@ -129,9 +115,7 @@ theorem tailBudget_le (Cerror profileConstant budget Mmax : ℝ)
     (hbudget : ∀ b, profileExponent b - Nsave ≤ budget) :
     T.tailBudget Cerror ≤ poolTerminalConstant K ell Mmax *
       ((fiberBound : ℝ) * (15 ^ k : ℕ) * Cerror * profileConstant) * Z ^ (budget + eps) := by
-  rw [T.tailBudget_eq_sum_parts]
-  exact T.tailPart_sum_le Cerror profileConstant budget Mmax profileExponent fiberBound
-    hC hprofile hrow hlarge hfiber hmult hAmplitude hbudget
+  sorry
 
 end ActualPoolStages.TerminalCalibration
 end HeckeSkeleton.Moments.EngineStep

@@ -37,7 +37,7 @@ variable {K : Type} [Field K] [NumberField K]
 private theorem literal_indicator_mul (x y : ℂ)
     (hx : x = 0 ∨ x = 1) (hy : y = 0 ∨ y = 1) :
     x * y = 0 ∨ x * y = 1 := by
-  rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> simp
+  sorry
 
 namespace FixedChildCharacters
 
@@ -50,15 +50,12 @@ def MaskIndicator : Prop := ∀ I : Ideal (𝓞 K), T.mask I = 0 ∨ T.mask I = 
 variable {T}
 
 theorem MaskIndicator.restrictSlots (h : T.MaskIndicator) (keep : Finset (Fin k)) :
-    (T.restrictSlots keep).MaskIndicator := h
+    (T.restrictSlots keep).MaskIndicator := by
+  sorry
 
 theorem MaskIndicator.deleteMask (h : T.MaskIndicator)
     (M : HeckeGeneral.Analysis.NonzeroIdeal K) : (T.deleteMask M).MaskIndicator := by
-  intro I
-  apply literal_indicator_mul _ _ (h I)
-  change (if IsCoprime I M.val then (1 : ℂ) else 0) = 0 ∨
-    (if IsCoprime I M.val then (1 : ℂ) else 0) = 1
-  split_ifs <;> simp
+  sorry
 
 variable {A : SArithmeticData K}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -67,11 +64,7 @@ variable (R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
 theorem MaskIndicator.movingSingleton (h : T.MaskIndicator)
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a) :
     (T.movingSingleton P R I a ha).MaskIndicator := by
-  intro J
-  apply literal_indicator_mul _ _ (h J)
-  change (if IsCoprime J I.val then (1 : ℂ) else 0) = 0 ∨
-    (if IsCoprime J I.val then (1 : ℂ) else 0) = 1
-  split_ifs <;> simp
+  sorry
 
 end FixedChildCharacters
 
@@ -90,16 +83,7 @@ theorem sourceCharacters_maskIndicator (F : FixedPhases A)
     (remaining extra : HeckeGeneral.Analysis.NonzeroIdeal K) {k : ℕ}
     (index : Fin k → Fin parent.geometry.slotCount) :
     (sourceCharacters P R F parent D correction remaining extra index).MaskIndicator := by
-  let T := CanonicalOriginalPhaseCalibration.sourceCharacters parent
-    (correction * D.character) (exteriorMomentIdeal D.support * remaining) index
-  have hT : T.MaskIndicator := by
-    intro I
-    change (if IsCoprime I (D.support.val * remaining.val) then (1 : ℂ) else 0) = 0 ∨
-      (if IsCoprime I (D.support.val * remaining.val) then (1 : ℂ) else 0) = 1
-    split_ifs <;> simp
-  exact (((hT.movingSingleton P R F.firstIdeal F.firstElement F.first_generates)
-    .movingSingleton P R F.poolIdeal F.poolElement F.pool_generates)
-    .movingSingleton P R F.unitIdeal F.unitElement F.unit_generates).deleteMask extra
+  sorry
 
 end CanonicalLiteralPhaseCalibration
 
@@ -187,7 +171,7 @@ theorem frozenBounds_scalarBound (hmask : d.characters.MaskIndicator)
         (((Ideal.absNorm ((f).allocation.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i) *
           ‖d.slotWeight i ((f).allocation.witness.2 i)‖ ^ 2)) /
         (Ideal.absNorm L : ℝ) := by
-  cases side <;> rfl
+  sorry
 
 variable {ω ψ : HeckeCharacter K}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))

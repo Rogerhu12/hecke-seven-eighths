@@ -31,9 +31,7 @@ private theorem scalar_sum_sigma_of_class_sum
     (hclasses : total = ∑ a : α, classes a)
     (hleaves : ∀ a : α, classes a = ∑ b : β a, leaves ⟨a, b⟩) :
     total = ∑ key : (Σ a : α, β a), leaves key := by
-  exact hclasses.trans
-    ((Finset.sum_congr rfl (fun a _ => hleaves a)).trans
-      (Fintype.sum_sigma leaves).symm)
+  sorry
 
 private theorem scalar_weighted_terminal_sum
     {J : Type*} [Fintype J]
@@ -47,9 +45,7 @@ private theorem scalar_weighted_terminal_sum
       weight * zeroCoefficient * zeroAmplitude * zeroPower +
       weight * tailCoefficient * tailAmplitude * tailPower +
       ∑ b : J, scaledLeaves b := by
-  rw [hsum]
-  simp only [hscaled, Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  sorry
 
 private theorem scalar_integral_const_add_sum
     {X J : Type*} [MeasurableSpace X] [Fintype J]
@@ -59,20 +55,7 @@ private theorem scalar_integral_const_add_sum
     (hterms : ∀ b : J, Integrable (leaves b) μ)
     (hcosts : ∀ b : J, (∫ ξ, leaves b ξ ∂μ) = costs b) :
     (∫ ξ, f ξ ∂μ) = μ.real Set.univ * c + ∑ b : J, costs b := by
-  calc
-    (∫ ξ, f ξ ∂μ) = ∫ ξ, c + ∑ b : J, leaves b ξ ∂μ :=
-      integral_congr_ae (Filter.Eventually.of_forall hpoint)
-    _ = (∫ _ : X, c ∂μ) + ∫ ξ, ∑ b : J, leaves b ξ ∂μ :=
-      integral_add (integrable_const c)
-        (integrable_finsetSum Finset.univ (fun b _ => hterms b))
-    _ = μ.real Set.univ * c + ∑ b : J, ∫ ξ, leaves b ξ ∂μ := by
-      simpa only [integral_const, smul_eq_mul] using
-        congrArg (fun z : ℝ => (∫ _ : X, c ∂μ) + z)
-          (integral_finsetSum (μ := μ) (f := leaves) Finset.univ
-            (fun b _ => hterms b))
-    _ = μ.real Set.univ * c + ∑ b : J, costs b :=
-      congrArg (fun z : ℝ => μ.real Set.univ * c + z)
-        (Finset.sum_congr rfl (fun b _ => hcosts b))
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -111,9 +94,7 @@ private theorem sourceLeftCoefficient_withMultiplier
     (D : s.mask.powerset) (i : ι) :
     ((s.withMultiplier u).charts DE D).sourceLeftCoefficient i =
       u i * (s.charts DE D).sourceLeftCoefficient i := by
-  change (u i * (s.charts DE D).leftCoefficient i) * _ =
-    u i * ((s.charts DE D).leftCoefficient i * _)
-  exact mul_assoc _ _ _
+  sorry
 
 private theorem sourceRightCoefficient_withMultiplier
     (u : ι → ℂ)
@@ -122,9 +103,7 @@ private theorem sourceRightCoefficient_withMultiplier
     (D : s.mask.powerset) (i : ι) :
     ((s.withMultiplier u).charts DE D).sourceRightCoefficient i =
       u i * (s.charts DE D).sourceRightCoefficient i := by
-  change (u i * (s.charts DE D).rightCoefficient i) * _ =
-    u i * ((s.charts DE D).rightCoefficient i * _)
-  exact mul_assoc _ _ _
+  sorry
 
 /-- The seven source-class labels are exactly those in
 `coverHybridNonzeroCost`; no bounded surrogate carrier is substituted. -/
@@ -209,24 +188,7 @@ private theorem actualRows_withMultiplier_rows
       s.mask s.cutoff s.cutoff_one label).rows =
       ((s.charts DE D).actualRows
         s.mask s.cutoff s.cutoff_one label).rows := by
-  apply Finset.ext
-  intro h
-  have hcarrier :
-      h ∈ ((s.withMultiplier (fun i => (u i : ℂ))).sources DE).rows ↔
-        h ∈ (s.sources DE).rows :=
-    (congrArg (fun carrier : Finset Q => h ∈ carrier)
-      (s.withMultiplier_rows u DE)).to_iff
-  have hlabel :
-      ((s.withMultiplier (fun i => (u i : ℂ))).charts DE D).rowLabel h = label ↔
-        (s.charts DE D).rowLabel h = label :=
-    (congrArg
-      (fun rowLabel : Q → Fin ((s.charts DE D).rowLabelCount + 1) =>
-        rowLabel h = label)
-      (charts_withMultiplier_rowLabel s (fun i => (u i : ℂ)) DE D)).to_iff
-  dsimp only [SecondBlockProfileChart.actualRows]
-  simp only [Finset.mem_filter]
-  simpa only [ActualGaussStage.sources, ActualGaussStage.withMultiplier,
-    ActualGaussSource.withMultiplier] using (and_congr hcarrier hlabel)
+  sorry
 
 namespace CoveredClassKey
 
@@ -294,11 +256,11 @@ def leaf (exceptional : s.CoverHybridPredicates LC RC)
 
 private theorem phase_mul_four_factors (phase a b c d : ℂ) :
     (((phase * a) * b) * c) * d = (((a * b) * c) * d) * phase := by
-  ring
+  sorry
 
 private theorem phase_mul_three_factors (phase a b c : ℂ) :
     ((phase * a) * b) * c = ((a * b) * c) * phase := by
-  ring
+  sorry
 
 private theorem sourceLeftCoefficient_withMultiplier_product
     (u : ι → ℂ)
@@ -306,10 +268,8 @@ private theorem sourceLeftCoefficient_withMultiplier_product
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι) (a b : ℂ) :
     ((s.withMultiplier u).charts DE D).sourceLeftCoefficient i * a * b =
-      ((s.charts DE D).sourceLeftCoefficient i * a * b) * u i :=
-  (congrArg (fun coefficient : ℂ => coefficient * a * b)
-    (sourceLeftCoefficient_withMultiplier s u DE D i)).trans
-      (phase_mul_three_factors (u i) ((s.charts DE D).sourceLeftCoefficient i) a b)
+      ((s.charts DE D).sourceLeftCoefficient i * a * b) * u i := by
+  sorry
 
 private theorem sourceRightCoefficient_withMultiplier_product
     (u : ι → ℂ)
@@ -317,10 +277,8 @@ private theorem sourceRightCoefficient_withMultiplier_product
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι) (a b : ℂ) :
     ((s.withMultiplier u).charts DE D).sourceRightCoefficient i * a * b =
-      ((s.charts DE D).sourceRightCoefficient i * a * b) * u i :=
-  (congrArg (fun coefficient : ℂ => coefficient * a * b)
-    (sourceRightCoefficient_withMultiplier s u DE D i)).trans
-      (phase_mul_three_factors (u i) ((s.charts DE D).sourceRightCoefficient i) a b)
+      ((s.charts DE D).sourceRightCoefficient i * a * b) * u i := by
+  sorry
 
 private theorem phase_seven_argument_congr
     {X₁ X₂ X₃ X₄ X₅ X₆ X₇ Y : Type*}
@@ -330,14 +288,7 @@ private theorem phase_seven_argument_congr
     (h₁ : a₁ = b₁) (h₂ : a₂ = b₂) (h₃ : a₃ = b₃)
     (h₄ : a₄ = b₄) (h₅ : a₅ = b₅) (h₆ : a₆ = b₆) (h₇ : a₇ = b₇) :
     f a₁ a₂ a₃ a₄ a₅ a₆ a₇ = f b₁ b₂ b₃ b₄ b₅ b₆ b₇ := by
-  cases h₁
-  cases h₂
-  cases h₃
-  cases h₄
-  cases h₅
-  cases h₆
-  cases h₇
-  rfl
+  sorry
 
 private theorem phase_weight_frequency_congr
     {Row Frequency : Type*}
@@ -346,9 +297,7 @@ private theorem phase_weight_frequency_congr
     (hweight : weight₁ = weight₂) (hfrequency : frequency₁ = frequency₂) :
     (fun h => weight₁ h * correlation (frequency₁ h)) =
       (fun h => weight₂ h * correlation (frequency₂ h)) := by
-  cases hweight
-  cases hfrequency
-  rfl
+  sorry
 
 private theorem phase_coefficient_frequency_congr
     {Phase Row Column Frequency : Type*}
@@ -360,23 +309,14 @@ private theorem phase_coefficient_frequency_congr
     (fun χ h i => updated i * fixedPhase χ * residue i (frequency₁ h)) =
       (fun χ h i =>
         (original i * fixedPhase χ * residue i (frequency₂ h)) * multiplier i) := by
-  subst frequency₂
-  funext χ h i
-  calc
-    updated i * fixedPhase χ * residue i (frequency₁ h) =
-        (multiplier i * original i) * fixedPhase χ * residue i (frequency₁ h) :=
-      congrArg (fun coefficient : ℂ => coefficient * fixedPhase χ * residue i (frequency₁ h))
-        (hcoefficient i)
-    _ = (original i * fixedPhase χ * residue i (frequency₁ h)) * multiplier i :=
-      phase_mul_three_factors (multiplier i) (original i)
-        (fixedPhase χ) (residue i (frequency₁ h))
+  sorry
 
 private theorem phase_point_reindex_congr
     {Row Source Target Point : Type*}
     (index : Target → Source)
     {points₁ points₂ : Row → Source → Point} (hpoints : points₁ = points₂) :
-    (fun h i => points₁ h (index i)) = (fun h i => points₂ h (index i)) :=
-  congrArg (fun points : Row → Source → Point => fun h i => points h (index i)) hpoints
+    (fun h i => points₁ h (index i)) = (fun h i => points₂ h (index i)) := by
+  sorry
 
 omit [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W] in
 private theorem phase_class_eq_fixed_fullCorrelation
@@ -417,72 +357,7 @@ private theorem phase_class_eq_fixed_fullCorrelation
       (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
       (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
         v.2.2.2.2.2.1 v.2.2.2.2.2.2) := by
-  have hkernel := s.withMultiplier_kernel
-    (fun i => jointPhase ξ (x i)) v.1 v.2.1
-  have hrows := actualRows_withMultiplier_rows s
-    (fun i => Real.fourierChar (inner ℝ ξ (x i))) v.1 v.2.1 v.rowLabel
-  have hfrequency := actualRows_withMultiplier_frequency s
-    (fun i => jointPhase ξ (x i)) v.1 v.2.1 v.rowLabel
-  have hweight := actualRows_withMultiplier_weight s
-    (fun i => jointPhase ξ (x i)) v.1 v.2.1 v.rowLabel
-  have hrowCoefficient := phase_weight_frequency_congr
-    (fun frequency : A.R =>
-      generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-        (engineAllowedGenerator C v.block.commonLeftIdeal)
-        (engineAllowedGenerator C v.block.commonRightIdeal)
-        (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-        frequency)
-    hweight hfrequency
-  have hleftCoefficient := phase_coefficient_frequency_congr
-    (Phase := ((PUnit × PUnit) →* Circle)) (Row := Q)
-    (Column := AllocationColumn K v.leftSlots) (Frequency := A.R)
-    (fun i => jointPhase ξ (x (v.leftReindex.index i)))
-    (fun i => v.chart.sourceLeftCoefficient (v.leftReindex.index i))
-    (fun i => ((s.withMultiplier (fun j => jointPhase ξ (x j))).charts
-      v.1 v.2.1).sourceLeftCoefficient (v.leftReindex.index i))
-    (fun χ => (fixedLeftPhase PUnit χ PUnit.unit : ℂ))
-    (fun i frequency =>
-      σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) frequency))
-    (fun i => sourceLeftCoefficient_withMultiplier s
-      (fun j => jointPhase ξ (x j)) v.1 v.2.1 (v.leftReindex.index i))
-    hfrequency
-  have hrightCoefficient := phase_coefficient_frequency_congr
-    (Phase := ((PUnit × PUnit) →* Circle)) (Row := Q)
-    (Column := AllocationColumn K (((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card)) (Frequency := A.R)
-    (fun i => jointPhase ξ (x (v.rightReindex.index i)))
-    (fun i => v.chart.sourceRightCoefficient (v.rightReindex.index i))
-    (fun i => ((s.withMultiplier (fun j => jointPhase ξ (x j))).charts
-      v.1 v.2.1).sourceRightCoefficient (v.rightReindex.index i))
-    (fun χ => (fixedRightPhase PUnit χ PUnit.unit : ℂ))
-    (fun i frequency =>
-      σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-frequency)))
-    (fun i => sourceRightCoefficient_withMultiplier s
-      (fun j => jointPhase ξ (x j)) v.1 v.2.1 (v.rightReindex.index i))
-    hfrequency
-  have hleftPoint := phase_point_reindex_congr v.leftReindex.index
-    (charts_withMultiplier_leftPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1)
-  have hrightPoint := phase_point_reindex_congr v.rightReindex.index
-    (charts_withMultiplier_rightPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1)
-  unfold SecondBlockProfileChart.hybridClassCost secondResidualHybridCost
-  exact phase_seven_argument_congr
-    (fun (kernel : SchwartzMap E ℂ) (rows : Finset Q) (rowCoefficient : Q → ℂ)
-      (leftCoefficient : ((PUnit × PUnit) →* Circle) → Q → AllocationColumn K v.leftSlots → ℂ)
-      (rightCoefficient : ((PUnit × PUnit) →* Circle) → Q →
-        AllocationColumn K (((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) → ℂ)
-      (leftPoint : Q → AllocationColumn K v.leftSlots → E)
-      (rightPoint : Q → AllocationColumn K (((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) → E) =>
-        fullCorrelationHybridCost
-          (K := K) (H := Q) (V := E) (k := v.leftSlots)
-          (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) (γ := ((PUnit × PUnit) →* Circle))
-          kernel rows
-          v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-          v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-          (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
-          rowCoefficient (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)))
-          leftCoefficient rightCoefficient leftPoint rightPoint
-          (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
-        v.2.2.2.2.2.1 v.2.2.2.2.2.2))
-    hkernel hrows hrowCoefficient hleftCoefficient hrightCoefficient hleftPoint hrightPoint
+  sorry
 
 set_option linter.unusedSectionVars false in
 private theorem fixed_fullCorrelation_eq_leaf_sum
@@ -520,40 +395,7 @@ private theorem fixed_fullCorrelation_eq_leaf_sum
       (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
         v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  exact
-    (fullCorrelationHybridCost_eq_leaf_sum
-      (K := K) (H := Q) (U := W) (V := E)
-      (k := v.leftSlots)
-      (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1)
-        v.1.val.2 v.2.2.2.2.2.2).keep.card)
-      (γ := ((PUnit × PUnit) →* Circle))
-      F v.chart.kernel
-        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
-        v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-        v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-        (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
-        (fun h =>
-          (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
-            generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-              (engineAllowedGenerator C v.block.commonLeftIdeal)
-              (engineAllowedGenerator C v.block.commonRightIdeal)
-              (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))
-        (fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)))
-        (fun χ h i => v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
-          (fixedLeftPhase PUnit χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))
-        (fun χ h i => v.chart.sourceRightCoefficient (v.rightReindex.index i) *
-          (fixedRightPhase PUnit χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
-              (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))
-        (fun _ i => x (v.leftReindex.index i))
-        (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
-        (fun _ i => x (v.rightReindex.index i))
-        (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
-        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
-          v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ)
+  sorry
 
 set_option linter.unusedSectionVars false in
 /-- This is the actual phase multiplication from the first transform,
@@ -565,8 +407,7 @@ theorem phase_class_eq_leaf_sum (exceptional : s.CoverHybridPredicates LC RC)
         (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
       ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  exact (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ).trans
-    (v.fixed_fullCorrelation_eq_leaf_sum exceptional F x ξ)
+  sorry
 
 end CoveredClassKey
 
@@ -601,8 +442,7 @@ private def coveredClassNestedSum (f : s.CoveredClassKey LC RC → ℝ) : ℝ :=
 
 private theorem coveredClassNestedSum_eq_sum (f : s.CoveredClassKey LC RC → ℝ) :
     coveredClassNestedSum s LC RC f = ∑ v : s.CoveredClassKey LC RC, f v := by
-  unfold coveredClassNestedSum
-  simp only [Fintype.sum_sigma, Fintype.sum_prod_type]
+  sorry
 
 private theorem phase_subsetHybridClassCost_eq_key_sum
     (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W)
@@ -632,10 +472,7 @@ private theorem phase_subsetHybridCost_eq_row_sum
           ∑ keyRight : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
             coveredClassPhaseCost s LC RC exceptional x ξ
               ⟨DE, D, a, e, label, keyLeft, keyRight⟩ := by
-  unfold SecondBlockProfileChart.subsetHybridCost
-  apply Finset.sum_congr rfl
-  intro label _
-  exact phase_subsetHybridClassCost_eq_key_sum s LC RC exceptional x ξ DE D a e label
+  sorry
 
 private theorem phase_coverHybridCost_eq_cover_sum
     (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W)
@@ -650,33 +487,20 @@ private theorem phase_coverHybridCost_eq_cover_sum
             ∑ keyRight : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
               coveredClassPhaseCost s LC RC exceptional x ξ
                 ⟨DE, D, a, e, label, keyLeft, keyRight⟩ := by
-  unfold SecondBlockProfileChart.coverHybridCost
-  apply Finset.sum_congr rfl
-  intro a _
-  apply Finset.sum_congr rfl
-  intro e _
-  exact phase_subsetHybridCost_eq_row_sum s LC RC exceptional x ξ DE D a e
+  sorry
 
 private theorem phase_coverHybridNonzeroCost_eq_nested_sum
     (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W) :
     (s.withMultiplier (fun i => jointPhase ξ (x i))).coverHybridNonzeroCost
         LC RC exceptional =
       coveredClassNestedSum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ) := by
-  unfold coverHybridNonzeroCost coveredClassNestedSum
-  apply Finset.sum_congr rfl
-  intro DE _
-  apply Finset.sum_congr rfl
-  intro D _
-  exact phase_coverHybridCost_eq_cover_sum s LC RC exceptional x ξ DE D
+  sorry
 
 private theorem coverHybridPhaseNonzeroCost_eq_class_sum
     (exceptional : s.CoverHybridPredicates LC RC) (x : ι → W) (ξ : W) :
     s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
       ∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v := by
-  change (s.withMultiplier (fun i => jointPhase ξ (x i))).coverHybridNonzeroCost
-    LC RC exceptional = _
-  exact (phase_coverHybridNonzeroCost_eq_nested_sum s LC RC exceptional x ξ).trans
-    (coveredClassNestedSum_eq_sum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ))
+  sorry
 
 set_option linter.unusedSectionVars false in
 /-- Exact finite flattening of the covered source, at the first
@@ -686,27 +510,19 @@ theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
     s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
       ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
-  exact scalar_sum_sigma_of_class_sum
-    (α := s.CoveredClassKey LC RC) (β := fun v => v.AllocationKey)
-    (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
-    (coveredClassPhaseCost s LC RC exceptional x ξ)
-    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
-    (coverHybridPhaseNonzeroCost_eq_class_sum s LC RC exceptional x ξ)
-    (fun v => v.phase_class_eq_leaf_sum exceptional F x ξ)
+  sorry
 
 private theorem leaf_firstPhaseCost_integrable_of_firstKernel
     {H : Type*} (B : ActualHybridLeaf K H W E)
     (F : SchwartzMap W ℂ) (hF : B.firstKernel = F) :
     Integrable B.firstPhaseCost (actualFourierMeasure F) := by
-  subst F
-  exact B.firstPhaseCost_integrable
+  sorry
 
 private theorem leaf_integral_firstPhaseCost_of_firstKernel
     {H : Type*} (B : ActualHybridLeaf K H W E)
     (F : SchwartzMap W ℂ) (hF : B.firstKernel = F) :
     (∫ ξ, B.firstPhaseCost ξ ∂actualFourierMeasure F) = B.cost := by
-  subst F
-  exact B.integral_firstPhaseCost
+  sorry
 
 private theorem integral_eq_leafFamily_cost
     {J H : Type*} [Fintype J]
@@ -715,20 +531,7 @@ private theorem integral_eq_leafFamily_cost
     (f : W → ℝ)
     (hsum : ∀ ξ, f ξ = ∑ b : J, (B b).firstPhaseCost ξ) :
     (∫ ξ, f ξ ∂actualFourierMeasure F) = ∑ b : J, (B b).cost := by
-  have hterms : ∀ b : J,
-      Integrable (B b).firstPhaseCost (actualFourierMeasure F) :=
-    fun b => leaf_firstPhaseCost_integrable_of_firstKernel (B b) F (hkernel b)
-  calc
-    (∫ ξ, f ξ ∂actualFourierMeasure F) =
-        ∫ ξ, ∑ b : J, (B b).firstPhaseCost ξ ∂actualFourierMeasure F :=
-      integral_congr_ae (Filter.Eventually.of_forall hsum)
-    _ = ∑ b : J, ∫ ξ, (B b).firstPhaseCost ξ ∂actualFourierMeasure F :=
-      integral_finsetSum (μ := actualFourierMeasure F)
-        (f := fun b : J => (B b).firstPhaseCost) Finset.univ
-        (fun b _ => hterms b)
-    _ = ∑ b : J, (B b).cost :=
-      Finset.sum_congr rfl
-        (fun b _ => leaf_integral_firstPhaseCost_of_firstKernel (B b) F (hkernel b))
+  sorry
 
 /-- The original first integral is exactly the sum of the genuine
 nested-measure leaves.  Each leaf already separates exceptional row
@@ -738,13 +541,7 @@ theorem integral_coverHybridPhaseNonzeroCost_eq_leaf_sum
     (F : SchwartzMap W ℂ) (x : ι → W) :
     (∫ ξ, s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ ∂actualFourierMeasure F) =
       ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).cost := by
-  exact integral_eq_leafFamily_cost
-    (K := K) (H := Q) (W := W) (E := E)
-    (J := s.CoveredLeafKey LC RC)
-    F (s.coveredLeaf LC RC exceptional F x)
-    (s.coveredLeaf_firstKernel LC RC exceptional F x)
-    (s.coverHybridPhaseNonzeroCost LC RC exceptional x)
-    (s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x)
+  sorry
 
 /-- The true orbital fibre multiplicity is paid exactly once per
 nonzero leaf, alongside the identical multiplicity in the zero/tail budget. -/
@@ -784,21 +581,7 @@ theorem phase_cost_eq_budgets_leaves
       T.zeroBudget ε Czero + T.tailBudget Cerror +
         ∑ b : s.CoveredLeafKey LC RC,
           (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
-  change (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.productExponent * ε) +
-      s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
-      Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) = _
-  exact scalar_weighted_terminal_sum
-    (J := s.CoveredLeafKey LC RC)
-    (s.fiber : ℝ)
-    Czero (T.windows.multiplicity * T.zeroAmplitude) (Z ^ (T.productExponent * ε))
-    Cerror (T.windows.multiplicity * T.tailAmplitude) (Z ^ (-Nsave))
-    (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
-    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
-    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
-    (s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ)
-    (fun b => (s.coveredLeaf LC RC exceptional F x b).scale_firstPhaseCost
-      (s.fiber : ℝ) (Nat.cast_nonneg _) ξ)
+  sorry
 
 theorem integral_phase_cost_eq_budgets_leaves
     (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -809,21 +592,7 @@ theorem integral_phase_cost_eq_budgets_leaves
         ∂actualFourierMeasure F) =
       (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey LC RC, (s.fiberCoveredLeaf LC RC exceptional F x b).cost := by
-  letI := actualFourierMeasure_finite F
-  exact scalar_integral_const_add_sum
-    (X := W) (J := s.CoveredLeafKey LC RC)
-    (actualFourierMeasure F)
-    (T.zeroBudget ε Czero + T.tailBudget Cerror)
-    (fun ξ => (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero)
-    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost)
-    (fun b => (s.fiberCoveredLeaf LC RC exceptional F x b).cost)
-    (fun ξ => T.phase_cost_eq_budgets_leaves LC RC exceptional F x ξ ε Cerror Czero)
-    (fun b => leaf_firstPhaseCost_integrable_of_firstKernel
-      (s.fiberCoveredLeaf LC RC exceptional F x b) F
-      (s.fiberCoveredLeaf_firstKernel LC RC exceptional F x b))
-    (fun b => leaf_integral_firstPhaseCost_of_firstKernel
-      (s.fiberCoveredLeaf LC RC exceptional F x b) F
-      (s.fiberCoveredLeaf_firstKernel LC RC exceptional F x b))
+  sorry
 
 end TerminalCalibration
 

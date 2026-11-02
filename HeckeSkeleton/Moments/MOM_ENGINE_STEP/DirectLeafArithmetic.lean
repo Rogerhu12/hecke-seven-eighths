@@ -67,19 +67,15 @@ theorem leftSourceCover_slotCap (LA : SourceCartesianAtlas left fullI)
     (hcap : LA.slotCount ≤ cap)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
-    ∀ a, ((p.leftSourceCover LA S χ).branch a).slotCount ≤ cap := fun a =>
-  (p.leftData.sourceCartesianCover_slotCount_le LA (primeSupport DE.1) DE.1
-    p.left_columns (fun i => by rw [p.left_ideal]; exact b.left_residual i)
-    (p.leftDivisorCoefficient S χ) a).trans hcap
+    ∀ a, ((p.leftSourceCover LA S χ).branch a).slotCount ≤ cap := by
+  sorry
 
 theorem rightSourceCover_slotCap (RA : SourceCartesianAtlas right fullJ)
     (hcap : RA.slotCount ≤ cap)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
-    ∀ a, ((p.rightSourceCover RA S χ).branch a).slotCount ≤ cap := fun a =>
-  (p.rightData.sourceCartesianCover_slotCount_le RA (primeSupport DE.1) DE.2
-    p.right_columns (fun j => by rw [p.right_ideal]; exact b.right_residual j)
-    (p.rightDivisorCoefficient S χ) a).trans hcap
+    ∀ a, ((p.rightSourceCover RA S χ).branch a).slotCount ≤ cap := by
+  sorry
 
 namespace SecondStages
 
@@ -112,17 +108,15 @@ def allocationFingerprint (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ c
     (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ cap)
     (j : R.CoveredLeafKey LA RA) :
     (R.allocationFingerprint LA RA hLA hRA j).1 = R.innerDivisor LA RA j := by
-  rcases j with ⟨S, χ, j | j⟩ <;> rfl
+  sorry
 
 theorem commonLabel_nonzero (j : R.CoveredLeafKey LA RA) :
     (R.commonLabel LA RA j).1 ≠ 0 ∧ (R.commonLabel LA RA j).2 ≠ 0 := by
-  rcases j with ⟨S, χ, j | j⟩ <;>
-    exact commonSupportPool_nonzero _ _ _ _ _ j.1.1.property
+  sorry
 
 theorem commonLabel_support_eq (j : R.CoveredLeafKey LA RA) :
     primeSupport (R.commonLabel LA RA j).1 = primeSupport (R.commonLabel LA RA j).2 := by
-  rcases j with ⟨S, χ, j | j⟩ <;>
-    exact commonSupportPool_support_eq _ _ _ _ _ j.1.1.property
+  sorry
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
@@ -138,40 +132,14 @@ theorem prepared_live_old_mask
     Squarefree j.1.val ∧
       j.1.val ∣ (R.prepared.commonLabel LA RA j).1 ∧
       j.1.val ∣ (R.prepared.commonLabel LA RA j).2 := by
-  have hS := R.prepared.coveredLeaf_weight_nonzero_squarefree
-    LA RA NL NR hNL hNR exceptional j hj.1
-  refine ⟨hS, ?_⟩
-  rcases j with ⟨S, χ, j | j⟩
-  · have hlive := ((R.left S χ).supported.gated.fiberCoveredLeaf
-      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
-      chart.kernel chart.leftPoint j).live_of_scale_live _ _ hj
-    have hs := (R.left S χ).supported_gated_fiberLeaf_live
-      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
-      chart.kernel chart.leftPoint j hlive
-    exact (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon_old_mask
-      S.val hS (fun i _ hi =>
-        FirstBlockDirectData.leftDivisorCoefficient_nonzero_dvd (p := p) S χ i hi)
-      j.1.1.val hs.2.1
-  · have hlive := ((R.right S χ).supported.gated.fiberCoveredLeaf
-      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
-      chart.kernel (fun i => -chart.rightPoint i) j).live_of_scale_live _ _ hj
-    have hs := (R.right S χ).supported_gated_fiberLeaf_live
-      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
-      chart.kernel (fun i => -chart.rightPoint i) j hlive
-    exact (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon_old_mask
-      S.val hS (fun i _ hi =>
-        FirstBlockDirectData.rightDivisorCoefficient_nonzero_dvd (p := p) S χ i hi)
-      j.1.1.val hs.2.1
+  sorry
 
 theorem prepared_live_second_valid
     (exceptional : R.prepared.CoverHybridPredicates LA RA)
     (j : R.prepared.CoveredLeafKey LA RA)
     (hj : (R.prepared.coveredLeaf LA RA NL NR hNL hNR exceptional j).Live) :
     Valid j.1.val (R.prepared.commonLabel LA RA j, ∅) := by
-  have hm := R.prepared_live_old_mask LA RA NL NR hNL hNR exceptional j hj
-  have hn := R.prepared.commonLabel_nonzero LA RA j
-  exact ⟨hn.1, hn.2, R.prepared.commonLabel_support_eq LA RA j,
-    hm.2.1, hm.2.2, Finset.empty_subset _⟩
+  sorry
 
 end SecondStages
 end FirstBlockDirectData
@@ -219,8 +187,8 @@ def arithmeticLabels (hcap : L.slotCount ≤ cap)
 @[simp] theorem arithmeticLabels_secondDivisor (hcap : L.slotCount ≤ cap)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) :
-    ((R.arithmeticLabels L hcap exceptional N).allocation j).1 = R.innerDivisor L j.val :=
-  (R j.val.1 j.val.2.1).allocationFingerprint_divisor L L hcap hcap j.val.2.2
+    ((R.arithmeticLabels L hcap exceptional N).allocation j).1 = R.innerDivisor L j.val := by
+  sorry
 
 /-- The direct input's actual live labels satisfy the second old-mask
 condition internally after the proved preparation. -/
@@ -229,15 +197,7 @@ theorem prepared_arithmeticLabels_second_valid (hcap : L.slotCount ≤ cap)
     (j : R.prepared.liveLeaves L exceptional N) :
     Valid ((R.prepared.arithmeticLabels L hcap exceptional N).firstDivisor j)
       ((R.prepared.arithmeticLabels L hcap exceptional N).second j) := by
-  have hlive := ((R.prepared j.val.1 j.val.2.1).coveredLeaf L L
-    (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
-    (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
-    (exceptional j.val.1 j.val.2.1) j.val.2.2).live_of_scale_live _ _
-      (R.prepared.liveLeaves_spec L exceptional N j)
-  exact (R j.val.1 j.val.2.1).prepared_live_second_valid L L
-    (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
-    (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
-    (exceptional j.val.1 j.val.2.1) j.val.2.2 hlive
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep

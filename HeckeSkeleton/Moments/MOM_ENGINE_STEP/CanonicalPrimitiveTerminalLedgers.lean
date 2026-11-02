@@ -87,18 +87,7 @@ theorem literalPrimitiveGeometry_ideal_lengths
     idealLogLength Z G.ideals.first.val ≤ columnBound ∧
       idealLogLength Z G.ideals.complementary.val ≤ columnBound ∧
       idealLogLength Z (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) ≤ columnBound := by
-  have h := Q.literalPrimitiveFirstIdealLengths μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half columnBound hN DE D
-  cases negative <;> simp only [Bool.false_eq_true, if_false, if_true] at hcoordinates
-  · simpa only [hcoordinates, FirstCommonCharacterBlock.literalLeftCoordinates_first,
-      FirstCommonCharacterBlock.literalLeftCoordinates_opposite,
-      FirstCommonCharacterBlock.literalLeftCoordinates_complementary] using
-      And.intro h.1 (And.intro h.2.2.2 h.2.2.1)
-  · simpa only [hcoordinates, FirstCommonCharacterBlock.literalRightCoordinates_first,
-      FirstCommonCharacterBlock.literalRightCoordinates_opposite,
-      FirstCommonCharacterBlock.literalRightCoordinates_complementary,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq] using
-      And.intro h.2.1 (And.intro h.2.2.2 h.2.2.1)
+  sorry
 
 /-- Reversing the original columns leaves the actual first-profile
 shift unchanged, by the common-support identity of the active radical. -/
@@ -106,18 +95,7 @@ theorem literalPrimitiveGeometry_profileShift (total : ℝ) :
     G.firstProfileShiftForTotal total δ₁ =
       Q.literalPrimitiveFirstProfileShift μv ν C hroot hemb W ξ a Z t Y₁ Y₂
         hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE D total := by
-  cases negative <;> simp only [Bool.false_eq_true, if_false, if_true] at hcoordinates
-  · simp only [OriginalNominalGeometry.firstProfileShiftForTotal,
-      literalPrimitiveFirstProfileShift, hcoordinates,
-      FirstCommonCharacterBlock.literalLeftCoordinates_first,
-      FirstCommonCharacterBlock.literalLeftCoordinates_opposite,
-      FirstCommonCharacterBlock.literalLeftCoordinates_complementary]
-  · simp only [OriginalNominalGeometry.firstProfileShiftForTotal,
-      literalPrimitiveFirstProfileShift, hcoordinates,
-      FirstCommonCharacterBlock.literalRightCoordinates_first,
-      FirstCommonCharacterBlock.literalRightCoordinates_opposite,
-      FirstCommonCharacterBlock.literalRightCoordinates_complementary,
-      firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq]
+  sorry
 
 /-- The raw sharp second amplitude is combined with the original
 first profile before the common ideals are summed. -/
@@ -136,21 +114,7 @@ theorem literalPrimitiveGeometry_zero_ledger
             2 * (max lengthBound columnBound + 1) * ε) -
       Q.literalPrimitiveFirstProfileShift μv ν C hroot hemb W ξ a Z t Y₁ Y₂
         hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE D total := by
-  have lengths := Q.literalPrimitiveGeometry_ideal_lengths μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-    step DE D negative G hcoordinates columnBound hN
-  have hm := Q.literalPrimitiveCommon_m_nonneg μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE
-  have hcore : (internal).n₁ + (internal).n₂ + (internal).z ≤ (internal).m + (internal).q + padding := by
-    simpa only [Q.fullSupportParameters_width] using domain.padded_core
-  have h := G.sharp_zero_allowance_ledger_for_total hZ hstep
-    total loss δ₁ ε productExponent (max lengthBound columnBound) padding hm hloss hδ₁.le hε
-    (htotal.trans (le_max_left _ _))
-    (lengths.2.1.trans (le_max_right _ _)) (lengths.2.2.trans (le_max_right _ _)) hproduct hcore
-  rw [Q.literalPrimitiveGeometry_profileShift μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-    step DE D negative G hcoordinates total] at h
-  exact h
+  sorry
 
 /-- The fixed physical tail saving pays the same original allowance;
 no additional inverse power of a moving common ideal is requested. -/
@@ -161,20 +125,7 @@ theorem literalPrimitiveGeometry_tail_ledger
     -saving ≤ (total - idealLogLength Z G.ideals.first.val + G.boundary) + loss -
       Q.literalPrimitiveFirstProfileShift μv ν C hroot hemb W ξ a Z t Y₁ Y₂
         hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE D total := by
-  have lengths := Q.literalPrimitiveGeometry_ideal_lengths μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-    step DE D negative G hcoordinates columnBound hN
-  have hm := Q.literalPrimitiveCommon_m_nonneg μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE
-  have h := G.tail_allowance_ledger_for_total total δ₁ columnBound loss saving
-    hm (Q.fullSupportParameters_q_nonneg a Z hZ) hδ₁.le hδ₁half
-    (idealLogLength_nonneg Z hZ _ (nonZeroDivisors.coe_ne_zero G.ideals.complementary))
-    (idealLogLength_nonneg Z hZ _ (firstActiveRadical_ne_zero _ _))
-    lengths.1 lengths.2.1 lengths.2.2 hloss hsaving
-  rw [Q.literalPrimitiveGeometry_profileShift μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-    step DE D negative G hcoordinates total] at h
-  exact h
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

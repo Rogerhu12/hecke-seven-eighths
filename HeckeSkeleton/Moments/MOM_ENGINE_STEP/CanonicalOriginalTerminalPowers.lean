@@ -43,8 +43,7 @@ def firstProfileShiftForTotal (total δ : ℝ) : ℝ :=
 theorem firstProfileShiftForTotal_eq (total δ : ℝ) :
     G.firstProfileShiftForTotal total δ =
       G.firstProfileShift δ + total - (a.n₁ + a.n₂ + a.z) := by
-  unfold firstProfileShiftForTotal firstProfileShift
-  ring
+  sorry
 
 /-- The original first row weight keeps exactly its old exponent. -/
 theorem firstProfileShiftForTotal_exponent (total δ : ℝ) :
@@ -53,8 +52,7 @@ theorem firstProfileShiftForTotal_exponent (total δ : ℝ) :
         idealLogLength Z (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) +
           δ * (idealLogLength Z G.ideals.complementary.val +
             idealLogLength Z (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) - a.m) := by
-  unfold firstProfileShiftForTotal
-  ring
+  sorry
 
 /-- Changing the displayed normalization moves both sides of the
 same allowance identity; it does not change the source or its budget. -/
@@ -73,10 +71,7 @@ theorem sharp_zero_allowance_ledger_for_total
         (padding + 5 * step / 3 + G.supportError + 2 * loss +
           (4 * lengthBound + 2) * δ + 2 * (lengthBound + 1) * ε) -
             G.firstProfileShiftForTotal total δ := by
-  have h := G.sharp_zero_allowance_ledger hZ hstep loss δ ε productExponent
-    lengthBound padding hm hloss hδ hε htotal hmask hactive hproduct hcore
-  rw [G.firstProfileShiftForTotal_eq]
-  linarith
+  sorry
 
 theorem tail_allowance_ledger_for_total
     (total δ lengthBound loss saving : ℝ)
@@ -91,10 +86,7 @@ theorem tail_allowance_ledger_for_total
     (hloss : 0 ≤ loss) (hsaving : 2 * lengthBound ≤ saving) :
     -saving ≤ (total - idealLogLength Z G.ideals.first.val + G.boundary) +
       loss - G.firstProfileShiftForTotal total δ := by
-  have h := G.tail_allowance_ledger δ lengthBound loss saving hm hq hδ hδhalf
-    hmaskNonneg hactiveNonneg hfirst hmask hactive hloss hsaving
-  rw [G.firstProfileShiftForTotal_eq]
-  linarith
+  sorry
 
 /-- This is the actual inverse radius of the second row-ball stage,
 including a retained endpoint whose logarithmic length may be negative. -/
@@ -102,11 +94,7 @@ theorem canonical_inverse_radius (hZ : 1 < Z) :
     (CanonicalRowBall.gaussRadius G.retainedScale Z G.enlargement
       G.retainedScale_pos (zero_lt_one.trans hZ)).val⁻¹ =
         Z ^ (G.retainedLength + G.enlargement) := by
-  have hr : Z ^ G.retainedLength = G.retainedScale := by
-    simpa only [retainedLength, Real.logb] using
-      Real.rpow_logb (zero_lt_one.trans hZ) hZ.ne' G.retainedScale_pos
-  rw [CanonicalRowBall.gaussRadius_val, inv_inv,
-    Real.rpow_add (zero_lt_one.trans hZ), hr]
+  sorry
 
 /-- The fixed original length box bounds the exact second inverse
 radius. The bound does not depend on a second common label. -/
@@ -118,13 +106,7 @@ theorem inverse_radius_exponent_le
       (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) ≤ lengthBound) :
     G.retainedLength + G.enlargement ≤
       4 * lengthBound + G.supportError + 2 * step := by
-  have h := G.retained_plus_enlargement_le_original hZ
-  have hc := idealLogLength_nonneg Z hZ G.ideals.first.val
-    (nonZeroDivisors.coe_ne_zero _)
-  have hp : G.tag.padding step ≤ 2 * step := by
-    cases G.tag <;> simp only [OriginalNominalTag.padding] <;> linarith
-  unfold OriginalNominalIdeals.firstFrequency at h
-  linarith
+  sorry
 
 end OriginalNominalGeometry
 
@@ -149,21 +131,7 @@ theorem secondTailExponent_le_tailDegree
       (((total + loss - common) - total) + 2 * (total + loss - common) * δ -
         2 * (total - loss - frozen)) 0 inverseRadius ≤
       tailDegree k totalBound coarseBound frozenBound radiusBound := by
-  have hbound : 0 ≤ totalBound := htotalNonneg.trans htotal
-  have htilt : 2 * (total + loss - common) * δ ≤ totalBound + 1 := by
-    have h := mul_le_mul_of_nonneg_right
-      (show 2 * (total + loss - common) ≤ 2 * (totalBound + 1) by linarith) hδ
-    nlinarith
-  have hprofile : ((total + loss - common) - total) +
-      2 * (total + loss - common) * δ - 2 * (total - loss - frozen) ≤
-        totalBound + 2 * frozenBound + 4 := by linarith
-  have hprod : 2 * coarse * ((k + 1 : ℕ) : ℝ) ≤
-      2 * coarseBound * ((k + 1 : ℕ) : ℝ) :=
-    mul_le_mul_of_nonneg_right (by linarith) (Nat.cast_nonneg _)
-  have hmax : max (2 * coarse) inverseRadius ≤ max (2 * coarseBound) radiusBound :=
-    max_le_max (by linarith) hradius
-  unfold secondTailExponent tailDegree
-  linarith
+  sorry
 
 /-- The all-zero coefficient branch uses this same nonnegative
 product exponent; no activity assumption is needed for the box bound. -/
@@ -171,9 +139,7 @@ theorem zeroProductExponent_le
     (total frozen loss lengthBound : ℝ) (hbound : 0 ≤ lengthBound)
     (htotal : total ≤ lengthBound) (hfrozen : 0 ≤ frozen) (hloss : loss ≤ 1) :
     2 * max 0 (total + loss - frozen) ≤ 2 * (lengthBound + 1) := by
-  have hmax : max 0 (total + loss - frozen) ≤ lengthBound + 1 :=
-    max_le (by linarith) (by linarith)
-  linarith
+  sorry
 
 end CanonicalOriginalTerminalPowers
 

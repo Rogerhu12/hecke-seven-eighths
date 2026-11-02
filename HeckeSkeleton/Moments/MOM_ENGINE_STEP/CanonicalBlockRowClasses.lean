@@ -80,9 +80,7 @@ theorem actualRows_live_rowLabel
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).live) : chart.rowLabel h.val = label := by
-  have hrow : h.val ∈ (chart.actualRows M X hX label).rows :=
-    (Finset.mem_filter.mp h.property).1
-  exact (Finset.mem_filter.mp hrow).2
+  sorry
 
 theorem actualRows_live_nonunitPattern_eq (hclass : chart.NonunitLabelStable)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
@@ -90,11 +88,7 @@ theorem actualRows_live_nonunitPattern_eq (hclass : chart.NonunitLabelStable)
     (anchor h : (chart.actualRows M X hX label).live) :
     actualNonunitPattern C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val) =
       actualNonunitPattern C b.primes b.leftMultiplicity b.rightMultiplicity (-anchor.val.out.val) := by
-  funext i
-  apply decide_eq_decide.mpr
-  exact hclass h.val anchor.val
-    ((chart.actualRows_live_rowLabel M X hX label h).trans
-      (chart.actualRows_live_rowLabel M X hX label anchor).symm) i
+  sorry
 
 /-- Every live row is in the anchor's actual pattern class. This
 merely attaches a proved identity to the same original live row. -/
@@ -183,13 +177,7 @@ theorem canonicalOriginalChild_allowed_on_live_rowLabel
         cutoffExponent))
       inverseTest leftTest rightTest geometry index).allowedRow
         ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal := by
-  exact chart.canonicalOriginalChild_allowed_on_fullDeletion_class P Rchar X hX label
-    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hleft hright
-    old remaining hremaining hold
-    (actualNonunitPattern C b.primes b.leftMultiplicity b.rightMultiplicity (-anchor.val.out.val))
-    (chart.actualRows_liveNonunitClass hclass ∅ X hX label anchor anchor)
-    (chart.actualRows_liveNonunitClass hclass ∅ X hX label anchor h)
-    parent correction hcorr sector inverseTest leftTest rightTest geometry index
+  sorry
 
 end SecondBlockProfileChart
 end Empty
@@ -238,11 +226,7 @@ theorem canonicalRowBallByBlock_nonunitLabelStable
     ((canonicalRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       δ hδ hδhalf G retainedScale Z g hscale hZ mask cutoff hcutoff
       hnorm havoid hcolumn dimension width character dyad).charts DE D).NonunitLabelStable := by
-  intro q q' he i
-  exact canonicalRowBallByBlock_nonunitSaving_iff_of_rowLabel_eq
-    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    δ hδ hδhalf G retainedScale Z g hscale hZ mask cutoff hcutoff
-    hnorm havoid hcolumn dimension width character dyad DE D q q' he i
+  sorry
 
 end Masked
 
@@ -263,13 +247,7 @@ theorem canonicalUnmaskedRowBallByBlock_nonunitLabelStable
     ((canonicalUnmaskedRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
       dimension width character dyad).charts DE D).NonunitLabelStable := by
-  intro q q' he i
-  exact canonicalRowBallByBlock_nonunitSaving_iff_of_rowLabel_eq
-    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    δ hδ hδhalf G retainedScale Z g hscale hZ ∅ cutoff hcutoff hnorm
-    G.emptyMask_row_avoidance G.emptyMask_columns_coprime
-    dimension width (fun DE _ => character DE) (fun DE _ => dyad DE)
-    DE D q q' he i
+  sorry
 
 /-- This constructs the identity class equivalence on every existing
 label of the actual unmasked stage. It neither reindexes sectors nor

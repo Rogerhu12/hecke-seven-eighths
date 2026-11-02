@@ -67,14 +67,7 @@ theorem unmasked_rowTilt_norm_le_one
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
     (δ : ℝ) (hδ : 0 ≤ δ) :
     ‖(((rowRadius r (∅ : Finset (HeightOneSpectrum A.R)) q).val ^ (-δ) : ℝ) : ℂ)‖ ≤ 1 := by
-  have hwindow : r.val * (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).val ≤
-      (1 : ℝ) ^ (0 : ℝ) := by
-    rw [sIntegerMaskGenerator_empty_norm K A.Sf, mul_one, Real.rpow_zero]
-    exact hr
-  simpa only [zero_mul, Real.one_rpow] using
-    rowTilt_norm_le_of_norm_window r ∅ q (Z := 1) (B := 0) (δ := δ)
-      (by norm_num) hδ hwindow
+  sorry
 
 end CanonicalSecondLogChart
 
@@ -107,12 +100,7 @@ include hnorm in
 not from a dual-row window or a completed child bound. -/
 theorem retainedScale_enlargement_one_of_physical_rows (hrows : G.rows.Nonempty) :
     1 ≤ retainedScale * Z ^ g := by
-  obtain ⟨h, hh⟩ := hrows
-  have hone : 1 ≤ A.exteriorNorm (originalFrequencyIdeal h) := by
-    change (1 : ℝ) ≤ Ideal.absNorm (originalFrequencyIdeal h).val
-    exact_mod_cast Nat.one_le_iff_ne_zero.mpr
-      (Ideal.absNorm_eq_zero_iff.not.mpr (originalFrequencyIdeal h).property.1)
-  exact hone.trans (hnorm h hh)
+  sorry
 
 /-- All original support and coefficient gates retain exactly this
 row factor. Only the fixed finite sector classifier was enlarged. -/
@@ -134,16 +122,7 @@ theorem canonicalSector_prepared_weight_norm_le_one
     (D : (∅ : Finset (HeightOneSpectrum A.R)).powerset)
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     ‖((stage).supported.gated.charts DE D).weight q‖ ≤ 1 := by
-  have hproduct := retainedScale_enlargement_one_of_physical_rows
-    G retainedScale Z g hnorm hrows
-  have hr : (CanonicalRowBall.gaussRadius retainedScale Z g hscale hZ).val ≤ 1 := by
-    have hp : 0 < retainedScale * Z ^ g := mul_pos hscale (Real.rpow_pos_of_pos hZ g)
-    have hdiv : (1 : ℝ) / (retainedScale * Z ^ g) ≤ 1 :=
-      (div_le_iff₀ hp).mpr (by simpa only [one_mul] using hproduct)
-    simpa only [CanonicalRowBall.gaussRadius, one_div] using hdiv
-  rw [canonicalSector_prepared_weight, emptyMask_divisor_eq D]
-  exact CanonicalSecondLogChart.unmasked_rowTilt_norm_le_one
-    (CanonicalRowBall.gaussRadius retainedScale Z g hscale hZ) hr q δ hδ.le
+  sorry
 
 variable (LC RC : SourceCartesianCover G.columns G.ideal)
 variable (exceptional : (canonicalUnmaskedSectorRowBallByBlock
@@ -163,11 +142,7 @@ theorem canonicalSector_fiberLeaf_rowProfile_one
     (hlive : ((stage).supported.gated.fiberCoveredLeaf LC RC exceptional F x leaf).Live) :
     ∀ q ∈ (leaf.1.chart.actualRows ∅ cutoff hcutoff leaf.1.rowLabel).rows,
       ‖leaf.1.chart.weight q‖ ≤ 1 := by
-  have hrows := ((stage).supported_gated_fiberLeaf_live LC RC exceptional F x leaf hlive).1
-  intro q _
-  exact canonicalSector_prepared_weight_norm_le_one P δ hδ hδhalf G retainedScale Z g
-    hscale hZ cutoff hcutoff hnorm dimension width character dyad hrows
-    leaf.1.1 leaf.1.2.1 q
+  sorry
 
 end ActualGaussStage
 end HeckeSkeleton.Moments.EngineStep

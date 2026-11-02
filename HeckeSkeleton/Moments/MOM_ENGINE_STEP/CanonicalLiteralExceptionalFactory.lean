@@ -125,21 +125,7 @@ def originalRow (h : (S).live) :
 theorem character_on_class (side : SecondColumnSide) (h : (S).live) :
     (S).literalCharacter C P R F oldMoving correction pattern sector h.val =
       (thetaForSide parent thetaPair side).val := by
-  have htheta : (characters).thetaClass thetaPair h.val := by
-    have hm := (Finset.mem_filter.mp h.property).1
-    exact (Finset.mem_filter.mp hm).2
-  have hraw := (rawRows).literalCharacter_reweighted C P R F oldMoving correction
-    pattern sector
-    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
-    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair) h
-  rw [ActualSecondCorrelationRows.literalCharacter, dif_pos h.property]
-  change CanonicalLiteralAllocatedData.rowCharacter P R F oldMoving correction C (S).primes
-    (S).leftMultiplicity (S).rightMultiplicity pattern sector
-      ((S).extractedRow C h).momentIdeal = _
-  rw [hraw]
-  cases side with
-  | left => exact htheta.1
-  | right => exact htheta.2
+  sorry
 
 variable {k : ℕ} (d : CanonicalLiteralRectangles.Atoms (K := K) k)
 variable {W : d.ProfileData} {window : Set ℝ} (E : W.SchwartzModel window)
@@ -216,55 +202,31 @@ theorem centered_value (hc : SamePlainProfiles E)
     (ξ : Joint) (h : (S).live) :
     (centered hc hscale ξ h).source.value =
       (frame).source.centeredColumn (σ := σ) (pairComparison).scale₁ (pairComparison).scale₂
-        (fun _ => (pairComparison).leftWeight) (fun _ => (pairComparison).rightWeight) ξ h :=
-  ActualAllocatedSource.ExceptionalAt.value_eq_centeredColumn _
+        (fun _ => (pairComparison).leftWeight) (fun _ => (pairComparison).rightWeight) ξ h := by
+  sorry
 
 theorem ordinary_value (ξ : Joint) (h : (S).live) :
-    (ordinary ξ h).source.ordinaryValue = (frame).source.ordinaryColumn (σ := σ) ξ h :=
-  ActualAllocatedSource.OrdinaryExceptionalAt.value_eq_ordinaryColumn _
+    (ordinary ξ h).source.ordinaryValue = (frame).source.ordinaryColumn (σ := σ) ξ h := by
+  sorry
 
 theorem centered_mask_ne_zero (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
-    (ξ : Joint) (h : (S).live) : (centered hc hscale ξ h).source.mask ≠ 0 :=
-  CanonicalLiteralExceptionalWindows.centered_mask_ne_zero P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair h) recipe E firstSupport hfirst hextra
-    b.left_positive b.right_positive support side χ ideal hideal firstSign L selection hne
-    theta (character_on_class chart P R X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair side h) hc hscale ξ
+    (ξ : Joint) (h : (S).live) : (centered hc hscale ξ h).source.mask ≠ 0 := by
+  sorry
 
 theorem ordinary_mask_ne_zero (ξ : Joint) (h : (S).live) :
-    (ordinary ξ h).source.mask ≠ 0 :=
-  CanonicalLiteralExceptionalWindows.ordinary_mask_ne_zero P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair h) recipe E firstSupport hfirst hextra
-    b.left_positive b.right_positive support side χ ideal hideal firstSign L selection hne
-    theta (character_on_class chart P R X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair side h) ξ
+    (ordinary ξ h).source.mask ≠ 0 := by
+  sorry
 
 theorem centered_time_window (hsign : |firstSign| ≤ 1) (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (ξ : Joint) (h : (S).live) :
-    |(centered hc hscale ξ h).source.time| ≤ fourierHeight ξ :=
-  CanonicalLiteralExceptionalWindows.centered_time_window P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair h) recipe E firstSupport hfirst hextra
-    b.left_positive b.right_positive support side χ ideal hideal firstSign L selection hne
-    theta (character_on_class chart P R X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair side h) hsign hc hscale ξ
+    |(centered hc hscale ξ h).source.time| ≤ fourierHeight ξ := by
+  sorry
 
 theorem ordinary_time_window (hsign : |firstSign| ≤ 1) (ξ : Joint) (h : (S).live) :
-    |(ordinary ξ h).source.time| ≤ fourierHeight ξ :=
-  CanonicalLiteralExceptionalWindows.ordinary_time_window P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair h) recipe E firstSupport hfirst hextra
-    b.left_positive b.right_positive support side χ ideal hideal firstSign L selection hne
-    theta (character_on_class chart P R X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair side h) hsign ξ
+    |(ordinary ξ h).source.time| ≤ fourierHeight ξ := by
+  sorry
 
 /-- The four profile controls in the uniform terminal are precisely
 those of the original model, for all rows of the same theta class. -/
@@ -272,13 +234,12 @@ theorem profile_seminorms (ξ : Joint) (orders : Finset (ℕ × ℕ)) :
     orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (leftProfile ξ) =
         orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left false) ∧
       orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (rightProfile ξ) =
-        orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right false) :=
-  ⟨profile_seminorm _ _ _ _ _, profile_seminorm _ _ _ _ _⟩
+        orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right false) := by
+  sorry
 
 theorem profile_supports (ξ : Joint) :
-    tsupport (leftProfile ξ) ⊆ window ∧ tsupport (rightProfile ξ) ⊆ window :=
-  ⟨(profile_support _ _ _ _).trans (E.left_support false),
-    (profile_support _ _ _ _).trans (E.right_support false)⟩
+    tsupport (leftProfile ξ) ⊆ window ∧ tsupport (rightProfile ξ) ⊆ window := by
+  sorry
 
 variable (annulus amplitude : ℝ) (hannulus : 1 ≤ annulus) (hamplitude : 0 ≤ amplitude)
 variable (hprime : d.PrimeNormWindow annulus)
@@ -340,35 +301,13 @@ theorem centered_mask_window (hc : SamePlainProfiles E)
     (ξ : Joint) (h : (S).live) :
     (Ideal.absNorm (centered hc hscale ξ h).source.mask : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) * d.base ^ (actualWidth) := by
-  rw [(CanonicalLiteralExceptionalWindows.centered_fields P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair h) recipe E firstSupport hfirst hextra
-    b.left_positive b.right_positive support side χ ideal hideal firstSign L selection hne
-    theta (character_on_class chart P R X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair side h) hc hscale ξ).1]
-  exact actualRestrictedRows_mask_norm_window chart hclass P R F oldMoving
-    (remaining * extra) X hX label retainedScale d.base g a₀ q wo cutoffExponent
-    hretained d.base_gt_one hradius hcutoff hproduct hold
-    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
-    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair) h
+  sorry
 
 include hradius hcutoff hproduct hold in
 theorem ordinary_mask_window (ξ : Joint) (h : (S).live) :
     (Ideal.absNorm (ordinary ξ h).source.mask : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) * d.base ^ (actualWidth) := by
-  rw [(CanonicalLiteralExceptionalWindows.ordinary_fields P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair h) recipe E firstSupport hfirst hextra
-    b.left_positive b.right_positive support side χ ideal hideal firstSign L selection hne
-    theta (character_on_class chart P R X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair side h) ξ).1]
-  exact actualRestrictedRows_mask_norm_window chart hclass P R F oldMoving
-    (remaining * extra) X hX label retainedScale d.base g a₀ q wo cutoffExponent
-    hretained d.base_gt_one hradius hcutoff hproduct hold
-    (fun q => (rawRows).weight q * leftAtoms.value q * star (rightAtoms.value q))
-    (fun q => (rawRows).correlation q ≠ 0) ((characters).thetaClass thetaPair) h
+  sorry
 
 end PhysicalWindow
 
@@ -400,10 +339,7 @@ table obtains those identities from `actual_final_left_scale` and
 `actual_final_right_scale`, including the pool prime power when present. -/
 theorem comparison_product_of_original_scales :
     d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false := by
-  rw [left_scale_eq true, right_scale_eq true, left_scale_eq false, right_scale_eq false]
-  simp only [Bool.false_eq_true, if_false, if_true]
-  rw [div_mul_div_comm, div_mul_div_comm, domain.comparison_product_eq_power rfl,
-    Real.rpow_add (zero_lt_one.trans domain.scale)]
+  sorry
 
 local notation "originalProduct" => comparison_product_of_original_scales parent d
   G first second support₁ support₂ label₁ label₂ domain left_scale_eq right_scale_eq
@@ -431,16 +367,8 @@ is derived internally from those labels and the centered domain. -/
 theorem centered_original_minimum (hc : SamePlainProfiles E) (ξ : Joint) (h : (S).live) :
     Z ^ ((a.m + a.q) / 4 - G.centeredExtractionLength -
       (frame).allocation.rawExtractionLength Z d.length) ≤
-        (originalCentered hc ξ h).source.lower :=
-  CanonicalLiteralExceptionalWindows.centered_minimum_window P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (originalRow chart P R hclass hsector X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair h) recipe E firstSupport hfirst hextra
-    b.left_positive b.right_positive support side χ ideal hideal firstSign L selection hne
-    theta (character_on_class chart P R X hX label F parent oldMoving correction
-      leftAtoms rightAtoms thetaPair side h)
-    G first second support₁ support₂ label₁ label₂ domain left_scale_eq right_scale_eq
-    hc originalProduct ξ
+        (originalCentered hc ξ h).source.lower := by
+  sorry
 
 include hclass hsector hcorr recipe hfirst hextra support hone hroot hemb
   domain left_scale_eq right_scale_eq in

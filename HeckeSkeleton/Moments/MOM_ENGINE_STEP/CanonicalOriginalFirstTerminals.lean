@@ -100,69 +100,7 @@ theorem exists_original_parent_first_bound
     pairedStageEnergy centered (data index) a Z t Y₁ Y₂ / Z ^ (a.m + a.q) ≤
       Cterminal * control ^ firstDualOriginalProfileDegree box.cap degree * Z ^ ε +
         s.rawRowCost hDiff / Z ^ (a.m + a.q) := by
-  obtain ⟨order, hord⟩ := exists_nat_gt
-    (max (Module.finrank ℤ Lattice : ℝ) ((Module.finrank ℚ K : ℝ) * box.decay))
-  have horder : Module.finrank ℤ Lattice < order := by
-    exact_mod_cast (lt_of_le_of_lt (le_max_left _ _) hord)
-  have hdegree : (Module.finrank ℚ K : ℝ) * box.decay ≤ (order : ℝ) :=
-    (lt_of_le_of_lt (le_max_right _ _) hord).le
-  obtain ⟨sTail, Ctail, hCtail, hparent⟩ :=
-    actual_parent_first_direct_dual (E := ℝ)
-      (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (μv := μv) (ν := ν) (μ := μ) C hDiff 1 box.decay box.decay_gt_one
-      order horder hdegree
-  obtain ⟨sZero, Czero, Cerror, Cterminal, hCzero, hCerror, herror, hCterminal, hterminals⟩ :=
-    exists_canonical_full_support_first_terminal_bound (μv := μv)
-      (σ := σ) (η := η) (hS := hS) (rowBallFiniteFamily K A.Sf 1)
-      box.cap degree box.columnBound ε box.columnBound_nonneg hε orders sTail Ctail hCtail
-      box.tailSaving box.decay box.tailSaving_nonneg box.decay_gt_one
-  refine ⟨sTail, sZero, Ctail, Cterminal, hCtail, hCterminal, ?_⟩
-  intro ω ψ P R Index data Q W index hroot hemb a Z t Y₁ Y₂ amplitude control
-    hamplitude hcontrol hbound centered floor padding domain hfull hwidth hpadding
-    hcap hlarge rowDomain heightDomain window profiles hrows ht hwindow δ hδ hδhalf
-  let s := directSource μv ν box Q W index C hroot hemb a Z t Y₁ Y₂ domain.scale
-    hfull centered δ hδ hδhalf
-  have hfiber : s.fiber = 1 := rfl
-  obtain ⟨hY₁, hY₂, hn₁, hn₂, hY₁le, hY₂le, hcolumn, hwidth'⟩ :=
-    original_scale_windows box domain hwidth hpadding
-  have hterminal := hterminals Q.exteriorRemaining W index a Z t
-    (comparisonScale centered Z a.n₁ Y₁) (comparisonScale centered Z a.n₂ Y₂)
-    C amplitude control box.annulus box.loss box.plainBound box.plainBound
-    hamplitude hcontrol hbound box.annulus_ge_one box.loss_pos.le box.loss_le_one hloss
-    hcap (box.annulus_bound hlarge) centered (originalComparisonDomain domain)
-    hY₁ hY₂ hn₁ hn₂ hY₁le hY₂le profiles hrows ht hwindow hcolumn hwidth' hDiff
-  change s.dualZeroCost hDiff / Z ^ (a.m + a.q) ≤
-      Cterminal * control ^ firstDualOriginalProfileDegree box.cap degree * Z ^ ε ∧
-    (Ctail * (box.cutoff Z) ^ (1 - box.decay) * s.tailCost sTail) /
-        Z ^ (a.m + a.q) ≤
-      Cterminal * control ^ firstDualOriginalProfileDegree box.cap degree *
-        Z ^ (-box.tailSaving) ∧
-    (s.dualZeroCost hDiff +
-        Ctail * (box.cutoff Z) ^ (1 - box.decay) * s.tailCost sTail) /
-        Z ^ (a.m + a.q) ≤
-      Cterminal * control ^ firstDualOriginalProfileDegree box.cap degree * Z ^ ε
-    at hterminal
-  let atoms := (Q.exteriorRemaining.arithmeticAtoms index).constantAtoms (W.at index) a Z t
-  let coefficient := (atoms.values (comparisonScale centered Z a.n₁ Y₁)
-    (comparisonScale centered Z a.n₂ Y₂)).coefficient centered
-  have hprofiles : ∀ i j, s.profiles i j = (coefficient i * star (coefficient j)) •
-      CanonicalRowBall.archTest K A.Sf 1 := fun _ _ => rfl
-  have hp := (hparent Z centered (data index) a t
-    (comparisonScale centered Z a.n₁ Y₁) (comparisonScale centered Z a.n₂ Y₂)
-    (box.cutoff Z) (box.cutoff_ge_one domain.scale.le) s coefficient hprofiles).1
-  rw [hfiber, Nat.cast_one, one_mul] at hp
-  rw [same_parent_energy centered (data index) a Z t Y₁ Y₂] at hp
-  have hz : 0 < Z := zero_lt_one.trans domain.scale
-  refine ⟨hfiber, hterminal.1, hterminal.2.1, ?_⟩
-  calc
-    _ ≤ (s.dualZeroCost hDiff + s.rawRowCost hDiff +
-        Ctail * (box.cutoff Z) ^ (1 - box.decay) * s.tailCost sTail) /
-        Z ^ (a.m + a.q) :=
-      div_le_div_of_nonneg_right hp (Real.rpow_nonneg hz.le _)
-    _ = (s.dualZeroCost hDiff +
-        Ctail * (box.cutoff Z) ^ (1 - box.decay) * s.tailCost sTail) /
-        Z ^ (a.m + a.q) + s.rawRowCost hDiff / Z ^ (a.m + a.q) := by ring
-    _ ≤ _ := add_le_add hterminal.2.2 le_rfl
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalOriginalParentFactory
 

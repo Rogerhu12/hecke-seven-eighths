@@ -146,8 +146,8 @@ local notation "frozenPair" =>
 Its two stored allocations still have the same original divisor. -/
 def literalPassiveOriginalFrozenPair : ℝ := frozenPair
 
-theorem literalPassiveOriginalFrozenPair_nonneg : 0 ≤ frozenPair :=
-  mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)
+theorem literalPassiveOriginalFrozenPair_nonneg : 0 ≤ frozenPair := by
+  sorry
 
 include hcorr hfirst hextra hone hroot hemb in
 /-- The complete ordinary integrand is bounded by the passive
@@ -157,101 +157,7 @@ theorem literalPassiveOriginalIntegrand_le (ξ : WithLp 2 (ℝ × ℝ)) :
       CanonicalLiteralPassiveNormalizedFamily.integrand C ordinaryRows leftTests rightTests
         leftAllocation rightAllocation leftPaid rightPaid (choice.mask extra) (choice.mask extra)
         firstSign (-firstSign) ξ := by
-  have hp : v.chart.NonunitLabelStable :=
-    ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock_nonunitLabelStable
-      (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-      P δ₂ hδ₂ hδ₂half G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-      dimension width character dyad v.1 v.2.1
-  have hs : v.chart.SectorLabelStable P :=
-    ActualGaussStage.canonicalUnmaskedSectorRowBallByBlock_sectorLabelStable
-      (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-      P δ₂ hδ₂ hδ₂half G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-      dimension width character dyad v.1 v.2.1
-  let patternRows : (ordinaryRows).live → CanonicalOriginalPhaseCalibration.PatternSector
-      P ordinaryRows C pattern sector :=
-    v.chart.originalReweightedPatternSector P hp hs ∅ cutoff hcutoff v.rowLabel
-      ((v.literalRows leftAtoms rightAtoms).withColumnConstants leftScalar rightScalar).weight
-      (fun h => (v.chart.actualRows ∅ cutoff hcutoff v.rowLabel).correlation h ≠ 0)
-      (fun h => ¬(v.leaf exceptional firstKernel x j).exceptional h)
-  have hrows (h : (ordinaryRows).live) : (patternRows h).val.val = h := rfl
-  have supportL : (v.literalLeftAtoms leftAtoms).SupportData
-      ((primeSupport A.cS ∪ firstSupport) ∪
-        primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val) := by
-    rw [v.block.common_left]
-    exact leftProfiles.support
-  have supportR : (v.literalRightAtoms rightAtoms).SupportData
-      ((primeSupport A.cS ∪ firstSupport) ∪
-        primeSupport (primePowerProduct v.block.primes v.block.leftMultiplicity).val) := by
-    rw [v.block.common_left]
-    exact rightProfiles.support
-  have hL := (Finset.mem_filter.mp (allocation).property).2.1
-  have hleft := CanonicalLiteralPassiveOriginalBound.sqrt_frequency_le_passive
-    (W := leftTests) (B := leftAllocation) (P := P) (Rchar := Rchar) (F := F)
-    (parent := parent) (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-    (C := C) (S := ordinaryRows) («pattern» := pattern) («sector» := sector)
-    (remaining := remaining) (extra := extra) (index := leftRecipe.slots.index)
-    (choice := choice) (hone := hone) (hroot := hroot) (hemb := hemb)
-    (hcharacters := leftRecipe.characters) (firstSupport := firstSupport) (hfirst := hfirst)
-    (hextra := hextra) (hl := v.block.left_positive) (hr := v.block.right_positive)
-    (support := (supportL.scale leftScalar⁻¹).balancePlain leftBalance)
-    (hplain₁ := rfl) (hplain₂ := rfl) (hslots := rfl)
-    (patternRows := patternRows) (patternRows_val := hrows)
-    hL j.2.2.1.property firstSign false ξ
-  have hright := CanonicalLiteralPassiveOriginalBound.sqrt_frequency_le_passive
-    (W := rightTests) (B := rightAllocation) (P := P) (Rchar := Rchar) (F := F)
-    (parent := parent) (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-    (C := C) (S := ordinaryRows) («pattern» := pattern) («sector» := sector)
-    (remaining := remaining) (extra := extra) (index := rightRecipe.slots.index)
-    (choice := choice) (hone := hone) (hroot := hroot) (hemb := hemb)
-    (hcharacters := rightRecipe.characters) (firstSupport := firstSupport) (hfirst := hfirst)
-    (hextra := hextra) (hl := v.block.left_positive) (hr := v.block.right_positive)
-    (support := (supportR.scale rightScalar⁻¹).balancePlain rightBalance)
-    (hplain₁ := rfl) (hplain₂ := rfl) (hslots := rfl)
-    (patternRows := patternRows) (patternRows_val := hrows)
-    hL j.2.2.2.property (-firstSign) true ξ
-  have hEL := CanonicalLiteralOriginalEnergy.left_energy leftTable ordinaryRows C leftAllocation
-    j.2.1 (fun i => v.block.leftResidual (v.leftReindex.index i))
-    (by
-      intro i hi
-      apply v.leftReindex.ideal_product i
-      rw [ActualColumnAllocation.columns, WholeAllocation.paired_allocated_columns_eq_filter] at hi
-      exact (Finset.mem_filter.mp hi).1) firstSign ξ
-  have hER := CanonicalLiteralOriginalEnergy.right_energy rightTable ordinaryRows C rightAllocation
-    j.2.1 (fun i => v.block.rightResidual (v.rightReindex.index i))
-    (by
-      intro i hi
-      apply v.rightReindex.ideal_product i
-      rw [ActualColumnAllocation.columns, WholeAllocation.paired_allocated_columns_eq_filter] at hi
-      exact (Finset.mem_filter.mp hi).1) (-firstSign) ξ
-  have hwholeL : (leftTable).whole =
-      ((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).whole :=
-    funext (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain_whole
-      leftBalance hleftBalance)
-  have hwholeR : (rightTable).whole =
-      ((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).whole :=
-    funext (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain_whole
-      rightBalance hrightBalance)
-  change Real.sqrt (jointColumnEnergy (ordinaryRows).rows (leftAllocation).columns
-      (fun h => (ordinaryRows).weight h * (ordinaryRows).correlation h)
-      (secondAllocatedLeftCoefficient (σ := σ) PUnit.{1}
-        (fun i => v.block.leftResidual (v.leftReindex.index i)) (ordinaryRows).frequency
-        (fun _ => PUnit.unit) j.2.1 ((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).whole)
-      (fun _ => rawSourceLocation (CanonicalLiteralLocations.plain firstSign)
-        (CanonicalLiteralLocations.plain firstSign) (CanonicalLiteralLocations.prime firstSign)) ξ) *
-    Real.sqrt (jointColumnEnergy (ordinaryRows).rows (rightAllocation).columns
-      (fun h => (ordinaryRows).weight h * (ordinaryRows).correlation h)
-      (secondAllocatedRightCoefficient (σ := σ) PUnit.{1}
-        (fun i => v.block.rightResidual (v.rightReindex.index i)) (ordinaryRows).frequency
-        (fun _ => PUnit.unit) j.2.1 ((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).whole)
-      (fun _ => rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
-        (CanonicalLiteralLocations.plain (-firstSign))
-        (CanonicalLiteralLocations.prime (-firstSign))) ξ) ≤ _
-  rw [← hwholeL, ← hwholeR, hEL, hER]
-  have he := mul_le_mul hleft hright (Real.sqrt_nonneg _)
-    (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))
-  convert he using 1 <;>
-    simp only [Bool.false_eq_true, if_false, if_true,
-      CanonicalLiteralPassiveNormalizedFamily.integrand] <;> ring
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

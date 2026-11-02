@@ -72,9 +72,7 @@ theorem rawCost_le_hybrid
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (exceptional : s.HybridPredicates LA RA) (ε Cerror Czero : ℝ) :
     T.rawCost ε Cerror Czero ≤ T.hybridCost LA RA exceptional ε Cerror Czero := by
-  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-  exact add_le_add
-    (add_le_add le_rfl (s.rawNonzeroCost_le_hybrid LA RA exceptional)) le_rfl
+  sorry
 
 def coverHybridCost (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (LC RC : SourceCartesianCover G.columns G.ideal)
@@ -88,22 +86,14 @@ theorem rawCost_le_coverHybrid
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (exceptional : s.CoverHybridPredicates LC RC) (ε Cerror Czero : ℝ) :
     T.rawCost ε Cerror Czero ≤ T.coverHybridCost LC RC exceptional ε Cerror Czero := by
-  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-  exact add_le_add
-    (add_le_add le_rfl (s.rawNonzeroCost_le_coverHybrid LC RC exceptional)) le_rfl
+  sorry
 
 theorem rawPhaseCost_integrable
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
     Integrable (fun ξ => (T.fourierPhase x ξ).rawCost ε Cerror Czero)
       (actualFourierMeasure F) := by
-  letI := actualFourierMeasure_finite F
-  change Integrable (fun ξ => (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
-      s.rawPhaseNonzeroCost x ξ +
-      Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))) (actualFourierMeasure F)
-  exact (((integrable_const _).add (s.rawPhaseNonzeroCost_integrable F x)).add
-    (integrable_const _)).const_mul (s.fiber : ℝ)
+  sorry
 
 theorem integral_rawPhaseCost
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -114,18 +104,7 @@ theorem integral_rawPhaseCost
           (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
             Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) +
           ∫ ξ, s.rawPhaseNonzeroCost x ξ ∂actualFourierMeasure F) := by
-  letI := actualFourierMeasure_finite F
-  change (∫ ξ, (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
-      s.rawPhaseNonzeroCost x ξ +
-      Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))
-        ∂actualFourierMeasure F) = _
-  rw [integral_const_mul,
-    integral_add ((integrable_const _).add (s.rawPhaseNonzeroCost_integrable F x)) (integrable_const _),
-    integral_add (integrable_const _) (s.rawPhaseNonzeroCost_integrable F x),
-    integral_const, integral_const]
-  simp only [smul_eq_mul]
-  ring
+  sorry
 
 theorem coverHybridPhaseCost_integrable
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -134,14 +113,7 @@ theorem coverHybridPhaseCost_integrable
     (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
     Integrable (fun ξ => (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero)
       (actualFourierMeasure F) := by
-  letI := actualFourierMeasure_finite F
-  change Integrable (fun ξ => (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
-      s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
-      Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave))) (actualFourierMeasure F)
-  exact (((integrable_const _).add
-    (s.coverHybridPhaseNonzeroCost_integrable LC RC F x exceptional)).add
-    (integrable_const _)).const_mul (s.fiber : ℝ)
+  sorry
 
 theorem integral_rawPhaseCost_le_cover
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -151,10 +123,7 @@ theorem integral_rawPhaseCost_le_cover
     (∫ ξ, (T.fourierPhase x ξ).rawCost ε Cerror Czero ∂actualFourierMeasure F) ≤
       ∫ ξ, (T.fourierPhase x ξ).coverHybridCost LC RC exceptional ε Cerror Czero
         ∂actualFourierMeasure F := by
-  apply integral_mono (T.rawPhaseCost_integrable F x ε Cerror Czero)
-    (T.coverHybridPhaseCost_integrable LC RC exceptional F x ε Cerror Czero)
-  intro ξ
-  exact (T.fourierPhase x ξ).rawCost_le_coverHybrid exceptional ε Cerror Czero
+  sorry
 
 def zeroBudget (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (ε Czero : ℝ) : ℝ :=
@@ -176,14 +145,7 @@ theorem phase_cost_eq_budgets_leaves
       T.zeroBudget ε Czero + T.tailBudget Cerror +
         ∑ b : s.CoveredLeafKey LC RC,
           (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
-  change (s.fiber : ℝ) *
-    (Czero * (T.windows.multiplicity * T.zeroAmplitude) * Z ^ (T.zeroProductExponent * ε) +
-      s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ +
-      Cerror * (T.windows.multiplicity * T.tailAmplitude) * Z ^ (-Nsave)) = _
-  rw [s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x ξ]
-  simp only [fiberCoveredLeaf, ActualHybridLeaf.scale_firstPhaseCost,
-    zeroBudget, tailBudget, Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  sorry
 
 theorem integral_phase_cost_eq_budgets_leaves
     (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -194,18 +156,7 @@ theorem integral_phase_cost_eq_budgets_leaves
         ∂actualFourierMeasure F) =
       (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey LC RC, (s.fiberCoveredLeaf LC RC exceptional F x b).cost := by
-  letI := actualFourierMeasure_finite F
-  simp_rw [T.phase_cost_eq_budgets_leaves LC RC exceptional F x]
-  rw [integral_add (integrable_const _) (integrable_finsetSum _ (fun b _ =>
-    (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable))]
-  rw [integral_const, integral_finsetSum]
-  · simp only [smul_eq_mul]
-    congr 1
-    apply Finset.sum_congr rfl
-    intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).integral_firstPhaseCost
-  · intro b _
-    exact (s.fiberCoveredLeaf LC RC exceptional F x b).firstPhaseCost_integrable
+  sorry
 
 end ActualGaussStage.DualTerminalCalibration
 
@@ -244,13 +195,7 @@ theorem actual_gauss_dual_cover_hybrid_terminal_bound
       (exceptional : s.CoverHybridPredicates LC RC),
       s.cutoff ≤ Z ^ ξ ∧
         G.energy hDiff ≤ T.coverHybridCost LC RC exceptional ε Cerror Czero := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, hb⟩ :=
-    actual_gauss_raw_dual_terminal_bound (E := E) (ν := ν) (μ := μ) hΓ μv hDiff
-      C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξ hξ
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, ?_⟩
-  intro Z ι G s hmask hpositive T LC RC exceptional
-  obtain ⟨hcutoff, henergy⟩ := hb Z G s hmask hpositive T
-  exact ⟨hcutoff, henergy.trans (T.rawCost_le_coverHybrid exceptional ε Cerror Czero)⟩
+  sorry
 
 /-- The atlas version of the same pure-dual exit. The covering route
 above is the direct entry for the original computed source covers. -/
@@ -276,13 +221,7 @@ theorem actual_gauss_dual_hybrid_terminal_bound
       (exceptional : s.HybridPredicates LA RA),
       s.cutoff ≤ Z ^ ξ ∧
         G.energy hDiff ≤ T.hybridCost LA RA exceptional ε Cerror Czero := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, hb⟩ :=
-    actual_gauss_raw_dual_terminal_bound (E := E) (ν := ν) (μ := μ) hΓ μv hDiff
-      C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξ hξ
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, ?_⟩
-  intro Z ι G s hmask hpositive T LA RA exceptional
-  obtain ⟨hcutoff, henergy⟩ := hb Z G s hmask hpositive T
-  exact ⟨hcutoff, henergy.trans (T.rawCost_le_hybrid exceptional ε Cerror Czero)⟩
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

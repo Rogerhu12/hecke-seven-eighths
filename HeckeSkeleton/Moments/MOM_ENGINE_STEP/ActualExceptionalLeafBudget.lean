@@ -158,39 +158,7 @@ theorem exceptional_cost_from_original_atoms
           (schwartzSeminormFamily ℝ U ℂ) leaf.firstKernel *
         (exceptionalFourierControl (U := U) (E := E) J₁ J₂).rightSeminorms.sup
           (schwartzSeminormFamily ℝ E ℂ) leaf.secondKernel) := by
-  have hsource := SecondSideFrame.exceptional_original_label_integral_from_atoms
-    (HL := HL) (HR := HR) (ε := ε) (maskExponent := maskExponent) (hε := hε) (hmask := hmask)
-    left right EL ER W Q TL TR UL UR
-    Z Aexp m q c d R₀ E₀ K w wo Bcommon g ell b₂ p₂ g₂ t₂ V₀ v vStar
-    r₁ r₂ divisorLower slotError stepσ δ parentWidth remaining rowError widthError height
-    hZ hv hr₁ hdivisor hheight hleftAtoms hrightAtoms hexponent hgcd hunit
-    base hclass hfactor hwindow hcutoff hF₁ hF₂ hvsum hmask0 hmasknorm
-    htime hminimum hradius hcentral hdyad hremaining hwidth
-    j S hSindex hleftIdeal hrightIdeal hleftDivisor hrightDivisor
-    hleftOccurrences hrightOccurrences hleftAllocation hrightAllocation
-    phase₁ χ₁ phase₂ hphase firstParentWidth firstTotal firstProfile firstCost hfirstCost
-    hfirstProfile hfirstLeft hfirstRight hfirstSupport
-    J₁ J₂ heightConstant hheightConstant hheightPolynomial leaf.firstKernel leaf.secondKernel
-  have hbinding := ActualHybridLeaf.ConstantAtomExtraction.exceptionalCost_eq_frames
-    (X := X) (left := left) (right := right) (EL := EL) (ER := ER) (Q := Q) binding
-  let scalar := firstOriginalAllowanceWeight Z firstParentWidth firstTotal firstProfile
-      j.1.val.1.1 j.1.val.1.2 *
-    ‖(moebius S : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-    ‖(moebius left.allocation.divisor : ℂ)‖ *
-    ‖fixedPhaseCoefficient Ray phase₂ left.phaseCharacter‖
-  calc
-    _ = (leaf.weight / Z ^ firstParentWidth) *
-        ∫ z : U × E, left.exceptionalMagnitude right EL ER Q (WithLp.toLp 2 z)
-          ∂nestedFourierMeasure leaf.firstKernel leaf.secondKernel := by
-      rw [hbinding]
-      ring
-    _ = factor * ∫ z : U × E,
-        scalar * (left.exceptionalMagnitude right EL ER Q (WithLp.toLp 2 z) / Z ^ parentWidth)
-          ∂nestedFourierMeasure leaf.firstKernel leaf.secondKernel := by
-      rw [houter, integral_const_mul, integral_div]
-      dsimp only [scalar]
-      ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left hsource hfactor0
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

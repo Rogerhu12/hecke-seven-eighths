@@ -76,12 +76,12 @@ def zeroSumConstant : ℝ := Classical.choose zeroExists
 def tailSumConstant : ℝ := Classical.choose tailExists
 
 theorem zeroSumConstant_pos :
-    0 < zeroSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum :=
-  (Classical.choose_spec zeroExists).1
+    0 < zeroSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum := by
+  sorry
 
 theorem tailSumConstant_pos :
-    0 < tailSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum :=
-  (Classical.choose_spec tailExists).1
+    0 < tailSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum := by
+  sorry
 
 end CanonicalPrimitivePooledTerminalBudget
 
@@ -269,41 +269,7 @@ theorem literalPrimitivePooledDualZeroBudget_le
       orbitalFieldFactor K * kernelBound * zeroProfile * zeroSumConstant *
       Z ^ ((CanonicalPrimitivePooledTerminalWindows.zeroLoss
         padding step loss cutoffExponent lengthBound columnBound δ₁ εzero eps) + εsum) := by
-  let O : (source).CombinedTerminalOriginalWindows columnBound (a.m + a.q)
-      (orbitalFieldFactor K) kernelBound firstTotal firstShift := {
-    oldMask := (originalWindows).oldMask
-    old_squarefree := (originalWindows).old_squarefree
-    old_ne_zero := (originalWindows).old_ne_zero
-    old_divides := (originalWindows).old_divides
-    column_norm := (originalWindows).column_norm
-    maskIdeal := (originalWindows).maskIdeal
-    mask_ne_zero := (originalWindows).mask_ne_zero
-    mask_norm := (originalWindows).mask_norm
-    original_mask := (originalWindows).original_mask
-    first_profile := (originalWindows).first_profile
-    first_kernel := (originalWindows).first_kernel }
-  have hsum := (Classical.choose_spec
-    (actual_pool_second_dual_zero_from_combined_windows
-      (E := ℝ) (W := ℝ) (C := C)
-      (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (μv := μv) (hDiff := hDiff) (finiteTest := rowBallFiniteFamily K A.Sf 1)
-      (2 * (cap + 2)) columnBound εsum hcolumnBound hεsum)).2
-  have hprofile : 0 ≤ zeroProfile := mul_nonneg (sq_nonneg _)
-    ((sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)).apply_nonneg _)
-  have hM : 0 ≤ rowExponent := by
-    dsimp only [literalPrimitivePoolRowExponent]
-    positivity
-  have h := hsum Z (step / 3) eps bad pool centered (data ξ) internal
-    t Y₁ Y₂ cutoff hcutoff source stages sTail sZero degree Nsave decay terminal
-    εzero Czero (a.m + a.q)
-    (CanonicalPrimitivePooledTerminalWindows.zeroLoss
-        padding step loss cutoffExponent lengthBound columnBound δ₁ εzero eps)
-    (orbitalFieldFactor K) kernelBound zeroProfile rowExponent fiberCap hCzero
-    (orbitalFieldFactor_nonneg K) (apply_nonneg _ _) hprofile hM
-    firstTotal firstShift O (zeroWindows εzero hεzero)
-  have hfiber : (source).fiber = 1 := rfl
-  have hmask : O.oldMask = (1 : Ideal (𝓞 K)) := rfl
-  simpa only [hfiber, hmask, map_one, Nat.cast_one, one_mul, div_one] using h
+  sorry
 
 /-- The complete original pooled tail terminal, with the actual
 first normalization and one shared internal divisor. -/
@@ -314,40 +280,7 @@ theorem literalPrimitivePooledDualTailBudget_le
     poolTerminalConstant K (step / 3) rowExponent * fiberCap * Cerror *
       orbitalFieldFactor K * kernelBound * tailProfile * tailSumConstant *
       Z ^ (eps + εsum) := by
-  let O : (source).CombinedTerminalOriginalWindows columnBound (a.m + a.q)
-      (orbitalFieldFactor K) kernelBound firstTotal firstShift := {
-    oldMask := (originalWindows).oldMask
-    old_squarefree := (originalWindows).old_squarefree
-    old_ne_zero := (originalWindows).old_ne_zero
-    old_divides := (originalWindows).old_divides
-    column_norm := (originalWindows).column_norm
-    maskIdeal := (originalWindows).maskIdeal
-    mask_ne_zero := (originalWindows).mask_ne_zero
-    mask_norm := (originalWindows).mask_norm
-    original_mask := (originalWindows).original_mask
-    first_profile := (originalWindows).first_profile
-    first_kernel := (originalWindows).first_kernel }
-  have hsum := (Classical.choose_spec
-    (actual_pool_second_dual_tail_from_combined_windows
-      (E := ℝ) (W := ℝ) (C := C)
-      (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (μv := μv) (hDiff := hDiff) (finiteTest := rowBallFiniteFamily K A.Sf 1)
-      (2 * (cap + 2)) columnBound εsum hcolumnBound hεsum)).2
-  have hprofile : 0 ≤ tailProfile := mul_nonneg (sq_nonneg _)
-    ((sTail.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)).apply_nonneg _)
-  have hM : 0 ≤ rowExponent := by
-    dsimp only [literalPrimitivePoolRowExponent]
-    positivity
-  have h := hsum Z (step / 3) eps bad pool centered (data ξ) internal
-    t Y₁ Y₂ cutoff hcutoff source stages sTail sZero degree Nsave decay terminal
-    Cerror (a.m + a.q)
-    eps
-    (orbitalFieldFactor K) kernelBound tailProfile rowExponent fiberCap hCerror
-    (orbitalFieldFactor_nonneg K) (apply_nonneg _ _) hprofile hM
-    firstTotal firstShift O (tailWindows hsaving)
-  have hfiber : (source).fiber = 1 := rfl
-  have hmask : O.oldMask = (1 : Ideal (𝓞 K)) := rfl
-  simpa only [hfiber, hmask, map_one, Nat.cast_one, one_mul, div_one] using h
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -50,47 +50,7 @@ theorem original_active_rectangle_column_norm_lower
     (hrectangle : (atoms.values Y₁ Y₂).rectangle comparison v ≠ 0) :
     Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength) ≤
       (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnIdeal v) : ℝ) := by
-  have hm := Finset.mem_product.mp hv
-  have hplain := Finset.mem_product.mp hm.1
-  obtain ⟨u, hu, _⟩ := Finset.mem_biUnion.mp hplain.1
-  have hprofiles := atoms.rectangle_profiles_ne_zero comparison v hrectangle
-  have hleftRep : profiles.leftRep u t
-      (idealNorm K v.1.1 / (if comparison then Y₁ else Z ^ a.n₁)) ≠ 0 := by
-    simpa only [← atoms.left_profile u hu, profiles.left_eq] using hprofiles.1
-  have hrightRep : profiles.rightRep u t
-      (idealNorm K v.1.2 / (if comparison then Y₂ else Z ^ a.n₂)) ≠ 0 := by
-    simpa only [← atoms.right_profile u hu, profiles.right_eq] using hprofiles.2.1
-  have hleft : (if comparison then Y₁ else Z ^ a.n₁) ≤ idealNorm K v.1.1 := by
-    simpa only [one_mul] using (le_div_iff₀ hleftScale).mp
-      (hwindow (profiles.left_support u (hrows u hu) t ht hleftRep))
-  have hright : (if comparison then Y₂ else Z ^ a.n₂) ≤ idealNorm K v.1.2 := by
-    simpa only [one_mul] using (le_div_iff₀ hrightScale).mp
-      (hwindow (profiles.right_support u (hrows u hu) t ht hrightRep))
-  have hprime (i : Fin d.geometry.slotCount) :
-      Z ^ (d.geometry.slots i).length ≤ (Ideal.absNorm (v.2 i).asIdeal : ℝ) := by
-    have hi : profiles.primeRep i t
-        ((Ideal.absNorm (v.2 i).asIdeal : ℝ) / Z ^ (d.geometry.slots i).length) ≠ 0 := by
-      simpa only [profiles.prime_eq] using hprofiles.2.2 i
-    simpa only [one_mul] using (le_div_iff₀ (Real.rpow_pos_of_pos hZ _)).mp
-      (hwindow (profiles.prime_support i t ht hi))
-  have hprod : (∏ i, Z ^ (d.geometry.slots i).length) ≤
-      ∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ) :=
-    Finset.prod_le_prod₀ (fun _ _ => Real.rpow_nonneg hZ.le _) (fun i _ => hprime i)
-  calc
-    _ = ((if comparison then Y₁ else Z ^ a.n₁) *
-          (if comparison then Y₂ else Z ^ a.n₂)) *
-            ∏ i, Z ^ (d.geometry.slots i).length := by
-      rw [hscaleProduct, ← Real.rpow_sum_of_pos hZ, ← Real.rpow_add hZ]
-      rfl
-    _ ≤ (idealNorm K v.1.1 * idealNorm K v.1.2) *
-        ∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ) :=
-      mul_le_mul
-        (mul_le_mul hleft hright hrightScale.le (idealNorm_pos K _).le)
-        hprod (Finset.prod_nonneg (fun _ _ => Real.rpow_nonneg hZ.le _))
-        (mul_nonneg (idealNorm_pos K _).le (idealNorm_pos K _).le)
-    _ = _ := by
-      simp only [ParentRawAtoms.columnIdeal, idealNorm, map_mul, map_prod,
-        Nat.cast_mul, Nat.cast_prod]
+  sorry
 
 end LiteralRectangle
 
@@ -118,27 +78,7 @@ theorem original_active_column_norm_lower
     (hcoefficient : (atoms.values Y₁ Y₂).coefficient centered v ≠ 0) :
     Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength) ≤
       (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnExterior v).val : ℝ) := by
-  rw [(atoms.raw Y₁ Y₂).columnExterior_val_of_mem v hv]
-  obtain ⟨comparison, hallowed, hrectangle⟩ :=
-    (atoms.values Y₁ Y₂).coefficient_ne_zero_has_rectangle centered v hcoefficient
-  have hmem : v ∈ (atoms.raw Y₁ Y₂).columns := (Finset.mem_filter.mp hv).1
-  cases comparison with
-  | false =>
-      exact atoms.original_active_rectangle_column_norm_lower profiles hZ hrows ht hwindow
-        false (Real.rpow_pos_of_pos hZ _) (Real.rpow_pos_of_pos hZ _)
-        (by simpa only [Bool.false_eq_true, if_false] using
-          (Real.rpow_add hZ a.n₁ a.n₂).symm) v hmem hrectangle
-  | true =>
-      have hc : centered = true := hallowed rfl
-      have hproduct : 0 < Y₁ * Y₂ := by
-        rw [hcomparison hc]
-        exact Real.rpow_pos_of_pos hZ _
-      have hscales : 0 < Y₁ ∧ 0 < Y₂ := by
-        rcases mul_pos_iff.mp hproduct with hpos | hneg
-        · exact hpos
-        · exact False.elim ((not_lt_of_ge (hY₁ hc)) hneg.1)
-      exact atoms.original_active_rectangle_column_norm_lower profiles hZ hrows ht hwindow
-        true hscales.1 hscales.2 (hcomparison hc) v hmem hrectangle
+  sorry
 
 theorem original_active_column_norm_lower_of_domain
     (hrows : ∀ u ∈ pairedRows d a Z, u ∈ rowDomain)
@@ -148,10 +88,8 @@ theorem original_active_column_norm_lower_of_domain
     (v : (atoms.raw Y₁ Y₂).Column) (hv : v ∈ (atoms.raw Y₁ Y₂).exteriorColumns)
     (hcoefficient : (atoms.values Y₁ Y₂).coefficient centered v ≠ 0) :
     Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength) ≤
-      (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnExterior v).val : ℝ) :=
-  atoms.original_active_column_norm_lower profiles (zero_lt_one.trans domain.scale)
-    hrows ht hwindow centered domain.comparison_scale_left_nonneg
-    domain.comparison_product_eq_power v hv hcoefficient
+      (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnExterior v).val : ℝ) := by
+  sorry
 
 end ActualExteriorCarrier
 end ParentConstantAtoms

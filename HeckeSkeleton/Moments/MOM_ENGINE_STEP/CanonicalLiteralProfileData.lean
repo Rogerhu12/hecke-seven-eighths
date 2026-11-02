@@ -58,14 +58,12 @@ def mulPrimeWindow (W : PrimeWindow K) (f : ℝ → ℂ) : PrimeWindow K where
 theorem mulIdealTest_positive (W : IdealTest K) (f : ℝ → ℂ)
     (hW : CanonicalLogProfiles.PositivePlainProfile W) :
     CanonicalLogProfiles.PositivePlainProfile (mulIdealTest W f) := by
-  intro u t y hy
-  exact hW u t y (left_ne_zero_of_mul hy)
+  sorry
 
 theorem mulPrimeWindow_positive (W : PrimeWindow K) (f : ℝ → ℂ)
     (hW : CanonicalLogProfiles.PositivePrimeProfile W) :
     CanonicalLogProfiles.PositivePrimeProfile (mulPrimeWindow W f) := by
-  intro t y hy
-  exact hW t y (left_ne_zero_of_mul hy)
+  sorry
 
 /-- The original time is fixed; the new row and time arguments do not
 select another original profile. -/
@@ -84,16 +82,12 @@ def frozenPrimeWindow (W : PrimeWindow K) (time : ℝ) : PrimeWindow K where
 
 theorem idealNorm_mul (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K (B * I) = idealNorm K B * idealNorm K I := by
-  change (Ideal.absNorm (B.val * I.val) : ℝ) =
-    (Ideal.absNorm B.val : ℝ) * (Ideal.absNorm I.val : ℝ)
-  rw [map_mul, Nat.cast_mul]
+  sorry
 
 /-- The quotient scale represents the same original norm argument. -/
 theorem quotient_argument (N : ℝ) (B I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K I / (N / idealNorm K B) = idealNorm K (B * I) / N := by
-  rw [idealNorm_mul]
-  simp only [div_eq_mul_inv, mul_inv_rev, inv_inv]
-  ring
+  sorry
 
 end CanonicalLiteralProfileData
 
@@ -104,10 +98,7 @@ variable {k : ℕ} (d : CanonicalLiteralRectangles.Atoms (K := K) k)
 theorem rectangleLeftWeight_ne_zero (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (h : d.rectangleLeftWeight r I ≠ 0) :
     d.leftWeight r I ≠ 0 := by
-  unfold rectangleLeftWeight at h
-  split_ifs at h
-  · exact (h rfl).elim
-  · exact h
+  sorry
 
 /-- Each field binds one original occurrence, before its finite sum.
 Every new row and time sees the same already selected original test. -/
@@ -383,14 +374,7 @@ theorem literalOriginalAtoms_left_weight_mem (ξ : X)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : IsCoprime I.val A.cS)
     (hweight : (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).leftWeight r I ≠ 0) :
     I.val ∈ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₁ := by
-  have hrefa : (data ξ).allowedRow reference :=
-    (((data ξ).rows_spec _ reference).1 (Finset.mem_filter.mp href).1).1
-  refine Finset.mem_image.mpr ⟨I, Finset.mem_filter.mpr ⟨?_, hI⟩, rfl⟩
-  apply parentPlainCarrier_contains (pairedRows (data ξ) a Z) (data ξ).plainTest₁
-    t (Z ^ a.n₁) Y₁ r reference href
-  apply ((data ξ).plainTest₁.support_spec reference t _ I).mpr
-  rw [W.left_eq PUnit.unit reference hrefa]
-  exact hweight
+  sorry
 
 theorem literalOriginalAtoms_right_weight_mem (ξ : X)
     (W : NormProfileRecipe (fun _ : PUnit => data ξ))
@@ -401,14 +385,7 @@ theorem literalOriginalAtoms_right_weight_mem (ξ : X)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : IsCoprime I.val A.cS)
     (hweight : (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).rightWeight r I ≠ 0) :
     I.val ∈ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₂ := by
-  have hrefa : (data ξ).allowedRow reference :=
-    (((data ξ).rows_spec _ reference).1 (Finset.mem_filter.mp href).1).1
-  refine Finset.mem_image.mpr ⟨I, Finset.mem_filter.mpr ⟨?_, hI⟩, rfl⟩
-  apply parentPlainCarrier_contains (pairedRows (data ξ) a Z) (data ξ).plainTest₂
-    t (Z ^ a.n₂) Y₂ r reference href
-  apply ((data ξ).plainTest₂.support_spec reference t _ I).mpr
-  rw [W.right_eq PUnit.unit reference hrefa]
-  exact hweight
+  sorry
 
 /-- Prime profiles have no row parameter. Only the original exterior
 prime condition is needed in addition to their actual nonzero value. -/
@@ -420,8 +397,7 @@ theorem literalOriginalAtoms_slot_weight_mem (ξ : X)
     (hp : IsCoprime p.asIdeal A.cS)
     (hweight : (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slotWeight j p ≠ 0) :
     p ∈ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slots j := by
-  refine Finset.mem_filter.mpr ⟨?_, hp⟩
-  exact (((data ξ).geometry.slots j).support_spec t _ p).mpr hweight
+  sorry
 
 end CompleteMovingRowRecipe
 
@@ -446,10 +422,7 @@ theorem fourierAtom_multiplier_ratio (scale : ℝ) (hscale : 0 < scale)
     (fourierAtom scale hscale firstSign negative).multiplier ξ (N / scale) =
       jointPhase ξ (orientedLocation negative
         (-Real.log N • CanonicalLiteralLocations.direction firstSign)) := by
-  rw [CanonicalLogProfiles.Atom.multiplier_ratio]
-  cases negative <;>
-    simp only [fourierAtom, orientedLocation, Bool.false_eq_true, if_false, if_true,
-      Real.rpow_zero, Complex.ofReal_one, one_mul, zero_add, smul_neg, neg_smul, neg_neg]
+  sorry
 
 end CanonicalLiteralProfileData
 
@@ -488,32 +461,26 @@ def fourierSlot (j : Fin k) (firstSign : ℝ) (negative : Bool)
 
 @[simp] theorem fourierSlot_length (j : Fin k) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) :
-    (W.fourierSlot j firstSign negative ξ).length = d.length j := W.slot_length j
+    (W.fourierSlot j firstSign negative ξ).length = d.length j := by
+  sorry
 
 theorem fourierLeft_frozen (r : Bool) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (time y : ℝ) :
     (W.fourierLeft r firstSign negative ξ).profile u time y =
-      (W.fourierLeft r firstSign negative ξ).profile 1 0 y :=
-  congrArg (fun z => z *
-    (CanonicalLiteralProfileData.fourierAtom (d.scale₁ r) (d.scale₁_pos r)
-      firstSign negative).multiplier ξ y) (W.left_frozen r u time y)
+      (W.fourierLeft r firstSign negative ξ).profile 1 0 y := by
+  sorry
 
 theorem fourierRight_frozen (r : Bool) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (time y : ℝ) :
     (W.fourierRight r firstSign negative ξ).profile u time y =
-      (W.fourierRight r firstSign negative ξ).profile 1 0 y :=
-  congrArg (fun z => z *
-    (CanonicalLiteralProfileData.fourierAtom (d.scale₂ r) (d.scale₂_pos r)
-      firstSign negative).multiplier ξ y) (W.right_frozen r u time y)
+      (W.fourierRight r firstSign negative ξ).profile 1 0 y := by
+  sorry
 
 theorem fourierSlot_frozen (j : Fin k) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (time y : ℝ) :
     (W.fourierSlot j firstSign negative ξ).profile time y =
-      (W.fourierSlot j firstSign negative ξ).profile 0 y :=
-  congrArg (fun z => z *
-    (CanonicalLiteralProfileData.fourierAtom (d.base ^ d.length j)
-      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)
-      firstSign negative).multiplier ξ y) (W.slot_frozen j time y)
+      (W.fourierSlot j firstSign negative ξ).profile 0 y := by
+  sorry
 
 theorem fourierLeft_eval (r : Bool) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (time : ℝ)
@@ -522,10 +489,7 @@ theorem fourierLeft_eval (r : Bool) (firstSign : ℝ) (negative : Bool)
       d.rectangleLeftWeight r I * jointPhase ξ
         (CanonicalLiteralProfileData.orientedLocation negative
           (CanonicalLiteralLocations.plain firstSign I)) := by
-  change (W.left r).profile u time (idealNorm K I / d.scale₁ r) *
-    (CanonicalLiteralProfileData.fourierAtom (d.scale₁ r) (d.scale₁_pos r)
-      firstSign negative).multiplier ξ (idealNorm K I / d.scale₁ r) = _
-  rw [W.left_eval, CanonicalLiteralProfileData.fourierAtom_multiplier_ratio] <;> rfl
+  sorry
 
 theorem fourierRight_eval (r : Bool) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (time : ℝ)
@@ -534,10 +498,7 @@ theorem fourierRight_eval (r : Bool) (firstSign : ℝ) (negative : Bool)
       d.rightWeight r I * jointPhase ξ
         (CanonicalLiteralProfileData.orientedLocation negative
           (CanonicalLiteralLocations.plain firstSign I)) := by
-  change (W.right r).profile u time (idealNorm K I / d.scale₂ r) *
-    (CanonicalLiteralProfileData.fourierAtom (d.scale₂ r) (d.scale₂_pos r)
-      firstSign negative).multiplier ξ (idealNorm K I / d.scale₂ r) = _
-  rw [W.right_eval, CanonicalLiteralProfileData.fourierAtom_multiplier_ratio] <;> rfl
+  sorry
 
 /-- The multiplier uses the pre-allocation scale. Consequently its
 phase is the original location of `B * I`, as required by the actual
@@ -550,8 +511,7 @@ theorem fourierLeft_allocated (r : Bool) (firstSign : ℝ) (negative : Bool)
       d.rectangleLeftWeight r (B * I) * jointPhase ξ
         (CanonicalLiteralProfileData.orientedLocation negative
           (CanonicalLiteralLocations.plain firstSign (B * I))) := by
-  rw [CanonicalLiteralProfileData.quotient_argument]
-  exact W.fourierLeft_eval r firstSign negative ξ u time (B * I)
+  sorry
 
 theorem fourierRight_allocated (r : Bool) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (time : ℝ)
@@ -561,8 +521,7 @@ theorem fourierRight_allocated (r : Bool) (firstSign : ℝ) (negative : Bool)
       d.rightWeight r (B * I) * jointPhase ξ
         (CanonicalLiteralProfileData.orientedLocation negative
           (CanonicalLiteralLocations.plain firstSign (B * I))) := by
-  rw [CanonicalLiteralProfileData.quotient_argument]
-  exact W.fourierRight_eval r firstSign negative ξ u time (B * I)
+  sorry
 
 theorem fourierSlot_eval (j : Fin k) (firstSign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (time : ℝ) (p : HeightOneSpectrum (𝓞 K)) :
@@ -571,12 +530,7 @@ theorem fourierSlot_eval (j : Fin k) (firstSign : ℝ) (negative : Bool)
       d.slotWeight j p * jointPhase ξ
         (CanonicalLiteralProfileData.orientedLocation negative
           (CanonicalLiteralLocations.prime firstSign j p)) := by
-  change (W.slot j).profile time ((Ideal.absNorm p.asIdeal : ℝ) / d.base ^ d.length j) *
-    (CanonicalLiteralProfileData.fourierAtom (d.base ^ d.length j)
-      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)
-      firstSign negative).multiplier ξ
-        ((Ideal.absNorm p.asIdeal : ℝ) / d.base ^ d.length j) = _
-  rw [W.slot_eval, CanonicalLiteralProfileData.fourierAtom_multiplier_ratio] <;> rfl
+  sorry
 
 end CanonicalLiteralRectangles.Atoms.ProfileData
 

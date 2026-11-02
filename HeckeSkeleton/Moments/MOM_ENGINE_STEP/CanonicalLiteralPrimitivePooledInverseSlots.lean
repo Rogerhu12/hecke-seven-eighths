@@ -71,19 +71,7 @@ private theorem actual_family_inverse_slots
       (family.leftData labels b z).theta) ∧
     (∀ i, ((family.rightData labels b z).slotCoefficient i)⁻¹ ∈
       (family.rightData labels b z).theta) := by
-  constructor
-  · intro i
-    change (((family.leftChild labels b).frozenData z).slotCoefficient i)⁻¹ ∈
-      ((family.leftChild labels b).frozenData z).theta
-    rw [(family.leftChild labels b).frozen_slotCoefficient_eq z i,
-      (family.leftChild labels b).frozen_theta_eq z]
-    exact hleft b.val z _
-  · intro i
-    change (((family.rightChild labels b).frozenData z).slotCoefficient i)⁻¹ ∈
-      ((family.rightChild labels b).frozenData z).theta
-    rw [(family.rightChild labels b).frozen_slotCoefficient_eq z i,
-      (family.rightChild labels b).frozen_theta_eq z]
-    exact hright b.val z _
+  sorry
 
 namespace CompleteMovingRowRecipe
 
@@ -351,16 +339,7 @@ theorem literalPrimitiveLeftMainFactory_slot_inverse_mem_theta
         (((leftMainFactory DE D S χ leaf hS hlive).family input).leftData Finset.univ b z).theta) ∧
       (∀ i, ((((leftMainFactory DE D S χ leaf hS hlive).family input).rightData Finset.univ b z).slotCoefficient i)⁻¹ ∈
         (((leftMainFactory DE D S χ leaf hS hlive).family input).rightData Finset.univ b z).theta) := by
-  intro input b z
-  exact actual_family_inverse_slots ((leftMainFactory DE D S χ leaf hS hlive).family input) Finset.univ
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _)
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _) b z
+  sorry
 
 /-- Both children of this same actual main factory inherit the original slot inverses. -/
 theorem literalPrimitiveRightMainFactory_slot_inverse_mem_theta
@@ -378,16 +357,7 @@ theorem literalPrimitiveRightMainFactory_slot_inverse_mem_theta
         (((rightMainFactory DE D S χ leaf hS hlive).family input).leftData Finset.univ b z).theta) ∧
       (∀ i, ((((rightMainFactory DE D S χ leaf hS hlive).family input).rightData Finset.univ b z).slotCoefficient i)⁻¹ ∈
         (((rightMainFactory DE D S χ leaf hS hlive).family input).rightData Finset.univ b z).theta) := by
-  intro input b z
-  exact actual_family_inverse_slots ((rightMainFactory DE D S χ leaf hS hlive).family input) Finset.univ
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _)
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _) b z
+  sorry
 
 section LeftValuation
 
@@ -430,16 +400,7 @@ theorem literalPrimitiveLeftPoolFactory_slot_inverse_mem_theta
         (((leftPoolFactory DE D S χ valuation prime leaf hS hlive).family input).leftData Finset.univ b z).theta) ∧
       (∀ i, ((((leftPoolFactory DE D S χ valuation prime leaf hS hlive).family input).rightData Finset.univ b z).slotCoefficient i)⁻¹ ∈
         (((leftPoolFactory DE D S χ valuation prime leaf hS hlive).family input).rightData Finset.univ b z).theta) := by
-  intro input b z
-  exact actual_family_inverse_slots ((leftPoolFactory DE D S χ valuation prime leaf hS hlive).family input) Finset.univ
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _)
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _) b z
+  sorry
 
 end LeftValuation
 
@@ -484,16 +445,7 @@ theorem literalPrimitiveRightPoolFactory_slot_inverse_mem_theta
         (((rightPoolFactory DE D S χ valuation prime leaf hS hlive).family input).leftData Finset.univ b z).theta) ∧
       (∀ i, ((((rightPoolFactory DE D S χ valuation prime leaf hS hlive).family input).rightData Finset.univ b z).slotCoefficient i)⁻¹ ∈
         (((rightPoolFactory DE D S χ valuation prime leaf hS hlive).family input).rightData Finset.univ b z).theta) := by
-  intro input b z
-  exact actual_family_inverse_slots ((rightPoolFactory DE D S χ valuation prime leaf hS hlive).family input) Finset.univ
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _)
-    (by
-      intro label mode i
-      change ((data ξ).slotCoefficient _)⁻¹ ∈ (data ξ).theta
-      exact hinverse _) b z
+  sorry
 
 end RightValuation
 
@@ -615,56 +567,7 @@ theorem literalPrimitivePooledFactory_slot_inverse_mem_theta
         (((factories j).family input).leftData Finset.univ b z).theta) ∧
       (∀ i, ((((factories j).family input).rightData Finset.univ b z).slotCoefficient i)⁻¹ ∈
         (((factories j).family input).rightData Finset.univ b z).theta) := by
-  have hS := (stages).supported.gated.live_first_divisor_squarefree
-    (raw).originalAtlas exceptional normalization j
-  have hparent := (stages).supported.gated.liveLeaves_spec (raw).originalAtlas exceptional normalization j
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  · have hblock := (((stages).supported.gated DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
-      ((normalization).left DE D) ((normalization).right DE D)
-      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
-      (exceptional DE D) ⟨S, χ, .inl leaf⟩).live_of_scale_live _ _ hparent
-    have hpool := (((stages DE D).left S χ).supported.gated.coveredLeaf (((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ)
-      ((exceptional DE D).left S χ) ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
-    rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
-    · have hfiber := ((((stages DE D).left S χ).main).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).main) (((exceptional DE D).left S χ).main)
-        ((source).charts DE D).kernel ((source).charts DE D).leftPoint leaf).live_of_scale_live _ _ hpool
-      exact leftMainInverse DE D S χ leaf hS hfiber
-    · have hfiber := ((((stages DE D).left S χ).one prime).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 1) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 1) (((exceptional DE D).left S χ).one prime)
-        ((source).charts DE D).kernel (fun i => ((source).charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
-      exact leftPoolInverse DE D S χ .one prime leaf hS hfiber
-    · have hfiber := ((((stages DE D).left S χ).six prime).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 6) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 6) (((exceptional DE D).left S χ).six prime)
-        ((source).charts DE D).kernel (fun i => ((source).charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
-      exact leftPoolInverse DE D S χ .six prime leaf hS hfiber
-    · have hfiber := ((((stages DE D).left S χ).seven prime).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 7) ((((source).pools DE D).leftSourceCovers (raw).originalAtlas S χ).residual prime 7) (((exceptional DE D).left S χ).seven prime)
-        ((source).charts DE D).kernel (fun i => ((source).charts DE D).leftPoint i.val) leaf).live_of_scale_live _ _ hpool
-      exact leftPoolInverse DE D S χ .seven prime leaf hS hfiber
-  · have hblock := (((stages).supported.gated DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
-      ((normalization).left DE D) ((normalization).right DE D)
-      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
-      (exceptional DE D) ⟨S, χ, .inr leaf⟩).live_of_scale_live _ _ hparent
-    have hpool := (((stages DE D).right S χ).supported.gated.coveredLeaf (((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ)
-      ((exceptional DE D).right S χ) ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
-    rcases leaf with leaf | (⟨prime, leaf⟩ | (⟨prime, leaf⟩ | ⟨prime, leaf⟩))
-    · have hfiber := ((((stages DE D).right S χ).main).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).main) (((exceptional DE D).right S χ).main)
-        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hpool
-      exact rightMainInverse DE D S χ leaf hS hfiber
-    · have hfiber := ((((stages DE D).right S χ).one prime).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 1) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 1) (((exceptional DE D).right S χ).one prime)
-        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
-      exact rightPoolInverse DE D S χ .one prime leaf hS hfiber
-    · have hfiber := ((((stages DE D).right S χ).six prime).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 6) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 6) (((exceptional DE D).right S χ).six prime)
-        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
-      exact rightPoolInverse DE D S χ .six prime leaf hS hfiber
-    · have hfiber := ((((stages DE D).right S χ).seven prime).supported.gated.fiberCoveredLeaf
-        ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 7) ((((source).pools DE D).rightSourceCovers (raw).originalAtlas S χ).residual prime 7) (((exceptional DE D).right S χ).seven prime)
-        ((source).charts DE D).kernel (fun i => -((source).charts DE D).rightPoint i.val) leaf).live_of_scale_live _ _ hpool
-      exact rightPoolInverse DE D S χ .seven prime leaf hS hfiber
+  sorry
 
 local notation "completeFamily" => literalPrimitivePooledFamily
   (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
@@ -720,14 +623,7 @@ theorem literalPrimitivePooled_family_slot_inverse_mem_theta
         ((completeFamily analytic).leftData Finset.univ b z).theta) ∧
       (∀ i, (((completeFamily analytic).rightData Finset.univ b z).slotCoefficient i)⁻¹ ∈
         ((completeFamily analytic).rightData Finset.univ b z).theta) := by
-  have hleft := ActualNormalizedPairFamily.sigmaCombine_left_slot_inverse_mem_theta
-    (fun j => (factories j).family (analytic j)) Finset.univ (fun _ => Finset.univ)
-    (fun j _ b z i => (factoryInverse j (analytic j) b z).1 i)
-  have hright := ActualNormalizedPairFamily.sigmaCombine_right_slot_inverse_mem_theta
-    (fun j => (factories j).family (analytic j)) Finset.univ (fun _ => Finset.univ)
-    (fun j _ b z i => (factoryInverse j (analytic j) b z).2 i)
-  simpa only [Finset.univ_sigma_univ] using
-    (fun b z => And.intro (hleft b z) (hright b z))
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

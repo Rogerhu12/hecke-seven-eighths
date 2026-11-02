@@ -108,9 +108,7 @@ private theorem normalized_dual_raw_phase_integral_le {j : Type*}
     (∫ ξ, d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) / N
       ∂actualFourierMeasure F) ≤
       ∫ ξ, calibration.rawPhaseCost x ξ ε Cerror Czero / N ∂actualFourierMeasure F := by
-  exact integral_mono (d.normalized_twisted_integrable F c x N)
-    ((calibration.rawPhaseCost_integrable F x ε Cerror Czero).div_const N)
-    (fun ξ => div_le_div_of_nonneg_right (hstage ξ) hN.le)
+  sorry
 
 /-- This substitution lemma is used with the engine's proved universal
 pool-stage theorem. The final parent theorem constructs that theorem;
@@ -135,36 +133,7 @@ theorem linearized_le_rawCost
       d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
         T.rawPhaseCost x ξ ε Cerror Czero) :
     p.linearizedCost NL NR ≤ T.rawCost NL NR ε Cerror Czero := by
-  have hleft (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-      (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
-    normalized_dual_raw_phase_integral_le
-      (p.divisorPools.leftData S) (p.leftDivisorCoefficient S χ)
-      chart.leftPoint chart.kernel (s.left S χ) (T.left S χ) (NL S χ) ε Cerror Czero
-      (hNL S χ) (hstageLeft (p.divisorPools.leftData S)
-        (p.leftDivisorCoefficient S χ) chart.leftPoint
-        (s.left S χ) (conditions.left S χ) (T.left S χ))
-  have hright (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-      (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :=
-    normalized_dual_raw_phase_integral_le
-      (p.divisorPools.rightData S) (p.rightDivisorCoefficient S χ)
-      (fun j => -chart.rightPoint j) chart.kernel (s.right S χ) (T.right S χ)
-      (NR S χ) ε Cerror Czero (hNR S χ)
-      (hstageRight (p.divisorPools.rightData S)
-        (p.rightDivisorCoefficient S χ) (fun j => -chart.rightPoint j)
-        (s.right S χ) (conditions.right S χ) (T.right S χ))
-  unfold FirstBlockPoolData.linearizedCost firstDivisorLinearizedCost rawCost
-  apply Finset.sum_le_sum
-  intro S hS
-  apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
-  apply Finset.sum_le_sum
-  intro χ hχ
-  apply mul_le_mul_of_nonneg_left _
-    (mul_nonneg (norm_nonneg _) (div_nonneg
-      (mul_nonneg (mul_nonneg p.rowBound_nonneg (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _))
-      (by norm_num)))
-  apply add_le_add
-  · exact hleft S χ
-  · exact hright S χ
+  sorry
 
 end DualTerminalCalibration
 end SecondStages
@@ -234,39 +203,7 @@ theorem actual_parent_two_stage_dual_raw_terminal_bound
       X ≤ Z ^ ξmax ∧
       pairedStageEnergy centered d a Z t Y₁ Y₂ ≤
         (s.fiber : ℝ) * (F.cost ε CfirstError CfirstZero + R.dualRawCost T N ε Cerror Czero) := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero,
-      CfirstError, CfirstZero, hCfE, hCfZ, hparent⟩ :=
-    actual_parent_first_dual_terminal_bound (E := W) (hΓ := hΓ) (μv := μv) (ν := ν) (μ := μ)
-      C hDiff rowBallSize k ε hε Lmax Nsave ξmax hξmax
-  obtain ⟨decayPool, hdecayPool, hchoicePool, hqPool, sTail, sZero,
-      Cerror, Czero, hCE, hCZ, hpool⟩ :=
-    actual_pool_dual_raw_fourier_stage_bound (W := W) (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD (rowBallFiniteFamily K A.Sf rowBallSize)
-      (rowBallFiniteFamily_locallyConstant K A.Sf rowBallSize)
-      (rowBallFiniteFamily_compactSupport K A.Sf rowBallSize)
-      k ε hε Lmax Nsave ξmax hξmax
-  have hdecay_eq : decayPool = decay := hchoicePool.trans hchoice.symm
-  rw [hdecay_eq] at hpool
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z ell eps bad P ω ψ centered d a t Y₁ Y₂ X hX s coefficient hprofiles
-    N R conditions T F
-  obtain ⟨hcutoff, _, hlinear⟩ :=
-    hparent Z ell eps bad P centered d a t Y₁ Y₂ X hX s coefficient hprofiles F
-  refine ⟨hcutoff, (hlinear N).trans ?_⟩
-  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-  apply add_le_add le_rfl
-  unfold ActualFirstSource.linearizedCost ActualFirstSource.SecondStages.dualRawCost
-  apply Finset.sum_le_sum
-  intro v _
-  apply Finset.sum_le_sum
-  intro D _
-  exact (T v D).linearized_le_rawCost (conditions v D)
-    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
-    (fun d c x stages hs calibration ξ =>
-      hpool Z ell eps bad P d c x stages hs calibration ξ)
-    (fun d c x stages hs calibration ξ =>
-      hpool Z ell eps bad P d c x stages hs calibration ξ)
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

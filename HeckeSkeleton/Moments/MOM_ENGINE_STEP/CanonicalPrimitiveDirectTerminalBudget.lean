@@ -73,12 +73,12 @@ def zeroSumConstant : ℝ := Classical.choose zeroExists
 def tailSumConstant : ℝ := Classical.choose tailExists
 
 theorem zeroSumConstant_pos :
-    0 < zeroSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum :=
-  (Classical.choose_spec zeroExists).1
+    0 < zeroSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum := by
+  sorry
 
 theorem tailSumConstant_pos :
-    0 < tailSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum :=
-  (Classical.choose_spec tailExists).1
+    0 < tailSumConstant μv C hDiff cap columnBound εsum hcolumnBound hεsum := by
+  sorry
 
 end CanonicalPrimitiveDirectTerminalBudget
 
@@ -217,23 +217,7 @@ theorem literalPrimitiveDirectDualZeroBudget_le
     Czero * orbitalFieldFactor K * kernelBound * zeroConstant * zeroSumConstant *
       Z ^ (CanonicalPrimitiveDirectTerminalWindows.zeroLoss
         padding step loss cutoffExponent lengthBound columnBound δ₁ εzero + εsum) := by
-  have hsum := (Classical.choose_spec
-    (actual_direct_second_dual_zero_from_combined_windows
-      (E := ℝ) (W := ℝ) (C := C)
-      (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (μv := μv) (hDiff := hDiff) (finiteTest := rowBallFiniteFamily K A.Sf 1)
-      (2 * (cap + 2)) columnBound εsum hcolumnBound hεsum)).2
-  have h := hsum Z hZ centered (data ξ) internal t Y₁ Y₂ cutoff hcutoff
-    source stages sTail sZero degree Nsave decay terminal εzero Czero (a.m + a.q)
-    (CanonicalPrimitiveDirectTerminalWindows.zeroLoss
-      padding step loss cutoffExponent lengthBound columnBound δ₁ εzero)
-    (orbitalFieldFactor K) kernelBound zeroConstant 1 hCzero
-    (orbitalFieldFactor_nonneg K) (apply_nonneg _ _)
-    (CanonicalPrimitiveDirectTerminalWindows.profileConstant_nonneg (A := A) cap amplitude sZero)
-    firstTotal firstShift originalWindows (zeroWindows εzero hεzero)
-  have hmask : (originalWindows).oldMask = (1 : Ideal (𝓞 K)) := rfl
-  simpa only [Q.literalPrimitiveFirstSource_fiber, hmask, map_one, Nat.cast_one,
-    one_mul, mul_one, div_one] using h
+  sorry
 
 /-- The coarse complete-column tail is paid by the fixed saving;
 the original internal divisor density is summed only once. -/
@@ -245,21 +229,7 @@ theorem literalPrimitiveDirectDualTailBudget_le
       Cerror / Z ^ (a.m + a.q) ≤
     Cerror * orbitalFieldFactor K * kernelBound * tailConstant * tailSumConstant *
       Z ^ (loss + εsum) := by
-  have hsum := (Classical.choose_spec
-    (actual_direct_second_dual_tail_from_combined_windows
-      (E := ℝ) (W := ℝ) (C := C)
-      (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      (μv := μv) (hDiff := hDiff) (finiteTest := rowBallFiniteFamily K A.Sf 1)
-      (2 * (cap + 2)) columnBound εsum hcolumnBound hεsum)).2
-  have h := hsum Z hZ centered (data ξ) internal t Y₁ Y₂ cutoff hcutoff
-    source stages sTail sZero degree Nsave decay terminal Cerror (a.m + a.q)
-    loss (orbitalFieldFactor K) kernelBound tailConstant 1 hCerror
-    (orbitalFieldFactor_nonneg K) (apply_nonneg _ _)
-    (CanonicalPrimitiveDirectTerminalWindows.profileConstant_nonneg (A := A) cap amplitude sTail)
-    firstTotal firstShift originalWindows (tailWindows hsaving)
-  have hmask : (originalWindows).oldMask = (1 : Ideal (𝓞 K)) := rfl
-  simpa only [Q.literalPrimitiveFirstSource_fiber, hmask, map_one, Nat.cast_one,
-    one_mul, mul_one, div_one] using h
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

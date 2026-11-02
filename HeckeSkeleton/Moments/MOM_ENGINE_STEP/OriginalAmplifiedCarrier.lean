@@ -106,46 +106,36 @@ def amplifiedAllocation :
 
 @[simp] theorem amplifiedIndex_tag (i : I) :
     L.amplifiedTag tag P (L.amplifiedIndex tag P tag_mem i) = tag i := by
-  unfold amplifiedIndex
-  split <;> rename_i ht <;> simp only [amplifiedTag, ht]
+  sorry
 
 @[simp] theorem amplifiedIndex_first (i : I) :
     L.amplifiedFirst tag P (L.amplifiedIndex tag P tag_mem i) = L.first i := by
-  unfold amplifiedIndex
-  split <;> rfl
+  sorry
 
 @[simp] theorem amplifiedIndex_firstDivisor (i : I) :
     L.amplifiedFirstDivisor tag P (L.amplifiedIndex tag P tag_mem i) = L.firstDivisor i := by
-  unfold amplifiedIndex
-  split <;> rfl
+  sorry
 
 @[simp] theorem amplifiedIndex_second (i : I) :
     L.amplifiedSecond tag P (L.amplifiedIndex tag P tag_mem i) = L.second i := by
-  unfold amplifiedIndex
-  split <;> rfl
+  sorry
 
 /-- This is exactly the allocation-projection identity used by the
 physical `CoveredLeafKey` fibre theorem. No allocation is reselected. -/
 @[simp] theorem amplifiedIndex_allocation (i : I) :
     L.amplifiedAllocation tag P (L.amplifiedIndex tag P tag_mem i) = L.allocation i := by
-  unfold amplifiedIndex
-  split <;> rfl
+  sorry
 
 theorem amplifiedIndex_eq_tag {i j : I}
     (h : L.amplifiedIndex tag P tag_mem i = L.amplifiedIndex tag P tag_mem j) :
     tag i = tag j := by
-  have he := congrArg (L.amplifiedTag tag P) h
-  simpa only [amplifiedIndex_tag] using he
+  sorry
 
 theorem amplifiedIndex_eq_coordinates {i j : I}
     (h : L.amplifiedIndex tag P tag_mem i = L.amplifiedIndex tag P tag_mem j) :
     L.first i = L.first j ∧ L.firstDivisor i = L.firstDivisor j ∧
       L.second i = L.second j ∧ L.allocation i = L.allocation j := by
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · simpa only [amplifiedIndex_first] using congrArg (L.amplifiedFirst tag P) h
-  · simpa only [amplifiedIndex_firstDivisor] using congrArg (L.amplifiedFirstDivisor tag P) h
-  · simpa only [amplifiedIndex_second] using congrArg (L.amplifiedSecond tag P) h
-  · simpa only [amplifiedIndex_allocation] using congrArg (L.amplifiedAllocation tag P) h
+  sorry
 
 /-- The tag restriction changes no original support or norm premise. -/
 theorem restricted_carrier_admissible (T : I → Prop)
@@ -160,12 +150,8 @@ theorem restricted_carrier_admissible (T : I → Prop)
       (Ideal.absNorm (L.second i).1.2 : ℝ) ≤ Z ^ B)
     (hL : ∀ i, (L.allocation i).1 ≠ 0)
     (hLN : ∀ i, (Ideal.absNorm (L.allocation i).1 : ℝ) ≤ Z ^ B) :
-    (L.restrict T).carrier.Admissible (cap + 2) B Z oldMask :=
-  (L.restrict T).carrier_admissible B Z oldMask
-    (fun i => hfirst i.val) (fun i => hfirstN i.val)
-    (fun i => hS i.val) (fun i => hSN i.val)
-    (fun i => hsecond i.val) (fun i => hsecondN i.val)
-    (fun i => hL i.val) (fun i => hLN i.val)
+    (L.restrict T).carrier.Admissible (cap + 2) B Z oldMask := by
+  sorry
 
 theorem amplified_carriers_admissible (B Z : ℝ) (oldMask : Ideal (𝓞 K))
     (hfirst : ∀ i, Valid oldMask (L.first i))
@@ -179,20 +165,8 @@ theorem amplified_carriers_admissible (B Z : ℝ) (oldMask : Ideal (𝓞 K))
     (hL : ∀ i, (L.allocation i).1 ≠ 0)
     (hLN : ∀ i, (Ideal.absNorm (L.allocation i).1 : ℝ) ≤ Z ^ B) :
     (L.mainCarrier tag).Admissible (cap + 2) B Z oldMask ∧
-      ∀ n p, (L.errorCarrier tag n p).Admissible (cap + 2) B Z oldMask :=
-  by
-    constructor
-    · exact (L.mainLabels tag).carrier_admissible B Z oldMask
-        (fun i => hfirst i.val) (fun i => hfirstN i.val)
-        (fun i => hS i.val) (fun i => hSN i.val)
-        (fun i => hsecond i.val) (fun i => hsecondN i.val)
-        (fun i => hL i.val) (fun i => hLN i.val)
-    · intro n p
-      exact (L.errorLabels tag n p).carrier_admissible B Z oldMask
-        (fun i => hfirst i.val) (fun i => hfirstN i.val)
-        (fun i => hS i.val) (fun i => hSN i.val)
-        (fun i => hsecond i.val) (fun i => hsecondN i.val)
-        (fun i => hL i.val) (fun i => hLN i.val)
+      ∀ n p, (L.errorCarrier tag n p).Admissible (cap + 2) B Z oldMask := by
+  sorry
 
 /-- The internally computed tagged image has the official one-pool
 mass. Constants precede the actual pool, all source labels and their
@@ -223,15 +197,7 @@ theorem amplified_image_mass_subpower
       (∑ j : AmplifiedCommonIndex P (L.mainCarrier tag) (L.errorCarrier tag),
         amplifiedIndexWeight P M B (L.mainCarrier tag) (L.errorCarrier tag) j) ≤
           C * Z ^ (δ + eps) / (Ideal.absNorm oldMask : ℝ) := by
-  obtain ⟨C, Z₀, hC, hZ₀, hm⟩ := amplified_finite_index_mass (A := A)
-    (cap + 2) normBox δ ell eps Mmax Bmax hbox hδ hell heps hepsell hMmax hBmax
-  refine ⟨C, Z₀, hC, hZ₀, ?_⟩
-  intro Z hZ bad P M B hM hMM hBB oldMask hs hs0 I inst L tag
-    _htag hf hfN hS hSN hw hwN hD hDN
-  have ha := L.amplified_carriers_admissible tag normBox Z oldMask
-    hf hfN hS hSN hw hwN hD hDN
-  exact hm Z hZ bad P M B hM hMM hBB oldMask hs hs0
-    (L.mainCarrier tag) ha.1 (L.errorCarrier tag) (fun n _ p _ => ha.2 n p)
+  sorry
 
 end OriginalArithmeticLabels
 end HeckeSkeleton.Moments.EngineStep

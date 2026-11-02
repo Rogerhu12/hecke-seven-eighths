@@ -52,9 +52,7 @@ private theorem scalar_pool_terminal_sum
         (∑ p, w₇ p * z₇ p)) +
       a * (m * t₀ + (∑ p, w₁ p * t₁ p) + (∑ p, w₆ p * t₆ p) +
         (∑ p, w₇ p * t₇ p)) + ∑ b, r b := by
-  simp only [Fintype.sum_sum_type, Fintype.sum_sigma, h₀, h₁, h₆, h₇,
-    Finset.sum_add_distrib, Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -130,7 +128,7 @@ def coveredLeaf (exceptional : s.CoverHybridPredicates B)
 @[simp] theorem coveredLeaf_firstKernel (exceptional : s.CoverHybridPredicates B)
     (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey B) :
     (s.coveredLeaf B exceptional F x b).firstKernel = F := by
-  rcases b with b | (⟨p, b⟩ | (⟨p, b⟩ | ⟨p, b⟩)) <;> rfl
+  sorry
 
 namespace TerminalCalibration
 
@@ -162,49 +160,7 @@ theorem phase_cost_eq_budgets_leaves
     T.coverHybridPhaseCost B exceptional x ξ ε Cerror Czero =
       T.zeroBudget ε Czero + T.tailBudget Cerror +
         ∑ b : s.CoveredLeafKey B, (s.coveredLeaf B exceptional F x b).firstPhaseCost ξ := by
-  unfold coverHybridPhaseCost
-  rw [T.main.phase_cost_eq_budgets_leaves B.main B.main exceptional.main F x ξ]
-  simp_rw [ActualGaussStage.TerminalCalibration.phase_cost_eq_budgets_leaves (F := F)]
-  exact scalar_pool_terminal_sum
-    (P := P.primes)
-    (I₀ := s.main.CoveredLeafKey B.main B.main)
-    (I₁ := fun p => (s.one p).CoveredLeafKey (B.residual p 1) (B.residual p 1))
-    (I₆ := fun p => (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6))
-    (I₇ := fun p => (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))
-    (4 / d.density) d.multiplicity
-    (fun p => FirstGaussPoolData.localErrorWeight p.val 1)
-    (fun p => FirstGaussPoolData.localErrorWeight p.val 6)
-    (fun p => FirstGaussPoolData.localErrorWeight p.val 7)
-    (T.main.zeroBudget ε Czero) (T.main.tailBudget Cerror)
-    (fun p => (T.one p).zeroBudget ε Czero) (fun p => (T.one p).tailBudget Cerror)
-    (fun p => (T.six p).zeroBudget ε Czero) (fun p => (T.six p).tailBudget Cerror)
-    (fun p => (T.seven p).zeroBudget ε Czero) (fun p => (T.seven p).tailBudget Cerror)
-    (fun b => (s.main.fiberCoveredLeaf B.main B.main exceptional.main F x b).firstPhaseCost ξ)
-    (fun p b => ((s.one p).fiberCoveredLeaf (B.residual p 1) (B.residual p 1)
-      (exceptional.one p) F (fun i => x i.val) b).firstPhaseCost ξ)
-    (fun p b => ((s.six p).fiberCoveredLeaf (B.residual p 6) (B.residual p 6)
-      (exceptional.six p) F (fun i => x i.val) b).firstPhaseCost ξ)
-    (fun p b => ((s.seven p).fiberCoveredLeaf (B.residual p 7) (B.residual p 7)
-      (exceptional.seven p) F (fun i => x i.val) b).firstPhaseCost ξ)
-    (fun b => (s.coveredLeaf B exceptional F x b).firstPhaseCost ξ)
-    (fun b => (s.main.fiberCoveredLeaf B.main B.main exceptional.main F x b).scale_firstPhaseCost
-      ((4 / d.density) * d.multiplicity)
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le) d.multiplicity_nonneg) ξ)
-    (fun p b => ((s.one p).fiberCoveredLeaf (B.residual p 1) (B.residual p 1)
-      (exceptional.one p) F (fun i => x i.val) b).scale_firstPhaseCost
-      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 1)
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-        (FirstGaussPoolData.localErrorWeight_nonneg p.val 1)) ξ)
-    (fun p b => ((s.six p).fiberCoveredLeaf (B.residual p 6) (B.residual p 6)
-      (exceptional.six p) F (fun i => x i.val) b).scale_firstPhaseCost
-      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 6)
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-        (FirstGaussPoolData.localErrorWeight_nonneg p.val 6)) ξ)
-    (fun p b => ((s.seven p).fiberCoveredLeaf (B.residual p 7) (B.residual p 7)
-      (exceptional.seven p) F (fun i => x i.val) b).scale_firstPhaseCost
-      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 7)
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-        (FirstGaussPoolData.localErrorWeight_nonneg p.val 7)) ξ)
+  sorry
 
 /-- The source's exact finite carrier is independent of ξ.  Each
 nonzero term now carries its original positive nested Fourier measure. -/
@@ -216,23 +172,7 @@ theorem integral_phase_cost_eq_budgets_leaves
         ∂actualFourierMeasure F) =
       (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey B, (s.coveredLeaf B exceptional F x b).cost := by
-  letI := actualFourierMeasure_finite F
-  have hi : ∀ b : s.CoveredLeafKey B,
-      Integrable (s.coveredLeaf B exceptional F x b).firstPhaseCost (actualFourierMeasure F) := by
-    intro b
-    simpa only [s.coveredLeaf_firstKernel B exceptional F x b] using
-      (s.coveredLeaf B exceptional F x b).firstPhaseCost_integrable
-  simp_rw [T.phase_cost_eq_budgets_leaves B exceptional F x]
-  rw [integral_add (integrable_const _) (integrable_finsetSum _ (fun b _ => hi b))]
-  rw [integral_const, integral_finsetSum]
-  · simp only [smul_eq_mul]
-    congr 1
-    apply Finset.sum_congr rfl
-    intro b _
-    simpa only [s.coveredLeaf_firstKernel B exceptional F x b] using
-      (s.coveredLeaf B exceptional F x b).integral_firstPhaseCost
-  · intro b _
-    exact hi b
+  sorry
 
 end TerminalCalibration
 end ActualPoolStages

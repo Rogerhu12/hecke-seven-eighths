@@ -1,0 +1,56 @@
+name: MOM_ENGINE_STEP group build
+
+# Builds one group of MOM_ENGINE_STEP modules on top of the statement
+# skeleton (cloud/mom-engine-step-skeleton, see
+# cloud_tasks/MOM_ENGINE_STEP_GROUPS.md).  A pull request from
+# cloud/mom-engine-step-gN builds the modules of .github/groups/gN.txt with
+# their real proofs; a push to the skeleton branch builds the whole skeleton.
+on:
+  push:
+    branches: [cloud/mom-engine-step-skeleton]
+  pull_request:
+    branches: [cloud/mom-engine-step-skeleton]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-step-group-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      LEAN_NUM_THREADS: '2'
+      GROUP_KILL_AFTER: '1200'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the group on the skeleton
+        run: python3 -u .github/groups/group_build.py
+      - name: Upload the group build evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: group-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: group-build/
+          retention-days: 14

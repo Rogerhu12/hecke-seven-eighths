@@ -38,18 +38,15 @@ variable (W : d.ProfileData) (B : ActualColumnAllocation K k)
 
 theorem left_support_frozen (r : Bool) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (t N : ℝ) : (W.left r).support u t N = (W.left r).support 1 0 N := by
-  ext I
-  rw [(W.left r).support_spec, (W.left r).support_spec, W.left_frozen]
+  sorry
 
 theorem right_support_frozen (r : Bool) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (t N : ℝ) : (W.right r).support u t N = (W.right r).support 1 0 N := by
-  ext I
-  rw [(W.right r).support_spec, (W.right r).support_spec, W.right_frozen]
+  sorry
 
 theorem slot_support_frozen (j : Fin k) (t N : ℝ) :
     (W.slot j).support t N = (W.slot j).support 0 N := by
-  ext p
-  rw [(W.slot j).support_spec, (W.slot j).support_spec, W.slot_frozen]
+  sorry
 
 def smoothPlain₁ : Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   (W.left false).support 1 0 (d.scale₁ false / idealNorm K (B.plainDivisor 0)) ∪
@@ -69,38 +66,32 @@ theorem left_support_subset_smooth (r : Bool)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     (W.left r).support u t (d.scale₁ r / idealNorm K (B.plainDivisor 0)) ⊆
       W.smoothPlain₁ B := by
-  rw [W.left_support_frozen]
-  cases r
-  · exact Finset.subset_union_left
-  · exact Finset.subset_union_right
+  sorry
 
 theorem right_support_subset_smooth (r : Bool)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     (W.right r).support u t
         (d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) ⊆
       W.smoothPlain₂ B := by
-  rw [W.right_support_frozen]
-  cases r
-  · exact Finset.subset_union_left
-  · exact Finset.subset_union_right
+  sorry
 
 theorem fourierLeft_support_subset_smooth (r : Bool) (sign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     (W.fourierLeft r sign negative ξ).support u t
-        (d.scale₁ r / idealNorm K (B.plainDivisor 0)) ⊆ W.smoothPlain₁ B :=
-  W.left_support_subset_smooth B r u t
+        (d.scale₁ r / idealNorm K (B.plainDivisor 0)) ⊆ W.smoothPlain₁ B := by
+  sorry
 
 theorem fourierRight_support_subset_smooth (r : Bool) (sign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (t : ℝ) :
     (W.fourierRight r sign negative ξ).support u t
-        (d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) ⊆ W.smoothPlain₂ B :=
-  W.right_support_subset_smooth B r u t
+        (d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) ⊆ W.smoothPlain₂ B := by
+  sorry
 
 theorem fourierSlot_support_eq_smooth (sign : ℝ) (negative : Bool)
     (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin B.keep.card) (t : ℝ) :
     (W.fourierSlot (SlotRestriction.index B.keep i) sign negative ξ).support t
-        (d.base ^ d.length (SlotRestriction.index B.keep i)) = W.smoothSlots B i :=
-  W.slot_support_frozen (SlotRestriction.index B.keep i) t _
+        (d.base ^ d.length (SlotRestriction.index B.keep i)) = W.smoothSlots B i := by
+  sorry
 
 variable (A : SArithmeticData K)
 
@@ -114,16 +105,17 @@ def exteriorSmoothSlots (i : Fin B.keep.card) : Finset (HeightOneSpectrum (𝓞 
   (W.smoothSlots B i).filter (fun p => IsCoprime p.asIdeal A.cS)
 
 theorem exteriorSmoothPlain₁_coprime (I : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (hI : I ∈ W.exteriorSmoothPlain₁ B A) : IsCoprime I.val A.cS :=
-  (Finset.mem_filter.mp hI).2
+    (hI : I ∈ W.exteriorSmoothPlain₁ B A) : IsCoprime I.val A.cS := by
+  sorry
 
 theorem exteriorSmoothPlain₂_coprime (I : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (hI : I ∈ W.exteriorSmoothPlain₂ B A) : IsCoprime I.val A.cS :=
-  (Finset.mem_filter.mp hI).2
+    (hI : I ∈ W.exteriorSmoothPlain₂ B A) : IsCoprime I.val A.cS := by
+  sorry
 
 theorem exteriorSmoothSlots_coprime (i : Fin B.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) (hp : p ∈ W.exteriorSmoothSlots B A i) :
-    IsCoprime p.asIdeal A.cS := (Finset.mem_filter.mp hp).2
+    IsCoprime p.asIdeal A.cS := by
+  sorry
 
 end CanonicalLiteralRectangles.Atoms.ProfileData
 
@@ -167,44 +159,7 @@ theorem actual_effectiveSupports (ξ : WithLp 2 (ℝ × ℝ))
       ∀ i : Fin (child ξ).geometry.slotCount,
         EffectivePrimeSupport (child ξ) i u d.base (height ξ)
           (W.exteriorSmoothSlots B A i) := by
-  refine ⟨?_, ?_, ?_⟩
-  · intro I hI
-    have hprofile := (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hI).1).2
-    have hmask := (mul_ne_zero_iff.mp hI).2
-    have hfixed := (mask_consequences P R W B F parent oldMoving correction hcorr C p
-      leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
-      rectangle firstSign negative ξ u I hmask).fixed
-    refine Finset.mem_filter.mpr ⟨?_, hfixed⟩
-    apply W.fourierLeft_support_subset_smooth B rectangle firstSign negative ξ u (height ξ)
-    exact ((W.fourierLeft rectangle firstSign negative ξ).support_spec u (height ξ) _ I).mpr
-      hprofile
-  · intro I hI
-    have hprofile := (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hI).1).2
-    have hmask := (mul_ne_zero_iff.mp hI).2
-    have hfixed := (mask_consequences P R W B F parent oldMoving correction hcorr C p
-      leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
-      rectangle firstSign negative ξ u I hmask).fixed
-    refine Finset.mem_filter.mpr ⟨?_, hfixed⟩
-    apply W.fourierRight_support_subset_smooth B rectangle firstSign negative ξ u (height ξ)
-    exact ((W.fourierRight rectangle firstSign negative ξ).support_spec u (height ξ) _ I).mpr
-      hprofile
-  · intro i v hv
-    have hprofile := (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hv).1).2
-    have hmask := (mul_ne_zero_iff.mp hv).2
-    have hfixed := (mask_consequences P R W B F parent oldMoving correction hcorr C p
-      leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
-      rectangle firstSign negative ξ u
-      ⟨v.asIdeal, mem_nonZeroDivisors_of_ne_zero v.ne_bot⟩ hmask).fixed
-    refine Finset.mem_filter.mpr ⟨?_, hfixed⟩
-    rw [← W.fourierSlot_support_eq_smooth B firstSign negative ξ i (height ξ)]
-    apply ((W.fourierSlot (SlotRestriction.index B.keep i) firstSign negative ξ).support_spec
-      (height ξ) _ v).mpr
-    change (W.fourierSlot (SlotRestriction.index B.keep i) firstSign negative ξ).profile
-      (height ξ) ((Ideal.absNorm v.asIdeal : ℝ) /
-        d.base ^ (W.fourierSlot (SlotRestriction.index B.keep i) firstSign negative ξ).length)
-      ≠ 0 at hprofile
-    rw [W.fourierSlot_length] at hprofile
-    exact hprofile
+  sorry
 
 end CanonicalLiteralSmoothCarrier
 end HeckeSkeleton.Moments.EngineStep

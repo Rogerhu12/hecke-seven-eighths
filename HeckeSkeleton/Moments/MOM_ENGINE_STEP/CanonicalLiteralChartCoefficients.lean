@@ -90,11 +90,7 @@ theorem canonicalLog_leftSourceCoefficient
             b.leftMultiplicity b.rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)) /
         (A.exteriorNorm (b.leftResidual i) : ℂ) := by
-  rw [canonicalLogWithCoefficients_leftCoefficient_eq,
-    CanonicalLiteralFirstPhase.leftDivisorFactor hΓ C b.primes b.primes_injective
-      b.leftMultiplicity b.rightMultiplicity (b.leftResidual i) (b.leftGenerator i)
-      (b.left_generates i) hi]
-  ring
+  sorry
 
 /-- The right coefficient uses the positive complementary sextic
 exponents. Its inverse norm is the same original right residual norm. -/
@@ -116,11 +112,7 @@ theorem canonicalLog_rightSourceCoefficient
             b.leftMultiplicity b.rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)) /
         (A.exteriorNorm (b.rightResidual j) : ℂ) := by
-  rw [canonicalLogWithCoefficients_rightCoefficient_eq,
-    CanonicalLiteralFirstPhase.rightDivisorFactor hΓ C b.primes b.primes_injective
-      b.leftMultiplicity b.rightMultiplicity (b.rightResidual j) (b.rightGenerator j)
-      (b.right_generates j) hj]
-  ring
+  sorry
 
 end FirstBlockProfileChart
 
@@ -146,8 +138,7 @@ theorem canonicalLog_empty_leftSourceCoefficient (i : ι) :
       c i * ((A.exteriorNorm (b.secondLeftIdeal i) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.secondLeftIdeal i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  change (c i * ((A.exteriorNorm (b.secondLeftIdeal i) ^ δ : ℝ) : ℂ)) * _ = _
-  rw [CanonicalLiteralFixedPhases.generated_empty_divisorPhase]
+  sorry
 
 theorem canonicalLog_empty_rightSourceCoefficient (j : κ) :
     (canonicalLogWithCoefficients hΓ μv hDiff ν b C left right φ c e finiteTest hlc hcs
@@ -155,8 +146,7 @@ theorem canonicalLog_empty_rightSourceCoefficient (j : κ) :
       e j * ((A.exteriorNorm (b.secondRightIdeal j) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.secondRightIdeal j).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  change (e j * ((A.exteriorNorm (b.secondRightIdeal j) ^ δ : ℝ) : ℂ)) * _ = _
-  rw [CanonicalLiteralFixedPhases.generated_empty_divisorPhase]
+  sorry
 
 theorem canonicalLog_empty_leftSourceCoefficient_on_columns
     (i : ι) (hi : i ∈ b.leftColumns left) :
@@ -165,7 +155,7 @@ theorem canonicalLog_empty_leftSourceCoefficient_on_columns
       c i * ((A.exteriorNorm (fullI i) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (fullI i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  rw [canonicalLog_empty_leftSourceCoefficient, b.secondLeftIdeal_eq left i hi]
+  sorry
 
 theorem canonicalLog_empty_rightSourceCoefficient_on_columns
     (j : κ) (hj : j ∈ b.rightColumns right) :
@@ -174,7 +164,7 @@ theorem canonicalLog_empty_rightSourceCoefficient_on_columns
       e j * ((A.exteriorNorm (fullJ j) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (fullJ j).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  rw [canonicalLog_empty_rightSourceCoefficient, b.secondRightIdeal_eq right j hj]
+  sorry
 
 end SecondBlockProfileChart
 
@@ -184,23 +174,21 @@ namespace FirstCommonCharacterBlock
 already a factor of every actual complete left column. -/
 theorem left_divisor_of_common (S : Ideal (𝓞 K)) (hS : S ∣ DE.1)
     (i : ι) (hi : i ∈ b.leftColumns left) : S ∣ (fullI i).val := by
-  rw [b.left_reconstruct left i hi, b.common_left]
-  exact dvd_mul_of_dvd_left hS _
+  sorry
 
 theorem right_divisor_of_common (S : Ideal (𝓞 K)) (hS : S ∣ DE.2)
     (j : κ) (hj : j ∈ b.rightColumns right) : S ∣ (fullJ j).val := by
-  rw [b.right_reconstruct right j hj, b.common_right]
-  exact dvd_mul_of_dvd_left hS _
+  sorry
 
 theorem left_divisor_filter_eq (S : Ideal (𝓞 K)) (hS : S ∣ DE.1)
     (f : ι → ℂ) (i : ι) (hi : i ∈ b.leftColumns left) :
-    (if S ∣ (fullI i).val then f i else 0) = f i :=
-  if_pos (b.left_divisor_of_common left S hS i hi)
+    (if S ∣ (fullI i).val then f i else 0) = f i := by
+  sorry
 
 theorem right_divisor_filter_eq (S : Ideal (𝓞 K)) (hS : S ∣ DE.2)
     (f : κ → ℂ) (j : κ) (hj : j ∈ b.rightColumns right) :
-    (if S ∣ (fullJ j).val then f j else 0) = f j :=
-  if_pos (b.right_divisor_of_common right S hS j hj)
+    (if S ∣ (fullJ j).val then f j else 0) = f j := by
+  sorry
 
 end FirstCommonCharacterBlock
 end HeckeSkeleton.Moments.EngineStep

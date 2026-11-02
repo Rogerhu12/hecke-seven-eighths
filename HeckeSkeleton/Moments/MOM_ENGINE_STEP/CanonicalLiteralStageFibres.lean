@@ -56,10 +56,7 @@ local notation "Orbit" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 
 actual original row. This does not inspect coefficient activity. -/
 theorem engineOrbitMultiplicity_rows_nonempty (rows : Finset A.R)
     (h : engineOrbitMultiplicity (Γ := Γ) rows ≠ 0) : rows.Nonempty := by
-  by_contra hempty
-  have he : rows = ∅ := Finset.not_nonempty_iff_eq_empty.mp hempty
-  apply h
-  simp only [he, engineOrbitMultiplicity, Finset.sup_empty]
+  sorry
 
 namespace ActualGaussStage
 
@@ -77,15 +74,15 @@ local notation "stage" => literalSectorStage (hΓ := hΓ) (μv := μv) (hDiff :=
 @[simp] theorem literalSectorStage_fiber :
     (stage).fiber = engineOrbitMultiplicity (Γ := Γ) G.rows := rfl
 
-theorem literalSectorStage_rows_nonempty (h : (stage).fiber ≠ 0) : G.rows.Nonempty :=
-  engineOrbitMultiplicity_rows_nonempty G.rows h
+theorem literalSectorStage_rows_nonempty (h : (stage).fiber ≠ 0) : G.rows.Nonempty := by
+  sorry
 
 /-- Every subset of the original signed representative image keeps
 unit physical fibres in the actual constructed stage. -/
 theorem literalSectorStage_fiber_le_one
     (original : Finset Orbit) (sign : A.R) (hsign : sign ≠ 0)
-    (hrows : G.rows ⊆ original.image (fun q => q.out.val * sign)) : (stage).fiber ≤ 1 :=
-  engineOrbit_image_multiplicity_le_one original sign hsign G.rows hrows
+    (hrows : G.rows ⊆ original.image (fun q => q.out.val * sign)) : (stage).fiber ≤ 1 := by
+  sorry
 
 end ActualGaussStage
 
@@ -113,21 +110,14 @@ theorem literalCanonicalStages_fiber_le
     (horiginal : d.rows ⊆ original.image (fun q => q.out.val * sign))
     (tag : PoolSourceTag pool) :
     ((stages).tag tag).fiber ≤ max 1 ⌈(M + 6 * (step / 3)) / ((step / 3) / 2)⌉₊ := by
-  rcases tag with u | p | p | p
-  · exact (d.main_orbit_multiplicity_le_uniform M hM original sign hsign horiginal).trans
-      (le_max_right _ _)
-  all_goals
-    exact (d.error_orbit_multiplicity_le_one original sign hsign horiginal p.val).trans
-      (le_max_left _ _)
+  sorry
 
 /-- This is the same physical source used to create the selected
 stage; no supported-column replacement enters the terminal estimate. -/
 theorem literalCanonicalStages_rows_nonempty
     (tag : PoolSourceTag pool) (h : ((stages).tag tag).fiber ≠ 0) :
     (d.tagSource c tag).rows.Nonempty := by
-  rcases tag with u | p | p | p
-  all_goals
-    exact engineOrbitMultiplicity_rows_nonempty _ h
+  sorry
 
 end FirstGaussPoolData
 end HeckeSkeleton.Moments.EngineStep

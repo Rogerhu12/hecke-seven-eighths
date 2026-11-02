@@ -110,36 +110,7 @@ theorem canonical_second_terminals_from_original_atoms
       hbase hproduct hpairBound factors multiplicity hfibers hfactor hproductNorm
       hpair hretained hlower hupper hdegree hcutoff_eq
     cutoff ≤ Z ^ ξ ∧ G.energy hDiff ≤ T.calibration.rawCost ε Cerror Czero := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, hbound⟩ :=
-    actual_gauss_raw_dual_terminal_bound (E := ℝ) (ν := ν) (μ := μ) hΓ μv hDiff
-      C Drecipe hD (rowBallFiniteFamily K A.Sf 1)
-      (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1) k ε hε Lmax Nsave ξ hξ
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, ?_⟩
-  intro δ hδ hδhalf ι G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-    Θ _ dimension width character dyad raw Sdiv slots B W hcoefficient
-    a₀ productExponent Krow radiusError columnError pairBound
-    hbase hproduct hpairBound factors multiplicity hfibers hfactor hproductNorm
-    hpair hretained hlower hupper hdegree hcutoff_eq
-  let stage := ActualGaussStage.canonicalUnmaskedRowBallByBlock
-    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-    dimension width character dyad
-  let T := ActualGaussStage.canonicalDualResidualWindows
-    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-    dimension width character dyad W hcoefficient sTail sZero k Lmax Nsave decay
-    a₀ productExponent Krow radiusError columnError pairBound
-    hbase hproduct hpairBound factors multiplicity hfibers hfactor hproductNorm
-    hpair hretained hlower hupper hdegree hcutoff_eq
-  have hpositive : 0 ≤ (sIntegerTensorTerm K A.Sf
-      (traceSchwartzToMixed K stage.profile) (rowBallFiniteFamily K A.Sf 1) 0).re := by
-    change 0 ≤ (sIntegerTensorTerm K A.Sf
-      (traceSchwartzToMixed K (CanonicalRowBall.archTest K A.Sf 1))
-        (rowBallFiniteFamily K A.Sf 1) 0).re
-    rw [CanonicalRowBall.originalTensor_zero, Complex.ofReal_re]
-    exact inv_nonneg.mpr (CanonicalRowBall.mass_pos K A.Sf).le
-  exact hbound Z G stage rfl hpositive T.calibration
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

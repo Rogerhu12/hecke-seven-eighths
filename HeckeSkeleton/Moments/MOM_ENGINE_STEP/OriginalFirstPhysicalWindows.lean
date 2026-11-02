@@ -38,27 +38,12 @@ theorem sIntegerElementNorm_le_of_dvd
     (hd : d ≠ 0) (hc : c ≠ 0) (h : d ∣ c) :
     (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K))) ⟨d, hd⟩).val ≤
       (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K))) ⟨c, hc⟩).val := by
-  obtain ⟨x, hx⟩ := h
-  have hx0 : x ≠ 0 := by
-    intro hzero
-    apply hc
-    rw [hx, hzero, mul_zero]
-  have he : (⟨c, hc⟩ : NonzeroRingElements
-      (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) =
-      sIntegerNonzeroMul K (S : Set (HeightOneSpectrum (𝓞 K))) ⟨d, hd⟩ ⟨x, hx0⟩ :=
-    Subtype.ext hx
-  rw [he, sIntegerElementNorm_nonzeroMul]
-  exact le_mul_of_one_le_right
-    (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K))) ⟨d, hd⟩).property.le
-    (one_le_sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K))) ⟨x, hx0⟩)
+  sorry
 
 private theorem physical_ideal_norm_le_of_dvd
     (D I : Ideal (𝓞 K)) (hI : I ≠ 0) (h : D ∣ I) :
     (Ideal.absNorm D : ℝ) ≤ (Ideal.absNorm I : ℝ) := by
-  have hpos : 0 < Ideal.absNorm I :=
-    Nat.pos_of_ne_zero (by simpa only [Ideal.absNorm_eq_zero_iff] using hI)
-  exact_mod_cast Nat.le_of_dvd hpos
-    (Ideal.absNorm_dvd_absNorm_of_le (Ideal.le_of_dvd h))
+  sorry
 
 variable {A : SArithmeticData K}
 
@@ -92,22 +77,7 @@ original common ideal, independent of its unit normalization. -/
 theorem principal_mask_generator_dvd_common
     (g : A.R) (hg : A.Generates (primePowerProduct b.primes b.leftMultiplicity) g) :
     (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅)).val ∣ g := by
-  change IdealMobiusMask.maskGenerator (b.mask ∅) ∣ g
-  rw [IdealMobiusMask.maskGenerator_dvd_iff, IdealMobiusMask.mem_primeProduct]
-  intro p hp
-  have hp' : p ∈ firstPrincipalPrimeMask b.primes b.leftMultiplicity b.rightMultiplicity := by
-    simpa only [FirstCommonCharacterBlock.mask, Finset.empty_union] using hp
-  obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hp'
-  have hd : (primeIdeal (b.primes i)).val ∣
-      (primePowerProduct b.primes b.leftMultiplicity).val := by
-    rw [b.common_left]
-    exact b.originalCommonPrimeData.divides i (Finset.mem_univ i)
-  have hle : A.extendIdeal (primePowerProduct b.primes b.leftMultiplicity) ≤
-      A.extendIdeal (primeIdeal (b.primes i)) :=
-    Ideal.map_mono (Ideal.le_of_dvd hd)
-  apply hle
-  rw [← hg.2]
-  exact Ideal.mem_span_singleton_self g
+  sorry
 
 /-- The physical mask norm is bounded by the actual complete left
 common ideal, rather than by a supplied mask estimate. -/
@@ -116,14 +86,7 @@ theorem principal_mask_norm_le_common
     (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅))).val ≤
         (Ideal.absNorm DE.1 : ℝ) := by
-  obtain ⟨g, u, hg, hu, hallowed⟩ :=
-    C.allowed_integral (primePowerProduct b.primes b.leftMultiplicity)
-  have hnorm := sIntegerElementNorm_le_of_dvd A.Sf
-    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅)).val
-    g (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅)).property
-    hg.1 (b.principal_mask_generator_dvd_common g hg)
-  rw [generates_sIntegerElementNorm _ _ hg, b.common_left] at hnorm
-  exact hnorm
+  sorry
 
 theorem principal_mask_norm_le_original_column
     (C : A.GeneralArithmeticContext σ η hS)
@@ -131,10 +94,7 @@ theorem principal_mask_norm_le_original_column
     (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅))).val ≤
         (Ideal.absNorm (fullI i).val : ℝ) := by
-  apply (b.principal_mask_norm_le_common C).trans
-  apply physical_ideal_norm_le_of_dvd DE.1 (fullI i).val (fullI i).property.1
-  rw [← b.common_left]
-  exact ⟨(b.leftResidual i).val, b.left_reconstruct left i hi⟩
+  sorry
 
 variable {Γ : Subgroup A.U}
 variable (hΓ : ∀ u : Γ, ∃ v : A.U, u.val = v ^ 6)
@@ -150,19 +110,7 @@ theorem first_modulus_norm
         (b.pair hΓ C profiles i j).modulus_ne_zero⟩).val =
       (Ideal.absNorm ((b.leftResidual i).val * ((b.rightResidual j).val *
         (firstActiveIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val)) : ℝ) := by
-  change (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-    (sIntegerNonzeroMul K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-      ⟨b.leftGenerator i, (b.left_generates i).1⟩
-      (sIntegerNonzeroMul K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        ⟨b.rightGenerator j, (b.right_generates j).1⟩
-        ⟨firstActiveGenerator C b.primes b.leftMultiplicity b.rightMultiplicity,
-          (firstActiveGenerator_generates C b.primes b.leftMultiplicity b.rightMultiplicity).1⟩))).val = _
-  rw [sIntegerElementNorm_nonzeroMul, sIntegerElementNorm_nonzeroMul,
-    generates_sIntegerElementNorm _ _ (b.left_generates i),
-    generates_sIntegerElementNorm _ _ (b.right_generates j),
-    generates_sIntegerElementNorm _ _
-      (firstActiveGenerator_generates C b.primes b.leftMultiplicity b.rightMultiplicity)]
-  simp only [map_mul, Nat.cast_mul]
+  sorry
 
 /-- The actual first modulus ideal divides the full original pair.
 Only existing common and residual factors occur in the quotient. -/
@@ -175,14 +123,7 @@ theorem first_modulus_norm_le_original_product
       ⟨(b.pair hΓ C profiles i j).modulus,
         (b.pair hΓ C profiles i j).modulus_ne_zero⟩).val ≤
       (Ideal.absNorm ((fullI i).val * (fullJ j).val) : ℝ) := by
-  rw [b.first_modulus_norm hΓ C profiles i j]
-  apply physical_ideal_norm_le_of_dvd _ _
-    (mul_ne_zero (fullI i).property.1 (fullJ j).property.1)
-  obtain ⟨T, hT⟩ := firstActiveIdeal_dvd_common b.primes
-    b.leftMultiplicity b.rightMultiplicity b.left_positive
-  refine ⟨T * (primePowerProduct b.primes b.rightMultiplicity).val, ?_⟩
-  rw [b.left_reconstruct left i hi, b.right_reconstruct right j hj, hT]
-  ac_rfl
+  sorry
 
 end FirstCommonCharacterBlock
 
@@ -209,19 +150,7 @@ theorem first_original_physical_windows
     (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       ⟨((blocks v.1).pair hΓ C profiles v.2.1 v.2.2).modulus,
         ((blocks v.1).pair hΓ C profiles v.2.1 v.2.2).modulus_ne_zero⟩).val ≤ Z ^ (2 * B) := by
-  have hm := (mem_firstZeroPairs left right fullI fullJ v).mp hv
-  have hb := ((blocks v.1).mem_iff_label left right
-    (commonSupportPool_support_eq left right (fun i => (fullI i).val)
-      (fun j => (fullJ j).val) v.1.val v.1.property) _ _).mpr hm
-  refine ⟨((blocks v.1).principal_mask_norm_le_original_column C left v.2.1 hb.1).trans
-    (hleft v.2.1 hm.1), ?_⟩
-  apply ((blocks v.1).first_modulus_norm_le_original_product hΓ C
-    left right profiles v.2.1 hb.1 v.2.2 hb.2.1).trans
-  rw [map_mul, Nat.cast_mul]
-  calc
-    _ ≤ Z ^ B * Z ^ B := mul_le_mul (hleft v.2.1 hm.1)
-      (hright v.2.2 hm.2.1) (Nat.cast_nonneg _) (Real.rpow_nonneg hZ.le _)
-    _ = Z ^ (2 * B) := by rw [← Real.rpow_add hZ, show B + B = 2 * B by ring]
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

@@ -126,72 +126,7 @@ theorem normalized_sixth_pair_original_allowance_separate
         Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) *
           (1 / (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ)) /
             (Ideal.absNorm left.source.allocation.divisor : ℝ) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  let rawL := IL.rawChild AL hAL boundsL hBL hfL lc
-  let rawR := IR.rawChild AR hAR boundsR hBR hfR rc
-  have hraw :
-      actualCapacityPairWeight left right calL calR W frozenL frozenR rawL rawR boundsL boundsR
-          Z 0 / firstNormalization ≤
-        (actualCapacityPairEnvelope left right calL calR W frozenL frozenR rawL rawR boundsL boundsR *
-          W.commonEnvelope * orbitalFieldFactor K *
-          Z ^ ((bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2 - G.boundary) *
-          Z ^ G.skeleton.wo * Z ^ (G.tag.poolLength step) / Z ^ (0 : ℝ)) *
-          (1 / (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ)) /
-            (Ideal.absNorm left.source.allocation.divisor : ℝ) := by
-    subst IL
-    subst IR
-    exact actual_sixth_capacity_pair_relative_allowance_le left right calL calR W frozenL frozenR
-      parent a Z step G hbaseL hbaseR hn anchor hsecond hopposite hunit hnonunit
-      bindingL bindingR atomsL atomsR hstep mesh hmesh hfit rawL rawR boundsL boundsR
-      hZ 0 firstNormalization hN hBL hBR hdivisor hscaleL hscaleR hradius
-  have hsl : bindingL.massSlack mesh atomsL ≤ G.boundary + 5 * error / 3 + mesh := by
-    simpa only [OriginalNominalGeometry.atBase_boundary] using
-      bindingL.massSlack_le_original_windows mesh hmesh atomsL annulus error herror
-        (by simpa only [hbaseL] using hthreshold) hannulusLL hannulusLR hsupport hrawL hwidthL
-  have hsr : bindingR.massSlack mesh atomsR ≤ G.boundary + 5 * error / 3 + mesh := by
-    simpa only [OriginalNominalGeometry.atBase_boundary,
-      OriginalNominalGeometry.swapSecond_boundary] using
-      bindingR.massSlack_le_original_windows mesh hmesh atomsR annulus error herror
-        (by simpa only [hbaseR] using hthreshold) hannulusRL hannulusRR hsupport hrawR hwidthR
-  have hmargin :
-      (bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2 - G.boundary +
-        G.skeleton.wo + G.tag.poolLength step ≤
-      G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh := by linarith
-  have hatoms :
-      actualCapacityPairEnvelope left right calL calR W frozenL frozenR rawL rawR boundsL boundsR *
-        W.commonEnvelope ≤ (W.originalFiber : ℝ) * W.profileBound * B ^ (2 * cap) := by
-    simpa only [hboundsL, hboundsR] using
-      CanonicalSeparateAtomMass.pairEnvelope_mul_common_le_one
-        left right calL calR W frozenL frozenR rawL rawR cap B hB
-        hleft hright hcommonLeft hcommonRight hcommonL hcommonR hfrozenL hfrozenR
-  have hconstant : 0 ≤ (W.originalFiber : ℝ) * W.profileBound * B ^ (2 * cap) * orbitalFieldFactor K :=
-    mul_nonneg
-      (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) W.profileBound_nonneg)
-        (pow_nonneg (zero_le_one.trans hB) _))
-      (orbitalFieldFactor_nonneg K)
-  have hscalar :
-      actualCapacityPairEnvelope left right calL calR W frozenL frozenR rawL rawR boundsL boundsR *
-        W.commonEnvelope * orbitalFieldFactor K *
-        Z ^ ((bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2 - G.boundary) *
-        Z ^ G.skeleton.wo * Z ^ (G.tag.poolLength step) / Z ^ (0 : ℝ) ≤
-      ((W.originalFiber : ℝ) * W.profileBound * B ^ (2 * cap) * orbitalFieldFactor K) *
-        Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) := by
-    calc
-      _ = (actualCapacityPairEnvelope left right calL calR W frozenL frozenR rawL rawR boundsL boundsR *
-          W.commonEnvelope * orbitalFieldFactor K) *
-          Z ^ ((bindingL.massSlack mesh atomsL + bindingR.massSlack mesh atomsR) / 2 - G.boundary +
-            G.skeleton.wo + G.tag.poolLength step) := by
-        rw [Real.rpow_zero, div_one, Real.rpow_add hz, Real.rpow_add hz]
-        ring
-      _ ≤ _ := mul_le_mul
-        (mul_le_mul_of_nonneg_right hatoms (orbitalFieldFactor_nonneg K))
-        (Real.rpow_le_rpow_of_exponent_le hZ.le hmargin)
-        (Real.rpow_nonneg hz.le _) hconstant
-  rw [normalized_pair_weight_eq_canonical left right calL calR W frozenL frozenR IL IR
-    AL AR hAL hAR boundsL boundsR hBL hBR hfL hfR lc rc Z 0 hz]
-  exact hraw.trans (div_le_div_of_nonneg_right
-    (mul_le_mul_of_nonneg_right hscalar (one_div_nonneg.mpr (Nat.cast_nonneg _)))
-      (Nat.cast_nonneg _))
+  sorry
 
 variable {branch : TwoDivisorCommonBranch (K := K)}
 variable {Ray₁ Ray₂ : Type*}
@@ -250,51 +185,7 @@ theorem normalized_sixth_pair_original_index_separate
       firstCost * ((W.originalFiber : ℝ) * W.profileBound * B ^ (2 * cap) * orbitalFieldFactor K) *
         Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) *
           branch.indexWeight j := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hNpos : 0 < firstNormalization := by
-    rw [hN]
-    exact firstLeftAllowance_pos Z _ hz _ _
-  have hsecondWeight := normalized_sixth_pair_original_allowance_separate
-    left right calL calR W frozenL frozenR IL IR AL AR hAL hAR boundsL boundsR hBL hBR hfL hfR
-    lc rc parent a Z step G hbaseL hbaseR hn anchor hsecond hopposite hunit hnonunit
-    bindingL bindingR atomsL atomsR hstep mesh hmesh hfit hIL hIR hZ cap B hB hboundsL hboundsR
-    hleftCount hrightCount hcommonLeft hcommonRight hcommonL hcommonR hfrozenL hfrozenR
-    firstNormalization hN annulus error herror hthreshold
-    hannulusLL hannulusLR hannulusRL hannulusRR hsupport hrawL hrawR hwidthL hwidthR
-    hdivisor hscaleL hscaleR hradius
-  have hfirstWeight := firstOriginalAllowanceWeight_le_radical
-    Z parentWidth total rawProfile firstCost hZ hfirst hprofile
-    j.1.val.1.1 j.1.val.1.2 hD hE hsupportFirst
-  have hpair := mul_le_mul hfirstWeight hsecondWeight
-    (div_nonneg (normalizedCapacityPairWeight_nonneg lc rc
-      left.normalizer right.normalizer Z 0 hz) hNpos.le)
-    (div_nonneg hfirst (Nat.cast_nonneg _))
-  have hcoeff :
-      ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-        ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
-      ‖(moebius j.2.1.val : ℂ)‖ * ‖(moebius j.2.2.2.1.val : ℂ)‖ := by
-    have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
-      (norm_nonneg (moebius j.2.2.2.1.val : ℂ))
-    simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
-      (norm_nonneg _) (by positivity)
-  have hconstant : 0 ≤ (W.originalFiber : ℝ) * W.profileBound * B ^ (2 * cap) * orbitalFieldFactor K :=
-    mul_nonneg
-      (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) W.profileBound_nonneg)
-        (pow_nonneg (zero_le_one.trans hB) _))
-      (orbitalFieldFactor_nonneg K)
-  have hupper : 0 ≤ firstCost / (Ideal.absNorm (commonRadical j.1.val.1.1 j.1.val.1.2) : ℝ) *
-      (((W.originalFiber : ℝ) * W.profileBound * B ^ (2 * cap) * orbitalFieldFactor K) *
-        Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) *
-        (1 / (Ideal.absNorm (commonRadical W.leftIdeal W.rightIdeal) : ℝ)) /
-          (Ideal.absNorm left.source.allocation.divisor : ℝ)) :=
-    mul_nonneg (div_nonneg hfirst (Nat.cast_nonneg _))
-      (div_nonneg
-        (mul_nonneg (mul_nonneg hconstant (Real.rpow_nonneg hz.le _))
-          (one_div_nonneg.mpr (Nat.cast_nonneg _))) (Nat.cast_nonneg _))
-  have h := mul_le_mul hpair hcoeff (by positivity) hupper
-  convert h using 1 <;>
-    simp only [TwoDivisorCommonBranch.indexWeight, hleft, hright, hdivisorIndex] <;> ring
+  sorry
 
 
 end NormalizedPair
@@ -451,55 +342,7 @@ theorem arithmetic_sixth_outer_index_separate
         (firstCost * (((costs).rowMass.originalFiber : ℝ) * (costs).rowMass.profileBound * B ^ (2 * cap) * orbitalFieldFactor K) *
           Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) *
             branch.indexWeight j) := by
-  have hindex :
-      (firstOriginalAllowanceWeight Z parentWidth total rawProfile j.1.val.1.1 j.1.val.1.2 *
-        ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-        ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖) *
-        (((raw).withArithmetic costs).family.weight Finset.univ 0 rectangle / firstNormalization) ≤
-      firstCost * (((costs).rowMass.originalFiber : ℝ) * (costs).rowMass.profileBound * B ^ (2 * cap) * orbitalFieldFactor K) *
-        Z ^ (G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh) *
-          branch.indexWeight j :=
-    normalized_sixth_pair_original_index_separate leftFrame rightFrame
-      ((raw).left b.val.2.1).calibration ((raw).right b.val.2.2).calibration (costs).rowMass
-      ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
-      (((raw).withArithmetic costs).left b.val.2.1).capacity
-      (((raw).withArithmetic costs).right b.val.2.2).capacity
-      ((raw).left b.val.2.1).amplitude ((raw).right b.val.2.2).amplitude
-      ((raw).left b.val.2.1).amplitude_pos ((raw).right b.val.2.2).amplitude_pos
-      ((raw).left b.val.2.1).bounds ((raw).right b.val.2.2).bounds
-      ((raw).left b.val.2.1).bounds_nonneg ((raw).right b.val.2.2).bounds_nonneg
-      ((raw).left b.val.2.1).factor ((raw).right b.val.2.2).factor
-      (((raw).withArithmetic costs).family.leftChild Finset.univ rectangle)
-      (((raw).withArithmetic costs).family.rightChild Finset.univ rectangle)
-      parent a Z step G ((raw).left_base b.val.2.1) ((raw).right_base b.val.2.2)
-      hn anchor hsecond hopposite hunit hnonunit bindingL bindingR atomsL atomsR
-      hstep mesh hmesh hfit hcapacityL hcapacityR hZ cap B hB hleftBounds hrightBounds
-      hleftCount hrightCount hcommonLeft hcommonRight hcommonL hcommonR hfrozenL hfrozenR
-      firstNormalization hN
-      annulus error herror hthreshold hannulusLL hannulusLR hannulusRL hannulusRR
-      hsupport hrawL hrawR hwidthL hwidthR hdivisor hscaleL hscaleR hradius
-      j hleft hright hdivisorIndex parentWidth total rawProfile firstCost hfirst hprofile
-      hD hE hsupportFirst phase₁ χ₁ phase₂ χ₂
-  rw [weight_eq leaves chosen parentWidth b]
-  change (leaves b.val.1).weight *
-      ((raw).withArithmetic costs).family.weight Finset.univ parentWidth rectangle ≤ _
-  calc
-    _ = ((leaves b.val.1).weight / Z ^ parentWidth) *
-        ((raw).withArithmetic costs).family.weight Finset.univ 0 rectangle :=
-      normalizedCapacityPairWeight_outer_parent_zero
-        (((raw).withArithmetic costs).family.leftChild Finset.univ rectangle)
-        (((raw).withArithmetic costs).family.rightChild Finset.univ rectangle)
-        (((raw).withArithmetic costs).family.leftNormalizer b.val.2)
-        (((raw).withArithmetic costs).family.rightNormalizer b.val.2)
-        Z parentWidth (leaves b.val.1).weight
-    _ = factor *
-        ((firstOriginalAllowanceWeight Z parentWidth total rawProfile j.1.val.1.1 j.1.val.1.2 *
-          ‖(moebius j.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-          ‖(moebius j.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖) *
-          (((raw).withArithmetic costs).family.weight Finset.univ 0 rectangle / firstNormalization)) := by
-      rw [houter]
-      ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left hindex hfactor
+  sorry
 
 end ActualHybridFamily
 end ActualFamily

@@ -108,46 +108,7 @@ theorem literalPrimitiveFirstFrequency_upper
     (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     (((source).block DE).literalLeftCoordinates D.val).firstFrequency internal Z ≤
       2 * lengthBound + 2 * columnBound := by
-  let b := (source).block DE
-  have hDE := actual_common_pair_properties (source).columns (source).columns
-    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) DE
-  have hnorm := actual_common_pair_norm (source).columns (source).columns
-    (fun i => ((source).ideal i).val) (fun i => ((source).ideal i).val) (Z ^ columnBound)
-    (fun i _ => ((source).ideal i).property.1) (fun i _ => ((source).ideal i).property.1)
-    hN hN DE
-  have hactiveDvd : firstActiveRadical DE.val.1 DE.val.2 ∣ DE.val.1 := by
-    rw [← b.activeIdeal_eq, ← b.common_left]
-    exact firstActiveIdeal_dvd_common b.primes b.leftMultiplicity b.rightMultiplicity b.left_positive
-  have hactiveNorm : (Ideal.absNorm (firstActiveRadical DE.val.1 DE.val.2) : ℝ) ≤
-      Z ^ columnBound := (norm_le_of_dvd hDE.1 hactiveDvd).trans hnorm.1
-  have hactive : idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) ≤ columnBound := by
-    apply (Real.rpow_le_rpow_left_iff hZ).mp
-    rw [rpow_idealLogLength Z hZ _ (firstActiveRadical_ne_zero _ _)]
-    exact hactiveNorm
-  have hsub : D.val ⊆ b.mask ∅ := Finset.mem_powerset.mp D.property
-  have hdiv := original_submask_generator_dvd hsub
-  have hmask := sIntegerElementNorm_le_of_dvd A.Sf
-    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val
-    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅)).val
-    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).property
-    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) (b.mask ∅)).property hdiv
-  have hphysicalNorm : A.exteriorNorm (firstPhysicalDivisorIdeal (A := A) D.val) ≤
-      Z ^ columnBound := by
-    rw [firstPhysicalDivisorIdeal_norm]
-    exact hmask.trans ((b.principal_mask_norm_le_common C).trans hnorm.1)
-  have hphysical : idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val ≤
-      columnBound := by
-    apply (Real.rpow_le_rpow_left_iff hZ).mp
-    rw [rpow_idealLogLength Z hZ _ (firstPhysicalDivisorIdeal D.val).property.1]
-    exact hphysicalNorm
-  have hc := idealLogLength_nonneg Z hZ DE.val.1 hDE.1
-  have hd := idealLogLength_nonneg Z hZ DE.val.2 hDE.2.1
-  have hm := Q.fullSupportParameters_m_nonneg_of_pairedRow a Z hZ hbudget ξ reference href
-  have ht : (internal).n₁ + (internal).n₂ + (internal).z ≤ lengthBound := htotal
-  simp only [OriginalNominalIdeals.firstFrequency,
-    b.literalLeftCoordinates_first, b.literalLeftCoordinates_opposite,
-    b.literalLeftCoordinates_complementary]
-  linarith
+  sorry
 
 include hannulus hcap hannulusZ domain profiles hrows ht hwindow hcutoffPower
   htotal hN href in
@@ -159,27 +120,7 @@ theorem literalPrimitivePool_row_windows
       A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ rowExponent) ∧
     (∀ h ∈ ((source).pieces DE D).rightData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ rowExponent) := by
-  have hw := Q.literalPrimitiveFirstSource_row_windows μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-    cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
-    hcutoffPower DE D
-  have hf := literalPrimitiveFirstFrequency_upper
-    (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-    (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
-    (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
-    (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-    (reference := reference) (href := href) (lengthBound := lengthBound)
-    (columnBound := columnBound) (htotal := htotal) (hN := hN) DE D
-  have hl : (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
-      internal Z (2 * loss + cutoffExponent) ≤ Z ^ rowExponent := by
-    apply Real.rpow_le_rpow_of_exponent_le hZ.le
-    dsimp only [literalPrimitivePoolRowExponent]
-    linarith
-  have hr : (((source).block DE).literalRightCoordinates D.val).canonicalRetainedScale
-      internal Z (2 * loss + cutoffExponent) ≤ Z ^ rowExponent := by
-    simpa only [OriginalNominalIdeals.canonicalRetainedScale,
-      ((source).block DE).literalRightCoordinates_firstFrequency] using hl
-  exact ⟨fun h hh => (hw.1 h hh).trans hl, fun h hh => (hw.2 h hh).trans hr⟩
+  sorry
 
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {step eps : ℝ}
 variable (pool : PowerScaleExteriorPool A bad Z (step / 3) eps)

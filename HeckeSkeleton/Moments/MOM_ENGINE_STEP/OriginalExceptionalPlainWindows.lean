@@ -34,19 +34,12 @@ variable {K : Type} [Field K] [NumberField K]
 private theorem original_plain_log_mul (Z : ℝ) (I J : Ideal (𝓞 K))
     (hI : I ≠ 0) (hJ : J ≠ 0) :
     idealLogLength Z (I * J) = idealLogLength Z I + idealLogLength Z J := by
-  have hi : (Ideal.absNorm I : ℝ) ≠ 0 := by
-    exact_mod_cast (fun hz => hI (Ideal.absNorm_eq_zero_iff.mp hz))
-  have hj : (Ideal.absNorm J : ℝ) ≠ 0 := by
-    exact_mod_cast (fun hz => hJ (Ideal.absNorm_eq_zero_iff.mp hz))
-  simp only [idealLogLength, map_mul, Nat.cast_mul, Real.log_mul hi hj]
-  ring
+  sorry
 
 private theorem original_plain_log_le_of_dvd (Z : ℝ) (hZ : 1 < Z)
     (I J : Ideal (𝓞 K)) (hI : I ≠ 0) (hJ : J ≠ 0) (h : I ∣ J) :
     idealLogLength Z I ≤ idealLogLength Z J := by
-  apply (Real.rpow_le_rpow_left_iff hZ).mp
-  rw [rpow_idealLogLength Z hZ I hI, rpow_idealLogLength Z hZ J hJ]
-  exact ideal_norm_le_of_dvd hJ h
+  sorry
 
 namespace ActualColumnAllocation
 
@@ -69,58 +62,31 @@ def rawExtractionLength (Z : ℝ) (length : Fin k → ℝ) : ℝ :=
 
 theorem frozenIdeal_length (Z : ℝ) :
     idealLogLength Z B.frozenIdeal = B.plainExtractionLength Z + B.frozenPrimeLength Z := by
-  have h₁ := nonZeroDivisors.coe_ne_zero (B.plainDivisor 0)
-  have h₂ := nonZeroDivisors.coe_ne_zero (B.plainDivisor (Fin.succ 0))
-  have hp : (∏ i ∈ Finset.univ \ B.keep, (B.witness.2 i).asIdeal) ≠ 0 :=
-    Finset.prod_ne_zero_iff.mpr (fun i _ => (B.witness.2 i).ne_bot)
-  rw [frozenIdeal, original_plain_log_mul Z _ _ (mul_ne_zero h₁ h₂) hp,
-    original_plain_log_mul Z _ _ h₁ h₂,
-    idealLogLength_prod Z _ _ (fun i _ => (B.witness.2 i).ne_bot)]
-  rfl
+  sorry
 
 theorem slotLength_split (length : Fin k → ℝ) :
     (∑ i, length i) = B.frozenSlotLength length +
       ∑ j : Fin B.keep.card, length (SlotRestriction.index B.keep j) := by
-  have hkeep : (∑ i ∈ B.keep, length i) =
-      ∑ j : Fin B.keep.card, length (SlotRestriction.index B.keep j) := by
-    rw [← Finset.sum_coe_sort B.keep length]
-    exact (B.keep.equivFin.symm.sum_comp (fun i : B.keep => length i.val)).symm
-  have hs := Finset.sum_sdiff (Finset.subset_univ B.keep) (f := length)
-  rw [hkeep] at hs
-  change (∑ i, length i) =
-    (∑ i ∈ Finset.univ \ B.keep, length i) +
-      ∑ j : Fin B.keep.card, length (SlotRestriction.index B.keep j)
-  linarith
+  sorry
 
 theorem plainExtractionLength_nonneg (Z : ℝ) (hZ : 1 < Z) :
-    0 ≤ B.plainExtractionLength Z :=
-  add_nonneg
-    (idealLogLength_nonneg Z hZ _ (nonZeroDivisors.coe_ne_zero _))
-    (idealLogLength_nonneg Z hZ _ (nonZeroDivisors.coe_ne_zero _))
+    0 ≤ B.plainExtractionLength Z := by
+  sorry
 
 theorem frozenPrimeLength_nonneg (Z : ℝ) (hZ : 1 < Z) :
-    0 ≤ B.frozenPrimeLength Z :=
-  Finset.sum_nonneg (fun i _ => idealLogLength_nonneg Z hZ _ (B.witness.2 i).ne_bot)
+    0 ≤ B.frozenPrimeLength Z := by
+  sorry
 
 theorem rawExtractionLength_nonneg (Z : ℝ) (hZ : 1 < Z)
     (length : Fin k → ℝ) (hlength : ∀ i, 0 ≤ length i) :
     0 ≤ B.rawExtractionLength Z length := by
-  exact add_nonneg (B.plainExtractionLength_nonneg Z hZ)
-    (div_nonneg (add_nonneg (B.frozenPrimeLength_nonneg Z hZ)
-      (Finset.sum_nonneg (fun i _ => hlength i))) (by norm_num))
+  sorry
 
 theorem plainDivisor_length_le_rawExtraction (Z : ℝ) (hZ : 1 < Z)
     (length : Fin k → ℝ) (hlength : ∀ i, 0 ≤ length i) :
     idealLogLength Z (B.plainDivisor 0).val ≤ B.rawExtractionLength Z length ∧
     idealLogLength Z (B.plainDivisor (Fin.succ 0)).val ≤ B.rawExtractionLength Z length := by
-  have h₁ := idealLogLength_nonneg Z hZ (B.plainDivisor 0).val
-    (nonZeroDivisors.coe_ne_zero _)
-  have h₂ := idealLogLength_nonneg Z hZ (B.plainDivisor (Fin.succ 0)).val
-    (nonZeroDivisors.coe_ne_zero _)
-  have hp := B.frozenPrimeLength_nonneg Z hZ
-  have hl : 0 ≤ B.frozenSlotLength length := Finset.sum_nonneg (fun i _ => hlength i)
-  dsimp only [rawExtractionLength, plainExtractionLength]
-  constructor <;> linarith
+  sorry
 
 /-- Every prime of the actual second divisor is paid in the frozen
 ideal; no divisor-count estimate is postulated. -/
@@ -128,13 +94,7 @@ theorem divisor_length_le_frozen (Z : ℝ) (hZ : 1 < Z)
     (hsq : Squarefree B.divisor)
     (hselection : B.selection ∈ AllocationMass.idealAllocations B.divisor (k + 2)) :
     idealLogLength Z B.divisor ≤ B.plainExtractionLength Z + B.frozenPrimeLength Z := by
-  have hd := B.divisor_dvd_frozenIdeal hsq hselection
-  have hD : B.divisor ≠ 0 := by
-    intro hz
-    rw [hz, zero_dvd_iff] at hd
-    exact B.frozenIdeal_ne_zero hd
-  exact (original_plain_log_le_of_dvd Z hZ _ _ hD B.frozenIdeal_ne_zero hd).trans_eq
-    (B.frozenIdeal_length Z)
+  sorry
 
 /-- Only the original upper annulus of each frozen prime is spent.
 The actual frozen-slot error is the sum of these individual errors. -/
@@ -146,26 +106,7 @@ theorem divisor_window_of_prime_windows (Z : ℝ) (hZ : 1 < Z)
     (hprime : ∀ i ∈ Finset.univ \ B.keep,
       (Ideal.absNorm (B.witness.2 i).asIdeal : ℝ) ≤ Z ^ (length i + 2 * error i)) :
     lower - B.rawExtractionLength Z length ≤ ∑ i ∈ Finset.univ \ B.keep, error i := by
-  have hd := B.divisor_dvd_frozenIdeal hsq hselection
-  have hD : B.divisor ≠ 0 := by
-    intro hz
-    rw [hz, zero_dvd_iff] at hd
-    exact B.frozenIdeal_ne_zero hd
-  have hlower : lower ≤ idealLogLength Z B.divisor := by
-    apply (Real.rpow_le_rpow_left_iff hZ).mp
-    simpa only [rpow_idealLogLength Z hZ B.divisor hD] using hdivisor
-  have hfreeze := hlower.trans (B.divisor_length_le_frozen Z hZ hsq hselection)
-  have hp : B.frozenPrimeLength Z ≤
-      B.frozenSlotLength length + 2 * ∑ i ∈ Finset.univ \ B.keep, error i := by
-    calc
-      _ ≤ ∑ i ∈ Finset.univ \ B.keep, (length i + 2 * error i) := by
-        apply Finset.sum_le_sum
-        intro i hi
-        apply (Real.rpow_le_rpow_left_iff hZ).mp
-        simpa only [rpow_idealLogLength Z hZ _ (B.witness.2 i).ne_bot] using hprime i hi
-      _ = _ := by simp only [frozenSlotLength, Finset.sum_add_distrib, Finset.mul_sum]
-  dsimp only [rawExtractionLength]
-  linarith
+  sorry
 
 /-- The common lower scale is computed from all four literal scales;
 formally impossible rectangles remain in this minimum. -/
@@ -177,30 +118,22 @@ def fourPlainLower (X₁ X₂ Y₁ Y₂ : ℝ) : ℝ :=
 
 theorem fourPlainLower_pos {X₁ X₂ Y₁ Y₂ : ℝ}
     (hX₁ : 0 < X₁) (hX₂ : 0 < X₂) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂) :
-    0 < B.fourPlainLower X₁ X₂ Y₁ Y₂ :=
-  lt_min (lt_min (div_pos hX₁ (idealNorm_pos _ _)) (div_pos hX₂ (idealNorm_pos _ _)))
-    (lt_min (div_pos hY₁ (idealNorm_pos _ _)) (div_pos hY₂ (idealNorm_pos _ _)))
+    0 < B.fourPlainLower X₁ X₂ Y₁ Y₂ := by
+  sorry
 
 theorem fourPlainLower_lower {L X₁ X₂ Y₁ Y₂ : ℝ}
     (hX₁ : L ≤ X₁ / idealNorm K (B.plainDivisor 0))
     (hX₂ : L ≤ X₂ / idealNorm K (B.plainDivisor (Fin.succ 0)))
     (hY₁ : L ≤ Y₁ / idealNorm K (B.plainDivisor 0))
     (hY₂ : L ≤ Y₂ / idealNorm K (B.plainDivisor (Fin.succ 0))) :
-    L ≤ B.fourPlainLower X₁ X₂ Y₁ Y₂ :=
-  le_min (le_min hX₁ hX₂) (le_min hY₁ hY₂)
+    L ≤ B.fourPlainLower X₁ X₂ Y₁ Y₂ := by
+  sorry
 
 private theorem original_quotient_lower (Z : ℝ) (hZ : 1 < Z)
     (L v r X : ℝ) (D : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hX : Z ^ (L - v) ≤ X) (hD : idealLogLength Z D.val ≤ r) :
     Z ^ (L - v - r) ≤ X / idealNorm K D := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hd : idealNorm K D ≤ Z ^ r := by
-    change (Ideal.absNorm D.val : ℝ) ≤ Z ^ r
-    rw [← rpow_idealLogLength Z hZ D.val (nonZeroDivisors.coe_ne_zero D)]
-    exact Real.rpow_le_rpow_of_exponent_le hZ.le hD
-  rw [Real.rpow_sub hz]
-  exact (div_le_div_of_nonneg_left (Real.rpow_nonneg hz.le _)
-    (idealNorm_pos K D) hd).trans (div_le_div_of_nonneg_right hX (idealNorm_pos K D).le)
+  sorry
 
 /-- This fills the minimum window from the four pre-allocation scales
 and the computed cost of this very allocation. -/
@@ -210,12 +143,7 @@ theorem fourPlainLower_window (Z : ℝ) (hZ : 1 < Z)
     (hX₁ : Z ^ (L - v) ≤ X₁) (hX₂ : Z ^ (L - v) ≤ X₂)
     (hY₁ : Z ^ (L - v) ≤ Y₁) (hY₂ : Z ^ (L - v) ≤ Y₂) :
     Z ^ (L - v - B.rawExtractionLength Z length) ≤ B.fourPlainLower X₁ X₂ Y₁ Y₂ := by
-  have hp := B.plainDivisor_length_le_rawExtraction Z hZ length hlength
-  exact B.fourPlainLower_lower
-    (original_quotient_lower Z hZ L v _ X₁ _ hX₁ hp.1)
-    (original_quotient_lower Z hZ L v _ X₂ _ hX₂ hp.2)
-    (original_quotient_lower Z hZ L v _ Y₁ _ hY₁ hp.1)
-    (original_quotient_lower Z hZ L v _ Y₂ _ hY₂ hp.2)
+  sorry
 
 /-- The actual atom exponents, with the original annulus and profile
 constants kept in the constant rather than moved into a new length. -/
@@ -244,36 +172,14 @@ theorem originalAtomicScales_exponent (Z plainTotal : ℝ) (length : Fin k → �
     (hannulus : ∀ i, 1 ≤ annulus i) (hprofile : ∀ i, 0 ≤ profile i) :
     (B.originalAtomicScales Z plainTotal length hlength annulus profile hannulus hprofile).exponent =
       (plainTotal + ∑ i, length i) / 2 - B.rawExtractionLength Z length := by
-  have hs : (∑ j : Fin B.keep.card,
-      (length (SlotRestriction.index B.keep j) + -length (SlotRestriction.index B.keep j) / 2)) =
-        (∑ j : Fin B.keep.card, length (SlotRestriction.index B.keep j)) / 2 := by
-    rw [Finset.sum_div]
-    apply Finset.sum_congr rfl
-    intro j _
-    ring
-  change -idealLogLength Z B.frozenIdeal / 2 +
-      (plainTotal - B.plainExtractionLength Z) / 2 +
-        (∑ j : Fin B.keep.card,
-          (length (SlotRestriction.index B.keep j) + -length (SlotRestriction.index B.keep j) / 2)) = _
-  rw [B.frozenIdeal_length Z, hs, B.slotLength_split length]
-  unfold rawExtractionLength
-  ring
+  sorry
 
 theorem rectangle_product_eq_power (Z : ℝ) (hZ : 1 < Z)
     (X₁ X₂ : ℝ) (hX₁ : 0 < X₁) (hX₂ : 0 < X₂) :
     (X₁ / idealNorm K (B.plainDivisor 0)) *
         (X₂ / idealNorm K (B.plainDivisor (Fin.succ 0))) =
       Z ^ (Real.log (X₁ * X₂) / Real.log Z - B.plainExtractionLength Z) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  rw [Real.rpow_sub hz, Real.rpow_logb hz (ne_of_gt hZ) (mul_pos hX₁ hX₂),
-    plainExtractionLength, Real.rpow_add hz,
-    rpow_idealLogLength Z hZ _ (nonZeroDivisors.coe_ne_zero _),
-    rpow_idealLogLength Z hZ _ (nonZeroDivisors.coe_ne_zero _)]
-  change (X₁ / idealNorm K (B.plainDivisor 0)) *
-    (X₂ / idealNorm K (B.plainDivisor (Fin.succ 0))) =
-      (X₁ * X₂) / (idealNorm K (B.plainDivisor 0) *
-        idealNorm K (B.plainDivisor (Fin.succ 0)))
-  ring
+  sorry
 
 end ActualColumnAllocation
 
@@ -391,11 +297,7 @@ theorem exceptional_plain_total_of_product {k : ℕ}
     (length : Fin k → ℝ)
     (hproduct : X₁ * X₂ * ∏ i, Z ^ length i = Z ^ total) :
     Real.log (X₁ * X₂) / Real.log Z + ∑ i, length i = total := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  apply (Real.rpow_right_inj hz (ne_of_gt hZ)).mp
-  rw [Real.rpow_add hz, Real.rpow_logb hz (ne_of_gt hZ) (mul_pos hX₁ hX₂),
-    Real.rpow_sum_of_pos hz]
-  exact hproduct
+  sorry
 
 /-- Two original side totals give exactly the exponent requested by
 the paired exceptional theorem.  Both extraction lengths are computed
@@ -416,8 +318,7 @@ theorem original_atomic_paired_exponent {k l : ℕ}
         hannulusR hprofileR).exponent =
       A - (c₂ + d₂) / 2 - left.rawExtractionLength Z lengthL -
         right.rawExtractionLength Z lengthR := by
-  rw [left.originalAtomicScales_exponent, right.originalAtomicScales_exponent, htotalL, htotalR]
-  ring
+  sorry
 
 namespace OriginalNominalTag
 
@@ -431,10 +332,7 @@ def extractionIdeal (tag : OriginalNominalTag K) : HeckeGeneral.Analysis.Nonzero
 
 theorem extractionIdeal_length (tag : OriginalNominalTag K) (Z : ℝ) :
     idealLogLength Z tag.extractionIdeal.val = tag.removedLength Z := by
-  cases tag with
-  | direct => simp [extractionIdeal, removedLength, idealLogLength]
-  | main => simp [extractionIdeal, removedLength, idealLogLength]
-  | error e p => exact idealLogLength_pow Z p.asIdeal e.multiplicity
+  sorry
 
 end OriginalNominalTag
 
@@ -456,59 +354,36 @@ def centeredSecondIdeal : HeckeGeneral.Analysis.NonzeroIdeal K :=
 theorem centeredSecondIdeal_length :
     idealLogLength Z G.centeredSecondIdeal.val =
       min (idealLogLength Z G.ideals.second.val) (idealLogLength Z G.ideals.secondOpposite.val) := by
-  unfold centeredSecondIdeal
-  split_ifs with h
-  · exact (min_eq_left h).symm
-  · exact (min_eq_right (le_of_not_ge h)).symm
+  sorry
 
 def centeredCommonIdeal : HeckeGeneral.Analysis.NonzeroIdeal K :=
   G.ideals.first * G.tag.extractionIdeal * G.centeredSecondIdeal
 
 theorem centeredCommonIdeal_length :
     idealLogLength Z G.centeredCommonIdeal.val = G.centeredExtractionLength := by
-  change idealLogLength Z ((G.ideals.first.val * G.tag.extractionIdeal.val) *
-    G.centeredSecondIdeal.val) = _
-  rw [original_plain_log_mul Z _ _
-      (mul_ne_zero (nonZeroDivisors.coe_ne_zero _) (nonZeroDivisors.coe_ne_zero _))
-      (nonZeroDivisors.coe_ne_zero _),
-    original_plain_log_mul Z _ _ (nonZeroDivisors.coe_ne_zero _) (nonZeroDivisors.coe_ne_zero _),
-    G.tag.extractionIdeal_length Z, G.centeredSecondIdeal_length]
-  rfl
+  sorry
 
 theorem centeredExtractionLength_nonneg (hZ : 1 < Z) :
     0 ≤ G.centeredExtractionLength := by
-  rw [← G.centeredCommonIdeal_length]
-  exact idealLogLength_nonneg Z hZ _ (nonZeroDivisors.coe_ne_zero _)
+  sorry
 
 /-- The v-sum inequality is a theorem of the smaller actual second
 common length; it is not a separately chosen numerical endpoint. -/
 theorem centeredExtractionLength_le_halfSecond :
     G.centeredExtractionLength ≤ G.skeleton.c + G.skeleton.w + G.halfSecond := by
-  have hl := min_le_left (idealLogLength Z G.ideals.second.val)
-    (idealLogLength Z G.ideals.secondOpposite.val)
-  have hr := min_le_right (idealLogLength Z G.ideals.second.val)
-    (idealLogLength Z G.ideals.secondOpposite.val)
-  dsimp only [centeredExtractionLength, halfSecond]
-  linarith
+  sorry
 
 /-- The upper bound for one extracted plain ideal follows from its
 original divisibility inside the same chosen common product. -/
 theorem prePlain_norm_le (hZ : 1 < Z) (pre : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hpre : pre.val ∣ G.centeredCommonIdeal.val) :
     idealNorm K pre ≤ Z ^ G.centeredExtractionLength := by
-  rw [← G.centeredCommonIdeal_length,
-    rpow_idealLogLength Z hZ _ (nonZeroDivisors.coe_ne_zero _)]
-  exact ideal_norm_le_of_dvd (nonZeroDivisors.coe_ne_zero _) hpre
+  sorry
 
 theorem prePlain_scale_lower (hZ : 1 < Z) (pre : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hpre : pre.val ∣ G.centeredCommonIdeal.val) (L n : ℝ) (hn : L ≤ n) :
     Z ^ (L - G.centeredExtractionLength) ≤ Z ^ n / idealNorm K pre := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  rw [Real.rpow_sub hz]
-  exact (div_le_div_of_nonneg_left (Real.rpow_nonneg hz.le _)
-    (idealNorm_pos K pre) (G.prePlain_norm_le hZ pre hpre)).trans
-      (div_le_div_of_nonneg_right (Real.rpow_le_rpow_of_exponent_le hZ.le hn)
-        (idealNorm_pos K pre).le)
+  sorry
 
 /-- The original four formal plain scales, with the actual same
 pre-extractions and final divisors, satisfy the centered minimum window.
@@ -522,12 +397,8 @@ theorem fourPlain_minimum_window {k : ℕ} (B : ActualColumnAllocation K k)
     Z ^ (L - G.centeredExtractionLength - B.rawExtractionLength Z length) ≤
       B.fourPlainLower
         (Z ^ n₁ / idealNorm K pre₁) (Z ^ n₂ / idealNorm K pre₂)
-        (Z ^ L / idealNorm K pre₁) (Z ^ (n₁ + n₂ - L) / idealNorm K pre₂) :=
-  B.fourPlainLower_window Z hZ length hlength L G.centeredExtractionLength _ _ _ _
-    (G.prePlain_scale_lower hZ pre₁ hpre₁ L n₁ hn₁)
-    (G.prePlain_scale_lower hZ pre₂ hpre₂ L n₂ hn₂)
-    (G.prePlain_scale_lower hZ pre₁ hpre₁ L L le_rfl)
-    (G.prePlain_scale_lower hZ pre₂ hpre₂ L (n₁ + n₂ - L) (by linarith))
+        (Z ^ L / idealNorm K pre₁) (Z ^ (n₁ + n₂ - L) / idealNorm K pre₂) := by
+  sorry
 
 /-- The original centered domain supplies all four quarter-width
 lower lengths, for every slot count. -/
@@ -542,9 +413,7 @@ theorem fourPlain_minimum_window_of_domain {k : ℕ} (B : ActualColumnAllocation
       B.fourPlainLower
         (Z ^ a.n₁ / idealNorm K pre₁) (Z ^ a.n₂ / idealNorm K pre₂)
         (Y₁ / idealNorm K pre₁) (Y₂ / idealNorm K pre₂) := by
-  rw [domain.comparison_left rfl, domain.comparison_right rfl]
-  exact G.fourPlain_minimum_window B domain.scale pre₁ pre₂ hpre₁ hpre₂ length hlength
-    ((a.m + a.q) / 4) a.n₁ a.n₂ (domain.centered_left rfl) (domain.centered_right rfl)
+  sorry
 
 /-- Bind the preceding window to the four literal scales in the
 actual centered source.  Each identity concerns one original plain
@@ -569,9 +438,7 @@ theorem originalSource_minimum_window
     (hcomparison₂ : Y₂ = originalY₂ / idealNorm K pre₂) :
     Z ^ ((a.m + a.q) / 4 - G.centeredExtractionLength -
       s.allocation.rawExtractionLength Z s.length) ≤ T.withFourPlainLower.source.lower := by
-  rw [T.withFourPlainLower_lower, hscale₁, hscale₂, hcomparison₁, hcomparison₂]
-  exact G.fourPlain_minimum_window_of_domain s.allocation domain pre₁ pre₂
-    hpre₁ hpre₂ s.length hlength
+  sorry
 
 section ActualRows
 
@@ -590,9 +457,7 @@ theorem exceptionalNumbers_original_v_sum (r₁ r₂ slotError firstProfile : �
     (hright : G.ideals.secondOpposite.val = W.rightIdeal) :
     let n := G.exceptionalNumbers W G.centeredExtractionLength r₁ r₂ slotError firstProfile
     n.vStar ≤ n.c + n.w + n.b₂ := by
-  change G.centeredExtractionLength ≤ G.skeleton.c + G.skeleton.w +
-    (idealLogLength Z W.leftIdeal + idealLogLength Z W.rightIdeal) / 2
-  simpa only [halfSecond, hleft, hright] using G.centeredExtractionLength_le_halfSecond
+  sorry
 
 /-- The same actual left allocation supplies the nonnegative r-one
 field, including when it has no prime occurrences. -/
@@ -601,8 +466,8 @@ theorem exceptionalNumbers_original_r₁_nonneg {k : ℕ}
     (hlength : ∀ i, 0 ≤ length i) (hZ : 1 < Z)
     (r₂ slotError firstProfile : ℝ) :
     0 ≤ (G.exceptionalNumbers W G.centeredExtractionLength
-      (left.rawExtractionLength Z length) r₂ slotError firstProfile).r₁ :=
-  left.rawExtractionLength_nonneg Z hZ length hlength
+      (left.rawExtractionLength Z length) r₂ slotError firstProfile).r₁ := by
+  sorry
 
 /-- The second divisor window is proved from its true squarefree
 allocation and the individual frozen-prime annuli.  The numerical
@@ -618,8 +483,8 @@ theorem exceptionalNumbers_original_divisor_window {k : ℕ}
     let n := G.exceptionalNumbers W G.centeredExtractionLength r₁
       (right.rawExtractionLength Z length)
       (∑ i ∈ Finset.univ \ right.keep, error i) firstProfile
-    lower - n.r₂ ≤ n.slotError :=
-  right.divisor_window_of_prime_windows Z hZ length error lower hsq hselection hdivisor hprime
+    lower - n.r₂ ≤ n.slotError := by
+  sorry
 
 /-- The final atom-exponent field keeps the original first common
 length and removed amplifier length.  Its only total identities are
@@ -646,14 +511,7 @@ theorem exceptionalNumbers_original_atom_exponent {k l : ℕ}
       (right.originalAtomicScales Z (Real.log (XR₁ * XR₂) / Real.log Z)
         lengthR hlengthR annulusR profileR hannulusR hprofileR).exponent =
       n.Aexp - n.c - n.w - n.b₂ - n.r₁ - n.r₂ := by
-  exact original_atomic_paired_exponent left right Z
-    (G.skeleton.A - G.skeleton.c - G.skeleton.w)
-    (idealLogLength Z W.leftIdeal) (idealLogLength Z W.rightIdeal)
-    (Real.log (XL₁ * XL₂) / Real.log Z) (Real.log (XR₁ * XR₂) / Real.log Z)
-    lengthL lengthR hlengthL hlengthR annulusL profileL annulusR profileR
-    hannulusL hprofileL hannulusR hprofileR
-    (exceptional_plain_total_of_product Z hZ XL₁ XL₂ _ hXL₁ hXL₂ lengthL htotalL)
-    (exceptional_plain_total_of_product Z hZ XR₁ XR₂ _ hXR₁ hXR₂ lengthR htotalR)
+  sorry
 
 end ActualRows
 

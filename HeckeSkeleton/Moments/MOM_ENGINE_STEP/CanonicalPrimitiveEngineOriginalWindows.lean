@@ -45,27 +45,24 @@ abbrev comparison_domain
 
 theorem slot_total_nonneg
     (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding) : 0 ≤ a.z := by
-  rw [domain.total_length]
-  exact Finset.sum_nonneg fun i _ => (d.geometry.slots i).length_pos.le
+  sorry
 
 theorem total_nonneg
     (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding) :
-    0 ≤ a.n₁ + a.n₂ + a.z :=
-  add_nonneg (add_nonneg domain.plain_left_nonneg domain.plain_right_nonneg)
-    (slot_total_nonneg domain)
+    0 ≤ a.n₁ + a.n₂ + a.z := by
+  sorry
 
 theorem total_le (b : Box)
     (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
     (hwidth : a.m + a.q ≤ b.widthMax) (hpadding : padding ≤ b.paddingMax) :
     a.n₁ + a.n₂ + a.z ≤ b.lengthBound := by
-  change a.n₁ + a.n₂ + a.z ≤ b.widthMax + b.paddingMax
-  linarith [domain.padded_core]
+  sorry
 
 theorem total_geometry_le (b : Box)
     (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
     (hwidth : a.m + a.q ≤ b.widthMax) (hpadding : padding ≤ b.paddingMax) :
     a.n₁ + a.n₂ + d.geometry.totalLength ≤ b.lengthBound := by
-  simpa only [domain.total_length] using total_le b domain hwidth hpadding
+  sorry
 
 /-- The eight original windows consumed by the first source and the
 raw analytic-input factories. The two exponents are both
@@ -81,20 +78,14 @@ theorem scale_windows (b : Box)
     comparisonScale centered Z a.n₂ Y₂ ≤ Z ^ b.lengthBound ∧
     a.n₁ + a.n₂ + a.z ≤ b.lengthBound ∧
     b.lengthBound + b.lengthBound + d.geometry.totalLength + b.loss ≤ b.columnBound := by
-  obtain ⟨hY₁, hY₂, hn₁, hn₂, hY₁le, hY₂le, hcolumn, _⟩ :=
-    original_scale_windows b.firstBox domain hwidth hpadding
-  exact ⟨hY₁, hY₂,
-    Real.rpow_le_rpow_of_exponent_le domain.scale.le hn₁,
-    Real.rpow_le_rpow_of_exponent_le domain.scale.le hn₂,
-    hY₁le, hY₂le, total_le b domain hwidth hpadding, hcolumn⟩
+  sorry
 
 /-- The complete raw character norm box includes the second common
 root and the actual cutoff allowance. -/
 theorem raw_width_le (b : Box) (a : RealParameters)
     (hwidth : a.m + a.q ≤ b.widthMax) :
     a.m + a.q + b.columnBound + (2 * b.loss + b.loss) ≤ b.rawNormBound := by
-  unfold Box.rawNormBound
-  linarith
+  sorry
 
 /-- Only fixed numerical windows are stored here. In particular no
 source, profile, column, terminal or family estimate is an input. -/
@@ -118,32 +109,10 @@ structure FixedWindows (b : Box) (Z : ℝ) : Prop where
 chosen before the original data and profiles. -/
 theorem fixed_windows (b : Box) {Z : ℝ} (hlarge : b.fullThreshold ≤ Z) :
     FixedWindows b Z := by
-  have hZ : 1 < Z := b.fullThreshold_spec.1.trans_le hlarge
-  have hfirst : b.firstBox.threshold ≤ Z :=
-    b.fullThreshold_spec.2.2.1.trans hlarge
-  have hallowance : OriginalPairAllowanceProduction.annulusThreshold b.hi b.error ≤ Z :=
-    b.fullThreshold_spec.2.2.2.1.trans hlarge
-  have hthreshold : b.threshold ≤ Z := b.fullThreshold_spec.2.1.trans hlarge
-  have hannulus := b.threshold_windows Z hthreshold
-  have hslots := b.fullThreshold_spec.2.2.2.2 Z hlarge
-  exact {
-    scale := hZ
-    first_large := hfirst
-    allocation_large := hallowance
-    upper_annulus := hannulus.1
-    lower_annulus := hannulus.2.1
-    slot_annulus := (pow_le_pow_right₀ b.hi_ge_one
-      (show b.cap ≤ 2 * b.cap by omega)).trans hslots.1
-    double_slot_annulus := hslots.1
-    single_annulus := hslots.2
-    first_cutoff_lower := b.firstBox.cutoff_ge_one hZ.le
-    first_cutoff_upper := b.firstCutoff_le Z hZ.le
-    second_cutoff_lower := b.secondCutoff_ge_one Z hZ.le
-    second_cutoff_upper := b.secondCutoff_le Z hZ.le
-    pool_large := hannulus.2.2 }
+  sorry
 
 theorem tilt_sum_le_half (b : Box) : b.tilt + b.tilt ≤ 1 / 2 := by
-  linarith [b.tilt_le_quarter]
+  sorry
 
 /-- The same small parameters satisfy the allocation margin, moving
 width decrease and both prime-pool separations. -/
@@ -151,9 +120,8 @@ theorem small_parameters (b : Box) :
     0 < b.loss ∧ 0 < b.error ∧ 0 < b.tilt ∧ b.tilt + b.tilt ≤ 1 / 2 ∧
     2 * b.loss + b.loss ≤ b.error ∧
     2 * (2 * b.loss + b.loss) ≤ b.step ∧
-    b.loss < b.step / 6 ∧ b.loss < b.step / 3 :=
-  ⟨b.loss_pos, b.error_pos, b.tilt_pos, tilt_sum_le_half b,
-    b.support_error_le, b.width_margin, b.pool_separation.1, b.pool_separation.2⟩
+    b.loss < b.step / 6 ∧ b.loss < b.step / 3 := by
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveEngineOriginalWindows
 

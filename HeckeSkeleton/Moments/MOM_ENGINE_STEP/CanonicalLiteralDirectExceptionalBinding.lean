@@ -88,39 +88,7 @@ theorem pair_magnitude_eq (z : WithLp 2 (ℝ × ℝ)) :
     (L.val.frame S C .left).exceptionalMagnitude (R'.val.frame S C .right)
       (L.val.comparison S C .left) (R'.val.comparison S C .right) characters z =
       (leftFrame).exceptionalMagnitude rightFrame leftComparison rightComparison characters z := by
-  rcases L with ⟨LD, hL⟩
-  rcases R' with ⟨RD, hR⟩
-  rcases hL with ⟨hcountL, hatomsL, hrayL, hidealL, hsignL, hdivisorL, hselectionL, _⟩
-  rcases hR with ⟨hcountR, hatomsR, hrayR, hidealR, hsignR, hdivisorR, hselectionR, _⟩
-  rcases LD with ⟨countL, atomsL, historyL, countEqL, baseEqL, profilesL, modelL,
-    recipeL, commonRecipeL, leftScaleL, rightScaleL, gaussL, originalGaussL, supportL,
-    rayL, idealL, idealEqL, signL, signBoundL, divisorL, selectL, nonemptyL,
-    squarefreeL, selectionMemL⟩
-  rcases RD with ⟨countR, atomsR, historyR, countEqR, baseEqR, profilesR, modelR,
-    recipeR, commonRecipeR, leftScaleR, rightScaleR, gaussR, originalGaussR, supportR,
-    rayR, idealR, idealEqR, signR, signBoundR, divisorR, selectR, nonemptyR,
-    squarefreeR, selectionMemR⟩
-  cases hcountL
-  cases hcountR
-  have haL : atomsL = left := eq_of_heq hatomsL
-  have haR : atomsR = right := eq_of_heq hatomsR
-  subst atomsL
-  subst atomsR
-  have hiL : idealL = IL := eq_of_heq hidealL
-  have hiR : idealR = IR := eq_of_heq hidealR
-  subst idealL
-  subst idealR
-  subst rayL
-  subst rayR
-  subst signL
-  subst signR
-  subst divisorL
-  subst divisorR
-  have hsL : selectL = selectionL := eq_of_heq hselectionL
-  have hsR : selectR = selectionR := eq_of_heq hselectionR
-  subst selectL
-  subst selectR
-  rfl
+  sorry
 
 /-- The same exact occurrence fields also identify the ordinary pair,
 without any condition on the unused comparison dictionaries. -/
@@ -128,39 +96,7 @@ theorem pair_ordinaryMagnitude_eq (z : WithLp 2 (ℝ × ℝ)) :
     (L.val.frame S C .left).ordinaryExceptionalMagnitude (R'.val.frame S C .right)
       characters z =
       (leftFrame).ordinaryExceptionalMagnitude rightFrame characters z := by
-  rcases L with ⟨LD, hL⟩
-  rcases R' with ⟨RD, hR⟩
-  rcases hL with ⟨hcountL, hatomsL, hrayL, hidealL, hsignL, hdivisorL, hselectionL, _⟩
-  rcases hR with ⟨hcountR, hatomsR, hrayR, hidealR, hsignR, hdivisorR, hselectionR, _⟩
-  rcases LD with ⟨countL, atomsL, historyL, countEqL, baseEqL, profilesL, modelL,
-    recipeL, commonRecipeL, leftScaleL, rightScaleL, gaussL, originalGaussL, supportL,
-    rayL, idealL, idealEqL, signL, signBoundL, divisorL, selectL, nonemptyL,
-    squarefreeL, selectionMemL⟩
-  rcases RD with ⟨countR, atomsR, historyR, countEqR, baseEqR, profilesR, modelR,
-    recipeR, commonRecipeR, leftScaleR, rightScaleR, gaussR, originalGaussR, supportR,
-    rayR, idealR, idealEqR, signR, signBoundR, divisorR, selectR, nonemptyR,
-    squarefreeR, selectionMemR⟩
-  cases hcountL
-  cases hcountR
-  have haL : atomsL = left := eq_of_heq hatomsL
-  have haR : atomsR = right := eq_of_heq hatomsR
-  subst atomsL
-  subst atomsR
-  have hiL : idealL = IL := eq_of_heq hidealL
-  have hiR : idealR = IR := eq_of_heq hidealR
-  subst idealL
-  subst idealR
-  subst rayL
-  subst rayR
-  subst signL
-  subst signR
-  subst divisorL
-  subst divisorR
-  have hsL : selectL = selectionL := eq_of_heq hselectionL
-  have hsR : selectR = selectionR := eq_of_heq hselectionR
-  subst selectL
-  subst selectR
-  rfl
+  sorry
 
 end CanonicalLiteralExceptionalOriginalSideFactory.Result
 end ExactSideFields
@@ -420,18 +356,7 @@ theorem literalLeftDirectExceptionalSource_eq
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
           (sides.2.val.comparison classRows C .right) characters (WithLp.toLp 2 z) := by
-  have live : (v.leaf exceptional F firstPoint j).Live := hlive
-  let allocation := v.literalAllocation exceptional F firstPoint j live
-  have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j 1 live (construction).val (construction).property.1
-    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
-    (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
-    characters hpredicate thetaPair z
-  have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
-    sides.1 sides.2 C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
-    (Finset.mem_filter.mp allocation.property).2.2.1
-    (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
-  exact hb.trans hp.symm
+  sorry
 
 end LeftDirectExceptionalBinding
 
@@ -606,19 +531,7 @@ theorem literalRightDirectExceptionalSource_eq
           (sides.2.val.frame classRows C .right)
           (sides.1.val.comparison classRows C .left)
           (sides.2.val.comparison classRows C .right) characters (WithLp.toLp 2 z) := by
-  have live : (v.leaf exceptional F firstPoint j).Live := hlive
-  let allocation := v.literalAllocation exceptional F firstPoint j live
-  have hb := v.literalStripOuter_theta_integrand leftAtoms rightAtoms exceptional F
-    firstPoint j (-1) live (construction).val (construction).property.1
-    leftScalar rightScalar (construction).property.2.1 (construction).property.2.2
-    (fun _ => 1) (fun _ => 1) (fun _ => zero_lt_one) (fun _ => zero_lt_one)
-    characters hpredicate thetaPair z
-  have hp := CanonicalLiteralExceptionalOriginalSideFactory.Result.pair_magnitude_eq
-    sides.1 sides.2 C classRows v.leftReindex.ideal_product v.rightReindex.ideal_product
-    (Finset.mem_filter.mp allocation.property).2.2.1
-    (Finset.mem_filter.mp allocation.property).2.2.2 characters (WithLp.toLp 2 z)
-  simp only [show -(-(1 : ℝ)) = 1 from neg_neg (1 : ℝ)] at hb
-  exact hb.trans hp.symm
+  sorry
 
 end RightDirectExceptionalBinding
 

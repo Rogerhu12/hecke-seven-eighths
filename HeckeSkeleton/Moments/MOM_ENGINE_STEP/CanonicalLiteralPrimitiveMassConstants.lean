@@ -49,14 +49,14 @@ local notation "selectedCoefficient" => coefficient K A σ ω ψ
   orders mesh heightConstant widthBound hwidth unitIndex firstKernel secondKernel
   hunit hfirst hsecond
 
-theorem contour_pos : 0 < selectedContour :=
-  (Classical.choose_spec (Classical.choose_spec existence)).1
+theorem contour_pos : 0 < selectedContour := by
+  sorry
 
-theorem contour_le : selectedContour ≤ 1 / 4 :=
-  (Classical.choose_spec (Classical.choose_spec existence)).2.1
+theorem contour_le : selectedContour ≤ 1 / 4 := by
+  sorry
 
-theorem coefficient_pos : 0 < selectedCoefficient :=
-  (Classical.choose_spec (Classical.choose_spec existence)).2.2.1
+theorem coefficient_pos : 0 < selectedCoefficient := by
+  sorry
 
 /-- The bound of the fixed choice applies to every original numerical
 window.  Its contour is the one used to construct the actual children. -/
@@ -74,10 +74,8 @@ theorem coefficient_bound
       indexCoefficient K cap annulus originalBound unitIndex
         Z error mesh m total mask active η η moving ≤
       selectedCoefficient * control ^ CanonicalLiteralPassiveMassCoefficient.degree
-        cap d 0 0 0 heightDegree * Z ^ (ε + 5 * error / 3 + mesh) * Z ^ moving :=
-  (Classical.choose_spec (Classical.choose_spec existence)).2.2.2
-    Z T width height control originalBound error m total mask active moving
-    hZ hT hbox hheight hcontrol hB hBbound hm htotal hmask hactive
+        cap d 0 0 0 heightDegree * Z ^ (ε + 5 * error / 3 + mesh) * Z ^ moving := by
+  sorry
 
 section Harmonic
 
@@ -88,9 +86,8 @@ def directHarmonicConstant : ℝ :=
     (cap + 2) normBox harmonicLoss hbox hloss)
 
 theorem directHarmonicConstant_pos :
-    0 < directHarmonicConstant K cap normBox harmonicLoss hbox hloss :=
-  (Classical.choose_spec (TwoDivisorCommonBranch.uniform_index_mass (K := K)
-    (cap + 2) normBox harmonicLoss hbox hloss)).1
+    0 < directHarmonicConstant K cap normBox harmonicLoss hbox hloss := by
+  sorry
 
 /-- The compulsory old divisor is the unit.  The complete deletion
 mask stays in the original source and is not asserted to divide a column. -/
@@ -103,10 +100,7 @@ theorem direct_harmonic_sum (Z : ℝ) (hZ : 1 ≤ Z)
     (∑ i : I, b.indexWeight (index i)) ≤
       multiplicity * directHarmonicConstant K cap normBox harmonicLoss hbox hloss *
         Z ^ harmonicLoss := by
-  have h := (Classical.choose_spec (TwoDivisorCommonBranch.uniform_index_mass (K := K)
-    (cap + 2) normBox harmonicLoss hbox hloss)).2
-      Z hZ 1 (by simp) one_ne_zero b hb index multiplicity hmultiplicity hcard
-  simpa only [map_one, Nat.cast_one, div_one] using h
+  sorry
 
 variable (ell poolLoss rowBound frozenBound : ℝ)
 variable (hell : 0 < ell) (hpoolLoss : 0 < poolLoss) (hpoolSmall : poolLoss < ell)
@@ -125,11 +119,11 @@ local notation "poolConstant" => pooledHarmonicConstant K A cap normBox harmonic
 local notation "poolThreshold" => pooledThreshold K A cap normBox harmonicLoss
   hbox hloss ell poolLoss rowBound frozenBound hell hpoolLoss hpoolSmall hrow hfrozen
 
-theorem pooledHarmonicConstant_pos : 0 < poolConstant :=
-  (Classical.choose_spec (Classical.choose_spec poolExistence)).1
+theorem pooledHarmonicConstant_pos : 0 < poolConstant := by
+  sorry
 
-theorem pooledThreshold_one_lt : 1 < poolThreshold :=
-  (Classical.choose_spec (Classical.choose_spec poolExistence)).2.1
+theorem pooledThreshold_one_lt : 1 < poolThreshold := by
+  sorry
 
 theorem pooled_harmonic_sum (Z : ℝ) (hZ : poolThreshold ≤ Z)
     (bad : Finset (HeightOneSpectrum (𝓞 K)))
@@ -142,10 +136,7 @@ theorem pooled_harmonic_sum (Z : ℝ) (hZ : poolThreshold ≤ Z)
     (∑ i : AmplifiedCommonIndex P main error,
       amplifiedIndexWeight P rowBound frozenBound main error i) ≤
         poolConstant * Z ^ (harmonicLoss + poolLoss) := by
-  have h := (Classical.choose_spec (Classical.choose_spec poolExistence)).2.2
-    Z hZ bad P rowBound frozenBound hrow le_rfl le_rfl
-    1 (by simp) one_ne_zero main hmain error herror
-  simpa only [map_one, Nat.cast_one, div_one] using h
+  sorry
 
 end Harmonic
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralPrimitiveMassConstants

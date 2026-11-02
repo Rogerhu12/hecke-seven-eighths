@@ -40,32 +40,17 @@ def computedRawError (degree error : ℝ) (r : Bool) : ℝ :=
   max error (Real.logb d.base (d.scaleProduct r) - degree)
 
 theorem computedRawError_nonneg (degree error : ℝ) (r : Bool) (herr : 0 ≤ error) :
-    0 ≤ d.computedRawError degree error r := herr.trans (le_max_left _ _)
+    0 ≤ d.computedRawError degree error r := by
+  sorry
 
 theorem scaleProduct_le_computedRawError (degree error : ℝ) (r : Bool) :
     d.scaleProduct r ≤ d.base ^ (degree + d.computedRawError degree error r) := by
-  have hl : Real.logb d.base (d.scaleProduct r) ≤
-      degree + d.computedRawError degree error r := by
-    have h := le_max_right error (Real.logb d.base (d.scaleProduct r) - degree)
-    change _ ≤ degree + max error (Real.logb d.base (d.scaleProduct r) - degree)
-    linarith
-  calc
-    _ = d.base ^ Real.logb d.base (d.scaleProduct r) :=
-      (Real.rpow_logb (zero_lt_one.trans d.base_gt_one) d.base_gt_one.ne'
-        (d.scaleProduct_pos r)).symm
-    _ ≤ _ := Real.rpow_le_rpow_of_exponent_le d.base_gt_one.le hl
+  sorry
 
 theorem computedRawError_eq_of_scaleProduct_le (degree error : ℝ) (r : Bool)
     (hproduct : d.scaleProduct r ≤ d.base ^ (degree + error)) :
     d.computedRawError degree error r = error := by
-  have hpow : d.base ^ Real.logb d.base (d.scaleProduct r) ≤
-      d.base ^ (degree + error) := by
-    rw [Real.rpow_logb (zero_lt_one.trans d.base_gt_one) d.base_gt_one.ne'
-      (d.scaleProduct_pos r)]
-    exact hproduct
-  have hl := (Real.rpow_le_rpow_left_iff d.base_gt_one).mp hpow
-  apply max_eq_left
-  linarith
+  sorry
 
 theorem computedRawError_eq_of_two_norms {a : RealParameters} {step : ℝ}
     (G : OriginalNominalGeometry (K := K) a d.base step)
@@ -75,9 +60,8 @@ theorem computedRawError_eq_of_two_norms {a : RealParameters} {step : ℝ}
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
       annulus ^ (2 * cap) * d.base ^ (a.n₁ + a.n₂ + a.z))
     (hthreshold : annulus ^ (2 * cap) ≤ d.base ^ error) :
-    d.computedRawError G.skeleton.rawDegree error r = error :=
-  d.computedRawError_eq_of_scaleProduct_le G.skeleton.rawDegree error r
-    (d.scaleProduct_le_originalRawDegree G annulus cap error r hbound hthreshold)
+    d.computedRawError G.skeleton.rawDegree error r = error := by
+  sorry
 
 section Frame
 
@@ -164,9 +148,7 @@ def factorsOriginalSixthLengthsAll :
     (d.factorsOriginalSixthLengthsAll R side χ ideal hideal firstSign rectangle L selection hne
       D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr)
       .scales.error = cutoff := by
-  simp only [factorsOriginalSixthLengthsAll, OriginalNominalGeometry.ScaleWindows.error,
-    OriginalNominalGeometry.ScaleWindows.reparameterize,
-    OriginalNominalGeometry.literalEndpointWindows, add_zero]
+  sorry
 
 /-- With the original norm windows, the whole binding is identical
 to the earlier small-error binding, including its same scale endpoints
@@ -183,10 +165,7 @@ theorem factorsOriginalSixthLengthsAll_eq
     d.factorsOriginalSixthLengths R side χ ideal hideal firstSign rectangle L selection hne
       D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters
       annulus cap error herr hbound hthreshold := by
-  have he : d.computedRawError G.skeleton.rawDegree error rectangle = error := by
-    cases side <;> exact d.computedRawError_eq_of_two_norms G annulus cap error rectangle
-      hbound hthreshold
-  simp only [factorsOriginalSixthLengthsAll, factorsOriginalSixthLengths, he]
+  sorry
 
 end Frame
 end CanonicalLiteralRectangles.Atoms

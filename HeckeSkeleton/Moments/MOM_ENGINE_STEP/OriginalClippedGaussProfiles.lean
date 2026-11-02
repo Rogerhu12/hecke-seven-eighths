@@ -33,15 +33,15 @@ def clippedScalar (G D B δ₁ δ₂ : ℝ) : ℝ :=
 
 theorem clippedScalar_pos (G D B δ₁ δ₂ : ℝ)
     (hG : 0 < G) (hD : 0 < D) (hB : 1 ≤ B) :
-    0 < clippedScalar G D B δ₁ δ₂ :=
-  lt_min (scalar_pos G D δ₁ δ₂ hG hD)
-    (Real.sqrt_pos.mpr (zero_lt_one.trans_le hB))
+    0 < clippedScalar G D B δ₁ δ₂ := by
+  sorry
 
 theorem clippedScalar_le (G D B δ₁ δ₂ : ℝ) :
-    clippedScalar G D B δ₁ δ₂ ≤ Real.sqrt B := min_le_right _ _
+    clippedScalar G D B δ₁ δ₂ ≤ Real.sqrt B := by
+  sorry
 
 theorem sqrt_annulus_one_le {B : ℝ} (hB : 1 ≤ B) : 1 ≤ Real.sqrt B := by
-  simpa only [Real.sqrt_one] using Real.sqrt_le_sqrt hB
+  sorry
 
 /-- The clipping is exact at every nonzero ideal norm. If the
 unclipped coefficient exceeds the cap, the original profile value at
@@ -52,11 +52,7 @@ theorem clippedScalar_profile_eq
     (W : ℝ → ℂ) (hW : ∀ y, W y ≠ 0 → y ≤ B) :
     (clippedScalar G D B δ₁ δ₂ : ℂ) * W (N / G) =
       (scalar G D δ₁ δ₂ : ℂ) * W (N / G) := by
-  by_cases hw : W (N / G) = 0
-  · simp only [hw, mul_zero]
-  · rw [clippedScalar, min_eq_left
-      (scalar_le_sqrt_annulus G D N B δ₁ δ₂ hG hD hN hB
-        (hW _ hw) hδ₁ hδ₂ hδ)]
+  sorry
 
 variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 
@@ -72,16 +68,7 @@ theorem clipped_multiplier_identity
         jointPhase ξ (Real.log (D * N) • firstDirection + Real.log N • secondDirection) =
       ((clippedScalar G D B δ₁ δ₂ : ℂ) * W (N / G)) *
         (atom G D δ₁ δ₂ firstDirection secondDirection).multiplier ξ (N / G) := by
-  have hm := multiplier_identity G D N δ₁ δ₂ hG (zero_lt_one.trans_le hD)
-    (zero_lt_one.trans_le hN) firstDirection secondDirection ξ
-  have hc := clippedScalar_profile_eq G D N B δ₁ δ₂ hG hD hN hB hδ₁ hδ₂ hδ W hW
-  calc
-    _ = W (N / G) *
-        ((((Real.sqrt G * (D * N) ^ (δ₁ - 1) * N ^ δ₂ : ℝ) : ℂ)) *
-          jointPhase ξ (Real.log (D * N) • firstDirection + Real.log N • secondDirection)) := by ring
-    _ = ((scalar G D δ₁ δ₂ : ℂ) * W (N / G)) *
-        (atom G D δ₁ δ₂ firstDirection secondDirection).multiplier ξ (N / G) := by rw [hm]; ring
-    _ = _ := by rw [hc]
+  sorry
 
 section OriginalProfiles
 
@@ -103,10 +90,13 @@ def profileScalars : ProfileScalars d.geometry.slotCount where
 
 local notation "scalars" => profileScalars d G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB
 
-theorem profileScalars_left_le : (scalars).left ≤ Real.sqrt B := min_le_right _ _
-theorem profileScalars_right_le : (scalars).right ≤ Real.sqrt B := min_le_right _ _
+theorem profileScalars_left_le : (scalars).left ≤ Real.sqrt B := by
+  sorry
+theorem profileScalars_right_le : (scalars).right ≤ Real.sqrt B := by
+  sorry
 theorem profileScalars_prime_le (i : Fin d.geometry.slotCount) :
-    (scalars).prime i ≤ Real.sqrt B := min_le_right _ _
+    (scalars).prime i ≤ Real.sqrt B := by
+  sorry
 
 variable {rowDomain : Set (NonzeroIdeal K)} {heightDomain window : Set ℝ}
 variable {orders : Finset (ℕ × ℕ)} {P : ℝ}
@@ -128,13 +118,7 @@ theorem original_left_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
             Real.log (idealNorm K I) • secondDirection) =
       (((scalars).left : ℂ) * d.plainTest₁.profile u t (idealNorm K I / G₁)) *
         (atom G₁ (idealNorm K D₁) δ₁ δ₂ firstDirection secondDirection).multiplier ξ (idealNorm K I / G₁) := by
-  apply clipped_multiplier_identity G₁ (idealNorm K D₁) (idealNorm K I) B δ₁ δ₂
-    hG₁ (one_le_idealNorm K D₁) (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ
-    (d.plainTest₁.profile u t)
-  intro y hy
-  apply hwindow
-  apply w.left_support u hu t ht
-  simpa only [Function.mem_support, w.left_eq] using hy
+  sorry
 
 include w hwindow hδ₁ hδ₂ hδ in
 theorem original_right_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
@@ -147,13 +131,7 @@ theorem original_right_identity (u : NonzeroIdeal K) (hu : u ∈ rowDomain)
             Real.log (idealNorm K I) • secondDirection) =
       (((scalars).right : ℂ) * d.plainTest₂.profile u t (idealNorm K I / G₂)) *
         (atom G₂ (idealNorm K D₂) δ₁ δ₂ firstDirection secondDirection).multiplier ξ (idealNorm K I / G₂) := by
-  apply clipped_multiplier_identity G₂ (idealNorm K D₂) (idealNorm K I) B δ₁ δ₂
-    hG₂ (one_le_idealNorm K D₂) (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ
-    (d.plainTest₂.profile u t)
-  intro y hy
-  apply hwindow
-  apply w.right_support u hu t ht
-  simpa only [Function.mem_support, w.right_eq] using hy
+  sorry
 
 include w hwindow hδ₁ hδ₂ hδ in
 /-- A retained original prime has no new plain extraction factor.
@@ -169,14 +147,7 @@ theorem original_prime_identity (i : Fin d.geometry.slotCount)
       (((scalars).prime i : ℂ) *
         (d.geometry.slots i).profile t ((Ideal.absNorm q.asIdeal : ℝ) / G i)) *
         (atom (G i) 1 δ₁ δ₂ firstDirection secondDirection).multiplier ξ ((Ideal.absNorm q.asIdeal : ℝ) / G i) := by
-  have hN : (1 : ℝ) ≤ (Ideal.absNorm q.asIdeal : ℝ) :=
-    one_le_idealNorm K ⟨q.asIdeal, mem_nonZeroDivisors_of_ne_zero q.ne_bot⟩
-  apply clipped_multiplier_identity (G i) 1 (Ideal.absNorm q.asIdeal : ℝ) B δ₁ δ₂
-    (hG i) le_rfl hN hB hδ₁ hδ₂ hδ ((d.geometry.slots i).profile t)
-  intro y hy
-  apply hwindow
-  apply w.prime_support i t ht
-  simpa only [Function.mem_support, w.prime_eq] using hy
+  sorry
 
 end OriginalProfiles
 

@@ -78,14 +78,12 @@ private theorem left_mem_residual
     (hi : i ∈ b.val.leftColumns
       (left.extract bL).plain₁ (left.extract bL).plain₂ (left.extract bL).slots) :
     i ∈ bL.residualColumns := by
-  rw [SecondAllocationBranch.leftColumns, paired_allocated_columns_eq_filter] at hi
-  exact (Finset.mem_filter.mp hi).1
+  sorry
 
 private theorem right_mem_residual
     (j : AllocationColumn K bR.keep.card) (hj : j ∈ b.val.rightColumns) :
     j ∈ bR.residualColumns := by
-  rw [SecondAllocationBranch.rightColumns, paired_allocated_columns_eq_filter] at hj
-  exact (Finset.mem_filter.mp hj).1
+  sorry
 
 /-- The same second common scalar is extracted from both centered
 rectangles, by the individual occurrence product proved earlier. -/
@@ -229,14 +227,7 @@ theorem commonRows_eq_withCommonAtoms
     (hCR : bR.literalExtractedIdeal = CR.val) :
     commonRows R left right bL bR =
       R.withCommonAtoms (BL.atoms R.rows) (BR.atoms R.rows) := by
-  have hL : ∀ h, (BL.atoms (A := A) (σ := σ) R.rows).value h = left.commonScalar bL :=
-    BL.atoms_value R.rows CL hCL
-  have hR : ∀ h, (BR.atoms (A := A) (σ := σ) R.rows).value h = right.commonScalar bR :=
-    BR.atoms_value R.rows CR hCR
-  unfold commonRows ActualSecondCorrelationRows.withCommonAtoms
-  congr 1
-  funext h
-  rw [hL, hR]
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf
 

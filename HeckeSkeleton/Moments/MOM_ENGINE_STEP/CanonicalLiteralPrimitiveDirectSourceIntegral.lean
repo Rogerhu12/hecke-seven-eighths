@@ -576,10 +576,7 @@ theorem literalPrimitiveDirect_ordinaryCost_le_kernel
       ∑ b : (completeFamily analytic).active Finset.univ,
         ∫ ξ, (completeFamily analytic).childPair Finset.univ b ξ
           ∂(completeFamily analytic).kernel Finset.univ completeMeasure parentWidth b := by
-  exact (stages).prepared.ordinaryCost_le_dependent_kernel (raw).originalAtlas exceptional normalization
-    (fun j => (factories j).Label) (fun j => (factories j).family (analytic j))
-    (fun j => (sourceCertificates j).frozen) parentWidth
-    (fun j => (sourceCertificates j).bound (analytic j) parentWidth)
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

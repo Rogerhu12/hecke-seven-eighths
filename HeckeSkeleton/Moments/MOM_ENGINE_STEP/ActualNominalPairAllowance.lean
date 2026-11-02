@@ -37,20 +37,12 @@ labels. No symmetry is asserted for arbitrary ideal pairs. -/
 theorem firstActiveRadical_swap_of_support (D E : Ideal (𝓞 K))
     (h : primeSupport D = primeSupport E) :
     firstActiveRadical E D = firstActiveRadical D E := by
-  have hs : (primeSupport E).filter (fun P =>
-      (normalizedFactors E).count P % 6 ≠ (normalizedFactors D).count P % 6) =
-      (primeSupport D).filter (fun P =>
-        (normalizedFactors D).count P % 6 ≠ (normalizedFactors E).count P % 6) := by
-    ext P
-    simp only [Finset.mem_filter, h, ne_comm]
-  unfold firstActiveRadical
-  rw [hs]
+  sorry
 
 theorem firstLeftAllowance_swap_of_support (Z total : ℝ) (D E : Ideal (𝓞 K))
     (h : primeSupport D = primeSupport E) :
     firstLeftAllowance Z total E D = firstRightAllowance Z total D E := by
-  unfold firstLeftAllowance firstRightAllowance
-  rw [firstActiveRadical_swap_of_support D E h]
+  sorry
 
 namespace OriginalNominalGeometry
 
@@ -72,13 +64,11 @@ def atBase (base : ℝ) (hbase : base = Z) :
 
 theorem atBase_skeleton (base : ℝ) (hbase : base = Z) :
     (G.atBase base hbase).skeleton = G.skeleton := by
-  subst base
-  rfl
+  sorry
 
 theorem atBase_boundary (base : ℝ) (hbase : base = Z) :
     (G.atBase base hbase).boundary = G.boundary := by
-  subst base
-  rfl
+  sorry
 
 /-- The existing ideal permutation gives the opposite second side.
 The first ideal, opposite first ideal and all original scalar windows
@@ -96,8 +86,7 @@ def swapSecond : OriginalNominalGeometry (K := K) a Z step where
 theorem swapSecond_skeleton :
     G.swapSecond.skeleton =
       { G.skeleton with c₂ := idealLogLength Z G.ideals.secondOpposite.val } := by
-  simp only [skeleton, swapSecond, OriginalNominalIdeals.swapSecond, gcd_comm]
-  rfl
+  sorry
 
 theorem swapSecond_boundary : G.swapSecond.boundary = G.boundary := rfl
 

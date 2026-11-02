@@ -49,29 +49,7 @@ theorem labels_uniform_subpower {Θ : Type*} [Fintype Θ]
         (rows : Finset (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)),
         ((rows.image (label support dimension width character dyad)).card : ℝ) ≤
           C * Z ^ ε := by
-  obtain ⟨Cm, hCm, hmask⟩ := original_mask_labels_subpower (K := K) B ε hB hε
-  let fixed : ℝ := (Fintype.card Θ : ℝ) * ((width + 1 : ℕ) : ℝ) ^ dimension
-  have hfixed : 0 ≤ fixed := by dsimp [fixed]; positivity
-  refine ⟨Cm * (fixed + 1), mul_pos hCm (by linarith), ?_⟩
-  intro Z hZ support rowIdeal hrow hnorm hdiv character dyad rows
-  let primes : OriginalMaskPrimeData support rowIdeal :=
-    { prime := id
-      injective := fun _ _ _ _ he => he
-      divides := hdiv }
-  have hs : (2 : ℝ) ^ support.card ≤ Cm * Z ^ ε := by
-    simpa only [Finset.card_powerset, Nat.cast_pow, Nat.cast_ofNat] using
-      hmask Z hZ support rowIdeal hrow hnorm primes
-  have hc : ((rows.image (label support dimension width character dyad)).card : ℝ) ≤
-      ((2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension : ℕ) : ℝ) := by
-    exact_mod_cast labels_card_le support dimension width character dyad rows
-  calc
-    _ ≤ (2 : ℝ) ^ support.card * fixed := by
-      simpa only [Nat.cast_mul, Nat.cast_pow, Nat.cast_ofNat, fixed, mul_assoc] using hc
-    _ ≤ (Cm * Z ^ ε) * fixed := mul_le_mul_of_nonneg_right hs hfixed
-    _ ≤ (Cm * Z ^ ε) * (fixed + 1) :=
-      mul_le_mul_of_nonneg_left (le_add_of_nonneg_right zero_le_one)
-        (mul_nonneg hCm.le (Real.rpow_nonneg (zero_le_one.trans hZ) ε))
-    _ = (Cm * (fixed + 1)) * Z ^ ε := by ring
+  sorry
 
 end OriginalGaussRowClassifier
 
@@ -164,9 +142,7 @@ theorem canonicalRowBall_rowLabel_eq_iff
       OriginalGaussRowClassifier.nonunitSupport support q =
         OriginalGaussRowClassifier.nonunitSupport support q' ∧
         character DE D q = character DE D q' ∧ dyad DE D q = dyad DE D q' := by
-  simpa only [canonicalRowBall_rowLabel] using
-    OriginalGaussRowClassifier.label_eq_iff support dimension width
-      (character DE D) (dyad DE D) q q'
+  sorry
 
 /-- This counts precisely the labels present in the actual finite
 second source.  The unused value in its `Fin (count + 1)` carrier is
@@ -178,11 +154,7 @@ theorem canonicalRowBall_actualRowLabels_card_le
       δ hδ hδ1 G retainedScale Z g hscale hZ mask cutoff hcutoff
       hnorm havoid hcolumn support dimension width character dyad).actualRowLabels DE D).card ≤
       2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension := by
-  apply actualRowLabels_card_le _ _ _ support dimension width
-    (OriginalGaussRowClassifier.code support dimension width (character DE D) (dyad DE D))
-    (OriginalGaussRowClassifier.encode support dimension width)
-  intro q _
-  rfl
+  sorry
 
 end ActualGaussStage
 

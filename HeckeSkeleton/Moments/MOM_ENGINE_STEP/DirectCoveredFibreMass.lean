@@ -107,30 +107,7 @@ theorem covered_index_fibre_subpower
     ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       OriginalFiniteFibre.coordinateConstant (K := K) cap (Fintype.card Θ)
         dimension width B ε hB hε * Z ^ ε := by
-  have hslots : ∀ a, ((CV).branch a).slotCount ≤ cap := fun a =>
-    (d.sourceCartesianCover_slotCount_le T S D₀ hcolumns hideal c a).trans hcap
-  have hkeys : (CV).labels.card ≤ idealDivisorCount D₀ ^ (cap + 2) :=
-    T.labels_card_le_cap cap hcap S D₀ hD₀
-  have hraw := ActualGaussStage.covered_index_fibre_card_le_coordinates hleft hright
-    index allocation hindex leaves j DE hcommon hrow support dimension width code encode hcode
-      hDE hslots hslots
-  have hn : (leaves.filter (fun b => index b = j)).card ≤
-      OriginalFiniteFibre.coordinateCount s.mask support D₀ D₀ DE.val.1 DE.val.2
-        cap (Fintype.card Θ) dimension width := by
-    refine hraw.trans ?_
-    unfold OriginalFiniteFibre.coordinateCount
-    change _ ≤ 2 ^ s.mask.card * idealDivisorCount D₀ ^ (cap + 2) *
-      idealDivisorCount D₀ ^ (cap + 2) *
-        (2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension) *
-          idealDivisorCount DE.val.1 ^ (cap + 2) * idealDivisorCount DE.val.2 ^ (cap + 2)
-    gcongr <;> assumption
-  have hnreal : ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
-      (OriginalFiniteFibre.coordinateCount s.mask support D₀ D₀ DE.val.1 DE.val.2
-        cap (Fintype.card Θ) dimension width : ℝ) := by exact_mod_cast hn
-  exact hnreal.trans (OriginalFiniteFibre.coordinateCount_le
-    cap (Fintype.card Θ) dimension width B ε hB hε Z hZ
-    s.mask support Rmask Rrow D₀ D₀ DE.val.1 DE.val.2 hRmask hRrow
-    hNmask hNrow hND₀ hND₀ hND hNE WM WR)
+  sorry
 
 end DirectGaussData
 

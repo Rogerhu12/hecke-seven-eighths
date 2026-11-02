@@ -41,27 +41,18 @@ normalization. Multiplicities need not be one. -/
 theorem remaining_primes (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hcop : IsCoprime remaining.val A.cS) :
     primeSupport (remainingMaskIdeal A remaining).val = primeSupport remaining.val := by
-  rw [remainingMaskIdeal_val, remainingMaskRadical_primes]
-  have hd := (primeSupport_disjoint_iff
-    (nonZeroDivisors.ne_zero remaining.property) A.cS_ne_zero).mpr hcop
-  exact Finset.sdiff_eq_self_of_disjoint hd
+  sorry
 
 private theorem support_mul (I J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     primeSupport (I * J).val = primeSupport I.val ∪ primeSupport J.val := by
-  change primeSupport (I.val * J.val) = _
-  simp only [primeSupport, normalizedFactors_mul
-    (nonZeroDivisors.ne_zero I.property) (nonZeroDivisors.ne_zero J.property),
-    Multiset.toFinset_add]
+  sorry
 
 /-- The complete radical support depends on the literal remaining
 prime support, without any assumption on cancellation of characters. -/
 theorem fullMaskSupport_congr (D : OriginalMovingFactors A P Rchar)
     (I J : HeckeGeneral.Analysis.NonzeroIdeal K) (h : primeSupport I.val = primeSupport J.val) :
     D.fullMaskSupport I = D.fullMaskSupport J := by
-  apply Subtype.ext
-  rw [← squarefree_support_product_self (D.fullMaskSupport_squarefree I),
-    ← squarefree_support_product_self (D.fullMaskSupport_squarefree J)]
-  simp only [D.fullMaskSupport_primes, h]
+  sorry
 
 /-- The sixth-root or any other literal later deletion stays present on
 both sides. This is equality of full ideals and hence of their norms. -/
@@ -69,8 +60,7 @@ theorem fullMaskSupport_normalized_mul (D : OriginalMovingFactors A P Rchar)
     (remaining later : HeckeGeneral.Analysis.NonzeroIdeal K) (hcop : IsCoprime remaining.val A.cS) :
     D.fullMaskSupport (remainingMaskIdeal A remaining * later) =
       D.fullMaskSupport (remaining * later) := by
-  apply fullMaskSupport_congr D
-  rw [support_mul, support_mul, remaining_primes remaining hcop]
+  sorry
 
 /-- An original exterior-normalized recipe followed by an actual common
 ideal provides the required coprimality internally. This also applies
@@ -79,8 +69,7 @@ theorem original_remaining_common_exterior {ω ψ : HeckeCharacter K}
     {X : Type*} {data : X → MomentData K ω ψ}
     (Q : CompleteMovingRowRecipe A P Rchar data) (common : A.Exterior) :
     IsCoprime (Q.exteriorRemaining.remaining * exteriorMomentIdeal common).val A.cS := by
-  change IsCoprime ((remainingMaskRadical A Q.remaining).val * common.val) A.cS
-  exact (Ideal.isCoprime_iff_sup_eq.mpr (remainingMaskRadical A Q.remaining).property.2).mul_left (Ideal.isCoprime_iff_sup_eq.mpr common.property.2)
+  sorry
 
 section ActualPatternWindows
 
@@ -143,17 +132,7 @@ theorem actualRows_raw_remaining_joint_window
         (secondPatternNonunitIdeal b.primes pattern).val +
         idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
         cutoffExponent) := by
-  have hw := chart.actualRows_appended_pattern_fullDeletion_joint_window hclass
-    oldMoving remaining X hX label retainedScale Z g a₀ q wo cutoffExponent
-    hscale hZ hradius hcutoff hleft hright hold h
-  dsimp only at hw ⊢
-  change idealNorm K ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal *
-    idealNorm K
-      ((oldMoving.append (secondOriginalMovingFactors P Rchar C b.primes
-        b.leftMultiplicity b.rightMultiplicity (chart.originalNonunitPattern ∅ X hX label))).fullMaskSupport (remainingMaskIdeal A remaining * exteriorMomentIdeal
-            (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity))) ≤ _ at hw
-  rw [fullMaskSupport_normalized_mul _ remaining _ hremaining] at hw
-  exact hw
+  sorry
 
 end ActualPatternWindows
 

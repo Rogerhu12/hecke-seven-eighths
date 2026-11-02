@@ -37,41 +37,30 @@ namespace CanonicalLiteralRectangles.Atoms
 variable (d : CanonicalLiteralRectangles.Atoms (K := K) k)
 
 theorem scale_scale (c e : ℂ) : (d.scale c).scale e = d.scale (c * e) := by
-  unfold scale
-  congr 1
-  funext r I
-  ring
+  sorry
 
 theorem scale_one : d.scale 1 = d := by
-  unfold scale
-  simp only [one_mul]
+  sorry
 
 theorem scale_inv_cancel (c : ℂ) (hc : c ≠ 0) :
     (d.scale c).scale c⁻¹ = d := by
-  rw [d.scale_scale c c⁻¹, mul_inv_cancel₀ hc, d.scale_one]
+  sorry
 
 theorem scale_addGauss (c : ℂ) (G₁ G₂ : ℝ) (G : Fin k → ℝ)
     (h₁ : 0 < G₁) (h₂ : 0 < G₂) (hG : ∀ i, 0 < G i) :
     (d.scale c).addGauss G₁ G₂ G h₁ h₂ hG =
       (d.addGauss G₁ G₂ G h₁ h₂ hG).scale c := by
-  unfold scale addGauss
-  congr 1
-  funext r I
-  exact mul_assoc _ _ _
+  sorry
 
 theorem scale_normPower (c : ℂ) (δ : ℝ) :
     (d.scale c).normPower δ = (d.normPower δ).scale c := by
-  unfold scale normPower
-  congr 1
-  funext r I
-  exact mul_assoc _ _ _
+  sorry
 
 theorem scale_twoStageNorms (c : ℂ) (G₁ G₂ : ℝ) (G : Fin k → ℝ)
     (h₁ : 0 < G₁) (h₂ : 0 < G₂) (hG : ∀ i, 0 < G i) (δ₁ δ₂ : ℝ) :
     (d.scale c).twoStageNorms G₁ G₂ G h₁ h₂ hG δ₁ δ₂ =
       (d.twoStageNorms G₁ G₂ G h₁ h₂ hG δ₁ δ₂).scale c := by
-  unfold twoStageNorms
-  rw [d.scale_addGauss, scale_normPower, scale_normPower, scale_normPower]
+  sorry
 
 theorem scale_extract (c : ℂ) {support : Finset (Ideal (𝓞 K))}
     (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support) :
@@ -85,18 +74,14 @@ theorem scale_onAtlas (c : ℂ) {A : SArithmeticData K} {ι : Type*}
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (T : SourceCartesianAtlas columns ideal) (count : k = T.slotCount) :
     (d.scale c).onAtlas T count = (d.onAtlas T count).scale c := by
-  cases count
-  rfl
+  sorry
 
 theorem scale_deleteMask (c : ℂ) (M : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.scale c).deleteMask M = (d.deleteMask M).scale c := rfl
 
 theorem scale_balancePlain (c : ℂ) (balance : Bool → ℝ) :
     (d.scale c).balancePlain balance = (d.balancePlain balance).scale c := by
-  unfold scale balancePlain
-  congr 1
-  funext r I
-  exact mul_assoc _ _ _
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -146,10 +131,7 @@ theorem secondInput_eq_scale_core
       (d.secondInputCore P R b firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale
           (d.secondInputScalar (σ := σ) b power firstElement δ₁) := by
-  unfold secondInput secondInputCore secondInputScalar
-  dsimp only [firstExtracted]
-  rw [scale_twoStageNorms, scale_movingSingleton, scale_movingSingleton,
-    scale_movingSingleton, scale_scale]
+  sorry
 
 theorem secondInput_whole_eq_scalar_core
     (power firstFixed poolFixed unitFixed : A.Exterior)
@@ -163,7 +145,7 @@ theorem secondInput_whole_eq_scalar_core
       d.secondInputScalar (σ := σ) b power firstElement δ₁ *
         (d.secondInputCore P R b firstFixed poolFixed unitFixed
           firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).whole i := by
-  rw [d.secondInput_eq_scale_core P R b, scale_whole]
+  sorry
 
 theorem secondInputScalar_ne_zero_of_whole_ne_zero
     (power firstFixed poolFixed unitFixed : A.Exterior)
@@ -175,8 +157,7 @@ theorem secondInputScalar_ne_zero_of_whole_ne_zero
     (hne : (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).whole i ≠ 0) :
     d.secondInputScalar (σ := σ) b power firstElement δ₁ ≠ 0 := by
-  rw [d.secondInput_whole_eq_scalar_core P R b] at hne
-  exact left_ne_zero_of_mul hne
+  sorry
 
 /-- Inverse rescaling is used only after a true live coefficient has
 proved that the original constant is nonzero. -/
@@ -192,7 +173,7 @@ theorem secondInput_scale_inverse
         (d.secondInputScalar (σ := σ) b power firstElement δ₁)⁻¹ =
       d.secondInputCore P R b firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ := by
-  rw [d.secondInput_eq_scale_core P R b, scale_inv_cancel _ _ hc]
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

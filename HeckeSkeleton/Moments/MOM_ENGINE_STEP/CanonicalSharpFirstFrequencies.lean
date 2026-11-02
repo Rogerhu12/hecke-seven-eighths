@@ -45,9 +45,8 @@ def firstPhysicalDivisorIdeal (D : Finset (HeightOneSpectrum A.R)) : A.Exterior 
 theorem firstPhysicalDivisorIdeal_norm (D : Finset (HeightOneSpectrum A.R)) :
     A.exteriorNorm (firstPhysicalDivisorIdeal D) =
       (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D)).val :=
-  originalFrequencyIdeal_norm _
-    (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).property
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D)).val := by
+  sorry
 
 namespace FirstCommonCharacterBlock
 
@@ -65,17 +64,7 @@ theorem first_modulus_norm_eq_common_quotient
       (Ideal.absNorm ((fullI i).val * (fullJ j).val) : ℝ) *
         (Ideal.absNorm (firstActiveRadical DE.1 DE.2) : ℝ) /
           ((Ideal.absNorm DE.1 : ℝ) * (Ideal.absNorm DE.2 : ℝ)) := by
-  have hc : 0 < (Ideal.absNorm DE.1 : ℝ) := by
-    rw [← b.common_left]
-    exact A.exteriorNorm_pos _
-  have hd : 0 < (Ideal.absNorm DE.2 : ℝ) := by
-    rw [← b.common_right]
-    exact A.exteriorNorm_pos _
-  rw [b.first_modulus_norm hΓ C profiles i j,
-    b.left_reconstruct left i hi, b.right_reconstruct right j hj]
-  simp only [map_mul, Nat.cast_mul, b.common_left, b.common_right, b.activeIdeal_eq]
-  field_simp [ne_of_gt hc, ne_of_gt hd]
-  <;> ring
+  sorry
 
 theorem first_modulus_norm_le_sharp_product
     (C : A.GeneralArithmeticContext σ η hS)
@@ -88,27 +77,7 @@ theorem first_modulus_norm_le_sharp_product
       ⟨(b.pair hΓ C profiles i j).modulus, (b.pair hΓ C profiles i j).modulus_ne_zero⟩).val ≤
       Z ^ (productExponent - idealLogLength Z DE.1 - idealLogLength Z DE.2 +
         idealLogLength Z (firstActiveRadical DE.1 DE.2)) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hc : DE.1 ≠ 0 := by
-    rw [← b.common_left]
-    exact (primePowerProduct b.primes b.leftMultiplicity).property.1
-  have hd : DE.2 ≠ 0 := by
-    rw [← b.common_right]
-    exact (primePowerProduct b.primes b.rightMultiplicity).property.1
-  rw [b.first_modulus_norm_eq_common_quotient hΓ C left right profiles i hi j hj]
-  calc
-    _ ≤ (Z ^ productExponent * (Ideal.absNorm (firstActiveRadical DE.1 DE.2) : ℝ)) /
-          ((Ideal.absNorm DE.1 : ℝ) * (Ideal.absNorm DE.2 : ℝ)) :=
-      div_le_div_of_nonneg_right (mul_le_mul_of_nonneg_right hproduct (Nat.cast_nonneg _))
-        (mul_nonneg (Nat.cast_nonneg _) (Nat.cast_nonneg _))
-    _ = _ := by
-      rw [← rpow_idealLogLength Z hZ DE.1 hc,
-        ← rpow_idealLogLength Z hZ DE.2 hd,
-        ← rpow_idealLogLength Z hZ (firstActiveRadical DE.1 DE.2)
-          (firstActiveRadical_ne_zero _ _),
-        ← Real.rpow_add hz, ← Real.rpow_add hz, ← Real.rpow_sub hz]
-      congr 1
-      ring
+  sorry
 
 /-- The selected divisor contributes its own norm, while the sharp
 product window is needed only on a nonzero original Gram profile. -/
@@ -126,45 +95,7 @@ theorem divisorPhysicalCutoff_le_sharp
       Z ^ (productExponent - idealLogLength Z DE.1 - idealLogLength Z DE.2 +
         idealLogLength Z (firstActiveRadical DE.1 DE.2) +
         idealLogLength Z (firstPhysicalDivisorIdeal D).val - rowExponent + cutoffExponent) := by
-  let exponent := productExponent - idealLogLength Z DE.1 - idealLogLength Z DE.2 +
-    idealLogLength Z (firstActiveRadical DE.1 DE.2) +
-    idealLogLength Z (firstPhysicalDivisorIdeal D).val - rowExponent
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hmask :
-      (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D)).val =
-      Z ^ idealLogLength Z (firstPhysicalDivisorIdeal D).val := by
-    rw [rpow_idealLogLength Z hZ _ (firstPhysicalDivisorIdeal D).property.1]
-    exact (firstPhysicalDivisorIdeal_norm D).symm
-  have hb := (b.finiteSource hΓ C left right profiles M radius X hX).divisorPhysicalCutoff_le_supported
-    D (Z ^ exponent) (Real.rpow_nonneg hz.le _) (by
-      intro i hi j hj hprofile
-      have hp : profiles i j ≠ 0 := hprofile
-      have hn := b.first_modulus_norm_le_sharp_product hΓ C left right profiles Z
-        productExponent hZ i hi j hj
-        (hproduct i (Finset.mem_filter.mp hi).1 j (Finset.mem_filter.mp hj).1 hp)
-      change ((radius.val *
-        (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-          (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D)).val *
-        (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-          ⟨(b.pair hΓ C profiles i j).modulus,
-            (b.pair hΓ C profiles i j).modulus_ne_zero⟩).val)⁻¹)⁻¹ ≤ _
-      rw [inv_inv, hradius, hmask]
-      apply (mul_le_mul_of_nonneg_left hn
-        (mul_nonneg (Real.rpow_nonneg hz.le _) (Real.rpow_nonneg hz.le _))).trans_eq
-      rw [← Real.rpow_add hz, ← Real.rpow_add hz]
-      congr 1
-      dsimp only [exponent]
-      ring)
-  calc
-    _ ≤ X * Z ^ exponent := hb
-    _ ≤ Z ^ cutoffExponent * Z ^ exponent :=
-      mul_le_mul_of_nonneg_right hcutoff (Real.rpow_nonneg hz.le _)
-    _ = _ := by
-      rw [← Real.rpow_add hz]
-      congr 1
-      dsimp only [exponent]
-      ring
+  sorry
 
 end FirstCommonCharacterBlock
 
@@ -181,8 +112,7 @@ variable [MeasurableSpace (sLocalNormOneGroup K (A.Sf : Set (HeightOneSpectrum (
 theorem fullSupportRadius_eq_negative_m (a : RealParameters) (Z : ℝ) (hZ : 1 < Z) :
     (Q.fullSupportRadius Z (a.m + a.q) (zero_lt_one.trans hZ)).val =
       Z ^ (-(Q.fullSupportParameters a Z).m) := by
-  rw [Real.rpow_neg (zero_lt_one.trans hZ).le,
-    ← Q.fullSupportRadius_inverse_eq_parameters_m a Z hZ, inv_inv]
+  sorry
 
 /-- The actual original norm profiles give the sharp first frequency
 length on each original divisor, before selecting a retained dyad.
@@ -216,24 +146,7 @@ theorem canonicalFirstDivisorPhysicalCutoff
           idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) +
           idealLogLength Z (firstPhysicalDivisorIdeal D).val -
           (Q.fullSupportParameters a Z).m + (2 * loss + cutoffExponent)) := by
-  dsimp only
-  intro DE D
-  let atoms := (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t
-  let raw := atoms.raw Y₁ Y₂
-  let gram := fun i j => ((atoms.values Y₁ Y₂).coefficient centered i *
-    star ((atoms.values Y₁ Y₂).coefficient centered j)) • CanonicalRowBall.archTest K A.Sf 1
-  have hb := (raw.originalFirstBlocks C DE).divisorPhysicalCutoff_le_sharp
-    (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) C
-    raw.exteriorColumns raw.exteriorColumns gram ∅ D
-    (Q.fullSupportRadius Z (a.m + a.q) (zero_lt_one.trans domain.scale)) X hX
-    Z (2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss))
-    (Q.fullSupportParameters a Z).m cutoffExponent domain.scale
-    (Q.fullSupportRadius_eq_negative_m a Z domain.scale) hcutoff (by
-      intro i hi j hj hprofile
-      exact atoms.original_active_gram_pair_norm_of_domain profiles cap annulus loss
-        hannulus hcap hannulusZ hrows ht hwindow domain
-        (CanonicalRowBall.archTest K A.Sf 1) (i, j) (Finset.mem_product.mpr ⟨hi, hj⟩) hprofile)
-  convert hb using 1 <;> congr 1 <;> ring
+  sorry
 
 end CompleteMovingRowRecipe
 

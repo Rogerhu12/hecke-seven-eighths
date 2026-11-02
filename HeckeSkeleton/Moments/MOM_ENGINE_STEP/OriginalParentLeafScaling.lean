@@ -57,8 +57,7 @@ namespace ActualHybridLeaf
 @[simp] theorem scale_scale {H : Type*} (B : ActualHybridLeaf K H W E)
     (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) :
     (B.scale a ha).scale b hb = B.scale (b * a) (mul_nonneg hb ha) := by
-  cases B
-  simp only [scale, mul_assoc]
+  sorry
 
 end ActualHybridLeaf
 
@@ -99,35 +98,20 @@ def coveredOuterScalar : s.CoveredLeafKey B → ℝ
 
 theorem coveredOuterScalar_nonneg (b : s.CoveredLeafKey B) :
     0 ≤ s.coveredOuterScalar B b := by
-  rcases b with b | (⟨p, b⟩ | (⟨p, b⟩ | ⟨p, b⟩))
-  · exact mul_nonneg
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le) d.multiplicity_nonneg)
-      (Nat.cast_nonneg _)
-  · exact mul_nonneg
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-        (FirstGaussPoolData.localErrorWeight_nonneg p.val 1)) (Nat.cast_nonneg _)
-  · exact mul_nonneg
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-        (FirstGaussPoolData.localErrorWeight_nonneg p.val 6)) (Nat.cast_nonneg _)
-  · exact mul_nonneg
-      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
-        (FirstGaussPoolData.localErrorWeight_nonneg p.val 7)) (Nat.cast_nonneg _)
+  sorry
 
 theorem coveredLeaf_eq_unscaled_scale (exceptional : s.CoverHybridPredicates B)
     (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey B) :
     s.coveredLeaf B exceptional F x b =
       (s.unscaledCoveredLeaf B exceptional F x b).scale
         (s.coveredOuterScalar B b) (s.coveredOuterScalar_nonneg B b) := by
-  rcases b with b | (⟨p, b⟩ | (⟨p, b⟩ | ⟨p, b⟩)) <;>
-    simp only [coveredLeaf, unscaledCoveredLeaf, coveredOuterScalar,
-      ActualGaussStage.fiberCoveredLeaf, ActualHybridLeaf.scale_scale]
+  sorry
 
 theorem unscaledCoveredLeaf_live (exceptional : s.CoverHybridPredicates B)
     (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey B)
     (h : (s.coveredLeaf B exceptional F x b).Live) :
     (s.unscaledCoveredLeaf B exceptional F x b).Live := by
-  rw [s.coveredLeaf_eq_unscaled_scale B exceptional F x b] at h
-  exact (s.unscaledCoveredLeaf B exceptional F x b).live_of_scale_live _ _ h
+  sorry
 
 end ActualPoolStages
 end PoolStages
@@ -170,11 +154,7 @@ def coveredOuterScalar : s.CoveredLeafKey LA RA → ℝ
 include hNL hNR in
 theorem coveredOuterScalar_nonneg (j : s.CoveredLeafKey LA RA) :
     0 ≤ s.coveredOuterScalar LA RA NL NR j := by
-  rcases j with ⟨S, χ, j | j⟩
-  · exact mul_nonneg (div_nonneg (classWeight_nonneg NL NR S χ) (hNL S χ).le)
-      (Nat.cast_nonneg _)
-  · exact mul_nonneg (div_nonneg (classWeight_nonneg NL NR S χ) (hNR S χ).le)
-      (Nat.cast_nonneg _)
+  sorry
 
 theorem coveredLeaf_eq_unscaled_scale (exceptional : s.CoverHybridPredicates LA RA)
     (j : s.CoveredLeafKey LA RA) :
@@ -182,16 +162,13 @@ theorem coveredLeaf_eq_unscaled_scale (exceptional : s.CoverHybridPredicates LA 
       (s.unscaledCoveredLeaf LA RA exceptional j).scale
         (s.coveredOuterScalar LA RA NL NR j)
         (s.coveredOuterScalar_nonneg LA RA NL NR hNL hNR j) := by
-  rcases j with ⟨S, χ, j | j⟩ <;>
-    simp only [coveredLeaf, classLeaf, unscaledCoveredLeaf, coveredOuterScalar,
-      ActualGaussStage.fiberCoveredLeaf, ActualHybridLeaf.scale_scale]
+  sorry
 
 theorem unscaledCoveredLeaf_live (exceptional : s.CoverHybridPredicates LA RA)
     (j : s.CoveredLeafKey LA RA)
     (h : (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).Live) :
     (s.unscaledCoveredLeaf LA RA exceptional j).Live := by
-  rw [s.coveredLeaf_eq_unscaled_scale LA RA NL NR hNL hNR exceptional j] at h
-  exact (s.unscaledCoveredLeaf LA RA exceptional j).live_of_scale_live _ _ h
+  sorry
 
 end FirstBlockDirectData.SecondStages
 end DirectBlocks
@@ -241,11 +218,7 @@ def coveredOuterScalar : s.CoveredLeafKey LA RA → ℝ
 include hNL hNR in
 theorem coveredOuterScalar_nonneg (j : s.CoveredLeafKey LA RA) :
     0 ≤ s.coveredOuterScalar LA RA NL NR j := by
-  rcases j with ⟨S, χ, j | j⟩
-  · exact mul_nonneg (div_nonneg (classWeight_nonneg NL NR S χ) (hNL S χ).le)
-      ((s.left S χ).coveredOuterScalar_nonneg (p.leftSourceCovers LA S χ) j)
-  · exact mul_nonneg (div_nonneg (classWeight_nonneg NL NR S χ) (hNR S χ).le)
-      ((s.right S χ).coveredOuterScalar_nonneg (p.rightSourceCovers RA S χ) j)
+  sorry
 
 theorem coveredLeaf_eq_unscaled_scale (exceptional : s.CoverHybridPredicates LA RA)
     (j : s.CoveredLeafKey LA RA) :
@@ -253,21 +226,13 @@ theorem coveredLeaf_eq_unscaled_scale (exceptional : s.CoverHybridPredicates LA 
       (s.unscaledCoveredLeaf LA RA exceptional j).scale
         (s.coveredOuterScalar LA RA NL NR j)
         (s.coveredOuterScalar_nonneg LA RA NL NR hNL hNR j) := by
-  rcases j with ⟨S, χ, j | j⟩
-  · simp only [coveredLeaf, classLeaf, unscaledCoveredLeaf, coveredOuterScalar]
-    rw [(s.left S χ).coveredLeaf_eq_unscaled_scale (p.leftSourceCovers LA S χ)
-      (exceptional.left S χ) chart.kernel chart.leftPoint j, ActualHybridLeaf.scale_scale]
-  · simp only [coveredLeaf, classLeaf, unscaledCoveredLeaf, coveredOuterScalar]
-    rw [(s.right S χ).coveredLeaf_eq_unscaled_scale (p.rightSourceCovers RA S χ)
-      (exceptional.right S χ) chart.kernel (fun i => -chart.rightPoint i) j,
-      ActualHybridLeaf.scale_scale]
+  sorry
 
 theorem unscaledCoveredLeaf_live (exceptional : s.CoverHybridPredicates LA RA)
     (j : s.CoveredLeafKey LA RA)
     (h : (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).Live) :
     (s.unscaledCoveredLeaf LA RA exceptional j).Live := by
-  rw [s.coveredLeaf_eq_unscaled_scale LA RA NL NR hNL hNR exceptional j] at h
-  exact (s.unscaledCoveredLeaf LA RA exceptional j).live_of_scale_live _ _ h
+  sorry
 
 end FirstBlockPoolData.SecondStages
 end PoolBlocks
@@ -294,11 +259,8 @@ def parentOuterScalar (N : s.Normalization) (j : R.CoveredLeafKey L) : ℝ :=
     (N.left j.1 j.2.1) (N.right j.1 j.2.1) j.2.2
 
 theorem parentOuterScalar_nonneg (N : s.Normalization) (j : R.CoveredLeafKey L) :
-    0 ≤ R.parentOuterScalar L N j :=
-  mul_nonneg (Nat.cast_nonneg _)
-    ((R j.1 j.2.1).coveredOuterScalar_nonneg L L
-      (N.left j.1 j.2.1) (N.right j.1 j.2.1)
-      (N.left_pos j.1 j.2.1) (N.right_pos j.1 j.2.1) j.2.2)
+    0 ≤ R.parentOuterScalar L N j := by
+  sorry
 
 /-- All original normalizations and source multiplicities are one
 outer scalar on the same stored second-transform leaf. -/
@@ -307,36 +269,30 @@ theorem parentLeaf_eq_unscaled_scale (exceptional : R.CoverHybridPredicates L)
     R.parentLeaf L exceptional N j =
       (R.unscaledParentLeaf L exceptional j).scale
         (R.parentOuterScalar L N j) (R.parentOuterScalar_nonneg L N j) := by
-  unfold parentLeaf unscaledParentLeaf parentOuterScalar
-  rw [(R j.1 j.2.1).coveredLeaf_eq_unscaled_scale L L
-    (N.left j.1 j.2.1) (N.right j.1 j.2.1)
-    (N.left_pos j.1 j.2.1) (N.right_pos j.1 j.2.1)
-    (exceptional j.1 j.2.1) j.2.2, ActualHybridLeaf.scale_scale]
+  sorry
 
 theorem unscaledParentLeaf_live (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.CoveredLeafKey L)
     (h : (R.parentLeaf L exceptional N j).Live) :
     (R.unscaledParentLeaf L exceptional j).Live := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N j] at h
-  exact (R.unscaledParentLeaf L exceptional j).live_of_scale_live _ _ h
+  sorry
 
 theorem live_unscaledParentLeaf (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.liveLeaves L exceptional N) :
-    (R.unscaledParentLeaf L exceptional j.val).Live :=
-  R.unscaledParentLeaf_live L exceptional N j.val (R.liveLeaves_spec L exceptional N j)
+    (R.unscaledParentLeaf L exceptional j.val).Live := by
+  sorry
 
 theorem parentLeaf_ordinaryCost_unscaled (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.CoveredLeafKey L) :
     (R.parentLeaf L exceptional N j).ordinaryCost =
       R.parentOuterScalar L N j * (R.unscaledParentLeaf L exceptional j).ordinaryCost := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N j, ActualHybridLeaf.scale_ordinaryCost]
+  sorry
 
 theorem parentLeaf_weight_unscaled (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.CoveredLeafKey L) :
     (R.parentLeaf L exceptional N j).weight =
       R.parentOuterScalar L N j * (R.unscaledParentLeaf L exceptional j).weight := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N j]
-  rfl
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 end DirectParents
@@ -364,11 +320,8 @@ def parentOuterScalar (N : s.Normalization) (j : R.CoveredLeafKey L) : ℝ :=
     (N.left j.1 j.2.1) (N.right j.1 j.2.1) j.2.2
 
 theorem parentOuterScalar_nonneg (N : s.Normalization) (j : R.CoveredLeafKey L) :
-    0 ≤ R.parentOuterScalar L N j :=
-  mul_nonneg (Nat.cast_nonneg _)
-    ((R j.1 j.2.1).coveredOuterScalar_nonneg L L
-      (N.left j.1 j.2.1) (N.right j.1 j.2.1)
-      (N.left_pos j.1 j.2.1) (N.right_pos j.1 j.2.1) j.2.2)
+    0 ≤ R.parentOuterScalar L N j := by
+  sorry
 
 /-- All original normalizations and source multiplicities are one
 outer scalar on the same stored second-transform leaf. -/
@@ -377,36 +330,30 @@ theorem parentLeaf_eq_unscaled_scale (exceptional : R.CoverHybridPredicates L)
     R.parentLeaf L exceptional N j =
       (R.unscaledParentLeaf L exceptional j).scale
         (R.parentOuterScalar L N j) (R.parentOuterScalar_nonneg L N j) := by
-  unfold parentLeaf coveredLeaf unscaledParentLeaf parentOuterScalar
-  rw [(R j.1 j.2.1).coveredLeaf_eq_unscaled_scale L L
-    (N.left j.1 j.2.1) (N.right j.1 j.2.1)
-    (N.left_pos j.1 j.2.1) (N.right_pos j.1 j.2.1)
-    (exceptional j.1 j.2.1) j.2.2, ActualHybridLeaf.scale_scale]
+  sorry
 
 theorem unscaledParentLeaf_live (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.CoveredLeafKey L)
     (h : (R.parentLeaf L exceptional N j).Live) :
     (R.unscaledParentLeaf L exceptional j).Live := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N j] at h
-  exact (R.unscaledParentLeaf L exceptional j).live_of_scale_live _ _ h
+  sorry
 
 theorem live_unscaledParentLeaf (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.liveLeaves L exceptional N) :
-    (R.unscaledParentLeaf L exceptional j.val).Live :=
-  R.unscaledParentLeaf_live L exceptional N j.val (R.liveLeaves_spec L exceptional N j)
+    (R.unscaledParentLeaf L exceptional j.val).Live := by
+  sorry
 
 theorem parentLeaf_ordinaryCost_unscaled (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.CoveredLeafKey L) :
     (R.parentLeaf L exceptional N j).ordinaryCost =
       R.parentOuterScalar L N j * (R.unscaledParentLeaf L exceptional j).ordinaryCost := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N j, ActualHybridLeaf.scale_ordinaryCost]
+  sorry
 
 theorem parentLeaf_weight_unscaled (exceptional : R.CoverHybridPredicates L)
     (N : s.Normalization) (j : R.CoveredLeafKey L) :
     (R.parentLeaf L exceptional N j).weight =
       R.parentOuterScalar L N j * (R.unscaledParentLeaf L exceptional j).weight := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N j]
-  rfl
+  sorry
 
 end ActualFirstSource.SecondStages
 end AmplifiedParents

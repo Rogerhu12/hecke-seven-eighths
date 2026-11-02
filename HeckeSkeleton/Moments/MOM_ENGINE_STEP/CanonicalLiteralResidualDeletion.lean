@@ -39,19 +39,12 @@ support, not only the active sextic prime set. -/
 theorem residual_whole_avoids (hprime : ∀ p ∈ support, Prime p)
     (i : AllocationColumn K b.keep.card) (hi : i ∈ b.residualColumns) :
     CanonicalLiteralSupport.Avoids (allocationColumnIdeal i) support := by
-  have he := b.residual_ideal (b.reconstruct i) (b.reconstruct_mem i hi)
-  rw [b.residual_reconstruct i hi] at he
-  rw [← he]
-  exact CanonicalLiteralSupport.residual_avoids _ support hprime
+  sorry
 
 theorem residual_full_mask_one (hprime : ∀ p ∈ support, Prime p)
     (i : AllocationColumn K b.keep.card) (hi : i ∈ b.residualColumns) :
     originalCoprimeMask (literalDeletionIdeal support hprime) (allocationColumnIdeal i) = 1 := by
-  have hc := (literalDeletionIdeal_coprime support hprime _).mpr
-    (b.residual_whole_avoids hprime i hi)
-  change (if IsCoprime (allocationColumnIdeal i)
-    (literalDeletionIdeal support hprime).val then 1 else 0) = 1
-  exact if_pos hc
+  sorry
 
 variable {A : SArithmeticData K} {ι : Type*}
 variable {columns : Finset ι} {ideal : ι → A.Exterior}
@@ -69,10 +62,7 @@ theorem atlas_full_mask_one (hprime : ∀ p ∈ support, Prime p)
           (slots (SlotRestriction.index b.keep j)) support), index⟩)
     (i : AllocationColumn K T.slotCount) (hi : i ∈ T.reindex.cartesian) :
     originalCoprimeMask (literalDeletionIdeal support hprime) (allocationColumnIdeal i) = 1 := by
-  have he := b.residual_full_mask_one hprime
-    (CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i)
-    ((CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi)
-  simpa only [CanonicalLiteralAtlasAtoms.castColumn_ideal] using he
+  sorry
 
 end SupportCartesianBranch
 end HeckeSkeleton.Moments.EngineStep

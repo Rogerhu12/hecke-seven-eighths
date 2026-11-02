@@ -47,19 +47,7 @@ theorem original_terminal_class_scalar_with_shift
         (mass * left / NL + mass * right / NR)) / Z ^ parentWidth ≤
       (amplitude * massBound * ((CL + CR) / 2)) *
         (commonWeight * (mob / divisorNorm) * phase) * Z ^ loss := by
-  have h := original_terminal_class_scalar Z parentWidth NL NR row mob phase mass massBound
-    left right CL CR divisorNorm (loss - shift) (amplitude * Z ^ shift) commonWeight
-    hZ hNL hNR hrow hmob hphase hmass hmassBound hCL hCR hdivisor
-    hleft hright hFourier hfirst
-  apply h.trans_eq
-  calc
-    _ = ((amplitude * massBound * ((CL + CR) / 2)) *
-        (commonWeight * (mob / divisorNorm) * phase)) *
-          (Z ^ shift * Z ^ (loss - shift)) := by ring
-    _ = _ := by
-      rw [← Real.rpow_add hZ]
-      congr 2
-      ring
+  sorry
 
 /-- This is the exact algebraic movement of the original central
 degree. No estimate on the first profile without that degree is used. -/
@@ -67,9 +55,7 @@ theorem first_profile_power_with_shift
     (Z parentWidth total shift amplitude profile : ℝ) (hZ : 0 < Z)
     (hprofile : profile ≤ amplitude * Z ^ (parentWidth - total + shift)) :
     profile ≤ (amplitude * Z ^ shift) * Z ^ (parentWidth - total) := by
-  apply hprofile.trans_eq
-  rw [Real.rpow_add hZ]
-  ring
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -103,12 +89,7 @@ private theorem coefficient_le_of_counts
     (hfiber : s.fiber ≤ fiberCap) (htuples : T.windows.multiplicity ≤ tupleCap) :
     (s.fiber : ℝ) * Cterminal * T.windows.multiplicity * (profile / divisorNorm) ≤
       ((fiberCap : ℝ) * Cterminal * (tupleCap : ℝ) * profile) / divisorNorm := by
-  have hf : (s.fiber : ℝ) ≤ (fiberCap : ℝ) := by exact_mod_cast hfiber
-  have ht : (T.windows.multiplicity : ℝ) ≤ (tupleCap : ℝ) := by exact_mod_cast htuples
-  have h := mul_le_mul_of_nonneg_right
-    (mul_le_mul hf ht (Nat.cast_nonneg _) (Nat.cast_nonneg _))
-    (mul_nonneg hC (div_nonneg hprofile hdivisor))
-  convert h using 1 <;> ring
+  sorry
 
 /-- The supported-zero amplitude already contains the central decay
 and the original divisor payment. This lemma retains both through the
@@ -123,18 +104,7 @@ theorem zeroBudget_div_allowance_le_of_amplitude
     T.zeroBudget ε Czero / Z ^ allowance ≤
       (((fiberCap : ℝ) * Czero * (tupleCap : ℝ) * profile) / divisorNorm) *
         Z ^ (loss - shift) := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hpart := T.zeroBudget_le_power ε Czero (profile / divisorNorm)
-    amplitudeExponent (allowance + loss - shift) hC (div_nonneg hprofile hdivisor)
-    hAmplitude hbudget
-  have hcounts := T.coefficient_le_of_counts Czero profile divisorNorm fiberCap tupleCap
-    hC hprofile hdivisor hfiber htuples
-  have hfull := hpart.trans (mul_le_mul_of_nonneg_right hcounts
-    (Real.rpow_nonneg hz.le (allowance + loss - shift)))
-  apply (div_le_div_of_nonneg_right hfull (Real.rpow_nonneg hz.le allowance)).trans_eq
-  rw [mul_div_assoc, ← Real.rpow_sub hz]
-  congr 2
-  ring
+  sorry
 
 /-- The full-Cartesian tail uses the same first divisor and allowance.
 Its cutoff saving is combined with the original central degree before
@@ -149,18 +119,7 @@ theorem tailBudget_div_allowance_le_of_amplitude
     T.tailBudget Cerror / Z ^ allowance ≤
       (((fiberCap : ℝ) * Cerror * (tupleCap : ℝ) * profile) / divisorNorm) *
         Z ^ (loss - shift) := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hpart := T.tailBudget_le_power Cerror (profile / divisorNorm)
-    amplitudeExponent (allowance + loss - shift) hC (div_nonneg hprofile hdivisor)
-    hAmplitude hbudget
-  have hcounts := T.coefficient_le_of_counts Cerror profile divisorNorm fiberCap tupleCap
-    hC hprofile hdivisor hfiber htuples
-  have hfull := hpart.trans (mul_le_mul_of_nonneg_right hcounts
-    (Real.rpow_nonneg hz.le (allowance + loss - shift)))
-  apply (div_le_div_of_nonneg_right hfull (Real.rpow_nonneg hz.le allowance)).trans_eq
-  rw [mul_div_assoc, ← Real.rpow_sub hz]
-  congr 2
-  ring
+  sorry
 
 /-- An empty actual row fibre costs zero. The divisor and sharp
 window estimates are therefore needed only on the original nonzero
@@ -177,13 +136,7 @@ theorem zeroBudget_div_allowance_le_of_nonzero_fiber
     T.zeroBudget ε Czero / Z ^ allowance ≤
       (((fiberCap : ℝ) * Czero * (tupleCap : ℝ) * profile) / divisorNorm) *
         Z ^ (loss - shift) := by
-  by_cases hf : s.fiber = 0
-  · have hz : 0 ≤ Z := zero_le_one.trans T.windows.base_ge_one
-    simp only [zeroBudget, hf, Nat.cast_zero, zero_mul, zero_div]
-    exact mul_nonneg (div_nonneg (by positivity) hdivisor) (Real.rpow_nonneg hz _)
-  · exact T.zeroBudget_div_allowance_le_of_amplitude ε Czero profile divisorNorm
-      amplitudeExponent allowance loss shift fiberCap tupleCap hC hprofile hdivisor
-      hfiber htuples (hAmplitude hf) (hbudget hf)
+  sorry
 
 /-- The full-Cartesian tail uses the same empty-fibre convention and
 does not impose a false post-pool divisor gate on an empty source. -/
@@ -199,13 +152,7 @@ theorem tailBudget_div_allowance_le_of_nonzero_fiber
     T.tailBudget Cerror / Z ^ allowance ≤
       (((fiberCap : ℝ) * Cerror * (tupleCap : ℝ) * profile) / divisorNorm) *
         Z ^ (loss - shift) := by
-  by_cases hf : s.fiber = 0
-  · have hz : 0 ≤ Z := zero_le_one.trans T.windows.base_ge_one
-    simp only [tailBudget, hf, Nat.cast_zero, zero_mul, zero_div]
-    exact mul_nonneg (div_nonneg (by positivity) hdivisor) (Real.rpow_nonneg hz _)
-  · exact T.tailBudget_div_allowance_le_of_amplitude Cerror profile divisorNorm
-      amplitudeExponent allowance loss shift fiberCap tupleCap hC hprofile hdivisor
-      hfiber htuples (hAmplitude hf) (hbudget hf)
+  sorry
 
 end ActualGaussStage.DualTerminalCalibration
 end HeckeSkeleton.Moments.EngineStep

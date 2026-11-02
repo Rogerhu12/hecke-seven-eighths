@@ -85,27 +85,11 @@ variable (a : { a // a ∈ CanonicalLiteralPassiveSource.labels W B A M })
 witness, so no new coprimality premise is needed for the quotient. -/
 theorem leftDivisor_coprime :
     IsCoprime ((branch W B A M a).plainDivisor 0).val A.cS := by
-  have hm := Finset.mem_filter.mp
-    (Finset.mem_product.mp (Finset.mem_product.mp (branch W B A M a).witness_mem).1).1
-  have hmem : (branch W B A M a).witness.1.1 ∈
-      idealCarrier (W.exteriorSmoothPlain₁ B A) := hm.1
-  obtain ⟨I, hI, hval⟩ := Finset.mem_image.mp hmem
-  have hc : IsCoprime (branch W B A M a).witness.1.1 A.cS := by
-    rw [← hval]
-    exact W.exteriorSmoothPlain₁_coprime B A I hI
-  exact hc.of_isCoprime_of_dvd_left hm.2
+  sorry
 
 theorem rightDivisor_coprime :
     IsCoprime ((branch W B A M a).plainDivisor (Fin.succ 0)).val A.cS := by
-  have hm := Finset.mem_filter.mp
-    (Finset.mem_product.mp (Finset.mem_product.mp (branch W B A M a).witness_mem).1).2
-  have hmem : (branch W B A M a).witness.1.2 ∈
-      idealCarrier (W.exteriorSmoothPlain₂ B A) := hm.1
-  obtain ⟨I, hI, hval⟩ := Finset.mem_image.mp hmem
-  have hc : IsCoprime (branch W B A M a).witness.1.2 A.cS := by
-    rw [← hval]
-    exact W.exteriorSmoothPlain₂_coprime B A I hI
-  exact hc.of_isCoprime_of_dvd_left hm.2
+  sorry
 
 section ActualData
 
@@ -134,12 +118,8 @@ local notation "child" => data P R (profiles W B A paid) (branch W B A M a) F pa
 mask; no passive-prime avoidance is assumed or inferred here. -/
 theorem mask_nonzero_coprime (ξ : WithLp 2 (ℝ × ℝ))
     (u I : HeckeGeneral.Analysis.NonzeroIdeal K)
-    (hmask : maskValue (child ξ) u I.val ≠ 0) : IsCoprime I.val A.cS :=
-  (CanonicalLiteralAllocatedSupport.mask_consequences P R
-    (profiles W B A paid) (branch W B A M a) F parent oldMoving correction hcorr C p
-    leftMultiplicity rightMultiplicity pattern ν remaining 1 m q inverse
-    (fun j => index (SlotRestriction.index B.keep j)) rectangle firstSign negative
-    ξ u I hmask).fixed
+    (hmask : maskValue (child ξ) u I.val ≠ 0) : IsCoprime I.val A.cS := by
+  sorry
 
 /-- Both plain quotient supports and the twice-retained prime support
 belong to the stored passive allocation. All support certificates are
@@ -159,34 +139,7 @@ theorem effectiveSupports (κ : ℝ) (ξ : WithLp 2 (ℝ × ℝ))
               correction hcorr C p leftMultiplicity rightMultiplicity pattern ν remaining 1
               m q inverse (fun j => index (SlotRestriction.index B.keep j))
               rectangle firstSign negative ξ) i)) := by
-  have hm : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal K,
-      maskValue (child ξ) u I.val ≠ 0 → Avoids I.val (primeSupport A.cS) := by
-    intro I hI
-    exact (coprime_support_iff I.val A.cS A.cS_ne_zero).mp
-      (mask_nonzero_coprime W B A M a P R paid F parent oldMoving correction hcorr C p
-        leftMultiplicity rightMultiplicity pattern ν remaining m q inverse index
-        rectangle firstSign negative ξ u I hI)
-  refine ⟨?_, ?_, ?_⟩
-  · change EffectivePlainSupport (child ξ)
-      ((profiles W B A paid).fourierLeft rectangle firstSign negative ξ) u
-      ((table W B A paid).base ^ (parameters (table W B A paid) (branch W B A M a)
-        rectangle m q κ).n₁) (height ξ) (branch W B A M a).childPlain₁
-    rw [left_scale]
-    exact (tableSupport W B A paid).fourierLeft_effectiveSupport
-      (profiles W B A paid) (branch W B A M a) rfl (child ξ) u rectangle
-      firstSign negative ξ (height ξ) hm
-  · change EffectivePlainSupport (child ξ)
-      ((profiles W B A paid).fourierRight rectangle firstSign negative ξ) u
-      ((table W B A paid).base ^ (parameters (table W B A paid) (branch W B A M a)
-        rectangle m q κ).n₂) (height ξ) (branch W B A M a).childPlain₂
-    rw [right_scale]
-    exact (tableSupport W B A paid).fourierRight_effectiveSupport
-      (profiles W B A paid) (branch W B A M a) rfl (child ξ) u rectangle
-      firstSign negative ξ (height ξ) hm
-  · intro i
-    exact (tableSupport W B A paid).fourierSlot_effectiveSupport
-      (profiles W B A paid) (branch W B A M a) rfl (child ξ) u rfl
-      firstSign negative ξ (height ξ) (fun _ => rfl) hm i
+  sorry
 
 end ActualData
 

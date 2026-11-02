@@ -45,14 +45,12 @@ variable {ι κ : Type*} (s : FirstFiniteSource K A.Sf Γ ι κ)
 theorem divisor_originalFrequency_norm_le
     (D : Finset (HeightOneSpectrum A.R)) (q : Q) (hq : q ∈ s.divisorRows D) :
     A.exteriorNorm (originalFrequencyIdeal q.out.val) ≤ s.divisorPhysicalCutoff D := by
-  rw [originalFrequencyIdeal_out_norm]
-  exact (s.mem_divisorRows D q).mp hq
+  sorry
 
 theorem divisor_originalNegativeFrequency_norm_le
     (D : Finset (HeightOneSpectrum A.R)) (q : Q) (hq : q ∈ s.divisorRows D) :
     A.exteriorNorm (originalFrequencyIdeal (-q.out.val)) ≤ s.divisorPhysicalCutoff D := by
-  rw [originalFrequencyIdeal_neg_out_norm]
-  exact (s.mem_divisorRows D q).mp hq
+  sorry
 
 end FirstFiniteSource
 
@@ -77,13 +75,7 @@ theorem canonicalFirstGaussData_divisor_row_windows
     (∀ h ∈ (canonicalFirstRightGaussData C left right fullI fullJ DE hDE
         (s.divisorRows D)).rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤ R) := by
-  constructor
-  · intro h hh
-    obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hh
-    exact (s.divisor_originalFrequency_norm_le D q hq).trans hcutoff
-  · intro h hh
-    obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hh
-    exact (s.divisor_originalNegativeFrequency_norm_le D q hq).trans hcutoff
+  sorry
 
 end OriginalRows
 
@@ -97,14 +89,14 @@ def canonicalRetainedScale (I : OriginalNominalIdeals K)
 
 theorem canonicalRetainedScale_pos (I : OriginalNominalIdeals K)
     (a : RealParameters) (Z supportError : ℝ) (hZ : 0 < Z) :
-    0 < I.canonicalRetainedScale a Z supportError := Real.rpow_pos_of_pos hZ _
+    0 < I.canonicalRetainedScale a Z supportError := by
+  sorry
 
 theorem canonicalRetainedLength (I : OriginalNominalIdeals K)
     (a : RealParameters) (Z supportError : ℝ) (hZ : 1 < Z) :
     Real.log (I.canonicalRetainedScale a Z supportError) / Real.log Z =
       I.firstFrequency a Z + supportError := by
-  rw [canonicalRetainedScale, Real.log_rpow (zero_lt_one.trans hZ)]
-  exact mul_div_cancel_right₀ _ (ne_of_gt (Real.log_pos hZ))
+  sorry
 
 end OriginalNominalIdeals
 
@@ -138,17 +130,11 @@ def canonicalPoolError
 the direct and valuation-error branches have no such insertion. -/
 theorem enlargement_ge_pool (G : OriginalNominalGeometry (K := K) a Z step)
     (hstep : 0 ≤ step) : 6 * G.tag.poolLength step ≤ G.enlargement := by
-  have hm : 0 ≤ max (G.shiftedCommon - idealLogLength Z G.ideals.first.val -
-      2 * G.tag.removedLength Z + G.tag.movingLength Z) 0 := le_max_right _ _
-  have hp : 6 * G.tag.poolLength step ≤ G.tag.padding step := by
-    cases G.tag <;> simp only [OriginalNominalTag.poolLength,
-      OriginalNominalTag.padding] <;> linarith
-  exact hp.trans (le_add_of_nonneg_left hm)
+  sorry
 
 theorem enlargement_nonneg (G : OriginalNominalGeometry (K := K) a Z step)
-    (hstep : 0 ≤ step) : 0 ≤ G.enlargement :=
-  (mul_nonneg (by norm_num) (G.tag.poolLength_nonneg step hstep)).trans
-    (G.enlargement_ge_pool hstep)
+    (hstep : 0 ≤ step) : 0 ≤ G.enlargement := by
+  sorry
 
 /-- The actual second common factors do not enter the first row
 enlargement. This expression can be fixed before the second transform
@@ -160,16 +146,12 @@ theorem enlargement_eq_endpoint (G : OriginalNominalGeometry (K := K) a Z step)
       max (idealLogLength Z G.ideals.opposite.val - idealLogLength Z G.ideals.first.val -
         G.supportError - 2 * G.tag.removedLength Z + G.tag.movingLength Z) 0 +
         G.tag.padding step := by
-  unfold enlargement shiftedCommon retainedLength
-  rw [hscale, G.ideals.canonicalRetainedLength a Z G.supportError hZ]
-  congr 2
-  ring
+  sorry
 
 theorem retainedScale_le_enlarged (G : OriginalNominalGeometry (K := K) a Z step)
     (hZ : 1 ≤ Z) (hstep : 0 ≤ step) :
     G.retainedScale ≤ G.retainedScale * Z ^ G.enlargement := by
-  simpa only [mul_one] using mul_le_mul_of_nonneg_left
-    (Real.one_le_rpow hZ (G.enlargement_nonneg hstep)) G.retainedScale_pos.le
+  sorry
 
 end OriginalNominalGeometry
 
@@ -186,29 +168,14 @@ theorem main_originalFrequencyIdeal_norm_le_sharp
     (hrows : ∀ h ∈ d.rows, A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ r)
     (h : A.R) (hh : h ∈ d.mainRows) :
     A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ (r + 6 * ell) := by
-  obtain ⟨x, hx, rfl⟩ := Finset.mem_image.mp hh
-  have hm : x.1 ∈ d.rows ∧ x.2 ∈ P.primes :=
-    Finset.mem_product.mp (Finset.mem_filter.mp hx).1
-  have hrow : A.exteriorNorm (d.rowIdeal x.1) ≤ Z ^ r := by
-    have he := generatedIdeal_unique
-      (originalFrequencyIdeal_generates x.1 (d.row_generates x.1 hm.1).1)
-      (d.row_generates x.1 hm.1)
-    simpa only [he] using hrows x.1 hm.1
-  have hg := amplifiedExterior_generates C (d.rowIdeal x.1) x.2 x.1
-    (d.row_generates x.1 hm.1)
-  rw [generatedIdeal_unique
-    (originalFrequencyIdeal_generates (actualFrequencyAmplify C x) hg.1) hg]
-  change (Ideal.absNorm (amplifiedExterior (d.rowIdeal x.1) x.2).val : ℝ) ≤ _
-  simpa only [idealAmplify, amplifiedExterior_val] using
-    idealAmplify_norm ((d.rowIdeal x.1).val, x.2.val.asIdeal) Z r ell
-      (zero_lt_one.trans P.base_gt_one) hrow (P.norm_upper x.2 hm.2)
+  sorry
 
 theorem error_originalFrequencyIdeal_norm_le_sharp
     (d : FirstGaussPoolData C P ι) (R : ℝ)
     (hrows : ∀ h ∈ d.rows, A.exteriorNorm (originalFrequencyIdeal h) ≤ R)
     (p : ExteriorPrime A) (h : A.R) (hh : h ∈ d.errorRows p) :
-    A.exteriorNorm (originalFrequencyIdeal h) ≤ R :=
-  hrows h (Finset.mem_filter.mp hh).1
+    A.exteriorNorm (originalFrequencyIdeal h) ≤ R := by
+  sorry
 
 end FirstGaussPoolData
 

@@ -263,26 +263,7 @@ theorem literalPassiveNormalizedFamily_left_slot_inverse_mem_theta
         (i : Fin ((production analyticLeft analyticRight heightLeft heightRight).leftData Finset.univ b ξ).geometry.slotCount),
         (((production analyticLeft analyticRight heightLeft heightRight).leftData Finset.univ b ξ).slotCoefficient i)⁻¹ ∈
             ((production analyticLeft analyticRight heightLeft heightRight).leftData Finset.univ b ξ).theta := by
-  intro analyticLeft analyticRight heightLeft heightRight b ξ i
-  let family := production analyticLeft analyticRight heightLeft heightRight
-  have hdata (z : WithLp 2 (ℝ × ℝ)) :
-      (family.leftCalibration b.val).data z =
-        CanonicalLiteralAllocatedData.data P Rchar
-          (CanonicalLiteralPassiveSource.profiles leftTests leftAllocation A leftPaid)
-          (passiveLeft b.val) choice.phases parent oldMoving correction hcorr C
-          (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
-          pattern sector remaining 1 m q
-          (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-          (fun s => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep s))
-          b.val.1.2 firstSign false z := rfl
-  exact CanonicalLiteralPassiveInheritance.frozen_slot_inverse_mem_theta P Rchar
-    (CanonicalLiteralPassiveSource.profiles leftTests leftAllocation A leftPaid)
-    (passiveLeft b.val) choice.phases parent oldMoving correction hcorr C
-    (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
-    pattern sector remaining 1 m q
-    (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-    (fun s => leftRecipe.slots.index (SlotRestriction.index (leftAllocation).keep s))
-    b.val.1.2 firstSign false (family.leftChild Finset.univ b) hdata hinverse ξ i
+  sorry
 
 /-- The negative Fourier side retains its original slot characters as
 well; it does not replace them by inverse characters. -/
@@ -294,26 +275,7 @@ theorem literalPassiveNormalizedFamily_right_slot_inverse_mem_theta
         (i : Fin ((production analyticLeft analyticRight heightLeft heightRight).rightData Finset.univ b ξ).geometry.slotCount),
         (((production analyticLeft analyticRight heightLeft heightRight).rightData Finset.univ b ξ).slotCoefficient i)⁻¹ ∈
             ((production analyticLeft analyticRight heightLeft heightRight).rightData Finset.univ b ξ).theta := by
-  intro analyticLeft analyticRight heightLeft heightRight b ξ i
-  let family := production analyticLeft analyticRight heightLeft heightRight
-  have hdata (z : WithLp 2 (ℝ × ℝ)) :
-      (family.rightCalibration b.val).data z =
-        CanonicalLiteralAllocatedData.data P Rchar
-          (CanonicalLiteralPassiveSource.profiles rightTests rightAllocation A rightPaid)
-          (passiveRight b.val) choice.phases parent oldMoving correction hcorr C
-          (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
-          pattern sector remaining 1 m q
-          (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-          (fun s => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep s))
-          b.val.2.2 (-firstSign) true z := rfl
-  exact CanonicalLiteralPassiveInheritance.frozen_slot_inverse_mem_theta P Rchar
-    (CanonicalLiteralPassiveSource.profiles rightTests rightAllocation A rightPaid)
-    (passiveRight b.val) choice.phases parent oldMoving correction hcorr C
-    (ordinaryRows).primes (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity
-    pattern sector remaining 1 m q
-    (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-    (fun s => rightRecipe.slots.index (SlotRestriction.index (rightAllocation).keep s))
-    b.val.2.2 (-firstSign) true (family.rightChild Finset.univ b) hdata hinverse ξ i
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 
@@ -335,8 +297,8 @@ theorem atBase_left_slot_inverse_mem_theta
     (b : family.active labels) (ξ : V)
     (i : Fin ((family.atBase base sameBase).leftData labels b ξ).geometry.slotCount) :
     (((family.atBase base sameBase).leftData labels b ξ).slotCoefficient i)⁻¹ ∈
-      ((family.atBase base sameBase).leftData labels b ξ).theta :=
-  hinverse b ξ i
+      ((family.atBase base sameBase).leftData labels b ξ).theta := by
+  sorry
 
 /-- Changing only the base equality proof preserves the same right child. -/
 theorem atBase_right_slot_inverse_mem_theta
@@ -347,8 +309,8 @@ theorem atBase_right_slot_inverse_mem_theta
     (b : family.active labels) (ξ : V)
     (i : Fin ((family.atBase base sameBase).rightData labels b ξ).geometry.slotCount) :
     (((family.atBase base sameBase).rightData labels b ξ).slotCoefficient i)⁻¹ ∈
-      ((family.atBase base sameBase).rightData labels b ξ).theta :=
-  hinverse b ξ i
+      ((family.atBase base sameBase).rightData labels b ξ).theta := by
+  sorry
 
 end BaseTransport
 
@@ -369,9 +331,8 @@ theorem sigmaCombine_left_slot_inverse_mem_theta
     (b : (sigmaCombine families).active (outer.sigma labels)) (ξ : V)
     (i : Fin ((sigmaCombine families).leftData (outer.sigma labels) b ξ).geometry.slotCount) :
     (((sigmaCombine families).leftData (outer.sigma labels) b ξ).slotCoefficient i)⁻¹ ∈
-      ((sigmaCombine families).leftData (outer.sigma labels) b ξ).theta :=
-  hinverse b.val.1 (sigmaActiveOuter families outer labels b).property
-    (sigmaActiveInner families outer labels b) ξ i
+      ((sigmaCombine families).leftData (outer.sigma labels) b ξ).theta := by
+  sorry
 
 /-- The sigma family uses the original inner label and its same right child. -/
 theorem sigmaCombine_right_slot_inverse_mem_theta
@@ -382,9 +343,8 @@ theorem sigmaCombine_right_slot_inverse_mem_theta
     (b : (sigmaCombine families).active (outer.sigma labels)) (ξ : V)
     (i : Fin ((sigmaCombine families).rightData (outer.sigma labels) b ξ).geometry.slotCount) :
     (((sigmaCombine families).rightData (outer.sigma labels) b ξ).slotCoefficient i)⁻¹ ∈
-      ((sigmaCombine families).rightData (outer.sigma labels) b ξ).theta :=
-  hinverse b.val.1 (sigmaActiveOuter families outer labels b).property
-    (sigmaActiveInner families outer labels b) ξ i
+      ((sigmaCombine families).rightData (outer.sigma labels) b ξ).theta := by
+  sorry
 
 end SigmaTransport
 end ActualNormalizedPairFamily

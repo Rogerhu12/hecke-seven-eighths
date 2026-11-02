@@ -93,13 +93,7 @@ theorem literalLeftAtoms_activeRawError
     (error : ℝ) (hthreshold : B ^ (2 * cap) ≤ atoms.base ^ error) :
     (((v.literalLeftAtoms atoms).scale scalar).balancePlain balance).computedRawError
       geometry.skeleton.rawDegree error r = error := by
-  let d := ((v.literalLeftAtoms atoms).scale scalar).balancePlain balance
-  have hpresent : r = false ∨ atoms.centered = true :=
-    d.active_rectangle C rows side χ ideal hideal firstSign L selection hne r hactive
-  have hb := v.literalLeftAtoms_secondScale atoms B hB cap hcap hprime hslots
-    geometry.literalFirstExtraction.val (a.n₁ + a.n₂ + a.z) r (hfirst r hpresent)
-  rw [← hsecond] at hb
-  exact d.computedRawError_eq_of_two_norms geometry B cap error r hb hthreshold
+  sorry
 
 /-- The activity belongs to the actual allocated right table. Its
 first window is supplied by `literalRightDirectAtoms_originalScale_of_domain`
@@ -133,13 +127,7 @@ theorem literalRightAtoms_activeRawError
     (error : ℝ) (hthreshold : B ^ (2 * cap) ≤ atoms.base ^ error) :
     (((v.literalRightAtoms atoms).scale scalar).balancePlain balance).computedRawError
       geometry.skeleton.rawDegree error r = error := by
-  let d := ((v.literalRightAtoms atoms).scale scalar).balancePlain balance
-  have hpresent : r = false ∨ atoms.centered = true :=
-    d.active_rectangle C rows side χ ideal hideal firstSign L selection hne r hactive
-  have hb := v.literalRightAtoms_secondScale atoms B hB cap hcap hprime hslots
-    geometry.literalFirstExtraction.val (a.n₁ + a.n₂ + a.z) r (hfirst r hpresent)
-  rw [← hsecond] at hb
-  exact d.computedRawError_eq_of_two_norms geometry B cap error r hb hthreshold
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

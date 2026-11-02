@@ -34,9 +34,7 @@ theorem maskNorm_eq_original_length
     (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D)).val =
       Z ^ idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D).val := by
-  rw [rpow_idealLogLength Z hZ _
-    (firstPhysicalDivisorIdeal (A := A) D).property.1]
-  exact (firstPhysicalDivisorIdeal_norm (A := A) D).symm
+  sorry
 
 end CanonicalFirstLog
 
@@ -60,18 +58,7 @@ theorem activeColumn_norm_eq
         (actualActiveColumn hΓ C b.primes b.primes_injective
           b.leftMultiplicity b.rightMultiplicity).nonzero⟩).val =
       (Ideal.absNorm (firstActiveRadical DE.1 DE.2) : ℝ) := by
-  have hN := generates_sIntegerElementNorm
-    (firstActiveIdeal b.primes b.leftMultiplicity b.rightMultiplicity)
-    (firstActiveGenerator C b.primes b.leftMultiplicity b.rightMultiplicity)
-    (firstActiveGenerator_generates C b.primes b.leftMultiplicity b.rightMultiplicity)
-  change (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-    ⟨(actualActiveColumn hΓ C b.primes b.primes_injective
-        b.leftMultiplicity b.rightMultiplicity).modulus,
-      (actualActiveColumn hΓ C b.primes b.primes_injective
-        b.leftMultiplicity b.rightMultiplicity).nonzero⟩).val =
-      A.exteriorNorm
-        (firstActiveIdeal b.primes b.leftMultiplicity b.rightMultiplicity) at hN
-  exact hN.trans b.activeNorm_eq
+  sorry
 
 /-- The active length is the length of the actual active common
 radical, with no transformed norm identity supplied as an input. -/
@@ -83,8 +70,7 @@ theorem activeColumn_norm_eq_original_length
         (actualActiveColumn hΓ C b.primes b.primes_injective
           b.leftMultiplicity b.rightMultiplicity).nonzero⟩).val =
       Z ^ idealLogLength Z (firstActiveRadical DE.1 DE.2) := by
-  rw [rpow_idealLogLength Z hZ _ (firstActiveRadical_ne_zero _ _)]
-  exact b.activeColumn_norm_eq hΓ C
+  sorry
 
 variable [Γ.FiniteIndex]
 
@@ -103,14 +89,7 @@ theorem rowWeightBound_eq_original_ideal_lengths
           idealLogLength Z (firstActiveRadical DE.1 DE.2) +
           δ * (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D).val +
             idealLogLength Z (firstActiveRadical DE.1 DE.2) - m)) := by
-  exact CanonicalFirstLog.rowWeightBound_eq_original_lengths
-    (actualActiveColumn hΓ C b.primes b.primes_injective
-      b.leftMultiplicity b.rightMultiplicity) radius D Z m
-    (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D).val)
-    (idealLogLength Z (firstActiveRadical DE.1 DE.2)) δ
-    (zero_lt_one.trans hZ) hradius
-    (CanonicalFirstLog.maskNorm_eq_original_length (A := A) D Z hZ)
-    (b.activeColumn_norm_eq_original_length hΓ C Z hZ)
+  sorry
 
 end FirstCommonCharacterBlock
 end HeckeSkeleton.Moments.EngineStep

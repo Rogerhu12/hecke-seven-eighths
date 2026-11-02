@@ -113,39 +113,7 @@ theorem literalLeftMainAtoms_originalScale
       firstFixed hfirst δ₂ label).scaleProduct r *
         (Ideal.absNorm DE.1 : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
-  let T := (p.leftSourceCovers (raw).originalAtlas S χ).main.branch label
-  have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
-    (unitExterior A) (unitExterior A)
-    (CanonicalLiteralFirstPhase.leftElement C b.primes
-        b.leftMultiplicity b.rightMultiplicity
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
-    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
-    hfirst (unitExterior_generates A)
-    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
-  have hp := Q.literalOriginalAtoms_primeNormWindow ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ profiles B ht hwindow
-  have hi : input.PrimeNormWindow B := hp.extract branch
-  have ha := hi.onAtlas_dictionary T _ e
-  refine ⟨ha.deleteMask _, ?_, ?_⟩
-  · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
-  · intro r
-    have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
-        branch.keep branch.witness.2 = DE.1 := by
-      exact branch.frozenSourceIdeal_eq.trans
-        ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)
-    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
-      hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalLeftMainAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+  sorry
 
 /-- The original prime window, actual retained count and full frozen
 scale bound for this original right main label. -/
@@ -172,39 +140,7 @@ theorem literalRightMainAtoms_originalScale
       firstFixed hfirst δ₂ label).scaleProduct r *
         (Ideal.absNorm DE.2 : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
-  let T := (p.rightSourceCovers (raw).originalAtlas S χ).main.branch label
-  have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
-    (unitExterior A) (unitExterior A)
-    (CanonicalLiteralFirstPhase.rightElement C b.primes
-        b.leftMultiplicity b.rightMultiplicity
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
-    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
-    hfirst (unitExterior_generates A)
-    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
-  have hp := Q.literalOriginalAtoms_primeNormWindow ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ profiles B ht hwindow
-  have hi : input.PrimeNormWindow B := hp.extract branch
-  have ha := hi.onAtlas_dictionary T _ e
-  refine ⟨ha.deleteMask _, ?_, ?_⟩
-  · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
-  · intro r
-    have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
-        branch.keep branch.witness.2 = DE.2 := by
-      exact branch.frozenSourceIdeal_eq.trans
-        ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)
-    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
-      hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalRightMainAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+  sorry
 
 /-- The original prime window, actual retained count and full frozen
 scale bound for this original left pool label. -/
@@ -231,52 +167,7 @@ theorem literalLeftPoolAtoms_originalScale
       firstFixed hfirst δ₂ q n label).scaleProduct r *
         (Ideal.absNorm (DE.1 * q.val.val.asIdeal ^ n) : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas
-    (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
-    q.val n label
-  let T := ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label
-  have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
-    (powerIdeal q.val (2 * n)) (unitExterior A)
-    (CanonicalLiteralFirstPhase.leftElement C b.primes
-        b.leftMultiplicity b.rightMultiplicity
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
-    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
-    hfirst (generator_power_generates C q.val (2 * n))
-    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
-  have hp := Q.literalOriginalAtoms_primeNormWindow ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ profiles B ht hwindow
-  have hi : input.PrimeNormWindow B := hp.extract branch
-  have ha := hi.onAtlas_dictionary T _ e
-  refine ⟨ha.deleteMask _, ?_, ?_⟩
-  · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
-  · intro r
-    have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
-        branch.keep branch.witness.2 = (DE.1 * q.val.val.asIdeal ^ n) := by
-      have hw := ((p.divisorPools.leftData S).combinedBranchForLabel_spec
-        (raw).originalAtlas (primeSupport DE.1) DE.1
-        ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2
-      have he := (p.divisorPools.leftData S).combined_extract_of_mem
-        (primeSupport DE.1) DE.1
-        ((p.divisorPools.left_columns S).trans p.left_columns)
-        (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
-          exact b.left_residual i) q.val n
-        ((raw).originalAtlas.reindex.index branch.witness) hw
-      rw [(raw).originalAtlas.reindex.ideal_product branch.witness
-        (branch.original_subset branch.witness_mem),
-        branch.extract_ideal branch.witness branch.witness_mem] at he
-      exact branch.frozenSourceIdeal_eq.trans he
-    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
-      hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalLeftPoolAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+  sorry
 
 /-- The original prime window, actual retained count and full frozen
 scale bound for this original right pool label. -/
@@ -303,52 +194,7 @@ theorem literalRightPoolAtoms_originalScale
       firstFixed hfirst δ₂ q n label).scaleProduct r *
         (Ideal.absNorm (DE.2 * q.val.val.asIdeal ^ n) : ℝ) ≤
           B ^ cap * Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
-  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas
-    (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
-    q.val n label
-  let T := ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label
-  have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
-  let input := (seed).secondInput (σ := σ) branch P R (powerIdeal q.val n) firstFixed
-    (powerIdeal q.val (2 * n)) (unitExterior A)
-    (CanonicalLiteralFirstPhase.rightElement C b.primes
-        b.leftMultiplicity b.rightMultiplicity
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
-    (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
-    hfirst (generator_power_generates C q.val (2 * n))
-    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
-  have hp := Q.literalOriginalAtoms_primeNormWindow ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ profiles B ht hwindow
-  have hi : input.PrimeNormWindow B := hp.extract branch
-  have ha := hi.onAtlas_dictionary T _ e
-  refine ⟨ha.deleteMask _, ?_, ?_⟩
-  · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
-  · intro r
-    have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
-        branch.keep branch.witness.2 = (DE.2 * q.val.val.asIdeal ^ n) := by
-      have hw := ((p.divisorPools.rightData S).combinedBranchForLabel_spec
-        (raw).originalAtlas (primeSupport DE.1) DE.2
-        ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2
-      have he := (p.divisorPools.rightData S).combined_extract_of_mem
-        (primeSupport DE.1) DE.2
-        ((p.divisorPools.right_columns S).trans p.right_columns)
-        (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
-          exact b.right_residual i) q.val n
-        ((raw).originalAtlas.reindex.index branch.witness) hw
-      rw [(raw).originalAtlas.reindex.ideal_product branch.witness
-        (branch.original_subset branch.witness_mem),
-        branch.extract_ideal branch.witness branch.witness_mem] at he
-      exact branch.frozenSourceIdeal_eq.trans he
-    have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
-      hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalRightPoolAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

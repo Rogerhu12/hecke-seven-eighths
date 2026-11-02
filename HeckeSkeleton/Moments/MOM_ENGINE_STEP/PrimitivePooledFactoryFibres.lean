@@ -265,54 +265,7 @@ theorem literalPrimitivePooledFamily_index_fibre
           (Fintype.card (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
           0 0 (columnBound + 7 * (step / 3)) (ε / 2) (by positivity) (by positivity)) *
         Z ^ (ε / 4) := by
-  let rows := Q.literalPrimitivePreparedPooledStagesOriginalFibreRows
-    (μv := μv) (ν := ν) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-    (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
-    (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
-    (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-    (cap := cap) (annulus := hi) (loss := loss) (cutoffExponent := cutoffExponent)
-    (hannulus := hhi) (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
-    (profiles := originalWindow) (hrows := hrows) (ht := htime) (hwindow := fun _ h => h.2)
-    (hcutoffPower := hcutoffPower) (reference := reference) (href := href)
-    (lengthBound := lengthBound) (columnBound := columnBound)
-    (hlengthBound := hlengthBound) (hcolumnBound := hcolumnBound)
-    (htotal := htotal) (hN := hN) (hloss := hloss) (hcutoffExponent := hcutoffExponent)
-    (pool := pool) (hdensity := hdensity)
-    (hstep := hstep) (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
-    (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
-  have hbox : columnBound ≤ columnBound + 7 * (step / 3) :=
-    le_add_of_nonneg_right (by positivity)
-  have hbox0 : 0 ≤ columnBound + 7 * (step / 3) := by positivity
-  let broadRows := rows.enlargeBound hZ.le hbox
-  have hmask : OriginalMaskPrimeData (source).mask (1 : Ideal (𝓞 K)) :=
-    emptyOriginalSIntegerMask
-  have hmaskNorm : (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) ≤
-      Z ^ (columnBound + 7 * (step / 3)) := by
-    simpa only [map_one, Nat.cast_one] using Real.one_le_rpow hZ.le hbox0
-  have hsource := (stages).supported.gated.original_image_kernel_source_fibre
-    (raw).originalAtlas hcap (ε / 2) columnBound hbox0 (by positivity) le_rfl broadRows
-    (1 : Ideal (𝓞 K)) one_ne_zero hmask hmaskNorm hN exceptional normalization
-  have hinner (j : (stages).supported.gated.liveLeaves (raw).originalAtlas exceptional normalization) :
-      (Fintype.card (factories j).Label : ℝ) ≤
-        PrimitivePassiveFactoryCard.allTagsConstant K cap columnBound (step / 3) (ε / 8)
-          hcolumnBound (by positivity) (by positivity) * Z ^ (ε / 8) :=
-    cardCertificate (ε / 8) (by positivity) j
-  have h := ActualNormalizedPairFamily.activeSigma_index_fibre_subpower
-    (PrimitivePassiveFactoryCard.allTagsConstant K cap columnBound (step / 3) (ε / 8)
-      hcolumnBound (by positivity) (by positivity))
-    (kernelSourceFibreConstant K cap
-      (Fintype.card (PUnit.{1} × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))))
-      0 0 (columnBound + 7 * (step / 3)) (ε / 2) hbox0 (by positivity))
-    Z (ε / 8) ((ε / 2) / 4) (zero_lt_one.trans hZ)
-    (PrimitivePassiveFactoryCard.allTagsConstant_pos K cap columnBound (step / 3) (ε / 8)
-      hcolumnBound (by positivity) (by positivity)).le
-    (fun j => (factories j).family (analytic j))
-    (((stages).supported.gated.arithmeticLabels (raw).originalAtlas hcap exceptional normalization).amplifiedIndex
-      ((stages).supported.gated.arithmeticTag (raw).originalAtlas exceptional normalization) pool
-      ((stages).supported.gated.arithmeticTag_mem (raw).originalAtlas exceptional normalization))
-    hinner hsource
-  have he : ε / 8 + (ε / 2) / 4 = ε / 4 := by ring
-  simpa only [he] using h
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

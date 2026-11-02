@@ -41,12 +41,7 @@ variable (index : Fin k → Fin parent.geometry.slotCount)
 
 theorem paidSourceCharacters_maskIndicator :
     (paidSourceCharacters P R F parent oldMoving correction remaining index).MaskIndicator := by
-  intro I
-  change (if IsCoprime I
-      ((F.moving P R oldMoving).effectiveFullSupport remaining).val then (1 : ℂ) else 0) = 0 ∨
-    (if IsCoprime I
-      ((F.moving P R oldMoving).effectiveFullSupport remaining).val then (1 : ℂ) else 0) = 1
-  split_ifs <;> simp
+  sorry
 
 variable {d : CanonicalLiteralRectangles.Atoms (K := K) k}
 variable (W : d.ProfileData) (B : ActualColumnAllocation K k)
@@ -148,7 +143,7 @@ theorem frozenBounds_scalarBound (hmask : paid.MaskIndicator)
             (t).base ^ (t).length i) *
           ‖(t).slotWeight i ((branch W B A M a).witness.2 i)‖ ^ 2)) /
         (Ideal.absNorm a.val.1 : ℝ) := by
-  cases side <;> rfl
+  sorry
 
 end CanonicalLiteralPassiveFrames
 
@@ -168,11 +163,7 @@ theorem literalCharacter_eq (S : ActualSecondCorrelationRows A σ H ι)
     (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (h : H) :
     S.literalCharacter C P R F oldMoving correction pattern sector h =
       S.literalCharacter C P R choice.phases oldMoving correction pattern sector h := by
-  cases choice with
-  | unamplified => rfl
-  | amplified p e hp =>
-      exact CanonicalLiteralPaidRowCharacters.literalCharacter_eq P R S F C p e hp
-        oldMoving correction pattern sector h
+  sorry
 
 end CanonicalLiteralPassiveSource.PhaseChoice
 

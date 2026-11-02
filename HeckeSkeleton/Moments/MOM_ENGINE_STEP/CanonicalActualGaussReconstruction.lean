@@ -35,36 +35,17 @@ variable (W : G.OriginalPostIdeal ideal index)
 include W in
 theorem norm_le_original (i : ι) (hi : i ∈ G.columns) :
     A.exteriorNorm (G.ideal i) ≤ A.exteriorNorm (ideal (index i)) := by
-  apply ideal_norm_le_of_dvd (ideal (index i)).property.1
-  exact ⟨W.frozen, by rw [W.reconstruct i hi, mul_comm]⟩
+  sorry
 
 theorem lower (Z total : ℝ) (hZ : 1 < Z) (i : ι) (hi : i ∈ G.columns)
     (hfull : Z ^ total ≤ A.exteriorNorm (ideal (index i))) :
     Z ^ (total - idealLogLength Z W.frozen) ≤ A.exteriorNorm (G.ideal i) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hn : 0 < (Ideal.absNorm W.frozen : ℝ) :=
-    Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr W.frozen_ne_zero))
-  have he : A.exteriorNorm (ideal (index i)) =
-      (Ideal.absNorm W.frozen : ℝ) * A.exteriorNorm (G.ideal i) := by
-    change (Ideal.absNorm (ideal (index i)).val : ℝ) = _
-    rw [W.reconstruct i hi, map_mul, Nat.cast_mul] <;> rfl
-  rw [Real.rpow_sub hz, rpow_idealLogLength Z hZ W.frozen W.frozen_ne_zero]
-  apply (div_le_iff₀ hn).mpr
-  simpa only [he, mul_comm] using hfull
+  sorry
 
 theorem upper (Z total : ℝ) (hZ : 1 < Z) (i : ι) (hi : i ∈ G.columns)
     (hfull : A.exteriorNorm (ideal (index i)) ≤ Z ^ total) :
     A.exteriorNorm (G.ideal i) ≤ Z ^ (total - idealLogLength Z W.frozen) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hn : 0 < (Ideal.absNorm W.frozen : ℝ) :=
-    Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr W.frozen_ne_zero))
-  have he : A.exteriorNorm (ideal (index i)) =
-      (Ideal.absNorm W.frozen : ℝ) * A.exteriorNorm (G.ideal i) := by
-    change (Ideal.absNorm (ideal (index i)).val : ℝ) = _
-    rw [W.reconstruct i hi, map_mul, Nat.cast_mul] <;> rfl
-  rw [Real.rpow_sub hz, rpow_idealLogLength Z hZ W.frozen W.frozen_ne_zero]
-  apply (le_div_iff₀ hn).mpr
-  simpa only [he, mul_comm] using hfull
+  sorry
 
 end OriginalPostIdeal
 end ActualGaussSource

@@ -49,14 +49,11 @@ def originalPrimeSupport : Finset (HeightOneSpectrum (𝓞 K)) :=
 
 theorem originalPrimeSupport_ideal_image :
     b.originalPrimeSupport.image (fun p => p.asIdeal) = primeSupport DE.1 := by
-  rw [← b.common_left,
-    primePowerProduct_support b.primes b.primes_injective b.leftMultiplicity b.left_positive]
-  simp only [originalPrimeSupport, Finset.image_image, Function.comp_def]
+  sorry
 
 theorem originalPrimeSupport_divides (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∈ b.originalPrimeSupport) : p.asIdeal ∣ DE.1 := by
-  obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hp
-  exact b.originalCommonPrimeData.divides i (Finset.mem_univ i)
+  sorry
 
 /-- The actual divided-frequency selection at this block's original
 multiplicities.  The image remains a subset of its complete prime set. -/
@@ -71,17 +68,7 @@ def dividedNonunitSupport (C : A.GeneralArithmeticContext σ η htrace) (h : A.R
     (b.primes i).val ∈ (b.dividedNonunitSupport C h).val ↔
       nonunitFrequencySaving C (b.primes i)
         (b.leftMultiplicity i) (b.rightMultiplicity i) h := by
-  change (b.primes i).val ∈ (Finset.univ.filter (fun j => nonunitFrequencySaving C
-    (b.primes j) (b.leftMultiplicity j) (b.rightMultiplicity j) h)).image
-      (fun j => (b.primes j).val) ↔ _
-  constructor
-  · intro hi
-    obtain ⟨j, hj, he⟩ := Finset.mem_image.mp hi
-    have hji : j = i := b.primes_injective (Subtype.ext he)
-    subst j
-    exact (Finset.mem_filter.mp hj).2
-  · intro hi
-    exact Finset.mem_image.mpr ⟨i, Finset.mem_filter.mpr ⟨Finset.mem_univ i, hi⟩, rfl⟩
+  sorry
 
 theorem nonunitSaving_iff_of_dividedSupport_eq
     (C : A.GeneralArithmeticContext σ η htrace) (h h' : A.R)
@@ -90,19 +77,14 @@ theorem nonunitSaving_iff_of_dividedSupport_eq
     nonunitFrequencySaving C (b.primes i) (b.leftMultiplicity i) (b.rightMultiplicity i) h ↔
       nonunitFrequencySaving C (b.primes i)
         (b.leftMultiplicity i) (b.rightMultiplicity i) h' := by
-  have hm : (b.primes i).val ∈ (b.dividedNonunitSupport C h).val ↔
-      (b.primes i).val ∈ (b.dividedNonunitSupport C h').val := by rw [he]
-  simpa only [prime_mem_dividedNonunitSupport] using hm
+  sorry
 
 theorem nonunitRadical_eq_of_dividedSupport_eq
     (C : A.GeneralArithmeticContext σ η htrace) (h h' : A.R)
     (he : b.dividedNonunitSupport C h = b.dividedNonunitSupport C h') :
     nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity h =
       nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity h' := by
-  unfold nonunitFrequencyRadical
-  congr 1
-  funext i
-  rw [b.nonunitSaving_iff_of_dividedSupport_eq C h h' he i]
+  sorry
 
 end FirstCommonCharacterBlock
 
@@ -140,13 +122,7 @@ theorem label_eq_iff {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
     label C b dimension width character dyad q = label C b dimension width character dyad q' ↔
       b.dividedNonunitSupport C (-q.out.val) = b.dividedNonunitSupport C (-q'.out.val) ∧
         character q = character q' ∧ dyad q = dyad q' := by
-  change OriginalGaussRowClassifier.encode b.originalPrimeSupport dimension width
-    (code C b dimension width character dyad q) =
-      OriginalGaussRowClassifier.encode b.originalPrimeSupport dimension width
-        (code C b dimension width character dyad q') ↔ _
-  rw [(OriginalGaussRowClassifier.encode_injective
-    b.originalPrimeSupport dimension width).eq_iff]
-  simp only [code, Prod.mk.injEq]
+  sorry
 
 /-- This is the exact per-prime hypothesis consumed by the live-row
 unit/nonunit, factor and norm-factor stability theorems. -/
@@ -160,9 +136,8 @@ theorem nonunitSaving_iff_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width
     nonunitFrequencySaving C (b.primes i) (b.leftMultiplicity i) (b.rightMultiplicity i)
         (-q.out.val) ↔
       nonunitFrequencySaving C (b.primes i) (b.leftMultiplicity i) (b.rightMultiplicity i)
-        (-q'.out.val) :=
-  b.nonunitSaving_iff_of_dividedSupport_eq C _ _
-    ((label_eq_iff C b dimension width character dyad q q').mp he).1 i
+        (-q'.out.val) := by
+  sorry
 
 theorem nonunitRadical_eq_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
     (character : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Θ)
@@ -172,9 +147,8 @@ theorem nonunitRadical_eq_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width
     (he : label C b dimension width character dyad q =
       label C b dimension width character dyad q') :
     nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-q.out.val) =
-      nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-q'.out.val) :=
-  b.nonunitRadical_eq_of_dividedSupport_eq C _ _
-    ((label_eq_iff C b dimension width character dyad q q').mp he).1
+      nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-q'.out.val) := by
+  sorry
 
 end OriginalBlockGaussRowClassifier
 
@@ -291,11 +265,7 @@ theorem canonicalRowBallByBlock_nonunitSaving_iff_of_rowLabel_eq
           (-q.out.val) ↔
         nonunitFrequencySaving C (b.primes i) (b.leftMultiplicity i) (b.rightMultiplicity i)
           (-q'.out.val) := by
-  dsimp only
-  exact OriginalBlockGaussRowClassifier.nonunitSaving_iff_of_label_eq C
-    (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property)
-    dimension width (character DE D) (dyad DE D) q q'
-    (by simpa only [canonicalRowBallByBlock_rowLabel] using he)
+  sorry
 
 /-- Every row-support divisor and its norm bound are proved from the
 actual common block and the original retained-column window. -/

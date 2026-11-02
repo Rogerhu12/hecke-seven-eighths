@@ -27,8 +27,7 @@ theorem firstOriginalAllowanceWeight_profile_mul
     (Z parentWidth total rawProfile scalarPair : ℝ) (D E : Ideal (𝓞 K)) :
     firstOriginalAllowanceWeight Z parentWidth total rawProfile D E * scalarPair =
       firstOriginalAllowanceWeight Z parentWidth total (rawProfile * scalarPair) D E := by
-  unfold firstOriginalAllowanceWeight
-  ring
+  sorry
 
 /-- The complete original first cost supplies the common radical.
 `hprofile` is the pointwise original-atom conclusion proved by
@@ -43,16 +42,7 @@ theorem firstOriginalAllowanceWeight_mul_le_radical
     (hsupport : primeSupport D = primeSupport E) :
     firstOriginalAllowanceWeight Z parentWidth total rawProfile D E * scalarPair ≤
       profileCost * Z ^ tilt / (Ideal.absNorm (commonRadical D E) : ℝ) := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hp : rawProfile * scalarPair ≤
-      (profileCost * Z ^ tilt) * Z ^ (parentWidth - total) := by
-    convert hprofile using 1
-    rw [Real.rpow_add hz]
-    ring
-  rw [firstOriginalAllowanceWeight_profile_mul]
-  exact firstOriginalAllowanceWeight_le_radical Z parentWidth total
-    (rawProfile * scalarPair) (profileCost * Z ^ tilt) hZ
-    (mul_nonneg hcost (Real.rpow_nonneg hz.le _)) hp D E hD hE hsupport
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

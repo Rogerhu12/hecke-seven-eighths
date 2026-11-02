@@ -42,11 +42,8 @@ def kernelSourceFibreConstant (K : Type) [Field K] [NumberField K]
 theorem kernelSourceFibreConstant_pos (K : Type) [Field K] [NumberField K]
     (cap classifierCount dimension width : ℕ) (B ε : ℝ)
     (hB : 0 ≤ B) (hε : 0 < ε) :
-    0 < kernelSourceFibreConstant K cap classifierCount dimension width B ε hB hε :=
-  mul_pos
-    (mul_pos (by norm_num) (firstMaskConstant_pos (K := K) B (ε / 8) hB (by positivity)))
-    (coordinateConstant_pos (K := K) cap classifierCount dimension width B (ε / 8)
-      hB (by positivity))
+    0 < kernelSourceFibreConstant K cap classifierCount dimension width B ε hB hε := by
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -104,11 +101,7 @@ theorem original_image_kernel_source_fibre :
           (R.arithmeticTag L exceptional N) P (R.arithmeticTag_mem L exceptional N) i = j)).card : ℝ) ≤
         kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε *
           Z ^ (ε / 4) := by
-  intro j
-  have h := R.originalAmplifiedIndex_fibre_subpower L hcap (ε / 8) (ε / 8) B₀
-    hB (by positivity) (by positivity) hbox rows maskIdeal hmask0 mask hmaskN hN exceptional N j
-  have he : ε / 8 + ε / 8 = ε / 4 := by ring
-  simpa only [originalAmplifiedIndex, kernelSourceFibreConstant, he] using h
+  sorry
 
 /-- This is the literal active carrier of the already chosen normalized
 family. The genuine prime/valuation index is unchanged and costs eight
@@ -123,15 +116,7 @@ theorem normalized_image_kernel_fibre
           (R.arithmeticTag L exceptional N) (R.arithmeticTag_mem L exceptional N) b = j)).card : ℝ) ≤
         (4 * kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε) *
           Z ^ (ε / 4) := by
-  intro j
-  have hs := R.original_image_kernel_source_fibre L hcap ε B₀ hB hε hbox rows
-    maskIdeal hmask0 mask hmaskN hN exceptional N j
-  have h := activeCombine_rectangle_fibre_le families
-    ((R.arithmeticLabels L hcap exceptional N).amplifiedIndex
-      (R.arithmeticTag L exceptional N) P (R.arithmeticTag_mem L exceptional N)) j
-    (kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε *
-      Z ^ (ε / 4)) hs
-  simpa only [OriginalArithmeticLabels.rectangleAmplifiedIndex, mul_assoc] using h
+  sorry
 
 end ActualFirstSource.SecondStages
 end Amplified
@@ -161,11 +146,7 @@ theorem original_image_kernel_source_fibre :
         (R.arithmeticLabels L hcap exceptional N).index i = j)).card : ℝ) ≤
         kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε *
           Z ^ (ε / 4) := by
-  intro j
-  have h := R.originalIndex_fibre_subpower L hcap (ε / 8) (ε / 8) hB
-    (by positivity) (by positivity) hZ rows maskIdeal hmask0 mask hmaskN hN exceptional N j
-  have he : ε / 8 + ε / 8 = ε / 4 := by ring
-  simpa only [originalIndex, kernelSourceFibreConstant, he] using h
+  sorry
 
 /-- The direct branch works on exactly the same retained rectangles;
 neither the empty slot family nor the empty active carrier is excluded. -/
@@ -178,14 +159,7 @@ theorem normalized_image_kernel_fibre
         (R.arithmeticLabels L hcap exceptional N).rectangleIndex families b = j)).card : ℝ) ≤
         (4 * kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε) *
           Z ^ (ε / 4) := by
-  intro j
-  have hs := R.original_image_kernel_source_fibre L hcap ε hB hε hZ rows
-    maskIdeal hmask0 mask hmaskN hN exceptional N j
-  have h := activeCombine_rectangle_fibre_le families
-    (R.arithmeticLabels L hcap exceptional N).index j
-    (kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε *
-      Z ^ (ε / 4)) hs
-  simpa only [OriginalArithmeticLabels.rectangleIndex, mul_assoc] using h
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 end Direct

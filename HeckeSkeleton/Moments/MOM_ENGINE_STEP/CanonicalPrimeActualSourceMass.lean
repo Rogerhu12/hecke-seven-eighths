@@ -55,34 +55,7 @@ theorem atomCoefficient_le (cap dFirst dAmplitude dRow dPrime : ℕ)
           (3 * cap + 1) * orbitalFieldFactor K)) ≤
       weightConstant K cap annulus fixedPrimeCost firstFiber secondFiber rowFiber *
         profile ^ weightDegree cap dFirst dAmplitude (max dRow dPrime) := by
-  let B := OriginalProfileAtomBounds.atomBudget annulus amplitude rowCost primeCost
-  let C := max 1 (max annulus fixedPrimeCost)
-  have hB : 0 ≤ B :=
-    zero_le_one.trans (OriginalProfileAtomBounds.atomBudget_one _ _ _ _)
-  have hC : 0 ≤ C := zero_le_one.trans (le_max_left _ _)
-  have hP : 0 ≤ profile := zero_le_one.trans hprofile
-  have hR : 0 ≤ rowFiber := zero_le_one.trans hrow
-  have hF : 0 ≤ firstFiber * secondFiber :=
-    mul_nonneg (zero_le_one.trans hfirst) (zero_le_one.trans hsecond)
-  have hOrbital := orbitalFieldFactor_nonneg K
-  have hBbound : B ≤ C * profile ^ atomDegree dAmplitude (max dRow dPrime) :=
-    CanonicalNormalizedPrimeAtoms.atomBudget_le_profile_power_with_prime
-      annulus amplitude rowCost primeCost fixedPrimeCost profile dAmplitude dRow dPrime
-      hannulus hprofile hamplitude hamp hrowCost hprimeCost
-  have hpow := pow_le_pow_left₀ hB hBbound (3 * cap + 1)
-  have hrowBound := mul_le_mul hfiber hpow (pow_nonneg hB _) hR
-  have hcost := mul_le_mul hrowBound (le_max_right 1 (orbitalFieldFactor K))
-    hOrbital (mul_nonneg hR (pow_nonneg (mul_nonneg hC (pow_nonneg hP _)) _))
-  have hcoeff := mul_le_mul hscalar
-    (mul_le_mul_of_nonneg_left hcost (pow_nonneg hP _))
-    (mul_nonneg (pow_nonneg hP _)
-      (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) (pow_nonneg hB _)) hOrbital)) hF
-  calc
-    _ ≤ (firstFiber * secondFiber) * (profile ^ dFirst *
-        (rowFiber * (C * profile ^ atomDegree dAmplitude (max dRow dPrime)) ^ (3 * cap + 1) *
-          max 1 (orbitalFieldFactor K))) := hcoeff
-    _ = _ := by
-      simp only [weightConstant, weightDegree, mul_pow, ← pow_mul, pow_add, C] <;> ring
+  sorry
 
 end CanonicalPrimeActualSourceMass
 
@@ -258,86 +231,7 @@ theorem canonical_direct_outer_index_weight_prime_loss
       (CanonicalActualSourceMass.weightConstant K cap annulus fixedPrimeCost firstFiber secondFiber rowFiber *
         profile ^ CanonicalActualSourceMass.weightDegree cap dFirst dAmplitude (max dRow dPrime) * Z ^ (ε / 4)) *
         (Labels).carrier.indexWeight ((Labels).rectangleIndex families b) := by
-  let j := (Labels).rectangleIndex families b
-  let B := OriginalProfileAtomBounds.atomBudget annulus amplitude rowCost primeCost
-  let remaining := G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh
-  have allowance := OriginalPairAllowanceWindow.ofNominalGeometry LF RF
-    ((raw).left b.val.2.1).calibration ((raw).right b.val.2.2).calibration (costs).rowMass
-    ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
-    d a Z step G ((raw).left_base _) ((raw).right_base _)
-    hsecond hopposite hunit hnonunit bindingL bindingR atomsL atomsR hstep annulus error mesh
-    herror hthreshold hmesh hfit hannulusLL hannulusLR hannulusRL hannulusRR
-    hsupport hrawL hrawR hwidthL hwidthR hdivisor hscaleL hscaleR hradius
-  have pairWindow : OriginalPairAllowanceWindow LF RF
-      ((raw).left b.val.2.1).calibration ((raw).right b.val.2.2).calibration (costs).rowMass
-      ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
-      (((raw).withArithmetic costs).left b.val.2.1).capacity
-      (((raw).withArithmetic costs).right b.val.2.2).capacity
-      Z (R.prepared.firstAllowanceAt L total (i).val) remaining := by
-    simpa only [hcapacityL, hcapacityR, hnormalization] using allowance
-  have atomWindow := CanonicalCapacityKernelMass.OriginalAtomWindow.ofConstantOriginalAtoms
-    LF RF (costs).rowMass ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
-    ((raw).left b.val.2.1).bounds ((raw).right b.val.2.2).bounds
-    cap annulus amplitude rowCost primeCost hleftCount hrightCount hcommonLeft hcommonRight
-    hrow hcommonLA hcommonLP hcommonRA hcommonRP hfrozenLA hfrozenLP hfrozenRA hfrozenRP hprimeL hprimeR
-  have hfirst := actual_common_pair_properties _ _ _ _ (i).val.1
-  have hdivisorIndex : (LF).source.allocation.divisor = j.2.2.2.1.val := by
-    change (LF).source.allocation.divisor = ((Labels).allocation i).1
-    rw [R.prepared.arithmeticLabels_secondDivisor]
-    exact hsecondDivisor
-  have hinnerIndex : j.2.2.2.1.val = R.prepared.innerDivisor L (i).val :=
-    R.prepared.arithmeticLabels_secondDivisor L hcap exceptional firstNormalization i
-  have houter := R.prepared.extracted_parentLeaf_weight_original_relative L hZ total
-    exceptional parentWidth (i).val (extract i)
-  rw [← hinnerIndex] at houter
-  have hscalar0 : 0 ≤ R.prepared.originalScalarAt L (i).val := by
-    unfold originalScalarAt FirstBlockDirectData.SecondStages.directScalarAt
-    split <;> positivity
-  have hraw := ActualHybridFamily.arithmetic_outer_index_weight leaves N arithmetic b pairWindow
-    hZ cap B (OriginalProfileAtomBounds.atomBudget_one _ _ _ _) atomWindow
-    j hleftIdeal hrightIdeal hdivisorIndex parentWidth (total (i).val.1 (i).val.2.1)
-    (s.pieces (i).val.1 (i).val.2.1).weightBound (profile ^ dFirst)
-    (pow_nonneg (zero_le_one.trans hprofile) _) hfirstProfile hfirst.1 hfirst.2.1 hfirst.2.2
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle)) (i).val.2.2.2.1
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle))
-    (R.prepared.secondPhaseAt L (i).val) (R.prepared.originalScalarAt L (i).val) hscalar0 houter
-  have hscalar : R.prepared.originalScalarAt L (i).val ≤ firstFiber * secondFiber := by
-    have hs : 0 ≤ (R.prepared (i).val.1 (i).val.2.1).directScalarAt L L (i).val.2.2 := by
-      unfold FirstBlockDirectData.SecondStages.directScalarAt
-      split <;> exact Nat.cast_nonneg _
-    have hprod : 0 ≤ firstFiber * secondFiber :=
-      mul_nonneg (zero_le_one.trans hfirstFiber) (zero_le_one.trans hsecondFiber)
-    calc
-      _ ≤ (firstFiber * secondFiber) / 2 :=
-        div_le_div_of_nonneg_right
-          (mul_le_mul hfirstCap hsecondCap hs (zero_le_one.trans hfirstFiber)) (by norm_num)
-      _ ≤ firstFiber * secondFiber := by linarith
-  have hcoefficient := CanonicalPrimeActualSourceMass.atomCoefficient_le K cap dFirst dAmplitude dRow dPrime
-    annulus amplitude rowCost primeCost fixedPrimeCost profile (R.prepared.originalScalarAt L (i).val)
-    firstFiber secondFiber rowFiber (costs).rowMass.originalFiber (zero_le_one.trans hannulus)
-    hprofile hamplitude hamp hrowCost hprimeCost hscalar hfirstFiber hsecondFiber hrowFiber hrowCap
-  have hremaining : remaining ≤ ε / 4 := by
-    simpa only [remaining, OriginalNominalGeometry.skeleton, htag,
-      OriginalNominalTag.movingLength, OriginalNominalTag.poolLength, zero_add, add_zero] using
-      OriginalPairAllowanceProduction.remaining_le_quarter 0 0 error mesh ε herrorBudget hmeshBudget
-  have hj := (Labels).carrier.indexWeight_nonneg j
-  have hC := (CanonicalActualSourceMass.weightConstant_pos K cap annulus fixedPrimeCost
-    firstFiber secondFiber rowFiber hfirstFiber hsecondFiber hrowFiber).le
-  calc
-    _ ≤ R.prepared.originalScalarAt L (i).val *
-        (profile ^ dFirst * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) *
-          orbitalFieldFactor K) * Z ^ remaining * (Labels).carrier.indexWeight j) := hraw
-    _ = (R.prepared.originalScalarAt L (i).val *
-        (profile ^ dFirst * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) *
-          orbitalFieldFactor K))) * Z ^ remaining * (Labels).carrier.indexWeight j := by ring
-    _ ≤ (CanonicalActualSourceMass.weightConstant K cap annulus fixedPrimeCost firstFiber secondFiber rowFiber *
-        profile ^ CanonicalActualSourceMass.weightDegree cap dFirst dAmplitude (max dRow dPrime)) *
-        Z ^ remaining * (Labels).carrier.indexWeight j :=
-      mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_right hcoefficient (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hj
-    _ ≤ _ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (Real.rpow_le_rpow_of_exponent_le hZ.le hremaining)
-        (mul_nonneg hC (pow_nonneg (zero_le_one.trans hprofile) _))) hj
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 
@@ -461,111 +355,7 @@ theorem canonical_amplified_outer_index_weight_prime_loss
         profile ^ CanonicalActualSourceMass.weightDegree cap dFirst dAmplitude (max dRow dPrime) * Z ^ (ε / 4)) *
         amplifiedIndexWeight P Mmax Bmax Main Errors
           ((Labels).rectangleAmplifiedIndex families P Tags tagMem b) := by
-  let j := (Labels).rectangleIndex families b
-  let key := R.supported.gated.arithmeticIndex L hcap exceptional firstNormalization i
-  let B := OriginalProfileAtomBounds.atomBudget annulus amplitude rowCost primeCost
-  let remaining := G.skeleton.wo + G.tag.poolLength step + 5 * error / 3 + mesh
-  let fiberScalar := ((s.fiber : ℝ) * (R.supported.gated.originalSecondFiberAt L (i).val : ℝ)) / 2
-  let tagWeight := AmplifiedCommonIndex.originalTagWeight P
-    (R.supported.gated.originalRowExponentAt L (i).val)
-    (R.supported.gated.originalFrozenExponentAt L (i).val) Main Errors key
-  have htag0 : 0 ≤ tagWeight := AmplifiedCommonIndex.originalTagWeight_nonneg P _ _ Main Errors
-    P.exponent_pos (R.supported.gated.originalRowExponentAt_nonneg L (i).val)
-    (P.rowDensity_pos_of_uniform hM hB hdensity).le key
-  have hscalarEq : R.supported.gated.originalScalarAt L (i).val = fiberScalar * tagWeight :=
-    R.supported.gated.originalScalarAt_eq_originalTagWeight L hcap exceptional firstNormalization i
-  have hharmonic : AmplifiedCommonIndex.harmonicWeight P Main Errors key =
-      (Labels).carrier.indexWeight j :=
-    (Labels).amplified_harmonicWeight_eq_indexWeight Tags tagMem i
-  have allowance := OriginalPairAllowanceWindow.ofNominalGeometry LF RF
-    ((raw).left b.val.2.1).calibration ((raw).right b.val.2.2).calibration (costs).rowMass
-    ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
-    d a Z step G ((raw).left_base _) ((raw).right_base _)
-    hsecond hopposite hunit hnonunit bindingL bindingR atomsL atomsR hstep annulus error mesh
-    herror hthreshold hmesh hfit hannulusLL hannulusLR hannulusRL hannulusRR
-    hsupport hrawL hrawR hwidthL hwidthR hdivisor hscaleL hscaleR hradius
-  have pairWindow : OriginalPairAllowanceWindow LF RF
-      ((raw).left b.val.2.1).calibration ((raw).right b.val.2.2).calibration (costs).rowMass
-      ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
-      (((raw).withArithmetic costs).left b.val.2.1).capacity
-      (((raw).withArithmetic costs).right b.val.2.2).capacity
-      Z (R.supported.gated.firstAllowanceAt L total (i).val) remaining := by
-    simpa only [hcapacityL, hcapacityR, hnormalization] using allowance
-  have atomWindow := CanonicalCapacityKernelMass.OriginalAtomWindow.ofConstantOriginalAtoms
-    LF RF (costs).rowMass ((costs).leftAtoms b.val.2.1) ((costs).rightAtoms b.val.2.2)
-    ((raw).left b.val.2.1).bounds ((raw).right b.val.2.2).bounds
-    cap annulus amplitude rowCost primeCost hleftCount hrightCount hcommonLeft hcommonRight
-    hrow hcommonLA hcommonLP hcommonRA hcommonRP hfrozenLA hfrozenLP hfrozenRA hfrozenRP hprimeL hprimeR
-  have hfirst := actual_common_pair_properties _ _ _ _ (i).val.1
-  have hdivisorIndex : (LF).source.allocation.divisor = j.2.2.2.1.val := by
-    change (LF).source.allocation.divisor = ((Labels).allocation i).1
-    rw [R.supported.gated.arithmeticLabels_secondDivisor]
-    exact hsecondDivisor
-  have hinnerIndex : j.2.2.2.1.val = R.supported.gated.innerDivisor L (i).val :=
-    R.supported.gated.arithmeticLabels_secondDivisor L hcap exceptional firstNormalization i
-  have houter := R.supported.gated.extracted_parentLeaf_weight_original_relative L hZ total
-    exceptional parentWidth (i).val (extract i)
-  rw [← hinnerIndex] at houter
-  have hscalar0 : 0 ≤ R.supported.gated.originalScalarAt L (i).val := by
-    rw [hscalarEq]
-    exact mul_nonneg (by positivity : 0 ≤ fiberScalar) htag0
-  have hraw := ActualHybridFamily.arithmetic_outer_index_weight leaves N arithmetic b pairWindow
-    hZ cap B (OriginalProfileAtomBounds.atomBudget_one _ _ _ _) atomWindow
-    j hleftIdeal hrightIdeal hdivisorIndex parentWidth (total (i).val.1 (i).val.2.1)
-    (s.pools (i).val.1 (i).val.2.1).weightBound (profile ^ dFirst)
-    (pow_nonneg (zero_le_one.trans hprofile) _) hfirstProfile hfirst.1 hfirst.2.1 hfirst.2.2
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle)) (i).val.2.2.2.1
-    (fun _ : PUnit.{1} × PUnit.{1} => (1 : Circle))
-    (R.supported.gated.secondPhaseAt L (i).val) (R.supported.gated.originalScalarAt L (i).val) hscalar0 houter
-  have hscalar : fiberScalar ≤ firstFiber * secondFiber := by
-    have hprod : 0 ≤ firstFiber * secondFiber :=
-      mul_nonneg (zero_le_one.trans hfirstFiber) (zero_le_one.trans hsecondFiber)
-    calc
-      _ ≤ (firstFiber * secondFiber) / 2 :=
-        div_le_div_of_nonneg_right
-          (mul_le_mul hfirstCap hsecondCap (Nat.cast_nonneg _) (zero_le_one.trans hfirstFiber))
-          (by norm_num)
-      _ ≤ firstFiber * secondFiber := by linarith
-  have hcoefficient := CanonicalPrimeActualSourceMass.atomCoefficient_le K cap dFirst dAmplitude dRow dPrime
-    annulus amplitude rowCost primeCost fixedPrimeCost profile fiberScalar
-    firstFiber secondFiber rowFiber (costs).rowMass.originalFiber (zero_le_one.trans hannulus)
-    hprofile hamplitude hamp hrowCost hprimeCost hscalar hfirstFiber hsecondFiber hrowFiber hrowCap
-  have hnominal : G.skeleton.wo + G.tag.poolLength step =
-      AmplifiedCommonIndex.movingLength P Main Errors key := by
-    simpa only [OriginalNominalGeometry.skeleton, htag, hstepPool] using
-      R.supported.gated.originalNominalTagAt_movingLength L hcap exceptional firstNormalization i
-  have hremaining : remaining ≤ ε / 4 + AmplifiedCommonIndex.movingLength P Main Errors key := by
-    calc
-      _ ≤ ε / 4 + (G.skeleton.wo + G.tag.poolLength step) :=
-        OriginalPairAllowanceProduction.remaining_le_quarter _ _ error mesh ε herrorBudget hmeshBudget
-      _ = _ := by rw [hnominal]
-  have hj := (Labels).carrier.indexWeight_nonneg j
-  have hC := (CanonicalActualSourceMass.weightConstant_pos K cap annulus fixedPrimeCost
-    firstFiber secondFiber rowFiber hfirstFiber hsecondFiber hrowFiber).le
-  have hupper : ActualHybridFamily.outerWeights leaves b.val *
-      (ActualHybridFamily.normalizedFamily leaves chosen).weight Finset.univ parentWidth b ≤
-        CanonicalActualSourceMass.weightConstant K cap annulus fixedPrimeCost firstFiber secondFiber rowFiber *
-          profile ^ CanonicalActualSourceMass.weightDegree cap dFirst dAmplitude (max dRow dPrime) *
-          tagWeight * Z ^ remaining * AmplifiedCommonIndex.harmonicWeight P Main Errors key := by
-    rw [hharmonic]
-    calc
-      _ ≤ R.supported.gated.originalScalarAt L (i).val *
-          (profile ^ dFirst * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) *
-            orbitalFieldFactor K) * Z ^ remaining * (Labels).carrier.indexWeight j) := hraw
-      _ = (fiberScalar *
-          (profile ^ dFirst * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) *
-            orbitalFieldFactor K))) * tagWeight * Z ^ remaining * (Labels).carrier.indexWeight j := by
-        rw [hscalarEq]
-        ring
-      _ ≤ _ := mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_right
-          (mul_le_mul_of_nonneg_right hcoefficient htag0)
-          (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hj
-  exact AmplifiedCommonIndex.pointwise_of_original_tag_uniform P Main Errors
-    (R.supported.gated.originalRowExponentAt_nonneg L (i).val) hM hB hdensity key _
-    (CanonicalActualSourceMass.weightConstant K cap annulus fixedPrimeCost firstFiber secondFiber rowFiber)
-    (profile ^ CanonicalActualSourceMass.weightDegree cap dFirst dAmplitude (max dRow dPrime))
-    remaining (ε / 4) hC (pow_nonneg (zero_le_one.trans hprofile) _) hremaining hupper
+  sorry
 
 end ActualFirstSource.SecondStages
 

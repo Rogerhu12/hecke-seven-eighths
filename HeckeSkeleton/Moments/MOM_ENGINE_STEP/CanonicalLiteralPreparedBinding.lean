@@ -111,12 +111,8 @@ private theorem preparedLiteral_leftCoefficient
     (i : AllocationColumn K (LC.branch v.2.2.1).slotCount)
     (hi : i ∈ (LC.branch v.2.2.1).reindex.cartesian)
     (hc : (LC.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns G.columns) :
-    v.chart.sourceLeftCoefficient ((LC.branch v.2.2.1).reindex.index i) = leftAtoms.whole i :=
-  (canonicalUnmasked_prepared_leftCoefficient
-    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-    dimension width character dyad v.1 v.2.1 hactive _ hc).trans
-      (hcoeffL i hi hc).symm
+    v.chart.sourceLeftCoefficient ((LC.branch v.2.2.1).reindex.index i) = leftAtoms.whole i := by
+  sorry
 
 include hcoeffR in
 private theorem preparedLiteral_rightCoefficient
@@ -124,12 +120,8 @@ private theorem preparedLiteral_rightCoefficient
     (i : AllocationColumn K (RC.branch v.2.2.2.1).slotCount)
     (hi : i ∈ (RC.branch v.2.2.2.1).reindex.cartesian)
     (hc : (RC.branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns G.columns) :
-    v.chart.sourceRightCoefficient ((RC.branch v.2.2.2.1).reindex.index i) = rightAtoms.whole i :=
-  (canonicalUnmasked_prepared_rightCoefficient
-    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
-    δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-    dimension width character dyad v.1 v.2.1 hactive _ hc).trans
-      (hcoeffR i hi hc).symm
+    v.chart.sourceRightCoefficient ((RC.branch v.2.2.2.1).reindex.index i) = rightAtoms.whole i := by
+  sorry
 
 /-- The column calculations are inserted into the actual prepared
 leaf. Liveness is used only to identify its original active common

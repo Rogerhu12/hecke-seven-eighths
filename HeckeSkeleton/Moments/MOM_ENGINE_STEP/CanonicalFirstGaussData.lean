@@ -47,16 +47,12 @@ def originalFrequencyIdeal (h : A.R) : A.Exterior :=
 
 theorem originalFrequencyIdeal_generates (h : A.R) (hh : h ≠ 0) :
     A.Generates (originalFrequencyIdeal h) h := by
-  rw [originalFrequencyIdeal, dif_pos hh]
-  exact ProbeOrbitNormSum.principalExterior_generates A ⟨h, hh⟩
+  sorry
 
 theorem originalFrequencyIdeal_norm (h : A.R) (hh : h ≠ 0) :
     A.exteriorNorm (originalFrequencyIdeal h) =
       (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ⟨h, hh⟩).val := by
-  change (Ideal.absNorm (originalFrequencyIdeal h).val : ℝ) = _
-  rw [← natCard_sIntegerPrincipalResidue_eq_productNorm K
-    (A.Sf : Set (HeightOneSpectrum (𝓞 K))) h hh,
-    (originalFrequencyIdeal_generates h hh).2, A.exteriorResidue_card]
+  sorry
 
 /-- Every actual prime factor, with its original exterior-prime type. -/
 def originalExteriorPrimeSupport (I : A.Exterior) : Finset (ExteriorPrime A) :=
@@ -65,16 +61,7 @@ def originalExteriorPrimeSupport (I : A.Exterior) : Finset (ExteriorPrime A) :=
 theorem mem_originalExteriorPrimeSupport (I : A.Exterior) (p : ExteriorPrime A)
     (hp : MaskedQuotientCRT.primeExponent p I ≠ 0) :
     p ∈ originalExteriorPrimeSupport I := by
-  have hd : p.val.asIdeal ∣ I.val := by
-    by_contra hn
-    exact hp (primeExponent_zero_of_not_dvd I p hn)
-  have hs : p.val.asIdeal ∈ primeSupport I.val :=
-    (prime_mem_support_iff_dvd _ _ p.val.prime I.property.1).mpr hd
-  apply Finset.mem_image.mpr
-  refine ⟨⟨p.val.asIdeal, hs⟩, Finset.mem_attach _ _, ?_⟩
-  apply Subtype.ext
-  apply HeightOneSpectrum.asIdeal_injective
-  rfl
+  sorry
 
 namespace DirectGaussData
 

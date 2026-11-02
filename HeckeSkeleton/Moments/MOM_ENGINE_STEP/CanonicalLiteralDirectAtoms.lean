@@ -105,11 +105,8 @@ theorem literalLeftDirectCover_dictionary
             ((raw).originalAtlas.branch (primeSupport DE.1) DE.1 label).keep j))
           (primeSupport DE.1)),
         (fun i => (raw).originalIndex
-          (((raw).originalAtlas.branch (primeSupport DE.1) DE.1 label).reconstruct i))⟩ :=
-  p.leftData.sourceCartesianCover_literalDictionary (raw).originalAtlas
-    (primeSupport DE.1) DE.1 p.left_columns
-    (fun i => by rw [p.left_ideal]; exact b.left_residual i)
-    (p.leftDivisorCoefficient S χ) label
+          (((raw).originalAtlas.branch (primeSupport DE.1) DE.1 label).reconstruct i))⟩ := by
+  sorry
 
 /-- This table contains both original rectangles and every actual
 retained occurrence. Its supports are the existing direct cover fields. -/
@@ -162,20 +159,7 @@ theorem literalLeftDirectAtoms_coefficient
           actualIdealResidue (A := A) (σ := σ) (b.leftResidual
             (((p.leftSourceCover (raw).originalAtlas S χ).branch label).reindex.index i)).val
             (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
-  let T := (p.leftSourceCover (raw).originalAtlas S χ).branch label
-  have e := literalLeftDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  have hc := canonicalLeftDirect_atlasCoefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
-    (primeSupport DE.1) branch hroot hemb T
-    (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
-  have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
-    (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
-  unfold literalLeftDirectAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi]
-  rw [hc, hm, mul_one]
+  sorry
 
 theorem literalRightDirectCover_dictionary
     (label : (p.rightSourceCover (raw).originalAtlas S χ).labels) :
@@ -190,11 +174,8 @@ theorem literalRightDirectCover_dictionary
             ((raw).originalAtlas.branch (primeSupport DE.1) DE.2 label).keep j))
           (primeSupport DE.1)),
         (fun i => (raw).originalIndex
-          (((raw).originalAtlas.branch (primeSupport DE.1) DE.2 label).reconstruct i))⟩ :=
-  p.rightData.sourceCartesianCover_literalDictionary (raw).originalAtlas
-    (primeSupport DE.1) DE.2 p.right_columns
-    (fun i => by rw [p.right_ideal]; exact b.right_residual i)
-    (p.rightDivisorCoefficient S χ) label
+          (((raw).originalAtlas.branch (primeSupport DE.1) DE.2 label).reconstruct i))⟩ := by
+  sorry
 
 /-- This table contains both original rectangles and every actual
 retained occurrence. Its supports are the existing direct cover fields. -/
@@ -247,20 +228,7 @@ theorem literalRightDirectAtoms_coefficient
           actualIdealResidue (A := A) (σ := σ) (b.rightResidual
             (((p.rightSourceCover (raw).originalAtlas S χ).branch label).reindex.index i)).val
             (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
-  let T := (p.rightSourceCover (raw).originalAtlas S χ).branch label
-  have e := literalRightDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
-  have hc := canonicalRightDirect_atlasCoefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
-    (primeSupport DE.1) branch hroot hemb T
-    (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
-  have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
-    (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
-  unfold literalRightDirectAtoms
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi]
-  rw [hc, hm, mul_one]
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

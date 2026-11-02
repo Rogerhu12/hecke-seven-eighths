@@ -47,9 +47,7 @@ theorem theta_unramified {A : SArithmeticData K} (theta : Finset (HeckeCharacter
     (hplaces : thetaBadPrimes theta ⊆ A.Sf) (χ : HeckeCharacter K) (hχ : χ ∈ theta)
     (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∉ (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) : UnramifiedAt K χ p := by
-  by_contra hr
-  exact hp (hplaces (Finset.mem_biUnion.mpr
-    ⟨χ, hχ, (finite_ramifiedPlaces K χ).mem_toFinset.mpr hr⟩))
+  sorry
 
 /-- The original arithmetic choice preserves this fixed exclusion.
 It requires no new choice after rows or profiles have been supplied. -/
@@ -59,8 +57,8 @@ theorem chosen_theta_unramified (theta : Finset (HeckeCharacter K))
     (hplaces : thetaBadPrimes theta ⊆ initial) (χ : HeckeCharacter K) (hχ : χ ∈ theta)
     (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∉ (choice.A.Sf : Set (HeightOneSpectrum (𝓞 K)))) :
-    UnramifiedAt K χ p :=
-  theta_unramified theta (hplaces.trans choice.initial) χ hχ p hp
+    UnramifiedAt K χ p := by
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -131,8 +129,7 @@ local notation "mass" => actualMass chart P R hclass X hX label F parent oldMovi
 @[simp] theorem actualMass_radius : (mass).radius = radius := rfl
 
 @[simp] theorem actualMass_mask : (mass).mask = ∅ := by
-  change D.val = ∅
-  exact Finset.subset_empty.mp (Finset.mem_powerset.mp D.property)
+  sorry
 
 @[simp] theorem actualMass_unit : (mass).unitIdeal =
     secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity pattern := rfl
@@ -144,13 +141,13 @@ local notation "mass" => actualMass chart P R hclass X hX label F parent oldMovi
     bound * Real.sqrt leftAtoms.envelope * Real.sqrt rightAtoms.envelope := rfl
 
 theorem original_fibers (I : Ideal (𝓞 K)) :
-    ((S).rows.filter (fun h => ((S).originalIdeal h).val = I)).card ≤ Γ.index :=
-  (mass).original_fibers I
+    ((S).rows.filter (fun h => ((S).originalIdeal h).val = I)).card ≤ Γ.index := by
+  sorry
 
 theorem extracted_fibers (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((Finset.univ : Finset (S).live).filter
-      (fun h => ((S).extractedRow C h).momentIdeal = I)).card ≤ Γ.index :=
-  (mass).extracted_fibers I
+      (fun h => ((S).extractedRow C h).momentIdeal = I)).card ≤ Γ.index := by
+  sorry
 
 /-- A later exceptional predicate creates no new original ideal
 fibres.  This is the real-valued field used by the paid row theorem. -/
@@ -159,8 +156,8 @@ theorem exceptional_fibers {theta : Finset (HeckeCharacter K)}
     (hI : I ∈ (Finset.univ : Finset ((S).exceptionalRows Q)).image
       (fun h => ((S).extractedRow C h.val).ideal.val)) :
     (((Finset.univ : Finset ((S).exceptionalRows Q)).filter
-      (fun h => ((S).extractedRow C h.val).ideal.val = I)).card : ℝ) ≤ (Γ.index : ℝ) :=
-  (mass).exceptional_extracted_fibers Q I hI
+      (fun h => ((S).extractedRow C h.val).ideal.val = I)).card : ℝ) ≤ (Γ.index : ℝ) := by
+  sorry
 
 end Mass
 
@@ -195,31 +192,7 @@ theorem exists_actual_classification (hscalar : (original).commonScalar branch �
         (S).leftMultiplicity (S).rightMultiplicity ((S).frequency h.val),
         6 ∣ (UniqueFactorizationMonoid.normalizedFactors
           ((S).originalIdeal h.val).val).count ((S).primes i).val.asIdeal) := by
-  let rowMap : (S).live → CanonicalOriginalPhaseCalibration.PatternSector P S C pattern sector :=
-    CanonicalLiteralExceptionalFactory.originalRow chart P R hclass hsector
-      X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair
-  let selected := (Finset.univ : Finset (S).live).image rowMap
-  have hmem (h : (S).live) : rowMap h ∈ selected :=
-    Finset.mem_image.mpr ⟨h, Finset.mem_univ h, rfl⟩
-  have htheta (h : (S).live) :
-      (S).literalCharacter C P R F oldMoving correction pattern sector
-        (rowMap h).val.val.val = thetaPair.1.val := by
-    exact CanonicalLiteralExceptionalFactory.character_on_class chart P R X hX label
-      F parent oldMoving correction leftAtoms rightAtoms thetaPair .left h
-  have hcommon : frozenSourceIdeal (branch).plainDivisor₁ (branch).plainDivisor₂
-      (branch).keep (branch).witness.2 = (primePowerProduct (S).primes (S).leftMultiplicity).val :=
-    (branch).frozenSourceIdeal_eq.trans
-      (atlas.branch_product support (primePowerProduct b.primes b.leftMultiplicity).val branchLabel)
-  obtain ⟨base, hfree, hfactor, hvaluation⟩ :=
-    CanonicalLiteralExceptionalClassification.exists_actual_classification P R F
-      parent oldMoving correction hcorr remaining extra (recipe.onAtlas atlas count) branch
-      C S pattern sector (CanonicalLiteralPrimitiveCharacters.primitiveCharacterLaws P R)
-      (theta_unramified parent.theta hplaces) hcommon hscalar selected thetaPair.1
-  refine ⟨base, hfree, ?_, ?_⟩
-  · intro h
-    exact hfactor (rowMap h) (hmem h) (htheta h)
-  · intro h
-    exact hvaluation (rowMap h) (hmem h) (htheta h)
+  sorry
 
 end Classification
 

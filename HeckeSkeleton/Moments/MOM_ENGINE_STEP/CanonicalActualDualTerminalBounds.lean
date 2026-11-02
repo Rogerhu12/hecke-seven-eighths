@@ -51,11 +51,7 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 private theorem actualDualDivisor_ne_zero {ι : Type*}
     (columns : Finset ι) (ideal : ι → A.Exterior)
     (S : divisorPool columns (fun j => (ideal j).val)) : S.val ≠ 0 := by
-  obtain ⟨j, _, hSj⟩ := Finset.mem_biUnion.mp S.property
-  have hd := (mem_idealDivisors (ideal j).property.1).mp hSj
-  intro hz
-  rw [hz, zero_dvd_iff] at hd
-  exact (ideal j).property.1 hd
+  sorry
 
 namespace CompleteMovingRowRecipe
 
@@ -161,42 +157,7 @@ theorem canonicalLeftOriginalDualCalibration_metadata :
     (terminal).windows.multiplicity = idealDivisorCount (DE.1 ^ 2) ^ (2 * (cap + 2)) ∧
       (terminal).zeroProductExponent = 2 * max 0
         (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.1) := by
-  unfold canonicalLeftOriginalDualCalibration
-  constructor
-  · exact
-      let numerator := p.canonicalLeftOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalLeftOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalLeftTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_multiplicity original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
-  · exact
-      let numerator := p.canonicalLeftOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalLeftOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalLeftTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_zeroProductExponent original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
+  sorry
 
 theorem canonicalLeftOriginalDualCalibration_amplitude_bounds
     (hphysical : (p.leftData.directSource (p.leftDivisorCoefficient S χ)).rows.Nonempty) :
@@ -209,24 +170,7 @@ theorem canonicalLeftOriginalDualCalibration_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.1) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  have h :=
-    let numerator := p.canonicalLeftOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let post := p.canonicalLeftOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let tuples := p.originalLeftTuples raw S χ cap hcap
-    s.canonicalOriginalDualCalibrationOfTuples_amplitude_bounds original numerator post tuples
-      (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-      (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-      (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-        orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-        hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-        profiles hrows ht hlowerWindow hupperWindow sTail sZero
-        totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-        htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff hphysical
-  simpa only [canonicalLeftOriginalDualCalibration, b.common_left] using h
+  sorry
 
 end LeftDirectBounds
 
@@ -266,42 +210,7 @@ theorem canonicalRightOriginalDualCalibration_metadata :
     (terminal).windows.multiplicity = idealDivisorCount (DE.2 ^ 2) ^ (2 * (cap + 2)) ∧
       (terminal).zeroProductExponent = 2 * max 0
         (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.2) := by
-  unfold canonicalRightOriginalDualCalibration
-  constructor
-  · exact
-      let numerator := p.canonicalRightOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalRightOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalRightTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_multiplicity original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
-  · exact
-      let numerator := p.canonicalRightOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalRightOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalRightTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_zeroProductExponent original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
+  sorry
 
 theorem canonicalRightOriginalDualCalibration_amplitude_bounds
     (hphysical : (p.rightData.directSource (p.rightDivisorCoefficient S χ)).rows.Nonempty) :
@@ -314,24 +223,7 @@ theorem canonicalRightOriginalDualCalibration_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.2) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  have h :=
-    let numerator := p.canonicalRightOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let post := p.canonicalRightOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let tuples := p.originalRightTuples raw S χ cap hcap
-    s.canonicalOriginalDualCalibrationOfTuples_amplitude_bounds original numerator post tuples
-      (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-      (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-      (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-        orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-        hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-        profiles hrows ht hlowerWindow hupperWindow sTail sZero
-        totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-        htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff hphysical
-  simpa only [canonicalRightOriginalDualCalibration, b.common_right] using h
+  sorry
 
 end RightDirectBounds
 
@@ -388,42 +280,7 @@ theorem canonicalLeftMainOriginalDualCalibration_metadata :
     (terminal).windows.multiplicity = idealDivisorCount (DE.1 ^ 2) ^ (2 * (cap + 2)) ∧
       (terminal).zeroProductExponent = 2 * max 0
         (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.1) := by
-  unfold canonicalLeftMainOriginalDualCalibration
-  constructor
-  · exact
-      let numerator := p.canonicalLeftMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalLeftMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalLeftMainTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_multiplicity original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
-  · exact
-      let numerator := p.canonicalLeftMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalLeftMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalLeftMainTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_zeroProductExponent original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
+  sorry
 
 theorem canonicalLeftMainOriginalDualCalibration_amplitude_bounds
     (hphysical : ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)).rows.Nonempty) :
@@ -436,24 +293,7 @@ theorem canonicalLeftMainOriginalDualCalibration_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.1) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  have h :=
-    let numerator := p.canonicalLeftMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let post := p.canonicalLeftMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let tuples := p.originalLeftMainTuples raw S χ cap hcap
-    s.canonicalOriginalDualCalibrationOfTuples_amplitude_bounds original numerator post tuples
-      (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-      (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-      (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-        orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-        hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-        profiles hrows ht hlowerWindow hupperWindow sTail sZero
-        totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-        htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff hphysical
-  simpa only [canonicalLeftMainOriginalDualCalibration, b.common_left] using h
+  sorry
 
 end LeftMainBounds
 
@@ -493,42 +333,7 @@ theorem canonicalRightMainOriginalDualCalibration_metadata :
     (terminal).windows.multiplicity = idealDivisorCount (DE.2 ^ 2) ^ (2 * (cap + 2)) ∧
       (terminal).zeroProductExponent = 2 * max 0
         (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.2) := by
-  unfold canonicalRightMainOriginalDualCalibration
-  constructor
-  · exact
-      let numerator := p.canonicalRightMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalRightMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalRightMainTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_multiplicity original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
-  · exact
-      let numerator := p.canonicalRightMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let post := p.canonicalRightMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-      let tuples := p.originalRightMainTuples raw S χ cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_zeroProductExponent original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
+  sorry
 
 theorem canonicalRightMainOriginalDualCalibration_amplitude_bounds
     (hphysical : ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)).rows.Nonempty) :
@@ -541,24 +346,7 @@ theorem canonicalRightMainOriginalDualCalibration_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.2) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  have h :=
-    let numerator := p.canonicalRightMainOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let post := p.canonicalRightMainOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ
-    let tuples := p.originalRightMainTuples raw S χ cap hcap
-    s.canonicalOriginalDualCalibrationOfTuples_amplitude_bounds original numerator post tuples
-      (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-      (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-      (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-        orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-        hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-        profiles hrows ht hlowerWindow hupperWindow sTail sZero
-        totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-        htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff hphysical
-  simpa only [canonicalRightMainOriginalDualCalibration, b.common_right] using h
+  sorry
 
 end RightMainBounds
 
@@ -600,42 +388,7 @@ theorem canonicalLeftPoolOriginalDualCalibration_metadata :
     (terminal).windows.multiplicity = idealDivisorCount (DE.1 ^ 2) ^ (2 * (cap + 2)) * (n + n + 1) ^ (2 * (cap + 2)) ∧
       (terminal).zeroProductExponent = 2 * max 0
         (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z (DE.1 * (powerIdeal prime n).val)) := by
-  unfold canonicalLeftPoolOriginalDualCalibration
-  constructor
-  · exact
-      let numerator := p.canonicalLeftPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let post := p.canonicalLeftPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let tuples := p.originalLeftPoolTuples raw S χ prime n cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_multiplicity original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
-  · exact
-      let numerator := p.canonicalLeftPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let post := p.canonicalLeftPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let tuples := p.originalLeftPoolTuples raw S χ prime n cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_zeroProductExponent original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
+  sorry
 
 theorem canonicalLeftPoolOriginalDualCalibration_amplitude_bounds
     (hphysical : ((p.divisorPools.leftData S).residualSource prime n (p.leftDivisorCoefficient S χ)).rows.Nonempty) :
@@ -648,24 +401,7 @@ theorem canonicalLeftPoolOriginalDualCalibration_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.1) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  have h :=
-    let numerator := p.canonicalLeftPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-    let post := p.canonicalLeftPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-    let tuples := p.originalLeftPoolTuples raw S χ prime n cap hcap
-    s.canonicalOriginalDualCalibrationOfTuples_amplitude_bounds original numerator post tuples
-      (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-      (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-      (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-        orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-        hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-        profiles hrows ht hlowerWindow hupperWindow sTail sZero
-        totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-        htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff hphysical
-  simpa only [canonicalLeftPoolOriginalDualCalibration, b.common_left] using h
+  sorry
 
 end LeftPoolBounds
 
@@ -707,42 +443,7 @@ theorem canonicalRightPoolOriginalDualCalibration_metadata :
     (terminal).windows.multiplicity = idealDivisorCount (DE.2 ^ 2) ^ (2 * (cap + 2)) * (n + n + 1) ^ (2 * (cap + 2)) ∧
       (terminal).zeroProductExponent = 2 * max 0
         (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z (DE.2 * (powerIdeal prime n).val)) := by
-  unfold canonicalRightPoolOriginalDualCalibration
-  constructor
-  · exact
-      let numerator := p.canonicalRightPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let post := p.canonicalRightPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let tuples := p.originalRightPoolTuples raw S χ prime n cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_multiplicity original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
-  · exact
-      let numerator := p.canonicalRightPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let post := p.canonicalRightPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-        φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-        hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-      let tuples := p.originalRightPoolTuples raw S χ prime n cap hcap
-      s.canonicalOriginalDualCalibrationOfTuples_zeroProductExponent original numerator post tuples
-        (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-        (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-        (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-          orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-          hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-          profiles hrows ht hlowerWindow hupperWindow sTail sZero
-          totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-          htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff
+  sorry
 
 theorem canonicalRightPoolOriginalDualCalibration_amplitude_bounds
     (hphysical : ((p.divisorPools.rightData S).residualSource prime n (p.rightDivisorCoefficient S χ)).rows.Nonempty) :
@@ -755,24 +456,7 @@ theorem canonicalRightPoolOriginalDualCalibration_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss - idealLogLength Z DE.2) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  have h :=
-    let numerator := p.canonicalRightPoolOriginalNumerator hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-    let post := p.canonicalRightPoolOriginalPostIdeal hUnits μv ν b C (raw).exteriorColumns (raw).exteriorColumns
-      φ ((values).coefficient centered) ((values).coefficient centered) firstFiniteTest
-      hlc hcs firstRadius firstMask δ hδ hδhalf S χ prime n
-    let tuples := p.originalRightPoolTuples raw S χ prime n cap hcap
-    s.canonicalOriginalDualCalibrationOfTuples_amplitude_bounds original numerator post tuples
-      (actualDualDivisor_ne_zero p.rightData.columns p.rightData.ideal S) hδ.le hδhalf
-      (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
-      (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap
-        orders B lo hi loss leftExponent rightExponent hB hlo hloOne hhi
-        hlowerThreshold hupperThreshold domain hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le
-        profiles hrows ht hlowerWindow hupperWindow sTail sZero
-        totalBound coarseBound frozenBound radiusBound Nsave decay inverseRadiusExponent
-        htotal hcoarseNonneg hcoarse hfrozen hloss hinverse hmaskEmpty hradius hcutoff hphysical
-  simpa only [canonicalRightPoolOriginalDualCalibration, b.common_right] using h
+  sorry
 
 end RightPoolBounds
 

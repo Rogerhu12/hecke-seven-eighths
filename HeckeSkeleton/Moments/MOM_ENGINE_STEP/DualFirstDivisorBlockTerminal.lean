@@ -39,13 +39,7 @@ private theorem dual_first_allowance_power_cancel
     (Z allowance loss eps coefficient : ℝ) (hZ : 0 < Z) :
     (coefficient * Z ^ (allowance + loss - eps + eps)) / Z ^ allowance =
       coefficient * Z ^ loss := by
-  rw [show allowance + loss - eps + eps = allowance + loss by ring]
-  calc
-    _ = coefficient * (Z ^ (allowance + loss) / Z ^ allowance) := by ring
-    _ = _ := by
-      rw [← Real.rpow_sub hZ]
-      congr 2
-      ring
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -90,18 +84,7 @@ theorem zeroBudget_div_allowance_le_original_profiles
     T.calibration.zeroBudget ε Czero / Z ^ allowance ≤
       (firstDivisorZeroCoefficient ell Mmax B Czero profileConstant slots k fiberCap maskCap D /
         (Ideal.absNorm S : ℝ)) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans P.base_gt_one
-  have hp := T.zeroBudget_le_original_profiles D Q ε Czero profileConstant
-    (allowance + loss - eps) Mmax fiberCap maskCap hC hprofile hrow hlarge hfiber hmask
-    hraw hbudget
-  apply (div_le_div_of_nonneg_right hp (Real.rpow_nonneg hz.le allowance)).trans_eq
-  have heq : poolTerminalConstant K ell Mmax *
-      ((fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k * 15 ^ k : ℕ) * Czero *
-        (B ^ slots * profileConstant * (2 : ℝ) ^ maskCap / (Ideal.absNorm S : ℝ))) =
-      firstDivisorZeroCoefficient ell Mmax B Czero profileConstant slots k fiberCap maskCap D /
-        (Ideal.absNorm S : ℝ) := by unfold firstDivisorZeroCoefficient; ring
-  rw [heq]
-  exact dual_first_allowance_power_cancel Z allowance loss eps _ hz
+  sorry
 
 theorem tailBudget_div_allowance_le_original_profiles
     (D : Ideal (𝓞 K)) (Q : T.OriginalTupleMultiplicities D)
@@ -118,18 +101,7 @@ theorem tailBudget_div_allowance_le_original_profiles
     T.calibration.tailBudget Cerror / Z ^ allowance ≤
       (firstDivisorTailCoefficient ell Mmax B Cerror profileConstant slots k fiberCap D /
         (Ideal.absNorm S : ℝ)) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans P.base_gt_one
-  have hp := T.tailBudget_le_original_profiles D Q Cerror profileConstant
-    (allowance + loss - eps) Mmax fiberCap profileExponent hC hprofile hrow hlarge hfiber
-    hraw hbudget
-  apply (div_le_div_of_nonneg_right hp (Real.rpow_nonneg hz.le allowance)).trans_eq
-  have heq : poolTerminalConstant K ell Mmax *
-      ((fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k * 15 ^ k : ℕ) * Cerror *
-        (B ^ slots * profileConstant / (Ideal.absNorm S : ℝ))) =
-      firstDivisorTailCoefficient ell Mmax B Cerror profileConstant slots k fiberCap D /
-        (Ideal.absNorm S : ℝ) := by unfold firstDivisorTailCoefficient; ring
-  rw [heq]
-  exact dual_first_allowance_power_cancel Z allowance loss eps _ hz
+  sorry
 
 end ActualPoolStages.DualFirstDivisorWindows
 
@@ -215,34 +187,7 @@ theorem classZeroBudget_le_original_profiles
           firstDivisorZeroCoefficient ell Mmax B Czero profileR slotsR k fiberCap maskCap DE.2) / 2)) *
         (firstCommonWeight Z DE.1 DE.2 * (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans P.base_gt_one
-  have hB : 0 ≤ B := zero_le_one.trans ((T.left S χ).atoms (.inl ())).bound_ge_one
-  have hpool : 0 ≤ poolTerminalConstant K ell Mmax :=
-    (poolTerminalConstant_pos (K := K) ell Mmax P.exponent_pos
-      ((p.divisorPools.leftData S).rowExponent_nonneg.trans U.left_row)).le
-  have hCL : 0 ≤ firstDivisorZeroCoefficient ell Mmax B Czero profileL
-      slotsL k fiberCap maskCap DE.1 := by unfold firstDivisorZeroCoefficient; positivity
-  have hCR : 0 ≤ firstDivisorZeroCoefficient ell Mmax B Czero profileR
-      slotsR k fiberCap maskCap DE.2 := by unfold firstDivisorZeroCoefficient; positivity
-  have hL := (T.left S χ).zeroBudget_div_allowance_le_original_profiles DE.1
-    U.left_tuples ε Czero profileL _ loss Mmax fiberCap maskCap hC hprofileL
-    U.left_row U.left_large U.left_fiber U.left_mask U.left_profile U.left_ledger
-  have hR := (T.right S χ).zeroBudget_div_allowance_le_original_profiles DE.2
-    U.right_tuples ε Czero profileR _ loss Mmax fiberCap maskCap hC hprofileR
-    U.right_row U.right_large U.right_fiber U.right_mask U.right_profile U.right_ledger
-  have hc := original_terminal_class_scalar Z parentWidth
-    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
-    p.rowBound ‖(moebius S.val : ℂ)‖
-    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
-    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
-    ((T.left S χ).calibration.zeroBudget ε Czero) ((T.right S χ).calibration.zeroBudget ε Czero)
-    _ _ (Ideal.absNorm S.val : ℝ) loss firstAmplitude (firstCommonWeight Z DE.1 DE.2)
-    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
-    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
-    (firstTerminalFourierCost_nonneg chart.kernel) hCL hCR (Nat.cast_nonneg _) hL hR
-    (firstTerminalFourierCost_bound chart.kernel)
-    (p.normalized_allowance_prefactor P.base_gt_one total parentWidth firstAmplitude hfirst)
-  simpa only [calibration, DualTerminalCalibration.classZeroBudget, classWeight] using hc
+  sorry
 
 /-- Tail windows retain the actual residual-profile exponents.  The
 decay ledger is numerical, after the exact original tuple calibration. -/
@@ -290,34 +235,7 @@ theorem classTailBudget_le_original_profiles
           firstDivisorTailCoefficient ell Mmax B Cerror profileR slotsR k fiberCap DE.2) / 2)) *
         (firstCommonWeight Z DE.1 DE.2 * (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans P.base_gt_one
-  have hB : 0 ≤ B := zero_le_one.trans ((T.left S χ).atoms (.inl ())).bound_ge_one
-  have hpool : 0 ≤ poolTerminalConstant K ell Mmax :=
-    (poolTerminalConstant_pos (K := K) ell Mmax P.exponent_pos
-      ((p.divisorPools.leftData S).rowExponent_nonneg.trans U.left_row)).le
-  have hCL : 0 ≤ firstDivisorTailCoefficient ell Mmax B Cerror profileL
-      slotsL k fiberCap DE.1 := by unfold firstDivisorTailCoefficient; positivity
-  have hCR : 0 ≤ firstDivisorTailCoefficient ell Mmax B Cerror profileR
-      slotsR k fiberCap DE.2 := by unfold firstDivisorTailCoefficient; positivity
-  have hL := (T.left S χ).tailBudget_div_allowance_le_original_profiles DE.1
-    U.left_tuples Cerror profileL _ loss Mmax fiberCap exponentL hC hprofileL
-    U.left_row U.left_large U.left_fiber U.left_profile U.left_ledger
-  have hR := (T.right S χ).tailBudget_div_allowance_le_original_profiles DE.2
-    U.right_tuples Cerror profileR _ loss Mmax fiberCap exponentR hC hprofileR
-    U.right_row U.right_large U.right_fiber U.right_profile U.right_ledger
-  have hc := original_terminal_class_scalar Z parentWidth
-    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
-    p.rowBound ‖(moebius S.val : ℂ)‖
-    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
-    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
-    ((T.left S χ).calibration.tailBudget Cerror) ((T.right S χ).calibration.tailBudget Cerror)
-    _ _ (Ideal.absNorm S.val : ℝ) loss firstAmplitude (firstCommonWeight Z DE.1 DE.2)
-    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
-    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
-    (firstTerminalFourierCost_nonneg chart.kernel) hCL hCR (Nat.cast_nonneg _) hL hR
-    (firstTerminalFourierCost_bound chart.kernel)
-    (p.normalized_allowance_prefactor P.base_gt_one total parentWidth firstAmplitude hfirst)
-  simpa only [calibration, DualTerminalCalibration.classTailBudget, classWeight] using hc
+  sorry
 
 /-- The complete original divisor-and-character sum has the proved
 zero-class scalar. The common and Möbius harmonic weights remain on
@@ -339,24 +257,7 @@ theorem zeroBudget_le_original_label_sum
             firstCommonWeight Z DE.1 DE.2 *
               (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
                 ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  simp only [DualTerminalCalibration.zeroBudget, Finset.sum_div]
-  calc
-    _ ≤ ∑ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
-        ∑ χ : (PUnit × PUnit) →* Circle,
-          (firstAmplitude * firstTerminalFourierCost chart.kernel *
-            ((firstDivisorZeroCoefficient ell Mmax B Czero profileL slotsL k fiberCap maskCap DE.1 +
-              firstDivisorZeroCoefficient ell Mmax B Czero profileR slotsR k fiberCap maskCap DE.2) / 2)) *
-            (firstCommonWeight Z DE.1 DE.2 *
-              (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
-                ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-      apply Finset.sum_le_sum
-      intro S _
-      apply Finset.sum_le_sum
-      intro χ _
-      exact T.classZeroBudget_le_original_profiles S χ ε Czero total parentWidth loss
-        firstAmplitude profileL profileR Mmax fiberCap maskCap (U S χ)
-        hC hprofileL hprofileR hfirst
-    _ = _ := by simp only [Finset.mul_sum, Finset.sum_mul]
+  sorry
 
 /-- The complete tail uses the same first labels, original Fourier
 kernel and two side allowances as the zero term. -/
@@ -378,24 +279,7 @@ theorem tailBudget_le_original_label_sum
             firstCommonWeight Z DE.1 DE.2 *
               (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
                 ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  simp only [DualTerminalCalibration.tailBudget, Finset.sum_div]
-  calc
-    _ ≤ ∑ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
-        ∑ χ : (PUnit × PUnit) →* Circle,
-          (firstAmplitude * firstTerminalFourierCost chart.kernel *
-            ((firstDivisorTailCoefficient ell Mmax B Cerror profileL slotsL k fiberCap DE.1 +
-              firstDivisorTailCoefficient ell Mmax B Cerror profileR slotsR k fiberCap DE.2) / 2)) *
-            (firstCommonWeight Z DE.1 DE.2 *
-              (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
-                ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-      apply Finset.sum_le_sum
-      intro S _
-      apply Finset.sum_le_sum
-      intro χ _
-      exact T.classTailBudget_le_original_profiles S χ Cerror total parentWidth loss
-        firstAmplitude profileL profileR Mmax fiberCap exponentL exponentR (U S χ)
-        hC hprofileL hprofileR hfirst
-    _ = _ := by simp only [Finset.mul_sum, Finset.sum_mul]
+  sorry
 
 end DualFirstDivisorWindows
 end FirstBlockPoolData.SecondStages

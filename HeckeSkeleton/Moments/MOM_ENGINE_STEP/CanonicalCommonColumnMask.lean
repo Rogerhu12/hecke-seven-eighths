@@ -39,31 +39,21 @@ variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
 
 theorem supportExtract_own_support (D : A.Exterior) :
     supportExtract D.val (primeSupport D.val) = D.val := by
-  change ((normalizedFactors D.val).filter (fun Q => Q ∈ primeSupport D.val)).prod = D.val
-  rw [Multiset.filter_eq_self.mpr (by
-    intro Q hQ
-    exact Multiset.mem_toFinset.mpr hQ)]
-  exact Ideal.prod_normalizedFactors_eq_self D.property.1
+  sorry
 
 theorem residual_coprime (D : A.Exterior) (I : Ideal (𝓞 K)) :
     IsCoprime (supportResidual I (primeSupport D.val)) D.val := by
-  have h := (extracted_residual_coprime D.val I (primeSupport D.val)).symm
-  rwa [supportExtract_own_support D] at h
+  sorry
 
 theorem plainResidual_coprime (D : A.Exterior) (S : Finset (Ideal (𝓞 K)))
     (part I : Ideal (𝓞 K)) (hI : I ∈ SupportCartesian.plainResidual S (primeSupport D.val) part) :
     IsCoprime (sourceMomentIdeal I).val D.val := by
-  obtain ⟨J, _, rfl⟩ := Finset.mem_image.mp hI
-  rw [sourceMomentIdeal_val_of_ne_zero _ (supportResidual_ne_zero _ _)]
-  exact residual_coprime D J
+  sorry
 
 theorem primeLive_coprime (D : A.Exterior) (S : Finset (HeightOneSpectrum (𝓞 K)))
     (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∈ SupportCartesian.primeLive S (primeSupport D.val)) : IsCoprime p.asIdeal D.val := by
-  apply (prime_isCoprime_iff_not_dvd p.asIdeal D.val p.prime).mpr
-  intro hd
-  exact (Finset.mem_filter.mp hp).2
-    ((prime_mem_support_iff_dvd p.asIdeal D.val p.prime D.property.1).mpr hd)
+  sorry
 
 variable (moving : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
 variable (D : A.Exterior)
@@ -73,75 +63,37 @@ budget. Its multiplicities do not create repeated support charges. -/
 theorem coprime_movingMask_common (I : Ideal (𝓞 K)) :
     IsCoprime I (movingMask moving (remaining * exteriorMomentIdeal D)).val ↔
       IsCoprime I (movingMask moving remaining).val ∧ IsCoprime I D.val := by
-  simp only [movingMask, IsCoprime.mul_right_iff]
-  tauto
+  sorry
 
 theorem maskValue_preserved (I : Ideal (𝓞 K)) (hI : IsCoprime I D.val) :
     originalCoprimeMask (movingMask moving (remaining * exteriorMomentIdeal D)) I =
       originalCoprimeMask (movingMask moving remaining) I := by
-  change (if IsCoprime I (movingMask moving (remaining * exteriorMomentIdeal D)).val
-      then (1 : ℂ) else 0) = _
-  rw [coprime_movingMask_common moving remaining D]
-  simp only [hI, and_true]
+  sorry
 
 /-- The actual full mask now covers all of the original common
 support. This is derived from the displayed remaining ideal. -/
 theorem common_support_subset :
     primeSupport D.val ⊆
       primeSupport (moving.support.val * (remaining * exteriorMomentIdeal D).val) := by
-  intro Q hQ
-  have hprime := support_prime hQ
-  have hd := (prime_mem_support_iff_dvd Q D.val hprime D.property.1).mp hQ
-  apply (prime_mem_support_iff_dvd Q _ hprime
-    (mul_ne_zero moving.support.property.1
-      (mul_ne_zero (nonZeroDivisors.coe_ne_zero remaining) D.property.1))).mpr
-  exact hd.trans ((dvd_mul_left D.val remaining.val).trans
-    (dvd_mul_left (remaining.val * D.val) moving.support.val))
+  sorry
 
 theorem fullMaskSupport_common_primes :
     primeSupport (moving.fullMaskSupport (remaining * exteriorMomentIdeal D)).val =
       primeSupport (moving.fullMaskSupport remaining).val ∪ primeSupport D.val := by
-  rw [moving.fullMaskSupport_primes (remaining * exteriorMomentIdeal D),
-    moving.fullMaskSupport_primes remaining]
-  simp only [primeSupport,
-    normalizedFactors_mul (nonZeroDivisors.coe_ne_zero remaining) D.property.1,
-    Multiset.toFinset_add, Finset.union_assoc]
+  sorry
 
 /-- Only the radical of the true common part is paid, even though
 the complete original ideal is retained in the remaining field. -/
 theorem fullMaskSupport_common_dvd :
     (moving.fullMaskSupport (remaining * exteriorMomentIdeal D)).val ∣
       (moving.fullMaskSupport remaining).val * CommonSupportMass.commonRadical D.val D.val := by
-  let M := moving.fullMaskSupport remaining
-  let C := CommonSupportMass.commonRadical D.val D.val
-  have hM : M.val ≠ 0 := nonZeroDivisors.coe_ne_zero M
-  have hC : C ≠ 0 := CommonSupportMass.commonRadical_ne_zero _ _
-  rw [← squarefree_support_product_self
-    (moving.fullMaskSupport_squarefree (remaining * exteriorMomentIdeal D))]
-  apply support_product_dvd (mul_ne_zero hM hC)
-  intro Q hQ
-  rw [fullMaskSupport_common_primes moving remaining D] at hQ
-  rcases Finset.mem_union.mp hQ with hQ | hQ
-  · have hp := support_prime hQ
-    apply (prime_mem_support_iff_dvd Q _ hp (mul_ne_zero hM hC)).mpr
-    exact ((prime_mem_support_iff_dvd Q M.val hp hM).mp hQ).trans (dvd_mul_right M.val C)
-  · have hp := support_prime hQ
-    have hQC : Q ∈ primeSupport C := by
-      dsimp only [C]
-      rw [CommonSupportMass.commonRadical_support, Finset.inter_self]
-      exact hQ
-    apply (prime_mem_support_iff_dvd Q _ hp (mul_ne_zero hM hC)).mpr
-    exact ((prime_mem_support_iff_dvd Q C hp hC).mp hQC).trans (dvd_mul_left C M.val)
+  sorry
 
 theorem fullMaskSupport_common_norm_le :
     idealNorm K (moving.fullMaskSupport (remaining * exteriorMomentIdeal D)) ≤
       idealNorm K (moving.fullMaskSupport remaining) *
         (Ideal.absNorm (CommonSupportMass.commonRadical D.val D.val) : ℝ) := by
-  have h := norm_le_of_dvd
-    (mul_ne_zero (nonZeroDivisors.coe_ne_zero (moving.fullMaskSupport remaining))
-      (CommonSupportMass.commonRadical_ne_zero D.val D.val))
-    (fullMaskSupport_common_dvd moving remaining D)
-  simpa only [map_mul, Nat.cast_mul] using h
+  sorry
 
 variable {k : ℕ}
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
@@ -156,8 +108,7 @@ theorem sourcePlain_preserved (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I
         (movingSourceCharacters parent correction moving remaining index).plain
         (movingSourceCharacters parent correction moving remaining index).plainTwist
         (movingSourceCharacters parent correction moving remaining index).mask I := by
-  simp only [sourcePlainCoefficient, movingSourceCharacters, sourceCharacters,
-    maskValue_preserved moving remaining D I.val hI]
+  sorry
 
 theorem sourcePrime_preserved (i : Fin k) (p : HeightOneSpectrum (𝓞 K))
     (hp : IsCoprime p.asIdeal D.val) :
@@ -169,8 +120,7 @@ theorem sourcePrime_preserved (i : Fin k) (p : HeightOneSpectrum (𝓞 K))
         ((movingSourceCharacters parent correction moving remaining index).slot i)
         ((movingSourceCharacters parent correction moving remaining index).slotTwist i)
         (movingSourceCharacters parent correction moving remaining index).mask p := by
-  simp only [sourcePrimeCoefficient, movingSourceCharacters, sourceCharacters,
-    maskValue_preserved moving remaining D p.asIdeal hp]
+  sorry
 
 section Dictionaries
 

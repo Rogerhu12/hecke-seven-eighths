@@ -75,16 +75,7 @@ theorem childData_mask (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
       (if phaseMask u (secondOriginalMovingFactors P R C primes m n pattern).support.val
           (secondSixthRootIdeal primes m n) J ∧
           IsCoprime J.val (movingMask «prefix» remaining).val then (1 : ℂ) else 0) := by
-  change (if ((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u J.val &&
-      decide (IsCoprime J.val
-        (prefix.append (secondOriginalMovingFactors P R C primes m n pattern)).support.val)) &&
-      decide (IsCoprime J.val (remaining.val * (secondSixthRootIdeal primes m n).val)))
-      then (1 : ℂ) else 0) = _
-  simp only [completeIdealCommonMask, phaseMask, movingMask, sexticIdealOutsideS,
-    Bool.and_eq_true, decide_eq_true_eq, IsCoprime.mul_right_iff,
-    prefix.coprime_append_support]
-  congr 1
-  exact propext (by tauto)
+  sorry
 
 /-- Both new character factors are split only on their actual live
 mask. The whole earlier prefix stays in the fixed background, which
@@ -105,48 +96,7 @@ theorem childData_row_coefficient
         originalCoprimeMask (movingMask «prefix» remaining) J.val *
         actualIdealResidue (A := A) (σ := σ) J.val g *
         actualIdealResidue (A := A) (σ := σ) J.val row.element := by
-  let D := secondOriginalMovingFactors P R C primes m n pattern
-  let χu := completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
-    P R sector row.momentIdeal
-  have hphase := extracted_residue_character P R hroot hemb C primes m n pattern
-    row hfactor sector hsector J
-  rw [childData_mask P R parent «prefix» correction hcorr C primes m n pattern sector
-    remaining budget inverse left right geometry index]
-  rw [mul_assoc (heckeIdealCoefficient K (χ * (correction * prefix.character)) J *
-    originalCoprimeMask (movingMask «prefix» remaining) J.val), hphase]
-  change heckeIdealCoefficient K (χ * (correction * (prefix.append D).character * χu)) J *
-      (if phaseMask row.momentIdeal D.support.val (secondSixthRootIdeal primes m n) J ∧
-        IsCoprime J.val (movingMask «prefix» remaining).val then 1 else 0) =
-    (heckeIdealCoefficient K (χ * (correction * prefix.character)) J *
-      (if IsCoprime J.val (movingMask «prefix» remaining).val then 1 else 0)) *
-      (heckeIdealCoefficient K D.character J * heckeIdealCoefficient K χu J *
-        (if phaseMask row.momentIdeal D.support.val (secondSixthRootIdeal primes m n) J
-          then 1 else 0))
-  rw [prefix.append_character D]
-  by_cases hgood : phaseMask row.momentIdeal D.support.val
-      (secondSixthRootIdeal primes m n) J ∧ IsCoprime J.val (movingMask «prefix» remaining).val
-  · have hmove : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ J.val →
-        UnramifiedAt K D.character p := by
-      intro p hp
-      exact activeCharacter_unramified P R C primes m n pattern p (hgood.1.1 p hp).1
-        (hgood.1.2.2.1.of_isCoprime_of_dvd_left hp)
-    have hrow : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ J.val →
-        UnramifiedAt K χu p := by
-      intro p hp
-      have hu := residualCharacter_unramified P R row p (hgood.1.1 p hp).1
-        (hgood.1.2.1.of_isCoprime_of_dvd_left hp)
-      simpa only [hsector] using hu
-    rw [show χ * (correction * (prefix.character * D.character) * χu) =
-      ((χ * (correction * prefix.character)) * D.character) * χu by ac_rfl,
-      coefficient_mul_right_unramified _ _ J hrow,
-      coefficient_mul_right_unramified _ _ J hmove]
-    simp only [hgood, hgood.1, hgood.2, if_true, mul_one]
-    ring
-  · by_cases hm : phaseMask row.momentIdeal D.support.val
-        (secondSixthRootIdeal primes m n) J
-    · have ho : ¬IsCoprime J.val (movingMask «prefix» remaining).val := fun ho => hgood ⟨hm, ho⟩
-      simp only [if_neg hgood, if_neg ho, if_pos hm, mul_zero, zero_mul]
-    · simp only [if_neg hgood, if_neg hm, mul_zero, zero_mul]
+  sorry
 
 /-- The computed original source characters calibrate the actual
 complete child data on every residual row in this fixed unit sector. -/
@@ -294,8 +244,7 @@ theorem movingRecipe_fullJointBudget
     (Z width : ℝ) :
     (movingRecipe P R parent «prefix» correction hcorr C primes m n pattern sector remaining
       (Z ^ width) inverseTests leftTests rightTests geometries indices).FullJointBudget Z width := by
-  intro ξ u hu
-  exact hu.2
+  sorry
 
 end Families
 

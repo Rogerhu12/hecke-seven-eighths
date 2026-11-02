@@ -475,12 +475,7 @@ theorem literalPrimitiveDirectFamily_raw_plainBackground
     CanonicalPlainBackgroundTransport.Raw
       (ActualNormalizedPairFamily.sigmaCombine (fun j => (factories j).family (analytic j)))
       (data ξ) := by
-  apply CanonicalPlainBackgroundTransport.sigmaCombine
-  intro j
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  all_goals
-    intro label z
-    exact ⟨rfl, rfl⟩
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

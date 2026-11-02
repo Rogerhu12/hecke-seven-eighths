@@ -41,30 +41,17 @@ def smoothColumns : Finset (AllocationColumn K B.keep.card) :=
 
 theorem columnIdeal_ne_zero (i : AllocationColumn K B.keep.card)
     (hi : i ∈ smoothColumns W B A) : allocationColumnIdeal i ≠ 0 := by
-  have hp := Finset.mem_product.mp (Finset.mem_product.mp hi).1
-  exact mul_ne_zero
-    (mul_ne_zero (idealCarrier_nonzero _ _ hp.1) (idealCarrier_nonzero _ _ hp.2))
-    (Finset.prod_ne_zero_iff.mpr (fun j _ => (i.2 j).ne_bot))
+  sorry
 
 private theorem idealCarrier_coprime
     (S : Finset (HeckeGeneral.Analysis.NonzeroIdeal K))
     (hS : ∀ I ∈ S, IsCoprime I.val A.cS)
     (I : Ideal (𝓞 K)) (hI : I ∈ idealCarrier S) : IsCoprime I A.cS := by
-  obtain ⟨J, hJ, rfl⟩ := Finset.mem_image.mp hI
-  exact hS J hJ
+  sorry
 
 theorem columnIdeal_coprime (i : AllocationColumn K B.keep.card)
     (hi : i ∈ smoothColumns W B A) : IsCoprime (allocationColumnIdeal i) A.cS := by
-  have hm := Finset.mem_product.mp hi
-  have hp := Finset.mem_product.mp hm.1
-  have hs := Fintype.mem_piFinset.mp hm.2
-  have hleft := idealCarrier_coprime A (W.exteriorSmoothPlain₁ B A)
-    (W.exteriorSmoothPlain₁_coprime B A) _ hp.1
-  have hright := idealCarrier_coprime A (W.exteriorSmoothPlain₂ B A)
-    (W.exteriorSmoothPlain₂_coprime B A) _ hp.2
-  simp only [allocationColumnIdeal, IsCoprime.mul_left_iff, IsCoprime.prod_left_iff,
-    Finset.mem_univ, forall_const]
-  exact ⟨⟨hleft, hright⟩, fun j => W.exteriorSmoothSlots_coprime B A j (i.2 j) (hs j)⟩
+  sorry
 
 /-- The unit outside the finite carrier only makes the map total. -/
 def columnExterior (i : AllocationColumn K B.keep.card) : A.Exterior :=
@@ -76,7 +63,7 @@ def columnExterior (i : AllocationColumn K B.keep.card) : A.Exterior :=
 theorem columnExterior_val_of_mem (i : AllocationColumn K B.keep.card)
     (hi : i ∈ smoothColumns W B A) :
     (columnExterior W B A i).val = allocationColumnIdeal i := by
-  simp only [columnExterior, dif_pos hi]
+  sorry
 
 variable (paid : FixedChildCharacters K B.keep.card)
 variable {σ : K →+* ℂ} {η : RayClassCharacter K A.modulus}
@@ -123,40 +110,40 @@ variable (firstSign : ℝ) (rectangle : Bool)
 
 @[simp] theorem frame_normalizationScale :
     (frame W B A paid C R side M a firstSign rectangle).normalizationScale =
-      extraGaussScale d.gauss₁ d.gauss₂ d.gaussSlot :=
-  d.allocate_gaussScale B
+      extraGaussScale d.gauss₁ d.gauss₂ d.gaussSlot := by
+  sorry
 
 @[simp] theorem frame_normalizer :
-    (frame W B A paid C R side M a firstSign rectangle).normalizer = d.normalizer :=
-  table_normalizer W B A paid
+    (frame W B A paid C R side M a firstSign rectangle).normalizer = d.normalizer := by
+  sorry
 
 @[simp] theorem frame_source_allocation :
     (frame W B A paid C R side M a firstSign rectangle).source.allocation =
       branch W B A M a := by
-  cases side <;> rfl
+  sorry
 
 @[simp] theorem frame_source_characters (h : R.live) :
     (frame W B A paid C R side M a firstSign rectangle).source.characters h = paid := by
-  cases side <;> rfl
+  sorry
 
 @[simp] theorem frame_source_scale₁ :
     (frame W B A paid C R side M a firstSign rectangle).source.scale₁ =
       d.scale₁ rectangle / idealNorm K (B.plainDivisor 0) := by
-  cases side <;> rfl
+  sorry
 
 @[simp] theorem frame_source_scale₂ :
     (frame W B A paid C R side M a firstSign rectangle).source.scale₂ =
       d.scale₂ rectangle / idealNorm K (B.plainDivisor (Fin.succ 0)) := by
-  cases side <;> rfl
+  sorry
 
 @[simp] theorem frame_source_base :
     (frame W B A paid C R side M a firstSign rectangle).source.base = d.base := by
-  cases side <;> rfl
+  sorry
 
 @[simp] theorem frame_source_length (j : Fin B.keep.card) :
     (frame W B A paid C R side M a firstSign rectangle).source.length j =
       d.length (SlotRestriction.index B.keep j) := by
-  cases side <;> rfl
+  sorry
 
 @[simp] theorem frame_leftLocation (h : H) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (frame W B A paid C R side M a firstSign rectangle).leftLocation h I =

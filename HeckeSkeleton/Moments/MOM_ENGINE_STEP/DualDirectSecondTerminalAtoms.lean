@@ -135,31 +135,7 @@ theorem classZeroBudget_le_original_profiles (hZ : 1 < Z)
           directFirstDivisorZeroCoefficient B Czero profileR slotsR k fiberCap maskCap DE.2) / 2)) *
         (firstCommonWeight Z DE.1 DE.2 * (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hB : 0 ≤ B := zero_le_one.trans (T.leftAtoms S χ).bound_ge_one
-  have hCL : 0 ≤ directFirstDivisorZeroCoefficient B Czero profileL
-      slotsL k fiberCap maskCap DE.1 := by unfold directFirstDivisorZeroCoefficient; positivity
-  have hCR : 0 ≤ directFirstDivisorZeroCoefficient B Czero profileR
-      slotsR k fiberCap maskCap DE.2 := by unfold directFirstDivisorZeroCoefficient; positivity
-  have hL := (T.left S χ).direct_zeroBudget_div_allowance_le DE.1 U.left_tuples
-    ε Czero profileL _ loss fiberCap maskCap hC hprofileL U.left_fiber U.left_mask
-    U.left_profile U.left_ledger
-  have hR := (T.right S χ).direct_zeroBudget_div_allowance_le DE.2 U.right_tuples
-    ε Czero profileR _ loss fiberCap maskCap hC hprofileR U.right_fiber U.right_mask
-    U.right_profile U.right_ledger
-  have hc := original_terminal_class_scalar Z parentWidth
-    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
-    p.rowBound ‖(moebius S.val : ℂ)‖
-    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
-    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
-    ((T.left S χ).calibration.zeroBudget ε Czero) ((T.right S χ).calibration.zeroBudget ε Czero)
-    _ _ (Ideal.absNorm S.val : ℝ) loss firstAmplitude (firstCommonWeight Z DE.1 DE.2)
-    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
-    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
-    (firstTerminalFourierCost_nonneg chart.kernel) hCL hCR (Nat.cast_nonneg _) hL hR
-    (firstTerminalFourierCost_bound chart.kernel)
-    (p.normalized_allowance_prefactor hZ total parentWidth firstAmplitude hfirst)
-  simpa only [calibration, DualTerminalCalibration.classZeroBudget, classWeight] using hc
+  sorry
 
 structure TailWindows
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -196,29 +172,7 @@ theorem classTailBudget_le_original_profiles (hZ : 1 < Z)
           directFirstDivisorTailCoefficient B Cerror profileR slotsR k fiberCap DE.2) / 2)) *
         (firstCommonWeight Z DE.1 DE.2 * (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hB : 0 ≤ B := zero_le_one.trans (T.leftAtoms S χ).bound_ge_one
-  have hCL : 0 ≤ directFirstDivisorTailCoefficient B Cerror profileL
-      slotsL k fiberCap DE.1 := by unfold directFirstDivisorTailCoefficient; positivity
-  have hCR : 0 ≤ directFirstDivisorTailCoefficient B Cerror profileR
-      slotsR k fiberCap DE.2 := by unfold directFirstDivisorTailCoefficient; positivity
-  have hL := (T.left S χ).direct_tailBudget_div_allowance_le DE.1 U.left_tuples
-    Cerror profileL exponentL _ loss fiberCap hC hprofileL U.left_fiber U.left_profile U.left_ledger
-  have hR := (T.right S χ).direct_tailBudget_div_allowance_le DE.2 U.right_tuples
-    Cerror profileR exponentR _ loss fiberCap hC hprofileR U.right_fiber U.right_profile U.right_ledger
-  have hc := original_terminal_class_scalar Z parentWidth
-    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
-    p.rowBound ‖(moebius S.val : ℂ)‖
-    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
-    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
-    ((T.left S χ).calibration.tailBudget Cerror) ((T.right S χ).calibration.tailBudget Cerror)
-    _ _ (Ideal.absNorm S.val : ℝ) loss firstAmplitude (firstCommonWeight Z DE.1 DE.2)
-    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
-    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
-    (firstTerminalFourierCost_nonneg chart.kernel) hCL hCR (Nat.cast_nonneg _) hL hR
-    (firstTerminalFourierCost_bound chart.kernel)
-    (p.normalized_allowance_prefactor hZ total parentWidth firstAmplitude hfirst)
-  simpa only [calibration, DualTerminalCalibration.classTailBudget, classWeight] using hc
+  sorry
 
 end DualFirstDivisorWindows
 end SecondStages

@@ -41,11 +41,7 @@ theorem gram_numerator_eq (p : Seminorm ℂ V) (φ : V) (i j : ι) :
       (‖G.coefficient i * (A.exteriorNorm (G.ideal i) : ℂ)‖ *
         ‖G.coefficient j * (A.exteriorNorm (G.ideal j) : ℂ)‖ * p φ) /
           (A.exteriorNorm (G.ideal i) * A.exteriorNorm (G.ideal j)) := by
-  simp only [map_smul_eq_mul, norm_mul, norm_star, Complex.norm_real,
-    Real.norm_eq_abs, abs_of_pos (A.exteriorNorm_pos (G.ideal i)),
-    abs_of_pos (A.exteriorNorm_pos (G.ideal j))]
-  field_simp [(A.exteriorNorm_pos (G.ideal i)).ne',
-    (A.exteriorNorm_pos (G.ideal j)).ne'] <;> ring
+  sorry
 
 theorem gram_numerator_le (p : Seminorm ℂ V) (φ : V) (i j : ι)
     (hi : i ∈ G.columns) (hj : j ∈ G.columns)
@@ -57,29 +53,7 @@ theorem gram_numerator_le (p : Seminorm ℂ V) (φ : V) (i j : ι)
         ‖G.coefficient j * (A.exteriorNorm (G.ideal j) : ℂ)‖ ≤ constant * Z ^ power) :
     p ((G.coefficient i * star (G.coefficient j)) • φ) ≤
       (constant * p φ) * Z ^ (power - 2 * lower) := by
-  have hnonneg : 0 ≤ (constant * p φ) * Z ^ (power - 2 * lower) :=
-    mul_nonneg (mul_nonneg hconstant (apply_nonneg _ _)) (Real.rpow_nonneg hZ.le _)
-  by_cases hci : G.coefficient i = 0
-  · simpa only [hci, zero_mul, zero_smul, map_zero] using hnonneg
-  by_cases hcj : G.coefficient j = 0
-  · simpa only [hcj, star_zero, mul_zero, zero_smul, map_zero] using hnonneg
-  have hden : Z ^ (2 * lower) ≤
-      A.exteriorNorm (G.ideal i) * A.exteriorNorm (G.ideal j) := by
-    rw [show 2 * lower = lower + lower by ring, Real.rpow_add hZ]
-    exact mul_le_mul (hlower i hi hci) (hlower j hj hcj)
-      (Real.rpow_nonneg hZ.le _) (A.exteriorNorm_pos _).le
-  rw [G.gram_numerator_eq p φ i j]
-  calc
-    _ ≤ (constant * Z ^ power * p φ) /
-        (A.exteriorNorm (G.ideal i) * A.exteriorNorm (G.ideal j)) :=
-      div_le_div_of_nonneg_right
-        (mul_le_mul_of_nonneg_right (hpair hci hcj) (apply_nonneg _ _))
-        (mul_nonneg (A.exteriorNorm_pos _).le (A.exteriorNorm_pos _).le)
-    _ ≤ (constant * Z ^ power * p φ) / Z ^ (2 * lower) :=
-      div_le_div_of_nonneg_left
-        (mul_nonneg (mul_nonneg hconstant (Real.rpow_nonneg hZ.le _)) (apply_nonneg _ _))
-        (Real.rpow_pos_of_pos hZ _) hden
-    _ = _ := by rw [Real.rpow_sub hZ]; ring
+  sorry
 
 /-- The first inverse norm cancels before either lower window is
 used. Only the actual second column's lower norm remains. -/
@@ -93,33 +67,7 @@ theorem gram_numerator_mul_norm_le (p : Seminorm ℂ V) (φ : V) (i j : ι)
         ‖G.coefficient j * (A.exteriorNorm (G.ideal j) : ℂ)‖ ≤ constant * Z ^ power) :
     p ((G.coefficient i * star (G.coefficient j)) • φ) * A.exteriorNorm (G.ideal i) ≤
       (constant * p φ) * Z ^ (power - lower) := by
-  have hnonneg : 0 ≤ (constant * p φ) * Z ^ (power - lower) :=
-    mul_nonneg (mul_nonneg hconstant (apply_nonneg _ _)) (Real.rpow_nonneg hZ.le _)
-  by_cases hci : G.coefficient i = 0
-  · simpa only [hci, zero_mul, zero_smul, map_zero] using hnonneg
-  by_cases hcj : G.coefficient j = 0
-  · simpa only [hcj, star_zero, mul_zero, zero_smul, map_zero, zero_mul] using hnonneg
-  rw [G.gram_numerator_eq p φ i j]
-  have hcancel :
-      (‖G.coefficient i * (A.exteriorNorm (G.ideal i) : ℂ)‖ *
-          ‖G.coefficient j * (A.exteriorNorm (G.ideal j) : ℂ)‖ * p φ) /
-        (A.exteriorNorm (G.ideal i) * A.exteriorNorm (G.ideal j)) * A.exteriorNorm (G.ideal i) =
-      (‖G.coefficient i * (A.exteriorNorm (G.ideal i) : ℂ)‖ *
-          ‖G.coefficient j * (A.exteriorNorm (G.ideal j) : ℂ)‖ * p φ) /
-        A.exteriorNorm (G.ideal j) := by
-    field_simp [(A.exteriorNorm_pos (G.ideal i)).ne',
-      (A.exteriorNorm_pos (G.ideal j)).ne'] <;> ring
-  rw [hcancel]
-  calc
-    _ ≤ (constant * Z ^ power * p φ) / A.exteriorNorm (G.ideal j) :=
-      div_le_div_of_nonneg_right
-        (mul_le_mul_of_nonneg_right (hpair hci hcj) (apply_nonneg _ _))
-        (A.exteriorNorm_pos _).le
-    _ ≤ (constant * Z ^ power * p φ) / Z ^ lower :=
-      div_le_div_of_nonneg_left
-        (mul_nonneg (mul_nonneg hconstant (Real.rpow_nonneg hZ.le _)) (apply_nonneg _ _))
-        (Real.rpow_pos_of_pos hZ _) (hlower j hj hcj)
-    _ = _ := by rw [Real.rpow_sub hZ]; ring
+  sorry
 
 namespace OriginalNumerator
 
@@ -133,20 +81,14 @@ def countingDivisor (_D : G.OriginalNumerator columns ideal coefficient divisor 
 variable (D : G.OriginalNumerator columns ideal coefficient divisor common δ)
 
 theorem countingDivisor_ne_zero (hdivisor : divisor ≠ 0) : D.countingDivisor ≠ 0 := by
-  unfold countingDivisor
-  split_ifs
-  · exact hdivisor
-  · exact one_ne_zero
+  sorry
 
 theorem countingDivisor_dvd (i : ι) (hi : i ∈ G.columns) (hc : G.coefficient i ≠ 0) :
     D.countingDivisor ∣ (G.ideal i).val := by
-  unfold countingDivisor
-  split_ifs with hrows
-  · exact D.post_divisor_dvd hrows i hi hc
-  · exact one_dvd _
+  sorry
 
-theorem countingDivisor_eq (hrows : G.rows.Nonempty) : D.countingDivisor = divisor :=
-  if_pos hrows
+theorem countingDivisor_eq (hrows : G.rows.Nonempty) : D.countingDivisor = divisor := by
+  sorry
 
 end OriginalNumerator
 end ActualGaussSource

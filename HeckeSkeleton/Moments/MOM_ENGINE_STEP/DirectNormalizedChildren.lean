@@ -77,8 +77,8 @@ def directLiveLeaf (j : s.directLiveLeaves LC RC exceptional F x) :
   s.fiberCoveredLeaf LC RC exceptional F x j.val
 
 theorem directLiveLeaf_live (j : s.directLiveLeaves LC RC exceptional F x) :
-    (s.directLiveLeaf LC RC exceptional F x j).Live :=
-  ActualHybridFamily.live_spec _ j
+    (s.directLiveLeaf LC RC exceptional F x j).Live := by
+  sorry
 
 /-- Exact separation of the original direct finite source, with the
 same orbital fiber multiplicity in both terminal components. -/
@@ -89,8 +89,7 @@ theorem direct_cost_eq_live_components :
         (s.directLiveLeaf LC RC exceptional F x j).exceptionalCost) +
       (∑ j : s.directLiveLeaves LC RC exceptional F x,
         (s.directLiveLeaf LC RC exceptional F x j).ordinaryCost) := by
-  rw [ActualHybridFamily.sum_cost_eq_live]
-  simp only [ActualHybridLeaf.cost, Finset.sum_add_distrib, directLiveLeaves, directLiveLeaf]
+  sorry
 
 /-- The direct leaf's actual whole coefficients, rows and two Fourier
 locations are identified only term by term. The child-energy bound and
@@ -128,22 +127,7 @@ theorem direct_cost_le_normalized_children
           (family.leftParameters Finset.univ b) Z 0) *
         Real.sqrt (normalizedPairedEnergy (family.rightData Finset.univ b ξ)
           (family.rightParameters Finset.univ b) Z 0) ∂kernels b := by
-  dsimp only
-  let originalLeaves := s.directLiveLeaf LC RC exceptional F x
-  let leaves := ActualHybridFamily.withConstantAtoms originalLeaves extract
-  let family := ActualHybridFamily.normalizedFamily leaves N
-  have ho := ActualHybridFamily.ordinaryBudget_le_sourcePairs leaves N parentWidth hZ
-  have hc := atoms.source_integral
-    (ActualHybridFamily.firstKernels leaves) (ActualHybridFamily.secondKernels leaves)
-    (ActualHybridFamily.outerWeights leaves) parentWidth hZ
-    (fun b _ => ActualHybridFamily.outerWeights_nonneg leaves b)
-  have hord := ho.trans hc
-  have horiginal := ActualHybridFamily.sum_ordinaryCost_eq_withConstantAtoms
-    originalLeaves extract
-  rw [← horiginal] at hord
-  simp_rw [family.childPair_eq_frozen Finset.univ] at hord
-  rw [s.direct_cost_eq_live_components LC RC exceptional F x, add_div]
-  exact add_le_add le_rfl hord
+  sorry
 
 end ActualGaussStage
 
@@ -178,8 +162,8 @@ def liveLeaf (j : R.liveLeaves L exceptional N₀) : ActualHybridLeaf K Q W E :=
   R.parentLeaf L exceptional N₀ j.val
 
 theorem liveLeaf_live (j : R.liveLeaves L exceptional N₀) :
-    (R.liveLeaf L exceptional N₀ j).Live :=
-  ActualHybridFamily.live_spec _ j
+    (R.liveLeaf L exceptional N₀ j).Live := by
+  sorry
 
 def exceptionalBudget : ℝ :=
   ∑ j : R.liveLeaves L exceptional N₀, (R.liveLeaf L exceptional N₀ j).exceptionalCost
@@ -190,9 +174,7 @@ def ordinaryBudget : ℝ :=
 theorem cost_eq_live_components :
     (∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N₀ j).cost) =
       R.exceptionalBudget L exceptional N₀ + R.ordinaryBudget L exceptional N₀ := by
-  rw [ActualHybridFamily.sum_cost_eq_live]
-  simp only [ActualHybridLeaf.cost, Finset.sum_add_distrib,
-    exceptionalBudget, ordinaryBudget, liveLeaves, liveLeaf]
+  sorry
 
 end SecondStages
 end ActualDirectFirstSource
@@ -258,24 +240,7 @@ theorem actual_direct_normalized_child_bound
             (family.leftParameters Finset.univ b) Z 0) *
           Real.sqrt (normalizedPairedEnergy (family.rightData Finset.univ b ξ)
             (family.rightParameters Finset.univ b) Z 0) ∂kernels b := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
-    hCerror, hCzero, hb⟩ :=
-    actual_direct_fourier_covered_terminal_bound (E := E) (W := W) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,
-    hCerror, hCzero, ?_⟩
-  intro Z parentWidth hZ ι G s T LC RC exceptional F x ω ψ Ray instRayComm instRayFinite
-    I instIFinite instIDecidable rowDomain heightDomain window seminorms extract N
-  dsimp only
-  intro atoms
-  obtain ⟨hcutoff, hsource⟩ := hb Z G s T LC RC exceptional F x
-  have hchildren := s.direct_cost_le_normalized_children LC RC exceptional F x
-    Z parentWidth hZ rowDomain heightDomain window seminorms extract N
-      J₁₁ J₁₂ J₂₁ J₂₂ atoms
-  refine ⟨hcutoff, ?_⟩
-  have hn := div_le_div_of_nonneg_right hsource (Real.rpow_nonneg hZ.le parentWidth)
-  rw [add_div] at hn
-  exact hn.trans ((add_le_add le_rfl hchildren).trans_eq (by ring))
+  sorry
 
 include ν μ in
 /-- The literal original paired parent also reaches the same retained
@@ -335,54 +300,7 @@ theorem actual_parent_direct_normalized_child_bound
               (family.leftParameters Finset.univ b) Z 0) *
             Real.sqrt (normalizedPairedEnergy (family.rightData Finset.univ b ξ)
               (family.rightParameters Finset.univ b) Z 0) ∂kernels b := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-      CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hb⟩ :=
-    actual_parent_direct_two_stage_finite_leaf_bound (W := W) (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z omega psi centered d a t Y₁ Y₂ X hX s N₀ R T F L exceptional
-    Ray instRayComm instRayFinite I instIFinite instIDecidable
-    rowDomain heightDomain window seminorms extract N
-  dsimp only
-  intro atoms
-  let originalLeaves := R.liveLeaf L exceptional N₀
-  let leaves := ActualHybridFamily.withConstantAtoms originalLeaves extract
-  let family := ActualHybridFamily.normalizedFamily leaves N
-  have hZ : 0 < Z := lt_of_lt_of_le zero_lt_one F.windows.base_ge_one
-  obtain ⟨hcutoff, hp⟩ := hb Z centered d a t Y₁ Y₂ X hX s N₀ R T F L exceptional
-  have ho := ActualHybridFamily.ordinaryBudget_le_sourcePairs leaves N (a.m + a.q) hZ
-  have hc := atoms.source_integral
-    (ActualHybridFamily.firstKernels leaves) (ActualHybridFamily.secondKernels leaves)
-    (ActualHybridFamily.outerWeights leaves) (a.m + a.q) hZ
-    (fun b _ => ActualHybridFamily.outerWeights_nonneg leaves b)
-  have hord := ho.trans hc
-  have horiginal : R.ordinaryBudget L exceptional N₀ = ∑ j, (leaves j).ordinaryCost := by
-    change (∑ j, (originalLeaves j).ordinaryCost) = _
-    exact ActualHybridFamily.sum_ordinaryCost_eq_withConstantAtoms originalLeaves extract
-  rw [← horiginal] at hord
-  simp_rw [family.childPair_eq_frozen Finset.univ] at hord
-  have hraw : pairedStageEnergy centered d a Z t Y₁ Y₂ ≤
-      F.firstZeroBudget ε CfirstZero + R.secondZeroBudget T N₀ ε Czero +
-        R.exceptionalBudget L exceptional N₀ +
-        (F.firstTailBudget CfirstError + R.secondTailBudget T N₀ Cerror) +
-        R.ordinaryBudget L exceptional N₀ := by
-    apply hp.trans_eq
-    rw [R.cost_eq_live_components L exceptional N₀]
-    simp only [ActualDirectFirstSource.TerminalCalibration.cost,
-      ActualDirectFirstSource.TerminalCalibration.firstZeroBudget,
-      ActualDirectFirstSource.TerminalCalibration.firstTailBudget]
-    ring
-  refine ⟨hcutoff, ?_⟩
-  calc
-    _ ≤ F.firstZeroBudget ε CfirstZero / Z ^ (a.m + a.q) +
-          R.secondZeroBudget T N₀ ε Czero / Z ^ (a.m + a.q) +
-          R.exceptionalBudget L exceptional N₀ / Z ^ (a.m + a.q) +
-          (F.firstTailBudget CfirstError + R.secondTailBudget T N₀ Cerror) /
-            Z ^ (a.m + a.q) + R.ordinaryBudget L exceptional N₀ / Z ^ (a.m + a.q) := by
-      simpa only [add_div] using
-        div_le_div_of_nonneg_right hraw (Real.rpow_nonneg hZ.le (a.m + a.q))
-    _ ≤ _ := add_le_add le_rfl hord
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

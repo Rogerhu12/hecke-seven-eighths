@@ -104,22 +104,7 @@ theorem dualSecondZeroBudget_le_original_label_sum (hZ : 1 < Z)
             (firstCommonWeight Z v.val.1 v.val.2 *
               (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
                 ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  unfold dualSecondZeroBudget
-  rw [mul_div_assoc]
-  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
-  simp only [FirstBlockDirectData.SecondStages.DualTerminalCalibration.zeroBudget,
-    dualFirstDivisorCalibration, ActualDirectFirstSource.canonicalNormalization, Finset.sum_div]
-  apply Finset.sum_le_sum
-  intro v _
-  apply Finset.sum_le_sum
-  intro D _
-  apply Finset.sum_le_sum
-  intro S _
-  apply Finset.sum_le_sum
-  intro χ _
-  exact (T v D).classZeroBudget_le_original_profiles hZ S χ ε Czero (total v D) parentWidth loss
-    firstAmplitude profileConstant profileConstant fiberCap (R.firstDivisorMaskCap v D S χ)
-    (U v D S χ) hC hprofile hprofile (hfirst v D)
+  sorry
 
 /-- The canonical second tail has the same first labels and the same
 first-divisor denominator.  It uses the original side decay ledgers. -/
@@ -147,22 +132,7 @@ theorem dualSecondTailBudget_le_original_label_sum (hZ : 1 < Z)
             (firstCommonWeight Z v.val.1 v.val.2 *
               (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
                 ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  unfold dualSecondTailBudget
-  rw [mul_div_assoc]
-  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
-  simp only [FirstBlockDirectData.SecondStages.DualTerminalCalibration.tailBudget,
-    dualFirstDivisorCalibration, ActualDirectFirstSource.canonicalNormalization, Finset.sum_div]
-  apply Finset.sum_le_sum
-  intro v _
-  apply Finset.sum_le_sum
-  intro D _
-  apply Finset.sum_le_sum
-  intro S _
-  apply Finset.sum_le_sum
-  intro χ _
-  exact (T v D).classTailBudget_le_original_profiles hZ S χ Cerror (total v D) parentWidth loss
-    firstAmplitude profileConstant profileConstant
-    (exponentL v D S χ) (exponentR v D S χ) fiberCap (U v D S χ) hC hprofile hprofile (hfirst v D)
+  sorry
 
 /-- Original prime dictionaries, individual norm/profile windows and
 the original coefficient-based calibrations.  No field estimates a
@@ -233,22 +203,7 @@ private theorem dual_direct_original_zero_coefficient_le
     directFirstDivisorZeroCoefficient B Czero profileConstant slots k fiberCap maskCap D ≤
       (fiberCap * Czero * B ^ cap * profileConstant) *
         countBound * maskBound := by
-  have hbase : 0 ≤ fiberCap * Czero * profileConstant :=
-    mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC) hprofile
-  have hpow : B ^ slots ≤ B ^ cap := pow_le_pow_right₀ hB hslots
-  calc
-    _ = (fiberCap * Czero * profileConstant) * B ^ slots *
-        (idealDivisorCount (D ^ 2) ^ k : ℕ) * (2 : ℝ) ^ maskCap := by
-      unfold directFirstDivisorZeroCoefficient
-      ring
-    _ ≤ (fiberCap * Czero * profileConstant) * B ^ cap *
-        countBound * maskBound :=
-      mul_le_mul
-        (mul_le_mul (mul_le_mul_of_nonneg_left hpow hbase) hcount (Nat.cast_nonneg _)
-          (mul_nonneg hbase (pow_nonneg (zero_le_one.trans hB) _)))
-        hmask (pow_nonneg (by norm_num) _)
-        (mul_nonneg (mul_nonneg hbase (pow_nonneg (zero_le_one.trans hB) _)) hcountBound)
-    _ = _ := by ring
+  sorry
 
 private theorem dual_direct_original_tail_coefficient_le
     (B Cerror profileConstant : ℝ) (slots cap k fiberCap : ℕ)
@@ -260,9 +215,7 @@ private theorem dual_direct_original_tail_coefficient_le
     directFirstDivisorTailCoefficient B Cerror profileConstant slots k fiberCap D ≤
       (fiberCap * Cerror * B ^ cap * profileConstant) *
         countBound := by
-  simpa only [directFirstDivisorZeroCoefficient, directFirstDivisorTailCoefficient, pow_zero, mul_one] using
-    dual_direct_original_zero_coefficient_le B Cerror profileConstant slots cap k fiberCap 0 D
-      countBound 1 hB hC hprofile hslots hcountBound hcount (by simp)
+  sorry
 
 /-- The direct support fibre is exactly the common-extraction fibre;
 its constant is fixed before the actual common ideal. -/
@@ -271,17 +224,7 @@ private theorem dual_direct_terminal_tuple_multiplicity_subpower (k : ℕ) (B ε
     ∃ Ccount : ℝ, 0 < Ccount ∧ ∀ Z : ℝ, 1 ≤ Z →
       ∀ D : Ideal (𝓞 K), (Ideal.absNorm D : ℝ) ≤ Z ^ B →
         (idealDivisorCount (D ^ 2) ^ k : ℕ) ≤ Ccount * Z ^ ε := by
-  obtain ⟨Ccount, hC, hcount⟩ :=
-    support_tuple_multiplicity_subpower (K := K) k (2 * B) ε (by positivity) hε
-  refine ⟨Ccount, hC, ?_⟩
-  intro Z hZ D hD
-  have hz : 0 ≤ Z := zero_le_one.trans hZ
-  have hD2 : (Ideal.absNorm (D ^ 2) : ℝ) ≤ Z ^ (2 * B) := by
-    calc
-      _ = (Ideal.absNorm D : ℝ) ^ 2 := by simp only [map_pow, Nat.cast_pow]
-      _ ≤ (Z ^ B) ^ 2 := pow_le_pow_left₀ (Nat.cast_nonneg _) hD 2
-      _ = _ := by rw [← Real.rpow_natCast, ← Real.rpow_mul hz]; congr 1; ring
-  exact hcount Z hZ (D ^ 2) hD2
+  sorry
 
 /-- The two actual direct masks are charged to their original mask
 ideal and side common ideal, prime by prime.  Taking the maximum pays
@@ -298,29 +241,7 @@ private theorem dual_direct_terminal_masks_subpower {α : Type*}
       OriginalMaskPrimeData left (oldMask * commonLeft) →
       OriginalMaskPrimeData right (oldMask * commonRight) →
       (2 : ℝ) ^ max left.card right.card ≤ Cmask * Z ^ ε := by
-  obtain ⟨Cmask, hC, hmask⟩ := original_mask_labels_subpower (K := K)
-    (2 * B) ε (by positivity) hε
-  refine ⟨Cmask, hC, ?_⟩
-  intro Z hZ oldMask commonLeft commonRight hM0 hL0 hR0 hMN hLN hRN left right ML MR
-  have hz : 0 < Z := zero_lt_one.trans_le hZ
-  have hproduct (common : Ideal (𝓞 K)) (hcommon : (Ideal.absNorm common : ℝ) ≤ Z ^ B) :
-      (Ideal.absNorm (oldMask * common) : ℝ) ≤ Z ^ (2 * B) := by
-    simp only [map_mul, Nat.cast_mul]
-    calc
-      _ ≤ Z ^ B * Z ^ B :=
-        mul_le_mul hMN hcommon (Nat.cast_nonneg _) (Real.rpow_nonneg hz.le _)
-      _ = _ := by rw [← Real.rpow_add hz]; congr 1; ring
-  have hl : (2 : ℝ) ^ left.card ≤ Cmask * Z ^ ε := by
-    simpa only [Finset.card_powerset, Nat.cast_pow, Nat.cast_ofNat] using
-      hmask Z hZ left (oldMask * commonLeft) (mul_ne_zero hM0 hL0)
-        (hproduct commonLeft hLN) ML
-  have hr : (2 : ℝ) ^ right.card ≤ Cmask * Z ^ ε := by
-    simpa only [Finset.card_powerset, Nat.cast_pow, Nat.cast_ofNat] using
-      hmask Z hZ right (oldMask * commonRight) (mul_ne_zero hM0 hR0)
-        (hproduct commonRight hRN) MR
-  rcases le_total left.card right.card with h | h
-  · simpa only [max_eq_right h] using hr
-  · simpa only [max_eq_left h] using hl
+  sorry
 
 /-- A uniform bound on the genuine second-zero budget, obtained from
 the original coefficient atoms, actual side prime dictionaries and
@@ -349,126 +270,7 @@ theorem actual_direct_second_dual_zero_from_original_windows
         (s.fiber : ℝ) * fiberCap * Czero *
           firstAmplitude * kernelBound * B ^ cap * profileConstant * Cterminal *
             Z ^ (loss + ε) / (Ideal.absNorm U.oldMask : ℝ) := by
-  let δ : ℝ := ε / 4
-  have hδ : 0 < δ := by dsimp [δ]; positivity
-  have hhalf : 0 < ε / 2 := by positivity
-  obtain ⟨Ccount, hCcount, hcount⟩ :=
-    dual_direct_terminal_tuple_multiplicity_subpower (K := K) k normBound δ hN hδ
-  obtain ⟨Cmask, hCmask, hmask⟩ := dual_direct_terminal_masks_subpower (K := K)
-    (α := HeightOneSpectrum A.R) normBound δ hN hδ
-  obtain ⟨Cmass, hCmass, hmass⟩ := actual_direct_first_terminal_mass_from_original_windows
-    (U := W) (C := C) (hΓ := hΓ) (μv := μv) (finiteTest := finiteTest)
-    normBound (ε / 2) hN hhalf
-  let CF := (firstTerminalFourierControl (W := W)).constant
-  have hCF : 0 < CF := (firstTerminalFourierControl (W := W)).constant_pos
-  refine ⟨CF * Ccount * Cmask * Cmass, by positivity, ?_⟩
-  intro Z hZ ω ψ centered d a t Y₁ Y₂ X hX s R slotsL slotsR hslotsL hslotsR
-    B hB sTail sZero Lmax Nsave decay T εzero Czero parentWidth loss firstAmplitude kernelBound
-    profileConstant fiberCap hC hfirst hkernel hprofile total U
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  let H : ℝ := firstAmplitude * (CF * kernelBound) *
-    (fiberCap * Czero * B ^ cap * profileConstant) *
-      Ccount * Cmask
-  have hH : 0 ≤ H := by dsimp [H]; positivity
-  have hnorm (v : s.CommonLabel) :
-      (Ideal.absNorm v.val.1 : ℝ) ≤ Z ^ normBound ∧
-        (Ideal.absNorm v.val.2 : ℝ) ≤ Z ^ normBound :=
-    actualCommonLabels_norm s.columns s.columns _ _
-      (fun i _ => (s.ideal i).property.1) (fun i _ => (s.ideal i).property.1)
-      (Z ^ normBound) U.column_norm U.column_norm (v.val, ∅)
-      ((mem_actualCommonLabels _ _ _ _ _).mpr ⟨v.property, Finset.empty_subset _⟩)
-  have hnonzero (v : s.CommonLabel) : v.val.1 ≠ 0 ∧ v.val.2 ≠ 0 := by
-    constructor
-    · rw [← (s.block v).common_left]
-      exact (primePowerProduct (s.block v).primes (s.block v).leftMultiplicity).property.1
-    · rw [← (s.block v).common_right]
-      exact (primePowerProduct (s.block v).primes (s.block v).rightMultiplicity).property.1
-  have hcoefficient (v : s.CommonLabel) (D : ((s.block v).mask s.mask).powerset)
-      (S : divisorPool (s.pieces v D).rightData.columns
-        (fun j => ((s.pieces v D).rightData.ideal j).val))
-      (χ : (PUnit × PUnit) →* Circle) :
-      R.firstDivisorZeroCoefficient (B := B) (slotsL := slotsL) (slotsR := slotsR) (k := k)
-          Czero firstAmplitude profileConstant fiberCap v D S χ ≤ H * Z ^ (2 * δ) := by
-    have hcap : (2 : ℝ) ^ R.firstDivisorMaskCap v D S χ ≤ Cmask * Z ^ δ :=
-      hmask Z hZ.le U.maskIdeal v.val.1 v.val.2 U.mask_ne_zero
-        (hnonzero v).1 (hnonzero v).2 U.mask_norm (hnorm v).1 (hnorm v).2 _ _
-        (U.masks_left v D S χ) (U.masks_right v D S χ)
-    let Q : ℝ := (fiberCap * Czero * B ^ cap *
-      profileConstant) * Ccount * Cmask
-    have hQ : 0 ≤ Q := by dsimp [Q]; positivity
-    have hside (slots : ℕ) (hs : slots ≤ cap) (common : Ideal (𝓞 K))
-        (hcommon : (Ideal.absNorm common : ℝ) ≤ Z ^ normBound) :
-        directFirstDivisorZeroCoefficient B Czero profileConstant slots k fiberCap
-          (R.firstDivisorMaskCap v D S χ) common ≤ Q * Z ^ (2 * δ) := by
-      apply (dual_direct_original_zero_coefficient_le B Czero profileConstant slots cap k fiberCap
-        (R.firstDivisorMaskCap v D S χ) common (Ccount * Z ^ δ)
-        (Cmask * Z ^ δ) hB hC hprofile hs (by positivity)
-        (hcount Z hZ.le common hcommon) hcap).trans_eq
-      dsimp [Q]
-      rw [show 2 * δ = δ + δ by ring, Real.rpow_add hz]
-      ring
-    have hmean := div_le_div_of_nonneg_right
-      (add_le_add (hside slotsL hslotsL v.val.1 (hnorm v).1)
-        (hside slotsR hslotsR v.val.2 (hnorm v).2)) (by norm_num : (0 : ℝ) ≤ 2)
-    have hmean' :
-        (directFirstDivisorZeroCoefficient B Czero profileConstant slotsL k fiberCap
-            (R.firstDivisorMaskCap v D S χ) v.val.1 +
-          directFirstDivisorZeroCoefficient B Czero profileConstant slotsR k fiberCap
-            (R.firstDivisorMaskCap v D S χ) v.val.2) / 2 ≤ Q * Z ^ (2 * δ) :=
-      hmean.trans_eq (by ring)
-    have hF : firstTerminalFourierCost (s.charts v D).kernel ≤ CF * kernelBound :=
-      mul_le_mul_of_nonneg_left (U.first_kernel v D) hCF.le
-    unfold ActualDirectFirstSource.SecondStages.firstDivisorZeroCoefficient
-    calc
-      _ ≤ firstAmplitude * firstTerminalFourierCost (s.charts v D).kernel *
-          (Q * Z ^ (2 * δ)) :=
-        mul_le_mul_of_nonneg_left hmean'
-          (mul_nonneg hfirst (firstTerminalFourierCost_nonneg _))
-      _ ≤ firstAmplitude * (CF * kernelBound) * (Q * Z ^ (2 * δ)) :=
-        mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hF hfirst)
-          (mul_nonneg hQ (Real.rpow_nonneg hz.le _))
-      _ = _ := by dsimp [Q, H]; ring
-  have hm := hmass Z hZ centered d a t Y₁ Y₂ X hX s U.oldMask
-    U.old_squarefree U.old_ne_zero U.old_divides U.column_norm U.maskIdeal
-    U.mask_ne_zero U.mask_norm U.original_mask
-  have hraw := R.dualSecondZeroBudget_le_original_label_sum T hZ total εzero Czero parentWidth loss
-    firstAmplitude profileConstant fiberCap hC hprofile U.classes U.first_profile
-  apply hraw.trans
-  calc
-    _ ≤ (s.fiber : ℝ) *
-        ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
-        ∑ S : divisorPool (s.pieces v D).rightData.columns
-          (fun j => ((s.pieces v D).rightData.ideal j).val),
-        ∑ χ : (PUnit × PUnit) →* Circle,
-          (H * Z ^ (2 * δ)) *
-            (firstCommonWeight Z v.val.1 v.val.2 *
-              (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
-                ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-      apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
-      apply Finset.sum_le_sum
-      intro v _
-      apply Finset.sum_le_sum
-      intro D _
-      apply Finset.sum_le_sum
-      intro S _
-      apply Finset.sum_le_sum
-      intro χ _
-      apply mul_le_mul_of_nonneg_right _ (Real.rpow_nonneg hz.le _)
-      exact mul_le_mul_of_nonneg_right (hcoefficient v D S χ)
-        (mul_nonneg
-          (mul_nonneg (Real.rpow_nonneg hz.le _)
-            (div_nonneg (norm_nonneg _) (Nat.cast_nonneg _))) (norm_nonneg _))
-    _ = ((s.fiber : ℝ) * H * Z ^ (2 * δ) * Z ^ loss) * s.firstTerminalArithmeticMass := by
-      simp only [ActualDirectFirstSource.firstTerminalArithmeticMass, Finset.mul_sum,
-        mul_assoc, mul_left_comm, mul_comm]
-    _ ≤ ((s.fiber : ℝ) * H * Z ^ (2 * δ) * Z ^ loss) *
-        (Cmass * Z ^ (ε / 2) / (Ideal.absNorm U.oldMask : ℝ)) :=
-      mul_le_mul_of_nonneg_left hm (by positivity)
-    _ = _ := by
-      have he : loss + ε = 2 * δ + loss + ε / 2 := by dsimp [δ]; ring
-      rw [he, Real.rpow_add hz, Real.rpow_add hz]
-      dsimp [H]
-      ring
+  sorry
 
 /-- The original second-stage tail is bounded on exactly the same
 first carrier.  Its decay saving is the supplied numerical ledger,
@@ -497,106 +299,7 @@ theorem actual_direct_second_dual_tail_from_original_windows
         (s.fiber : ℝ) * fiberCap * Cerror *
           firstAmplitude * kernelBound * B ^ cap * profileConstant * Cterminal *
             Z ^ (loss + ε) / (Ideal.absNorm U.oldMask : ℝ) := by
-  let δ : ℝ := ε / 2
-  have hδ : 0 < δ := by dsimp [δ]; positivity
-  obtain ⟨Ccount, hCcount, hcount⟩ :=
-    dual_direct_terminal_tuple_multiplicity_subpower (K := K) k normBound δ hN hδ
-  obtain ⟨Cmass, hCmass, hmass⟩ := actual_direct_first_terminal_mass_from_original_windows
-    (U := W) (C := C) (hΓ := hΓ) (μv := μv) (finiteTest := finiteTest)
-    normBound δ hN hδ
-  let CF := (firstTerminalFourierControl (W := W)).constant
-  have hCF : 0 < CF := (firstTerminalFourierControl (W := W)).constant_pos
-  refine ⟨CF * Ccount * Cmass, by positivity, ?_⟩
-  intro Z hZ ω ψ centered d a t Y₁ Y₂ X hX s R slotsL slotsR hslotsL hslotsR
-    B hB sTail sZero Lmax Nsave decay T Cerror parentWidth loss firstAmplitude kernelBound
-    profileConstant fiberCap hC hfirst hkernel hprofile total U
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  let H : ℝ := firstAmplitude * (CF * kernelBound) *
-    (fiberCap * Cerror * B ^ cap * profileConstant) *
-      Ccount
-  have hH : 0 ≤ H := by dsimp [H]; positivity
-  have hnorm (v : s.CommonLabel) :
-      (Ideal.absNorm v.val.1 : ℝ) ≤ Z ^ normBound ∧
-        (Ideal.absNorm v.val.2 : ℝ) ≤ Z ^ normBound :=
-    actualCommonLabels_norm s.columns s.columns _ _
-      (fun i _ => (s.ideal i).property.1) (fun i _ => (s.ideal i).property.1)
-      (Z ^ normBound) U.column_norm U.column_norm (v.val, ∅)
-      ((mem_actualCommonLabels _ _ _ _ _).mpr ⟨v.property, Finset.empty_subset _⟩)
-  have hcoefficient (v : s.CommonLabel) (D : ((s.block v).mask s.mask).powerset) :
-      R.firstDivisorTailCoefficient (B := B) (slotsL := slotsL) (slotsR := slotsR) (k := k)
-          Cerror firstAmplitude profileConstant fiberCap v D ≤ H * Z ^ δ := by
-    let Q : ℝ := (fiberCap * Cerror * B ^ cap *
-      profileConstant) * Ccount
-    have hQ : 0 ≤ Q := by dsimp [Q]; positivity
-    have hside (slots : ℕ) (hs : slots ≤ cap) (common : Ideal (𝓞 K))
-        (hcommon : (Ideal.absNorm common : ℝ) ≤ Z ^ normBound) :
-        directFirstDivisorTailCoefficient B Cerror profileConstant slots k fiberCap common ≤
-          Q * Z ^ δ := by
-      apply (dual_direct_original_tail_coefficient_le B Cerror profileConstant slots cap k fiberCap
-        common (Ccount * Z ^ δ) hB hC hprofile hs (by positivity)
-        (hcount Z hZ.le common hcommon)).trans_eq
-      dsimp [Q]
-      ring
-    have hmean := div_le_div_of_nonneg_right
-      (add_le_add (hside slotsL hslotsL v.val.1 (hnorm v).1)
-        (hside slotsR hslotsR v.val.2 (hnorm v).2)) (by norm_num : (0 : ℝ) ≤ 2)
-    have hmean' :
-        (directFirstDivisorTailCoefficient B Cerror profileConstant slotsL k fiberCap v.val.1 +
-          directFirstDivisorTailCoefficient B Cerror profileConstant slotsR k fiberCap v.val.2) / 2 ≤
-            Q * Z ^ δ := hmean.trans_eq (by ring)
-    have hF : firstTerminalFourierCost (s.charts v D).kernel ≤ CF * kernelBound :=
-      mul_le_mul_of_nonneg_left (U.first_kernel v D) hCF.le
-    unfold ActualDirectFirstSource.SecondStages.firstDivisorTailCoefficient
-    calc
-      _ ≤ firstAmplitude * firstTerminalFourierCost (s.charts v D).kernel * (Q * Z ^ δ) :=
-        mul_le_mul_of_nonneg_left hmean'
-          (mul_nonneg hfirst (firstTerminalFourierCost_nonneg _))
-      _ ≤ firstAmplitude * (CF * kernelBound) * (Q * Z ^ δ) :=
-        mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hF hfirst)
-          (mul_nonneg hQ (Real.rpow_nonneg hz.le _))
-      _ = _ := by dsimp [Q, H]; ring
-  have hm := hmass Z hZ centered d a t Y₁ Y₂ X hX s U.oldMask
-    U.old_squarefree U.old_ne_zero U.old_divides U.column_norm U.maskIdeal
-    U.mask_ne_zero U.mask_norm U.original_mask
-  have hraw := R.dualSecondTailBudget_le_original_label_sum T hZ total Cerror parentWidth loss
-    firstAmplitude profileConstant fiberCap U.exponentL U.exponentR
-    hC hprofile U.classes U.first_profile
-  apply hraw.trans
-  calc
-    _ ≤ (s.fiber : ℝ) *
-        ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
-        ∑ S : divisorPool (s.pieces v D).rightData.columns
-          (fun j => ((s.pieces v D).rightData.ideal j).val),
-        ∑ χ : (PUnit × PUnit) →* Circle,
-          (H * Z ^ δ) *
-            (firstCommonWeight Z v.val.1 v.val.2 *
-              (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
-                ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-      apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg _)
-      apply Finset.sum_le_sum
-      intro v _
-      apply Finset.sum_le_sum
-      intro D _
-      apply Finset.sum_le_sum
-      intro S _
-      apply Finset.sum_le_sum
-      intro χ _
-      apply mul_le_mul_of_nonneg_right _ (Real.rpow_nonneg hz.le _)
-      exact mul_le_mul_of_nonneg_right (hcoefficient v D)
-        (mul_nonneg
-          (mul_nonneg (Real.rpow_nonneg hz.le _)
-            (div_nonneg (norm_nonneg _) (Nat.cast_nonneg _))) (norm_nonneg _))
-    _ = ((s.fiber : ℝ) * H * Z ^ δ * Z ^ loss) * s.firstTerminalArithmeticMass := by
-      simp only [ActualDirectFirstSource.firstTerminalArithmeticMass, Finset.mul_sum,
-        mul_assoc, mul_left_comm, mul_comm]
-    _ ≤ ((s.fiber : ℝ) * H * Z ^ δ * Z ^ loss) *
-        (Cmass * Z ^ δ / (Ideal.absNorm U.oldMask : ℝ)) :=
-      mul_le_mul_of_nonneg_left hm (by positivity)
-    _ = _ := by
-      have he : loss + ε = δ + loss + δ := by dsimp [δ]; ring
-      rw [he, Real.rpow_add hz, Real.rpow_add hz]
-      dsimp [H]
-      ring
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

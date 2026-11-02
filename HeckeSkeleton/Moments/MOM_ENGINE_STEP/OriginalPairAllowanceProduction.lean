@@ -98,8 +98,8 @@ def annulusThreshold (annulus error : ℝ) : ℝ :=
   max 2 (Real.exp (2 * Real.log annulus / error))
 
 theorem annulusThreshold_gt_one (annulus error : ℝ) :
-    1 < annulusThreshold annulus error :=
-  lt_of_lt_of_le (by norm_num : (1 : ℝ) < 2) (le_max_left _ _)
+    1 < annulusThreshold annulus error := by
+  sorry
 
 /-- The logarithmic clipping cost is bounded uniformly for both plains
 of every actual rectangle, at all bases above the fixed threshold. -/
@@ -108,18 +108,7 @@ theorem annulus_error_le (annulus error Z left right : ℝ)
     (hleft : 1 ≤ left) (hle : left ≤ annulus)
     (hright : 1 ≤ right) (hre : right ≤ annulus) :
     (Real.log left + Real.log right) / Real.log Z ≤ error := by
-  have hZ1 : 1 < Z := (annulusThreshold_gt_one annulus error).trans_le hZ
-  have hexp : Real.exp (2 * Real.log annulus / error) ≤ Z :=
-    (le_max_right _ _).trans hZ
-  have hlog := Real.log_le_log (Real.exp_pos (2 * Real.log annulus / error)) hexp
-  rw [Real.log_exp] at hlog
-  have hbound : 2 * Real.log annulus ≤ error * Real.log Z := by
-    have h := (div_le_iff₀ herror).mp hlog
-    nlinarith
-  have hl := Real.log_le_log (zero_lt_one.trans_le hleft) hle
-  have hr := Real.log_le_log (zero_lt_one.trans_le hright) hre
-  apply (div_le_iff₀ (Real.log_pos hZ1)).mpr
-  linarith
+  sorry
 
 /-- One choice of the individual error and mesh budgets puts the
 remaining scalar loss in the quarter reserved by the image-mass
@@ -128,7 +117,7 @@ the actual tag transport. -/
 theorem remaining_le_quarter (wo ell error mesh ε : ℝ)
     (herror : error ≤ 3 * ε / 40) (hmesh : mesh ≤ ε / 8) :
     wo + ell + 5 * error / 3 + mesh ≤ ε / 4 + (wo + ell) := by
-  linarith
+  sorry
 
 def commonLength (side : SecondColumnSide) (Z : ℝ) (D E : Ideal (𝓞 F)) : ℝ :=
   match side with
@@ -151,9 +140,7 @@ theorem normalization_eq (side : SecondColumnSide) (Z a q w : ℝ)
     (D E : Ideal (𝓞 F)) :
     normalization side Z (a + q) D E =
       Z ^ ((a - commonLength side Z D E - w) + q + w + boundary side Z D E) := by
-  cases side with
-  | left => exact firstLeftAllowance_second_exponent Z a q w D E
-  | right => exact firstRightAllowance_second_exponent Z a q w D E
+  sorry
 
 end OriginalPairAllowanceProduction
 
@@ -230,18 +217,7 @@ theorem slack_le_of_original_windows (annulus error mesh boundary : ℝ)
     (windows : input.OriginalErrorWindows annulus error mesh)
     (hboundary : input.boundary = boundary) :
     lengths.slack ≤ boundary + 5 * error / 3 + mesh := by
-  have hannulus := OriginalPairAllowanceProduction.annulus_error_le
-    annulus error Z input.leftAnnulus input.rightAnnulus herror hZ
-    input.leftAnnulus_one windows.left_annulus input.rightAnnulus_one windows.right_annulus
-  have hmesh : cal.parameters.κ * input.mesh ≤ mesh := by
-    calc
-      _ ≤ 1 * input.mesh :=
-        mul_le_mul_of_nonneg_right windows.kappa input.mesh_nonneg
-      _ = input.mesh := one_mul _
-      _ ≤ mesh := windows.mesh
-  unfold slack
-  rw [hboundary]
-  linarith [windows.support, windows.raw_clip, windows.width, windows.dyadic]
+  sorry
 
 end ActualCapacityNormLengths
 

@@ -76,27 +76,24 @@ def annularBox (b : Box) : Box :=
 @[simp] theorem annularBox_rowBound (b : Box) :
     (annularBox b).rowBound = b.rowBound := rfl
 
-theorem hi_le_annularBox (b : Box) : b.hi ≤ (annularBox b).hi := le_max_left _ _
+theorem hi_le_annularBox (b : Box) : b.hi ≤ (annularBox b).hi := by
+  sorry
 
-theorem inverse_lo_le_hi (b : Box) : (annularBox b).lo⁻¹ ≤ (annularBox b).hi :=
-  le_max_right _ _
+theorem inverse_lo_le_hi (b : Box) : (annularBox b).lo⁻¹ ≤ (annularBox b).hi := by
+  sorry
 
 /-- The extra inequality is proved for the internal box; it is not a
 new condition on the public original annulus. -/
 theorem inverse_hi_le_lo (b : Box) : (annularBox b).hi⁻¹ ≤ (annularBox b).lo := by
-  change (max b.hi b.lo⁻¹)⁻¹ ≤ b.lo
-  simpa only [one_div, inv_inv] using
-    one_div_le_one_div_of_le (inv_pos.mpr b.lo_pos) (le_max_right b.hi b.lo⁻¹)
+  sorry
 
 theorem window_subset (b : Box) :
     Set.Icc b.lo b.hi ⊆ Set.Icc (annularBox b).lo (annularBox b).hi := by
-  intro x hx
-  exact ⟨hx.1, hx.2.trans (hi_le_annularBox b)⟩
+  sorry
 
 theorem window_positive (b : Box) :
     Set.Icc (annularBox b).lo (annularBox b).hi ⊆ Set.Ioi (0 : ℝ) := by
-  intro x hx
-  exact b.lo_pos.trans_le hx.1
+  sorry
 
 end CanonicalPrimitiveEngineAnnulus
 

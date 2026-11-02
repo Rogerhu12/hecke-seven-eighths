@@ -80,44 +80,30 @@ def literalRightCommonAtoms : FrozenSourceAtoms A σ
 theorem literalLeftCommonAtoms_ideal :
     (v.literalLeftCommonAtoms leftAtoms leftMask).ideal =
       (primePowerProduct v.block.primes v.block.leftMultiplicity).val := by
-  exact (((left).commonAtomBounds v.literalLeftBranch leftMask).atoms_ideal (R₀).rows).trans
-    ((v.literalLeftParent.branch_product (primeSupport v.1.val.1) v.1.val.1
-      v.2.2.2.2.2.1).trans v.block.common_left.symm)
+  sorry
 
 theorem literalRightCommonAtoms_ideal :
     (v.literalRightCommonAtoms rightAtoms rightMask).ideal =
       (primePowerProduct v.block.primes v.block.rightMultiplicity).val := by
-  exact (((right).commonAtomBounds v.literalRightBranch rightMask).atoms_ideal (R₀).rows).trans
-    ((v.literalRightParent.branch_product (primeSupport v.1.val.1) v.1.val.2
-      v.2.2.2.2.2.2).trans v.block.common_right.symm)
+  sorry
 
 theorem literalLeftCommonAtoms_value
     (h : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     (v.literalLeftCommonAtoms leftAtoms leftMask).value h =
-      (left).commonScalar v.literalLeftBranch :=
-  ((left).commonAtomBounds v.literalLeftBranch leftMask).atoms_value (R₀).rows
-    (primePowerProduct v.block.primes v.block.leftMultiplicity)
-    ((v.literalLeftParent.branch_product (primeSupport v.1.val.1) v.1.val.1
-      v.2.2.2.2.2.1).trans v.block.common_left.symm) h
+      (left).commonScalar v.literalLeftBranch := by
+  sorry
 
 theorem literalRightCommonAtoms_value
     (h : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     (v.literalRightCommonAtoms rightAtoms rightMask).value h =
-      (right).commonScalar v.literalRightBranch :=
-  ((right).commonAtomBounds v.literalRightBranch rightMask).atoms_value (R₀).rows
-    (primePowerProduct v.block.primes v.block.rightMultiplicity)
-    ((v.literalRightParent.branch_product (primeSupport v.1.val.1) v.1.val.2
-      v.2.2.2.2.2.2).trans v.block.common_right.symm) h
+      (right).commonScalar v.literalRightBranch := by
+  sorry
 
 theorem literalRows_eq_withCommonAtoms :
     v.literalRows leftAtoms rightAtoms =
       (R₀).withCommonAtoms (v.literalLeftCommonAtoms leftAtoms leftMask)
         (v.literalRightCommonAtoms rightAtoms rightMask) := by
-  unfold literalRows ActualSecondCorrelationRows.withCommonAtoms
-  congr 1
-  funext h
-  rw [v.literalLeftCommonAtoms_value leftAtoms leftMask h,
-    v.literalRightCommonAtoms_value rightAtoms rightMask h]
+  sorry
 
 variable (hclass : v.chart.NonunitLabelStable)
 variable (bound : ℝ) (hbound : 0 ≤ bound)

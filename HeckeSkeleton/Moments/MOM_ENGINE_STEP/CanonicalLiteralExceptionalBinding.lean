@@ -42,11 +42,7 @@ theorem exceptional_comparison_coefficient (phase : PUnit.{1} →* Circle)
     (CanonicalLiteralExceptionalFactory.comparison d phase).centeredCoefficient
       (Real.sqrt d.gauss₁ : ℂ)⁻¹ (Real.sqrt d.gauss₂ : ℂ)⁻¹
       (fun j => (Real.sqrt (d.gaussSlot j) : ℂ)⁻¹) i = d.whole i := by
-  unfold SecondCoefficientComparison.centeredCoefficient
-  rw [CanonicalLiteralExceptionalFactory.comparison_dictionary,
-    SecondCoefficientTermDictionary.normalizedCoefficient_eq,
-    SecondCoefficientTermDictionary.normalizedCoefficient_eq]
-  rfl
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -68,12 +64,7 @@ theorem exceptional_frame_coefficient
           (CanonicalLiteralExceptionalFactory.comparison d (side.phase PUnit.{1} χ)) h i =
       side.actualCoefficient (σ := σ) PUnit.{1} ideal R.frequency (fun _ => PUnit.unit) χ
         d.whole h i := by
-  have hray (phase : PUnit.{1} →* Circle) :
-      (d.dictionary phase false).ray i = PUnit.unit := Subsingleton.elim _ _
-  cases side <;>
-    simp only [SecondSideFrame.centeredCoefficient, SecondRectangularFactors.frame,
-      factors, SecondColumnSide.actualCoefficient, secondAllocatedLeftCoefficient,
-      secondAllocatedRightCoefficient, d.exceptional_comparison_coefficient, hray]
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 
@@ -119,45 +110,7 @@ theorem pairMagnitude_eq (keep : H → Prop) (z : U × V) :
       (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft b.val.2.1 wholeLeft)
       (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight b.val.2.1 wholeRight)
       x y (WithLp.toLp 2 z) := by
-  calc
-    _ = jointColumnPairMagnitude (R.rows.filter keep) leaf.left leaf.right
-        leaf.rowWeight leaf.leftCoefficient (fun h j => star (leaf.rightCoefficient h j))
-        (fun h i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
-        (fun h j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
-        (WithLp.toLp 2 z) :=
-      jointColumnPairMagnitude_filter_eq_on_zero_rows _ _ _ _ _ _ _ _ _ _ _
-        binding.rows binding.rows_zero
-    _ = _ := by
-      rw [← binding.left, ← binding.right]
-      unfold jointColumnPairMagnitude
-      apply Finset.sum_congr rfl
-      intro h hh
-      have hm : h ∈ leaf.rows := binding.rows (Finset.mem_filter.mp hh).1
-      obtain ⟨zl, hzl⟩ := binding.leftPoint h hm
-      obtain ⟨zr, hzr⟩ := binding.rightPoint h hm
-      have hl : jointFourierColumn leaf.left (leaf.leftCoefficient h)
-          (fun i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
-          (WithLp.toLp 2 z) =
-          jointPhase (WithLp.toLp 2 z) zl * jointFourierColumn leaf.left
-            (secondAllocatedLeftCoefficient (σ := σ) Ray IA R.frequency rayLeft
-              b.val.2.1 wholeLeft h) (x h) (WithLp.toLp 2 z) := by
-        rw [← jointFourierColumn_rowTranslation]
-        unfold jointFourierColumn
-        apply Finset.sum_congr rfl
-        intro i hi
-        rw [binding.leftCoefficient h hm i hi, hzl i hi]
-      have hr : jointFourierColumn leaf.right (fun i => star (leaf.rightCoefficient h i))
-          (fun i => WithLp.toLp 2 (-leaf.rightFirst h i, leaf.rightSecond h i))
-          (WithLp.toLp 2 z) =
-          jointPhase (WithLp.toLp 2 z) zr * jointFourierColumn leaf.right
-            (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight
-              b.val.2.1 wholeRight h) (y h) (WithLp.toLp 2 z) := by
-        rw [← jointFourierColumn_rowTranslation]
-        unfold jointFourierColumn
-        apply Finset.sum_congr rfl
-        intro i hi
-        rw [binding.rightCoefficient h hm i hi, hzr i hi]
-      simp only [binding.rowWeight h hm, hl, hr, norm_mul, norm_jointPhase, one_mul]
+  sorry
 
 variable [FiniteDimensional ℝ U] [MeasurableSpace U] [BorelSpace U]
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
@@ -174,8 +127,7 @@ theorem thetaClass_integrand
           b.val.2.1 wholeLeft)
         (secondAllocatedRightCoefficient (σ := σ) Ray IB R.frequency rayRight
           b.val.2.1 wholeRight) x y (WithLp.toLp 2 z) := by
-  rw [leaf.thetaClassLeaf_integrand Q hpredicate]
-  exact binding.pairMagnitude_eq (Q.thetaClass χ) z
+  sorry
 
 end ActualHybridLeaf.OrdinaryBinding
 

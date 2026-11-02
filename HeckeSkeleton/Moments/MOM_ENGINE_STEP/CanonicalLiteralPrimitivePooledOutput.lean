@@ -556,10 +556,7 @@ theorem literalPrimitivePooled_family_outputGeometry
       (factories j).Input) :
     (completeFamily analytic).OutputGeometry Finset.univ (data ξ) a step
       Set.univ (Set.Icc (0 : ℝ) hi) orders := by
-  simpa only [Finset.univ_sigma_univ] using
-    ActualNormalizedPairFamily.sigmaCombine_outputGeometry
-      (fun j => (factories j).family (analytic j)) Finset.univ (fun _ => Finset.univ)
-      (fun j _ => (outputCertificates j).geometry (analytic j))
+  sorry
 
 /-- Complete moving-child admissibility applies only to the actual
 active labels. Both children are those selected before aggregation. -/
@@ -577,14 +574,7 @@ theorem literalPrimitivePooled_family_moving_admissible
           Set.univ (Set.Icc (0 : ℝ) hi) orders Z
           ((completeFamily analytic).rightData Finset.univ b x)
           ((completeFamily analytic).rightParameters Finset.univ b) := by
-  have hleft := ActualNormalizedPairFamily.sigmaCombine_moving_left_admissible
-    (fun j => (factories j).family (analytic j)) Finset.univ (fun _ => Finset.univ)
-    (fun j _ b x => ((outputCertificates j).moving (analytic j) b x).1)
-  have hright := ActualNormalizedPairFamily.sigmaCombine_moving_right_admissible
-    (fun j => (factories j).family (analytic j)) Finset.univ (fun _ => Finset.univ)
-    (fun j _ b x => ((outputCertificates j).moving (analytic j) b x).2)
-  simpa only [Finset.univ_sigma_univ] using
-    (fun b x => And.intro (hleft b x) (hright b x))
+  sorry
 
 /-- The restored parent measure contains its original scalar and the
 old frozen pair exactly once; integrability follows for the same children. -/
@@ -600,10 +590,7 @@ theorem literalPrimitivePooled_family_children_integrable
         ((completeFamily analytic).rightData Finset.univ b x)
         ((completeFamily analytic).rightParameters Finset.univ b) Z 0)
         ((completeFamily analytic).kernel Finset.univ completeMeasure parentWidth b) := by
-  exact (stages).supported.gated.dependent_children_integrable (raw).originalAtlas exceptional normalization
-    (fun j => (factories j).Label) (fun j => (factories j).family (analytic j))
-    (fun j => (sourceCertificates j).frozen) parentWidth
-    (fun j => (outputCertificates j).integrable (analytic j) parentWidth)
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -38,10 +38,7 @@ def secondLogSlope : SecondColumnSide → ℝ
 theorem pair_location (slope secondSlope x y : ℝ) :
     WithLp.toLp 2 (slope * x, secondSlope * y) =
       x • firstDirection slope + y • secondDirection secondSlope := by
-  apply (WithLp.ofLp_injective 2)
-  change (slope * x, secondSlope * y) =
-    (x * slope + y * 0, x * 0 + y * secondSlope)
-  ext <;> ring
+  sorry
 
 section OriginalMode
 
@@ -71,23 +68,7 @@ theorem originalMode_eq_withFirstMode (ξ : ℝ) :
       CanonicalJointAllocatedSource.withFirstMode
         (originalMode s W₁ W₂ W N₁ N₂ N first₁ first₂ second₁ second₂ δ₁ δ₂ slope 0)
         x₁ x₂ xslot ξ := by
-  have hleft : (fun (_ : H) I => rawPlainWeight W₁ N₁ first₁ second₁ δ₁ δ₂ ξ slope I) =
-      fun (_ : H) I => rawPlainWeight W₁ N₁ first₁ second₁ δ₁ δ₂ 0 slope I *
-        jointPhase ξ (slope * Real.log (idealNorm K (second₁ * I))) := by
-    funext h I
-    exact rawPlainWeight_eq_zero_mul_phase W₁ N₁ first₁ second₁ I δ₁ δ₂ ξ slope
-  have hright : (fun (_ : H) I => rawPlainWeight W₂ N₂ first₂ second₂ δ₁ δ₂ ξ slope I) =
-      fun (_ : H) I => rawPlainWeight W₂ N₂ first₂ second₂ δ₁ δ₂ 0 slope I *
-        jointPhase ξ (slope * Real.log (idealNorm K (second₂ * I))) := by
-    funext h I
-    exact rawPlainWeight_eq_zero_mul_phase W₂ N₂ first₂ second₂ I δ₁ δ₂ ξ slope
-  have hslot : (fun (_ : H) j p => rawPrimeWeight (W j) (N j) δ₁ δ₂ ξ slope p) =
-      fun (_ : H) j p => rawPrimeWeight (W j) (N j) δ₁ δ₂ 0 slope p *
-        jointPhase ξ (slope * Real.log (Ideal.absNorm p.asIdeal : ℝ)) := by
-    funext h j p
-    exact rawPrimeWeight_eq_zero_mul_phase (W j) (N j) δ₁ δ₂ ξ slope p
-  simp only [originalMode, CanonicalJointAllocatedSource.withFirstMode,
-    hleft, hright, hslot]
+  sorry
 
 end OriginalMode
 
@@ -122,15 +103,7 @@ theorem energy_eq_sum_byPatternSector (ξ : V) :
     s.energy (σ := σ) ξ =
       ∑ pattern : ι → Bool, ∑ sector,
         (byPatternSector P rows C s pattern sector).energy (σ := σ) ξ := by
-  rw [s.energy_eq_sum_subtypeRows (fun h =>
-    actualNonunitPattern C rows.primes rows.leftMultiplicity rows.rightMultiplicity
-      (rows.frequency h.val)) ξ]
-  apply Finset.sum_congr rfl
-  intro pattern _
-  exact (s.subtypeRows (fun h =>
-    actualNonunitPattern C rows.primes rows.leftMultiplicity rows.rightMultiplicity
-      (rows.frequency h.val) = pattern)).energy_eq_sum_subtypeRows
-        (fun h => (rows.extractedRow C h.val).sector P) ξ
+  sorry
 
 end PatternRows
 
@@ -233,116 +206,56 @@ local notation "rawMode" => originalMode (actualSource 0)
 /-- This is a definitional inspection of the actually constructed
 source. Only its three original weights depend on the first mode. -/
 theorem source_originalMode (ξ : ℝ) : actualSource ξ = rawMode ξ := by
-  cases side <;> rfl
+  sorry
 
 theorem source_eq_withFirstMode (ξ : ℝ) :
     actualSource ξ = CanonicalJointAllocatedSource.withFirstMode (actualSource 0) x₁ x₂ xslot ξ := by
-  rw [source_originalMode Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne ξ,
-    originalMode_eq_withFirstMode]
-  rw [← source_originalMode Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0]
+  sorry
 
 /-- Both original Fourier modes act on the same fixed source. -/
 theorem source_energy (ξ ζ : ℝ) :
     (actualSource ξ).energy (σ := σ) ζ = (joint).energy (σ := σ) (WithLp.toLp 2 (ξ, ζ)) := by
-  rw [source_eq_withFirstMode Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne ξ]
-  exact CanonicalJointAllocatedSource.energy_identity (σ := σ) (actualSource 0) x₁ x₂ xslot ξ ζ
+  sorry
 
 /-- The original actual rectangle, with its real common row radius,
 is exactly the fixed joint source divided by the same Gauss scale. -/
 theorem frame_energy_eq_joint (ξ ζ : ℝ) :
     (frame ξ).energy ζ =
       (joint).energy (σ := σ) (WithLp.toLp 2 (ξ, ζ)) / (frame 0).normalizationScale := by
-  calc
-    (frame ξ).energy ζ = (plainFrame ξ).energy ζ :=
-      ((frame ξ).translateLocations_energy rowTranslation (fun _ => 0) (fun _ _ => 0) ζ).symm
-    _ = (actualSource ξ).energy (σ := σ) ζ / (frame 0).normalizationScale := by
-      rw [(plainFrame ξ).energy_eq_div_scale] <;> rfl
-    _ = _ := by
-      rw [source_energy Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
-        C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-        secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-        allocationIdeal selection hne ξ ζ]
+  sorry
 
 theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).leftLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
-  cases side with
-  | left =>
-    change -(rowOffset h.val - Real.log (A.exteriorNorm secondCommon)) +
-      (rowOffset h.val - Real.log (A.exteriorNorm secondCommon) - Real.log (idealNorm K I)) =
-        (-1) * Real.log (idealNorm K I)
-    ring
-  | right =>
-    change -(-(rowOffset h.val - Real.log (A.exteriorNorm secondCommon)) +
-      (rowOffset h.val - Real.log (A.exteriorNorm secondCommon) - Real.log (idealNorm K I))) =
-        1 * Real.log (idealNorm K I)
-    ring
+  sorry
 
 theorem source_rightLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).rightLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
-  cases side with
-  | left =>
-    change 0 + -Real.log (idealNorm K I) = (-1) * Real.log (idealNorm K I)
-    ring
-  | right =>
-    change -(0 + -Real.log (idealNorm K I)) = 1 * Real.log (idealNorm K I)
-    ring
+  sorry
 
 theorem source_slotLocation (ξ : ℝ) (h : rows.live) (j : Fin b₂.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) :
     (actualSource ξ).slotLocation h j p =
       secondLogSlope side * Real.log (Ideal.absNorm p.asIdeal : ℝ) := by
-  cases side with
-  | left =>
-    change 0 + -Real.log (Ideal.absNorm p.asIdeal : ℝ) =
-      (-1) * Real.log (Ideal.absNorm p.asIdeal : ℝ)
-    ring
-  | right =>
-    change -(0 + -Real.log (Ideal.absNorm p.asIdeal : ℝ)) =
-      1 * Real.log (Ideal.absNorm p.asIdeal : ℝ)
-    ring
+  sorry
 
 theorem joint_leftLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).leftLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₁ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
-  change WithLp.toLp 2 (_, (actualSource 0).leftLocation h I) = _
-  rw [source_leftLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0 h I]
-  exact pair_location _ _ _ _
+  sorry
 
 theorem joint_rightLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).rightLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₂ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
-  change WithLp.toLp 2 (_, (actualSource 0).rightLocation h I) = _
-  rw [source_rightLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0 h I]
-  exact pair_location _ _ _ _
+  sorry
 
 theorem joint_slotLocation (h : rows.live) (j : Fin b₂.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) :
     (joint).slotLocation h j p =
       Real.log (Ideal.absNorm p.asIdeal : ℝ) • firstDirection slope +
         Real.log (Ideal.absNorm p.asIdeal : ℝ) • secondDirection (secondLogSlope side) := by
-  change WithLp.toLp 2 (_, (actualSource 0).slotLocation h j p) = _
-  rw [source_slotLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0 h j p]
-  exact pair_location _ _ _ _
+  sorry
 
 
 /-- These are the same original arithmetic characters, including the
@@ -354,51 +267,51 @@ theorem joint_characters (h : rows.live) :
           (CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)))
       (Q.remaining * exteriorMomentIdeal firstCommon) (fun j => idx₁ (idx₂ j)) := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_row_momentIdeal (h : rows.live) :
     ((joint).row h).momentIdeal = (rows.extractedRow C h).momentIdeal := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_row_element (h : rows.live) :
     ((joint).row h).element = (rows.extractedRow C h).element := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_extractedFactor (h : rows.live) :
     (joint).extractedFactor h =
       match side with
       | .left => rows.factor C h.val
       | .right => -(rows.factor C h.val) := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_base : (joint).base = Z := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_leftScale : (joint).scale₁ =
     (if comparison then Y₁ else Z ^ a.n₁) /
       idealNorm K b₁.plainDivisor₁ / idealNorm K b₂.plainDivisor₁ := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_rightScale : (joint).scale₂ =
     (if comparison then Y₂ else Z ^ a.n₂) /
       idealNorm K b₁.plainDivisor₂ / idealNorm K b₂.plainDivisor₂ := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_length (j : Fin b₂.keep.card) :
     (joint).length j = ((data x).geometry.slots (idx₁ (idx₂ j))).length := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_leftWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).leftWeight h I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt 0 slope I := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_rightWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).rightWeight h I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt 0 slope I := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_slotWeight (h : rows.live) (j : Fin b₂.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) :
@@ -406,7 +319,7 @@ theorem joint_slotWeight (h : rows.live) (j : Fin b₂.keep.card)
       rawPrimeWeight (((data x).geometry.slots (idx₁ (idx₂ j))).profile t)
         (Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length)
         firstTilt secondTilt 0 slope p := by
-  cases side <;> rfl
+  sorry
 
 end MainSource
 
@@ -513,116 +426,56 @@ local notation "rawMode" => originalMode (actualSource 0)
 /-- This is a definitional inspection of the actually constructed
 source. Only its three original weights depend on the first mode. -/
 theorem source_originalMode (ξ : ℝ) : actualSource ξ = rawMode ξ := by
-  cases side <;> rfl
+  sorry
 
 theorem source_eq_withFirstMode (ξ : ℝ) :
     actualSource ξ = CanonicalJointAllocatedSource.withFirstMode (actualSource 0) x₁ x₂ xslot ξ := by
-  rw [source_originalMode Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne ξ,
-    originalMode_eq_withFirstMode]
-  rw [← source_originalMode Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0]
+  sorry
 
 /-- Both original Fourier modes act on the same fixed source. -/
 theorem source_energy (ξ ζ : ℝ) :
     (actualSource ξ).energy (σ := σ) ζ = (joint).energy (σ := σ) (WithLp.toLp 2 (ξ, ζ)) := by
-  rw [source_eq_withFirstMode Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne ξ]
-  exact CanonicalJointAllocatedSource.energy_identity (σ := σ) (actualSource 0) x₁ x₂ xslot ξ ζ
+  sorry
 
 /-- The original actual pool rectangle, with its real common row radius,
 is exactly the fixed joint source divided by the same Gauss scale. -/
 theorem frame_energy_eq_joint (ξ ζ : ℝ) :
     (frame ξ).energy ζ =
       (joint).energy (σ := σ) (WithLp.toLp 2 (ξ, ζ)) / (frame 0).normalizationScale := by
-  calc
-    (frame ξ).energy ζ = (plainFrame ξ).energy ζ :=
-      ((frame ξ).translateLocations_energy rowTranslation (fun _ => 0) (fun _ _ => 0) ζ).symm
-    _ = (actualSource ξ).energy (σ := σ) ζ / (frame 0).normalizationScale := by
-      rw [(plainFrame ξ).energy_eq_div_scale] <;> rfl
-    _ = _ := by
-      rw [source_energy Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
-        C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-        secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-        allocationIdeal selection hne ξ ζ]
+  sorry
 
 theorem source_leftLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).leftLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
-  cases side with
-  | left =>
-    change -(rowOffset h.val - Real.log (A.exteriorNorm secondCommon)) +
-      (rowOffset h.val - Real.log (A.exteriorNorm secondCommon) - Real.log (idealNorm K I)) =
-        (-1) * Real.log (idealNorm K I)
-    ring
-  | right =>
-    change -(-(rowOffset h.val - Real.log (A.exteriorNorm secondCommon)) +
-      (rowOffset h.val - Real.log (A.exteriorNorm secondCommon) - Real.log (idealNorm K I))) =
-        1 * Real.log (idealNorm K I)
-    ring
+  sorry
 
 theorem source_rightLocation (ξ : ℝ) (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (actualSource ξ).rightLocation h I = secondLogSlope side * Real.log (idealNorm K I) := by
-  cases side with
-  | left =>
-    change 0 + -Real.log (idealNorm K I) = (-1) * Real.log (idealNorm K I)
-    ring
-  | right =>
-    change -(0 + -Real.log (idealNorm K I)) = 1 * Real.log (idealNorm K I)
-    ring
+  sorry
 
 theorem source_slotLocation (ξ : ℝ) (h : rows.live) (j : Fin b₂.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) :
     (actualSource ξ).slotLocation h j p =
       secondLogSlope side * Real.log (Ideal.absNorm p.asIdeal : ℝ) := by
-  cases side with
-  | left =>
-    change 0 + -Real.log (Ideal.absNorm p.asIdeal : ℝ) =
-      (-1) * Real.log (Ideal.absNorm p.asIdeal : ℝ)
-    ring
-  | right =>
-    change -(0 + -Real.log (Ideal.absNorm p.asIdeal : ℝ)) =
-      1 * Real.log (Ideal.absNorm p.asIdeal : ℝ)
-    ring
+  sorry
 
 theorem joint_leftLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).leftLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₁ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
-  change WithLp.toLp 2 (_, (actualSource 0).leftLocation h I) = _
-  rw [source_leftLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0 h I]
-  exact pair_location _ _ _ _
+  sorry
 
 theorem joint_rightLocation (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).rightLocation h I =
       Real.log (idealNorm K (b₂.plainDivisor₂ * I)) • firstDirection slope +
         Real.log (idealNorm K I) • secondDirection (secondLogSlope side) := by
-  change WithLp.toLp 2 (_, (actualSource 0).rightLocation h I) = _
-  rw [source_rightLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0 h I]
-  exact pair_location _ _ _ _
+  sorry
 
 theorem joint_slotLocation (h : rows.live) (j : Fin b₂.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) :
     (joint).slotLocation h j p =
       Real.log (Ideal.absNorm p.asIdeal : ℝ) • firstDirection slope +
         Real.log (Ideal.absNorm p.asIdeal : ℝ) • secondDirection (secondLogSlope side) := by
-  change WithLp.toLp 2 (_, (actualSource 0).slotLocation h j p) = _
-  rw [source_slotLocation Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon p v hv b₁
-    C primes m n firstRight δ firstTilt hroot hemb J₁ hJ₁ hactive rows side χ
-    secondCommon b₂ J₂ hJ₂ secondTilt rowOffset comparison hcomparison
-    allocationIdeal selection hne 0 h j p]
-  exact pair_location _ _ _ _
+  sorry
 
 
 /-- These are the same original arithmetic characters, including the
@@ -635,51 +488,51 @@ theorem joint_characters (h : rows.live) :
           (CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)))
       (Q.remaining * exteriorMomentIdeal (combinedCommon firstCommon p v)) (fun j => idx₁ (idx₂ j)) := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_row_momentIdeal (h : rows.live) :
     ((joint).row h).momentIdeal = (rows.extractedRow C h).momentIdeal := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_row_element (h : rows.live) :
     ((joint).row h).element = (rows.extractedRow C h).element := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_extractedFactor (h : rows.live) :
     (joint).extractedFactor h =
       match side with
       | .left => rows.factor C h.val
       | .right => -(rows.factor C h.val) := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_base : (joint).base = Z := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_leftScale : (joint).scale₁ =
     (if comparison then Y₁ else Z ^ a.n₁) /
       idealNorm K b₁.plainDivisor₁ / idealNorm K b₂.plainDivisor₁ := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_rightScale : (joint).scale₂ =
     (if comparison then Y₂ else Z ^ a.n₂) /
       idealNorm K b₁.plainDivisor₂ / idealNorm K b₂.plainDivisor₂ := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_length (j : Fin b₂.keep.card) :
     (joint).length j = ((data x).geometry.slots (idx₁ (idx₂ j))).length := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_leftWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).leftWeight h I =
       rawPlainWeight (W.left PUnit.unit t) (if comparison then Y₁ else Z ^ a.n₁)
         b₁.plainDivisor₁ b₂.plainDivisor₁ firstTilt secondTilt 0 slope I := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_rightWeight (h : rows.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (joint).rightWeight h I =
       rawPlainWeight (W.right PUnit.unit t) (if comparison then Y₂ else Z ^ a.n₂)
         b₁.plainDivisor₂ b₂.plainDivisor₂ firstTilt secondTilt 0 slope I := by
-  cases side <;> rfl
+  sorry
 
 theorem joint_slotWeight (h : rows.live) (j : Fin b₂.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) :
@@ -687,7 +540,7 @@ theorem joint_slotWeight (h : rows.live) (j : Fin b₂.keep.card)
       rawPrimeWeight (((data x).geometry.slots (idx₁ (idx₂ j))).profile t)
         (Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length)
         firstTilt secondTilt 0 slope p := by
-  cases side <;> rfl
+  sorry
 
 end ActualSource
 

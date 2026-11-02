@@ -104,8 +104,7 @@ theorem dependentParentMeasure_eq_original (b : Σ j : Leaves, Λ j) :
         (fun _ : Λ b.1 => (R.parentLeaf L exceptional N b.1.val).firstKernel)
         (fun _ : Λ b.1 => (R.parentLeaf L exceptional N b.1.val).secondKernel)
         (fun _ : Λ b.1 => (R.parentLeaf L exceptional N b.1.val).weight * frozen b.1) b.2 := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N b.1.val]
-  simp only [dependentParentMeasure, ActualHybridLeaf.scale, mul_assoc]
+  sorry
 
 /-- The source is unchanged when all actual child integrals are
 written under the dependent parent kernel. -/
@@ -118,20 +117,7 @@ theorem dependent_child_integral_sum (parentWidth : ℝ) :
         ∑ b : (families j).active Finset.univ,
           ∫ ξ, (families j).childPair Finset.univ b ξ
             ∂(families j).kernel Finset.univ (localMeasure j) parentWidth b := by
-  calc
-    _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
-          ∫ ξ, (families j).childPair Finset.univ b ξ
-            ∂(families j).kernel Finset.univ (scaledMeasure j) parentWidth b := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_child_integral families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
-    _ = _ := by
-      apply Finset.sum_congr rfl
-      intro j _
-      exact (families j).sum_child_integral_outer_mul Finset.univ
-        (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-        (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-        (R.parentOuterScalar_nonneg L N j.val)
+  sorry
 
 /-- The entire old outer scalar is paid once in each original
 component's mass; the dependent indexing preserves every measure. -/
@@ -142,19 +128,7 @@ theorem dependent_kernel_mass_sum (parentWidth : ℝ) :
       ∑ j : Leaves, factor j *
         ∑ b : (families j).active Finset.univ,
           ((families j).kernel Finset.univ (localMeasure j) parentWidth b).real Set.univ := by
-  calc
-    _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
-          ((families j).kernel Finset.univ (scaledMeasure j) parentWidth b).real Set.univ := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_kernel_mass families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
-    _ = _ := by
-      apply Finset.sum_congr rfl
-      intro j _
-      exact (families j).sum_kernel_mass_outer_mul Finset.univ
-        (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-        (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-        (R.parentOuterScalar_nonneg L N j.val)
+  sorry
 
 /-- Local inequalities from the actual literal producers sum on the
 original live-parent carrier, using its exact outer scalars. -/
@@ -168,13 +142,7 @@ theorem ordinaryCost_le_dependent_kernel (parentWidth : ℝ)
         ∫ ξ, (R.dependentNormalizedFamily L exceptional N Λ families).childPair Finset.univ b ξ
           ∂(R.dependentNormalizedFamily L exceptional N Λ families).kernel Finset.univ
             (R.dependentParentMeasure L exceptional N Λ frozen) parentWidth b := by
-  rw [R.dependent_child_integral_sum L exceptional N Λ families frozen parentWidth,
-    Finset.sum_div]
-  apply Finset.sum_le_sum
-  intro j _
-  rw [R.parentLeaf_ordinaryCost_unscaled L exceptional N j.val]
-  simpa only [mul_div_assoc] using mul_le_mul_of_nonneg_left (hlocal j)
-    (R.parentOuterScalar_nonneg L N j.val)
+  sorry
 
 /-- Finiteness is inherited from the same actual component kernel
 through the original nonnegative parent scalar. -/
@@ -184,14 +152,7 @@ theorem dependent_kernel_finite (parentWidth : ℝ)
     (b : (R.dependentNormalizedFamily L exceptional N Λ families).active Finset.univ) :
     IsFiniteMeasure ((R.dependentNormalizedFamily L exceptional N Λ families).kernel Finset.univ
       (R.dependentParentMeasure L exceptional N Λ frozen) parentWidth b) := by
-  let j := b.val.1
-  let bj := ActualNormalizedPairFamily.sigmaActiveInner families
-    Finset.univ (fun _ => Finset.univ) b
-  letI := hfinite j bj
-  exact (families j).kernel_outer_mul_finite Finset.univ
-    (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-    (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-    (R.parentOuterScalar_nonneg L N j.val) bj
+  sorry
 
 /-- Both normalized energies use the same chosen data, parameters
 and kernel after the original parent factors are restored. -/
@@ -214,18 +175,7 @@ theorem dependent_children_integrable (parentWidth : ℝ)
       ((R.dependentNormalizedFamily L exceptional N Λ families).rightParameters Finset.univ b) Z 0)
       ((R.dependentNormalizedFamily L exceptional N Λ families).kernel Finset.univ
         (R.dependentParentMeasure L exceptional N Λ frozen) parentWidth b) := by
-  let j := b.val.1
-  let bj := ActualNormalizedPairFamily.sigmaActiveInner families
-    Finset.univ (fun _ => Finset.univ) b
-  have h := hchildren j bj
-  exact ⟨(families j).kernel_outer_mul_integrable Finset.univ
-      (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-      (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-      (R.parentOuterScalar_nonneg L N j.val) bj _ h.1,
-    (families j).kernel_outer_mul_integrable Finset.univ
-      (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-      (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-      (R.parentOuterScalar_nonneg L N j.val) bj _ h.2⟩
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 end DirectParents
@@ -276,8 +226,7 @@ theorem dependentParentMeasure_eq_original (b : Σ j : Leaves, Λ j) :
         (fun _ : Λ b.1 => (R.parentLeaf L exceptional N b.1.val).firstKernel)
         (fun _ : Λ b.1 => (R.parentLeaf L exceptional N b.1.val).secondKernel)
         (fun _ : Λ b.1 => (R.parentLeaf L exceptional N b.1.val).weight * frozen b.1) b.2 := by
-  rw [R.parentLeaf_eq_unscaled_scale L exceptional N b.1.val]
-  simp only [dependentParentMeasure, ActualHybridLeaf.scale, mul_assoc]
+  sorry
 
 /-- The source is unchanged when all actual child integrals are
 written under the dependent parent kernel. -/
@@ -290,20 +239,7 @@ theorem dependent_child_integral_sum (parentWidth : ℝ) :
         ∑ b : (families j).active Finset.univ,
           ∫ ξ, (families j).childPair Finset.univ b ξ
             ∂(families j).kernel Finset.univ (localMeasure j) parentWidth b := by
-  calc
-    _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
-          ∫ ξ, (families j).childPair Finset.univ b ξ
-            ∂(families j).kernel Finset.univ (scaledMeasure j) parentWidth b := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_child_integral families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
-    _ = _ := by
-      apply Finset.sum_congr rfl
-      intro j _
-      exact (families j).sum_child_integral_outer_mul Finset.univ
-        (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-        (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-        (R.parentOuterScalar_nonneg L N j.val)
+  sorry
 
 /-- The entire old outer scalar is paid once in each original
 component's mass; the dependent indexing preserves every measure. -/
@@ -314,19 +250,7 @@ theorem dependent_kernel_mass_sum (parentWidth : ℝ) :
       ∑ j : Leaves, factor j *
         ∑ b : (families j).active Finset.univ,
           ((families j).kernel Finset.univ (localMeasure j) parentWidth b).real Set.univ := by
-  calc
-    _ = ∑ j : Leaves, ∑ b : (families j).active Finset.univ,
-          ((families j).kernel Finset.univ (scaledMeasure j) parentWidth b).real Set.univ := by
-      simpa only [Finset.univ_sigma_univ, Finset.sum_coe_sort] using
-        ActualNormalizedPairFamily.sum_sigmaCombine_kernel_mass families
-          Finset.univ (fun _ => Finset.univ) scaledMeasure parentWidth
-    _ = _ := by
-      apply Finset.sum_congr rfl
-      intro j _
-      exact (families j).sum_kernel_mass_outer_mul Finset.univ
-        (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-        (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-        (R.parentOuterScalar_nonneg L N j.val)
+  sorry
 
 /-- Local inequalities from the actual literal producers sum on the
 original live-parent carrier, using its exact outer scalars. -/
@@ -340,13 +264,7 @@ theorem ordinaryCost_le_dependent_kernel (parentWidth : ℝ)
         ∫ ξ, (R.dependentNormalizedFamily L exceptional N Λ families).childPair Finset.univ b ξ
           ∂(R.dependentNormalizedFamily L exceptional N Λ families).kernel Finset.univ
             (R.dependentParentMeasure L exceptional N Λ frozen) parentWidth b := by
-  rw [R.dependent_child_integral_sum L exceptional N Λ families frozen parentWidth,
-    Finset.sum_div]
-  apply Finset.sum_le_sum
-  intro j _
-  rw [R.parentLeaf_ordinaryCost_unscaled L exceptional N j.val]
-  simpa only [mul_div_assoc] using mul_le_mul_of_nonneg_left (hlocal j)
-    (R.parentOuterScalar_nonneg L N j.val)
+  sorry
 
 /-- Finiteness is inherited from the same actual component kernel
 through the original nonnegative parent scalar. -/
@@ -356,14 +274,7 @@ theorem dependent_kernel_finite (parentWidth : ℝ)
     (b : (R.dependentNormalizedFamily L exceptional N Λ families).active Finset.univ) :
     IsFiniteMeasure ((R.dependentNormalizedFamily L exceptional N Λ families).kernel Finset.univ
       (R.dependentParentMeasure L exceptional N Λ frozen) parentWidth b) := by
-  let j := b.val.1
-  let bj := ActualNormalizedPairFamily.sigmaActiveInner families
-    Finset.univ (fun _ => Finset.univ) b
-  letI := hfinite j bj
-  exact (families j).kernel_outer_mul_finite Finset.univ
-    (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-    (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-    (R.parentOuterScalar_nonneg L N j.val) bj
+  sorry
 
 /-- Both normalized energies use the same chosen data, parameters
 and kernel after the original parent factors are restored. -/
@@ -386,18 +297,7 @@ theorem dependent_children_integrable (parentWidth : ℝ)
       ((R.dependentNormalizedFamily L exceptional N Λ families).rightParameters Finset.univ b) Z 0)
       ((R.dependentNormalizedFamily L exceptional N Λ families).kernel Finset.univ
         (R.dependentParentMeasure L exceptional N Λ frozen) parentWidth b) := by
-  let j := b.val.1
-  let bj := ActualNormalizedPairFamily.sigmaActiveInner families
-    Finset.univ (fun _ => Finset.univ) b
-  have h := hchildren j bj
-  exact ⟨(families j).kernel_outer_mul_integrable Finset.univ
-      (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-      (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-      (R.parentOuterScalar_nonneg L N j.val) bj _ h.1,
-    (families j).kernel_outer_mul_integrable Finset.univ
-      (fun _ => (leaf j).firstKernel) (fun _ => (leaf j).secondKernel)
-      (fun _ => (leaf j).weight * frozen j) parentWidth (factor j)
-      (R.parentOuterScalar_nonneg L N j.val) bj _ h.2⟩
+  sorry
 
 end ActualFirstSource.SecondStages
 end AmplifiedParents

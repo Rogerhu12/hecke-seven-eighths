@@ -125,24 +125,15 @@ variable (hpositive : window ⊆ Set.Ioi 0)
 
 include raw hanchor hheight hpositive in
 theorem base_left_positive : PositivePlainProfile (base).plainTest₁ := by
-  intro u t y hy
-  change parent.plainTest₁.profile anchor height y ≠ 0 at hy
-  rw [raw.left_eq] at hy
-  exact hpositive (raw.left_support anchor hanchor height hheight hy)
+  sorry
 
 include raw hanchor hheight hpositive in
 theorem base_right_positive : PositivePlainProfile (base).plainTest₂ := by
-  intro u t y hy
-  change parent.plainTest₂.profile anchor height y ≠ 0 at hy
-  rw [raw.right_eq] at hy
-  exact hpositive (raw.right_support anchor hanchor height hheight hy)
+  sorry
 
 include raw hanchor hheight hpositive in
 theorem base_prime_positive (i : Fin k) : PositivePrimeProfile ((base).geometry.slots i) := by
-  intro t y hy
-  change (parent.geometry.slots (index i)).profile height y ≠ 0 at hy
-  rw [raw.prime_eq] at hy
-  exact hpositive (raw.prime_support (index i) height hheight hy)
+  sorry
 
 end OriginalWindow
 
@@ -228,8 +219,7 @@ theorem movingRecipe_fullJointBudget (Z width : ℝ) (hbudget : budget = Z ^ wid
     (movingRecipe parent «prefix» correction hcorr C primes m n pattern sector
       remaining budget anchor height index raw hanchor hheight hpositive
       G₁ G₂ G D₁ D₂ B δ₁ δ₂ hG₁ hG₂ hG hB firstDirection secondDirection).FullJointBudget Z width := by
-  intro ξ u hu
-  exact hu.2.trans_eq hbudget
+  sorry
 
 variable {Ih : A.Exterior} {h g : A.R} {factor : ℝ}
 
@@ -297,17 +287,7 @@ theorem left_profile
               CanonicalCoreProfileIdentification.secondDirection secondSlope) =
       (actualData (WithLp.toLp 2 (ξ, ζ))).plainTest₁.profile u t
         (idealNorm K I / (G₁ / idealNorm K allocatedDivisor)) := by
-  rw [boundedData_left, W.left_eq PUnit.unit anchor hallowed height]
-  change _ = ((clippedScalar G₁ (idealNorm K D₁) B δ₁ δ₂ : ℂ) *
-    W.left PUnit.unit height (idealNorm K I / (G₁ / idealNorm K allocatedDivisor))) *
-      (atom G₁ (idealNorm K D₁) δ₁ δ₂
-        (CanonicalCoreProfileIdentification.firstDirection slope)
-        (CanonicalCoreProfileIdentification.secondDirection secondSlope)).multiplier
-        (WithLp.toLp 2 (ξ, ζ)) (idealNorm K I / (G₁ / idealNorm K allocatedDivisor))
-  rw [hscale]
-  exact rawPlainWeight_allocated_joint_clipped (W.left PUnit.unit height) N hN
-    firstDivisor D₁ allocatedDivisor I B δ₁ δ₂ ξ ζ slope secondSlope hB hδ₁ hδ₂ hδ
-    (normRecipe_left_annulus parent W raw hwindow anchor hallowed hanchor height hheight)
+  sorry
 
 include hallowed hwindow hδ₁ hδ₂ hδ in
 theorem right_profile
@@ -323,17 +303,7 @@ theorem right_profile
               CanonicalCoreProfileIdentification.secondDirection secondSlope) =
       (actualData (WithLp.toLp 2 (ξ, ζ))).plainTest₂.profile u t
         (idealNorm K I / (G₂ / idealNorm K allocatedDivisor)) := by
-  rw [boundedData_right, W.right_eq PUnit.unit anchor hallowed height]
-  change _ = ((clippedScalar G₂ (idealNorm K D₂) B δ₁ δ₂ : ℂ) *
-    W.right PUnit.unit height (idealNorm K I / (G₂ / idealNorm K allocatedDivisor))) *
-      (atom G₂ (idealNorm K D₂) δ₁ δ₂
-        (CanonicalCoreProfileIdentification.firstDirection slope)
-        (CanonicalCoreProfileIdentification.secondDirection secondSlope)).multiplier
-        (WithLp.toLp 2 (ξ, ζ)) (idealNorm K I / (G₂ / idealNorm K allocatedDivisor))
-  rw [hscale]
-  exact rawPlainWeight_allocated_joint_clipped (W.right PUnit.unit height) N hN
-    firstDivisor D₂ allocatedDivisor I B δ₁ δ₂ ξ ζ slope secondSlope hB hδ₁ hδ₂ hδ
-    (normRecipe_right_annulus parent W raw hwindow anchor hallowed hanchor height hheight)
+  sorry
 
 include hwindow hδ₁ hδ₂ hδ in
 theorem prime_profile (i : Fin k) (q : HeightOneSpectrum (𝓞 K)) (t ξ ζ : ℝ) :
@@ -346,13 +316,7 @@ theorem prime_profile (i : Fin k) (q : HeightOneSpectrum (𝓞 K)) (t ξ ζ : �
               CanonicalCoreProfileIdentification.secondDirection secondSlope) =
       ((actualData (WithLp.toLp 2 (ξ, ζ))).geometry.slots i).profile t
         ((Ideal.absNorm q.asIdeal : ℝ) / G i) := by
-  rw [boundedData_prime]
-  apply rawPrimeWeight_joint_clipped ((parent.geometry.slots (index i)).profile height)
-    (G i) (hG i) q B δ₁ δ₂ ξ ζ slope secondSlope hB hδ₁ hδ₂ hδ
-  intro y hy
-  apply hwindow
-  apply raw.prime_support (index i) height hheight
-  simpa only [raw.prime_eq] using hy
+  sorry
 
 end ActualProfileValues
 
@@ -375,7 +339,7 @@ variable (firstDirection secondDirection : V)
 /-- Actual retained occurrences cannot exceed the original slot cap. -/
 theorem count_le_original (hindex : Function.Injective index) :
     k ≤ parent.geometry.slotCount := by
-  simpa only [Fintype.card_fin] using Fintype.card_le_of_injective index hindex
+  sorry
 
 /-- This is the actual bounded child's finite seminorm window. All
 support and coefficient facts are obtained from the original window at

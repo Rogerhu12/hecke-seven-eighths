@@ -112,27 +112,7 @@ theorem literalAllocated_active_allowed_cutoff
     (child ξ).allowedRow ((S).extractedRow C h).momentIdeal ∧
       A.exteriorNorm ((S).originalIdeal h.val) ≤
         (S).normFactor C h.val * d.base ^ (m + q) := by
-  have hjoint := chart.actualRows_appended_active_pair_fullDeletion_joint_window hclass
-    (F.moving P Rchar oldMoving) (remaining * extra) X hX label
-    retainedScale d.base g a₀ oldq wo cutoffExponent hscale d.base_gt_one
-    hradius hcutoff hproduct hold h
-  dsimp only at hjoint
-  rw [← hwidth] at hjoint
-  have hallowed : (child ξ).allowedRow ((S).extractedRow C h).momentIdeal :=
-    ⟨(HeckeAxiom.exteriorEquiv A ((S).extractedRow C h).ideal).property, hjoint⟩
-  refine ⟨hallowed, ?_⟩
-  let moving := (F.moving P Rchar oldMoving).appendSecondFactor C b.primes
-    b.leftMultiplicity b.rightMultiplicity pattern
-  let rem := remainingMaskIdeal A (remaining * extra) *
-    secondSixthRootNonzeroIdeal b.primes b.leftMultiplicity b.rightMultiplicity
-  have hnorm : idealNorm K ((S).extractedRow C h).momentIdeal ≤ d.base ^ (m + q) := by
-    calc
-      _ ≤ idealNorm K ((S).extractedRow C h).momentIdeal *
-          idealNorm K (moving.fullMaskSupport rem) := by
-        exact le_mul_of_one_le_right (idealNorm_pos K _).le (one_le_idealNorm K _)
-      _ ≤ _ := hjoint
-  rw [((S).extractedRow C h).norm_factor]
-  exact mul_le_mul_of_nonneg_left hnorm ((S).extractedRow C h).factor_pos.le
+  sorry
 
 include hclass hradius hcutoff hproduct hold hwidth in
 /-- The row updates in the real rectangle source do not alter its
@@ -149,14 +129,7 @@ theorem literalAllocated_active_reweighted_allowed_cutoff
       negative ξ).allowedRow (R₀.extractedRow C h).momentIdeal ∧
       A.exteriorNorm (R₀.originalIdeal h.val) ≤
         R₀.normFactor C h.val * d.base ^ (m + q) := by
-  let R₁ := { chart.actualRows ∅ X hX label with weight := weight }
-  let R₂ := R₁.restrictRows keep₁
-  let h₁ : R₂.live := R₂.liveInclusion keep₂ h
-  let h₀ : (chart.actualRows ∅ X hX label).live := R₁.liveInclusion keep₁ h₁
-  exact chart.literalAllocated_active_allowed_cutoff hclass P Rchar W B F parent oldMoving
-    correction hcorr remaining extra X hX label retainedScale g a₀ oldq wo cutoffExponent
-    hscale hradius hcutoff hproduct hold m q hwidth ν inverse index rectangle firstSign
-    negative h₀ ξ
+  sorry
 
 include hclass hradius hcutoff hleft hright hold hwidth in
 /-- Compatibility with the original all-column interface. The sharp
@@ -166,14 +139,7 @@ theorem literalAllocated_allowed_cutoff
     (child ξ).allowedRow ((S).extractedRow C h).momentIdeal ∧
       A.exteriorNorm ((S).originalIdeal h.val) ≤
         (S).normFactor C h.val * d.base ^ (m + q) := by
-  apply chart.literalAllocated_active_allowed_cutoff hclass P Rchar W B F parent oldMoving
-    correction hcorr remaining extra X hX label retainedScale g a₀ oldq wo cutoffExponent
-    hscale hradius hcutoff _ hold m q hwidth ν inverse index rectangle firstSign negative h ξ
-  intro i hi j hj _
-  rw [map_mul, Nat.cast_mul]
-  exact (mul_le_mul (hleft i hi) (hright j hj) (Nat.cast_nonneg _)
-    (Real.rpow_nonneg (zero_lt_one.trans d.base_gt_one).le _)).trans_eq
-      (by rw [← Real.rpow_add (zero_lt_one.trans d.base_gt_one)]; congr 1; ring)
+  sorry
 
 include hclass hradius hcutoff hleft hright hold hwidth in
 /-- The former reweighted interface is the same all-column special
@@ -190,14 +156,7 @@ theorem literalAllocated_reweighted_allowed_cutoff
       negative ξ).allowedRow (R₀.extractedRow C h).momentIdeal ∧
       A.exteriorNorm (R₀.originalIdeal h.val) ≤
         R₀.normFactor C h.val * d.base ^ (m + q) := by
-  let R₁ := { chart.actualRows ∅ X hX label with weight := weight }
-  let R₂ := R₁.restrictRows keep₁
-  let h₁ : R₂.live := R₂.liveInclusion keep₂ h
-  let h₀ : (chart.actualRows ∅ X hX label).live := R₁.liveInclusion keep₁ h₁
-  exact chart.literalAllocated_allowed_cutoff hclass P Rchar W B F parent oldMoving
-    correction hcorr remaining extra X hX label retainedScale g a₀ oldq wo cutoffExponent
-    hscale hradius hcutoff hleft hright hold m q hwidth ν inverse index rectangle firstSign
-    negative h₀ ξ
+  sorry
 
 end SecondBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

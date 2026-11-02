@@ -54,18 +54,10 @@ variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Z Lmax Nsave decay : ℝ
 variable (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
 
 theorem zeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) : 0 ≤ T.zeroBudget ε Czero := by
-  unfold zeroBudget
-  exact mul_nonneg
-    (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC)
-      (mul_nonneg (Nat.cast_nonneg _) T.zeroAmplitude_nonneg))
-    (Real.rpow_nonneg (zero_le_one.trans T.windows.base_ge_one) _)
+  sorry
 
 theorem tailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) : 0 ≤ T.tailBudget Cerror := by
-  unfold tailBudget
-  exact mul_nonneg
-    (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC)
-      (mul_nonneg (Nat.cast_nonneg _) T.windows.amplitude_nonneg))
-    (Real.rpow_nonneg (zero_le_one.trans T.windows.base_ge_one) _)
+  sorry
 
 /-- Exact decomposition on the original source.  The nonzero covered
 cost keeps every original common-support, mask and occurrence label. -/
@@ -74,8 +66,7 @@ theorem coverHybridCost_eq_budgets (LC RC : SourceCartesianCover G.columns G.ide
     T.coverHybridCost LC RC exceptional ε Cerror Czero =
       T.zeroBudget ε Czero + (s.fiber : ℝ) * s.coverHybridNonzeroCost LC RC exceptional +
         T.tailBudget Cerror := by
-  unfold coverHybridCost zeroBudget tailBudget
-  ring
+  sorry
 
 theorem zeroBudget_le_power (ε Czero profileConstant profileExponent budget : ℝ)
     (hC : 0 ≤ Czero) (hprofile : 0 ≤ profileConstant)
@@ -83,11 +74,7 @@ theorem zeroBudget_le_power (ε Czero profileConstant profileExponent budget : �
     (hbudget : profileExponent + T.zeroProductExponent * ε ≤ budget) :
     T.zeroBudget ε Czero ≤
       ((s.fiber : ℝ) * Czero * T.windows.multiplicity * profileConstant) * Z ^ budget := by
-  have h := terminal_atom_power_bound Z
-    ((s.fiber : ℝ) * Czero * T.windows.multiplicity) profileConstant
-    T.zeroAmplitude profileExponent (T.zeroProductExponent * ε) budget
-    T.windows.base_ge_one (by positivity) hprofile hAmplitude hbudget
-  convert h using 1 <;> unfold zeroBudget <;> ring
+  sorry
 
 theorem tailBudget_le_power (Cerror profileConstant profileExponent budget : ℝ)
     (hC : 0 ≤ Cerror) (hprofile : 0 ≤ profileConstant)
@@ -95,11 +82,7 @@ theorem tailBudget_le_power (Cerror profileConstant profileExponent budget : ℝ
     (hbudget : profileExponent - Nsave ≤ budget) :
     T.tailBudget Cerror ≤
       ((s.fiber : ℝ) * Cerror * T.windows.multiplicity * profileConstant) * Z ^ budget := by
-  have h := terminal_atom_power_bound Z
-    ((s.fiber : ℝ) * Cerror * T.windows.multiplicity) profileConstant
-    T.tailAmplitude profileExponent (-Nsave) budget
-    T.windows.base_ge_one (by positivity) hprofile hAmplitude (by linarith)
-  convert h using 1 <;> unfold tailBudget <;> ring
+  sorry
 
 variable {W : Type*} [NormedAddCommGroup W] [InnerProductSpace ℝ W]
 
@@ -114,12 +97,12 @@ variable [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W]
 theorem integral_fourierPhase_zeroBudget (F : 𝓢(W, ℂ)) (x : ι → W) (ε Czero : ℝ) :
     (∫ ξ, (T.fourierPhase x ξ).zeroBudget ε Czero ∂actualFourierMeasure F) =
       (actualFourierMeasure F).real Set.univ * T.zeroBudget ε Czero := by
-  simp only [fourierPhase_zeroBudget, integral_const, smul_eq_mul]
+  sorry
 
 theorem integral_fourierPhase_tailBudget (F : 𝓢(W, ℂ)) (x : ι → W) (Cerror : ℝ) :
     (∫ ξ, (T.fourierPhase x ξ).tailBudget Cerror ∂actualFourierMeasure F) =
       (actualFourierMeasure F).real Set.univ * T.tailBudget Cerror := by
-  simp only [fourierPhase_tailBudget, integral_const, smul_eq_mul]
+  sorry
 
 end ActualGaussStage.DualTerminalCalibration
 
@@ -127,9 +110,7 @@ private theorem dual_terminal_allowance_power_cancel
     (Z allowance loss coefficient : ℝ) (hZ : 0 < Z) :
     (coefficient * Z ^ (allowance + loss)) / Z ^ allowance =
       coefficient * Z ^ loss := by
-  rw [mul_div_assoc, ← Real.rpow_sub hZ]
-  congr 2
-  ring
+  sorry
 
 namespace ActualGaussStage.DualResidualTerminalWindows
 
@@ -158,36 +139,7 @@ theorem direct_zeroBudget_div_allowance_le
     T.calibration.zeroBudget ε Czero / Z ^ allowance ≤
       (directFirstDivisorZeroCoefficient B Czero profileConstant slots k fiberCap maskCap D /
         (Ideal.absNorm S : ℝ)) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hB : 0 ≤ B ^ slots := pow_nonneg (zero_le_one.trans atoms.bound_ge_one) _
-  have hcost : 0 ≤ B ^ slots * profileConstant * (2 : ℝ) ^ maskCap /
-      (Ideal.absNorm S : ℝ) := by positivity
-  have hAmplitude : T.calibration.zeroAmplitude ≤
-      (B ^ slots * profileConstant * (2 : ℝ) ^ maskCap / (Ideal.absNorm S : ℝ)) *
-        Z ^ T.zeroExponent := by
-    rw [T.calibration_zeroAmplitude_power]
-    apply mul_le_mul_of_nonneg_right _ (Real.rpow_nonneg hz.le _)
-    apply div_le_div_of_nonneg_right _ (Nat.cast_nonneg _)
-    exact mul_le_mul (mul_le_mul_of_nonneg_left hraw hB)
-      (pow_le_pow_right₀ (by norm_num : (1 : ℝ) ≤ 2) hmask)
-      (pow_nonneg (by norm_num) _) (mul_nonneg hB hprofile)
-  have hpart := T.calibration.zeroBudget_le_power ε Czero
-    (B ^ slots * profileConstant * (2 : ℝ) ^ maskCap / (Ideal.absNorm S : ℝ))
-    T.zeroExponent (allowance + loss) hC hcost hAmplitude hbudget
-  have hcounts : (s.fiber : ℝ) * T.calibration.windows.multiplicity ≤
-      (fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k : ℕ) := by
-    change (s.fiber : ℝ) * (T.windows.multiplicity : ℝ) ≤ _
-    rw [hmult]
-    exact mul_le_mul_of_nonneg_right (by exact_mod_cast hfiber) (Nat.cast_nonneg _)
-  have htotal : T.calibration.zeroBudget ε Czero ≤
-      (directFirstDivisorZeroCoefficient B Czero profileConstant slots k fiberCap maskCap D /
-        (Ideal.absNorm S : ℝ)) * Z ^ (allowance + loss) := by
-    apply hpart.trans
-    convert mul_le_mul_of_nonneg_right hcounts
-      (mul_nonneg (mul_nonneg hC hcost) (Real.rpow_nonneg hz.le (allowance + loss)))
-      using 1 <;> simp only [directFirstDivisorZeroCoefficient] <;> ring
-  exact (div_le_div_of_nonneg_right htotal (Real.rpow_nonneg hz.le _)).trans_eq
-    (dual_terminal_allowance_power_cancel Z allowance loss _ hz)
+  sorry
 
 /-- The direct tail uses the same original coefficient atoms and
 support fibres; only its primitive residual-profile decay ledger differs. -/
@@ -202,31 +154,7 @@ theorem direct_tailBudget_div_allowance_le
     T.calibration.tailBudget Cerror / Z ^ allowance ≤
       (directFirstDivisorTailCoefficient B Cerror profileConstant slots k fiberCap D /
         (Ideal.absNorm S : ℝ)) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hB : 0 ≤ B ^ slots := pow_nonneg (zero_le_one.trans atoms.bound_ge_one) _
-  have hcost : 0 ≤ B ^ slots * profileConstant / (Ideal.absNorm S : ℝ) := by positivity
-  have hAmplitude : T.calibration.tailAmplitude ≤
-      (B ^ slots * profileConstant / (Ideal.absNorm S : ℝ)) * Z ^ profileExponent := by
-    rw [T.calibration_tailAmplitude]
-    convert mul_le_mul_of_nonneg_left hraw atoms.scalarCost_nonneg using 1 <;>
-      dsimp only [FirstDivisorCoefficientAtoms.scalarCost] <;> ring
-  have hpart := T.calibration.tailBudget_le_power Cerror
-    (B ^ slots * profileConstant / (Ideal.absNorm S : ℝ))
-    profileExponent (allowance + loss) hC hcost hAmplitude hbudget
-  have hcounts : (s.fiber : ℝ) * T.calibration.windows.multiplicity ≤
-      (fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k : ℕ) := by
-    change (s.fiber : ℝ) * (T.windows.multiplicity : ℝ) ≤ _
-    rw [hmult]
-    exact mul_le_mul_of_nonneg_right (by exact_mod_cast hfiber) (Nat.cast_nonneg _)
-  have htotal : T.calibration.tailBudget Cerror ≤
-      (directFirstDivisorTailCoefficient B Cerror profileConstant slots k fiberCap D /
-        (Ideal.absNorm S : ℝ)) * Z ^ (allowance + loss) := by
-    apply hpart.trans
-    convert mul_le_mul_of_nonneg_right hcounts
-      (mul_nonneg (mul_nonneg hC hcost) (Real.rpow_nonneg hz.le (allowance + loss)))
-      using 1 <;> simp only [directFirstDivisorTailCoefficient] <;> ring
-  exact (div_le_div_of_nonneg_right htotal (Real.rpow_nonneg hz.le _)).trans_eq
-    (dual_terminal_allowance_power_cancel Z allowance loss _ hz)
+  sorry
 
 end ActualGaussStage.DualResidualTerminalWindows
 

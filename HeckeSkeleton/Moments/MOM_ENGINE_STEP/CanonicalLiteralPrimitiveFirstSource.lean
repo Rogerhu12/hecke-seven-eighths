@@ -59,8 +59,7 @@ variable (Q : CompleteMovingRowRecipe A P R data)
 @[simp] theorem fullSupportParameters_idempotent (a : RealParameters) (Z : ℝ) :
     Q.fullSupportParameters (Q.fullSupportParameters a Z) Z =
       Q.fullSupportParameters a Z := by
-  unfold fullSupportParameters withSupportLength
-  congr 1 <;> ring
+  sorry
 
 variable (C : A.GeneralArithmeticContext σ η hS)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
@@ -119,29 +118,26 @@ def literalPrimitiveFirstNormalization : (source).Normalization :=
 
 theorem literalPrimitiveFirstSource_radius :
     (source).radius.val = Z ^ (-(internal).m) := by
-  change (Q.fullSupportRadius Z ((internal).m + (internal).q)
-    (zero_lt_one.trans hZ)).val = _
-  rw [Q.fullSupportParameters_width]
-  exact Q.fullSupportRadius_eq_negative_m a Z hZ
+  sorry
 
 include hZ in
 theorem literalPrimitiveFirstSource_oldSupport :
-    A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ (internal).q :=
-  (Q.fullSupportParameters_support_norm a Z hZ).le
+    A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ (internal).q := by
+  sorry
 
 theorem literalPrimitiveFirstSource_domain {floor padding : ℝ}
     (domain : PairedEngineDomain centered (data ξ) a Z Y₁ Y₂ floor padding) :
-    PairedEngineDomain centered (data ξ) internal Z Y₁ Y₂ floor padding :=
-  domain.withSupportLength (Q.fullSupportLength Z)
+    PairedEngineDomain centered (data ξ) internal Z Y₁ Y₂ floor padding := by
+  sorry
 
 theorem literalPrimitiveFirstSource_pairedRows :
-    pairedRows (data ξ) internal Z = pairedRows (data ξ) a Z :=
-  pairedRows_withSupportLength (data ξ) a (Q.fullSupportLength Z) Z
+    pairedRows (data ξ) internal Z = pairedRows (data ξ) a Z := by
+  sorry
 
 theorem literalPrimitiveFirstSource_parent :
     pairedStageEnergy centered (data ξ) internal Z t Y₁ Y₂ =
-      pairedStageEnergy centered (data ξ) a Z t Y₁ Y₂ :=
-  pairedStageEnergy_withSupportLength centered (data ξ) a (Q.fullSupportLength Z) Z t Y₁ Y₂
+      pairedStageEnergy centered (data ξ) a Z t Y₁ Y₂ := by
+  sorry
 
 variable (cap : ℕ) (annulus loss cutoffExponent : ℝ)
 variable (hannulus : 1 ≤ annulus) (hcap : (data ξ).geometry.slotCount ≤ cap)
@@ -165,21 +161,7 @@ theorem literalPrimitiveFirstSource_physicalCutoff
     ((source).source DE).divisorPhysicalCutoff D.val ≤
       (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
         internal Z (2 * loss + cutoffExponent) := by
-  have hrows' : ∀ u ∈ pairedRows (data ξ) internal Z, u ∈ rowDomain := by
-    simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
-  have hd := domain.withSupportLength (Q.fullSupportLength Z)
-  have h := Q.canonicalFirstDivisorPhysicalCutoff W ξ internal Z t Y₁ Y₂ C
-    cap annulus loss cutoffExponent hannulus hcap hannulusZ hd profiles hrows' ht hwindow
-    cutoff hcutoff hcutoffPower DE D.val
-  change ((source).source DE).divisorPhysicalCutoff D.val ≤ _ at h
-  rw [Q.fullSupportParameters_idempotent] at h
-  convert h using 1
-  simp only [OriginalNominalIdeals.canonicalRetainedScale,
-    OriginalNominalIdeals.firstFrequency,
-    ((source).block DE).literalLeftCoordinates_first,
-    ((source).block DE).literalLeftCoordinates_opposite,
-    ((source).block DE).literalLeftCoordinates_complementary]
-  rw [hd.total_length]
+  sorry
 
 /-- Both signed Gauss rows come from this same original finite
 divisor source. The right endpoint equals the left endpoint before
@@ -194,15 +176,7 @@ theorem literalPrimitiveFirstSource_row_windows
       A.exteriorNorm (originalFrequencyIdeal h) ≤
         (((source).block DE).literalRightCoordinates D.val).canonicalRetainedScale
           internal Z (2 * loss + cutoffExponent)) := by
-  have hcut := Q.literalPrimitiveFirstSource_physicalCutoff μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-    cap annulus loss cutoffExponent hannulus hcap hannulusZ domain profiles hrows ht hwindow
-    hcutoffPower DE D
-  have h := canonicalFirstGaussData_divisor_row_windows C (source).columns (source).columns
-    (source).ideal (source).ideal DE.val DE.property ((source).source DE) D.val _ hcut
-  refine ⟨h.1, ?_⟩
-  simpa only [OriginalNominalIdeals.canonicalRetainedScale,
-    ((source).block DE).literalRightCoordinates_firstFrequency] using h.2
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

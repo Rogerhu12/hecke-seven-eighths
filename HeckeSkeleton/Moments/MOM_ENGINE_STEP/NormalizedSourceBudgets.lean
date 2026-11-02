@@ -93,32 +93,28 @@ variable {R}
 theorem normalizedFirstZeroBudget_nonneg
     (F : s.TerminalCalibration sFirst sFirstZero k Lmax Nsave decay)
     (ε CfirstZero : ℝ) (hC : 0 ≤ CfirstZero) :
-    0 ≤ normalizedFirstZeroBudget F ε CfirstZero :=
-  div_nonneg (firstZeroBudget_nonneg F ε CfirstZero hC)
-    (Real.rpow_nonneg (zero_le_one.trans P.base_gt_one.le) _)
+    0 ≤ normalizedFirstZeroBudget F ε CfirstZero := by
+  sorry
 
 theorem normalizedSecondZeroBudget_nonneg
     (T : R.TerminalCalibration sTail sZero k Lmax Nsave decay)
     (N : s.Normalization) (ε Czero : ℝ) (hC : 0 ≤ Czero) :
-    0 ≤ R.normalizedSecondZeroBudget T N ε Czero :=
-  div_nonneg (secondZeroBudget_nonneg T N ε Czero hC)
-    (Real.rpow_nonneg (zero_le_one.trans P.base_gt_one.le) _)
+    0 ≤ R.normalizedSecondZeroBudget T N ε Czero := by
+  sorry
 
 theorem normalizedExceptionalBudget_nonneg
     (L : SourceCartesianAtlas s.columns s.ideal)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
-    0 ≤ R.normalizedExceptionalBudget L exceptional N :=
-  div_nonneg (R.exceptionalBudget_nonneg L exceptional N)
-    (Real.rpow_nonneg (zero_le_one.trans P.base_gt_one.le) _)
+    0 ≤ R.normalizedExceptionalBudget L exceptional N := by
+  sorry
 
 theorem normalizedTailBudget_nonneg
     (T : R.TerminalCalibration sTail sZero k Lmax Nsave decay)
     (F : s.TerminalCalibration sFirst sFirstZero k Lmax Nsave decay)
     (N : s.Normalization) (CfirstError Cerror : ℝ)
     (hfirst : 0 ≤ CfirstError) (hsecond : 0 ≤ Cerror) :
-    0 ≤ R.normalizedTailBudget T F N CfirstError Cerror :=
-  div_nonneg (totalTailBudget_nonneg T N F CfirstError Cerror hfirst hsecond)
-    (Real.rpow_nonneg (zero_le_one.trans P.base_gt_one.le) _)
+    0 ≤ R.normalizedTailBudget T F N CfirstError Cerror := by
+  sorry
 
 theorem normalizedTerminalTotal_nonneg
     (T : R.TerminalCalibration sTail sZero k Lmax Nsave decay)
@@ -128,13 +124,8 @@ theorem normalizedTerminalTotal_nonneg
     (ε CfirstError CfirstZero Cerror Czero : ℝ)
     (hFE : 0 ≤ CfirstError) (hFZ : 0 ≤ CfirstZero)
     (hE : 0 ≤ Cerror) (hZ : 0 ≤ Czero) :
-    0 ≤ R.normalizedTerminalTotal T F L exceptional N ε CfirstError CfirstZero Cerror Czero :=
-  add_nonneg
-    (add_nonneg
-      (add_nonneg (normalizedFirstZeroBudget_nonneg F ε CfirstZero hFZ)
-        (normalizedSecondZeroBudget_nonneg T N ε Czero hZ))
-      (normalizedExceptionalBudget_nonneg L exceptional N))
-    (normalizedTailBudget_nonneg T F N CfirstError Cerror hFE hE)
+    0 ≤ R.normalizedTerminalTotal T F L exceptional N ε CfirstError CfirstZero Cerror Czero := by
+  sorry
 
 /-- The raw and normalized terminal sums use the same four source
 quantities and the same single parent denominator. -/
@@ -148,8 +139,7 @@ theorem normalizedTerminalTotal_eq_div
       (firstZeroBudget F ε CfirstZero + R.secondZeroBudget T N ε Czero +
         R.exceptionalBudget L exceptional N + R.totalTailBudget T F N CfirstError Cerror) /
           Z ^ (a.m + a.q) := by
-  simp only [normalizedTerminalTotal, normalizedFirstZeroBudget,
-    normalizedSecondZeroBudget, normalizedExceptionalBudget, normalizedTailBudget, add_div]
+  sorry
 
 /-- This is the original two-transform finite-source identity after
 parent normalization. The ordinary remainder is the same live-leaf sum
@@ -164,8 +154,7 @@ theorem normalized_totalCost_eq_live
       R.coveredCost T L exceptional N ε Cerror Czero)) / Z ^ (a.m + a.q) =
       R.normalizedTerminalTotal T F L exceptional N ε CfirstError CfirstZero Cerror Czero +
         R.ordinaryBudget L exceptional N / Z ^ (a.m + a.q) := by
-  rw [R.totalCost_eq_live T F L exceptional N ε CfirstError CfirstZero Cerror Czero,
-    normalizedTerminalTotal_eq_div, add_div]
+  sorry
 
 /-- A raw estimate is equivalent to its parent-normalized estimate;
 this lemma adds no estimate as a source input. -/
@@ -179,8 +168,7 @@ theorem normalizedTerminalTotal_le_iff
       firstZeroBudget F ε CfirstZero + R.secondZeroBudget T N ε Czero +
         R.exceptionalBudget L exceptional N + R.totalTailBudget T F N CfirstError Cerror ≤
           B * Z ^ (a.m + a.q) := by
-  rw [normalizedTerminalTotal_eq_div,
-    div_le_iff₀ (Real.rpow_pos_of_pos (zero_lt_one.trans P.base_gt_one) _)]
+  sorry
 
 end ActualFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep

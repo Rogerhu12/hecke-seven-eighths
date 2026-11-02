@@ -111,19 +111,7 @@ before its absolute value is taken. -/
 theorem literalStripOuter_theta_integrand (z : ℝ × ℝ) :
     ((X.stripOuter leftScalar rightScalar hleftScalar hrightScalar).thetaClassLeaf Q thetaPair).exceptionalIntegrand z =
         (leftFrame).exceptionalMagnitude rightFrame EL ER Q (WithLp.toLp 2 z) := by
-  have hb := (v.stripExistingOuterBinding leftAtoms rightAtoms exceptional
-    firstKernel x j firstSign hlive X binding leftScalar rightScalar
-    hleftScalar hrightScalar leftBalance rightBalance hleftBalance hrightBalance).thetaClass_integrand Q hpredicate thetaPair z
-  have hp := CanonicalLiteralExceptionalPairBinding.theta_pair_magnitude
-    baseRows Q thetaPair leftTable rightTable j.2.1 leftIdeal rightIdeal
-    v.leftReindex.ideal_product v.rightReindex.ideal_product firstSign j.1.val
-    j.2.2.1.val j.2.2.2.val leftColumns rightColumns (WithLp.toLp 2 z)
-  have hl : (leftTable).whole = ((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).whole :=
-    funext (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain_whole leftBalance hleftBalance)
-  have hr : (rightTable).whole = ((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).whole :=
-    funext (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain_whole rightBalance hrightBalance)
-  rw [hl, hr] at hp
-  exact hb.trans hp
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

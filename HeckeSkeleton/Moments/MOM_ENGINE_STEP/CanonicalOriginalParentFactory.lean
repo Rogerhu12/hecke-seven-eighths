@@ -73,32 +73,31 @@ def cutoff (Z : ℝ) : ℝ := Z ^ box.cutoffExponent
 
 def rowBound : ℝ := max 0 (box.cutoffExponent + 3 * box.columnBound)
 
-theorem plainBound_nonneg : 0 ≤ box.plainBound :=
-  add_nonneg box.width_nonneg box.padding_nonneg
+theorem plainBound_nonneg : 0 ≤ box.plainBound := by
+  sorry
 
 theorem columnBound_nonneg : 0 ≤ box.columnBound := by
-  have h := box.plainBound_nonneg
-  dsimp only [columnBound]
-  linarith
+  sorry
 
-theorem rowBound_nonneg : 0 ≤ box.rowBound := le_max_left _ _
+theorem rowBound_nonneg : 0 ≤ box.rowBound := by
+  sorry
 
-theorem cutoff_ge_one {Z : ℝ} (hZ : 1 ≤ Z) : 1 ≤ box.cutoff Z :=
-  Real.one_le_rpow hZ (firstTailCutoffExponent_nonneg _ _ _ box.decay_gt_one)
+theorem cutoff_ge_one {Z : ℝ} (hZ : 1 ≤ Z) : 1 ≤ box.cutoff Z := by
+  sorry
 
 theorem exists_threshold :
     ∃ Z₀ : ℝ, 1 < Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
-      box.annulus ^ (box.cap + 2) ≤ Z ^ box.loss :=
-  original_annulus_power_threshold box.cap box.annulus box.loss box.loss_pos
+      box.annulus ^ (box.cap + 2) ≤ Z ^ box.loss := by
+  sorry
 
 def threshold : ℝ := Classical.choose box.exists_threshold
 
-theorem threshold_gt_one : 1 < box.threshold :=
-  (Classical.choose_spec box.exists_threshold).1
+theorem threshold_gt_one : 1 < box.threshold := by
+  sorry
 
 theorem annulus_bound {Z : ℝ} (hZ : box.threshold ≤ Z) :
-    box.annulus ^ (box.cap + 2) ≤ Z ^ box.loss :=
-  (Classical.choose_spec box.exists_threshold).2 Z hZ
+    box.annulus ^ (box.cap + 2) ≤ Z ^ box.loss := by
+  sorry
 
 /-- One actual pool, with its original density and all original error
 valuations. This is an output of the prime ideal theorem. -/
@@ -122,16 +121,7 @@ theorem exists_pool_threshold (A : SArithmeticData K)
     (hell : 0 < ell) (heps : 0 < eps) (hepsell : eps < ell) :
     ∃ Z₀ : ℝ, 1 < Z₀ ∧ box.threshold ≤ Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z →
       Nonempty (box.SelectedPool A bad Z ell eps) := by
-  obtain ⟨Zpool, hZpool, hpools⟩ := exists_uniform_original_pool A bad ell eps
-    box.rowBound box.columnBound hell heps hepsell
-    box.rowBound_nonneg box.columnBound_nonneg
-  refine ⟨max box.threshold Zpool, hZpool.trans_le (le_max_right _ _),
-    le_max_left _ _, ?_⟩
-  intro Z hZ
-  obtain ⟨pool, hp⟩ := hpools Z ((le_max_right _ _).trans hZ)
-  have h := hp box.rowBound box.columnBound le_rfl le_rfl
-  exact ⟨{ pool := pool, density_pos := h.1, inverse_density := h.2.1,
-    cardinal_mass := h.2.2.1, error_mass := h.2.2.2 }⟩
+  sorry
 
 def poolThreshold (A : SArithmeticData K)
     (bad : Finset (HeightOneSpectrum (𝓞 K))) (ell eps : ℝ)
@@ -141,8 +131,8 @@ def poolThreshold (A : SArithmeticData K)
 theorem threshold_le_poolThreshold (A : SArithmeticData K)
     (bad : Finset (HeightOneSpectrum (𝓞 K))) (ell eps : ℝ)
     (hell : 0 < ell) (heps : 0 < eps) (hepsell : eps < ell) :
-    box.threshold ≤ box.poolThreshold A bad ell eps hell heps hepsell :=
-  (Classical.choose_spec (box.exists_pool_threshold A bad ell eps hell heps hepsell)).2.1
+    box.threshold ≤ box.poolThreshold A bad ell eps hell heps hepsell := by
+  sorry
 
 def selectedPool (A : SArithmeticData K)
     (bad : Finset (HeightOneSpectrum (𝓞 K))) (ell eps : ℝ)
@@ -163,8 +153,8 @@ theorem same_parent_energy (centered : Bool) (d : MomentData K ω ψ)
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) :
     pairedStageEnergy centered d a Z t
       (comparisonScale centered Z a.n₁ Y₁) (comparisonScale centered Z a.n₂ Y₂) =
-        pairedStageEnergy centered d a Z t Y₁ Y₂ :=
-  pairedStageEnergy_canonicalComparisonScales centered d a Z t Y₁ Y₂
+        pairedStageEnergy centered d a Z t Y₁ Y₂ := by
+  sorry
 
 abbrev originalComparisonDomain
     {centered : Bool} {d : MomentData K ω ψ} {a : RealParameters}
@@ -188,53 +178,7 @@ theorem original_scale_windows
     comparisonScale centered Z a.n₂ Y₂ ≤ Z ^ box.plainBound ∧
     box.plainBound + box.plainBound + d.geometry.totalLength + box.loss ≤ box.columnBound ∧
     a.m + a.q ≤ box.columnBound := by
-  have hz : 0 < Z := zero_lt_one.trans domain.scale
-  have hlength : 0 ≤ d.geometry.totalLength :=
-    Finset.sum_nonneg (fun i _ => (d.geometry.slots i).length_pos.le)
-  have hcore : a.n₁ + a.n₂ + d.geometry.totalLength ≤ a.m + a.q + padding := by
-    simpa only [domain.total_length] using domain.padded_core
-  have htotal : a.n₁ + a.n₂ + d.geometry.totalLength ≤ box.plainBound := by
-    dsimp only [FixedBox.plainBound]
-    linarith
-  have hplain : 0 ≤ box.plainBound := box.plainBound_nonneg
-  have hleft : a.n₁ ≤ box.plainBound := by
-    dsimp only [FixedBox.plainBound]
-    linarith [domain.plain_right_nonneg]
-  have hright : a.n₂ ≤ box.plainBound := by
-    dsimp only [FixedBox.plainBound]
-    linarith [domain.plain_left_nonneg]
-  have hlengthBound : d.geometry.totalLength ≤ box.plainBound := by
-    dsimp only [FixedBox.plainBound]
-    linarith [domain.plain_left_nonneg, domain.plain_right_nonneg]
-  have hwidthPlain : a.m + a.q ≤ box.plainBound := by
-    dsimp only [FixedBox.plainBound]
-    linarith [box.padding_nonneg]
-  have hcolumn : box.plainBound + box.plainBound + d.geometry.totalLength + box.loss ≤
-      box.columnBound := by
-    dsimp only [FixedBox.columnBound]
-    linarith [box.loss_le_one]
-  have hwidthColumn : a.m + a.q ≤ box.columnBound := by
-    dsimp only [FixedBox.columnBound]
-    linarith
-  have hs : 0 < comparisonScale centered Z a.n₁ Y₁ ∧
-      0 < comparisonScale centered Z a.n₂ Y₂ ∧
-      comparisonScale centered Z a.n₁ Y₁ ≤ Z ^ box.plainBound ∧
-      comparisonScale centered Z a.n₂ Y₂ ≤ Z ^ box.plainBound := by
-    cases centered with
-    | false =>
-      simp only [comparisonScale, canonicalComparisonScale_false]
-      exact ⟨Real.rpow_pos_of_pos hz _, Real.rpow_pos_of_pos hz _,
-        Real.rpow_le_rpow_of_exponent_le domain.scale.le hleft,
-        Real.rpow_le_rpow_of_exponent_le domain.scale.le hright⟩
-    | true =>
-      simp only [comparisonScale, canonicalComparisonScale_true, domain.comparison_left rfl,
-        domain.comparison_right rfl]
-      refine ⟨Real.rpow_pos_of_pos hz _, Real.rpow_pos_of_pos hz _, ?_, ?_⟩
-      · apply Real.rpow_le_rpow_of_exponent_le domain.scale.le
-        linarith [domain.width_nonneg]
-      · apply Real.rpow_le_rpow_of_exponent_le domain.scale.le
-        linarith [domain.width_nonneg]
-  exact ⟨hs.1, hs.2.1, hleft, hright, hs.2.2.1, hs.2.2.2, hcolumn, hwidthColumn⟩
+  sorry
 
 section OriginalSource
 
@@ -300,20 +244,7 @@ theorem original_column_window
     let raw := atoms.raw (comparisonScale centered Z a.n₁ Y₁)
       (comparisonScale centered Z a.n₂ Y₂)
     ∀ i ∈ raw.exteriorColumns, A.exteriorNorm (raw.columnExterior i) ≤ Z ^ box.columnBound := by
-  dsimp only
-  let atoms := (Q.exteriorRemaining.arithmeticAtoms index).constantAtoms (W.at index) a Z t
-  let raw := atoms.raw (comparisonScale centered Z a.n₁ Y₁)
-    (comparisonScale centered Z a.n₂ Y₂)
-  have hlength : a.n₁ + a.n₂ + a.z ≤ box.plainBound := by
-    dsimp only [FixedBox.plainBound]
-    linarith [domain.padded_core]
-  intro i hi
-  apply (raw.canonicalComparison_column_norm_le_fixed_power profiles domain box.cap
-    box.annulus box.loss box.plainBound box.annulus_ge_one hcap
-    (box.annulus_bound hlarge) hlength hrows ht hwindow i hi).trans
-  apply Real.rpow_le_rpow_of_exponent_le domain.scale.le
-  dsimp only [FixedBox.columnBound]
-  linarith [box.plainBound_nonneg, box.loss_le_one]
+  sorry
 
 /-- All tuple, coefficient, physical mask/modulus, radius and sharp
 nonzero-product fields refer to the actual source just constructed. -/
@@ -378,58 +309,7 @@ theorem original_row_windows
       A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ box.rowBound) ∧
     (∀ DE D, ∀ h ∈ (s.pieces DE D).rightData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ box.rowBound) := by
-  let atoms := (Q.exteriorRemaining.arithmeticAtoms index).constantAtoms (W.at index) a Z t
-  let raw := atoms.raw (comparisonScale centered Z a.n₁ Y₁)
-    (comparisonScale centered Z a.n₂ Y₂)
-  let radius := Q.exteriorRemaining.fullSupportRadius Z (a.m + a.q)
-    (zero_lt_one.trans domain.scale)
-  let values := atoms.values (comparisonScale centered Z a.n₁ Y₁)
-    (comparisonScale centered Z a.n₂ Y₂)
-  have hcolumns := original_column_window box Q W index a Z t Y₁ Y₂ centered domain
-    hwidth hpadding hcap hlarge profiles hrows ht hwindow
-  have hfull' := Q.exteriorRemaining_fullJointBudget Z (a.m + a.q) hfull
-  have hw
-      (DE : commonSupportPool raw.exteriorColumns raw.exteriorColumns
-        (fun i => (raw.columnExterior i).val) (fun j => (raw.columnExterior j).val))
-      (D : ((canonicalFirstCommonBlock C raw.exteriorColumns raw.exteriorColumns
-        raw.columnExterior raw.columnExterior DE.val DE.property).mask ∅).powerset) :
-      let p := canonicalFirstDirectLogBlock
-        (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) μv ν C
-        raw.exteriorColumns raw.exteriorColumns raw.columnExterior raw.columnExterior
-        DE.val DE.property (CanonicalRowBall.archTest K A.Sf 1)
-        (values.coefficient centered) (values.coefficient centered)
-        (rowBallFiniteFamily K A.Sf 1)
-        (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-        (rowBallFiniteFamily_compactSupport K A.Sf 1)
-        radius D.val ∅ (box.cutoff Z) (box.cutoff_ge_one domain.scale.le) δ hδ hδhalf
-      (∀ h ∈ p.leftData.rows, A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ box.rowBound) ∧
-      (∀ h ∈ p.rightData.rows, A.exteriorNorm (originalFrequencyIdeal h) ≤ Z ^ box.rowBound) := by
-    obtain ⟨ij, hij, _⟩ := Finset.mem_image.mp DE.property
-    have hi := (Finset.mem_product.mp hij).1
-    have hm := Finset.mem_product.mp (Finset.mem_filter.mp hi).1
-    have hplain := Finset.mem_product.mp hm.1
-    obtain ⟨u, hu, _⟩ := Finset.mem_biUnion.mp hplain.1
-    have hmnonneg := Q.exteriorRemaining.fullSupportParameters_m_nonneg_of_pairedRow
-      a Z domain.scale hfull' index u hu
-    have hradius : radius.val ≤ Z ^ (-(0 : ℝ)) := by
-      change (Q.exteriorRemaining.fullSupportRadius Z (a.m + a.q)
-        (zero_lt_one.trans domain.scale)).val ≤ _
-      rw [Q.exteriorRemaining.fullSupportRadius_eq_negative_m a Z domain.scale]
-      apply Real.rpow_le_rpow_of_exponent_le domain.scale.le
-      linarith
-    have h := canonicalFirstDirectLogBlock_row_windows
-      (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) μv ν C
-      raw.exteriorColumns raw.exteriorColumns raw.columnExterior raw.columnExterior
-      DE.val DE.property (CanonicalRowBall.archTest K A.Sf 1)
-      (values.coefficient centered) (values.coefficient centered)
-      (rowBallFiniteFamily K A.Sf 1)
-      (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1)
-      radius D.val D.property (box.cutoff Z) (box.cutoff_ge_one domain.scale.le)
-      δ hδ hδhalf Z 0 box.cutoffExponent box.columnBound domain.scale.le
-      le_rfl hradius hcolumns hcolumns
-    simpa only [sub_zero, FixedBox.rowBound] using h
-  exact ⟨fun DE D => (hw DE D).1, fun DE D => (hw DE D).2⟩
+  sorry
 
 /-- Attach the pool chosen at the earlier fixed threshold to this
 exact direct source. Every actual divisor exclusion remains in

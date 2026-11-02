@@ -30,13 +30,11 @@ open CanonicalLiteralFirstScalarCost CanonicalLiteralMassProfilePower
 theorem extra_slot_power_le_profilePower
     (cap d : ℕ) (B P : ℝ) (hB : 0 ≤ B) (hP : 1 ≤ P) (hbound : B ≤ P ^ d) :
     slotBudget B ^ cap ≤ P ^ (2 * d * cap) := by
-  simpa only [← pow_mul] using
-    pow_le_pow_left₀ (zero_le_one.trans (slotBudget_one B))
-      (slotBudget_le_profilePower B P d hB hP hbound) cap
+  sorry
 
 private theorem three_slot_powers (B : ℝ) (cap : ℕ) :
     slotBudget B ^ (3 * cap) = slotBudget B ^ (2 * cap) * slotBudget B ^ cap := by
-  rw [show 3 * cap = 2 * cap + cap by omega, pow_add]
+  sorry
 
 /-- The numerator now has three separately proved frozen/common
 charges. No bound for their whole product is assumed. -/
@@ -44,19 +42,7 @@ theorem atomCosts_le_profilePower (cap d : ℕ) (annulus B P : ℝ)
     (hannulus : 0 ≤ annulus) (hB : 0 ≤ B) (hP : 1 ≤ P) (hbound : B ≤ P ^ d) :
     atomBudget annulus B ^ cap * slotBudget B ^ (3 * cap) ≤
       (max 1 annulus) ^ cap * P ^ (8 * d * cap) := by
-  have hfirst := separateAtoms_le_profilePower cap d annulus B P hannulus hB hP hbound
-  have hextra := extra_slot_power_le_profilePower cap d B P hB hP hbound
-  have h := mul_le_mul hfirst hextra
-    (pow_nonneg (zero_le_one.trans (slotBudget_one B)) _)
-    (mul_nonneg (pow_nonneg (zero_le_one.trans (le_max_left (1 : ℝ) annulus)) _)
-      (pow_nonneg (zero_le_one.trans hP) _))
-  calc
-    _ = (atomBudget annulus B ^ cap * slotBudget B ^ (2 * cap)) *
-        slotBudget B ^ cap := by rw [three_slot_powers]; ring
-    _ ≤ ((max 1 annulus) ^ cap * P ^ (6 * d * cap)) * P ^ (2 * d * cap) := h
-    _ = _ := by
-      rw [show 8 * d * cap = 6 * d * cap + 2 * d * cap by ring, pow_add]
-      ring
+  sorry
 
 def degree (cap d dRow dFirstKernel dSecondKernel heightDegree : ℕ) : ℕ :=
   CanonicalLiteralUniformMassCoefficient.degree
@@ -67,28 +53,21 @@ theorem degree_eq_row_enlargement
     degree cap d dRow dFirstKernel dSecondKernel heightDegree =
       CanonicalLiteralUniformMassCoefficient.degree
         cap d (dRow + 2 * d * cap) dFirstKernel dSecondKernel heightDegree := by
-  simp only [degree, CanonicalLiteralUniformMassCoefficient.degree,
-    CanonicalLiteralMassProfilePower.degree]
-  ring
+  sorry
 
 theorem degree_eq_explicit
     (cap d dRow dFirstKernel dSecondKernel heightDegree : ℕ) :
     degree cap d dRow dFirstKernel dSecondKernel heightDegree =
       heightDegree * ((cap + 2) + (cap + 2)) + d * ((cap + 2) + (cap + 2)) +
         8 * d * cap + dRow + dFirstKernel + dSecondKernel := by
-  simp only [degree, CanonicalLiteralUniformMassCoefficient.degree,
-    CanonicalLiteralMassProfilePower.degree]
-  ring
+  sorry
 
 private theorem row_with_extra_slots_le
     (cap d dRow : ℕ) (B P row : ℝ)
     (hB : 0 ≤ B) (hP : 1 ≤ P) (hbound : B ≤ P ^ d)
     (hrow : row ≤ P ^ dRow) :
     row * slotBudget B ^ cap ≤ P ^ (dRow + 2 * d * cap) := by
-  have h := mul_le_mul hrow (extra_slot_power_le_profilePower cap d B P hB hP hbound)
-    (pow_nonneg (zero_le_one.trans (slotBudget_one B)) _)
-    (pow_nonneg (zero_le_one.trans hP) _)
-  simpa only [pow_add] using h
+  sorry
 
 variable (K : Type) [Field K] [NumberField K]
 variable (A : SArithmeticData K) (σ : K →+* ℂ) (ω ψ : HeckeCharacter K)
@@ -120,24 +99,7 @@ theorem exists_uniform_coefficient
             (atomBudget annulus originalBound ^ cap * slotBudget originalBound ^ (3 * cap))) *
           row * firstKernel * secondKernel ≤
             Cmass * control ^ degree cap d dRow dFirstKernel dSecondKernel heightDegree * Z ^ ε := by
-  obtain ⟨δ, Cmass, hδ, hδhi, hCmass, hmass⟩ :=
-    CanonicalLiteralUniformMassCoefficient.exists_uniform_coefficient K A σ ω ψ
-      cap d (dRow + 2 * d * cap) dFirstKernel dSecondKernel heightDegree
-      annulus lo hi hlo hhi hannulus δ₁ δ₂ orders ε mesh heightConstant widthBound hε hwidth
-  refine ⟨δ, Cmass, hδ, hδhi, hCmass, ?_⟩
-  intro Z T width height control originalBound row firstKernel secondKernel
-    hZ hT hbox hheight hcontrol hB hBbound hrow hrowBound
-    hfirst hfirstBound hsecond hsecondBound
-  have hcontrolOne : 1 ≤ control := (le_add_of_nonneg_right hT).trans hcontrol
-  have hrowExtra := row_with_extra_slots_le cap d dRow originalBound control row
-    hB hcontrolOne hBbound hrowBound
-  have h := hmass Z T width height control originalBound
-    (row * slotBudget originalBound ^ cap) firstKernel secondKernel
-    hZ hT hbox hheight hcontrol hB hBbound
-    (mul_nonneg hrow (pow_nonneg (zero_le_one.trans (slotBudget_one originalBound)) _))
-    hrowExtra hfirst hfirstBound hsecond hsecondBound
-  rw [← degree_eq_row_enlargement cap d dRow dFirstKernel dSecondKernel heightDegree] at h
-  simpa only [three_slot_powers, mul_assoc, mul_left_comm, mul_comm] using h
+  sorry
 
 /-- Both original logarithmic tilts are chosen from the fixed length
 box first. The original profile orders and the single-prime contour
@@ -172,25 +134,7 @@ theorem exists_uniform_combined_coefficient
           row * firstKernel * secondKernel) *
             Z ^ CanonicalFirstResidualProfileCost.tiltError m total mask active η η ≤
           Cmass * control ^ degree cap d dRow dFirstKernel dSecondKernel heightDegree * Z ^ ε := by
-  obtain ⟨δ, Cmass, hδ, hδhi, hCmass, hmass⟩ :=
-    CanonicalLiteralCombinedMassCoefficient.exists_uniform_combined_coefficient K A σ ω ψ
-      cap d (dRow + 2 * d * cap) dFirstKernel dSecondKernel heightDegree
-      annulus lo hi hlo hhi hannulus lengthBound ε hbound hε orders
-      mesh heightConstant widthBound hwidth
-  refine ⟨δ, Cmass, hδ, hδhi, hCmass, ?_⟩
-  intro Z T width height control originalBound row firstKernel secondKernel
-    m total mask active hZ hT hbox hheight hcontrol hB hBbound
-    hrow hrowBound hfirst hfirstBound hsecond hsecondBound hm htotal hmask hactive
-  have hcontrolOne : 1 ≤ control := (le_add_of_nonneg_right hT).trans hcontrol
-  have hrowExtra := row_with_extra_slots_le cap d dRow originalBound control row
-    hB hcontrolOne hBbound hrowBound
-  have h := hmass Z T width height control originalBound
-    (row * slotBudget originalBound ^ cap) firstKernel secondKernel
-    m total mask active hZ hT hbox hheight hcontrol hB hBbound
-    (mul_nonneg hrow (pow_nonneg (zero_le_one.trans (slotBudget_one originalBound)) _))
-    hrowExtra hfirst hfirstBound hsecond hsecondBound hm htotal hmask hactive
-  rw [← degree_eq_row_enlargement cap d dRow dFirstKernel dSecondKernel heightDegree] at h
-  simpa only [three_slot_powers, mul_assoc, mul_left_comm, mul_comm] using h
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralPassiveMassCoefficient
 

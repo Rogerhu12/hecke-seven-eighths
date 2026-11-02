@@ -61,15 +61,13 @@ def rightConstant : ℝ :=
 
 theorem rightOrders_zero :
     (0, 0) ∈ rightOrders (A := A) (σ := σ) (η := η) (hS := hS)
-      primitive ε maskExponent hε hmask :=
-  (rightExistence (A := A) (σ := σ) (η := η) (hS := hS)
-    primitive ε maskExponent hε hmask).choose_spec.1
+      primitive ε maskExponent hε hmask := by
+  sorry
 
 theorem rightConstant_pos :
     0 < rightConstant (A := A) (σ := σ) (η := η) (hS := hS)
-      primitive ε maskExponent hε hmask :=
-  (rightExistence (A := A) (σ := σ) (η := η) (hS := hS)
-    primitive ε maskExponent hε hmask).choose_spec.2.choose_spec.choose_spec.1
+      primitive ε maskExponent hε hmask := by
+  sorry
 
 private def rightEstimate :=
   (rightExistence (A := A) (σ := σ) (η := η) (hS := hS)
@@ -199,34 +197,7 @@ common ideal. The centered quarter-width minimum then follows from
 the original domain, including the final allocated divisors. -/
 theorem centered_right_minimum (ξ : Joint) (h : (S).exceptionalRows characters) :
     Z ^ ((a.m + a.q) / 4 - (G).centeredExtractionLength - rR) ≤ (TR ξ h).source.lower := by
-  have hchoose : (G).centeredSecondIdeal = (G).ideals.secondOpposite := by
-    apply if_neg
-    exact not_le_of_gt horder
-  have hcommon : RD.history.firstIdeal * RD.history.secondIdeal =
-      (G).centeredCommonIdeal.val := by
-    rw [hfirstR, hsecondR]
-    change _ = ((G).ideals.first * (G).tag.extractionIdeal * (G).centeredSecondIdeal).val
-    rw [hchoose]
-    rfl
-  have hp := RD.preDivisors_dvd
-  rw [hcommon] at hp
-  have hmin := (G).fourPlain_minimum_window_of_domain (RF).allocation domain
-    (RD.history.first.plainDivisor₁ * RD.history.second.plainDivisor₁)
-    (RD.history.first.plainDivisor₂ * RD.history.second.plainDivisor₂)
-    hp.1 hp.2 RD.atoms.length (fun i => (RD.atoms.length_pos i).le)
-  have hf := CanonicalLiteralExceptionalWindows.centered_fields P R F parent oldMoving
-    correction hcorr C S pattern sector remaining extra hone hroot hemb
-    (CanonicalLiteralExceptionalFactory.originalRow chart P R hclass hsector X hX label
-      F parent oldMoving correction leftAtoms rightAtoms thetaPair h.val)
-    RD.recipe RD.model firstSupport hfirst hextra b.left_positive b.right_positive RD.support
-    .right RD.ray RD.ideal RD.ideal_eq RD.firstSign RD.divisor RD.selection RD.nonempty
-    thetaPair.2 (CanonicalLiteralExceptionalFactory.character_on_class chart P R X hX
-      label F parent oldMoving correction leftAtoms rightAtoms thetaPair .right h.val)
-    hcR prodR ξ
-  rw [hf.2.2, RD.left_scale_eq false, RD.right_scale_eq false,
-    RD.left_scale_eq true, RD.right_scale_eq true, hseedLeftR false, hseedRightR false,
-    hseedLeftR true, hseedRightR true]
-  simpa only [Bool.false_eq_true, if_false, if_true] using hmin
+  sorry
 
 variable (columnLoss cutoffExponent widthMax : ℝ)
 variable (hZ : 1 < Z) (hstep : 0 ≤ step)
@@ -251,40 +222,7 @@ theorem centered_right_mask (ξ : Joint) (h : (S).exceptionalRows characters) :
     (Ideal.absNorm (TR ξ h).source.mask : ℝ) ≤
       Z ^ CanonicalLiteralExceptionalPhysicalBox.maskExponent
         widthMax columnLoss cutoffExponent := by
-  have hradius' : radius = CanonicalRowBall.gaussRadius first.retainedScale
-      RD.atoms.base first.enlargement first.retainedScale_pos
-        (zero_lt_one.trans RD.atoms.base_gt_one) := by
-    simpa only [RD.base_eq] using hradius
-  have hcutoff' : X ≤ RD.atoms.base ^ cutoffExponent := by
-    simpa only [RD.base_eq] using hcutoff
-  have hproduct' : ∀ i ∈ left, ∀ j ∈ right, profiles i j ≠ 0 →
-      (Ideal.absNorm ((fullI i).val * (fullJ j).val) : ℝ) ≤
-        RD.atoms.base ^ (2 * ((G).skeleton.A - (G).skeleton.c - (G).skeleton.w + columnLoss)) := by
-    simpa only [RD.base_eq] using hproduct
-  have hold' : A.exteriorNorm ((F.moving P R oldMoving).effectiveFullSupport
-      (remaining * extra)) ≤
-      RD.atoms.base ^ ((a.q + (G).skeleton.R + (G).skeleton.E + widthMax) + (G).skeleton.wo) := by
-    have he : a.q + (G).skeleton.R + (G).skeleton.E + (G).skeleton.wo + widthMax =
-        (a.q + (G).skeleton.R + (G).skeleton.E + widthMax) + (G).skeleton.wo := by ring
-    simpa only [RD.base_eq, he] using hold
-  have hm := CanonicalLiteralExceptionalFactory.centered_mask_window chart P R hclass hsector
-    X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair RD.atoms RD.model
-    hcorr remaining extra RD.recipe firstSupport hfirst hextra RD.support hone hroot hemb
-    .right RD.ray RD.ideal RD.ideal_eq RD.firstSign RD.divisor RD.selection RD.nonempty
-    first.retainedScale first.enlargement
-    ((G).skeleton.A - (G).skeleton.c - (G).skeleton.w + columnLoss)
-    (a.q + (G).skeleton.R + (G).skeleton.E + widthMax) (G).skeleton.wo cutoffExponent
-    first.retainedScale_pos hradius' hcutoff' hproduct' hold' hcR prodR ξ h.val
-  have hm' : (Ideal.absNorm (TR ξ h).source.mask : ℝ) ≤
-      (Ideal.absNorm A.cS : ℝ) *
-        Z ^ (CanonicalLiteralExceptionalPhysicalBox.physicalWidth G b.primes
-          b.leftMultiplicity b.rightMultiplicity pattern columnLoss cutoffExponent + widthMax) := by
-    simpa only [RD.base_eq, CanonicalLiteralExceptionalPhysicalBox.physicalWidth_shift] using hm
-  exact hm'.trans ((fixed_mask_threshold Z _ hthreshold).trans
-    (Real.rpow_le_rpow_of_exponent_le hZ.le
-      (CanonicalLiteralExceptionalPhysicalBox.physicalWidth_add_width_add_one_le G b.primes
-        b.leftMultiplicity b.rightMultiplicity b.left_positive b.right_positive pattern
-        widthMax columnLoss cutoffExponent hZ hstep hwidth)))
+  sorry
 
 end CenteredWindows
 
@@ -379,131 +317,7 @@ theorem centered_right_magnitude_bound (ξ : Joint) :
         (1 + fourierHeight ξ) ^ order *
         Z ^ (max ((n).Aexp - (a.m + a.q)) 0 + 3 * (n).stepσ + 5 * (n).δ / 6 + ε +
           (n).slotError - idealLogLength Z LD.divisor + cutoffLoss / 6) := by
-  have hC := rightConstant_pos (A := A) (σ := σ) (η := η) (hS := hS)
-    primitive ε maskExp hε hmaskExp
-  have hrow0 := (mass).originalRowAmplitude_nonneg
-  have hUL := (UL).constant_nonneg
-  have hUR := (UR).constant_nonneg
-  by_cases hlive : Nonempty (S).live
-  · let row : (S).live := Classical.choice hlive
-    obtain ⟨base, hfactor, hvaluation⟩ := actual_classification
-      chart P R hclass hsector X hX label F parent oldMoving correction leftAtoms rightAtoms
-      thetaPair hcorr remaining extra firstSupport LD hsecondL hplaces hscalar
-    have hPL := LD.profile_supports S C .left ξ
-    have hPR := RD.profile_supports S C .right ξ
-    have hSL := LD.profile_seminorms S C .left ξ orders
-    have hSR := RD.profile_seminorms S C .right ξ orders
-    have hAL (h : (S).exceptionalRows characters) : (TL ξ h).source.AtomicControl Z UL :=
-      OriginalSide.actualCenteredPaidAtoms chart P R hclass hsector X hX label F parent
-        oldMoving correction leftAtoms rightAtoms thetaPair hcorr remaining extra
-        firstSupport hfirst hextra hone hroot hemb LD .left annulus amplitude hannulus
-        hamplitude hprimeL hslotL (G).skeleton.A cap hcapL hprimeOriginalL hproductOriginalL
-        hZ hcL prodL ξ h
-    have hAR (h : (S).exceptionalRows characters) : (TR ξ h).source.AtomicControl Z UR :=
-      OriginalSide.actualCenteredPaidAtoms chart P R hclass hsector X hX label F parent
-        oldMoving correction leftAtoms rightAtoms thetaPair hcorr remaining extra
-        firstSupport hfirst hextra hone hroot hemb RD .right annulus amplitude hannulus
-        hamplitude hprimeR hslotR (G).skeleton.A cap hcapR hprimeOriginalR hproductOriginalR
-        hZ hcR prodR ξ h
-    have hmin (h : (S).exceptionalRows characters) :
-        Z ^ ((a.m + a.q) / 4 - (n).vStar - (n).r₂) ≤ (TR ξ h).source.lower :=
-      centered_right_minimum (chart := chart) (P := P) (R := R) (hclass := hclass)
-        (hsector := hsector) (F := F) (parent := parent) (oldMoving := oldMoving)
-        (correction := correction) (hcorr := hcorr) (leftAtoms := leftAtoms)
-        (rightAtoms := rightAtoms) (thetaPair := thetaPair) (remaining := remaining)
-        (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst) (hextra := hextra)
-        (hone := hone) (hroot := hroot) (hemb := hemb) (RD := RD) (first := first)
-        (hfirstR := hfirstR) (hsecondR := hsecondR) (domain := domain)
-        (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR) (hcR := hcR)
-        (horder := horder) ξ h
-    have hmask (h : (S).exceptionalRows characters) :
-        (Ideal.absNorm (TR ξ h).source.mask : ℝ) ≤ Z ^ maskExp :=
-      centered_right_mask (chart := chart) (P := P) (R := R) (hclass := hclass)
-        (hsector := hsector) (F := F) (parent := parent) (oldMoving := oldMoving)
-        (correction := correction) (hcorr := hcorr) (leftAtoms := leftAtoms)
-        (rightAtoms := rightAtoms) (thetaPair := thetaPair) (remaining := remaining)
-        (extra := extra) (firstSupport := firstSupport) (hfirst := hfirst) (hextra := hextra)
-        (hone := hone) (hroot := hroot) (hemb := hemb) (RD := RD) (first := first)
-        (domain := domain) (hseedLeftR := hseedLeftR) (hseedRightR := hseedRightR)
-        (hcR := hcR) (columnLoss := columnLoss) (cutoffExponent := cutoffExponent)
-        (widthMax := widthMax) (hZ := hZ) (hstep := hstep) (hwidth := hwidth)
-        (hthreshold := hthreshold) (hradius := hradius) (hcutoff := hcutoff)
-        (hproduct := hproduct) (hold := hold) ξ h
-    have hb := rightEstimate (A := A) (σ := σ) (η := η) (hS := hS)
-      primitive ε maskExp hε hmaskExp
-      (CanonicalLiteralExceptionalCharacters.selectedIndex parent thetaPair.1)
-      (CanonicalLiteralExceptionalCharacters.selectedIndex parent thetaPair.2)
-      (LD.leftProfile S C .left ξ) (LD.rightProfile S C .left ξ)
-      (RD.leftProfile S C .right ξ) (RD.rightProfile S C .right ξ)
-      hPL.1 hPL.2 hPR.1 hPR.2 amplitude hamplitudeOne
-      (hSL.1.le.trans hprofileL₁) (hSL.2.le.trans hprofileL₂)
-      (hSR.1.le.trans hprofileR₁) (hSR.2.le.trans hprofileR₂)
-      C S LF RF EL ER characters ξ (TL ξ) (TR ξ) UL UR
-      Z (n).Aexp a.m a.q (n).c (n).d (n).R₀ (n).E₀ (n).K₀ (n).w (n).wo (n).Bcommon (n).g (n).ell
-      (n).b₂ (n).p₂ (n).g₂ (n).t₂ (n).V₀ (n).v (n).vStar (n).r₁ (n).r₂ (idealLogLength Z LD.divisor)
-      (n).slotError cutoffLoss (Γ.index : ℝ) (fourierHeight ξ) (n).stepσ (n).δ (mass).originalRowAmplitude
-      hZ.le
-      (CanonicalLiteralExceptionalNumbers.v_nonneg chart P R hclass X hX label F parent
-        oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
-        rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile hZ)
-      ((RF).allocation.rawExtractionLength_nonneg Z hZ RD.atoms.length
-        (fun i => (RD.atoms.length_pos i).le))
-      (LD.divisor_window S C .left annulus slotLoss hZ hprimeL hslotLoss)
-      (Nat.cast_nonneg Γ.index) (fourierHeight_nonneg ξ) hrow0 hAL hAR
-      (paid_atom_exponent chart P R hclass X hX label F parent oldMoving correction
-        leftAtoms rightAtoms thetaPair remaining extra firstSupport annulus amplitude
-        hannulus hamplitude cap LD RD hleftCommon hrightCommon rowProfileBound
-        hrowProfileBound hrowProfile first slotLoss firstProfile hfirstL hfirstR hsecondL hsecondR)
-      b.left_positive
-      (CanonicalLiteralExceptionalNumbers.gcd_window chart P R hclass X hX label F parent
-        oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
-        rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile hZ)
-      (fun h hh => CanonicalLiteralExceptionalNumbers.unit_window chart P R hclass X hX
-        label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
-        hrightCommon rowProfileBound hrowProfileBound hrowProfile first rL rR slotError
-        firstProfile hZ h (Finset.mem_filter.mp hh).1)
-      (fun h hh => (mass).original_row_weight_bound h (Finset.mem_filter.mp hh).1)
-      base.val (fun h => hvaluation h.val) (fun h => hfactor h.val)
-      (fun h => CanonicalLiteralExceptionalNumbers.radical_window chart P R hclass X hX
-        label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
-        hrightCommon rowProfileBound hrowProfileBound hrowProfile first rL rR slotError
-        firstProfile hZ h.val.val (Finset.mem_filter.mp h.val.property).1)
-      (fun h => CanonicalLiteralExceptionalNumbers.cutoff_window chart P R hclass X hX
-        label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
-        hrightCommon rowProfileBound hrowProfileBound hrowProfile first rL rR slotError
-        firstProfile columnLoss cutoffExponent hZ hradius hcutoff hproduct h.val)
-      (CanonicalLiteralExceptionalArithmetic.exceptional_fibers chart P R hclass X hX
-        label F parent oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon
-        hrightCommon rowProfileBound hrowProfileBound hrowProfile characters)
-      (CanonicalLiteralExceptionalNumbers.first_saving chart P R hclass X hX label F parent
-        oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
-        rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile
-        hZ hstep hq herrorPrime)
-      (CanonicalLiteralExceptionalNumbers.second_saving chart P R hclass X hX label F parent
-        oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
-        rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile hZ row)
-      (CanonicalLiteralExceptionalNumbers.v_sum chart P R hclass X hX label F parent
-        oldMoving correction leftAtoms rightAtoms thetaPair hleftCommon hrightCommon
-        rowProfileBound hrowProfileBound hrowProfile first rL rR slotError firstProfile)
-      (fun h => CanonicalLiteralExceptionalFactory.centered_mask_ne_zero chart P R hclass
-        hsector X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair
-        RD.atoms RD.model hcorr remaining extra RD.recipe firstSupport hfirst hextra
-        RD.support hone hroot hemb .right RD.ray RD.ideal RD.ideal_eq RD.firstSign
-        RD.divisor RD.selection RD.nonempty hcR prodR ξ h.val)
-      hmask
-      (fun h => by simpa only [Real.norm_eq_abs] using
-        CanonicalLiteralExceptionalFactory.centered_time_window chart P R hclass hsector
-          X hX label F parent oldMoving correction leftAtoms rightAtoms thetaPair
-          RD.atoms RD.model hcorr remaining extra RD.recipe firstSupport hfirst hextra
-          RD.support hone hroot hemb .right RD.ray RD.ideal RD.ideal_eq RD.firstSign
-          RD.divisor RD.selection RD.nonempty RD.firstSign_le hcR prodR ξ h.val)
-      hmin
-    exact hb
-  · have hempty : (S).exceptionalRows characters = ∅ :=
-      Finset.eq_empty_of_forall_not_mem (fun h _ => hlive ⟨h⟩)
-    simp only [SecondSideFrame.exceptionalMagnitude, jointColumnPairMagnitude,
-      hempty, Finset.sum_empty, mul_zero]
-    positivity
+  sorry
 
 end Centered
 

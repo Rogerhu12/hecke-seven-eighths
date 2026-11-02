@@ -46,16 +46,15 @@ def threshold (A : SArithmeticData K) (b : Box) (Zexceptional : ℝ) : ℝ :=
     (max (CanonicalPrimitiveEngineMassChoices.pooledThreshold (A := A) b) Zexceptional))
 
 theorem threshold_gt_one (A : SArithmeticData K) (b : Box) (Zexceptional : ℝ) :
-    1 < threshold A b Zexceptional :=
-  (CanonicalPrimitiveEnginePool.threshold_gt_one A b).trans_le
-    ((le_max_left _ _).trans (le_max_right _ _))
+    1 < threshold A b Zexceptional := by
+  sorry
 
 theorem threshold_spec (A : SArithmeticData K) (b : Box) (Zexceptional Z : ℝ)
     (hlarge : threshold A b Zexceptional ≤ Z) :
     b.fullThreshold ≤ Z ∧ CanonicalPrimitiveEnginePool.threshold A b ≤ Z ∧
       CanonicalPrimitiveEngineMassChoices.pooledThreshold (A := A) b ≤ Z ∧
       Zexceptional ≤ Z := by
-  simpa only [threshold, max_le_iff] using hlarge
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -104,12 +103,8 @@ local notation "finalConstant" => constant
   μv ν C hDiff b mesh orders first second heightC exceptionalConstant
 
 theorem constant_pos (hexceptionalConstant : 0 ≤ exceptionalConstant) :
-    0 < finalConstant :=
-  CanonicalPrimitiveEngineFinalBudget.constant_pos first.Cfirst_pos.le
-    (CanonicalPrimitiveSecondTerminalUniform.Csecond_pos μv ν C hDiff b second).le
-    hexceptionalConstant
-    (CanonicalPrimitiveEngineMassChoices.constant_pos
-      (A := A) (σ := σ) (ω := ω) (ψ := ψ) μv ν b mesh orders heightC).le
+    0 < finalConstant := by
+  sorry
 
 variable (exceptionalDegree : ℕ) (Zexceptional : ℝ)
 variable (hexceptionalConstant : 0 ≤ exceptionalConstant)

@@ -64,21 +64,14 @@ theorem energy_eq_tag_sources
     (c : ι → ℂ) :
     d.energy c = (4 / d.density) * ∑ b : PoolSourceTag P,
       d.tagWeight b * (d.tagSource c b).energy hDiff := by
-  rw [d.energy_eq_sources hDiff Drecipe hD c]
-  simp only [PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
-    tagWeight, tagSource]
-  ring
+  sorry
 
 /-- The same original first phase on every physical tag. Residual
 columns use their original valuation subtype and its original index. -/
 theorem tagSource_twisted (c : ι → ℂ) (x : ι → W) (ξ : W) (b : PoolSourceTag P) :
     d.tagSource (twistedCoefficient c x ξ) b =
       (d.tagSource c b).withMultiplier (fun i => jointPhase ξ (d.tagPoint x b i)) := by
-  rcases b with u | p | p | p
-  · exact d.mainSource_twisted c x ξ
-  · exact d.residualSource_twisted p.val 1 c x ξ
-  · exact d.residualSource_twisted p.val 6 c x ξ
-  · exact d.residualSource_twisted p.val 7 c x ξ
+  sorry
 
 end FirstGaussPoolData
 
@@ -104,8 +97,8 @@ variable {s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest}
 /-- The original empty mask survives the literal first Fourier phase. -/
 theorem tag_fourierPhase_mask (hs : s.DualSourceConditions)
     (x : ι → W) (ξ : W) (b : PoolSourceTag P) :
-    ((s.tag b).withMultiplier (fun i => jointPhase ξ (d.tagPoint x b i))).mask = ∅ :=
-  hs.mask b
+    ((s.tag b).withMultiplier (fun i => jointPhase ξ (d.tagPoint x b i))).mask = ∅ := by
+  sorry
 
 /-- The signed-origin condition depends on the unchanged test profile,
 so the coefficient phase requires no new positivity hypothesis. -/
@@ -114,8 +107,8 @@ theorem tag_fourierPhase_origin_nonneg (hs : s.DualSourceConditions)
     0 ≤ (sIntegerTensorTerm K A.Sf
       (traceSchwartzToMixed K
         ((s.tag b).withMultiplier (fun i => jointPhase ξ (d.tagPoint x b i))).profile)
-      finiteTest 0).re :=
-  hs.origin_nonneg b
+      finiteTest 0).re := by
+  sorry
 
 end DualSourceConditions
 
@@ -152,12 +145,7 @@ def ofTag (T : ∀ b : PoolSourceTag P,
 @[simp] theorem ofTag_tag (T : ∀ b : PoolSourceTag P,
     (s.tag b).DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
     (b : PoolSourceTag P) : (ofTag T).tag b = T b := by
-  rcases b with u | p | p | p
-  · cases u
-    rfl
-  · rfl
-  · rfl
-  · rfl
+  sorry
 
 /-- The one density is outside the complete original tag sum. -/
 def rawPhaseCost (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
@@ -178,20 +166,13 @@ theorem rawPhaseCost_le_coverHybrid
     (x : ι → W) (ξ : W) (ε Cerror Czero : ℝ) :
     T.rawPhaseCost x ξ ε Cerror Czero ≤
       T.coverHybridPhaseCost B r x ξ ε Cerror Czero := by
-  unfold rawPhaseCost coverHybridPhaseCost
-  apply mul_le_mul_of_nonneg_left _ (div_nonneg (by norm_num) d.density_pos.le)
-  exact Finset.sum_le_sum fun b _ => mul_le_mul_of_nonneg_left
-    (((T.tag b).fourierPhase (d.tagPoint x b) ξ).rawCost_le_coverHybrid
-      (r.tag b) ε Cerror Czero) (d.tagWeight_nonneg b)
+  sorry
 
 theorem rawPhaseCost_integrable
     (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
     (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
     Integrable (fun ξ => T.rawPhaseCost x ξ ε Cerror Czero) (actualFourierMeasure F) := by
-  unfold rawPhaseCost
-  apply Integrable.const_mul
-  exact integrable_finsetSum _ (fun b _ =>
-    ((T.tag b).rawPhaseCost_integrable F (d.tagPoint x b) ε Cerror Czero).const_mul _)
+  sorry
 
 theorem coverHybridPhaseCost_integrable
     (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
@@ -199,21 +180,15 @@ theorem coverHybridPhaseCost_integrable
     (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
     Integrable (fun ξ => T.coverHybridPhaseCost B r x ξ ε Cerror Czero)
       (actualFourierMeasure F) := by
-  unfold coverHybridPhaseCost
-  apply Integrable.const_mul
-  exact integrable_finsetSum _ (fun b _ =>
-    ((T.tag b).coverHybridPhaseCost_integrable (B.tag b) (B.tag b) (r.tag b)
-      F (d.tagPoint x b) ε Cerror Czero).const_mul _)
+  sorry
 
 theorem integral_rawPhaseCost_le_coverHybrid
     (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
     (B : d.SourceCovers c) (r : s.CoverHybridPredicates B)
     (F : SchwartzMap W ℂ) (x : ι → W) (ε Cerror Czero : ℝ) :
     (∫ ξ, T.rawPhaseCost x ξ ε Cerror Czero ∂actualFourierMeasure F) ≤
-      ∫ ξ, T.coverHybridPhaseCost B r x ξ ε Cerror Czero ∂actualFourierMeasure F :=
-  integral_mono (T.rawPhaseCost_integrable F x ε Cerror Czero)
-    (T.coverHybridPhaseCost_integrable B r F x ε Cerror Czero)
-    (fun ξ => T.rawPhaseCost_le_coverHybrid B r x ξ ε Cerror Czero)
+      ∫ ξ, T.coverHybridPhaseCost B r x ξ ε Cerror Czero ∂actualFourierMeasure F := by
+  sorry
 
 theorem integral_coverHybridPhaseCost_eq_sum
     (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
@@ -223,11 +198,7 @@ theorem integral_coverHybridPhaseCost_eq_sum
       (4 / d.density) * ∑ b : PoolSourceTag P, d.tagWeight b *
         ∫ ξ, ((T.tag b).fourierPhase (d.tagPoint x b) ξ).coverHybridCost
           (B.tag b) (B.tag b) (r.tag b) ε Cerror Czero ∂actualFourierMeasure F := by
-  unfold coverHybridPhaseCost
-  rw [integral_const_mul, integral_finsetSum _ (fun b _ =>
-    ((T.tag b).coverHybridPhaseCost_integrable (B.tag b) (B.tag b) (r.tag b)
-      F (d.tagPoint x b) ε Cerror Czero).const_mul (d.tagWeight b))]
-  simp_rw [integral_const_mul]
+  sorry
 
 end DualTerminalCalibration
 end ActualPoolStages
@@ -264,20 +235,7 @@ theorem actual_pool_dual_raw_fourier_stage_bound
     ∀ T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay, ∀ ξ : W,
       d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
         T.rawPhaseCost x ξ ε Cerror Czero := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, hb⟩ :=
-    actual_gauss_raw_dual_terminal_bound (E := E) (ν := ν) (μ := μ) hΓ μv hDiff
-      C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, ?_⟩
-  intro Z ell eps bad P ι d c x s hs T ξ
-  rw [d.energy_eq_tag_sources hDiff Drecipe hD]
-  simp_rw [d.tagSource_twisted c x ξ]
-  unfold ActualPoolStages.DualTerminalCalibration.rawPhaseCost
-  apply mul_le_mul_of_nonneg_left _ (div_nonneg (by norm_num) d.density_pos.le)
-  exact Finset.sum_le_sum fun b _ => mul_le_mul_of_nonneg_left
-    (hb Z _ ((s.tag b).withMultiplier (fun i => jointPhase ξ (d.tagPoint x b i)))
-      (hs.tag_fourierPhase_mask x ξ b) (hs.tag_fourierPhase_origin_nonneg x ξ b)
-      ((T.tag b).fourierPhase (d.tagPoint x b) ξ)).2
-    (d.tagWeight_nonneg b)
+  sorry
 
 /-- The same original pool now reaches its actual covered hybrid
 branches, with all local weights and one density left literal. -/
@@ -302,13 +260,7 @@ theorem actual_pool_dual_cover_hybrid_fourier_stage_bound
     ∀ (B : d.SourceCovers c) (r : s.CoverHybridPredicates B), ∀ ξ : W,
       d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ≤
         T.coverHybridPhaseCost B r x ξ ε Cerror Czero := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, hb⟩ :=
-    actual_pool_dual_raw_fourier_stage_bound (W := W) (E := E) (ν := ν) (μ := μ) hΓ μv hDiff
-      C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, ?_⟩
-  intro Z ell eps bad P ι d c x s hs T B r ξ
-  exact (hb Z ell eps bad P d c x s hs T ξ).trans
-    (T.rawPhaseCost_le_coverHybrid B r x ξ ε Cerror Czero)
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

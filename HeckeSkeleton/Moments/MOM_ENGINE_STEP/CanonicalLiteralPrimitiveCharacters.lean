@@ -52,63 +52,21 @@ private theorem element_primeCoefficient
       zeroExtendedSexticIdealEvaluation K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         P.arithmetic.root6 P.arithmetic.primitive6 P.arithmetic.embedding
         (primeIdeal p) a.val := by
-  let D := OriginalMovingFactors.singleton (P := P) (R := R) a 1
-  have h := D.factor_evaluation_of_coprime 0 (primeIdeal p)
-    (outside_prime P p hp) hcop
-  simpa only [coefficient_prime] using h.symm
+  sorry
 
 private theorem element_unramified
     (a : NonzeroRingElements A.R) (p : HeightOneSpectrum (𝓞 K))
     (hp : p ∉ (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (hcop : IsCoprime p.asIdeal (elementIdeal P R a).val) :
-    UnramifiedAt K (elementCharacter P R a) p :=
-  (OriginalMovingFactors.singleton (P := P) (R := R) a 1).factorCharacter_unramified 0 p hp hcop
+    UnramifiedAt K (elementCharacter P R a) p := by
+  sorry
 
 /-- Multiplicativity is derived on the original S-integers, with their
 unit sectors intact, from true single-prime calibration and uniqueness. -/
 theorem elementCharacter_mul (a b : NonzeroRingElements A.R) :
     elementCharacter P R ⟨a.val * b.val, mul_ne_zero a.property b.property⟩ =
       elementCharacter P R a * elementCharacter P R b := by
-  let ab : NonzeroRingElements A.R :=
-    ⟨a.val * b.val, mul_ne_zero a.property b.property⟩
-  have ha := idealPrimeDivisors_finite K (elementIdeal P R a).val
-    (elementIdeal P R a).property.1
-  have hb := idealPrimeDivisors_finite K (elementIdeal P R b).val
-    (elementIdeal P R b).property.1
-  have hab := idealPrimeDivisors_finite K (elementIdeal P R ab).val
-    (elementIdeal P R ab).property.1
-  let bad := A.Sf ∪ (ha.toFinset ∪ (hb.toFinset ∪ hab.toFinset))
-  apply finiteOrder_heckeCharacter_eq_of_primeCoefficient_eq_away K
-    (elementCharacter P R ab) (elementCharacter P R a * elementCharacter P R b)
-    (R.finite_order _) ((R.finite_order _).mul (R.finite_order _)) bad
-  intro p hp
-  have hpS : p ∉ (A.Sf : Set (HeightOneSpectrum (𝓞 K))) := by
-    intro h
-    exact hp (Finset.mem_union_left _ h)
-  have hpa : ¬p.asIdeal ∣ (elementIdeal P R a).val := by
-    intro h
-    have hm : p ∈ idealPrimeDivisors K (elementIdeal P R a).val := h
-    exact hp (Finset.mem_union_right _
-      (Finset.mem_union_left _ (ha.mem_toFinset.mpr hm)))
-  have hpb : ¬p.asIdeal ∣ (elementIdeal P R b).val := by
-    intro h
-    have hm : p ∈ idealPrimeDivisors K (elementIdeal P R b).val := h
-    exact hp (Finset.mem_union_right _ (Finset.mem_union_right _
-      (Finset.mem_union_left _ (hb.mem_toFinset.mpr hm))))
-  have hpab : ¬p.asIdeal ∣ (elementIdeal P R ab).val := by
-    intro h
-    have hm : p ∈ idealPrimeDivisors K (elementIdeal P R ab).val := h
-    exact hp (Finset.mem_union_right _ (Finset.mem_union_right _
-      (Finset.mem_union_right _ (hab.mem_toFinset.mpr hm))))
-  have hca := isCoprime_primeIdeal_of_not_dvd K p _ hpa
-  have hcb := isCoprime_primeIdeal_of_not_dvd K p _ hpb
-  have hcab := isCoprime_primeIdeal_of_not_dvd K p _ hpab
-  rw [primeCoefficient_mul_right_unramified K _ _ p
-      (element_unramified P R b p hpS hcb),
-    element_primeCoefficient P R ab p hpS hcab,
-    element_primeCoefficient P R a p hpS hca,
-    element_primeCoefficient P R b p hpS hcb]
-  exact zeroExtendedSexticIdealEvaluation_original_mul P (primeIdeal p) a.val b.val
+  sorry
 
 /-- These laws are produced for the supplied original row-character
 input itself. The exceptional classification has no remaining global

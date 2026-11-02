@@ -130,23 +130,7 @@ theorem canonicalLeftDirect_atlasCoefficient
         ((A.exteriorNorm (b.leftResidual (T.reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.leftResidual (T.reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
-  let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
-  have hj : j ∈ branch.residualColumns :=
-    (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : T.reindex.index i = (raw).originalIndex (branch.reconstruct j) :=
-    CanonicalLiteralAtlasAtoms.dictionary_index e i
-  have hideal : (b.leftResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
-    have he := T.reindex.ideal_product i hi
-    rw [p.left_ideal] at he
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
-  exact CompleteMovingRowRecipe.canonicalLeftDirect_secondInput hΓ μv ν
-    Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
-    δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb
-    (T.reindex.index i) (hcolumns (T.reindex.maps i hi)) j hj hindex hideal hSi
-    firstFixed hfirst δ₂
+  sorry
 
 /-- The actual right direct coefficient is obtained from the original
 atom table on the existing cover. The same tuple is used throughout. -/
@@ -182,23 +166,7 @@ theorem canonicalRightDirect_atlasCoefficient
         ((A.exteriorNorm (b.rightResidual (T.reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.rightResidual (T.reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
-  let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
-  have hj : j ∈ branch.residualColumns :=
-    (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : T.reindex.index i = (raw).originalIndex (branch.reconstruct j) :=
-    CanonicalLiteralAtlasAtoms.dictionary_index e i
-  have hideal : (b.rightResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
-    have he := T.reindex.ideal_product i hi
-    rw [p.right_ideal] at he
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
-  exact CompleteMovingRowRecipe.canonicalRightDirect_secondInput hΓ μv ν
-    Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
-    δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb
-    (T.reindex.index i) (hcolumns (T.reindex.maps i hi)) j hj hindex hideal hSi
-    firstFixed hfirst δ₂
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

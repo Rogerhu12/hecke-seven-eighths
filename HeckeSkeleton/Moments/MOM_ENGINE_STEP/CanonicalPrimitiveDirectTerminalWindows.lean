@@ -60,8 +60,8 @@ def profileConstant (cap : ℕ) (amplitude : ℝ) (s : Finset (ℕ × ℕ)) : �
       (CanonicalRowBall.archTest K A.Sf 1)
 
 theorem profileConstant_nonneg (cap : ℕ) (amplitude : ℝ) (s : Finset (ℕ × ℕ)) :
-    0 ≤ profileConstant (A := A) cap amplitude s :=
-  mul_nonneg (sq_nonneg _) (apply_nonneg _ _)
+    0 ≤ profileConstant (A := A) cap amplitude s := by
+  sorry
 
 /-- The explicit small power left after the actual first and second
 zero exponents cancel. The two original support losses remain visible. -/
@@ -187,17 +187,7 @@ theorem literalPrimitiveDirectStages_fiber_le_one
       (fun j => (((source).pieces DE D).rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
     ((stages DE D).left S χ).fiber ≤ 1 ∧ ((stages DE D).right S χ).fiber ≤ 1 := by
-  constructor
-  · change engineOrbitMultiplicity
-      (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      ((source).pieces DE D).leftData.rows ≤ 1
-    exact canonicalFirstLeftGaussData_orbit_multiplicity_le_one C
-      (source).columns (source).columns (source).ideal (source).ideal DE.val DE.property _
-  · change engineOrbitMultiplicity
-      (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-      ((source).pieces DE D).rightData.rows ≤ 1
-    exact canonicalFirstRightGaussData_orbit_multiplicity_le_one C
-      (source).columns (source).columns (source).ideal (source).ideal DE.val DE.property _
+  sorry
 
 include domain in
 private theorem left_sharp_zero_exponent
@@ -207,11 +197,7 @@ private theorem left_sharp_zero_exponent
         2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss -
           idealLogLength Z DE.val.1) * δ₁ +
             ((leftGeometry DE D).retainedLength + (leftGeometry DE D).enlargement) + 2 * loss := by
-  change -(a.n₁ + a.n₂ + a.z) +
-    2 * (a.n₁ + a.n₂ + a.z + loss - idealLogLength Z DE.val.1) * δ₁ +
-      ((leftGeometry DE D).retainedLength + (leftGeometry DE D).enlargement) +
-        2 * loss - 0 = _
-  rw [← domain.total_length, sub_zero]
+  sorry
 
 include domain in
 private theorem right_sharp_zero_exponent
@@ -221,11 +207,7 @@ private theorem right_sharp_zero_exponent
         2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + loss -
           idealLogLength Z DE.val.2) * δ₁ +
             ((rightGeometry DE D).retainedLength + (rightGeometry DE D).enlargement) + 2 * loss := by
-  change -(a.n₁ + a.n₂ + a.z) +
-    2 * (a.n₁ + a.n₂ + a.z + loss - idealLogLength Z DE.val.2) * δ₁ +
-      ((rightGeometry DE D).retainedLength + (rightGeometry DE D).enlargement) +
-        2 * loss - 0 = _
-  rw [← domain.total_length, sub_zero]
+  sorry
 
 /-- The zero window is constructed for the same whole direct family.
 The compulsory divisor is still paid by its actual sharp calibration. -/

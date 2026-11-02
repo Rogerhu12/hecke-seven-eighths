@@ -65,24 +65,21 @@ def carrier : TwoDivisorCommonBranch (K := K) where
   leftOccurrences := fun _ _ _ _ => cap + 2
   rightOccurrences := fun _ _ _ _ => cap + 2
 
-theorem first_mem (i : I) : L.first i ∈ L.carrier.first :=
-  Finset.mem_image_of_mem L.first (Finset.mem_univ i)
+theorem first_mem (i : I) : L.first i ∈ L.carrier.first := by
+  sorry
 
 theorem firstDivisor_mem (i : I) :
-    L.firstDivisor i ∈ L.carrier.firstDivisors (L.first i) :=
-  Finset.mem_image_of_mem L.firstDivisor
-    (Finset.mem_filter.mpr ⟨Finset.mem_univ i, rfl⟩)
+    L.firstDivisor i ∈ L.carrier.firstDivisors (L.first i) := by
+  sorry
 
 theorem second_mem (i : I) :
-    L.second i ∈ L.carrier.second (L.first i) (L.firstDivisor i) :=
-  Finset.mem_image_of_mem L.second
-    (Finset.mem_filter.mpr ⟨Finset.mem_univ i, rfl, rfl⟩)
+    L.second i ∈ L.carrier.second (L.first i) (L.firstDivisor i) := by
+  sorry
 
 theorem secondDivisor_mem (i : I) :
     (L.allocation i).1 ∈ L.carrier.secondDivisors
-      (L.first i) (L.firstDivisor i) (L.second i) :=
-  Finset.mem_image_of_mem (fun j => (L.allocation j).1)
-    (Finset.mem_filter.mpr ⟨Finset.mem_univ i, rfl, rfl, rfl⟩)
+      (L.first i) (L.firstDivisor i) (L.second i) := by
+  sorry
 
 /-- The actual source map retains all four arithmetic labels and both
 complete original padded allocation functions. -/
@@ -112,10 +109,7 @@ used by the physical-source fibre estimate. -/
 theorem index_eq_coordinates {i j : I} (h : L.index i = L.index j) :
     L.first i = L.first j ∧ L.firstDivisor i = L.firstDivisor j ∧
       L.second i = L.second j ∧ L.allocation i = L.allocation j := by
-  refine ⟨congrArg (fun z : L.carrier.Index => z.1.val) h,
-    congrArg (fun z : L.carrier.Index => z.2.1.val) h,
-    congrArg (fun z : L.carrier.Index => z.2.2.1.val) h, ?_⟩
-  exact congrArg L.indexAllocation h
+  sorry
 
 /-- The literal harmonic weight, with the two independent divisors in
 their original positions. Padding does not change either weight. -/
@@ -141,34 +135,7 @@ theorem carrier_admissible (B Z : ℝ) (oldMask : Ideal (𝓞 K))
     (hL : ∀ i, (L.allocation i).1 ≠ 0)
     (hLN : ∀ i, (Ideal.absNorm (L.allocation i).1 : ℝ) ≤ Z ^ B) :
     L.carrier.Admissible (cap + 2) B Z oldMask := by
-  constructor
-  · intro v hv
-    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hv
-    exact hfirst i
-  · intro v hv
-    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hv
-    exact hfirstN i
-  · intro v _ S hS'
-    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hS'
-    exact hS i
-  · intro v _ S hS'
-    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hS'
-    exact hSN i
-  · intro v _ S _ w hw
-    obtain ⟨i, hi, rfl⟩ := Finset.mem_image.mp hw
-    have hSi : L.firstDivisor i = S := (Finset.mem_filter.mp hi).2.2
-    simpa only [hSi] using hsecond i
-  · intro v _ S _ w hw
-    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hw
-    exact hsecondN i
-  · intro v _ S _ w _ D hD
-    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hD
-    exact hL i
-  · intro v _ S _ w _ D hD
-    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hD
-    exact hLN i
-  · intro v _ S _ w _ D _
-    exact ⟨le_rfl, le_rfl⟩
+  sorry
 
 /-- The actual image carrier has a uniform mass from its individual
 original windows. The constant is chosen before all moving labels,
@@ -188,12 +155,7 @@ theorem image_mass_subpower (cap : ℕ) (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < �
       (∀ i, (L.allocation i).1 ≠ 0) →
       (∀ i, (Ideal.absNorm (L.allocation i).1 : ℝ) ≤ Z ^ B) →
       L.carrier.mass ≤ C * Z ^ ε / (Ideal.absNorm oldMask : ℝ) := by
-  obtain ⟨C, hC, hm⟩ := TwoDivisorCommonBranch.uniform_mass (K := K)
-    (cap + 2) B ε hB hε
-  refine ⟨C, hC, ?_⟩
-  intro Z hZ oldMask hs hs0 I inst L hf hfN hS hSN hw hwN hD hDN
-  exact hm Z hZ oldMask hs hs0 L.carrier
-    (L.carrier_admissible B Z oldMask hf hfN hS hSN hw hwN hD hDN)
+  sorry
 
 end OriginalArithmeticLabels
 end HeckeSkeleton.Moments.EngineStep

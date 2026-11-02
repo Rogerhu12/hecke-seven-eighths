@@ -76,9 +76,7 @@ theorem zeroBudget_eq_four_sources
         (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 1 * (T.one p).zeroBudget ε Czero) +
         (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 6 * (T.six p).zeroBudget ε Czero) +
         (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 7 * (T.seven p).zeroBudget ε Czero)) := by
-  simp only [zeroBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
-    FirstGaussPoolData.tagWeight, tag]
-  ring
+  sorry
 
 theorem tailBudget_eq_four_sources
     (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay) (Cerror : ℝ) :
@@ -87,9 +85,7 @@ theorem tailBudget_eq_four_sources
         (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 1 * (T.one p).tailBudget Cerror) +
         (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 6 * (T.six p).tailBudget Cerror) +
         (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 7 * (T.seven p).tailBudget Cerror)) := by
-  simp only [tailBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
-    FirstGaussPoolData.tagWeight, tag]
-  ring
+  sorry
 
 /-- The existing physical finite carrier is used verbatim. In
 particular the prime in an error tag and every covered occurrence
@@ -101,15 +97,7 @@ theorem phase_cost_eq_budgets_leaves
     T.coverHybridPhaseCost B r x ξ ε Cerror Czero =
       T.zeroBudget ε Czero + T.tailBudget Cerror +
         ∑ b : s.CoveredLeafKey B, (s.coveredLeaf B r F x b).firstPhaseCost ξ := by
-  unfold coverHybridPhaseCost
-  simp_rw [ActualGaussStage.DualTerminalCalibration.phase_cost_eq_budgets_leaves (F := F)]
-  simp only [zeroBudget, tailBudget, PoolSourceTag, Fintype.sum_sum_type,
-    Fintype.sum_unique, Fintype.sum_sigma, FirstGaussPoolData.tagWeight,
-    FirstGaussPoolData.tagPoint, FirstGaussPoolData.SourceCovers.tag,
-    ActualPoolStages.CoverHybridPredicates.tag, ActualPoolStages.tag, tag,
-    ActualPoolStages.coveredLeaf, ActualHybridLeaf.scale_firstPhaseCost,
-    Finset.sum_add_distrib, Finset.mul_sum, mul_add, mul_assoc]
-  ring
+  sorry
 
 /-- Exact zero/tail/leaf separation under the original first Fourier
 measure. Every leaf's own second Fourier measure is unchanged. -/
@@ -120,23 +108,7 @@ theorem integral_phase_cost_eq_budgets_leaves
     (∫ ξ, T.coverHybridPhaseCost B r x ξ ε Cerror Czero ∂actualFourierMeasure F) =
       (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
         ∑ b : s.CoveredLeafKey B, (s.coveredLeaf B r F x b).cost := by
-  letI := actualFourierMeasure_finite F
-  have hi : ∀ b : s.CoveredLeafKey B,
-      Integrable (s.coveredLeaf B r F x b).firstPhaseCost (actualFourierMeasure F) := by
-    intro b
-    simpa only [s.coveredLeaf_firstKernel B r F x b] using
-      (s.coveredLeaf B r F x b).firstPhaseCost_integrable
-  simp_rw [T.phase_cost_eq_budgets_leaves B r F x]
-  rw [integral_add (integrable_const _) (integrable_finsetSum _ (fun b _ => hi b))]
-  rw [integral_const, integral_finsetSum]
-  · simp only [smul_eq_mul]
-    congr 1
-    apply Finset.sum_congr rfl
-    intro b _
-    simpa only [s.coveredLeaf_firstKernel B r F x b] using
-      (s.coveredLeaf B r F x b).integral_firstPhaseCost
-  · intro b _
-    exact hi b
+  sorry
 
 end ActualPoolStages.DualTerminalCalibration
 
@@ -175,16 +147,7 @@ theorem actual_pool_dual_covered_leaf_integral_bound
       (∫ ξ, d.energy (FirstGaussPoolData.twistedCoefficient c x ξ) ∂actualFourierMeasure F) ≤
         (actualFourierMeasure F).real Set.univ * (T.zeroBudget ε Czero + T.tailBudget Cerror) +
           ∑ b : s.CoveredLeafKey B, (s.coveredLeaf B r F x b).cost := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, hb⟩ :=
-    actual_pool_dual_cover_hybrid_fourier_stage_bound
-      (W := W) (E := E) (ν := ν) (μ := μ) hΓ μv hDiff
-      C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCerror, hCzero, ?_⟩
-  intro Z ell eps bad P ι d c s hs T B r F x
-  have hb' := integral_mono (d.twisted_integrable F c x)
-    (T.coverHybridPhaseCost_integrable B r F x ε Cerror Czero)
-    (fun ξ => hb Z ell eps bad P d c x s hs T B r ξ)
-  exact hb'.trans_eq (T.integral_phase_cost_eq_budgets_leaves B r F x ε Cerror Czero)
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

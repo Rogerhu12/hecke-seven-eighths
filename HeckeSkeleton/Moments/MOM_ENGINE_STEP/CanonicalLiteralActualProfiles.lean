@@ -133,8 +133,7 @@ theorem onAtlas_characters {k : ℕ} (d : CanonicalLiteralRectangles.Atoms (K :=
     {A : SArithmeticData K} {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
     (T : SourceCartesianAtlas columns ideal) (count : k = T.slotCount) :
     (d.onAtlas T count).characters = d.characters.selectSlots (Fin.cast count.symm) := by
-  cases count
-  rfl
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 

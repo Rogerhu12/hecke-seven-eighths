@@ -52,27 +52,7 @@ theorem activeInverseNorm_gram_div_le
     p ((coefficient i * star (coefficient j)) • φ) ≤
       W.scalarCost * (pairBound * p φ) /
         (A.exteriorNorm (ideal i) * A.exteriorNorm (ideal j)) := by
-  have hai : W.active i := by
-    by_contra ha
-    exact hci (by rw [hcoefficient i hi, W.coefficient_eq i hi, if_neg ha, zero_div])
-  have haj : W.active j := by
-    by_contra ha
-    exact hcj (by rw [hcoefficient j hj, W.coefficient_eq j hj, if_neg ha, zero_div])
-  have hraw : p ((W.residualCoefficient i * star (W.residualCoefficient j)) • φ) ≤
-      pairBound * p φ := by
-    simp only [residualCoefficient, if_pos hai, if_pos haj, map_smul_eq_mul,
-      norm_mul, norm_star]
-    exact mul_le_mul_of_nonneg_right hpair (apply_nonneg _ _)
-  have hp := (W.withInverseNorm ideal coefficient hcoefficient).gram_seminorm_le
-    (C := C) i j hi hj p φ
-  change p ((coefficient i * star (coefficient j)) • φ) ≤ W.scalarCost *
-    p (((W.withInverseNorm ideal coefficient hcoefficient).residualCoefficient i *
-      star ((W.withInverseNorm ideal coefficient hcoefficient).residualCoefficient j)) • φ) at hp
-  rw [W.withInverseNorm_gram_seminorm ideal coefficient hcoefficient p φ i j] at hp
-  exact (hp.trans (mul_le_mul_of_nonneg_left
-    (div_le_div_of_nonneg_right hraw (mul_nonneg
-      (A.exteriorNorm_pos _).le (A.exteriorNorm_pos _).le)) W.scalarCost_nonneg)).trans_eq
-        (by ring)
+  sorry
 
 /-- Zero actual coefficients are handled before using the sharp lower
 window. The original frozen atom cost occurs once. -/
@@ -90,28 +70,7 @@ theorem activeInverseNorm_gram_le
         pairBound * Z ^ pairExponent) :
     p ((coefficient i * star (coefficient j)) • φ) ≤
       (W.scalarCost * pairBound * p φ) * Z ^ (pairExponent - 2 * a₀) := by
-  have hnonneg : 0 ≤ (W.scalarCost * pairBound * p φ) * Z ^ (pairExponent - 2 * a₀) :=
-    mul_nonneg (mul_nonneg (mul_nonneg W.scalarCost_nonneg hpairBound)
-      (apply_nonneg _ _)) (Real.rpow_nonneg hZ.le _)
-  by_cases hci : coefficient i = 0
-  · simpa only [hci, zero_mul, zero_smul, map_zero] using hnonneg
-  by_cases hcj : coefficient j = 0
-  · simpa only [hcj, star_zero, mul_zero, zero_smul, map_zero] using hnonneg
-  have hp := W.activeInverseNorm_gram_div_le C ideal coefficient hcoefficient p φ
-    i j hi hj hci hcj (pairBound * Z ^ pairExponent) (hpair hci hcj)
-  have hden : Z ^ (2 * a₀) ≤ A.exteriorNorm (ideal i) * A.exteriorNorm (ideal j) := by
-    rw [show 2 * a₀ = a₀ + a₀ by ring, Real.rpow_add hZ]
-    exact mul_le_mul (hlower i hi hci) (hlower j hj hcj)
-      (Real.rpow_nonneg hZ.le _) (A.exteriorNorm_pos _).le
-  have hn : 0 ≤ W.scalarCost * (pairBound * Z ^ pairExponent * p φ) :=
-    mul_nonneg W.scalarCost_nonneg (mul_nonneg
-      (mul_nonneg hpairBound (Real.rpow_nonneg hZ.le _)) (apply_nonneg _ _))
-  calc
-    _ ≤ W.scalarCost * (pairBound * Z ^ pairExponent * p φ) /
-        (A.exteriorNorm (ideal i) * A.exteriorNorm (ideal j)) := hp
-    _ ≤ W.scalarCost * (pairBound * Z ^ pairExponent * p φ) / Z ^ (2 * a₀) :=
-      div_le_div_of_nonneg_left hn (Real.rpow_pos_of_pos hZ _) hden
-    _ = _ := by rw [Real.rpow_sub hZ]; ring
+  sorry
 
 /-- In the pure dual-zero term the first exact inverse norm cancels
 the displayed original column norm. No upper bound for that norm is
@@ -130,31 +89,7 @@ theorem activeInverseNorm_gram_mul_norm_le
         pairBound * Z ^ pairExponent) :
     p ((coefficient i * star (coefficient j)) • φ) * A.exteriorNorm (ideal i) ≤
       (W.scalarCost * pairBound * p φ) * Z ^ (pairExponent - a₀) := by
-  have hnonneg : 0 ≤ (W.scalarCost * pairBound * p φ) * Z ^ (pairExponent - a₀) :=
-    mul_nonneg (mul_nonneg (mul_nonneg W.scalarCost_nonneg hpairBound)
-      (apply_nonneg _ _)) (Real.rpow_nonneg hZ.le _)
-  by_cases hci : coefficient i = 0
-  · simpa only [hci, zero_mul, zero_smul, map_zero] using hnonneg
-  by_cases hcj : coefficient j = 0
-  · simpa only [hcj, star_zero, mul_zero, zero_smul, map_zero, zero_mul] using hnonneg
-  have hp := mul_le_mul_of_nonneg_right
-    (W.activeInverseNorm_gram_div_le C ideal coefficient hcoefficient p φ
-      i j hi hj hci hcj (pairBound * Z ^ pairExponent) (hpair hci hcj))
-    (A.exteriorNorm_pos (ideal i)).le
-  have hcancel :
-      W.scalarCost * (pairBound * Z ^ pairExponent * p φ) /
-          (A.exteriorNorm (ideal i) * A.exteriorNorm (ideal j)) * A.exteriorNorm (ideal i) =
-        W.scalarCost * (pairBound * Z ^ pairExponent * p φ) / A.exteriorNorm (ideal j) := by
-    field_simp [(A.exteriorNorm_pos (ideal i)).ne', (A.exteriorNorm_pos (ideal j)).ne'] <;> ring
-  rw [hcancel] at hp
-  have hn : 0 ≤ W.scalarCost * (pairBound * Z ^ pairExponent * p φ) :=
-    mul_nonneg W.scalarCost_nonneg (mul_nonneg
-      (mul_nonneg hpairBound (Real.rpow_nonneg hZ.le _)) (apply_nonneg _ _))
-  calc
-    _ ≤ W.scalarCost * (pairBound * Z ^ pairExponent * p φ) / A.exteriorNorm (ideal j) := hp
-    _ ≤ W.scalarCost * (pairBound * Z ^ pairExponent * p φ) / Z ^ a₀ :=
-      div_le_div_of_nonneg_left hn (Real.rpow_pos_of_pos hZ _) (hlower j hj hcj)
-    _ = _ := by rw [Real.rpow_sub hZ]; ring
+  sorry
 
 end FirstDivisorCoefficientAtoms
 

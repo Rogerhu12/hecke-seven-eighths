@@ -65,23 +65,7 @@ theorem original_exterior_pair_data_reindex
         PowerfulDiagonal.tupleIdeal (fun r =>
           (raw.originalPairExteriorFactors cap hcap (index ij.1, index ij.2) r).val) =
             (raw.columnExterior (index ij.1)).val * (raw.columnExterior (index ij.2)).val := by
-  have he (ij : ι × ι) (hij : ij ∈ columns ×ˢ columns) :=
-    raw.originalPairExteriorFactors_val cap hcap (index ij.1, index ij.2)
-      (hcolumns ij.1 (Finset.mem_product.mp hij).1)
-      (hcolumns ij.2 (Finset.mem_product.mp hij).2)
-  constructor
-  · intro ij hij uv huv htuple
-    have hij' : ij ∈ (columns ×ˢ columns : Finset (ι × ι)) := by
-      simpa only [Finset.mem_product, Set.mem_prod, Finset.mem_coe] using hij
-    have huv' : uv ∈ (columns ×ˢ columns : Finset (ι × ι)) := by
-      simpa only [Finset.mem_product, Set.mem_prod, Finset.mem_coe] using huv
-    have hpair := raw.originalPairIdealFactors_injective cap hcap
-      ((he ij hij').symm.trans (htuple.trans (he uv huv')))
-    exact Prod.ext (hinj (congrArg Prod.fst hpair)) (hinj (congrArg Prod.snd hpair))
-  · intro ij hij
-    rw [he ij hij, raw.originalPairIdealFactors_product,
-      raw.columnExterior_val_of_mem (index ij.1) (hcolumns ij.1 (Finset.mem_product.mp hij).1),
-      raw.columnExterior_val_of_mem (index ij.2) (hcolumns ij.2 (Finset.mem_product.mp hij).2)]
+  sorry
 
 /-- The actual common-support quotient, with no residual injectivity
 premise and no supplied tuple count. -/

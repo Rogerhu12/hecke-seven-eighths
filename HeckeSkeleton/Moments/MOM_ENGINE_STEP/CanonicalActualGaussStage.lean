@@ -59,12 +59,7 @@ theorem original_submask_generator_dvd
     {D M : Finset (HeightOneSpectrum A.R)} (hDM : D ⊆ M) :
     (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val ∣
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) M).val := by
-  change IdealMobiusMask.maskGenerator D ∣ IdealMobiusMask.maskGenerator M
-  rw [IdealMobiusMask.maskGenerator_dvd_iff]
-  apply (IdealMobiusMask.mem_primeProduct D _).mpr
-  intro p hp
-  exact (IdealMobiusMask.mem_primeProduct M _).mp
-    ((IdealMobiusMask.maskGenerator_dvd_iff M _).mp (dvd_refl _)) p (hDM hp)
+  sorry
 
 /-- Regrouping into a common ideal changes the generator only within
 its original principal ideal. Original full-column mask coprimality
@@ -75,18 +70,14 @@ theorem generated_original_submask_coprime
     (hmask : IsCoprime a
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) M).val) :
     IsCoprime b (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val := by
-  have hspan : Ideal.span {a} = Ideal.span {b} := ha.2.trans hb.2.symm
-  have hba : b ∣ a := Ideal.span_singleton_le_span_singleton.mp hspan.le
-  exact (hmask.of_isCoprime_of_dvd_left hba).of_isCoprime_of_dvd_right
-    (original_submask_generator_dvd hDM)
+  sorry
 
 theorem engineElementOrbit_avoids_of_original
     (h : A.R) (hh : h ≠ 0) (M : Finset (HeightOneSpectrum A.R))
     (havoid : ∀ p ∈ M, h ∉ p.asIdeal) :
     sIntegerOrbitAvoidanceMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ M
       (engineElementOrbit (Γ := Γ) h) = 1 := by
-  rw [engineElementOrbit, dif_pos hh, sIntegerOrbitAvoidanceMask_mk]
-  exact if_pos havoid
+  sorry
 
 end Arithmetic
 
@@ -109,8 +100,8 @@ def nonunitSupport (support : Finset (HeightOneSpectrum (𝓞 K))) (q : Q) :
     (p : HeightOneSpectrum (𝓞 K)) :
     p ∈ (nonunitSupport support q).val ↔ p ∈ support ∧ p.asIdeal ∣
       (ProbeOrbitNormSum.principalExterior A
-        ⟨-q.out.val, neg_ne_zero.mpr q.out.property⟩).val :=
-  Finset.mem_filter
+        ⟨-q.out.val, neg_ne_zero.mpr q.out.property⟩).val := by
+  sorry
 
 def code {Θ : Type*} (support : Finset (HeightOneSpectrum (𝓞 K)))
     (dimension width : ℕ) (character : Q → Θ)
@@ -129,8 +120,7 @@ def encode {Θ : Type*} [Fintype Θ]
 theorem encode_injective {Θ : Type*} [Fintype Θ]
     (support : Finset (HeightOneSpectrum (𝓞 K))) (dimension width : ℕ) :
     Function.Injective (encode (Θ := Θ) support dimension width) := by
-  intro c c' he
-  exact (Fintype.equivFin _).injective (Fin.castSucc_injective _ he)
+  sorry
 
 def label {Θ : Type*} [Fintype Θ]
     (support : Finset (HeightOneSpectrum (𝓞 K))) (dimension width : ℕ)
@@ -145,21 +135,15 @@ theorem label_eq_iff {Θ : Type*} [Fintype Θ]
       label support dimension width character dyad q' ↔
       nonunitSupport support q = nonunitSupport support q' ∧
         character q = character q' ∧ dyad q = dyad q' := by
-  change encode support dimension width (code support dimension width character dyad q) =
-    encode support dimension width (code support dimension width character dyad q') ↔ _
-  rw [(encode_injective support dimension width).eq_iff]
-  simp only [code, Prod.mk.injEq]
+  sorry
 
 /-- Only the image of the original finite coordinates is counted. -/
 theorem labels_card_le {Θ : Type*} [Fintype Θ]
     (support : Finset (HeightOneSpectrum (𝓞 K))) (dimension width : ℕ)
     (character : Q → Θ) (dyad : Q → Fin dimension → Fin (width + 1)) (rows : Finset Q) :
     (rows.image (label support dimension width character dyad)).card ≤
-      2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension :=
-  OriginalFiniteFibre.row_image_card_le_coordinates rows
-    (label support dimension width character dyad) support dimension width
-    (code support dimension width character dyad) (encode support dimension width)
-    (fun _ _ => rfl)
+      2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension := by
+  sorry
 
 end OriginalGaussRowClassifier
 

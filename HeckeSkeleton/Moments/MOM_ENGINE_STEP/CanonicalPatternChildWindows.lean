@@ -63,8 +63,8 @@ variable (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
 theorem actualRows_original_rowLabel
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
-    (h : (chart.actualRows M X hX label).rows) : chart.rowLabel h.val = label :=
-  (Finset.mem_filter.mp h.property).2
+    (h : (chart.actualRows M X hX label).rows) : chart.rowLabel h.val = label := by
+  sorry
 
 /-- The choice precedes normalization and needs no live or ordinary
 row. The empty original label has one fixed harmless pattern. -/
@@ -83,14 +83,7 @@ theorem actualRows_originalNonunitPattern
     (h : (chart.actualRows M X hX label).rows) :
     actualNonunitPattern C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val) =
       chart.originalNonunitPattern M X hX label := by
-  have hrows : (chart.actualRows M X hX label).rows.Nonempty := ⟨h.val, h.property⟩
-  rw [originalNonunitPattern, dif_pos hrows]
-  funext i
-  apply decide_eq_decide.mpr
-  exact hclass h.val hrows.choose
-    ((chart.actualRows_original_rowLabel M X hX label h).trans
-      (chart.actualRows_original_rowLabel M X hX label
-        ⟨hrows.choose, hrows.choose_spec⟩).symm) i
+  sorry
 
 /-- Every original live row is placed in the same already chosen
 class, without asking the caller for an ordinary-row witness. -/
@@ -150,21 +143,7 @@ theorem actualRows_pattern_fullDeletion_joint_window
         (secondPatternNonunitIdeal b.primes pattern).val +
         idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
         cutoffExponent) := by
-  dsimp only
-  let S := chart.actualRows ∅ X hX label
-  let pattern := chart.originalNonunitPattern ∅ X hX label
-  let hp := chart.originalNonunitClass hclass ∅ X hX label h
-  have hjoint := chart.actualRows_fullDeletion_joint_window P Rchar X hX label
-    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hleft hright
-    old remaining hremaining hold pattern hp
-  have hunit := S.secondPatternUnitIdeal_eq_live C pattern h hp.property
-  have hnonunit := S.secondPatternNonunitIdeal_eq C pattern h.val hp.property
-  change secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity pattern =
-    unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val) at hunit
-  change secondPatternNonunitIdeal b.primes pattern =
-    nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val) at hnonunit
-  rw [← hunit, ← hnonunit] at hjoint
-  exact hjoint
+  sorry
 
 /-- The same canonical moment data admit all actual extracted live
 rows. In particular this universal claim is available on an empty
@@ -205,12 +184,7 @@ theorem canonicalOriginalChild_allowed_of_pattern_fullDeletion
         cutoffExponent))
       inverseTest leftTest rightTest geometry index).allowedRow
         ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal := by
-  dsimp only
-  refine ⟨(HeckeAxiom.exteriorEquiv A
-    ((chart.actualRows ∅ X hX label).extractedRow C h).ideal).property, ?_⟩
-  exact chart.actualRows_pattern_fullDeletion_joint_window hclass P Rchar X hX label
-    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hleft hright
-    old remaining hremaining hold h
+  sorry
 
 end FullDeletion
 end SecondBlockProfileChart

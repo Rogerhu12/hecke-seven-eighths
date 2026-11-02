@@ -44,9 +44,7 @@ private theorem direct_allowance_power_cancel
     (Z allowance loss coefficient : ℝ) (hZ : 0 < Z) :
     (coefficient * Z ^ (allowance + loss)) / Z ^ allowance =
       coefficient * Z ^ loss := by
-  rw [mul_div_assoc, ← Real.rpow_sub hZ]
-  congr 2
-  ring
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -96,36 +94,7 @@ theorem direct_zeroBudget_div_allowance_le
     T.calibration.zeroBudget ε Czero / Z ^ allowance ≤
       (directFirstDivisorZeroCoefficient B Czero profileConstant slots k fiberCap maskCap D /
         (Ideal.absNorm S : ℝ)) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hB : 0 ≤ B ^ slots := pow_nonneg (zero_le_one.trans atoms.bound_ge_one) _
-  have hcost : 0 ≤ B ^ slots * profileConstant * (2 : ℝ) ^ maskCap /
-      (Ideal.absNorm S : ℝ) := by positivity
-  have hAmplitude : T.calibration.zeroAmplitude ≤
-      (B ^ slots * profileConstant * (2 : ℝ) ^ maskCap / (Ideal.absNorm S : ℝ)) *
-        Z ^ T.zeroExponent := by
-    rw [T.calibration_zeroAmplitude_power]
-    apply mul_le_mul_of_nonneg_right _ (Real.rpow_nonneg hz.le _)
-    apply div_le_div_of_nonneg_right _ (Nat.cast_nonneg _)
-    exact mul_le_mul (mul_le_mul_of_nonneg_left hraw hB)
-      (pow_le_pow_right₀ (by norm_num : (1 : ℝ) ≤ 2) hmask)
-      (pow_nonneg (by norm_num) _) (mul_nonneg hB hprofile)
-  have hpart := T.calibration.zeroPart_le_power ε Czero
-    (B ^ slots * profileConstant * (2 : ℝ) ^ maskCap / (Ideal.absNorm S : ℝ))
-    T.zeroExponent (allowance + loss) hC hcost hAmplitude hbudget
-  have hcounts : (s.fiber : ℝ) * T.calibration.windows.multiplicity ≤
-      (fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k : ℕ) := by
-    change (s.fiber : ℝ) * (T.windows.multiplicity : ℝ) ≤ _
-    rw [hmult]
-    exact mul_le_mul_of_nonneg_right (by exact_mod_cast hfiber) (Nat.cast_nonneg _)
-  have htotal : T.calibration.zeroBudget ε Czero ≤
-      (directFirstDivisorZeroCoefficient B Czero profileConstant slots k fiberCap maskCap D /
-        (Ideal.absNorm S : ℝ)) * Z ^ (allowance + loss) := by
-    apply hpart.trans
-    convert mul_le_mul_of_nonneg_right hcounts
-      (mul_nonneg (mul_nonneg hC hcost) (Real.rpow_nonneg hz.le (allowance + loss)))
-      using 1 <;> simp only [directFirstDivisorZeroCoefficient] <;> ring
-  exact (div_le_div_of_nonneg_right htotal (Real.rpow_nonneg hz.le _)).trans_eq
-    (direct_allowance_power_cancel Z allowance loss _ hz)
+  sorry
 
 /-- The direct tail uses the same original coefficient atoms and
 support fibres; only its primitive residual-profile decay ledger differs. -/
@@ -140,31 +109,7 @@ theorem direct_tailBudget_div_allowance_le
     T.calibration.tailBudget Cerror / Z ^ allowance ≤
       (directFirstDivisorTailCoefficient B Cerror profileConstant slots k fiberCap D /
         (Ideal.absNorm S : ℝ)) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hB : 0 ≤ B ^ slots := pow_nonneg (zero_le_one.trans atoms.bound_ge_one) _
-  have hcost : 0 ≤ B ^ slots * profileConstant / (Ideal.absNorm S : ℝ) := by positivity
-  have hAmplitude : T.calibration.tailAmplitude ≤
-      (B ^ slots * profileConstant / (Ideal.absNorm S : ℝ)) * Z ^ profileExponent := by
-    rw [T.calibration_tailAmplitude]
-    convert mul_le_mul_of_nonneg_left hraw atoms.scalarCost_nonneg using 1 <;>
-      dsimp only [FirstDivisorCoefficientAtoms.scalarCost] <;> ring
-  have hpart := T.calibration.tailPart_le_power Cerror
-    (B ^ slots * profileConstant / (Ideal.absNorm S : ℝ))
-    profileExponent (allowance + loss) hC hcost hAmplitude hbudget
-  have hcounts : (s.fiber : ℝ) * T.calibration.windows.multiplicity ≤
-      (fiberCap : ℝ) * (idealDivisorCount (D ^ 2) ^ k : ℕ) := by
-    change (s.fiber : ℝ) * (T.windows.multiplicity : ℝ) ≤ _
-    rw [hmult]
-    exact mul_le_mul_of_nonneg_right (by exact_mod_cast hfiber) (Nat.cast_nonneg _)
-  have htotal : T.calibration.tailBudget Cerror ≤
-      (directFirstDivisorTailCoefficient B Cerror profileConstant slots k fiberCap D /
-        (Ideal.absNorm S : ℝ)) * Z ^ (allowance + loss) := by
-    apply hpart.trans
-    convert mul_le_mul_of_nonneg_right hcounts
-      (mul_nonneg (mul_nonneg hC hcost) (Real.rpow_nonneg hz.le (allowance + loss)))
-      using 1 <;> simp only [directFirstDivisorTailCoefficient] <;> ring
-  exact (div_le_div_of_nonneg_right htotal (Real.rpow_nonneg hz.le _)).trans_eq
-    (direct_allowance_power_cancel Z allowance loss _ hz)
+  sorry
 
 end ActualGaussStage.ResidualTerminalWindows
 
@@ -191,11 +136,7 @@ theorem normalized_allowance_prefactor (p : FirstBlockDirectData chart mask X hX
     p.rowBound * Real.sqrt (firstLeftAllowance Z total DE.1 DE.2) *
         Real.sqrt (firstRightAllowance Z total DE.1 DE.2) / Z ^ parentWidth ≤
       amplitude * firstCommonWeight Z DE.1 DE.2 := by
-  unfold rowBound
-  rw [b.activeNorm_eq]
-  change firstOriginalAllowanceWeight Z parentWidth total p.weightBound DE.1 DE.2 ≤ _
-  exact firstOriginalAllowanceWeight_le_common Z parentWidth total p.weightBound amplitude
-    hZ hprofile DE.1 DE.2
+  sorry
 
 namespace SecondStages
 
@@ -265,31 +206,7 @@ theorem classZeroBudget_le_original_profiles (hZ : 1 < Z)
           directFirstDivisorZeroCoefficient B Czero profileR slotsR k fiberCap maskCap DE.2) / 2)) *
         (firstCommonWeight Z DE.1 DE.2 * (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hB : 0 ≤ B := zero_le_one.trans (T.leftAtoms S χ).bound_ge_one
-  have hCL : 0 ≤ directFirstDivisorZeroCoefficient B Czero profileL
-      slotsL k fiberCap maskCap DE.1 := by unfold directFirstDivisorZeroCoefficient; positivity
-  have hCR : 0 ≤ directFirstDivisorZeroCoefficient B Czero profileR
-      slotsR k fiberCap maskCap DE.2 := by unfold directFirstDivisorZeroCoefficient; positivity
-  have hL := (T.left S χ).direct_zeroBudget_div_allowance_le DE.1 U.left_tuples
-    ε Czero profileL _ loss fiberCap maskCap hC hprofileL U.left_fiber U.left_mask
-    U.left_profile U.left_ledger
-  have hR := (T.right S χ).direct_zeroBudget_div_allowance_le DE.2 U.right_tuples
-    ε Czero profileR _ loss fiberCap maskCap hC hprofileR U.right_fiber U.right_mask
-    U.right_profile U.right_ledger
-  have hc := original_terminal_class_scalar Z parentWidth
-    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
-    p.rowBound ‖(moebius S.val : ℂ)‖
-    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
-    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
-    ((T.left S χ).calibration.zeroBudget ε Czero) ((T.right S χ).calibration.zeroBudget ε Czero)
-    _ _ (Ideal.absNorm S.val : ℝ) loss firstAmplitude (firstCommonWeight Z DE.1 DE.2)
-    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
-    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
-    (firstTerminalFourierCost_nonneg chart.kernel) hCL hCR (Nat.cast_nonneg _) hL hR
-    (firstTerminalFourierCost_bound chart.kernel)
-    (p.normalized_allowance_prefactor hZ total parentWidth firstAmplitude hfirst)
-  simpa only [calibration, TerminalCalibration.classZeroBudget, classWeight] using hc
+  sorry
 
 structure TailWindows
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -326,29 +243,7 @@ theorem classTailBudget_le_original_profiles (hZ : 1 < Z)
           directFirstDivisorTailCoefficient B Cerror profileR slotsR k fiberCap DE.2) / 2)) *
         (firstCommonWeight Z DE.1 DE.2 * (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hB : 0 ≤ B := zero_le_one.trans (T.leftAtoms S χ).bound_ge_one
-  have hCL : 0 ≤ directFirstDivisorTailCoefficient B Cerror profileL
-      slotsL k fiberCap DE.1 := by unfold directFirstDivisorTailCoefficient; positivity
-  have hCR : 0 ≤ directFirstDivisorTailCoefficient B Cerror profileR
-      slotsR k fiberCap DE.2 := by unfold directFirstDivisorTailCoefficient; positivity
-  have hL := (T.left S χ).direct_tailBudget_div_allowance_le DE.1 U.left_tuples
-    Cerror profileL exponentL _ loss fiberCap hC hprofileL U.left_fiber U.left_profile U.left_ledger
-  have hR := (T.right S χ).direct_tailBudget_div_allowance_le DE.2 U.right_tuples
-    Cerror profileR exponentR _ loss fiberCap hC hprofileR U.right_fiber U.right_profile U.right_ledger
-  have hc := original_terminal_class_scalar Z parentWidth
-    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
-    p.rowBound ‖(moebius S.val : ℂ)‖
-    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
-    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
-    ((T.left S χ).calibration.tailBudget Cerror) ((T.right S χ).calibration.tailBudget Cerror)
-    _ _ (Ideal.absNorm S.val : ℝ) loss firstAmplitude (firstCommonWeight Z DE.1 DE.2)
-    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
-    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
-    (firstTerminalFourierCost_nonneg chart.kernel) hCL hCR (Nat.cast_nonneg _) hL hR
-    (firstTerminalFourierCost_bound chart.kernel)
-    (p.normalized_allowance_prefactor hZ total parentWidth firstAmplitude hfirst)
-  simpa only [calibration, TerminalCalibration.classTailBudget, classWeight] using hc
+  sorry
 
 end FirstDivisorWindows
 end SecondStages

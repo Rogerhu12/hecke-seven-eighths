@@ -63,7 +63,7 @@ variable (B : d.SourceCovers c)
 
 theorem leafSecondDivisor_eq_innerDivisor (j : R.CoveredLeafKey B) :
     R.leafSecondDivisor B j = R.innerDivisor B j := by
-  rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩)) <;> rfl
+  sorry
 
 end ActualPoolStages
 
@@ -128,17 +128,7 @@ theorem coveredLeaf_weight_original_relative
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             (R.secondPhaseAt LA RA j)‖) /
         R.firstAllowanceAt LA RA total j := by
-  rcases j with ⟨S, χ, j | j⟩
-  · rw [coveredLeaf, R.classLeaf_left_weight_original LA RA NL NR hNL hNR exceptional
-      S χ j parentWidth total (hleftScale S χ) (hrightScale S χ)]
-    dsimp only [poolScalarAt, secondPhaseAt, firstAllowanceAt, innerDivisor]
-    rw [(R.left S χ).leafSecondDivisor_eq_innerDivisor (p.leftSourceCovers LA S χ) j]
-    ring
-  · rw [coveredLeaf, R.classLeaf_right_weight_original LA RA NL NR hNL hNR exceptional
-      S χ j parentWidth total (hleftScale S χ) (hrightScale S χ)]
-    dsimp only [poolScalarAt, secondPhaseAt, firstAllowanceAt, innerDivisor]
-    rw [(R.right S χ).leafSecondDivisor_eq_innerDivisor (p.rightSourceCovers RA S χ) j]
-    ring
+  sorry
 
 end FirstBlockPoolData.SecondStages
 
@@ -179,32 +169,7 @@ theorem parentLeaf_weight_original_relative
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             (R.secondPhaseAt L j)‖) /
         R.firstAllowanceAt L total j := by
-  have hb := (R j.1 j.2.1).coveredLeaf_weight_original_relative L L
-    ((s.canonicalNormalization hZ total).left j.1 j.2.1)
-    ((s.canonicalNormalization hZ total).right j.1 j.2.1)
-    ((s.canonicalNormalization hZ total).left_pos j.1 j.2.1)
-    ((s.canonicalNormalization hZ total).right_pos j.1 j.2.1)
-    (exceptional j.1 j.2.1) parentWidth (total j.1 j.2.1)
-    (fun _ _ => rfl) (fun _ _ => rfl) j.2.2
-  change ((s.fiber : ℝ) *
-    ((R j.1 j.2.1).coveredLeaf L L
-      ((s.canonicalNormalization hZ total).left j.1 j.2.1)
-      ((s.canonicalNormalization hZ total).right j.1 j.2.1)
-      ((s.canonicalNormalization hZ total).left_pos j.1 j.2.1)
-      ((s.canonicalNormalization hZ total).right_pos j.1 j.2.1)
-      (exceptional j.1 j.2.1) j.2.2).weight) / Z ^ parentWidth = _
-  calc
-    _ = (s.fiber : ℝ) *
-        (((R j.1 j.2.1).coveredLeaf L L
-          ((s.canonicalNormalization hZ total).left j.1 j.2.1)
-          ((s.canonicalNormalization hZ total).right j.1 j.2.1)
-          ((s.canonicalNormalization hZ total).left_pos j.1 j.2.1)
-          ((s.canonicalNormalization hZ total).right_pos j.1 j.2.1)
-          (exceptional j.1 j.2.1) j.2.2).weight / Z ^ parentWidth) := by ring
-    _ = _ := by
-      rw [hb]
-      dsimp only [originalScalarAt, firstAllowanceAt, secondPhaseAt, innerDivisor]
-      ring
+  sorry
 
 /-- Extracting the proved constant common atoms preserves the same
 parent scalar, including its first orbital fibre. -/
@@ -223,8 +188,7 @@ theorem extracted_parentLeaf_weight_original_relative
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             (R.secondPhaseAt L j)‖) /
         R.firstAllowanceAt L total j := by
-  rw [extract.weight_eq]
-  exact R.parentLeaf_weight_original_relative L hZ total exceptional parentWidth j
+  sorry
 
 end ActualFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep

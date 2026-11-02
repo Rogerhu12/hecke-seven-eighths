@@ -168,15 +168,7 @@ theorem canonical_unmasked_block_gauss_stage_bound
           (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
           δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
           dimension width character dyad).cost seminorms Ctail decay := by
-  obtain ⟨seminorms, Ctail, hC, hbound⟩ :=
-    actual_gauss_stage_bound (E := ℝ) (ν := ν) (μ := μ) hΓ μv hDiff C Drecipe hD
-      (rowBallFiniteFamily K A.Sf 1)
-      (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1)
-      decay hdecay order horder hdegree
-  refine ⟨seminorms, Ctail, hC, ?_⟩
-  intro ι G retainedScale Z g hscale hZ cutoff hcutoff hnorm Θ _ dimension width character dyad
-  exact hbound G _
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

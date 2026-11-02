@@ -37,8 +37,7 @@ theorem joint_normalized_difference {I : Type*} (columns : Finset I)
     jointFourierColumn columns (fun i => normalizer * (a i - b i)) x ξ =
       normalizer * (jointFourierColumn columns a x ξ -
         jointFourierColumn columns b x ξ) := by
-  simp only [jointFourierColumn, mul_assoc, sub_mul, mul_sub,
-    Finset.mul_sum, Finset.sum_sub_distrib]
+  sorry
 
 /-- The two effective-support transports are joined before the
 Moebius sum.  Hence there is one label and one actual allocation for
@@ -90,31 +89,7 @@ theorem calibrated_centered_allocations
               rawSourceCoefficient (σ := σ) T g h' (N₁ true) (N₂ true) Z length
                 (w₁ true) (w₂ true) w i))
           (rawSourceLocation x₁ x₂ x) ξ := by
-  have hcarrier (r : Bool) :
-      jointFourierColumn (childCartesianColumns S₁ S₂ S)
-        (old.coefficient (σ := σ) g h' (N₁ r) (N₂ r) Z length (w₁ r) (w₂ r) w)
-        (childCartesianLocation x₁ x₂ x) ξ =
-      jointFourierColumn (childCartesianColumns (idealCarrier U₁) (idealCarrier U₂) U)
-        (rawSourceCoefficient (σ := σ) (T.deleteMask M) g h'
-          (N₁ r) (N₂ r) Z length (w₁ r) (w₂ r) w)
-        (rawSourceLocation x₁ x₂ x) ξ := by
-    rw [raw_joint_idealCarrier]
-    have hsource := fixed_child_polynomial_from_effective_terms old (d r) (count r)
-      length (hlength r) u g h' (Dold r) (N₁ r) (N₂ r) Z t S₁ S₂ S
-      (hS₁ r) (hS₂ r) (hS r) (w₁ r) (w₂ r) w x₁ x₂ x ξ
-      (fun I _ => hW₁ r I) (fun I _ => hW₂ r I) (fun i p _ => hW r i p)
-    have hfull := fixed_child_polynomial_from_effective_terms (T.deleteMask M) (d r)
-      (count r) length (hlength r) u g h' (Dpaid r) (N₁ r) (N₂ r) Z t U₁ U₂ U
-      (hU₁ r) (hU₂ r) (hU r) (w₁ r) (w₂ r) w x₁ x₂ x ξ
-      (fun I _ => hW₁ r I) (fun I _ => hW₂ r I) (fun i p _ => hW r i p)
-    exact hsource.trans hfull.symm
-  rw [joint_normalized_difference, hcarrier false, hcarrier true,
-    ← joint_normalized_difference]
-  exact raw_centered_joint_allocations T M g h'
-    (N₁ false) (N₂ false) (N₁ true) (N₂ true) Z length
-    (idealCarrier U₁) (idealCarrier U₂) U (idealCarrier_nonzero U₁)
-    (idealCarrier_nonzero U₂) (w₁ false) (w₂ false) (w₁ true) (w₂ true) w
-    x₁ x₂ x normalizer ξ
+  sorry
 
 end CanonicalLiteralCenteredPassive
 end HeckeSkeleton.Moments.EngineStep

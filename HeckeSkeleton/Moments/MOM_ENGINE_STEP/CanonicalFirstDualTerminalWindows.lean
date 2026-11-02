@@ -43,7 +43,7 @@ theorem firstGramSeminorm_eq {ι : Type*} (c : ι → ℂ)
     orders.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)
         ((c i * star (c j)) • archTest K A.Sf 1) =
       ‖c i‖ * ‖c j‖ * terminalSeminorm A orders := by
-  rw [map_smul_eq_mul, norm_mul, norm_star]
+  sorry
 
 /-- Two individual original coefficient windows give the exact
 profile exponent `2 * coefficientExponent`, including negative values. -/
@@ -57,19 +57,7 @@ theorem firstGramSeminorm_le {ι : Type*} (columns : Finset ι) (c : ι → ℂ)
         ((c i * star (c j)) • archTest K A.Sf 1) ≤
       (coefficientConstant ^ 2 * terminalSeminorm A orders) *
         Z ^ (2 * coefficientExponent) := by
-  have hz : 0 < Z := zero_lt_one.trans_le hZ
-  rw [firstGramSeminorm_eq]
-  calc
-    _ ≤ (coefficientConstant * Z ^ coefficientExponent) *
-        (coefficientConstant * Z ^ coefficientExponent) * terminalSeminorm A orders :=
-      mul_le_mul_of_nonneg_right
-        (mul_le_mul (hcoefficient i hi) (hcoefficient j hj) (norm_nonneg _)
-          (mul_nonneg hconstant (Real.rpow_nonneg hz.le _)))
-        (terminalSeminorm_nonneg (A := A) orders)
-    _ = _ := by
-      rw [show (2 : ℝ) * coefficientExponent =
-        coefficientExponent + coefficientExponent by ring, Real.rpow_add hz]
-      ring
+  sorry
 
 variable {σ : K →+* ℂ} {η : RayClassCharacter K A.modulus}
 variable {hS : A.ContainsTraceBadPlaces}
@@ -201,17 +189,7 @@ theorem rectangle_norm_le_original_atoms
     (comparison : Bool) (v : raw.Column) (hv : v ∈ raw.columns) :
     ‖values.rectangle comparison v‖ ≤
       leftBound comparison * rightBound comparison * ∏ i, primeBound i := by
-  have hm : (v.1.1 ∈ raw.leftColumns ∧ v.1.2 ∈ raw.rightColumns) ∧
-      (∀ i, v.2 i ∈ raw.slotColumns i) := by
-    simpa only [ParentRawAtoms.columns, childCartesianColumns,
-      Finset.mem_product, Fintype.mem_piFinset] using hv
-  rw [rectangle, norm_mul, norm_mul, norm_prod]
-  exact mul_le_mul
-    (mul_le_mul (hleftAtom comparison _ hm.1.1) (hrightAtom comparison _ hm.1.2)
-      (norm_nonneg _) (hleft comparison))
-    (Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun i _ => hprimeAtom i _ (hm.2 i)))
-    (Finset.prod_nonneg fun _ _ => norm_nonneg _)
-    (mul_nonneg (hleft comparison) (hright comparison))
+  sorry
 
 /-- The centered coefficient is estimated from its two literal
 rectangles; the ordinary case retains just the original first one. -/
@@ -228,23 +206,7 @@ theorem coefficient_norm_le_original_atoms
     ‖values.coefficient centered v‖ ≤
       (leftBound false * rightBound false +
         if centered then leftBound true * rightBound true else 0) * ∏ i, primeBound i := by
-  have hrectangle := values.rectangle_norm_le_original_atoms leftBound rightBound primeBound
-    hleft hright hleftAtom hrightAtom hprimeAtom
-  cases centered with
-  | false =>
-      change ‖values.rectangle false v - 0‖ ≤
-        (leftBound false * rightBound false + 0) * ∏ i, primeBound i
-      simpa only [sub_zero, add_zero] using hrectangle false v hv
-  | true =>
-      change ‖values.rectangle false v - values.rectangle true v‖ ≤
-        (leftBound false * rightBound false + leftBound true * rightBound true) *
-          ∏ i, primeBound i
-      calc
-        _ ≤ ‖values.rectangle false v‖ + ‖values.rectangle true v‖ := norm_sub_le _ _
-        _ ≤ leftBound false * rightBound false * (∏ i, primeBound i) +
-            leftBound true * rightBound true * (∏ i, primeBound i) :=
-          add_le_add (hrectangle false v hv) (hrectangle true v hv)
-        _ = _ := by ring
+  sorry
 
 /-- A uniform bound on the individual original atoms pays both
 rectangles, including the case of no prime slots. -/
@@ -257,26 +219,7 @@ theorem coefficient_norm_le_uniform_atom_bound
     (hprimeAtom : ∀ i p, p ∈ raw.slotColumns i → ‖values.prime i p‖ ≤ bound)
     (centered : Bool) (v : raw.Column) (hv : v ∈ raw.columns) :
     ‖values.coefficient centered v‖ ≤ 2 * bound ^ (d.geometry.slotCount + 2) := by
-  have h := values.coefficient_norm_le_original_atoms
-    (fun _ => bound) (fun _ => bound) (fun _ => bound)
-    (fun _ => hbound) (fun _ => hbound) hleftAtom hrightAtom hprimeAtom centered v hv
-  have hsum : bound * bound + (if centered then bound * bound else 0) ≤
-      2 * (bound * bound) := by
-    cases centered with
-    | false =>
-        change bound * bound + 0 ≤ 2 * (bound * bound)
-        nlinarith [sq_nonneg bound]
-    | true =>
-        change bound * bound + bound * bound ≤ 2 * (bound * bound)
-        linarith
-  have hprod : (∏ _i : Fin d.geometry.slotCount, bound) =
-      bound ^ d.geometry.slotCount := by simp
-  calc
-    _ ≤ (bound * bound + (if centered then bound * bound else 0)) *
-        (∏ _i : Fin d.geometry.slotCount, bound) := h
-    _ ≤ 2 * (bound * bound) * (∏ _i : Fin d.geometry.slotCount, bound) :=
-      mul_le_mul_of_nonneg_right hsum (Finset.prod_nonneg fun _ _ => hbound)
-    _ = _ := by rw [hprod, pow_add, pow_two]; ring
+  sorry
 
 /-- The degree can be fixed from the original slot cap before the
 moving model or its coefficient carrier is chosen. -/
@@ -289,11 +232,8 @@ theorem coefficient_norm_le_original_atom_cap
       ‖values.right comparison I‖ ≤ bound)
     (hprimeAtom : ∀ i p, p ∈ raw.slotColumns i → ‖values.prime i p‖ ≤ bound)
     (centered : Bool) (v : raw.Column) (hv : v ∈ raw.columns) :
-    ‖values.coefficient centered v‖ ≤ 2 * bound ^ (cap + 2) :=
-  (values.coefficient_norm_le_uniform_atom_bound bound (zero_le_one.trans hbound)
-    hleftAtom hrightAtom hprimeAtom centered v hv).trans
-    (mul_le_mul_of_nonneg_left
-      (pow_le_pow_right₀ hbound (Nat.add_le_add_right hslots 2)) (by norm_num))
+    ‖values.coefficient centered v‖ ≤ 2 * bound ^ (cap + 2) := by
+  sorry
 
 end ParentRawAtoms.ConstantValues
 

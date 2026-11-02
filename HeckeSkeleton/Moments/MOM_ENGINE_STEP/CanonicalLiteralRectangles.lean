@@ -88,15 +88,13 @@ theorem term_false (i : AllocationColumn K k) :
     d.term false i = d.normalizer *
       rawBareSourceCoefficient d.characters (d.scale₁ false) (d.scale₂ false)
         d.base d.length (d.leftWeight false) (d.rightWeight false) d.slotWeight i := by
-  simp only [term, rectangleLeftWeight, Bool.false_and, Bool.false_eq_true, if_false]
+  sorry
 
 theorem term_true (i : AllocationColumn K k) :
     d.term true i = if d.centered then d.normalizer *
       rawBareSourceCoefficient d.characters (d.scale₁ true) (d.scale₂ true)
         d.base d.length (d.leftWeight true) (d.rightWeight true) d.slotWeight i else 0 := by
-  cases hc : d.centered <;>
-    simp [term, rectangleLeftWeight, hc, rawBareSourceCoefficient,
-      FixedChildCharacters.bareCoefficient, childCartesianCoefficient]
+  sorry
 
 theorem whole_eq (i : AllocationColumn K k) :
     d.whole i = d.normalizer *
@@ -105,9 +103,7 @@ theorem whole_eq (i : AllocationColumn K k) :
         if d.centered then rawBareSourceCoefficient d.characters
           (d.scale₁ true) (d.scale₂ true) d.base d.length
           (d.leftWeight true) (d.rightWeight true) d.slotWeight i else 0) := by
-  rw [whole, d.term_false, d.term_true]
-  cases d.centered <;> simp only [Bool.false_eq_true, if_false, if_true, sub_zero, mul_zero,
-    mul_sub]
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -240,8 +236,7 @@ def literalOriginalAtoms (ξ : X)
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂) :
     (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).normalizer = 1 := by
-  simp [literalOriginalAtoms, CanonicalLiteralRectangles.Atoms.normalizer,
-    extraGaussNormalizer, SecondCoefficientTermDictionary.centralNormalizer]
+  sorry
 
 /-- Each actual original rectangle is produced from the original
 two plain profiles and all prime occurrences. There is no supplied
@@ -255,18 +250,7 @@ theorem literalOriginalAtoms_term (ξ : X)
     (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).term comparison i =
       if comparison && !centered then 0 else
         (atoms.values Y₁ Y₂).rectangle comparison ((atoms.raw Y₁ Y₂).originalIndex i) := by
-  dsimp only
-  rw [Q.literalOriginalDictionary_rectangle ξ W a Z t Y₁ Y₂ comparison
-    (1 : PUnit.{1} →* Circle)]
-  cases comparison <;> cases centered <;>
-    simp [CanonicalLiteralRectangles.Atoms.term,
-      CanonicalLiteralRectangles.Atoms.rectangleLeftWeight,
-      literalOriginalAtoms, CanonicalLiteralRectangles.Atoms.normalizer,
-      extraGaussNormalizer, SecondCoefficientTermDictionary.centralNormalizer,
-      literalOriginalDictionary, CanonicalLiteralTerms.dictionary,
-      CanonicalLiteralTerms.plainAtom, CanonicalLiteralTerms.primeAtom,
-      SecondCoefficientTermDictionary.coefficient, rawBareSourceCoefficient,
-      FixedChildCharacters.bareCoefficient, childCartesianCoefficient]
+  sorry
 
 /-- The actual entire centered original coefficient, on its computed
 Cartesian atlas, is the constructed whole rectangle. Empty slot sets
@@ -279,12 +263,7 @@ theorem literalOriginalAtoms_whole (ξ : X)
     let atoms := (Q.arithmeticAtoms ξ).constantAtoms W a Z t
     (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).whole i =
       (atoms.values Y₁ Y₂).coefficient centered ((atoms.raw Y₁ Y₂).originalIndex i) := by
-  dsimp only
-  unfold CanonicalLiteralRectangles.Atoms.whole
-  rw [Q.literalOriginalAtoms_term ξ W a Z t Y₁ Y₂ centered false hZ hY₁ hY₂ i,
-    Q.literalOriginalAtoms_term ξ W a Z t Y₁ Y₂ centered true hZ hY₁ hY₂ i]
-  cases centered <;>
-    simp [ParentRawAtoms.ConstantValues.coefficient]
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

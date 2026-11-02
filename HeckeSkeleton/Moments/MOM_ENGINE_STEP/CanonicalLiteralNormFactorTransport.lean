@@ -47,49 +47,27 @@ def normProfileSlotFactor (δ₁ δ₂ : ℝ) (i : Fin k) : ℝ :=
 def normProfileFactor (δ₁ δ₂ : ℝ) : ℝ :=
   d.scaleProduct false ^ (-1 / 2 + δ₁ + δ₂)
 
-theorem normProfileFactor_pos (δ₁ δ₂ : ℝ) : 0 < d.normProfileFactor δ₁ δ₂ :=
-  Real.rpow_pos_of_pos (d.scaleProduct_pos false) _
+theorem normProfileFactor_pos (δ₁ δ₂ : ℝ) : 0 < d.normProfileFactor δ₁ δ₂ := by
+  sorry
 
 theorem normProfileLeftFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) :
-    0 < d.normProfileLeftFactor δ₁ δ₂ r :=
-  CanonicalLiteralProfileScalars.plainFactor_pos (d.scale₁_pos false) (d.scale₁_pos r) δ₁ δ₂
+    0 < d.normProfileLeftFactor δ₁ δ₂ r := by
+  sorry
 
 theorem normProfileRightFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) :
-    0 < d.normProfileRightFactor δ₁ δ₂ r :=
-  CanonicalLiteralProfileScalars.plainFactor_pos (d.scale₂_pos false) (d.scale₂_pos r) δ₁ δ₂
+    0 < d.normProfileRightFactor δ₁ δ₂ r := by
+  sorry
 
 theorem normProfileSlotFactor_pos (δ₁ δ₂ : ℝ) (i : Fin k) :
-    0 < d.normProfileSlotFactor δ₁ δ₂ i :=
-  CanonicalLiteralProfileScalars.plainFactor_pos
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _) δ₁ δ₂
+    0 < d.normProfileSlotFactor δ₁ δ₂ i := by
+  sorry
 
 theorem normProfileFactor_product (δ₁ δ₂ : ℝ) (r : Bool)
     (hproduct : d.scale₁ r * d.scale₂ r = d.scale₁ false * d.scale₂ false) :
     CanonicalLiteralProfileFactorExtraction.product
         (d.normProfileLeftFactor δ₁ δ₂) (d.normProfileRightFactor δ₁ δ₂)
         (d.normProfileSlotFactor δ₁ δ₂) r = d.normProfileFactor δ₁ δ₂ := by
-  have hplain := CanonicalLiteralProfileScalars.plainFactor_product_of_equal_product
-    (d.scale₁_pos false) (d.scale₂_pos false) (d.scale₁_pos r) (d.scale₂_pos r)
-    hproduct δ₁ δ₂
-  have hslot (i : Fin k) : d.normProfileSlotFactor δ₁ δ₂ i =
-      (d.base ^ d.length i) ^ (-1 / 2 + δ₁ + δ₂) := by
-    unfold normProfileSlotFactor CanonicalLiteralProfileScalars.plainFactor
-    rw [Real.sqrt_eq_rpow, ← Real.rpow_add
-      (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)]
-    congr 1
-    unfold CanonicalLiteralProfileScalars.exponent
-    ring
-  unfold CanonicalLiteralProfileFactorExtraction.product
-    normProfileLeftFactor normProfileRightFactor
-  rw [hplain]
-  simp_rw [hslot]
-  rw [Real.finsetProd_rpow Finset.univ _
-    (fun i _ => Real.rpow_nonneg (zero_le_one.trans d.base_gt_one.le) _) _]
-  exact (Real.mul_rpow (mul_pos (d.scale₁_pos false) (d.scale₂_pos false)).le
-    (Finset.prod_nonneg fun i _ =>
-      Real.rpow_nonneg (zero_le_one.trans d.base_gt_one.le) _)
-    (-1 / 2 + δ₁ + δ₂)).symm
+  sorry
 
 def divideNormFactors (δ₁ δ₂ : ℝ) : Atoms (K := K) k :=
   d.divideProfileFactors (d.normProfileLeftFactor δ₁ δ₂)
@@ -103,23 +81,7 @@ theorem redistributeNormFactors_whole (δ₁ δ₂ : ℝ)
       d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (i : AllocationColumn K k) :
     (d.redistributeNormFactors δ₁ δ₂).whole i = d.whole i := by
-  have hc : d.centered = true →
-      d.normProfileLeftFactor δ₁ δ₂ true * d.normProfileRightFactor δ₁ δ₂ true =
-        d.normProfileLeftFactor δ₁ δ₂ false * d.normProfileRightFactor δ₁ δ₂ false := by
-    intro h
-    exact (CanonicalLiteralProfileScalars.plainFactor_product_of_equal_product
-      (d.scale₁_pos false) (d.scale₂_pos false) (d.scale₁_pos true) (d.scale₂_pos true)
-      (hproduct h) δ₁ δ₂).trans
-        (CanonicalLiteralProfileScalars.plainFactor_product_of_equal_product
-          (d.scale₁_pos false) (d.scale₂_pos false) (d.scale₁_pos false) (d.scale₂_pos false)
-          rfl δ₁ δ₂).symm
-  have he := d.whole_eq_profileFactor_mul
-    (d.normProfileLeftFactor δ₁ δ₂) (d.normProfileRightFactor δ₁ δ₂)
-    (d.normProfileSlotFactor δ₁ δ₂) (d.normProfileLeftFactor_pos δ₁ δ₂)
-    (d.normProfileRightFactor_pos δ₁ δ₂) (d.normProfileSlotFactor_pos δ₁ δ₂) hc i
-  rw [d.normProfileFactor_product δ₁ δ₂ false rfl] at he
-  rw [redistributeNormFactors, scale_whole]
-  exact he.symm
+  sorry
 
 @[simp] theorem redistributeNormFactors_characters (δ₁ δ₂ : ℝ) :
     (d.redistributeNormFactors δ₁ δ₂).characters = d.characters := rfl
@@ -132,20 +94,14 @@ as an exact atom-record identity. No nonzero source is required. -/
 theorem scale_redistributeNormFactors (c : ℂ) (δ₁ δ₂ : ℝ) :
     (d.scale c).redistributeNormFactors δ₁ δ₂ =
       (d.divideNormFactors δ₁ δ₂).scale (c * (d.normProfileFactor δ₁ δ₂ : ℂ)) := by
-  unfold redistributeNormFactors divideNormFactors divideProfileFactors
-    normProfileLeftFactor normProfileRightFactor normProfileSlotFactor
-    normProfileFactor scaleProduct scale
-  congr 1
-  funext r I
-  ring
+  sorry
 
 theorem redistributeNormFactors_onAtlas (δ₁ δ₂ : ℝ)
     {A : SArithmeticData K} {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
     (T : SourceCartesianAtlas columns ideal) (count : k = T.slotCount) :
     (d.redistributeNormFactors δ₁ δ₂).onAtlas T count =
       (d.onAtlas T count).redistributeNormFactors δ₁ δ₂ := by
-  cases count
-  rfl
+  sorry
 
 theorem redistributeNormFactors_deleteMask (δ₁ δ₂ : ℝ)
     (M : HeckeGeneral.Analysis.NonzeroIdeal K) :

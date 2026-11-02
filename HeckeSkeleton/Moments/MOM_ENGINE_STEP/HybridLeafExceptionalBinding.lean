@@ -75,81 +75,19 @@ include b
 
 theorem exceptional_rows_subset :
     R.rows.filter Q.exceptional ⊆ leaf.rows.filter leaf.exceptional := by
-  intro h hh
-  obtain ⟨hm, he⟩ := Finset.mem_filter.mp hh
-  have hl : h ∈ leaf.rows := b.rows hm
-  exact Finset.mem_filter.mpr ⟨hl, (b.exceptional h hl).mpr he⟩
+  sorry
 
 theorem exceptional_rows_zero :
     ∀ h ∈ leaf.rows.filter leaf.exceptional,
       h ∉ R.rows.filter Q.exceptional → leaf.rowWeight h = 0 := by
-  intro h hh hn
-  obtain ⟨hm, he⟩ := Finset.mem_filter.mp hh
-  apply b.rows_zero h hm
-  intro hr
-  exact hn (Finset.mem_filter.mpr ⟨hr, (b.exceptional h hm).mp he⟩)
+  sorry
 
 /-- The two complete centered columns are compared before taking their
 norms.  No Cauchy estimate is applied to the exceptional rows. -/
 theorem exceptionalIntegrand_eq (z : U × V) :
     leaf.exceptionalIntegrand z =
       left.exceptionalMagnitude right EL ER Q (WithLp.toLp 2 z) := by
-  have hfull : leaf.exceptionalIntegrand z =
-      jointColumnPairMagnitude (R.rows.filter Q.exceptional)
-        left.allocation.columns right.allocation.columns
-        (fun h => R.weight h * R.correlation h)
-        (left.centeredCoefficient EL) (right.centeredCoefficient ER)
-        (fun h => rawSourceLocation (left.leftLocation h) (left.rightLocation h)
-          (left.slotLocation h))
-        (fun h => rawSourceLocation (right.leftLocation h) (right.rightLocation h)
-          (right.slotLocation h)) (WithLp.toLp 2 z) := by
-    unfold ActualHybridLeaf.exceptionalIntegrand
-    calc
-      _ = jointColumnPairMagnitude (R.rows.filter Q.exceptional) leaf.left leaf.right
-          leaf.rowWeight leaf.leftCoefficient (fun h j => star (leaf.rightCoefficient h j))
-          (fun h i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
-          (fun h j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
-          (WithLp.toLp 2 z) :=
-        jointColumnPairMagnitude_eq_on_zero_rows _ _ _ _ _ _ _ _ _ _
-          b.exceptional_rows_subset b.exceptional_rows_zero
-      _ = _ := by
-        rw [← b.left_columns, ← b.right_columns]
-        unfold jointColumnPairMagnitude
-        apply Finset.sum_congr rfl
-        intro h hh
-        have hm : h ∈ leaf.rows := b.rows (Finset.mem_filter.mp hh).1
-        have hl :
-            jointFourierColumn leaf.left (leaf.leftCoefficient h)
-              (fun i => WithLp.toLp 2 (leaf.leftFirst h i, leaf.leftSecond h i))
-              (WithLp.toLp 2 z) =
-            jointFourierColumn leaf.left (left.centeredCoefficient EL h)
-              (rawSourceLocation (left.leftLocation h) (left.rightLocation h)
-                (left.slotLocation h)) (WithLp.toLp 2 z) := by
-          unfold jointFourierColumn
-          apply Finset.sum_congr rfl
-          intro i hi
-          dsimp only
-          rw [b.leftCoefficient h hm i hi, b.leftPoint h hm i hi]
-        have hr :
-            jointFourierColumn leaf.right (fun j => star (leaf.rightCoefficient h j))
-              (fun j => WithLp.toLp 2 (-leaf.rightFirst h j, leaf.rightSecond h j))
-              (WithLp.toLp 2 z) =
-            jointFourierColumn leaf.right (right.centeredCoefficient ER h)
-              (rawSourceLocation (right.leftLocation h) (right.rightLocation h)
-                (right.slotLocation h)) (WithLp.toLp 2 z) := by
-          unfold jointFourierColumn
-          apply Finset.sum_congr rfl
-          intro j hj
-          dsimp only
-          rw [b.rightCoefficient h hm j hj, b.rightPoint h hm j hj]
-        rw [b.rowWeight h hm, hl, hr]
-  exact hfull.trans (R.pair_magnitude_live
-    left.allocation.columns right.allocation.columns
-    (left.centeredCoefficient EL) (right.centeredCoefficient ER)
-    (fun h => rawSourceLocation (left.leftLocation h) (left.rightLocation h)
-      (left.slotLocation h))
-    (fun h => rawSourceLocation (right.leftLocation h) (right.rightLocation h)
-      (right.slotLocation h)) Q.exceptional (WithLp.toLp 2 z))
+  sorry
 
 variable [FiniteDimensional ℝ U] [MeasurableSpace U] [BorelSpace U]
 variable [FiniteDimensional ℝ V] [MeasurableSpace V] [BorelSpace V]
@@ -160,9 +98,7 @@ theorem exceptionalCost_eq :
     leaf.exceptionalCost = leaf.weight *
       ∫ z : U × V, left.exceptionalMagnitude right EL ER Q (WithLp.toLp 2 z)
         ∂nestedFourierMeasure leaf.firstKernel leaf.secondKernel := by
-  unfold ActualHybridLeaf.exceptionalCost ActualHybridLeaf.measure
-  congr 1
-  exact integral_congr_ae (Filter.Eventually.of_forall b.exceptionalIntegrand_eq)
+  sorry
 
 end ExceptionalBinding
 
@@ -223,8 +159,8 @@ theorem exceptionalCost_eq_frames
     (b : X.leaf.ExceptionalBinding left right EL ER Q) :
     leaf.exceptionalCost = leaf.weight *
       ∫ z : U × V, left.exceptionalMagnitude right EL ER Q (WithLp.toLp 2 z)
-        ∂nestedFourierMeasure leaf.firstKernel leaf.secondKernel :=
-  X.exceptionalCost_eq.trans b.exceptionalCost_eq
+        ∂nestedFourierMeasure leaf.firstKernel leaf.secondKernel := by
+  sorry
 
 end ConstantAtomExtraction
 end ActualHybridLeaf

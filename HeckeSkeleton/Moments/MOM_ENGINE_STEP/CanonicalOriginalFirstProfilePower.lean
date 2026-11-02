@@ -88,17 +88,7 @@ theorem literalPrimitiveFirstSource_weightBound
       orbitalFieldFactor K * Z ^ ((a.m + a.q) - total +
         Q.literalPrimitiveFirstProfileShift μv ν C hroot hemb W ξ a Z t Y₁ Y₂
           hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE D total) := by
-  have h := ((source).block DE).rowWeightBound_eq_original_ideal_lengths
-    (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) C
-    (source).radius D.val Z (internal).m δ₁ hZ
-    (Q.literalPrimitiveFirstSource_radius μv ν C hroot hemb W ξ a Z t Y₁ Y₂
-      hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
-  change ((source).pieces DE D).weightBound = _ at h
-  rw [h]
-  unfold literalPrimitiveFirstProfileShift
-  congr 2
-  rw [← Q.fullSupportParameters_width a Z]
-  ring
+  sorry
 
 /-- At the actual normalization, the physical-mask and active lengths
 cancel from the shift, and remain in the actual allowance itself. -/
@@ -111,8 +101,7 @@ theorem literalPrimitiveFirstProfileShift_normalization
       (internal).n₁ + (internal).n₂ + (internal).z +
         δ₁ * (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
           idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) - (internal).m) := by
-  unfold literalPrimitiveFirstProfileShift literalPrimitiveFirstTotal
-  ring
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

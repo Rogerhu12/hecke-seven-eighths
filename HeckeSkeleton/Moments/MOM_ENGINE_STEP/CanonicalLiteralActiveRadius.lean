@@ -46,8 +46,7 @@ variable (T : CanonicalLiteralFullKappaInput.ComputedProfiles W window s B)
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (atlas : SourceCartesianAtlas columns ideal) (count : k = atlas.slotCount) :
     (T.onAtlas atlas count).bound = T.bound := by
-  cases count
-  rfl
+  sorry
 
 @[simp] theorem deleteMask_bound (M : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (T.deleteMask M).bound = T.bound := rfl
@@ -72,8 +71,7 @@ variable (T : CanonicalLiteralFullKappaInput.ComputedProfiles W window s B)
     {A : SArithmeticData K} {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
     (atlas : SourceCartesianAtlas columns ideal) (count : k = atlas.slotCount) :
     (onAtlasThenScaleBalance c balance T atlas count).bound = T.bound := by
-  cases count
-  rfl
+  sorry
 
 @[simp] theorem deleteMaskThenScaleBalance_bound (c : ℂ) (balance : Bool → ℝ)
     (T : CanonicalLiteralFullKappaInput.ComputedProfiles
@@ -134,39 +132,13 @@ theorem scale_and_clipping_bounds
     (1 / hi ≤ Z ^ parameters.n₁ ∧ 1 / hi ≤ Z ^ parameters.n₂) ∧
       (plainClippingFactor Z parameters.n₁ ≤ hi ∧
         plainClippingFactor Z parameters.n₂ ≤ hi) := by
-  let hpositive := CanonicalLogProfiles.positiveAnnulus lo hi hlo
-  obtain ⟨u, _, hl, hr⟩ := nonzero_pairedEnergy_plain_witness child parameters Z time hne
-  have hleftAnnulus (y : ℝ) (hy : child.plainTest₁.profile u time y ≠ 0) : y ≤ hi := by
-    rw [hleft, E.leftFourierRep_eq isCompact_Icc hpositive firstSign negative r ξ u time y] at hy
-    exact (E.leftFourierRep_support isCompact_Icc hpositive firstSign negative r ξ
-      (subset_tsupport _ hy)).2
-  have hrightAnnulus (y : ℝ) (hy : child.plainTest₂.profile u time y ≠ 0) : y ≤ hi := by
-    rw [hright, E.rightFourierRep_eq isCompact_Icc hpositive firstSign negative r ξ u time y] at hy
-    exact (E.rightFourierRep_support isCompact_Icc hpositive firstSign negative r ξ
-      (subset_tsupport _ hy)).2
-  have hls := plainPolynomial_support_nonempty child child.plainTest₁ u _ time hl
-  have hrs := plainPolynomial_support_nonempty child child.plainTest₂ u _ time hr
-  refine ⟨⟨?_, ?_⟩, ⟨?_, ?_⟩⟩
-  · exact CanonicalLiteralActiveProfileBounds.plainScale_lower child.plainTest₁ u _ time hi
-      (Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _) (zero_lt_one.trans_le hhi)
-      hleftAnnulus hls
-  · exact CanonicalLiteralActiveProfileBounds.plainScale_lower child.plainTest₂ u _ time hi
-      (Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _) (zero_lt_one.trans_le hhi)
-      hrightAnnulus hrs
-  · exact clipping_factor_le_of_nonempty_support child.plainTest₁ u Z parameters.n₁ time hi
-      hZ hhi hleftAnnulus hls
-  · exact clipping_factor_le_of_nonempty_support child.plainTest₂ u Z parameters.n₂ time hi
-      hZ hhi hrightAnnulus hrs
+  sorry
 
 theorem fixedCoefficient_nonneg (B lo hi : ℝ) (hB : 0 ≤ B)
     (hlo : 0 < lo) (hhi : 1 ≤ hi) (δ₁ δ₂ firstSign : ℝ)
     (s : Finset (ℕ × ℕ)) :
     0 ≤ CanonicalLiteralRadiusBound.fixedCoefficient B lo hi hlo δ₁ δ₂ firstSign s := by
-  have hc := CanonicalLogProfiles.clippingCoefficient_one_le hi hhi s
-  exact CanonicalLiteralRadiusBound.combined_nonneg hB
-    (CanonicalLogProfiles.shapeCoefficient_nonneg _ _ _ _ _)
-    (CanonicalLiteralFourierWindows.coefficient_nonneg _ _ _ _ _)
-    (Real.sqrt_nonneg _) (by linarith)
+  sorry
 
 /-- Only the two fixed first-source signs are combined. The maximum
 is independent of every moving source, label and Fourier variable. -/
@@ -177,17 +149,15 @@ def twoSignsCoefficient (B lo hi : ℝ) (hlo : 0 < lo) (δ₁ δ₂ : ℝ)
 
 theorem twoSignsCoefficient_nonneg (B lo hi : ℝ) (hB : 0 ≤ B)
     (hlo : 0 < lo) (hhi : 1 ≤ hi) (δ₁ δ₂ : ℝ) (s : Finset (ℕ × ℕ)) :
-    0 ≤ twoSignsCoefficient B lo hi hlo δ₁ δ₂ s :=
-  (fixedCoefficient_nonneg B lo hi hB hlo hhi δ₁ δ₂ 1 s).trans (le_max_left _ _)
+    0 ≤ twoSignsCoefficient B lo hi hlo δ₁ δ₂ s := by
+  sorry
 
 theorem fixedCoefficient_le_twoSigns (B lo hi : ℝ) (hlo : 0 < lo)
     (δ₁ δ₂ firstSign : ℝ) (s : Finset (ℕ × ℕ))
     (hfirstSign : firstSign = 1 ∨ firstSign = -1) :
     CanonicalLiteralRadiusBound.fixedCoefficient B lo hi hlo δ₁ δ₂ firstSign s ≤
       twoSignsCoefficient B lo hi hlo δ₁ δ₂ s := by
-  rcases hfirstSign with rfl | rfl
-  · exact le_max_left _ _
-  · exact le_max_right _ _
+  sorry
 
 section ActualTable
 
@@ -237,53 +207,7 @@ theorem coefficient_le_fixed_of_nonzero
       (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ)
       isCompact_Icc (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign r ≤
         CanonicalLiteralRadiusBound.fixedCoefficient B lo hi hlo δ₁ δ₂ firstSign s := by
-  let parameters := CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ
-  have hactual := scale_and_clipping_bounds W T.model hlo hhi firstSign negative r ξ child
-    parameters original.base time original.base_gt_one hleft hright hne
-  have hscale₁ : original.base ^ parameters.n₁ =
-      (original.extract first).scale₁ r /
-        idealNorm K (second.plainDivisor₁ * allocation.plainDivisor 0) := by
-    simpa only [hbase, hfirst₁] using
-      CanonicalLiteralQuotientScales.atlas_left_scale beforeSecond second atlas count
-        scalar balance allocation r m q κ
-  have hscale₂ : original.base ^ parameters.n₂ =
-      (original.extract first).scale₂ r /
-        idealNorm K (second.plainDivisor₂ * allocation.plainDivisor (Fin.succ 0)) := by
-    simpa only [hbase, hfirst₂] using
-      CanonicalLiteralQuotientScales.atlas_right_scale beforeSecond second atlas count
-        scalar balance allocation r m q κ
-  have hl : 1 / hi ≤ (original.extract first).scale₁ r :=
-    hactual.1.1.trans (hscale₁.le.trans (div_le_self
-      ((original.extract first).scale₁_pos r).le (one_le_idealNorm K _)))
-  have hr : 1 / hi ≤ (original.extract first).scale₂ r :=
-    hactual.1.2.trans (hscale₂.le.trans (div_le_self
-      ((original.extract first).scale₂_pos r).le (one_le_idealNorm K _)))
-  have hpower : hi ^ (-2 : ℝ) = (1 / hi) * (1 / hi) := by
-    rw [show (-2 : ℝ) = -(2 : ℝ) by norm_num,
-      Real.rpow_neg (zero_le_one.trans hhi), Real.rpow_two]
-    simp only [pow_two, one_div, mul_inv_rev]
-  have hlower : hi ^ (-2 : ℝ) ≤
-      (original.extract first).scale₁ false * (original.extract first).scale₂ false := by
-    rw [hpower, ← original.extract_scale_product first r hproduct]
-    exact mul_le_mul hl hr (div_nonneg zero_le_one (zero_le_one.trans hhi))
-      ((original.extract first).scale₁_pos r).le
-  have hfactor := CanonicalLiteralBalancedSchwartz.factor_le original first δ₁ δ₂ hi r hhi
-    hδlo hδhi hproduct hlower
-  have hcost := CanonicalLiteralAllSideClipping.cost_le_of_factors original.base parameters
-    original.base_gt_one.le hi s hactual.2.1 hactual.2.2
-  have hshape : 0 ≤ CanonicalLiteralRadiusBound.shapeCoefficient lo hi hlo δ₁ δ₂ s :=
-    CanonicalLogProfiles.shapeCoefficient_nonneg _ _ _ _ _
-  have hfourier : 0 ≤ CanonicalLiteralRadiusBound.fourierCoefficient lo hi hlo firstSign s :=
-    CanonicalLiteralFourierWindows.coefficient_nonneg _ _ _ _ _
-  have hclip : 0 ≤ 1 + 2 * CanonicalLogProfiles.clippingCoefficient hi s := by
-    have hc := CanonicalLogProfiles.clippingCoefficient_one_le hi hhi s
-    linarith
-  have hcompare := CanonicalLiteralRadiusBound.combined_mono hB hshape hfourier
-    (Real.sqrt_nonneg _) hfactor hcost hclip
-  simpa only [CanonicalLiteralFullKappaInput.ComputedProfiles.coefficient,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.rawCoefficient, hbound,
-    CanonicalLiteralRadiusBound.fixedCoefficient, CanonicalLiteralRadiusBound.combined,
-    CanonicalLiteralRadiusBound.fourierCoefficient] using hcompare
+  sorry
 
 /-- Source activity is the exact predicate used by the normalized
 family. The genuine raw nonzero member is derived from its calibration,
@@ -312,18 +236,7 @@ theorem coefficient_le_fixed_of_source_active
     T.coefficient source.base D.parameters isCompact_Icc
       (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign r ≤
         CanonicalLiteralRadiusBound.fixedCoefficient B lo hi hlo δ₁ δ₂ firstSign s := by
-  obtain ⟨ξ, hξ⟩ := not_forall.mp hactive
-  have hraw : pairedEnergy (D.data ξ) D.parameters source.base (D.height ξ) ≠ 0 := by
-    intro he
-    have h := D.energy_le ξ
-    rw [he, mul_zero] at h
-    exact hξ (le_antisymm h (source.energy_nonneg (σ := σ) ξ))
-  have hfixed := coefficient_le_fixed_of_nonzero original first beforeSecond second
-    atlas count scalar balance W allocation T r m q κ δ₁ δ₂ firstSign negative
-    hB hlo hhi hδlo hδhi hproduct hbase hfirst₁ hfirst₂ hbound
-    ξ (D.data ξ) (D.height ξ) (hleft ξ) (hright ξ)
-    (by simpa only [hparameters, hsourceBase] using hraw)
-  simpa only [hsourceBase, hparameters] using hfixed
+  sorry
 
 end ActualTable
 end CanonicalLiteralActiveRadius

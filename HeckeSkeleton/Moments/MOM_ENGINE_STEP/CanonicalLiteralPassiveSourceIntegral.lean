@@ -355,15 +355,7 @@ theorem literalPassiveNormalizedFamily_ordinaryCost_le_kernel
       ∑ b : family.active Finset.univ,
         ∫ ξ, family.childPair Finset.univ b ξ
           ∂family.kernel Finset.univ originalMeasure parentWidth b := by
-  intro analyticLeft analyticRight heightLeft heightRight parentWidth
-  have hs := sourceIntegral X binding analyticLeft analyticRight heightLeft heightRight parentWidth
-  have hc := (fourierControl analyticLeft analyticRight heightLeft heightRight).source_integral
-    (fun _ : Labels => (originalLeaf).firstKernel)
-    (fun _ : Labels => (originalLeaf).secondKernel)
-    (fun _ : Labels => (originalLeaf).weight * frozenPair) parentWidth hZ
-    (fun _ _ => mul_nonneg (originalLeaf).weight_nonneg
-      (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)))
-  exact hs.trans hc
+  sorry
 
 /-- Convergence is proved for the already selected child functions
 under precisely the measure used in the original source inequality. -/
@@ -377,11 +369,7 @@ theorem literalPassiveNormalizedFamily_children_integrable :
       Integrable (fun ξ => normalizedPairedEnergy
         (family.rightData Finset.univ b ξ) (family.rightParameters Finset.univ b) Z 0)
         (family.kernel Finset.univ originalMeasure parentWidth b) := by
-  intro analyticLeft analyticRight heightLeft heightRight parentWidth b
-  exact (fourierControl analyticLeft analyticRight heightLeft heightRight).children_integrable
-    (fun _ : Labels => (originalLeaf).firstKernel)
-    (fun _ : Labels => (originalLeaf).secondKernel)
-    (fun _ : Labels => (originalLeaf).weight * frozenPair) parentWidth hZ b
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

@@ -131,24 +131,7 @@ theorem canonicalLeftMain_atlasCoefficient
         ((A.exteriorNorm (b.leftResidual (T.reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.leftResidual (T.reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
-  let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
-  have hj : j ∈ branch.residualColumns :=
-    (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : T.reindex.index i = (raw).originalIndex (branch.reconstruct j) :=
-    CanonicalLiteralAtlasAtoms.dictionary_index e i
-  have hideal : (b.leftResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
-    have he := T.reindex.ideal_product i hi
-    rw [p.divisorPools.left_ideal S, p.left_ideal] at he
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
-  exact CompleteMovingRowRecipe.canonicalLeftMain_secondInput hΓ μv ν
-    Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
-    δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb
-    (T.reindex.index i)
-    (by simpa only [p.divisorPools.left_columns S] using hcolumns (T.reindex.maps i hi))
-    j hj hindex hideal hSi firstFixed hfirst δ₂
+  sorry
 
 /-- The actual right main coefficient is obtained from the original
 atom table on the existing cover. The same tuple is used throughout. -/
@@ -184,24 +167,7 @@ theorem canonicalRightMain_atlasCoefficient
         ((A.exteriorNorm (b.rightResidual (T.reindex.index i)) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.rightResidual (T.reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
-  let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
-  have hj : j ∈ branch.residualColumns :=
-    (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : T.reindex.index i = (raw).originalIndex (branch.reconstruct j) :=
-    CanonicalLiteralAtlasAtoms.dictionary_index e i
-  have hideal : (b.rightResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
-    have he := T.reindex.ideal_product i hi
-    rw [p.divisorPools.right_ideal S, p.right_ideal] at he
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
-  exact CompleteMovingRowRecipe.canonicalRightMain_secondInput hΓ μv ν
-    Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
-    δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb
-    (T.reindex.index i)
-    (by simpa only [p.divisorPools.right_columns S] using hcolumns (T.reindex.maps i hi))
-    j hj hindex hideal hSi firstFixed hfirst δ₂
+  sorry
 
 /-- The original valuation-subtype index is transported through the
 actual Cartesian occurrence dictionary. The retained tuple and the
@@ -247,24 +213,7 @@ theorem canonicalLeftPool_atlasCoefficient
         actualIdealResidue (A := A) (σ := σ)
           ((p.divisorPools.leftData S).residualPresentation q n (T.reindex.index i)).residual.val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
-  let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
-  have hj : j ∈ branch.residualColumns :=
-    (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : (T.reindex.index i).val = (raw).originalIndex (branch.reconstruct j) :=
-    (congrArg Subtype.val (CanonicalLiteralAtlasAtoms.dictionary_index e i)).trans
-      (index_val j hj)
-  have hideal :
-      ((p.divisorPools.leftData S).residualPresentation q n (T.reindex.index i)).residual.val =
-        allocationColumnIdeal j := by
-    have he := T.reindex.ideal_product i hi
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
-  exact CompleteMovingRowRecipe.canonicalLeftPool_secondInput hΓ μv ν
-    Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
-    δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb q n
-    (T.reindex.index i) j hj hindex hideal hSi firstFixed hfirst δ₂
+  sorry
 
 /-- The original valuation-subtype index is transported through the
 actual Cartesian occurrence dictionary. The retained tuple and the
@@ -310,24 +259,7 @@ theorem canonicalRightPool_atlasCoefficient
         actualIdealResidue (A := A) (σ := σ)
           ((p.divisorPools.rightData S).residualPresentation q n (T.reindex.index i)).residual.val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_whole]
-  let j := CanonicalLiteralAtlasAtoms.castColumn (congrArg Sigma.fst e) i
-  have hj : j ∈ branch.residualColumns :=
-    (CanonicalLiteralAtlasAtoms.dictionary_membership e i).mp hi
-  have hindex : (T.reindex.index i).val = (raw).originalIndex (branch.reconstruct j) :=
-    (congrArg Subtype.val (CanonicalLiteralAtlasAtoms.dictionary_index e i)).trans
-      (index_val j hj)
-  have hideal :
-      ((p.divisorPools.rightData S).residualPresentation q n (T.reindex.index i)).residual.val =
-        allocationColumnIdeal j := by
-    have he := T.reindex.ideal_product i hi
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
-  exact CompleteMovingRowRecipe.canonicalRightPool_secondInput hΓ μv ν
-    Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
-    δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb q n
-    (T.reindex.index i) j hj hindex hideal hSi firstFixed hfirst δ₂
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

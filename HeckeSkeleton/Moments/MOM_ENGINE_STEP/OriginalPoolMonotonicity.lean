@@ -36,25 +36,20 @@ primes from the same displayed lower density. -/
 theorem rowDensity_antitone_windows
     {M B Mmax Bmax : ℝ} (hM : M ≤ Mmax) (hB : B ≤ Bmax) :
     P.rowDensity Mmax Bmax ≤ P.rowDensity M B := by
-  have hell : 0 ≤ ell / 2 := div_nonneg P.exponent_pos.le (by norm_num)
-  have hm := div_le_div_of_nonneg_right hM hell
-  have hb := div_le_div_of_nonneg_right hB hell
-  dsimp only [rowDensity]
-  linarith
+  sorry
 
 theorem rowDensity_pos_of_uniform
     {M B Mmax Bmax : ℝ} (hM : M ≤ Mmax) (hB : B ≤ Bmax)
-    (hdensity : 0 < P.rowDensity Mmax Bmax) : 0 < P.rowDensity M B :=
-  hdensity.trans_le (P.rowDensity_antitone_windows hM hB)
+    (hdensity : 0 < P.rowDensity Mmax Bmax) : 0 < P.rowDensity M B := by
+  sorry
 
 /-- The actual local reciprocal density is bounded by one common
 positive comparison density, with the original factor four unchanged. -/
 theorem four_div_rowDensity_le
     {M B Mmax Bmax : ℝ} (hM : M ≤ Mmax) (hB : B ≤ Bmax)
     (hdensity : 0 < P.rowDensity Mmax Bmax) :
-    4 / P.rowDensity M B ≤ 4 / P.rowDensity Mmax Bmax :=
-  div_le_div_of_nonneg_left (by norm_num) hdensity
-    (P.rowDensity_antitone_windows hM hB)
+    4 / P.rowDensity M B ≤ 4 / P.rowDensity Mmax Bmax := by
+  sorry
 
 end PowerScaleExteriorPool
 
@@ -71,21 +66,7 @@ theorem originalTagWeight_mono_windows
     (hdensity : 0 < P.rowDensity Mmax Bmax) (i : AmplifiedCommonIndex P main error) :
     originalTagWeight P M B main error i ≤
       originalTagWeight P Mmax Bmax main error i := by
-  have hden := P.four_div_rowDensity_le hM hB hdensity
-  have hell : 0 < ell / 2 := div_pos P.exponent_pos (by norm_num)
-  cases i with
-  | inl j =>
-    change (4 / P.rowDensity M B) * ((M + 6 * ell) / (ell / 2)) ≤
-      (4 / P.rowDensity Mmax Bmax) * ((Mmax + 6 * ell) / (ell / 2))
-    have hmult : (M + 6 * ell) / (ell / 2) ≤
-        (Mmax + 6 * ell) / (ell / 2) :=
-      div_le_div_of_nonneg_right (add_le_add hM le_rfl) hell.le
-    exact mul_le_mul hden hmult
-      (div_nonneg (add_nonneg hM0 (mul_nonneg (by norm_num) P.exponent_pos.le)) hell.le)
-      (div_nonneg (by norm_num) hdensity.le)
-  | inr j =>
-    exact mul_le_mul_of_nonneg_right hden
-      (FirstGaussPoolData.localErrorWeight_nonneg _ _)
+  sorry
 
 /-- All common and divisor weights are nonnegative and unchanged. The
 actual moving norm is retained in the same amplified arithmetic index. -/
@@ -94,13 +75,7 @@ theorem amplifiedIndexWeight_mono_windows
     (hdensity : 0 < P.rowDensity Mmax Bmax) (i : AmplifiedCommonIndex P main error) :
     amplifiedIndexWeight P M B main error i ≤
       amplifiedIndexWeight P Mmax Bmax main error i := by
-  rw [← originalTagWeight_mul_rpow P M B main error P.base_gt_one i,
-    ← originalTagWeight_mul_rpow P Mmax Bmax main error P.base_gt_one i]
-  exact mul_le_mul_of_nonneg_right
-    (mul_le_mul_of_nonneg_right
-      (originalTagWeight_mono_windows P main error hM0 hM hB hdensity i)
-      (Real.rpow_nonneg (zero_lt_one.trans P.base_gt_one).le _))
-    (harmonicWeight_nonneg P main error i)
+  sorry
 
 /-- A genuine original pointwise scalar with varying local windows
 passes directly to the fixed-window index. Only the small error δ is
@@ -114,14 +89,7 @@ theorem pointwise_of_original_tag_uniform
     (hraw : actual ≤ C * control * originalTagWeight P M B main error i *
       Z ^ remaining * harmonicWeight P main error i) :
     actual ≤ C * control * Z ^ δ * amplifiedIndexWeight P Mmax Bmax main error i := by
-  have hlocal := pointwise_of_original_tag P M B main error
-    P.base_gt_one P.exponent_pos hM0 (P.rowDensity_pos_of_uniform hM hB hdensity).le
-    i actual C control remaining δ hC hcontrol hremaining hraw
-  apply hlocal.trans
-  exact mul_le_mul_of_nonneg_left
-    (amplifiedIndexWeight_mono_windows P main error hM0 hM hB hdensity i)
-    (mul_nonneg (mul_nonneg hC hcontrol)
-      (Real.rpow_nonneg (zero_lt_one.trans P.base_gt_one).le δ))
+  sorry
 
 end AmplifiedCommonIndex
 end HeckeSkeleton.Moments.EngineStep

@@ -50,11 +50,11 @@ local notation "geometry" => b.pooledTerminalGeometry a pool D supportError herr
 @[simp] theorem pooledTerminalGeometry_ideals (tag : PoolSourceTag pool) :
     (geometry tag).ideals =
       if negative then b.literalRightCoordinates D else b.literalLeftCoordinates D := by
-  rcases tag with u | p | p | p <;> rfl
+  sorry
 
 @[simp] theorem pooledTerminalGeometry_supportError (tag : PoolSourceTag pool) :
     (geometry tag).supportError = supportError := by
-  rcases tag with u | p | p | p <;> rfl
+  sorry
 
 @[simp] theorem pooledTerminalGeometry_valuation
     (valuation : AmplifierValuation) (prime : pool.primes) :
@@ -62,18 +62,13 @@ local notation "geometry" => b.pooledTerminalGeometry a pool D supportError herr
       OriginalNominalGeometry.canonicalPoolError pool valuation prime
         (if negative then b.literalRightCoordinates D else b.literalLeftCoordinates D)
         supportError herr := by
-  cases valuation <;> rfl
+  sorry
 
 /-- The separated main length is exactly its actual pool charge;
 the error tags require only their original charge at least one. -/
 theorem pooledTerminalGeometry_charge (tag : PoolSourceTag pool) :
     Z ^ (geometry tag).tag.poolLength step ≤ poolTagNormCharge pool tag := by
-  rcases tag with u | p | p | p
-  · exact le_rfl
-  all_goals
-    change Z ^ (0 : ℝ) ≤ _
-    rw [Real.rpow_zero]
-    exact one_le_poolTagNormCharge pool _
+  sorry
 
 end FirstCommonCharacterBlock
 end HeckeSkeleton.Moments.EngineStep

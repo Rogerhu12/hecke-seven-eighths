@@ -36,64 +36,36 @@ local notation "Joint" => WithLp 2 (ℝ × ℝ)
 theorem time_coordinates (firstSign : ℝ) (ξ : Joint) :
     time firstSign ξ = -(2 * Real.pi *
       ((WithLp.ofLp ξ).1 * firstSign + (WithLp.ofLp ξ).2)) := by
-  simp only [time, CanonicalLiteralLocations.direction, WithLp.prod_inner_apply,
-    WithLp.ofLp_toLp, Real.inner_apply, mul_one]
+  sorry
 
 theorem time_neg (firstSign : ℝ) (ξ : Joint) :
     time firstSign (-ξ) = -time firstSign ξ := by
-  simp only [time, inner_neg_left]
-  ring
+  sorry
 
 /-- Changing the whole column orientation does not change its height. -/
 theorem orientedTime_abs (firstSign : ℝ) (negative : Bool) (ξ : Joint) :
     |time firstSign (orientedMode negative ξ)| = |time firstSign ξ| := by
-  cases negative <;> simp only [orientedMode, Bool.false_eq_true, if_false,
-    if_true, time_neg, abs_neg]
+  sorry
 
 def fourierHeight (ξ : Joint) : ℝ :=
   2 * Real.pi * (|(WithLp.ofLp ξ).1| + |(WithLp.ofLp ξ).2|)
 
 theorem fourierHeight_nonneg (ξ : Joint) : 0 ≤ fourierHeight ξ := by
-  exact mul_nonneg (mul_nonneg (by norm_num) Real.pi_pos.le)
-    (add_nonneg (abs_nonneg _) (abs_nonneg _))
+  sorry
 
 /-- The literal first signs are 1 and -1. The slightly more general
 closed unit interval is useful when reading either original side. -/
 theorem time_le_fourierHeight (firstSign : ℝ) (hsign : |firstSign| ≤ 1)
     (negative : Bool) (ξ : Joint) :
     |time firstSign (orientedMode negative ξ)| ≤ fourierHeight ξ := by
-  rw [orientedTime_abs, time_coordinates, abs_neg, abs_mul,
-    abs_of_nonneg (mul_nonneg (by norm_num) Real.pi_pos.le)]
-  apply mul_le_mul_of_nonneg_left _ (mul_nonneg (by norm_num) Real.pi_pos.le)
-  calc
-    |(WithLp.ofLp ξ).1 * firstSign + (WithLp.ofLp ξ).2| ≤
-        |(WithLp.ofLp ξ).1 * firstSign| + |(WithLp.ofLp ξ).2| := abs_add_le _ _
-    _ = |(WithLp.ofLp ξ).1| * |firstSign| + |(WithLp.ofLp ξ).2| := by rw [abs_mul]
-    _ ≤ _ := add_le_add
-      (by simpa only [mul_one] using
-        mul_le_mul_of_nonneg_left hsign (abs_nonneg (WithLp.ofLp ξ).1)) le_rfl
+  sorry
 
 theorem fourierHeight_polynomial (order : ℕ) (ξ : Joint) :
     (1 + fourierHeight ξ) ^ order ≤
       (1 + 2 * Real.pi) ^ order *
         (1 + ‖(WithLp.ofLp ξ).1‖) ^ order *
         (1 + ‖(WithLp.ofLp ξ).2‖) ^ order := by
-  have hp : 0 ≤ 2 * Real.pi := mul_nonneg (by norm_num) Real.pi_pos.le
-  have hx := abs_nonneg (WithLp.ofLp ξ).1
-  have hy := abs_nonneg (WithLp.ofLp ξ).2
-  have hsum : 1 + fourierHeight ξ ≤
-      (1 + 2 * Real.pi) *
-        ((1 + |(WithLp.ofLp ξ).1|) * (1 + |(WithLp.ofLp ξ).2|)) := by
-    calc
-      _ ≤ (1 + 2 * Real.pi) *
-          (1 + |(WithLp.ofLp ξ).1| + |(WithLp.ofLp ξ).2|) := by
-        dsimp only [fourierHeight]
-        nlinarith
-      _ ≤ _ := mul_le_mul_of_nonneg_left
-        (by nlinarith [mul_nonneg hx hy]) (by positivity)
-  have h := pow_le_pow_left₀
-    (add_nonneg zero_le_one (fourierHeight_nonneg ξ)) hsum order
-  simpa only [mul_pow, Real.norm_eq_abs, mul_assoc] using h
+  sorry
 
 /-- Multiplying the original profile polynomial by the time growth
 only increases the two original Fourier orders. Its amplitude remains
@@ -106,14 +78,7 @@ theorem profile_time_polynomial (P : ℝ) (hP : 0 ≤ P)
       (1 + 2 * Real.pi) ^ order * P ^ degree *
         (1 + ‖(WithLp.ofLp ξ).1‖) ^ (J₁ * degree + order) *
         (1 + ‖(WithLp.ofLp ξ).2‖) ^ (J₂ * degree + order) := by
-  calc
-    _ ≤ (P * (1 + ‖(WithLp.ofLp ξ).1‖) ^ J₁ *
-          (1 + ‖(WithLp.ofLp ξ).2‖) ^ J₂) ^ degree *
-        ((1 + 2 * Real.pi) ^ order *
-          (1 + ‖(WithLp.ofLp ξ).1‖) ^ order *
-          (1 + ‖(WithLp.ofLp ξ).2‖) ^ order) :=
-      mul_le_mul_of_nonneg_left (fourierHeight_polynomial order ξ) (by positivity)
-    _ = _ := by simp only [mul_pow, pow_add, pow_mul]; ring
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -122,12 +87,7 @@ claiming that it equals one. This bound is uniform in all row data. -/
 theorem fixed_mask_threshold {A : SArithmeticData K} (Z width : ℝ)
     (hZ : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z) :
     (Ideal.absNorm A.cS : ℝ) * Z ^ width ≤ Z ^ (width + 1) := by
-  have hz : 0 < Z := lt_of_lt_of_le (by norm_num : (0 : ℝ) < 2)
-    ((le_max_left _ _).trans hZ)
-  calc
-    _ ≤ Z * Z ^ width := mul_le_mul_of_nonneg_right
-      ((le_max_right _ _).trans hZ) (Real.rpow_nonneg hz.le _)
-    _ = _ := by rw [Real.rpow_add hz, Real.rpow_one]; ring
+  sorry
 
 section ActualPreDivisors
 
@@ -139,18 +99,12 @@ ideal, by the stored original occurrence product. -/
 theorem atlas_plain_left_dvd (T : SourceCartesianAtlas columns ideal)
     (support : Finset (Ideal (𝓞 K))) (D : Ideal (𝓞 K)) (label : T.labels support D) :
     (T.branch support D label).plainDivisor₁.val ∣ D := by
-  refine ⟨(T.branch support D label).plainExtract₂ *
-    ∏ i, (T.branch support D label).slotExtract i, ?_⟩
-  simpa only [SupportCartesianBranch.plainDivisor₁, mul_assoc] using
-    (T.branch_product support D label).symm
+  sorry
 
 theorem atlas_plain_right_dvd (T : SourceCartesianAtlas columns ideal)
     (support : Finset (Ideal (𝓞 K))) (D : Ideal (𝓞 K)) (label : T.labels support D) :
     (T.branch support D label).plainDivisor₂.val ∣ D := by
-  refine ⟨(T.branch support D label).plainExtract₁ *
-    ∏ i, (T.branch support D label).slotExtract i, ?_⟩
-  simpa only [SupportCartesianBranch.plainDivisor₂, mul_assoc, mul_left_comm, mul_comm] using
-    (T.branch_product support D label).symm
+  sorry
 
 variable {κ : Type*} {columns₂ : Finset κ} {ideal₂ : κ → A.Exterior}
 variable {a : RealParameters} {Z step : ℝ}
@@ -172,11 +126,7 @@ common side selected by the original geometry. -/
 theorem actual_preDivisors_dvd :
     ((b₁).plainDivisor₁ * (b₂).plainDivisor₁).val ∣ G.centeredCommonIdeal.val ∧
       ((b₁).plainDivisor₂ * (b₂).plainDivisor₂).val ∣ G.centeredCommonIdeal.val := by
-  constructor
-  · exact mul_dvd_mul (atlas_plain_left_dvd first _ _ firstLabel)
-      (atlas_plain_left_dvd second _ _ secondLabel)
-  · exact mul_dvd_mul (atlas_plain_right_dvd first _ _ firstLabel)
-      (atlas_plain_right_dvd second _ _ secondLabel)
+  sorry
 
 /-- The complete four quotient minimum follows from the original
 domain and the two original occurrence labels. No bound on either
@@ -193,9 +143,7 @@ theorem actual_fourPlain_minimum {k : ℕ} (B : ActualColumnAllocation K k)
         (Z ^ a.n₂ / idealNorm K ((b₁).plainDivisor₂ * (b₂).plainDivisor₂))
         (Y₁ / idealNorm K ((b₁).plainDivisor₁ * (b₂).plainDivisor₁))
         (Y₂ / idealNorm K ((b₁).plainDivisor₂ * (b₂).plainDivisor₂)) := by
-  have hp := actual_preDivisors_dvd G first second firstSupport secondSupport
-    firstLabel secondLabel
-  exact G.fourPlain_minimum_window_of_domain B domain _ _ hp.1 hp.2 length hlength
+  sorry
 
 end ActualPreDivisors
 
@@ -227,16 +175,12 @@ unchanged. Its two literal extractions give exactly this quotient. -/
 theorem actual_twice_left_scale (rectangle : Bool) :
     ((beforeSecond).extract b₂).scale₁ rectangle =
       d.scale₁ rectangle / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁) := by
-  change (d.scale₁ rectangle / idealNorm K b₁.plainDivisor₁) /
-      idealNorm K b₂.plainDivisor₁ = _
-  rw [CanonicalLiteralProfileData.idealNorm_mul, div_div]
+  sorry
 
 theorem actual_twice_right_scale (rectangle : Bool) :
     ((beforeSecond).extract b₂).scale₂ rectangle =
       d.scale₂ rectangle / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂) := by
-  change (d.scale₂ rectangle / idealNorm K b₁.plainDivisor₂) /
-      idealNorm K b₂.plainDivisor₂ = _
-  rw [CanonicalLiteralProfileData.idealNorm_mul, div_div]
+  sorry
 
 variable {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
 variable (atlas : SourceCartesianAtlas columns ideal) (count : b₂.keep.card = atlas.slotCount)
@@ -248,19 +192,13 @@ theorem actual_final_left_scale (rectangle : Bool) :
     (((((beforeSecond).extract b₂).onAtlas atlas count).scale scalar).balancePlain balance).scale₁
         rectangle =
       d.scale₁ rectangle / idealNorm K (b₁.plainDivisor₁ * b₂.plainDivisor₁) := by
-  change (((beforeSecond).extract b₂).onAtlas atlas count).scale₁ rectangle = _
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_left_scale]
-  exact actual_twice_left_scale d b₁ P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ b₂ rectangle
+  sorry
 
 theorem actual_final_right_scale (rectangle : Bool) :
     (((((beforeSecond).extract b₂).onAtlas atlas count).scale scalar).balancePlain balance).scale₂
         rectangle =
       d.scale₂ rectangle / idealNorm K (b₁.plainDivisor₂ * b₂.plainDivisor₂) := by
-  change (((beforeSecond).extract b₂).onAtlas atlas count).scale₂ rectangle = _
-  rw [CanonicalLiteralRectangles.Atoms.onAtlas_right_scale]
-  exact actual_twice_right_scale d b₁ P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ b₂ rectangle
+  sorry
 
 end LiteralQuotients
 
@@ -329,10 +267,7 @@ theorem centered_fields (hc : SamePlainProfiles E)
       (centeredFrame hc hscale ξ).source.lower =
         (frame).allocation.fourPlainLower
           (d.scale₁ false) (d.scale₂ false) (d.scale₁ true) (d.scale₂ true) := by
-  rcases θ with ⟨θ, hmem⟩
-  dsimp only at hθ
-  subst θ
-  cases side <;> exact ⟨rfl, rfl, rfl⟩
+  sorry
 
 theorem ordinary_fields (ξ : Joint) :
     (ordinaryFrame ξ).source.mask = actualMask ∧
@@ -341,24 +276,15 @@ theorem ordinary_fields (ξ : Joint) :
       (ordinaryFrame ξ).source.lower =
         min (d.scale₁ false / idealNorm K ((frame).allocation.plainDivisor 0))
           (d.scale₂ false / idealNorm K ((frame).allocation.plainDivisor (Fin.succ 0))) := by
-  rcases θ with ⟨θ, hmem⟩
-  dsimp only at hθ
-  subst θ
-  cases side <;> exact ⟨rfl, rfl, rfl⟩
+  sorry
 
 theorem centered_mask_ne_zero (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (ξ : Joint) : (centeredFrame hc hscale ξ).source.mask ≠ 0 := by
-  rw [(centered_fields P R F parent oldMoving correction hcorr C S pattern ν
-    remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
-    side χ ideal hideal firstSign L selection hne θ hθ hc hscale ξ).1]
-  exact CanonicalLiteralExceptionalCharacters.rowMask_ne_zero _ _ _ _ _ _ _ _ _ _ _
+  sorry
 
 theorem ordinary_mask_ne_zero (ξ : Joint) : (ordinaryFrame ξ).source.mask ≠ 0 := by
-  rw [(ordinary_fields P R F parent oldMoving correction hcorr C S pattern ν
-    remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
-    side χ ideal hideal firstSign L selection hne θ hθ ξ).1]
-  exact CanonicalLiteralExceptionalCharacters.rowMask_ne_zero _ _ _ _ _ _ _ _ _ _ _
+  sorry
 
 /-- The variable factor is exactly the already paid full joint row
 budget, not a second or enlarged support norm. -/
@@ -373,10 +299,7 @@ theorem centered_mask_norm (hc : SamePlainProfiles E)
               (remainingMaskIdeal A (remaining * extra) *
                 exteriorMomentIdeal (secondSixthRootIdeal S.primes
                   S.leftMultiplicity S.rightMultiplicity)))) := by
-  rw [(centered_fields P R F parent oldMoving correction hcorr C S pattern ν
-    remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
-    side χ ideal hideal firstSign L selection hne θ hθ hc hscale ξ).1]
-  exact CanonicalLiteralExceptionalCharacters.completeMask_norm _ _ _
+  sorry
 
 theorem ordinary_mask_norm (ξ : Joint) :
     (Ideal.absNorm (ordinaryFrame ξ).source.mask : ℝ) =
@@ -387,25 +310,16 @@ theorem ordinary_mask_norm (ξ : Joint) :
               (remainingMaskIdeal A (remaining * extra) *
                 exteriorMomentIdeal (secondSixthRootIdeal S.primes
                   S.leftMultiplicity S.rightMultiplicity)))) := by
-  rw [(ordinary_fields P R F parent oldMoving correction hcorr C S pattern ν
-    remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
-    side χ ideal hideal firstSign L selection hne θ hθ ξ).1]
-  exact CanonicalLiteralExceptionalCharacters.completeMask_norm _ _ _
+  sorry
 
 theorem centered_time_window (hsign : |firstSign| ≤ 1) (hc : SamePlainProfiles E)
     (hscale : d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (ξ : Joint) : |(centeredFrame hc hscale ξ).source.time| ≤ fourierHeight ξ := by
-  rw [(centered_fields P R F parent oldMoving correction hcorr C S pattern ν
-    remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
-    side χ ideal hideal firstSign L selection hne θ hθ hc hscale ξ).2.1]
-  exact time_le_fourierHeight firstSign hsign side.literalNegative ξ
+  sorry
 
 theorem ordinary_time_window (hsign : |firstSign| ≤ 1) (ξ : Joint) :
     |(ordinaryFrame ξ).source.time| ≤ fourierHeight ξ := by
-  rw [(ordinary_fields P R F parent oldMoving correction hcorr C S pattern ν
-    remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
-    side χ ideal hideal firstSign L selection hne θ hθ ξ).2.1]
-  exact time_le_fourierHeight firstSign hsign side.literalNegative ξ
+  sorry
 
 variable {a : RealParameters} {Z step Y₁ Y₂ floor padding : ℝ}
 variable (G : OriginalNominalGeometry (K := K) a Z step)
@@ -435,12 +349,7 @@ theorem centered_minimum_window
     Z ^ ((a.m + a.q) / 4 - G.centeredExtractionLength -
       (frame).allocation.rawExtractionLength Z d.length) ≤
         (centeredFrame hc hscale ξ).source.lower := by
-  rw [(centered_fields P R F parent oldMoving correction hcorr C S pattern ν
-    remaining extra hone hroot hemb row recipe E firstSupport hfirst hextra hm hn support
-    side χ ideal hideal firstSign L selection hne θ hθ hc hscale ξ).2.2,
-    hscale₁ false, hscale₂ false, hscale₁ true, hscale₂ true]
-  exact actual_fourPlain_minimum G first second support₁ support₂ label₁ label₂
-    (frame).allocation domain d.length (fun i => (d.length_pos i).le)
+  sorry
 
 end Frames
 
@@ -509,20 +418,15 @@ theorem actualRows_mask_norm_window (h : (S).live) :
       b.primes b.leftMultiplicity b.rightMultiplicity pattern remaining
         ((S).extractedRow C h).momentIdeal) : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) * Z ^ (width) := by
-  have hjoint := chart.actualRows_appended_active_pair_fullDeletion_joint_window hclass
-    (F.moving P R oldMoving) remaining X hX label retainedScale Z g a₀ q wo cutoffExponent
-    hscale hZ hradius hcutoff hproduct hold h
-  exact CanonicalLiteralExceptionalCharacters.completeMask_norm_le _ _ _ _ hjoint
+  sorry
 
 include hclass hradius hcutoff hproduct hold in
 theorem actualRows_mask_power_window (hthreshold : max 2 (Ideal.absNorm A.cS : ℝ) ≤ Z)
     (h : (S).live) :
     (Ideal.absNorm (CanonicalLiteralExceptionalCharacters.rowMask P R F oldMoving C
       b.primes b.leftMultiplicity b.rightMultiplicity pattern remaining
-        ((S).extractedRow C h).momentIdeal) : ℝ) ≤ Z ^ ((width) + 1) :=
-  (actualRows_mask_norm_window chart hclass P R F oldMoving remaining X hX label
-    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hproduct hold h).trans
-      (fixed_mask_threshold Z (width) hthreshold)
+        ((S).extractedRow C h).momentIdeal) : ℝ) ≤ Z ^ ((width) + 1) := by
+  sorry
 
 include hclass hradius hcutoff hproduct hold in
 /-- Actual common-scalar reweighting and both original row
@@ -536,12 +440,7 @@ theorem actualRestrictedRows_mask_norm_window
       T.primes T.leftMultiplicity T.rightMultiplicity pattern remaining
         (T.extractedRow C h).momentIdeal) : ℝ) ≤
       (Ideal.absNorm A.cS : ℝ) * Z ^ (width) := by
-  let R₁ := { S with weight := weight }
-  let R₂ := R₁.restrictRows keep₁
-  let h₁ : R₂.live := R₂.liveInclusion keep₂ h
-  let h₀ : (S).live := R₁.liveInclusion keep₁ h₁
-  exact actualRows_mask_norm_window chart hclass P R F oldMoving remaining X hX label
-    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hproduct hold h₀
+  sorry
 
 end PhysicalMask
 

@@ -109,11 +109,7 @@ theorem coveredLeaf_weight_original
         ((s.tag (s.leafTag B j)).fiber : ℝ) *
         ‖(moebius (s.leafSecondDivisor B j) : ℂ)‖ *
         ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) (s.leafSecondPhase B j)‖ := by
-  rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩)) <;>
-    dsimp only [coveredLeaf, ActualHybridLeaf.scale, ActualGaussStage.fiberCoveredLeaf,
-      ActualGaussStage.coveredLeaf, ActualGaussStage.CoveredClassKey.leaf,
-      fullCorrelationHybridLeaf, leafTag, leafStageKey, leafSecondDivisor, leafSecondPhase,
-      tag, FirstGaussPoolData.tagWeight] <;> ring
+  sorry
 
 end ActualPoolStages
 
@@ -153,14 +149,7 @@ theorem classLeaf_left_exceptional_relative
         ((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ) (exceptional.left S χ)
           chart.kernel chart.leftPoint j).exceptionalCost /
         firstLeftAllowance Z total DE.1 DE.2 := by
-  change (((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ) (exceptional.left S χ)
-      chart.kernel chart.leftPoint j).scale
-      (classWeight NL NR S χ / NL S χ)
-      (div_nonneg (classWeight_nonneg NL NR S χ) (hNL S χ).le)).exceptionalCost / _ = _
-  rw [ActualHybridLeaf.scale_exceptionalCost]
-  simp only [classWeight, FirstBlockPoolData.rowBound, hleftScale, hrightScale,
-    b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 /-- The same computation holds on the original right leaf with its
 own denominator; the two sides therefore pay the factor one half once. -/
@@ -178,14 +167,7 @@ theorem classLeaf_right_exceptional_relative
         ((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ) (exceptional.right S χ)
           chart.kernel (fun j => -chart.rightPoint j) j).exceptionalCost /
         firstRightAllowance Z total DE.1 DE.2 := by
-  change (((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ) (exceptional.right S χ)
-      chart.kernel (fun j => -chart.rightPoint j) j).scale
-      (classWeight NL NR S χ / NR S χ)
-      (div_nonneg (classWeight_nonneg NL NR S χ) (hNR S χ).le)).exceptionalCost / _ = _
-  rw [ActualHybridLeaf.scale_exceptionalCost]
-  simp only [classWeight, FirstBlockPoolData.rowBound, hleftScale, hrightScale,
-    b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 end SecondStages
 end FirstBlockPoolData

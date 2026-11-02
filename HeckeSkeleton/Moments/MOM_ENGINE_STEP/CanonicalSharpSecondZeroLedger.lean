@@ -31,22 +31,14 @@ namespace OriginalNominalTag
 theorem movingLength_le_twice_removedLength
     (tag : OriginalNominalTag K) (Z : ℝ) (hZ : 1 < Z) :
     tag.movingLength Z ≤ 2 * tag.removedLength Z := by
-  cases tag with
-  | direct => simp only [movingLength, removedLength, mul_zero, le_refl]
-  | main => simp only [movingLength, removedLength, mul_zero, le_refl]
-  | error e p =>
-    have hp := idealLogLength_nonneg Z hZ p.asIdeal p.ne_bot
-    cases e <;>
-      simp only [movingLength, removedLength, AmplifierValuation.multiplicity,
-        AmplifierValuation.movingMultiplicity, Nat.cast_zero, Nat.cast_one, Nat.cast_ofNat] <;>
-      nlinarith
+  sorry
 
 /-- The main enlargement is `2*step`, and its one pool length is
 `step/3`. The other actual tags have enlargement padding `step`. -/
 theorem padding_sub_poolLength_le
     (tag : OriginalNominalTag K) (step : ℝ) (hstep : 0 ≤ step) :
     tag.padding step - tag.poolLength step ≤ 5 * step / 3 := by
-  cases tag <;> simp only [padding, poolLength] <;> linarith
+  sorry
 
 end OriginalNominalTag
 
@@ -62,28 +54,7 @@ theorem retained_plus_enlargement_le_original
     G.retainedLength + G.enlargement ≤
       G.ideals.firstFrequency a Z + idealLogLength Z G.ideals.opposite.val +
         G.supportError + G.tag.padding step := by
-  have hc := idealLogLength_nonneg Z hZ G.ideals.first.val
-    (nonZeroDivisors.coe_ne_zero _)
-  have hd := idealLogLength_nonneg Z hZ G.ideals.opposite.val
-    (nonZeroDivisors.coe_ne_zero _)
-  have hm := G.tag.movingLength_le_twice_removedLength Z hZ
-  have he := G.supportError_nonneg
-  have hK : G.retainedLength ≤ G.ideals.firstFrequency a Z + G.supportError := by
-    have h := Real.log_le_log G.retainedScale_pos G.retained_upper
-    rw [Real.log_rpow (zero_lt_one.trans hZ)] at h
-    unfold retainedLength
-    exact (div_le_iff₀ (Real.log_pos hZ)).mpr (by nlinarith)
-  have hmax :
-      max (G.shiftedCommon - idealLogLength Z G.ideals.first.val -
-        2 * G.tag.removedLength Z + G.tag.movingLength Z) 0 ≤
-          G.ideals.firstFrequency a Z + idealLogLength Z G.ideals.opposite.val +
-            G.supportError - G.retainedLength := by
-    apply max_le
-    · unfold shiftedCommon
-      linarith
-    · linarith
-  unfold enlargement
-  linarith
+  sorry
 
 /-- The original first row profile relative to its original allowance.
 The large positive total degree is deliberately retained here. -/
@@ -118,23 +89,7 @@ theorem sharp_zero_allowance_ledger
         (padding + 5 * step / 3 + G.supportError + 2 * loss +
           (4 * lengthBound + 2) * δ + 2 * (lengthBound + 1) * ε) -
             G.firstProfileShift δ := by
-  have hc := idealLogLength_nonneg Z hZ G.ideals.first.val
-    (nonZeroDivisors.coe_ne_zero _)
-  have hfirst := G.retained_plus_enlargement_le_original hZ
-  have hpad := G.tag.padding_sub_poolLength_le step hstep
-  have hboundary := G.boundary_nonneg
-  have htilt₁ :
-      2 * ((a.n₁ + a.n₂ + a.z) + loss - idealLogLength Z G.ideals.first.val) * δ ≤
-        2 * (lengthBound + 1) * δ :=
-    mul_le_mul_of_nonneg_right (by linarith) hδ
-  have htilt₂ : δ * (idealLogLength Z G.ideals.complementary.val +
-      idealLogLength Z (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) - a.m) ≤
-        δ * (2 * lengthBound) :=
-    mul_le_mul_of_nonneg_left (by linarith) hδ
-  have hcount := mul_le_mul_of_nonneg_right hproduct hε
-  unfold OriginalNominalIdeals.firstFrequency at hfirst
-  unfold sharpZeroExponent firstProfileShift
-  nlinarith
+  sorry
 
 /-- The coarse tail has already placed its original numerator power
 in the fixed cutoff degree. A fixed saving pays the first allowance
@@ -153,18 +108,7 @@ theorem tail_allowance_ledger
     -saving ≤
       ((a.n₁ + a.n₂ + a.z) - idealLogLength Z G.ideals.first.val + G.boundary) +
         loss - G.firstProfileShift δ := by
-  have hboundary := G.boundary_nonneg
-  have htilt : δ * (idealLogLength Z G.ideals.complementary.val +
-      idealLogLength Z (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) - a.m) ≤
-        lengthBound := by
-    have hbound : 0 ≤ lengthBound := hmaskNonneg.trans hmask
-    have h := mul_le_mul_of_nonneg_left
-      (show idealLogLength Z G.ideals.complementary.val +
-        idealLogLength Z (firstActiveRadical G.ideals.first.val G.ideals.opposite.val) - a.m ≤
-          2 * lengthBound by linarith) hδ
-    nlinarith
-  unfold firstProfileShift
-  linarith
+  sorry
 
 end OriginalNominalGeometry
 end HeckeSkeleton.Moments.EngineStep

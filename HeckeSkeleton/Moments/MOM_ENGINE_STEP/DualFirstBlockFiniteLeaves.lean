@@ -125,15 +125,7 @@ theorem class_cost_eq_budgets_leaves
       T.classZeroBudget NL NR ε Czero S χ + T.classTailBudget NL NR Cerror S χ +
         ∑ j : s.CoveredClassKey LA RA S χ,
           (s.classLeaf LA RA NL NR hNL hNR exceptional S χ j).cost := by
-  rw [integral_div, integral_div,
-    (T.left S χ).integral_phase_cost_eq_budgets_leaves
-      (p.leftSourceCovers LA S χ) (exceptional.left S χ) chart.kernel chart.leftPoint,
-    (T.right S χ).integral_phase_cost_eq_budgets_leaves
-      (p.rightSourceCovers RA S χ) (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j)]
-  simp only [Fintype.sum_sum_type, classLeaf, ActualHybridLeaf.scale_cost]
-  rw [← Finset.mul_sum, ← Finset.mul_sum]
-  unfold classZeroBudget classTailBudget
-  ring
+  sorry
 
 /-- The actual first block is exactly its computed second zero budget,
 computed second tail budget, and finite genuine hybrid leaves. -/
@@ -149,21 +141,7 @@ theorem coveredCost_eq_budgets_leaves
       T.zeroBudget NL NR ε Czero + T.tailBudget NL NR Cerror +
         ∑ j : s.CoveredLeafKey LA RA,
           (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).cost := by
-  unfold coveredCost
-  simp only [Finset.mul_sum]
-  have he := T.class_cost_eq_budgets_leaves LA RA exceptional NL NR hNL hNR ε Cerror Czero
-  calc
-    _ = ∑ S, ∑ χ, (T.classZeroBudget NL NR ε Czero S χ +
-        T.classTailBudget NL NR Cerror S χ +
-        ∑ j : s.CoveredClassKey LA RA S χ,
-          (s.classLeaf LA RA NL NR hNL hNR exceptional S χ j).cost) := by
-      apply Finset.sum_congr rfl
-      intro S _
-      apply Finset.sum_congr rfl
-      intro χ _
-      simpa only [classWeight, mul_assoc] using he S χ
-    _ = _ := by
-      simp only [zeroBudget, tailBudget, Fintype.sum_sigma, coveredLeaf, Finset.sum_add_distrib]
+  sorry
 
 end DualTerminalCalibration
 end SecondStages

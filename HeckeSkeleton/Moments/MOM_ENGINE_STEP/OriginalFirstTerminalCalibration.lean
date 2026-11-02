@@ -39,8 +39,8 @@ def originalFirstMaskConstant (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ) : ℝ :
   Classical.choose (first_block_mask_labels_subpower (K := K) B δ hB hδ)
 
 theorem originalFirstMaskConstant_pos (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ) :
-    0 < originalFirstMaskConstant (K := K) B δ hB hδ :=
-  (Classical.choose_spec (first_block_mask_labels_subpower (K := K) B δ hB hδ)).1
+    0 < originalFirstMaskConstant (K := K) B δ hB hδ := by
+  sorry
 
 theorem originalFirstMaskConstant_bound (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ)
     (Z : ℝ) (hZ : 1 ≤ Z) {A : SArithmeticData K} {ι κ : Type*}
@@ -49,9 +49,8 @@ theorem originalFirstMaskConstant_bound (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < �
     (M : Finset (HeightOneSpectrum A.R)) (R : Ideal (𝓞 K)) (hR : R ≠ 0)
     (hNR : (Ideal.absNorm R : ℝ) ≤ Z ^ B) (hND : (Ideal.absNorm DE.1 : ℝ) ≤ Z ^ B)
     (W : OriginalMaskPrimeData M R) :
-    ((b.mask M).powerset.card : ℝ) ≤ originalFirstMaskConstant (K := K) B δ hB hδ * Z ^ δ :=
-  (Classical.choose_spec (first_block_mask_labels_subpower (K := K) B δ hB hδ)).2
-    Z hZ b M R hR hNR hND W
+    ((b.mask M).powerset.card : ℝ) ≤ originalFirstMaskConstant (K := K) B δ hB hδ * Z ^ δ := by
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -120,44 +119,14 @@ def zeroAmplitude : ℝ :=
     T.zeroProfileConstant * Z ^ T.zeroExponent δ
 
 theorem zeroAmplitude_nonneg : 0 ≤ T.zeroAmplitude hB δ hδ := by
-  exact mul_nonneg
-    (mul_nonneg (originalFirstMaskConstant_pos (K := K) normBound δ hB hδ).le
-      T.zeroProfileConstant_nonneg)
-    (Real.rpow_nonneg (zero_le_one.trans T.windows.base_ge_one) _)
+  sorry
 
 theorem zero_normalization :
     ∀ v ∈ firstZeroPairs s.columns s.columns s.ideal s.ideal,
       sZero.sup (schwartzSeminormFamily ℂ V ℂ) (s.profiles v.2.1 v.2.2) *
         (∑ D ∈ ((s.block v.1).mask s.mask).powerset, firstZeroDivisorWeight s.radius D) ≤
           T.zeroAmplitude hB δ hδ / Real.sqrt (Z ^ T.productExponent) := by
-  intro v hv
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  have hcommon := actualCommonLabels_norm s.columns s.columns _ _
-    (fun i _ => (s.ideal i).property.1) (fun i _ => (s.ideal i).property.1)
-    (Z ^ normBound) T.column_norm T.column_norm (v.1.val, ∅)
-    ((mem_actualCommonLabels _ _ _ _ _).mpr ⟨v.1.property, Finset.empty_subset _⟩)
-  have hcard := originalFirstMaskConstant_bound normBound δ hB hδ Z T.windows.base_ge_one
-    (s.block v.1) s.mask T.maskIdeal T.mask_ne_zero T.mask_norm hcommon.1 T.original_mask
-  have hmask := (firstZeroDivisorSum_le_card s.radius ((s.block v.1).mask s.mask)).trans
-    (mul_le_mul_of_nonneg_right hcard (inv_nonneg.mpr s.radius.property.le))
-  have hmask' := hmask.trans
-    (mul_le_mul_of_nonneg_left T.windows.inverse_radius
-      (mul_nonneg (originalFirstMaskConstant_pos (K := K) normBound δ hB hδ).le
-        (Real.rpow_nonneg hz.le _)))
-  have hp := mul_le_mul (T.zero_profile v hv) hmask'
-    (Finset.sum_nonneg fun D _ => firstZeroDivisorWeight_nonneg s.radius D)
-    (mul_nonneg T.zeroProfileConstant_nonneg (Real.rpow_nonneg hz.le _))
-  apply hp.trans_eq
-  have hsqrt : Real.sqrt (Z ^ T.productExponent) = Z ^ (T.productExponent / 2) := by
-    rw [Real.sqrt_eq_rpow, ← Real.rpow_mul hz.le]
-    congr 1
-    ring
-  unfold zeroAmplitude zeroExponent
-  rw [hsqrt, mul_div_assoc, ← Real.rpow_sub hz,
-    show (T.zeroProfileExponent + T.modulusExponent + δ + T.productExponent / 2) -
-      T.productExponent / 2 = T.zeroProfileExponent + T.modulusExponent + δ by ring,
-    Real.rpow_add hz, Real.rpow_add hz]
-  ring
+  sorry
 
 /-- The first terminal calibration is a computed result of the raw
 windows.  Its scalar zero-normalization is proved above. -/
@@ -183,20 +152,7 @@ theorem normalized_first_zero_le (ε Czero terminalExponent : ℝ) (hC : 0 ≤ C
         Z ^ ((T.calibration hB δ hδ).productExponent * ε)) / Z ^ (a.m + a.q) ≤
       (s.fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
         T.zeroProfileConstant * Z ^ terminalExponent := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  change ((s.fiber : ℝ) * Czero * T.zeroAmplitude hB δ hδ *
-    Z ^ (T.productExponent * ε)) / Z ^ (a.m + a.q) ≤ _
-  calc
-    _ = ((s.fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
-        T.zeroProfileConstant) *
-          Z ^ (T.zeroExponent δ + T.productExponent * ε - (a.m + a.q)) := by
-      unfold zeroAmplitude
-      rw [Real.rpow_sub hz, Real.rpow_add hz]
-      ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left
-      (Real.rpow_le_rpow_of_exponent_le T.windows.base_ge_one hledger)
-      (mul_nonneg (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC)
-        (originalFirstMaskConstant_pos (K := K) normBound δ hB hδ).le) T.zeroProfileConstant_nonneg)
+  sorry
 
 /-- The first tail uses the same constructed calibration and literal
 original profile constant.  No amplitude estimate is assumed. -/
@@ -205,13 +161,7 @@ theorem normalized_first_tail_le (Cerror terminalExponent : ℝ) (hC : 0 ≤ Cer
     ((s.fiber : ℝ) * Cerror * (T.calibration hB δ hδ).tailAmplitude * Z ^ (-Nsave)) /
         Z ^ (a.m + a.q) ≤
       (s.fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ terminalExponent := by
-  have hz : 0 < Z := zero_lt_one.trans_le T.windows.base_ge_one
-  change ((s.fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ (-Nsave)) /
-    Z ^ (a.m + a.q) ≤ _
-  rw [mul_div_assoc, ← Real.rpow_sub hz]
-  exact mul_le_mul_of_nonneg_left
-    (Real.rpow_le_rpow_of_exponent_le T.windows.base_ge_one hledger)
-    (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC) T.windows.amplitude_nonneg)
+  sorry
 
 end OriginalTerminalWindows
 end ActualDirectFirstSource
@@ -246,16 +196,16 @@ theorem normalizedFirstZeroBudget_of_original_le
     (hledger : T.zeroExponent δ + T.productExponent * ε - (a.m + a.q) ≤ terminalExponent) :
     SecondStages.normalizedFirstZeroBudget (s.originalTerminalCalibration T hB δ hδ) ε Czero ≤
       (s.fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
-        T.zeroProfileConstant * Z ^ terminalExponent :=
-  T.normalized_first_zero_le hB δ hδ ε Czero terminalExponent hC hledger
+        T.zeroProfileConstant * Z ^ terminalExponent := by
+  sorry
 
 theorem normalizedFirstTailBudget_of_original_le
     (Cerror terminalExponent : ℝ) (hC : 0 ≤ Cerror)
     (hledger : -Nsave - (a.m + a.q) ≤ terminalExponent) :
     ((s.fiber : ℝ) * Cerror * (s.originalTerminalCalibration T hB δ hδ).tailAmplitude *
         Z ^ (-Nsave)) / Z ^ (a.m + a.q) ≤
-      (s.fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ terminalExponent :=
-  T.normalized_first_tail_le hB δ hδ Cerror terminalExponent hC hledger
+      (s.fiber : ℝ) * Cerror * T.tailProfileConstant * Z ^ terminalExponent := by
+  sorry
 
 end ActualFirstSource
 

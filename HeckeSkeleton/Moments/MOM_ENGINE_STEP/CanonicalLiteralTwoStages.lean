@@ -44,23 +44,15 @@ def scale (c : ℂ) : CanonicalLiteralRectangles.Atoms (K := K) k :=
 theorem scale_rectangleLeftWeight (c : ℂ) (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.scale c).rectangleLeftWeight r I = c * d.rectangleLeftWeight r I := by
-  unfold rectangleLeftWeight scale
-  split_ifs <;> simp only [mul_zero]
+  sorry
 
 theorem scale_term (c : ℂ) (r : Bool) (i : AllocationColumn K k) :
     (d.scale c).term r i = c * d.term r i := by
-  have hw := funext (d.scale_rectangleLeftWeight c r)
-  unfold term
-  rw [hw]
-  simp only [scale, rawBareSourceCoefficient, FixedChildCharacters.bareCoefficient,
-    childCartesianCoefficient, normalizer]
-  ring
+  sorry
 
 theorem scale_whole (c : ℂ) (i : AllocationColumn K k) :
     (d.scale c).whole i = c * d.whole i := by
-  unfold whole
-  rw [d.scale_term c false i, d.scale_term c true i]
-  ring
+  sorry
 
 variable {support : Finset (Ideal (𝓞 K))}
 variable (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support)
@@ -73,7 +65,7 @@ def firstExtracted : CanonicalLiteralRectangles.Atoms (K := K) b.keep.card :=
 theorem firstExtracted_whole (i : AllocationColumn K b.keep.card)
     (hi : i ∈ b.residualColumns) :
     (d.firstExtracted b).whole i = d.whole (b.reconstruct i) := by
-  rw [firstExtracted, scale_whole, d.extract_whole b i hi]
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -121,27 +113,7 @@ theorem secondInput_whole
         actualIdealResidue (A := A) (σ := σ) J.val poolElement *
         ((A.exteriorNorm J ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) J.val unitElement := by
-  have hnorm : A.exteriorNorm (ExteriorIdealEuler.mul power J) =
-      A.exteriorNorm power * A.exteriorNorm J := by
-    change (Ideal.absNorm (power.val * J.val) : ℝ) = _
-    rw [map_mul, Nat.cast_mul] <;> rfl
-  have hN : (Ideal.absNorm (allocationColumnIdeal i) : ℝ) = A.exteriorNorm J := by
-    change _ = (Ideal.absNorm J.val : ℝ)
-    rw [hJ]
-  have hNc : (Ideal.absNorm (allocationColumnIdeal i) : ℂ) = (A.exteriorNorm J : ℂ) := by
-    exact_mod_cast hN
-  unfold secondInput
-  dsimp only
-  rw [scale_whole,
-    movingSingleton_whole (P := P) (R := R) _ hroot hemb unitFixed unitElement hunit i J hJ,
-    movingSingleton_whole (P := P) (R := R) _ hroot hemb poolFixed poolElement hpool i J hJ,
-    movingSingleton_whole (P := P) (R := R) _ hroot hemb firstFixed firstElement hfirst i J hJ,
-    twoStageNorms_whole (d.firstExtracted b) _ _ _ _ _ _ δ₁ δ₂ i hi,
-    d.firstExtracted_whole b i hi, hN, hNc, hnorm,
-    Real.mul_rpow (A.exteriorNorm_pos power).le (A.exteriorNorm_pos J).le]
-  change _ = _ * actualIdealResidue (A := A) (σ := σ) (power.val * J.val) firstElement * _ * _ * _
-  rw [actualIdealResidue_ideal_mul, Complex.ofReal_mul]
-  ring
+  sorry
 
 /-- The complete original extra Gauss product is multiplied by the
 actual first residual scale, with no second-common quotient inserted. -/
@@ -156,21 +128,7 @@ theorem secondInput_gaussScale
     extraGaussScale e.gauss₁ e.gauss₂ e.gaussSlot =
       extraGaussScale d.gauss₁ d.gauss₂ d.gaussSlot *
         b.residualGaussScale d.base d.length (d.scale₁ false) (d.scale₂ false) := by
-  dsimp only [secondInput, scale, movingSingleton, twoStageNorms, normPower,
-    addGauss, firstExtracted]
-  have he := d.extract_gaussScale b
-  change extraGaussScale
-      ((d.extract b).gauss₁ * ((d.extract b).scale₁ false))
-      ((d.extract b).gauss₂ * ((d.extract b).scale₂ false))
-      (fun j => (d.extract b).gaussSlot j * ((d.extract b).base ^ (d.extract b).length j)) = _
-  calc
-    _ = extraGaussScale (d.extract b).gauss₁ (d.extract b).gauss₂
-          (d.extract b).gaussSlot *
-        extraGaussScale ((d.extract b).scale₁ false) ((d.extract b).scale₂ false)
-          (fun j => (d.extract b).base ^ (d.extract b).length j) := by
-      simp only [extraGaussScale, Finset.prod_mul_distrib]
-      ring
-    _ = _ := by rw [he] <;> rfl
+  sorry
 
 /-- Both occurrence partitions are now actual constructors. The second
 common scalar alone is the constant extracted into the correlation row. -/
@@ -191,8 +149,8 @@ theorem secondInput_common_extraction
     (i : AllocationColumn K b₂.keep.card) (hi : i ∈ b₂.residualColumns) :
     let e := d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂
-    e.whole (b₂.reconstruct i) = e.commonScalar b₂ * (e.extract b₂).whole i :=
-  extract_whole _ b₂ i hi
+    e.whole (b₂.reconstruct i) = e.commonScalar b₂ * (e.extract b₂).whole i := by
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

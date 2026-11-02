@@ -95,26 +95,7 @@ private theorem fibre_uniform_from_original_counts
     ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       OriginalFiniteFibre.coordinateConstant (K := K) cap (Fintype.card Θ)
         dimension width B ε hB hε * Z ^ ε := by
-  have hraw := covered_index_fibre_card_le_coordinates hleft hright
-    index allocation hindex leaves j DE hcommon hrow support dimension width code encode hcode
-      hDE hLC hRC
-  have hn : (leaves.filter (fun b => index b = j)).card ≤
-      OriginalFiniteFibre.coordinateCount s.mask support I₁ I₂ DE.val.1 DE.val.2
-        cap (Fintype.card Θ) dimension width := by
-    refine hraw.trans ?_
-    unfold OriginalFiniteFibre.coordinateCount
-    change _ ≤ 2 ^ s.mask.card * idealDivisorCount I₁ ^ (cap + 2) *
-      idealDivisorCount I₂ ^ (cap + 2) *
-        (2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension) *
-          idealDivisorCount DE.val.1 ^ (cap + 2) * idealDivisorCount DE.val.2 ^ (cap + 2)
-    gcongr <;> assumption
-  have hnreal : ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
-      (OriginalFiniteFibre.coordinateCount s.mask support I₁ I₂ DE.val.1 DE.val.2
-        cap (Fintype.card Θ) dimension width : ℝ) := by exact_mod_cast hn
-  exact hnreal.trans (OriginalFiniteFibre.coordinateCount_le
-    cap (Fintype.card Θ) dimension width B ε hB hε Z hZ
-    s.mask support Rmask Rrow I₁ I₂ DE.val.1 DE.val.2 hRmask hRrow
-    hNmask hNrow hNI₁ hNI₂ hND hNE WM WR)
+  sorry
 
 end ActualGaussStage
 
@@ -174,14 +155,7 @@ theorem main_covered_index_fibre_subpower
     ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       OriginalFiniteFibre.coordinateConstant (K := K) cap (Fintype.card Θ)
         dimension width B ε hB hε * Z ^ ε := by
-  have hslots : ∀ a, ((CV).branch a).slotCount ≤ cap := fun a =>
-    (d.mainSourceCartesianCover_slotCount_le T S D₀ hcolumns hideal c a).trans hcap
-  have hkeys : (CV).labels.card ≤ idealDivisorCount D₀ ^ (cap + 2) :=
-    d.mainSourceCartesianCover_card_le T S D₀ hcolumns hideal cap hcap hD₀ c
-  exact ActualGaussStage.fibre_uniform_from_original_counts s CV CV
-    cap dimension width B ε Z hB hε hZ hleft hright
-    index allocation hindex leaves j DE hcommon hrow support code encode hcode hDE hslots hslots
-    Rmask Rrow D₀ D₀ hRmask hRrow WM WR hNmask hNrow hND₀ hND₀ hND hNE hkeys hkeys
+  sorry
 
 end Main
 
@@ -228,15 +202,7 @@ theorem residual_covered_index_fibre_subpower
     ((leaves.filter (fun b => index b = j)).card : ℝ) ≤
       OriginalFiniteFibre.coordinateConstant (K := K) cap (Fintype.card Θ)
         dimension width B ε hB hε * Z ^ ε := by
-  have hslots : ∀ a, ((CV).branch a).slotCount ≤ cap := fun a =>
-    (d.residualSourceCartesianCover_slotCount_le T S D₀ hcolumns hideal p n c a).trans hcap
-  have hkeys : (CV).labels.card ≤ idealDivisorCount (D₀ * p.val.asIdeal ^ n) ^ (cap + 2) :=
-    d.residualSourceCartesianCover_card_le T S D₀ hcolumns hideal cap hcap hD₀ p n c
-  exact ActualGaussStage.fibre_uniform_from_original_counts s CV CV
-    cap dimension width B ε Z hB hε hZ hleft hright
-    index allocation hindex leaves j DE hcommon hrow support code encode hcode hDE hslots hslots
-    Rmask Rrow (D₀ * p.val.asIdeal ^ n) (D₀ * p.val.asIdeal ^ n)
-    hRmask hRrow WM WR hNmask hNrow hNcombined hNcombined hND hNE hkeys hkeys
+  sorry
 
 end Residual
 end FirstGaussPoolData

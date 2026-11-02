@@ -60,24 +60,7 @@ theorem pool_tag_pair_card (cap : ℕ) (B ell ε : ℝ)
         k ≤ cap → l ≤ cap →
         (Fintype.card (PairLabel (A := A) lw rw BL BR
           (poolTagMask D tag) (poolTagMask D tag)) : ℝ) ≤ C * Z ^ ε := by
-  obtain ⟨CD, hCD, hd⟩ := direct_pair_card (K := K) cap B ε hB hε
-  obtain ⟨CP, hCP, hp⟩ := pool_pair_card (K := K) cap B ell ε hB hell hε
-  refine ⟨CD + CP, add_pos hCD hCP, ?_⟩
-  intro Z hZ A bad eps P D hD hDN tag k l ld rd lw rw BL BR hk hl
-  have hCD' : CD * Z ^ ε ≤ (CD + CP) * Z ^ ε :=
-    mul_le_mul_of_nonneg_right (le_add_of_nonneg_right hCP.le)
-      (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)
-  have hCP' : CP * Z ^ ε ≤ (CD + CP) * Z ^ ε :=
-    mul_le_mul_of_nonneg_right (le_add_of_nonneg_left hCD.le)
-      (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)
-  rcases tag with u | (p | (p | p))
-  · exact (hd Z hZ A D hD hDN k l ld rd lw rw BL BR hk hl).trans hCD'
-  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property)
-      .one k l ld rd lw rw BL BR hk hl).trans hCP'
-  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property)
-      .six k l ld rd lw rw BL BR hk hl).trans hCP'
-  · exact (hp Z hZ A D hD hDN p.val (P.norm_upper p.val p.property)
-      .seven k l ld rd lw rw BL BR hk hl).trans hCP'
+  sorry
 
 end CanonicalLiteralPassiveLabelMass
 
@@ -89,9 +72,8 @@ def directPassivePairConstant (K : Type) [Field K] [NumberField K]
 
 theorem directPassivePairConstant_pos (K : Type) [Field K] [NumberField K]
     (cap : ℕ) (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) :
-    0 < directPassivePairConstant K cap B ε hB hε :=
-  (Classical.choose_spec
-    (direct_pair_card (K := K) cap B (ε / 8) hB (by positivity))).1
+    0 < directPassivePairConstant K cap B ε hB hε := by
+  sorry
 
 def amplifiedPassivePairConstant (K : Type) [Field K] [NumberField K]
     (cap : ℕ) (B ell ε : ℝ) (hB : 0 ≤ B) (hell : 0 ≤ ell) (hε : 0 < ε) : ℝ :=
@@ -99,9 +81,8 @@ def amplifiedPassivePairConstant (K : Type) [Field K] [NumberField K]
 
 theorem amplifiedPassivePairConstant_pos (K : Type) [Field K] [NumberField K]
     (cap : ℕ) (B ell ε : ℝ) (hB : 0 ≤ B) (hell : 0 ≤ ell) (hε : 0 < ε) :
-    0 < amplifiedPassivePairConstant K cap B ell ε hB hell hε :=
-  (Classical.choose_spec
-    (pool_tag_pair_card (K := K) cap B ell (ε / 8) hB hell (by positivity))).1
+    0 < amplifiedPassivePairConstant K cap B ell ε hB hell hε := by
+  sorry
 
 variable {σ : K →+* ℂ} {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {C : A.GeneralArithmeticContext σ η hS}
@@ -175,30 +156,7 @@ theorem passive_index_fibre :
       (directPassivePairConstant K cap B ε hB hε *
         kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B
           (ε / 2) hB (by positivity)) * Z ^ (ε / 4) := by
-  have hpair := (Classical.choose_spec
-    (direct_pair_card (K := K) cap B (ε / 8) hB (by positivity))).2
-  have hinner (j : R.liveLeaves L exceptional N) :
-      (Fintype.card (PairLabel (A := A) (lw j) (rw j) (BL j) (BR j)
-        (R.passiveMaskAt L j.val) (R.passiveMaskAt L j.val)) : ℝ) ≤
-      directPassivePairConstant K cap B ε hB hε * Z ^ (ε / 8) := by
-    have hp := actual_common_pair_properties s.columns s.columns
-      (fun i => (s.ideal i).val) (fun i => (s.ideal i).val) j.val.1
-    have hn := actual_common_pair_norm s.columns s.columns
-      (fun i => (s.ideal i).val) (fun i => (s.ideal i).val) (Z ^ B)
-      (fun i _ => (s.ideal i).property.1) (fun i _ => (s.ideal i).property.1)
-      hN hN j.val.1
-    exact hpair Z hZ A j.val.1.val.1 hp.1 hn.1
-      (kl j) (kr j) (ld j) (rd j) (lw j) (rw j) (BL j) (BR j) (hkl j) (hkr j)
-  have hsource := R.original_image_kernel_source_fibre L hcap (ε / 2)
-    hB (by positivity) hZ.le rows maskIdeal hmask0 mask hmaskN hN exceptional N
-  have h := activeSigma_index_fibre_subpower
-    (directPassivePairConstant K cap B ε hB hε)
-    (kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B
-      (ε / 2) hB (by positivity)) Z (ε / 8) ((ε / 2) / 4)
-    (zero_lt_one.trans hZ) (directPassivePairConstant_pos K cap B ε hB hε).le
-    families (R.arithmeticLabels L hcap exceptional N).index hinner hsource
-  have he : ε / 8 + (ε / 2) / 4 = ε / 4 := by ring
-  simpa only [OriginalArithmeticLabels.dependentIndex, he] using h
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 end Direct
@@ -263,38 +221,7 @@ theorem passive_index_fibre :
       (amplifiedPassivePairConstant K cap B ell ε hB hell hε *
         kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B
           (ε / 2) hB (by positivity)) * Z ^ (ε / 4) := by
-  have hZ : 1 < Z := P.base_gt_one
-  have hB₀ : B₀ ≤ B := by linarith
-  have hN' : ∀ i ∈ s.columns, (Ideal.absNorm (s.ideal i).val : ℝ) ≤ Z ^ B := by
-    intro i hi
-    exact (hN i hi).trans (Real.rpow_le_rpow_of_exponent_le hZ.le hB₀)
-  have hpair := (Classical.choose_spec
-    (pool_tag_pair_card (K := K) cap B ell (ε / 8) hB hell (by positivity))).2
-  have hinner (j : R.liveLeaves L exceptional N) :
-      (Fintype.card (PairLabel (A := A) (lw j) (rw j) (BL j) (BR j)
-        (R.passiveMaskAt L j.val) (R.passiveMaskAt L j.val)) : ℝ) ≤
-      amplifiedPassivePairConstant K cap B ell ε hB hell hε * Z ^ (ε / 8) := by
-    have hp := actual_common_pair_properties s.columns s.columns
-      (fun i => (s.ideal i).val) (fun i => (s.ideal i).val) j.val.1
-    have hn := actual_common_pair_norm s.columns s.columns
-      (fun i => (s.ideal i).val) (fun i => (s.ideal i).val) (Z ^ B)
-      (fun i _ => (s.ideal i).property.1) (fun i _ => (s.ideal i).property.1)
-      hN' hN' j.val.1
-    exact hpair Z hZ A bad eps P j.val.1.val.1 hp.1 hn.1
-      (R.passivePoolTagAt L j.val) (kl j) (kr j) (ld j) (rd j)
-      (lw j) (rw j) (BL j) (BR j) (hkl j) (hkr j)
-  have hsource := R.original_image_kernel_source_fibre L hcap (ε / 2) B₀
-    hB (by positivity) hbox rows maskIdeal hmask0 mask hmaskN hN exceptional N
-  have h := activeSigma_index_fibre_subpower
-    (amplifiedPassivePairConstant K cap B ell ε hB hell hε)
-    (kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B
-      (ε / 2) hB (by positivity)) Z (ε / 8) ((ε / 2) / 4)
-    (zero_lt_one.trans hZ)
-    (amplifiedPassivePairConstant_pos K cap B ell ε hB hell hε).le
-    families ((R.arithmeticLabels L hcap exceptional N).amplifiedIndex
-      (R.arithmeticTag L exceptional N) P (R.arithmeticTag_mem L exceptional N)) hinner hsource
-  have he : ε / 8 + (ε / 2) / 4 = ε / 4 := by ring
-  simpa only [OriginalArithmeticLabels.dependentAmplifiedIndex, he] using h
+  sorry
 
 end ActualFirstSource.SecondStages
 end Amplified

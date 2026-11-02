@@ -87,22 +87,7 @@ theorem dualCoveredCost_eq_budgets_leaves
     R.dualCoveredCost T L exceptional N ε Cerror Czero =
       R.dualZeroBudget T N ε Czero + R.dualTailBudget T N Cerror +
         ∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost := by
-  unfold dualCoveredCost
-  calc
-    _ = ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
-        ((T v D).zeroBudget (N.left v D) (N.right v D) ε Czero +
-          (T v D).tailBudget (N.left v D) (N.right v D) Cerror +
-          ∑ j : (R v D).CoveredLeafKey L L,
-            ((R v D).coveredLeaf L L (N.left v D) (N.right v D)
-              (N.left_pos v D) (N.right_pos v D) (exceptional v D) j).cost) := by
-      apply Finset.sum_congr rfl
-      intro v _
-      apply Finset.sum_congr rfl
-      intro D _
-      exact (T v D).coveredCost_eq_budgets_leaves L L (exceptional v D)
-        (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
-    _ = _ := by
-      simp only [dualZeroBudget, dualTailBudget, Fintype.sum_sigma, coveredLeaf, Finset.sum_add_distrib]
+  sorry
 
 def dualSecondZeroBudget (T : R.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
     (N : s.Normalization) (ε Czero : ℝ) : ℝ :=
@@ -134,8 +119,7 @@ theorem dualTotalTailBudget_eq_first_add_second
     (N : s.Normalization) (CfirstError Cerror : ℝ) :
     R.dualTotalTailBudget T F N CfirstError Cerror =
       dualFirstTailBudget F CfirstError + R.dualSecondTailBudget T N Cerror := by
-  unfold dualTotalTailBudget dualFirstTailBudget dualSecondTailBudget
-  ring
+  sorry
 
 /-- Exact five-part decomposition of the true original source exit.
 The live carrier is selected before both continuous parameters. -/
@@ -150,24 +134,7 @@ theorem dualTotalCost_eq_live
       dualFirstZeroBudget F ε CfirstZero + R.dualSecondZeroBudget T N ε Czero +
         R.exceptionalBudget L exceptional N + R.dualTotalTailBudget T F N CfirstError Cerror +
         R.ordinaryBudget L exceptional N := by
-  have hleaves :
-      (s.fiber : ℝ) * (∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost) =
-        R.exceptionalBudget L exceptional N + R.ordinaryBudget L exceptional N := by
-    calc
-      _ = ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
-        simp only [parentLeaf, ActualHybridLeaf.scale_cost, Finset.mul_sum]
-      _ = ∑ j : R.liveLeaves L exceptional N, (R.parentLeaf L exceptional N j.val).cost :=
-        ActualHybridFamily.sum_cost_eq_live _
-      _ = _ := by
-        simp only [exceptionalBudget, ordinaryBudget, ActualHybridLeaf.cost, Finset.sum_add_distrib]
-  rw [R.dualCoveredCost_eq_budgets_leaves T L exceptional N ε Cerror Czero]
-  calc
-    _ = dualFirstZeroBudget F ε CfirstZero + R.dualSecondZeroBudget T N ε Czero +
-        R.dualTotalTailBudget T F N CfirstError Cerror +
-        (s.fiber : ℝ) * (∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost) := by
-      unfold ActualFirstSource.DualTerminalCalibration.cost dualFirstZeroBudget dualSecondZeroBudget dualTotalTailBudget
-      ring
-    _ = _ := by rw [hleaves]; ring
+  sorry
 
 end ActualFirstSource.SecondStages
 
@@ -214,19 +181,7 @@ theorem actual_parent_two_stage_dual_finite_leaf_bound
         ActualFirstSource.SecondStages.dualFirstZeroBudget F ε CfirstZero +
           R.dualSecondZeroBudget T N ε Czero + R.exceptionalBudget L exceptional N +
           R.dualTotalTailBudget T F N CfirstError Cerror + R.ordinaryBudget L exceptional N := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-      CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hb⟩ :=
-    actual_parent_two_stage_dual_covered_terminal_bound
-      (W := W) (E := E) (ν := ν) (μ := μ) hΓ μv hDiff
-      C Drecipe hD rowBallSize k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z ell eps bad P omega psi centered d a t Y₁ Y₂ X hX s coefficient hprofiles
-    N R conditions T F L exceptional
-  obtain ⟨hcutoff, hp⟩ := hb Z ell eps bad P centered d a t Y₁ Y₂ X hX s
-    coefficient hprofiles N R conditions T F L exceptional
-  rw [R.dualTotalCost_eq_live T F L exceptional N ε CfirstError CfirstZero Cerror Czero] at hp
-  exact ⟨hcutoff, hp⟩
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

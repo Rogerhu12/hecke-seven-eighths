@@ -42,8 +42,8 @@ theorem allocation_selection_mem (M : Ideal (𝓞 K))
       a ∈ liveLabels M S₁ S₂ S id id HeightOneSpectrum.asIdeal}) :
     (allocation M S₁ S₂ S hS₁ hS₂ a).selection ∈
       AllocationMass.idealAllocations (allocation M S₁ S₂ S hS₁ hS₂ a).divisor
-        (k + 2) :=
-  (Finset.mem_sigma.mp (Finset.mem_filter.mp a.property).1).2
+        (k + 2) := by
+  sorry
 
 /-- No squarefreeness hypothesis is needed: a nonsquarefree allocation
 has zero signed scalar before any bound is applied. -/
@@ -66,21 +66,7 @@ theorem signed_scalar_norm_sq_le_divisor
     ‖sign ⟨B.divisor, B.selection⟩ * B.scalar (σ := σ) T g h Z length w‖ ^ 2 ≤
       (∏ i ∈ Finset.univ \ B.keep, annulus i * profile i) /
         (Ideal.absNorm B.divisor : ℝ) := by
-  by_cases hsq : Squarefree B.divisor
-  · have hsign : ‖sign ⟨B.divisor, B.selection⟩‖ ^ 2 ≤ 1 := by
-      simpa only [one_pow] using
-        pow_le_pow_left₀ (norm_nonneg _) (norm_sign_le_one ⟨B.divisor, B.selection⟩) 2
-    rw [norm_mul, mul_pow]
-    calc
-      _ ≤ ‖B.scalar (σ := σ) T g h Z length w‖ ^ 2 := by
-        simpa only [one_mul] using
-          mul_le_mul_of_nonneg_right hsign (sq_nonneg ‖B.scalar (σ := σ) T g h Z length w‖)
-      _ ≤ _ := B.scalar_norm_sq_le_divisor C T g h Z hZ length w annulus profile
-        hplain₁ hplain₂ hprime hannulus hprofile hA hP hsq ha
-  · simp only [sign, moebius_of_not_squarefree hsq, Int.cast_zero,
-      zero_mul, norm_zero, zero_pow (by decide : (2 : ℕ) ≠ 0)]
-    exact div_nonneg
-      (Finset.prod_nonneg fun i _ => mul_nonneg (hA i) (hP i)) (Nat.cast_nonneg _)
+  sorry
 
 /-- The preceding estimate instantiated on the branch actually computed
 from the original passive mask and finite source carriers. -/
@@ -107,11 +93,7 @@ theorem allocation_signed_scalar_norm_sq_le
     ‖sign a.val * B.scalar (σ := σ) T g h Z length w‖ ^ 2 ≤
       (∏ i ∈ Finset.univ \ B.keep, annulus i * profile i) /
         (Ideal.absNorm a.val.1 : ℝ) := by
-  dsimp only
-  intro hA hP hplain₁ hplain₂ hprime hannulus hprofile
-  exact signed_scalar_norm_sq_le_divisor (allocation M S₁ S₂ S hS₁ hS₂ a)
-    C T g h Z hZ length w annulus profile hplain₁ hplain₂ hprime hannulus hprofile hA hP
-    (allocation_selection_mem M S₁ S₂ S hS₁ hS₂ a)
+  sorry
 
 /-- A raw uniform bound on each original slot pays the actual frozen
 subset. No cardinality estimate for a final label family is assumed. -/
@@ -121,14 +103,7 @@ theorem frozen_envelope_le_slotBudget
     (hA : ∀ i, 0 ≤ annulus i) (hP : ∀ i, 0 ≤ profile i)
     (hslot : ∀ i, annulus i * profile i ≤ slotBudget) :
     (∏ i ∈ Finset.univ \ B.keep, annulus i * profile i) ≤ slotBudget ^ cap := by
-  have hcard : (Finset.univ \ B.keep).card ≤ cap :=
-    (Finset.card_le_card Finset.sdiff_subset).trans
-      (by simpa only [Finset.card_univ, Fintype.card_fin] using hcap)
-  calc
-    _ ≤ ∏ _i ∈ Finset.univ \ B.keep, slotBudget :=
-      Finset.prod_le_prod₀ (fun i _ => mul_nonneg (hA i) (hP i)) (fun i _ => hslot i)
-    _ = slotBudget ^ (Finset.univ \ B.keep).card := by rw [Finset.prod_const]
-    _ ≤ _ := pow_le_pow_right₀ hslotBudget hcard
+  sorry
 
 /-- Two independently selected passive divisors retain their separate
 square-root denominators. The shared-second-divisor estimate is not used. -/
@@ -137,17 +112,7 @@ theorem independent_scalar_inverse_norm (left right : ℂ) (NL NR EL ER : ℝ)
     (hleft : ‖left‖ ^ 2 ≤ EL / NL) (hright : ‖right‖ ^ 2 ≤ ER / NR) :
     ‖left‖ * ‖right‖ ≤
       Real.sqrt EL * Real.sqrt ER / (Real.sqrt NL * Real.sqrt NR) := by
-  have hl : ‖left‖ ≤ Real.sqrt EL / Real.sqrt NL := by
-    simpa only [Real.sqrt_sq (norm_nonneg left), Real.sqrt_div hEL NL] using
-      Real.sqrt_le_sqrt hleft
-  have hr : ‖right‖ ≤ Real.sqrt ER / Real.sqrt NR := by
-    simpa only [Real.sqrt_sq (norm_nonneg right), Real.sqrt_div hER NR] using
-      Real.sqrt_le_sqrt hright
-  calc
-    _ ≤ (Real.sqrt EL / Real.sqrt NL) * (Real.sqrt ER / Real.sqrt NR) :=
-      mul_le_mul hl hr (norm_nonneg right)
-        (div_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))
-    _ = _ := by rw [div_mul_div_comm]
+  sorry
 
 /-- With the same raw slot budget on both sides, the entire additional
 pair of frozen subsets costs at most one further `cap` power. -/
@@ -156,9 +121,7 @@ theorem independent_pair_slotBudget (left right : ℂ) (NL NR slotBudget : ℝ)
     (hleft : ‖left‖ ^ 2 ≤ slotBudget ^ cap / NL)
     (hright : ‖right‖ ^ 2 ≤ slotBudget ^ cap / NR) :
     ‖left‖ * ‖right‖ ≤ slotBudget ^ cap / (Real.sqrt NL * Real.sqrt NR) := by
-  simpa only [← sq, Real.sq_sqrt (pow_nonneg hslotBudget cap)] using
-    independent_scalar_inverse_norm left right NL NR (slotBudget ^ cap) (slotBudget ^ cap)
-      (pow_nonneg hslotBudget cap) (pow_nonneg hslotBudget cap) hleft hright
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralPassiveDeletion
 

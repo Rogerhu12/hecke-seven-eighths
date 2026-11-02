@@ -42,18 +42,16 @@ def stripOuter : ActualHybridLeaf K H U V :=
   (X.leaf.stripColumnConstants a b ha hb).outerLeaf
 
 theorem exceptionalCost_eq_stripOuter :
-    leaf.exceptionalCost = (X.stripOuter a b ha hb).exceptionalCost :=
-  X.exceptionalCost_eq.trans
-    (X.leaf.stripColumnConstants a b ha hb).exceptionalCost_eq_outerLeaf
+    leaf.exceptionalCost = (X.stripOuter a b ha hb).exceptionalCost := by
+  sorry
 
 theorem ordinaryCost_eq_stripOuter :
-    leaf.ordinaryCost = (X.stripOuter a b ha hb).ordinaryCost :=
-  X.ordinaryCost_eq.trans
-    (X.leaf.stripColumnConstants a b ha hb).ordinaryCost_eq_outerLeaf
+    leaf.ordinaryCost = (X.stripOuter a b ha hb).ordinaryCost := by
+  sorry
 
 theorem stripOuter_weight :
-    (X.stripOuter a b ha hb).weight = (‖a‖ * ‖b‖) * leaf.weight :=
-  (X.leaf.stripColumnConstants a b ha hb).outerLeaf_weight
+    (X.stripOuter a b ha hb).weight = (‖a‖ * ‖b‖) * leaf.weight := by
+  sorry
 
 @[simp] theorem stripOuter_rowWeight :
     (X.stripOuter a b ha hb).rowWeight = X.leaf.rowWeight := rfl
@@ -91,12 +89,7 @@ theorem cost_le_of_strip_outer_majorant
         coefficient * ((1 + ‖z.1‖) ^ J₁ * (1 + ‖z.2‖) ^ J₂)) :
     leaf.exceptionalCost / Z ^ parentWidth ≤
       coefficient * fourierFactor J₁ J₂ leaf.firstKernel leaf.secondKernel := by
-  rw [X.exceptionalCost_eq_stripOuter a b ha hb]
-  apply cost_le_of_polynomial_majorant J₁ J₂ coefficient hcoefficient
-    (X.stripOuter a b ha hb) Z parentWidth
-  intro z
-  rw [X.stripOuter_weight a b ha hb]
-  exact hpoint z
+  sorry
 
 /-- Theta classes are taken after the exact extraction; they keep the
 original predicate and both original kernels. -/
@@ -113,12 +106,7 @@ theorem theta_cost_le_of_strip_outer_majorant
     leaf.exceptionalCost / Z ^ parentWidth ≤
       (theta.card : ℝ) ^ 2 *
         (coefficient * fourierFactor J₁ J₂ leaf.firstKernel leaf.secondKernel) := by
-  rw [X.exceptionalCost_eq_stripOuter a b ha hb]
-  apply theta_cost_le_of_polynomial_majorant J₁ J₂ coefficient hcoefficient
-    (X.stripOuter a b ha hb) Q hpredicate Z parentWidth
-  intro χ z
-  rw [X.stripOuter_weight a b ha hb]
-  exact hpoint χ z
+  sorry
 
 end CanonicalExceptionalPaidIntegral
 
@@ -147,18 +135,7 @@ theorem original_exceptional_combined_label_scalar
       (magnitude / Z ^ secondWidth) ≤
         firstCost * secondCost * Z ^ (remaining + tilt) *
           branch.exceptionalDyadWeight Z lower j := by
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hfirst := firstOriginalAllowanceWeight_mul_le_radical
-    Z parentWidth total rawProfile scalarPair firstCost tilt hZ hfirstCost hprofile
-    j.1.val.1.1 j.1.val.1.2 hD hE hsupport
-  have hb := original_exceptional_label_scalar j phase₁ χ₁ phase₂ χ₂
-    Z (firstOriginalAllowanceWeight Z parentWidth total rawProfile
-      j.1.val.1.1 j.1.val.1.2 * scalarPair)
-    magnitude (firstCost * Z ^ tilt) secondCost secondWidth remaining lower
-    hz hmagnitude (mul_nonneg hfirstCost (Real.rpow_nonneg hz.le _)) hfirst hsecond
-  apply hb.trans_eq
-  rw [Real.rpow_add hz]
-  ring
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

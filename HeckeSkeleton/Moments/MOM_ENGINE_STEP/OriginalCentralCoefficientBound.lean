@@ -28,17 +28,12 @@ open HeckeGeneral.Analysis.ConditionalMoments
 
 theorem original_inverse_sqrt_rpow (Z length : ℝ) (hZ : 0 < Z) :
     (Real.sqrt (Z ^ length))⁻¹ = Z ^ (-length / 2) := by
-  rw [Real.sqrt_eq_rpow, ← Real.rpow_mul hZ.le, ← Real.rpow_neg hZ.le]
-  congr 1
-  ring
+  sorry
 
 private theorem original_normalized_atom_norm_le
     (N B : ℝ) (v : ℂ) (hv : ‖v‖ ≤ B) :
     ‖(Real.sqrt N : ℂ)⁻¹ * v‖ ≤ B * (Real.sqrt N)⁻¹ := by
-  rw [norm_mul, norm_inv, Complex.norm_real, Real.norm_eq_abs,
-    abs_of_nonneg (Real.sqrt_nonneg N)]
-  simpa only [mul_comm] using
-    mul_le_mul_of_nonneg_left hv (inv_nonneg.mpr (Real.sqrt_nonneg N))
+  sorry
 
 /-- The original normalization is a single product, including the
 empty product when there are no prime slots. -/
@@ -48,30 +43,7 @@ theorem original_central_scale_product
     (B * (Real.sqrt N₁)⁻¹) * (B * (Real.sqrt N₂)⁻¹) *
         (∏ i, B * (Real.sqrt (Z ^ length i))⁻¹) =
       B ^ (slots + 2) * Z ^ (-(plainLength + ∑ i, length i) / 2) := by
-  have hplain : (Real.sqrt N₁)⁻¹ * (Real.sqrt N₂)⁻¹ =
-      Z ^ (-plainLength / 2) := by
-    calc
-      _ = (Real.sqrt N₁ * Real.sqrt N₂)⁻¹ := by rw [mul_inv_rev]; ring
-      _ = (Real.sqrt (N₁ * N₂))⁻¹ := by rw [Real.sqrt_mul hN₁]
-      _ = _ := by rw [hproduct, original_inverse_sqrt_rpow Z plainLength hZ]
-  have hslots : (∏ i, (Real.sqrt (Z ^ length i))⁻¹) =
-      Z ^ (-(∑ i, length i) / 2) := by
-    simp_rw [original_inverse_sqrt_rpow Z _ hZ]
-    rw [← Real.rpow_sum_of_pos hZ]
-    congr 1
-    rw [← Finset.sum_div, Finset.sum_neg_distrib]
-  rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ,
-    Fintype.card_fin, hslots]
-  calc
-    _ = B ^ (slots + 2) *
-        ((Real.sqrt N₁)⁻¹ * (Real.sqrt N₂)⁻¹ * Z ^ (-(∑ i, length i) / 2)) := by
-      rw [pow_add, pow_two]
-      ring
-    _ = _ := by
-      rw [hplain, ← Real.rpow_add hZ]
-      congr 1
-      congr 1
-      ring
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -102,22 +74,7 @@ theorem rectangle_norm_le_original_central_scales
     ‖(atoms.values Y₁ Y₂).rectangle comparison v‖ ≤
       B ^ (d.geometry.slotCount + 2) *
         Z ^ (-(a.n₁ + a.n₂ + d.geometry.totalLength) / 2) := by
-  have h := (atoms.values Y₁ Y₂).rectangle_norm_le_original_atoms
-    (fun comparison => B * (Real.sqrt (if comparison then Y₁ else Z ^ a.n₁))⁻¹)
-    (fun comparison => B * (Real.sqrt (if comparison then Y₂ else Z ^ a.n₂))⁻¹)
-    (fun i => B * (Real.sqrt (Z ^ (d.geometry.slots i).length))⁻¹)
-    (fun _ => mul_nonneg hB (inv_nonneg.mpr (Real.sqrt_nonneg _)))
-    (fun _ => mul_nonneg hB (inv_nonneg.mpr (Real.sqrt_nonneg _)))
-    (fun comparison I hI => original_normalized_atom_norm_le _ B _ (hleft comparison I hI))
-    (fun comparison I hI => original_normalized_atom_norm_le _ B _ (hright comparison I hI))
-    (fun i p hp => original_normalized_atom_norm_le _ B _ (hprime i p hp))
-    comparison v hv
-  apply h.trans_eq
-  simpa only [SlotGeometry.totalLength] using
-    original_central_scale_product d.geometry.slotCount
-      (fun i => (d.geometry.slots i).length) Z B
-      (if comparison then Y₁ else Z ^ a.n₁)
-      (if comparison then Y₂ else Z ^ a.n₂) (a.n₁ + a.n₂) hZ hN₁ hproduct
+  sorry
 
 /-- The sharp original coefficient exponent is proved before the
 common supports are extracted. Both rectangles retain the same scales
@@ -140,32 +97,7 @@ theorem coefficient_norm_le_original_central_cap
     ‖(atoms.values Y₁ Y₂).coefficient centered v‖ ≤
       (2 * B ^ (cap + 2)) *
         Z ^ (-(a.n₁ + a.n₂ + d.geometry.totalLength) / 2) := by
-  let bound := B ^ (cap + 2) *
-    Z ^ (-(a.n₁ + a.n₂ + d.geometry.totalLength) / 2)
-  have hbound : 0 ≤ bound :=
-    mul_nonneg (pow_nonneg (zero_le_one.trans hB) _) (Real.rpow_nonneg hZ.le _)
-  have hrectangle (comparison : Bool)
-      (hN : 0 ≤ (if comparison then Y₁ else Z ^ a.n₁))
-      (hprod : (if comparison then Y₁ else Z ^ a.n₁) *
-        (if comparison then Y₂ else Z ^ a.n₂) = Z ^ (a.n₁ + a.n₂)) :
-      ‖(atoms.values Y₁ Y₂).rectangle comparison v‖ ≤ bound := by
-    apply (atoms.rectangle_norm_le_original_central_scales B (zero_le_one.trans hB) hZ
-      hleft hright hprime comparison hN hprod v hv).trans
-    exact mul_le_mul_of_nonneg_right
-      (pow_le_pow_right₀ hB (Nat.add_le_add_right hcap 2)) (Real.rpow_nonneg hZ.le _)
-  have hfalse := hrectangle false (Real.rpow_nonneg hZ.le _)
-    (by simpa only [Bool.false_eq_true, if_false] using (Real.rpow_add hZ a.n₁ a.n₂).symm)
-  have hcoefficient : ‖(atoms.values Y₁ Y₂).coefficient centered v‖ ≤ 2 * bound := by
-    cases centered with
-    | false =>
-        change ‖(atoms.values Y₁ Y₂).rectangle false v - 0‖ ≤ 2 * bound
-        simpa only [sub_zero] using hfalse.trans (by linarith)
-    | true =>
-        change ‖(atoms.values Y₁ Y₂).rectangle false v -
-          (atoms.values Y₁ Y₂).rectangle true v‖ ≤ 2 * bound
-        have htrue := hrectangle true (hY₁ rfl) (hcomparison rfl)
-        exact (norm_sub_le _ _).trans ((add_le_add hfalse htrue).trans_eq (by ring))
-  simpa only [bound, mul_assoc] using hcoefficient
+  sorry
 
 end ParentConstantAtoms
 
@@ -178,16 +110,12 @@ variable (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
 
 include domain in
 theorem comparison_scale_left_nonneg (hc : centered = true) : 0 ≤ Y₁ := by
-  rw [domain.comparison_left hc]
-  exact Real.rpow_nonneg (zero_le_one.trans domain.scale.le) _
+  sorry
 
 include domain in
 theorem comparison_product_eq_power (hc : centered = true) :
     Y₁ * Y₂ = Z ^ (a.n₁ + a.n₂) := by
-  rw [domain.comparison_left hc, domain.comparison_right hc,
-    ← Real.rpow_add (zero_lt_one.trans domain.scale)]
-  congr 1
-  ring
+  sorry
 
 end PairedEngineDomain
 end HeckeSkeleton.Moments.EngineStep

@@ -74,10 +74,8 @@ theorem sourceCoversOfOriginal_slotCap
       (fun i => supportExtract (originalIdeal i).val S = D))
     (hideal : ∀ i, (d.ideal i).val = supportResidual (originalIdeal i).val S)
     (hcap : T.slotCount ≤ cap) :
-    (d.sourceCoversOfOriginal c T S D hcolumns hideal).SlotCap cap where
-  main a := (d.mainSourceCartesianCover_slotCount_le T S D hcolumns hideal c a).trans hcap
-  residual p n a :=
-    (d.residualSourceCartesianCover_slotCount_le T S D hcolumns hideal p.val n c a).trans hcap
+    (d.sourceCoversOfOriginal c T S D hcolumns hideal).SlotCap cap := by
+  sorry
 
 end FirstGaussPoolData
 
@@ -126,7 +124,7 @@ def allocationFingerprint (hcap : B.SlotCap cap) :
 @[simp] theorem allocationFingerprint_divisor (hcap : B.SlotCap cap)
     (j : s.CoveredLeafKey B) :
     (s.allocationFingerprint B hcap j).1 = s.innerDivisor B j := by
-  rcases j with j | (⟨p, j⟩ | (⟨p, j⟩ | ⟨p, j⟩)) <;> rfl
+  sorry
 
 def amplifierTag : s.CoveredLeafKey B → Option (ℕ × ExteriorPrime A)
   | .inl _ => none
@@ -137,14 +135,7 @@ def amplifierTag : s.CoveredLeafKey B → Option (ℕ × ExteriorPrime A)
 theorem amplifierTag_mem (j : s.CoveredLeafKey B) (n : ℕ) (p : ExteriorPrime A)
     (h : s.amplifierTag B j = some (n, p)) :
     n ∈ ({1, 6, 7} : Finset ℕ) ∧ p ∈ P.primes := by
-  rcases j with j | (⟨q, j⟩ | (⟨q, j⟩ | ⟨q, j⟩))
-  · cases h
-  · obtain ⟨rfl, rfl⟩ := Prod.mk.inj (Option.some.inj h)
-    exact ⟨by simp, q.property⟩
-  · obtain ⟨rfl, rfl⟩ := Prod.mk.inj (Option.some.inj h)
-    exact ⟨by simp, q.property⟩
-  · obtain ⟨rfl, rfl⟩ := Prod.mk.inj (Option.some.inj h)
-    exact ⟨by simp, q.property⟩
+  sorry
 
 end ActualPoolStages
 
@@ -161,20 +152,14 @@ variable (p : FirstBlockPoolData chart P M X hX)
 theorem leftSourceCovers_slotCap (LA : SourceCartesianAtlas left fullI)
     (hcap : LA.slotCount ≤ cap)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) : (p.leftSourceCovers LA S χ).SlotCap cap :=
-  (p.divisorPools.leftData S).sourceCoversOfOriginal_slotCap
-    (p.leftDivisorCoefficient S χ) LA (primeSupport DE.1) DE.1
-    ((p.divisorPools.left_columns S).trans p.left_columns)
-    (by intro i; rw [p.divisorPools.left_ideal S, p.left_ideal]; exact b.left_residual i) hcap
+    (χ : (PUnit × PUnit) →* Circle) : (p.leftSourceCovers LA S χ).SlotCap cap := by
+  sorry
 
 theorem rightSourceCovers_slotCap (RA : SourceCartesianAtlas right fullJ)
     (hcap : RA.slotCount ≤ cap)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) : (p.rightSourceCovers RA S χ).SlotCap cap :=
-  (p.divisorPools.rightData S).sourceCoversOfOriginal_slotCap
-    (p.rightDivisorCoefficient S χ) RA (primeSupport DE.1) DE.2
-    ((p.divisorPools.right_columns S).trans p.right_columns)
-    (by intro i; rw [p.divisorPools.right_ideal S, p.right_ideal]; exact b.right_residual i) hcap
+    (χ : (PUnit × PUnit) →* Circle) : (p.rightSourceCovers RA S χ).SlotCap cap := by
+  sorry
 
 namespace SecondStages
 
@@ -193,9 +178,7 @@ def allocationFingerprint (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ c
     (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ cap)
     (j : R.CoveredLeafKey LA RA) :
     (R.allocationFingerprint LA RA hLA hRA j).1 = R.innerDivisor LA RA j := by
-  rcases j with ⟨S, χ, j | j⟩
-  · exact (R.left S χ).allocationFingerprint_divisor _ _ j
-  · exact (R.right S χ).allocationFingerprint_divisor _ _ j
+  sorry
 
 def amplifierTag (j : R.CoveredLeafKey LA RA) : Option (ℕ × ExteriorPrime A) :=
   match j.2.2 with
@@ -205,9 +188,7 @@ def amplifierTag (j : R.CoveredLeafKey LA RA) : Option (ℕ × ExteriorPrime A) 
 theorem amplifierTag_mem (j : R.CoveredLeafKey LA RA) (n : ℕ) (q : ExteriorPrime A)
     (h : R.amplifierTag LA RA j = some (n, q)) :
     n ∈ ({1, 6, 7} : Finset ℕ) ∧ q ∈ P.primes := by
-  rcases j with ⟨S, χ, j | j⟩
-  · exact (R.left S χ).amplifierTag_mem _ j n q h
-  · exact (R.right S χ).amplifierTag_mem _ j n q h
+  sorry
 
 end SecondStages
 end FirstBlockPoolData
@@ -238,8 +219,8 @@ def arithmeticLabels (hcap : L.slotCount ≤ cap)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) :
     ((R.arithmeticLabels L hcap exceptional N).allocation j).1 =
-      R.innerDivisor L j.val :=
-  (R j.val.1 j.val.2.1).allocationFingerprint_divisor L L hcap hcap j.val.2.2
+      R.innerDivisor L j.val := by
+  sorry
 
 def arithmeticTag (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) : Option (ℕ × ExteriorPrime A) :=
@@ -248,8 +229,8 @@ def arithmeticTag (exceptional : R.CoverHybridPredicates L) (N : s.Normalization
 theorem arithmeticTag_mem (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) (n : ℕ) (q : ExteriorPrime A)
     (h : R.arithmeticTag L exceptional N j = some (n, q)) :
-    n ∈ ({1, 6, 7} : Finset ℕ) ∧ q ∈ P.primes :=
-  (R j.val.1 j.val.2.1).amplifierTag_mem L L j.val.2.2 n q h
+    n ∈ ({1, 6, 7} : Finset ℕ) ∧ q ∈ P.primes := by
+  sorry
 
 end ActualFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep

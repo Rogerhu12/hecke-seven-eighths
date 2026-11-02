@@ -154,24 +154,7 @@ theorem canonicalFirstDirectLogBlock_row_windows
       Z ^ (max 0 (cutoffExponent - rowLength + 3 * B))) ∧
     (∀ h ∈ p.rightData.rows, A.exteriorNorm (originalFrequencyIdeal h) ≤
       Z ^ (max 0 (cutoffExponent - rowLength + 3 * B))) := by
-  let b := canonicalFirstCommonBlock C left right fullI fullJ DE hDE
-  let profiles := fun i j => (c i * star (e j)) • φ
-  let s := b.finiteSource hΓ C left right profiles ∅ radius X hX
-  have hZpos : 0 < Z := zero_lt_one.trans_le hZ
-  obtain ⟨hmask, hmodulus⟩ :=
-    b.original_mask_modulus_windows C hΓ left right profiles hDE Z B hZpos hleft hright
-  have hphysical : s.physicalCutoff ≤ Z ^ (cutoffExponent - rowLength + 3 * B) := by
-    have h := s.physicalCutoff_le_original_windows
-      Z cutoffExponent (-rowLength) B (2 * B) hZpos hcutoff hradius hmask hmodulus
-    convert h using 1 <;> congr 1 <;> ring
-  have hdivisor : s.divisorPhysicalCutoff D ≤ s.physicalCutoff :=
-    s.divisorPhysicalCutoff_le_supported D s.inverseRadiusBound
-      s.inverseRadiusBound_nonneg
-      (fun _ hi _ hj hp => s.inverseRadius_le hi hj hD hp)
-  exact canonicalFirstGaussData_divisor_row_windows C left right fullI fullJ DE hDE s D
-    (Z ^ (max 0 (cutoffExponent - rowLength + 3 * B)))
-    (hdivisor.trans (hphysical.trans
-      (Real.rpow_le_rpow_of_exponent_le hZ (le_max_right _ _))))
+  sorry
 
 namespace ParentRawAtoms.ConstantValues
 
@@ -211,21 +194,7 @@ theorem canonicalRadiusDirectFirstSource_row_windows
     (∀ DE D, ∀ h ∈ (s.pieces DE D).rightData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
         Z ^ (max 0 (cutoffExponent - rowLength + 3 * B))) := by
-  have hw
-      (DE : commonSupportPool raw.exteriorColumns raw.exteriorColumns
-        (fun i => (raw.columnExterior i).val) (fun j => (raw.columnExterior j).val))
-      (D : ((canonicalFirstCommonBlock C raw.exteriorColumns raw.exteriorColumns
-        raw.columnExterior raw.columnExterior DE.val DE.property).mask ∅).powerset) :=
-    canonicalFirstDirectLogBlock_row_windows hΓ μv ν C
-      raw.exteriorColumns raw.exteriorColumns raw.columnExterior raw.columnExterior
-      DE.val DE.property (CanonicalRowBall.archTest K A.Sf 1)
-      (values.coefficient centered) (values.coefficient centered)
-      (rowBallFiniteFamily K A.Sf 1)
-      (rowBallFiniteFamily_locallyConstant K A.Sf 1)
-      (rowBallFiniteFamily_compactSupport K A.Sf 1)
-      radius D.val D.property X hX δ hδ hδ1 Z rowLength cutoffExponent B hZ
-      hcutoff hradius hcolumns hcolumns
-  exact ⟨fun DE D => (hw DE D).1, fun DE D => (hw DE D).2⟩
+  sorry
 
 end ParentRawAtoms.ConstantValues
 end HeckeSkeleton.Moments.EngineStep

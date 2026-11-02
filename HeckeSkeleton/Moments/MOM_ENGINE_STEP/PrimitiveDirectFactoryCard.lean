@@ -198,66 +198,7 @@ theorem literalPrimitiveDirectFactory_card
     (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     (Fintype.card (factories j).Label : ℝ) ≤
       PrimitivePassiveFactoryCard.directConstant K cap columnBound ε hcolumnBound hε * Z ^ ε := by
-  have hS := (stages).prepared.live_first_divisor_squarefree
-    (raw).originalAtlas exceptional normalization j
-  have hparent := (stages).prepared.liveLeaves_spec (raw).originalAtlas exceptional normalization j
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  · have hblock := (((stages).prepared DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
-      ((normalization).left DE D) ((normalization).right DE D)
-      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
-      (exceptional DE D) ⟨S, χ, .inl leaf⟩).live_of_scale_live _ _ hparent
-    have hfiber := (((stages DE D).left S χ).supported.gated.fiberCoveredLeaf
-      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
-      (((source).pieces DE D).leftSourceCover (raw).originalAtlas S χ)
-      ((exceptional DE D).left S χ) ((source).charts DE D).kernel
-      ((source).charts DE D).leftPoint leaf).live_of_scale_live _ _ hblock
-    exact literalPrimitiveLeftDirectFactory_card
-      (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-      (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
-      (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
-      (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half) (hY₁ := hY₁) (hY₂ := hY₂)
-      (cap := cap) (loss := loss) (cutoffExponent := cutoffExponent)
-      (hloss := hloss) (hcutoffExponent := hcutoffExponent)
-      (step := step) (error := error) (mesh := mesh) (hstep := hstep)
-      (herror := herror) (hmesh := hmesh) (hfit := hfit) (hsmall := hsmall) (hslotsZero := hslotsZero)
-      (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
-      (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
-      (hcutoffPower := hcutoffPower) (hcutoffPower₂ := hcutoffPower₂)
-      (reference := reference) (href := href) (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi)
-      (orders := orders) (originalBound := originalBound) (horiginalBound := horiginalBound)
-      (originalWindow := originalWindow) (hrows := hrows) (htime := htime) (hprime := hprime)
-      (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain) (hprimeOrders := hprimeOrders)
-      (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
-      (hone := hone) (hbackground := hbackground) (hslot := hslot)
-      DE D S χ leaf hS hfiber columnBound ε hcolumnBound hε hN
-  · have hblock := (((stages).prepared DE D).coveredLeaf (raw).originalAtlas (raw).originalAtlas
-      ((normalization).left DE D) ((normalization).right DE D)
-      ((normalization).left_pos DE D) ((normalization).right_pos DE D)
-      (exceptional DE D) ⟨S, χ, .inr leaf⟩).live_of_scale_live _ _ hparent
-    have hfiber := (((stages DE D).right S χ).supported.gated.fiberCoveredLeaf
-      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
-      (((source).pieces DE D).rightSourceCover (raw).originalAtlas S χ)
-      ((exceptional DE D).right S χ) ((source).charts DE D).kernel
-      (fun i => -((source).charts DE D).rightPoint i) leaf).live_of_scale_live _ _ hblock
-    exact literalPrimitiveRightDirectFactory_card
-      (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-      (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
-      (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
-      (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half) (hY₁ := hY₁) (hY₂ := hY₂)
-      (cap := cap) (loss := loss) (cutoffExponent := cutoffExponent)
-      (hloss := hloss) (hcutoffExponent := hcutoffExponent)
-      (step := step) (error := error) (mesh := mesh) (hstep := hstep)
-      (herror := herror) (hmesh := hmesh) (hfit := hfit) (hsmall := hsmall) (hslotsZero := hslotsZero)
-      (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
-      (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
-      (hcutoffPower := hcutoffPower) (hcutoffPower₂ := hcutoffPower₂)
-      (reference := reference) (href := href) (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi)
-      (orders := orders) (originalBound := originalBound) (horiginalBound := horiginalBound)
-      (originalWindow := originalWindow) (hrows := hrows) (htime := htime) (hprime := hprime)
-      (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain) (hprimeOrders := hprimeOrders)
-      (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
-      (hone := hone) (hbackground := hbackground) (hslot := hslot)
-      DE D S χ leaf hS hfiber columnBound ε hcolumnBound hε hN
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

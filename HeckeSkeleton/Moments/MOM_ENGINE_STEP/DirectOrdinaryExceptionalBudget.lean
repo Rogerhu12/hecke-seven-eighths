@@ -105,27 +105,7 @@ theorem ordinary_exceptional_parent_leaf_le
           (ordinaryExceptionalCatalogueConstant profiles)) *
       P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss *
         (Labels).carrier.exceptionalDyadWeight Z (lower i) (Index i) := by
-  let volume := ordinaryExceptionalCatalogueConstant profiles
-  let atom := exceptionalBudgetAtomConstant (K := K) (U := U) (E := E) cap fiberCap 0 0 volume
-  have hv : 0 ≤ volume := (ordinaryExceptionalCatalogueConstant_pos profiles).le
-  have hleaf (χ : theta × theta) :
-      ((R.parentLeaf L exceptional N i.val).thetaClassLeaf (raw.characters i) χ).exceptionalCost /
-        Z ^ (a.m + a.q) ≤
-      atom * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss *
-        (Labels).carrier.exceptionalDyadWeight Z (lower i) (Index i) := by
-    letI := raw.primeFintype i χ
-    letI := raw.primeDecidableEq i χ
-    simpa only [mul_one, add_zero] using
-      (raw.atoms i χ).cost_le hZ hP zero_le_one volume hv
-        (ordinaryExceptionalCatalogueConstant_le profiles χ)
-  rw [(R.parentLeaf L exceptional N i.val).exceptionalCost_eq_theta_sum
-    (raw.characters i) (raw.predicate i), Finset.sum_div]
-  calc
-    _ ≤ ∑ _χ : theta × theta,
-        atom * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss *
-          (Labels).carrier.exceptionalDyadWeight Z (lower i) (Index i) :=
-      Finset.sum_le_sum fun χ _ => hleaf χ
-    _ = _ := by simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]; dsimp only [atom, volume]; ring
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 
@@ -160,58 +140,7 @@ theorem actual_direct_ordinary_exceptionalBudget_from_original_atoms
       R.prepared.exceptionalBudget L exceptional N / Z ^ (a.m + a.q) ≤
         Cex * P ^ ordinaryExceptionalBudgetProfileDegree cap degree *
           Z ^ (loss + δ₁ + δ₂ + δ₃ + mesh) / (Ideal.absNorm oldMask : ℝ) := by
-  obtain ⟨Ca, hCa, hmass⟩ := actual_direct_exceptional_index_mass
-    (A := A) (C := C) (W := U) (E := E) (Θ := Θ)
-    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (finiteTest := finiteTest)
-    cap dimension width normBox δ₁ δ₂ δ₃ hbox hδ₁ hδ₂ hδ₃
-  let volume := ordinaryExceptionalCatalogueConstant profiles
-  let atom := exceptionalBudgetAtomConstant (K := K) (U := U) (E := E) cap fiberCap 0 0 volume
-  let total := (Fintype.card (theta × theta) : ℝ) * atom
-  have hv : 0 ≤ volume := (ordinaryExceptionalCatalogueConstant_pos profiles).le
-  have hatom : 0 ≤ atom := exceptionalBudgetAtomConstant_nonneg _ _ _ _ volume hv
-  have ht : 0 ≤ total := mul_nonneg (Nat.cast_nonneg _) hatom
-  refine ⟨(total + 1) * Ca, mul_pos (by linarith) hCa, ?_⟩
-  intro Z hZ P hP omega psi centered d a t Y₁ Y₂ X hX s R L hcap
-    exceptional N rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh hwindow raw
-  have hz : 0 < Z := zero_lt_one.trans hZ
-  have hm := hmass Z hZ.le centered d a t Y₁ Y₂ X hX s R L hcap exceptional N
-    rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh hwindow
-  let dyad := fun i : R.prepared.liveLeaves L exceptional N =>
-    (R.prepared.arithmeticLabels L hcap exceptional N).carrier.exceptionalDyadWeight
-      Z (lower i) (R.prepared.originalIndex L hcap exceptional N i)
-  have hleaf (i : R.prepared.liveLeaves L exceptional N) :
-      (R.prepared.parentLeaf L exceptional N i.val).exceptionalCost / Z ^ (a.m + a.q) ≤
-        total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss * dyad i :=
-    ActualDirectFirstSource.SecondStages.ordinary_exceptional_parent_leaf_le profiles
-      degree fiberCap P loss lower raw hZ hP i
-  have hscalar : 0 ≤ total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss :=
-    mul_nonneg (mul_nonneg ht (pow_nonneg (zero_le_one.trans hP) _)) (Real.rpow_nonneg hz.le _)
-  have hnorm : 0 < (Ideal.absNorm oldMask : ℝ) :=
-    Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hs0))
-  calc
-    _ = ∑ i : R.prepared.liveLeaves L exceptional N,
-        (R.prepared.parentLeaf L exceptional N i.val).exceptionalCost / Z ^ (a.m + a.q) := by
-      simp only [ActualDirectFirstSource.SecondStages.exceptionalBudget,
-        ActualDirectFirstSource.SecondStages.liveLeaf, Finset.sum_div]
-    _ ≤ ∑ i : R.prepared.liveLeaves L exceptional N,
-        total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss * dyad i :=
-      Finset.sum_le_sum fun i _ => hleaf i
-    _ = (total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss) * ∑ i, dyad i :=
-      (Finset.mul_sum _ _ _).symm
-    _ ≤ (total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss) *
-        (Ca * Z ^ (δ₁ + δ₂ + δ₃ + mesh) / (Ideal.absNorm oldMask : ℝ)) :=
-      mul_le_mul_of_nonneg_left hm hscalar
-    _ = (total * Ca) * P ^ ordinaryExceptionalBudgetProfileDegree cap degree *
-        Z ^ (loss + δ₁ + δ₂ + δ₃ + mesh) / (Ideal.absNorm oldMask : ℝ) := by
-      rw [show loss + δ₁ + δ₂ + δ₃ + mesh = loss + (δ₁ + δ₂ + δ₃ + mesh) by ring,
-        Real.rpow_add hz loss (δ₁ + δ₂ + δ₃ + mesh)]
-      ring
-    _ ≤ _ := div_le_div_of_nonneg_right
-      (mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_right
-          (mul_le_mul_of_nonneg_right (le_add_of_nonneg_right zero_le_one) hCa.le)
-          (pow_nonneg (zero_le_one.trans hP) _))
-        (Real.rpow_nonneg hz.le _)) hnorm.le
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

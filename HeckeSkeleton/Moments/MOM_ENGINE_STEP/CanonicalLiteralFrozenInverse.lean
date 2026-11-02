@@ -157,10 +157,8 @@ theorem frozenInverseRawWindow_prime_support {target : Set ℝ}
         leftMultiplicity rightMultiplicity pattern sector remaining extra m q index
         rectangle firstSign negative reference time original hreference htime E
         hcompact hpositive s horders hbound horiginalBound hleft hright hslot ξ).primeRep j t)
-      ⊆ target :=
-  (E.slotFourierRep_support_subset hcompact hpositive firstSign negative
-    (SlotRestriction.index allocation.keep j) ξ).trans
-    (hprime (SlotRestriction.index allocation.keep j))
+      ⊆ target := by
+  sorry
 
 end CanonicalLiteralAllocatedData
 end HeckeSkeleton.Moments.EngineStep

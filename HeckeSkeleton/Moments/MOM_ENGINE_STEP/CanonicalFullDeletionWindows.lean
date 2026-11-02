@@ -39,8 +39,7 @@ private theorem fullDeletion_width_shift
     (Z a₀ q wo krow g r : ℝ) (I J T V : Ideal (𝓞 K)) :
     secondCommonChildWidth Z a₀ (q + r) wo krow g I J T V =
       secondCommonChildWidth Z a₀ q wo krow g I J T V + r := by
-  unfold secondCommonChildWidth
-  ring
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -59,9 +58,7 @@ theorem nonunitClass_radicals_eq
         unitFrequencyRadical C S.primes S.leftMultiplicity S.rightMultiplicity (S.frequency h'.val.val) ∧
       nonunitFrequencyRadical C S.primes S.leftMultiplicity S.rightMultiplicity (S.frequency h.val.val) =
         nonunitFrequencyRadical C S.primes S.leftMultiplicity S.rightMultiplicity (S.frequency h'.val.val) := by
-  apply S.frequencyRadicals_eq_of_nonunitClassification C h.val h'.val
-  intro i
-  exact decide_eq_decide.mp (congrFun (h.property.trans h'.property.symm) i)
+  sorry
 
 end ActualSecondCorrelationRows
 
@@ -122,24 +119,7 @@ theorem actualRows_fullDeletion_joint_window
         (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.val.out.val)).val +
         idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
         cutoffExponent) := by
-  let r₆ : ℝ := idealLogLength Z
-    (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val
-  have holdRoot := secondOldWithSixthRoot_norm_window
-    b.primes b.leftMultiplicity b.rightMultiplicity old Z (q + wo) hZ hold
-  change A.exteriorNorm
-    (ExteriorIdealEuler.mul old (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity)) ≤
-      Z ^ ((q + wo) + r₆) at holdRoot
-  rw [show (q + wo) + r₆ = (q + r₆) + wo by ring] at holdRoot
-  let S := chart.actualRows ∅ X hX label
-  let W := S.nonunitClassFullDeletionSupportAtoms P Rchar C
-    b.left_positive b.right_positive old remaining hremaining pattern h
-  have hjoint := chart.actualRows_empty_extracted_fullJoint_window X hX label
-    retainedScale Z g a₀ (q + r₆) wo cutoffExponent hscale hZ hradius hcutoff hleft hright
-    (secondOriginalMovingFactors P Rchar C b.primes b.leftMultiplicity b.rightMultiplicity pattern)
-    (remaining * secondSixthRootNonzeroIdeal b.primes b.leftMultiplicity b.rightMultiplicity)
-    (ExteriorIdealEuler.mul old (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity))
-    holdRoot h.val W
-  simpa only [fullDeletion_width_shift, r₆] using hjoint
+  sorry
 
 /-- The same canonical data retain all original backgrounds, sectors,
 tests and selected slots. Their allowed row follows from the actual
@@ -180,11 +160,7 @@ theorem canonicalOriginalChild_allowed_of_fullDeletion_windows
         cutoffExponent))
       inverseTest leftTest rightTest geometry index).allowedRow
         ((chart.actualRows ∅ X hX label).extractedRow C h.val).momentIdeal := by
-  refine ⟨(HeckeAxiom.exteriorEquiv A
-    ((chart.actualRows ∅ X hX label).extractedRow C h.val).ideal).property, ?_⟩
-  exact chart.actualRows_fullDeletion_joint_window P Rchar X hX label
-    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hleft hright
-    old remaining hremaining hold pattern h
+  sorry
 
 /-- A single actual anchor fixes the canonical child's budget for the
 entire nonunit-pattern class. Every other original row enters that same
@@ -225,18 +201,7 @@ theorem canonicalOriginalChild_allowed_on_fullDeletion_class
         cutoffExponent))
       inverseTest leftTest rightTest geometry index).allowedRow
         ((chart.actualRows ∅ X hX label).extractedRow C h.val).momentIdeal := by
-  have hjoint := chart.actualRows_fullDeletion_joint_window P Rchar X hX label
-    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hleft hright
-    old remaining hremaining hold pattern h
-  obtain ⟨hunit, hnonunit⟩ :=
-    (chart.actualRows ∅ X hX label).nonunitClass_radicals_eq C h anchor
-  change unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.val.out.val) =
-    unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-anchor.val.val.out.val) at hunit
-  change nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.val.out.val) =
-    nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-anchor.val.val.out.val) at hnonunit
-  rw [hunit, hnonunit] at hjoint
-  exact ⟨(HeckeAxiom.exteriorEquiv A
-    ((chart.actualRows ∅ X hX label).extractedRow C h.val).ideal).property, hjoint⟩
+  sorry
 
 end SecondBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

@@ -460,22 +460,7 @@ theorem literalNormalization_withJointRows_eq_self :
       (originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight).withJointRows
         (originalJointRows analyticLeft analyticRight hanalyticLeft hanalyticRight) =
       originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight := by
-  intro analyticLeft analyticRight hanalyticLeft hanalyticRight
-  let moving := (F.moving P Rchar oldMoving).appendSecondFactor C (ordinaryRows).primes
-    (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity pattern
-  let fullRemaining := remainingMaskIdeal A (remaining * extra) *
-    exteriorMomentIdeal (secondSixthRootIdeal (ordinaryRows).primes
-      (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity)
-  apply (originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight).withJointRows_eq_self
-    (originalJointRows analyticLeft analyticRight hanalyticLeft hanalyticRight)
-  · intro r ξ u hu
-    change idealNorm K u * A.exteriorNorm (moving.effectiveFullSupport fullRemaining) ≤ _
-    exact (mul_le_mul_of_nonneg_left (moving.effectiveFullSupport_norm_le fullRemaining)
-      (idealNorm_pos K u).le).trans hu.2
-  · intro r ξ u hu
-    change idealNorm K u * A.exteriorNorm (moving.effectiveFullSupport fullRemaining) ≤ _
-    exact (mul_le_mul_of_nonneg_left (moving.effectiveFullSupport_norm_le fullRemaining)
-      (idealNorm_pos K u).le).trans hu.2
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

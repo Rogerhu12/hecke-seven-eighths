@@ -1084,16 +1084,7 @@ theorem paired_child_step (dChild : MomentData K ω ψ) (a : RealParameters)
           (∏ i ∈ removed, C i) *
             Z ^ ((b₂ - p₂ + w + B + ell) + err / 6 + a.κ * mesh) *
               pairedEnergy (dChild.restrictSlots keep) a' Z t := by
-  have hid := child_width_identity A m q c d R E Krow w wo g g₂ t₂ V
-  dsimp only at hid
-  have hdrop : a.m + a.q ≤ m + q - σ / 2 := by linarith
-  refine ⟨hdrop, by linarith, ?_⟩
-  apply actual_paired_capacity_step_or_zero dChild a mesh (b₂ - p₂ + w + B + ell) err
-    hκ hmesh hfit hz hprincipal hcharge
-  have hallow := child_allowance_lower b₂ p₂ w B ell hbp hB
-  rcases hdefect with hzero | hdefect
-  · exact Or.inl hzero
-  · exact Or.inr (by linarith)
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

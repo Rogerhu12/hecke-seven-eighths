@@ -173,10 +173,7 @@ theorem literalLeftDirectComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  unfold literalLeftDirectComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound,
-    literalScalarFreeComputedProfiles, CanonicalLiteralFullKappaInput.scalarFreeBalanced_bound]
+  sorry
 
 /-- The original finite seminorm window constructs the complete
 profile certificate on the existing right direct table. The actual
@@ -239,10 +236,7 @@ theorem literalRightDirectComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  unfold literalRightDirectComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound,
-    literalScalarFreeComputedProfiles, CanonicalLiteralFullKappaInput.scalarFreeBalanced_bound]
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

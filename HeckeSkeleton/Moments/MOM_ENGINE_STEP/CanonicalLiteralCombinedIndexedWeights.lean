@@ -701,77 +701,7 @@ theorem literalNormalizationData_index_from_combined_atoms
     (b : (normalization).family.active Finset.univ) :
     firstFactor * ((normalization).family.weight Finset.univ 0 b / firstNormalization) ≤
       firstCost * rowCost * Z ^ (remainingExponent + tilt) * branch.indexWeight index := by
-  have hz : 0 < Z := zero_lt_one.trans domain.scale
-  have hsecondWeight := allowanceProof cap hcountL hcountR atomBound hAtomBound
-    hcostL hcostR hprimeL hprimeR hslotsL hslotsR hfirstL hfirstR hgaussL hgaussR
-    herrorPos hannulusThreshold hscaleThreshold hsupportError hphysicalError
-    firstNormalization hfirstNormalization b
-  have hfirstWeight := firstOriginalAllowanceWeight_mul_le_radical
-    Z parentWidth total rawProfile scalarPair firstCost tilt domain.scale hfirstCost
-    hcombinedProfile index.1.val.1.1 index.1.val.1.2 hD hE hsupportFirst
-  have hfirstNonneg := firstOriginalAllowanceWeight_nonneg Z parentWidth total
-    rawProfile hz hrawProfile index.1.val.1.1 index.1.val.1.2
-  have hconstant : 0 ≤ rowCost :=
-    mul_nonneg
-      (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hprofileBound)
-        (pow_nonneg (zero_le_one.trans hAtomBound) _)) (orbitalFieldFactor_nonneg K)
-  have hsecondRest : 0 ≤ rowCost * Z ^ remainingExponent *
-      (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
-        (Ideal.absNorm j.1.val : ℝ) :=
-    div_nonneg
-      (mul_nonneg (mul_nonneg hconstant (Real.rpow_nonneg hz.le _))
-        (one_div_nonneg.mpr (Nat.cast_nonneg _))) (Nat.cast_nonneg _)
-  have hpair :
-      firstOriginalAllowanceWeight Z parentWidth total rawProfile
-          index.1.val.1.1 index.1.val.1.2 *
-          ((normalization).family.weight Finset.univ 0 b / firstNormalization) ≤
-        (firstCost * rowCost * Z ^ (remainingExponent + tilt)) /
-          (Ideal.absNorm (commonRadical index.1.val.1.1 index.1.val.1.2) : ℝ) *
-          (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
-          (Ideal.absNorm j.1.val : ℝ) := by
-    calc
-      _ ≤ firstOriginalAllowanceWeight Z parentWidth total rawProfile
-          index.1.val.1.1 index.1.val.1.2 *
-          (((Γ.index : ℝ) * (profileBound * ‖leftScalar‖ * ‖rightScalar‖) *
-            atomBound ^ (2 * cap) * orbitalFieldFactor K) * Z ^ remainingExponent *
-              (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
-                (Ideal.absNorm j.1.val : ℝ)) :=
-        mul_le_mul_of_nonneg_left hsecondWeight hfirstNonneg
-      _ = (firstOriginalAllowanceWeight Z parentWidth total rawProfile
-            index.1.val.1.1 index.1.val.1.2 * scalarPair) *
-          (rowCost * Z ^ remainingExponent *
-            (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
-              (Ideal.absNorm j.1.val : ℝ)) := by ring
-      _ ≤ (firstCost * Z ^ tilt /
-            (Ideal.absNorm (commonRadical index.1.val.1.1 index.1.val.1.2) : ℝ)) *
-          (rowCost * Z ^ remainingExponent *
-            (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
-              (Ideal.absNorm j.1.val : ℝ)) :=
-        mul_le_mul_of_nonneg_right hfirstWeight hsecondRest
-      _ = _ := by
-        rw [Real.rpow_add hz remainingExponent tilt]
-        ring
-  have hcoeff :
-      ‖(moebius index.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₁ phase₁ χ₁‖ *
-        ‖(moebius index.2.2.2.1.val : ℂ)‖ * ‖fixedPhaseCoefficient Ray₂ phase₂ χ₂‖ ≤
-      ‖(moebius index.2.1.val : ℂ)‖ * ‖(moebius index.2.2.2.1.val : ℂ)‖ := by
-    have hc₁ := mul_le_mul_of_nonneg_right
-      (mul_le_mul_of_nonneg_left (fixed_phase_coefficient_norm Ray₁ phase₁ χ₁) (norm_nonneg _))
-      (norm_nonneg (moebius index.2.2.2.1.val : ℂ))
-    simpa only [mul_one] using mul_le_mul hc₁ (fixed_phase_coefficient_norm Ray₂ phase₂ χ₂)
-      (norm_nonneg _) (by positivity)
-  have hupper : 0 ≤
-      (firstCost * rowCost * Z ^ (remainingExponent + tilt)) /
-        (Ideal.absNorm (commonRadical index.1.val.1.1 index.1.val.1.2) : ℝ) *
-        (1 / (Ideal.absNorm (commonRadical v.1.val.1 v.1.val.2) : ℝ)) /
-        (Ideal.absNorm j.1.val : ℝ) :=
-    div_nonneg (mul_nonneg
-      (div_nonneg (mul_nonneg (mul_nonneg hfirstCost hconstant)
-        (Real.rpow_nonneg hz.le _)) (Nat.cast_nonneg _))
-      (one_div_nonneg.mpr (Nat.cast_nonneg _))) (Nat.cast_nonneg _)
-  have h := mul_le_mul hpair hcoeff (by positivity) hupper
-  convert h using 1 <;>
-    simp only [TwoDivisorCommonBranch.indexWeight, hleftIndex, hrightIndex, hdivisorIndex] <;> ring
+  sorry
 
 local notation "indexProof" =>
   v.literalNormalizationData_index_from_combined_atoms
@@ -899,26 +829,7 @@ theorem literalNormalizationData_outer_index_from_combined_atoms
     (houter : X.leaf.weight / Z ^ parentWidth = factor * firstFactor / firstNormalization) :
     X.leaf.weight * (normalization).family.weight Finset.univ parentWidth b ≤
       factor * (firstCost * rowCost * Z ^ (remainingExponent + tilt) * branch.indexWeight index) := by
-  have hindex := indexProof cap hcountL hcountR atomBound hAtomBound
-    hcostL hcostR hprimeL hprimeR hslotsL hslotsR hfirstL hfirstR hgaussL hgaussR
-    herrorPos hannulusThreshold hscaleThreshold hsupportError hphysicalError
-    firstNormalization hfirstNormalization index hleftIndex hrightIndex hdivisorIndex
-    parentWidth total rawProfile firstCost tilt hrawProfile hfirstCost hcombinedProfile hD hE hsupportFirst
-    phase₁ χ₁ phase₂ χ₂ b
-  calc
-    _ = (X.leaf.weight / Z ^ parentWidth) *
-        (normalization).family.weight Finset.univ 0 b :=
-      normalizedCapacityPairWeight_outer_parent_zero
-        ((normalization).family.leftChild Finset.univ b)
-        ((normalization).family.rightChild Finset.univ b)
-        ((normalization).family.leftNormalizer b.val)
-        ((normalization).family.rightNormalizer b.val)
-        Z parentWidth X.leaf.weight
-    _ = factor * (firstFactor *
-        ((normalization).family.weight Finset.univ 0 b / firstNormalization)) := by
-      rw [houter]
-      ring
-    _ ≤ _ := mul_le_mul_of_nonneg_left hindex hfactor
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

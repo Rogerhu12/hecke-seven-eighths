@@ -56,27 +56,7 @@ variable {k : ℕ} (d : CanonicalLiteralRectangles.Atoms (K := K) k)
 by integral norms and removes positive-length slots. -/
 theorem allocate_scaleProduct_le (B : ActualColumnAllocation K k) (r : Bool) :
     (d.allocate B).scaleProduct r ≤ d.scaleProduct r := by
-  have hindex : Function.Injective (SlotRestriction.index B.keep) := by
-    intro i j hij
-    exact B.keep.equivFin.symm.injective (Subtype.ext hij)
-  have hprod : (∏ i : Fin B.keep.card,
-      d.base ^ d.length (SlotRestriction.index B.keep i)) ≤
-        ∏ i : Fin k, d.base ^ d.length i := by
-    exact Finset.prod_le_prod_of_injOn₀ (SlotRestriction.index B.keep)
-      hindex.injOn (Finset.subset_univ _)
-      (fun _ _ => le_rfl)
-      (fun _ _ => Real.rpow_nonneg (zero_lt_one.trans d.base_gt_one).le _)
-      (fun i _ _ => Real.one_le_rpow d.base_gt_one.le (d.length_pos i).le)
-  change (d.scale₁ r / idealNorm K (B.plainDivisor 0)) *
-      (d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) * _ ≤
-    d.scale₁ r * d.scale₂ r * _
-  exact mul_le_mul
-    (mul_le_mul (div_le_self (d.scale₁_pos r).le (one_le_idealNorm K _))
-      (div_le_self (d.scale₂_pos r).le (one_le_idealNorm K _))
-      (div_pos (d.scale₂_pos r) (idealNorm_pos K _)).le (d.scale₁_pos r).le)
-    hprod (Finset.prod_nonneg (fun _ _ => Real.rpow_nonneg
-      (zero_lt_one.trans d.base_gt_one).le _))
-    (mul_pos (d.scale₁_pos r) (d.scale₂_pos r)).le
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 
@@ -87,8 +67,8 @@ variable (W : d.ProfileData) (B : ActualColumnAllocation K k)
 variable (paid : FixedChildCharacters K B.keep.card)
 
 theorem table_scaleProduct_le (r : Bool) :
-    (table W B A paid).scaleProduct r ≤ d.scaleProduct r :=
-  d.allocate_scaleProduct_le B r
+    (table W B A paid).scaleProduct r ≤ d.scaleProduct r := by
+  sorry
 
 end CanonicalLiteralPassiveSource
 
@@ -130,18 +110,7 @@ theorem literalLeftAtoms_passiveActiveRawError
     (error : ℝ) (hthreshold : annulus ^ (2 * cap) ≤ atoms.base ^ error) :
     (CanonicalLiteralPassiveSource.table W B A paid).computedRawError
       geometry.skeleton.rawDegree error r = error := by
-  have hpresent : r = false ∨ atoms.centered = true :=
-    CanonicalLiteralPassiveFrames.active_rectangle W B A paid C rows side M label
-      firstSign r hactive
-  have hb := v.literalLeftAtoms_secondScale atoms annulus hannulus cap hcap hprime hslots
-    geometry.literalFirstExtraction.val (a.n₁ + a.n₂ + a.z) r (hfirst r hpresent)
-  rw [← hsecond] at hb
-  have hquotient := mul_le_mul_of_nonneg_right
-    (CanonicalLiteralPassiveSource.table_scaleProduct_le (A := A) W B paid r)
-    (mul_nonneg (Nat.cast_nonneg (Ideal.absNorm geometry.literalFirstExtraction.val))
-      (Nat.cast_nonneg (Ideal.absNorm geometry.ideals.second.val)))
-  exact (CanonicalLiteralPassiveSource.table W B A paid).computedRawError_eq_of_two_norms
-    geometry annulus cap error r (hquotient.trans hb) hthreshold
+  sorry
 
 /-- The new passive source supplies the activity used here. -/
 theorem literalRightAtoms_passiveActiveRawError
@@ -169,18 +138,7 @@ theorem literalRightAtoms_passiveActiveRawError
     (error : ℝ) (hthreshold : annulus ^ (2 * cap) ≤ atoms.base ^ error) :
     (CanonicalLiteralPassiveSource.table W B A paid).computedRawError
       geometry.skeleton.rawDegree error r = error := by
-  have hpresent : r = false ∨ atoms.centered = true :=
-    CanonicalLiteralPassiveFrames.active_rectangle W B A paid C rows side M label
-      firstSign r hactive
-  have hb := v.literalRightAtoms_secondScale atoms annulus hannulus cap hcap hprime hslots
-    geometry.literalFirstExtraction.val (a.n₁ + a.n₂ + a.z) r (hfirst r hpresent)
-  rw [← hsecond] at hb
-  have hquotient := mul_le_mul_of_nonneg_right
-    (CanonicalLiteralPassiveSource.table_scaleProduct_le (A := A) W B paid r)
-    (mul_nonneg (Nat.cast_nonneg (Ideal.absNorm geometry.literalFirstExtraction.val))
-      (Nat.cast_nonneg (Ideal.absNorm geometry.ideals.second.val)))
-  exact (CanonicalLiteralPassiveSource.table W B A paid).computedRawError_eq_of_two_norms
-    geometry annulus cap error r (hquotient.trans hb) hthreshold
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

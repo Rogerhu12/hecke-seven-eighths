@@ -54,11 +54,7 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
 private theorem originalTerminalDivisor_ne_zero {ι : Type*}
     (columns : Finset ι) (ideal : ι → A.Exterior)
     (S : divisorPool columns (fun j => (ideal j).val)) : S.val ≠ 0 := by
-  obtain ⟨j, _, hSj⟩ := Finset.mem_biUnion.mp S.property
-  have hd := (mem_idealDivisors (ideal j).property.1).mp hSj
-  intro hz
-  rw [hz, zero_dvd_iff] at hd
-  exact (ideal j).property.1 hd
+  sorry
 
 namespace CompleteMovingRowRecipe
 

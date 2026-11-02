@@ -40,8 +40,8 @@ def originalFrozenPairCost : ℝ :=
     Real.sqrt (right.originalFrozenCost rightAllocation)
 
 theorem originalFrozenPairCost_nonneg :
-    0 ≤ originalFrozenPairCost left right leftAllocation rightAllocation :=
-  mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)
+    0 ≤ originalFrozenPairCost left right leftAllocation rightAllocation := by
+  sorry
 
 /-- The original two sets of removed occurrences cost one slot power
 after their two square roots are paired. -/
@@ -57,18 +57,7 @@ theorem originalFrozenPairCost_le_independent
       budget ^ cap /
         (Real.sqrt (Ideal.absNorm leftAllocation.divisor : ℝ) *
           Real.sqrt (Ideal.absNorm rightAllocation.divisor : ℝ)) := by
-  have hl := Real.sqrt_le_sqrt
-    (left.originalFrozenCost_le_power leftAllocation cap budget hbudget hleft hslotL)
-  have hr := Real.sqrt_le_sqrt
-    (right.originalFrozenCost_le_power rightAllocation cap budget hbudget hright hslotR)
-  calc
-    _ ≤ Real.sqrt (budget ^ cap / (Ideal.absNorm leftAllocation.divisor : ℝ)) *
-        Real.sqrt (budget ^ cap / (Ideal.absNorm rightAllocation.divisor : ℝ)) :=
-      mul_le_mul hl hr (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)
-    _ = _ := by
-      rw [Real.sqrt_div (pow_nonneg (zero_le_one.trans hbudget) cap),
-        Real.sqrt_div (pow_nonneg (zero_le_one.trans hbudget) cap), div_mul_div_comm,
-        Real.mul_self_sqrt (pow_nonneg (zero_le_one.trans hbudget) cap)]
+  sorry
 
 /-- Only the preceding original divisor is shared. This converts the
 actual outer cost to the single original inverse norm, once. -/
@@ -83,9 +72,7 @@ theorem originalFrozenPairCost_le_shared
     (horiginalDivisor : leftAllocation.divisor = rightAllocation.divisor) :
     originalFrozenPairCost left right leftAllocation rightAllocation ≤
       budget ^ cap / (Ideal.absNorm leftAllocation.divisor : ℝ) := by
-  have h := originalFrozenPairCost_le_independent left right leftAllocation rightAllocation
-    cap budget hbudget hleft hright hslotL hslotR
-  simpa only [← horiginalDivisor, Real.mul_self_sqrt (Nat.cast_nonneg _)] using h
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

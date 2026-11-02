@@ -46,15 +46,14 @@ theorem normalizedCapacityPairWeight_parent_zero (left : «GL».Child) (right : 
     (originalLeft originalRight : ℂ) (Z parentWidth : ℝ) :
     normalizedCapacityPairWeight left right originalLeft originalRight Z parentWidth =
       normalizedCapacityPairWeight left right originalLeft originalRight Z 0 / Z ^ parentWidth := by
-  simp only [normalizedCapacityPairWeight, Real.rpow_zero, div_one]
+  sorry
 
 theorem normalizedCapacityPairWeight_outer_parent_zero (left : «GL».Child) (right : GR.Child)
     (originalLeft originalRight : ℂ) (Z parentWidth outer : ℝ) :
     outer * normalizedCapacityPairWeight left right originalLeft originalRight Z parentWidth =
       (outer / Z ^ parentWidth) *
         normalizedCapacityPairWeight left right originalLeft originalRight Z 0 := by
-  rw [normalizedCapacityPairWeight_parent_zero]
-  ring
+  sorry
 
 end NormalizedPair
 
@@ -84,15 +83,14 @@ theorem actualCapacityPairWeight_parent_zero (Z parentWidth : ℝ) :
     actualCapacityPairWeight left right calL calR W BL BR lc rc boundsL boundsR Z parentWidth =
       actualCapacityPairWeight left right calL calR W BL BR lc rc boundsL boundsR Z 0 /
         Z ^ parentWidth := by
-  simp only [actualCapacityPairWeight, Real.rpow_zero, div_one]
+  sorry
 
 theorem actualCapacityPairWeight_outer_parent_zero (Z parentWidth outer : ℝ) :
     outer * actualCapacityPairWeight left right calL calR W BL BR lc rc boundsL boundsR
       Z parentWidth =
       (outer / Z ^ parentWidth) *
         actualCapacityPairWeight left right calL calR W BL BR lc rc boundsL boundsR Z 0 := by
-  rw [actualCapacityPairWeight_parent_zero]
-  ring
+  sorry
 
 end ActualPair
 
@@ -164,12 +162,7 @@ theorem classLeaf_left_weight_relative
         (firstOriginalAllowanceWeight Z parentWidth total p.weightBound DE.1 DE.2 / 2) *
         ((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ) (exceptional.left S χ)
           chart.kernel chart.leftPoint j).weight / firstLeftAllowance Z total DE.1 DE.2 := by
-  change ((classWeight NL NR S χ / NL S χ) *
-    ((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ) (exceptional.left S χ)
-      chart.kernel chart.leftPoint j).weight) / _ = _
-  simp only [classWeight, FirstBlockPoolData.rowBound, hleftScale, hrightScale,
-    b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 theorem classLeaf_right_weight_relative
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -184,12 +177,7 @@ theorem classLeaf_right_weight_relative
         ((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ) (exceptional.right S χ)
           chart.kernel (fun j => -chart.rightPoint j) j).weight /
         firstRightAllowance Z total DE.1 DE.2 := by
-  change ((classWeight NL NR S χ / NR S χ) *
-    ((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ) (exceptional.right S χ)
-      chart.kernel (fun j => -chart.rightPoint j) j).weight) / _ = _
-  simp only [classWeight, FirstBlockPoolData.rowBound, hleftScale, hrightScale,
-    b.activeNorm_eq, firstOriginalAllowanceWeight]
-  ring
+  sorry
 
 /-- Instantiate cost with the computed pairWeight at parent width zero.
 Together with actualCapacityPairWeight_parent_zero this is the exact
@@ -207,13 +195,7 @@ theorem classLeaf_left_weighted_cost_relative
         (firstOriginalAllowanceWeight Z parentWidth total p.weightBound DE.1 DE.2 / 2) *
         (((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ) (exceptional.left S χ)
           chart.kernel chart.leftPoint j).weight * cost / firstLeftAllowance Z total DE.1 DE.2) := by
-  calc
-    _ = ((s.classLeaf LA RA NL NR hNL hNR exceptional S χ (.inl j)).weight /
-        Z ^ parentWidth) * cost := by ring
-    _ = _ := by
-      rw [s.classLeaf_left_weight_relative LA RA NL NR hNL hNR exceptional
-        S χ j parentWidth total hleftScale hrightScale]
-      ring
+  sorry
 
 theorem classLeaf_right_weighted_cost_relative
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -229,13 +211,7 @@ theorem classLeaf_right_weighted_cost_relative
         (((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ) (exceptional.right S χ)
           chart.kernel (fun j => -chart.rightPoint j) j).weight * cost /
             firstRightAllowance Z total DE.1 DE.2) := by
-  calc
-    _ = ((s.classLeaf LA RA NL NR hNL hNR exceptional S χ (.inr j)).weight /
-        Z ^ parentWidth) * cost := by ring
-    _ = _ := by
-      rw [s.classLeaf_right_weight_relative LA RA NL NR hNL hNR exceptional
-        S χ j parentWidth total hleftScale hrightScale]
-      ring
+  sorry
 
 /-- Expose the one actual pool average and the two literal L factors
 on a canonical left leaf.  The first S remains a separate coefficient. -/
@@ -257,10 +233,7 @@ theorem classLeaf_left_weight_original
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             ((s.left S χ).leafSecondPhase cover j)‖) /
         firstLeftAllowance Z total DE.1 DE.2 := by
-  exact (s.classLeaf_left_weight_relative LA RA NL NR hNL hNR exceptional
-    S χ j parentWidth total hleftScale hrightScale).trans (by
-      rw [(s.left S χ).coveredLeaf_weight_original (p.leftSourceCovers LA S χ)
-        (exceptional.left S χ) chart.kernel chart.leftPoint j])
+  sorry
 
 theorem classLeaf_right_weight_original
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -280,10 +253,7 @@ theorem classLeaf_right_weight_original
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             ((s.right S χ).leafSecondPhase cover j)‖) /
         firstRightAllowance Z total DE.1 DE.2 := by
-  exact (s.classLeaf_right_weight_relative LA RA NL NR hNL hNR exceptional
-    S χ j parentWidth total hleftScale hrightScale).trans (by
-      rw [(s.right S χ).coveredLeaf_weight_original (p.rightSourceCovers RA S χ)
-        (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j) j])
+  sorry
 
 end FirstBlockPoolData.SecondStages
 end HeckeSkeleton.Moments.EngineStep

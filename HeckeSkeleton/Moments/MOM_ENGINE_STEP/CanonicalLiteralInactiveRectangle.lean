@@ -36,12 +36,7 @@ there is no polynomial or whole-energy equality among the inputs. -/
 theorem energy_zero_of_leftWeight (source : ActualAllocatedSource A V H k)
     (hzero : ∀ h ∈ source.rows, ∀ I, source.leftWeight h I = 0) (ξ : V) :
     source.energy (σ := σ) ξ = 0 := by
-  unfold energy jointColumnEnergy
-  apply Finset.sum_eq_zero
-  intro h hh
-  simp only [jointFourierColumn, rawSourceCoefficient, FixedChildCharacters.coefficient,
-    childCartesianCoefficient, sourcePlainTerm, hzero h hh, mul_zero, zero_mul,
-    Finset.sum_const_zero, norm_zero, zero_pow (by decide : 2 ≠ 0)]
+  sorry
 
 end ActualAllocatedSource
 
@@ -66,15 +61,12 @@ and retains this same original individual weight. -/
 theorem factors_source_leftWeight (r : Bool) (h : rows.live)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((d.factors rows side χ ideal hideal firstSign r).frame C L selection hne).source.leftWeight h I = d.rectangleLeftWeight r I := by
-  cases side <;> rfl
+  sorry
 
 theorem comparison_source_energy_zero (hordinary : d.centered = false)
     (ξ : WithLp 2 (ℝ × ℝ)) :
     ((d.factors rows side χ ideal hideal firstSign true).frame C L selection hne).source.energy (σ := σ) ξ = 0 := by
-  apply ActualAllocatedSource.energy_zero_of_leftWeight
-  intro h _ I
-  rw [d.factors_source_leftWeight C rows side χ ideal hideal firstSign L selection hne]
-  simp [rectangleLeftWeight, hordinary]
+  sorry
 
 /-- Exactly the ordinary zero rectangle is excluded by the original
 activity test. All other labels and both original sources remain. -/
@@ -82,17 +74,7 @@ theorem active_rectangle (r : Bool)
     (hactive : ¬ ∀ ξ,
       ((d.factors rows side χ ideal hideal firstSign r).frame C L selection hne).source.energy (σ := σ) ξ = 0) :
     r = false ∨ d.centered = true := by
-  cases r with
-  | false => exact Or.inl rfl
-  | true =>
-    cases hc : d.centered with
-    | false =>
-      exfalso
-      apply hactive
-      intro ξ
-      exact d.comparison_source_energy_zero C rows side χ ideal hideal firstSign
-        L selection hne hc ξ
-    | true => exact Or.inr (by simp only [hc])
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

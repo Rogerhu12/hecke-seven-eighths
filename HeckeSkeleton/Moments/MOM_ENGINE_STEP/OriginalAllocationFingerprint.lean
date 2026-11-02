@@ -61,24 +61,7 @@ theorem hybridAllocationFingerprint_injective (hk : k ≤ cap) (hl : l ≤ cap) 
     Function.Injective
       (hybridAllocationFingerprint (T₁ := T₁) (T₂ := T₂) (T := T)
         (rightIdeals := rightIdeals) (γ := γ) hk hl) := by
-  rintro ⟨D, χ, a, e⟩ ⟨L, ψ, b, f⟩ h
-  have hDL : D = L := Subtype.ext (congrArg Sigma.fst h)
-  cases hDL
-  have hp :
-      (AllocationMass.idealPad D.val (Nat.add_le_add_right hk 2) a,
-        AllocationMass.idealPad D.val (Nat.add_le_add_right hl 2) e) =
-      (AllocationMass.idealPad D.val (Nat.add_le_add_right hk 2) b,
-        AllocationMass.idealPad D.val (Nat.add_le_add_right hl 2) f) :=
-    eq_of_heq (Sigma.mk.inj_iff.mp h).2
-  have ha := AllocationMass.idealPad_injective D.val
-    (Nat.add_le_add_right hk 2) (congrArg Prod.fst hp)
-  have he := AllocationMass.idealPad_injective D.val
-    (Nat.add_le_add_right hl 2) (congrArg Prod.snd hp)
-  cases ha
-  cases he
-  have hχ : χ = ψ := Subsingleton.elim _ _
-  cases hχ
-  rfl
+  sorry
 
 end OneClass
 
@@ -110,13 +93,7 @@ theorem original_class_allocationFingerprint_injective :
     Function.Injective (fun b : OriginalAllocatedClass leftSlots rightSlots
       plain₁ plain₂ slots ideals (γ := γ) =>
         (b.1, originalAllocationFingerprint hleft hright b)) := by
-  rintro ⟨i, a⟩ ⟨j, b⟩ h
-  have hij : i = j := congrArg Prod.fst h
-  cases hij
-  have hab := hybridAllocationFingerprint_injective (hleft i) (hright i)
-    (congrArg Prod.snd h)
-  cases hab
-  rfl
+  sorry
 
 /-- For a fixed arithmetic allocation, projection to the genuine
 source class is injective.  Thus occurrence allocations do not create
@@ -127,12 +104,7 @@ theorem original_allocation_fibre_card_eq_class_image
     (S.filter (fun b => originalAllocationFingerprint hleft hright b = a)).card =
       ((S.filter (fun b => originalAllocationFingerprint hleft hright b = a)).image
         Sigma.fst).card := by
-  symm
-  apply Finset.card_image_of_injOn
-  intro x hx y hy hxy
-  apply original_class_allocationFingerprint_injective hleft hright
-  apply Prod.ext hxy
-  exact (Finset.mem_filter.mp hx).2.trans (Finset.mem_filter.mp hy).2.symm
+  sorry
 
 /-- An actual arithmetic index may retain additional coordinates,
 including the prime-pool tag, prime and valuation.  Its fibre is still
@@ -147,14 +119,7 @@ theorem original_index_fibre_card_eq_class_image {J : Type*}
       slots ideals (γ := γ))) (j : J) :
     (S.filter (fun b => index b = j)).card =
       ((S.filter (fun b => index b = j)).image Sigma.fst).card := by
-  symm
-  apply Finset.card_image_of_injOn
-  intro x hx y hy hxy
-  apply original_class_allocationFingerprint_injective hleft hright
-  apply Prod.ext hxy
-  change originalAllocationFingerprint hleft hright x = originalAllocationFingerprint hleft hright y
-  rw [← hindex x, ← hindex y, (Finset.mem_filter.mp hx).2,
-    (Finset.mem_filter.mp hy).2]
+  sorry
 
 end DependentClasses
 

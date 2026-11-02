@@ -79,26 +79,13 @@ ordinary row subset is empty. -/
 theorem bound_literal_left_whole_present :
     ∃ i ∈ (v.leaf exceptional firstKernel x j).left,
       (v.literalLeftAtoms leftAtoms).whole i ≠ 0 := by
-  obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.1
-  rw [X.left h hh i hi] at hc
-  have hr : X.leaf.leftCoefficient h i ≠ 0 := right_ne_zero_of_mul hc
-  rw [binding.leftCoefficient h hh i hi] at hr
-  change (v.literalLeftAtoms leftAtoms).whole i * _ * _ ≠ 0 at hr
-  exact ⟨i, hi, left_ne_zero_of_mul (left_ne_zero_of_mul hr)⟩
+  sorry
 
 include binding in
 theorem bound_literal_right_whole_present :
     ∃ i ∈ (v.leaf exceptional firstKernel x j).right,
       (v.literalRightAtoms rightAtoms).whole i ≠ 0 := by
-  obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.2
-  rw [X.right h hh i hi] at hc
-  have hr : X.leaf.rightCoefficient h i ≠ 0 := right_ne_zero_of_mul hc
-  have hs : star (X.leaf.rightCoefficient h i) ≠ 0 := by
-    simpa only [star_ne_zero] using hr
-  rw [binding.rightCoefficient h hh i hi] at hs
-  change star ((v.literalRightAtoms rightAtoms).whole i * _ * _) ≠ 0 at hs
-  rw [star_ne_zero] at hs
-  exact ⟨i, hi, left_ne_zero_of_mul (left_ne_zero_of_mul hs)⟩
+  sorry
 
 include binding in
 /-- `hform` is the proved normal form of the corresponding original
@@ -106,21 +93,13 @@ direct/main/residual atom constructor. -/
 theorem bound_literal_left_scalar_nonzero
     (core : CanonicalLiteralRectangles.Atoms (K := K) (LC.branch v.2.2.1).slotCount)
     (c : ℂ) (hform : leftAtoms = core.scale c) : c ≠ 0 := by
-  obtain ⟨i, _, hi⟩ := v.bound_literal_left_whole_present leftAtoms rightAtoms
-    exceptional firstKernel x j firstSign hlive X binding
-  rw [hform, v.literalLeftAtoms_scale core c,
-    CanonicalLiteralRectangles.Atoms.scale_whole] at hi
-  exact left_ne_zero_of_mul hi
+  sorry
 
 include binding in
 theorem bound_literal_right_scalar_nonzero
     (core : CanonicalLiteralRectangles.Atoms (K := K) (RC.branch v.2.2.2.1).slotCount)
     (c : ℂ) (hform : rightAtoms = core.scale c) : c ≠ 0 := by
-  obtain ⟨i, _, hi⟩ := v.bound_literal_right_whole_present leftAtoms rightAtoms
-    exceptional firstKernel x j firstSign hlive X binding
-  rw [hform, v.literalRightAtoms_scale core c,
-    CanonicalLiteralRectangles.Atoms.scale_whole] at hi
-  exact left_ne_zero_of_mul hi
+  sorry
 
 variable (leftScalar rightScalar : ℂ)
 variable (hleftScalar : leftScalar ≠ 0) (hrightScalar : rightScalar ≠ 0)

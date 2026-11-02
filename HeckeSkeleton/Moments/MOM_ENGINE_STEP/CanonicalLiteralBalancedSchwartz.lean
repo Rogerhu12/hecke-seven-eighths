@@ -45,33 +45,28 @@ def rightFactor (δ₁ δ₂ : ℝ) (r : Bool) : ℝ :=
   CanonicalLiteralProfileScalars.plainFactor
     ((d.extract b).scale₂ false) ((d.extract b).scale₂ r) δ₁ δ₂
 
-theorem leftFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) : 0 < leftFactor d b δ₁ δ₂ r :=
-  CanonicalLiteralProfileScalars.plainFactor_pos
-    ((d.extract b).scale₁_pos false) ((d.extract b).scale₁_pos r) δ₁ δ₂
+theorem leftFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) : 0 < leftFactor d b δ₁ δ₂ r := by
+  sorry
 
-theorem rightFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) : 0 < rightFactor d b δ₁ δ₂ r :=
-  CanonicalLiteralProfileScalars.plainFactor_pos
-    ((d.extract b).scale₂_pos false) ((d.extract b).scale₂_pos r) δ₁ δ₂
+theorem rightFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) : 0 < rightFactor d b δ₁ δ₂ r := by
+  sorry
 
 def balance (δ₁ δ₂ : ℝ) (r : Bool) : ℝ :=
   CanonicalLiteralPlainBalance.ratio (leftFactor d b δ₁ δ₂ r) (rightFactor d b δ₁ δ₂ r)
 
-theorem balance_pos (δ₁ δ₂ : ℝ) (r : Bool) : 0 < balance d b δ₁ δ₂ r :=
-  CanonicalLiteralPlainBalance.ratio_pos (leftFactor_pos d b δ₁ δ₂ r)
-    (rightFactor_pos d b δ₁ δ₂ r)
+theorem balance_pos (δ₁ δ₂ : ℝ) (r : Bool) : 0 < balance d b δ₁ δ₂ r := by
+  sorry
 
 def factor (δ₁ δ₂ : ℝ) (r : Bool) : ℝ :=
   Real.sqrt (leftFactor d b δ₁ δ₂ r * rightFactor d b δ₁ δ₂ r)
 
 theorem left_mul_balance (δ₁ δ₂ : ℝ) (r : Bool) :
-    leftFactor d b δ₁ δ₂ r * balance d b δ₁ δ₂ r = factor d b δ₁ δ₂ r :=
-  CanonicalLiteralPlainBalance.left_mul_ratio (leftFactor_pos d b δ₁ δ₂ r)
-    (rightFactor_pos d b δ₁ δ₂ r)
+    leftFactor d b δ₁ δ₂ r * balance d b δ₁ δ₂ r = factor d b δ₁ δ₂ r := by
+  sorry
 
 theorem right_mul_balance_inv (δ₁ δ₂ : ℝ) (r : Bool) :
-    rightFactor d b δ₁ δ₂ r * (balance d b δ₁ δ₂ r)⁻¹ = factor d b δ₁ δ₂ r :=
-  CanonicalLiteralPlainBalance.right_mul_ratio_inv (leftFactor_pos d b δ₁ δ₂ r)
-    (rightFactor_pos d b δ₁ δ₂ r)
+    rightFactor d b δ₁ δ₂ r * (balance d b δ₁ δ₂ r)⁻¹ = factor d b δ₁ δ₂ r := by
+  sorry
 
 /-- An active rectangle's actual ideal lower bounds give the lower
 product window. This estimate then uses only the original annulus and
@@ -81,37 +76,17 @@ theorem factor_le (δ₁ δ₂ hi : ℝ) (r : Bool) (hhi : 1 ≤ hi)
     (hproduct : d.scale₁ r * d.scale₂ r = d.scale₁ false * d.scale₂ false)
     (hlower : hi ^ (-2 : ℝ) ≤ (d.extract b).scale₁ false * (d.extract b).scale₂ false) :
     factor d b δ₁ δ₂ r ≤ Real.sqrt hi := by
-  unfold factor leftFactor rightFactor
-  rw [d.extracted_plainFactor_product b r δ₁ δ₂ hproduct]
-  apply Real.sqrt_le_sqrt
-  calc
-    _ ≤ (hi ^ (-2 : ℝ)) ^ (-1 / 2 + δ₁ + δ₂) :=
-      Real.rpow_le_rpow_of_nonpos (Real.rpow_pos_of_pos (zero_lt_one.trans_le hhi) _)
-        hlower (by linarith)
-    _ = hi ^ ((-2 : ℝ) * (-1 / 2 + δ₁ + δ₂)) :=
-      (Real.rpow_mul (zero_le_one.trans hhi) _ _).symm
-    _ ≤ hi ^ (1 : ℝ) := Real.rpow_le_rpow_of_exponent_le hhi (by linarith)
-    _ = hi := Real.rpow_one _
+  sorry
 
 theorem slotFactor_le_one (δ₁ δ₂ : ℝ) (j : Fin b.keep.card)
     (hδhi : δ₁ + δ₂ ≤ 1 / 2) :
     CanonicalLiteralProfileScalars.plainFactor
       ((d.extract b).base ^ (d.extract b).length j)
       ((d.extract b).base ^ (d.extract b).length j) δ₁ δ₂ ≤ 1 := by
-  let N := (d.extract b).base ^ (d.extract b).length j
-  have hN : 0 < N := Real.rpow_pos_of_pos (zero_lt_one.trans (d.extract b).base_gt_one) _
-  have hN₁ : 1 ≤ N := Real.one_le_rpow (d.extract b).base_gt_one.le
-    ((d.extract b).length_pos j).le
-  change Real.sqrt N * N ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ ≤ 1
-  rw [Real.sqrt_eq_rpow, ← Real.rpow_add hN]
-  apply Real.rpow_le_one_of_one_le_of_nonpos hN₁
-  unfold CanonicalLiteralProfileScalars.exponent
-  linarith
+  sorry
 
 theorem norm_inv_mul_self_le_one (c : ℂ) : ‖c⁻¹ * c‖ ≤ 1 := by
-  by_cases hc : c = 0
-  · simp only [hc, inv_zero, mul_zero, norm_zero, zero_le_one]
-  · simp only [inv_mul_cancel₀ hc, norm_one, le_refl]
+  sorry
 
 end CanonicalLiteralBalancedSchwartz
 
@@ -202,18 +177,7 @@ theorem scalarFreeBalanced_left_bound (hcompact : IsCompact window)
       factor r * CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) := by
-  have hcoeff : ‖(outer⁻¹ * outer) * (factor r : ℂ)‖ ≤ factor r := by
-    rw [norm_mul, Complex.norm_real, Real.norm_eq_abs,
-      abs_of_nonneg (Real.sqrt_nonneg _)]
-    simpa only [one_mul] using mul_le_mul_of_nonneg_right
-      (CanonicalLiteralBalancedSchwartz.norm_inv_mul_self_le_one outer) (Real.sqrt_nonneg _)
-  exact (CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound
-    window hcompact hpositive ((outer⁻¹ * outer) * (factor r : ℂ))
-      (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s (E.left r) (E.left_support r)).trans
-      (mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_right hcoeff
-          (CanonicalLogProfiles.shapeCoefficient_nonneg window hcompact hpositive _ s))
-        (apply_nonneg _ _))
+  sorry
 
 theorem scalarFreeBalanced_right_bound (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (r : Bool) (s : Finset (ℕ × ℕ)) :
@@ -223,10 +187,7 @@ theorem scalarFreeBalanced_right_bound (hcompact : IsCompact window)
       factor r * CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) := by
-  simpa only [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg (Real.sqrt_nonneg _)] using
-    CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound
-      window hcompact hpositive (factor r : ℂ)
-        (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s (E.right r) (E.right_support r)
+  sorry
 
 theorem scalarFreeBalanced_slot_bound (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (j : Fin b.keep.card) (s : Finset (ℕ × ℕ))
@@ -238,23 +199,7 @@ theorem scalarFreeBalanced_slot_bound (hcompact : IsCompact window)
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ)
           (E.slot (SlotRestriction.index b.keep j)) := by
-  let L := CanonicalLiteralProfileScalars.plainFactor
-    ((d.extract b).base ^ (d.extract b).length j)
-    ((d.extract b).base ^ (d.extract b).length j) δ₁ δ₂
-  have hL : 0 ≤ L := (CanonicalLiteralProfileScalars.plainFactor_pos
-    (Real.rpow_pos_of_pos (zero_lt_one.trans (d.extract b).base_gt_one) _)
-    (Real.rpow_pos_of_pos (zero_lt_one.trans (d.extract b).base_gt_one) _) δ₁ δ₂).le
-  have hL₁ : L ≤ 1 := CanonicalLiteralBalancedSchwartz.slotFactor_le_one d b δ₁ δ₂ j hδhi
-  have hc : ‖(L : ℂ)‖ ≤ 1 := by
-    simpa only [Complex.norm_real, Real.norm_eq_abs, abs_of_nonneg hL] using hL₁
-  apply (CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound
-    window hcompact hpositive (L : ℂ) (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s
-      (E.slot (SlotRestriction.index b.keep j))
-      (E.slot_support (SlotRestriction.index b.keep j))).trans
-  simpa only [one_mul] using mul_le_mul_of_nonneg_right
-    (mul_le_mul_of_nonneg_right hc
-      (CanonicalLogProfiles.shapeCoefficient_nonneg window hcompact hpositive _ s))
-    (apply_nonneg _ _)
+  sorry
 
 end CanonicalLiteralRectangles.Atoms.ProfileData.SchwartzModel
 end HeckeSkeleton.Moments.EngineStep

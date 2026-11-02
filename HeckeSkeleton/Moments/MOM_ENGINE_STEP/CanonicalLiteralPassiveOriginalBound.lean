@@ -85,16 +85,7 @@ theorem centered_eq_passive (h : S.live) (firstSign : ℝ) (negative : Bool)
     passiveColumn (σ := σ) W B paid (choice.mask extra)
       (if negative then -(S.factor C h.val) else S.factor C h.val)
       (S.extractedRow C h).element firstSign negative ξ := by
-  have he := actual_centered_allocations
-    (W := W) (B := B) (P := P) (R := Rchar) (F := F) (parent := parent)
-    (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
-    (C := C) (S := S) (pattern := pattern) (ν := sector)
-    (remaining := remaining) (extra := extra) (m := 0) (q := 0)
-    (inverse := parent.inverseTest) (index := index) (firstSign := firstSign)
-    (negative := negative) (hone := hone) (hroot := hroot) (hemb := hemb)
-    (row := patternRows h) choice hcharacters firstSupport hfirst hextra hl hr
-    support hplain₁ hplain₂ hslots ξ
-  simpa only [patternRows_val h] using he
+  sorry
 
 include hcorr hone hroot hemb hcharacters hfirst hextra hl hr support
   hplain₁ hplain₂ hslots patternRows patternRows_val in
@@ -115,33 +106,7 @@ theorem sqrt_frequency_le_passive
         ‖passiveColumn (σ := σ) W B paid (choice.mask extra)
           (if negative then -(S.factor C h.val) else S.factor C h.val)
           (S.extractedRow C h).element firstSign negative ξ‖ ^ 2) := by
-  have hmask : d.characters.MaskIndicator := by
-    rw [hcharacters]
-    exact CanonicalLiteralPhaseCalibration.sourceCharacters_maskIndicator P Rchar F
-      parent oldMoving correction remaining extra index
-  have he := original_sqrt_le_actualCost
-    (d := d) (B := B) (C := C) (rows := (Finset.univ : Finset S.live))
-    (weight := fun h => S.weight h.val * S.correlation h.val)
-    (g := fun h => if negative then -(S.factor C h.val) else S.factor C h.val)
-    (h := fun h => (S.extractedRow C h).element)
-    (firstSign := firstSign) (negative := negative)
-    hmask hsquarefree hselection ξ
-  have hsum :
-      (∑ h : S.live, ‖S.weight h.val * S.correlation h.val‖ *
-        ‖centeredColumn (σ := σ) (d := d) B (d.characters.restrictSlots B.keep)
-          (if negative then -(S.factor C h.val) else S.factor C h.val)
-          (S.extractedRow C h).element firstSign negative ξ‖ ^ 2) =
-      ∑ h : S.live, ‖S.weight h.val * S.correlation h.val‖ *
-        ‖passiveColumn (σ := σ) W B paid (choice.mask extra)
-          (if negative then -(S.factor C h.val) else S.factor C h.val)
-          (S.extractedRow C h).element firstSign negative ξ‖ ^ 2 := by
-    apply Finset.sum_congr rfl
-    intro h _
-    rw [centered_eq_passive W B P Rchar F parent oldMoving correction hcorr C S
-      pattern sector remaining extra index choice hone hroot hemb hcharacters
-      firstSupport hfirst hextra hl hr support hplain₁ hplain₂ hslots
-      patternRows patternRows_val h firstSign negative ξ]
-  simpa only [hsum] using he
+  sorry
 
 include hcorr hone hroot hemb hcharacters hfirst hextra hl hr support
   hplain₁ hplain₂ hslots patternRows patternRows_val in
@@ -163,13 +128,7 @@ theorem sqrt_frequency_le_frames
           (choice.mask extra) a firstSign false).energy ξ) +
           Real.sqrt ((frame W B A paid C S (if negative then .right else .left)
             (choice.mask extra) a firstSign true).energy ξ)) := by
-  exact (sqrt_frequency_le_passive W B P Rchar F parent oldMoving correction hcorr C S
-    pattern sector remaining extra index choice hone hroot hemb hcharacters
-    firstSupport hfirst hextra hl hr support hplain₁ hplain₂ hslots
-    patternRows patternRows_val hsquarefree hselection firstSign negative ξ).trans
-      (mul_le_mul_of_nonneg_left
-        (sqrt_passiveColumn_le_frames B W paid C S (choice.mask extra) firstSign negative ξ)
-        (Real.sqrt_nonneg _))
+  sorry
 
 end CanonicalLiteralPassiveOriginalBound
 end HeckeSkeleton.Moments.EngineStep

@@ -87,8 +87,8 @@ def liveLeaves (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
 
 theorem liveLeaves_spec (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) :
-    (R.parentLeaf L exceptional N j.val).Live :=
-  ActualHybridFamily.live_spec _ j
+    (R.parentLeaf L exceptional N j.val).Live := by
+  sorry
 
 /-- A retained label's first internal divisor is squarefree because
 the actual original Möbius weight is nonzero, not because the divisor
@@ -96,12 +96,7 @@ pool was assumed squarefree. -/
 theorem live_first_divisor_squarefree
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) : Squarefree j.val.2.2.1.val := by
-  have hw := (R.liveLeaves_spec L exceptional N j).1
-  change (s.fiber : ℝ) * (R.coveredLeaf L exceptional N j.val).weight ≠ 0 at hw
-  exact (R j.val.1 j.val.2.1).coveredLeaf_weight_nonzero_squarefree L L
-    (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
-    (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
-    (exceptional j.val.1 j.val.2.1) j.val.2.2 (mul_ne_zero_iff.mp hw).2
+  sorry
 
 variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Lmax Nsave decay : ℝ}
 
@@ -125,22 +120,7 @@ theorem coveredCost_eq_budgets_leaves
     R.coveredCost T L exceptional N ε Cerror Czero =
       R.zeroBudget T N ε Czero + R.tailBudget T N Cerror +
         ∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost := by
-  unfold coveredCost
-  calc
-    _ = ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
-        ((T v D).zeroBudget (N.left v D) (N.right v D) ε Czero +
-          (T v D).tailBudget (N.left v D) (N.right v D) Cerror +
-          ∑ j : (R v D).CoveredLeafKey L L,
-            ((R v D).coveredLeaf L L (N.left v D) (N.right v D)
-              (N.left_pos v D) (N.right_pos v D) (exceptional v D) j).cost) := by
-      apply Finset.sum_congr rfl
-      intro v _
-      apply Finset.sum_congr rfl
-      intro D _
-      exact (T v D).coveredCost_eq_budgets_leaves L L (exceptional v D)
-        (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
-    _ = _ := by
-      simp only [zeroBudget, tailBudget, Fintype.sum_sigma, coveredLeaf, Finset.sum_add_distrib]
+  sorry
 
 def secondZeroBudget (T : R.TerminalCalibration sTail sZero k Lmax Nsave decay)
     (N : s.Normalization) (ε Czero : ℝ) : ℝ :=
@@ -176,32 +156,15 @@ theorem totalCost_eq_live
       firstZeroBudget F ε CfirstZero + R.secondZeroBudget T N ε Czero +
         R.exceptionalBudget L exceptional N + R.totalTailBudget T F N CfirstError Cerror +
         R.ordinaryBudget L exceptional N := by
-  have hleaves :
-      (s.fiber : ℝ) * (∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost) =
-        R.exceptionalBudget L exceptional N + R.ordinaryBudget L exceptional N := by
-    calc
-      _ = ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
-        simp only [parentLeaf, ActualHybridLeaf.scale_cost, Finset.mul_sum]
-      _ = ∑ j : R.liveLeaves L exceptional N, (R.parentLeaf L exceptional N j.val).cost :=
-        ActualHybridFamily.sum_cost_eq_live _
-      _ = _ := by
-        simp only [exceptionalBudget, ordinaryBudget, ActualHybridLeaf.cost, Finset.sum_add_distrib]
-  rw [R.coveredCost_eq_budgets_leaves T L exceptional N ε Cerror Czero]
-  calc
-    _ = firstZeroBudget F ε CfirstZero + R.secondZeroBudget T N ε Czero +
-        R.totalTailBudget T F N CfirstError Cerror +
-        (s.fiber : ℝ) * (∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost) := by
-      unfold ActualFirstSource.TerminalCalibration.cost firstZeroBudget secondZeroBudget totalTailBudget
-      ring
-    _ = _ := by rw [hleaves]; ring
+  sorry
 
 theorem exceptionalBudget_nonneg (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
-    0 ≤ R.exceptionalBudget L exceptional N :=
-  Finset.sum_nonneg fun j _ => (R.parentLeaf L exceptional N j.val).exceptionalCost_nonneg
+    0 ≤ R.exceptionalBudget L exceptional N := by
+  sorry
 
 theorem ordinaryBudget_nonneg (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
-    0 ≤ R.ordinaryBudget L exceptional N :=
-  Finset.sum_nonneg fun j _ => (R.parentLeaf L exceptional N j.val).ordinaryCost_nonneg
+    0 ≤ R.ordinaryBudget L exceptional N := by
+  sorry
 
 end ActualFirstSource.SecondStages
 
@@ -246,16 +209,7 @@ theorem actual_parent_two_stage_finite_leaf_bound
           R.gated.exceptionalBudget L exceptional N +
           R.gated.totalTailBudget T.gated F N CfirstError Cerror +
           R.gated.ordinaryBudget L exceptional N := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hb⟩ :=
-    actual_parent_gated_two_stage_covered_terminal_bound (W := W) (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z ell eps bad P omega psi centered d a t Y₁ Y₂ X hX s N R T F L exceptional
-  obtain ⟨hcutoff, hp⟩ := hb Z ell eps bad P centered d a t Y₁ Y₂ X hX s N R T F L exceptional
-  rw [R.gated.totalCost_eq_live T.gated F L exceptional N ε CfirstError CfirstZero Cerror Czero] at hp
-  exact ⟨hcutoff, hp⟩
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

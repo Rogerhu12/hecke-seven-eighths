@@ -94,18 +94,7 @@ theorem canonicalLog_left_jointLocation
         rawSourceLocation (CanonicalLiteralLocations.plain firstSign)
           (CanonicalLiteralLocations.plain firstSign)
           (CanonicalLiteralLocations.prime firstSign) j := by
-  change WithLp.toLp 2
-      (-firstSign * Real.log (Ideal.absNorm
-        (power.val * (b.commonLeftIdeal.val * (b.leftResidual i).val)) : ℝ),
-        Real.log (CanonicalSecondLogChart.rowRadius radius D q).val -
-          Real.log (Ideal.absNorm (b.commonLeftIdeal.val * (b.leftResidual i).val) : ℝ)) = _
-  apply CanonicalLiteralLocations.actual_product_locations
-    firstSign (Real.log (CanonicalSecondLogChart.rowRadius radius D q).val)
-    j hplain₁ hplain₂ _ _
-    (power.val * b.commonLeftIdeal.val) b.commonLeftIdeal.val
-    (mul_ne_zero power.property.1 b.commonLeftIdeal.property.1) b.commonLeftIdeal.property.1
-  · rw [hideal, mul_assoc]
-  · rw [hideal]
+  sorry
 
 /-- The stored right column uses the negative of its first location
 when entering its ordinary energy. The actual right second coordinate
@@ -128,14 +117,7 @@ theorem canonicalLog_right_jointLocation
         rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.prime (-firstSign)) j := by
-  have he := CanonicalLiteralLocations.actual_product_locations
-    (-firstSign) 0 j hplain₁ hplain₂
-    (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val))
-    (b.commonRightIdeal.val * (b.rightResidual i).val)
-    (power.val * b.commonRightIdeal.val) b.commonRightIdeal.val
-    (mul_ne_zero power.property.1 b.commonRightIdeal.property.1) b.commonRightIdeal.property.1
-    (by rw [hideal, mul_assoc]) (by rw [hideal])
-  simpa only [neg_neg, zero_sub, neg_mul] using he
+  sorry
 
 end SecondBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

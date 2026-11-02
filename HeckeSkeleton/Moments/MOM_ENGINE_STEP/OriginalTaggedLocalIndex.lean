@@ -29,9 +29,7 @@ private theorem option_dependent_match_property
     P o (match (generalizing := false) h : o with
       | none => f0 h
       | some a => fs a h) := by
-  cases o with
-  | none => exact h0 rfl
-  | some a => exact hs a rfl
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {I : Type*} [Fintype I] {cap : ℕ}
@@ -56,59 +54,19 @@ def localIndex (i : I) : (L.localBranch tag i).Index :=
 
 @[simp] theorem localIndex_first (i : I) :
     (L.localIndex tag i).1.val = L.first i := by
-  unfold localIndex
-  dsimp only
-  exact option_dependent_match_property
-    (β := fun q => (match q with
-      | none => L.mainCarrier tag
-      | some p => L.errorCarrier tag p.1 p.2).Index)
-    (tag i)
-    (fun h => (L.mainLabels tag).index ⟨i, h⟩)
-    (fun q h => (L.errorLabels tag q.1 q.2).index ⟨i, h⟩)
-    (fun _ j => j.1.val = L.first i)
-    (fun _ => rfl) (fun _ _ => rfl)
+  sorry
 
 @[simp] theorem localIndex_firstDivisor (i : I) :
     (L.localIndex tag i).2.1.val = L.firstDivisor i := by
-  unfold localIndex
-  dsimp only
-  exact option_dependent_match_property
-    (β := fun q => (match q with
-      | none => L.mainCarrier tag
-      | some p => L.errorCarrier tag p.1 p.2).Index)
-    (tag i)
-    (fun h => (L.mainLabels tag).index ⟨i, h⟩)
-    (fun q h => (L.errorLabels tag q.1 q.2).index ⟨i, h⟩)
-    (fun _ j => j.2.1.val = L.firstDivisor i)
-    (fun _ => rfl) (fun _ _ => rfl)
+  sorry
 
 @[simp] theorem localIndex_second (i : I) :
     (L.localIndex tag i).2.2.1.val = L.second i := by
-  unfold localIndex
-  dsimp only
-  exact option_dependent_match_property
-    (β := fun q => (match q with
-      | none => L.mainCarrier tag
-      | some p => L.errorCarrier tag p.1 p.2).Index)
-    (tag i)
-    (fun h => (L.mainLabels tag).index ⟨i, h⟩)
-    (fun q h => (L.errorLabels tag q.1 q.2).index ⟨i, h⟩)
-    (fun _ j => j.2.2.1.val = L.second i)
-    (fun _ => rfl) (fun _ _ => rfl)
+  sorry
 
 @[simp] theorem localIndex_secondDivisor (i : I) :
     (L.localIndex tag i).2.2.2.1.val = (L.allocation i).1 := by
-  unfold localIndex
-  dsimp only
-  exact option_dependent_match_property
-    (β := fun q => (match q with
-      | none => L.mainCarrier tag
-      | some p => L.errorCarrier tag p.1 p.2).Index)
-    (tag i)
-    (fun h => (L.mainLabels tag).index ⟨i, h⟩)
-    (fun q h => (L.errorLabels tag q.1 q.2).index ⟨i, h⟩)
-    (fun _ j => j.2.2.2.1.val = (L.allocation i).1)
-    (fun _ => rfl) (fun _ _ => rfl)
+  sorry
 
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 variable (P : PowerScaleExteriorPool A bad Z ell eps)
@@ -126,24 +84,7 @@ theorem amplifiedIndexWeight_local (M B : ℝ) (i : I) :
        | some q => FirstGaussPoolData.localErrorWeight q.2 q.1 *
            (Ideal.absNorm q.2.val.asIdeal : ℝ) ^ amplifierMovingExponent q.1) *
         (L.localBranch tag i).indexWeight (L.localIndex tag i) := by
-  have hlocal : (L.localBranch tag i).indexWeight (L.localIndex tag i) =
-      L.carrier.indexWeight (L.index i) := by
-    rw [L.indexWeight_eq i]
-    simp only [TwoDivisorCommonBranch.indexWeight, L.localIndex_first tag i,
-      L.localIndex_firstDivisor tag i, L.localIndex_second tag i,
-      L.localIndex_secondDivisor tag i]
-  have hmain (hi : tag i = none) :
-      (L.mainCarrier tag).indexWeight ((L.mainLabels tag).index ⟨i, hi⟩) =
-        L.carrier.indexWeight (L.index i) :=
-    ((L.mainLabels tag).indexWeight_eq ⟨i, hi⟩).trans (L.indexWeight_eq i).symm
-  have herror (n : ℕ) (p : ExteriorPrime A) (hi : tag i = some (n, p)) :
-      (L.errorCarrier tag n p).indexWeight ((L.errorLabels tag n p).index ⟨i, hi⟩) =
-        L.carrier.indexWeight (L.index i) :=
-    ((L.errorLabels tag n p).indexWeight_eq ⟨i, hi⟩).trans (L.indexWeight_eq i).symm
-  have hQ (p : ExteriorPrime A) : Q p = (Ideal.absNorm p.val.asIdeal : ℝ) := rfl
-  rw [hlocal]
-  unfold amplifiedIndex
-  split <;> simp_all only [amplifiedIndexWeight] <;> ring
+  sorry
 
 end OriginalArithmeticLabels
 end HeckeSkeleton.Moments.EngineStep

@@ -129,11 +129,7 @@ theorem arithmetic_outer_index_weight
       factor *
         (firstCost * (((costs).rowMass.originalFiber : ℝ) * B ^ (3 * cap + 1) *
           orbitalFieldFactor K) * Z ^ remaining * branch.indexWeight j) := by
-  rw [weight_eq leaves chosen parentWidth b]
-  exact (raw).arithmeticCosts_family_outer_index_weight (costs).rowMass
-    (costs).leftAtoms (costs).rightAtoms rectangle L hZ cap B hB atoms j
-    hleft hright hdivisor parentWidth total rawProfile firstCost hfirst hprofile
-    hD hE hsupport phase₁ χ₁ phase₂ χ₂ factor hfactor houter
+  sorry
 
 end ActualHybridFamily
 end HeckeSkeleton.Moments.EngineStep

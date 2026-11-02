@@ -43,8 +43,7 @@ theorem paidCutoff_nonneg {columnLoss cutoffExponent maskExponent : ℝ}
     (hcolumn : 0 ≤ columnLoss) (hcutoff : 0 ≤ cutoffExponent)
     (hmask : 0 ≤ maskExponent) :
     0 ≤ paidCutoff columnLoss cutoffExponent maskExponent := by
-  unfold paidCutoff
-  positivity
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -76,10 +75,7 @@ theorem centered_remainder_with_cutoff
       (max (n.Aexp - (a.m + a.q)) 0 + 3 * n.stepσ +
         5 * n.δ / 6 + volumeLoss + n.slotError + cutoffLoss / 6) ≤
       (padding + 3 * step + loss / 2) + G.tag.exceptionalMovingLength Z step := by
-  have htotal := domain.original_total_excess_le hpadding
-  change max (G.skeleton.A - (a.m + a.q)) 0 ≤ padding at htotal
-  dsimp only [OriginalNominalGeometry.exceptionalNumbers]
-  linarith
+  sorry
 
 /-- The uncentered branch pays the identical physical cutoff.  It
 does not invoke a centered volume saving or introduce parent padding. -/
@@ -91,8 +87,7 @@ theorem ordinary_remainder_with_cutoff
     n.remaining + n.widthError +
       (3 * n.stepσ + 5 * n.δ / 6 + n.slotError + cutoffLoss / 6) ≤
       (3 * step + loss / 2) + G.tag.exceptionalMovingLength Z step := by
-  dsimp only [OriginalNominalGeometry.exceptionalNumbers]
-  linarith
+  sorry
 
 /-- Reading the actual first normalizer keeps all of the preceding
 fields.  The two identities are the original allowance and original
@@ -114,10 +109,7 @@ theorem centered_remainder_at_normalization
       (max (n.Aexp - (a.m + a.q)) 0 + 3 * n.stepσ +
         5 * n.δ / 6 + volumeLoss + n.slotError + cutoffLoss / 6) ≤
       (padding + 3 * step + loss / 2) + G.tag.exceptionalMovingLength Z step := by
-  rw [G.exceptionalNumbersAtNormalization_eq W vStar r₁ r₂ slotError firstProfile
-    normalization total hZ hN htotal]
-  exact centered_remainder_with_cutoff G W vStar r₁ r₂ slotError firstProfile domain
-    hpadding loss volumeLoss cutoffLoss hloss hsupport hvolume hslot hcutoff
+  sorry
 
 end Remainder
 
@@ -131,12 +123,7 @@ theorem fixed_small_cutoff_budget {step loss : ℝ}
       paidCutoff (CanonicalEngineSmallParameters.boundary step loss)
         (CanonicalEngineSmallParameters.boundary step loss) 0 / 6 ≤ loss / 16 ∧
       CanonicalEngineSmallParameters.supportError step loss ≤ loss / 16 := by
-  have hb := (CanonicalEngineSmallParameters.boundary_pos hstep hloss).le
-  have hsmall := CanonicalEngineSmallParameters.boundary_le_loss step loss
-  dsimp only [paidCutoff, CanonicalEngineSmallParameters.supportError]
-  constructor
-  · linarith
-  constructor <;> linarith
+  sorry
 
 section PhysicalRows
 
@@ -189,18 +176,7 @@ gcd or nonunit factor.  Dead pair profiles require no column window. -/
 theorem original_cutoff (h : Orbit) (hh : h ∈ (original).rows) :
     A.exteriorNorm ((original).originalIdeal h) ≤
       Z ^ (G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) := by
-  have hr : radius.val ≤ Z ^ (-Real.log G.retainedScale / Real.log Z - G.enlargement) := by
-    rw [hradius, CanonicalRowBall.gaussRadius_eq_rpow G.retainedScale Z G.enlargement
-      G.retainedScale_pos hZ]
-  have hp := b.secondPhysicalCutoff_le_active_pair_windows hΓ hDiff C left right
-    profiles M radius X hX Z cutoffExponent
-      (-Real.log G.retainedScale / Real.log Z - G.enlargement) maskExponent
-      (2 * (G.skeleton.A - G.skeleton.c - G.skeleton.w + columnLoss))
-      (zero_lt_one.trans hZ) hcutoff hr hmask hproduct
-  apply (chart.actualRows_originalNorm_le_physicalCutoff M X hX label h hh).trans
-  convert hp using 1 <;>
-    dsimp only [OriginalNominalGeometry.frequencyCenter, OriginalNominalGeometry.skeleton,
-      OriginalNominalGeometry.retainedLength, paidCutoff] <;> congr 1 <;> ring
+  sorry
 
 variable (weight : Orbit → ℂ) (keep₁ keep₂ : Orbit → Prop)
 local notation "rows" =>
@@ -217,32 +193,7 @@ theorem reweighted_restricted_cutoff (h : (rows).live) :
     A.exteriorNorm ((rows).originalIdeal h.val) ≤ (rows).normFactor C h.val *
       Z ^ (2 * (n.Aexp - n.c - n.w) - n.K₀ - n.g - n.g₂ - n.V₀ +
         paidCutoff columnLoss cutoffExponent maskExponent) := by
-  have hrows : h.val ∈ (rows).rows := (Finset.mem_filter.mp h.property).1
-  have horiginal : h.val ∈ (original).rows :=
-    (Finset.mem_filter.mp (Finset.mem_filter.mp hrows).1).1
-  have hp := original_cutoff chart G M X hX label columnLoss cutoffExponent maskExponent
-    hZ hradius hcutoff hmask hproduct h.val horiginal
-  change A.exteriorNorm ((rows).originalIdeal h.val) ≤
-    Z ^ (G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) at hp
-  have he := (rows).original_window_after_extraction C Z hZ
-    (G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) h hp
-  rw [W.nonunit_ideal h.val hrows] at he
-  have hexponent :
-      (G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) -
-        idealLogLength Z (gcd W.leftIdeal W.rightIdeal) -
-        idealLogLength Z W.nonunitIdeal.val =
-      2 * (G.skeleton.A - G.skeleton.c - G.skeleton.w) - G.skeleton.Krow -
-        G.skeleton.g - idealLogLength Z (gcd W.leftIdeal W.rightIdeal) -
-        idealLogLength Z W.nonunitIdeal.val +
-        paidCutoff columnLoss cutoffExponent maskExponent := by
-    unfold OriginalNominalGeometry.frequencyCenter
-    ring
-  change _ ≤ (rows).normFactor C h.val *
-    Z ^ ((G.frequencyCenter + paidCutoff columnLoss cutoffExponent maskExponent) -
-      idealLogLength Z (gcd W.leftIdeal W.rightIdeal) -
-      idealLogLength Z W.nonunitIdeal.val) at he
-  rw [hexponent] at he
-  exact he
+  sorry
 
 end PhysicalRows
 
@@ -260,13 +211,7 @@ theorem unmasked_radius_window (hZ : 1 < Z) :
         G.retainedScale_pos (zero_lt_one.trans hZ)).val *
       (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).val := by
-  rw [empty_mask_generator_norm, mul_one,
-    CanonicalRowBall.gaussRadius_eq_rpow G.retainedScale Z G.enlargement
-      G.retainedScale_pos hZ]
-  apply le_of_eq
-  congr 1
-  dsimp only [OriginalNominalGeometry.skeleton, OriginalNominalGeometry.retainedLength]
-  ring
+  sorry
 
 end OriginalRadius
 

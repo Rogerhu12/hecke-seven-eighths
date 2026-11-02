@@ -37,12 +37,7 @@ theorem comparison_product_extract
     (d.extract b).centered = true →
       (d.extract b).scale₁ true * (d.extract b).scale₂ true =
         (d.extract b).scale₁ false * (d.extract b).scale₂ false := by
-  intro hc
-  change (d.scale₁ true / idealNorm K b.plainDivisor₁) *
-      (d.scale₂ true / idealNorm K b.plainDivisor₂) =
-    (d.scale₁ false / idealNorm K b.plainDivisor₁) *
-      (d.scale₂ false / idealNorm K b.plainDivisor₂)
-  rw [div_mul_div_comm, div_mul_div_comm, h hc]
+  sorry
 
 theorem comparison_product_onAtlas {A : SArithmeticData K} {ι : Type*}
     {columns : Finset ι} {ideal : ι → A.Exterior}
@@ -52,15 +47,15 @@ theorem comparison_product_onAtlas {A : SArithmeticData K} {ι : Type*}
     (d.onAtlas T count).centered = true →
       (d.onAtlas T count).scale₁ true * (d.onAtlas T count).scale₂ true =
         (d.onAtlas T count).scale₁ false * (d.onAtlas T count).scale₂ false := by
-  cases count
-  exact h
+  sorry
 
 theorem comparison_product_deleteMask (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (h : d.centered = true →
       d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false) :
     (d.deleteMask M).centered = true →
       (d.deleteMask M).scale₁ true * (d.deleteMask M).scale₂ true =
-        (d.deleteMask M).scale₁ false * (d.deleteMask M).scale₂ false := h
+        (d.deleteMask M).scale₁ false * (d.deleteMask M).scale₂ false := by
+  sorry
 
 section SecondInput
 
@@ -87,8 +82,8 @@ theorem comparison_product_secondInput
       (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale₁ false *
       (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
-        firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale₂ false :=
-  d.comparison_product_extract b h
+        firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale₂ false := by
+  sorry
 
 end SecondInput
 end CanonicalLiteralRectangles.Atoms

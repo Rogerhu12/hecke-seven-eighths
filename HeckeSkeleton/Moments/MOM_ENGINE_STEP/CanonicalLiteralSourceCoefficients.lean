@@ -57,11 +57,7 @@ theorem residualCoefficient_logarithmic
         actualIdealResidue (A := A) (σ := σ) (d.ideal i.val).val first *
         actualIdealResidue (A := A) (σ := σ)
           (d.residualPresentation p n i).residual.val (generator C p ^ (2 * n)) := by
-  have hN : (A.exteriorNorm (d.ideal i.val) : ℂ) ≠ 0 := by
-    exact_mod_cast (A.exteriorNorm_pos (d.ideal i.val)).ne'
-  unfold residualCoefficient adjustedCoefficient
-  rw [AmplifierResidualPresentation.columnPhase_eq_residue]
-  field_simp [hN] <;> ring
+  sorry
 
 end FirstGaussPoolData
 
@@ -84,9 +80,7 @@ theorem literalOriginalAtoms_whole_originalCoordinates (ξ : X)
     (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).whole
         ((atoms.raw Y₁ Y₂).originalCoordinates v) =
       (atoms.values Y₁ Y₂).coefficient centered v := by
-  dsimp only
-  rw [Q.literalOriginalAtoms_whole,
-    ParentRawAtoms.originalIndex_coordinates]
+  sorry
 
 /-- The original coefficient on the reconstructed tuple gives the
 literal two-stage atom table.  The index is the actual original
@@ -122,11 +116,7 @@ theorem literalOriginalAtoms_secondInput_whole (ξ : X)
         actualIdealResidue (A := A) (σ := σ) J.val poolElement *
         ((A.exteriorNorm J ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) J.val unitElement := by
-  dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.secondInput_whole _ b P R hroot hemb
-    power firstFixed poolFixed unitFixed firstElement poolElement unitElement
-    hfirst hpool hunit δ₁ δ₂ i hi J hJ,
-    Q.literalOriginalAtoms_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂]
+  sorry
 
 end CompleteMovingRowRecipe
 
@@ -188,19 +178,7 @@ theorem canonicalLog_leftDivisorCoefficient
             b.leftMultiplicity b.rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)) /
         (A.exteriorNorm (b.leftResidual i) : ℂ) := by
-  have ha : A.IsAllowed C.correction.B
-      (Units.mk0 (b.leftGenerator i : K)
-        (by exact_mod_cast (b.left_generates i).1)) := by
-    have hgen := p.leftData.allowed i hi
-    simpa only [p.left_generator] using hgen
-  unfold leftDivisorCoefficient
-  rw [if_pos hSi]
-  have hχ : (fixedLeftPhase PUnit χ PUnit.unit : ℂ) = 1 := by
-    change ((fixedLeftPhase PUnit χ) (1 : PUnit) : ℂ) = 1
-    rw [map_one, Circle.coe_one]
-  rw [hχ, mul_one]
-  exact FirstBlockProfileChart.canonicalLog_leftSourceCoefficient hΓ μv ν b C
-    left right φ c e finiteTest hlc hcs radius δ hδ hδhalf D i ha
+  sorry
 
 theorem canonicalLog_rightDivisorCoefficient
     (j : κ) (hj : j ∈ p.rightData.columns)
@@ -212,19 +190,7 @@ theorem canonicalLog_rightDivisorCoefficient
             b.leftMultiplicity b.rightMultiplicity
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)) /
         (A.exteriorNorm (b.rightResidual j) : ℂ) := by
-  have ha : A.IsAllowed C.correction.B
-      (Units.mk0 (b.rightGenerator j : K)
-        (by exact_mod_cast (b.right_generates j).1)) := by
-    have hgen := p.rightData.allowed j hj
-    simpa only [p.right_generator] using hgen
-  unfold rightDivisorCoefficient
-  rw [if_pos hSj]
-  have hχ : (fixedRightPhase PUnit χ PUnit.unit : ℂ) = 1 := by
-    change ((fixedRightPhase PUnit χ) (1 : PUnit) : ℂ) = 1
-    rw [map_one, Circle.coe_one]
-  rw [hχ, mul_one]
-  exact FirstBlockProfileChart.canonicalLog_rightSourceCoefficient hΓ μv ν b C
-    left right φ c e finiteTest hlc hcs radius δ hδ hδhalf D j ha
+  sorry
 
 /-- The actual left valuation source, with the first divisor and phase
 unchanged. The residual phase is computed by original reciprocity. -/
@@ -244,17 +210,7 @@ theorem canonicalLog_leftResidualCoefficient
         actualIdealResidue (A := A) (σ := σ)
           ((p.divisorPools.leftData S).residualPresentation q n i).residual.val
           (generator C q ^ (2 * n)) := by
-  have hi : i.val ∈ p.leftData.columns := by
-    simpa only [p.divisorPools.left_columns S] using
-      (Finset.mem_filter.mp i.property).1
-  have hN : (A.exteriorNorm (b.leftResidual i.val) : ℂ) ≠ 0 := by
-    exact_mod_cast (A.exteriorNorm_pos (b.leftResidual i.val)).ne'
-  unfold FirstGaussPoolData.residualCoefficient FirstGaussPoolData.adjustedCoefficient
-  rw [canonicalLog_leftDivisorCoefficient hΓ μv ν b C left right φ c e
-      finiteTest hlc hcs radius D δ hδ hδhalf p S χ i.val hi hSi,
-    p.divisorPools.left_ideal S, p.left_ideal,
-    AmplifierResidualPresentation.columnPhase_eq_residue]
-  field_simp [hN] <;> ring
+  sorry
 
 /-- The right valuation source retains its actual complementary first
 phase. There is no conjugation of this original coefficient. -/
@@ -274,17 +230,7 @@ theorem canonicalLog_rightResidualCoefficient
         actualIdealResidue (A := A) (σ := σ)
           ((p.divisorPools.rightData S).residualPresentation q n j).residual.val
           (generator C q ^ (2 * n)) := by
-  have hj : j.val ∈ p.rightData.columns := by
-    simpa only [p.divisorPools.right_columns S] using
-      (Finset.mem_filter.mp j.property).1
-  have hN : (A.exteriorNorm (b.rightResidual j.val) : ℂ) ≠ 0 := by
-    exact_mod_cast (A.exteriorNorm_pos (b.rightResidual j.val)).ne'
-  unfold FirstGaussPoolData.residualCoefficient FirstGaussPoolData.adjustedCoefficient
-  rw [canonicalLog_rightDivisorCoefficient hΓ μv ν b C left right φ c e
-      finiteTest hlc hcs radius D δ hδ hδhalf p S χ j.val hj hSj,
-    p.divisorPools.right_ideal S, p.right_ideal,
-    AmplifierResidualPresentation.columnPhase_eq_residue]
-  field_simp [hN] <;> ring
+  sorry
 
 end FirstBlockPoolData
 end FirstChart

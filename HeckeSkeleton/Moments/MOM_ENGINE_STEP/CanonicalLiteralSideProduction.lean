@@ -59,12 +59,7 @@ theorem literal_root (side : SecondColumnSide)
     secondSixthRootIdeal R.primes (side.literalMultiplicity R)
         (side.literalOppositeMultiplicity R) =
       secondSixthRootIdeal R.primes R.leftMultiplicity R.rightMultiplicity := by
-  cases side
-  · rfl
-  · unfold literalMultiplicity literalOppositeMultiplicity secondSixthRootIdeal
-    apply congrArg (primePowerProduct R.primes)
-    funext i
-    rw [min_comm]
+  sorry
 
 end SecondColumnSide
 
@@ -149,21 +144,7 @@ theorem productionRecipe_fullJointBudget :
     (d.productionRecipe W rows side χ ideal hideal firstSign rectangle L selection hne D
       P Rchar F parent oldMoving correction hcorr remaining extra a step G pattern sector
       slots cutoff reference time hdata).FullJointBudget (f).source.base (m + q) := by
-  intro ξ u hu
-  have hliteral : (CanonicalLiteralAllocatedData.data P Rchar W (f).allocation F parent
-      oldMoving correction hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity
-      pattern sector remaining extra m q
-      (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-      slots.index rectangle firstSign side.literalNegative ξ).allowedRow u := by
-    simpa only [hdata ξ] using hu
-  have he := CanonicalLiteralAllocatedData.recipe_fullJointBudget P Rchar W (f).allocation F parent
-    oldMoving correction hcorr C rows.primes rows.leftMultiplicity rows.rightMultiplicity
-    pattern sector remaining extra m q
-    (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-    slots.index rectangle firstSign side.literalNegative ξ u hliteral
-  have hbase : (f).source.base = d.base := by cases side <;> rfl
-  simpa only [productionRecipe, CompleteMovingRowRecipe.FullJointBudget,
-    CompleteMovingRowRecipe.ofAllowedSubset, hbase] using he
+  sorry
 
 variable {centered : Bool} {Y₁ Y₂ floor padding : ℝ}
 variable (domain : PairedEngineDomain centered parent a

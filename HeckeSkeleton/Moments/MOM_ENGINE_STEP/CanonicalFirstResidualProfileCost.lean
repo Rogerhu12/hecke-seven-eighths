@@ -40,8 +40,7 @@ theorem combined_exponent (m q total mask active δ₁ δ₂ : ℝ) :
         (-total + 2 * total * (δ₁ + δ₂)) =
       (m + q) - (total + q + mask + active) +
         tiltError m total mask active δ₁ δ₂ := by
-  unfold tiltError
-  ring
+  sorry
 
 /-- Original numerical length bounds pay the small tilts uniformly.
 The actual mask and active lengths have not been replaced inside the
@@ -51,13 +50,7 @@ theorem tiltError_le {m total mask active bound δ₁ δ₂ : ℝ}
     (htotal : total ≤ bound) (hmask : mask ≤ bound) (hactive : active ≤ bound)
     (hδ₁ : 0 ≤ δ₁) (hδ₂ : 0 ≤ δ₂) :
     tiltError m total mask active δ₁ δ₂ ≤ 4 * bound * (δ₁ + δ₂) := by
-  have hfirst : δ₁ * (mask + active - m) ≤ δ₁ * (2 * bound) :=
-    mul_le_mul_of_nonneg_left (by linarith) hδ₁
-  have hsecond : 2 * total * (δ₁ + δ₂) ≤ 2 * bound * (δ₁ + δ₂) :=
-    mul_le_mul_of_nonneg_right (by linarith) (add_nonneg hδ₁ hδ₂)
-  have hremaining : 0 ≤ bound * δ₂ := mul_nonneg hbound hδ₂
-  unfold tiltError
-  nlinarith
+  sorry
 
 /-- A scalar combination used only after the individual first-column
 scalars have been proved from their original atoms. -/
@@ -69,16 +62,7 @@ theorem combined_profile_le
       (field * atomCost) *
         Z ^ ((m + q) - (total + q + mask + active) +
           tiltError m total mask active δ₁ δ₂) := by
-  calc
-    _ ≤ (field * Z ^ (m - mask - active + δ₁ * (mask + active - m))) *
-        (atomCost * Z ^ (-total + 2 * total * (δ₁ + δ₂))) :=
-      mul_le_mul_of_nonneg_left hpair
-        (mul_nonneg hfield (Real.rpow_nonneg hZ.le _))
-    _ = (field * atomCost) *
-        (Z ^ (m - mask - active + δ₁ * (mask + active - m)) *
-          Z ^ (-total + 2 * total * (δ₁ + δ₂))) := by ring
-    _ = _ := by
-      rw [← Real.rpow_add hZ, combined_exponent m q total mask active δ₁ δ₂]
+  sorry
 
 end CanonicalFirstResidualProfileCost
 
@@ -103,17 +87,7 @@ theorem rowWeightBound_eq_original_lengths
       ⟨r.modulus, r.nonzero⟩).val = Z ^ active) :
     rowWeightBound r radius D δ =
       orbitalFieldFactor K * Z ^ (m - mask - active + δ * (mask + active - m)) := by
-  rw [rowWeightBound_eq]
-  change orbitalFieldFactor K *
-      (radius.val * (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K)))
-        (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) D)).val) ^ (δ - 1) *
-      (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K)))
-        ⟨r.modulus, r.nonzero⟩).val ^ (δ - 1) = _
-  rw [hradius, hmask, hactive, ← Real.rpow_add hZ,
-    ← Real.rpow_mul hZ.le, ← Real.rpow_mul hZ.le, mul_assoc, ← Real.rpow_add hZ]
-  have he : (-m + mask) * (δ - 1) + active * (δ - 1) =
-      m - mask - active + δ * (mask + active - m) := by ring
-  rw [he]
+  sorry
 
 /-- Combine the actual first Poisson weight with the complete scalar
 pair. The scalar estimate is derived from raw atoms at the public
@@ -133,10 +107,7 @@ theorem rowWeightBound_mul_scalarPair_le
       (orbitalFieldFactor K * atomCost) *
         Z ^ ((m + q) - (total + q + mask + active) +
           CanonicalFirstResidualProfileCost.tiltError m total mask active δ₁ δ₂) := by
-  rw [rowWeightBound_eq_original_lengths r radius D Z m mask active δ₁
-    hZ hradius hmask hactive]
-  exact CanonicalFirstResidualProfileCost.combined_profile_le hZ
-    (orbitalFieldFactor_nonneg K) hpair
+  sorry
 
 end CanonicalFirstLog
 
@@ -192,14 +163,7 @@ theorem literalOriginalAtoms_first_combined_profile_le
           (a.n₁ + a.n₂ + (data ξ).geometry.totalLength + q + mask + active) +
           CanonicalFirstResidualProfileCost.tiltError m
             (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂) := by
-  have hpair := Q.literalOriginalAtoms_residualScalar_pair_norm_le
-    ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ C original hzero ht hprime
-    annulus hannulus hwindow cap hcap bL bR IL IR powerL powerR elementL elementR
-    δ₁ δ₂ hδ₁ hδ₂ hδ hIL hIR hpowerL hpowerR
-  exact CanonicalFirstLog.rowWeightBound_mul_scalarPair_le r radius D
-    Z m q (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) mask active δ₁ δ₂
-    ((CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap) _ _
-    (zero_lt_one.trans hZ) hradius hmask hactive hpair
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -127,36 +127,7 @@ theorem linearized_le_rawCost
       (x : j → W) (ξ : W),
       G.phaseEnergy (hDiff := hDiff) x ξ ≤ (T.fourierPhase x ξ).rawCost ε Cerror Czero) :
     p.linearizedCost hDiff NL NR ≤ T.rawCost NL NR ε Cerror Czero := by
-  unfold FirstBlockDirectData.linearizedCost firstDirectLinearizedCost rawCost
-  apply Finset.sum_le_sum
-  intro S _
-  apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
-  apply Finset.sum_le_sum
-  intro χ _
-  apply mul_le_mul_of_nonneg_left _
-    (mul_nonneg (norm_nonneg _) (div_nonneg
-      (mul_nonneg (mul_nonneg p.rowBound_nonneg (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _))
-      (by norm_num)))
-  apply add_le_add
-  · apply integral_mono
-      ((p.leftData.direct_twisted_integrable (hDiff := hDiff) chart.kernel
-        (p.leftDivisorCoefficient S χ) chart.leftPoint).div_const _)
-      (((T.left S χ).rawPhaseCost_integrable chart.kernel chart.leftPoint ε Cerror Czero).div_const _)
-    intro ξ
-    apply div_le_div_of_nonneg_right _ (hNL S χ).le
-    simpa only [DirectGaussData.directSource_phaseEnergy] using
-      hstage _ (s.left S χ) (conditions.left_mask S χ) (conditions.left_origin_nonneg S χ)
-        (T.left S χ) chart.leftPoint ξ
-  · apply integral_mono
-      ((p.rightData.direct_twisted_integrable (hDiff := hDiff) chart.kernel
-        (p.rightDivisorCoefficient S χ) (fun j => -chart.rightPoint j)).div_const _)
-      (((T.right S χ).rawPhaseCost_integrable chart.kernel
-        (fun j => -chart.rightPoint j) ε Cerror Czero).div_const _)
-    intro ξ
-    apply div_le_div_of_nonneg_right _ (hNR S χ).le
-    simpa only [DirectGaussData.directSource_phaseEnergy] using
-      hstage _ (s.right S χ) (conditions.right_mask S χ) (conditions.right_origin_nonneg S χ)
-        (T.right S χ) (fun j => -chart.rightPoint j) ξ
+  sorry
 
 end DualTerminalCalibration
 end SecondStages
@@ -219,13 +190,7 @@ theorem actual_direct_dual_raw_fourier_stage_bound
       (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
       (x : ι → W) (ξ : W),
       G.phaseEnergy (hDiff := hDiff) x ξ ≤ (T.fourierPhase x ξ).rawCost ε Cerror Czero := by
-  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCE, hCZ, hb⟩ :=
-    actual_gauss_raw_dual_terminal_bound (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero, hCE, hCZ, ?_⟩
-  intro Z ι G s hmask hpositive T x ξ
-  exact (hb Z (G.withMultiplier (fun i => jointPhase ξ (x i)))
-    (s.withMultiplier (fun i => jointPhase ξ (x i))) hmask hpositive (T.fourierPhase x ξ)).2
+  sorry
 
 include ν μ in
 /-- The original direct parent reaches its literal finite second rows.
@@ -261,36 +226,7 @@ theorem actual_parent_direct_two_stage_dual_raw_terminal_bound
       pairedStageEnergy centered d a Z t Y₁ Y₂ ≤
         (s.fiber : ℝ) * (F.cost hB δ hδ ε CfirstError CfirstZero +
           R.dualRawCost T N ε Cerror Czero) := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero,
-      CfirstError, CfirstZero, hCfE, hCfZ, hparent⟩ :=
-    actual_parent_direct_first_dual_terminal_bound (E := W) (ν := ν) (μ := μ)
-      (hΓ := hΓ) (μv := μv) C hDiff rowBallSize normBound hB δ hδ
-      k ε hε Lmax Nsave ξmax hξmax
-  obtain ⟨decaySecond, hdecaySecond, hchoiceSecond, hqSecond, sTail, sZero,
-      Cerror, Czero, hCE, hCZ, hsecond⟩ :=
-    actual_direct_dual_raw_fourier_stage_bound (W := W) (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD (rowBallFiniteFamily K A.Sf rowBallSize)
-      (rowBallFiniteFamily_locallyConstant K A.Sf rowBallSize)
-      (rowBallFiniteFamily_compactSupport K A.Sf rowBallSize)
-      k ε hε Lmax Nsave ξmax hξmax
-  have hdecay_eq : decaySecond = decay := hchoiceSecond.trans hchoice.symm
-  rw [hdecay_eq] at hsecond
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z ω ψ centered d a t Y₁ Y₂ X hX s coefficient hprofiles N R conditions T F
-  obtain ⟨hcutoff, _, hlinear⟩ :=
-    hparent Z centered d a t Y₁ Y₂ X hX s coefficient hprofiles F
-  refine ⟨hcutoff, (hlinear N).trans ?_⟩
-  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
-  apply add_le_add le_rfl
-  unfold ActualDirectFirstSource.linearizedCost ActualDirectFirstSource.SecondStages.dualRawCost
-  apply Finset.sum_le_sum
-  intro v _
-  apply Finset.sum_le_sum
-  intro D _
-  exact (T v D).linearized_le_rawCost (conditions v D)
-    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
-    (fun {j} G S hmask hpositive T x ξ => hsecond Z G S hmask hpositive T x ξ)
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

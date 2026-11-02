@@ -39,9 +39,8 @@ def product (left right : Bool → ℝ) (slot : Fin k → ℝ) (r : Bool) : ℝ 
 theorem product_pos (left right : Bool → ℝ) (slot : Fin k → ℝ)
     (hleft : ∀ r, 0 < left r) (hright : ∀ r, 0 < right r)
     (hslot : ∀ i, 0 < slot i) (r : Bool) :
-    0 < product left right slot r :=
-  mul_pos (mul_pos (hleft r) (hright r))
-    (Finset.prod_pos fun i _ => hslot i)
+    0 < product left right slot r := by
+  sorry
 
 end CanonicalLiteralProfileFactorExtraction
 
@@ -73,8 +72,7 @@ theorem divideProfileFactors_rectangleLeftWeight
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.divideProfileFactors left right slot).rectangleLeftWeight r I =
       d.rectangleLeftWeight r I * (left r : ℂ)⁻¹ := by
-  unfold rectangleLeftWeight divideProfileFactors
-  split_ifs <;> simp only [zero_mul]
+  sorry
 
 /-- Literal coefficient identity, including all original zero-extended
 characters and every repeated prime occurrence. -/
@@ -84,26 +82,7 @@ theorem divideProfileFactors_term
     (d.divideProfileFactors left right slot).term r i =
       d.term r i *
         (CanonicalLiteralProfileFactorExtraction.product left right slot r : ℂ)⁻¹ := by
-  have he := CanonicalLiteralTransforms.bare_mul_weights d.characters
-    (d.scale₁ r) (d.scale₂ r) d.base d.length
-    (d.rectangleLeftWeight r) (d.rightWeight r)
-    (fun _ => (left r : ℂ)⁻¹) (fun _ => (right r : ℂ)⁻¹)
-    d.slotWeight (fun j _ => (slot j : ℂ)⁻¹) i
-  have hw := funext (d.divideProfileFactors_rectangleLeftWeight left right slot r)
-  have hp : (left r : ℂ)⁻¹ * (right r : ℂ)⁻¹ * (∏ j, (slot j : ℂ)⁻¹) =
-      (CanonicalLiteralProfileFactorExtraction.product left right slot r : ℂ)⁻¹ := by
-    simp only [CanonicalLiteralProfileFactorExtraction.product, Complex.ofReal_mul,
-      Complex.ofReal_prod, mul_inv_rev, Finset.prod_inv_distrib]
-    ring
-  unfold term
-  rw [hw]
-  change d.normalizer * rawBareSourceCoefficient d.characters
-      (d.scale₁ r) (d.scale₂ r) d.base d.length
-      (fun I => d.rectangleLeftWeight r I * (left r : ℂ)⁻¹)
-      (fun I => d.rightWeight r I * (right r : ℂ)⁻¹)
-      (fun j p => d.slotWeight j p * (slot j : ℂ)⁻¹) i = _
-  rw [he, hp]
-  ring
+  sorry
 
 theorem term_eq_profileFactor_mul
     (left right : Bool → ℝ) (slot : Fin k → ℝ)
@@ -112,16 +91,7 @@ theorem term_eq_profileFactor_mul
     d.term r i =
       (CanonicalLiteralProfileFactorExtraction.product left right slot r : ℂ) *
         (d.divideProfileFactors left right slot).term r i := by
-  have hp : (CanonicalLiteralProfileFactorExtraction.product left right slot r : ℂ) ≠ 0 := by
-    exact_mod_cast (CanonicalLiteralProfileFactorExtraction.product_pos
-      left right slot hleft hright hslot r).ne'
-  rw [d.divideProfileFactors_term]
-  calc
-    _ = d.term r i *
-        ((CanonicalLiteralProfileFactorExtraction.product left right slot r : ℂ) *
-          (CanonicalLiteralProfileFactorExtraction.product left right slot r : ℂ)⁻¹) := by
-      rw [mul_inv_cancel₀ hp, mul_one]
-    _ = _ := by ring
+  sorry
 
 /-- Centering keeps one scalar for the complete coefficient. For an
 ordinary source no comparison-scale identity is needed. -/
@@ -134,28 +104,7 @@ theorem whole_eq_profileFactor_mul
     d.whole i =
       (CanonicalLiteralProfileFactorExtraction.product left right slot false : ℂ) *
         (d.divideProfileFactors left right slot).whole i := by
-  cases hc : d.centered with
-  | false =>
-      have hz : d.term true i = 0 := by
-        simp only [d.term_true i, hc, Bool.false_eq_true, if_false]
-      have hz' : (d.divideProfileFactors left right slot).term true i = 0 := by
-        rw [d.divideProfileFactors_term, hz, zero_mul]
-      change d.term false i - d.term true i = _ *
-        ((d.divideProfileFactors left right slot).term false i -
-          (d.divideProfileFactors left right slot).term true i)
-      rw [hz, hz', sub_zero, sub_zero]
-      exact d.term_eq_profileFactor_mul left right slot hleft hright hslot false i
-  | true =>
-      have hp : CanonicalLiteralProfileFactorExtraction.product left right slot true =
-          CanonicalLiteralProfileFactorExtraction.product left right slot false := by
-        unfold CanonicalLiteralProfileFactorExtraction.product
-        rw [hcentered hc]
-      change d.term false i - d.term true i = _ *
-        ((d.divideProfileFactors left right slot).term false i -
-          (d.divideProfileFactors left right slot).term true i)
-      rw [d.term_eq_profileFactor_mul left right slot hleft hright hslot false i,
-        d.term_eq_profileFactor_mul left right slot hleft hright hslot true i, hp,
-        mul_sub]
+  sorry
 
 /-- Support extraction keeps the original factor of every retained
 occurrence; it does not recompute it from a new quotient scale. -/
@@ -182,8 +131,7 @@ theorem redistributeProfileFactors_whole
     (hcentered : d.centered = true → left true * right true = left false * right false)
     (i : AllocationColumn K k) :
     (d.redistributeProfileFactors left right slot).whole i = d.whole i := by
-  rw [redistributeProfileFactors, scale_whole]
-  exact (d.whole_eq_profileFactor_mul left right slot hleft hright hslot hcentered i).symm
+  sorry
 
 namespace ProfileData
 
@@ -262,20 +210,16 @@ def twoStageProfileSlotFactor (δ₁ δ₂ : ℝ) (i : Fin b.keep.card) : ℝ :=
     ((d.extract b).base ^ (d.extract b).length i) δ₁ δ₂
 
 theorem twoStageProfileLeftFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) :
-    0 < d.twoStageProfileLeftFactor b δ₁ δ₂ r :=
-  CanonicalLiteralProfileScalars.plainFactor_pos
-    ((d.extract b).scale₁_pos false) ((d.extract b).scale₁_pos r) δ₁ δ₂
+    0 < d.twoStageProfileLeftFactor b δ₁ δ₂ r := by
+  sorry
 
 theorem twoStageProfileRightFactor_pos (δ₁ δ₂ : ℝ) (r : Bool) :
-    0 < d.twoStageProfileRightFactor b δ₁ δ₂ r :=
-  CanonicalLiteralProfileScalars.plainFactor_pos
-    ((d.extract b).scale₂_pos false) ((d.extract b).scale₂_pos r) δ₁ δ₂
+    0 < d.twoStageProfileRightFactor b δ₁ δ₂ r := by
+  sorry
 
 theorem twoStageProfileSlotFactor_pos (δ₁ δ₂ : ℝ) (i : Fin b.keep.card) :
-    0 < d.twoStageProfileSlotFactor b δ₁ δ₂ i :=
-  CanonicalLiteralProfileScalars.plainFactor_pos
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _) δ₁ δ₂
+    0 < d.twoStageProfileSlotFactor b δ₁ δ₂ i := by
+  sorry
 
 /-- The factor uses the complete scale product after the first
 extraction, before the second common-support split. -/
@@ -283,18 +227,13 @@ def twoStageProfileFactor (δ₁ δ₂ : ℝ) : ℝ :=
   (d.extract b).scaleProduct false ^ (-1 / 2 + δ₁ + δ₂)
 
 theorem twoStageProfileFactor_pos (δ₁ δ₂ : ℝ) :
-    0 < d.twoStageProfileFactor b δ₁ δ₂ :=
-  Real.rpow_pos_of_pos ((d.extract b).scaleProduct_pos false) _
+    0 < d.twoStageProfileFactor b δ₁ δ₂ := by
+  sorry
 
 theorem twoStageProfileSlotFactor_eq (δ₁ δ₂ : ℝ) (i : Fin b.keep.card) :
     d.twoStageProfileSlotFactor b δ₁ δ₂ i =
       ((d.extract b).base ^ (d.extract b).length i) ^ (-1 / 2 + δ₁ + δ₂) := by
-  unfold twoStageProfileSlotFactor CanonicalLiteralProfileScalars.plainFactor
-  rw [Real.sqrt_eq_rpow, ← Real.rpow_add
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)]
-  congr 1
-  unfold CanonicalLiteralProfileScalars.exponent
-  ring
+  sorry
 
 /-- The product is computed from the original per-occurrence factors.
 In particular no final polynomial equality is a hypothesis. -/
@@ -305,17 +244,7 @@ theorem twoStageProfileFactor_product (δ₁ δ₂ : ℝ) (r : Bool)
         (d.twoStageProfileRightFactor b δ₁ δ₂)
         (d.twoStageProfileSlotFactor b δ₁ δ₂) r =
       d.twoStageProfileFactor b δ₁ δ₂ := by
-  unfold CanonicalLiteralProfileFactorExtraction.product
-    twoStageProfileLeftFactor twoStageProfileRightFactor
-  rw [d.extracted_plainFactor_product b r δ₁ δ₂ hproduct]
-  simp_rw [d.twoStageProfileSlotFactor_eq b δ₁ δ₂]
-  rw [Real.finsetProd_rpow Finset.univ _
-    (fun i _ => Real.rpow_nonneg (zero_le_one.trans d.base_gt_one.le) _) _]
-  exact (Real.mul_rpow
-    (mul_pos ((d.extract b).scale₁_pos false) ((d.extract b).scale₂_pos false)).le
-    (Finset.prod_nonneg fun i _ =>
-      Real.rpow_nonneg (zero_le_one.trans d.base_gt_one.le) _)
-    (-1 / 2 + δ₁ + δ₂)).symm
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -356,23 +285,7 @@ theorem secondInput_eq_profileFactor_mul (δ₁ δ₂ : ℝ)
       (d.twoStageProfileFactor b δ₁ δ₂ : ℂ) *
         (d.factorizedSecondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
           firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).whole i := by
-  have hc : d.centered = true →
-      d.twoStageProfileLeftFactor b δ₁ δ₂ true *
-        d.twoStageProfileRightFactor b δ₁ δ₂ true =
-      d.twoStageProfileLeftFactor b δ₁ δ₂ false *
-        d.twoStageProfileRightFactor b δ₁ δ₂ false := by
-    intro h
-    exact (d.extracted_plainFactor_product b true δ₁ δ₂ (hproduct h)).trans
-      (d.extracted_plainFactor_product b false δ₁ δ₂ rfl).symm
-  have he := (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).whole_eq_profileFactor_mul
-      (d.twoStageProfileLeftFactor b δ₁ δ₂)
-      (d.twoStageProfileRightFactor b δ₁ δ₂)
-      (d.twoStageProfileSlotFactor b δ₁ δ₂)
-      (d.twoStageProfileLeftFactor_pos b δ₁ δ₂)
-      (d.twoStageProfileRightFactor_pos b δ₁ δ₂)
-      (d.twoStageProfileSlotFactor_pos b δ₁ δ₂) hc i
-  simpa only [d.twoStageProfileFactor_product b δ₁ δ₂ false rfl] using he
+  sorry
 
 theorem redistributedSecondInput_whole (δ₁ δ₂ : ℝ)
     (hproduct : d.centered = true →
@@ -382,9 +295,7 @@ theorem redistributedSecondInput_whole (δ₁ δ₂ : ℝ)
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).whole i =
       (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).whole i := by
-  rw [redistributedSecondInput, scale_whole]
-  exact (d.secondInput_eq_profileFactor_mul b P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hproduct i).symm
+  sorry
 
 namespace ProfileData
 

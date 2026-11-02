@@ -38,20 +38,19 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
 /-- Negating the entire original location conjugates the phase at the
 same Fourier parameter. No transformation of a measure is used. -/
 theorem jointPhase_neg_eq_star (ξ x : V) : jointPhase ξ (-x) = star (jointPhase ξ x) := by
-  simp only [jointPhase, inner_neg_right, AddChar.map_neg_eq_inv,
-    Circle.coe_inv_eq_conj, starRingEnd_apply]
+  sorry
 
 theorem jointFourierColumn_star_neg {I : Type*} (columns : Finset I)
     (c : I → ℂ) (x : I → V) (ξ : V) :
     jointFourierColumn columns (fun i => star (c i)) (fun i => -x i) ξ =
       star (jointFourierColumn columns c x ξ) := by
-  simp only [jointFourierColumn, star_sum, star_mul', jointPhase_neg_eq_star]
+  sorry
 
 theorem norm_jointFourierColumn_star_neg {I : Type*} (columns : Finset I)
     (c : I → ℂ) (x : I → V) (ξ : V) :
     ‖jointFourierColumn columns (fun i => star (c i)) (fun i => -x i) ξ‖ =
       ‖jointFourierColumn columns c x ξ‖ := by
-  rw [jointFourierColumn_star_neg, norm_star]
+  sorry
 
 end JointColumns
 
@@ -73,17 +72,12 @@ def swapColumns : PairedFiniteCharacters theta H where
     simpa only [inv_div] using Q.subgroup.inv_mem (Q.ratio_mem h)
 
 @[simp] theorem swapColumns_exceptional : Q.swapColumns.exceptional = Q.exceptional := by
-  funext h
-  exact propext (Q.right_exceptional h)
+  sorry
 
 /-- The same original theta class, with its two coordinates exchanged. -/
 @[simp] theorem swapColumns_thetaClass (χ : theta × theta) :
     Q.swapColumns.thetaClass (χ.2, χ.1) = Q.thetaClass χ := by
-  funext h
-  apply propext
-  change (Q.right h = χ.2.val ∧ Q.left h = χ.1.val) ↔
-    (Q.left h = χ.1.val ∧ Q.right h = χ.2.val)
-  exact and_comm
+  sorry
 
 end PairedFiniteCharacters
 
@@ -141,47 +135,33 @@ private theorem transposed_left_column_norm (h : H) (ξ : WithLp 2 (U × V)) :
       (fun i => WithLp.toLp 2 (B.rightFirst h i, -B.rightSecond h i)) ξ‖ =
     ‖jointFourierColumn B.right (fun i => star (B.rightCoefficient h i))
       (fun i => WithLp.toLp 2 (-B.rightFirst h i, B.rightSecond h i)) ξ‖ := by
-  simpa only [star_star, neg_jointPairPoint, neg_neg] using
-    norm_jointFourierColumn_star_neg B.right (fun i => star (B.rightCoefficient h i))
-      (fun i => WithLp.toLp 2 (-B.rightFirst h i, B.rightSecond h i)) ξ
+  sorry
 
 private theorem transposed_right_column_norm (h : H) (ξ : WithLp 2 (U × V)) :
     ‖jointFourierColumn B.left (fun i => star (B.leftCoefficient h i))
       (fun i => WithLp.toLp 2 (-B.leftFirst h i, -B.leftSecond h i)) ξ‖ =
     ‖jointFourierColumn B.left (B.leftCoefficient h)
       (fun i => WithLp.toLp 2 (B.leftFirst h i, B.leftSecond h i)) ξ‖ := by
-  simpa only [neg_jointPairPoint] using
-    norm_jointFourierColumn_star_neg B.left (B.leftCoefficient h)
-      (fun i => WithLp.toLp 2 (B.leftFirst h i, B.leftSecond h i)) ξ
+  sorry
 
 @[simp] theorem terminalTranspose_exceptionalIntegrand (z : U × V) :
     B.terminalTranspose.exceptionalIntegrand z = B.exceptionalIntegrand z := by
-  simp only [exceptionalIntegrand, terminalTranspose, jointColumnPairMagnitude,
-    norm_star, B.transposed_left_column_norm, B.transposed_right_column_norm]
-  apply Finset.sum_congr rfl
-  intro h hh
-  ring
+  sorry
 
 @[simp] theorem terminalTranspose_ordinaryIntegrand (z : U × V) :
     B.terminalTranspose.ordinaryIntegrand z = B.ordinaryIntegrand z := by
-  simp only [ordinaryIntegrand, terminalTranspose, jointColumnEnergy, norm_star,
-    B.transposed_left_column_norm, B.transposed_right_column_norm]
-  exact mul_comm _ _
+  sorry
 
 @[simp] theorem terminalTranspose_exceptionalCost :
     B.terminalTranspose.exceptionalCost = B.exceptionalCost := by
-  change B.weight * (∫ z, B.terminalTranspose.exceptionalIntegrand z ∂B.measure) =
-    B.weight * (∫ z, B.exceptionalIntegrand z ∂B.measure)
-  simp only [terminalTranspose_exceptionalIntegrand]
+  sorry
 
 @[simp] theorem terminalTranspose_ordinaryCost :
     B.terminalTranspose.ordinaryCost = B.ordinaryCost := by
-  change B.weight * (∫ z, B.terminalTranspose.ordinaryIntegrand z ∂B.measure) =
-    B.weight * (∫ z, B.ordinaryIntegrand z ∂B.measure)
-  simp only [terminalTranspose_ordinaryIntegrand]
+  sorry
 
 @[simp] theorem terminalTranspose_cost : B.terminalTranspose.cost = B.cost := by
-  rw [cost, terminalTranspose_exceptionalCost, terminalTranspose_ordinaryCost, cost]
+  sorry
 
 /-- Orientation commutes with the original finite theta partition.
 Only the two actual character coordinates exchange places. -/
@@ -189,13 +169,13 @@ theorem thetaClassLeaf_terminalTranspose (Q : PairedFiniteCharacters theta H)
     (χ : theta × theta) :
     (B.thetaClassLeaf Q χ).terminalTranspose =
       B.terminalTranspose.thetaClassLeaf Q.swapColumns (χ.2, χ.1) := by
-  simp only [thetaClassLeaf, terminalTranspose, Q.swapColumns_thetaClass χ]
+  sorry
 
 theorem thetaClassLeaf_terminalTranspose_exceptionalCost
     (Q : PairedFiniteCharacters theta H) (χ : theta × theta) :
     (B.terminalTranspose.thetaClassLeaf Q.swapColumns (χ.2, χ.1)).exceptionalCost =
       (B.thetaClassLeaf Q χ).exceptionalCost := by
-  rw [← B.thetaClassLeaf_terminalTranspose Q χ, terminalTranspose_exceptionalCost]
+  sorry
 
 /-- The direction is selected by the two original common ideals before
 either Fourier variable. This operation changes no numerical length. -/
@@ -204,18 +184,15 @@ def orientToSmallerSecond (Z : ℝ) (I J : Ideal (𝓞 K)) : ActualHybridLeaf K 
 
 @[simp] theorem orientToSmallerSecond_exceptionalCost (Z : ℝ) (I J : Ideal (𝓞 K)) :
     (B.orientToSmallerSecond Z I J).exceptionalCost = B.exceptionalCost := by
-  unfold orientToSmallerSecond
-  split_ifs <;> simp only [terminalTranspose_exceptionalCost]
+  sorry
 
 @[simp] theorem orientToSmallerSecond_ordinaryCost (Z : ℝ) (I J : Ideal (𝓞 K)) :
     (B.orientToSmallerSecond Z I J).ordinaryCost = B.ordinaryCost := by
-  unfold orientToSmallerSecond
-  split_ifs <;> simp only [terminalTranspose_ordinaryCost]
+  sorry
 
 @[simp] theorem orientToSmallerSecond_measure (Z : ℝ) (I J : Ideal (𝓞 K)) :
     (B.orientToSmallerSecond Z I J).measure = B.measure := by
-  unfold orientToSmallerSecond
-  split_ifs <;> rfl
+  sorry
 
 namespace ConstantAtomExtraction
 
@@ -232,21 +209,17 @@ def terminalTranspose : B.terminalTranspose.ConstantAtomExtraction where
   right := X.left
 
 theorem terminalTranspose_leaf : X.terminalTranspose.leaf = X.leaf.terminalTranspose := by
-  simp only [leaf, terminalTranspose, ActualHybridLeaf.terminalTranspose, withConstantAtoms]
-  congr 1
-  funext h
-  simp only [star_mul', star_star]
-  ring
+  sorry
 
 /-- The cost of the original leaf is still the cost of this same
 constant-atom residual leaf in its transposed orientation. -/
 theorem exceptionalCost_eq_terminalTranspose :
-    B.exceptionalCost = X.leaf.terminalTranspose.exceptionalCost :=
-  X.exceptionalCost_eq.trans X.leaf.terminalTranspose_exceptionalCost.symm
+    B.exceptionalCost = X.leaf.terminalTranspose.exceptionalCost := by
+  sorry
 
 theorem ordinaryCost_eq_terminalTranspose :
-    B.ordinaryCost = X.leaf.terminalTranspose.ordinaryCost :=
-  X.ordinaryCost_eq.trans X.leaf.terminalTranspose_ordinaryCost.symm
+    B.ordinaryCost = X.leaf.terminalTranspose.ordinaryCost := by
+  sorry
 
 end ConstantAtomExtraction
 

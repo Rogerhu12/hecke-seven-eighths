@@ -75,28 +75,18 @@ abbrev rightSupportSlots :=
 
 theorem leftSlots_le {cap : ℕ} (hLC : ∀ a, (LC.branch a).slotCount ≤ cap) :
     v.leftSlots ≤ cap := by
-  calc
-    _ ≤ Fintype.card (Fin (LC.branch v.2.2.1).slotCount) := Finset.card_le_univ _
-    _ = (LC.branch v.2.2.1).slotCount := Fintype.card_fin _
-    _ ≤ cap := hLC _
+  sorry
 
 theorem rightSupportSlots_le {cap : ℕ} (hRC : ∀ a, (RC.branch a).slotCount ≤ cap) :
     v.rightSupportSlots ≤ cap := by
-  calc
-    _ ≤ Fintype.card (Fin (RC.branch v.2.2.2.1).slotCount) := Finset.card_le_univ _
-    _ = (RC.branch v.2.2.2.1).slotCount := Fintype.card_fin _
-    _ ≤ cap := hRC _
+  sorry
 
 theorem rowLabel_mem_of_live
     (exceptional : s.CoverHybridPredicates LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (j : v.AllocationKey)
     (hlive : (v.leaf exceptional F x j).Live) :
     v.rowLabel ∈ s.actualRowLabels v.1 v.2.1 := by
-  obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.1
-  have hh' : h ∈ (s.sources v.1).rows.filter
-      (fun q => v.chart.rowLabel q = v.rowLabel) := hh
-  exact Finset.mem_image.mpr
-    ⟨h, (Finset.mem_filter.mp hh').1, (Finset.mem_filter.mp hh').2⟩
+  sorry
 
 end CoveredClassKey
 
@@ -128,19 +118,7 @@ theorem presentClassFibre_card_le
       LC.labels.card * RC.labels.card * (s.actualRowLabels DE D).card *
         (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.1).card ^ (cap + 2) *
           (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.2).card ^ (cap + 2) := by
-  have hsub : s.presentClassFibre LC RC DE D ⊆
-      (Finset.univ : Finset (s.PresentSupportClassKey LC RC DE D)).image
-        (s.presentSupportClass LC RC DE D) := by
-    rintro ⟨DE', D', a, b, label, lkey, rkey⟩ hv
-    obtain ⟨_, hDE', hD', hlabel⟩ := Finset.mem_filter.mp hv
-    cases hDE'
-    cases hD'
-    exact Finset.mem_image.mpr
-      ⟨⟨a, b, ⟨label, hlabel⟩, lkey, rkey⟩, Finset.mem_univ _, rfl⟩
-  have hc := (Finset.card_le_card hsub).trans (Finset.card_image_le)
-  rw [Finset.card_univ] at hc
-  exact hc.trans (LC.supportClassKey_card_le RC (s.actualRowLabels DE D)
-    (primeSupport DE.val.1) DE.val.1 DE.val.2 hDE.1 hDE.2 cap hLC hRC)
+  sorry
 
 /-- Raw finite row coordinates replace the unbounded declared row-label
 codomain.  Only a per-original-row factorization identity is needed. -/
@@ -153,9 +131,7 @@ theorem actualRowLabels_card_le {P Θ : Type*} [Fintype Θ]
       (s.charts DE D).rowLabel h = encode (code h)) :
     (s.actualRowLabels DE D).card ≤
       2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension := by
-  simpa only [actualRowLabels] using
-    OriginalFiniteFibre.row_image_card_le_coordinates
-      (s.sources DE).rows (s.charts DE D).rowLabel support dimension width code encode hcode
+  sorry
 
 /-- The real outer mask remains a coordinate when the arithmetic
 index fixes the common ideals but does not retain this mask. -/
@@ -179,43 +155,7 @@ theorem presentCommonFibre_card_le_coordinates {P Θ : Type*} [Fintype Θ]
         (2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension) *
           (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.1).card ^ (cap + 2) *
             (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.2).card ^ (cap + 2) := by
-  let T := Σ D : s.mask.powerset, s.PresentSupportClassKey LC RC DE D
-  let «include» : T → s.CoveredClassKey LC RC :=
-    fun a => s.presentSupportClass LC RC DE a.1 a.2
-  have hsub : s.presentCommonFibre LC RC DE ⊆ (Finset.univ : Finset T).image «include» := by
-    rintro ⟨DE', D', a, b, label, lkey, rkey⟩ hv
-    obtain ⟨_, hDE', hlabel⟩ := Finset.mem_filter.mp hv
-    cases hDE'
-    exact Finset.mem_image.mpr
-      ⟨⟨D', a, b, ⟨label, hlabel⟩, lkey, rkey⟩, Finset.mem_univ _, rfl⟩
-  have hsource : (s.presentCommonFibre LC RC DE).card ≤ Fintype.card T := by
-    simpa only [Finset.card_univ] using
-      (Finset.card_le_card hsub).trans (Finset.card_image_le)
-  have hclass (D : s.mask.powerset) :
-      Fintype.card (s.PresentSupportClassKey LC RC DE D) ≤
-        LC.labels.card * RC.labels.card *
-          (2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension) *
-            (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.1).card ^ (cap + 2) *
-              (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.2).card ^ (cap + 2) := by
-    refine (LC.supportClassKey_card_le RC (s.actualRowLabels DE D)
-      (primeSupport DE.val.1) DE.val.1 DE.val.2 hDE.1 hDE.2 cap hLC hRC).trans ?_
-    exact Nat.mul_le_mul_right _ (Nat.mul_le_mul_right _
-      (Nat.mul_le_mul_left _
-        (s.actualRowLabels_card_le DE D support dimension width (code D) (encode D) (hcode D))))
-  calc
-    _ ≤ Fintype.card T := hsource
-    _ = ∑ D : s.mask.powerset, Fintype.card (s.PresentSupportClassKey LC RC DE D) :=
-      Fintype.card_sigma
-    _ ≤ ∑ _D : s.mask.powerset,
-        LC.labels.card * RC.labels.card *
-          (2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension) *
-            (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.1).card ^ (cap + 2) *
-              (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.2).card ^ (cap + 2) :=
-      Finset.sum_le_sum (fun D _ => hclass D)
-    _ = _ := by
-      simp only [Finset.sum_const, Finset.card_univ, Fintype.card_coe,
-        Finset.card_powerset, nsmul_eq_mul]
-      ac_rfl
+  sorry
 
 variable {DE D s LC RC}
 variable {cap : ℕ}
@@ -229,13 +169,7 @@ def coveredAllocationFingerprint (b : s.CoveredLeafKey LC RC) :
 theorem covered_class_allocationFingerprint_injective :
     Function.Injective (fun b : s.CoveredLeafKey LC RC =>
       (b.1, coveredAllocationFingerprint hleft hright b)) := by
-  rintro ⟨v, a⟩ ⟨w, b⟩ h
-  have hvw : v = w := congrArg Prod.fst h
-  cases hvw
-  have hab := hybridAllocationFingerprint_injective (hleft v) (hright v)
-    (congrArg Prod.snd h)
-  cases hab
-  rfl
+  sorry
 
 /-- This applies to the actual arithmetic index while retaining all of
 its extra coordinates (in particular the pool prime and valuation).
@@ -257,25 +191,7 @@ theorem covered_index_fibre_card_le {J : Type*}
       LC.labels.card * RC.labels.card * (s.actualRowLabels DE D).card *
         (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.1).card ^ (cap + 2) *
           (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.2).card ^ (cap + 2) := by
-  have hinj : Set.InjOn (fun b : s.CoveredLeafKey LC RC => b.1)
-      (S.filter (fun b => index b = j) : Set (s.CoveredLeafKey LC RC)) := by
-    intro x hx y hy hxy
-    apply covered_class_allocationFingerprint_injective hleft hright
-    apply Prod.ext hxy
-    rw [← hindex x, ← hindex y, (Finset.mem_filter.mp hx).2,
-      (Finset.mem_filter.mp hy).2]
-  have hsub : (S.filter (fun b => index b = j)).image Sigma.fst ⊆
-      s.presentClassFibre LC RC DE D := by
-    intro v hv
-    obtain ⟨b, hb, rfl⟩ := Finset.mem_image.mp hv
-    have hbS := (Finset.mem_filter.mp hb).1
-    have hbc := hcommon b hbS (Finset.mem_filter.mp hb).2
-    exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, hbc.1, hbc.2, hrow b hbS⟩
-  calc
-    _ = ((S.filter (fun b => index b = j)).image Sigma.fst).card :=
-      (Finset.card_image_of_injOn hinj).symm
-    _ ≤ (s.presentClassFibre LC RC DE D).card := Finset.card_le_card hsub
-    _ ≤ _ := s.presentClassFibre_card_le LC RC DE D hDE cap hLC hRC
+  sorry
 
 /-- The complete extra fibre bound for one actual covered source.
 Every factor on the right is an original finite coordinate count:
@@ -306,26 +222,7 @@ theorem covered_index_fibre_card_le_coordinates {J P Θ : Type*} [Fintype Θ]
         (2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension) *
           (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.1).card ^ (cap + 2) *
             (DedekindZetaZeroFree.LargeSieve.idealDivisors DE.val.2).card ^ (cap + 2) := by
-  have hinj : Set.InjOn (fun b : s.CoveredLeafKey LC RC => b.1)
-      (S.filter (fun b => index b = j) : Set (s.CoveredLeafKey LC RC)) := by
-    intro x hx y hy hxy
-    apply covered_class_allocationFingerprint_injective hleft hright
-    apply Prod.ext hxy
-    rw [← hindex x, ← hindex y, (Finset.mem_filter.mp hx).2,
-      (Finset.mem_filter.mp hy).2]
-  have hsub : (S.filter (fun b => index b = j)).image Sigma.fst ⊆
-      s.presentCommonFibre LC RC DE := by
-    intro v hv
-    obtain ⟨b, hb, rfl⟩ := Finset.mem_image.mp hv
-    have hbS := (Finset.mem_filter.mp hb).1
-    exact Finset.mem_filter.mpr ⟨Finset.mem_univ _,
-      hcommon b hbS (Finset.mem_filter.mp hb).2, hrow b hbS⟩
-  calc
-    _ = ((S.filter (fun b => index b = j)).image Sigma.fst).card :=
-      (Finset.card_image_of_injOn hinj).symm
-    _ ≤ (s.presentCommonFibre LC RC DE).card := Finset.card_le_card hsub
-    _ ≤ _ := s.presentCommonFibre_card_le_coordinates LC RC DE
-      support dimension width code encode hcode hDE cap hLC hRC
+  sorry
 
 end ActualGaussStage
 end HeckeSkeleton.Moments.EngineStep

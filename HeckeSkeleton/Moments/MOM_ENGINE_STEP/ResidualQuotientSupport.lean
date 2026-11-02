@@ -31,12 +31,7 @@ namespace CanonicalLiteralSupport
 theorem prime_avoids_iff_not_mem (p : HeightOneSpectrum (𝓞 K))
     (P : Finset (Ideal (𝓞 K))) (hP : ∀ q ∈ P, Prime q) :
     Avoids p.asIdeal P ↔ p.asIdeal ∉ P := by
-  constructor
-  · intro ha hp
-    exact p.prime.not_unit (isCoprime_self.mp (ha p.asIdeal hp))
-  · intro hp
-    have ha := residual_avoids p.asIdeal P hP
-    rwa [supportResidual_prime p.asIdeal p.prime P, if_neg hp] at ha
+  sorry
 
 end CanonicalLiteralSupport
 
@@ -52,20 +47,7 @@ theorem plainResidual_eq_quotientSupport_filter
     (hD : D ≠ 0) (hsmooth : primeSupport D ⊆ P) :
     plainResidual S P D =
       (quotientSupport D S).filter (fun I => Avoids I P) := by
-  ext I
-  constructor
-  · intro hI
-    refine Finset.mem_filter.mpr ⟨?_, ?_⟩
-    · apply (mem_quotientSupport D I hD S).mpr
-      exact (Finset.mem_filter.mp (plain_reconstruct_mem S P D I hS hI)).1
-    · obtain ⟨J, _, hJI⟩ := Finset.mem_image.mp hI
-      rw [← hJI]
-      exact residual_avoids J P hP
-  · intro hI
-    obtain ⟨hq, ha⟩ := Finset.mem_filter.mp hI
-    exact plain_residual_mem S P hP D I hD
-      (quotientSupport_nonzero D hD S hS I hq) hsmooth ha
-      ((mem_quotientSupport D I hD S).mp hq)
+  sorry
 
 /-- A retained prime occurrence is its unchanged original finite
 carrier with the same prime-avoidance filter. -/
@@ -73,8 +55,7 @@ theorem primeLive_eq_filter_avoids
     (S : Finset (HeightOneSpectrum (𝓞 K))) (P : Finset (Ideal (𝓞 K)))
     (hP : ∀ p ∈ P, Prime p) :
     primeLive S P = S.filter (fun p => Avoids p.asIdeal P) := by
-  ext p
-  simp only [primeLive, Finset.mem_filter, prime_avoids_iff_not_mem p P hP]
+  sorry
 
 end SupportCartesian
 
@@ -92,12 +73,7 @@ theorem plainResidual₁_eq_quotientSupport_filter (hP : ∀ p ∈ P, Prime p) :
     SupportCartesian.plainResidual S₁ P b.plainExtract₁ =
       (quotientSupport b.plainExtract₁ S₁).filter
         (fun I => CanonicalLiteralSupport.Avoids I P) := by
-  apply SupportCartesian.plainResidual_eq_quotientSupport_filter
-    S₁ P b.plainExtract₁ b.plain₁_nonzero hP b.plainExtract₁_ne_zero
-  have he := (Finset.mem_filter.mp
-    (Finset.mem_product.mp (Finset.mem_product.mp b.witness_mem).1).1).2
-  rw [← he, supportExtract_support]
-  exact Finset.inter_subset_right
+  sorry
 
 /-- The second quotient uses its own original extracted occurrence,
 without replacing it by an equal-norm divisor. -/
@@ -105,12 +81,7 @@ theorem plainResidual₂_eq_quotientSupport_filter (hP : ∀ p ∈ P, Prime p) :
     SupportCartesian.plainResidual S₂ P b.plainExtract₂ =
       (quotientSupport b.plainExtract₂ S₂).filter
         (fun I => CanonicalLiteralSupport.Avoids I P) := by
-  apply SupportCartesian.plainResidual_eq_quotientSupport_filter
-    S₂ P b.plainExtract₂ b.plain₂_nonzero hP b.plainExtract₂_ne_zero
-  have he := (Finset.mem_filter.mp
-    (Finset.mem_product.mp (Finset.mem_product.mp b.witness_mem).1).2).2
-  rw [← he, supportExtract_support]
-  exact Finset.inter_subset_right
+  sorry
 
 end SupportCartesianBranch
 end HeckeSkeleton.Moments.EngineStep

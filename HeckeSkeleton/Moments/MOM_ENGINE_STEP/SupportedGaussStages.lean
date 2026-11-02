@@ -64,7 +64,7 @@ def activeCommon : Finset (Ideal (𝓞 K) × Ideal (𝓞 K)) :=
     (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)
 
 theorem energy_eq_zero_of_rows_eq_empty (h : G.rows = ∅) : G.energy hDiff = 0 := by
-  simp only [energy, h, Finset.sum_empty]
+  sorry
 
 /-- The old divisor is inherited on the genuine support of the whole
 coefficient; columns on which the coefficient is zero need no condition. -/
@@ -73,25 +73,13 @@ theorem activeCommon_old_mask
     (hdiv : ∀ i ∈ G.columns, G.coefficient i ≠ 0 → S ∣ (G.ideal i).val)
     (DE : Ideal (𝓞 K) × Ideal (𝓞 K)) (hDE : DE ∈ G.activeCommon) :
     S ∣ DE.1 ∧ S ∣ DE.2 := by
-  obtain ⟨ij, hij, he⟩ := Finset.mem_image.mp hDE
-  have hi := Finset.mem_filter.mp (Finset.mem_product.mp hij).1
-  have hj := Finset.mem_filter.mp (Finset.mem_product.mp hij).2
-  have hd := actual_common_label_old_mask S (G.ideal ij.1).val (G.ideal ij.2).val
-    hS (G.ideal ij.1).property.1 (G.ideal ij.2).property.1
-    (hdiv ij.1 hi.1 hi.2) (hdiv ij.2 hj.1 hj.2)
-  simpa only [he] using hd
+  sorry
 
 theorem activeCommon_norm_le (Y : ℝ)
     (hN : ∀ i ∈ G.columns, G.coefficient i ≠ 0 → (Ideal.absNorm (G.ideal i).val : ℝ) ≤ Y)
     (DE : Ideal (𝓞 K) × Ideal (𝓞 K)) (hDE : DE ∈ G.activeCommon) :
     (Ideal.absNorm DE.1 : ℝ) ≤ Y ∧ (Ideal.absNorm DE.2 : ℝ) ≤ Y := by
-  obtain ⟨ij, hij, he⟩ := Finset.mem_image.mp hDE
-  have hi := Finset.mem_filter.mp (Finset.mem_product.mp hij).1
-  have hj := Finset.mem_filter.mp (Finset.mem_product.mp hij).2
-  have hn := actual_common_label_norm_le (G.ideal ij.1).val (G.ideal ij.2).val
-    (G.ideal ij.1).property.1 (G.ideal ij.2).property.1
-  rw [he] at hn
-  exact ⟨hn.1.trans (hN ij.1 hi.1 hi.2), hn.2.trans (hN ij.2 hj.1 hj.2)⟩
+  sorry
 
 end ActualGaussSource
 
@@ -116,17 +104,7 @@ theorem activeCommon_of_pair
       ((canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property).rightResidual j).val)
     (hci : G.coefficient i ≠ 0) (hcj : G.coefficient j ≠ 0) :
     DE.val ∈ G.activeCommon := by
-  let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property
-  have hi' := Finset.mem_filter.mp hi
-  have hj' := Finset.mem_filter.mp hj
-  apply Finset.mem_image.mpr
-  refine ⟨(i, j), Finset.mem_product.mpr
-    ⟨Finset.mem_filter.mpr ⟨hi'.1, hci⟩, Finset.mem_filter.mpr ⟨hj'.1, hcj⟩⟩, ?_⟩
-  apply (commonSupportLabel_eq_iff _ _ _ _
-    (commonSupportPool_support_eq G.columns G.columns
-      (fun i => (G.ideal i).val) (fun j => (G.ideal j).val) DE.val DE.property)).mpr
-  refine ⟨hi'.2, hj'.2, ?_⟩
-  simpa only [b.left_residual i, b.right_residual j] using hcop
+  sorry
 
 /-- The source's actual zero physical rows force zero total cost.  The
 common-label gates are justified from original coprime coefficient
@@ -163,19 +141,17 @@ def supported : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest :=
             · simpa only [gated, if_pos hcj, if_neg hactive, star_zero, mul_zero, zero_mul] using he } }
 
 @[simp] theorem supported_fiber_eq_zero (hrows : G.rows = ∅) : s.supported.fiber = 0 := by
-  simp only [supported, if_pos hrows]
+  sorry
 
 theorem supported_fiber_nonzero_rows (hne : s.supported.fiber ≠ 0) : G.rows.Nonempty := by
-  by_contra hrows
-  exact hne (s.supported_fiber_eq_zero (Finset.not_nonempty_iff_eq_empty.mp hrows))
+  sorry
 
 theorem supported_left_nonzero_active
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
     (hi : (s.supported.charts DE D).leftCoefficient i ≠ 0) : DE.val ∈ G.activeCommon := by
-  by_contra hn
-  exact hi (by simp only [supported, if_neg hn])
+  sorry
 
 theorem gated_left_nonzero_original
     (DE : commonSupportPool G.columns G.columns
@@ -183,8 +159,7 @@ theorem gated_left_nonzero_original
     (D : s.mask.powerset) (i : ι)
     (hi : (s.gated.charts DE D).leftCoefficient i ≠ 0) :
     (s.charts DE D).leftCoefficient i ≠ 0 := by
-  intro hz
-  exact hi (by simp only [gated, hz, ite_self])
+  sorry
 
 theorem supported_gated_leaf_active
     (LC RC : SourceCartesianCover G.columns G.ideal)
@@ -194,9 +169,7 @@ theorem supported_gated_leaf_active
     (i : AllocationColumn K (s.supported.gated.coveredLeaf LC RC exceptional F x j).leftSlots)
     (hi : (s.supported.gated.coveredLeaf LC RC exceptional F x j).leftCoefficient h i ≠ 0) :
     j.1.1.val ∈ G.activeCommon := by
-  apply s.supported_left_nonzero_active j.1.1 j.1.2.1 (j.1.leftReindex.index i)
-  apply s.supported.gated_left_nonzero_original j.1.1 j.1.2.1 _
-  exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).1).1).1
+  sorry
 
 namespace TerminalCalibration
 
@@ -217,14 +190,12 @@ namespace FirstGaussPoolData
 
 theorem errorRows_nonempty_not_dvd_frozen (d : FirstGaussPoolData C P ι)
     (p : ExteriorPrime A) (hne : (d.errorRows p).Nonempty) : ¬p.val.asIdeal ∣ d.frozen := by
-  obtain ⟨h, hh⟩ := hne
-  exact (Finset.mem_filter.mp hh).2.2
+  sorry
 
 theorem residualCoefficient_nonzero_original (d : FirstGaussPoolData C P ι)
     (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ) (i : d.valuationColumns p n)
     (hi : d.residualCoefficient p n c i ≠ 0) : c i.val ≠ 0 := by
-  rw [d.residualCoefficient_eq] at hi
-  exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).1).1
+  sorry
 
 theorem residualSource_nonzero_dvd (d : FirstGaussPoolData C P ι)
     (p : ExteriorPrime A) (n : ℕ) (c : ι → ℂ) (S : Ideal (𝓞 K))
@@ -233,11 +204,7 @@ theorem residualSource_nonzero_dvd (d : FirstGaussPoolData C P ι)
     (hrows : (d.errorRows p).Nonempty)
     (i : d.valuationColumns p n) (hi : (d.residualSource p n c).coefficient i ≠ 0) :
     S ∣ ((d.residualSource p n c).ideal i).val := by
-  apply (d.residualPresentation p n i).dvd_residual_of_dvd_original S
-  · exact hc i.val (Finset.mem_filter.mp i.property).1
-      (d.residualCoefficient_nonzero_original p n c i hi)
-  · intro hp
-    exact d.errorRows_nonempty_not_dvd_frozen p hrows (hp.trans hS)
+  sorry
 
 end FirstGaussPoolData
 

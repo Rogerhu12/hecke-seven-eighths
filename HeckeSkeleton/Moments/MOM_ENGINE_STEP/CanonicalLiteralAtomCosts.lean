@@ -42,41 +42,14 @@ theorem weighted_transform_norm_sq (N np δ₁ δ₂ : ℝ)
         ‖(((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
           (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)‖ ^ 2 =
       np ^ (-1 + 2 * (δ₁ + δ₂)) * ‖z‖ ^ 2 := by
-  let e : ℝ := -1 + δ₁ + δ₂
-  have hpow : (np ^ (-1 : ℝ) : ℂ) * (np ^ δ₁ : ℂ) * (np ^ δ₂ : ℂ) =
-      (np ^ e : ℂ) := by
-    rw [← Complex.ofReal_mul, ← Complex.ofReal_mul,
-      ← Real.rpow_add hp, ← Real.rpow_add hp]
-  have hshape : (((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-      (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ) = z * (Real.sqrt N : ℂ) * (np ^ e : ℂ) := by
-    calc
-      _ = z * (Real.sqrt N : ℂ) *
-          ((np ^ (-1 : ℝ) : ℂ) * (np ^ δ₁ : ℂ) * (np ^ δ₂ : ℂ)) := by ring
-      _ = _ := by rw [hpow]
-  have hexponent : np * (np ^ e) ^ 2 = np ^ (-1 + 2 * (δ₁ + δ₂)) := by
-    calc
-      _ = np ^ (1 : ℝ) * np ^ (e * (2 : ℝ)) := by
-        rw [Real.rpow_one, Real.rpow_mul_natCast hp.le]
-      _ = np ^ (1 + e * 2) := (Real.rpow_add hp _ _).symm
-      _ = _ := by congr 1; dsimp only [e]; ring
-  rw [hshape, norm_mul, norm_mul,
-    Complex.norm_of_nonneg (Real.sqrt_nonneg N),
-    Complex.norm_of_nonneg (Real.rpow_nonneg hp.le e),
-    mul_pow, mul_pow, Real.sq_sqrt hN.le]
-  calc
-    _ = ((np / N) * N) * (np ^ e) ^ 2 * ‖z‖ ^ 2 := by ring
-    _ = (np * (np ^ e) ^ 2) * ‖z‖ ^ 2 := by rw [div_mul_cancel₀ _ hN.ne']
-    _ = _ := by rw [hexponent]
+  sorry
 
 theorem weighted_transform_norm_sq_le (N np δ₁ δ₂ : ℝ)
     (hN : 0 < N) (hp : 1 ≤ np) (hδ : δ₁ + δ₂ ≤ 1 / 2) (z : ℂ) :
     (np / N) *
         ‖(((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
           (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)‖ ^ 2 ≤ ‖z‖ ^ 2 := by
-  rw [weighted_transform_norm_sq N np δ₁ δ₂ hN (zero_lt_one.trans_le hp) z]
-  have hpower := Real.rpow_le_one_of_one_le_of_nonpos hp
-    (show -1 + 2 * (δ₁ + δ₂) ≤ 0 by linarith)
-  simpa only [one_mul] using mul_le_mul_of_nonneg_right hpower (sq_nonneg ‖z‖)
+  sorry
 
 end CanonicalLiteralAtomCosts
 
@@ -91,9 +64,8 @@ def primeAtomCost (i : Fin k) (p : HeightOneSpectrum (𝓞 K)) : ℝ :=
   ((Ideal.absNorm p.asIdeal : ℝ) / d.base ^ d.length i) * ‖d.slotWeight i p‖ ^ 2
 
 theorem primeAtomCost_nonneg (i : Fin k) (p : HeightOneSpectrum (𝓞 K)) :
-    0 ≤ d.primeAtomCost i p :=
-  mul_nonneg (div_nonneg (Nat.cast_nonneg _)
-    (Real.rpow_nonneg (zero_lt_one.trans d.base_gt_one).le _)) (sq_nonneg _)
+    0 ≤ d.primeAtomCost i p := by
+  sorry
 
 @[simp] theorem primeAtomCost_scale (c : ℂ) (i : Fin k)
     (p : HeightOneSpectrum (𝓞 K)) :
@@ -118,8 +90,7 @@ theorem primeAtomCost_nonneg (i : Fin k) (p : HeightOneSpectrum (𝓞 K)) :
     (T : SourceCartesianAtlas columns ideal) (h : k = T.slotCount)
     (i : Fin T.slotCount) (p : HeightOneSpectrum (𝓞 K)) :
     (d.onAtlas T h).primeAtomCost i p = d.primeAtomCost (Fin.cast h.symm i) p := by
-  cases h
-  rfl
+  sorry
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -146,14 +117,7 @@ theorem secondInput_primeAtomCost_le
     (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).primeAtomCost i p ≤
       ‖d.slotWeight (SlotRestriction.index b.keep i) p‖ ^ 2 := by
-  have hp : (1 : ℝ) ≤ Ideal.absNorm p.asIdeal := by
-    exact_mod_cast Nat.one_le_iff_ne_zero.mpr
-      (Ideal.absNorm_eq_zero_iff.not.mpr p.ne_bot)
-  exact CanonicalLiteralAtomCosts.weighted_transform_norm_sq_le
-    (d.base ^ d.length (SlotRestriction.index b.keep i))
-    (Ideal.absNorm p.asIdeal : ℝ) δ₁ δ₂
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _) hp hδ
-    (d.slotWeight (SlotRestriction.index b.keep i) p)
+  sorry
 
 /-- The common record uses these same numerical fields. Restricting
 its physical rows does not alter either side of this identity. -/
@@ -186,7 +150,7 @@ the inverse norm of the second divisor remains in `scalarBound`. -/
     let B := d.frozenBounds S C side χ ideal hideal firstSign rectangle L selection hne
       hmask hL hselection
     B.annulus i * B.profile i = d.primeAtomCost i (f.allocation.witness.2 i) := by
-  cases side <;> rfl
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 
@@ -210,11 +174,7 @@ theorem literalOriginalAtoms_slot_norm_le
     (hzero : (0, 0) ∈ orders) (ht : t ∈ heightDomain)
     (i : Fin (data ξ).geometry.slotCount) (p : HeightOneSpectrum (𝓞 K)) :
     ‖(Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slotWeight i p‖ ≤ B := by
-  change ‖((data ξ).geometry.slots i).profile t
-    ((Ideal.absNorm p.asIdeal : ℝ) / Z ^ ((data ξ).geometry.slots i).length)‖ ≤ B
-  rw [original.prime_eq]
-  exact (SchwartzMap.norm_le_seminorm ℂ _ _).trans
-    ((Seminorm.le_finset_sup_apply hzero).trans (original.prime_bound i t ht))
+  sorry
 
 /-- Before the transforms, the original annulus is paid once per
 frozen occurrence. A prime outside the profile support has zero cost. -/
@@ -227,21 +187,7 @@ theorem literalOriginalAtoms_primeAtomCost_le
     (i : Fin (data ξ).geometry.slotCount) (p : HeightOneSpectrum (𝓞 K)) :
     (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).primeAtomCost i p ≤
       annulus * B ^ 2 := by
-  let seed := Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-  by_cases hz : seed.slotWeight i p = 0
-  · simp only [CanonicalLiteralRectangles.Atoms.primeAtomCost, hz,
-      norm_zero, zero_pow (by decide : (2 : ℕ) ≠ 0), mul_zero]
-    exact mul_nonneg hannulus (sq_nonneg _)
-  have hrep : original.primeRep i t
-      ((Ideal.absNorm p.asIdeal : ℝ) / Z ^ ((data ξ).geometry.slots i).length) ≠ 0 := by
-    change ((data ξ).geometry.slots i).profile t
-      ((Ideal.absNorm p.asIdeal : ℝ) / Z ^ ((data ξ).geometry.slots i).length) ≠ 0 at hz
-    simpa only [original.prime_eq] using hz
-  have hratio := hwindow (original.prime_support i t ht hrep)
-  have hnorm := Q.literalOriginalAtoms_slot_norm_le ξ W a Z t Y₁ Y₂ centered
-    hZ hY₁ hY₂ original hzero ht i p
-  exact mul_le_mul hratio (pow_le_pow_left₀ (norm_nonneg _) hnorm 2)
-    (sq_nonneg _) hannulus
+  sorry
 
 /-- After the real two transforms the annulus is already cancelled
 by the same norm denominator. This is the bound for every original
@@ -266,12 +212,7 @@ theorem literalOriginalAtoms_secondInput_primeAtomCost_le
     ((Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).secondInput
       (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).primeAtomCost i p ≤ B ^ 2 := by
-  apply ((Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂)
-    .secondInput_primeAtomCost_le P R b power firstFixed poolFixed unitFixed
-      firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hδ i p).trans
-  exact pow_le_pow_left₀ (norm_nonneg _)
-    (Q.literalOriginalAtoms_slot_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
-      original hzero ht (SlotRestriction.index b.keep i) p) 2
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

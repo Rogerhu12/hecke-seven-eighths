@@ -38,17 +38,14 @@ variable {W : d.ProfileData} {window : Set ℝ} (E : W.SchwartzModel window)
 
 private theorem witness_slot_mem (B : ActualColumnAllocation K k) (i : Fin k) :
     B.witness.2 i ∈ B.slots i := by
-  have h := B.witness_mem
-  rw [WholeAllocation.paired_allocated_columns_eq_filter] at h
-  exact Fintype.mem_piFinset.mp (Finset.mem_product.mp (Finset.mem_filter.mp h).1).2 i
+  sorry
 
 /-- The real slot weight is evaluated on its original scale. -/
 theorem slot_norm_le (amplitude : ℝ)
     (hprofile : ∀ i, SchwartzMap.seminorm ℂ 0 0 (E.slot i) ≤ amplitude)
     (i : Fin k) (p : HeightOneSpectrum (𝓞 K)) :
     ‖d.slotWeight i p‖ ≤ amplitude := by
-  rw [← W.slot_eval i 0 p, E.slot_eq]
-  exact (SchwartzMap.norm_le_seminorm ℂ (E.slot i) _).trans (hprofile i)
+  sorry
 
 variable (S : ActualSecondCorrelationRows A σ H ι)
 variable (C : A.GeneralArithmeticContext σ η hS)
@@ -79,10 +76,8 @@ theorem scales_exponent (annulus amplitude : ℝ)
     (scales d S C side χ ideal hideal firstSign L selection hne
       annulus amplitude hannulus hamplitude).exponent =
       (Real.log (d.scale₁ false * d.scale₂ false) / Real.log d.base +
-        ∑ i, d.length i) / 2 - (frame).allocation.rawExtractionLength d.base d.length :=
-  (frame).allocation.originalAtomicScales_exponent d.base _ d.length
-    (fun i => (d.length_pos i).le) (fun _ => annulus) (fun _ => amplitude)
-    (fun _ => hannulus) (fun _ => hamplitude)
+        ∑ i, d.length i) / 2 - (frame).allocation.rawExtractionLength d.base d.length := by
+  sorry
 
 variable (annulus amplitude : ℝ) (hannulus : 1 ≤ annulus) (hamplitude : 0 ≤ amplitude)
 variable (hmask : d.characters.MaskIndicator) (hprime : d.PrimeNormWindow annulus)
@@ -91,8 +86,8 @@ variable (hprofile : ∀ i, SchwartzMap.seminorm ℂ 0 0 (E.slot i) ≤ amplitud
 include hprime in
 private theorem frozen_annulus (i : Fin k) :
     (Ideal.absNorm ((frame).allocation.witness.2 i).asIdeal : ℝ) ≤
-      annulus * d.base ^ d.length i :=
-  hprime i _ (witness_slot_mem (frame).allocation i)
+      annulus * d.base ^ d.length i := by
+  sorry
 
 variable {Ψ : Ideal (𝓞 K) →* ℂ} {W₁ W₂ : ℝ → ℂ}
 variable {ξ : Joint} {row : S.live}

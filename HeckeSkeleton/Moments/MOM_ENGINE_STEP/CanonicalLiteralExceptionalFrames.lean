@@ -144,9 +144,7 @@ theorem rowIndex_eq_selectedIndex (θ : parent.theta)
     CanonicalLiteralExceptionalCharacters.rowIndex P R F parent oldMoving correction
       C S pattern ν row he =
       CanonicalLiteralExceptionalCharacters.selectedIndex parent θ := by
-  apply Prod.ext
-  · rfl
-  · exact Subtype.ext hθ
+  sorry
 
 include hcorr hone hroot hemb recipe hfirst hextra hm hn support in
 /-- The centered terminal receives one fixed catalogue entry on the
@@ -195,33 +193,33 @@ theorem centered_value (hc : SamePlainProfiles E)
       hone hroot hemb row he recipe E firstSupport hfirst hextra hm hn support
       side χ ideal hideal firstSign L selection hne hc hscale ξ).source.value =
       (frame).source.centeredColumn (σ := σ) (d.scale₁ true) (d.scale₂ true)
-        (fun _ => d.rectangleLeftWeight true) (fun _ => d.rightWeight true) ξ row.val.val :=
-  ActualAllocatedSource.ExceptionalAt.value_eq_centeredColumn _
+        (fun _ => d.rectangleLeftWeight true) (fun _ => d.rightWeight true) ξ row.val.val := by
+  sorry
 
 theorem ordinary_value (ξ : Joint) :
     (ordinary P R F parent oldMoving correction hcorr C S pattern ν remaining extra
       hone hroot hemb row he recipe E firstSupport hfirst hextra hm hn support
       side χ ideal hideal firstSign L selection hne ξ).source.ordinaryValue =
-      (frame).source.ordinaryColumn (σ := σ) ξ row.val.val :=
-  ActualAllocatedSource.OrdinaryExceptionalAt.value_eq_ordinaryColumn _
+      (frame).source.ordinaryColumn (σ := σ) ξ row.val.val := by
+  sorry
 
 /-- The actual divisor phase is a unit for every row and Fourier
 mode, so only the original model's displayed seminorm is paid. -/
 theorem leftProfile_seminorm (ξ : Joint) (s : Finset (ℕ × ℕ)) :
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (leftProfile ξ) =
-      s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left false) :=
-  profile_seminorm _ _ _ _ _
+      s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left false) := by
+  sorry
 
 theorem rightProfile_seminorm (ξ : Joint) (s : Finset (ℕ × ℕ)) :
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (rightProfile ξ) =
-      s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right false) :=
-  profile_seminorm _ _ _ _ _
+      s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right false) := by
+  sorry
 
-theorem leftProfile_support (ξ : Joint) : tsupport (leftProfile ξ) ⊆ window :=
-  (profile_support _ _ _ _).trans (E.left_support false)
+theorem leftProfile_support (ξ : Joint) : tsupport (leftProfile ξ) ⊆ window := by
+  sorry
 
-theorem rightProfile_support (ξ : Joint) : tsupport (rightProfile ξ) ⊆ window :=
-  (profile_support _ _ _ _).trans (E.right_support false)
+theorem rightProfile_support (ξ : Joint) : tsupport (rightProfile ξ) ⊆ window := by
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralExceptionalFrames
 

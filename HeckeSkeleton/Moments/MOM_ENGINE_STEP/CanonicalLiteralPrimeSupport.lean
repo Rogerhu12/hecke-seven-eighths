@@ -35,11 +35,7 @@ theorem powerSchwartz_support_subset (window : Set ℝ) (hcompact : IsCompact wi
     (φ : 𝓢(ℝ, ℂ)) (hsupport : tsupport φ ⊆ window) :
     Function.support (powerSchwartz window hcompact hpositive c exponent φ hsupport) ⊆
       Function.support φ := by
-  intro y hy
-  change φ y ≠ 0
-  intro hz
-  apply hy
-  rw [powerSchwartz_apply, hz, zero_mul, mul_zero]
+  sorry
 
 end CanonicalLiteralSchwartzProfiles
 
@@ -51,11 +47,7 @@ theorem atom_support {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V
     (hsupport : tsupport φ ⊆ window) :
     Function.support (p.schwartz window hcompact hpositive ξ φ hsupport) ⊆
       Function.support φ := by
-  intro y hy
-  change φ y ≠ 0
-  intro hz
-  apply hy
-  rw [CanonicalLogProfiles.Atom.schwartz_apply, hz, zero_mul]
+  sorry
 
 end CanonicalLiteralFourierWindows
 
@@ -69,36 +61,37 @@ variable {window target : Set ℝ} (E : W.SchwartzModel window)
 theorem extract_prime_support {support : Finset (Ideal (𝓞 K))}
     (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support)
     (hprime : ∀ j, Function.support (E.slot j) ⊆ target) :
-    ∀ j, Function.support ((E.extract b).slot j) ⊆ target :=
-  fun j => hprime (SlotRestriction.index b.keep j)
+    ∀ j, Function.support ((E.extract b).slot j) ⊆ target := by
+  sorry
 
 theorem onAtlas_prime_support {A : SArithmeticData K} {ι : Type*}
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (T : SourceCartesianAtlas columns ideal) (count : k = T.slotCount)
     (hprime : ∀ j, Function.support (E.slot j) ⊆ target) :
     ∀ j, Function.support ((E.onAtlas T count).slot j) ⊆ target := by
-  cases count
-  exact hprime
+  sorry
 
 theorem deleteMask_prime_support (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hprime : ∀ j, Function.support (E.slot j) ⊆ target) :
-    ∀ j, Function.support ((E.deleteMask M).slot j) ⊆ target := hprime
+    ∀ j, Function.support ((E.deleteMask M).slot j) ⊆ target := by
+  sorry
 
 theorem scale_prime_support (c : ℂ)
     (hprime : ∀ j, Function.support (E.slot j) ⊆ target) :
-    ∀ j, Function.support ((E.scale c).slot j) ⊆ target := hprime
+    ∀ j, Function.support ((E.scale c).slot j) ⊆ target := by
+  sorry
 
 theorem balancePlain_prime_support (c : Bool → ℝ)
     (hprime : ∀ j, Function.support (E.slot j) ⊆ target) :
-    ∀ j, Function.support ((E.balancePlain c).slot j) ⊆ target := hprime
+    ∀ j, Function.support ((E.balancePlain c).slot j) ⊆ target := by
+  sorry
 
 theorem slotFourierRep_support_subset (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (firstSign : ℝ) (negative : Bool)
     (j : Fin k) (ξ : WithLp 2 (ℝ × ℝ)) :
     Function.support (E.slotFourierRep hcompact hpositive firstSign negative j ξ) ⊆
-      Function.support (E.slot j) :=
-  CanonicalLiteralFourierWindows.atom_support _ window hcompact hpositive ξ _
-    (E.slot_support j)
+      Function.support (E.slot j) := by
+  sorry
 
 variable {support : Finset (Ideal (𝓞 K))}
 variable (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support)
@@ -119,11 +112,7 @@ theorem secondInput_prime_support (hcompact : IsCompact window)
       ((E.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hcompact hpositive).slot j)
       ⊆ target := by
-  intro j
-  exact (CanonicalLiteralSchwartzProfiles.powerSchwartz_support_subset
-    window hcompact hpositive _ _ (E.slot (SlotRestriction.index b.keep j))
-      (E.slot_support (SlotRestriction.index b.keep j))).trans
-    (hprime (SlotRestriction.index b.keep j))
+  sorry
 
 /-- This is the representative used after moving the actual scalar
 to the row weight and balancing the two original plain factors. Its
@@ -134,9 +123,8 @@ theorem scalarFreeBalancedSecondInput_prime_support (hcompact : IsCompact window
     ∀ j, Function.support
       ((E.scalarFreeBalancedSecondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hcompact hpositive).slot j)
-      ⊆ target :=
-  E.secondInput_prime_support (σ := σ) b P R power firstFixed poolFixed unitFixed
-    firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hcompact hpositive hprime
+      ⊆ target := by
+  sorry
 
 end CanonicalLiteralRectangles.Atoms.ProfileData.SchwartzModel
 
@@ -183,10 +171,8 @@ theorem selectedRawWindow_prime_support
       ((selectedRawWindow P R W allocation F parent oldMoving correction hcorr C p
         leftMultiplicity rightMultiplicity pattern sector remaining extra m q index
         rectangle firstSign negative E hcompact hpositive s original hbound hleft hright hslot ξ)
-        .primeRep j t) ⊆ target :=
-  (E.slotFourierRep_support_subset hcompact hpositive firstSign negative
-    (SlotRestriction.index allocation.keep j) ξ).trans
-    (hprime (SlotRestriction.index allocation.keep j))
+        .primeRep j t) ⊆ target := by
+  sorry
 
 end CanonicalLiteralAllocatedData
 
@@ -210,8 +196,8 @@ theorem familyWindows_prime_support
     Function.support
       ((familyWindows family parameters Z hZ lo hi hlo s B hB J raw ξ).1.primeRep j t) ⊆ target ∧
     Function.support
-      ((familyWindows family parameters Z hZ lo hi hlo s B hB J raw ξ).2.primeRep j t) ⊆ target :=
-  ⟨hprime ξ j t, hprime ξ j t⟩
+      ((familyWindows family parameters Z hZ lo hi hlo s B hB J raw ξ).2.primeRep j t) ⊆ target := by
+  sorry
 
 end CanonicalLiteralAllSideClipping
 end HeckeSkeleton.Moments.EngineStep

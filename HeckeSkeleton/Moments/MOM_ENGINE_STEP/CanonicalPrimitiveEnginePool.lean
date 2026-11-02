@@ -40,21 +40,13 @@ structure Selection (Z : ℝ) where
 
 theorem exists_threshold :
     ∃ Z₀ : ℝ, 1 < Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z → Nonempty (Selection A b Z) := by
-  obtain ⟨Z₀, hZ₀, hpools⟩ := exists_uniform_original_pool A ∅
-    (b.step / 3) b.loss b.rowBound b.columnBound
-    (div_pos b.step_pos (by norm_num)) b.loss_pos b.pool_separation.2
-    b.rowBound_nonneg b.columnBound_nonneg
-  refine ⟨Z₀, hZ₀, ?_⟩
-  intro Z hZ
-  obtain ⟨pool, hp⟩ := hpools Z hZ
-  have h := hp b.rowBound b.columnBound le_rfl le_rfl
-  exact ⟨⟨pool, h.1, h.2.1, h.2.2.1, h.2.2.2⟩⟩
+  sorry
 
 /-- The threshold is fixed before all moving data. -/
 def threshold : ℝ := Classical.choose (exists_threshold A b)
 
-theorem threshold_gt_one : 1 < threshold A b :=
-  (Classical.choose_spec (exists_threshold A b)).1
+theorem threshold_gt_one : 1 < threshold A b := by
+  sorry
 
 /-- The sole call to the prime-pool choice in the positive-slot branch. -/
 def selected (Z : ℝ) (hZ : threshold A b ≤ Z) : Selection A b Z :=

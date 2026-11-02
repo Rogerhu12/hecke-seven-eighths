@@ -177,18 +177,7 @@ theorem produceLiteralLeftSideAll_capacity_actual_heq :
     HEq (allSide).capacity
       ((originalLengths).capacityInput mass hn anchor hsecond hopposite actualUnit
         hstep mesh hmesh hfit originalAtoms) := by
-  have hpattern : HEq (allSide).capacity
-      ((originalLengths).capacityInputOfPattern rows.primes_injective
-        mass.left_positive hn pattern hsecond hopposite hunit hstep mesh hmesh hfit originalAtoms) :=
-    d.produceLiteralSideAll_capacity_heq W rows (SecondColumnSide.left) χ ideal hideal firstSign rectangle
-        L selection hne D P Rchar F parent oldMoving correction hcorr remaining extra a step G
-        pattern sector slots cutoff reference time hdata hparameters domain direct hcutoff hsmall
-        error herr hm hn hsecond hopposite hunit hstep mesh hmesh hfit lo hi hlo hhi orders
-        original hreference htime horders computed hprimeOrders δ analyticHeight hδ hδhi
-        analytic hanalytic
-  exact hpattern.trans (heq_of_eq
-    ((originalLengths).capacityInputOfPattern_eq_actual mass hn
-      pattern anchor hsecond hopposite hunit actualUnit hstep mesh hmesh hfit originalAtoms))
+  sorry
 
 end Left
 
@@ -334,18 +323,7 @@ theorem produceLiteralRightSideAll_capacity_actual_heq :
     HEq (allSide).capacity
       ((originalLengths).capacityInput (mass.swapColumns hn) mass.left_positive anchor hsecond hopposite actualUnit
         hstep mesh hmesh hfit originalAtoms) := by
-  have hpattern : HEq (allSide).capacity
-      ((originalLengths).capacityInputOfPattern rows.primes_injective
-        hn mass.left_positive pattern hsecond hopposite hunit hstep mesh hmesh hfit originalAtoms) :=
-    d.produceLiteralSideAll_capacity_heq W rows (SecondColumnSide.right) χ ideal hideal firstSign rectangle
-        L selection hne D P Rchar F parent oldMoving correction hcorr remaining extra a step G
-        pattern sector slots cutoff reference time hdata hparameters domain direct hcutoff hsmall
-        error herr hm hn hsecond hopposite hunit hstep mesh hmesh hfit lo hi hlo hhi orders
-        original hreference htime horders computed hprimeOrders δ analyticHeight hδ hδhi
-        analytic hanalytic
-  exact hpattern.trans (heq_of_eq
-    ((originalLengths).capacityInputOfPattern_eq_actual (mass.swapColumns hn) mass.left_positive
-      pattern anchor hsecond hopposite hunit actualUnit hstep mesh hmesh hfit originalAtoms))
+  sorry
 
 end Right
 

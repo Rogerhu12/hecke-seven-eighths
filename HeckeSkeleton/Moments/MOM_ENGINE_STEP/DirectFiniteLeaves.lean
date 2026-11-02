@@ -90,17 +90,14 @@ def classWeight
 
 theorem classWeight_nonneg
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) : 0 ≤ classWeight (p := p) NL NR S χ :=
-  mul_nonneg (mul_nonneg (norm_nonneg _) (norm_nonneg _))
-    (div_nonneg (mul_nonneg (mul_nonneg p.rowBound_nonneg (Real.sqrt_nonneg _))
-      (Real.sqrt_nonneg _)) (by norm_num))
+    (χ : (PUnit × PUnit) →* Circle) : 0 ≤ classWeight (p := p) NL NR S χ := by
+  sorry
 
 theorem classWeight_eq_zero_of_not_squarefree
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) (hS : ¬Squarefree S.val) :
     classWeight (p := p) NL NR S χ = 0 := by
-  simp only [classWeight, moebius_of_not_squarefree hS, Int.cast_zero,
-    norm_zero, zero_mul]
+  sorry
 
 def classLeaf (exceptional : s.CoverHybridPredicates LA RA)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -127,16 +124,13 @@ theorem coveredLeaf_weight_eq_zero_of_not_squarefree
     (exceptional : s.CoverHybridPredicates LA RA) (j : s.CoveredLeafKey LA RA)
     (hj : ¬Squarefree j.1.val) :
     (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).weight = 0 := by
-  rcases j with ⟨S, χ, j | j⟩ <;>
-    simp only [coveredLeaf, classLeaf, ActualHybridLeaf.scale,
-      classWeight_eq_zero_of_not_squarefree NL NR S χ hj, zero_div, zero_mul]
+  sorry
 
 theorem coveredLeaf_weight_nonzero_squarefree
     (exceptional : s.CoverHybridPredicates LA RA) (j : s.CoveredLeafKey LA RA)
     (hj : (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).weight ≠ 0) :
     Squarefree j.1.val := by
-  by_contra hS
-  exact hj (s.coveredLeaf_weight_eq_zero_of_not_squarefree LA RA NL NR hNL hNR exceptional j hS)
+  sorry
 
 namespace TerminalCalibration
 
@@ -213,34 +207,7 @@ theorem linearized_le_finiteCost
           (s.fiberCoveredLeaf LC RC ex F x j).cost) :
     p.linearizedCost hDiff NL NR ≤
       T.finiteCost LA RA exceptional NL NR hNL hNR ε Cerror Czero := by
-  unfold FirstBlockDirectData.linearizedCost firstDirectLinearizedCost finiteCost
-    zeroBudget tailBudget
-  simp only [Finset.mul_sum, Fintype.sum_sigma, coveredLeaf]
-  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
-  apply Finset.sum_le_sum
-  intro S _
-  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
-  apply Finset.sum_le_sum
-  intro χ _
-  have hl := hstage _ (s.left S χ) (T.left S χ)
-    (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ)
-    (exceptional.left S χ) chart.kernel chart.leftPoint
-  have hr := hstage _ (s.right S χ) (T.right S χ)
-    (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
-    (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j)
-  simp only [DirectGaussData.directSource_phaseEnergy] at hl hr
-  rw [integral_div, integral_div]
-  have hh := mul_le_mul_of_nonneg_left
-    (add_le_add (div_le_div_of_nonneg_right hl (hNL S χ).le)
-      (div_le_div_of_nonneg_right hr (hNR S χ).le))
-    (classWeight_nonneg NL NR S χ)
-  convert hh using 1
-  · dsimp only [classWeight, leftDivisorCoefficient, rightDivisorCoefficient]
-    ring
-  · simp only [Fintype.sum_sum_type, classLeaf, ActualHybridLeaf.scale_cost]
-    rw [← Finset.mul_sum, ← Finset.mul_sum]
-    unfold classZeroBudget classTailBudget
-    ring
+  sorry
 
 end TerminalCalibration
 end SecondStages

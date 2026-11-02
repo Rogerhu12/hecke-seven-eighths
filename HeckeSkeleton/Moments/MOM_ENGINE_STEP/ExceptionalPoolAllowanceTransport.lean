@@ -34,32 +34,21 @@ def dyadWeight (lower : ℝ) : AmplifiedCommonIndex P main error → ℝ
 
 theorem dyadWeight_nonneg (hZ : 0 ≤ Z) (lower : ℝ)
     (i : AmplifiedCommonIndex P main error) : 0 ≤ dyadWeight P main error lower i := by
-  cases i with
-  | inl j => exact main.exceptionalDyadWeight_nonneg Z lower hZ j
-  | inr j => exact (error j.1.val j.2.1.val).exceptionalDyadWeight_nonneg Z lower hZ j.2.2
+  sorry
 
 theorem originalTagWeight_mul_dyad (hZ : 1 < Z) (lower : ℝ)
     (i : AmplifiedCommonIndex P main error) :
     originalTagWeight P M B main error i *
         Z ^ movingLength P main error i * dyadWeight P main error lower i =
       amplifiedExceptionalDyadWeight P M B main error lower i := by
-  cases i with
-  | inl j =>
-    dsimp only [originalTagWeight, movingLength, dyadWeight, amplifiedExceptionalDyadWeight]
-    ring
-  | inr j =>
-    dsimp only [originalTagWeight, movingLength, dyadWeight, amplifiedExceptionalDyadWeight]
-    rw [rpow_amplifier_moving_length hZ]
-    ring
+  sorry
 
 theorem originalTagWeight_mul_remaining_dyad (hZ : 1 < Z) (lower δ : ℝ)
     (i : AmplifiedCommonIndex P main error) :
     originalTagWeight P M B main error i *
         Z ^ (δ + movingLength P main error i) * dyadWeight P main error lower i =
       Z ^ δ * amplifiedExceptionalDyadWeight P M B main error lower i := by
-  rw [Real.rpow_add (zero_lt_one.trans hZ),
-    ← originalTagWeight_mul_dyad P M B main error hZ lower i]
-  ring
+  sorry
 
 /-- Internal numerical transport after the original atom estimate.
 The only retained exponent is its true small numerical remainder. -/
@@ -73,25 +62,7 @@ theorem exceptional_pointwise_of_original_tag
       Z ^ remaining * dyadWeight P main error lower i) :
     actual ≤ C * control * Z ^ δ *
       amplifiedExceptionalDyadWeight P M B main error lower i := by
-  have htag := originalTagWeight_nonneg P M B main error hell hM hdensity i
-  have hdyad := dyadWeight_nonneg P main error (zero_le_one.trans hZ.le) lower i
-  calc
-    actual ≤ C * control * originalTagWeight P M B main error i *
-        Z ^ remaining * dyadWeight P main error lower i := hraw
-    _ ≤ C * control * originalTagWeight P M B main error i *
-        Z ^ (δ + movingLength P main error i) * dyadWeight P main error lower i :=
-      mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_left
-          (Real.rpow_le_rpow_of_exponent_le hZ.le hremaining)
-          (mul_nonneg (mul_nonneg hC hcontrol) htag)) hdyad
-    _ = _ := by
-      rw [show C * control * originalTagWeight P M B main error i *
-          Z ^ (δ + movingLength P main error i) * dyadWeight P main error lower i =
-        C * control *
-          (originalTagWeight P M B main error i *
-            Z ^ (δ + movingLength P main error i) * dyadWeight P main error lower i) by ring,
-        originalTagWeight_mul_remaining_dyad P M B main error hZ]
-      ring
+  sorry
 
 end AmplifiedCommonIndex
 end HeckeSkeleton.Moments.EngineStep

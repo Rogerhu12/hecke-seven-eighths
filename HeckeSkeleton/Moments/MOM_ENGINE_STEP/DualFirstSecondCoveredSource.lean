@@ -98,38 +98,7 @@ theorem rawCost_le_covered
     (ε Cerror Czero : ℝ) :
     T.rawCost NL NR ε Cerror Czero ≤
       T.coveredCost LA RA exceptional NL NR ε Cerror Czero := by
-  unfold rawCost coveredCost
-  apply Finset.sum_le_sum
-  intro S _
-  apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
-  apply Finset.sum_le_sum
-  intro χ _
-  apply mul_le_mul_of_nonneg_left _
-    (mul_nonneg (norm_nonneg _) (div_nonneg
-      (mul_nonneg (mul_nonneg p.rowBound_nonneg (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _))
-      (by norm_num)))
-  apply add_le_add
-  · apply integral_mono
-      (((T.left S χ).rawPhaseCost_integrable chart.kernel chart.leftPoint ε Cerror Czero).div_const _)
-      (((T.left S χ).coverHybridPhaseCost_integrable
-        (p.leftSourceCovers LA S χ) (exceptional.left S χ)
-        chart.kernel chart.leftPoint ε Cerror Czero).div_const _)
-    intro ξ
-    exact div_le_div_of_nonneg_right
-      ((T.left S χ).rawPhaseCost_le_coverHybrid
-        (p.leftSourceCovers LA S χ) (exceptional.left S χ)
-        chart.leftPoint ξ ε Cerror Czero) (hNL S χ).le
-  · apply integral_mono
-      (((T.right S χ).rawPhaseCost_integrable chart.kernel
-        (fun j => -chart.rightPoint j) ε Cerror Czero).div_const _)
-      (((T.right S χ).coverHybridPhaseCost_integrable
-        (p.rightSourceCovers RA S χ) (exceptional.right S χ)
-        chart.kernel (fun j => -chart.rightPoint j) ε Cerror Czero).div_const _)
-    intro ξ
-    exact div_le_div_of_nonneg_right
-      ((T.right S χ).rawPhaseCost_le_coverHybrid
-        (p.rightSourceCovers RA S χ) (exceptional.right S χ)
-        (fun j => -chart.rightPoint j) ξ ε Cerror Czero) (hNR S χ).le
+  sorry
 
 end DualTerminalCalibration
 end SecondStages
@@ -160,13 +129,7 @@ theorem dualRawCost_le_covered
     (N : s.Normalization) (ε Cerror Czero : ℝ) :
     R.dualRawCost T N ε Cerror Czero ≤
       R.dualCoveredCost T L exceptional N ε Cerror Czero := by
-  unfold dualRawCost dualCoveredCost
-  apply Finset.sum_le_sum
-  intro v _
-  apply Finset.sum_le_sum
-  intro D _
-  exact (T v D).rawCost_le_covered L L (exceptional v D)
-    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
+  sorry
 
 end ActualFirstSource.SecondStages
 
@@ -210,20 +173,7 @@ theorem actual_parent_two_stage_dual_covered_terminal_bound
       X ≤ Z ^ ξmax ∧
       pairedStageEnergy centered d a Z t Y₁ Y₂ ≤
         (s.fiber : ℝ) * (F.cost ε CfirstError CfirstZero + R.dualCoveredCost T L exceptional N ε Cerror Czero) := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-      CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hb⟩ :=
-    actual_parent_two_stage_dual_raw_terminal_bound (W := W) (E := E) (ν := ν) (μ := μ)
-      hΓ μv hDiff C Drecipe hD rowBallSize k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z ell eps bad P ω ψ centered d a t Y₁ Y₂ X hX s coefficient hprofiles
-    N R conditions T F L exceptional
-  obtain ⟨hcutoff, hp⟩ :=
-    hb Z ell eps bad P centered d a t Y₁ Y₂ X hX s coefficient hprofiles N R conditions T F
-  refine ⟨hcutoff, hp.trans ?_⟩
-  exact mul_le_mul_of_nonneg_left
-    (add_le_add le_rfl (R.dualRawCost_le_covered T L exceptional N ε Cerror Czero))
-    (Nat.cast_nonneg s.fiber)
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

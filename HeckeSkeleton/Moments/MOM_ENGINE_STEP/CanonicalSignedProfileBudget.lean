@@ -35,28 +35,22 @@ def shiftedExponentPalette (δ : ℝ) (R : ℕ) : Finset ℝ :=
   (Finset.range (R + 1)).image (fun j : ℕ => (j : ℝ) * δ - 1)
 
 theorem mem_shiftedExponentPalette (δ : ℝ) (R j : ℕ) (hj : j ≤ R) :
-    (j : ℝ) * δ - 1 ∈ shiftedExponentPalette δ R :=
-  Finset.mem_image.mpr ⟨j, Finset.mem_range.mpr (Nat.lt_succ_of_le hj), rfl⟩
+    (j : ℝ) * δ - 1 ∈ shiftedExponentPalette δ R := by
+  sorry
 
 theorem shiftedExponentPalette_lower {δ e : ℝ} {R : ℕ}
     (hδ : 0 ≤ δ) (he : e ∈ shiftedExponentPalette δ R) : -1 ≤ e := by
-  obtain ⟨j, _, rfl⟩ := Finset.mem_image.mp he
-  have hj : 0 ≤ (j : ℝ) * δ := mul_nonneg (Nat.cast_nonneg _) hδ
-  linarith
+  sorry
 
 theorem shiftedExponentPalette_upper {δ e : ℝ} {R : ℕ}
     (hδ : 0 ≤ δ) (he : e ∈ shiftedExponentPalette δ R) :
     e ≤ (R : ℝ) * δ - 1 := by
-  obtain ⟨j, hj, rfl⟩ := Finset.mem_image.mp he
-  have hjR : j ≤ R := Nat.lt_succ_iff.mp (Finset.mem_range.mp hj)
-  exact sub_le_sub_right
-    (mul_le_mul_of_nonneg_right (by exact_mod_cast hjR) hδ) 1
+  sorry
 
 theorem shiftedExponentPalette_interval {δ e : ℝ} {R : ℕ}
     (hδ : 0 ≤ δ) (hhalf : (R : ℝ) * δ ≤ 1 / 2)
     (he : e ∈ shiftedExponentPalette δ R) : e ∈ Set.Icc (-1) (-(1 / 2)) := by
-  have hu := shiftedExponentPalette_upper hδ he
-  exact ⟨shiftedExponentPalette_lower hδ he, by linarith⟩
+  sorry
 
 /-- Reserve the signed-power condition after any earlier positive tilt
 choice.  The old small-power budgets can only decrease. -/
@@ -64,19 +58,15 @@ def reserveSignedTilt (R : ℕ) (δ : ℝ) : ℝ :=
   min δ (1 / (2 * ((R : ℝ) + 1)))
 
 theorem reserveSignedTilt_pos (R : ℕ) {δ : ℝ} (hδ : 0 < δ) :
-    0 < reserveSignedTilt R δ :=
-  lt_min hδ (by positivity)
+    0 < reserveSignedTilt R δ := by
+  sorry
 
-theorem reserveSignedTilt_le (R : ℕ) (δ : ℝ) : reserveSignedTilt R δ ≤ δ :=
-  min_le_left _ _
+theorem reserveSignedTilt_le (R : ℕ) (δ : ℝ) : reserveSignedTilt R δ ≤ δ := by
+  sorry
 
 theorem reserveSignedTilt_half (R : ℕ) {δ : ℝ} (hδ : 0 < δ) :
     (R : ℝ) * reserveSignedTilt R δ ≤ 1 / 2 := by
-  have ht := (reserveSignedTilt_pos R hδ).le
-  have hden : 0 < 2 * ((R : ℝ) + 1) := by positivity
-  have hb : reserveSignedTilt R δ * (2 * ((R : ℝ) + 1)) ≤ 1 :=
-    (le_div_iff₀ hden).mp (min_le_right _ _)
-  nlinarith
+  sorry
 
 def shiftedShapeCoefficient (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (orders : Finset (ℕ × ℕ))
@@ -86,16 +76,15 @@ def shiftedShapeCoefficient (window : Set ℝ) (hcompact : IsCompact window)
 
 theorem shiftedShapeCoefficient_nonneg (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (orders : Finset (ℕ × ℕ)) (δ : ℝ) (R : ℕ) :
-    0 ≤ shiftedShapeCoefficient window hcompact hpositive orders δ R :=
-  Finset.sum_nonneg (fun e _ => shapeCoefficient_nonneg window hcompact hpositive e orders)
+    0 ≤ shiftedShapeCoefficient window hcompact hpositive orders δ R := by
+  sorry
 
 theorem shapeCoefficient_le_shifted (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (orders : Finset (ℕ × ℕ)) (δ : ℝ) (R : ℕ)
     {e : ℝ} (he : e ∈ shiftedExponentPalette δ R) :
     shapeCoefficient window hcompact hpositive e orders ≤
-      shiftedShapeCoefficient window hcompact hpositive orders δ R :=
-  Finset.single_le_sum
-    (fun e _ => shapeCoefficient_nonneg window hcompact hpositive e orders) he
+      shiftedShapeCoefficient window hcompact hpositive orders δ R := by
+  sorry
 
 def signedAtomConstant (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (orders : Finset (ℕ × ℕ))
@@ -106,9 +95,8 @@ def signedAtomConstant (window : Set ℝ) (hcompact : IsCompact window)
 theorem signedAtomConstant_nonneg (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (orders : Finset (ℕ × ℕ))
     (δ : ℝ) (R : ℕ) (D : ℝ) (hD : 0 ≤ D) :
-    0 ≤ signedAtomConstant window hcompact hpositive orders δ R D :=
-  mul_nonneg (shiftedShapeCoefficient_nonneg window hcompact hpositive orders δ R)
-    (pow_nonneg (by positivity) _)
+    0 ≤ signedAtomConstant window hcompact hpositive orders δ R D := by
+  sorry
 
 def signedAmplitudeConstant (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (orders : Finset (ℕ × ℕ))
@@ -119,8 +107,7 @@ theorem signedAmplitudeConstant_one_le (window : Set ℝ) (hcompact : IsCompact 
     (hpositive : window ⊆ Set.Ioi 0) (orders : Finset (ℕ × ℕ))
     (δ : ℝ) (R cap : ℕ) (D : ℝ) (hD : 0 ≤ D) :
     1 ≤ signedAmplitudeConstant window hcompact hpositive orders δ R cap D := by
-  exact le_add_of_nonneg_right (mul_nonneg (by positivity)
-    (signedAtomConstant_nonneg window hcompact hpositive orders δ R D hD))
+  sorry
 
 section Atoms
 
@@ -135,16 +122,7 @@ theorem Atom.profileCoefficient_le_shifted (p : Atom V)
     (hd : ‖p.direction‖ ≤ D) :
     p.profileCoefficient window hcompact hpositive orders ≤
       signedAtomConstant window hcompact hpositive orders δ R D := by
-  have hπ : 0 ≤ 2 * Real.pi := by positivity
-  have hdirection : (1 + 2 * Real.pi * ‖p.direction‖) ^ (orders.sup Prod.snd) ≤
-      (1 + 2 * Real.pi * D) ^ (orders.sup Prod.snd) :=
-    pow_le_pow_left₀ (add_nonneg zero_le_one (mul_nonneg hπ (norm_nonneg p.direction)))
-      (add_le_add (le_refl (1 : ℝ)) (mul_le_mul_of_nonneg_left hd hπ)) _
-  unfold Atom.profileCoefficient
-  rw [hscale, Real.one_rpow, mul_one]
-  exact mul_le_mul (shapeCoefficient_le_shifted window hcompact hpositive orders δ R he)
-    hdirection (pow_nonneg (by positivity) _)
-    (shiftedShapeCoefficient_nonneg window hcompact hpositive orders δ R)
+  sorry
 
 /-- This is the actual scaled Schwartz representative.  The bound pays
 the scalar explicitly, and is uniform in the original test and offset. -/
@@ -161,17 +139,7 @@ theorem Atom.scaledSchwartz_signed_bound (p : Atom V)
         (c • p.schwartz window hcompact hpositive ξ φ hsupport) ≤
       (S * signedAtomConstant window hcompact hpositive orders δ R D) *
         P * (1 + ‖ξ‖) ^ (orders.sup Prod.snd) := by
-  have hC := signedAtomConstant_nonneg window hcompact hpositive orders δ R D hD
-  have hpow : 0 ≤ (1 + ‖ξ‖) ^ (orders.sup Prod.snd) := pow_nonneg (by positivity) _
-  have hb := p.schwartz_finset_bound window hcompact hpositive orders ξ φ hsupport
-  have hb' := hb.trans
-    (mul_le_mul
-      (mul_le_mul_of_nonneg_right
-        (p.profileCoefficient_le_shifted window hcompact hpositive orders δ R D hscale he hd)
-        hpow) hφ (apply_nonneg _ _) (mul_nonneg hC hpow))
-  rw [map_smul_eq_mul]
-  apply (mul_le_mul hc hb' (apply_nonneg _ _) hS).trans_eq
-  ring
+  sorry
 
 end Atoms
 
@@ -197,27 +165,7 @@ theorem profileAmplitude_le_shifted
     (hlS : left.scale = 1) (hrS : right.scale = 1) (hsS : ∀ i, (slot i).scale = 1) :
     profileAmplitude d left right slot window hcompact hpositive orders P ≤
       signedAmplitudeConstant window hcompact hpositive orders δ R cap D * P := by
-  let C := signedAtomConstant window hcompact hpositive orders δ R D
-  have hC : 0 ≤ C := signedAtomConstant_nonneg window hcompact hpositive orders δ R D hD
-  have hleft : left.profileCoefficient window hcompact hpositive orders ≤ C :=
-    left.profileCoefficient_le_shifted window hcompact hpositive orders δ R D hlS hlE hlD
-  have hright : right.profileCoefficient window hcompact hpositive orders ≤ C :=
-    right.profileCoefficient_le_shifted window hcompact hpositive orders δ R D hrS hrE hrD
-  have hsum : (∑ i, (slot i).profileCoefficient window hcompact hpositive orders) ≤
-      (d.geometry.slotCount : ℝ) * C := by
-    simpa only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul] using
-      Finset.sum_le_sum (fun i (_ : i ∈ Finset.univ) =>
-        (slot i).profileCoefficient_le_shifted window hcompact hpositive orders δ R D
-          (hsS i) (hsE i) (hsD i))
-  have hsumCap : (∑ i, (slot i).profileCoefficient window hcompact hpositive orders) ≤
-      (cap : ℝ) * C :=
-    hsum.trans (mul_le_mul_of_nonneg_right (by exact_mod_cast hcount) hC)
-  have hwhole : 1 + left.profileCoefficient window hcompact hpositive orders +
-      right.profileCoefficient window hcompact hpositive orders +
-        ∑ i, (slot i).profileCoefficient window hcompact hpositive orders ≤
-      1 + ((cap : ℝ) + 2) * C := by linarith
-  unfold profileAmplitude
-  exact (mul_le_mul_of_nonneg_left hwhole hP).trans_eq (mul_comm _ _)
+  sorry
 
 end Amplitudes
 
@@ -275,18 +223,15 @@ def data : MomentData K ω ψ :=
 
 theorem left_positive (h : PositivePlainProfile d.plainTest₁) :
     PositivePlainProfile (c.data d).plainTest₁ := by
-  intro u t y hy
-  exact h u t y (right_ne_zero_of_mul hy)
+  sorry
 
 theorem right_positive (h : PositivePlainProfile d.plainTest₂) :
     PositivePlainProfile (c.data d).plainTest₂ := by
-  intro u t y hy
-  exact h u t y (right_ne_zero_of_mul hy)
+  sorry
 
 theorem prime_positive (h : ∀ i, PositivePrimeProfile (d.geometry.slots i)) :
     ∀ i, PositivePrimeProfile ((c.data d).geometry.slots i) := by
-  intro i t y hy
-  exact h i t y (right_ne_zero_of_mul hy)
+  sorry
 
 /-- A bounded actual scalar is paid from the original seminorm bound.
 The moving scaled profiles are not supplied with their own bound. -/
@@ -470,12 +415,7 @@ theorem clippedProfileAmplitude_le_shifted
       (clippingCoefficient B orders *
         signedAmplitudeConstant (Set.Icc a B) isCompact_Icc (positiveAnnulus a B ha)
           orders δ R cap D * S) * P := by
-  have hb := profileAmplitude_le_shifted (Set.Icc a B) isCompact_Icc
-    (positiveAnnulus a B ha) orders δ R cap D (S * P) hD (mul_nonneg hS hP)
-    d left right slot hcount hlE hrE hsE hlD hrD hsD hlS hrS hsS
-  unfold clippedProfileAmplitude
-  exact (mul_le_mul_of_nonneg_left hb
-    (zero_le_one.trans (clippingCoefficient_one_le B hB orders))).trans_eq (by ring)
+  sorry
 
 end SignedWindows
 

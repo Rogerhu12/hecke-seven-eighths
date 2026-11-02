@@ -41,12 +41,8 @@ def signedClippedAmplitudeConstant
 theorem signedClippedAmplitudeConstant_nonneg
     (a B : ℝ) (ha : 0 < a) (hB : 1 ≤ B) (orders : Finset (ℕ × ℕ))
     (δ : ℝ) (R cap : ℕ) (directionBound : ℝ) (hD : 0 ≤ directionBound) :
-    0 ≤ signedClippedAmplitudeConstant a B ha orders δ R cap directionBound :=
-  mul_nonneg
-    (mul_nonneg (zero_le_one.trans (clippingCoefficient_one_le B hB orders))
-      (zero_le_one.trans (signedAmplitudeConstant_one_le (Set.Icc a B) isCompact_Icc
-        (positiveAnnulus a B ha) orders δ R cap directionBound hD)))
-    (Real.sqrt_nonneg B)
+    0 ≤ signedClippedAmplitudeConstant a B ha orders δ R cap directionBound := by
+  sorry
 
 namespace OriginalLogProfiles
 
@@ -69,12 +65,7 @@ theorem signed_amplitude_bound
     (hscale : ∀ i, (D.atom i).scale = 1) :
     D.amplitude a B ha orders (Real.sqrt B * P) ≤
       signedClippedAmplitudeConstant a B ha orders δ R cap directionBound * P := by
-  exact clippedProfileAmplitude_le_shifted a B ha hB orders δ R cap
-    directionBound (Real.sqrt B) P hD (Real.sqrt_nonneg B) hP
-    D.original D.left D.right D.slot hcount
-    (hexponent .left) (hexponent .right) (fun i => hexponent (.prime i))
-    (hdirection .left) (hdirection .right) (fun i => hdirection (.prime i))
-    (hscale .left) (hscale .right) (fun i => hscale (.prime i))
+  sorry
 
 end OriginalLogProfiles
 
@@ -139,77 +130,7 @@ theorem exists_signed_family_profile_controls
           (fun b => (right b).amplitude a B ha orders (Real.sqrt B * P)) (Cprofile * P * Z ^ τ)
           cap (orders.sup Prod.snd) (orders.sup Prod.snd)
           (orders.sup Prod.snd) (orders.sup Prod.snd) 1 1 1 1 target₁ target₂ := by
-  obtain ⟨source, Ckernel, hCkernel, hkernel⟩ :=
-    fixedKernelPair_source_bounds T₁ T₂ target₁ target₂
-  let Cclip := signedClippedAmplitudeConstant a B ha orders δ R cap directionBound
-  have hCclip : 0 ≤ Cclip :=
-    signedClippedAmplitudeConstant_nonneg a B ha hB orders δ R cap directionBound hD
-  let Cprofile := 1 + Cclip + Ckernel
-  have hCprofile : 1 ≤ Cprofile := by dsimp only [Cprofile]; linarith
-  have hclip_le : Cclip ≤ Cprofile := by dsimp only [Cprofile]; linarith
-  have hkernel_le : Ckernel ≤ Cprofile := by dsimp only [Cprofile]; linarith
-  refine ⟨source, Cprofile, hCprofile, ?_⟩
-  intro Λ Z P hZ hP family labels left right leftTime rightTime
-    hleftData hrightData hleftTime hrightTime φ₁ φ₂ F₁ F₂ outer
-    hF₁ hF₂ hφ₁ hφ₂ houter hleftCount hrightCount hleftExp hrightExp
-    hleftDirection hrightDirection hleftScale hrightScale hleftRadius hrightRadius
-  have hP0 : 0 ≤ P := zero_le_one.trans hP
-  have hscaledP : 0 ≤ Real.sqrt B * P := mul_nonneg (Real.sqrt_nonneg B) hP0
-  have hprofile0 : 0 ≤ Cprofile := zero_le_one.trans hCprofile
-  have hpower : 1 ≤ Z ^ τ := Real.one_le_rpow hZ hτ
-  have hleftNonneg (b : Λ) : 0 ≤ (left b).amplitude a B ha orders (Real.sqrt B * P) :=
-    (left b).amplitude_nonneg a B ha hB orders hscaledP
-  have hrightNonneg (b : Λ) : 0 ≤ (right b).amplitude a B ha orders (Real.sqrt B * P) :=
-    (right b).amplitude_nonneg a B ha hB orders hscaledP
-  let atoms := familyFourierControl family labels left right leftTime rightTime
-    hleftData hrightData hleftTime hrightTime
-    (fun b => (left b).amplitude a B ha orders (Real.sqrt B * P))
-    (fun b => (right b).amplitude a B ha orders (Real.sqrt B * P))
-    (fun b _ => hleftNonneg b) (fun b _ => hrightNonneg b)
-    (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd)
-    hleftRadius hrightRadius
-  have hclipComparison : Cclip * P ≤ Cprofile * P * Z ^ τ :=
-    (mul_le_mul_of_nonneg_right hclip_le hP0).trans
-      (le_mul_of_one_le_right (mul_nonneg hprofile0 hP0) hpower)
-  have hkernelComparison : Ckernel * P ≤ Cprofile * P * Z ^ τ :=
-    (mul_le_mul_of_nonneg_right hkernel_le hP0).trans
-      (le_mul_of_one_le_right (mul_nonneg hprofile0 hP0) hpower)
-  refine ⟨atoms,
-    { outer_nonneg := houter
-      left_radius_nonneg := fun b _ => hleftNonneg b
-      right_radius_nonneg := fun b _ => hrightNonneg b
-      left_slots := ?_
-      right_slots := ?_
-      left_radius := hleftRadius
-      right_radius := hrightRadius
-      left_radius_power := ?_
-      right_radius_power := ?_
-      first_kernel_power := ?_
-      second_kernel_power := ?_ }⟩
-  · intro b hb
-    rw [(left b).source_count (family.leftCalibration b) (hleftData b)]
-    exact hleftCount b hb
-  · intro b hb
-    rw [(right b).source_count (family.rightCalibration b) (hrightData b)]
-    exact hrightCount b hb
-  · intro b hb
-    rw [pow_one]
-    exact ((left b).signed_amplitude_bound a B ha hB orders δ R cap directionBound P
-      hD hP0 (hleftCount b hb) (hleftExp b hb)
-      (hleftDirection b hb) (hleftScale b hb)).trans hclipComparison
-  · intro b hb
-    rw [pow_one]
-    exact ((right b).signed_amplitude_bound a B ha hB orders δ R cap directionBound P
-      hD hP0 (hrightCount b hb) (hrightExp b hb)
-      (hrightDirection b hb) (hrightScale b hb)).trans hclipComparison
-  · intro b hb
-    rw [pow_one, hF₁ b hb]
-    exact ((hkernel (φ₁ b)).1.trans
-      (mul_le_mul_of_nonneg_left (hφ₁ b hb) (zero_le_one.trans hCkernel))).trans hkernelComparison
-  · intro b hb
-    rw [pow_one, hF₂ b hb]
-    exact ((hkernel (φ₂ b)).2.trans
-      (mul_le_mul_of_nonneg_left (hφ₂ b hb) (zero_le_one.trans hCkernel))).trans hkernelComparison
+  sorry
 
 end SameFamily
 end HeckeSkeleton.Moments.EngineStep.CanonicalLogProfiles

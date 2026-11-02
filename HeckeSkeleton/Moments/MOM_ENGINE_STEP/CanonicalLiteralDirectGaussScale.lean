@@ -103,23 +103,7 @@ theorem literalLeftDirectAtoms_gaussScale_lower
       (literalLeftDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
         firstFixed hfirst δ₂ label).gaussScale := by
-  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
-  have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
-      branch.keep branch.witness.2 = DE.1 :=
-    branch.frozenSourceIdeal_eq.trans
-      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)
-  have h := Q.literalOriginalAtoms_secondInput_gaussScale_lower (σ := σ)
-    ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ branch
-    (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
-    (CanonicalLiteralFirstPhase.leftElement C b.primes
-      b.leftMultiplicity b.rightMultiplicity
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
-    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
-    hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
-    δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
-  simpa only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  sorry
 
 /-- The full original frozen ideal determines the lower Gauss scale
 of this actual right direct table. -/
@@ -138,23 +122,7 @@ theorem literalRightDirectAtoms_gaussScale_lower
       (literalRightDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
         b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
         firstFixed hfirst δ₂ label).gaussScale := by
-  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
-  have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
-      branch.keep branch.witness.2 = DE.2 :=
-    branch.frozenSourceIdeal_eq.trans
-      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)
-  have h := Q.literalOriginalAtoms_secondInput_gaussScale_lower (σ := σ)
-    ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ branch
-    (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
-    (CanonicalLiteralFirstPhase.rightElement C b.primes
-      b.leftMultiplicity b.rightMultiplicity
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
-    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
-    hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
-    δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
-  simpa only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

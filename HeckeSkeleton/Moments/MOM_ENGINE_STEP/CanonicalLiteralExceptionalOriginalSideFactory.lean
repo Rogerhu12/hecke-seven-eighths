@@ -128,8 +128,7 @@ theorem uniformComputed_model :
     (originalComputed Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders
       amplitude hamplitude original hreference ht hcompact hpositive hprime first hfirstSupport
       F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot).model := by
-  cases count
-  rfl
+  sorry
 
 theorem uniformComputed_bound (r : Bool) :
     (uniformComputed Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders
@@ -137,8 +136,7 @@ theorem uniformComputed_bound (r : Bool) :
       F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot).bound r =
       CanonicalLiteralExceptionalProfileWindow.coefficient window hcompact hpositive
         δ₁ δ₂ orders * amplitude := by
-  cases count
-  rfl
+  sorry
 
 variable (ray : (PUnit.{1} × PUnit.{1}) →* Circle)
 variable (firstSign : ℝ) (hfirstSign : |firstSign| ≤ 1)
@@ -241,54 +239,15 @@ theorem side_profile_bounds :
     (∀ j, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((D).model.slot j) ≤
       CanonicalLiteralExceptionalProfileWindow.coefficient window hcompact hpositive
         δ₁ δ₂ orders * amplitude) := by
-  let U := uniformComputed Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href orders
-    amplitude hamplitude original hreference ht hcompact hpositive hprime first hfirstSupport
-    F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot
-  have hmodel : U.model = (D).model := uniformComputed_model Q ξ recipe a Z t Y₁ Y₂
-    centered hZ hY₁ hY₂ reference href orders amplitude hamplitude original hreference ht
-    hcompact hpositive hprime first hfirstSupport F power δ₁ δ₂ second hsecondSupport
-    atlas count hleft hright hslot
-  have hbound (r : Bool) : U.bound r =
-      CanonicalLiteralExceptionalProfileWindow.coefficient window hcompact hpositive
-        δ₁ δ₂ orders * amplitude := uniformComputed_bound Q ξ recipe a Z t Y₁ Y₂
-    centered hZ hY₁ hY₂ reference href orders amplitude hamplitude original hreference ht
-    hcompact hpositive hprime first hfirstSupport F power δ₁ δ₂ second hsecondSupport
-    atlas count hleft hright hslot r
-  have hmono (φ : 𝓢(ℝ, ℂ)) : orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) φ ≤
-      (CanonicalLogProfiles.sourceOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) φ :=
-    Seminorm.finset_sup_apply_le (apply_nonneg _ _)
-      (fun p hp => Seminorm.le_finset_sup_apply
-        (CanonicalLogProfiles.subset_sourceOrders orders hp))
-  refine ⟨?_, ?_, ?_⟩
-  · intro r
-    have h := (hmono (U.model.left r)).trans (U.left_bound r)
-    simpa only [hmodel, hbound] using h
-  · intro r
-    have h := (hmono (U.model.right r)).trans (U.right_bound r)
-    simpa only [hmodel, hbound] using h
-  · intro j
-    have h := (hmono (U.model.slot j)).trans (U.slot_bound false j)
-    simpa only [hmodel, hbound] using h
+  sorry
 
 theorem side_samePlainProfiles (hc : centered = true) :
     CanonicalLiteralExceptionalCharts.SamePlainProfiles (D).model := by
-  subst centered
-  let E := Q.literalOriginalSchwartzModel ξ recipe a Z t Y₁ Y₂ true hZ hY₁ hY₂
-    reference allowedReference original hreference ht hpositive hcompact.isClosed
-  have hE : CanonicalLiteralExceptionalCharts.SamePlainProfiles E :=
-    CanonicalLiteralExceptionalCharts.original_samePlainProfiles Q ξ recipe a Z t Y₁ Y₂
-      hZ hY₁ hY₂ reference allowedReference original hreference ht hpositive hcompact.isClosed
-  have h := CanonicalLiteralExceptionalCharts.samePlainProfiles_factorFreeSecondInput
-    (σ := σ) E first P R power F.firstIdeal F.poolIdeal F.unitIdeal F.firstElement
-    F.poolElement F.unitElement F.first_generates F.pool_generates F.unit_generates
-    δ₁ δ₂ hE hcompact hpositive
-  cases count
-  exact h
+  sorry
 
 theorem side_primeNormWindow (B : ℝ) (hp : (seed).PrimeNormWindow B) :
     (D).atoms.PrimeNormWindow B := by
-  have hp₁ : (actual).PrimeNormWindow B := hp.extract first
-  exact (((hp₁.extract second).onAtlas atlas count hslot).scale scalar⁻¹).balancePlain (fun _ => 1)
+  sorry
 
 /-- A return value on the exact final table. The heterogeneous equality
 only transports its occurrence count; it does not discard or reselect
@@ -413,11 +372,7 @@ private theorem first_table_eq :
       (bare).onAtlas firstAtlas (congrArg Sigma.fst dictionary).symm⟩ :
         Σ n : ℕ, CanonicalLiteralRectangles.Atoms (K := K) n) =
       ⟨first.keep.card, bare⟩ := by
-  have he := (bare).onAtlas_eq_cast firstAtlas firstIndex dictionary
-  have hc : HEq
-      (cast (congrArg (CanonicalLiteralRectangles.Atoms (K := K))
-        (congrArg Sigma.fst dictionary).symm) bare) bare := cast_heq _ _
-  exact Sigma.ext (congrArg Sigma.fst dictionary) ((heq_of_eq he).trans hc)
+  sorry
 
 /-- The actual first atlas, its actual second branch, and its original
 allocation construct an exceptional side on that exact final table.

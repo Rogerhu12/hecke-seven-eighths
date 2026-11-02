@@ -77,14 +77,7 @@ include μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget centered cutoff hcut
 No second-source activity or nonempty-row premise is imposed. -/
 theorem literalPrimitiveCommon_m_nonneg (DE : (source).CommonLabel) :
     0 ≤ (Q.fullSupportParameters a Z).m := by
-  obtain ⟨ij, hij, _⟩ := Finset.mem_image.mp DE.property
-  have hi : ij.1 ∈ (raw).exteriorColumns := (Finset.mem_product.mp hij).1
-  have hc : ij.1 ∈ (raw).columns := (Finset.mem_filter.mp hi).1
-  have hplain := Finset.mem_product.mp (Finset.mem_product.mp hc).1
-  obtain ⟨u, hu, _⟩ := Finset.mem_biUnion.mp hplain.1
-  have hu' : u ∈ pairedRows (data ξ) a Z := by
-    simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hu
-  exact Q.fullSupportParameters_m_nonneg_of_pairedRow a Z hZ hbudget ξ u hu'
+  sorry
 
 /-- Every nominal tag uses the same original coordinate bounds. The
 right orientation uses the proved symmetry of the actual active radical. -/
@@ -100,29 +93,7 @@ theorem literalPrimitiveGeometry_inverse_bound
       ((source).block DE).literalLeftCoordinates D.val) :
     G.retainedLength + G.enlargement ≤
       4 * max lengthBound columnBound + G.supportError + 2 * step := by
-  have hlengths := Q.literalPrimitiveFirstIdealLengths μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half columnBound hN DE D
-  have hm := Q.literalPrimitiveCommon_m_nonneg μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half DE
-  have htotal' : (Q.fullSupportParameters a Z).n₁ +
-      (Q.fullSupportParameters a Z).n₂ + (Q.fullSupportParameters a Z).z ≤
-        max lengthBound columnBound := htotal.trans (le_max_left _ _)
-  apply G.inverse_radius_exponent_le hZ hstep (max lengthBound columnBound) hm htotal'
-  · cases negative <;> simp only [Bool.false_eq_true,
-      if_false, if_true] at hcoordinates
-    · simpa only [hcoordinates, FirstCommonCharacterBlock.literalLeftCoordinates_complementary]
-        using hlengths.2.2.2.trans (le_max_right lengthBound columnBound)
-    · simpa only [hcoordinates, FirstCommonCharacterBlock.literalRightCoordinates_complementary]
-        using hlengths.2.2.2.trans (le_max_right lengthBound columnBound)
-  · cases negative <;> simp only [Bool.false_eq_true,
-      if_false, if_true] at hcoordinates
-    · simpa only [hcoordinates, FirstCommonCharacterBlock.literalLeftCoordinates_first,
-        FirstCommonCharacterBlock.literalLeftCoordinates_opposite]
-        using hlengths.2.2.1.trans (le_max_right lengthBound columnBound)
-    · simpa only [hcoordinates, FirstCommonCharacterBlock.literalRightCoordinates_first,
-        FirstCommonCharacterBlock.literalRightCoordinates_opposite,
-        firstActiveRadical_swap_of_support DE.val.1 DE.val.2 ((source).block DE).common_support_eq]
-        using hlengths.2.2.1.trans (le_max_right lengthBound columnBound)
+  sorry
 
 end CompleteMovingRowRecipe
 
@@ -142,8 +113,8 @@ def primitiveCutoff (cap : ℕ) (lengthBound columnBound step loss cutoffExponen
 theorem primitiveCutoff_ge_one (cap : ℕ)
     (lengthBound columnBound step loss cutoffExponent Nsave decay Z : ℝ)
     (hZ : 1 ≤ Z) (hdecay : 1 < decay) :
-    1 ≤ primitiveCutoff cap lengthBound columnBound step loss cutoffExponent Nsave decay Z :=
-  Real.one_le_rpow hZ (firstTailCutoffExponent_nonneg _ _ _ hdecay)
+    1 ≤ primitiveCutoff cap lengthBound columnBound step loss cutoffExponent Nsave decay Z := by
+  sorry
 
 end CanonicalOriginalTerminalPowers
 end HeckeSkeleton.Moments.EngineStep

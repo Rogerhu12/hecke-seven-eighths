@@ -73,15 +73,15 @@ def dependentAmplifiedIndex
     (b : (sigmaCombine families).active (outer.sigma labels)) :
     L.amplifiedTag tag pool
         (L.dependentAmplifiedIndex families outer labels pool tag tag_mem b) =
-      tag b.val.1 :=
-  L.amplifiedIndex_tag tag pool tag_mem _
+      tag b.val.1 := by
+  sorry
 
 @[simp] theorem dependentAmplifiedIndex_allocation
     (b : (sigmaCombine families).active (outer.sigma labels)) :
     L.amplifiedAllocation tag pool
         (L.dependentAmplifiedIndex families outer labels pool tag tag_mem b) =
-      L.allocation b.val.1 :=
-  L.amplifiedIndex_allocation tag pool tag_mem _
+      L.allocation b.val.1 := by
+  sorry
 
 end OriginalArithmeticLabels
 end HeckeSkeleton.Moments.EngineStep

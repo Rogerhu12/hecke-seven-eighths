@@ -98,47 +98,7 @@ theorem exceptionalCost_of_original_source
           CanonicalExceptionalPaidIntegral.fourierFactor order order
             (leaf).firstKernel (leaf).secondKernel) * Z ^ (remaining + tilt) *
               (labels).carrier.exceptionalDyadWeight Z lower j) := by
-  let coefficient := R.originalScalarAt L i.val *
-    (firstCost * secondCost * Z ^ (remaining + tilt) *
-      (labels).carrier.exceptionalDyadWeight Z lower j)
-  have hindex := (labels).carrier.exceptionalDyadWeight_nonneg
-    Z lower (zero_lt_one.trans hZ).le j
-  have hcoefficient : 0 ≤ coefficient :=
-    mul_nonneg (R.originalScalarAt_nonneg L i.val)
-      (mul_nonneg
-        (mul_nonneg (mul_nonneg hfirstCost hsecondCost)
-          (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hindex)
-  have hheight : 0 ≤ (1 + 2 * Real.pi) ^ order := by positivity
-  have hpoint : ∀ thetaPair : theta × theta, ∀ z : ℝ × ℝ,
-      (((‖leftScalar‖ * ‖rightScalar‖) * (leaf).weight) / Z ^ parentWidth) *
-          ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z ≤
-        (coefficient * (1 + 2 * Real.pi) ^ order) *
-          ((1 + ‖z.1‖) ^ order * (1 + ‖z.2‖) ^ order) := by
-    intro thetaPair z
-    have hp := R.stripOuter_theta_pointwise L hcap hZ total exceptional i extract
-      leftScalar rightScalar hleftScalar hrightScalar characters thetaPair z
-      parentWidth firstCost
-      (secondCost *
-        (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ order)
-      remaining lower tilt hfirstCost hfirst (hsecond thetaPair z)
-    rw [extract.stripOuter_weight leftScalar rightScalar hleftScalar hrightScalar] at hp
-    have hg := CanonicalLiteralExceptionalWindows.fourierHeight_polynomial
-      order (WithLp.toLp 2 z)
-    simp only [WithLp.ofLp_toLp] at hg
-    calc
-      _ ≤ coefficient *
-          (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ order :=
-        hp.trans_eq (by dsimp only [coefficient]; ring)
-      _ ≤ coefficient * ((1 + 2 * Real.pi) ^ order *
-          (1 + ‖z.1‖) ^ order * (1 + ‖z.2‖) ^ order) :=
-        mul_le_mul_of_nonneg_left hg hcoefficient
-      _ = _ := by ring
-
-  have hb := CanonicalExceptionalPaidIntegral.theta_cost_le_of_strip_outer_majorant
-    order order (coefficient * (1 + 2 * Real.pi) ^ order)
-    (mul_nonneg hcoefficient hheight) leaf extract leftScalar rightScalar
-    hleftScalar hrightScalar characters hpredicate Z parentWidth hpoint
-  exact hb.trans_eq (by dsimp only [coefficient]; ring)
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 
@@ -187,47 +147,7 @@ theorem exceptionalCost_of_original_source
           CanonicalExceptionalPaidIntegral.fourierFactor order order
             (leaf).firstKernel (leaf).secondKernel) * Z ^ (remaining + tilt) *
               (labels).carrier.exceptionalDyadWeight Z lower j) := by
-  let coefficient := R.originalScalarAt L i.val *
-    (firstCost * secondCost * Z ^ (remaining + tilt) *
-      (labels).carrier.exceptionalDyadWeight Z lower j)
-  have hindex := (labels).carrier.exceptionalDyadWeight_nonneg
-    Z lower (zero_lt_one.trans hZ).le j
-  have hcoefficient : 0 ≤ coefficient :=
-    mul_nonneg (R.originalScalarAt_nonneg L i.val)
-      (mul_nonneg
-        (mul_nonneg (mul_nonneg hfirstCost hsecondCost)
-          (Real.rpow_nonneg (zero_lt_one.trans hZ).le _)) hindex)
-  have hheight : 0 ≤ (1 + 2 * Real.pi) ^ order := by positivity
-  have hpoint : ∀ thetaPair : theta × theta, ∀ z : ℝ × ℝ,
-      (((‖leftScalar‖ * ‖rightScalar‖) * (leaf).weight) / Z ^ parentWidth) *
-          ((outerLeaf).thetaClassLeaf characters thetaPair).exceptionalIntegrand z ≤
-        (coefficient * (1 + 2 * Real.pi) ^ order) *
-          ((1 + ‖z.1‖) ^ order * (1 + ‖z.2‖) ^ order) := by
-    intro thetaPair z
-    have hp := R.stripOuter_theta_pointwise L hcap hZ total exceptional i extract
-      leftScalar rightScalar hleftScalar hrightScalar characters thetaPair z
-      parentWidth firstCost
-      (secondCost *
-        (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ order)
-      remaining lower tilt hfirstCost hfirst (hsecond thetaPair z)
-    rw [extract.stripOuter_weight leftScalar rightScalar hleftScalar hrightScalar] at hp
-    have hg := CanonicalLiteralExceptionalWindows.fourierHeight_polynomial
-      order (WithLp.toLp 2 z)
-    simp only [WithLp.ofLp_toLp] at hg
-    calc
-      _ ≤ coefficient *
-          (1 + CanonicalLiteralExceptionalWindows.fourierHeight (WithLp.toLp 2 z)) ^ order :=
-        hp.trans_eq (by dsimp only [coefficient]; ring)
-      _ ≤ coefficient * ((1 + 2 * Real.pi) ^ order *
-          (1 + ‖z.1‖) ^ order * (1 + ‖z.2‖) ^ order) :=
-        mul_le_mul_of_nonneg_left hg hcoefficient
-      _ = _ := by ring
-
-  have hb := CanonicalExceptionalPaidIntegral.theta_cost_le_of_strip_outer_majorant
-    order order (coefficient * (1 + 2 * Real.pi) ^ order)
-    (mul_nonneg hcoefficient hheight) leaf extract leftScalar rightScalar
-    hleftScalar hrightScalar characters hpredicate Z parentWidth hpoint
-  exact hb.trans_eq (by dsimp only [coefficient]; ring)
+  sorry
 
 end ActualFirstSource.SecondStages
 

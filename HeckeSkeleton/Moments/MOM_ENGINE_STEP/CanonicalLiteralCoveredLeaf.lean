@@ -116,52 +116,32 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 
 theorem literalLeft_cartesian (i : AllocationColumn K v.leftSlots) :
     i ∈ v.leftReindex.cartesian ↔ i ∈ v.literalLeftBranch.residualColumns := by
-  change i ∈ childCartesianColumns v.leftReindex.plain₁ v.leftReindex.plain₂
-    v.leftReindex.slots ↔ _
-  rw [SourceCartesianAtlas.residualReindex_plain₁,
-    SourceCartesianAtlas.residualReindex_plain₂, SourceCartesianAtlas.residualReindex_slots]
-  rfl
+  sorry
 
 theorem literalRight_cartesian (i : AllocationColumn K v.literalRightBranch.keep.card) :
     i ∈ v.rightReindex.cartesian ↔ i ∈ v.literalRightBranch.residualColumns := by
-  change i ∈ childCartesianColumns v.rightReindex.plain₁ v.rightReindex.plain₂
-    v.rightReindex.slots ↔ _
-  rw [SourceCartesianAtlas.residualReindex_plain₁,
-    SourceCartesianAtlas.residualReindex_plain₂, SourceCartesianAtlas.residualReindex_slots]
-  rfl
+  sorry
 
 theorem literalLeft_index_common (i : AllocationColumn K v.leftSlots)
     (hi : i ∈ v.leftReindex.cartesian) :
     v.leftReindex.index i ∈ v.block.leftColumns G.columns := by
-  have hm := v.leftReindex.maps i hi
-  have hc := Finset.mem_filter.mp (Finset.mem_filter.mp hm).1
-  exact Finset.mem_filter.mpr ⟨(Finset.mem_filter.mp hc.1).1, hc.2⟩
+  sorry
 
 theorem literalRight_index_common (i : AllocationColumn K v.literalRightBranch.keep.card)
     (hi : i ∈ v.rightReindex.cartesian) :
     v.rightReindex.index i ∈ v.block.rightColumns G.columns := by
-  have hm := v.rightReindex.maps i hi
-  have hc := Finset.mem_filter.mp (Finset.mem_filter.mp hm).1
-  exact Finset.mem_filter.mpr ⟨(Finset.mem_filter.mp hc.1).1, hc.2⟩
+  sorry
 
 variable (exceptional : s.CoverHybridPredicates LC RC)
 variable (F : SchwartzMap ℝ ℂ) (x : ι → ℝ) (j : v.AllocationKey)
 
 private theorem literal_left_mem (i : AllocationColumn K v.leftSlots)
     (hi : i ∈ (v.leaf exceptional F x j).left) : i ∈ v.leftReindex.cartesian := by
-  change i ∈ pairedAllocatedColumns j.1.val j.2.2.1.val
-    v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-    id id HeightOneSpectrum.asIdeal at hi
-  rw [paired_allocated_columns_eq_filter] at hi
-  exact (Finset.mem_filter.mp hi).1
+  sorry
 
 private theorem literal_right_mem (i : AllocationColumn K v.literalRightBranch.keep.card)
     (hi : i ∈ (v.leaf exceptional F x j).right) : i ∈ v.rightReindex.cartesian := by
-  change i ∈ pairedAllocatedColumns j.1.val j.2.2.2.val
-    v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-    id id HeightOneSpectrum.asIdeal at hi
-  rw [paired_allocated_columns_eq_filter] at hi
-  exact (Finset.mem_filter.mp hi).1
+  sorry
 
 variable (leftCoefficient : ∀ i ∈ (LC.branch v.2.2.1).reindex.cartesian,
   (LC.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns G.columns →
@@ -176,13 +156,7 @@ private theorem literal_left_coefficient
     v.chart.sourceLeftCoefficient (v.leftReindex.index i) =
       (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch *
         (v.literalLeftAtoms leftAtoms).whole i := by
-  have hr := (v.literalLeft_cartesian i).mp hi
-  have hm := v.literalLeftBranch.reconstruct_mem i hr
-  rw [v.literalLeftBranch.originalColumns_eq_filter] at hm
-  have hc := v.literalLeft_index_common i hi
-  rw [SourceCartesianAtlas.residualReindex_index] at hc ⊢
-  rw [leftCoefficient _ (Finset.mem_filter.mp hm).1 hc]
-  exact (v.literalLeftOriginal leftAtoms).extract_whole v.literalLeftBranch i hr
+  sorry
 
 include rightCoefficient in
 private theorem literal_right_coefficient
@@ -191,13 +165,7 @@ private theorem literal_right_coefficient
     v.chart.sourceRightCoefficient (v.rightReindex.index i) =
       (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch *
         (v.literalRightAtoms rightAtoms).whole i := by
-  have hr := (v.literalRight_cartesian i).mp hi
-  have hm := v.literalRightBranch.reconstruct_mem i hr
-  rw [v.literalRightBranch.originalColumns_eq_filter] at hm
-  have hc := v.literalRight_index_common i hi
-  rw [SourceCartesianAtlas.residualReindex_index] at hc ⊢
-  rw [rightCoefficient _ (Finset.mem_filter.mp hm).1 hc]
-  exact (v.literalRightOriginal rightAtoms).extract_whole v.literalRightBranch i hr
+  sorry
 
 /-- The extraction is attached to the original stored finite leaf.
 All coefficient equalities are proved at its actual allocated columns. -/

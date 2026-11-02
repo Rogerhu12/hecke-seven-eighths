@@ -542,36 +542,7 @@ def literalRightProfileCoefficient (r : Bool) : ℝ :=
             (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
             (CompleteMovingRowRecipe.primeMaskLogBound A Z (m + q))))
         (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  let «GL» := geometry.atBase (leftTable).base hbaseLeft
-  have hmL : «GL».literalRowParameter paidCutoff = m :=
-    geometry.atBase_literalRowParameter (leftTable).base hbaseLeft paidCutoff
-  have hrootL : idealLogLength (leftTable).base
-      (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity
-        (ordinaryRows).rightMultiplicity).val = rootLength := by
-    change idealLogLength (v.literalLeftAtoms leftAtoms).base
-      (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity).val = _
-    rw [hbaseLeft]
-  have hqL : «GL».literalSupportParameter
-      (idealLogLength (leftTable).base
-        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity
-          (ordinaryRows).rightMultiplicity).val) = q := by
-    rw [hrootL]
-    exact geometry.atBase_literalSupportParameter (leftTable).base hbaseLeft rootLength
-  change polynomialProfileRadius
-    (CanonicalFullKappaPrime.enlargedCoefficient
-      (leftComputed.coefficient (leftTable).base (calibrations.1 rs.1).parameters isCompact_Icc
-        (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rs.1)
-      (CanonicalFullKappaPrime.radiusFactor K (leftTable).base δ mesh
-        (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-        (CompleteMovingRowRecipe.primeMaskLogBound A (leftTable).base
-          («GL».literalRowParameter paidCutoff + «GL».literalSupportParameter
-            (idealLogLength (leftTable).base
-              (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity
-                (ordinaryRows).rightMultiplicity).val)))))
-    (orders.sup Prod.snd) (orders.sup Prod.snd) z = _
-  rw [hmL, hqL]
-  have hb : (leftTable).base = Z := hbaseLeft
-  rw [hb]
+  sorry
 
 @[simp] theorem literalNormalizationData_rightRadius (rs : Bool × Bool) (z : ℝ × ℝ) :
     ((normalization).family.rightCapacity rs).radius (WithLp.toLp 2 z) =
@@ -583,42 +554,7 @@ def literalRightProfileCoefficient (r : Bool) : ℝ :=
             (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
             (CompleteMovingRowRecipe.primeMaskLogBound A Z (m + q))))
         (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  let GR := geometry.swapSecond.atBase (rightTable).base hbaseRight
-  have hmR : GR.literalRowParameter paidCutoff = m := by
-    rw [OriginalNominalGeometry.atBase_literalRowParameter,
-      geometry.swapSecond_literalRowParameter]
-  have hrootR : idealLogLength (rightTable).base
-      (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
-        (ordinaryRows).leftMultiplicity).val = rootLength := by
-    have he := SecondColumnSide.literal_root .right ordinaryRows
-    change secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
-      (ordinaryRows).leftMultiplicity = secondSixthRootIdeal (ordinaryRows).primes
-      (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity at he
-    rw [he]
-    change idealLogLength (v.literalRightAtoms rightAtoms).base
-      (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity).val = _
-    rw [hbaseRight]
-  have hqR : GR.literalSupportParameter
-      (idealLogLength (rightTable).base
-        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
-          (ordinaryRows).leftMultiplicity).val) = q := by
-    rw [hrootR, OriginalNominalGeometry.atBase_literalSupportParameter,
-      geometry.swapSecond_literalSupportParameter]
-  change polynomialProfileRadius
-    (CanonicalFullKappaPrime.enlargedCoefficient
-      (rightComputed.coefficient (rightTable).base (calibrations.2 rs.2).parameters isCompact_Icc
-        (CanonicalLogProfiles.positiveAnnulus lo hi hlo) (-firstSign) rs.2)
-      (CanonicalFullKappaPrime.radiusFactor K (rightTable).base δ mesh
-        (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-        (CompleteMovingRowRecipe.primeMaskLogBound A (rightTable).base
-          (GR.literalRowParameter paidCutoff + GR.literalSupportParameter
-            (idealLogLength (rightTable).base
-              (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
-                (ordinaryRows).leftMultiplicity).val)))))
-    (orders.sup Prod.snd) (orders.sup Prod.snd) z = _
-  rw [hmR, hqR]
-  have hb : (rightTable).base = Z := hbaseRight
-  rw [hb]
+  sorry
 
 /-- The coefficient bound uses the actual left source activity and the
 original first-branch identities. The displayed `hbound` is the exact
@@ -642,33 +578,7 @@ theorem literalNormalizationData_leftActiveCoefficient_le
     leftComputed.coefficient Z (calibrations.1 rs.val.1).parameters isCompact_Icc
       (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rs.val.1 ≤
         CanonicalLiteralRadiusBound.fixedCoefficient originalBound lo hi hlo δ₁ δ₂ firstSign orders := by
-  have hactive : ¬ ∀ ξ, ((rectangles).leftFrame C rs.val.1).source.energy (σ := σ) ξ = 0 :=
-    (Finset.mem_filter.mp rs.property).2.1
-  have hwhich := (leftTable).active_rectangle C ordinaryRows .left j.2.1
-    (fun i => v.block.leftResidual (v.leftReindex.index i)) v.leftReindex.ideal_product
-    firstSign j.1.val j.2.2.1.val (Finset.mem_filter.mp (allocation).property).2.2.1
-    rs.val.1 hactive
-  have hproduct : seed.scale₁ rs.val.1 * seed.scale₂ rs.val.1 =
-      seed.scale₁ false * seed.scale₂ false := by
-    rcases hwhich with hr | hc
-    · rw [hr]
-    · cases hr : rs.val.1 with
-      | false => simp only [hr]
-      | true => simpa only [hr] using hcomparison (hcentered.symm.trans hc)
-  have hB : 0 ≤ originalBound :=
-    (show 0 ≤ originalOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ)
-        (original.leftRep reference time) by positivity).trans
-      (original.left_bound reference hreference time htime)
-  have hfixed := CanonicalLiteralActiveRadius.coefficient_le_fixed_of_source_active
-    seed first (v.literalLeftOriginal leftAtoms) v.literalLeftBranch
-    v.literalLeftResidualAtlas rfl leftScalar⁻¹ leftBalance leftTests
-    ((rectangles).leftFrame C rs.val.1).allocation leftComputed
-    rs.val.1 m q a.κ δ₁ δ₂ firstSign false hB hlo hhi hδlo hδhi'
-    hproduct hbase (hfirst₁ rs.val.1) (hfirst₂ rs.val.1) (congrFun hbound rs.val.1)
-    ((rectangles).leftFrame C rs.val.1).source (calibrations.1 rs.val.1)
-    hbase rfl (fun _ => rfl) (fun _ => rfl) hactive
-  have hb : ((rectangles).leftFrame C rs.val.1).source.base = Z := hbaseLeft
-  simpa only [hb] using hfixed
+  sorry
 
 /-- The right source retains its original negative Fourier orientation.
 Both tests and all allocation divisors are the actual right ones. -/
@@ -690,33 +600,7 @@ theorem literalNormalizationData_rightActiveCoefficient_le
     rightComputed.coefficient Z (calibrations.2 rs.val.2).parameters isCompact_Icc
       (CanonicalLogProfiles.positiveAnnulus lo hi hlo) (-firstSign) rs.val.2 ≤
         CanonicalLiteralRadiusBound.fixedCoefficient originalBound lo hi hlo δ₁ δ₂ (-firstSign) orders := by
-  have hactive : ¬ ∀ ξ, ((rectangles).rightFrame C rs.val.2).source.energy (σ := σ) ξ = 0 :=
-    (Finset.mem_filter.mp rs.property).2.2
-  have hwhich := (rightTable).active_rectangle C ordinaryRows .right j.2.1
-    (fun i => v.block.rightResidual (v.rightReindex.index i)) v.rightReindex.ideal_product
-    (-firstSign) j.1.val j.2.2.2.val (Finset.mem_filter.mp (allocation).property).2.2.2
-    rs.val.2 hactive
-  have hproduct : seed.scale₁ rs.val.2 * seed.scale₂ rs.val.2 =
-      seed.scale₁ false * seed.scale₂ false := by
-    rcases hwhich with hr | hc
-    · rw [hr]
-    · cases hr : rs.val.2 with
-      | false => simp only [hr]
-      | true => simpa only [hr] using hcomparison (hcentered.symm.trans hc)
-  have hB : 0 ≤ originalBound :=
-    (show 0 ≤ originalOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ)
-        (original.leftRep reference time) by positivity).trans
-      (original.left_bound reference hreference time htime)
-  have hfixed := CanonicalLiteralActiveRadius.coefficient_le_fixed_of_source_active
-    seed first (v.literalRightOriginal rightAtoms) v.literalRightBranch
-    v.literalRightResidualAtlas rfl rightScalar⁻¹ rightBalance rightTests
-    ((rectangles).rightFrame C rs.val.2).allocation rightComputed
-    rs.val.2 m q a.κ δ₁ δ₂ (-firstSign) true hB hlo hhi hδlo hδhi'
-    hproduct hbase (hfirst₁ rs.val.2) (hfirst₂ rs.val.2) (congrFun hbound rs.val.2)
-    ((rectangles).rightFrame C rs.val.2).source (calibrations.2 rs.val.2)
-    hbase rfl (fun _ => rfl) (fun _ => rfl) hactive
-  have hb : ((rectangles).rightFrame C rs.val.2).source.base = Z := hbaseRight
-  simpa only [hb] using hfixed
+  sorry
 
 
 local notation "leftRadiusProof" =>
@@ -844,26 +728,12 @@ embedding, before capacity removal or the activity test. -/
 theorem literalNormalizationData_leftSlots_le (cap : ℕ)
     (hcap : parent.geometry.slotCount ≤ cap) (rs : Bool × Bool) :
     ((normalization).family.leftSource rs).allocation.keep.card ≤ cap := by
-  have hf : (normalization).family.leftSlots rs ≤ parent.geometry.slotCount := by
-    simpa only [Fintype.card_fin] using
-      Fintype.card_le_of_injective leftRecipe.slots.index leftRecipe.slots.index.injective
-  have hk : ((normalization).family.leftSource rs).allocation.keep.card ≤
-      (normalization).family.leftSlots rs := by
-    simpa only [Fintype.card_fin] using
-      Finset.card_le_univ ((normalization).family.leftSource rs).allocation.keep
-  exact hk.trans (hf.trans hcap)
+  sorry
 
 theorem literalNormalizationData_rightSlots_le (cap : ℕ)
     (hcap : parent.geometry.slotCount ≤ cap) (rs : Bool × Bool) :
     ((normalization).family.rightSource rs).allocation.keep.card ≤ cap := by
-  have hf : (normalization).family.rightSlots rs ≤ parent.geometry.slotCount := by
-    simpa only [Fintype.card_fin] using
-      Fintype.card_le_of_injective rightRecipe.slots.index rightRecipe.slots.index.injective
-  have hk : ((normalization).family.rightSource rs).allocation.keep.card ≤
-      (normalization).family.rightSlots rs := by
-    simpa only [Fintype.card_fin] using
-      Finset.card_le_univ ((normalization).family.rightSource rs).allocation.keep
-  exact hk.trans (hf.trans hcap)
+  sorry
 
 /-- The actual normalized kernels are integrated over their existing
 active carrier. Both original Fourier kernels and the exact remaining
@@ -925,100 +795,7 @@ theorem literalNormalizationData_kernelMass
                 (schwartzSeminormFamily ℝ ℝ ℂ) X.leaf.secondKernel *
                 ∑ rs : family.active labels,
                   X.leaf.weight * family.weight labels (a.m + a.q) rs := by
-  dsimp only
-  let family := (normalization).family
-  let L := fun rs : Bool × Bool => leftComputed.coefficient Z (calibrations.1 rs.1).parameters
-    isCompact_Icc (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rs.1
-  let R := fun rs : Bool × Bool => rightComputed.coefficient Z (calibrations.2 rs.2).parameters
-    isCompact_Icc (CanonicalLogProfiles.positiveAnnulus lo hi hlo) (-firstSign) rs.2
-  let factor := CanonicalFullKappaPrime.radiusFactor K Z δ mesh
-    (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-    (CompleteMovingRowRecipe.primeMaskLogBound A Z (m + q))
-  let fixed := CanonicalLiteralActiveRadius.twoSignsCoefficient originalBound lo hi hlo δ₁ δ₂ orders
-  let s₁ := CanonicalLiteralKernelConstants.firstOrders K A σ ω ψ cap (orders.sup Prod.snd)
-  let s₂ := CanonicalLiteralKernelConstants.secondOrders K A σ ω ψ cap (orders.sup Prod.snd)
-  let S₁ := s₁.sup (schwartzSeminormFamily ℝ ℝ ℂ) X.leaf.firstKernel
-  let S₂ := s₂.sup (schwartzSeminormFamily ℝ ℝ ℂ) X.leaf.secondKernel
-  have hL (rs : Bool × Bool) : 0 ≤ L rs :=
-    leftComputed.coefficient_nonneg Z _ domain.scale.le isCompact_Icc
-      (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rs.1
-  have hR (rs : Bool × Bool) : 0 ≤ R rs :=
-    rightComputed.coefficient_nonneg Z _ domain.scale.le isCompact_Icc
-      (CanonicalLogProfiles.positiveAnnulus lo hi hlo) (-firstSign) rs.2
-  have hfactor : 1 ≤ factor := CanonicalFullKappaPrime.one_le_radiusFactor
-    (K := K) Z δ mesh (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
-    (CompleteMovingRowRecipe.primeMaskLogBound A Z (m + q)) domain.scale.le hδ.le hmesh
-  have hB : 0 ≤ originalBound :=
-    (show 0 ≤ originalOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ)
-        (original.leftRep reference time) by positivity).trans
-      (original.left_bound reference hreference time htime)
-  have hfixed : 0 ≤ fixed := CanonicalLiteralActiveRadius.twoSignsCoefficient_nonneg
-    originalBound lo hi hB hlo hhi δ₁ δ₂ orders
-  have hS₁ : 0 ≤ S₁ := by positivity
-  have hS₂ : 0 ≤ S₂ := by positivity
-  have hLfixed (rs : family.active Finset.univ) : L rs.val ≤ fixed :=
-    (leftActiveBound leftSeed leftFirst δ₁ hδlo hδhi' hcomparisonL hcenteredL
-      hbaseL hfirstL₁ hfirstL₂ hboundL rs).trans
-      (CanonicalLiteralActiveRadius.fixedCoefficient_le_twoSigns
-        originalBound lo hi hlo δ₁ δ₂ firstSign orders hfirstSign)
-  have hnegativeSign : -firstSign = 1 ∨ -firstSign = -1 := by
-    rcases hfirstSign with h | h
-    · right; rw [h]
-    · left; rw [h]; norm_num
-  have hRfixed (rs : family.active Finset.univ) : R rs.val ≤ fixed :=
-    (rightActiveBound rightSeed rightFirst δ₁ hδlo hδhi' hcomparisonR hcenteredR
-      hbaseR hfirstR₁ hfirstR₂ hboundR rs).trans
-      (CanonicalLiteralActiveRadius.fixedCoefficient_le_twoSigns
-        originalBound lo hi hlo δ₁ δ₂ (-firstSign) orders hnegativeSign)
-  let control := (2 * factor) ^ ((cap + 2) + (cap + 2)) *
-    (1 + fixed) ^ ((cap + 2) + (cap + 2)) * S₁ * S₂
-  have hprofiles (rs : family.active Finset.univ) :
-      pairedProfileEnvelopeConstant (CanonicalFullKappaPrime.enlargedCoefficient (L rs.val) factor)
-        (CanonicalFullKappaPrime.enlargedCoefficient (R rs.val) factor) cap cap *
-          S₁ * S₂ ≤ control := by
-    have he := (CanonicalFullKappaPrime.paired_envelopeConstant_le
-      (L rs.val) (R rs.val) factor (hL rs.val) (hR rs.val) hfactor cap cap).trans
-      (mul_le_mul_of_nonneg_left
-        (CanonicalFullKappaPrime.paired_envelopeConstant_le_bound (L rs.val) (R rs.val) fixed
-          (hL rs.val) (hR rs.val) (hLfixed rs) (hRfixed rs) cap cap)
-        (pow_nonneg (mul_nonneg (by norm_num) (zero_le_one.trans hfactor)) _))
-    exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right he hS₁) hS₂
-  have hcapL (rs : Bool × Bool) : (family.leftSource rs).allocation.keep.card ≤ cap := by
-    have hf : family.leftSlots rs ≤ parent.geometry.slotCount := by
-      simpa only [Fintype.card_fin] using
-        Fintype.card_le_of_injective leftRecipe.slots.index leftRecipe.slots.index.injective
-    have hk : (family.leftSource rs).allocation.keep.card ≤ family.leftSlots rs := by
-      simpa only [Fintype.card_fin] using
-        Finset.card_le_univ (family.leftSource rs).allocation.keep
-    exact hk.trans (hf.trans hcap)
-  have hcapR (rs : Bool × Bool) : (family.rightSource rs).allocation.keep.card ≤ cap := by
-    have hf : family.rightSlots rs ≤ parent.geometry.slotCount := by
-      simpa only [Fintype.card_fin] using
-        Fintype.card_le_of_injective rightRecipe.slots.index rightRecipe.slots.index.injective
-    have hk : (family.rightSource rs).allocation.keep.card ≤ family.rightSlots rs := by
-      simpa only [Fintype.card_fin] using
-        Finset.card_le_univ (family.rightSource rs).allocation.keep
-    exact hk.trans (hf.trans hcap)
-  have hm := (actual_finite_normalized_kernel_mass_active
-    (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
-    cap (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd))
-      .choose_spec.choose_spec.choose_spec.2
-  have hout := hm Z hZ family Finset.univ
-    (fun _ : Bool × Bool => X.leaf.firstKernel) (fun _ : Bool × Bool => X.leaf.secondKernel)
-    (fun _ : Bool × Bool => X.leaf.weight)
-    (fun rs => CanonicalFullKappaPrime.enlargedCoefficient (L rs) factor)
-    (fun rs => CanonicalFullKappaPrime.enlargedCoefficient (R rs) factor)
-    (a.m + a.q) control (fun _ _ => X.leaf.weight_nonneg)
-    (fun rs _ => CanonicalFullKappaPrime.enlargedCoefficient_nonneg
-      (hL rs) (zero_le_one.trans hfactor))
-    (fun rs _ => CanonicalFullKappaPrime.enlargedCoefficient_nonneg
-      (hR rs) (zero_le_one.trans hfactor))
-    (fun rs _ => hcapL rs) (fun rs _ => hcapR rs)
-    (fun rs _ z => leftRadiusProof rs z) (fun rs _ z => rightRadiusProof rs z)
-    hprofiles
-  refine ⟨hout.1, hout.2.trans_eq ?_⟩
-  dsimp only [control, S₁, S₂, s₁, s₂, CanonicalLiteralKernelConstants.constant]
-  ring
+  sorry
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

@@ -44,9 +44,7 @@ theorem literalParameters_secondWidth (columnLoss cutoff rootLength : ℝ) :
         (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
         G.skeleton.Krow G.skeleton.g G.ideals.second.val G.ideals.secondOpposite.val
         G.ideals.unitPart.val G.ideals.nonunitPart.val + rootLength + cutoff := by
-  dsimp only [literalRowParameter, literalSupportParameter, frequencyCenter,
-    supportCenter, secondCommonChildWidth, skeleton]
-  ring
+  sorry
 
 namespace ScaleWindows
 
@@ -113,8 +111,7 @@ theorem factors_childLength_le (parent : MomentData K ω ψ)
     (slots : OriginalSlotDictionary parent d.length) (mesh : ℝ)
     (hfit : parent.geometry.fitsMesh mesh) (i : Fin (f).source.allocation.keep.card) :
     (f).source.childLength i ≤ mesh := by
-  exact (d.factorsOriginalSlots (C := C) R side χ ideal hideal firstSign rectangle L selection hne
-    parent slots).fitsMesh hfit (SlotRestriction.index (f).source.allocation.keep i)
+  sorry
 
 variable (D : ((d.factors R side χ ideal hideal firstSign rectangle).frame C L selection hne).source.Calibration
   (σ := σ) ω ψ)
@@ -194,9 +191,7 @@ def factorsOriginalSixthLengths
     (d.factorsOriginalSixthLengths (C := C) R side χ ideal hideal firstSign rectangle L selection hne
       D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters
       annulus cap error herr hbound hthreshold).scales.error = cutoff := by
-  simp only [factorsOriginalSixthLengths, OriginalNominalGeometry.ScaleWindows.error,
-    OriginalNominalGeometry.ScaleWindows.reparameterize,
-    OriginalNominalGeometry.literalEndpointWindows, add_zero]
+  sorry
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

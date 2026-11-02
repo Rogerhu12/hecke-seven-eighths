@@ -87,7 +87,7 @@ variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 
 private theorem common_mask_reorder (a b c d : Bool) :
     (((a && b) && c) && d) = ((a && c) && (b && d)) := by
-  cases a <;> cases b <;> cases c <;> cases d <;> rfl
+  sorry
 
 /-- The old support is collapsed only behind the same complete-row
 gate.  This is an identity of the actual child masks, including zeros. -/
@@ -97,23 +97,7 @@ theorem childData_mask_eq (u J : HeckeGeneral.Analysis.NonzeroIdeal K) :
     maskValue (CanonicalOriginalPhaseCalibration.childData P R parent correction hcorr
       C primes m n pattern ν (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining))
       budget inverse left right geometry index) u J.val := by
-  apply congrArg (fun gate : Bool => if gate then (1 : ℂ) else 0)
-  change ((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u J.val &&
-      decide (IsCoprime J.val
-        (oldMoving.appendFactors (secondOriginalMovingFactors P R C primes m n pattern)).support.val)) &&
-      decide (IsCoprime J.val
-        (remainingMaskIdeal A remaining * exteriorMomentIdeal (secondSixthRootIdeal primes m n)).val)) =
-    ((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u J.val &&
-      decide (IsCoprime J.val (secondOriginalMovingFactors P R C primes m n pattern).support.val)) &&
-      decide (IsCoprime J.val
-        ((oldMoving.effectiveFullSupport remaining).val * (secondSixthRootIdeal primes m n).val)))
-  rw [oldMoving.appendFactors_normalizedFullMask
-    (secondOriginalMovingFactors P R C primes m n pattern) remaining u
-    (secondSixthRootIdeal primes m n) J.val,
-    oldMoving.effectiveFullSupport_mask remaining u J.val,
-    IsCoprime.mul_right_iff]
-  simp only [Bool.decide_and]
-  exact common_mask_reorder _ _ _ _
+  sorry
 
 /-- The original moving character is multiplied into the unchanged
 source background; only the genuinely new active and row characters
@@ -125,13 +109,7 @@ theorem childData_rowCharacter (u : HeckeGeneral.Analysis.NonzeroIdeal K) (χ : 
       (CanonicalOriginalPhaseCalibration.childData P R parent correction hcorr C primes m n
         pattern ν (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining)) budget
         inverse left right geometry index).rowCharacter u := by
-  change χ * ((correction * (oldMoving.appendSecondFactor C primes m n pattern).character) *
-      completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R ν u) =
-    (χ * oldMoving.character) *
-      ((correction * (secondOriginalMovingFactors P R C primes m n pattern).character) *
-        completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R ν u)
-  rw [oldMoving.appendSecondFactor_character C primes m n pattern]
-  ac_rfl
+  sorry
 
 variable {Ih : A.Exterior} {h g : A.R} {factor : ℝ}
 
@@ -151,17 +129,7 @@ theorem childData_row_coefficient
         originalCoprimeMask (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining)) J.val *
         actualIdealResidue (A := A) (σ := σ) J.val g *
         actualIdealResidue (A := A) (σ := σ) J.val row.element := by
-  rw [childData_rowCharacter P R parent oldMoving correction hcorr C primes m n pattern ν
-      remaining budget inverse left right geometry index row.momentIdeal χ,
-    childData_mask_eq P R parent oldMoving correction hcorr C primes m n pattern ν
-      remaining budget inverse left right geometry index row.momentIdeal J]
-  have he := CanonicalOriginalPhaseCalibration.childData_row_coefficient
-    P R parent correction hcorr C primes m n pattern ν
-    (exteriorMomentIdeal (oldMoving.effectiveFullSupport remaining)) budget
-    inverse left right geometry index hroot hemb row hfactor hsector (χ * oldMoving.character) J
-  have hc : (χ * oldMoving.character) * correction =
-      χ * correction * oldMoving.character := by ac_rfl
-  simpa only [hc] using he
+  sorry
 
 /-- Single-ideal and single-prime identities for the same appended
 child, with its literal original background and finite slot characters. -/

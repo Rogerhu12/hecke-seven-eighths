@@ -70,9 +70,8 @@ theorem boundedDomain {d : MomentData K ω ψ} {a : RealParameters}
     {Z Y₁ Y₂ floor padding : ℝ} {centered : Bool}
     (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding)
     (hpadding : padding ≤ b.paddingMax) :
-    PairedEngineDomain centered d a Z Y₁ Y₂ floor b.paddingMax :=
-  { domain with
-    padded_core := domain.padded_core.trans (add_le_add le_rfl hpadding) }
+    PairedEngineDomain centered d a Z Y₁ Y₂ floor b.paddingMax := by
+  sorry
 
 /-- The original first deletion retains the passive sixth-power prime
 factors. Its exceptional volume box therefore also covers the actual
@@ -81,23 +80,23 @@ source and does not alter its mask or arithmetic data. -/
 def volumeWidth (b : Box) : ℝ :=
   CanonicalPrimitiveExceptionalChoices.sourceWidth b
 
-theorem volumeWidth_nonneg (b : Box) : 0 ≤ volumeWidth b :=
-  CanonicalPrimitiveExceptionalChoices.sourceWidth_nonneg b
+theorem volumeWidth_nonneg (b : Box) : 0 ≤ volumeWidth b := by
+  sorry
 
-theorem widthMax_le_volumeWidth (b : Box) : b.widthMax ≤ volumeWidth b :=
-  le_max_left _ _
+theorem widthMax_le_volumeWidth (b : Box) : b.widthMax ≤ volumeWidth b := by
+  sorry
 
 theorem firstSupport_le_volumeWidth (b : Box) :
-    b.columnBound + 2 * (b.step / 3) ≤ volumeWidth b :=
-  le_max_right _ _
+    b.columnBound + 2 * (b.step / 3) ≤ volumeWidth b := by
+  sorry
 
 /-- The complete mask pays both original column contributions, with
 the same physical loss and cutoff exponent used by the actual source. -/
 def volumeMaskExponent (b : Box) : ℝ :=
   CanonicalPrimitiveExceptionalChoices.maskExponent b
 
-theorem volumeMaskExponent_nonneg (b : Box) : 0 ≤ volumeMaskExponent b :=
-  CanonicalPrimitiveExceptionalChoices.maskExponent_nonneg b
+theorem volumeMaskExponent_nonneg (b : Box) : 0 ≤ volumeMaskExponent b := by
+  sorry
 
 /-- One finite order set for the two centered sides and the ordinary side. -/
 def volumeOrders : Finset (ℕ × ℕ) :=
@@ -123,15 +122,15 @@ def originalOrders : Finset (ℕ × ℕ) :=
 local notation "allOrders" => orders (A := A) (σ := σ) (η := η) (hS := hS)
   b theta outputOrders primitive
 
-theorem outputOrders_subset : outputOrders ⊆ allOrders :=
-  CanonicalPrimitiveEngineProfileOrders.output_subset _ _
+theorem outputOrders_subset : outputOrders ⊆ allOrders := by
+  sorry
 
 theorem volumeOrders_subset :
-    volumeOrders (A := A) (σ := σ) (η := η) (hS := hS) b theta primitive ⊆ allOrders :=
-  CanonicalPrimitiveEngineProfileOrders.volume_subset _ _
+    volumeOrders (A := A) (σ := σ) (η := η) (hS := hS) b theta primitive ⊆ allOrders := by
+  sorry
 
-theorem primeOrders_subset : CanonicalFullKappaPrime.orders ⊆ allOrders :=
-  CanonicalPrimitiveEngineProfileOrders.prime_subset _ _
+theorem primeOrders_subset : CanonicalFullKappaPrime.orders ⊆ allOrders := by
+  sorry
 
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
@@ -142,14 +141,14 @@ variable (provider : CanonicalOriginalPrimeAnalyticProvider.Provider
 def heightConstant : ℝ := Classical.choose (provider b.rawNormBound b.rawNormBound_nonneg)
 
 theorem heightConstant_pos :
-    0 < heightConstant (A := A) (P := P) (R := R) b theta provider :=
-  (Classical.choose_spec (provider b.rawNormBound b.rawNormBound_nonneg)).1
+    0 < heightConstant (A := A) (P := P) (R := R) b theta provider := by
+  sorry
 
 /-- This is the raw single-character window itself, before any source. -/
 theorem primeWindow : CanonicalOriginalPrimeAnalyticProvider.Window
     (A := A) (P := P) (R := R) theta b.rawNormBound
-    (heightConstant (A := A) (P := P) (R := R) b theta provider) :=
-  (Classical.choose_spec (provider b.rawNormBound b.rawNormBound_nonneg)).2
+    (heightConstant (A := A) (P := P) (R := R) b theta provider) := by
+  sorry
 
 variable (C : A.GeneralArithmeticContext σ η hS)
 variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →

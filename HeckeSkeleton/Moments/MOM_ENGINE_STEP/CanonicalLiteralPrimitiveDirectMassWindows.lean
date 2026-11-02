@@ -431,7 +431,7 @@ theorem literalPrimitiveDirectKernelMass_coefficient
       CanonicalLiteralPrimitiveMassCoefficient.kernelCoefficient K A σ ω ψ cap orders
         lo hi hlo δ₁ δ₂ δ mesh Z analyticHeight (rawWidthAt j) originalBound
         fixedFirstKernel fixedSecondKernel := by
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩ <;> rfl
+  sorry
 
 theorem literalPrimitiveDirectIndexedWeight_cost
     (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
@@ -441,10 +441,7 @@ theorem literalPrimitiveDirectIndexedWeight_cost
         ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength)
         (idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val)
         (idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2)) δ₁ δ₂ 0 := by
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  all_goals
-    change _ * _ * Z ^ (0 + 0 + 5 * error / 3 + mesh + _) = _
-    simp only [CanonicalLiteralPrimitiveMassCoefficient.indexCoefficient, add_zero]
+  sorry
 
 /-- The actual second common ideal is bounded by the original columns;
 the complete root cost then gives a uniform raw width on this family. -/
@@ -453,19 +450,7 @@ theorem literalPrimitiveDirect_rawWidth_le
     (hN : ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ columnBound)
     (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     rawWidthAt j ≤ a.m + a.q + columnBound + (2 * loss + cutoffExponent) := by
-  have hn := ((stages).prepared j.val.1 j.val.2.1).commonLabel_norm_le
-    (raw).originalAtlas (raw).originalAtlas (Z ^ columnBound) hN hN j.val.2.2
-  have hwidth : (internal).m + (internal).q = a.m + a.q := Q.fullSupportParameters_width a Z
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  all_goals
-    have hg := (geometryAt ⟨⟨DE, D, S, χ, _⟩, hj⟩).literalRawWidth_le_second_box
-      hZ hstep.le (2 * loss + cutoffExponent) columnBound leaf.1.block.primes
-      leaf.1.block.leftMultiplicity leaf.1.block.rightMultiplicity rfl (by
-        change (Ideal.absNorm (primePowerProduct leaf.1.block.primes
-          leaf.1.block.leftMultiplicity).val : ℝ) ≤ Z ^ columnBound
-        rw [leaf.1.block.common_left]
-        exact hn.1)
-    exact hg.trans_eq (by rw [hwidth])
+  sorry
 
 
 /-- The actual first source has unit fibre; each original signed second
@@ -474,39 +459,7 @@ theorem literalPrimitiveDirect_originalScalar_bounds
     (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     0 ≤ (stages).prepared.originalScalarAt (raw).originalAtlas j.val ∧
       (stages).prepared.originalScalarAt (raw).originalAtlas j.val ≤ 1 / 2 := by
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  · have hf : engineOrbitMultiplicity
-        (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-        ((source).pieces DE D).leftData.rows ≤ 1 :=
-      canonicalFirstLeftGaussData_orbit_multiplicity_le_one C (source).columns (source).columns
-        (source).ideal (source).ideal DE.val DE.property _
-    have hp : (((stages DE D).left S χ).supported.gated).fiber ≤ 1 := by
-      change (if _ then 0 else _) ≤ 1
-      split_ifs
-      · exact Nat.zero_le _
-      · exact hf
-    have hf' : ((((stages DE D).left S χ).supported.gated).fiber : ℝ) ≤ 1 := by
-      exact_mod_cast hp
-    change 0 ≤ 1 * (_ : ℝ) / 2 ∧ 1 * (_ : ℝ) / 2 ≤ 1 / 2
-    constructor
-    · positivity
-    · simpa only [one_mul] using (div_le_div_of_nonneg_right hf' (by norm_num : (0 : ℝ) ≤ 2))
-  · have hf : engineOrbitMultiplicity
-        (Γ := sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-        ((source).pieces DE D).rightData.rows ≤ 1 :=
-      canonicalFirstRightGaussData_orbit_multiplicity_le_one C (source).columns (source).columns
-        (source).ideal (source).ideal DE.val DE.property _
-    have hp : (((stages DE D).right S χ).supported.gated).fiber ≤ 1 := by
-      change (if _ then 0 else _) ≤ 1
-      split_ifs
-      · exact Nat.zero_le _
-      · exact hf
-    have hf' : ((((stages DE D).right S χ).supported.gated).fiber : ℝ) ≤ 1 := by
-      exact_mod_cast hp
-    change 0 ≤ 1 * (_ : ℝ) / 2 ∧ 1 * (_ : ℝ) / 2 ≤ 1 / 2
-    constructor
-    · positivity
-    · simpa only [one_mul] using (div_le_div_of_nonneg_right hf' (by norm_num : (0 : ℝ) ≤ 2))
+  sorry
 
 /-- The four inputs of the fixed Mellin estimate are original numeric
 windows, proved here without inspecting a normalized child. -/
@@ -519,13 +472,7 @@ theorem literalPrimitiveDirect_firstNumericWindows
       (internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength ≤ lengthBound ∧
       idealLogLength Z (firstPhysicalDivisorIdeal (A := A) j.val.2.1.val).val ≤ columnBound ∧
       idealLogLength Z (firstActiveRadical j.val.1.val.1 j.val.1.val.2) ≤ columnBound := by
-  have hm := Q.literalPrimitiveCommon_m_nonneg μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half j.val.1
-  have hi := Q.literalPrimitiveFirstIdealLengths μv ν C hroot hemb W ξ
-    a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
-    columnBound hN j.val.1 j.val.2.1
-  refine ⟨hm, ?_, hi.2.2.2, hi.2.2.1⟩
-  simpa only [domain.total_length] using htotal
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -703,56 +703,13 @@ theorem literalPrimitiveDirectIndexedWeight_firstFactor
         ‖(moebius ((stages).prepared.innerDivisor (raw).originalAtlas j.val) : ℂ)‖ *
         ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
           ((stages).prepared.secondPhaseAt (raw).originalAtlas j.val)‖ := by
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  all_goals
-    change firstOriginalAllowanceWeight Z ((internal).m + (internal).q)
-        ((internal).n₁ + (internal).n₂ + (data ξ).geometry.totalLength + (internal).q +
-          idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
-          idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2))
-        ((source).pieces DE D).weightBound DE.val.1 DE.val.2 * _ * _ * _ * _ = _
-    rw [domain.total_length]
-    have he : (internal).n₁ + (internal).n₂ + (internal).z + (internal).q +
-        idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val +
-        idealLogLength Z (firstActiveRadical DE.val.1 DE.val.2) = total DE D := by
-      unfold literalPrimitiveFirstTotal
-      ring
-    rw [he]
+  sorry
 
 theorem literalPrimitiveDirectIndexedWeight_normalization
     (j : (stages).prepared.liveLeaves (raw).originalAtlas exceptional normalization) :
     (indexCertificates j).normalization =
       (stages).prepared.firstAllowanceAt (raw).originalAtlas total j.val := by
-  rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩
-  · change firstLeftAllowance Z
-        (((internal).n₁ + (internal).n₂ + (internal).z) +
-          ((internal).q + idealLogLength Z (firstActiveRadical
-            (((source).block DE).literalLeftCoordinates D.val).first.val
-            (((source).block DE).literalLeftCoordinates D.val).opposite.val) +
-            idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val))
-        (((source).block DE).literalLeftCoordinates D.val).first.val
-        (((source).block DE).literalLeftCoordinates D.val).opposite.val =
-      firstLeftAllowance Z (total DE D) DE.val.1 DE.val.2
-    rw [((source).block DE).literalLeftCoordinates_first,
-      ((source).block DE).literalLeftCoordinates_opposite]
-    congr 1
-    unfold literalPrimitiveFirstTotal
-    ring
-  · change firstLeftAllowance Z
-        (((internal).n₁ + (internal).n₂ + (internal).z) +
-          ((internal).q + idealLogLength Z (firstActiveRadical
-            (((source).block DE).literalRightCoordinates D.val).first.val
-            (((source).block DE).literalRightCoordinates D.val).opposite.val) +
-            idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val))
-        (((source).block DE).literalRightCoordinates D.val).first.val
-        (((source).block DE).literalRightCoordinates D.val).opposite.val =
-      firstRightAllowance Z (total DE D) DE.val.1 DE.val.2
-    rw [((source).block DE).literalRightCoordinates_first,
-      ((source).block DE).literalRightCoordinates_opposite]
-    simp only [firstLeftAllowance, firstRightAllowance,
-      firstActiveRadical_swap_of_support _ _ ((source).block DE).common_support_eq]
-    congr 1
-    unfold literalPrimitiveFirstTotal
-    ring
+  sorry
 
 /-- Attach the exact original parent scalar to the same normalized
 passive children. All first-profile and scalar estimates were produced
@@ -767,60 +724,7 @@ theorem literalPrimitiveDirect_outer_index
         ((factories j).family input).weight Finset.univ ((internal).m + (internal).q) b) ≤
       (stages).prepared.originalScalarAt (raw).originalAtlas j.val *
         ((indexCertificates j).cost * (arithmetic).carrier.indexWeight ((arithmetic).index j)) := by
-  have hfactor : 0 ≤ (stages).prepared.originalScalarAt (raw).originalAtlas j.val := by
-    rcases j with ⟨⟨DE, D, S, χ, leaf | leaf⟩, hj⟩ <;>
-      change 0 ≤ ((source).fiber : ℝ) * (_ : ℕ) / 2 <;> positivity
-  have houter := (stages).prepared.parentLeaf_weight_original_relative (raw).originalAtlas
-    hZ total exceptional ((internal).m + (internal).q) j.val
-  rw [← literalPrimitiveDirectIndexedWeight_firstFactor
-    (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb)
-    (W := W) (ξ := ξ) (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂)
-    (hZ := hZ) (hbudget := hbudget) (centered := centered) (cutoff := cutoff)
-    (hcutoff := hcutoff) (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half)
-    (hY₁ := hY₁) (hY₂ := hY₂) (cap := cap) (loss := loss)
-    (cutoffExponent := cutoffExponent) (hloss := hloss) (hcutoffExponent := hcutoffExponent)
-    (step := step) (error := error) (mesh := mesh) (hstep := hstep) (herror := herror)
-    (hmesh := hmesh) (hfit := hfit) (hsmall := hsmall) (hslotsZero := hslotsZero)
-    (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
-    (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂) (hcutoffPower := hcutoffPower)
-    (hcutoffPower₂ := hcutoffPower₂) (reference := reference) (href := href)
-    (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi) (orders := orders)
-    (originalBound := originalBound) (horiginalBound := horiginalBound)
-    (originalWindow := originalWindow) (hrows := hrows) (htime := htime) (hprime := hprime)
-    (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain)
-    (hprimeOrders := hprimeOrders) (δ := δ) (analyticHeight := analyticHeight)
-    (hδ := hδ) (hδhi := hδhi) (hone := hone) (hbackground := hbackground) (hslot := hslot)
-    (hδsum := hδsum) (herrorPos := herrorPos) (hannulusThreshold := hannulusThreshold)
-    (hscaleThreshold := hscaleThreshold) (hpaidError := hpaidError) j] at houter
-  have hnorm : (indexCertificates j).normalization =
-      (stages).prepared.firstAllowanceAt (raw).originalAtlas total j.val :=
-    literalPrimitiveDirectIndexedWeight_normalization
-        (μv := μv) (ν := ν) (Q := Q) (C := C) (hroot := hroot) (hemb := hemb) (W := W) (ξ := ξ)
-        (a := a) (Z := Z) (t := t) (Y₁ := Y₁) (Y₂ := Y₂) (hZ := hZ) (hbudget := hbudget)
-        (centered := centered) (cutoff := cutoff) (hcutoff := hcutoff)
-        (δ₁ := δ₁) (hδ₁ := hδ₁) (hδ₁half := hδ₁half) (hY₁ := hY₁) (hY₂ := hY₂)
-        (cap := cap) (loss := loss) (cutoffExponent := cutoffExponent)
-        (hloss := hloss) (hcutoffExponent := hcutoffExponent)
-        (step := step) (error := error) (mesh := mesh) (hstep := hstep)
-        (herror := herror) (hmesh := hmesh) (hfit := hfit) (hsmall := hsmall) (hslotsZero := hslotsZero)
-        (hDiff := hDiff) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
-        (cutoff₂ := cutoff₂) (hcutoff₂ := hcutoff₂)
-        (hcutoffPower := hcutoffPower) (hcutoffPower₂ := hcutoffPower₂)
-        (reference := reference) (href := href) (lo := lo) (hi := hi) (hlo := hlo) (hhi := hhi)
-        (orders := orders) (originalBound := originalBound) (horiginalBound := horiginalBound)
-        (originalWindow := originalWindow) (hrows := hrows) (htime := htime) (hprime := hprime)
-        (hcap := hcap) (hannulusZ := hannulusZ) (domain := domain) (hprimeOrders := hprimeOrders)
-        (δ := δ) (analyticHeight := analyticHeight) (hδ := hδ) (hδhi := hδhi)
-        (hone := hone) (hbackground := hbackground) (hslot := hslot)
-        (hδsum := hδsum) (herrorPos := herrorPos)
-        (hannulusThreshold := hannulusThreshold) (hscaleThreshold := hscaleThreshold)
-        (hpaidError := hpaidError) j
-  rw [← hnorm] at houter
-  have h := (indexCertificates j).outer_bound input ((internal).m + (internal).q)
-    ((stages).prepared.parentLeaf (raw).originalAtlas exceptional normalization j.val).weight
-    ((stages).prepared.originalScalarAt (raw).originalAtlas j.val) hfactor houter b
-  rw [(stages).prepared.parentLeaf_weight_unscaled (raw).originalAtlas exceptional normalization j.val] at h
-  convert h using 1 <;> ring
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

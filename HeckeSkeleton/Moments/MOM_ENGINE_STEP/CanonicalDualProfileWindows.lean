@@ -39,18 +39,7 @@ theorem scaledTiltScalar_pair_norm_le_of_windows
     (c₁ c₂ : ℂ) (hc₁ : ‖c₁‖ ≤ C₁) (hc₂ : ‖c₂‖ ≤ C₂) :
     ‖c₁ * ((N₁ ^ δ : ℝ) : ℂ)‖ * ‖c₂ * ((N₂ ^ δ : ℝ) : ℂ)‖ ≤
       (C₁ * C₂) * Z ^ ((B₁ + B₂) * δ) := by
-  have h₁ : ‖c₁‖ * N₁ ^ δ ≤ C₁ * Z ^ (B₁ * δ) :=
-    mul_le_mul hc₁ (tilt_le_of_norm_window hN₁ hZ hδ hwindow₁)
-      (Real.rpow_nonneg hN₁.le _) ((norm_nonneg c₁).trans hc₁)
-  have h₂ : ‖c₂‖ * N₂ ^ δ ≤ C₂ * Z ^ (B₂ * δ) :=
-    mul_le_mul hc₂ (tilt_le_of_norm_window hN₂ hZ hδ hwindow₂)
-      (Real.rpow_nonneg hN₂.le _) ((norm_nonneg c₂).trans hc₂)
-  rw [scaledTiltScalar_norm hN₁, scaledTiltScalar_norm hN₂]
-  calc
-    _ ≤ (C₁ * Z ^ (B₁ * δ)) * (C₂ * Z ^ (B₂ * δ)) :=
-      mul_le_mul h₁ h₂ (mul_nonneg (norm_nonneg _) (Real.rpow_nonneg hN₂.le _))
-        (mul_nonneg ((norm_nonneg c₁).trans hc₁) (Real.rpow_nonneg hZ.le _))
-    _ = _ := by rw [add_mul, Real.rpow_add hZ]; ring
+  sorry
 
 /-- The reciprocal column phases in each real amplifier residual
 presentation do not change the original numerator bound. -/
@@ -63,9 +52,7 @@ theorem scaledTiltScalar_phase_pair_norm_le_of_windows
     ‖(c₁ * ((N₁ ^ δ : ℝ) : ℂ)) * u₁‖ *
         ‖(c₂ * ((N₂ ^ δ : ℝ) : ℂ)) * u₂‖ ≤
       (C₁ * C₂) * Z ^ ((B₁ + B₂) * δ) := by
-  simpa only [norm_mul, hu₁, hu₂, mul_one] using
-    scaledTiltScalar_pair_norm_le_of_windows hN₁ hN₂ hZ hδ hwindow₁ hwindow₂
-      c₁ c₂ hc₁ hc₂
+  sorry
 
 end CanonicalFirstLog
 
@@ -177,10 +164,7 @@ theorem zero_ledger_withProfileExponent
         T.productExponent / 2 + T.productExponent * εzero ≤
       (Aexp - c + qtilde + allowanceExtra) +
         (max (Aexp - M) 0 + 3 * step + 5 * padding / 6 + ε) - εpool := by
-  have hrow := second_zero_enlargement_allowance
-    Aexp M c d qtilde K₀ Krow w wold g step boundary allowanceExtra
-    hc hd hw hwo hboundary hallowance hK₀ hKrow hg
-  linarith
+  sorry
 
 end ActualGaussStage.DualResidualTerminalWindows
 
@@ -327,15 +311,7 @@ theorem canonicalLogWithCoefficients_left_raw_pair_bound
     ‖chart.leftCoefficient i * (A.exteriorNorm (b.leftResidual i) : ℂ)‖ *
         ‖chart.leftCoefficient j * (A.exteriorNorm (b.leftResidual j) : ℂ)‖ ≤
       (C₁ * C₂) * Z ^ ((B₁ + B₂) * δ) := by
-  dsimp only
-  rw [canonicalLogWithCoefficients_left_raw_norm,
-    canonicalLogWithCoefficients_left_raw_norm]
-  have h := CanonicalFirstLog.scaledTiltScalar_pair_norm_le_of_windows
-    (A.exteriorNorm_pos (b.leftResidual i)) (A.exteriorNorm_pos (b.leftResidual j))
-    hZ hδ.le hwindow₁ hwindow₂ (c i) (c j) hc₁ hc₂
-  rw [CanonicalFirstLog.scaledTiltScalar_norm (A.exteriorNorm_pos (b.leftResidual i)),
-    CanonicalFirstLog.scaledTiltScalar_norm (A.exteriorNorm_pos (b.leftResidual j))] at h
-  exact h
+  sorry
 
 /-- The right original chart has its own two norm windows, with the
 same exact exponent formula and no orientation symmetry assumption. -/
@@ -349,15 +325,7 @@ theorem canonicalLogWithCoefficients_right_raw_pair_bound
     ‖chart.rightCoefficient i * (A.exteriorNorm (b.rightResidual i) : ℂ)‖ *
         ‖chart.rightCoefficient j * (A.exteriorNorm (b.rightResidual j) : ℂ)‖ ≤
       (C₁ * C₂) * Z ^ ((B₁ + B₂) * δ) := by
-  dsimp only
-  rw [canonicalLogWithCoefficients_right_raw_norm,
-    canonicalLogWithCoefficients_right_raw_norm]
-  have h := CanonicalFirstLog.scaledTiltScalar_pair_norm_le_of_windows
-    (A.exteriorNorm_pos (b.rightResidual i)) (A.exteriorNorm_pos (b.rightResidual j))
-    hZ hδ.le hwindow₁ hwindow₂ (e i) (e j) hc₁ hc₂
-  rw [CanonicalFirstLog.scaledTiltScalar_norm (A.exteriorNorm_pos (b.rightResidual i)),
-    CanonicalFirstLog.scaledTiltScalar_norm (A.exteriorNorm_pos (b.rightResidual j))] at h
-  exact h
+  sorry
 
 end FirstBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

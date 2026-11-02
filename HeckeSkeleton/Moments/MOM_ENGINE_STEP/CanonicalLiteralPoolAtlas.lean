@@ -44,8 +44,7 @@ private theorem literalDictionary_cast (h : columns = otherColumns)
     (e : SourceCartesianAtlas columns ideal = SourceCartesianAtlas otherColumns ideal)
     (T : SourceCartesianAtlas columns ideal) :
     (cast e T).literalDictionary = T.literalDictionary := by
-  cases h
-  rfl
+  sorry
 
 end SourceCartesianAtlas
 
@@ -78,13 +77,7 @@ theorem mainAtlasForLabel_literalDictionary (a : T.labels S D) :
         (fun j => SupportCartesian.primeLive
           (T.reindex.slots (SlotRestriction.index (T.branch S D a).keep j)) S),
         (fun i => T.reindex.index ((T.branch S D a).reconstruct i))⟩ := by
-  unfold mainAtlasForLabel
-  refine (SourceCartesianAtlas.literalDictionary_cast
-    (congrArg (fun t : Finset ι => t.filter
-      (fun i => T.reindex.supportExtractionLabel S i = a.val)) hcolumns).symm _ _).trans ?_
-  dsimp only [SourceCartesianAtlas.literalDictionary, SourceCartesianAtlas.ofReindex]
-  rw [T.residualReindex_plain₁, T.residualReindex_plain₂,
-    T.residualReindex_slots, T.residualReindex_index]
+  sorry
 
 /-- This is the identical package at the public whole-main cover. -/
 theorem mainSourceCartesianCover_literalDictionary (a : T.labels S D) :
@@ -96,8 +89,8 @@ theorem mainSourceCartesianCover_literalDictionary (a : T.labels S D) :
             (T.branch S D a).plainExtract₂),
         (fun j => SupportCartesian.primeLive
           (T.reindex.slots (SlotRestriction.index (T.branch S D a).keep j)) S),
-        (fun i => T.reindex.index ((T.branch S D a).reconstruct i))⟩ :=
-  d.mainAtlasForLabel_literalDictionary T S D hcolumns hideal c a
+        (fun i => T.reindex.index ((T.branch S D a).reconstruct i))⟩ := by
+  sorry
 
 variable (p : ExteriorPrime A) (n : ℕ)
 
@@ -111,16 +104,7 @@ theorem residualSource_original_support_index_val
     ((d.residualSource_cartesianBranch_of_original_support
       T S D hcolumns hideal p n c b hw).index i).val =
         T.reindex.index (b.reconstruct i) := by
-  change ((T.reindex.supportResidualBranch (S ∪ {p.val.asIdeal}) b).subtypeIndex
-    (d.valuationColumns p n)
-    (d.combinedBranch_subset_valuation T S D hcolumns hideal p n b hw)
-    ⟨T.reindex.index b.witness,
-      Finset.mem_image.mpr ⟨b.witness, b.witness_mem, rfl⟩⟩ i).val = _
-  exact (T.reindex.supportResidualBranch (S ∪ {p.val.asIdeal}) b).subtypeIndex_val
-    (d.valuationColumns p n)
-    (d.combinedBranch_subset_valuation T S D hcolumns hideal p n b hw)
-    ⟨T.reindex.index b.witness,
-      Finset.mem_image.mpr ⟨b.witness, b.witness_mem, rfl⟩⟩ i hi
+  sorry
 
 /-- The existing combined-support cover has the actual retained
 occurrences. The displayed subtype index is the original constructor,
@@ -139,13 +123,7 @@ theorem combinedAtlasForLabel_literalDictionary
           (T.reindex.slots (SlotRestriction.index b.keep j)) (S ∪ {p.val.asIdeal})),
         (d.residualSource_cartesianBranch_of_original_support
           T S D hcolumns hideal p n c b hb).index⟩ := by
-  let b := d.combinedBranchForLabel T S D hcolumns p n a
-  have hb := d.combinedBranchForLabel_spec T S D hcolumns p n a
-  have he := d.residualSource_branch_filter_of_original_support T S D hcolumns p n b
-  rw [hb.1] at he
-  dsimp only
-  unfold combinedAtlasForLabel
-  exact SourceCartesianAtlas.literalDictionary_cast he _ _
+  sorry
 
 /-- Both the actual first common support and the pool valuation are
 kept in the cover key, before any continuous Fourier parameter. -/
@@ -162,8 +140,8 @@ theorem residualSourceCartesianCover_literalDictionary
         (fun j => SupportCartesian.primeLive
           (T.reindex.slots (SlotRestriction.index b.keep j)) (S ∪ {p.val.asIdeal})),
         (d.residualSource_cartesianBranch_of_original_support
-          T S D hcolumns hideal p n c b hb).index⟩ :=
-  d.combinedAtlasForLabel_literalDictionary T S D hcolumns hideal c p n a
+          T S D hcolumns hideal p n c b hb).index⟩ := by
+  sorry
 
 end FirstGaussPoolData
 end HeckeSkeleton.Moments.EngineStep

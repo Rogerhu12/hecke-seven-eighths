@@ -61,8 +61,7 @@ def onAtlasThenRedistributeScale (c : ℂ) (δ₁ δ₂ : ℝ)
     {A : SArithmeticData K} {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
     (atlas : SourceCartesianAtlas columns ideal) (count : k = atlas.slotCount) :
     (onAtlasThenRedistributeScale c δ₁ δ₂ T atlas count).bound = T.bound := by
-  cases count
-  rfl
+  sorry
 
 def deleteMaskThenRedistributeScale (c : ℂ) (δ₁ δ₂ : ℝ)
     (T : ComputedProfiles
@@ -222,10 +221,7 @@ theorem literalLeftDirectFactorFreeComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  unfold literalLeftDirectFactorFreeComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
+  sorry
 
 /-- All profile data are constructed for this same actual table,
 with the complete positive factor charged in its first scalar. -/
@@ -288,10 +284,7 @@ theorem literalRightDirectFactorFreeComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  unfold literalRightDirectFactorFreeComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
+  sorry
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

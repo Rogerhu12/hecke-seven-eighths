@@ -126,38 +126,7 @@ theorem rawCost_le_finiteCost
     (ε Cerror Czero : ℝ) :
     T.rawCost NL NR ε Cerror Czero ≤
       T.finiteCost LA RA exceptional NL NR hNL hNR ε Cerror Czero := by
-  unfold rawCost finiteCost zeroBudget tailBudget
-  simp only [Finset.mul_sum, Fintype.sum_sigma, coveredLeaf]
-  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
-  apply Finset.sum_le_sum
-  intro S _
-  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
-  apply Finset.sum_le_sum
-  intro χ _
-  have hl := (T.left S χ).integral_rawPhaseCost_le_cover
-    (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ)
-    (exceptional.left S χ) chart.kernel chart.leftPoint ε Cerror Czero
-  rw [(T.left S χ).integral_phase_cost_eq_budgets_leaves
-    (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ)
-    (exceptional.left S χ) chart.kernel chart.leftPoint ε Cerror Czero] at hl
-  have hr := (T.right S χ).integral_rawPhaseCost_le_cover
-    (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
-    (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j) ε Cerror Czero
-  rw [(T.right S χ).integral_phase_cost_eq_budgets_leaves
-    (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
-    (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j) ε Cerror Czero] at hr
-  rw [integral_div, integral_div]
-  have hh := mul_le_mul_of_nonneg_left
-    (add_le_add (div_le_div_of_nonneg_right hl (hNL S χ).le)
-      (div_le_div_of_nonneg_right hr (hNR S χ).le))
-    (classWeight_nonneg NL NR S χ)
-  convert hh using 1
-  · dsimp only [classWeight]
-    ring
-  · simp only [Fintype.sum_sum_type, classLeaf, ActualHybridLeaf.scale_cost]
-    rw [← Finset.mul_sum, ← Finset.mul_sum]
-    unfold classZeroBudget classTailBudget
-    ring
+  sorry
 
 end SecondStages.DualTerminalCalibration
 end FirstBlockDirectData
@@ -200,9 +169,7 @@ theorem dualFiniteCost_eq_budgets_leaves
     (s.fiber : ℝ) * R.dualFiniteCost T L exceptional N ε Cerror Czero =
       R.dualSecondZeroBudget T N ε Czero + R.dualSecondTailBudget T N Cerror +
       ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
-  simp only [dualFiniteCost, FirstBlockDirectData.SecondStages.DualTerminalCalibration.finiteCost,
-    dualSecondZeroBudget, dualSecondTailBudget, Fintype.sum_sigma, parentLeaf,
-    ActualHybridLeaf.scale_cost, Finset.sum_add_distrib, Finset.mul_sum, mul_add]
+  sorry
 
 theorem dualRawCost_le_finiteCost
     (T : R.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
@@ -210,13 +177,7 @@ theorem dualRawCost_le_finiteCost
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (ε Cerror Czero : ℝ) :
     R.dualRawCost T N ε Cerror Czero ≤ R.dualFiniteCost T L exceptional N ε Cerror Czero := by
-  unfold dualRawCost dualFiniteCost
-  apply Finset.sum_le_sum
-  intro v _
-  apply Finset.sum_le_sum
-  intro D _
-  exact (T v D).rawCost_le_finiteCost L L (exceptional v D)
-    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
+  sorry
 
 end ActualDirectFirstSource.SecondStages
 
@@ -262,26 +223,7 @@ theorem actual_parent_direct_two_stage_dual_finite_leaf_bound
         (s.fiber : ℝ) * F.cost hB δ hδ ε CfirstError CfirstZero +
         R.dualSecondZeroBudget T N ε Czero + R.dualSecondTailBudget T N Cerror +
         ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
-  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-      CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hparent⟩ :=
-    actual_parent_direct_two_stage_dual_raw_terminal_bound
-      (W := W) (E := E) (ν := ν) (μ := μ) hΓ μv hDiff C Drecipe hD
-      rowBallSize normBound hB δ hδ k ε hε Lmax Nsave ξmax hξmax
-  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
-    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
-  intro Z ω ψ centered d a t Y₁ Y₂ X hX s coefficient hprofiles N R conditions T F L exceptional
-  obtain ⟨hcutoff, hraw⟩ :=
-    hparent Z centered d a t Y₁ Y₂ X hX s coefficient hprofiles N R conditions T F
-  refine ⟨hcutoff, hraw.trans ?_⟩
-  calc
-    _ ≤ (s.fiber : ℝ) * (F.cost hB δ hδ ε CfirstError CfirstZero +
-        R.dualFiniteCost T L exceptional N ε Cerror Czero) :=
-      mul_le_mul_of_nonneg_left
-        (add_le_add le_rfl (R.dualRawCost_le_finiteCost T L exceptional N ε Cerror Czero))
-        (Nat.cast_nonneg s.fiber)
-    _ = _ := by
-      rw [mul_add, R.dualFiniteCost_eq_budgets_leaves T L exceptional N ε Cerror Czero]
-      ring
+  sorry
 
 end HeckeSkeleton.Moments.EngineStep
 

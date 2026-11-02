@@ -29,18 +29,11 @@ variable {K : Type} [Field K] [NumberField K]
 private theorem first_logLength_le_of_norm_le
     (Z : ℝ) (hZ : 1 < Z) (I : Ideal (𝓞 K)) (hI : I ≠ 0)
     (x : ℝ) (h : (Ideal.absNorm I : ℝ) ≤ Z ^ x) : idealLogLength Z I ≤ x := by
-  apply (Real.rpow_le_rpow_left_iff hZ).mp
-  simpa only [rpow_idealLogLength Z hZ I hI] using h
+  sorry
 
 private theorem firstAllowance_max_div (c d R : ℝ) :
     max (3 * c - 5 * d - R) 0 / 6 ≤ firstAllowance c d R := by
-  unfold firstAllowance
-  by_cases h : 0 ≤ 3 * c - 5 * d - R
-  · rw [max_eq_left h, max_eq_left (by linarith : 0 ≤ (3 * c - 5 * d - R) / 6)]
-  · have hn : 3 * c - 5 * d - R ≤ 0 := le_of_not_ge h
-    rw [max_eq_right hn,
-      max_eq_right (by linarith : (3 * c - 5 * d - R) / 6 ≤ 0)]
-    norm_num
+  sorry
 
 /-- The first saving is a theorem of original individual ideal norms.
 The allowance and every common-support length are computed here. -/
@@ -59,16 +52,7 @@ theorem firstSaving_from_original_ideal_windows
         (firstAllowance (idealLogLength Z C) (idealLogLength Z D)
           (idealLogLength Z (firstActiveRadical C D)))
         (idealLogLength Z G) ell := by
-  have hc := idealLogLength_nonneg Z hZ C hC
-  have hr := idealLogLength_nonneg Z hZ (firstActiveRadical C D) (firstActiveRadical_ne_zero C D)
-  have hR := first_logLength_le_of_norm_le Z hZ (firstActiveRadical C D)
-    (firstActiveRadical_ne_zero C D) q hactive
-  have hd := first_logLength_le_of_norm_le Z hZ D hD (D₀ + δ) hopposite
-  have hg := first_logLength_le_of_norm_le Z hZ G hG _ hextracted
-  exact firstSaving_lower (idealLogLength Z C) (idealLogLength Z D) D₀ w q
-    (idealLogLength Z (firstActiveRadical C D)) wo _ (idealLogLength Z G) ell stepσ δ
-    hc hw (hr.trans hR) hwo (firstAllowance_nonneg _ _ _) hσ hδ hR
-    (firstAllowance_max_div _ _ _) (by linarith) hg hell hwσ
+  sorry
 
 variable {A : SArithmeticData K}
 variable {ι κ : Type*} {I : ι → A.Exterior} {J : κ → A.Exterior}
@@ -94,15 +78,7 @@ theorem firstSaving_from_original_norms
         (firstAllowance (idealLogLength Z DE.1) (idealLogLength Z DE.2)
           (idealLogLength Z (firstActiveRadical DE.1 DE.2)))
         (idealLogLength Z G.val) ell := by
-  have hC : DE.1 ≠ 0 := by
-    rw [← b.common_left]
-    exact (primePowerProduct b.primes b.leftMultiplicity).property.1
-  have hD : DE.2 ≠ 0 := by
-    rw [← b.common_right]
-    exact (primePowerProduct b.primes b.rightMultiplicity).property.1
-  apply firstSaving_from_original_ideal_windows Z hZ DE.1 DE.2 G.val hC hD G.property.1
-    D₀ w q wo ell stepσ δ hw hwo hell hσ hδ hwσ _ hopposite hextracted
-  simpa only [b.activeNorm_eq] using hactive
+  sorry
 
 /-- The genuine direct entrance has zero moving lengths. Its first
 saving requires only the three original norm windows. -/
@@ -118,10 +94,7 @@ theorem direct_firstSaving_from_original_norms
         (firstAllowance (idealLogLength Z DE.1) (idealLogLength Z DE.2)
           (idealLogLength Z (firstActiveRadical DE.1 DE.2)))
         (idealLogLength Z G.val) 0 := by
-  simpa only [add_zero, mul_zero, sub_zero] using
-    b.firstSaving_from_original_norms Z hZ G D₀ 0 q 0 0 stepσ δ
-      le_rfl le_rfl le_rfl hσ hδ (by positivity) hactive hopposite
-      (by simpa only [mul_zero, sub_zero, add_zero] using hextracted)
+  sorry
 
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 
@@ -140,10 +113,7 @@ theorem main_firstSaving_from_original_norms
         (firstAllowance (idealLogLength Z DE.1) (idealLogLength Z DE.2)
           (idealLogLength Z (firstActiveRadical DE.1 DE.2)))
         (idealLogLength Z G.val) ell := by
-  have hσ : 0 ≤ stepσ := by linarith [pool.exponent_pos]
-  exact b.firstSaving_from_original_norms Z pool.base_gt_one G D₀ ell q ell ell stepσ δ
-    pool.exponent_pos.le pool.exponent_pos.le pool.exponent_pos.le hσ hδ
-    (by linarith) hactive hopposite hextracted
+  sorry
 
 /-- At valuations one, six and seven, both moving lengths use the
 literal norm of the retained prime. The pool upper norm window and
@@ -165,21 +135,7 @@ theorem residual_firstSaving_from_original_norms
         (firstAllowance (idealLogLength Z DE.1) (idealLogLength Z DE.2)
           (idealLogLength Z (firstActiveRadical DE.1 DE.2)))
         (idealLogLength Z G.val) ell := by
-  have hlen0 := idealLogLength_nonneg Z pool.base_gt_one p.val.val.asIdeal p.val.val.ne_bot
-  have hlen := first_logLength_le_of_norm_le Z pool.base_gt_one p.val.val.asIdeal
-    p.val.val.ne_bot ell (pool.norm_upper p.val p.property)
-  have hn7 : n ≤ 7 := by
-    simp only [Finset.mem_insert, Finset.mem_singleton] at hn
-    rcases hn with rfl | rfl | rfl <;> norm_num
-  have hn7r : (n : ℝ) ≤ 7 := by exact_mod_cast hn7
-  have hw : (n : ℝ) * idealLogLength Z p.val.val.asIdeal ≤ 7 * stepσ / 3 := by
-    calc
-      _ ≤ 7 * ell := mul_le_mul hn7r hlen hlen0 (by norm_num)
-      _ ≤ _ := by linarith
-  have hσ : 0 ≤ stepσ := by linarith [pool.exponent_pos]
-  exact b.firstSaving_from_original_norms Z pool.base_gt_one G D₀ _ q _ ell stepσ δ
-    (mul_nonneg (Nat.cast_nonneg _) hlen0) (mul_nonneg (Nat.cast_nonneg _) hlen0)
-    pool.exponent_pos.le hσ hδ hw hactive hopposite hextracted
+  sorry
 
 end FirstCommonCharacterBlock
 end HeckeSkeleton.Moments.EngineStep

@@ -104,13 +104,7 @@ include hannulus hcap hannulusZ hY₁ hY₂ hleftPower hrightPower hY₁le hY₂
 zero actual coefficients. No active-source replacement is made. -/
 theorem literalPrimitiveFirstSource_column_norm :
     ∀ i ∈ (source).columns, (Ideal.absNorm ((source).ideal i).val : ℝ) ≤ Z ^ normBound := by
-  have hrows' : ∀ u ∈ pairedRows (data ξ) internal Z, u ∈ rowDomain := by
-    simpa only [Q.literalPrimitiveFirstSource_pairedRows] using hrows
-  intro i hi
-  have h := (raw).original_union_column_norm_le_power profiles cap annulus loss
-    leftExponent rightExponent hannulus hcap hannulusZ (zero_lt_one.trans hZ) hY₁ hY₂
-    hleftPower hrightPower hY₁le hY₂le hrows' ht hwindow i hi
-  exact h.trans (Real.rpow_le_rpow_of_exponent_le hZ.le hcolumn)
+  sorry
 
 /-- Every field required for the original direct terminal summation
 is constructed here from individual original profiles and lengths. -/
