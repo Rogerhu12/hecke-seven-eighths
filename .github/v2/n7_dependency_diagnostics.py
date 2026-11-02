@@ -185,8 +185,9 @@ def main() -> int:
 
     try:
         targets = ["+" + name + ":olean" for name in manifest["import_modules"]]
-        prerequisite = gate.logged(["lake", "build", *targets], "prerequisites.log")
-        results["prerequisites"] = {"exit_code": prerequisite, "targets": targets}
+        prerequisite = gate.logged(["lake", "build", *targets], "build.log")
+        results["prerequisites"] = {
+            "exit_code": prerequisite, "targets": targets, "log": "build.log"}
         save()
         if prerequisite != 0:
             return prerequisite if 0 < prerequisite < 256 else 1
