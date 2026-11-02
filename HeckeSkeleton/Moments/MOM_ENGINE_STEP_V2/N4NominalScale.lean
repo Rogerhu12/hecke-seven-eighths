@@ -58,24 +58,21 @@ the norm extracted from the original plain and prime occurrences. -/
 theorem poolPower_norm (phases : OriginalPhaseData packet) :
     (Ideal.absNorm packet.second.physical.first.poolPower.val : ℝ) =
       call.base ^ packet.second.physical.first.tag.removedLength call.base := by
-  cases hp : phases.pool with
+  rcases phases with ⟨hfirst, pool, htag, hpower, hdeletion⟩
+  cases pool with
   | none =>
-      have hpower : packet.second.physical.first.poolPower =
-          unitExterior (Arithmetic.data c) := by
-        simpa only [hp] using phases.pool_power
-      have htag : packet.second.physical.first.tag = .direct ∨
-          packet.second.physical.first.tag = .main := by
-        simpa only [hp] using phases.pool_tag
+      change packet.second.physical.first.poolPower =
+        unitExterior (Arithmetic.data c) at hpower
+      change packet.second.physical.first.tag = .direct ∨
+        packet.second.physical.first.tag = .main at htag
       rcases htag with htag | htag <;>
         simp only [hpower, htag, unitExterior, OriginalNominalTag.removedLength,
           Ideal.absNorm_top, Nat.cast_one, Real.rpow_zero]
   | some value =>
       rcases value with ⟨e, q⟩
-      have hpower : packet.second.physical.first.poolPower =
-          powerIdeal q e.multiplicity := by
-        simpa only [hp] using phases.pool_power
-      have htag : packet.second.physical.first.tag = .error e q.val := by
-        simpa only [hp] using phases.pool_tag
+      change packet.second.physical.first.poolPower =
+        powerIdeal q e.multiplicity at hpower
+      change packet.second.physical.first.tag = .error e q.val at htag
       rw [hpower, htag]
       change (Ideal.absNorm (q.val.asIdeal ^ e.multiplicity) : ℝ) =
         call.base ^ ((e.multiplicity : ℝ) * idealLogLength call.base q.val.asIdeal)
@@ -150,7 +147,10 @@ theorem rawScaleProduct_le_of_compensated (hpacket : packet.Realizes)
     rw [hA]
     ring
   rw [← he] at hbound
-  exact (mul_le_mul_right (Real.rpow_pos_of_pos call.base_pos _)).mp hbound
+  have hpositive : 0 < call.base ^ ((packet.nominal side).skeleton.c +
+      (packet.nominal side).skeleton.w + (packet.nominal side).skeleton.c₂) :=
+    Real.rpow_pos_of_pos call.base_pos _
+  exact (mul_le_mul_iff_right₀ hpositive).mp (by simpa only [mul_comm] using hbound)
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.N4
 

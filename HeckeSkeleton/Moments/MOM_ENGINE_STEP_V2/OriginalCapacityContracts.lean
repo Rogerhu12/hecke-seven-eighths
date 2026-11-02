@@ -32,6 +32,9 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p} {input : ProfileInput call}
 
+set_option genInjectivity false in
+set_option genSizeOf false in
+set_option maxHeartbeats 1000000 in
 /-- The output of N4 on the same family of N3 calibrations. The source
 conditions retain the original finite row image and complete mask;
 the support and full-joint budgets are conclusions, not task inputs. -/

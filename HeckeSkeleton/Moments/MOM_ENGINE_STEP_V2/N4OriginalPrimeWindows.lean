@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalOccurrenceData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
 
@@ -95,12 +96,8 @@ theorem firstAtlas_slot_mem {packet : RawLeafPacket call p}
     (i : Fin (packet.firstAtlas side).slotCount) (q : HeightOneSpectrum (𝓞 K))
     (hq : q ∈ (packet.firstAtlas side).reindex.slots i) :
     q ∈ call.workingRaw.exteriorSlots (D.firstIndex side i) := by
-  rcases hpacket with ⟨trace, geometry, raw, j, _, _, hraw, rfl⟩
-  cases side
-  · exact originalCover_slot_mem (raw.covers.left (raw.index j).val.1.1)
-      (hraw (raw.index j).val.1.1).1 (raw.index j).val.1.2.2.2.1 i q hq
-  · exact originalCover_slot_mem (raw.covers.right (raw.index j).val.1.1)
-      (hraw (raw.index j).val.1.1).2 (raw.index j).val.1.2.2.2.2.1 i q hq
+  rw [D.firstAtlas_slots hpacket side i] at hq
+  exact (Finset.mem_filter.mp hq).1
 
 theorem second_frozen_prime_norm_le (input : ProfileInput call)
     {packet : RawLeafPacket call p} (hpacket : packet.Realizes)

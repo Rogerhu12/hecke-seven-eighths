@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option Elab.async false
+set_option stderrAsMessages false
 
 /-!
 # The actual covered second source has a literal finite leaf carrier
@@ -30,6 +32,16 @@ open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 open WholeAllocation
 
 variable {K : Type} [Field K] [NumberField K]
+
+set_option genInjectivity false in
+set_option genSizeOf false in
+/-- The three parameters of an actual residual dictionary, packaged before
+its reindex type is formed. All fields retain their original source values. -/
+structure SourceReindexInputs (K : Type) [Field K] [NumberField K]
+    (A : SArithmeticData K) (ι : Type*) where
+  columns : Finset ι
+  ideal : ι → A.Exterior
+  slotCount : ℕ
 
 section Generic
 
@@ -89,11 +101,31 @@ abbrev chart := s.charts v.1 v.2.1
 
 abbrev rowLabel := v.2.2.2.2.1
 
-abbrev leftReindex :=
+def leftReindexInputs : SourceReindexInputs K A ι where
+  columns := (LC.branch v.2.2.1).commonFibre
+    (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1
+  ideal := (SourceClassKey.block v).leftResidual
+  slotCount := ((LC.branch v.2.2.1).branch
+    (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1).keep.card
+
+def rightReindexInputs : SourceReindexInputs K A ι where
+  columns := (RC.branch v.2.2.2.1).commonFibre
+    (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2
+  ideal := (SourceClassKey.block v).rightResidual
+  slotCount := ((RC.branch v.2.2.2.1).branch
+    (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card
+
+abbrev leftReindex :
+    CartesianSourceReindex (SourceClassKey.leftReindexInputs v).columns
+      (SourceClassKey.leftReindexInputs v).ideal
+      (SourceClassKey.leftReindexInputs v).slotCount :=
   (LC.branch v.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.1
     (SourceClassKey.block v).leftResidual (fun i _ => (SourceClassKey.block v).left_residual i) v.2.2.2.2.2.1
 
-abbrev rightReindex :=
+abbrev rightReindex :
+    CartesianSourceReindex (SourceClassKey.rightReindexInputs v).columns
+      (SourceClassKey.rightReindexInputs v).ideal
+      (SourceClassKey.rightReindexInputs v).slotCount :=
   (RC.branch v.2.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.2
     (SourceClassKey.block v).rightResidual (fun j _ => (SourceClassKey.block v).right_residual j) v.2.2.2.2.2.2
 
@@ -240,4 +272,5 @@ theorem rows_nonempty : packet.leaf.rows.Nonempty := by
 end RawLeafPacket
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
+
 

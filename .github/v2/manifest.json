@@ -196,19 +196,32 @@
       ]
     }
   },
-  "phase": "blueprint-contracts-in-progress",
+  "phase": "blueprint-complete-pending-ci",
   "groups": [
     {
       "id": "g0",
-      "name": "真实数据、纯陈述类型及完整组装辅助",
+      "name": "真实数据、纯陈述类型、完整条件组装及U1证明",
       "proved": true,
       "modules": [
         "ArithmeticData",
         "ArithmeticMassAssembly",
+        "AssemblyArithmeticBridge",
+        "AssemblyCalibrationBridge",
+        "AssemblyCalibrationProfiles",
         "AssemblyCore",
+        "AssemblyFourierBridge",
+        "AssemblyLeafConstruction",
+        "AssemblyLogProfileData",
+        "AssemblyMomentDataExt",
+        "AssemblyNormalizationCertificate",
+        "AssemblyNormalizationGeometry",
+        "AssemblyProfilePhase",
+        "BlueprintAssembly",
         "BudgetAssembly",
+        "CalibrationContracts",
         "CalibrationData",
         "CallData",
+        "CanonicalCalibrationData",
         "CanonicalRefinement",
         "ChildArithmeticContracts",
         "ChildInvariantData",
@@ -227,9 +240,12 @@
         "InputDemands",
         "KernelMassAssembly",
         "LocalAssembly",
+        "N9OriginalWindowContracts",
+        "N9ProfileWindowData",
         "NormalizationAssembly",
         "NormalizationCertificate",
         "NormalizedData",
+        "NormalizedMassContracts",
         "NormalizedOutputAssembly",
         "OrdinaryContracts",
         "OrdinaryData",
@@ -245,6 +261,7 @@
         "ProfileAssembly",
         "ProfileDictionary",
         "ProfileFormula",
+        "ProfileWindowContracts",
         "RawContracts",
         "RawLeafData",
         "RawRectangleData",
@@ -273,6 +290,15 @@
         "UniformOrderPreparation",
         "UniformRealizationProof",
         "UniformScalarPreparation"
+      ],
+      "roots": [
+        "TasksUniform",
+        "BlueprintAssembly"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.uniformPreparation",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_taskProofs",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint"
       ]
     },
     {
@@ -280,6 +306,7 @@
       "name": "独立论文证明任务（蓝图占位）",
       "proved": false,
       "modules": [
+        "N9OriginalWindowMass",
         "ProfileFormulaTask",
         "TasksAmplification",
         "TasksChildArithmetic",
@@ -291,12 +318,23 @@
         "TasksFirstTransform",
         "TasksFirstZero",
         "TasksNominalGeometry",
+        "TasksNormalizedMass",
         "TasksOriginalAtoms",
+        "TasksOriginalCalibration",
         "TasksPassiveRefinement",
+        "TasksProfileWindows",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
         "TasksTails"
+      ]
+    },
+    {
+      "id": "g2",
+      "name": "蓝图聚合入口",
+      "proved": false,
+      "modules": [
+        "Interface"
       ]
     },
     {
@@ -324,7 +362,8 @@
         "OriginalCapacityContracts",
         "TasksOriginalCapacity",
         "N4ExtractionScale",
-        "N4SourceBudget"
+        "N4SourceBudget",
+        "PassiveCoverOrigin"
       ],
       "roots": [
         "TasksOriginalCapacity"
@@ -352,14 +391,6 @@
       ],
       "required_declarations": [
         "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.fullKappaNormalization"
-      ]
-    },
-    {
-      "id": "g2",
-      "name": "蓝图聚合入口",
-      "proved": false,
-      "modules": [
-        "Interface"
       ]
     }
   ]

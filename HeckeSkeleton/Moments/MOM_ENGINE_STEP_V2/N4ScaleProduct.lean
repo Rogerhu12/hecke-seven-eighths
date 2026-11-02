@@ -24,7 +24,7 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
-open HeckePort.Moments HeckePort.Moments.Support
+open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -74,10 +74,12 @@ theorem firstStageProduct_eq (D : OriginalOccurrenceData O) (side rectangle : Bo
     firstStageProduct D side rectangle =
       (packet.firstBranch side).residualGaussScale call.base call.originalLength
         (call.originalPlainScale rectangle false) (call.originalPlainScale rectangle true) := by
-  dsimp only [firstStageProduct, RawLeafPacket.firstPlainScale,
-    OriginalOccurrenceData.firstIndex, SupportCartesianBranch.residualGaussScale,
-    extraGaussScale]
-  rw [prod_fin_cast (D.first_count side).symm]
+  exact congrArg
+    (fun t : ℝ =>
+      packet.firstPlainScale side rectangle false * packet.firstPlainScale side rectangle true * t)
+    (prod_fin_cast (D.first_count side).symm
+      (fun j : Fin (packet.firstBranch side).keep.card =>
+        call.base ^ call.originalLength (SlotRestriction.index (packet.firstBranch side).keep j)))
 
 theorem beforeStageProduct_eq (D : OriginalOccurrenceData O) (side rectangle : Bool) :
     beforeStageProduct D side rectangle =
@@ -85,10 +87,13 @@ theorem beforeStageProduct_eq (D : OriginalOccurrenceData O) (side rectangle : B
         (fun i => call.originalLength (D.firstIndex side i))
         (packet.firstPlainScale side rectangle false)
         (packet.firstPlainScale side rectangle true) := by
-  dsimp only [beforeStageProduct, OriginalOccurrenceData.beforePlainScale,
-    OriginalOccurrenceData.beforeLength, OriginalOccurrenceData.secondIndex,
-    SupportCartesianBranch.residualGaussScale, extraGaussScale]
-  rw [prod_fin_cast (D.second_count side).symm]
+  exact congrArg
+    (fun t : ℝ =>
+      D.beforePlainScale side rectangle false * D.beforePlainScale side rectangle true * t)
+    (prod_fin_cast (D.second_count side).symm
+      (fun j : Fin (packet.secondBranch side).keep.card =>
+        call.base ^ call.originalLength
+          (D.firstIndex side (SlotRestriction.index (packet.secondBranch side).keep j))))
 
 theorem originalPlainScale_pos (rectangle plain : Bool) :
     0 < call.originalPlainScale rectangle plain := by
