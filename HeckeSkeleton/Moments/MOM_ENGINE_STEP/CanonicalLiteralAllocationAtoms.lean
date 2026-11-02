@@ -96,7 +96,7 @@ theorem allocate_gaussScale :
       (∏ i ∈ Finset.univ \ B.keep, d.gaussSlot i) *
         ∏ i, d.gaussSlot (SlotRestriction.index B.keep i) := by
     simpa only [Finset.sdiff_eq_filter, Finset.mem_univ, true_and] using
-      (SlotRestriction.product_extend B.keep (fun _ => PUnit.unit)
+      (SlotRestriction.product_extend (P := PUnit.{1}) B.keep (fun _ => PUnit.unit)
         (fun _ => PUnit.unit) (fun i _ => d.gaussSlot i))
   change (d.gauss₁ * ∏ i ∈ Finset.univ \ B.keep, d.gaussSlot i) * d.gauss₂ *
       (∏ i, d.gaussSlot (SlotRestriction.index B.keep i)) =
