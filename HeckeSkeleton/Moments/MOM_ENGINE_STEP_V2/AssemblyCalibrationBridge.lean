@@ -47,7 +47,8 @@ theorem packetPattern_of_realizes
   have hsecond : packet.second.Realizes := by
     rcases hpacket with
       ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩
-    exact htrace.second.stage (raw.index j).val.1.1
+    exact htrace.second.stage
+      (raw.covers.classKey (raw.index j).val).sourceIndex
   have hlabel (q : packet.R.live) :
       packet.chart.rowLabel q.val =
         SourceClassKey.rowLabel packet.key :=
