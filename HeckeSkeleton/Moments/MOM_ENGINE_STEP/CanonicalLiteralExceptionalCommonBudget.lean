@@ -226,11 +226,19 @@ The first atlas count and both original occurrence maps are retained. -/
 theorem commonEnvelope_le :
     (W).commonEnvelope ≤ amplitude ^ CanonicalLiteralExceptionalAtomBudget.commonDegree cap := by
   have hleftCap : (LC.branch v.2.2.1).slotCount ≤ cap := by
-    rw [congrArg Sigma.fst dictionaryLeft]
-    exact (by simpa only [Fintype.card_fin] using Finset.card_le_univ firstLeft.keep).trans hcap
+    have hcount : (LC.branch v.2.2.1).slotCount = firstLeft.keep.card :=
+      congrArg Sigma.fst dictionaryLeft
+    rw [hcount]
+    have hkeep : firstLeft.keep.card ≤ (data x).geometry.slotCount := by
+      simpa only [Fintype.card_fin] using Finset.card_le_univ firstLeft.keep
+    exact hkeep.trans hcap
   have hrightCap : (RC.branch v.2.2.2.1).slotCount ≤ cap := by
-    rw [congrArg Sigma.fst dictionaryRight]
-    exact (by simpa only [Fintype.card_fin] using Finset.card_le_univ firstRight.keep).trans hcap
+    have hcount : (RC.branch v.2.2.2.1).slotCount = firstRight.keep.card :=
+      congrArg Sigma.fst dictionaryRight
+    rw [hcount]
+    have hkeep : firstRight.keep.card ≤ (data x).geometry.slotCount := by
+      simpa only [Fintype.card_fin] using Finset.card_le_univ firstRight.keep
+    exact hkeep.trans hcap
   have hB : 1 ≤ amplitude ^ 2 := one_le_pow₀ hamplitude
   have hleft : ∀ i ∈ Finset.univ \ (W).leftAtoms.keep,
       (W).leftAtoms.annulus i * (W).leftAtoms.profile i ≤ amplitude ^ 2 := by

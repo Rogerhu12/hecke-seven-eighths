@@ -325,8 +325,10 @@ local notation "uniformCoefficient" ξ =>
 include hslotLossNonneg hslots in
 private theorem removed_slot_sum_le {n : ℕ} (keep : Finset (Fin n))
     (hn : n ≤ cap) : ∑ i ∈ Finset.univ \ keep, slotLoss ≤ loss / 16 := by
-  have hc : (Finset.univ \ keep).card ≤ cap :=
-    (by simpa only [Fintype.card_fin] using Finset.card_le_univ (Finset.univ \ keep)).trans hn
+  have hc : (Finset.univ \ keep).card ≤ cap := by
+    have hkeep : (Finset.univ \ keep).card ≤ n := by
+      simpa only [Fintype.card_fin] using Finset.card_le_univ (Finset.univ \ keep)
+    exact hkeep.trans hn
   calc
     _ = ((Finset.univ \ keep).card : ℝ) * slotLoss := by
       simp only [Finset.sum_const, nsmul_eq_mul]
