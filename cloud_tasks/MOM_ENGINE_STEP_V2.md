@@ -55,6 +55,31 @@ B 线在 PR #31 发布了任务总表（S1–S6、N1–N9、T1–T4、U1，共 2
 4. 有些任务陈述放在 RawContracts / OrdinaryData 里，这两个模块在基线修好前编不过。可以先写完、先编不依赖它们的部分，基线修好后再整体编通。
 5. 完成标准：组装模块没有 `sorry`；CI 只编组装模块，并对这些模块做公理检查，只出现三条标准公理（任务陈述作为前提不会引入 sorryAx）；在 PR #31 报告。
 
+## 基线并行修复（2026-11-03 01:00 起）
+
+RawContracts 和 OrdinaryData 编不过，挡住了 8 个任务和组装。协调员的诊断（PR #31 上的评论，分支 `diag/v2-kernel`）结论如下：
+- 卡在 Lean 内部的 `getFunInfo → collectDeps`。这一步不检查心跳，也不缓存，所以心跳上限、skipKernelTC、noncomputable、关 linter 都不起作用。
+- 一旦要比较两个写法不同的 `SourceClassKey.AllocationKey …`（或这一族的其他 abbrev），就会卡住。
+- 能编过的写法：柯里化的 `leafAt (i) (v : SourceClassKey …) (allocation : SourceClassKey.AllocationKey v)`（10s）；结构体键 `KeyS`，用字段调 `leafAt`（14s）；用有名字的 def 包起 fibre 的 Σ 键，Fintype 用 `unfold …; infer_instance`。
+- 仍然卡住的写法：Σ 键与柯里化参数互相转换，即投影、match、`Sigma.casesOn`、`Sigma.uncurry`、`obtain` 加 `unfold` 这几种；Ordinary 的 `branch.val : AllocationKey packet.key`，以及它与 `HybridAllocationLabel …` 之间的 `rfl`。
+
+下面的修法同时进行，**哪个先通过就由 B 采纳**，其余停止：
+
+| 方案 | 负责会话 | 内容 |
+|---|---|---|
+| A | S1/S2（PR #36） | 把 RawLeafData 里 `SourceClassKey` 这一族的段落变量（E、hΓ、μv、hDiff、G、finiteTest 等）打包成一个结构体参数，缩短隐式参数串。然后看原来的 Σ `Key` 加 match 版本的 `leaf` 能不能编过。 |
+| B | S3/S5（PR #35） | Key 改成结构体 `KeyS`（i、v、allocation），`leaf`、`classKey`、`LiveKey` 都基于它。需要找到一种 Fintype 实例的写法，全程不把 Σ 和结构体互相转换（例如对 fibre 用 `unfold` 加 `infer_instance` 的路子，或者直接构造 Finset）。 |
+| C | S4/T4（PR #33） | 在 RawLeafData 的泛型段落里（类型都是变量的地方）定义好"两层 Σ 键 → 叶子"，RawContracts 只做实例化，让具体文件里不出现需要比较的两种 `AllocationKey` 写法。 |
+| D | N5a/N5b（PR #38） | OrdinaryData：重写 `ordinaryBranchType` / `ordinaryBranchKey`，不再要求 `branch.val` 直接是 `AllocationKey packet.key`。例如把分支类型定义成 `AllocationKey packet.key` 的子类型，或者让 `ordinaryBranchKey` 返回分支本身，另外给出对应关系。下游陈述的意思不变。 |
+| E | N7（PR #40） | OrdinaryData 的另一条路：给两侧类型各起一个名字，用 tactic 证明它们之间的 Equiv，不让 elaborator 直接判等。 |
+| F | T1/T2（PR #37） | 最终接线：在 V2 分支上准备好用组装定理 `pairedStepHypothesis_of_blueprint` 的结论代入 MOM_ENGINE_INDUCTION 的三个 `*_of_step`，消掉 `Moments.lean` 的三个 sorry（`paired_zero_slot_models`、`paired_positive_below_one`、`paired_positive_endpoint`）。先对组装定理的陈述编通，不等基线。 |
+
+规矩：
+1. 方案 A–E：从 `diag/v2-kernel` 切出 `diag/v2-fix-<方案字母小写>`。把 `.github/workflows/v2-kdiag.yml` 的触发分支改成自己的分支，在 `.github/kdiag/` 放自己的探针（可以是 B 当前 head 的整份 RawContracts.lean 或 OrdinaryData.lean 的改写版），矩阵列出探针名。每个探针 100s 上限，超时自动抓调用栈。一次可以并行好几个探针。
+2. 通过标准：改写后的整份 RawContracts.lean（或 OrdinaryData.lean）每个都在 100s 内编完；冻结陈述的数学意思不变；列出下游要跟着改的地方。
+3. 每轮结果贴到 PR #31，写明哪些写法过了、哪些卡了。不要推送 `cloud/mom-engine-step-v2`，B 负责采纳。
+4. 方案 F 从 `cloud/mom-engine-step-v2` 切出 `cloud/mom-v2-wiring`，开 `[不合并]` draft PR。
+
 ## 做法
 
 ### 第一阶段：设计和陈述骨架
