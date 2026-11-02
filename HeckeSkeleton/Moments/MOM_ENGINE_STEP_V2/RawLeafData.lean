@@ -89,11 +89,30 @@ abbrev chart := s.charts v.1 v.2.1
 
 abbrev rowLabel := v.2.2.2.2.1
 
-abbrev leftReindex :=
+/-- Name the exact residual reindex type before using it as a result type.
+This keeps `getFunInfo` from traversing the expanded dependent source tree. -/
+def LeftReindexType : Type _ :=
+  CartesianSourceReindex
+    ((LC.branch v.2.2.1).commonFibre (primeSupport v.1.val.1) v.1.val.1
+      v.2.2.2.2.2.1)
+    (SourceClassKey.block v).leftResidual
+    ((LC.branch v.2.2.1).branch (primeSupport v.1.val.1) v.1.val.1
+      v.2.2.2.2.2.1).keep.card
+
+/-- The right residual reindex type, with the original fibre and slot count. -/
+def RightReindexType : Type _ :=
+  CartesianSourceReindex
+    ((RC.branch v.2.2.2.1).commonFibre (primeSupport v.1.val.1) v.1.val.2
+      v.2.2.2.2.2.2)
+    (SourceClassKey.block v).rightResidual
+    ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2
+      v.2.2.2.2.2.2).keep.card
+
+abbrev leftReindex : LeftReindexType v :=
   (LC.branch v.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.1
     (SourceClassKey.block v).leftResidual (fun i _ => (SourceClassKey.block v).left_residual i) v.2.2.2.2.2.1
 
-abbrev rightReindex :=
+abbrev rightReindex : RightReindexType v :=
   (RC.branch v.2.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.2
     (SourceClassKey.block v).rightResidual (fun j _ => (SourceClassKey.block v).right_residual j) v.2.2.2.2.2.2
 
@@ -240,4 +259,5 @@ theorem rows_nonempty : packet.leaf.rows.Nonempty := by
 end RawLeafPacket
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
+
 
