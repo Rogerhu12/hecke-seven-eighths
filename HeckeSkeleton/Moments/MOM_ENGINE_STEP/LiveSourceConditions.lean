@@ -94,35 +94,50 @@ variable (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
 variable (B : d.SourceCovers c)
 
 /-- Literal arithmetic projections from the actual four-tag carrier. -/
-def commonLabel : s.CoveredLeafKey B → Ideal (𝓞 K) × Ideal (𝓞 K)
-  | .inl j => j.1.1.val
-  | .inr (.inl ⟨_, j⟩) => j.1.1.val
-  | .inr (.inr (.inl ⟨_, j⟩)) => j.1.1.val
-  | .inr (.inr (.inr ⟨_, j⟩)) => j.1.1.val
+def commonLabel : s.CoveredLeafKey B → Ideal (𝓞 K) × Ideal (𝓞 K) :=
+  Sum.elim
+    (fun j => j.1.1.val)
+    (Sum.elim
+      (fun q => q.2.1.1.val)
+      (Sum.elim
+        (fun q => q.2.1.1.val)
+        (fun q => q.2.1.1.val)))
 
-def innerDivisor : s.CoveredLeafKey B → Ideal (𝓞 K)
-  | .inl j => j.2.1.val
-  | .inr (.inl ⟨_, j⟩) => j.2.1.val
-  | .inr (.inr (.inl ⟨_, j⟩)) => j.2.1.val
-  | .inr (.inr (.inr ⟨_, j⟩)) => j.2.1.val
+def innerDivisor : s.CoveredLeafKey B → Ideal (𝓞 K) :=
+  Sum.elim
+    (fun j => j.2.1.val)
+    (Sum.elim
+      (fun q => q.2.2.1.val)
+      (Sum.elim
+        (fun q => q.2.2.1.val)
+        (fun q => q.2.2.1.val)))
 
-def physicalRows : s.CoveredLeafKey B → Finset A.R
-  | .inl _ => d.mainRows
-  | .inr (.inl ⟨p, _⟩) => d.errorRows p.val
-  | .inr (.inr (.inl ⟨p, _⟩)) => d.errorRows p.val
-  | .inr (.inr (.inr ⟨p, _⟩)) => d.errorRows p.val
+def physicalRows : s.CoveredLeafKey B → Finset A.R :=
+  Sum.elim
+    (fun _ => d.mainRows)
+    (Sum.elim
+      (fun q => d.errorRows q.1.val)
+      (Sum.elim
+        (fun q => d.errorRows q.1.val)
+        (fun q => d.errorRows q.1.val)))
 
-def sourceCommonLabels : s.CoveredLeafKey B → Finset (Ideal (𝓞 K) × Ideal (𝓞 K))
-  | .inl _ => (d.mainSource c).activeCommon
-  | .inr (.inl ⟨p, _⟩) => (d.residualSource p.val 1 c).activeCommon
-  | .inr (.inr (.inl ⟨p, _⟩)) => (d.residualSource p.val 6 c).activeCommon
-  | .inr (.inr (.inr ⟨p, _⟩)) => (d.residualSource p.val 7 c).activeCommon
+def sourceCommonLabels : s.CoveredLeafKey B → Finset (Ideal (𝓞 K) × Ideal (𝓞 K)) :=
+  Sum.elim
+    (fun _ => (d.mainSource c).activeCommon)
+    (Sum.elim
+      (fun q => (d.residualSource q.1.val 1 c).activeCommon)
+      (Sum.elim
+        (fun q => (d.residualSource q.1.val 6 c).activeCommon)
+        (fun q => (d.residualSource q.1.val 7 c).activeCommon)))
 
-def errorPrime : s.CoveredLeafKey B → Option (ExteriorPrime A)
-  | .inl _ => none
-  | .inr (.inl ⟨p, _⟩) => some p.val
-  | .inr (.inr (.inl ⟨p, _⟩)) => some p.val
-  | .inr (.inr (.inr ⟨p, _⟩)) => some p.val
+def errorPrime : s.CoveredLeafKey B → Option (ExteriorPrime A) :=
+  Sum.elim
+    (fun _ => none)
+    (Sum.elim
+      (fun q => some q.1.val)
+      (Sum.elim
+        (fun q => some q.1.val)
+        (fun q => some q.1.val)))
 
 theorem supported_gated_live_source
     (exceptional : s.supported.gated.CoverHybridPredicates B)
@@ -200,19 +215,19 @@ variable (s : p.SecondStages (E := E) (hDiff := hDiff))
 variable (LA : SourceCartesianAtlas left fullI) (RA : SourceCartesianAtlas right fullJ)
 
 def commonLabel (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) × Ideal (𝓞 K) :=
-  match j.2.2 with
-  | .inl a => (s.left j.1 j.2.1).commonLabel (p.leftSourceCovers LA j.1 j.2.1) a
-  | .inr a => (s.right j.1 j.2.1).commonLabel (p.rightSourceCovers RA j.1 j.2.1) a
+  Sum.elim
+    (fun a => (s.left j.1 j.2.1).commonLabel (p.leftSourceCovers LA j.1 j.2.1) a)
+    (fun a => (s.right j.1 j.2.1).commonLabel (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2
 
 def innerDivisor (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) :=
-  match j.2.2 with
-  | .inl a => (s.left j.1 j.2.1).innerDivisor (p.leftSourceCovers LA j.1 j.2.1) a
-  | .inr a => (s.right j.1 j.2.1).innerDivisor (p.rightSourceCovers RA j.1 j.2.1) a
+  Sum.elim
+    (fun a => (s.left j.1 j.2.1).innerDivisor (p.leftSourceCovers LA j.1 j.2.1) a)
+    (fun a => (s.right j.1 j.2.1).innerDivisor (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2
 
 def errorPrime (j : s.CoveredLeafKey LA RA) : Option (ExteriorPrime A) :=
-  match j.2.2 with
-  | .inl a => (s.left j.1 j.2.1).errorPrime (p.leftSourceCovers LA j.1 j.2.1) a
-  | .inr a => (s.right j.1 j.2.1).errorPrime (p.rightSourceCovers RA j.1 j.2.1) a
+  Sum.elim
+    (fun a => (s.left j.1 j.2.1).errorPrime (p.leftSourceCovers LA j.1 j.2.1) a)
+    (fun a => (s.right j.1 j.2.1).errorPrime (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →

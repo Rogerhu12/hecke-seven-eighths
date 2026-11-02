@@ -29,6 +29,56 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis MeasureTheory HeckePort.Moments
 
+private theorem dual_pool_scalar_four_tag_sum
+    {P : Type*} [Fintype P]
+    (a : ℝ) (f : Unit ⊕ (P ⊕ (P ⊕ P)) → ℝ) :
+    a * ∑ b, f b =
+      a * (f (.inl ()) + (∑ p, f (.inr (.inl p))) +
+        (∑ p, f (.inr (.inr (.inl p)))) +
+        (∑ p, f (.inr (.inr (.inr p))))) := by
+  sorry
+
+private theorem dual_pool_scalar_terminal_sum
+    {P : Type*} {I₀ : Type*}
+    {I₁ : P → Type*} {I₆ : P → Type*} {I₇ : P → Type*}
+    [Fintype P] [Fintype I₀]
+    [∀ p, Fintype (I₁ p)] [∀ p, Fintype (I₆ p)] [∀ p, Fintype (I₇ p)]
+    (a m : ℝ) (w₁ w₆ w₇ : P → ℝ) (z₀ t₀ : ℝ)
+    (z₁ t₁ z₆ t₆ z₇ t₇ : P → ℝ)
+    (f₀ : I₀ → ℝ) (f₁ : ∀ p, I₁ p → ℝ)
+    (f₆ : ∀ p, I₆ p → ℝ) (f₇ : ∀ p, I₇ p → ℝ)
+    (phase : Unit ⊕ (P ⊕ (P ⊕ P)) → ℝ)
+    (leaves : I₀ ⊕ ((Σ p, I₁ p) ⊕ ((Σ p, I₆ p) ⊕ (Σ p, I₇ p))) → ℝ)
+    (zero tail : ℝ)
+    (hphase₀ : phase (.inl ()) = m * (z₀ + t₀ + ∑ b, f₀ b))
+    (hphase₁ : ∀ p, phase (.inr (.inl p)) = w₁ p * (z₁ p + t₁ p + ∑ b, f₁ p b))
+    (hphase₆ : ∀ p, phase (.inr (.inr (.inl p))) =
+      w₆ p * (z₆ p + t₆ p + ∑ b, f₆ p b))
+    (hphase₇ : ∀ p, phase (.inr (.inr (.inr p))) =
+      w₇ p * (z₇ p + t₇ p + ∑ b, f₇ p b))
+    (h₀ : ∀ b, leaves (.inl b) = (a * m) * f₀ b)
+    (h₁ : ∀ p b, leaves (.inr (.inl ⟨p, b⟩)) = (a * w₁ p) * f₁ p b)
+    (h₆ : ∀ p b, leaves (.inr (.inr (.inl ⟨p, b⟩))) = (a * w₆ p) * f₆ p b)
+    (h₇ : ∀ p b, leaves (.inr (.inr (.inr ⟨p, b⟩))) = (a * w₇ p) * f₇ p b)
+    (hzero : zero = a * (m * z₀ + (∑ p, w₁ p * z₁ p) +
+      (∑ p, w₆ p * z₆ p) + (∑ p, w₇ p * z₇ p)))
+    (htail : tail = a * (m * t₀ + (∑ p, w₁ p * t₁ p) +
+      (∑ p, w₆ p * t₆ p) + (∑ p, w₇ p * t₇ p))) :
+    a * ∑ b, phase b = zero + tail + ∑ b, leaves b := by
+  sorry
+
+private theorem dual_pool_scalar_integral_const_add_sum
+    {X J : Type*} [MeasurableSpace X] [Fintype J]
+    (μ : Measure X) [IsFiniteMeasure μ]
+    (c : ℝ) (f : X → ℝ) (leaves : J → X → ℝ) (costs : J → ℝ)
+    (leafMeasures : J → Measure X)
+    (hpoint : ∀ ξ, f ξ = c + ∑ b : J, leaves b ξ)
+    (hmeasure : ∀ b : J, leafMeasures b = μ)
+    (hterms : ∀ b : J, Integrable (leaves b) (leafMeasures b))
+    (hcosts : ∀ b : J, (∫ ξ, leaves b ξ ∂(leafMeasures b)) = costs b) :
+    (∫ ξ, f ξ ∂μ) = μ.real Set.univ * c + ∑ b : J, costs b := by
+  sorry
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}

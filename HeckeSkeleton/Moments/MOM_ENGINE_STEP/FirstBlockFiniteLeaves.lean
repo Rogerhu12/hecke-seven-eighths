@@ -25,6 +25,16 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 
+private abbrev first_block_sum_fintype
+    {I J : Type*} [Fintype I] [Fintype J] : Fintype (I ⊕ J) :=
+  inferInstance
+
+private abbrev first_block_sigma_sigma_fintype
+    {I J : Type*} {F : I → J → Type*}
+    [Fintype I] [Fintype J] [∀ i j, Fintype (F i j)] :
+    Fintype (Σ i, Σ j, F i j) :=
+  inferInstance
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -50,15 +60,6 @@ local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local instance firstBlockFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
-
-private abbrev firstBlock_sum_fintype {α β : Type*} [Fintype α] [Fintype β] :
-    Fintype (α ⊕ β) :=
-  inferInstance
-
-private abbrev firstBlock_sigma_sigma_fintype {S X : Type*} {F : S → X → Type*}
-    [Fintype S] [Fintype X] [∀ a b, Fintype (F a b)] :
-    Fintype (Σ a : S, Σ b : X, F a b) :=
-  inferInstance
 
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
@@ -87,19 +88,25 @@ abbrev CoveredClassKey
   (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ) ⊕
     (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ)
 
+abbrev coveredClassKeyFintype
+    (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (χ : (PUnit × PUnit) →* Circle) :
+    Fintype (s.CoveredClassKey LA RA S χ) :=
+  first_block_sum_fintype
+    (I := (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ))
+    (J := (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ))
+
+attribute [local instance] coveredClassKeyFintype
+
 abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
     Σ χ : (PUnit × PUnit) →* Circle, s.CoveredClassKey LA RA S χ
 
-abbrev coveredClassKeyFintype
-    (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
-    (χ : (PUnit × PUnit) →* Circle) : Fintype (s.CoveredClassKey LA RA S χ) :=
-  firstBlock_sum_fintype
-
-attribute [local instance] coveredClassKeyFintype
-
 abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
-  firstBlock_sigma_sigma_fintype
+  first_block_sigma_sigma_fintype
+    (I := divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (J := (PUnit × PUnit) →* Circle)
+    (F := fun S χ => s.CoveredClassKey LA RA S χ)
 
 attribute [local instance] coveredLeafKeyFintype
 

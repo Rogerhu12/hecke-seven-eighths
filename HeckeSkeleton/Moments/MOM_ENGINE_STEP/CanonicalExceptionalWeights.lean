@@ -69,7 +69,8 @@ variable (v : s.CoveredClassKey LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (j : v.AllocationKey) :
     (v.leaf exceptional F x j).weight =
       ‖(moebius j.1.val : ℂ)‖ *
-        ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) j.2.1‖ := rfl
+        ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) j.2.1‖ := by
+  exact rfl
 
 end ActualGaussStage.CoveredClassKey
 
