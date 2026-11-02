@@ -53,7 +53,13 @@ theorem original_union_leftColumns_norm_le (annulus leftExponent : ℝ) (hannulu
     (ht : t ∈ heightDomain) (hwindow : window ⊆ Set.Iic annulus)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ raw.leftColumns) :
     idealNorm K I ≤ annulus * Z ^ leftExponent := by
-  sorry
+  obtain ⟨u, hu, hI⟩ := Finset.mem_biUnion.mp hI
+  rcases Finset.mem_union.mp hI with hI | hI
+  · exact (profiles.original_left_norm_le_annulus annulus (Z ^ a.n₁) t
+      (Real.rpow_pos_of_pos hZ _) ht hwindow u (hrows u hu) I hI).trans
+        (mul_le_mul_of_nonneg_left hleftPower hannulus)
+  · exact (profiles.original_left_norm_le_annulus annulus Y₁ t hY₁ ht hwindow
+      u (hrows u hu) I hI).trans (mul_le_mul_of_nonneg_left hY₁le hannulus)
 
 theorem original_union_rightColumns_norm_le (annulus rightExponent : ℝ) (hannulus : 0 ≤ annulus)
     (hZ : 0 < Z) (hY₂ : 0 < Y₂)
@@ -62,7 +68,13 @@ theorem original_union_rightColumns_norm_le (annulus rightExponent : ℝ) (hannu
     (ht : t ∈ heightDomain) (hwindow : window ⊆ Set.Iic annulus)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ raw.rightColumns) :
     idealNorm K I ≤ annulus * Z ^ rightExponent := by
-  sorry
+  obtain ⟨u, hu, hI⟩ := Finset.mem_biUnion.mp hI
+  rcases Finset.mem_union.mp hI with hI | hI
+  · exact (profiles.original_right_norm_le_annulus annulus (Z ^ a.n₂) t
+      (Real.rpow_pos_of_pos hZ _) ht hwindow u (hrows u hu) I hI).trans
+        (mul_le_mul_of_nonneg_left hrightPower hannulus)
+  · exact (profiles.original_right_norm_le_annulus annulus Y₂ t hY₂ ht hwindow
+      u (hrows u hu) I hI).trans (mul_le_mul_of_nonneg_left hY₂le hannulus)
 
 /-- The literal whole-ideal norm follows from the original individual
 profile supports. Every original prime occurrence remains in the product. -/
@@ -76,7 +88,42 @@ theorem original_union_column_norm_le_annulus (annulus leftExponent rightExponen
     (Ideal.absNorm (raw.columnExterior v).val : ℝ) ≤
       annulus ^ (d.geometry.slotCount + 2) *
         Z ^ (leftExponent + rightExponent + d.geometry.totalLength) := by
-  sorry
+  have hm := Finset.mem_product.mp (Finset.mem_filter.mp hv).1
+  have hp := Finset.mem_product.mp hm.1
+  have hleft := raw.original_union_leftColumns_norm_le profiles annulus leftExponent hannulus hZ hY₁ hleftPower hY₁le
+    hrows ht hwindow v.1.1 hp.1
+  have hright := raw.original_union_rightColumns_norm_le profiles annulus rightExponent hannulus hZ hY₂ hrightPower hY₂le
+    hrows ht hwindow v.1.2 hp.2
+  have hprime (i : Fin d.geometry.slotCount) :
+      (Ideal.absNorm (v.2 i).asIdeal : ℝ) ≤
+        annulus * Z ^ (d.geometry.slots i).length := by
+    have hi := Fintype.mem_piFinset.mp hm.2 i
+    have hrep : profiles.primeRep i t
+        ((Ideal.absNorm (v.2 i).asIdeal : ℝ) / Z ^ (d.geometry.slots i).length) ≠ 0 := by
+      simpa only [profiles.prime_eq] using
+        ((d.geometry.slots i).support_spec t (Z ^ (d.geometry.slots i).length) (v.2 i)).mp hi
+    exact (div_le_iff₀ (Real.rpow_pos_of_pos hZ _)).mp
+      (hwindow (profiles.prime_support i t ht hrep))
+  have hprod : (∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ)) ≤
+      ∏ i, annulus * Z ^ (d.geometry.slots i).length :=
+    Finset.prod_le_prod₀ (fun i _ => Nat.cast_nonneg _) (fun i _ => hprime i)
+  calc
+    _ = (idealNorm K v.1.1 * idealNorm K v.1.2) *
+        ∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ) := by
+      rw [raw.columnExterior_val_of_mem v hv]
+      simp only [columnIdeal, idealNorm, map_mul, map_prod, Nat.cast_mul, Nat.cast_prod]
+    _ ≤ ((annulus * Z ^ leftExponent) * (annulus * Z ^ rightExponent)) *
+        ∏ i, annulus * Z ^ (d.geometry.slots i).length :=
+      mul_le_mul (mul_le_mul hleft hright (idealNorm_pos K _).le
+        (mul_nonneg hannulus (Real.rpow_nonneg hZ.le _))) hprod
+        (Finset.prod_nonneg (fun i _ => Nat.cast_nonneg _))
+        (mul_nonneg (mul_nonneg hannulus (Real.rpow_nonneg hZ.le _))
+          (mul_nonneg hannulus (Real.rpow_nonneg hZ.le _)))
+    _ = _ := by
+      rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ, Fintype.card_fin,
+        ← Real.rpow_sum_of_pos hZ]
+      simp only [SlotGeometry.totalLength, Real.rpow_add hZ, pow_add]
+      ring
 
 /-- The fixed annulus threshold and original formal lengths give the
 pure power window used by the actual arithmetic and fibre theorems. -/
@@ -91,7 +138,11 @@ theorem original_union_column_norm_le_power (cap : ℕ) (annulus loss leftExpone
     (v : raw.Column) (hv : v ∈ raw.exteriorColumns) :
     (Ideal.absNorm (raw.columnExterior v).val : ℝ) ≤
       Z ^ (leftExponent + rightExponent + d.geometry.totalLength + loss) := by
-  sorry
+  have hraw := raw.original_union_column_norm_le_annulus profiles annulus leftExponent rightExponent
+    (zero_le_one.trans hannulus) hZ hY₁ hY₂ hleftPower hrightPower hY₁le hY₂le hrows ht hwindow v hv
+  have hpower := (pow_le_pow_right₀ hannulus (Nat.add_le_add_right hcap 2)).trans hannulusZ
+  exact (hraw.trans (mul_le_mul_of_nonneg_right hpower (Real.rpow_nonneg hZ.le _))).trans_eq
+    (by rw [Real.rpow_add hZ]; ring)
 
 end ParentRawAtoms
 
@@ -110,7 +161,16 @@ theorem centered_union_scale_windows (hc : centered = true) :
     0 < Y₁ ∧ 0 < Y₂ ∧ Y₁ ≤ Z ^ a.n₁ ∧
       Z ^ a.n₂ ≤ Z ^ (a.n₁ + a.n₂ - (a.m + a.q) / 4) ∧
       Y₂ ≤ Z ^ (a.n₁ + a.n₂ - (a.m + a.q) / 4) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans domain.scale
+  refine ⟨?_, ?_, ?_, ?_, ?_⟩
+  · rw [domain.comparison_left hc]
+    exact Real.rpow_pos_of_pos hz _
+  · rw [domain.comparison_right hc]
+    exact Real.rpow_pos_of_pos hz _
+  · rw [domain.comparison_left hc]
+    exact Real.rpow_le_rpow_of_exponent_le domain.scale.le (domain.centered_left hc)
+  · exact Real.rpow_le_rpow_of_exponent_le domain.scale.le (by linarith [domain.centered_left hc])
+  · exact (domain.comparison_right hc).le
 
 end PairedEngineDomain
 end HeckeSkeleton.Moments.EngineStep

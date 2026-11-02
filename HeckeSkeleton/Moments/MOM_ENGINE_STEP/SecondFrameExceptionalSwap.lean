@@ -88,8 +88,10 @@ two extracted factors. The original profile and support are unchanged. -/
 theorem of_factor_product
     (T : ExceptionalPlainChart (σ := σ) χ θ M g h' Ψ mask W t N S w x ξ)
     (he : a * b = g * h') :
-    ExceptionalPlainChart (σ := σ) χ θ M a b Ψ mask W t N S w x ξ := by
-  sorry
+    ExceptionalPlainChart (σ := σ) χ θ M a b Ψ mask W t N S w x ξ where
+  coefficient I hI := by simpa only [he] using T.coefficient I hI
+  profile := T.profile
+  support := T.support
 
 end ExceptionalPlainChart
 
@@ -100,14 +102,21 @@ namespace SecondSideFrame
     f.toLeft.source.extractedFactor (R.swapLive h) *
         (f.toLeft.source.row (R.swapLive h)).element =
       f.source.extractedFactor h * (f.source.row h).element := by
-  sorry
+  change R.swapColumns.factor C h.val *
+      (R.swapColumns.extractedRow C (R.swapLive h)).element =
+    (-R.factor C h.val) * (R.extractedRow C h).element
+  rw [R.swapColumns_factor C h.val, R.swapColumns_extractedRow_element C h,
+    mul_neg, neg_mul]
 
 @[simp] theorem toRight_source_factor_product
     (f : SecondSideFrame (V := V) C R Ray .left k) (h : R.live) :
     f.toRight.source.extractedFactor (R.swapLive h) *
         (f.toRight.source.row (R.swapLive h)).element =
       f.source.extractedFactor h * (f.source.row h).element := by
-  sorry
+  change (-R.swapColumns.factor C h.val) *
+      (R.swapColumns.extractedRow C (R.swapLive h)).element =
+    R.factor C h.val * (R.extractedRow C h).element
+  rw [R.swapColumns_factor C h.val, R.swapColumns_extractedRow_element C h, neg_mul_neg]
 
 @[simp] theorem toLeft_source_leftLocation
     (f : SecondSideFrame (V := V) C R Ray .right k) (h : R.live) :
@@ -124,17 +133,20 @@ namespace SecondSideFrame
 @[simp] theorem toRight_source_leftLocation
     (f : SecondSideFrame (V := V) C R Ray .left k) (h : R.live) :
     f.toRight.source.leftLocation (R.swapLive h) = f.source.leftLocation h := by
-  sorry
+  funext I
+  exact neg_neg _
 
 @[simp] theorem toRight_source_rightLocation
     (f : SecondSideFrame (V := V) C R Ray .left k) (h : R.live) :
     f.toRight.source.rightLocation (R.swapLive h) = f.source.rightLocation h := by
-  sorry
+  funext I
+  exact neg_neg _
 
 @[simp] theorem toRight_source_slotLocation
     (f : SecondSideFrame (V := V) C R Ray .left k) (h : R.live) :
     f.toRight.source.slotLocation (R.swapLive h) = f.source.slotLocation h := by
-  sorry
+  funext j p
+  exact neg_neg _
 
 variable {Ψ : Ideal (𝓞 K) →* ℂ} {W₁ W₂ : ℝ → ℂ} {ξ : V} {h : R.live}
 
@@ -241,16 +253,36 @@ theorem ordinaryExceptionalAtToLeft_atomicControl
     (T : f.source.OrdinaryExceptionalAt (σ := σ) Ψ W₁ W₂ ξ h)
     (Z : ℝ) (U : ExceptionalAtomicScales f.allocation)
     (H : T.source.AtomicControl Z U) :
-    (f.ordinaryExceptionalAtToLeft T).source.AtomicControl Z U := by
-  sorry
+    (f.ordinaryExceptionalAtToLeft T).source.AtomicControl Z U where
+  base_pos := H.base_pos
+  plain₁ := H.plain₁
+  plain₂ := H.plain₂
+  frozen_prime := H.frozen_prime
+  frozen_annulus := H.frozen_annulus
+  frozen_profile := H.frozen_profile
+  frozen_norm := H.frozen_norm
+  rectangle_product := H.rectangle_product
+  prime_norm := H.prime_norm
+  prime_atom j p hp := by
+    simpa only [sourcePrimeTerm, toLeft_source_factor_product] using H.prime_atom j p hp
 
 theorem ordinaryExceptionalAtToRight_atomicControl
     (f : SecondSideFrame (V := V) C R Ray .left k)
     (T : f.source.OrdinaryExceptionalAt (σ := σ) Ψ W₁ W₂ ξ h)
     (Z : ℝ) (U : ExceptionalAtomicScales f.allocation)
     (H : T.source.AtomicControl Z U) :
-    (f.ordinaryExceptionalAtToRight T).source.AtomicControl Z U := by
-  sorry
+    (f.ordinaryExceptionalAtToRight T).source.AtomicControl Z U where
+  base_pos := H.base_pos
+  plain₁ := H.plain₁
+  plain₂ := H.plain₂
+  frozen_prime := H.frozen_prime
+  frozen_annulus := H.frozen_annulus
+  frozen_profile := H.frozen_profile
+  frozen_norm := H.frozen_norm
+  rectangle_product := H.rectangle_product
+  prime_norm := H.prime_norm
+  prime_atom j p hp := by
+    simpa only [sourcePrimeTerm, toRight_source_factor_product] using H.prime_atom j p hp
 
 theorem exceptionalAtToLeft_atomicControl
     (f : SecondSideFrame (V := V) C R Ray .right k)
@@ -259,8 +291,18 @@ theorem exceptionalAtToLeft_atomicControl
       (fun _ => E.leftWeight) (fun _ => E.rightWeight) Ψ W₁ W₂ ξ h)
     (Z : ℝ) (U : ExceptionalAtomicScales f.allocation)
     (H : T.source.AtomicControl Z U) :
-    (f.exceptionalAtToLeft E T).source.AtomicControl Z U := by
-  sorry
+    (f.exceptionalAtToLeft E T).source.AtomicControl Z U where
+  base_pos := H.base_pos
+  plain₁ := H.plain₁
+  plain₂ := H.plain₂
+  frozen_prime := H.frozen_prime
+  frozen_annulus := H.frozen_annulus
+  frozen_profile := H.frozen_profile
+  frozen_norm := H.frozen_norm
+  rectangle_product := H.rectangle_product
+  prime_norm := H.prime_norm
+  prime_atom j p hp := by
+    simpa only [sourcePrimeTerm, toLeft_source_factor_product] using H.prime_atom j p hp
 
 theorem exceptionalAtToRight_atomicControl
     (f : SecondSideFrame (V := V) C R Ray .left k)
@@ -269,8 +311,18 @@ theorem exceptionalAtToRight_atomicControl
       (fun _ => E.leftWeight) (fun _ => E.rightWeight) Ψ W₁ W₂ ξ h)
     (Z : ℝ) (U : ExceptionalAtomicScales f.allocation)
     (H : T.source.AtomicControl Z U) :
-    (f.exceptionalAtToRight E T).source.AtomicControl Z U := by
-  sorry
+    (f.exceptionalAtToRight E T).source.AtomicControl Z U where
+  base_pos := H.base_pos
+  plain₁ := H.plain₁
+  plain₂ := H.plain₂
+  frozen_prime := H.frozen_prime
+  frozen_annulus := H.frozen_annulus
+  frozen_profile := H.frozen_profile
+  frozen_norm := H.frozen_norm
+  rectangle_product := H.rectangle_product
+  prime_norm := H.prime_norm
+  prime_atom j p hp := by
+    simpa only [sourcePrimeTerm, toRight_source_factor_product] using H.prime_atom j p hp
 
 end SecondSideFrame
 
@@ -349,7 +401,7 @@ orientation-dependent profile choice after swapping the theta labels. -/
     (flipped : Bool) (χ : Θ × Θ) :
     orientedTable (ofFamily character plain₁ plain₂ volume) (flipped, χ) =
       ofFamily character plain₁ plain₂ volume χ := by
-  sorry
+  cases flipped <;> rfl
 
 section UniformCatalogue
 
@@ -378,16 +430,18 @@ def orientedCatalogueConstant (profiles : Θ × Θ → ExceptionalOriginalProfil
 theorem orientedCatalogueConstant_pos (profiles : Θ × Θ → ExceptionalOriginalProfilePair K)
     (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) :
     0 < orientedCatalogueConstant (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
-      profiles ε maskExponent hε hmask := by
-  sorry
+      profiles ε maskExponent hε hmask :=
+  finiteExceptionalConstant_pos _ (fun i =>
+    ((orientedTable profiles i).constant_pos (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
+      ε maskExponent hε hmask).le)
 
 theorem orientedCatalogue_order_le (profiles : Θ × Θ → ExceptionalOriginalProfilePair K)
     (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) (i : Bool × (Θ × Θ)) :
     (orientedTable profiles i).order (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
       ε maskExponent hε hmask ≤
       orientedCatalogueOrder (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
-        profiles ε maskExponent hε hmask := by
-  sorry
+        profiles ε maskExponent hε hmask :=
+  Finset.le_sup (Finset.mem_univ i)
 
 theorem orientedCatalogue_constant_le (profiles : Θ × Θ → ExceptionalOriginalProfilePair K)
     (ε maskExponent : ℝ) (hε : 0 < ε) (hmask : 0 ≤ maskExponent) (i : Bool × (Θ × Θ)) :
@@ -395,7 +449,12 @@ theorem orientedCatalogue_constant_le (profiles : Θ × Θ → ExceptionalOrigin
       ε maskExponent hε hmask ≤
       orientedCatalogueConstant (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
         profiles ε maskExponent hε hmask := by
-  sorry
+  have hs := Finset.single_le_sum
+    (fun j (_ : j ∈ (Finset.univ : Finset (Bool × (Θ × Θ)))) =>
+      ((orientedTable profiles j).constant_pos (U := U) (E := E) (σ := σ) (η := η) (hS := hS)
+        ε maskExponent hε hmask).le) (Finset.mem_univ i)
+  unfold orientedCatalogueConstant finiteExceptionalConstant
+  linarith
 
 end UniformCatalogue
 

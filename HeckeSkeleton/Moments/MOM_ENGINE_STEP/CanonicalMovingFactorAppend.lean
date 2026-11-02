@@ -57,92 +57,110 @@ variable (D E : OriginalMovingFactors A P Rchar)
 @[simp] theorem appendFactors_count : (D.appendFactors E).count = D.count + E.count := rfl
 
 @[simp] theorem appendFactors_element_left (i : Fin D.count) :
-    (D.appendFactors E).element (Fin.castAdd E.count i) = D.element i := by
-  sorry
+    (D.appendFactors E).element (Fin.castAdd E.count i) = D.element i :=
+  Fin.append_left _ _ _
 
 @[simp] theorem appendFactors_element_right (i : Fin E.count) :
-    (D.appendFactors E).element (Fin.natAdd D.count i) = E.element i := by
-  sorry
+    (D.appendFactors E).element (Fin.natAdd D.count i) = E.element i :=
+  Fin.append_right _ _ _
 
 @[simp] theorem appendFactors_power_left (i : Fin D.count) :
-    (D.appendFactors E).power (Fin.castAdd E.count i) = D.power i := by
-  sorry
+    (D.appendFactors E).power (Fin.castAdd E.count i) = D.power i :=
+  Fin.append_left _ _ _
 
 @[simp] theorem appendFactors_power_right (i : Fin E.count) :
-    (D.appendFactors E).power (Fin.natAdd D.count i) = E.power i := by
-  sorry
+    (D.appendFactors E).power (Fin.natAdd D.count i) = E.power i :=
+  Fin.append_right _ _ _
 
 @[simp] theorem appendFactors_decomposition_left (i : Fin D.count) :
     (D.appendFactors E).decomposition (Fin.castAdd E.count i) = D.decomposition i := by
-  sorry
+  simp only [decomposition, orbit, appendFactors_element_left]
 
 @[simp] theorem appendFactors_decomposition_right (i : Fin E.count) :
     (D.appendFactors E).decomposition (Fin.natAdd D.count i) = E.decomposition i := by
-  sorry
+  simp only [decomposition, orbit, appendFactors_element_right]
 
 @[simp] theorem appendFactors_factorIdeal_left (i : Fin D.count) :
     (D.appendFactors E).factorIdeal (Fin.castAdd E.count i) = D.factorIdeal i := by
-  sorry
+  simp only [factorIdeal, appendFactors_decomposition_left]
 
 @[simp] theorem appendFactors_factorIdeal_right (i : Fin E.count) :
     (D.appendFactors E).factorIdeal (Fin.natAdd D.count i) = E.factorIdeal i := by
-  sorry
+  simp only [factorIdeal, appendFactors_decomposition_right]
 
 @[simp] theorem appendFactors_factorCharacter_left (i : Fin D.count) :
     (D.appendFactors E).factorCharacter (Fin.castAdd E.count i) = D.factorCharacter i := by
-  sorry
+  simp only [factorCharacter, appendFactors_decomposition_left]
 
 @[simp] theorem appendFactors_factorCharacter_right (i : Fin E.count) :
     (D.appendFactors E).factorCharacter (Fin.natAdd D.count i) = E.factorCharacter i := by
-  sorry
+  simp only [factorCharacter, appendFactors_decomposition_right]
 
 theorem appendFactors_character :
     (D.appendFactors E).character = D.character * E.character := by
-  sorry
+  change (∏ i : Fin (D.count + E.count),
+    (D.appendFactors E).factorCharacter i ^ (D.appendFactors E).power i) = _
+  rw [Fin.prod_univ_add]
+  simp only [appendFactors_factorCharacter_left, appendFactors_factorCharacter_right,
+    appendFactors_power_left, appendFactors_power_right]
+  rfl
 
 theorem appendFactors_fullIdeal_val :
     (D.appendFactors E).fullIdeal.val = D.fullIdeal.val * E.fullIdeal.val := by
-  sorry
+  change (∏ i : Fin (D.count + E.count), ((D.appendFactors E).factorIdeal i).val) = _
+  rw [Fin.prod_univ_add]
+  simp only [appendFactors_factorIdeal_left, appendFactors_factorIdeal_right]
+  rfl
 
 theorem appendFactors_fullIdeal :
-    (D.appendFactors E).fullIdeal = ExteriorIdealEuler.mul D.fullIdeal E.fullIdeal := by
-  sorry
+    (D.appendFactors E).fullIdeal = ExteriorIdealEuler.mul D.fullIdeal E.fullIdeal :=
+  Subtype.ext (D.appendFactors_fullIdeal_val E)
 
 /-- No coprimality or distinction between the two lists is required. -/
 theorem appendFactors_support_primes :
     primeSupport (D.appendFactors E).support.val =
       primeSupport D.support.val ∪ primeSupport E.support.val := by
-  sorry
+  rw [(D.appendFactors E).support_primes, D.appendFactors_fullIdeal_val E,
+    D.support_primes, E.support_primes]
+  simp only [primeSupport, normalizedFactors_mul D.fullIdeal.property.1 E.fullIdeal.property.1,
+    Multiset.toFinset_add]
 
 /-- The displayed radical retains every original prime even if its
 integer character exponent is zero or cancels another occurrence. -/
 theorem appendFactors_support_val :
     (D.appendFactors E).support.val =
       commonRadical (D.support.val * E.support.val) (D.support.val * E.support.val) := by
-  sorry
+  rw [← squarefree_support_product_self (D.appendFactors E).support_squarefree,
+    D.appendFactors_support_primes E]
+  simp only [commonRadical, Finset.inter_self, primeSupport,
+    normalizedFactors_mul D.support.property.1 E.support.property.1,
+    Multiset.toFinset_add]
 
 theorem appendFactors_support_coprime_iff (I : Ideal (𝓞 K)) :
     IsCoprime I (D.appendFactors E).support.val ↔
       IsCoprime I D.support.val ∧ IsCoprime I E.support.val := by
-  sorry
+  rw [(D.appendFactors E).coprime_support_iff_fullIdeal I,
+    D.appendFactors_fullIdeal_val E, IsCoprime.mul_right_iff,
+    ← D.coprime_support_iff_fullIdeal I, ← E.coprime_support_iff_fullIdeal I]
 
 theorem appendFactors_fullMaskSupport_primes
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     primeSupport ((D.appendFactors E).fullMaskSupport remaining).val =
       (primeSupport D.support.val ∪ primeSupport E.support.val) ∪
         primeSupport remaining.val := by
-  sorry
+  rw [(D.appendFactors E).fullMaskSupport_primes remaining, D.appendFactors_support_primes E]
 
 theorem appendFactors_fullMaskSupport_coprime_iff
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Ideal (𝓞 K)) :
     IsCoprime I ((D.appendFactors E).fullMaskSupport remaining).val ↔
       (IsCoprime I D.support.val ∧ IsCoprime I E.support.val) ∧
         IsCoprime I remaining.val := by
-  sorry
+  rw [(D.appendFactors E).fullMaskSupport_coprime_iff remaining I,
+    D.appendFactors_support_coprime_iff E I]
 
 private theorem appended_mask_reorder (a b c d e : Bool) :
     ((a && (b && c)) && (d && e)) = ((((a && b) && d) && c) && e) := by
-  sorry
+  cases a <;> cases b <;> cases c <;> cases d <;> cases e <;> rfl
 
 /-- On the original complete-row gate the new mask is exactly the
 old full mask, the appended factor mask and the full remaining-factor
@@ -156,7 +174,15 @@ theorem appendFactors_normalizedFullMask
     ((((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
       decide (IsCoprime I D.support.val)) && decide (IsCoprime I remaining.val)) &&
       decide (IsCoprime I E.support.val)) && decide (IsCoprime I F.val)) := by
-  sorry
+  change ((_ && decide (IsCoprime I (D.appendFactors E).support.val)) &&
+    decide (IsCoprime I ((remainingMaskIdeal A remaining).val * F.val))) = _
+  rw [D.appendFactors_support_coprime_iff E I, IsCoprime.mul_right_iff]
+  simp only [Bool.decide_and]
+  exact (appended_mask_reorder _ _ _ _ _).trans
+    (congrArg (fun gate : Bool =>
+      (gate && decide (IsCoprime I E.support.val)) && decide (IsCoprime I F.val))
+      (completeMovingMask_remainingRadical A remaining u I
+        (decide (IsCoprime I D.support.val))).symm)
 
 theorem appendFactors_normalizedFullMask_primes
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (F : A.Exterior) :
@@ -164,7 +190,15 @@ theorem appendFactors_normalizedFullMask_primes
         (remainingMaskIdeal A remaining * exteriorMomentIdeal F)).val =
       (primeSupport D.support.val ∪ primeSupport E.support.val) ∪
         ((primeSupport remaining.val \ primeSupport A.cS) ∪ primeSupport F.val) := by
-  sorry
+  rw [D.appendFactors_fullMaskSupport_primes E]
+  have hprod : primeSupport ((remainingMaskIdeal A remaining).val * F.val) =
+      primeSupport (remainingMaskIdeal A remaining).val ∪ primeSupport F.val := by
+    simp only [primeSupport, normalizedFactors_mul
+      (nonZeroDivisors.ne_zero (remainingMaskIdeal A remaining).property) F.property.1,
+      Multiset.toFinset_add]
+  change (primeSupport D.support.val ∪ primeSupport E.support.val) ∪
+    primeSupport ((remainingMaskIdeal A remaining).val * F.val) = _
+  rw [hprod, remainingMaskIdeal_val, remainingMaskRadical_primes]
 
 namespace SupportAtoms
 
@@ -236,16 +270,16 @@ theorem appendSecondFactor_character
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (pattern : ι → Bool) :
     (D.appendSecondFactor C p m n pattern).character =
-      D.character * (secondOriginalMovingFactors P Rchar C p m n pattern).character := by
-  sorry
+      D.character * (secondOriginalMovingFactors P Rchar C p m n pattern).character :=
+  D.appendFactors_character _
 
 theorem appendSecondFactor_support_primes
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (pattern : ι → Bool) :
     primeSupport (D.appendSecondFactor C p m n pattern).support.val =
       primeSupport D.support.val ∪
-        primeSupport (secondOriginalMovingFactors P Rchar C p m n pattern).support.val := by
-  sorry
+        primeSupport (secondOriginalMovingFactors P Rchar C p m n pattern).support.val :=
+  D.appendFactors_support_primes _
 
 /-- Both old and new generator dictionaries are constructed from
 their actual elements. The normalization of the original remaining
@@ -282,7 +316,18 @@ theorem appendSecondFullDeletion_norm_window
         idealLogLength Z (secondSixthRootIdeal p m n).val +
         idealLogLength Z (unitFrequencyRadical C p m n h).val +
         idealLogLength Z (nonunitFrequencyRadical C p m n h).val) := by
-  sorry
+  let W := D.appendSecondFullDeletionSupportAtoms remaining C p m n hm hn h hne
+  exact W.fullMaskSupport_norm_window Z
+    (idealLogLength Z (D.effectiveFullSupport remaining).val +
+      idealLogLength Z (secondSixthRootIdeal p m n).val)
+    (idealLogLength Z (unitFrequencyRadical C p m n h).val)
+    (idealLogLength Z (nonunitFrequencyRadical C p m n h).val)
+    (zero_lt_one.trans hZ)
+    (secondOldWithSixthRoot_norm_window p m n (D.effectiveFullSupport remaining) Z
+      (idealLogLength Z (D.effectiveFullSupport remaining).val) hZ
+      (rpow_idealLogLength Z hZ _ (D.effectiveFullSupport remaining).property.1).symm.le)
+    (rpow_idealLogLength Z hZ _ (unitFrequencyRadical C p m n h).property.1).symm.le
+    (rpow_idealLogLength Z hZ _ (nonunitFrequencyRadical C p m n h).property.1).symm.le
 
 end OriginalMovingFactors
 
@@ -334,7 +379,8 @@ theorem appended_rowCharacter (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
       inverse left right geometry index).rowCharacter u =
       (correction * oldMoving.character * newMoving.character) *
         completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P Rchar (sector u) u := by
-  sorry
+  change (correction * (oldMoving.appendFactors newMoving).character) * _ = _
+  simp only [oldMoving.appendFactors_character newMoving, mul_assoc]
 
 /-- This is the literal mask of the same canonical child, with no
 new mask equality supplied by its caller. -/
@@ -345,8 +391,8 @@ theorem appended_commonMask (F : A.Exterior)
       inverse left right geometry index).commonMask u I =
     ((((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
       decide (IsCoprime I oldMoving.support.val)) && decide (IsCoprime I remaining.val)) &&
-      decide (IsCoprime I newMoving.support.val)) && decide (IsCoprime I F.val)) := by
-  sorry
+      decide (IsCoprime I newMoving.support.val)) && decide (IsCoprime I F.val)) :=
+  oldMoving.appendFactors_normalizedFullMask newMoving remaining u F I
 
 end CanonicalOriginalChildData
 
@@ -354,7 +400,8 @@ private theorem appendedFactors_width_shift
     (Z a₀ q wo krow g r : ℝ) (I J T V : Ideal (𝓞 K)) :
     secondCommonChildWidth Z a₀ (q + r) wo krow g I J T V =
       secondCommonChildWidth Z a₀ q wo krow g I J T V + r := by
-  sorry
+  unfold secondCommonChildWidth
+  ring
 
 section ActualPatternWindows
 
@@ -418,7 +465,38 @@ theorem actualRows_appended_pattern_fullDeletion_joint_window
         (secondPatternNonunitIdeal b.primes pattern).val +
         idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
         cutoffExponent) := by
-  sorry
+  dsimp only
+  let S := chart.actualRows ∅ X hX label
+  let pattern := chart.originalNonunitPattern ∅ X hX label
+  let hp := chart.originalNonunitClass hclass ∅ X hX label h
+  let r₆ := idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val
+  let old := oldMoving.effectiveFullSupport remaining
+  let W := S.appendedNonunitClassSupportAtoms oldMoving remaining C
+    b.left_positive b.right_positive pattern hp
+  have holdRoot : A.exteriorNorm
+      (ExteriorIdealEuler.mul old (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity)) ≤
+      Z ^ ((q + r₆) + wo) := by
+    have hroot := secondOldWithSixthRoot_norm_window b.primes b.leftMultiplicity b.rightMultiplicity
+      old Z (q + wo) hZ hold
+    change A.exteriorNorm
+      (ExteriorIdealEuler.mul old (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity)) ≤
+        Z ^ ((q + wo) + r₆) at hroot
+    rwa [show (q + wo) + r₆ = (q + r₆) + wo by ring] at hroot
+  have hjoint := chart.actualRows_empty_extracted_fullJoint_window X hX label
+    retainedScale Z g a₀ (q + r₆) wo cutoffExponent hscale hZ hradius hcutoff hleft hright
+    (oldMoving.appendSecondFactor C b.primes b.leftMultiplicity b.rightMultiplicity pattern)
+    (remainingMaskIdeal A remaining *
+      secondSixthRootNonzeroIdeal b.primes b.leftMultiplicity b.rightMultiplicity)
+    (ExteriorIdealEuler.mul old (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity))
+    holdRoot h W
+  have hunit := S.secondPatternUnitIdeal_eq_live C pattern h hp.property
+  have hnonunit := S.secondPatternNonunitIdeal_eq C pattern h.val hp.property
+  change secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity pattern =
+    unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val) at hunit
+  change secondPatternNonunitIdeal b.primes pattern =
+    nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val) at hnonunit
+  rw [← hunit, ← hnonunit] at hjoint
+  simpa only [appendedFactors_width_shift, r₆] using hjoint
 
 /-- Every actual original live row enters this same child. The old
 moving list, original finite correction, all tests and selected slots
@@ -458,7 +536,11 @@ theorem canonicalOriginalChild_allowed_of_appended_pattern
         cutoffExponent))
       inverseTest leftTest rightTest geometry index).allowedRow
         ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal := by
-  sorry
+  dsimp only
+  refine ⟨(HeckeAxiom.exteriorEquiv A
+    ((chart.actualRows ∅ X hX label).extractedRow C h).ideal).property, ?_⟩
+  exact chart.actualRows_appended_pattern_fullDeletion_joint_window hclass oldMoving remaining
+    X hX label retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff hleft hright hold h
 
 end SecondBlockProfileChart
 end ActualPatternWindows

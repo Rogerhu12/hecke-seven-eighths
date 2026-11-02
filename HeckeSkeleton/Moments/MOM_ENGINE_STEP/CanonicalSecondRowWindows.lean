@@ -48,7 +48,13 @@ theorem CanonicalRowBall.gaussRadius_eq_rpow
     (CanonicalRowBall.gaussRadius retainedScale Z g hscale
       (zero_lt_one.trans hZ)).val =
         Z ^ (-Real.log retainedScale / Real.log Z - g) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hretained : Z ^ (Real.log retainedScale / Real.log Z) = retainedScale := by
+    simpa only [Real.logb] using Real.rpow_logb hz (ne_of_gt hZ) hscale
+  rw [CanonicalRowBall.gaussRadius_val,
+    show -Real.log retainedScale / Real.log Z - g =
+      -(Real.log retainedScale / Real.log Z + g) by ring,
+    Real.rpow_neg hz.le, Real.rpow_add hz, hretained]
 
 section OriginalModulus
 
@@ -79,7 +85,20 @@ theorem FirstCommonCharacterBlock.secondPhysicalCutoff_le_original_windows
     (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).physicalCutoff ≤
       Z ^ (cutoffExponent + radiusExponent + maskExponent +
         (leftExponent + rightExponent)) := by
-  sorry
+  apply FirstFiniteSource.physicalCutoff_le_original_windows
+    (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX)
+    Z cutoffExponent radiusExponent maskExponent (leftExponent + rightExponent)
+    hZ hcutoff hradius hmask
+  intro i hi j hj
+  change (sIntegerElementNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
+    ⟨(b.secondPair hΓ hDiff C profiles i j).modulus,
+      (b.secondPair hΓ hDiff C profiles i j).modulus_ne_zero⟩).val ≤ _
+  rw [b.second_modulus_norm hΓ hDiff C left right profiles i hi j hj,
+    map_mul, Nat.cast_mul, Real.rpow_add hZ]
+  exact mul_le_mul
+    (hleft i (Finset.mem_filter.mp hi).1)
+    (hright j (Finset.mem_filter.mp hj).1)
+    (Nat.cast_nonneg _) (Real.rpow_nonneg hZ.le _)
 
 end OriginalModulus
 
@@ -120,7 +139,14 @@ theorem actualRows_originalNorm_le_physicalCutoff
     (hq : q ∈ (chart.actualRows M X hX label).rows) :
     A.exteriorNorm ((chart.actualRows M X hX label).originalIdeal q) ≤
       (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).physicalCutoff := by
-  sorry
+  have hsource : q ∈
+      (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).rows :=
+    (Finset.mem_filter.mp hq).1
+  have hn :=
+    (b.secondFiniteSource hΓ hDiff C left right profiles M radius X hX).originalNegativeFrequency_norm_le
+      q hsource
+  simpa only [actualRows, originalFrequencyIdeal,
+    dif_pos (neg_ne_zero.mpr q.out.property)] using hn
 
 /-- This frequency window is derived from the original source, its
 literal canonical radius and individual full-column norm windows.
@@ -144,7 +170,14 @@ theorem actualRows_originalNorm_le_canonical_windows
     A.exteriorNorm ((chart.actualRows M X hX label).originalIdeal q) ≤
       Z ^ (2 * a₀ - Real.log retainedScale / Real.log Z - g +
         cutoffExponent + maskExponent) := by
-  sorry
+  have hr : radius.val ≤ Z ^ (-Real.log retainedScale / Real.log Z - g) := by
+    rw [hradius, CanonicalRowBall.gaussRadius_eq_rpow retainedScale Z g hscale hZ]
+  have hphysical := b.secondPhysicalCutoff_le_original_windows hΓ hDiff C
+    left right profiles M radius X hX Z cutoffExponent
+    (-Real.log retainedScale / Real.log Z - g) maskExponent a₀ a₀
+    (zero_lt_one.trans hZ) hcutoff hr hmask hleft hright
+  apply (chart.actualRows_originalNorm_le_physicalCutoff M X hX label q hq).trans
+  convert hphysical using 1 <;> congr 1 <;> ring
 
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
@@ -182,7 +215,39 @@ theorem actualRows_extracted_fullJoint_window
         (unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val
         (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val +
         cutoffExponent + maskExponent) := by
-  sorry
+  let R := chart.actualRows M X hX label
+  have hfrequency := chart.actualRows_originalNorm_le_canonical_windows M X hX label
+    retainedScale Z g a₀ cutoffExponent maskExponent hscale hZ hradius hcutoff
+    hmask hleft hright h.val (Finset.mem_filter.mp h.property).1
+  have hsource := R.original_window_after_extraction C Z hZ
+    (2 * a₀ - Real.log retainedScale / Real.log Z - g + cutoffExponent + maskExponent)
+    h hfrequency
+  have hunit : A.exteriorNorm
+      (unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)) ≤
+      Z ^ idealLogLength Z
+        (unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val := by
+    exact (rpow_idealLogLength Z hZ _
+      (unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).property.1).symm.le
+  have hnonunit : A.exteriorNorm
+      (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)) ≤
+      Z ^ idealLogLength Z
+        (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val := by
+    exact (rpow_idealLogLength Z hZ _
+      (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).property.1).symm.le
+  have hjoint := W.actualRow_joint_window (R.extractedRow C h) Z
+    (2 * a₀ - Real.log retainedScale / Real.log Z - g + cutoffExponent + maskExponent -
+      idealLogLength Z (gcd (primePowerProduct b.primes b.leftMultiplicity).val
+        (primePowerProduct b.primes b.rightMultiplicity).val) -
+      idealLogLength Z
+        (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val)
+    (q + wo)
+    (idealLogLength Z
+      (unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val)
+    (idealLogLength Z
+      (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val)
+    (zero_lt_one.trans hZ) hsource hold hunit hnonunit
+  convert hjoint using 1 <;>
+    dsimp only [R, secondCommonChildWidth] <;> congr 1 <;> ring
 
 end SecondBlockProfileChart
 end ActualRows

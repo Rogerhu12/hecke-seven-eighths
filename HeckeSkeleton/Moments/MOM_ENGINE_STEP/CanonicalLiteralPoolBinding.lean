@@ -156,7 +156,14 @@ private theorem literalLeftPool_leftAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let idx := ((cover).branch v.2.2.1).reindex.index i
+  have hres := v.block.left_divisor_of_common ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns S.val hdiv _ hc
+  have hSi : S.val ∣ ((p.divisorPools.leftData S).ideal idx.val).val := by
+    rw [((p.divisorPools.leftData S).residualPresentation q.val n idx).reconstructed]
+    exact dvd_mul_of_dvd_right hres _
+  rw [p.divisorPools.left_ideal S] at hSi
+  exact literalLeftPoolAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ q n v.2.2.1 i hi hSi
 
 include hroot hemb in
 private theorem literalLeftPool_rightAtoms_coefficient
@@ -170,13 +177,20 @@ private theorem literalLeftPool_rightAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let idx := ((cover).branch v.2.2.2.1).reindex.index i
+  have hres := v.block.right_divisor_of_common ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).columns S.val hdiv _ hc
+  have hSi : S.val ∣ ((p.divisorPools.leftData S).ideal idx.val).val := by
+    rw [((p.divisorPools.leftData S).residualPresentation q.val n idx).reconstructed]
+    exact dvd_mul_of_dvd_right hres _
+  rw [p.divisorPools.left_ideal S] at hSi
+  exact literalLeftPoolAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ q n v.2.2.2.1 i hi hSi
 
 private theorem literalLeftPool_bareLive
     (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
-    (v.leaf exceptional F firstPoint j).Live := by
-  sorry
+    (v.leaf exceptional F firstPoint j).Live :=
+  (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
 
 /-- The physical support is read from the actual fibre coefficient.
 It proves that removing this valuation leaves the original first
@@ -186,7 +200,13 @@ private theorem literalLeftPool_live_common
     (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  sorry
+  have hs := (stage).supported_gated_fiberLeaf_live cover cover exceptional F firstPoint
+    ⟨v, j⟩ hlive
+  exact ((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
+    (fun i _ hci => (p.divisorPools.leftData S).residualSource_nonzero_dvd q.val n
+      (p.leftDivisorCoefficient S χ) S.val (p.firstDivisor_dvd_left_frozen S)
+      (fun i _ hi => p.leftDivisorCoefficient_nonzero_dvd S χ i hi) hs.1 i hci)
+    v.1.val hs.2.1
 
 /-- Full common extraction of the actual valuation leaf. The physical
 nonempty condition was not added; it follows from this leaf's weight. -/
@@ -220,7 +240,13 @@ valuation quotient and its original prime power. -/
 private theorem literalLeftPool_firstPoint :
     ∀ i, firstPoint i = -(1 : ℝ) * Real.log
       (A.exteriorNorm (ExteriorIdealEuler.mul (powerIdeal q.val n) (((p.divisorPools.leftData S).residualSource q.val n (p.leftDivisorCoefficient S χ)).ideal i))) := by
-  sorry
+  intro i
+  have he := ((p.divisorPools.leftData S).residualPresentation q.val n i).reconstructed
+  rw [p.divisorPools.left_ideal S, p.left_ideal] at he
+  change _ = -(1 : ℝ) * Real.log
+    (Ideal.absNorm (q.val.val.asIdeal ^ n * ((p.divisorPools.leftData S).residualPresentation q.val n i).residual.val) : ℝ)
+  rw [← he]
+  simp only [neg_neg, neg_one_mul, one_mul]
 
 /-- Complete two-rectangle ordinary binding on the same stored leaf,
 with no replacement of the actual prime, exponent, row or column. -/
@@ -305,7 +331,14 @@ private theorem literalRightPool_leftAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let idx := ((cover).branch v.2.2.1).reindex.index i
+  have hres := v.block.left_divisor_of_common ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns S.val hdiv _ hc
+  have hSi : S.val ∣ ((p.divisorPools.rightData S).ideal idx.val).val := by
+    rw [((p.divisorPools.rightData S).residualPresentation q.val n idx).reconstructed]
+    exact dvd_mul_of_dvd_right hres _
+  rw [p.divisorPools.right_ideal S] at hSi
+  exact literalRightPoolAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ q n v.2.2.1 i hi hSi
 
 include hroot hemb in
 private theorem literalRightPool_rightAtoms_coefficient
@@ -319,13 +352,20 @@ private theorem literalRightPool_rightAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let idx := ((cover).branch v.2.2.2.1).reindex.index i
+  have hres := v.block.right_divisor_of_common ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).columns S.val hdiv _ hc
+  have hSi : S.val ∣ ((p.divisorPools.rightData S).ideal idx.val).val := by
+    rw [((p.divisorPools.rightData S).residualPresentation q.val n idx).reconstructed]
+    exact dvd_mul_of_dvd_right hres _
+  rw [p.divisorPools.right_ideal S] at hSi
+  exact literalRightPoolAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ q n v.2.2.2.1 i hi hSi
 
 private theorem literalRightPool_bareLive
     (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
-    (v.leaf exceptional F firstPoint j).Live := by
-  sorry
+    (v.leaf exceptional F firstPoint j).Live :=
+  (v.leaf exceptional F firstPoint j).live_of_scale_live _ _ hlive
 
 /-- The physical support is read from the actual fibre coefficient.
 It proves that removing this valuation leaves the original first
@@ -335,7 +375,13 @@ private theorem literalRightPool_live_common
     (hlive : ((stage).supported.gated.fiberCoveredLeaf cover cover exceptional F firstPoint
       ⟨v, j⟩).Live) :
     S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  sorry
+  have hs := (stage).supported_gated_fiberLeaf_live cover cover exceptional F firstPoint
+    ⟨v, j⟩ hlive
+  exact ((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
+    (fun i _ hci => (p.divisorPools.rightData S).residualSource_nonzero_dvd q.val n
+      (p.rightDivisorCoefficient S χ) S.val (p.firstDivisor_dvd_right_frozen S)
+      (fun i _ hi => p.rightDivisorCoefficient_nonzero_dvd S χ i hi) hs.1 i hci)
+    v.1.val hs.2.1
 
 /-- Full common extraction of the actual valuation leaf. The physical
 nonempty condition was not added; it follows from this leaf's weight. -/
@@ -369,7 +415,13 @@ valuation quotient and its original prime power. -/
 private theorem literalRightPool_firstPoint :
     ∀ i, firstPoint i = -((-1) : ℝ) * Real.log
       (A.exteriorNorm (ExteriorIdealEuler.mul (powerIdeal q.val n) (((p.divisorPools.rightData S).residualSource q.val n (p.rightDivisorCoefficient S χ)).ideal i))) := by
-  sorry
+  intro i
+  have he := ((p.divisorPools.rightData S).residualPresentation q.val n i).reconstructed
+  rw [p.divisorPools.right_ideal S, p.right_ideal] at he
+  change _ = -((-1) : ℝ) * Real.log
+    (Ideal.absNorm (q.val.val.asIdeal ^ n * ((p.divisorPools.rightData S).residualPresentation q.val n i).residual.val) : ℝ)
+  rw [← he]
+  simp only [neg_neg, neg_one_mul, one_mul]
 
 /-- Complete two-rectangle ordinary binding on the same stored leaf,
 with no replacement of the actual prime, exponent, row or column. -/

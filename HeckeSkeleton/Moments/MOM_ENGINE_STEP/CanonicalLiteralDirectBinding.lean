@@ -144,7 +144,17 @@ private theorem literalLeftDirect_leftCoefficient
     (hc : ((cover).branch v.2.2.1).reindex.index i ∈ v.block.leftColumns p.leftData.columns) :
     v.chart.sourceLeftCoefficient (((cover).branch v.2.2.1).reindex.index i) =
       (leftAtoms).whole i := by
-  sorry
+  have hSi := v.block.left_divisor_of_common p.leftData.columns S.val hdiv _ hc
+  have he := literalLeftDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.1 i hi hSi
+  have hc₀ := ActualGaussStage.canonicalUnmasked_prepared_leftCoefficient
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    δ₂ hδ₂ hδ₂half (p.leftData.directSource (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
+    cutoff₂ hcutoff₂ hnorm dimension width character dyad
+    v.1 v.2.1 hactive _ hc
+  apply hc₀.trans
+  simpa only [DirectGaussData.directSource, p.left_ideal] using he.symm
 
 include hroot hemb in
 private theorem literalLeftDirect_rightCoefficient
@@ -155,14 +165,31 @@ private theorem literalLeftDirect_rightCoefficient
     (hc : ((cover).branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns p.leftData.columns) :
     v.chart.sourceRightCoefficient (((cover).branch v.2.2.2.1).reindex.index i) =
       (rightAtoms).whole i := by
-  sorry
+  have hSi := v.block.right_divisor_of_common p.leftData.columns S.val hdiv _ hc
+  have he := literalLeftDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.2.1 i hi hSi
+  have hc₀ := ActualGaussStage.canonicalUnmasked_prepared_rightCoefficient
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    δ₂ hδ₂ hδ₂half (p.leftData.directSource (p.leftDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
+    cutoff₂ hcutoff₂ hnorm dimension width character dyad
+    v.1 v.2.1 hactive _ hc
+  apply hc₀.trans
+  simpa only [DirectGaussData.directSource, p.left_ideal] using he.symm
 
 /-- The genuine source support supplies the first-divisor inclusion
 from the same live leaf, before any ordinary-row restriction or N. -/
 private theorem literalLeftDirect_live_common
     (hS : Squarefree S.val) (hlive : (v.leaf exceptional F firstPoint j).Live) :
     v.1.val ∈ (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon ∧ S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  sorry
+  have ha : v.1.val ∈ (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon := by
+    obtain ⟨q, hq, i, hi, hci⟩ := hlive.2.1
+    exact (stage).supported_gated_leaf_active cover cover exceptional F firstPoint
+      ⟨v, j⟩ q i hci
+  refine ⟨ha, ?_⟩
+  exact (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
+    (fun i _ hci => FirstBlockDirectData.leftDivisorCoefficient_nonzero_dvd S χ i hci)
+    v.1.val ha
 
 /-- Actual full common extraction of this original direct leaf.
 The first divisor's squarefreeness is inherited from its outer weight. -/
@@ -292,7 +319,17 @@ private theorem literalRightDirect_leftCoefficient
     (hc : ((cover).branch v.2.2.1).reindex.index i ∈ v.block.leftColumns p.rightData.columns) :
     v.chart.sourceLeftCoefficient (((cover).branch v.2.2.1).reindex.index i) =
       (leftAtoms).whole i := by
-  sorry
+  have hSi := v.block.left_divisor_of_common p.rightData.columns S.val hdiv _ hc
+  have he := literalRightDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.1 i hi hSi
+  have hc₀ := ActualGaussStage.canonicalUnmasked_prepared_leftCoefficient
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    δ₂ hδ₂ hδ₂half (p.rightData.directSource (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
+    cutoff₂ hcutoff₂ hnorm dimension width character dyad
+    v.1 v.2.1 hactive _ hc
+  apply hc₀.trans
+  simpa only [DirectGaussData.directSource, p.right_ideal] using he.symm
 
 include hroot hemb in
 private theorem literalRightDirect_rightCoefficient
@@ -303,14 +340,31 @@ private theorem literalRightDirect_rightCoefficient
     (hc : ((cover).branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns p.rightData.columns) :
     v.chart.sourceRightCoefficient (((cover).branch v.2.2.2.1).reindex.index i) =
       (rightAtoms).whole i := by
-  sorry
+  have hSi := v.block.right_divisor_of_common p.rightData.columns S.val hdiv _ hc
+  have he := literalRightDirectAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.2.1 i hi hSi
+  have hc₀ := ActualGaussStage.canonicalUnmasked_prepared_rightCoefficient
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    δ₂ hδ₂ hδ₂half (p.rightData.directSource (p.rightDivisorCoefficient S χ)) retainedScale Z g hscale (zero_lt_one.trans hZ)
+    cutoff₂ hcutoff₂ hnorm dimension width character dyad
+    v.1 v.2.1 hactive _ hc
+  apply hc₀.trans
+  simpa only [DirectGaussData.directSource, p.right_ideal] using he.symm
 
 /-- The genuine source support supplies the first-divisor inclusion
 from the same live leaf, before any ordinary-row restriction or N. -/
 private theorem literalRightDirect_live_common
     (hS : Squarefree S.val) (hlive : (v.leaf exceptional F firstPoint j).Live) :
     v.1.val ∈ (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon ∧ S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  sorry
+  have ha : v.1.val ∈ (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon := by
+    obtain ⟨q, hq, i, hi, hci⟩ := hlive.2.1
+    exact (stage).supported_gated_leaf_active cover cover exceptional F firstPoint
+      ⟨v, j⟩ q i hci
+  refine ⟨ha, ?_⟩
+  exact (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
+    (fun i _ hci => FirstBlockDirectData.rightDivisorCoefficient_nonzero_dvd S χ i hci)
+    v.1.val ha
 
 /-- Actual full common extraction of this original direct leaf.
 The first divisor's squarefreeness is inherited from its outer weight. -/

@@ -96,7 +96,27 @@ theorem actual_direct_source_image_kernel_mass
         ((combine families).kernel Finset.univ
           (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b).real Set.univ) ≤
         Cmass * profile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0 * Z ^ ε := by
-  sorry
+  let Cf := kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε
+  have hCf : 0 < Cf :=
+    kernelSourceFibreConstant_pos K cap (Fintype.card Θ) dimension width B ε hB hε
+  obtain ⟨s₁, s₂, Cmass, hCmass, hm⟩ :=
+    direct_kernel_mass_of_pointwise_index (A := A) (σ := σ) (ω := ω) (ψ := ψ)
+      (U := W) (E := E) cap J₁₁ J₁₂ J₂₁ J₂₂ dBL dBR dF₁ dF₂ dWeight 0
+      (cap + 2) B ε Cweight (4 * Cf) hB hε hCweight (by positivity)
+  refine ⟨s₁, s₂, Cmass, hCmass, ?_⟩
+  intro Z hZ profile hprofile finiteTest centered d a t Y₁ Y₂ X hX s R L hcap
+    exceptional N families F₁ F₂ outer B₁ B₂ parentWidth windows
+    rows oldMask hs hs0 mask hmaskN hmask hN hweight
+  have hadmissible := R.arithmeticLabels_admissible L hcap exceptional N
+    B oldMask hs hmask hN
+  apply hm Z hZ profile hprofile (combine families) Finset.univ
+    F₁ F₂ outer B₁ B₂ parentWidth windows oldMask hs hs0
+    (R.prepared.arithmeticLabels L hcap exceptional N).carrier hadmissible
+    ((R.prepared.arithmeticLabels L hcap exceptional N).rectangleIndex families) hweight
+  intro j
+  have hf := R.prepared.normalized_image_kernel_fibre L hcap ε hB hε hZ.le
+    rows oldMask hs0 mask hmaskN hN exceptional N families j
+  simpa only [Cf, pow_zero, mul_one] using hf
 
 /-- The amplified source uses the fixed original pool and global
 deletion windows. Its actual prime and valuation remain in the image;
@@ -152,7 +172,40 @@ theorem actual_amplified_source_image_kernel_mass
         ((combine families).kernel Finset.univ
           (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b).real Set.univ) ≤
         Cmass * profile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0 * Z ^ ε := by
-  sorry
+  let Cf := kernelSourceFibreConstant K cap (Fintype.card Θ) dimension width B ε hB hε
+  have hCf : 0 < Cf :=
+    kernelSourceFibreConstant_pos K cap (Fintype.card Θ) dimension width B ε hB hε
+  obtain ⟨s₁, s₂, Cmass, Z₀, hCmass, hZ₀, hm⟩ :=
+    amplified_kernel_mass_of_pointwise_index (A := A) (σ := σ) (ω := ω) (ψ := ψ)
+      (U := W) (E := E) cap J₁₁ J₁₂ J₂₁ J₂₂ dBL dBR dF₁ dF₂ dWeight 0
+      (cap + 2) B ε Cweight (4 * Cf) ell eps Mmax Bmax hB hε hCweight
+      (by positivity) hell heps hepsell hepsε hMmax hBmax
+  refine ⟨s₁, s₂, Cmass, Z₀, hCmass, hZ₀, ?_⟩
+  intro Z hZ profile hprofile bad pool finiteTest centered d a t Y₁ Y₂ X hX s R L hcap
+    exceptional N families F₁ F₂ outer B₁ B₂ parentWidth windows
+    B₀ hbox rows oldMask hs hs0 mask hmaskN hmask hN hweight
+  have hZ1 : 1 < Z := hZ₀.trans_le hZ
+  have hB₀ : B₀ ≤ B := by linarith
+  have hN' : ∀ i ∈ s.columns, (Ideal.absNorm (s.ideal i).val : ℝ) ≤ Z ^ B := by
+    intro i hi
+    exact (hN i hi).trans (Real.rpow_le_rpow_of_exponent_le hZ1.le hB₀)
+  have hadmissible := R.arithmeticCarriers_admissible L hcap N exceptional
+    B oldMask hs hmask hN'
+  apply hm Z hZ profile hprofile (combine families) Finset.univ
+    F₁ F₂ outer B₁ B₂ parentWidth windows bad pool Mmax Bmax hMmax le_rfl le_rfl
+    oldMask hs hs0
+    ((R.supported.gated.arithmeticLabels L hcap exceptional N).mainCarrier
+      (R.supported.gated.arithmeticTag L exceptional N)) hadmissible.1
+    ((R.supported.gated.arithmeticLabels L hcap exceptional N).errorCarrier
+      (R.supported.gated.arithmeticTag L exceptional N))
+    (fun n _ p _ => hadmissible.2 n p)
+    ((R.supported.gated.arithmeticLabels L hcap exceptional N).rectangleAmplifiedIndex
+      families pool (R.supported.gated.arithmeticTag L exceptional N)
+      (R.supported.gated.arithmeticTag_mem L exceptional N)) hweight
+  intro j
+  have hf := R.supported.gated.normalized_image_kernel_fibre L hcap ε B₀ hB hε
+    hbox rows oldMask hs0 mask hmaskN hN exceptional N families j
+  simpa only [Cf, pow_zero, mul_one] using hf
 
 end HeckeSkeleton.Moments.EngineStep.InternalMassAssembly
 

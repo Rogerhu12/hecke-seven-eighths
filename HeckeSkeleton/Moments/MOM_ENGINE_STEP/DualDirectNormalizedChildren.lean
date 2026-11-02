@@ -78,11 +78,31 @@ include hNL hNR
 
 theorem zeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     0 ≤ T.zeroBudget NL NR ε Czero := by
-  sorry
+  apply Finset.sum_nonneg
+  intro S _
+  apply Finset.sum_nonneg
+  intro χ _
+  unfold classZeroBudget
+  apply mul_nonneg (classWeight_nonneg NL NR S χ)
+  exact add_nonneg
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.left S χ).zeroBudget_nonneg ε Czero hC)) (hNL S χ).le)
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.right S χ).zeroBudget_nonneg ε Czero hC)) (hNR S χ).le)
 
 theorem tailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     0 ≤ T.tailBudget NL NR Cerror := by
-  sorry
+  apply Finset.sum_nonneg
+  intro S _
+  apply Finset.sum_nonneg
+  intro χ _
+  unfold classTailBudget
+  apply mul_nonneg (classWeight_nonneg NL NR S χ)
+  exact add_nonneg
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.left S χ).tailBudget_nonneg Cerror hC)) (hNL S χ).le)
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.right S χ).tailBudget_nonneg Cerror hC)) (hNR S χ).le)
 
 end FirstBlockDirectData.SecondStages.DualTerminalCalibration
 
@@ -107,16 +127,20 @@ theorem dualFirstCost_eq_budgets (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ
     (ε CfirstError CfirstZero : ℝ) :
     (s.fiber : ℝ) * F.cost hB δ hδ ε CfirstError CfirstZero =
       s.dualFirstZeroBudget F hB δ hδ ε CfirstZero + s.dualFirstTailBudget F CfirstError := by
-  sorry
+  unfold FirstDualOriginalWindows.cost dualFirstZeroBudget dualFirstTailBudget
+  ring
 
 theorem dualFirstZeroBudget_nonneg (hB : 0 ≤ normBound) (δ : ℝ) (hδ : 0 < δ)
     (ε CfirstZero : ℝ) (hC : 0 ≤ CfirstZero) :
-    0 ≤ s.dualFirstZeroBudget F hB δ hδ ε CfirstZero := by
-  sorry
+    0 ≤ s.dualFirstZeroBudget F hB δ hδ ε CfirstZero :=
+  mul_nonneg (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC)
+    (F.zeroAmplitude_nonneg hB δ hδ))
+    (Real.rpow_nonneg (zero_le_one.trans F.windows.base_ge_one) _)
 
 theorem dualFirstTailBudget_nonneg (CfirstError : ℝ) (hC : 0 ≤ CfirstError) :
-    0 ≤ s.dualFirstTailBudget F CfirstError := by
-  sorry
+    0 ≤ s.dualFirstTailBudget F CfirstError :=
+  mul_nonneg (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC) F.windows.amplitude_nonneg)
+    (Real.rpow_nonneg (zero_le_one.trans F.windows.base_ge_one) _)
 
 /-- The exact same first-window zero estimate, with the original
 parent width and parent fibre. -/
@@ -126,15 +150,15 @@ theorem normalizedFirstDualZero_of_original_le
     (hledger : F.zeroExponent δ + F.zeroProductExponent * ε - (a.m + a.q) ≤ terminalExponent) :
     s.dualFirstZeroBudget F hB δ hδ ε CfirstZero / Z ^ (a.m + a.q) ≤
       (s.fiber : ℝ) * CfirstZero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
-        F.zeroProfileConstant * Z ^ terminalExponent := by
-  sorry
+        F.zeroProfileConstant * Z ^ terminalExponent :=
+  F.normalized_zero_le hB δ hδ s.fiber (a.m + a.q) ε CfirstZero terminalExponent hC hledger
 
 theorem normalizedFirstDualTail_of_original_le
     (CfirstError terminalExponent : ℝ) (hC : 0 ≤ CfirstError)
     (hledger : -Nsave - (a.m + a.q) ≤ terminalExponent) :
     s.dualFirstTailBudget F CfirstError / Z ^ (a.m + a.q) ≤
-      (s.fiber : ℝ) * CfirstError * F.tailProfileConstant * Z ^ terminalExponent := by
-  sorry
+      (s.fiber : ℝ) * CfirstError * F.tailProfileConstant * Z ^ terminalExponent :=
+  F.normalized_tail_le s.fiber (a.m + a.q) CfirstError terminalExponent hC hledger
 
 namespace SecondStages
 
@@ -142,22 +166,28 @@ variable {s} (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable (T : R.DualTerminalCalibration sTail sZero k Lmax Nsave decay) (N₀ : s.Normalization)
 
 theorem dualSecondZeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
-    0 ≤ R.dualSecondZeroBudget T N₀ ε Czero := by
-  sorry
+    0 ≤ R.dualSecondZeroBudget T N₀ ε Czero :=
+  mul_nonneg (Nat.cast_nonneg _) (Finset.sum_nonneg fun v _ =>
+    Finset.sum_nonneg fun D _ =>
+      (T v D).zeroBudget_nonneg (N₀.left v D) (N₀.right v D)
+        (N₀.left_pos v D) (N₀.right_pos v D) ε Czero hC)
 
 theorem dualSecondTailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) :
-    0 ≤ R.dualSecondTailBudget T N₀ Cerror := by
-  sorry
+    0 ≤ R.dualSecondTailBudget T N₀ Cerror :=
+  mul_nonneg (Nat.cast_nonneg _) (Finset.sum_nonneg fun v _ =>
+    Finset.sum_nonneg fun D _ =>
+      (T v D).tailBudget_nonneg (N₀.left v D) (N₀.right v D)
+        (N₀.left_pos v D) (N₀.right_pos v D) Cerror hC)
 
 theorem exceptionalBudget_nonneg (L : SourceCartesianAtlas s.columns s.ideal)
     (exceptional : R.CoverHybridPredicates L) :
-    0 ≤ R.exceptionalBudget L exceptional N₀ := by
-  sorry
+    0 ≤ R.exceptionalBudget L exceptional N₀ :=
+  Finset.sum_nonneg fun j _ => (R.liveLeaf L exceptional N₀ j).exceptionalCost_nonneg
 
 theorem ordinaryBudget_nonneg (L : SourceCartesianAtlas s.columns s.ideal)
     (exceptional : R.CoverHybridPredicates L) :
-    0 ≤ R.ordinaryBudget L exceptional N₀ := by
-  sorry
+    0 ≤ R.ordinaryBudget L exceptional N₀ :=
+  Finset.sum_nonneg fun j _ => (R.liveLeaf L exceptional N₀ j).ordinaryCost_nonneg
 
 end SecondStages
 end ActualDirectFirstSource
@@ -230,7 +260,54 @@ theorem actual_parent_direct_dual_normalized_child_bound
               (family.leftParameters Finset.univ b) Z 0) *
             Real.sqrt (normalizedPairedEnergy (family.rightData Finset.univ b ξ)
               (family.rightParameters Finset.univ b) Z 0) ∂kernels b := by
-  sorry
+  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
+      CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hb⟩ :=
+    actual_parent_direct_two_stage_dual_finite_leaf_bound
+      (W := W) (E := E) (ν := ν) (μ := μ) hΓ μv hDiff
+      C Drecipe hD rowBallSize normBound hB δ hδ k ε hε Lmax Nsave ξmax hξmax
+  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
+    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
+  intro Z omega psi centered d a t Y₁ Y₂ X hX s coefficient hprofiles N₀ R conditions T F L exceptional
+    Ray instRayComm instRayFinite I instIFinite instIDecidable
+    rowDomain heightDomain window seminorms extract N
+  dsimp only
+  intro atoms
+  let originalLeaves := R.liveLeaf L exceptional N₀
+  let leaves := ActualHybridFamily.withConstantAtoms originalLeaves extract
+  let family := ActualHybridFamily.normalizedFamily leaves N
+  have hZ : 0 < Z := lt_of_lt_of_le zero_lt_one F.windows.base_ge_one
+  obtain ⟨hcutoff, hp⟩ := hb Z centered d a t Y₁ Y₂ X hX s coefficient hprofiles
+    N₀ R conditions T F L exceptional
+  have ho := ActualHybridFamily.ordinaryBudget_le_sourcePairs leaves N (a.m + a.q) hZ
+  have hc := atoms.source_integral
+    (ActualHybridFamily.firstKernels leaves) (ActualHybridFamily.secondKernels leaves)
+    (ActualHybridFamily.outerWeights leaves) (a.m + a.q) hZ
+    (fun b _ => ActualHybridFamily.outerWeights_nonneg leaves b)
+  have hord := ho.trans hc
+  have horiginal : R.ordinaryBudget L exceptional N₀ = ∑ j, (leaves j).ordinaryCost := by
+    change (∑ j, (originalLeaves j).ordinaryCost) = _
+    exact ActualHybridFamily.sum_ordinaryCost_eq_withConstantAtoms originalLeaves extract
+  rw [← horiginal] at hord
+  simp_rw [family.childPair_eq_frozen Finset.univ] at hord
+  have hraw : pairedStageEnergy centered d a Z t Y₁ Y₂ ≤
+      s.dualFirstZeroBudget F hB δ hδ ε CfirstZero + R.dualSecondZeroBudget T N₀ ε Czero +
+        R.exceptionalBudget L exceptional N₀ +
+        (s.dualFirstTailBudget F CfirstError + R.dualSecondTailBudget T N₀ Cerror) +
+        R.ordinaryBudget L exceptional N₀ := by
+    apply hp.trans_eq
+    rw [R.cost_eq_live_components L exceptional N₀,
+      s.dualFirstCost_eq_budgets F hB δ hδ ε CfirstError CfirstZero]
+    ring
+  refine ⟨hcutoff, ?_⟩
+  calc
+    _ ≤ s.dualFirstZeroBudget F hB δ hδ ε CfirstZero / Z ^ (a.m + a.q) +
+          R.dualSecondZeroBudget T N₀ ε Czero / Z ^ (a.m + a.q) +
+          R.exceptionalBudget L exceptional N₀ / Z ^ (a.m + a.q) +
+          (s.dualFirstTailBudget F CfirstError + R.dualSecondTailBudget T N₀ Cerror) /
+            Z ^ (a.m + a.q) + R.ordinaryBudget L exceptional N₀ / Z ^ (a.m + a.q) := by
+      simpa only [add_div] using
+        div_le_div_of_nonneg_right hraw (Real.rpow_nonneg hZ.le (a.m + a.q))
+    _ ≤ _ := add_le_add le_rfl hord
 
 end HeckeSkeleton.Moments.EngineStep
 

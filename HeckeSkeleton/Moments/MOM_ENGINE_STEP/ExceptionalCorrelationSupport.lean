@@ -41,7 +41,10 @@ variable (R : ActualSecondCorrelationRows A σ H ι)
 
 theorem correlation_eq_zero_of_live_empty (hR : R.live = ∅)
     (h : H) (hh : h ∈ R.rows) : R.correlation h = 0 := by
-  sorry
+  by_contra hne
+  have hm : h ∈ R.live := Finset.mem_filter.mpr ⟨hh, hne⟩
+  rw [hR] at hm
+  exact Finset.notMem_empty h hm
 
 end ActualSecondCorrelationRows
 
@@ -64,7 +67,10 @@ theorem exceptionalCost_eq_zero_of_correlation_live_empty
     (hrows : B.rows = R.rows)
     (hweight : ∀ h ∈ B.rows, B.rowWeight h = R.weight h * R.correlation h)
     (hR : R.live = ∅) : B.exceptionalCost = 0 := by
-  sorry
+  apply B.exceptionalCost_eq_zero_of_rowWeight_zero
+  intro h hh
+  have hr : h ∈ R.rows := hrows ▸ hh
+  rw [hweight h hh, R.correlation_eq_zero_of_live_empty hR h hr, mul_zero]
 
 namespace ConstantAtomExtraction
 
@@ -78,7 +84,9 @@ theorem rowWeight_zero_of_correlation_live_empty
     (hrows : X.leaf.rows = R.rows)
     (hweight : ∀ h ∈ X.leaf.rows, X.leaf.rowWeight h = R.weight h * R.correlation h)
     (hR : R.live = ∅) : ∀ h ∈ X.leaf.rows, X.leaf.rowWeight h = 0 := by
-  sorry
+  intro h hh
+  have hr : h ∈ R.rows := hrows ▸ hh
+  rw [hweight h hh, R.correlation_eq_zero_of_live_empty hR h hr, mul_zero]
 
 /-- Return the zero contribution to the original leaf, before the
 same constant-atom extraction used by the nonempty terminal estimate. -/
@@ -86,8 +94,9 @@ theorem exceptionalCost_eq_zero_of_correlation_live_empty
     (R : ActualSecondCorrelationRows A σ H ι)
     (hrows : X.leaf.rows = R.rows)
     (hweight : ∀ h ∈ X.leaf.rows, X.leaf.rowWeight h = R.weight h * R.correlation h)
-    (hR : R.live = ∅) : B.exceptionalCost = 0 := by
-  sorry
+    (hR : R.live = ∅) : B.exceptionalCost = 0 :=
+  X.exceptionalCost_eq.trans
+    (X.leaf.exceptionalCost_eq_zero_of_correlation_live_empty R hrows hweight hR)
 
 end ConstantAtomExtraction
 end ActualHybridLeaf
@@ -135,8 +144,8 @@ theorem exceptionalNumbers_restrictRows_second_saving
     (hright : ∀ i, 0 < R.rightMultiplicity i) (h : R.live) :
     let n := G.exceptionalNumbers (W.restrictRows p) vStar r₁ r₂ slotError firstProfile
     2 * n.b₂ / 3 ≤ 2 * n.b₂ - 5 * n.g₂ / 6 - n.p₂ + n.t₂ + n.V₀ / 6 +
-      (2 * n.v) / 6 := by
-  sorry
+      (2 * n.v) / 6 :=
+  G.exceptionalNumbers_second_saving W vStar r₁ r₂ slotError firstProfile hZ hright h
 
 theorem exceptionalNumbersAtNormalization_restrictRows_second_saving
     (p : H → Prop) (normalization total : ℝ) (hZ : 1 < Z)
@@ -144,8 +153,9 @@ theorem exceptionalNumbersAtNormalization_restrictRows_second_saving
     let n := G.exceptionalNumbersAtNormalization (W.restrictRows p)
       vStar r₁ r₂ slotError firstProfile normalization total
     2 * n.b₂ / 3 ≤ 2 * n.b₂ - 5 * n.g₂ / 6 - n.p₂ + n.t₂ + n.V₀ / 6 +
-      (2 * n.v) / 6 := by
-  sorry
+      (2 * n.v) / 6 :=
+  G.exceptionalNumbersAtNormalization_second_saving W vStar r₁ r₂ slotError firstProfile
+    normalization total hZ hright h
 
 end OriginalNominalGeometry
 

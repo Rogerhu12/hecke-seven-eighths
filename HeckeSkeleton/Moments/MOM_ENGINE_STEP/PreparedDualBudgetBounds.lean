@@ -66,19 +66,25 @@ variable (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
 
 theorem supported_zeroBudget_le (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     T.supported.zeroBudget ε Czero ≤ T.zeroBudget ε Czero := by
-  sorry
+  by_cases hrows : G.rows = ∅
+  · simpa only [zeroBudget, supported, ActualGaussStage.supported,
+      if_pos hrows, Nat.cast_zero, zero_mul] using T.zeroBudget_nonneg ε Czero hC
+  · simp only [zeroBudget, supported, ActualGaussStage.supported, if_neg hrows]
 
 theorem supported_tailBudget_le (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     T.supported.tailBudget Cerror ≤ T.tailBudget Cerror := by
-  sorry
+  by_cases hrows : G.rows = ∅
+  · simpa only [tailBudget, supported, ActualGaussStage.supported,
+      if_pos hrows, Nat.cast_zero, zero_mul] using T.tailBudget_nonneg Cerror hC
+  · simp only [tailBudget, supported, ActualGaussStage.supported, if_neg hrows]
 
 theorem supported_gated_zeroBudget_le (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     T.supported.gated.zeroBudget ε Czero ≤ T.zeroBudget ε Czero := by
-  sorry
+  simpa only [gated_zeroBudget] using T.supported_zeroBudget_le ε Czero hC
 
 theorem supported_gated_tailBudget_le (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     T.supported.gated.tailBudget Cerror ≤ T.tailBudget Cerror := by
-  sorry
+  simpa only [gated_tailBudget] using T.supported_tailBudget_le Cerror hC
 
 end ActualGaussStage.DualTerminalCalibration
 
@@ -95,11 +101,29 @@ variable (T : s.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
 
 theorem supported_gated_zeroBudget_le (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     T.supported.gated.zeroBudget ε Czero ≤ T.zeroBudget ε Czero := by
-  sorry
+  unfold zeroBudget
+  apply mul_le_mul_of_nonneg_left _ (div_nonneg (by norm_num) dpool.density_pos.le)
+  apply Finset.sum_le_sum
+  intro tag _
+  apply mul_le_mul_of_nonneg_left _ (dpool.tagWeight_nonneg tag)
+  rcases tag with u | p | p | p
+  · exact T.main.supported_gated_zeroBudget_le ε Czero hC
+  · exact (T.one p).supported_gated_zeroBudget_le ε Czero hC
+  · exact (T.six p).supported_gated_zeroBudget_le ε Czero hC
+  · exact (T.seven p).supported_gated_zeroBudget_le ε Czero hC
 
 theorem supported_gated_tailBudget_le (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     T.supported.gated.tailBudget Cerror ≤ T.tailBudget Cerror := by
-  sorry
+  unfold tailBudget
+  apply mul_le_mul_of_nonneg_left _ (div_nonneg (by norm_num) dpool.density_pos.le)
+  apply Finset.sum_le_sum
+  intro tag _
+  apply mul_le_mul_of_nonneg_left _ (dpool.tagWeight_nonneg tag)
+  rcases tag with u | p | p | p
+  · exact T.main.supported_gated_tailBudget_le Cerror hC
+  · exact (T.one p).supported_gated_tailBudget_le Cerror hC
+  · exact (T.six p).supported_gated_tailBudget_le Cerror hC
+  · exact (T.seven p).supported_gated_tailBudget_le Cerror hC
 
 end ActualPoolStages.DualTerminalCalibration
 
@@ -123,11 +147,37 @@ include hNL hNR
 
 theorem supported_gated_zeroBudget_le (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     T.supported.gated.zeroBudget NL NR ε Czero ≤ T.zeroBudget NL NR ε Czero := by
-  sorry
+  unfold zeroBudget
+  apply Finset.sum_le_sum
+  intro S _
+  apply Finset.sum_le_sum
+  intro χ _
+  unfold classZeroBudget
+  apply mul_le_mul_of_nonneg_left _ (classWeight_nonneg NL NR S χ)
+  exact add_le_add
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.left S χ).supported_gated_zeroBudget_le ε Czero hC)
+        ENNReal.toReal_nonneg) (hNL S χ).le)
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.right S χ).supported_gated_zeroBudget_le ε Czero hC)
+        ENNReal.toReal_nonneg) (hNR S χ).le)
 
 theorem supported_gated_tailBudget_le (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     T.supported.gated.tailBudget NL NR Cerror ≤ T.tailBudget NL NR Cerror := by
-  sorry
+  unfold tailBudget
+  apply Finset.sum_le_sum
+  intro S _
+  apply Finset.sum_le_sum
+  intro χ _
+  unfold classTailBudget
+  apply mul_le_mul_of_nonneg_left _ (classWeight_nonneg NL NR S χ)
+  exact add_le_add
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.left S χ).supported_gated_tailBudget_le Cerror hC)
+        ENNReal.toReal_nonneg) (hNL S χ).le)
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.right S χ).supported_gated_tailBudget_le Cerror hC)
+        ENNReal.toReal_nonneg) (hNR S χ).le)
 
 end FirstBlockPoolData.SecondStages.DualTerminalCalibration
 
@@ -144,12 +194,28 @@ variable (N : s.Normalization)
 theorem supported_gated_dualSecondZeroBudget_le (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     R.supported.gated.dualSecondZeroBudget T.supported.gated N ε Czero ≤
       R.dualSecondZeroBudget T N ε Czero := by
-  sorry
+  unfold ActualFirstSource.SecondStages.dualSecondZeroBudget
+    ActualFirstSource.SecondStages.dualZeroBudget
+  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
+  apply Finset.sum_le_sum
+  intro v _
+  apply Finset.sum_le_sum
+  intro D _
+  exact (T v D).supported_gated_zeroBudget_le
+    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Czero hC
 
 theorem supported_gated_dualSecondTailBudget_le (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     R.supported.gated.dualSecondTailBudget T.supported.gated N Cerror ≤
       R.dualSecondTailBudget T N Cerror := by
-  sorry
+  unfold ActualFirstSource.SecondStages.dualSecondTailBudget
+    ActualFirstSource.SecondStages.dualTailBudget
+  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
+  apply Finset.sum_le_sum
+  intro v _
+  apply Finset.sum_le_sum
+  intro D _
+  exact (T v D).supported_gated_tailBudget_le
+    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) Cerror hC
 
 end ActualFirstSource.SecondStages.DualTerminalCalibration
 
@@ -175,11 +241,37 @@ include hNL hNR
 
 theorem prepared_zeroBudget_le (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     T.prepared.zeroBudget NL NR ε Czero ≤ T.zeroBudget NL NR ε Czero := by
-  sorry
+  unfold zeroBudget
+  apply Finset.sum_le_sum
+  intro S _
+  apply Finset.sum_le_sum
+  intro χ _
+  unfold classZeroBudget
+  apply mul_le_mul_of_nonneg_left _ (classWeight_nonneg NL NR S χ)
+  exact add_le_add
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.left S χ).supported_gated_zeroBudget_le ε Czero hC)
+        ENNReal.toReal_nonneg) (hNL S χ).le)
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.right S χ).supported_gated_zeroBudget_le ε Czero hC)
+        ENNReal.toReal_nonneg) (hNR S χ).le)
 
 theorem prepared_tailBudget_le (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     T.prepared.tailBudget NL NR Cerror ≤ T.tailBudget NL NR Cerror := by
-  sorry
+  unfold tailBudget
+  apply Finset.sum_le_sum
+  intro S _
+  apply Finset.sum_le_sum
+  intro χ _
+  unfold classTailBudget
+  apply mul_le_mul_of_nonneg_left _ (classWeight_nonneg NL NR S χ)
+  exact add_le_add
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.left S χ).supported_gated_tailBudget_le Cerror hC)
+        ENNReal.toReal_nonneg) (hNL S χ).le)
+    (div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_left ((T.right S χ).supported_gated_tailBudget_le Cerror hC)
+        ENNReal.toReal_nonneg) (hNR S χ).le)
 
 end FirstBlockDirectData.SecondStages.DualTerminalCalibration
 
@@ -196,12 +288,26 @@ variable (N : s.Normalization)
 theorem prepared_dualSecondZeroBudget_le (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     R.prepared.dualSecondZeroBudget T.prepared N ε Czero ≤
       R.dualSecondZeroBudget T N ε Czero := by
-  sorry
+  unfold ActualDirectFirstSource.SecondStages.dualSecondZeroBudget
+  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
+  apply Finset.sum_le_sum
+  intro v _
+  apply Finset.sum_le_sum
+  intro D _
+  exact (T v D).prepared_zeroBudget_le
+    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Czero hC
 
 theorem prepared_dualSecondTailBudget_le (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     R.prepared.dualSecondTailBudget T.prepared N Cerror ≤
       R.dualSecondTailBudget T N Cerror := by
-  sorry
+  unfold ActualDirectFirstSource.SecondStages.dualSecondTailBudget
+  apply mul_le_mul_of_nonneg_left _ (Nat.cast_nonneg s.fiber)
+  apply Finset.sum_le_sum
+  intro v _
+  apply Finset.sum_le_sum
+  intro D _
+  exact (T v D).prepared_tailBudget_le
+    (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) Cerror hC
 
 end ActualDirectFirstSource.SecondStages.DualTerminalCalibration
 

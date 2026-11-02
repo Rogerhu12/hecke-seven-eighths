@@ -149,7 +149,10 @@ private theorem literalLeftMain_leftAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hSi := v.block.left_divisor_of_common (p.divisorPools.leftData S).columns S.val hdiv _ hc
+  rw [p.divisorPools.left_ideal S] at hSi
+  exact literalLeftMainAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.1 i hi hSi
 
 include hroot hemb in
 private theorem literalLeftMain_rightAtoms_coefficient
@@ -163,12 +166,21 @@ private theorem literalLeftMain_rightAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hSi := v.block.right_divisor_of_common (p.divisorPools.leftData S).columns S.val hdiv _ hc
+  rw [p.divisorPools.left_ideal S] at hSi
+  exact literalLeftMainAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.2.1 i hi hSi
 
 private theorem literalLeftMain_live_common
     (hS : Squarefree S.val) (hlive : (v.leaf exceptional F firstPoint j).Live) :
     S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  sorry
+  have ha : v.1.val ∈ ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)).activeCommon := by
+    obtain ⟨q, hq, i, hi, hci⟩ := hlive.2.1
+    exact (stage).supported_gated_leaf_active cover cover exceptional F firstPoint
+      ⟨v, j⟩ q i hci
+  exact ((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
+    (fun i _ hci => p.leftDivisorCoefficient_nonzero_dvd S χ i hci)
+    v.1.val ha
 
 /-- The actual main leaf, with its two original common scalar factors. -/
 def literalLeftMainExtraction
@@ -196,7 +208,12 @@ full ideal norm. No pointwise location identity is a new input. -/
 private theorem literalLeftMain_firstPoint :
     ∀ i, firstPoint i = -(1 : ℝ) * Real.log
       (A.exteriorNorm (ExteriorIdealEuler.mul (unitExterior A) (((p.divisorPools.leftData S).mainSource (p.leftDivisorCoefficient S χ)).ideal i))) := by
-  sorry
+  intro i
+  change _ = -(1 : ℝ) * Real.log
+    (Ideal.absNorm ((unitExterior A).val * ((p.divisorPools.leftData S).ideal i).val) : ℝ)
+  rw [p.divisorPools.left_ideal S, p.left_ideal]
+  change _ = -(1 : ℝ) * Real.log (Ideal.absNorm (1 * (b.leftResidual i).val) : ℝ)
+  simp only [one_mul, neg_neg, neg_one_mul, one_mul]
 
 /-- Same two Fourier kernels, same original leaf and exact two
 rectangles; the generic adapter's two column proofs are discharged
@@ -277,7 +294,10 @@ private theorem literalRightMain_leftAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hSi := v.block.left_divisor_of_common (p.divisorPools.rightData S).columns S.val hdiv _ hc
+  rw [p.divisorPools.right_ideal S] at hSi
+  exact literalRightMainAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.1 i hi hSi
 
 include hroot hemb in
 private theorem literalRightMain_rightAtoms_coefficient
@@ -291,12 +311,21 @@ private theorem literalRightMain_rightAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ)
           (((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)).ideal (((cover).branch v.2.2.2.1).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hSi := v.block.right_divisor_of_common (p.divisorPools.rightData S).columns S.val hdiv _ hc
+  rw [p.divisorPools.right_ideal S] at hSi
+  exact literalRightMainAtoms_coefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    hroot hemb firstFixed hfirst δ₂ v.2.2.2.1 i hi hSi
 
 private theorem literalRightMain_live_common
     (hS : Squarefree S.val) (hlive : (v.leaf exceptional F firstPoint j).Live) :
     S.val ∣ v.1.val.1 ∧ S.val ∣ v.1.val.2 := by
-  sorry
+  have ha : v.1.val ∈ ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)).activeCommon := by
+    obtain ⟨q, hq, i, hi, hci⟩ := hlive.2.1
+    exact (stage).supported_gated_leaf_active cover cover exceptional F firstPoint
+      ⟨v, j⟩ q i hci
+  exact ((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)).activeCommon_old_mask S.val hS
+    (fun i _ hci => p.rightDivisorCoefficient_nonzero_dvd S χ i hci)
+    v.1.val ha
 
 /-- The actual main leaf, with its two original common scalar factors. -/
 def literalRightMainExtraction
@@ -324,7 +353,12 @@ full ideal norm. No pointwise location identity is a new input. -/
 private theorem literalRightMain_firstPoint :
     ∀ i, firstPoint i = -((-1) : ℝ) * Real.log
       (A.exteriorNorm (ExteriorIdealEuler.mul (unitExterior A) (((p.divisorPools.rightData S).mainSource (p.rightDivisorCoefficient S χ)).ideal i))) := by
-  sorry
+  intro i
+  change _ = -((-1) : ℝ) * Real.log
+    (Ideal.absNorm ((unitExterior A).val * ((p.divisorPools.rightData S).ideal i).val) : ℝ)
+  rw [p.divisorPools.right_ideal S, p.right_ideal]
+  change _ = -((-1) : ℝ) * Real.log (Ideal.absNorm (1 * (b.rightResidual i).val) : ℝ)
+  simp only [one_mul, neg_neg, neg_one_mul, one_mul]
 
 /-- Same two Fourier kernels, same original leaf and exact two
 rectangles; the generic adapter's two column proofs are discharged

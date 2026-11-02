@@ -75,7 +75,10 @@ theorem actualRows_empty_originalNorm_le
     (hq : q ∈ (chart.actualRows ∅ X hX label).rows) :
     A.exteriorNorm ((chart.actualRows ∅ X hX label).originalIdeal q) ≤
       Z ^ (2 * a₀ - Real.log retainedScale / Real.log Z - g + cutoffExponent) := by
-  sorry
+  simpa only [add_zero] using
+    chart.actualRows_originalNorm_le_canonical_windows ∅ X hX label
+      retainedScale Z g a₀ cutoffExponent 0 hscale hZ hradius hcutoff
+      (emptyMask_norm_window K A.Sf Z) hleft hright q hq
 
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
@@ -108,7 +111,10 @@ theorem actualRows_empty_extracted_fullJoint_window
         (unitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val
         (nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val)).val +
         cutoffExponent) := by
-  sorry
+  simpa only [add_zero] using
+    chart.actualRows_extracted_fullJoint_window ∅ X hX label
+      retainedScale Z g a₀ q wo cutoffExponent 0 hscale hZ hradius hcutoff
+      (emptyMask_norm_window K A.Sf Z) hleft hright moving remaining old hold h W
 
 /-- The same canonical child's allowed-row predicate follows directly
 from its original physical source and individual support formulas. All
@@ -146,7 +152,11 @@ theorem canonicalOriginalChild_allowed_of_empty_second_windows
         cutoffExponent))
       inverseTest leftTest rightTest geometry index).allowedRow
         ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal := by
-  sorry
+  refine ⟨(HeckeAxiom.exteriorEquiv A
+    ((chart.actualRows ∅ X hX label).extractedRow C h).ideal).property, ?_⟩
+  exact chart.actualRows_empty_extracted_fullJoint_window X hX label
+    retainedScale Z g a₀ q wo cutoffExponent hscale hZ hradius hcutoff
+    hleft hright moving remaining old hold h W
 
 end SecondBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

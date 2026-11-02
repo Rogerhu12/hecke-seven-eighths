@@ -38,7 +38,7 @@ include domain in
 has padded excess at most the original padding. -/
 theorem original_total_excess_le (hpadding : 0 ≤ padding) :
     max (a.n₁ + a.n₂ + a.z - (a.m + a.q)) 0 ≤ padding := by
-  sorry
+  exact max_le (by linarith [domain.padded_core]) hpadding
 
 include domain in
 /-- A numerical label which records that same original total length
@@ -46,7 +46,8 @@ inherits the bound without a case split on the number of slots. -/
 theorem labelled_total_excess_le (Aexp : ℝ)
     (hA : Aexp = a.n₁ + a.n₂ + a.z) (hpadding : 0 ≤ padding) :
     max (Aexp - (a.m + a.q)) 0 ≤ padding := by
-  sorry
+  rw [hA]
+  exact domain.original_total_excess_le hpadding
 
 end PairedEngineDomain
 
@@ -71,7 +72,8 @@ theorem remainder_from_original_parent
       (max (n.Aexp - (a.m + a.q)) 0 + 3 * n.stepσ +
         5 * n.δ / 6 + volumeLoss + n.slotError) ≤
       (padding + 3 * step + loss / 2) + movingLength := by
-  sorry
+  have htotal := domain.labelled_total_excess_le n.Aexp hA hpadding
+  linarith
 
 end ExceptionalOriginalNumbers
 
@@ -85,7 +87,7 @@ theorem original_exceptional_global_exponent
     (hpool : poolLoss ≤ loss / 16) (hmesh : mesh ≤ loss / 16) :
     (padding + 3 * step + loss / 2) + δ₁ + δ₂ + δ₃ + poolLoss + mesh ≤
       padding + 3 * step + loss := by
-  sorry
+  linarith
 
 /-- The pool-free source has precisely the same original error budget;
 no positive auxiliary pool is introduced to obtain its exponent. -/
@@ -95,7 +97,9 @@ theorem original_direct_exceptional_global_exponent
     (hmesh : mesh ≤ loss / 16) :
     (padding + 3 * step + loss / 2) + δ₁ + δ₂ + δ₃ + mesh ≤
       padding + 3 * step + loss := by
-  sorry
+  simpa only [add_zero] using
+    original_exceptional_global_exponent padding step loss δ₁ δ₂ δ₃ 0 mesh hloss
+      h₁ h₂ h₃ (by linarith) hmesh
 
 end HeckeSkeleton.Moments.EngineStep
 

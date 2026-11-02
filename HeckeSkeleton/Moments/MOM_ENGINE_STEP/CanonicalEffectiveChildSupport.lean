@@ -44,7 +44,12 @@ def fixedIdealTest (W : IdealTest K) (v : HeckeGeneral.Analysis.NonzeroIdeal K) 
 
 theorem quotient_norm_ratio (D I : HeckeGeneral.Analysis.NonzeroIdeal K) (N : ℝ) :
     idealNorm K I / (N / idealNorm K D) = idealNorm K (D * I) / N := by
-  sorry
+  have hmul : idealNorm K (D * I) = idealNorm K D * idealNorm K I := by
+    change (Ideal.absNorm (D.val * I.val) : ℝ) =
+      (Ideal.absNorm D.val : ℝ) * (Ideal.absNorm I.val : ℝ)
+    rw [map_mul, Nat.cast_mul]
+  rw [div_div_eq_mul_div, hmul]
+  ring
 
 /-- Exact support reconstruction at the original divided scale. It
 does not require a norm window or a positivity bound for the scale. -/
@@ -52,7 +57,8 @@ theorem fixedIdealTest_quotient_support (W : IdealTest K)
     (v u D I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     I ∈ (fixedIdealTest W v).support u t (N / idealNorm K D) ↔
       D * I ∈ W.support v t N := by
-  sorry
+  change I ∈ W.support v t (N / idealNorm K D) ↔ _
+  rw [W.support_spec, W.support_spec, quotient_norm_ratio]
 
 /-- The actual exterior part of one original finite profile support. -/
 def exteriorPlainSupport (W : IdealTest K) (v : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
@@ -63,12 +69,21 @@ def exteriorPlainSupport (W : IdealTest K) (v : HeckeGeneral.Analysis.NonzeroIde
     (v I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     I.val ∈ exteriorPlainSupport (A := A) W v N t ↔
       I ∈ W.support v t N ∧ IsCoprime I.val A.cS := by
-  sorry
+  rw [exteriorPlainSupport, Finset.mem_image]
+  constructor
+  · rintro ⟨J, hJ, he⟩
+    have hJI : J = I := Subtype.ext he
+    subst J
+    exact Finset.mem_filter.mp hJ
+  · intro h
+    exact ⟨I, Finset.mem_filter.mpr h, rfl⟩
 
 theorem exteriorPlainSupport_nonzero (W : IdealTest K)
     (v : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ) :
     ∀ I ∈ exteriorPlainSupport (A := A) W v N t, I ≠ 0 := by
-  sorry
+  intro I hI
+  obtain ⟨J, _, rfl⟩ := Finset.mem_image.mp hI
+  exact nonZeroDivisors.coe_ne_zero J
 
 def exteriorPrimeSupport (W : PrimeWindow K) (Z t : ℝ) :
     Finset (HeightOneSpectrum (𝓞 K)) :=
@@ -94,22 +109,36 @@ theorem child_commonMask_iff (u I : HeckeGeneral.Analysis.NonzeroIdeal K) :
       sexticIdealOutsideS K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) I ∧
         IsCoprime I.val u.val ∧ IsCoprime I.val moving.support.val ∧
           IsCoprime I.val remaining.val := by
-  sorry
+  simp only [CanonicalOriginalChildData.data, completeIdealCommonMask,
+    sexticIdealOutsideS, Bool.and_eq_true, decide_eq_true_eq]
+  tauto
 
 theorem effective_plain_exterior (W : IdealTest K) (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ)
     (hI : I ∈ effectivePlainSupport child W u N t) : IsCoprime I.val A.cS := by
-  sorry
+  have hm := effectivePlainSupport_commonMask child W u I N t hI
+  exact (CanonicalOriginalPhaseCalibration.outside_iff_coprime I).mp
+    ((child_commonMask_iff parent moving correction hcorr sector remaining budget
+      inverse left right geometry index u I).mp hm).1
 
 theorem effective_plain_full_mask (W : IdealTest K) (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N t : ℝ)
     (hI : I ∈ effectivePlainSupport child W u N t) :
     IsCoprime I.val (moving.support.val * remaining.val) := by
-  sorry
+  have hm := effectivePlainSupport_commonMask child W u I N t hI
+  have hc := (child_commonMask_iff parent moving correction hcorr sector remaining budget
+    inverse left right geometry index u I).mp hm
+  exact hc.2.2.1.mul_right hc.2.2.2
 
 theorem effective_prime_original_support (i : Fin geometry.slotCount)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (Z t : ℝ) :
     effectivePrimeSupport child i u Z t ⊆
       exteriorPrimeSupport (A := A) (geometry.slots i) Z t := by
-  sorry
+  intro p hp
+  have hm := effectivePrimeSupport_commonMask child i u Z t p hp
+  have hc := (child_commonMask_iff parent moving correction hcorr sector remaining budget
+    inverse left right geometry index u (primeIdeal p)).mp hm
+  exact Finset.mem_filter.mpr
+    ⟨(effectivePrimeSupport_subset_profile child i u Z t) hp,
+      (CanonicalOriginalPhaseCalibration.outside_iff_coprime (primeIdeal p)).mp hc.1⟩
 
 /-- This is coverage by the literal original exterior quotient
 carrier, constructed from the raw original test and the actual divisor. -/
@@ -118,7 +147,15 @@ theorem effective_plain_original_quotient (W : IdealTest K)
     effectivePlainSupport child (fixedIdealTest W v) u
         (N / idealNorm K (exteriorMomentIdeal D)) t ⊆
       nonzeroQuotientMomentSupport D.val (exteriorPlainSupport (A := A) W v N t) := by
-  sorry
+  intro I hI
+  rw [mem_nonzeroQuotientMomentSupport D.val D.property.1]
+  change (exteriorMomentIdeal D * I).val ∈ exteriorPlainSupport (A := A) W v N t
+  apply (mem_exteriorPlainSupport W v (exteriorMomentIdeal D * I) N t).mpr
+  refine ⟨(fixedIdealTest_quotient_support W v u (exteriorMomentIdeal D) I N t).mp
+    ((effectivePlainSupport_subset_profile child (fixedIdealTest W v) u _ t) hI), ?_⟩
+  exact (Ideal.isCoprime_iff_sup_eq.mpr D.property.2).mul_left
+    (effective_plain_exterior parent moving correction hcorr sector remaining budget
+      inverse left right geometry index (fixedIdealTest W v) u I _ t hI)
 
 end ArithmeticMask
 
@@ -129,7 +166,15 @@ only a subset of the support of the actual full mask. -/
 theorem supportExtract_eq_one_of_coprime (I M : Ideal (𝓞 K))
     (hI : I ≠ 0) (hM : M ≠ 0) (P : Finset (Ideal (𝓞 K)))
     (hP : P ⊆ primeSupport M) (hcop : IsCoprime I M) : supportExtract I P = 1 := by
-  sorry
+  have hd := (primeSupport_disjoint_iff hI hM).mpr hcop
+  have hr : supportResidual I P = I := by
+    change ((normalizedFactors I).filter (fun Q => Q ∉ P)).prod = I
+    rw [Multiset.filter_eq_self.mpr (by
+      intro Q hQ hQP
+      exact Finset.disjoint_left.mp hd (Multiset.mem_toFinset.mpr hQ) (hP hQP))]
+    exact Ideal.prod_normalizedFactors_eq_self hI
+  apply mul_right_cancel₀ hI
+  simpa only [hr, one_mul] using support_reconstruct I hI P
 
 /-- Reconstructing an original supported ideal proves membership in
 the actual residual support, with no support inclusion hypothesis. -/
@@ -137,13 +182,21 @@ theorem mem_plainResidual_of_reconstruct (S P : Finset (Ideal (𝓞 K)))
     (D I : Ideal (𝓞 K)) (hD : D ≠ 0) (hI : I ≠ 0)
     (hDpart : supportExtract D P = D) (hIpart : supportExtract I P = 1)
     (hmem : D * I ∈ S) : I ∈ SupportCartesian.plainResidual S P D := by
-  sorry
+  have hpart : supportExtract (D * I) P = D := by
+    rw [supportExtract_mul D I hD hI, hDpart, hIpart, mul_one]
+  have hr : supportResidual (D * I) P = I := by
+    apply mul_left_cancel₀ hD
+    simpa only [hpart] using support_reconstruct (D * I) (mul_ne_zero hD hI) P
+  exact Finset.mem_image.mpr
+    ⟨D * I, Finset.mem_filter.mpr ⟨hmem, hpart⟩, hr⟩
 
 /-- The extracted part of an actual original ideal is supported on
 the selected common-prime set, with the full original exponents. -/
 theorem supportExtract_idempotent (I : Ideal (𝓞 K)) (P : Finset (Ideal (𝓞 K))) :
     supportExtract (supportExtract I P) P = supportExtract I P := by
-  sorry
+  change ((normalizedFactors (supportExtract I P)).filter (fun Q => Q ∈ P)).prod = _
+  rw [supportExtract_factors]
+  simpa only [Multiset.filter_filter, and_self]
 
 /-- An actual divisor of a residual occurrence is still prime to the
 extracted set. This supplies the allocation divisor's condition from
@@ -151,7 +204,19 @@ its original witness. -/
 theorem supportExtract_eq_one_of_dvd_residual (I B : Ideal (𝓞 K))
     (hB : B ≠ 0) (P : Finset (Ideal (𝓞 K))) (hd : B ∣ supportResidual I P) :
     supportExtract B P = 1 := by
-  sorry
+  have hf := (dvd_iff_normalizedFactors_le_normalizedFactors hB
+    (supportResidual_ne_zero I P)).mp hd
+  have hr : supportResidual B P = B := by
+    change ((normalizedFactors B).filter (fun Q => Q ∉ P)).prod = B
+    rw [Multiset.filter_eq_self.mpr (by
+      intro Q hQ
+      have hres : Q ∈ primeSupport (supportResidual I P) :=
+        Multiset.mem_toFinset.mpr (Multiset.mem_of_le hf hQ)
+      rw [supportResidual_support] at hres
+      exact (Finset.mem_sdiff.mp hres).2)]
+    exact Ideal.prod_normalizedFactors_eq_self hB
+  apply mul_right_cancel₀ hB
+  simpa only [hr, one_mul] using support_reconstruct B hB P
 
 end CommonSupport
 
@@ -179,7 +244,18 @@ theorem effective_prime_original_live
     effectivePrimeSupport child i u Z t ⊆
       SupportCartesian.primeLive
         (exteriorPrimeSupport (A := A) (geometry.slots i) Z t) common := by
-  sorry
+  intro p hp
+  have hm := effectivePrimeSupport_commonMask child i u Z t p hp
+  have hc := (child_commonMask_iff parent moving correction hcorr sector remaining budget
+    inverse left right geometry index u (primeIdeal p)).mp hm
+  have hpart := supportExtract_eq_one_of_coprime p.asIdeal
+    (moving.support.val * remaining.val) p.ne_bot
+    (mul_ne_zero moving.support.property.1 (nonZeroDivisors.coe_ne_zero remaining))
+    common hcommon (hc.2.2.1.mul_right hc.2.2.2)
+  exact Finset.mem_filter.mpr
+    ⟨effective_prime_original_support parent moving correction hcorr sector remaining budget
+      inverse left right geometry index i u Z t hp,
+      (SupportCartesian.prime_extract_eq_one p common).mp hpart⟩
 
 /-- The same original test produces the literal common-support
 residual followed by the actual allocated quotient. Both divisions of
@@ -197,7 +273,33 @@ theorem effective_plain_original_common_quotient (W : IdealTest K)
       nonzeroQuotientMomentSupport B.val
         (SupportCartesian.plainResidual (exteriorPlainSupport (A := A) W v N t)
           common D.val) := by
-  sorry
+  intro I hI
+  rw [mem_nonzeroQuotientMomentSupport B.val B.property.1]
+  have hcop := effective_plain_full_mask parent moving correction hcorr sector remaining budget
+    inverse left right geometry index (fixedIdealTest W v) u I _ t hI
+  have hIpart := supportExtract_eq_one_of_coprime I.val
+    (moving.support.val * remaining.val) (nonZeroDivisors.coe_ne_zero I)
+    (mul_ne_zero moving.support.property.1 (nonZeroDivisors.coe_ne_zero remaining))
+    common hcommon hcop
+  have hBIpart : supportExtract (B.val * I.val) common = 1 := by
+    rw [supportExtract_mul B.val I.val B.property.1 (nonZeroDivisors.coe_ne_zero I),
+      hBpart, hIpart, one_mul]
+  apply mem_plainResidual_of_reconstruct _ common D.val (B.val * I.val)
+    D.property.1 (mul_ne_zero B.property.1 (nonZeroDivisors.coe_ne_zero I))
+    hDpart hBIpart
+  change (exteriorMomentIdeal D * (exteriorMomentIdeal B * I)).val ∈
+    exteriorPlainSupport (A := A) W v N t
+  apply (mem_exteriorPlainSupport W v _ N t).mpr
+  constructor
+  · have hp := (effectivePlainSupport_subset_profile child (fixedIdealTest W v) u _ t) hI
+    have hBprofile := (fixedIdealTest_quotient_support W v u
+      (exteriorMomentIdeal B) I (N / idealNorm K (exteriorMomentIdeal D)) t).mp hp
+    exact (fixedIdealTest_quotient_support W v u
+      (exteriorMomentIdeal D) (exteriorMomentIdeal B * I) N t).mp hBprofile
+  · exact (Ideal.isCoprime_iff_sup_eq.mpr D.property.2).mul_left
+      ((Ideal.isCoprime_iff_sup_eq.mpr B.property.2).mul_left
+        (effective_plain_exterior parent moving correction hcorr sector remaining budget
+          inverse left right geometry index (fixedIdealTest W v) u I _ t hI))
 
 end ActualCommonQuotients
 
@@ -209,7 +311,7 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 private theorem primeSupport_mul (I J : Ideal (𝓞 K)) (hI : I ≠ 0) (hJ : J ≠ 0) :
     primeSupport (I * J) = primeSupport I ∪ primeSupport J := by
-  sorry
+  simp only [primeSupport, normalizedFactors_mul hI hJ, Multiset.toFinset_add]
 
 /-- The first frequency's active modulus and the whole common-column
 mask are jointly paid by the two original common factors. -/
@@ -217,8 +319,10 @@ theorem first_active_mul_common_mask_dvd (p : ι → ExteriorPrime A)
     (m n : ι → ℕ) (hm : ∀ i, 0 < m i) :
     (firstActiveIdeal p m n).val *
         commonRadical (primePowerProduct p m).val (primePowerProduct p n).val ∣
-      (primePowerProduct p m).val * (primePowerProduct p n).val := by
-  sorry
+      (primePowerProduct p m).val * (primePowerProduct p n).val :=
+  mul_dvd_mul (firstActiveIdeal_dvd_common p m n hm)
+    (commonRadical_dvd _ _ (primePowerProduct p m).property.1
+      (primePowerProduct p n).property.1).2
 
 theorem first_active_mul_common_mask_norm_le (p : ι → ExteriorPrime A)
     (m n : ι → ℕ) (hm : ∀ i, 0 < m i) :
@@ -226,7 +330,10 @@ theorem first_active_mul_common_mask_norm_le (p : ι → ExteriorPrime A)
         (Ideal.absNorm
           (commonRadical (primePowerProduct p m).val (primePowerProduct p n).val) : ℝ) ≤
       A.exteriorNorm (primePowerProduct p m) * A.exteriorNorm (primePowerProduct p n) := by
-  sorry
+  have h := norm_le_of_dvd
+    (mul_ne_zero (primePowerProduct p m).property.1 (primePowerProduct p n).property.1)
+    (first_active_mul_common_mask_dvd p m n hm)
+  simpa only [map_mul, Nat.cast_mul] using h
 
 variable {σ : K →+* ℂ} {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
@@ -244,7 +351,42 @@ theorem second_common_subset_full_mask
     primeSupport (primePowerProduct p m).val ⊆
       primeSupport ((prefix.append (secondOriginalMovingFactors P R C p m n pattern)).support.val *
         (remaining.val * (secondSixthRootIdeal p m n).val)) := by
-  sorry
+  let D := secondOriginalMovingFactors P R C p m n pattern
+  rw [primeSupport_mul _ _ (prefix.append D).support.property.1
+    (mul_ne_zero (nonZeroDivisors.coe_ne_zero remaining) (secondSixthRootIdeal p m n).property.1),
+    prefix.append_support_primes D,
+    primeSupport_mul _ _ (nonZeroDivisors.coe_ne_zero remaining)
+      (secondSixthRootIdeal p m n).property.1]
+  intro Q hQ
+  rw [primePowerProduct_support_nonzero p hp] at hQ
+  obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hQ
+  by_cases hroot : min (m i) (n i) / 6 = 0
+  · have hmin : 0 < min (m i) (n i) := lt_min (hm i) (hn i)
+    have hactive : secondActiveExponent m n pattern i ≠ 0 := by
+      simp only [secondActiveExponent]
+      split_ifs <;> omega
+    apply Finset.mem_union.mpr
+    left
+    apply Finset.mem_union.mpr
+    right
+    rw [D.support_primes]
+    change (p i).val.asIdeal ∈ primeSupport
+      (OriginalMovingFactors.singleton (P := P) (R := R)
+        ⟨secondActiveFrequencyGenerator C p m n pattern,
+          (secondActiveFrequencyGenerator_generates C p m n pattern).1⟩ 1).fullIdeal.val
+    rw [OriginalMovingFactors.singleton_fullIdeal (P := P) (R := R)
+      (secondActiveFrequencyIdeal p m n pattern) (secondActiveFrequencyGenerator C p m n pattern)
+      (secondActiveFrequencyGenerator_generates C p m n pattern) 1]
+    change (p i).val.asIdeal ∈ primeSupport (primePowerProduct p (secondActiveExponent m n pattern)).val
+    rw [primePowerProduct_support_nonzero p hp]
+    exact Finset.mem_image.mpr ⟨i, Finset.mem_filter.mpr ⟨Finset.mem_univ i, hactive⟩, rfl⟩
+  · apply Finset.mem_union.mpr
+    right
+    apply Finset.mem_union.mpr
+    right
+    change (p i).val.asIdeal ∈ primeSupport (primePowerProduct p (fun j => min (m j) (n j) / 6)).val
+    rw [primePowerProduct_support_nonzero p hp]
+    exact Finset.mem_image.mpr ⟨i, Finset.mem_filter.mpr ⟨Finset.mem_univ i, hroot⟩, rfl⟩
 
 end ActualCommonMasks
 

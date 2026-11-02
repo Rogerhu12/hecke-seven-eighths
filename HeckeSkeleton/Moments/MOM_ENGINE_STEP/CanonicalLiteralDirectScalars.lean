@@ -137,7 +137,11 @@ theorem literalLeftDirectAtoms_eq_scale_core
         firstFixed hfirst δ₂ label).scale
           (literalLeftDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
-  sorry
+  unfold literalLeftDirectAtoms literalLeftDirectCore literalLeftDirectScalar
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
 
 /-- The exact same atlas and full mask, with the two constant
@@ -190,7 +194,11 @@ theorem literalRightDirectAtoms_eq_scale_core
         firstFixed hfirst δ₂ label).scale
           (literalRightDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
-  sorry
+  unfold literalRightDirectAtoms literalRightDirectCore literalRightDirectScalar
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

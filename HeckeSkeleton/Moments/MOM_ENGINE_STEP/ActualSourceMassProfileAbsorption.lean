@@ -27,11 +27,14 @@ namespace HeckeSkeleton.Moments.EngineStep.ActualSourceMassProfileAbsorption
 def rate (ε : ℝ) (degree : ℕ) : ℝ := ε / (2 * ((degree : ℝ) + 1))
 
 theorem rate_pos (ε : ℝ) (degree : ℕ) (hε : 0 < ε) : 0 < rate ε degree := by
-  sorry
+  unfold rate
+  positivity
 
 theorem rate_degree_le (ε : ℝ) (degree : ℕ) (hε : 0 ≤ ε) :
     rate ε degree * degree ≤ ε / 2 := by
-  sorry
+  rw [rate, div_mul_eq_mul_div]
+  apply (div_le_iff₀ (by positivity : 0 < 2 * ((degree : ℝ) + 1))).mpr
+  nlinarith
 
 def scaledProfile (Cprofile profile Z ε : ℝ) (degree : ℕ) : ℝ :=
   Cprofile * profile * Z ^ rate ε degree
@@ -39,12 +42,15 @@ def scaledProfile (Cprofile profile Z ε : ℝ) (degree : ℕ) : ℝ :=
 theorem le_scaledProfile (Cprofile profile Z ε : ℝ) (degree : ℕ)
     (hC : 1 ≤ Cprofile) (hprofile : 1 ≤ profile) (hZ : 1 ≤ Z) (hε : 0 < ε) :
     profile ≤ scaledProfile Cprofile profile Z ε degree := by
-  sorry
+  have hpow : 1 ≤ Z ^ rate ε degree := Real.one_le_rpow hZ (rate_pos ε degree hε).le
+  exact (le_mul_of_one_le_left (zero_le_one.trans hprofile) hC).trans
+    (le_mul_of_one_le_right
+      (mul_nonneg (zero_le_one.trans hC) (zero_le_one.trans hprofile)) hpow)
 
 theorem scaledProfile_one (Cprofile profile Z ε : ℝ) (degree : ℕ)
     (hC : 1 ≤ Cprofile) (hprofile : 1 ≤ profile) (hZ : 1 ≤ Z) (hε : 0 < ε) :
-    1 ≤ scaledProfile Cprofile profile Z ε degree := by
-  sorry
+    1 ≤ scaledProfile Cprofile profile Z ε degree :=
+  hprofile.trans (le_scaledProfile Cprofile profile Z ε degree hC hprofile hZ hε)
 
 /-- The original log-atom amplitude has degree one. A larger fixed
 degree is also allowed, and no scale power is placed inside a seminorm. -/
@@ -54,7 +60,24 @@ theorem original_amplitude_le_scaled_power
     (hd : 1 ≤ d) (hη : η ≤ rate ε degree)
     (hamp : amplitude ≤ Cprofile * profile ^ d * Z ^ η) :
     amplitude ≤ scaledProfile Cprofile profile Z ε degree ^ d := by
-  sorry
+  have hC0 : 0 ≤ Cprofile := zero_le_one.trans hC
+  have hP0 : 0 ≤ profile := zero_le_one.trans hprofile
+  have hZ0 : 0 ≤ Z := zero_le_one.trans hZ
+  have hCd : Cprofile ≤ Cprofile ^ d := by
+    simpa only [pow_one] using pow_le_pow_right₀ hC hd
+  have hdR : (1 : ℝ) ≤ d := by exact_mod_cast hd
+  have hrate : rate ε degree ≤ rate ε degree * d :=
+    le_mul_of_one_le_right (rate_pos ε degree hε).le hdR
+  have hscale : Z ^ η ≤ Z ^ (rate ε degree * d) :=
+    Real.rpow_le_rpow_of_exponent_le hZ (hη.trans hrate)
+  apply hamp.trans
+  calc
+    _ ≤ (Cprofile ^ d * profile ^ d) * Z ^ (rate ε degree * d) :=
+      mul_le_mul (mul_le_mul_of_nonneg_right hCd (pow_nonneg hP0 _)) hscale
+        (Real.rpow_nonneg hZ0 _) (mul_nonneg (pow_nonneg hC0 _) (pow_nonneg hP0 _))
+    _ = _ := by
+      rw [Real.rpow_mul_natCast hZ0]
+      simp only [scaledProfile, mul_pow]
 
 /-- This is only the expansion of a numerical majorant. It has no
 source-to-child or total-kernel inequality as an input. -/
@@ -63,7 +86,18 @@ theorem scaledProfile_mass_le (Cmass Cprofile profile Z ε : ℝ) (degree : ℕ)
     (hZ : 1 ≤ Z) (hε : 0 < ε) :
     Cmass * scaledProfile Cprofile profile Z ε degree ^ degree * Z ^ (ε / 2) ≤
       (Cmass * Cprofile ^ degree) * profile ^ degree * Z ^ ε := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans_le hZ
+  have hexponent : rate ε degree * degree + ε / 2 ≤ ε := by
+    linarith [rate_degree_le ε degree hε.le]
+  calc
+    _ = ((Cmass * Cprofile ^ degree) * profile ^ degree) *
+        Z ^ (rate ε degree * degree + ε / 2) := by
+      simp only [scaledProfile, mul_pow, Real.rpow_add hz, Real.rpow_mul_natCast hz.le]
+      ring
+    _ ≤ _ := mul_le_mul_of_nonneg_left
+      (Real.rpow_le_rpow_of_exponent_le hZ hexponent)
+      (mul_nonneg (mul_nonneg hCmass (pow_nonneg (zero_le_one.trans hC) _))
+        (pow_nonneg (zero_le_one.trans hprofile) _))
 
 /-- An actual nonnegative rectangle can use the enlarged numerical
 profile. The original arithmetic index and its weight are unchanged. -/
@@ -73,7 +107,14 @@ theorem pointwise_weight_enlarge
     (hprofile : 0 < profile) (hZ : 0 < Z) (hcontrol : profile ≤ enlarged)
     (hweight : actual ≤ (Cweight * profile ^ dWeight * Z ^ exponent) * indexWeight) :
     actual ≤ (Cweight * enlarged ^ dWeight * Z ^ exponent) * indexWeight := by
-  sorry
+  have hscalar : 0 < Cweight * profile ^ dWeight * Z ^ exponent := by positivity
+  have hindex : 0 ≤ indexWeight :=
+    nonneg_of_mul_nonneg_right (hactual.trans hweight) hscalar
+  apply hweight.trans
+  apply mul_le_mul_of_nonneg_right _ hindex
+  exact mul_le_mul_of_nonneg_right
+    (mul_le_mul_of_nonneg_left (pow_le_pow_left₀ hprofile.le hcontrol dWeight) hCweight.le)
+    (Real.rpow_nonneg hZ.le exponent)
 
 end HeckeSkeleton.Moments.EngineStep.ActualSourceMassProfileAbsorption
 
@@ -151,7 +192,40 @@ theorem actual_direct_source_image_kernel_mass_original_profiles
           (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b).real Set.univ) ≤
         (Cmass * Cprofile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0) *
           profile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0 * Z ^ ε := by
-  sorry
+  obtain ⟨s₁, s₂, Cmass, hCmass, hm⟩ :=
+    actual_direct_source_image_kernel_mass_physical_mask
+      (A := A) (σ := σ) (C := C) (Γ := Γ) (hΓ := hΓ) (μv := μv) (hDiff := hDiff)
+      (W := W) (E := E) (Θ := Θ) (ω := ω) (ψ := ψ)
+      cap dimension width J₁₁ J₁₂ J₂₁ J₂₂ dBL dBR dF₁ dF₂ dWeight
+      B (ε / 2) Cweight hB (by positivity) hCweight
+  refine ⟨s₁, s₂, Cmass, hCmass, ?_⟩
+  intro Cprofile hCprofile Z hZ profile hprofile finiteTest centered d a t Y₁ Y₂ X hX
+    s R L hcap exceptional N families F₁ F₂ outer B₁ B₂ parentWidth windows
+    rows physicalMask hmask0 mask hmaskN hN hweight
+  let degree := totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0
+  let enlarged := scaledProfile Cprofile profile Z ε degree
+  have hcontrol : profile ≤ enlarged :=
+    le_scaledProfile Cprofile profile Z ε degree hCprofile hprofile hZ.le hε
+  have henlarged : 1 ≤ enlarged := hprofile.trans hcontrol
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hp : 0 < profile := zero_lt_one.trans_le hprofile
+  have hweights : ∀ b : (combine families).active Finset.univ,
+      outer b.val * (combine families).weight Finset.univ parentWidth b ≤
+        (Cweight * enlarged ^ dWeight * Z ^ ((ε / 2) / 4)) *
+          (R.prepared.arithmeticLabels L hcap exceptional N).carrier.indexWeight
+            ((R.prepared.arithmeticLabels L hcap exceptional N).rectangleIndex families b) := by
+    intro b
+    rw [show (ε / 2) / 4 = ε / 8 by ring]
+    exact pointwise_weight_enlarge dWeight
+      (mul_nonneg (windows.outer_nonneg b.val (Finset.mem_univ _))
+        ((combine families).weight_nonneg Finset.univ parentWidth b hz))
+      hCweight hp hz hcontrol (hweight b)
+  have hmass := hm Z hZ enlarged henlarged finiteTest centered d a t Y₁ Y₂ X hX
+    s R L hcap exceptional N families F₁ F₂ outer B₁ B₂ parentWidth windows
+    rows physicalMask hmask0 mask hmaskN hN hweights
+  refine ⟨hmass.1, hmass.2.trans ?_⟩
+  exact scaledProfile_mass_le Cmass Cprofile profile Z ε degree
+    hCmass.le hCprofile hprofile hZ.le hε
 
 /-- The same actual one-pool family pays profile growth after its
 physical fibres and two harmonic divisor masses have been proved. -/
@@ -207,7 +281,49 @@ theorem actual_amplified_source_image_kernel_mass_original_profiles
           (actualNestedLabelMeasure F₁ F₂ outer) parentWidth b).real Set.univ) ≤
         (Cmass * Cprofile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0) *
           profile ^ totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0 * Z ^ ε := by
-  sorry
+  have hepshalf : eps ≤ (ε / 2) / 4 := by linarith
+  obtain ⟨s₁, s₂, Cmass, Z₀, hCmass, hZ₀, hm⟩ :=
+    actual_amplified_source_image_kernel_mass_physical_mask
+      (A := A) (σ := σ) (C := C) (Γ := Γ) (hΓ := hΓ) (μv := μv) (hDiff := hDiff)
+      (W := W) (E := E) (Θ := Θ) (ω := ω) (ψ := ψ)
+      cap dimension width J₁₁ J₁₂ J₂₁ J₂₂ dBL dBR dF₁ dF₂ dWeight
+      B (ε / 2) Cweight ell eps Mmax Bmax hB (by positivity) hCweight
+      hell heps hepsell hepshalf hMmax hBmax
+  refine ⟨s₁, s₂, Cmass, Z₀, hCmass, hZ₀, ?_⟩
+  intro Cprofile hCprofile Z hZ profile hprofile bad pool finiteTest centered d a t Y₁ Y₂ X hX
+    s R L hcap exceptional N families F₁ F₂ outer B₁ B₂ parentWidth windows
+    B₀ hbox rows physicalMask hmask0 mask hmaskN hN hweight
+  let degree := totalProfileDegree cap dBL dBR dF₁ dF₂ dWeight 0
+  let enlarged := scaledProfile Cprofile profile Z ε degree
+  have hZ1 : 1 < Z := hZ₀.trans_le hZ
+  have hcontrol : profile ≤ enlarged :=
+    le_scaledProfile Cprofile profile Z ε degree hCprofile hprofile hZ1.le hε
+  have henlarged : 1 ≤ enlarged := hprofile.trans hcontrol
+  have hz : 0 < Z := zero_lt_one.trans hZ1
+  have hp : 0 < profile := zero_lt_one.trans_le hprofile
+  have hweights : ∀ b : (combine families).active Finset.univ,
+      outer b.val * (combine families).weight Finset.univ parentWidth b ≤
+        (Cweight * enlarged ^ dWeight * Z ^ ((ε / 2) / 4)) *
+          amplifiedIndexWeight pool Mmax Bmax
+            ((R.supported.gated.arithmeticLabels L hcap exceptional N).mainCarrier
+              (R.supported.gated.arithmeticTag L exceptional N))
+            ((R.supported.gated.arithmeticLabels L hcap exceptional N).errorCarrier
+              (R.supported.gated.arithmeticTag L exceptional N))
+            ((R.supported.gated.arithmeticLabels L hcap exceptional N).rectangleAmplifiedIndex
+              families pool (R.supported.gated.arithmeticTag L exceptional N)
+              (R.supported.gated.arithmeticTag_mem L exceptional N) b) := by
+    intro b
+    rw [show (ε / 2) / 4 = ε / 8 by ring]
+    exact pointwise_weight_enlarge dWeight
+      (mul_nonneg (windows.outer_nonneg b.val (Finset.mem_univ _))
+        ((combine families).weight_nonneg Finset.univ parentWidth b hz))
+      hCweight hp hz hcontrol (hweight b)
+  have hmass := hm Z hZ enlarged henlarged bad pool finiteTest centered d a t Y₁ Y₂ X hX
+    s R L hcap exceptional N families F₁ F₂ outer B₁ B₂ parentWidth windows
+    B₀ hbox rows physicalMask hmask0 mask hmaskN hN hweights
+  refine ⟨hmass.1, hmass.2.trans ?_⟩
+  exact scaledProfile_mass_le Cmass Cprofile profile Z ε degree
+    hCmass.le hCprofile hprofile hZ1.le hε
 
 end HeckeSkeleton.Moments.EngineStep.InternalMassAssembly
 

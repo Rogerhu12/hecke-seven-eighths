@@ -35,7 +35,12 @@ before either original atlas, scale, allocation or Fourier variable. -/
 theorem literal_scale_product_threshold (cap : ℕ) (annulus error : ℝ)
     (herror : 0 < error) :
     ∃ Z₀ : ℝ, 1 < Z₀ ∧ ∀ Z : ℝ, Z₀ ≤ Z → annulus ^ (2 * cap) ≤ Z ^ error := by
-  sorry
+  have hevent := (_root_.tendsto_rpow_atTop herror).eventually
+    (Filter.eventually_ge_atTop (annulus ^ (2 * cap)))
+  obtain ⟨Z₁, hZ₁⟩ := Filter.eventually_atTop.mp hevent
+  refine ⟨max Z₁ 2, lt_of_lt_of_le (by norm_num) (le_max_right _ _), ?_⟩
+  intro Z hZ
+  exact hZ₁ Z ((le_max_left _ _).trans hZ)
 
 namespace OriginalNominalGeometry
 
@@ -49,13 +54,28 @@ def literalFirstExtraction : HeckeGeneral.Analysis.NonzeroIdeal K :=
 
 theorem literalFirstExtraction_length :
     idealLogLength Z G.literalFirstExtraction.val = G.skeleton.c + G.skeleton.w := by
-  sorry
+  have h₁ : (Ideal.absNorm G.ideals.first.val : ℝ) ≠ 0 := by
+    exact_mod_cast (fun h => nonZeroDivisors.coe_ne_zero G.ideals.first
+      (Ideal.absNorm_eq_zero_iff.mp h))
+  have h₂ : (Ideal.absNorm G.tag.extractionIdeal.val : ℝ) ≠ 0 := by
+    exact_mod_cast (fun h => nonZeroDivisors.coe_ne_zero G.tag.extractionIdeal
+      (Ideal.absNorm_eq_zero_iff.mp h))
+  have he : idealLogLength Z G.literalFirstExtraction.val =
+      idealLogLength Z G.ideals.first.val + idealLogLength Z G.tag.extractionIdeal.val := by
+    change idealLogLength Z (G.ideals.first.val * G.tag.extractionIdeal.val) = _
+    simp only [idealLogLength, map_mul, Nat.cast_mul, Real.log_mul h₁ h₂]
+    ring
+  rw [he, G.tag.extractionIdeal_length Z]
+  rfl
 
 theorem literalRawDegree :
     G.skeleton.rawDegree = a.n₁ + a.n₂ + a.z -
       idealLogLength Z G.literalFirstExtraction.val -
         idealLogLength Z G.ideals.second.val := by
-  sorry
+  rw [G.literalFirstExtraction_length]
+  change G.skeleton.A - G.skeleton.c - G.skeleton.w - G.skeleton.c₂ =
+    G.skeleton.A - (G.skeleton.c + G.skeleton.w) - G.skeleton.c₂
+  ring
 
 /-- The raw row parameter of the chosen physical upper endpoint. -/
 def literalRowParameter (cutoff : ℝ) : ℝ :=
@@ -107,14 +127,17 @@ def literalEndpointWindows (hZ : 1 < Z) (cutoff rootLength : ℝ)
 @[simp] theorem literalEndpointWindows_error (hZ : 1 < Z) (cutoff rootLength : ℝ)
     (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step) :
     (G.literalEndpointWindows hZ cutoff rootLength hcutoff hsmall).error = cutoff := by
-  sorry
+  simp only [ScaleWindows.error, literalEndpointWindows, add_zero]
 
 /-- The actual joint budget is the nominal width plus the two explicit
 costs used by the physical-cutoff and full-deletion constructions. -/
 theorem literalParameters_width (cutoff rootLength : ℝ) :
     G.literalRowParameter cutoff + G.literalSupportParameter rootLength =
       G.skeleton.nominalWidth + rootLength + cutoff := by
-  sorry
+  dsimp only [literalRowParameter, literalSupportParameter, frequencyCenter,
+    supportCenter, NominalChildGeometry.nominalWidth,
+    NominalChildGeometry.nominalRow, NominalChildGeometry.nominalSupport]
+  ring
 
 end OriginalNominalGeometry
 
@@ -134,7 +157,10 @@ theorem scaleProduct_le_originalRawDegree
       B ^ (2 * cap) * d.base ^ (a.n₁ + a.n₂ + a.z))
     (herror : B ^ (2 * cap) ≤ d.base ^ error) :
     d.scaleProduct rectangle ≤ d.base ^ (G.skeleton.rawDegree + error) := by
-  sorry
+  rw [G.literalRawDegree]
+  exact d.scaleProduct_le_power_of_two_norms G.literalFirstExtraction.val
+    G.ideals.second.val (nonZeroDivisors.coe_ne_zero _) (nonZeroDivisors.coe_ne_zero _)
+    B cap (a.n₁ + a.n₂ + a.z) error rectangle hbound herror
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

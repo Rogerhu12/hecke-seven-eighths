@@ -137,7 +137,9 @@ def fullSupportRadius (Z width : ℝ) (hZ : 0 < Z) : {r : ℝ // 0 < r} :=
 theorem fullSupportRadius_inverse (Z width : ℝ) (hZ : 1 < Z) :
     (Q.fullSupportRadius Z width (zero_lt_one.trans hZ)).val⁻¹ =
       Z ^ (width - idealLogLength Z (Q.moving.effectiveFullSupport Q.remaining).val) := by
-  sorry
+  change ((Ideal.absNorm (Q.moving.effectiveFullSupport Q.remaining).val : ℝ) / Z ^ width)⁻¹ = _
+  rw [inv_div, Real.rpow_sub (zero_lt_one.trans hZ),
+    rpow_idealLogLength Z hZ _ (Q.moving.effectiveFullSupport Q.remaining).property.1]
 
 /-- Every original row satisfies the actual tighter window; the proof
 uses the original complete joint budget, not a displayed-support bound. -/
@@ -149,7 +151,15 @@ theorem fullSupportRadius_row_window
       (sIntegerOrbitNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
         ((Q.arithmeticAtoms ξ).rowMap u)).val ≤ 1 := by
-  sorry
+  have hallowed := (((data ξ).rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1
+  have hb := Q.effectiveMovingMaskRecipe_jointBudget Z width hbudget ξ u hallowed
+  rw [parent_orbit_norm_of_originalIdeal _ u (Q.arithmeticAtoms_originalIdeal ξ u hallowed)]
+  change (A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) / Z ^ width) *
+    idealNorm K u ≤ 1
+  calc
+    _ = (idealNorm K u * A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining)) /
+        Z ^ width := by ring
+    _ ≤ 1 := (div_le_iff₀ (Real.rpow_pos_of_pos hZ width)).mpr (by simpa only [one_mul] using hb)
 
 /-- The original moving-row recipe constructs the actual first source
 at the full-support radius. Its arithmetic coefficient and all of its

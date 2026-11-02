@@ -48,8 +48,8 @@ def ordinaryConstant (p : ExceptionalOriginalProfilePair K) : ℝ :=
   ordinaryExceptionalConstant p.leftVolume p.rightVolume
 
 theorem ordinaryConstant_pos (p : ExceptionalOriginalProfilePair K) :
-    0 < p.ordinaryConstant := by
-  sorry
+    0 < p.ordinaryConstant :=
+  ordinaryExceptionalConstant_pos p.leftVolume p.rightVolume
 
 end ExceptionalOriginalProfilePair
 
@@ -64,13 +64,17 @@ def ordinaryExceptionalCatalogueConstant
 
 theorem ordinaryExceptionalCatalogueConstant_pos
     (profiles : theta × theta → ExceptionalOriginalProfilePair K) :
-    0 < ordinaryExceptionalCatalogueConstant profiles := by
-  sorry
+    0 < ordinaryExceptionalCatalogueConstant profiles :=
+  finiteExceptionalConstant_pos _ (fun χ => (profiles χ).ordinaryConstant_pos.le)
 
 theorem ordinaryExceptionalCatalogueConstant_le
     (profiles : theta × theta → ExceptionalOriginalProfilePair K) (χ : theta × theta) :
     (profiles χ).ordinaryConstant ≤ ordinaryExceptionalCatalogueConstant profiles := by
-  sorry
+  have hs := Finset.single_le_sum
+    (fun j (_ : j ∈ (Finset.univ : Finset (theta × theta))) =>
+      (profiles j).ordinaryConstant_pos.le) (Finset.mem_univ χ)
+  unfold ordinaryExceptionalCatalogueConstant finiteExceptionalConstant
+  linarith
 
 variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
 local notation "ProductFourierSpace" => WithLp 2 (U × E)
@@ -212,7 +216,91 @@ theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
       exceptionalBudgetAtomConstant (K := K) (U := U) (E := E)
         cap fiberCap 0 0 volumeConstant * P ^ ordinaryExceptionalBudgetProfileDegree cap degree *
         tagWeight * Z ^ (loss + movingLength) * branch.exceptionalDyadWeight Z lower j := by
-  sorry
+  let n := D.numbers
+  let vp := p.ordinaryConstant
+  let Fourier := exceptionalFourierControl (U := U) (E := E) 0 0
+  let fl := Fourier.leftSeminorms.sup (schwartzSeminormFamily ℝ U ℂ) leaf.firstKernel
+  let fr := Fourier.rightSeminorms.sup (schwartzSeminormFamily ℝ E ℂ) leaf.secondKernel
+  let fibres := ((firstFiber : ℝ) * (D.secondFiber : ℝ) / 2) * (D.rowMass.originalFiber : ℝ)
+  let env := D.rowMass.commonEnvelope * (D.leftScales.constant * D.rightScales.constant)
+  let exponent := n.remaining + n.widthError +
+    (3 * n.stepσ + 5 * n.δ / 6 + n.slotError)
+  have hP0 : 0 ≤ P := zero_le_one.trans hP
+  have hp : 0 ≤ P ^ degree := pow_nonneg (zero_le_one.trans hP) _
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hfirst : (firstFiber : ℝ) ≤ fiberCap := by exact_mod_cast D.first_fiber
+  have hsecond : (D.secondFiber : ℝ) ≤ fiberCap := by exact_mod_cast D.second_fiber
+  have hrow : (D.rowMass.originalFiber : ℝ) ≤ fiberCap := by exact_mod_cast D.row_fiber
+  have hfibres : fibres ≤ (fiberCap : ℝ) ^ 3 := by
+    have hpair := mul_le_mul hfirst hsecond (Nat.cast_nonneg _) (Nat.cast_nonneg _)
+    have hhalf : ((firstFiber : ℝ) * (D.secondFiber : ℝ) / 2) ≤
+        (firstFiber : ℝ) * (D.secondFiber : ℝ) := by
+      have hp0 : 0 ≤ (firstFiber : ℝ) * (D.secondFiber : ℝ) := by positivity
+      linarith
+    exact (mul_le_mul (hhalf.trans hpair) hrow (Nat.cast_nonneg _) (by positivity)).trans_eq (by ring)
+  have henv : env ≤ idealCountConstant K ^ (2 * cap) * P ^ (degree * (6 * cap + 3)) :=
+    D.atoms.envelope_le_profile_power hP degree
+  have henv0 : 0 ≤ env := mul_nonneg D.rowMass.commonEnvelope_nonneg
+    (mul_nonneg D.leftScales.constant_nonneg D.rightScales.constant_nonneg)
+  have hi : 0 ≤ idealCountConstant K := zero_le_one.trans (one_le_idealCountConstant K)
+  have ho : 0 ≤ orbitalFieldFactor K := orbitalFieldFactor_nonneg K
+  have hvp : 0 ≤ vp := p.ordinaryConstant_pos.le
+  have hfl : 0 ≤ fl := apply_nonneg _ _
+  have hfr : 0 ≤ fr := apply_nonneg _ _
+  have hFourier : 0 ≤ Fourier.constant := Fourier.constant_pos.le
+  have hcoefficient :
+      (fibres * env) * orbitalFieldFactor K * vp * Fourier.constant *
+        P ^ degree * (fl * fr) ≤
+      exceptionalBudgetAtomConstant (K := K) (U := U) (E := E)
+        cap fiberCap 0 0 volumeConstant * P ^ ordinaryExceptionalBudgetProfileDegree cap degree := by
+    have hbase := mul_le_mul hfibres henv henv0 (by positivity)
+    have horb := mul_le_mul_of_nonneg_right hbase ho
+    have hvol := mul_le_mul horb hconstant hvp (by positivity)
+    have hfourier := mul_le_mul_of_nonneg_right hvol hFourier
+    have hprofile := mul_le_mul_of_nonneg_right hfourier hp
+    have hnorms := mul_le_mul D.left_fourier D.right_fourier hfr hp
+    apply (mul_le_mul hprofile hnorms (mul_nonneg hfl hfr) (by positivity)).trans_eq
+    dsimp only [exceptionalBudgetAtomConstant, ordinaryExceptionalBudgetProfileDegree, Fourier]
+    rw [show degree * (6 * cap + 6) = degree * (6 * cap + 3) + degree + degree + degree by ring]
+    simp only [pow_add]
+    ring
+  have hcost := ordinary_exceptional_cost_from_original_atoms
+    (HL := p.leftVolume) (HR := p.rightVolume)
+    leaf D.extraction D.left D.right D.rowMass Q D.binding
+    D.leftCharts D.rightCharts D.leftScales D.rightScales
+    Z n.Aexp m q n.c n.d n.R₀ n.E₀ n.K₀ n.w n.wo n.Bcommon n.g n.ell n.b₂ n.p₂ n.g₂ n.t₂ n.V₀ n.v
+    n.r₁ n.r₂ lower n.slotError n.stepσ n.δ n.parentWidth n.remaining n.rowError n.widthError
+    hZ D.v_nonneg D.r₁_nonneg D.divisor_window
+    D.ordinary_range D.c_nonneg D.w_nonneg D.b₂_nonneg D.left_atoms D.right_atoms
+    D.atom_exponent D.gcd_window D.unit_window D.base D.valuation_class D.sixth_power
+    D.radical_window D.cutoff_window D.first_saving D.second_saving D.radius_window
+    D.central_window D.dyad_window D.remaining_window D.width_window
+    j j.2.1.val rfl D.left_ideal D.right_ideal D.left_divisor D.right_divisor
+    D.left_occurrences D.right_occurrences D.left_allocation D.right_allocation
+    (fun _ => (1 : Circle)) D.firstCharacter (fun _ => (1 : Circle)) (Subsingleton.elim _ _)
+    (m + q) n.firstTotal n.firstProfile (P ^ degree) hp D.first_profile
+    D.first_left_nonzero D.first_right_nonzero D.first_support
+    (((firstFiber : ℝ) * (D.secondFiber : ℝ) / 2) * tagWeight) (by positivity) D.outer
+  have hdyad := branch.exceptionalDyadWeight_nonneg Z lower hz.le j
+  calc
+    _ ≤ ((fibres * env) * orbitalFieldFactor K * vp * Fourier.constant *
+          P ^ degree * (fl * fr)) *
+        tagWeight * Z ^ exponent * branch.exceptionalDyadWeight Z lower j := by
+      convert hcost using 1 <;>
+        dsimp only [fibres, env, vp, fl, fr, Fourier, exponent, n,
+          ExceptionalOriginalProfilePair.ordinaryConstant] <;> ring
+    _ ≤ (exceptionalBudgetAtomConstant (K := K) (U := U) (E := E)
+          cap fiberCap 0 0 volumeConstant * P ^ ordinaryExceptionalBudgetProfileDegree cap degree) *
+        tagWeight * Z ^ exponent * branch.exceptionalDyadWeight Z lower j :=
+      mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hcoefficient htag)
+          (Real.rpow_nonneg hz.le _)) hdyad
+    _ ≤ _ := mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_left
+        (Real.rpow_le_rpow_of_exponent_le hZ.le D.final_remainder)
+        (mul_nonneg (mul_nonneg
+          (exceptionalBudgetAtomConstant_nonneg _ _ _ _ volumeConstant hvolume)
+          (pow_nonneg (zero_le_one.trans hP) _)) htag)) hdyad
 
 end OrdinaryExceptionalLeafRawData
 
@@ -264,7 +352,24 @@ theorem cost_le (hZ : 1 < Z) (hP : 1 ≤ P) (htag : 0 ≤ tagWeight)
       exceptionalBudgetAtomConstant (K := K) (U := U) (E := E)
         cap fiberCap 0 0 volumeConstant * P ^ ordinaryExceptionalBudgetProfileDegree cap degree *
         tagWeight * Z ^ (loss + movingLength) * branch.exceptionalDyadWeight Z lower j := by
-  sorry
+  cases D with
+  | ofRowWeightsZero extraction hweight =>
+      rw [extraction.exceptionalCost_eq,
+        extraction.leaf.exceptionalCost_eq_zero_of_rowWeight_zero hweight, zero_div]
+      exact mul_nonneg
+        (mul_nonneg
+          (mul_nonneg
+            (mul_nonneg
+              (exceptionalBudgetAtomConstant_nonneg _ _ _ _ volumeConstant hvolume)
+              (pow_nonneg (zero_le_one.trans hP) _)) htag)
+          (Real.rpow_nonneg (zero_lt_one.trans hZ).le _))
+        (branch.exceptionalDyadWeight_nonneg Z lower (zero_lt_one.trans hZ).le j)
+  | ofAtoms data =>
+      exact data.cost_le hZ hP htag volumeConstant hvolume hconstant
+  | ofTransposedAtoms data =>
+      simpa only [ActualHybridLeaf.terminalTranspose_exceptionalCost,
+        TwoDivisorCommonBranch.exceptionalDyadWeight_swapSecondIndex] using
+        data.cost_le hZ hP htag volumeConstant hvolume hconstant
 
 end OrdinaryExceptionalLeafRawCase
 
@@ -357,7 +462,45 @@ theorem ordinary_exceptional_parent_leaf_le
           (ordinaryExceptionalCatalogueConstant profiles)) *
       P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss *
         amplifiedExceptionalDyadWeight pool M B Main Errors (lower i) (Index i) := by
-  sorry
+  let volume := ordinaryExceptionalCatalogueConstant profiles
+  let atom := exceptionalBudgetAtomConstant (K := K) (U := U) (E := E) cap fiberCap 0 0 volume
+  have hv : 0 ≤ volume := (ordinaryExceptionalCatalogueConstant_pos profiles).le
+  have ha : 0 ≤ atom := exceptionalBudgetAtomConstant_nonneg _ _ _ _ volume hv
+  have hp : 0 ≤ P ^ ordinaryExceptionalBudgetProfileDegree cap degree := pow_nonneg (zero_le_one.trans hP) _
+  have htag := AmplifiedCommonIndex.originalTagWeight_nonneg
+    pool (raw.localM i) (raw.localB i) Main Errors hell (raw.localM_nonneg i)
+    (pool.rowDensity_pos_of_uniform (raw.localM_le i) (raw.localB_le i) hdensity).le (Index i)
+  have htag_le := AmplifiedCommonIndex.originalTagWeight_mono_windows pool Main Errors
+    (raw.localM_nonneg i) (raw.localM_le i) (raw.localB_le i) hdensity (Index i)
+  have hleaf (χ : theta × theta) :
+      ((R.parentLeaf L exceptional N i.val).thetaClassLeaf (raw.characters i) χ).exceptionalCost /
+        Z ^ (a.m + a.q) ≤
+      atom * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss *
+        amplifiedExceptionalDyadWeight pool M B Main Errors (lower i) (Index i) := by
+    letI := raw.primeFintype i χ
+    letI := raw.primeDecidableEq i χ
+    have hc := (raw.atoms i χ).cost_le pool.base_gt_one hP htag volume hv
+      (ordinaryExceptionalCatalogueConstant_le profiles χ)
+    rw [AmplifiedCommonIndex.selected_dyad] at hc
+    have hglobal := hc.trans (mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left htag_le (mul_nonneg ha hp))
+        (Real.rpow_nonneg (zero_lt_one.trans pool.base_gt_one).le _))
+      (AmplifiedCommonIndex.dyadWeight_nonneg pool Main Errors
+        (zero_lt_one.trans pool.base_gt_one).le (lower i) (Index i)))
+    exact AmplifiedCommonIndex.exceptional_pointwise_of_original_tag
+      pool M B Main Errors pool.base_gt_one hell hM hdensity.le (Index i)
+      _ atom (P ^ ordinaryExceptionalBudgetProfileDegree cap degree)
+      (loss + AmplifiedCommonIndex.movingLength pool Main Errors (Index i)) loss (lower i)
+      ha hp le_rfl hglobal
+  rw [(R.parentLeaf L exceptional N i.val).exceptionalCost_eq_theta_sum
+    (raw.characters i) (raw.predicate i), Finset.sum_div]
+  calc
+    _ ≤ ∑ _χ : theta × theta,
+        atom * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss *
+          amplifiedExceptionalDyadWeight pool M B Main Errors (lower i) (Index i) :=
+      Finset.sum_le_sum fun χ _ => hleaf χ
+    _ = _ := by simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]; dsimp only [atom, volume]; ring
 
 end ActualFirstSource.SecondStages
 
@@ -399,7 +542,68 @@ theorem actual_amplified_ordinary_exceptionalBudget_from_original_atoms
       R.supported.gated.exceptionalBudget L exceptional N / Z ^ (a.m + a.q) ≤
         Cex * P ^ ordinaryExceptionalBudgetProfileDegree cap degree *
           Z ^ (loss + δ₁ + δ₂ + δ₃ + eps + mesh) / (Ideal.absNorm oldMask : ℝ) := by
-  sorry
+  obtain ⟨Ca, Za, hCa, hZa, hmass⟩ := actual_amplified_exceptional_index_mass
+    (A := A) (C := C) (W := U) (E := E) (Θ := Θ)
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (finiteTest := finiteTest)
+    cap dimension width normBox δ₁ δ₂ δ₃ ell eps Mmax Bmax
+    hbox hδ₁ hδ₂ hδ₃ hell heps hepsell hMmax hBmax
+  obtain ⟨Zp, hZp, hpool⟩ := uniform_pool_density_and_mass (A := A)
+    ell eps Mmax Bmax hell heps hepsell hMmax hBmax
+  let volume := ordinaryExceptionalCatalogueConstant profiles
+  let atom := exceptionalBudgetAtomConstant (K := K) (U := U) (E := E) cap fiberCap 0 0 volume
+  let total := (Fintype.card (theta × theta) : ℝ) * atom
+  have hv : 0 ≤ volume := (ordinaryExceptionalCatalogueConstant_pos profiles).le
+  have hatom : 0 ≤ atom := exceptionalBudgetAtomConstant_nonneg _ _ _ _ volume hv
+  have ht : 0 ≤ total := mul_nonneg (Nat.cast_nonneg _) hatom
+  refine ⟨(total + 1) * Ca, max Za Zp, mul_pos (by linarith) hCa,
+    hZa.trans_le (le_max_left _ _), ?_⟩
+  intro Z hZ bad pool M B P hM hMM hBB hP omega psi centered d a t Y₁ Y₂ X hX s R L hcap
+    exceptional N B₀ hB₀ rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh hwindow raw
+  have hza : Za ≤ Z := (le_max_left _ _).trans hZ
+  have hzp : Zp ≤ Z := (le_max_right _ _).trans hZ
+  have hz : 0 < Z := zero_lt_one.trans pool.base_gt_one
+  obtain ⟨hdensity, _, _, _⟩ := hpool Z hzp bad pool M B hMM hBB
+  have hm := hmass Z hza bad pool M B hM hMM hBB centered d a t Y₁ Y₂ X hX s R L hcap
+    exceptional N B₀ hB₀ rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh hwindow
+  let dyad := fun i : R.supported.gated.liveLeaves L exceptional N =>
+    amplifiedExceptionalDyadWeight pool M B
+      ((R.supported.gated.arithmeticLabels L hcap exceptional N).mainCarrier
+        (R.supported.gated.arithmeticTag L exceptional N))
+      ((R.supported.gated.arithmeticLabels L hcap exceptional N).errorCarrier
+        (R.supported.gated.arithmeticTag L exceptional N)) (lower i)
+      (R.supported.gated.arithmeticIndex L hcap exceptional N i)
+  have hleaf (i : R.supported.gated.liveLeaves L exceptional N) :
+      (R.supported.gated.parentLeaf L exceptional N i.val).exceptionalCost / Z ^ (a.m + a.q) ≤
+        total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss * dyad i :=
+    ActualFirstSource.SecondStages.ordinary_exceptional_parent_leaf_le profiles
+      degree fiberCap M B P loss lower raw hP hell hM hdensity i
+  have hscalar : 0 ≤ total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss :=
+    mul_nonneg (mul_nonneg ht (pow_nonneg (zero_le_one.trans hP) _)) (Real.rpow_nonneg hz.le _)
+  have hnorm : 0 < (Ideal.absNorm oldMask : ℝ) :=
+    Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hs0))
+  calc
+    _ = ∑ i : R.supported.gated.liveLeaves L exceptional N,
+        (R.supported.gated.parentLeaf L exceptional N i.val).exceptionalCost / Z ^ (a.m + a.q) := by
+      rw [ActualFirstSource.SecondStages.exceptionalBudget, Finset.sum_div]
+    _ ≤ ∑ i : R.supported.gated.liveLeaves L exceptional N,
+        total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss * dyad i :=
+      Finset.sum_le_sum fun i _ => hleaf i
+    _ = (total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss) * ∑ i, dyad i :=
+      (Finset.mul_sum _ _ _).symm
+    _ ≤ (total * P ^ ordinaryExceptionalBudgetProfileDegree cap degree * Z ^ loss) *
+        (Ca * Z ^ (δ₁ + δ₂ + δ₃ + eps + mesh) / (Ideal.absNorm oldMask : ℝ)) :=
+      mul_le_mul_of_nonneg_left hm hscalar
+    _ = (total * Ca) * P ^ ordinaryExceptionalBudgetProfileDegree cap degree *
+        Z ^ (loss + δ₁ + δ₂ + δ₃ + eps + mesh) / (Ideal.absNorm oldMask : ℝ) := by
+      rw [show loss + δ₁ + δ₂ + δ₃ + eps + mesh = loss + (δ₁ + δ₂ + δ₃ + eps + mesh) by ring,
+        Real.rpow_add hz loss (δ₁ + δ₂ + δ₃ + eps + mesh)]
+      ring
+    _ ≤ _ := div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_right (le_add_of_nonneg_right zero_le_one) hCa.le)
+          (pow_nonneg (zero_le_one.trans hP) _))
+        (Real.rpow_nonneg hz.le _)) hnorm.le
 
 end Pooled
 

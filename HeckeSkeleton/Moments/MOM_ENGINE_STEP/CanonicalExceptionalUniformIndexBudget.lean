@@ -59,7 +59,21 @@ theorem original_tag_to_uniform_dyad
         Z ^ remaining * AmplifiedCommonIndex.dyadWeight pool main error lower i) :
     actual ≤ coefficient * control * Z ^ loss *
       amplifiedExceptionalDyadWeight pool M B main error lower i := by
-  sorry
+  have htag := AmplifiedCommonIndex.originalTagWeight_mono_windows
+    pool main error hlocalM hM hB hdensity i
+  have hglobal : actual ≤ coefficient * control *
+      AmplifiedCommonIndex.originalTagWeight pool M B main error i *
+        Z ^ remaining * AmplifiedCommonIndex.dyadWeight pool main error lower i :=
+    hraw.trans (mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_left htag (mul_nonneg hcoefficient hcontrol))
+        (Real.rpow_nonneg (zero_lt_one.trans pool.base_gt_one).le _))
+      (AmplifiedCommonIndex.dyadWeight_nonneg pool main error
+        (zero_lt_one.trans pool.base_gt_one).le lower i))
+  exact AmplifiedCommonIndex.exceptional_pointwise_of_original_tag
+    pool M B main error pool.base_gt_one pool.exponent_pos (hlocalM.trans hM)
+    hdensity.le i actual coefficient control remaining loss lower
+    hcoefficient hcontrol hremaining hglobal
 
 end OriginalTag
 
@@ -116,7 +130,48 @@ theorem direct
       R.prepared.exceptionalBudget L exceptional N / Z ^ (a.m + a.q) ≤
         Cex * P ^ degree * Z ^ (loss + δ₁ + δ₂ + δ₃ + mesh) /
           (Ideal.absNorm oldMask : ℝ) := by
-  sorry
+  obtain ⟨Ca, hCa, hmass⟩ := actual_direct_exceptional_index_mass
+    (A := A) (C := C) (W := U) (E := E) (Θ := Θ)
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (finiteTest := finiteTest)
+    cap dimension width normBox δ₁ δ₂ δ₃ hbox hδ₁ hδ₂ hδ₃
+  refine ⟨(coefficient + 1) * Ca, mul_pos (by linarith) hCa, ?_⟩
+  intro Z hZ P hP loss ω ψ centered d a t Y₁ Y₂ X hX s R L hcap exceptional N
+    rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh hwindow hleaf
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hm := hmass Z hZ.le centered d a t Y₁ Y₂ X hX s R L hcap exceptional N
+    rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh hwindow
+  let dyad := fun i : R.prepared.liveLeaves L exceptional N =>
+    (R.prepared.arithmeticLabels L hcap exceptional N).carrier.exceptionalDyadWeight
+      Z (lower i) (R.prepared.originalIndex L hcap exceptional N i)
+  have hscalar : 0 ≤ coefficient * P ^ degree * Z ^ loss :=
+    mul_nonneg (mul_nonneg hcoefficient (pow_nonneg (zero_le_one.trans hP) _))
+      (Real.rpow_nonneg hz.le _)
+  have hnorm : 0 < (Ideal.absNorm oldMask : ℝ) :=
+    Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hs0))
+  calc
+    _ = ∑ i : R.prepared.liveLeaves L exceptional N,
+        (R.prepared.parentLeaf L exceptional N i.val).exceptionalCost / Z ^ (a.m + a.q) := by
+      simp only [ActualDirectFirstSource.SecondStages.exceptionalBudget,
+        ActualDirectFirstSource.SecondStages.liveLeaf, Finset.sum_div]
+    _ ≤ ∑ i : R.prepared.liveLeaves L exceptional N,
+        coefficient * P ^ degree * Z ^ loss * dyad i :=
+      Finset.sum_le_sum fun i _ => hleaf i
+    _ = (coefficient * P ^ degree * Z ^ loss) * ∑ i, dyad i :=
+      (Finset.mul_sum _ _ _).symm
+    _ ≤ (coefficient * P ^ degree * Z ^ loss) *
+        (Ca * Z ^ (δ₁ + δ₂ + δ₃ + mesh) / (Ideal.absNorm oldMask : ℝ)) :=
+      mul_le_mul_of_nonneg_left hm hscalar
+    _ = (coefficient * Ca) * P ^ degree *
+        Z ^ (loss + δ₁ + δ₂ + δ₃ + mesh) / (Ideal.absNorm oldMask : ℝ) := by
+      rw [show loss + δ₁ + δ₂ + δ₃ + mesh = loss + (δ₁ + δ₂ + δ₃ + mesh) by ring,
+        Real.rpow_add hz loss (δ₁ + δ₂ + δ₃ + mesh)]
+      ring
+    _ ≤ _ := div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_right (le_add_of_nonneg_right zero_le_one) hCa.le)
+          (pow_nonneg (zero_le_one.trans hP) _))
+        (Real.rpow_nonneg hz.le _)) hnorm.le
 
 /-- The amplified entrance sums the same actual supported, gated
 leaves and their original arithmetic tags. The moving length has
@@ -161,7 +216,53 @@ theorem amplified
       R.supported.gated.exceptionalBudget L exceptional N / Z ^ (a.m + a.q) ≤
         Cex * P ^ degree * Z ^ (loss + δ₁ + δ₂ + δ₃ + eps + mesh) /
           (Ideal.absNorm oldMask : ℝ) := by
-  sorry
+  obtain ⟨Ca, Z₀, hCa, hZ₀, hmass⟩ := actual_amplified_exceptional_index_mass
+    (A := A) (C := C) (W := U) (E := E) (Θ := Θ)
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (finiteTest := finiteTest)
+    cap dimension width normBox δ₁ δ₂ δ₃ ell eps Mmax Bmax
+    hbox hδ₁ hδ₂ hδ₃ hell heps hepsell hMmax hBmax
+  refine ⟨(coefficient + 1) * Ca, Z₀, mul_pos (by linarith) hCa, hZ₀, ?_⟩
+  intro Z hZ bad pool M B P hM hMM hBB hP loss ω ψ centered d a t Y₁ Y₂ X hX s R L hcap
+    exceptional N B₀ hB₀ rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh
+    hwindow hleaf
+  have hz : 0 < Z := zero_lt_one.trans pool.base_gt_one
+  have hm := hmass Z hZ bad pool M B hM hMM hBB centered d a t Y₁ Y₂ X hX s R L hcap
+    exceptional N B₀ hB₀ rows oldMask hs hs0 hmaskOld maskIdeal hmask0 mask hmaskN hN lower mesh hwindow
+  let dyad := fun i : R.supported.gated.liveLeaves L exceptional N =>
+    amplifiedExceptionalDyadWeight pool M B
+      ((R.supported.gated.arithmeticLabels L hcap exceptional N).mainCarrier
+        (R.supported.gated.arithmeticTag L exceptional N))
+      ((R.supported.gated.arithmeticLabels L hcap exceptional N).errorCarrier
+        (R.supported.gated.arithmeticTag L exceptional N)) (lower i)
+      (R.supported.gated.arithmeticIndex L hcap exceptional N i)
+  have hscalar : 0 ≤ coefficient * P ^ degree * Z ^ loss :=
+    mul_nonneg (mul_nonneg hcoefficient (pow_nonneg (zero_le_one.trans hP) _))
+      (Real.rpow_nonneg hz.le _)
+  have hnorm : 0 < (Ideal.absNorm oldMask : ℝ) :=
+    Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hs0))
+  calc
+    _ = ∑ i : R.supported.gated.liveLeaves L exceptional N,
+        (R.supported.gated.parentLeaf L exceptional N i.val).exceptionalCost / Z ^ (a.m + a.q) := by
+      rw [ActualFirstSource.SecondStages.exceptionalBudget, Finset.sum_div]
+    _ ≤ ∑ i : R.supported.gated.liveLeaves L exceptional N,
+        coefficient * P ^ degree * Z ^ loss * dyad i :=
+      Finset.sum_le_sum fun i _ => hleaf i
+    _ = (coefficient * P ^ degree * Z ^ loss) * ∑ i, dyad i :=
+      (Finset.mul_sum _ _ _).symm
+    _ ≤ (coefficient * P ^ degree * Z ^ loss) *
+        (Ca * Z ^ (δ₁ + δ₂ + δ₃ + eps + mesh) / (Ideal.absNorm oldMask : ℝ)) :=
+      mul_le_mul_of_nonneg_left hm hscalar
+    _ = (coefficient * Ca) * P ^ degree *
+        Z ^ (loss + δ₁ + δ₂ + δ₃ + eps + mesh) / (Ideal.absNorm oldMask : ℝ) := by
+      rw [show loss + δ₁ + δ₂ + δ₃ + eps + mesh = loss + (δ₁ + δ₂ + δ₃ + eps + mesh) by ring,
+        Real.rpow_add hz loss (δ₁ + δ₂ + δ₃ + eps + mesh)]
+      ring
+    _ ≤ _ := div_le_div_of_nonneg_right
+      (mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_right (le_add_of_nonneg_right zero_le_one) hCa.le)
+          (pow_nonneg (zero_le_one.trans hP) _))
+        (Real.rpow_nonneg hz.le _)) hnorm.le
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalExceptionalUniformIndexBudget
 

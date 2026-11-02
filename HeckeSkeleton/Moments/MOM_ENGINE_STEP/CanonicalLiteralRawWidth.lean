@@ -33,7 +33,18 @@ theorem literalSixthRootLength_le_common (Z : ℝ) (hZ : 1 < Z)
         idealLogLength Z (primePowerProduct p m).val ∧
       idealLogLength Z (secondSixthRootIdeal p m n).val ≤
         idealLogLength Z (primePowerProduct p n).val := by
-  sorry
+  have hroot := secondSixthRootIdeal_dvd_gcd p m n
+  have hlog (J : A.Exterior)
+      (hdiv : (secondSixthRootIdeal p m n).val ∣ J.val) :
+      idealLogLength Z (secondSixthRootIdeal p m n).val ≤ idealLogLength Z J.val := by
+    apply (Real.rpow_le_rpow_left_iff hZ).mp
+    rw [rpow_idealLogLength Z hZ _ (secondSixthRootIdeal p m n).property.1,
+      rpow_idealLogLength Z hZ _ J.property.1]
+    exact_mod_cast Nat.le_of_dvd
+      (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr J.property.1))
+      (Ideal.absNorm_dvd_absNorm_of_le (Ideal.dvd_iff_le.mp hdiv))
+  exact ⟨hlog _ (hroot.trans (gcd_dvd_left _ _)),
+    hlog _ (hroot.trans (gcd_dvd_right _ _))⟩
 
 namespace OriginalNominalGeometry
 
@@ -44,13 +55,18 @@ variable (G : OriginalNominalGeometry (K := K) a Z step)
 the nominal width drop directly, before either capacity choice. -/
 theorem literalNominalWidth_le_parent (hZ : 1 < Z) (hstep : 0 ≤ step) :
     G.skeleton.nominalWidth ≤ a.m + a.q - step := by
-  sorry
+  have henlarge := G.enlargement_bound hstep
+  have hunit := G.unit_length hZ
+  have hwidth := G.skeleton.width_identity
+  rw [G.parentWidth] at hwidth
+  linarith
 
 private theorem literalRawWidth_le_of_root (hZ : 1 < Z) (hstep : 0 ≤ step)
     (cutoff rootLength secondBox : ℝ) (hroot : rootLength ≤ secondBox) :
     G.literalRowParameter cutoff + G.literalSupportParameter rootLength ≤
       a.m + a.q - step + secondBox + cutoff := by
-  sorry
+  rw [G.literalParameters_width]
+  linarith [G.literalNominalWidth_le_parent hZ hstep]
 
 /-- A genuine second common ideal supplies the entire root cost.
 The input is its original norm window, rather than a raw-width bound. -/
@@ -61,7 +77,15 @@ theorem literalRawWidth_le_second_box (hZ : 1 < Z) (hstep : 0 ≤ step)
     G.literalRowParameter cutoff +
         G.literalSupportParameter (idealLogLength Z (secondSixthRootIdeal p m n).val) ≤
       a.m + a.q + secondBox + cutoff := by
-  sorry
+  have hlength : idealLogLength Z G.ideals.second.val ≤ secondBox := by
+    apply (Real.rpow_le_rpow_left_iff hZ).mp
+    rw [rpow_idealLogLength Z hZ _ (nonZeroDivisors.coe_ne_zero G.ideals.second)]
+    exact hN
+  have hroot := (literalSixthRootLength_le_common Z hZ p m n).1
+  rw [hsecond] at hroot
+  have hwidth := G.literalRawWidth_le_of_root hZ hstep cutoff _ secondBox
+    (hroot.trans hlength)
+  linarith
 
 /-- The reversed source uses the same root and its own actual second
 ideal. The left and right common ideals need not be equal. -/
@@ -72,7 +96,15 @@ theorem literalRawWidth_le_second_box_right (hZ : 1 < Z) (hstep : 0 ≤ step)
     G.literalRowParameter cutoff +
         G.literalSupportParameter (idealLogLength Z (secondSixthRootIdeal p m n).val) ≤
       a.m + a.q + secondBox + cutoff := by
-  sorry
+  have hlength : idealLogLength Z G.ideals.second.val ≤ secondBox := by
+    apply (Real.rpow_le_rpow_left_iff hZ).mp
+    rw [rpow_idealLogLength Z hZ _ (nonZeroDivisors.coe_ne_zero G.ideals.second)]
+    exact hN
+  have hroot := (literalSixthRootLength_le_common Z hZ p m n).2
+  rw [hsecond] at hroot
+  have hwidth := G.literalRawWidth_le_of_root hZ hstep cutoff _ secondBox
+    (hroot.trans hlength)
+  linarith
 
 end OriginalNominalGeometry
 end HeckeSkeleton.Moments.EngineStep

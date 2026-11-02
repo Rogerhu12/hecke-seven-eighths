@@ -117,8 +117,9 @@ theorem sector_eq_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
     (q q' : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
     (he : label C b dimension width (b.sectorCharacter C P character) dyad q =
       label C b dimension width (b.sectorCharacter C P character) dyad q') :
-    b.originalRowSector C P q = b.originalRowSector C P q' := by
-  sorry
+    b.originalRowSector C P q = b.originalRowSector C P q' :=
+  congrArg Prod.snd ((label_eq_iff C b dimension width
+    (b.sectorCharacter C P character) dyad q q').mp he).2.1
 
 end OriginalBlockGaussRowClassifier
 
@@ -163,7 +164,9 @@ theorem actualRows_sector_eq_original
     (h : (chart.actualRows M X hX label).live) :
     ((chart.actualRows M X hX label).extractedRow C h).sector P =
       b.originalRowSector C P h.val := by
-  sorry
+  have hc : b.originalRowCorrelation C h.val ≠ 0 := (Finset.mem_filter.mp h.property).2
+  rw [FirstCommonCharacterBlock.originalRowSector, dif_pos hc]
+  rfl
 
 /-- The fixed sector is chosen from the original physical class.
 Empty classes use one; no ordinary or normalized-family witness occurs. -/
@@ -182,7 +185,14 @@ theorem actualRows_originalSector
     (h : (chart.actualRows M X hX label).live) :
     ((chart.actualRows M X hX label).extractedRow C h).sector P =
       chart.originalSector P M X hX label := by
-  sorry
+  have hh := (Finset.mem_filter.mp h.property).1
+  have hrows : (chart.actualRows M X hX label).rows.Nonempty := ⟨h.val, hh⟩
+  rw [chart.actualRows_sector_eq_original P M X hX label h,
+    originalSector, dif_pos hrows]
+  exact hclass h.val hrows.choose
+    ((chart.actualRows_original_rowLabel M X hX label ⟨h.val, hh⟩).trans
+      (chart.actualRows_original_rowLabel M X hX label
+        ⟨hrows.choose, hrows.choose_spec⟩).symm)
 
 /-- This is the original live row with both arithmetic identities
 proved internally. It is the exact input to the literal phase and
@@ -269,7 +279,10 @@ theorem canonicalUnmaskedSectorRowBallByBlock_sectorLabelStable
     ((canonicalUnmaskedSectorRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       P δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
       dimension width character dyad).charts DE D).SectorLabelStable P := by
-  sorry
+  intro q q' he
+  exact OriginalBlockGaussRowClassifier.sector_eq_of_label_eq C
+    (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property)
+    P dimension width (character DE) (dyad DE) q q' he
 
 theorem canonicalUnmaskedSectorRowBallByBlock_nonunitLabelStable
     (DE : commonSupportPool G.columns G.columns
@@ -277,16 +290,21 @@ theorem canonicalUnmaskedSectorRowBallByBlock_nonunitLabelStable
     (D : (∅ : Finset (HeightOneSpectrum A.R)).powerset) :
     ((canonicalUnmaskedSectorRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       P δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-      dimension width character dyad).charts DE D).NonunitLabelStable := by
-  sorry
+      dimension width character dyad).charts DE D).NonunitLabelStable :=
+  canonicalUnmaskedRowBallByBlock_nonunitLabelStable
+    (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
+    dimension width
+    (fun DE => (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+      DE.val DE.property).sectorCharacter C P (character DE)) dyad DE D
 
 /-- The extra finite factor is fixed by the original field and S.
 It is independent of the row, Fourier parameters and moving scale. -/
 theorem sectorCharacter_card (Θ : Type*) [Fintype Θ] :
     Fintype.card (Θ × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) =
       Fintype.card Θ * Fintype.card
-        (SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) := by
-  sorry
+        (SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) :=
+  Fintype.card_prod _ _
 
 end ActualGaussStage
 end CanonicalStage

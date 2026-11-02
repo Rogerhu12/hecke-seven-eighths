@@ -44,13 +44,14 @@ theorem addGauss_scale (G₁ G₂ : ℝ) (G : Fin k → ℝ)
     (h₁ : 0 < G₁) (h₂ : 0 < G₂) (hG : ∀ i, 0 < G i) :
     scale (d.addGauss G₁ G₂ G h₁ h₂ hG) =
       scale d * extraGaussScale G₁ G₂ G := by
-  sorry
+  dsimp only [scale, CanonicalLiteralRectangles.Atoms.addGauss, extraGaussScale]
+  rw [Finset.prod_mul_distrib]
+  ring
 
 variable {support : Finset (Ideal (𝓞 K))}
 variable (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support)
 
-theorem extract_scale : scale (d.extract b) = scale d := by
-  sorry
+theorem extract_scale : scale (d.extract b) = scale d := d.extract_gaussScale b
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -67,7 +68,12 @@ theorem secondInput_scale (power firstFixed poolFixed unitFixed : A.Exterior)
     scale (d.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂) =
       scale d * b.residualGaussScale d.base d.length (d.scale₁ false) (d.scale₂ false) := by
-  sorry
+  change scale ((d.extract b).addGauss ((d.extract b).scale₁ false)
+    ((d.extract b).scale₂ false) (fun i => (d.extract b).base ^ (d.extract b).length i)
+    ((d.extract b).scale₁_pos false) ((d.extract b).scale₂_pos false)
+    (fun _ => Real.rpow_pos_of_pos (zero_lt_one.trans (d.extract b).base_gt_one) _)) = _
+  rw [addGauss_scale, extract_scale]
+  rfl
 
 end LiteralProduct
 
@@ -80,7 +86,8 @@ variable (atlas : SourceCartesianAtlas columns ideal)
 
 theorem onAtlas_scale (count : k = atlas.slotCount) :
     scale (d.onAtlas atlas count) = scale d := by
-  sorry
+  cases count
+  rfl
 
 variable {support : Finset (Ideal (𝓞 K))}
 variable (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support)
@@ -92,7 +99,8 @@ theorem final_scale (count : b.keep.card = atlas.slotCount)
     (scalar : ℂ) (balance : Bool → ℝ) :
     scale ((((d.extract b).onAtlas atlas count).scale scalar).balancePlain balance) =
       scale d := by
-  sorry
+  change scale ((d.extract b).onAtlas atlas count) = _
+  rw [onAtlas_scale, extract_scale]
 
 variable {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -142,7 +150,25 @@ lower bounds are proved from the original profile support. -/
 theorem original_pair_central :
     Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength - idealLogLength Z D) ≤
       annulus ^ cap * (Real.sqrt NL * Real.sqrt NR) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hp : Z ^ a.n₁ * Z ^ a.n₂ = Z ^ (a.n₁ + a.n₂) :=
+    (Real.rpow_add hz _ _).symm
+  have hl := raw.original_branch_gaussScale_lower profiles annulus hannulus hwindow ht hZ
+    cap hcap support D leftLabel (Z ^ a.n₁) (Z ^ a.n₂) (a.n₁ + a.n₂)
+      (Real.rpow_nonneg hz.le _) (Real.rpow_nonneg hz.le _) hp
+  have hr := raw.original_branch_gaussScale_lower profiles annulus hannulus hwindow ht hZ
+    cap hcap support D rightLabel (Z ^ a.n₁) (Z ^ a.n₂) (a.n₁ + a.n₂)
+      (Real.rpow_nonneg hz.le _) (Real.rpow_nonneg hz.le _) hp
+  have hcentral := second_source_central_scale_lower Z hz
+    (a.n₁ + a.n₂ + d.geometry.totalLength - idealLogLength Z D)
+    (annulus ^ cap * NL) (annulus ^ cap * NR) hl hr
+  have ha : 0 ≤ annulus ^ cap := pow_nonneg (zero_le_one.trans hannulus) _
+  apply hcentral.trans_eq
+  rw [Real.sqrt_mul ha, Real.sqrt_mul ha]
+  calc
+    _ = (Real.sqrt (annulus ^ cap) * Real.sqrt (annulus ^ cap)) *
+        (Real.sqrt NL * Real.sqrt NR) := by ring
+    _ = _ := by rw [← pow_two, Real.sq_sqrt ha]
 
 include profiles hannulus hwindow ht hZ hcap in
 /-- The complete original common ideal includes the actual pool
@@ -154,7 +180,23 @@ theorem original_pair_central_for_geometry {step : ℝ}
     (htotal : a.z = d.geometry.totalLength) :
     Z ^ (G.skeleton.A - G.skeleton.c - G.skeleton.w) ≤
       annulus ^ cap * (Real.sqrt NL * Real.sqrt NR) := by
-  sorry
+  have hfirst : (Ideal.absNorm G.ideals.first.val : ℝ) ≠ 0 :=
+    (idealNorm_pos K G.ideals.first).ne'
+  have htag : (Ideal.absNorm G.tag.extractionIdeal.val : ℝ) ≠ 0 :=
+    (idealNorm_pos K G.tag.extractionIdeal).ne'
+  have hlog : idealLogLength Z (G.ideals.first * G.tag.extractionIdeal).val =
+      idealLogLength Z G.ideals.first.val + idealLogLength Z G.tag.extractionIdeal.val := by
+    change idealLogLength Z (G.ideals.first.val * G.tag.extractionIdeal.val) = _
+    simp only [idealLogLength, map_mul, Nat.cast_mul, Real.log_mul hfirst htag]
+    ring
+  have hexponent : a.n₁ + a.n₂ + d.geometry.totalLength - idealLogLength Z D =
+      G.skeleton.A - G.skeleton.c - G.skeleton.w := by
+    rw [hD, hlog, G.tag.extractionIdeal_length Z, ← htotal]
+    dsimp only [OriginalNominalGeometry.skeleton]
+    ring
+  have h := original_pair_central raw profiles annulus hannulus hwindow ht hZ
+    cap hcap support D leftLabel rightLabel
+  rwa [hexponent] at h
 
 end OriginalAnnulus
 

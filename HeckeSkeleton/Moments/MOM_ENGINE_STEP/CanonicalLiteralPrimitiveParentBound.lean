@@ -77,7 +77,22 @@ theorem rawRowCost_le_dual_live
     (s.fiber : ℝ) * s.rawRowCost hDiff ≤
       R.dualSecondZeroBudget T N ε Czero + R.dualSecondTailBudget T N Cerror +
         R.exceptionalBudget L exceptional N + R.ordinaryBudget L exceptional N := by
-  sorry
+  have hlinear : s.linearizedCost hDiff N ≤ R.dualRawCost T N ε Cerror Czero := by
+    unfold ActualDirectFirstSource.linearizedCost dualRawCost
+    apply Finset.sum_le_sum
+    intro v _
+    apply Finset.sum_le_sum
+    intro D _
+    exact (T v D).linearized_le_rawCost (conditions v D)
+      (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
+      ε Cerror Czero hstage
+  have hraw := mul_le_mul_of_nonneg_left
+    ((s.rawRowCost_le_linearized hDiff N).trans
+      (hlinear.trans (R.dualRawCost_le_finiteCost T L exceptional N ε Cerror Czero)))
+    (Nat.cast_nonneg s.fiber : (0 : ℝ) ≤ (s.fiber : ℝ))
+  rw [R.dualFiniteCost_eq_budgets_leaves T L exceptional N ε Cerror Czero,
+    R.cost_eq_live_components L exceptional N] at hraw
+  simpa only [add_assoc] using hraw
 
 end ActualDirectFirstSource.SecondStages
 
@@ -110,7 +125,34 @@ theorem rawRowCost_le_dual_live
     (s.fiber : ℝ) * s.rawRowCost hDiff ≤
       R.dualSecondZeroBudget T N ε Czero + R.dualSecondTailBudget T N Cerror +
         R.exceptionalBudget L exceptional N + R.ordinaryBudget L exceptional N := by
-  sorry
+  have hlinear : s.linearizedCost N ≤ R.dualRawCost T N ε Cerror Czero := by
+    unfold ActualFirstSource.linearizedCost dualRawCost
+    apply Finset.sum_le_sum
+    intro v _
+    apply Finset.sum_le_sum
+    intro D _
+    exact (T v D).linearized_le_rawCost (conditions v D)
+      (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D)
+      ε Cerror Czero hstage hstage
+  have hleaves :
+      (s.fiber : ℝ) * (∑ j : R.CoveredLeafKey L, (R.coveredLeaf L exceptional N j).cost) =
+        R.exceptionalBudget L exceptional N + R.ordinaryBudget L exceptional N := by
+    calc
+      _ = ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
+        simp only [parentLeaf, ActualHybridLeaf.scale_cost, Finset.mul_sum]
+      _ = ∑ j : R.liveLeaves L exceptional N,
+          (R.parentLeaf L exceptional N j.val).cost :=
+        ActualHybridFamily.sum_cost_eq_live _
+      _ = _ := by
+        simp only [exceptionalBudget, ordinaryBudget, ActualHybridLeaf.cost,
+          Finset.sum_add_distrib]
+  have hraw := mul_le_mul_of_nonneg_left
+    ((s.rawRowCost_le_linearized hDiff N).trans
+      (hlinear.trans (R.dualRawCost_le_covered T L exceptional N ε Cerror Czero)))
+    (Nat.cast_nonneg s.fiber : (0 : ℝ) ≤ (s.fiber : ℝ))
+  rw [R.dualCoveredCost_eq_budgets_leaves T L exceptional N ε Cerror Czero] at hraw
+  simpa only [dualSecondZeroBudget, dualSecondTailBudget, mul_add, hleaves,
+    add_assoc] using hraw
 
 end ActualFirstSource.SecondStages
 end Pooled

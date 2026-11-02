@@ -94,7 +94,22 @@ theorem canonicalUnmasked_prepared_leftCoefficient
       G.coefficient i * ((A.exteriorNorm (G.ideal i) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (G.ideal i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property
+  have hD : D.val = ∅ := Finset.subset_empty.mp (Finset.mem_powerset.mp D.property)
+  change (if G.coefficient i = 0 then 0 else
+      if DE.val ∈ G.activeCommon then
+        (if G.coefficient i = 0 then 0 else
+          G.coefficient i * ((A.exteriorNorm (b.secondLeftIdeal i) ^ δ : ℝ) : ℂ))
+      else 0) *
+    (generatedOriginalColumn (σ := σ) hΓ (b.secondLeftIdeal i)
+      (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
+      (b.secondLeft_generates C i)).divisorPhase
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val = _
+  rw [hD, CanonicalLiteralFixedPhases.generated_empty_divisorPhase]
+  by_cases hz : G.coefficient i = 0
+  · simp only [hz, if_pos, zero_mul]
+  · simp only [if_neg hz, if_pos hactive]
+    rw [b.secondLeftIdeal_eq G.columns i hi]
 
 /-- The canonical prepared stage retains its original coefficient
 on every active common block. The two coefficient-zero gates are
@@ -110,7 +125,22 @@ theorem canonicalUnmasked_prepared_rightCoefficient
       G.coefficient i * ((A.exteriorNorm (G.ideal i) ^ δ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (G.ideal i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property
+  have hD : D.val = ∅ := Finset.subset_empty.mp (Finset.mem_powerset.mp D.property)
+  change (if G.coefficient i = 0 then 0 else
+      if DE.val ∈ G.activeCommon then
+        (if G.coefficient i = 0 then 0 else
+          G.coefficient i * ((A.exteriorNorm (b.secondRightIdeal i) ^ δ : ℝ) : ℂ))
+      else 0) *
+    (generatedOriginalColumn (σ := σ) hΓ (b.secondRightIdeal i)
+      (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator i)
+      (b.secondRight_generates C i)).divisorPhase
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D.val).val = _
+  rw [hD, CanonicalLiteralFixedPhases.generated_empty_divisorPhase]
+  by_cases hz : G.coefficient i = 0
+  · simp only [hz, if_pos, zero_mul]
+  · simp only [if_neg hz, if_pos hactive]
+    rw [b.secondRightIdeal_eq G.columns i hi]
 
 variable (LC RC : SourceCartesianCover G.columns G.ideal)
 variable (v : (canonicalUnmaskedRowBallByBlock
@@ -139,7 +169,33 @@ theorem canonicalUnmasked_prepared_leaf_leftPoint
           z + rawSourceLocation (CanonicalLiteralLocations.plain firstSign)
             (CanonicalLiteralLocations.plain firstSign)
             (CanonicalLiteralLocations.prime firstSign) i := by
-  sorry
+  let radius := CanonicalRowBall.gaussRadius retainedScale Z g hscale hZ
+  let rowLog := Real.log (CanonicalSecondLogChart.rowRadius radius v.2.1.val q).val
+  refine ⟨WithLp.toLp 2
+    (-firstSign * Real.log (A.exteriorNorm
+      (ExteriorIdealEuler.mul power v.block.commonLeftIdeal)),
+      rowLog - Real.log (A.exteriorNorm v.block.commonLeftIdeal)), ?_⟩
+  intro i hi
+  have hi' : i ∈ v.leftReindex.cartesian := by
+    change i ∈ pairedAllocatedColumns j.1.val j.2.2.1.val
+      v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
+      id id HeightOneSpectrum.asIdeal at hi
+    rw [paired_allocated_columns_eq_filter] at hi
+    exact (Finset.mem_filter.mp hi).1
+  have hp := Finset.mem_product.mp (Finset.mem_product.mp hi').1
+  have h₁ := v.literalLeftResidualAtlas.plain₁_nonzero i.1.1 hp.1
+  have h₂ := v.literalLeftResidualAtlas.plain₂_nonzero i.1.2 hp.2
+  have hc := v.literalLeft_index_common i hi'
+  change WithLp.toLp 2
+    (-firstSign * Real.log (Ideal.absNorm (power.val * (G.ideal (v.leftReindex.index i)).val) : ℝ),
+      rowLog - Real.log (Ideal.absNorm (v.block.secondLeftIdeal (v.leftReindex.index i)).val : ℝ)) = _
+  apply CanonicalLiteralLocations.actual_product_locations firstSign rowLog i h₁ h₂
+    _ _ (power.val * v.block.commonLeftIdeal.val) v.block.commonLeftIdeal.val
+    (mul_ne_zero power.property.1 v.block.commonLeftIdeal.property.1)
+    v.block.commonLeftIdeal.property.1
+  · rw [v.block.left_reconstruct G.columns _ hc, v.leftReindex.ideal_product i hi', mul_assoc]
+  · change v.block.commonLeftIdeal.val * (v.block.leftResidual (v.leftReindex.index i)).val = _
+    rw [v.leftReindex.ideal_product i hi']
 
 /-- The stored right first coordinate enters with its existing minus
 sign. Its second coordinate has no row-radius term, and the same
@@ -153,7 +209,35 @@ theorem canonicalUnmasked_prepared_leaf_rightPoint
           z + rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
             (CanonicalLiteralLocations.plain (-firstSign))
             (CanonicalLiteralLocations.prime (-firstSign)) i := by
-  sorry
+  refine ⟨WithLp.toLp 2
+    (firstSign * Real.log (A.exteriorNorm
+      (ExteriorIdealEuler.mul power v.block.commonRightIdeal)),
+      -Real.log (A.exteriorNorm v.block.commonRightIdeal)), ?_⟩
+  intro i hi
+  have hi' : i ∈ v.rightReindex.cartesian := by
+    change i ∈ pairedAllocatedColumns j.1.val j.2.2.2.val
+      v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
+      id id HeightOneSpectrum.asIdeal at hi
+    rw [paired_allocated_columns_eq_filter] at hi
+    exact (Finset.mem_filter.mp hi).1
+  have hp := Finset.mem_product.mp (Finset.mem_product.mp hi').1
+  have h₁ := v.literalRightResidualAtlas.plain₁_nonzero i.1.1 hp.1
+  have h₂ := v.literalRightResidualAtlas.plain₂_nonzero i.1.2 hp.2
+  have hc := v.literalRight_index_common i hi'
+  have he := CanonicalLiteralLocations.actual_product_locations (-firstSign) 0 i h₁ h₂
+    (power.val * (G.ideal (v.rightReindex.index i)).val)
+    (v.block.secondRightIdeal (v.rightReindex.index i)).val
+    (power.val * v.block.commonRightIdeal.val) v.block.commonRightIdeal.val
+    (mul_ne_zero power.property.1 v.block.commonRightIdeal.property.1)
+    v.block.commonRightIdeal.property.1
+    (by rw [v.block.right_reconstruct G.columns _ hc, v.rightReindex.ideal_product i hi', mul_assoc])
+    (by change v.block.commonRightIdeal.val *
+          (v.block.rightResidual (v.rightReindex.index i)).val = _
+        rw [v.rightReindex.ideal_product i hi'])
+  change WithLp.toLp 2
+    (-(-firstSign * Real.log (Ideal.absNorm (power.val * (G.ideal (v.rightReindex.index i)).val) : ℝ)),
+      -Real.log (Ideal.absNorm (v.block.secondRightIdeal (v.rightReindex.index i)).val : ℝ)) = _
+  simpa only [neg_neg, neg_mul, zero_sub] using he
 
 end ActualGaussStage
 end HeckeSkeleton.Moments.EngineStep

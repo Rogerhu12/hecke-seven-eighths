@@ -49,7 +49,9 @@ def canonicalComparisonScale (centered : Bool) (original comparison : ℝ) : ℝ
       (canonicalComparisonScale centered X₁ Y₁)
       (canonicalComparisonScale centered X₂ Y₂) Z t =
         pairedStagePolynomial centered d u X₁ X₂ Y₁ Y₂ Z t := by
-  sorry
+  cases centered
+  · simp only [pairedStagePolynomial, Bool.false_eq_true, ite_false]
+  · rfl
 
 @[simp] theorem pairedStageEnergy_canonicalComparisonScales
     (centered : Bool) (d : MomentData K ω ψ) (a : RealParameters)
@@ -58,7 +60,7 @@ def canonicalComparisonScale (centered : Bool) (original comparison : ℝ) : ℝ
       (canonicalComparisonScale centered (Z ^ a.n₁) Y₁)
       (canonicalComparisonScale centered (Z ^ a.n₂) Y₂) =
         pairedStageEnergy centered d a Z t Y₁ Y₂ := by
-  sorry
+  simp only [pairedStageEnergy, pairedStagePolynomial_canonicalComparisonScales]
 
 namespace PairedEngineDomain
 
@@ -120,7 +122,31 @@ theorem canonicalComparison_column_norm_le_power
     (v : raw.Column) (hv : v ∈ raw.exteriorColumns) :
     (Ideal.absNorm (raw.columnExterior v).val : ℝ) ≤
       Z ^ (2 * (a.n₁ + a.n₂ + a.z) + loss) := by
-  sorry
+  have hZ : 0 < Z := zero_lt_one.trans domain.scale
+  have hz : 0 ≤ a.z := by
+    rw [domain.total_length]
+    exact Finset.sum_nonneg (fun i _ => (d.geometry.slots i).length_pos.le)
+  cases centered with
+  | false =>
+    have hraw := raw.original_union_column_norm_le_power profiles
+      cap annulus loss a.n₁ a.n₂ hannulus hcap hannulusZ hZ
+      (Real.rpow_pos_of_pos hZ _) (Real.rpow_pos_of_pos hZ _)
+      le_rfl le_rfl le_rfl le_rfl hrows ht hwindow v hv
+    apply hraw.trans
+    apply Real.rpow_le_rpow_of_exponent_le domain.scale.le
+    rw [← domain.total_length]
+    linarith [domain.plain_left_nonneg, domain.plain_right_nonneg]
+  | true =>
+    obtain ⟨hY₁, hY₂, hleft, hright, hcomparison⟩ :=
+      domain.centered_union_scale_windows rfl
+    have hraw := raw.original_union_column_norm_le_power profiles
+      cap annulus loss a.n₁ (a.n₁ + a.n₂ - (a.m + a.q) / 4)
+      hannulus hcap hannulusZ hZ hY₁ hY₂ le_rfl hright hleft hcomparison
+      hrows ht hwindow v hv
+    apply hraw.trans
+    apply Real.rpow_le_rpow_of_exponent_le domain.scale.le
+    rw [← domain.total_length]
+    linarith [domain.plain_right_nonneg, domain.width_nonneg]
 
 /-- The complete column bound has its exponent fixed before the moving
 data as soon as the original total length lies in the fixed parameter box. -/
@@ -134,8 +160,10 @@ theorem canonicalComparison_column_norm_le_fixed_power
     (ht : t ∈ heightDomain) (hwindow : window ⊆ Set.Iic annulus)
     (v : raw.Column) (hv : v ∈ raw.exteriorColumns) :
     (Ideal.absNorm (raw.columnExterior v).val : ℝ) ≤
-      Z ^ (2 * lengthBound + loss) := by
-  sorry
+      Z ^ (2 * lengthBound + loss) :=
+  (raw.canonicalComparison_column_norm_le_power profiles domain cap annulus loss
+    hannulus hcap hannulusZ hrows ht hwindow v hv).trans
+      (Real.rpow_le_rpow_of_exponent_le domain.scale.le (by linarith))
 
 end ParentRawAtoms
 
@@ -228,8 +256,7 @@ variable (out : PairedEngineConclusion (Ω := Ω) centered d a Z t
     out.ofCanonicalComparisonScales.firstZero = out.firstZero ∧
       out.ofCanonicalComparisonScales.secondZero = out.secondZero ∧
       out.ofCanonicalComparisonScales.exceptional = out.exceptional ∧
-      out.ofCanonicalComparisonScales.tail = out.tail := by
-  sorry
+      out.ofCanonicalComparisonScales.tail = out.tail := ⟨rfl, rfl, rfl, rfl⟩
 
 end PairedEngineConclusion
 end HeckeSkeleton.Moments.EngineStep

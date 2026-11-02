@@ -47,7 +47,8 @@ theorem movingMask_append_coprime
     (I : Ideal (𝓞 K)) :
     IsCoprime I (movingMask (D.append E) remaining).val ↔
       IsCoprime I (movingMask D remaining).val ∧ IsCoprime I E.support.val := by
-  sorry
+  simp only [movingMask, IsCoprime.mul_right_iff, D.coprime_append_support E I]
+  tauto
 
 variable {ω ψ : HeckeCharacter K} {k : ℕ}
 
@@ -83,7 +84,15 @@ theorem moving_coefficient_append
       (heckeIdealCoefficient K (background * (correction * D.character)) I *
         (if IsCoprime I.val (movingMask D remaining).val then (1 : ℂ) else 0)) *
           E.residueValue (σ := σ) I.val := by
-  sorry
+  rw [D.append_character E,
+    show background * (correction * (D.character * E.character)) =
+      (background * (correction * D.character)) * E.character by ac_rfl,
+    movingMask_append_coprime]
+  by_cases hm : IsCoprime I.val (movingMask D remaining).val
+  · simp only [hm, true_and, if_true, mul_one]
+    rw [E.background_coefficient_masked hroot hemb
+      (background * (correction * D.character)) I hI, mul_assoc, hphase]
+  · simp only [hm, false_and, if_false, mul_zero, zero_mul]
 
 theorem moving_plain_append
     (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
@@ -105,7 +114,12 @@ theorem moving_plain_append
         (movingSourceCharacters parent correction D remaining index).plainTwist
         (movingSourceCharacters parent correction D remaining index).mask I *
           E.residueValue (σ := σ) I.val := by
-  sorry
+  simpa only [movingSourceCharacters,
+    CanonicalOriginalPhaseCalibration.sourceCharacters, sourcePlainCoefficient,
+    CanonicalOriginalPhaseCalibration.coefficient_one, mul_one,
+    CanonicalOriginalPhaseCalibration.originalCoprimeMask,
+    MonoidHom.coe_mk, OneHom.coe_mk] using
+    moving_coefficient_append D E hroot hemb parent.plainBackground correction remaining I hI hphase
 
 theorem moving_prime_append
     (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
@@ -126,7 +140,15 @@ theorem moving_prime_append
         ((movingSourceCharacters parent correction D remaining index).slotTwist i)
         (movingSourceCharacters parent correction D remaining index).mask p *
           E.residueValue (σ := σ) p.asIdeal := by
-  sorry
+  simpa only [movingSourceCharacters,
+    CanonicalOriginalPhaseCalibration.sourceCharacters, sourcePrimeCoefficient,
+    primeCoefficient_one, mul_one, CanonicalOriginalPhaseCalibration.coefficient_prime,
+    CanonicalOriginalPhaseCalibration.primeIdeal,
+    CanonicalOriginalPhaseCalibration.originalCoprimeMask,
+    MonoidHom.coe_mk, OneHom.coe_mk] using
+    moving_coefficient_append D E hroot hemb (parent.slotCoefficient (index i))
+      correction remaining (CanonicalOriginalPhaseCalibration.primeIdeal p)
+      (CanonicalOriginalPhaseCalibration.outside_prime P p hp) hphase
 
 /-- An actual logarithmic Fourier phase is multiplicative on ideals.
 Its zero-ideal extension is fixed here only to make the ambient monoid
@@ -157,7 +179,9 @@ theorem normLogWeight_exterior (exponent ξ slope : ℝ) (I : A.Exterior) :
     normLogWeight exponent ξ slope I.val =
       ((A.exteriorNorm I ^ exponent : ℝ) : ℂ) *
         jointPhase ξ (slope * Real.log (A.exteriorNorm I)) := by
-  sorry
+  simp only [normLogWeight, MonoidHom.mul_apply,
+    CanonicalSecondRectangularFactors.normPower, logPhaseHom,
+    MonoidHom.coe_mk, OneHom.coe_mk, if_neg I.property.1] <;> rfl
 
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 
@@ -173,12 +197,16 @@ theorem poolMovingFactors_residue (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (n : ℕ) (I : Ideal (𝓞 K)) :
     (poolMovingFactors (P := P) (R := R) C p n).residueValue (σ := σ) I =
       actualIdealResidue (A := A) (σ := σ) I (generator C p) ^ (2 * n) := by
-  sorry
+  simp only [poolMovingFactors, OriginalMovingFactors.singleton,
+    OriginalMovingFactors.residueValue, Fin.prod_univ_one,
+    show (2 * (n : ℤ)) = ((2 * n : ℕ) : ℤ) by simp only [Nat.cast_mul, Nat.cast_ofNat],
+    zpow_natCast]
 
 theorem poolMovingFactors_fullIdeal (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (n : ℕ) :
-    (poolMovingFactors (P := P) (R := R) C p n).fullIdeal = primeIdeal p := by
-  sorry
+    (poolMovingFactors (P := P) (R := R) C p n).fullIdeal = primeIdeal p :=
+  OriginalMovingFactors.singleton_fullIdeal (primeIdeal p) (generator C p)
+    (generator_generates C p) (2 * (n : ℤ))
 
 /-- Original reciprocity determines the full complex pool phase.
 Its norm-one estimate is not used to replace the phase by one. -/
@@ -187,14 +215,34 @@ theorem pool_columnPhase (C : A.GeneralArithmeticContext σ η hS)
     (d : AmplifierResidualPresentation C p n I) :
     d.columnPhase =
       (poolMovingFactors (P := P) (R := R) C p n).residueValue (σ := σ) d.residual.val := by
-  sorry
+  have he := congrArg σ
+    (C.reciprocity.1 (powerIdeal p n) d.residual
+      (generator C p ^ n) d.generator
+      (Units.mk0 ((generator C p ^ n : A.R) : K)
+        (by exact_mod_cast (generator_power_generates C p n).1))
+      (Units.mk0 (d.generator : K) (by exact_mod_cast d.generates.1))
+      (generator_power_generates C p n) d.generates rfl rfl
+      (actual_prime_power_allowed C p n) d.allowed d.power_coprime.sup_eq)
+  rw [AmplifierResidualPresentation.columnPhase,
+    generatedIdealCharacter_mk, generatedIdealCharacter_mk, he,
+    poolMovingFactors_residue]
+  simp only [← actualIdealResidue_exterior]
+  change (CanonicalSecondRectangularFactors.frequencyHom (σ := σ) d.residual)
+      (generator C p ^ n) *
+    (CanonicalSecondRectangularFactors.frequencyHom (σ := σ) d.residual)
+      (generator C p ^ n) =
+    (CanonicalSecondRectangularFactors.frequencyHom (σ := σ) d.residual)
+      (generator C p) ^ (2 * n)
+  rw [map_pow, two_mul, pow_add]
 
 theorem poolMovingFactors_coprime (C : A.GeneralArithmeticContext σ η hS)
     (p : ExteriorPrime A) (n : ℕ) {I : A.Exterior}
     (d : AmplifierResidualPresentation C p n I) :
     IsCoprime d.residual.val
       (poolMovingFactors (P := P) (R := R) C p n).support.val := by
-  sorry
+  rw [(poolMovingFactors (P := P) (R := R) C p n).coprime_support_iff_fullIdeal d.residual.val,
+    poolMovingFactors_fullIdeal]
+  exact d.coprime.symm
 
 section Occurrences
 
@@ -204,7 +252,11 @@ variable (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
 private theorem divisor_conditions (J active : A.Exterior)
     (hactive : IsCoprime J.val active.val) (I : Ideal (𝓞 K)) (hI : I ∣ J.val) :
     I ≠ 0 ∧ IsCoprime I A.cS ∧ IsCoprime I active.val := by
-  sorry
+  refine ⟨?_, ?_, hactive.of_isCoprime_of_dvd_left hI⟩
+  · intro hzero
+    rw [hzero, zero_dvd_iff] at hI
+    exact J.property.1 hI
+  · exact (Ideal.isCoprime_iff_sup_eq.mpr J.property.2).of_isCoprime_of_dvd_left hI
 
 /-- Every original occurrence inherits its exceptional-place and
 active-support coprimality from the actual Cartesian exterior ideal.
@@ -219,7 +271,41 @@ theorem occurrence_conditions
     (∀ I ∈ S₁, I ≠ 0 ∧ IsCoprime I A.cS ∧ IsCoprime I active.val) ∧
       (∀ I ∈ S₂, I ≠ 0 ∧ IsCoprime I A.cS ∧ IsCoprime I active.val) ∧
       (∀ j, ∀ p ∈ S j, IsCoprime p.asIdeal A.cS ∧ IsCoprime p.asIdeal active.val) := by
-  sorry
+  have hw : (witness.1.1 ∈ S₁ ∧ witness.1.2 ∈ S₂) ∧
+      ∀ j, witness.2 j ∈ S j := by
+    simpa only [childCartesianColumns, Finset.product_eq_sprod, Finset.mem_product,
+      Fintype.mem_piFinset] using hwitness
+  have hg (i : AllocationColumn K k) (hi : i ∈ childCartesianColumns S₁ S₂ S)
+      (I : Ideal (𝓞 K)) (hI : I ∣ allocationColumnIdeal i) :
+      I ≠ 0 ∧ IsCoprime I A.cS ∧ IsCoprime I active.val :=
+    divisor_conditions (J i) active (hactive i hi) I (by rwa [hJ i hi])
+  refine ⟨?_, ?_, ?_⟩
+  · intro I hI
+    let i : AllocationColumn K k := ((I, witness.1.2), witness.2)
+    have hi : i ∈ childCartesianColumns S₁ S₂ S := by
+      simpa only [i, childCartesianColumns, Finset.product_eq_sprod,
+        Finset.mem_product, Fintype.mem_piFinset] using ⟨⟨hI, hw.1.2⟩, hw.2⟩
+    exact hg i hi I (dvd_mul_of_dvd_left (dvd_mul_right I witness.1.2) _)
+  · intro I hI
+    let i : AllocationColumn K k := ((witness.1.1, I), witness.2)
+    have hi : i ∈ childCartesianColumns S₁ S₂ S := by
+      simpa only [i, childCartesianColumns, Finset.product_eq_sprod,
+        Finset.mem_product, Fintype.mem_piFinset] using ⟨⟨hw.1.1, hI⟩, hw.2⟩
+    exact hg i hi I (dvd_mul_of_dvd_left (dvd_mul_left I witness.1.1) _)
+  · intro j p hp
+    let i : AllocationColumn K k := (witness.1, Function.update witness.2 j p)
+    have hi : i ∈ childCartesianColumns S₁ S₂ S := by
+      simp only [i, childCartesianColumns, Finset.product_eq_sprod,
+        Finset.mem_product, Fintype.mem_piFinset]
+      refine ⟨hw.1, ?_⟩
+      intro l
+      by_cases hl : l = j
+      · simpa only [hl, Function.update_same] using hp
+      · simpa only [Function.update_noteq hl] using hw.2 l
+    have hd : p.asIdeal ∣ ∏ l, (i.2 l).asIdeal := by
+      have h := Finset.dvd_prod_of_mem (fun l => (i.2 l).asIdeal) (Finset.mem_univ j)
+      simpa only [i, Function.update_same] using h
+    exact (hg i hi p.asIdeal (dvd_mul_of_dvd_right hd _)).2
 
 end Occurrences
 
@@ -236,7 +322,11 @@ theorem nonzero_rectangle_weight
         (fun j p => slot j p * M p.asIdeal) i =
       childCartesianCoefficient (fun I => left (sourceMomentIdeal I))
         (fun I => right (sourceMomentIdeal I)) slot i * M (allocationColumnIdeal i) := by
-  sorry
+  simpa only [childCartesianCoefficient,
+    sourceMomentIdeal_val_of_ne_zero i.1.1 hleft,
+    sourceMomentIdeal_val_of_ne_zero i.1.2 hright] using
+    (CanonicalSecondRectangularFactors.rectangle_mul_ideal_weight M
+      (fun I => left (sourceMomentIdeal I)) (fun I => right (sourceMomentIdeal I)) slot i).symm
 
 section Tables
 
@@ -411,7 +501,24 @@ theorem firstWeightedDictionary_coefficient
       rawBareSourceCoefficient (movingSourceCharacters parent correction D remaining index)
         N₁ N₂ Z length w₁ w₂ w i *
           ((CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n right δ).residueHom (σ := σ) * M) (allocationColumnIdeal i) := by
-  sorry
+  have hleft : i.1.1 ≠ 0 := by
+    intro hz
+    apply (J i).property.1
+    rw [hJ i hi, allocationColumnIdeal, hz, zero_mul, zero_mul]
+  have hright : i.1.2 ≠ 0 := by
+    intro hz
+    apply (J i).property.1
+    rw [hJ i hi, allocationColumnIdeal, hz, mul_zero, zero_mul]
+  have he := nonzero_rectangle_weight
+    (oldPlain parent correction D remaining index N₁ w₁)
+    (oldPlain parent correction D remaining index N₂ w₂)
+    (oldPrime parent correction D remaining index Z length w)
+    ((CanonicalSecondRectangularFactors.firstMovingFactors P R C primes m n right δ).residueHom (σ := σ) * M) i hleft hright
+  simpa only [firstWeightedDictionary, appendedWeightedDictionary,
+    SecondCoefficientTermDictionary.coefficient, rawBareSourceCoefficient,
+    FixedChildCharacters.bareCoefficient, childCartesianCoefficient,
+    oldPlain, oldPrime, MonoidHom.mul_apply, OriginalMovingFactors.residueHom,
+    MonoidHom.coe_mk, OneHom.coe_mk, mul_assoc] using he
 
 end FirstTable
 
@@ -492,7 +599,25 @@ theorem emptyMaskWeightedDictionary_coefficient
         N₁ N₂ Z length w₁ w₂ w i *
           ((CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
             (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).residueHom (σ := σ) * M) (allocationColumnIdeal i) := by
-  sorry
+  have hleft : i.1.1 ≠ 0 := by
+    intro hz
+    apply (J i).property.1
+    rw [hJ i hi, allocationColumnIdeal, hz, zero_mul, zero_mul]
+  have hright : i.1.2 ≠ 0 := by
+    intro hz
+    apply (J i).property.1
+    rw [hJ i hi, allocationColumnIdeal, hz, mul_zero, zero_mul]
+  have he := nonzero_rectangle_weight
+    (oldPlain parent correction D remaining index N₁ w₁)
+    (oldPlain parent correction D remaining index N₂ w₂)
+    (oldPrime parent correction D remaining index Z length w)
+    ((CanonicalSecondRectangularFactors.secondMaskMovingFactors P R
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) ∅)).residueHom (σ := σ) * M) i hleft hright
+  simpa only [emptyMaskWeightedDictionary, appendedWeightedDictionary,
+    SecondCoefficientTermDictionary.coefficient, rawBareSourceCoefficient,
+    FixedChildCharacters.bareCoefficient, childCartesianCoefficient,
+    oldPlain, oldPrime, MonoidHom.mul_apply, OriginalMovingFactors.residueHom,
+    MonoidHom.coe_mk, OneHom.coe_mk, mul_assoc] using he
 
 end SecondUnitTable
 
@@ -553,7 +678,17 @@ theorem canonical_first_left_twisted (ξ : ℝ) (i : α) :
         ((CanonicalSecondRectangularFactors.firstMovingFactors P R C (firstBlock).primes
           (firstBlock).leftMultiplicity (firstBlock).rightMultiplicity false maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
           ((firstBlock).leftResidual i).val := by
-  sorry
+  rw [FirstGaussPoolData.twistedCoefficient,
+    FirstBlockProfileChart.canonicalLogWithCoefficients_leftCoefficient_eq,
+    CanonicalSecondRectangularFactors.canonical_first_left_factor_moving P R hΓ C
+      left right fullI fullJ DE hDE maskGenerator i,
+    MonoidHom.mul_apply, normLogWeight_exterior]
+  change (((c i * ((A.exteriorNorm ((firstBlock).leftResidual i) ^ tilt : ℝ) : ℂ)) /
+      (A.exteriorNorm ((firstBlock).leftResidual i) : ℂ)) * _) *
+        jointPhase ξ (-Real.log (A.exteriorNorm ((firstBlock).leftResidual i))) = _
+  rw [Real.rpow_sub_one (A.exteriorNorm_pos ((firstBlock).leftResidual i)).ne',
+    Complex.ofReal_div, neg_one_mul]
+  ring
 
 /-- The right first source uses the literal opposite Fourier location.
 Its reciprocal character exponents are `1-netExponent`; the eventual
@@ -571,7 +706,17 @@ theorem canonical_first_right_twisted (ξ : ℝ) (j : β) :
         ((CanonicalSecondRectangularFactors.firstMovingFactors P R C (firstBlock).primes
           (firstBlock).leftMultiplicity (firstBlock).rightMultiplicity true maskGenerator).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
           ((firstBlock).rightResidual j).val := by
-  sorry
+  rw [FirstGaussPoolData.twistedCoefficient,
+    FirstBlockProfileChart.canonicalLogWithCoefficients_rightCoefficient_eq,
+    CanonicalSecondRectangularFactors.canonical_first_right_factor_moving P R hΓ C
+      left right fullI fullJ DE hDE maskGenerator j,
+    MonoidHom.mul_apply, normLogWeight_exterior]
+  change (((e j * ((A.exteriorNorm ((firstBlock).rightResidual j) ^ tilt : ℝ) : ℂ)) /
+      (A.exteriorNorm ((firstBlock).rightResidual j) : ℂ)) * _) *
+        jointPhase ξ (- -Real.log (A.exteriorNorm ((firstBlock).rightResidual j))) = _
+  rw [Real.rpow_sub_one (A.exteriorNorm_pos ((firstBlock).rightResidual j)).ne',
+    Complex.ofReal_div, neg_neg, one_mul]
+  ring
 
 variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf → localDifferentExponent K v = 0)
 variable (b : FirstCommonCharacterBlock fullI fullJ DE)
@@ -593,13 +738,23 @@ theorem canonical_second_left_coefficient (i : α) :
     (secondChart).sourceLeftCoefficient i = c i *
       CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (maskGenerator).val
         (b.secondLeftIdeal i).val := by
-  sorry
+  change (c i * ((A.exteriorNorm (b.secondLeftIdeal i) ^ tilt : ℝ) : ℂ)) *
+      (generatedOriginalColumn (σ := σ) hΓ (b.secondLeftIdeal i)
+        (engineAllowedGenerator C b.commonLeftIdeal * b.leftGenerator i)
+        (b.secondLeft_generates C i)).divisorPhase (maskGenerator).val = _
+  exact CanonicalSecondRectangularFactors.original_second_coefficient hΓ (c i)
+    (b.secondLeftIdeal i) _ (b.secondLeft_generates C i) tilt (maskGenerator).val
 
 theorem canonical_second_right_coefficient (j : β) :
     (secondChart).sourceRightCoefficient j = e j *
       CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (maskGenerator).val
         (b.secondRightIdeal j).val := by
-  sorry
+  change (e j * ((A.exteriorNorm (b.secondRightIdeal j) ^ tilt : ℝ) : ℂ)) *
+      (generatedOriginalColumn (σ := σ) hΓ (b.secondRightIdeal j)
+        (engineAllowedGenerator C b.commonRightIdeal * b.rightGenerator j)
+        (b.secondRight_generates C j)).divisorPhase (maskGenerator).val = _
+  exact CanonicalSecondRectangularFactors.original_second_coefficient hΓ (e j)
+    (b.secondRightIdeal j) _ (b.secondRight_generates C j) tilt (maskGenerator).val
 
 end CanonicalCharts
 

@@ -37,25 +37,37 @@ variable [IsPrincipalIdealRing (Set.integer (S : Set (HeightOneSpectrum (𝓞 K)
 
 theorem empty_mask_generator_dvd_one :
     (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) ∅).val ∣ 1 := by
-  sorry
+  change IdealMobiusMask.maskGenerator ∅ ∣ 1
+  rw [IdealMobiusMask.maskGenerator_dvd_iff]
+  simp [IdealMobiusMask.primeProduct]
 
 theorem empty_mask_generator_coprime
     (a : Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K) :
     IsCoprime a
-      (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) ∅).val := by
-  sorry
+      (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) ∅).val :=
+  IsCoprime.of_isCoprime_of_dvd_right isCoprime_one_right
+    (empty_mask_generator_dvd_one S)
 
 /-- A norm identity, not an unjustified equality between chosen units. -/
 theorem empty_mask_generator_norm :
     (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K)))
       (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) ∅)).val = 1 := by
-  sorry
+  rw [← natCard_sIntegerPrincipalResidue_eq_productNorm]
+  have hspan : Ideal.span
+      ({(sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) ∅).val} :
+        Set (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K)) = ⊤ := by
+    change Ideal.span {IdealMobiusMask.maskGenerator ∅} = ⊤
+    unfold IdealMobiusMask.maskGenerator
+    rw [Submodule.IsPrincipal.span_singleton_generator]
+    simp [IdealMobiusMask.primeProduct]
+  rw [hspan]
+  simp
 
 theorem empty_mask_divisor_eq_empty
     (D : (∅ : Finset (HeightOneSpectrum
       (Set.integer (S : Set (HeightOneSpectrum (𝓞 K))) K))).powerset) :
-    D.val = ∅ := by
-  sorry
+    D.val = ∅ :=
+  Finset.eq_empty_of_subset_empty (Finset.mem_powerset.mp D.property)
 
 variable {Γ : Subgroup ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)}
 
@@ -66,7 +78,11 @@ theorem ParentPeriodicPair.inverse_dualRadius_empty
     ((p.dualRadius r ∅).val)⁻¹ = r.val *
       (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K)))
         ⟨p.modulus, p.modulus_ne_zero⟩).val := by
-  sorry
+  change (((r.val * (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K)))
+    (sIntegerMaskGenerator K (S : Set (HeightOneSpectrum (𝓞 K))) ∅)).val) *
+      (sIntegerElementNorm K (S : Set (HeightOneSpectrum (𝓞 K)))
+        ⟨p.modulus, p.modulus_ne_zero⟩).val)⁻¹)⁻¹ = _
+  rw [inv_inv, empty_mask_generator_norm, mul_one]
 
 end EmptyMask
 
@@ -208,7 +224,15 @@ theorem canonical_unmasked_gauss_stage_bound
           (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
           δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
           support dimension width character dyad).cost seminorms Ctail decay := by
-  sorry
+  obtain ⟨seminorms, Ctail, hC, hbound⟩ :=
+    actual_gauss_stage_bound (E := ℝ) (ν := ν) (μ := μ) hΓ μv hDiff C Drecipe hD
+      (rowBallFiniteFamily K A.Sf 1)
+      (rowBallFiniteFamily_locallyConstant K A.Sf 1)
+      (rowBallFiniteFamily_compactSupport K A.Sf 1)
+      decay hdecay order horder hdegree
+  refine ⟨seminorms, Ctail, hC, ?_⟩
+  intro ι G retainedScale Z g hscale hZ cutoff hcutoff hnorm Θ _ support dimension width character dyad
+  exact hbound G _
 
 end HeckeSkeleton.Moments.EngineStep
 

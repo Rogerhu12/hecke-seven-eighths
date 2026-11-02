@@ -49,7 +49,14 @@ theorem rawResidual_pair_gram_seminorm_le
       ‖W.rawResidualCoefficient i‖ * ‖W.rawResidualCoefficient j‖ ≤ pairBound) :
     p ((W.residualCoefficient i * star (W.residualCoefficient j)) • φ) ≤
       pairBound * p φ := by
-  sorry
+  rw [map_smul_eq_mul, norm_mul, norm_star]
+  apply mul_le_mul_of_nonneg_right _ (apply_nonneg _ _)
+  by_cases hi : W.active i
+  · by_cases hj : W.active j
+    · simpa only [residualCoefficient, if_pos hi, if_pos hj] using hpair hi hj
+    · simpa only [residualCoefficient, if_pos hi, if_neg hj, norm_zero, mul_zero]
+        using hbound
+  · simpa only [residualCoefficient, if_neg hi, norm_zero, zero_mul] using hbound
 
 /-- A per-column raw bound supplies the active pair bound without
 altering the actual residual coefficient. -/
@@ -59,7 +66,8 @@ theorem rawResidual_pair_bound_of_columns
     (i j : ι) (hi : i ∈ columns) (hj : j ∈ columns)
     (hai : W.active i) (haj : W.active j) :
     ‖W.rawResidualCoefficient i‖ * ‖W.rawResidualCoefficient j‖ ≤ bound ^ 2 := by
-  sorry
+  simpa only [pow_two] using
+    mul_le_mul (hraw i hi hai) (hraw j hj haj) (norm_nonneg _) hbound
 
 end FirstDivisorCoefficientAtoms
 
@@ -96,8 +104,7 @@ def terminalSeminorm (A : SArithmeticData K)
     (archTest K A.Sf 1)
 
 theorem terminalSeminorm_nonneg (orders : Finset (ℕ × ℕ)) :
-    0 ≤ terminalSeminorm A orders := by
-  sorry
+    0 ≤ terminalSeminorm A orders := apply_nonneg _ _
 
 end CanonicalRowBall
 
