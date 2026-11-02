@@ -121,8 +121,9 @@ theorem canonicalPlainTerm_data (side rectangle plain : Bool)
     (mul_ne_zero_iff.mp hc).2
   have hg : IsCoprime I.val (seed.phases.mask false).val := by
     by_contra hg
-    exact hm (by simp only [OriginalPhaseData.characters,
-      CanonicalOriginalPhaseCalibration.sourceCharacters, originalCoprimeMask, if_neg hg])
+    apply hm
+    change (if IsCoprime I.val (seed.phases.mask false).val then (1 : ℂ) else 0) = 0
+    exact if_neg hg
   have hd : IsCoprime I.val seed.phases.deletionIdeal.val := by
     change IsCoprime I.val (_ * seed.phases.deletionIdeal.val) at hg
     exact hg.of_mul_right_right
@@ -144,8 +145,9 @@ theorem canonicalPrimeTerm_data (side : Bool) (h : seed.ordinary.rows.live)
     (mul_ne_zero_iff.mp hc).2
   have hg : IsCoprime q.asIdeal (seed.phases.mask false).val := by
     by_contra hg
-    exact hm (by simp only [OriginalPhaseData.characters,
-      CanonicalOriginalPhaseCalibration.sourceCharacters, originalCoprimeMask, if_neg hg])
+    apply hm
+    change (if IsCoprime q.asIdeal (seed.phases.mask false).val then (1 : ℂ) else 0) = 0
+    exact if_neg hg
   have hd : IsCoprime q.asIdeal seed.phases.deletionIdeal.val := by
     change IsCoprime q.asIdeal (_ * seed.phases.deletionIdeal.val) at hg
     exact hg.of_mul_right_right

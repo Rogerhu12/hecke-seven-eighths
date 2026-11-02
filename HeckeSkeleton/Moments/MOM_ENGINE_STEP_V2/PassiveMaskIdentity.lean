@@ -27,6 +27,10 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 
+private theorem originalCoprimeMask_apply (M : HeckeGeneral.Analysis.NonzeroIdeal K)
+    (I : Ideal (𝓞 K)) :
+    originalCoprimeMask M I = (if IsCoprime I M.val then 1 else 0) := rfl
+
 namespace OriginalPhaseData
 
 variable (P : OriginalPhaseData packet) (hpacket : packet.Realizes)
@@ -40,7 +44,7 @@ theorem paid_plain_coefficient_zero (I : HeckeGeneral.Analysis.NonzeroIdeal K)
   have hm : ¬IsCoprime I.val (P.mask true).val :=
     fun h => hpaid ((P.paidMask_coprime hpacket I.val).mp h)
   simp only [characters, CanonicalOriginalPhaseCalibration.sourceCharacters,
-    sourcePlainCoefficient, originalCoprimeMask, if_neg hm, mul_zero]
+    sourcePlainCoefficient, originalCoprimeMask_apply, if_neg hm, mul_zero]
 
 include hpacket in
 theorem paid_prime_coefficient_zero (i : Fin k) (q : IsDedekindDomain.HeightOneSpectrum (𝓞 K))
@@ -50,7 +54,7 @@ theorem paid_prime_coefficient_zero (i : Fin k) (q : IsDedekindDomain.HeightOneS
   have hm : ¬IsCoprime q.asIdeal (P.mask true).val :=
     fun h => hpaid ((P.paidMask_coprime hpacket q.asIdeal).mp h)
   simp only [characters, CanonicalOriginalPhaseCalibration.sourceCharacters,
-    sourcePrimeCoefficient, originalCoprimeMask, if_neg hm, mul_zero]
+    sourcePrimeCoefficient, originalCoprimeMask_apply, if_neg hm, mul_zero]
 
 end OriginalPhaseData
 
@@ -65,7 +69,7 @@ theorem residualMaskIdentity (hpacket : packet.Realizes) : seed.ResidualMaskIden
       (seed.slotIndex side) hpassive I
     by_cases hpaid : IsCoprime I.val packet.second.physical.first.paidSupport.val
     · have hr := seed.ordinary.residual_coprime_iff I.val hpaid
-      simpa only [originalCoprimeMask, OriginalPhaseData.deletionIdeal, hr] using he
+      simpa only [originalCoprimeMask_apply, OriginalPhaseData.deletionIdeal, hr] using he
     · have hz := seed.phases.paid_plain_coefficient_zero hpacket
         (seed.slotIndex side) I hpaid
       simpa only [hz, zero_mul] using he
@@ -75,7 +79,7 @@ theorem residualMaskIdentity (hpacket : packet.Realizes) : seed.ResidualMaskIden
       (seed.slotIndex side) hpassive i q
     by_cases hpaid : IsCoprime q.asIdeal packet.second.physical.first.paidSupport.val
     · have hr := seed.ordinary.residual_coprime_iff q.asIdeal hpaid
-      simpa only [originalCoprimeMask, OriginalPhaseData.deletionIdeal, hr] using he
+      simpa only [originalCoprimeMask_apply, OriginalPhaseData.deletionIdeal, hr] using he
     · have hz := seed.phases.paid_prime_coefficient_zero hpacket
         (seed.slotIndex side) i q hpaid
       simpa only [hz, zero_mul] using he

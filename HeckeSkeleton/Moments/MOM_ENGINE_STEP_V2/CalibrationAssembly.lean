@@ -111,9 +111,11 @@ theorem plain_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
       ((s).extractedFactor h) *
     actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) I.val
       ((s).row h).element) hz
+  have hcharacters : (s).characters h =
+      seed.phases.characters true (seed.slotIndex side) := rfl
   apply hv
   exact ((atoms ξ h).plain I).trans (by
-    simpa only [zero_mul] using hz')
+    simpa only [FixedChildCharacters.restrictSlots, hcharacters, zero_mul] using hz')
 
 include masks atoms in
 theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
@@ -133,9 +135,12 @@ theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
       ((s).extractedFactor h) *
     actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
       ((s).row h).element) hz
+  have hcharacters : (s).characters h =
+      seed.phases.characters true (seed.slotIndex side) := rfl
   apply hv
   exact ((atoms ξ h).slot i q).trans (by
-    simpa only [zero_mul] using hz')
+    simpa only [FixedChildCharacters.restrictSlots, hcharacters, Fin.cast_refl, j,
+      zero_mul] using hz')
 
 include canonical masks atoms in
 theorem left_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
@@ -207,6 +212,25 @@ variable (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).ori
   (s).normFactor h * (s).base ^ (parameters.m + parameters.q))
 variable (ordinary : ∀ h ∈ (s).rows, (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
 
+include ordinary in
+set_option maxHeartbeats 1000000 in
+private theorem nonexceptional_at (ξ : EngineParameter) (h : seed.ordinary.rows.live)
+    (hh : h ∈ (s).rows) :
+    if parameters.z = 0 then
+      (d ξ).plainBackground * (d ξ).rowCharacter ((s).row h).momentIdeal ≠ 1
+    else (d ξ).rowCharacter ((s).row h).momentIdeal ∉ (d ξ).theta := by
+  have hrow : (d ξ).rowCharacter ((s).row h).momentIdeal =
+      (d 0).rowCharacter ((s).row h).momentIdeal := rfl
+  have htheta : (d ξ).theta = call.node.data.theta := rfl
+  have hn : (d ξ).rowCharacter ((s).row h).momentIdeal ∉ (d ξ).theta := by
+    rw [hrow, htheta]
+    exact ordinary h hh
+  split
+  · intro hp
+    exact hn (principal_in_theta seed input support side a rectangle moving correction hcorr
+      sector remaining ξ ((s).row h).momentIdeal hp)
+  · exact hn
+
 set_option maxHeartbeats 1000000 in
 def calibration : (s).Calibration (σ := Arithmetic.embedding c)
     c.family.omega (targetCharacter K c) where
@@ -239,12 +263,8 @@ def calibration : (s).Calibration (σ := Arithmetic.embedding c)
     CalibrationConstruction.slot_profile seed input support side a rectangle ξ h i q
   allowed ξ h hh := Finset.mem_image.mpr ⟨h, hh, rfl⟩
   cutoff := cutoff
-  nonexceptional ξ h hh := by
-    split
-    · intro hp
-      exact ordinary h hh (principal_in_theta seed input support side a rectangle
-        moving correction hcorr sector remaining ξ _ hp)
-    · exact ordinary h hh
+  nonexceptional ξ h hh := nonexceptional_at seed input support side a rectangle moving
+    correction hcorr sector remaining parameters ordinary ξ h hh
   rowBound := SourceCost.row s
   rowBound_nonneg := SourceCost.row_nonneg s
   row_bound := SourceCost.row_bound s
