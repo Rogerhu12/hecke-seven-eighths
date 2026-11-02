@@ -47,42 +47,25 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p)
 
-noncomputable def leftIdeal' := fun i => packet.block.leftResidual (packet.leftReindex.index i)
 noncomputable def rightIdeal' := fun i => packet.block.rightResidual (packet.rightReindex.index i)
 
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG q4 ideals done"
+    stderr.putStrLn "KDIAG o ideal done"
     stderr.flush
 
-
-abbrev ordinaryBranchType' : Type :=
-  ↥(liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
-    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
-    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-    packet.rightIdeal')
-
+example : SourceClassKey.AllocationKey (s := packet.second.stage) (LC := packet.leftCover)
+      (RC := packet.rightCover) packet.key =
+    SecondAllocationBranch (A := Arithmetic.data c) PUnit.{1}
+      packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
+      packet.rightIdeal' (SourceClassKey.leftSlots packet.key) := rfl
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG q4 type done"
-    stderr.flush
-
-
-noncomputable def ordinaryBranchKey' (branch : packet.ordinaryBranchType') :
-    SourceClassKey.AllocationKey
-      (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
-      packet.key :=
-  branch.val
-
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG q4_ordinary done"
+    stderr.putStrLn "KDIAG o1_rflK done"
     stderr.flush
 
 end RawLeafPacket

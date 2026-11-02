@@ -144,29 +144,50 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after predicates"
     stderr.flush
 
-abbrev ClassKey := Σ i : Fin expansion.count,
+
+/-- The class keys of one source, under a short name so that a Sigma over the
+sources does not carry the whole `SourceClassKey` telescope in its fibre. -/
+def ClassFiber (i : Fin expansion.count) : Type :=
   SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover
 
-abbrev Key := Σ key : covers.ClassKey, SourceClassKey.AllocationKey key.2
+instance classFiberFintype (i : Fin expansion.count) : Fintype (covers.ClassFiber i) :=
+  inferInstanceAs (Fintype (SourceClassKey _ _ _))
+
+abbrev ClassKey := Σ i : Fin expansion.count, covers.ClassFiber i
+
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after ClassKey and Key"
+    stderr.putStrLn "KDIAG r ClassKey done"
     stderr.flush
 
-def classKey (key : covers.Key) : SecondClassKey second where
-  sourceIndex := key.1.1
-  common := key.1.2.1
-  divisor := key.1.2.2.1
-  rowLabel := SourceClassKey.rowLabel key.1.2
+def AllocationFiber (key : covers.ClassKey) : Type :=
+  SourceClassKey.AllocationKey (s := (second.source key.1).stage)
+    (LC := (covers.left key.1).cover) (RC := (covers.right key.1).cover)
+    (show SourceClassKey (second.source key.1).stage (covers.left key.1).cover
+      (covers.right key.1).cover from key.2)
+
+instance allocationFiberFintype (key : covers.ClassKey) : Fintype (covers.AllocationFiber key) :=
+  inferInstanceAs (Fintype (SourceClassKey.AllocationKey _))
+
+abbrev Key := Σ key : covers.ClassKey, covers.AllocationFiber key
+
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after classKey"
+    stderr.putStrLn "KDIAG r Key done"
     stderr.flush
 
+example : Fintype covers.Key := inferInstance
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG r Fintype done"
+    stderr.flush
 
 noncomputable def leafAt (i : Fin expansion.count)
     (v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
@@ -183,29 +204,66 @@ noncomputable def leafAt (i : Fin expansion.count)
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG q2_explicitSigma leafAt done"
+    stderr.putStrLn "KDIAG r leafAt done"
     stderr.flush
 
 
-abbrev KeyX := Σ key : covers.ClassKey,
-  SourceClassKey.AllocationKey (s := (second.source key.1).stage)
-    (LC := (covers.left key.1).cover) (RC := (covers.right key.1).cover) key.2
-
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG q2 KeyX done"
-    stderr.flush
-
-
-noncomputable def leaf (key : covers.KeyX) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
   covers.leafAt key.1.1 key.1.2 key.2
 
+
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG q2_explicitSigma done"
+    stderr.putStrLn "KDIAG r leaf projections done"
+    stderr.flush
+
+noncomputable def leafMatch (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  match key with
+  | ⟨⟨i, v⟩, allocation⟩ => covers.leafAt i v allocation
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG r leaf match done"
+    stderr.flush
+
+noncomputable example (i : Fin expansion.count)
+    (v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
+    (a : SourceClassKey.AllocationKey v) : covers.Key :=
+  ⟨⟨i, v⟩, a⟩
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG r mk done"
+    stderr.flush
+
+def classKey (key : covers.Key) : SecondClassKey second where
+  sourceIndex := key.1.1
+  common := key.1.2.1
+  divisor := key.1.2.2.1
+  rowLabel := SourceClassKey.rowLabel (show SourceClassKey (second.source key.1.1).stage
+    (covers.left key.1.1).cover (covers.right key.1.1).cover from key.1.2)
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG r classKey done"
+    stderr.flush
+
+abbrev LiveKey := {key : covers.Key //
+  (covers.leaf key).Live ∧ (covers.classKey key).Active}
+
+example : Fintype covers.LiveKey := inferInstance
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG r1_namedFibers done"
     stderr.flush
 
 end RawCovers

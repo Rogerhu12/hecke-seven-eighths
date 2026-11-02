@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [q1_structFintype, q2_explicitSigma, q3_ppexplicit, q4_ordinary]
+        probe: [r1_namedFibers, o1_rflK, o2_rflHole]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
