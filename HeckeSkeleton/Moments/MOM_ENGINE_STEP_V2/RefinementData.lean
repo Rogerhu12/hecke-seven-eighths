@@ -35,6 +35,9 @@ variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p} {input : ProfileInput call}
 
+set_option maxHeartbeats 1000000 in
+set_option genInjectivity false in
+set_option genSizeOf false in
 structure RefinementData (O : OrdinaryData packet) (input : ProfileInput call) where
   support : O.PassiveSupport input
   source : ∀ side, support.labels side → Bool →
