@@ -55,15 +55,17 @@ The shared process watchdog introduced at that commit remains in the newer
 public driver recorded below.
 
 `RawContracts.lean` and `OrdinaryData.lean` are synchronized verbatim with B-line
-`8ee15070eaf295765b628eeae47888f15e002963`. The existing synchronous checkpoints
+`008113e7ae04b37c4e0e2d0caeea7142fbff99bc`. The existing synchronous checkpoints
 and explicit context parameters are retained. `RawCovers.leaf` now destructures
 the two original Sigma keys before applying the same original source leaf.
 `OrdinaryData` names its original finite branch type, branch key and field
 propositions separately, with a checkpoint after each definition; its eight
-fields retain their order and original data.
+fields retain their order and original data. B008113e7 additionally marks
+`RawCovers.leaf` and `ordinaryBranchKey` explicitly `noncomputable`, preserving
+their exact types and bodies and the same kernel declaration checking.
 
 `SourceIndexContracts.lean` remains the exact B1f5849 snapshot, unchanged in
-B8ee15070: the two existing Möbius factors are fully namespace-qualified.
+B8ee15070/B008113e7: the two existing Möbius factors are fully namespace-qualified.
 Mathematical fields, carrier types, coefficients and task statements are preserved.
 
 ## N8 original frozen-profile and common-scalar bounds
@@ -118,5 +120,8 @@ The diagnostic script follows N7 commit
 filtered console output and exclusion of toolchain imports from Lake targets.
 The probe imports remain complete. Its safety assertion is synchronized to B's
 new 300-second timeout and the value is recorded in diagnostic results.
+After B008113e7, declaration anchors accept an optional explicit `noncomputable`
+prefix while preserving exact uniqueness and complete wrapper boundaries. This
+only adapts temporary checkpoint placement to the new canonical source spelling.
 This branch probes RawContracts; N7 probes OrdinaryData. Temporary instrumented
 source output is diagnostic only and cannot replace the canonical build or axiom audit.

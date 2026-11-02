@@ -99,7 +99,7 @@ run_cmd do
     stderr.flush
 
 /-- The original allocation, with its existing carrier made explicit. -/
-def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
+noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
     SourceClassKey.AllocationKey
       (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
       packet.key :=

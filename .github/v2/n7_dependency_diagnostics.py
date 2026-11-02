@@ -3,7 +3,7 @@
 
 Run from a repository checkout after setup/cache restoration. The existing V2
 build helper first builds the exact original imports, then runs temporary probes
-sequentially with its existing 600-second per-Lean-process watchdog. No canonical
+sequentially with its existing 300-second per-Lean-process watchdog. No canonical
 Lean file is edited and no probe .olean is written. Full-copy probes disable
 Elab.async and print flushed stderr checkpoints at complete command boundaries.
 stderrAsMessages is disabled in probes so #eval cannot buffer stderr as messages.
@@ -82,7 +82,8 @@ def marker(module: str, stage: str, label: str) -> str:
 
 def boundary(source: str, needle: str) -> int:
     """Exact known declaration anchor; keep its doc/`set_option ... in` wrapper."""
-    matches = list(re.finditer(r"^" + re.escape(needle), source, re.MULTILINE))
+    modifier = r"(?:noncomputable )?" if needle.startswith("def ") else ""
+    matches = list(re.finditer(r"^" + modifier + re.escape(needle), source, re.MULTILINE))
     if len(matches) != 1:
         raise ValueError(f"Expected one complete-command anchor {needle!r}, got {len(matches)}")
     position = matches[0].start()
