@@ -7,6 +7,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStripExistingBindin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralQuotientScales
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The two original direct sources construct their normalization data

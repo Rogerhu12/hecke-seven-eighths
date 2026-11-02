@@ -7,6 +7,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual exceptional magnitude at its original first normalization

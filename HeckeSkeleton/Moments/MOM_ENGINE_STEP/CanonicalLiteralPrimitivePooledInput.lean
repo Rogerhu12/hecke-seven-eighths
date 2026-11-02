@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolInput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafNormWindows
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original analytic inputs on every pooled live key

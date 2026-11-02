@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeCom
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectCharacters
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual exceptional sides of the two direct first branches

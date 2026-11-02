@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSourceCoordinates
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFullSupportParameters
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original exceptional numbers on the actual theta class

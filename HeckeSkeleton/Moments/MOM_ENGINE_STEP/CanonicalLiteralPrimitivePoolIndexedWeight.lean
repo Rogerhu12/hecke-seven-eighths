@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogMetadata
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedIndex
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original arithmetic weights of the actual pool factory

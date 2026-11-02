@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondRectangularFactors
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalRows
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original character arithmetic and the actual exceptional sixth classes

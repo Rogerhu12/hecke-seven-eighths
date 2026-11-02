@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualPoolScalarC
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectCombinedProfile
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual first profile and both residual scalars

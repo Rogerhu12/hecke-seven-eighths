@@ -11,6 +11,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormFactorTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalOrdinaryExceptionalCalibration
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The paid exceptional terminal on the actual literal sources

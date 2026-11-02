@@ -8,6 +8,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSourceMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Computed coefficient windows on the actual pooled dispatcher
@@ -236,7 +237,7 @@ local notation "factories" => literalPrimitivePooledFactory
 
 variable (hδsum : δ₁ + δ₂ ≤ 1 / 2)
 variable (herrorPos : 0 < error)
-variable (hannulusThreshold : hi ^ cap ≤ Z ^ error)
+variable (hannulusThreshold : OriginalPairAllowanceProduction.annulusThreshold hi error ≤ Z)
 variable (hscaleThreshold : hi ^ (2 * cap) ≤ Z ^ error)
 variable (hpaidError : 2 * loss + cutoffExponent ≤ error)
 

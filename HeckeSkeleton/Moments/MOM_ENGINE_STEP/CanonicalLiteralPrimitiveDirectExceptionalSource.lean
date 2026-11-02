@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectStag
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectColumns
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Exceptional estimates for the original primitive direct sources

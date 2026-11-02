@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveNormalizedFa
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyBase
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original covered row class produces all passive normalized sides

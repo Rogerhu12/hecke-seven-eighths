@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPreparedChart
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Literal rectangles and ordinary binding of each actual direct leaf

@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledSour
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalFirstTerminalWindows
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original ideal windows for the actual first normalization
