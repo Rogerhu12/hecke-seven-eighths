@@ -70,3 +70,14 @@ on the actual universal `firstAtomTable`; it uses no ordinary-data
 hypothesis. The two private upstream scale-positivity helpers no longer
 conflict with the existing public N1 declarations. No N8 task proof or
 ordinary normalized-mass certificate is imported.
+
+
+## CI synchronization and shared dependency diagnostics
+
+The public V2 driver `.github/v2/build.py` is copied verbatim from B commit
+`2d38e5d510eeb3412cef6200c19d79da0045d576`. The separate T3 proof job retains
+its audit of every loaded V2-origin declaration and requires both task endpoints.
+The CI-only diagnostic script `.github/v2/n7_dependency_diagnostics.py` is copied
+verbatim from N7 commit `12638baac6c52431d32e657d4f77fdc5c3903d87`.
+This branch probes RawContracts; N7 probes OrdinaryData. Temporary instrumented
+source output is diagnostic only and cannot replace the canonical build or axiom audit.
