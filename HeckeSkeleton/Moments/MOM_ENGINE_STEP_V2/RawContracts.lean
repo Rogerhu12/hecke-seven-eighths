@@ -167,7 +167,7 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 RawContracts checkpoint: after classKey"
     stderr.flush
 
-def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
   match key with
   | ⟨⟨i, v⟩, allocation⟩ =>
       secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
