@@ -150,7 +150,7 @@ def scalarFreeBalancedSecondInput (hcompact : IsCompact window)
       _ = (outer⁻¹ * outer) *
           ((CanonicalLiteralBalancedSchwartz.leftFactor d b δ₁ δ₂ r * balance r : ℝ) : ℂ) *
           ((W.left r).profile u t y *
-            (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+            ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
         simp only [Complex.ofReal_mul, CanonicalLiteralBalancedSchwartz.leftFactor]
         ring
       _ = _ := by rw [CanonicalLiteralBalancedSchwartz.left_mul_balance] <;> rfl
@@ -161,7 +161,7 @@ def scalarFreeBalancedSecondInput (hcompact : IsCompact window)
     calc
       _ = ((CanonicalLiteralBalancedSchwartz.rightFactor d b δ₁ δ₂ r *
           (balance r)⁻¹ : ℝ) : ℂ) * ((W.right r).profile u t y *
-            (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+            ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
         simp only [Complex.ofReal_mul, Complex.ofReal_inv, CanonicalLiteralBalancedSchwartz.rightFactor]
         ring
       _ = _ := by rw [CanonicalLiteralBalancedSchwartz.right_mul_balance_inv] <;> rfl

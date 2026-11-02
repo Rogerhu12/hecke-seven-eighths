@@ -275,9 +275,16 @@ def literalOrdinaryBinding :
     change ((_ * _) * _ * _) = ((_ * _ * _) * _)
     ring
   leftCoefficient _ _ _ _ := rfl
-  rightCoefficient _ _ _ _ := by
-    simp only [literalExtraction, ActualHybridLeaf.ConstantAtomExtraction.leaf,
-      ActualHybridLeaf.withConstantAtoms, star_star]
+  rightCoefficient h _ i _ := by
+    change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
+        (fun i => v.block.rightResidual (v.rightReindex.index i))
+        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
+        (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i)) =
+      secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
+        (fun i => v.block.rightResidual (v.rightReindex.index i))
+        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
+        (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i
+    exact star_star _
   leftPoint := leftPoint
   rightPoint := rightPoint
 

@@ -78,20 +78,19 @@ variable (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
 variable (B : d.SourceCovers c)
 
 /-- Projection from the canonical leaf to its literal pool source tag. -/
-def leafTag : s.CoveredLeafKey B → PoolSourceTag P
-  | .inl _ => .inl ()
-  | .inr (.inl j) => .inr (.inl j.1)
-  | .inr (.inr (.inl j)) => .inr (.inr (.inl j.1))
-  | .inr (.inr (.inr j)) => .inr (.inr (.inr j.1))
+def leafTag : s.CoveredLeafKey B → PoolSourceTag P :=
+  Sum.rec (fun _ => .inl ())
+    (Sum.rec (fun j => .inr (.inl j.1))
+      (Sum.rec (fun j => .inr (.inr (.inl j.1)))
+        (fun j => .inr (.inr (.inr j.1)))))
 
 /-- The remaining key stays in the genuine stage at that original tag. -/
 def leafStageKey : ∀ j : s.CoveredLeafKey B,
     (s.tag (s.leafTag B j)).CoveredLeafKey
-      (B.tag (s.leafTag B j)) (B.tag (s.leafTag B j))
-  | .inl j => j
-  | .inr (.inl j) => j.2
-  | .inr (.inr (.inl j)) => j.2
-  | .inr (.inr (.inr j)) => j.2
+      (B.tag (s.leafTag B j)) (B.tag (s.leafTag B j)) :=
+  Sum.rec (fun j => j)
+    (Sum.rec (fun j => j.2)
+      (Sum.rec (fun j => j.2) (fun j => j.2)))
 
 def leafSecondDivisor (j : s.CoveredLeafKey B) : Ideal (𝓞 K) :=
   (s.leafStageKey B j).2.1.val
