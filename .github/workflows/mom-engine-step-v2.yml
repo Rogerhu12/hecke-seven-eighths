@@ -89,3 +89,4 @@ jobs:
           name: n2-n3-rawcontracts-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
           path: v2-build/n2-n3-rawcontracts-diagnostics/
           retention-days: 14
+

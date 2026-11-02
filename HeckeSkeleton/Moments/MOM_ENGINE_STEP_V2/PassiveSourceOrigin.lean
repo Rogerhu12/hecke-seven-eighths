@@ -40,7 +40,7 @@ variable {F : FirstPresentation call p} {family : FirstCauchyFamily F}
 theorem error_prime_mem_fullDeletion (expansion : PoolExpansion family)
     (hfamily : family.Realizes) (hexpansion : expansion.Realizes)
     (i : Fin expansion.count) (e : AmplifierValuation)
-    (q : HeightOneSpectrum (𝓞 K))
+    (q : IsDedekindDomain.HeightOneSpectrum (𝓞 K))
     (htag : (expansion.source i).first.tag = .error e q) :
     q.asIdeal ∈ (expansion.source i).first.fullDeletion := by
   cases expansion with
@@ -78,7 +78,7 @@ namespace RawLeafPacket
 
 theorem error_prime_mem_fullDeletion (packet : RawLeafPacket call p)
     (hpacket : packet.Realizes) (e : AmplifierValuation)
-    (q : HeightOneSpectrum (𝓞 K))
+    (q : IsDedekindDomain.HeightOneSpectrum (𝓞 K))
     (htag : packet.second.physical.first.tag = .error e q) :
     q.asIdeal ∈ packet.second.physical.first.fullDeletion := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩

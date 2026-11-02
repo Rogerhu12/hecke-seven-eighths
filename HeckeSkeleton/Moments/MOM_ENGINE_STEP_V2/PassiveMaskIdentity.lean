@@ -43,7 +43,7 @@ theorem paid_plain_coefficient_zero (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     sourcePlainCoefficient, originalCoprimeMask, if_neg hm, mul_zero]
 
 include hpacket in
-theorem paid_prime_coefficient_zero (i : Fin k) (q : HeightOneSpectrum (𝓞 K))
+theorem paid_prime_coefficient_zero (i : Fin k) (q : IsDedekindDomain.HeightOneSpectrum (𝓞 K))
     (hpaid : ¬IsCoprime q.asIdeal packet.second.physical.first.paidSupport.val) :
     sourcePrimeCoefficient ((P.characters true index).slot i)
       ((P.characters true index).slotTwist i) (P.characters true index).mask q = 0 := by
