@@ -97,10 +97,15 @@ theorem working_slots_le : call.localizedData.geometry.slotCount ≤ c.geometry.
   call.slots_le
 
 theorem working_comparison_product :
-    call.base ^ call.node.comparison₁ * call.base ^ call.node.comparison₂ =
+    call.base ^ call.workingComparison₁ * call.base ^ call.workingComparison₂ =
       call.base ^ (call.workingParameters.n₁ + call.workingParameters.n₂) := by
-  rw [← Real.rpow_add call.base_pos, call.node.comparison_sum]
-  rfl
+  rw [← Real.rpow_add call.base_pos]
+  congr 1
+  cases hcentered : call.node.centered with
+  | false => simp [Call.workingComparison₁, Call.workingComparison₂,
+      hcentered, Call.workingParameters]
+  | true => simpa [Call.workingComparison₁, Call.workingComparison₂,
+      hcentered, Call.workingParameters] using call.node.comparison_sum
 
 theorem supportLength_nonneg : 0 ≤ call.supportLength := by
   have hN : 1 ≤ (Arithmetic.data c).exteriorNorm call.oldSupport := by
@@ -240,6 +245,8 @@ theorem activeOriginalColumns_card (input : ProfileInput call)
 
 variable {call} {p : SourceParameters c}
 variable (F : FirstPresentation call p) (hF : F.Realizes)
+
+include hF
 
 theorem first_index_mem (i : F.source.Column) (hi : i ∈ F.source.columns) :
     F.index i ∈ call.workingRaw.exteriorColumns := by

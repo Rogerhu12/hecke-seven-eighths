@@ -55,6 +55,7 @@ variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable (F : FirstPresentation call p) (hF : F.Realizes)
 
 /-- The actual squarefree divisor count is paid by its mask norm. -/
+include hF in
 theorem first_mask_powerset_card (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base)
     (v : F.source.CommonLabel) (i : F.source.Column)
@@ -65,6 +66,7 @@ theorem first_mask_powerset_card (input : ProfileInput call)
     (F.source.source v).mask).trans
       (first_mask_norm_le F hF input hlarge v i hi hci)
 
+include hF in
 theorem first_pair_inverse_dual_radius_le (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base)
     (v : F.source.CommonLabel) (i : F.source.Column)
@@ -98,6 +100,7 @@ theorem first_pair_inverse_dual_radius_le (input : ProfileInput call)
       congr 1
       ring
 
+include hF in
 theorem first_inverseRadiusBound_le (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base)
     (v : F.source.CommonLabel) :
@@ -115,6 +118,7 @@ theorem first_inverseRadiusBound_le (input : ProfileInput call)
     exact first_pair_inverse_dual_radius_le F hF input hlarge v
       e.1.1 hi e.1.2 hj hep e.2 hD
 
+include hF in
 theorem first_divisorInverseRadiusBound_le (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base)
     (v : F.source.CommonLabel)
@@ -141,6 +145,7 @@ theorem firstRowExponent_nonneg (c : TargetContext K) (p : SourceParameters c) :
   add_nonneg p.firstCutoff_pos.le
     (mul_nonneg (by norm_num) (originalColumnExponent_nonneg c))
 
+include hF in
 theorem first_physicalCutoff_le (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base) (v : F.source.CommonLabel) :
     (F.source.source v).physicalCutoff ≤ call.base ^ firstRowExponent c p := by
@@ -154,6 +159,7 @@ theorem first_physicalCutoff_le (input : ProfileInput call)
       rw [← Real.rpow_add call.base_pos]
       rfl
 
+include hF in
 theorem first_divisorPhysicalCutoff_le (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base) (v : F.source.CommonLabel)
     (D : Finset (HeightOneSpectrum (Arithmetic.data c).R))
@@ -206,6 +212,7 @@ theorem finite_orbit_rows_card (c : TargetContext K)
     (Arithmetic.unitSubgroup c))).2 H hH
   exact (Nat.cast_le.mpr hn').trans hc
 
+include hF in
 theorem first_divisorRows_card (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base) (v : F.source.CommonLabel)
     (D : Finset (HeightOneSpectrum (Arithmetic.data c).R))

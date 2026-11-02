@@ -54,6 +54,7 @@ theorem tailsV2_rectangle_norm_le_original_atoms
       leftBound comparison * rightBound comparison * ∏ i, primeBound i := by
   have hm : (v.1.1 ∈ raw.leftColumns ∧ v.1.2 ∈ raw.rightColumns) ∧
       (∀ i, v.2 i ∈ raw.slotColumns i) := by
+    rcases v with ⟨⟨I, J⟩, indices⟩
     simpa only [ParentRawAtoms.columns, childCartesianColumns,
       Finset.mem_product, Fintype.mem_piFinset] using hv
   rw [ParentRawAtoms.ConstantValues.rectangle, norm_mul, norm_mul, norm_prod]
@@ -125,10 +126,10 @@ variable (atoms : ParentConstantAtoms Q d a Z t)
 atom bounds do not contain any central scale or whole-column product. -/
 theorem tailsV2_rectangle_norm_le_original_central_scales
     (B : ℝ) (hB : 0 ≤ B) (hZ : 0 < Z)
-    (hleft : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
+    (hleft : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
       ‖atoms.leftArithmetic I * atoms.leftProfile
         (idealNorm K I / (if comparison then Y₁ else Z ^ a.n₁))‖ ≤ B)
-    (hright : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
+    (hright : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
       ‖atoms.rightArithmetic I * atoms.rightProfile
         (idealNorm K I / (if comparison then Y₂ else Z ^ a.n₂))‖ ≤ B)
     (hprime : ∀ i p, p ∈ (atoms.raw Y₁ Y₂).slotColumns i →
@@ -148,8 +149,20 @@ theorem tailsV2_rectangle_norm_le_original_central_scales
     (fun i => B * (Real.sqrt (Z ^ (d.geometry.slots i).length))⁻¹)
     (fun _ => mul_nonneg hB (inv_nonneg.mpr (Real.sqrt_nonneg _)))
     (fun _ => mul_nonneg hB (inv_nonneg.mpr (Real.sqrt_nonneg _)))
-    (fun comparison I hI => tailsV2_original_normalized_atom_norm_le _ B _ (hleft comparison I hI))
-    (fun comparison I hI => tailsV2_original_normalized_atom_norm_le _ B _ (hright comparison I hI))
+    (fun comparison I hI => by
+      cases comparison with
+      | false => simpa only [ParentConstantAtoms.values, ParentConstantAtoms.leftValue,
+          Bool.false_eq_true, if_false] using
+          tailsV2_original_normalized_atom_norm_le (Z ^ a.n₁) B _ (hleft false I hI)
+      | true => simpa [ParentConstantAtoms.values, ParentConstantAtoms.leftValue] using
+          tailsV2_original_normalized_atom_norm_le Y₁ B _ (hleft true I hI))
+    (fun comparison I hI => by
+      cases comparison with
+      | false => simpa only [ParentConstantAtoms.values, ParentConstantAtoms.rightValue,
+          Bool.false_eq_true, if_false] using
+          tailsV2_original_normalized_atom_norm_le (Z ^ a.n₂) B _ (hright false I hI)
+      | true => simpa [ParentConstantAtoms.values, ParentConstantAtoms.rightValue] using
+          tailsV2_original_normalized_atom_norm_le Y₂ B _ (hright true I hI))
     (fun i p hp => tailsV2_original_normalized_atom_norm_le _ B _ (hprime i p hp))
     comparison v hv
   apply h.trans_eq
@@ -165,10 +178,10 @@ and every original slot; the constant uses only the fixed slot cap. -/
 theorem tailsV2_coefficient_norm_le_original_central_cap
     (cap : ℕ) (hcap : d.geometry.slotCount ≤ cap)
     (B : ℝ) (hB : 1 ≤ B) (hZ : 0 < Z)
-    (hleft : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
+    (hleft : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).leftColumns →
       ‖atoms.leftArithmetic I * atoms.leftProfile
         (idealNorm K I / (if comparison then Y₁ else Z ^ a.n₁))‖ ≤ B)
-    (hright : ∀ comparison I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
+    (hright : ∀ (comparison : Bool) I, I ∈ (atoms.raw Y₁ Y₂).rightColumns →
       ‖atoms.rightArithmetic I * atoms.rightProfile
         (idealNorm K I / (if comparison then Y₂ else Z ^ a.n₂))‖ ≤ B)
     (hprime : ∀ i p, p ∈ (atoms.raw Y₁ Y₂).slotColumns i →

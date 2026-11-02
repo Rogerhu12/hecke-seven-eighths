@@ -141,12 +141,12 @@ theorem second_tail_mass_count_bound
           (profiles v.2.1 v.2.2) *
         ((blocks v.1).secondPair hΓ hDiff C profiles v.2.1 v.2.2).truncationMass
           mask radius ≤ Amp * bound := by
-    have hm := ((blocks v.1).secondPair hΓ hDiff C profiles v.2.1 v.2.2).
-      truncationMass_le_residue_bound modulusBound hmodulusBound
+    have hm := ((blocks v.1).secondPair hΓ hDiff C profiles v.2.1 v.2.2).truncationMass_le_residue_bound
+      modulusBound hmodulusBound
       (fun x => ((blocks v.1).second_residue_norm_le_modulus hΓ hDiff C profiles
         v.2.1 v.2.2 x).trans (hmodulus v hv)) mask radius
-    have hm' : ((blocks v.1).secondPair hΓ hDiff C profiles v.2.1 v.2.2).
-        truncationMass mask radius ≤ bound := by
+    have hm' : ((blocks v.1).secondPair hΓ hDiff C profiles v.2.1 v.2.2).truncationMass
+        mask radius ≤ bound := by
       apply hm.trans
       apply mul_le_mul_of_nonneg_left _ hmodulusBound
       exact mul_le_mul
