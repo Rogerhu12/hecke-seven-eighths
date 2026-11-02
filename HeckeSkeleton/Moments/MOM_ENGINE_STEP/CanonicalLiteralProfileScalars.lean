@@ -44,8 +44,8 @@ theorem plainFactor_pos {G N : ℝ} (hG : 0 < G) (hN : 0 < N) (δ₁ δ₂ : ℝ
   sorry
 
 theorem normPower_product {N y : ℝ} (hN : 0 < N) (hy : 0 < y) (δ₁ δ₂ : ℝ) :
-    ((N * y) ^ (-1 : ℝ) : ℂ) * ((N * y) ^ δ₁ : ℂ) * ((N * y) ^ δ₂ : ℂ) =
-      (N ^ exponent δ₁ δ₂ : ℂ) * (y ^ exponent δ₁ δ₂ : ℂ) := by
+    (((N * y) ^ (-1 : ℝ) : ℝ) : ℂ) * (((N * y) ^ δ₁ : ℝ) : ℂ) * (((N * y) ^ δ₂ : ℝ) : ℂ) =
+      ((N ^ exponent δ₁ δ₂ : ℝ) : ℂ) * ((y ^ exponent δ₁ δ₂ : ℝ) : ℂ) := by
   sorry
 
 theorem plainFactor_product {G₁ G₂ N₁ N₂ : ℝ}
@@ -135,7 +135,7 @@ theorem secondInput_left_shape (r : Bool)
         (CanonicalLiteralProfileScalars.plainFactor
           ((d.extract b).scale₁ false) ((d.extract b).scale₁ r) δ₁ δ₂ : ℂ) *
         ((W.left r).profile u time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
   sorry
 
 theorem secondInput_right_shape (r : Bool)
@@ -145,7 +145,7 @@ theorem secondInput_right_shape (r : Bool)
       (CanonicalLiteralProfileScalars.plainFactor
         ((d.extract b).scale₂ false) ((d.extract b).scale₂ r) δ₁ δ₂ : ℂ) *
         ((W.right r).profile u time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
   sorry
 
 theorem secondInput_slot_shape (j : Fin b.keep.card) (time : ℝ) {y : ℝ} (hy : 0 < y) :
@@ -155,7 +155,7 @@ theorem secondInput_slot_shape (j : Fin b.keep.card) (time : ℝ) {y : ℝ} (hy 
         ((d.extract b).base ^ (d.extract b).length j)
         ((d.extract b).base ^ (d.extract b).length j) δ₁ δ₂ : ℂ) *
         ((W.slot (SlotRestriction.index b.keep j)).profile time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
   sorry
 
 end ProfileData
