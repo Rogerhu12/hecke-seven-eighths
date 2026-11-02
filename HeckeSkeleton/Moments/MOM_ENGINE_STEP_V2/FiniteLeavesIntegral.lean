@@ -93,6 +93,8 @@ private theorem sourceRightCoefficient_withMultiplier
 `coverHybridNonzeroCost`; no bounded surrogate carrier is substituted. -/
 abbrev CoveredClassKey := Blueprint.SourceClassKey s LC RC
 
+attribute [local instance] Blueprint.coveredClassKeyFintype
+
 private theorem charts_withMultiplier_leftPoint
     (u : ι → ℂ)
     (DE : commonSupportPool G.columns G.columns
@@ -187,24 +189,24 @@ private theorem actualRows_withMultiplier_rows
 namespace CoveredClassKey
 
 variable {s LC RC}
-variable (v : s.CoveredClassKey LC RC)
+variable (v : CoveredClassKey s LC RC)
 
-abbrev block := Blueprint.SourceClassKey.block v
-abbrev chart := Blueprint.SourceClassKey.chart v
-abbrev rowLabel := Blueprint.SourceClassKey.rowLabel v
-abbrev leftReindex := Blueprint.SourceClassKey.leftReindex v
-abbrev rightReindex := Blueprint.SourceClassKey.rightReindex v
-abbrev leftSlots := Blueprint.SourceClassKey.leftSlots v
-abbrev AllocationKey := Blueprint.SourceClassKey.AllocationKey v
+abbrev block := Blueprint.SourceClassKey.block (s := s) (LC := LC) (RC := RC) v
+abbrev chart := Blueprint.SourceClassKey.chart (s := s) (LC := LC) (RC := RC) v
+abbrev rowLabel := Blueprint.SourceClassKey.rowLabel (s := s) (LC := LC) (RC := RC) v
+abbrev leftReindex := Blueprint.SourceClassKey.leftReindex (s := s) (LC := LC) (RC := RC) v
+abbrev rightReindex := Blueprint.SourceClassKey.rightReindex (s := s) (LC := LC) (RC := RC) v
+abbrev leftSlots := Blueprint.SourceClassKey.leftSlots (s := s) (LC := LC) (RC := RC) v
+abbrev AllocationKey := Blueprint.SourceClassKey.AllocationKey (s := s) (LC := LC) (RC := RC) v
 
 abbrev leaf (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (j : v.AllocationKey) :
+    (F : SchwartzMap W ℂ) (x : ι → W) (j : (CoveredClassKey.AllocationKey v)) :
     ActualHybridLeaf K Q W E :=
-  Blueprint.SourceClassKey.rawLeaf v exceptional F x j
+  Blueprint.SourceClassKey.rawLeaf (s := s) (LC := LC) (RC := RC) v exceptional F x j
 
 @[simp] theorem leaf_firstKernel (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (j : v.AllocationKey) :
-    (v.leaf exceptional F x j).firstKernel = F := rfl
+    (F : SchwartzMap W ℂ) (x : ι → W) (j : (CoveredClassKey.AllocationKey v)) :
+    (CoveredClassKey.leaf v exceptional F x j).firstKernel = F := rfl
 
 private theorem phase_mul_four_factors (phase a b c d : ℂ) :
     (((phase * a) * b) * c) * d = (((a * b) * c) * d) * phase := by
@@ -296,105 +298,105 @@ omit [FiniteDimensional ℝ W] [MeasurableSpace W] [BorelSpace W] in
 private theorem phase_class_eq_fixed_fullCorrelation
     (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
     (x : ι → W) (ξ : W) :
-    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).hybridClassCost s.mask s.cutoff s.cutoff_one v.rowLabel
-        v.leftReindex v.rightReindex
-        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).hybridClassCost s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)
+        (CoveredClassKey.leftReindex v) (CoveredClassKey.rightReindex v)
+        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 (CoveredClassKey.rowLabel v)
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
     fullCorrelationHybridCost
-      (K := K) (H := Q) (V := E) (k := v.leftSlots)
+      (K := K) (H := Q) (V := E) (k := (CoveredClassKey.leftSlots v))
       (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) (γ := ((PUnit.{1} × PUnit.{1}) →* Circle))
-      v.chart.kernel (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
-      v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-      v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-      (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
+      (CoveredClassKey.chart v).kernel ((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).rows
+      (CoveredClassKey.leftReindex v).plain₁ (CoveredClassKey.leftReindex v).plain₂ (CoveredClassKey.leftReindex v).slots
+      (CoveredClassKey.rightReindex v).plain₁ (CoveredClassKey.rightReindex v).plain₂ (CoveredClassKey.rightReindex v).slots
+      (fun i => ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i)).val)
       (fun h =>
-        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
-          generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-            (engineAllowedGenerator C v.block.commonLeftIdeal)
-            (engineAllowedGenerator C v.block.commonRightIdeal)
+        ((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).weight h *
+          generatedIdealCorrelation (σ := σ) (CoveredClassKey.block v).commonLeftIdeal (CoveredClassKey.block v).commonRightIdeal
+            (engineAllowedGenerator C (CoveredClassKey.block v).commonLeftIdeal)
+            (engineAllowedGenerator C (CoveredClassKey.block v).commonRightIdeal)
             (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-            ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))
+            (((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h))
       (fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)))
       (fun χ h i =>
-        (v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
+        ((CoveredClassKey.chart v).sourceLeftCoefficient ((CoveredClassKey.leftReindex v).index i) *
           (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))) *
-          jointPhase ξ (x (v.leftReindex.index i)))
+            σ (A.sexticResidue ((CoveredClassKey.block v).leftResidual ((CoveredClassKey.leftReindex v).index i))
+              (((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h))) *
+          jointPhase ξ (x ((CoveredClassKey.leftReindex v).index i)))
       (fun χ h i =>
-        (v.chart.sourceRightCoefficient (v.rightReindex.index i) *
+        ((CoveredClassKey.chart v).sourceRightCoefficient ((CoveredClassKey.rightReindex v).index i) *
           (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
-              (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))) *
-          jointPhase ξ (x (v.rightReindex.index i)))
-      (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
-      (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
-      (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+            σ (A.sexticResidue ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i))
+              (-(((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h)))) *
+          jointPhase ξ (x ((CoveredClassKey.rightReindex v).index i)))
+      (fun h i => (CoveredClassKey.chart v).leftPoint h ((CoveredClassKey.leftReindex v).index i))
+      (fun h i => (CoveredClassKey.chart v).rightPoint h ((CoveredClassKey.rightReindex v).index i))
+      (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 (CoveredClassKey.rowLabel v)
         v.2.2.2.2.2.1 v.2.2.2.2.2.2) := by
   have hkernel := s.withMultiplier_kernel
     (fun i => jointPhase ξ (x i)) v.1 v.2.1
   have hrows := actualRows_withMultiplier_rows s
-    (fun i => Real.fourierChar (inner ℝ ξ (x i))) v.1 v.2.1 v.rowLabel
+    (fun i => Real.fourierChar (inner ℝ ξ (x i))) v.1 v.2.1 (CoveredClassKey.rowLabel v)
   have hfrequency := actualRows_withMultiplier_frequency s
-    (fun i => jointPhase ξ (x i)) v.1 v.2.1 v.rowLabel
+    (fun i => jointPhase ξ (x i)) v.1 v.2.1 (CoveredClassKey.rowLabel v)
   have hweight := actualRows_withMultiplier_weight s
-    (fun i => jointPhase ξ (x i)) v.1 v.2.1 v.rowLabel
+    (fun i => jointPhase ξ (x i)) v.1 v.2.1 (CoveredClassKey.rowLabel v)
   have hrowCoefficient := phase_weight_frequency_congr
     (fun frequency : A.R =>
-      generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-        (engineAllowedGenerator C v.block.commonLeftIdeal)
-        (engineAllowedGenerator C v.block.commonRightIdeal)
+      generatedIdealCorrelation (σ := σ) (CoveredClassKey.block v).commonLeftIdeal (CoveredClassKey.block v).commonRightIdeal
+        (engineAllowedGenerator C (CoveredClassKey.block v).commonLeftIdeal)
+        (engineAllowedGenerator C (CoveredClassKey.block v).commonRightIdeal)
         (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
         frequency)
     hweight hfrequency
   have hleftCoefficient := phase_coefficient_frequency_congr
     (Phase := ((PUnit.{1} × PUnit.{1}) →* Circle)) (Row := Q)
-    (Column := AllocationColumn K v.leftSlots) (Frequency := A.R)
-    (fun i => jointPhase ξ (x (v.leftReindex.index i)))
-    (fun i => v.chart.sourceLeftCoefficient (v.leftReindex.index i))
+    (Column := AllocationColumn K (CoveredClassKey.leftSlots v)) (Frequency := A.R)
+    (fun i => jointPhase ξ (x ((CoveredClassKey.leftReindex v).index i)))
+    (fun i => (CoveredClassKey.chart v).sourceLeftCoefficient ((CoveredClassKey.leftReindex v).index i))
     (fun i => ((s.withMultiplier (fun j => jointPhase ξ (x j))).charts
-      v.1 v.2.1).sourceLeftCoefficient (v.leftReindex.index i))
+      v.1 v.2.1).sourceLeftCoefficient ((CoveredClassKey.leftReindex v).index i))
     (fun χ => (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ))
     (fun i frequency =>
-      σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i)) frequency))
+      σ (A.sexticResidue ((CoveredClassKey.block v).leftResidual ((CoveredClassKey.leftReindex v).index i)) frequency))
     (fun i => sourceLeftCoefficient_withMultiplier s
-      (fun j => jointPhase ξ (x j)) v.1 v.2.1 (v.leftReindex.index i))
+      (fun j => jointPhase ξ (x j)) v.1 v.2.1 ((CoveredClassKey.leftReindex v).index i))
     hfrequency
   have hrightCoefficient := phase_coefficient_frequency_congr
     (Phase := ((PUnit.{1} × PUnit.{1}) →* Circle)) (Row := Q)
     (Column := AllocationColumn K (((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card)) (Frequency := A.R)
-    (fun i => jointPhase ξ (x (v.rightReindex.index i)))
-    (fun i => v.chart.sourceRightCoefficient (v.rightReindex.index i))
+    (fun i => jointPhase ξ (x ((CoveredClassKey.rightReindex v).index i)))
+    (fun i => (CoveredClassKey.chart v).sourceRightCoefficient ((CoveredClassKey.rightReindex v).index i))
     (fun i => ((s.withMultiplier (fun j => jointPhase ξ (x j))).charts
-      v.1 v.2.1).sourceRightCoefficient (v.rightReindex.index i))
+      v.1 v.2.1).sourceRightCoefficient ((CoveredClassKey.rightReindex v).index i))
     (fun χ => (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ))
     (fun i frequency =>
-      σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i)) (-frequency)))
+      σ (A.sexticResidue ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i)) (-frequency)))
     (fun i => sourceRightCoefficient_withMultiplier s
-      (fun j => jointPhase ξ (x j)) v.1 v.2.1 (v.rightReindex.index i))
+      (fun j => jointPhase ξ (x j)) v.1 v.2.1 ((CoveredClassKey.rightReindex v).index i))
     hfrequency
-  have hleftPoint := phase_point_reindex_congr v.leftReindex.index
+  have hleftPoint := phase_point_reindex_congr (CoveredClassKey.leftReindex v).index
     (charts_withMultiplier_leftPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1)
-  have hrightPoint := phase_point_reindex_congr v.rightReindex.index
+  have hrightPoint := phase_point_reindex_congr (CoveredClassKey.rightReindex v).index
     (charts_withMultiplier_rightPoint s (fun i => jointPhase ξ (x i)) v.1 v.2.1)
   unfold SecondBlockProfileChart.hybridClassCost secondResidualHybridCost
   exact phase_seven_argument_congr
     (fun (kernel : SchwartzMap E ℂ) (rows : Finset Q) (rowCoefficient : Q → ℂ)
-      (leftCoefficient : ((PUnit.{1} × PUnit.{1}) →* Circle) → Q → AllocationColumn K v.leftSlots → ℂ)
+      (leftCoefficient : ((PUnit.{1} × PUnit.{1}) →* Circle) → Q → AllocationColumn K (CoveredClassKey.leftSlots v) → ℂ)
       (rightCoefficient : ((PUnit.{1} × PUnit.{1}) →* Circle) → Q →
         AllocationColumn K (((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) → ℂ)
-      (leftPoint : Q → AllocationColumn K v.leftSlots → E)
+      (leftPoint : Q → AllocationColumn K (CoveredClassKey.leftSlots v) → E)
       (rightPoint : Q → AllocationColumn K (((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) → E) =>
         fullCorrelationHybridCost
-          (K := K) (H := Q) (V := E) (k := v.leftSlots)
+          (K := K) (H := Q) (V := E) (k := (CoveredClassKey.leftSlots v))
           (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) (γ := ((PUnit.{1} × PUnit.{1}) →* Circle))
           kernel rows
-          v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-          v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-          (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
+          (CoveredClassKey.leftReindex v).plain₁ (CoveredClassKey.leftReindex v).plain₂ (CoveredClassKey.leftReindex v).slots
+          (CoveredClassKey.rightReindex v).plain₁ (CoveredClassKey.rightReindex v).plain₂ (CoveredClassKey.rightReindex v).slots
+          (fun i => ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i)).val)
           rowCoefficient (fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)))
           leftCoefficient rightCoefficient leftPoint rightPoint
-          (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+          (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 (CoveredClassKey.rowLabel v)
         v.2.2.2.2.2.1 v.2.2.2.2.2.2))
     hkernel hrows hrowCoefficient hleftCoefficient hrightCoefficient hleftPoint hrightPoint
 
@@ -403,70 +405,70 @@ private theorem fixed_fullCorrelation_eq_leaf_sum
     (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
     fullCorrelationHybridCost
-      (K := K) (H := Q) (V := E) (k := v.leftSlots)
+      (K := K) (H := Q) (V := E) (k := (CoveredClassKey.leftSlots v))
       (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2).keep.card) (γ := ((PUnit.{1} × PUnit.{1}) →* Circle))
-      v.chart.kernel (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
-      v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-      v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-      (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
+      (CoveredClassKey.chart v).kernel ((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).rows
+      (CoveredClassKey.leftReindex v).plain₁ (CoveredClassKey.leftReindex v).plain₂ (CoveredClassKey.leftReindex v).slots
+      (CoveredClassKey.rightReindex v).plain₁ (CoveredClassKey.rightReindex v).plain₂ (CoveredClassKey.rightReindex v).slots
+      (fun i => ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i)).val)
       (fun h =>
-        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
-          generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-            (engineAllowedGenerator C v.block.commonLeftIdeal)
-            (engineAllowedGenerator C v.block.commonRightIdeal)
+        ((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).weight h *
+          generatedIdealCorrelation (σ := σ) (CoveredClassKey.block v).commonLeftIdeal (CoveredClassKey.block v).commonRightIdeal
+            (engineAllowedGenerator C (CoveredClassKey.block v).commonLeftIdeal)
+            (engineAllowedGenerator C (CoveredClassKey.block v).commonRightIdeal)
             (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-            ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))
+            (((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h))
       (fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)))
       (fun χ h i =>
-        (v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
+        ((CoveredClassKey.chart v).sourceLeftCoefficient ((CoveredClassKey.leftReindex v).index i) *
           (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))) *
-          jointPhase ξ (x (v.leftReindex.index i)))
+            σ (A.sexticResidue ((CoveredClassKey.block v).leftResidual ((CoveredClassKey.leftReindex v).index i))
+              (((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h))) *
+          jointPhase ξ (x ((CoveredClassKey.leftReindex v).index i)))
       (fun χ h i =>
-        (v.chart.sourceRightCoefficient (v.rightReindex.index i) *
+        ((CoveredClassKey.chart v).sourceRightCoefficient ((CoveredClassKey.rightReindex v).index i) *
           (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
-              (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))) *
-          jointPhase ξ (x (v.rightReindex.index i)))
-      (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
-      (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
-      (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+            σ (A.sexticResidue ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i))
+              (-(((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h)))) *
+          jointPhase ξ (x ((CoveredClassKey.rightReindex v).index i)))
+      (fun h i => (CoveredClassKey.chart v).leftPoint h ((CoveredClassKey.leftReindex v).index i))
+      (fun h i => (CoveredClassKey.chart v).rightPoint h ((CoveredClassKey.rightReindex v).index i))
+      (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 (CoveredClassKey.rowLabel v)
         v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
-      ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
+      ∑ j : (CoveredClassKey.AllocationKey v), (CoveredClassKey.leaf v exceptional F x j).firstPhaseCost ξ := by
   exact
     (fullCorrelationHybridCost_eq_leaf_sum
       (K := K) (H := Q) (U := W) (V := E)
-      (k := v.leftSlots)
+      (k := (CoveredClassKey.leftSlots v))
       (l := ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1)
         v.1.val.2 v.2.2.2.2.2.2).keep.card)
       (γ := ((PUnit.{1} × PUnit.{1}) →* Circle))
-      F v.chart.kernel
-        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
-        v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-        v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-        (fun i => (v.block.rightResidual (v.rightReindex.index i)).val)
+      F (CoveredClassKey.chart v).kernel
+        ((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).rows
+        (CoveredClassKey.leftReindex v).plain₁ (CoveredClassKey.leftReindex v).plain₂ (CoveredClassKey.leftReindex v).slots
+        (CoveredClassKey.rightReindex v).plain₁ (CoveredClassKey.rightReindex v).plain₂ (CoveredClassKey.rightReindex v).slots
+        (fun i => ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i)).val)
         (fun h =>
-          (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
-            generatedIdealCorrelation (σ := σ) v.block.commonLeftIdeal v.block.commonRightIdeal
-              (engineAllowedGenerator C v.block.commonLeftIdeal)
-              (engineAllowedGenerator C v.block.commonRightIdeal)
+          ((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).weight h *
+            generatedIdealCorrelation (σ := σ) (CoveredClassKey.block v).commonLeftIdeal (CoveredClassKey.block v).commonRightIdeal
+              (engineAllowedGenerator C (CoveredClassKey.block v).commonLeftIdeal)
+              (engineAllowedGenerator C (CoveredClassKey.block v).commonRightIdeal)
               (engineAllowedGenerator_generates C _) (engineAllowedGenerator_generates C _)
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))
+              (((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h))
         (fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)))
-        (fun χ h i => v.chart.sourceLeftCoefficient (v.leftReindex.index i) *
+        (fun χ h i => (CoveredClassKey.chart v).sourceLeftCoefficient ((CoveredClassKey.leftReindex v).index i) *
           (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
-              ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))
-        (fun χ h i => v.chart.sourceRightCoefficient (v.rightReindex.index i) *
+            σ (A.sexticResidue ((CoveredClassKey.block v).leftResidual ((CoveredClassKey.leftReindex v).index i))
+              (((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h)))
+        (fun χ h i => (CoveredClassKey.chart v).sourceRightCoefficient ((CoveredClassKey.rightReindex v).index i) *
           (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ) *
-            σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
-              (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))
-        (fun _ i => x (v.leftReindex.index i))
-        (fun h i => v.chart.leftPoint h (v.leftReindex.index i))
-        (fun _ i => x (v.rightReindex.index i))
-        (fun h i => v.chart.rightPoint h (v.rightReindex.index i))
-        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+            σ (A.sexticResidue ((CoveredClassKey.block v).rightResidual ((CoveredClassKey.rightReindex v).index i))
+              (-(((CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)).frequency h))))
+        (fun _ i => x ((CoveredClassKey.leftReindex v).index i))
+        (fun h i => (CoveredClassKey.chart v).leftPoint h ((CoveredClassKey.leftReindex v).index i))
+        (fun _ i => x ((CoveredClassKey.rightReindex v).index i))
+        (fun h i => (CoveredClassKey.chart v).rightPoint h ((CoveredClassKey.rightReindex v).index i))
+        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 (CoveredClassKey.rowLabel v)
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) ξ)
 
 set_option linter.unusedSectionVars false in
@@ -474,37 +476,37 @@ set_option linter.unusedSectionVars false in
 followed by the literal finite allocation sum from the second. -/
 theorem phase_class_eq_leaf_sum (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
-    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).hybridClassCost s.mask s.cutoff s.cutoff_one v.rowLabel
-        v.leftReindex v.rightReindex
-        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+    ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).hybridClassCost s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v)
+        (CoveredClassKey.leftReindex v) (CoveredClassKey.rightReindex v)
+        (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 (CoveredClassKey.rowLabel v)
           v.2.2.2.2.2.1 v.2.2.2.2.2.2) =
-      ∑ j : v.AllocationKey, (v.leaf exceptional F x j).firstPhaseCost ξ := by
-  exact (v.phase_class_eq_fixed_fullCorrelation exceptional x ξ).trans
-    (v.fixed_fullCorrelation_eq_leaf_sum exceptional F x ξ)
+      ∑ j : (CoveredClassKey.AllocationKey v), (CoveredClassKey.leaf v exceptional F x j).firstPhaseCost ξ := by
+  exact (phase_class_eq_fixed_fullCorrelation v exceptional x ξ).trans
+    (fixed_fullCorrelation_eq_leaf_sum v exceptional F x ξ)
 
 end CoveredClassKey
 
 /-- Every source key and every actual allocation label is retained. -/
-abbrev CoveredLeafKey := Σ v : s.CoveredClassKey LC RC, v.AllocationKey
+abbrev CoveredLeafKey := Σ v : CoveredClassKey s LC RC, (CoveredClassKey.AllocationKey v)
 
 def coveredLeaf (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey LC RC) :
+    (F : SchwartzMap W ℂ) (x : ι → W) (b : CoveredLeafKey s LC RC) :
     ActualHybridLeaf K Q W E :=
-  b.1.leaf exceptional F x b.2
+  CoveredClassKey.leaf b.1 exceptional F x b.2
 
 @[simp] theorem coveredLeaf_firstKernel (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey LC RC) :
-    (s.coveredLeaf LC RC exceptional F x b).firstKernel = F := rfl
+    (F : SchwartzMap W ℂ) (x : ι → W) (b : CoveredLeafKey s LC RC) :
+    (coveredLeaf s LC RC exceptional F x b).firstKernel = F := rfl
 
 private def coveredClassPhaseCost
     (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
-    (x : ι → W) (ξ : W) (v : s.CoveredClassKey LC RC) : ℝ :=
+    (x : ι → W) (ξ : W) (v : CoveredClassKey s LC RC) : ℝ :=
   ((s.withMultiplier (fun i => jointPhase ξ (x i))).charts v.1 v.2.1).hybridClassCost
-    s.mask s.cutoff s.cutoff_one v.rowLabel v.leftReindex v.rightReindex
-    (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 v.rowLabel
+    s.mask s.cutoff s.cutoff_one (CoveredClassKey.rowLabel v) (CoveredClassKey.leftReindex v) (CoveredClassKey.rightReindex v)
+    (exceptional v.1 v.2.1 v.2.2.1 v.2.2.2.1 (CoveredClassKey.rowLabel v)
       v.2.2.2.2.2.1 v.2.2.2.2.2.2)
 
-private def coveredClassNestedSum (f : s.CoveredClassKey LC RC → ℝ) : ℝ :=
+private def coveredClassNestedSum (f : CoveredClassKey s LC RC → ℝ) : ℝ :=
   ∑ DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val),
     ∑ D : s.mask.powerset, ∑ a : LC.labels, ∑ e : RC.labels,
@@ -513,8 +515,8 @@ private def coveredClassNestedSum (f : s.CoveredClassKey LC RC → ℝ) : ℝ :=
           ∑ keyRight : (RC.branch e).labels (primeSupport DE.val.1) DE.val.2,
             f ⟨DE, D, a, e, label, keyLeft, keyRight⟩
 
-private theorem coveredClassNestedSum_eq_sum (f : s.CoveredClassKey LC RC → ℝ) :
-    coveredClassNestedSum s LC RC f = ∑ v : s.CoveredClassKey LC RC, f v := by
+private theorem coveredClassNestedSum_eq_sum (f : CoveredClassKey s LC RC → ℝ) :
+    coveredClassNestedSum s LC RC f = ∑ v : CoveredClassKey s LC RC, f v := by
   unfold coveredClassNestedSum
   simp only [Fintype.sum_sigma, Fintype.sum_prod_type]
 
@@ -576,7 +578,7 @@ private theorem phase_coverHybridNonzeroCost_eq_nested_sum
     (s.withMultiplier (fun i => jointPhase ξ (x i))).coverHybridNonzeroCost
         LC RC exceptional =
       coveredClassNestedSum s LC RC (coveredClassPhaseCost s LC RC exceptional x ξ) := by
-  unfold coverHybridNonzeroCost coveredClassNestedSum
+  unfold EngineStep.ActualGaussStage.coverHybridNonzeroCost coveredClassNestedSum
   apply Finset.sum_congr rfl
   intro DE _
   apply Finset.sum_congr rfl
@@ -586,7 +588,7 @@ private theorem phase_coverHybridNonzeroCost_eq_nested_sum
 private theorem coverHybridPhaseNonzeroCost_eq_class_sum
     (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC) (x : ι → W) (ξ : W) :
     s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
-      ∑ v : s.CoveredClassKey LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v := by
+      ∑ v : CoveredClassKey s LC RC, coveredClassPhaseCost s LC RC exceptional x ξ v := by
   change (s.withMultiplier (fun i => jointPhase ξ (x i))).coverHybridNonzeroCost
     LC RC exceptional = _
   exact (phase_coverHybridNonzeroCost_eq_nested_sum s LC RC exceptional x ξ).trans
@@ -599,14 +601,14 @@ theorem coverHybridPhaseNonzeroCost_eq_leaf_sum
     (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) (ξ : W) :
     s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ =
-      ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ := by
+      ∑ b : CoveredLeafKey s LC RC, (coveredLeaf s LC RC exceptional F x b).firstPhaseCost ξ := by
   exact scalar_sum_sigma_of_class_sum
-    (α := s.CoveredClassKey LC RC) (β := fun v => v.AllocationKey)
+    (α := CoveredClassKey s LC RC) (β := fun v => (CoveredClassKey.AllocationKey v))
     (s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ)
     (coveredClassPhaseCost s LC RC exceptional x ξ)
-    (fun b => (s.coveredLeaf LC RC exceptional F x b).firstPhaseCost ξ)
+    (fun b => (coveredLeaf s LC RC exceptional F x b).firstPhaseCost ξ)
     (coverHybridPhaseNonzeroCost_eq_class_sum s LC RC exceptional x ξ)
-    (fun v => v.phase_class_eq_leaf_sum exceptional F x ξ)
+    (fun v => CoveredClassKey.phase_class_eq_leaf_sum v exceptional F x ξ)
 
 private theorem leaf_firstPhaseCost_integrable_of_firstKernel
     {H : Type*} (B : ActualHybridLeaf K H W E)
@@ -651,14 +653,14 @@ theorem integral_coverHybridPhaseNonzeroCost_eq_leaf_sum
     (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{_, _, 0, 0} s LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W) :
     (∫ ξ, s.coverHybridPhaseNonzeroCost LC RC exceptional x ξ ∂actualFourierMeasure F) =
-      ∑ b : s.CoveredLeafKey LC RC, (s.coveredLeaf LC RC exceptional F x b).cost := by
+      ∑ b : CoveredLeafKey s LC RC, (coveredLeaf s LC RC exceptional F x b).cost := by
   exact integral_eq_leafFamily_cost
     (K := K) (H := Q) (W := W) (E := E)
-    (J := s.CoveredLeafKey LC RC)
-    F (s.coveredLeaf LC RC exceptional F x)
-    (s.coveredLeaf_firstKernel LC RC exceptional F x)
+    (J := CoveredLeafKey s LC RC)
+    F (coveredLeaf s LC RC exceptional F x)
+    (coveredLeaf_firstKernel s LC RC exceptional F x)
     (s.coverHybridPhaseNonzeroCost LC RC exceptional x)
-    (s.coverHybridPhaseNonzeroCost_eq_leaf_sum LC RC exceptional F x)
+    (coverHybridPhaseNonzeroCost_eq_leaf_sum s LC RC exceptional F x)
 
 end ActualGaussStage
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.FiniteLeavesIntegral
