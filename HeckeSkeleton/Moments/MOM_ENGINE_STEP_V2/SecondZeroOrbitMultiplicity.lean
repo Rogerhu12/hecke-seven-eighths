@@ -198,12 +198,30 @@ theorem first_key_orbit_injective (hF : F.Realizes) (key : FirstCauchyKey F) :
     Set.InjOn (engineElementOrbit (Γ := Arithmetic.unitSubgroup c))
       ((FirstCauchyKey.data key).rows : Set (Arithmetic.data c).R) := by
   cases hside : FirstCauchyKey.side key
-  · simp only [FirstCauchyKey.data, hside, Bool.false_eq_true, if_false]
-    rw [hF.leftRows]
-    exact element_orbit_out_image_injective _
-  · simp only [FirstCauchyKey.data, hside, if_true]
-    rw [hF.rightRows]
-    exact element_orbit_neg_out_image_injective _
+  · have hdata : FirstCauchyKey.data key = (FirstCauchyKey.piece key).leftData := by
+      simp only [FirstCauchyKey.data, hside, Bool.false_eq_true, if_false]
+    have hrows : (FirstCauchyKey.data key).rows =
+        ((F.source.source key.1).divisorRows key.2.1.val).image (fun q => q.out.val) :=
+      (congrArg (fun d : DirectGaussData (Arithmetic.context c) F.source.Column =>
+        d.rows) hdata).trans (hF.leftRows key.1 key.2.1)
+    exact Eq.mpr
+      (congrArg (fun rows : Finset (Arithmetic.data c).R =>
+        Set.InjOn (engineElementOrbit (Γ := Arithmetic.unitSubgroup c))
+          (rows : Set (Arithmetic.data c).R)) hrows)
+      (element_orbit_out_image_injective
+        ((F.source.source key.1).divisorRows key.2.1.val))
+  · have hdata : FirstCauchyKey.data key = (FirstCauchyKey.piece key).rightData := by
+      simp only [FirstCauchyKey.data, hside, if_true]
+    have hrows : (FirstCauchyKey.data key).rows =
+        ((F.source.source key.1).divisorRows key.2.1.val).image (fun q => -q.out.val) :=
+      (congrArg (fun d : DirectGaussData (Arithmetic.context c) F.source.Column =>
+        d.rows) hdata).trans (hF.rightRows key.1 key.2.1)
+    exact Eq.mpr
+      (congrArg (fun rows : Finset (Arithmetic.data c).R =>
+        Set.InjOn (engineElementOrbit (Γ := Arithmetic.unitSubgroup c))
+          (rows : Set (Arithmetic.data c).R)) hrows)
+      (element_orbit_neg_out_image_injective
+        ((F.source.source key.1).divisorRows key.2.1.val))
 
 theorem first_family_orbit_injective (hF : F.Realizes) (hfamily : family.Realizes)
     (i : Fin family.count) :
@@ -310,7 +328,7 @@ theorem pool_multiplicity_le_orbit_bound
   calc
     _ ≤ (20 + 6 * (recipeInductionSigma c / 3)) /
         ((recipeInductionSigma c / 3) / 2) :=
-      div_le_div_of_nonneg_right (add_le_add_right hrow _) (by positivity)
+      div_le_div_of_nonneg_right (add_le_add hrow le_rfl) (by positivity)
     _ = (20 + 2 * recipeInductionSigma c) / (recipeInductionSigma c / 6) := by
       congr 1 <;> ring
     _ ≤ secondOrbitBound c := le_max_right _ _

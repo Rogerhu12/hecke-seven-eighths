@@ -5,6 +5,13 @@ import Lean.Elab.Command
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
 set_option Elab.async false
+set_option stderrAsMessages false
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 N8NormalizedLeafWeights checkpoint: imports/options"
+    stderr.flush
 
 /-!
 # The original finite coefficient outside each normalized leaf
@@ -29,12 +36,6 @@ attribute [local instance]
   Expansion.ActualProbeContext.localCompletionSpace
   Expansion.ActualProbeContext.localCompletionBorel
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 N8NormalizedLeafWeights checkpoint: before punitPhaseCoefficient_eq_one"
-    stderr.flush
 
 theorem punitPhaseCoefficient_eq_one (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :
     fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) χ = 1 := by
