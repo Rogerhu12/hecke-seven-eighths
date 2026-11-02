@@ -138,6 +138,7 @@ theorem originalCover_uniform_subpower (c : TargetContext K)
     (c.geometry.slots + 2) B ε hB hε
   refine ⟨C, hC, ?_⟩
   intro call p source cover hcover D hD hnorm hcolumns hextract
+  have hbase_pos : 0 < call.base := call.base_pos
   have hcard : (cover.cover.labels.card : ℝ) ≤
       (idealDivisorCount D : ℝ) ^ (c.geometry.slots + 2) := by
     exact_mod_cast cover.labels_card_le_divisorPower hcover D hD hcolumns hextract

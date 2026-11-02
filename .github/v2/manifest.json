@@ -98,7 +98,6 @@
         "TasksPassiveRefinement",
         "TasksSecondTransform",
         "TasksSecondZero",
-        "TasksSourceIndex",
         "TasksTails"
       ]
     },
@@ -115,10 +114,25 @@
       "name": "n8a_proved",
       "proved": true,
       "modules": [
-        "N8SourceIndexBasic",
+        "N8SourceAllocationMass",
+        "N8SourceClassCounts",
         "N8SourceCoverCounts",
         "N8SourceFirstExtraction",
-        "N8SourcePoolExtraction"
+        "N8SourceFirstMass",
+        "N8SourceFirstNorms",
+        "N8SourceFrozenDivisor",
+        "N8SourceIndexBasic",
+        "N8SourceIndexProof",
+        "N8SourceNormBounds",
+        "N8SourcePoolExtraction",
+        "N8SourcePoolMass",
+        "N8SourceRawCarrier",
+        "N8SourceRawMass",
+        "N8SourceResidualWindows",
+        "N8SourceSecondCommonMass",
+        "N8SourceUniformDecorations",
+        "N9FirstRowExponent",
+        "TasksSourceIndex"
       ]
     },
     {
@@ -126,10 +140,24 @@
       "name": "n8b_proved",
       "proved": true,
       "modules": [
+        "N8NormalizedBudget",
+        "N8NormalizedCanonical",
+        "N8NormalizedCapacityMass",
+        "N8NormalizedCommonBounds",
         "N8NormalizedCostBounds",
+        "N8NormalizedFibres",
+        "N8NormalizedFixedEnvelope",
+        "N8NormalizedFrozenAtoms",
+        "N8NormalizedInnerAtoms",
         "N8NormalizedLabels",
+        "N8NormalizedOriginalScalars",
         "N8NormalizedPassiveMass",
-        "N8NormalizedCanonical"
+        "N8NormalizedPassiveWindows",
+        "N8NormalizedRows",
+        "N8NormalizedScaleBounds",
+        "N8NormalizedSecondLedger",
+        "N9OriginalRowWeights",
+        "NormalizedMassContracts"
       ]
     },
     {
@@ -137,12 +165,62 @@
       "name": "n9_proved",
       "proved": true,
       "modules": [
-        "N9RadiusData",
-        "N9OriginalKernels",
-        "N9FixedRadiusMass",
         "KernelMassContracts",
-        "TasksKernelMass",
-        "N9UniformCost"
+        "N9ClippedRadiusData",
+        "N9FixedRadiusMass",
+        "N9FullKappaContracts",
+        "N9FullKappaMass",
+        "N9OriginalKernels",
+        "N9OriginalWindowContracts",
+        "N9OriginalWindowMass",
+        "N9ProfileWindowData",
+        "N9RadiusData",
+        "N9ReserveBudget",
+        "N9UniformCost",
+        "TasksKernelMass"
+      ]
+    },
+    {
+      "id": "n8n9_shared_proved",
+      "name": "N8/N9 引用的原始上游证明闭包（固定提交）",
+      "proved": true,
+      "modules": [
+        "CalibrationAtoms",
+        "CalibrationClass",
+        "CalibrationConstruction",
+        "CalibrationContracts",
+        "CalibrationCosts",
+        "CalibrationFourierProfiles",
+        "CalibrationOrigin",
+        "CalibrationParameters",
+        "CalibrationPhases",
+        "CalibrationProfiles",
+        "CalibrationRows",
+        "FullKappaContracts",
+        "N4ComputedLengths",
+        "N4FrozenIdeals",
+        "N4InnerScale",
+        "N4NominalScale",
+        "N4OriginalPrimeWindows",
+        "N4ScaleProduct",
+        "N4ScaleWindows",
+        "N4UniformCapacity",
+        "N4UniformThreshold",
+        "OriginalCapacityContracts",
+        "PassiveCanonicalAtoms",
+        "PassiveCanonicalProfiles",
+        "PassiveCanonicalSupport",
+        "PassiveCoverOrigin",
+        "PassiveEnergy",
+        "PassiveExpansion",
+        "PassiveMask",
+        "PassivePhaseBridge",
+        "PassiveScalar",
+        "PassiveSecondCarrier",
+        "PassiveSource",
+        "PassiveSourceReindex",
+        "ProfileWindowClipping",
+        "ProfileWindowContracts"
       ]
     }
   ]
