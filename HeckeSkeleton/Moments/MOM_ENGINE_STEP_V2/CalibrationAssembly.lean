@@ -33,6 +33,21 @@ attribute [local instance]
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
 variable {K : Type} [Field K] [NumberField K]
+
+private theorem nonexceptional_transport (z : ℝ)
+    (original current background : HeckeCharacter K)
+    (originalTheta currentTheta : Finset (HeckeCharacter K))
+    (hrow : current = original) (htheta : currentTheta = originalTheta)
+    (ordinary : original ∉ originalTheta)
+    (principal : background * current = 1 → current ∈ currentTheta) :
+    if z = 0 then background * current ≠ 1 else current ∉ currentTheta := by
+  have hn : current ∉ currentTheta := by
+    simpa only [hrow, htheta] using ordinary
+  split
+  · intro hp
+    exact hn (principal hp)
+  · exact hn
+
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 variable (seed : OrdinarySeed packet) (input : ProfileInput call)
@@ -137,9 +152,11 @@ theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
       ((s).row h).element) hz
   have hcharacters : (s).characters h =
       seed.phases.characters true (seed.slotIndex side) := rfl
+  have hcast (count : (d ξ).geometry.slotCount = (s).allocation.keep.card) :
+      Fin.cast count i = (i : Fin (s).allocation.keep.card) := Fin.ext rfl
   apply hv
   exact ((atoms ξ h).slot i q).trans (by
-    simpa only [FixedChildCharacters.restrictSlots, hcharacters, Fin.cast_refl, j,
+    simpa only [FixedChildCharacters.restrictSlots, hcharacters, hcast, j,
       zero_mul] using hz')
 
 include canonical masks atoms in
@@ -222,14 +239,13 @@ private theorem nonexceptional_at (ξ : EngineParameter) (h : seed.ordinary.rows
   have hrow : (d ξ).rowCharacter ((s).row h).momentIdeal =
       (d 0).rowCharacter ((s).row h).momentIdeal := rfl
   have htheta : (d ξ).theta = call.node.data.theta := rfl
-  have hn : (d ξ).rowCharacter ((s).row h).momentIdeal ∉ (d ξ).theta := by
-    rw [hrow, htheta]
-    exact ordinary h hh
-  split
-  · intro hp
-    exact hn (principal_in_theta seed input support side a rectangle moving correction hcorr
-      sector remaining ξ ((s).row h).momentIdeal hp)
-  · exact hn
+  have ho := @ordinary h hh
+  exact nonexceptional_transport parameters.z
+    ((d 0).rowCharacter ((s).row h).momentIdeal)
+    ((d ξ).rowCharacter ((s).row h).momentIdeal) (d ξ).plainBackground
+    call.node.data.theta (d ξ).theta hrow htheta ho
+    (principal_in_theta seed input support side a rectangle moving correction hcorr
+      sector remaining ξ ((s).row h).momentIdeal)
 
 set_option maxHeartbeats 1000000 in
 def calibration : (s).Calibration (σ := Arithmetic.embedding c)
@@ -263,8 +279,11 @@ def calibration : (s).Calibration (σ := Arithmetic.embedding c)
     CalibrationConstruction.slot_profile seed input support side a rectangle ξ h i q
   allowed ξ h hh := Finset.mem_image.mpr ⟨h, hh, rfl⟩
   cutoff := cutoff
-  nonexceptional ξ h hh := nonexceptional_at seed input support side a rectangle moving
-    correction hcorr sector remaining parameters ordinary ξ h hh
+  nonexceptional ξ h hh := nonexceptional_at
+    (seed := seed) (input := input) (support := support) (side := side) (a := a)
+    (rectangle := rectangle) (moving := moving) (correction := correction)
+    (hcorr := hcorr) (sector := sector) (remaining := remaining)
+    (parameters := parameters) (ordinary := ordinary) ξ h hh
   rowBound := SourceCost.row s
   rowBound_nonneg := SourceCost.row_nonneg s
   row_bound := SourceCost.row_bound s
@@ -281,8 +300,13 @@ def calibration : (s).Calibration (σ := Arithmetic.embedding c)
 variable (kappa : parameters.κ = call.node.parameters.κ)
 
 def original : OriginalCalibration call s where
-  calibration := calibration seed input support canonical masks side a rectangle moving
-    correction hcorr sector remaining atoms parameters left_scale right_scale slot_sum cutoff ordinary
+  calibration := calibration
+    (seed := seed) (input := input) (support := support) (canonical := canonical)
+    (masks := masks) (side := side) (a := a) (rectangle := rectangle)
+    (moving := moving) (correction := correction) (hcorr := hcorr) (sector := sector)
+    (remaining := remaining) (atoms := atoms) (parameters := parameters)
+    (left_scale := left_scale) (right_scale := right_scale) (slot_sum := slot_sum)
+    (cutoff := cutoff) (ordinary := ordinary)
   recipe := CalibrationConstruction.recipe seed input support side a rectangle moving
     correction hcorr sector remaining
   normProfiles := CalibrationConstruction.normProfiles seed input support side a rectangle
@@ -299,9 +323,13 @@ def original : OriginalCalibration call s where
   fiber_cost := rfl
 
 def dictionary :
-    (original seed input support canonical masks side a rectangle moving correction hcorr sector
-      remaining atoms parameters left_scale right_scale slot_sum cutoff ordinary kappa).RawDictionary
-        input CalibrationConstruction.shape 1 call.window :=
+    (original (seed := seed) (input := input) (support := support) (canonical := canonical)
+      (masks := masks) (side := side) (a := a) (rectangle := rectangle)
+      (moving := moving) (correction := correction) (hcorr := hcorr) (sector := sector)
+      (remaining := remaining) (atoms := atoms) (parameters := parameters)
+      (left_scale := left_scale) (right_scale := right_scale) (slot_sum := slot_sum)
+      (cutoff := cutoff) (ordinary := ordinary) (kappa := kappa)).RawDictionary
+      input CalibrationConstruction.shape 1 call.window :=
   CalibrationConstruction.dictionary seed input support side a rectangle moving correction hcorr
     sector remaining
 

@@ -68,20 +68,23 @@ theorem ordinary (h : seed.ordinary.rows.live) :
 /-- The same constructor serves both sides, both comparison rectangles
 and every nonempty actual residual allocation. -/
 def original : OriginalCalibration call s :=
-  CalibrationAssembly.original seed input support canonical masks side a rectangle
-    (CalibrationAtoms.moving seed pattern) (CalibrationAtoms.correction seed)
-    (Or.inr (CalibrationAtoms.correction_mem seed)) (fun _ => ν)
-    (CalibrationAtoms.remaining seed)
-    (CalibrationAtoms.dictionary seed input support side a rectangle pattern ν
+  CalibrationAssembly.original
+    (seed := seed) (input := input) (support := support) (canonical := canonical)
+    (masks := masks) (side := side) (a := a) (rectangle := rectangle)
+    (moving := CalibrationAtoms.moving seed pattern)
+    (correction := CalibrationAtoms.correction seed)
+    (hcorr := Or.inr (CalibrationAtoms.correction_mem seed)) (sector := fun _ => ν)
+    (remaining := CalibrationAtoms.remaining seed)
+    (atoms := CalibrationAtoms.dictionary seed input support side a rectangle pattern ν
       (CalibrationClass.ordinary_pattern seed.ordinary hpacket)
       (CalibrationClass.ordinary_sector seed.ordinary hpacket))
-    (CalibrationParameters.parameters seed input support side a rectangle)
-    (CalibrationParameters.left_scale seed input support side a rectangle)
-    (CalibrationParameters.right_scale seed input support side a rectangle)
-    (CalibrationParameters.slot_sum seed input support side a rectangle)
-    (fun h _ => CalibrationParameters.cutoff seed input support side a rectangle hpacket h)
-    (fun h _ => ordinary seed input support hpacket side a rectangle h)
-    (CalibrationParameters.kappa seed input support side a rectangle)
+    (parameters := CalibrationParameters.parameters seed input support side a rectangle)
+    (left_scale := CalibrationParameters.left_scale seed input support side a rectangle)
+    (right_scale := CalibrationParameters.right_scale seed input support side a rectangle)
+    (slot_sum := CalibrationParameters.slot_sum seed input support side a rectangle)
+    (cutoff := fun h _ => CalibrationParameters.cutoff seed input support side a rectangle hpacket h)
+    (ordinary := fun h _ => ordinary seed input support hpacket side a rectangle h)
+    (kappa := CalibrationParameters.kappa seed input support side a rectangle)
 
 @[simp] theorem data_eq :
     (original seed input support hpacket canonical masks side a rectangle).calibration.data =
