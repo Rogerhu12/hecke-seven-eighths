@@ -149,8 +149,9 @@ Only their individual prime annuli are bounded, and each is paid once. -/
 theorem two_extraction_product (rectangle : Bool) :
     ((beforeSecond).extract b₂).scaleProduct rectangle * (N₁ * N₂) ≤
       (annulus ^ cap) ^ 2 * d.scaleProduct rectangle := by
-  have hc₂ : b₁.keep.card ≤ cap :=
-    (by simpa only [Fintype.card_fin] using Finset.card_le_univ b₁.keep).trans hcap
+  have hkeep : b₁.keep.card ≤ k := by
+    simpa only [Fintype.card_fin] using Finset.card_le_univ b₁.keep
+  have hc₂ : b₁.keep.card ≤ cap := hkeep.trans hcap
   have hp₂ : (beforeSecond).PrimeNormWindow annulus :=
     d.secondInput_primeNormWindow P R b₁ power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hprime
