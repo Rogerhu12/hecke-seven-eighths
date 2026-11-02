@@ -101,7 +101,7 @@ theorem coveredLeaf_weight_original_relative
           ‖(moebius (R.innerDivisor LA RA j) : ℂ)‖ *
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             (R.secondPhaseAt LA RA j)‖) /
-        R.firstAllowanceAt LA RA total j := by
+        R.firstAllowanceAt (Z := Z) LA RA total j := by
   rcases j with ⟨S, χ, j | j⟩ <;>
     simp only [coveredLeaf, classLeaf, ActualHybridLeaf.scale,
       ActualGaussStage.fiberCoveredLeaf, ActualGaussStage.coveredLeaf,
@@ -140,7 +140,7 @@ variable (hZ : 1 < Z)
 variable (total : ∀ v : s.CommonLabel, ((s.block v).mask s.mask).powerset → ℝ)
 
 def firstAllowanceAt (j : R.CoveredLeafKey L) : ℝ :=
-  (R j.1 j.2.1).firstAllowanceAt L L (total j.1 j.2.1) j.2.2
+  (R j.1 j.2.1).firstAllowanceAt (Z := Z) L L (total j.1 j.2.1) j.2.2
 
 def originalScalarAt (j : R.CoveredLeafKey L) : ℝ :=
   (s.fiber : ℝ) * (R j.1 j.2.1).directScalarAt L L j.2.2 / 2

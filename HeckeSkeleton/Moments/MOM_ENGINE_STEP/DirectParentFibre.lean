@@ -367,7 +367,8 @@ theorem originalIndex_retained_rectangles_fibre_subpower
   have hf := R.originalIndex_fibre_subpower L hcap δ₁ δ₂ hB hδ₁ hδ₂ hZ
     rows maskIdeal hmask0 mask hmaskN hN exceptional N j
   refine ha.trans ?_
-  rw [realCount_prod_left]
+  rw [realCount_prod_left (β := Bool × Bool)
+    (fun i : R.liveLeaves L exceptional N => R.originalIndex L hcap exceptional N i = j)]
   have hcard : (Fintype.card (Bool × Bool) : ℝ) = 4 := by norm_num
   rw [hcard]
   exact (mul_le_mul_of_nonneg_left hf (by norm_num : (0 : ℝ) ≤ 4)).trans_eq (by ring)

@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ScaledNormalizedKernels
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedKernels
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original live parents keep their dependent normalized families

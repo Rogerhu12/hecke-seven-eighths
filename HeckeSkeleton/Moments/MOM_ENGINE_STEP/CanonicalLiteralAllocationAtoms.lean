@@ -43,9 +43,8 @@ theorem sum_idealCarrier {k : ℕ}
   · apply Finset.sum_congr rfl
     intro I _
     rw [Finset.sum_image]
-    · rfl
-    · intro I _ J _ h
-      exact Subtype.ext h
+    intro I _ J _ h
+    exact Subtype.ext h
   · intro I _ J _ h
     exact Subtype.ext h
 

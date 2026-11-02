@@ -74,8 +74,9 @@ theorem residualGaussScale_mul_frozenNorm_le
           b.keep b.witness.2) : ℝ) ≤
       B ^ cap * (X₁ * X₂ * ∏ i, Z ^ length i) := by
   have hcard : (Finset.univ \ b.keep).card ≤ cap :=
-    (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ (Finset.univ \ b.keep))).trans hcap
+    (show (Finset.univ \ b.keep).card ≤ k from by
+      simpa only [Fintype.card_fin] using
+        (Finset.card_le_univ (Finset.univ \ b.keep))).trans hcap
   have hfrozen : (∏ i ∈ Finset.univ \ b.keep,
       (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ)) ≤
       B ^ cap * ∏ i ∈ Finset.univ \ b.keep, Z ^ length i := by

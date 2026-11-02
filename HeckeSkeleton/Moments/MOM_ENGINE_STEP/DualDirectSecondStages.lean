@@ -118,13 +118,21 @@ theorem linearized_le_rawCost
       ((PUnit × PUnit) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
     (ε Cerror Czero : ℝ)
-    (hstage : ∀ {j : Type*} (G : ActualGaussSource C j)
+    (hstageLeft : ∀ (G : ActualGaussSource C ι)
       (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
       (hmask : s.mask = ∅)
       (hpositive : 0 ≤ (sIntegerTensorTerm K A.Sf
         (traceSchwartzToMixed K s.profile) finiteTest 0).re)
       (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
-      (x : j → W) (ξ : W),
+      (x : ι → W) (ξ : W),
+      G.phaseEnergy (hDiff := hDiff) x ξ ≤ (T.fourierPhase x ξ).rawCost ε Cerror Czero)
+    (hstageRight : ∀ (G : ActualGaussSource C κ)
+      (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
+      (hmask : s.mask = ∅)
+      (hpositive : 0 ≤ (sIntegerTensorTerm K A.Sf
+        (traceSchwartzToMixed K s.profile) finiteTest 0).re)
+      (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
+      (x : κ → W) (ξ : W),
       G.phaseEnergy (hDiff := hDiff) x ξ ≤ (T.fourierPhase x ξ).rawCost ε Cerror Czero) :
     p.linearizedCost hDiff NL NR ≤ T.rawCost NL NR ε Cerror Czero := by
   unfold FirstBlockDirectData.linearizedCost firstDirectLinearizedCost rawCost
@@ -145,7 +153,7 @@ theorem linearized_le_rawCost
     intro ξ
     apply div_le_div_of_nonneg_right _ (hNL S χ).le
     simpa only [DirectGaussData.directSource_phaseEnergy] using
-      hstage _ (s.left S χ) (conditions.left_mask S χ) (conditions.left_origin_nonneg S χ)
+      hstageLeft _ (s.left S χ) (conditions.left_mask S χ) (conditions.left_origin_nonneg S χ)
         (T.left S χ) chart.leftPoint ξ
   · apply integral_mono
       ((p.rightData.direct_twisted_integrable (hDiff := hDiff) chart.kernel
@@ -155,7 +163,7 @@ theorem linearized_le_rawCost
     intro ξ
     apply div_le_div_of_nonneg_right _ (hNR S χ).le
     simpa only [DirectGaussData.directSource_phaseEnergy] using
-      hstage _ (s.right S χ) (conditions.right_mask S χ) (conditions.right_origin_nonneg S χ)
+      hstageRight _ (s.right S χ) (conditions.right_mask S χ) (conditions.right_origin_nonneg S χ)
         (T.right S χ) (fun j => -chart.rightPoint j) ξ
 
 end DualTerminalCalibration
@@ -290,7 +298,8 @@ theorem actual_parent_direct_two_stage_dual_raw_terminal_bound
   intro D _
   exact (T v D).linearized_le_rawCost (conditions v D)
     (N.left v D) (N.right v D) (N.left_pos v D) (N.right_pos v D) ε Cerror Czero
-    (fun {j} G S hmask hpositive T x ξ => hsecond Z G S hmask hpositive T x ξ)
+    (fun G S hmask hpositive T x ξ => hsecond Z G S hmask hpositive T x ξ)
+    (fun G S hmask hpositive T x ξ => hsecond Z G S hmask hpositive T x ξ)
 
 end HeckeSkeleton.Moments.EngineStep
 
