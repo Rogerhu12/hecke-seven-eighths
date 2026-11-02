@@ -58,12 +58,25 @@ theorem firstPairFactors_product (F : FirstPresentation call p) (hF : F.Realizes
     (hij : ij ∈ F.source.columns ×ˢ F.source.columns) :
     PowerfulDiagonal.tupleIdeal (firstPairFactors F ij) =
       (F.source.ideal ij.1).val * (F.source.ideal ij.2).val := by
-  rw [firstPairFactors, call.workingRaw.originalPairIdealFactors_product,
-    hF.ideal ij.1, hF.ideal ij.2,
-    call.workingRaw.columnExterior_val_of_mem (F.index ij.1)
-      (first_index_mem F hF ij.1 (Finset.mem_product.mp hij).1),
-    call.workingRaw.columnExterior_val_of_mem (F.index ij.2)
-      (first_index_mem F hF ij.2 (Finset.mem_product.mp hij).2)]
+  have hleft : (F.source.ideal ij.1).val =
+      call.workingRaw.columnIdeal (F.index ij.1) :=
+    (congrArg (fun I : (Arithmetic.data c).Exterior => I.val) (hF.ideal ij.1)).trans
+      (call.workingRaw.columnExterior_val_of_mem (F.index ij.1)
+        (first_index_mem F hF ij.1 (Finset.mem_product.mp hij).1))
+  have hright : (F.source.ideal ij.2).val =
+      call.workingRaw.columnIdeal (F.index ij.2) :=
+    (congrArg (fun I : (Arithmetic.data c).Exterior => I.val) (hF.ideal ij.2)).trans
+      (call.workingRaw.columnExterior_val_of_mem (F.index ij.2)
+        (first_index_mem F hF ij.2 (Finset.mem_product.mp hij).2))
+  calc
+    PowerfulDiagonal.tupleIdeal (firstPairFactors F ij) =
+        call.workingRaw.columnIdeal (F.index ij.1) *
+          call.workingRaw.columnIdeal (F.index ij.2) :=
+      call.workingRaw.originalPairIdealFactors_product
+        (A := Arithmetic.data c) (Γ := Arithmetic.unitSubgroup c)
+        c.geometry.slots call.slots_le (F.index ij.1, F.index ij.2)
+    _ = (F.source.ideal ij.1).val * (F.source.ideal ij.2).val :=
+      congrArg₂ (fun I J : Ideal (𝓞 K) => I * J) hleft.symm hright.symm
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.FirstZeroProof
 

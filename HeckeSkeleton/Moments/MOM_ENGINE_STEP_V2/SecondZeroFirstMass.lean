@@ -160,25 +160,41 @@ theorem canonicalFirstWeightBound_nonneg (F : FirstPresentation call p)
     0 ≤ canonicalFirstWeightBound F v D :=
   CanonicalFirstLog.rowWeightBound_nonneg _ _ _ _
 
+private theorem first_canonical_chart_weight_norm_le (F : FirstPresentation call p)
+    (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
+    (q : Arithmetic.Orbit c) :
+    ‖(F.canonicalChart v D).weight q‖ ≤ canonicalFirstWeightBound F v D :=
+  CanonicalFirstLog.norm_poissonTiltWeight_le
+    (actualActiveColumn (Arithmetic.units_are_sixth c) (Arithmetic.context c)
+      (F.source.block v).primes (F.source.block v).primes_injective
+      (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity)
+    F.source.radius D.val p.tilt p.tilt_pos.le q
+
+private theorem first_chart_weight_norm_le (F : FirstPresentation call p) (hF : F.Realizes)
+    (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
+    (q : Arithmetic.Orbit c) :
+    ‖(F.source.charts v D).weight q‖ ≤ canonicalFirstWeightBound F v D := by
+  have hweight : (F.source.charts v D).weight = (F.canonicalChart v D).weight :=
+    (chart_projections_of_heq F v D hF.profile
+      (F.source.charts v D) (F.canonicalChart v D) (hF.chart v D)).2
+  exact (congrArg (fun weight : Arithmetic.Orbit c → ℂ => ‖weight q‖) hweight).trans_le
+    (first_canonical_chart_weight_norm_le F v D q)
+
+private theorem coe_finset_sup_norm_le {ι : Type*} (s : Finset ι) (f : ι → ℂ)
+    (B : ℝ) (hB : 0 ≤ B) (h : ∀ i, ‖f i‖ ≤ B) :
+    ((s.sup (fun i => ‖f i‖₊) : NNReal) : ℝ) ≤ B := by
+  let bound : NNReal := ⟨B, hB⟩
+  have hsup : s.sup (fun i => ‖f i‖₊) ≤ bound :=
+    Finset.sup_le (fun i _ => NNReal.coe_le_coe.mp (h i))
+  exact NNReal.coe_mono hsup
+
 theorem first_weightBound_le (F : FirstPresentation call p) (hF : F.Realizes)
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset) :
     (F.source.pieces v D).weightBound ≤ canonicalFirstWeightBound F v D := by
-  let qbound : NNReal := ⟨canonicalFirstWeightBound F v D,
-    canonicalFirstWeightBound_nonneg F v D⟩
-  rw [hF.weight v D]
-  change ((Finset.sup _ _ : NNReal) : ℝ) ≤ (qbound : ℝ)
-  exact_mod_cast (show ((F.source.source v).divisorRows D.val).sup
-      (fun q => ‖(F.source.charts v D).weight q‖₊) ≤ qbound from by
-    apply Finset.sup_le
-    intro q _
-    change ‖(F.source.charts v D).weight q‖ ≤ canonicalFirstWeightBound F v D
-    have hweight : (F.source.charts v D).weight = (F.canonicalChart v D).weight :=
-      (chart_projections_of_heq F v D hF.profile
-        (F.source.charts v D) (F.canonicalChart v D) (hF.chart v D)).2
-    calc
-      _ = ‖(F.canonicalChart v D).weight q‖ :=
-        congrArg (fun weight => ‖weight q‖) hweight
-      _ ≤ _ := CanonicalFirstLog.norm_poissonTiltWeight_le _ _ _ p.tilt p.tilt_pos.le q)
+  exact (hF.weight v D).trans_le
+    (coe_finset_sup_norm_le ((F.source.source v).divisorRows D.val)
+      (F.source.charts v D).weight (canonicalFirstWeightBound F v D)
+      (canonicalFirstWeightBound_nonneg F v D) (first_chart_weight_norm_le F hF v D))
 
 /-- The standard first allowance identity also applies to the actual
 direct piece. No pool or aggregate source bound is used here. -/

@@ -25,6 +25,7 @@ open EngineStep EngineInduction EngineInduction.Source
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis MeasureTheory
+open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 open HeckePort.IdealMobiusDivisorSum HeckePort.Moments HeckePort.Moments.Support
 
 variable {K : Type} [Field K] [NumberField K]
@@ -100,6 +101,26 @@ attribute [local instance]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable (F : FirstPresentation call p) (hF : F.Realizes)
 
+private theorem chart_coefficient_functions_of_heq
+    (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
+    {φ ψ : F.source.Column → F.source.Column →
+      SchwartzMap (mixedEmbedding.euclidean.mixedSpace K) ℂ}
+    (e : φ = ψ)
+    (x : FirstBlockProfileChart (E := ℝ) (Arithmetic.units_are_sixth c)
+      (Arithmetic.localMeasures (K := K)) (F.source.block v)
+      (Arithmetic.context c) F.source.columns F.source.columns φ
+      (rowBallFiniteFamily K (Arithmetic.data c).Sf 1) F.source.radius D.val)
+    (y : FirstBlockProfileChart (E := ℝ) (Arithmetic.units_are_sixth c)
+      (Arithmetic.localMeasures (K := K)) (F.source.block v)
+      (Arithmetic.context c) F.source.columns F.source.columns ψ
+      (rowBallFiniteFamily K (Arithmetic.data c).Sf 1) F.source.radius D.val)
+    (h : HEq x y) : x.leftCoefficient = y.leftCoefficient ∧
+      x.rightCoefficient = y.rightCoefficient := by
+  cases e
+  have he : x = y := eq_of_heq h
+  exact ⟨congrArg FirstBlockProfileChart.leftCoefficient he,
+    congrArg FirstBlockProfileChart.rightCoefficient he⟩
+
 include hF in
 theorem first_chart_leftCoefficient
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset)
@@ -108,12 +129,9 @@ theorem first_chart_leftCoefficient
       F.coefficient i *
         ((((Arithmetic.data c).exteriorNorm ((F.source.block v).leftResidual i) ^ p.tilt : ℝ) : ℂ) /
           ((Arithmetic.data c).exteriorNorm ((F.source.block v).leftResidual i) : ℂ)) := by
-  have he : (F.source.charts v D).leftCoefficient i =
-      (F.canonicalChart v D).leftCoefficient i := by
-    have hh := hF.chart v D
-    cases hh
-    rfl
-  exact he
+  exact congrFun
+    (chart_coefficient_functions_of_heq F v D hF.profile
+      (F.source.charts v D) (F.canonicalChart v D) (hF.chart v D)).1 i
 
 include hF in
 theorem first_chart_rightCoefficient
@@ -123,12 +141,9 @@ theorem first_chart_rightCoefficient
       F.coefficient i *
         ((((Arithmetic.data c).exteriorNorm ((F.source.block v).rightResidual i) ^ p.tilt : ℝ) : ℂ) /
           ((Arithmetic.data c).exteriorNorm ((F.source.block v).rightResidual i) : ℂ)) := by
-  have he : (F.source.charts v D).rightCoefficient i =
-      (F.canonicalChart v D).rightCoefficient i := by
-    have hh := hF.chart v D
-    cases hh
-    rfl
-  exact he
+  exact congrFun
+    (chart_coefficient_functions_of_heq F v D hF.profile
+      (F.source.charts v D) (F.canonicalChart v D) (hF.chart v D)).2 i
 
 theorem first_key_phase_norm (key : FirstCauchyKey F) :
     ‖FirstCauchyKey.phase key‖ = 1 := by
@@ -168,7 +183,9 @@ theorem first_key_coefficient_norm_le (key : FirstCauchyKey F) (i : F.source.Col
             (FirstCauchyKey.block key).leftMultiplicity (FirstCauchyKey.block key).rightMultiplicity)
           (sIntegerMaskGenerator K ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
             (FirstCauchyKey.divisor key).val).val)
-        _ p.tilt ((Arithmetic.data c).exteriorNorm_pos _)
+        ((Arithmetic.data c).exteriorNorm ((FirstCauchyKey.block key).leftResidual i))
+        p.tilt ((Arithmetic.data c).exteriorNorm_pos
+          ((FirstCauchyKey.block key).leftResidual i))
         (firstLeftDivisorFactor_norm_le_one _ _ _)
       simpa only [mul_div_assoc] using he
     · simp only [hs, if_true, FirstCauchyKey.data]
@@ -186,7 +203,9 @@ theorem first_key_coefficient_norm_le (key : FirstCauchyKey F) (i : F.source.Col
             (FirstCauchyKey.block key).leftMultiplicity (FirstCauchyKey.block key).rightMultiplicity)
           (sIntegerMaskGenerator K ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
             (FirstCauchyKey.divisor key).val).val)
-        _ p.tilt ((Arithmetic.data c).exteriorNorm_pos _)
+        ((Arithmetic.data c).exteriorNorm ((FirstCauchyKey.block key).rightResidual i))
+        p.tilt ((Arithmetic.data c).exteriorNorm_pos
+          ((FirstCauchyKey.block key).rightResidual i))
         (firstRightDivisorFactor_norm_le_one _ _ _)
       simpa only [mul_div_assoc] using he
   · rw [FirstCauchyKey.coefficient, if_neg hdiv, norm_zero, zero_mul]
@@ -225,18 +244,28 @@ theorem first_key_ideal_dvd_original (key : FirstCauchyKey F) (i : F.source.Colu
       (primeSupport key.1.val.1)).symm.trans (mul_comm _ _)
   cases hs : FirstCauchyKey.side key
   · simp only [FirstCauchyKey.data, hs, Bool.false_eq_true, if_false]
-    rw [(FirstCauchyKey.piece key).left_ideal, (FirstCauchyKey.block key).left_residual]
-    exact hd
+    have hideal : ((FirstCauchyKey.piece key).leftData.ideal i).val =
+        supportResidual (F.source.ideal i).val (primeSupport key.1.val.1) :=
+      (congrArg (fun f : F.source.Column → (Arithmetic.data c).Exterior => (f i).val)
+        (FirstCauchyKey.piece key).left_ideal).trans
+          ((FirstCauchyKey.block key).left_residual i)
+    exact Eq.mp (congrArg (fun I : Ideal (𝓞 K) => I ∣ (F.source.ideal i).val)
+      hideal.symm) hd
   · simp only [FirstCauchyKey.data, hs, if_true]
-    rw [(FirstCauchyKey.piece key).right_ideal, (FirstCauchyKey.block key).right_residual]
-    exact hd
+    have hideal : ((FirstCauchyKey.piece key).rightData.ideal i).val =
+        supportResidual (F.source.ideal i).val (primeSupport key.1.val.1) :=
+      (congrArg (fun f : F.source.Column → (Arithmetic.data c).Exterior => (f i).val)
+        (FirstCauchyKey.piece key).right_ideal).trans
+          ((FirstCauchyKey.block key).right_residual i)
+    exact Eq.mp (congrArg (fun I : Ideal (𝓞 K) => I ∣ (F.source.ideal i).val)
+      hideal.symm) hd
 
 theorem exterior_norm_le_of_dvd {A : SArithmeticData K} (I J : A.Exterior)
     (hdiv : J.val ∣ I.val) : A.exteriorNorm J ≤ A.exteriorNorm I := by
   obtain ⟨D, hD⟩ := hdiv
   have hDzero : D ≠ 0 := by
     intro hz
-    exact I.property.1 (hD.trans (by rw [hz, mul_zero]))
+    exact I.property.1 (hD.trans (by rw [hz, mul_zero, Ideal.zero_eq_bot]))
   have hnormD : 1 ≤ (Ideal.absNorm D : ℝ) := idealNorm_ge_one D hDzero
   change (Ideal.absNorm J.val : ℝ) ≤ (Ideal.absNorm I.val : ℝ)
   rw [hD, map_mul, Nat.cast_mul]
