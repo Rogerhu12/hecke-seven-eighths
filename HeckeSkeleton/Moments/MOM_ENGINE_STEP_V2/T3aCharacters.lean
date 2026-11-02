@@ -80,13 +80,13 @@ theorem sixthBases_card_le_theta_unitSectors {H : Type*} (rows : Finset H)
     (rows.image (fun h => sixthPowerFreePart (I h).val)).card ≤
       theta.card * Nat.card (SixthUnitClasses K S) := by
   have hsector : 1 ≤ Nat.card (SixthUnitClasses K S) := by
-    have hinj : Function.Injective (fun _ : PUnit => (1 : SixthUnitClasses K S)) := by
+    have hinj : Function.Injective (fun _ : PUnit.{1} => (1 : SixthUnitClasses K S)) := by
       intro a b _
       cases a
       cases b
       rfl
     simpa using Nat.card_le_card_of_injective
-      (fun _ : PUnit => (1 : SixthUnitClasses K S)) hinj
+      (fun _ : PUnit.{1} => (1 : SixthUnitClasses K S)) hinj
   exact (sixthBases_card_le_theta S P R rows I sector preχ theta hmem).trans
     (by simpa only [Nat.mul_one] using Nat.mul_le_mul_left theta.card hsector)
 

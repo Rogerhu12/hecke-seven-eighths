@@ -54,7 +54,7 @@ jobs:
           retention-days: 14
 
   raw-contracts-diagnostics:
-    if: github.head_ref == 'cloud/mom-v2-t3a-t3b' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:

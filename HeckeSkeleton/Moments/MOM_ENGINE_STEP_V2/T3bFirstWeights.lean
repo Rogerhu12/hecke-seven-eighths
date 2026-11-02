@@ -186,6 +186,40 @@ theorem realizedFirst_rowBound_le_rpow (F : FirstPresentation call p) (hF : F.Re
   (realizedFirst_rowBound_le F hF v D).trans_eq
     (realizedFirst_rowMajorant_eq_rpow F hF v D)
 
+/-- Keep the scalar inequality independent of the dependent source
+carriers, so the original outer coefficient needs only one application. -/
+private theorem firstCauchy_outer_scalar_le
+    (fiber : ℕ) (mu phase row majorant left right : ℝ) (side : Bool)
+    (hfiber : fiber = 1) (hmu : mu ≤ 1) (hphase : phase ≤ 1)
+    (hphase_nonneg : 0 ≤ phase) (hrow : 0 ≤ row) (hmajorant : row ≤ majorant)
+    (hleft : 0 < left) (hright : 0 < right) :
+    (fiber : ℝ) * mu * phase * (row * Real.sqrt left * Real.sqrt right / 2) /
+        (if side then right else left) ≤
+      (majorant * Real.sqrt left * Real.sqrt right / 2) /
+        (if side then right else left) := by
+  rw [hfiber, Nat.cast_one, one_mul]
+  have hunit : mu * phase ≤ 1 := by
+    simpa only [one_mul] using
+      mul_le_mul hmu hphase hphase_nonneg zero_le_one
+  have hden : 0 < if side then right else left := by
+    split_ifs
+    · exact hright
+    · exact hleft
+  have hweight : 0 ≤ row * Real.sqrt left * Real.sqrt right / 2 :=
+    div_nonneg
+      (mul_nonneg (mul_nonneg hrow (Real.sqrt_nonneg left))
+        (Real.sqrt_nonneg right)) (by norm_num)
+  apply div_le_div_of_nonneg_right _ hden.le
+  calc
+    _ ≤ 1 * (row * Real.sqrt left * Real.sqrt right / 2) :=
+      mul_le_mul_of_nonneg_right hunit hweight
+    _ = row * Real.sqrt left * Real.sqrt right / 2 := one_mul _
+    _ ≤ majorant * Real.sqrt left * Real.sqrt right / 2 :=
+      div_le_div_of_nonneg_right
+        (mul_le_mul_of_nonneg_right
+          (mul_le_mul_of_nonneg_right hmajorant (Real.sqrt_nonneg left))
+          (Real.sqrt_nonneg right)) (by norm_num)
+
 /-- The original weighted-Cauchy coefficient, before substituting the
 specific allowances. Its Mobius and finite-phase norms are at most one. -/
 theorem firstCauchy_outer_le {F : FirstPresentation call p} (hF : F.Realizes)
@@ -200,37 +234,20 @@ theorem firstCauchy_outer_le {F : FirstPresentation call p} (hF : F.Realizes)
           N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
         else N.left key.1 key.2.1 (FirstCauchyKey.residual key)
           (FirstCauchyKey.character key)) := by
-  let NL := N.left key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
-  let NR := N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
-  have hden : 0 < if FirstCauchyKey.side key then NR else NL := by
-    split_ifs
-    · exact N.right_pos _ _ _ _
-    · exact N.left_pos _ _ _ _
-  have hphase :
-      ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
-        ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
-          (FirstCauchyKey.character key)‖ ≤ 1 := by
-    simpa only [one_mul] using mul_le_mul
-      (norm_ideal_moebius_le_one (FirstCauchyKey.residual key).val)
-      (fixed_phase_coefficient_norm PUnit (fun _ => (1 : Circle))
-        (FirstCauchyKey.character key)) (norm_nonneg _) zero_le_one
-  have hW : 0 ≤ (FirstCauchyKey.piece key).rowBound *
-      Real.sqrt NL * Real.sqrt NR / 2 := by
-    exact div_nonneg
-      (mul_nonneg (mul_nonneg (FirstCauchyKey.piece key).rowBound_nonneg
-        (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _)) (by norm_num)
-  unfold FirstCauchyKey.outer
-  rw [hF.fiber, Nat.cast_one, one_mul]
-  apply div_le_div_of_nonneg_right _ hden.le
-  calc
-    _ ≤ 1 * ((FirstCauchyKey.piece key).rowBound *
-        Real.sqrt NL * Real.sqrt NR / 2) := mul_le_mul_of_nonneg_right hphase hW
-    _ = (FirstCauchyKey.piece key).rowBound * Real.sqrt NL * Real.sqrt NR / 2 := one_mul _
-    _ ≤ firstRowMajorant F key.1 key.2.1 * Real.sqrt NL * Real.sqrt NR / 2 := by
-      apply div_le_div_of_nonneg_right _ (by norm_num)
-      exact mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_right (realizedFirst_rowBound_le F hF key.1 key.2.1)
-          (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _)
+  exact firstCauchy_outer_scalar_le F.source.fiber
+    ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖
+    ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle))
+      (FirstCauchyKey.character key)‖
+    (FirstCauchyKey.piece key).rowBound (firstRowMajorant F key.1 key.2.1)
+    (N.left key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key))
+    (N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key))
+    (FirstCauchyKey.side key) hF.fiber
+    (norm_ideal_moebius_le_one (FirstCauchyKey.residual key).val)
+    (fixed_phase_coefficient_norm PUnit.{1} (fun _ => (1 : Circle))
+      (FirstCauchyKey.character key))
+    (norm_nonneg _) (FirstCauchyKey.piece key).rowBound_nonneg
+    (realizedFirst_rowBound_le F hF key.1 key.2.1)
+    (N.left_pos _ _ _ _) (N.right_pos _ _ _ _)
 
 def firstAllowanceTotal (F : FirstPresentation call p) (v : F.source.CommonLabel)
     (D : ((F.source.block v).mask F.source.mask).powerset) : ℝ :=
@@ -249,7 +266,7 @@ theorem realizedFirstCauchy_outer_le {F : FirstPresentation call p} (hF : F.Real
         (if FirstCauchyKey.side key then NR else NL) := by
   rw [hfamily.outer i]
   have h := firstCauchy_outer_le hF (family.index i) family.normalization
-  simpa only [hfamily.leftAllowance, hfamily.rightAllowance] using h
+  simpa only [hfamily.leftAllowance, hfamily.rightAllowance, firstAllowanceTotal] using h
 
 /-- Restoring the selected allowance cancels its original Cauchy
 denominator. Both allowance square roots remain in the numerator. -/
