@@ -394,28 +394,24 @@ def literalLeftMainPassiveNormalizationKernelMass :=
     exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hfirstL₁ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (oldLeftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstL₂ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (oldLeftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hfirstR₁ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (oldRightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstR₂ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (oldRightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hboundL : computedL.bound = fun r => originalBound + originalBound *
       CanonicalLiteralRadiusBound.shapeCoefficient lo hi hlo δ₁ δ₂ orders *
         (1 + CanonicalLiteralBalancedSchwartz.factor seed firstL δ₁ δ₂ r) := by
@@ -733,28 +729,24 @@ def literalRightMainPassiveNormalizationKernelMass :=
     exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hfirstL₁ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (oldLeftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstL₂ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
-    change (v.literalLeftOriginal oldLeftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (oldLeftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hfirstR₁ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (oldRightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstR₂ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
-    change (v.literalRightOriginal oldRightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (oldRightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hboundL : computedL.bound = fun r => originalBound + originalBound *
       CanonicalLiteralRadiusBound.shapeCoefficient lo hi hlo δ₁ δ₂ orders *
         (1 + CanonicalLiteralBalancedSchwartz.factor seed firstL δ₁ δ₂ r) := by
