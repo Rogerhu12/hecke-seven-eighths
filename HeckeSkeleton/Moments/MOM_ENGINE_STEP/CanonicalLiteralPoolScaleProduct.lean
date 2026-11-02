@@ -132,7 +132,7 @@ theorem literalLeftMainAtoms_originalScale
   have ha := hi.onAtlas_dictionary T _ e
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
+    rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
     exact (by simpa only [Fintype.card_fin] using
       (Finset.card_le_univ branch.keep)).trans hcap
   · intro r
@@ -141,7 +141,8 @@ theorem literalLeftMainAtoms_originalScale
       exact branch.frozenSourceIdeal_eq.trans
         ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)
     have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
+    erw [hfrozen] at h
+    rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
     simpa only [literalLeftMainAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
@@ -191,7 +192,7 @@ theorem literalRightMainAtoms_originalScale
   have ha := hi.onAtlas_dictionary T _ e
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
+    rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
     exact (by simpa only [Fintype.card_fin] using
       (Finset.card_le_univ branch.keep)).trans hcap
   · intro r
@@ -200,7 +201,8 @@ theorem literalRightMainAtoms_originalScale
       exact branch.frozenSourceIdeal_eq.trans
         ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)
     have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
+    erw [hfrozen] at h
+    rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
     simpa only [literalRightMainAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
@@ -252,7 +254,7 @@ theorem literalLeftPoolAtoms_originalScale
   have ha := hi.onAtlas_dictionary T _ e
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
+    rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
     exact (by simpa only [Fintype.card_fin] using
       (Finset.card_le_univ branch.keep)).trans hcap
   · intro r
@@ -272,7 +274,8 @@ theorem literalLeftPoolAtoms_originalScale
         branch.extract_ideal branch.witness branch.witness_mem] at he
       exact branch.frozenSourceIdeal_eq.trans he
     have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
+    erw [hfrozen] at h
+    rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
     simpa only [literalLeftPoolAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
@@ -324,7 +327,7 @@ theorem literalRightPoolAtoms_originalScale
   have ha := hi.onAtlas_dictionary T _ e
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
-    rw [congrArg Sigma.fst e]
+    rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
     exact (by simpa only [Fintype.card_fin] using
       (Finset.card_le_univ branch.keep)).trans hcap
   · intro r
@@ -344,7 +347,8 @@ theorem literalRightPoolAtoms_originalScale
         branch.extract_ideal branch.witness branch.witness_mem] at he
       exact branch.frozenSourceIdeal_eq.trans he
     have h := (seed).extract_scaleProduct_mul_frozenNorm_le hp hB cap hcap branch r
-    rw [hfrozen, Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
+    erw [hfrozen] at h
+    rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
     simpa only [literalRightPoolAtoms,
       CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,

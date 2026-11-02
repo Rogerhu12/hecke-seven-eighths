@@ -156,10 +156,10 @@ theorem literalLeftMainAtoms_coefficient
 theorem literalLeftPoolCover_dictionary (q : pool.primes) (n : ℕ)
     (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas (primeSupport DE.1) DE.1
-    ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
+      ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
     let index := ((p.divisorPools.leftData S).residualSource_cartesianBranch_of_original_support (raw).originalAtlas
-    (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns) (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal]; exact b.left_residual i)
-    q.val n (p.leftDivisorCoefficient S χ) branch ((p.divisorPools.leftData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.1
+      (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns) (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal]; exact b.left_residual i)
+      q.val n (p.leftDivisorCoefficient S χ) branch ((p.divisorPools.leftData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.1
       ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2).index
     (((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label).literalDictionary =
       ⟨branch.keep.card,
@@ -281,10 +281,10 @@ theorem literalRightMainAtoms_coefficient
 theorem literalRightPoolCover_dictionary (q : pool.primes) (n : ℕ)
     (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
     let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas (primeSupport DE.1) DE.2
-    ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
+      ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
     let index := ((p.divisorPools.rightData S).residualSource_cartesianBranch_of_original_support (raw).originalAtlas
-    (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns) (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal]; exact b.right_residual i)
-    q.val n (p.rightDivisorCoefficient S χ) branch ((p.divisorPools.rightData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.2
+      (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns) (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal]; exact b.right_residual i)
+      q.val n (p.rightDivisorCoefficient S χ) branch ((p.divisorPools.rightData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.2
       ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2).index
     (((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label).literalDictionary =
       ⟨branch.keep.card,
