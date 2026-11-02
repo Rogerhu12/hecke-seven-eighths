@@ -79,7 +79,7 @@ def factorFreeSecondInput (hcompact : IsCompact window)
           (d.twoStageProfileLeftFactor b δ₁ δ₂ r : ℂ)⁻¹) *
         (combinedScalar⁻¹ * combinedScalar) *
         ((W.left r).profile u time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
         unfold CanonicalLiteralRectangles.Atoms.twoStageProfileLeftFactor
         ring
       _ = _ := by rw [mul_inv_cancel₀ hfactor, one_mul] <;> rfl
@@ -94,7 +94,7 @@ def factorFreeSecondInput (hcompact : IsCompact window)
       _ = ((d.twoStageProfileRightFactor b δ₁ δ₂ r : ℂ) *
           (d.twoStageProfileRightFactor b δ₁ δ₂ r : ℂ)⁻¹) *
         ((W.right r).profile u time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
         unfold CanonicalLiteralRectangles.Atoms.twoStageProfileRightFactor
         ring
       _ = _ := by rw [mul_inv_cancel₀ hfactor] <;> rfl
@@ -109,7 +109,7 @@ def factorFreeSecondInput (hcompact : IsCompact window)
       _ = ((d.twoStageProfileSlotFactor b δ₁ δ₂ j : ℂ) *
           (d.twoStageProfileSlotFactor b δ₁ δ₂ j : ℂ)⁻¹) *
         ((W.slot (SlotRestriction.index b.keep j)).profile time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
         unfold CanonicalLiteralRectangles.Atoms.twoStageProfileSlotFactor
         ring
       _ = _ := by rw [mul_inv_cancel₀ hfactor] <;> rfl
