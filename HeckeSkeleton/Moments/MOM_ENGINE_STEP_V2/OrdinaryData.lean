@@ -104,7 +104,7 @@ structure OrdinaryData (packet : RawLeafPacket call p) where
     AllocationColumn K packet.leaf.leftSlots → EngineParameter
   rightPoint : Arithmetic.Orbit c →
     AllocationColumn K packet.leaf.rightSlots → EngineParameter
-  branch : liveSecondAllocationBranches (Ray := PUnit.{1})
+  branch : liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
     packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
     packet.rightIdeal
@@ -121,7 +121,22 @@ structure OrdinaryData (packet : RawLeafPacket call p) where
   right_rectangle : ∀ r i, i ∈ childCartesianColumns packet.rightReindex.plain₁
     packet.rightReindex.plain₂ packet.rightReindex.slots →
       rectangles.rightTerms r i = packet.originalRightRectangle r i
-  binding : packet.leaf.OrdinaryBinding rectangles
+  binding : ActualHybridLeaf.OrdinaryBinding
+    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    (H := Arithmetic.Orbit c) (ι := Fin packet.block.primeCount)
+    (U := ℝ) (V := ℝ) (R := packet.R) (Ray := PUnit.{1})
+    (leaf := packet.leaf)
+    (S₁ := packet.leftReindex.plain₁) (S₂ := packet.leftReindex.plain₂)
+    (S := packet.leftReindex.slots)
+    (T₁ := packet.rightReindex.plain₁) (T₂ := packet.rightReindex.plain₂)
+    (T := packet.rightReindex.slots)
+    (IA := packet.leftIdeal) (IB := packet.rightIdeal)
+    (rayLeft := fun _ => (PUnit.unit : PUnit.{1}))
+    (rayRight := fun _ => (PUnit.unit : PUnit.{1}))
+    (wholeLeft := packet.leftWhole) (wholeRight := packet.rightWhole)
+    (x := leftPoint) (y := rightPoint)
+    (b := branch) (exceptional := packet.leaf.exceptional)
+    rectangles
 
 run_cmd do
   Lean.Elab.Command.liftIO do
