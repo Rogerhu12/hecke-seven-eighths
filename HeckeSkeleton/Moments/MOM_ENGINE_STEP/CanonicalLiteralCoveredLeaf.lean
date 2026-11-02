@@ -130,7 +130,8 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 set_option maxHeartbeats 1000000 in
 @[simp] theorem literalRightAtoms_whole
     (i : AllocationColumn K v.literalRightBranch.keep.card) :
-    (no_index (v.literalRightAtoms rightAtoms)).whole i =
+    (no_index (v.literalRightAtoms rightAtoms)).whole
+      (k := v.literalRightResidualAtlas.slotCount) i =
       ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
   sorry
 
