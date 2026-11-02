@@ -72,7 +72,7 @@ abbrev CoveredClassKey :=
 namespace CoveredClassKey
 
 variable {s LC RC}
-variable (v : s.CoveredClassKey LC RC)
+variable (v : CoveredClassKey s LC RC)
 
 abbrev block :=
   canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal v.1.val v.1.property
@@ -136,28 +136,28 @@ def leaf (exceptional : s.CoverHybridPredicates LC RC)
 end CoveredClassKey
 
 /-- Every source key and every actual allocation label is retained. -/
-abbrev CoveredLeafKey := Σ v : s.CoveredClassKey LC RC, v.AllocationKey
+abbrev CoveredLeafKey := Σ v : CoveredClassKey s LC RC, v.AllocationKey
 
 def coveredLeaf (exceptional : s.CoverHybridPredicates LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey LC RC) :
+    (F : SchwartzMap W ℂ) (x : ι → W) (b : CoveredLeafKey s LC RC) :
     ActualHybridLeaf K Q W E :=
   b.1.leaf exceptional F x b.2
 
 @[simp] theorem coveredLeaf_firstKernel (exceptional : s.CoverHybridPredicates LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey LC RC) :
-    (s.coveredLeaf LC RC exceptional F x b).firstKernel = F := rfl
+    (F : SchwartzMap W ℂ) (x : ι → W) (b : CoveredLeafKey s LC RC) :
+    (coveredLeaf s LC RC exceptional F x b).firstKernel = F := rfl
 
 /-- The true orbital fibre multiplicity is paid exactly once per
 nonzero leaf, alongside the identical multiplicity in the zero/tail budget. -/
 def fiberCoveredLeaf (exceptional : s.CoverHybridPredicates LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey LC RC) :
+    (F : SchwartzMap W ℂ) (x : ι → W) (b : CoveredLeafKey s LC RC) :
     ActualHybridLeaf K Q W E :=
-  (s.coveredLeaf LC RC exceptional F x b).scale (s.fiber : ℝ) (Nat.cast_nonneg _)
+  (coveredLeaf s LC RC exceptional F x b).scale (s.fiber : ℝ) (Nat.cast_nonneg _)
 
 @[simp] theorem fiberCoveredLeaf_firstKernel
     (exceptional : s.CoverHybridPredicates LC RC)
-    (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey LC RC) :
-    (s.fiberCoveredLeaf LC RC exceptional F x b).firstKernel = F := rfl
+    (F : SchwartzMap W ℂ) (x : ι → W) (b : CoveredLeafKey s LC RC) :
+    (fiberCoveredLeaf s LC RC exceptional F x b).firstKernel = F := rfl
 
 
 end ActualGaussStage

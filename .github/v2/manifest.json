@@ -32,7 +32,8 @@
         "MassIndexChoices",
         "RawTerminalData",
         "PhysicalConstants",
-        "MassProfileChoices"
+        "MassProfileChoices",
+        "ExceptionalChoices"
       ]
     },
     {

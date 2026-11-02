@@ -107,7 +107,7 @@ def withOriginalPool (d : DirectGaussData C ι)
   rows := d.rows
   rowIdeal := originalFrequencyIdeal
   row_generates h hh := originalFrequencyIdeal_generates h (d.row_nonzero h hh)
-  support := d.completePoolSupport P.primes
+  support := DirectGaussData.completePoolSupport d P.primes
   column_support i hi p hp :=
     Finset.mem_union_left _ (Finset.mem_union_left _
       (Finset.mem_biUnion.mpr ⟨i, hi, mem_originalExteriorPrimeSupport _ p hp⟩))
@@ -303,9 +303,9 @@ def withOriginalPool (p : FirstBlockDirectData chart M X hX)
     sorry
   have hright : 0 < P.rowDensity rowRight boundRight := by
     sorry
-  let L := p.leftData.withOriginalPool P frozenLeft hfrozenLeft
+  let L := DirectGaussData.withOriginalPool p.leftData P frozenLeft hfrozenLeft
     rowLeft boundLeft hrowLeft hrowsLeft hfrozenNormLeft hleft
-  let R := p.rightData.withOriginalPool P frozenRight hfrozenRight
+  let R := DirectGaussData.withOriginalPool p.rightData P frozenRight hfrozenRight
     rowRight boundRight hrowRight hrowsRight hfrozenNormRight hright
   have hdiv : ∀ S ∈ divisorPool R.columns (fun j => (R.ideal j).val),
       (Ideal.absNorm S : ℝ) ≤ Z ^ divisorBound := by
