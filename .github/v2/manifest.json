@@ -1,4 +1,200 @@
 {
+  "task_scopes": {
+    "cloud/mom-v2-s6-n1": {
+      "groups": [
+        "s6_n1_helpers",
+        "s6",
+        "n1"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksFiniteLeaves",
+        "TasksOriginalAtoms"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.finiteLeaves",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalAtoms"
+      ]
+    },
+    "cloud/mom-v2-s4-t4": {
+      "groups": [
+        "s4",
+        "t4"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksSecondTransform",
+        "TasksTails"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondTransform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.tails"
+      ]
+    },
+    "cloud/mom-v2-n2-n3": {
+      "groups": [
+        "n2_n3_helpers",
+        "n2",
+        "n3"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksPassiveRefinement",
+        "TasksOriginalCalibration"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.passive_refinement",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.original_calibration"
+      ]
+    },
+    "cloud/mom-v2-s3-s5": {
+      "groups": [],
+      "modules": [
+        "TasksAmplification",
+        "TasksNominalGeometry",
+        "S3Assembly",
+        "S3Energy",
+        "S3ExpansionData",
+        "S3FrozenDivisor",
+        "S3OriginalColumnBound",
+        "S3PoolData",
+        "S3RowExponent",
+        "S3RowTransport",
+        "S3UniformDensity",
+        "S3Windows",
+        "S5ClassIdeals",
+        "S5GeometryConstruction",
+        "S5NominalLedger",
+        "S5RowWindow",
+        "S5SupportWindow"
+      ],
+      "roots": [
+        "TasksAmplification",
+        "TasksNominalGeometry"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.amplification",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.nominalGeometry"
+      ]
+    },
+    "cloud/mom-v2-s1-s2": {
+      "groups": [
+        "s1_s2_helpers",
+        "s1",
+        "s2"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksFirstTransform",
+        "TasksFirstAllowance"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstTransform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstAllowance"
+      ]
+    },
+    "cloud/mom-v2-t1-t2": {
+      "groups": [
+        "t1_t2"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksFirstZero",
+        "TasksSecondZero"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstZero",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondZero"
+      ]
+    },
+    "cloud/mom-v2-n5a-n5b": {
+      "groups": [
+        "g_n5a",
+        "g_n5b"
+      ],
+      "modules": [],
+      "roots": [
+        "ProfileFormulaTask",
+        "TasksProfileWindows"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_formula_control",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_windows"
+      ]
+    },
+    "cloud/mom-v2-n4-n6": {
+      "groups": [
+        "n4",
+        "n6"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksOriginalCapacity",
+        "TasksFullKappa"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask_uniform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.fullKappaNormalization"
+      ]
+    },
+    "cloud/mom-v2-n7a-n7b": {
+      "groups": [
+        "n7a",
+        "n7b"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksChildArithmetic",
+        "TasksChildProfiles"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_arithmetic",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_profiles"
+      ]
+    },
+    "cloud/mom-v2-t3a-t3b": {
+      "groups": [
+        "t3_proved",
+        "t3_shared_n1",
+        "t3_shared_n4"
+      ],
+      "modules": [
+        "TasksExceptionalSummation"
+      ],
+      "roots": [
+        "TasksExceptionalRecovery",
+        "TasksExceptionalSummation"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.exceptional_recovery",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.exceptional_summation"
+      ]
+    },
+    "cloud/mom-v2-n8-n9": {
+      "groups": [
+        "n8a_proved",
+        "n8b_proved",
+        "n9_proved",
+        "n8n9_shared_proved"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksSourceIndex",
+        "TasksNormalizedMass",
+        "TasksKernelMass",
+        "N9OriginalWindowMass",
+        "N8NormalizedArithmeticAssembly"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.sourceIndex",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.normalizedMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.kernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalWindowKernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass"
+      ]
+    }
+  },
   "phase": "blueprint-contracts-in-progress",
   "groups": [
     {
