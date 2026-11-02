@@ -1,0 +1,739 @@
+# Complete real DualPool scalar proof repair; exact shared7caf options and local Pool cache; exact d90 parent and three-path guards.
+name: A2 DualPool scalar proof repair with local Pool instance and full native verification
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-dualpool-local-scalar-native]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-dualpool-local-scalar-native-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  dual_pool:
+    name: DualPoolFiniteLeaves normal native and fresh audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-dualpool-local-scalar-native
+          git show --no-patch --format=fuller HEAD > a2-dualpool-local-scalar-native/checkout.txt
+          cat > a2-dualpool-local-scalar-native/contract.json <<'CONTRACT'
+          {
+            "fixture_only": false,
+            "publishable": true,
+            "source_status": "Complete DualPool scalar proof repair with the exact existing shared7caf options and explicit local Pool cache; original normal and fresh verification pending.",
+            "previous_fixture": "The complete original 2b7 source had one actual simp/congruence worker in its owned-process stack; no declaration was uniquely identified. Four scoped proof bodies and three private generic helpers were reviewed as 9c89, then local registration and existing shared options were synchronized.",
+            "rebind_policy": "Any owner or source change requires a new independently reviewed freeze; no diagnostic or skeleton source is accepted.",
+            "base": "d90f7b55d06812fe388dd36c3bfb4bb39343d721",
+            "base_tree": "daaa8fd23cc5322a54044a3d5ff0c86de29eafeb",
+            "task_directory": "HeckeSkeleton/Moments/MOM_ENGINE_STEP",
+            "target": "DualPoolFiniteLeaves",
+            "target_path": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualPoolFiniteLeaves.lean",
+            "workflow_path": ".github/workflows/mom-engine-step-a2-dualpool-local-scalar-native.yml",
+            "original": {
+              "bytes": 10576,
+              "sha256": "c1155c75f88638abe593ef15c4efbb087530766676972616ce2caac3fe084d40",
+              "git_blob": "4543dd3d2731a734826f93cffc86c701eabf08e0"
+            },
+            "candidate": {
+              "bytes": 17960,
+              "sha256": "4c317581fcadecddc5c62d3b4f92123332e910a9bca2bef3c651b377cb834a03",
+              "git_blob": "79f92109c060330134d8f9683fe5226a3b8856a4"
+            },
+            "source_edits": [
+              {
+                "label": "shared_7caf_file_options",
+                "kind": "insert",
+                "original_start": 124,
+                "original_end": 124,
+                "candidate_start": 124,
+                "candidate_end": 246,
+                "old": "",
+                "new": "\nset_option linter.unusedSectionVars false\nset_option synthInstance.maxHeartbeats 400000\nset_option maxHeartbeats 1000000\n",
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "d02681ed0a2a30f93ac25561b8686e31ec99159e014da50285deb095657a756d"
+              },
+              {
+                "label": "three_ambient_free_private_scalar_helpers",
+                "kind": "replace",
+                "original_start": 1100,
+                "original_end": 1146,
+                "candidate_start": 1222,
+                "candidate_end": 5094,
+                "old": "variable {K : Type} [Field K] [NumberField K]\n",
+                "new": "private theorem dual_pool_scalar_four_tag_sum\n    {P : Type*} [Fintype P]\n    (a : ℝ) (f : Unit ⊕ (P ⊕ (P ⊕ P)) → ℝ) :\n    a * ∑ b, f b =\n      a * (f (.inl ()) + (∑ p, f (.inr (.inl p))) +\n        (∑ p, f (.inr (.inr (.inl p)))) +\n        (∑ p, f (.inr (.inr (.inr p))))) := by\n  simp only [Fintype.sum_sum_type, Fintype.sum_unique]\n  ring\n\nprivate theorem dual_pool_scalar_terminal_sum\n    {P : Type*} {I₀ : Type*}\n    {I₁ : P → Type*} {I₆ : P → Type*} {I₇ : P → Type*}\n    [Fintype P] [Fintype I₀]\n    [∀ p, Fintype (I₁ p)] [∀ p, Fintype (I₆ p)] [∀ p, Fintype (I₇ p)]\n    (a m : ℝ) (w₁ w₆ w₇ : P → ℝ) (z₀ t₀ : ℝ)\n    (z₁ t₁ z₆ t₆ z₇ t₇ : P → ℝ)\n    (f₀ : I₀ → ℝ) (f₁ : ∀ p, I₁ p → ℝ)\n    (f₆ : ∀ p, I₆ p → ℝ) (f₇ : ∀ p, I₇ p → ℝ)\n    (phase : Unit ⊕ (P ⊕ (P ⊕ P)) → ℝ)\n    (leaves : I₀ ⊕ ((Σ p, I₁ p) ⊕ ((Σ p, I₆ p) ⊕ (Σ p, I₇ p))) → ℝ)\n    (zero tail : ℝ)\n    (hphase₀ : phase (.inl ()) = m * (z₀ + t₀ + ∑ b, f₀ b))\n    (hphase₁ : ∀ p, phase (.inr (.inl p)) = w₁ p * (z₁ p + t₁ p + ∑ b, f₁ p b))\n    (hphase₆ : ∀ p, phase (.inr (.inr (.inl p))) =\n      w₆ p * (z₆ p + t₆ p + ∑ b, f₆ p b))\n    (hphase₇ : ∀ p, phase (.inr (.inr (.inr p))) =\n      w₇ p * (z₇ p + t₇ p + ∑ b, f₇ p b))\n    (h₀ : ∀ b, leaves (.inl b) = (a * m) * f₀ b)\n    (h₁ : ∀ p b, leaves (.inr (.inl ⟨p, b⟩)) = (a * w₁ p) * f₁ p b)\n    (h₆ : ∀ p b, leaves (.inr (.inr (.inl ⟨p, b⟩))) = (a * w₆ p) * f₆ p b)\n    (h₇ : ∀ p b, leaves (.inr (.inr (.inr ⟨p, b⟩))) = (a * w₇ p) * f₇ p b)\n    (hzero : zero = a * (m * z₀ + (∑ p, w₁ p * z₁ p) +\n      (∑ p, w₆ p * z₆ p) + (∑ p, w₇ p * z₇ p)))\n    (htail : tail = a * (m * t₀ + (∑ p, w₁ p * t₁ p) +\n      (∑ p, w₆ p * t₆ p) + (∑ p, w₇ p * t₇ p))) :\n    a * ∑ b, phase b = zero + tail + ∑ b, leaves b := by\n  rw [hzero, htail, dual_pool_scalar_four_tag_sum a phase]\n  simp only [hphase₀, hphase₁, hphase₆, hphase₇,\n    Fintype.sum_sum_type, Fintype.sum_sigma, h₀, h₁, h₆, h₇,\n    Finset.sum_add_distrib, Finset.mul_sum, mul_add, mul_assoc]\n  ring\n\nprivate theorem dual_pool_scalar_integral_const_add_sum\n    {X J : Type*} [MeasurableSpace X] [Fintype J]\n    (μ : Measure X) [IsFiniteMeasure μ]\n    (c : ℝ) (f : X → ℝ) (leaves : J → X → ℝ) (costs : J → ℝ)\n    (leafMeasures : J → Measure X)\n    (hpoint : ∀ ξ, f ξ = c + ∑ b : J, leaves b ξ)\n    (hmeasure : ∀ b : J, leafMeasures b = μ)\n    (hterms : ∀ b : J, Integrable (leaves b) (leafMeasures b))\n    (hcosts : ∀ b : J, (∫ ξ, leaves b ξ ∂(leafMeasures b)) = costs b) :\n    (∫ ξ, f ξ ∂μ) = μ.real Set.univ * c + ∑ b : J, costs b := by\n  have hterms' : ∀ b : J, Integrable (leaves b) μ :=\n    fun b => (hmeasure b) ▸ hterms b\n  have hcosts' : ∀ b : J, (∫ ξ, leaves b ξ ∂μ) = costs b :=\n    fun b => (hmeasure b) ▸ hcosts b\n  calc\n    (∫ ξ, f ξ ∂μ) = ∫ ξ, c + ∑ b : J, leaves b ξ ∂μ :=\n      integral_congr_ae (Filter.Eventually.of_forall hpoint)\n    _ = (∫ _ : X, c ∂μ) + ∫ ξ, ∑ b : J, leaves b ξ ∂μ :=\n      integral_add (integrable_const c)\n        (integrable_finsetSum Finset.univ (fun b _ => hterms' b))\n    _ = μ.real Set.univ * c + ∑ b : J, ∫ ξ, leaves b ξ ∂μ := by\n      simpa only [integral_const, smul_eq_mul] using\n        congrArg (fun z : ℝ => (∫ _ : X, c ∂μ) + z)\n          (integral_finsetSum (μ := μ) (f := leaves) Finset.univ\n            (fun b _ => hterms' b))\n    _ = μ.real Set.univ * c + ∑ b : J, costs b :=\n      congrArg (fun z : ℝ => μ.real Set.univ * c + z)\n        (Finset.sum_congr rfl (fun b _ => hcosts' b))\n\nvariable {K : Type} [Field K] [NumberField K]\n",
+                "old_sha256": "3fd36f96b1eb779cb745903150c52b094f252bfee76b97db770ce04ed4792ff6",
+                "new_sha256": "f34e5f38063066c1dc28452243cbb81779af73bdfb0ff246d48654cfcd4bbc75"
+              },
+              {
+                "label": "explicit_local_Pool_Fintype",
+                "kind": "insert",
+                "original_start": 2698,
+                "original_end": 2698,
+                "candidate_start": 6646,
+                "candidate_end": 6713,
+                "old": "",
+                "new": "attribute [local instance] ActualPoolStages.coveredLeafKeyFintype\n\n",
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "8b68b6214ab33ef44dc2f83b66b054b5a57d85ae8a313e1917c726623b88371a"
+              },
+              {
+                "label": "zeroBudget_eq_four_sources_proof_only",
+                "kind": "replace",
+                "original_start": 3982,
+                "original_end": 4111,
+                "candidate_start": 7997,
+                "candidate_end": 8151,
+                "old": "  simp only [zeroBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,\n    FirstGaussPoolData.tagWeight, tag]\n  ring\n\n",
+                "new": "  exact dual_pool_scalar_four_tag_sum\n    (P := P.primes) (4 / d.density)\n    (fun b : PoolSourceTag P => d.tagWeight b * (T.tag b).zeroBudget ε Czero)\n\n",
+                "old_sha256": "ca16de4e288c30d0627c92fa981d0d8b63190a3f4147652418b0343b3d6e864b",
+                "new_sha256": "b655ed0a762299221fecedf3da0b48552d781498b6d0fecbe767d90f1d9dffb0"
+              },
+              {
+                "label": "tailBudget_eq_four_sources_proof_only",
+                "kind": "replace",
+                "original_start": 4644,
+                "original_end": 4773,
+                "candidate_start": 8684,
+                "candidate_end": 8836,
+                "old": "  simp only [tailBudget, PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,\n    FirstGaussPoolData.tagWeight, tag]\n  ring\n\n",
+                "new": "  exact dual_pool_scalar_four_tag_sum\n    (P := P.primes) (4 / d.density)\n    (fun b : PoolSourceTag P => d.tagWeight b * (T.tag b).tailBudget Cerror)\n\n",
+                "old_sha256": "3204265443d13507a6493aea94be3b2ca84d97af8f4cb10a3608685cafb10507",
+                "new_sha256": "ab9a5a44f3602ee3280a6c3778285603b58e18ad09ed9d6cd73c759dc333d4ac"
+              },
+              {
+                "label": "phase_cost_eq_budgets_leaves_proof_only",
+                "kind": "replace",
+                "original_start": 5373,
+                "original_end": 5931,
+                "candidate_start": 9436,
+                "candidate_end": 13247,
+                "old": "  unfold coverHybridPhaseCost\n  simp_rw [ActualGaussStage.DualTerminalCalibration.phase_cost_eq_budgets_leaves (F := F)]\n  simp only [zeroBudget, tailBudget, PoolSourceTag, Fintype.sum_sum_type,\n    Fintype.sum_unique, Fintype.sum_sigma, FirstGaussPoolData.tagWeight,\n    FirstGaussPoolData.tagPoint, FirstGaussPoolData.SourceCovers.tag,\n    ActualPoolStages.CoverHybridPredicates.tag, ActualPoolStages.tag, tag,\n    ActualPoolStages.coveredLeaf, ActualHybridLeaf.scale_firstPhaseCost,\n    Finset.sum_add_distrib, Finset.mul_sum, mul_add, mul_assoc]\n  ring\n\n",
+                "new": "  exact dual_pool_scalar_terminal_sum\n    (P := P.primes)\n    (I₀ := s.main.CoveredLeafKey B.main B.main)\n    (I₁ := fun p => (s.one p).CoveredLeafKey (B.residual p 1) (B.residual p 1))\n    (I₆ := fun p => (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6))\n    (I₇ := fun p => (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))\n    (4 / d.density) d.multiplicity\n    (fun p => FirstGaussPoolData.localErrorWeight p.val 1)\n    (fun p => FirstGaussPoolData.localErrorWeight p.val 6)\n    (fun p => FirstGaussPoolData.localErrorWeight p.val 7)\n    (T.main.zeroBudget ε Czero) (T.main.tailBudget Cerror)\n    (fun p => (T.one p).zeroBudget ε Czero) (fun p => (T.one p).tailBudget Cerror)\n    (fun p => (T.six p).zeroBudget ε Czero) (fun p => (T.six p).tailBudget Cerror)\n    (fun p => (T.seven p).zeroBudget ε Czero) (fun p => (T.seven p).tailBudget Cerror)\n    (fun b => (s.main.fiberCoveredLeaf B.main B.main r.main F x b).firstPhaseCost ξ)\n    (fun p b => ((s.one p).fiberCoveredLeaf (B.residual p 1) (B.residual p 1)\n      (r.one p) F (fun i => x i.val) b).firstPhaseCost ξ)\n    (fun p b => ((s.six p).fiberCoveredLeaf (B.residual p 6) (B.residual p 6)\n      (r.six p) F (fun i => x i.val) b).firstPhaseCost ξ)\n    (fun p b => ((s.seven p).fiberCoveredLeaf (B.residual p 7) (B.residual p 7)\n      (r.seven p) F (fun i => x i.val) b).firstPhaseCost ξ)\n    (fun b : PoolSourceTag P => d.tagWeight b *\n      ((T.tag b).fourierPhase (d.tagPoint x b) ξ).coverHybridCost\n        (B.tag b) (B.tag b) (r.tag b) ε Cerror Czero)\n    (fun b => (s.coveredLeaf B r F x b).firstPhaseCost ξ)\n    (T.zeroBudget ε Czero) (T.tailBudget Cerror)\n    (congrArg (fun z : ℝ => d.multiplicity * z)\n      (T.main.phase_cost_eq_budgets_leaves B.main B.main r.main F x ξ ε Cerror Czero))\n    (fun p => congrArg (fun z : ℝ => FirstGaussPoolData.localErrorWeight p.val 1 * z)\n      ((T.one p).phase_cost_eq_budgets_leaves (B.residual p 1) (B.residual p 1)\n        (r.one p) F (fun i => x i.val) ξ ε Cerror Czero))\n    (fun p => congrArg (fun z : ℝ => FirstGaussPoolData.localErrorWeight p.val 6 * z)\n      ((T.six p).phase_cost_eq_budgets_leaves (B.residual p 6) (B.residual p 6)\n        (r.six p) F (fun i => x i.val) ξ ε Cerror Czero))\n    (fun p => congrArg (fun z : ℝ => FirstGaussPoolData.localErrorWeight p.val 7 * z)\n      ((T.seven p).phase_cost_eq_budgets_leaves (B.residual p 7) (B.residual p 7)\n        (r.seven p) F (fun i => x i.val) ξ ε Cerror Czero))\n    (fun b => (s.main.fiberCoveredLeaf B.main B.main r.main F x b).scale_firstPhaseCost\n      ((4 / d.density) * d.multiplicity)\n      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le) d.multiplicity_nonneg) ξ)\n    (fun p b => ((s.one p).fiberCoveredLeaf (B.residual p 1) (B.residual p 1)\n      (r.one p) F (fun i => x i.val) b).scale_firstPhaseCost\n      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 1)\n      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)\n        (FirstGaussPoolData.localErrorWeight_nonneg p.val 1)) ξ)\n    (fun p b => ((s.six p).fiberCoveredLeaf (B.residual p 6) (B.residual p 6)\n      (r.six p) F (fun i => x i.val) b).scale_firstPhaseCost\n      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 6)\n      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)\n        (FirstGaussPoolData.localErrorWeight_nonneg p.val 6)) ξ)\n    (fun p b => ((s.seven p).fiberCoveredLeaf (B.residual p 7) (B.residual p 7)\n      (r.seven p) F (fun i => x i.val) b).scale_firstPhaseCost\n      ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 7)\n      (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)\n        (FirstGaussPoolData.localErrorWeight_nonneg p.val 7)) ξ)\n    (T.zeroBudget_eq_four_sources ε Czero)\n    (T.tailBudget_eq_four_sources Cerror)\n\n",
+                "old_sha256": "8b558469d5329b35db6396b205c72050a89c19da64f9c34330b174bbde5374ea",
+                "new_sha256": "4e9cb5ca0628834d8cebf6e3df115d58ed5a85362d3aa744a0bebacd4d6007aa"
+              },
+              {
+                "label": "integral_phase_cost_eq_budgets_leaves_proof_only",
+                "kind": "replace",
+                "original_start": 6565,
+                "original_end": 7272,
+                "candidate_start": 13881,
+                "candidate_end": 14656,
+                "old": "  letI := actualFourierMeasure_finite F\n  have hi : ∀ b : s.CoveredLeafKey B,\n      Integrable (s.coveredLeaf B r F x b).firstPhaseCost (actualFourierMeasure F) := by\n    intro b\n    simpa only [s.coveredLeaf_firstKernel B r F x b] using\n      (s.coveredLeaf B r F x b).firstPhaseCost_integrable\n  simp_rw [T.phase_cost_eq_budgets_leaves B r F x]\n  rw [integral_add (integrable_const _) (integrable_finsetSum _ (fun b _ => hi b))]\n  rw [integral_const, integral_finsetSum]\n  · simp only [smul_eq_mul]\n    congr 1\n    apply Finset.sum_congr rfl\n    intro b _\n    simpa only [s.coveredLeaf_firstKernel B r F x b] using\n      (s.coveredLeaf B r F x b).integral_firstPhaseCost\n  · intro b _\n    exact hi b\n\n",
+                "new": "  letI := actualFourierMeasure_finite F\n  exact dual_pool_scalar_integral_const_add_sum\n    (X := W) (J := s.CoveredLeafKey B)\n    (actualFourierMeasure F)\n    (T.zeroBudget ε Czero + T.tailBudget Cerror)\n    (fun ξ => T.coverHybridPhaseCost B r x ξ ε Cerror Czero)\n    (fun b => (s.coveredLeaf B r F x b).firstPhaseCost)\n    (fun b => (s.coveredLeaf B r F x b).cost)\n    (fun b => actualFourierMeasure (s.coveredLeaf B r F x b).firstKernel)\n    (fun ξ => T.phase_cost_eq_budgets_leaves B r F x ξ ε Cerror Czero)\n    (fun b => congrArg (fun H : SchwartzMap W ℂ => actualFourierMeasure H)\n      (s.coveredLeaf_firstKernel B r F x b))\n    (fun b => (s.coveredLeaf B r F x b).firstPhaseCost_integrable)\n    (fun b => (s.coveredLeaf B r F x b).integral_firstPhaseCost)\n\n",
+                "old_sha256": "9c75d8a38d44f23beff77c1eb09247e359b113a76108af931fbc52eae23e34a3",
+                "new_sha256": "8f4bc06d89075fecf5a0d9b82c09fdf6261a51dd26ca7c5ca5758e2384bae13e"
+              }
+            ],
+            "original_imports": [
+              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminal",
+              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves"
+            ],
+            "original_prints": [
+              "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.DualTerminalCalibration.zeroBudget_eq_four_sources",
+              "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.DualTerminalCalibration.phase_cost_eq_budgets_leaves",
+              "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.DualTerminalCalibration.integral_phase_cost_eq_budgets_leaves",
+              "HeckeSkeleton.Moments.EngineStep.actual_pool_dual_covered_leaf_integral_bound"
+            ],
+            "candidate_options": [
+              "set_option linter.unusedSectionVars false",
+              "set_option synthInstance.maxHeartbeats 400000",
+              "set_option maxHeartbeats 1000000"
+            ],
+            "config_sha256": {
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148"
+            },
+            "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
+            "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+            "expected_STEP_closure": [
+              "ActualCapacityProduction",
+              "ActualChildInvariants",
+              "ActualChildMass",
+              "ActualChildMassBudget",
+              "ActualChildRows",
+              "ActualChildren",
+              "ActualCommonAtomBinding",
+              "ActualCorrelationBound",
+              "ActualCoveredLabels",
+              "ActualExceptionalAmplitude",
+              "ActualExceptionalContribution",
+              "ActualExceptionalRows",
+              "ActualFamilyIntegrability",
+              "ActualFirstCharacters",
+              "ActualFirstSource",
+              "ActualFirstTerminalBudget",
+              "ActualFirstZero",
+              "ActualFrequencyPartition",
+              "ActualGaussCoverHybridTerminal",
+              "ActualGaussDualRawTerminal",
+              "ActualGaussFiniteLeaves",
+              "ActualGaussHybridTerminal",
+              "ActualGaussRawTerminal",
+              "ActualLengths",
+              "ActualPool",
+              "ActualScaleClipping",
+              "AllocatedCapacityProvider",
+              "AllocatedChildFamily",
+              "AllocatedChildProvider",
+              "AllocatedSubsupport",
+              "AllocationKernel",
+              "AllocationMass",
+              "AllocationScalarNorm",
+              "AmplifierDifference",
+              "AmplifierGaussExtraction",
+              "AmplifierPoolReindex",
+              "AmplifierResidualSupport",
+              "AmplifierSupportDictionary",
+              "AmplifierValuationSupport",
+              "ArithmeticPrimePool",
+              "CanonicalFirstBlocks",
+              "CanonicalRowBallChart",
+              "Capacity",
+              "CenteredAllocatedChildren",
+              "ChildAssembly",
+              "ChildMomentDataAdapter",
+              "ChildTermDictionary",
+              "Coefficient",
+              "CombinedSupportPoolAtlas",
+              "CommonCoefficientExtraction",
+              "CommonGaussOrigin",
+              "CommonHarmonicMass",
+              "CommonRadical",
+              "CommonScalarReweight",
+              "CommonSupportPartition",
+              "CommonTerminalCalibration",
+              "CoprimeCoefficient",
+              "CorrelationKernel",
+              "CoverHybridPhaseIntegral",
+              "DerivedCapacity",
+              "DualGaussHybridTerminal",
+              "DualPoolFiniteLeaves",
+              "DualPoolTerminal",
+              "DualStageTerminalBudget",
+              "DualTerminalCalibration",
+              "EffectiveChildSupport",
+              "ExceptionalAmplitude",
+              "ExceptionalFrequency",
+              "ExceptionalRows",
+              "ExceptionalSourceBinding",
+              "FinitePhase",
+              "FiniteProductGauss",
+              "FirstActiveDictionary",
+              "FirstCharacterSource",
+              "FirstCommonGauss",
+              "FirstCommonMass",
+              "FirstCommonNormalization",
+              "FirstCommonSupportSource",
+              "FirstCommonTupleFibers",
+              "FirstDivisorFrozenCost",
+              "FirstDivisorNormCalibration",
+              "FirstDivisorPhysicalSource",
+              "FirstDivisorPool",
+              "FirstDivisorTerminalCalibration",
+              "FirstFiniteSource",
+              "FirstGaussPool",
+              "FirstGaussPoolKernel",
+              "FirstKernel",
+              "FirstLinearizedSource",
+              "FirstPoissonColumnNormalization",
+              "FirstPooledResidual",
+              "FirstPooledStage",
+              "FirstResidualSource",
+              "FirstSecondCoveredSource",
+              "FirstSecondRawSource",
+              "FirstSecondSource",
+              "FirstStage",
+              "FirstWeightedReduction",
+              "FirstZeroAmplitude",
+              "FirstZeroDiagonal",
+              "FirstZeroSupport",
+              "FixedChildFamily",
+              "ForcedPowerfulDiagonal",
+              "FrozenScalarMass",
+              "GaussEnergySource",
+              "GaussPairTransform",
+              "GaussPhaseTerminal",
+              "GaussPoolDictionary",
+              "GaussSource",
+              "GaussStageKernelIntegral",
+              "GaussStagePhaseTransport",
+              "GeneratedCorrelation",
+              "GeneratedZeroGauss",
+              "HybridFiniteLeaf",
+              "HybridOrdinaryProduction",
+              "IdealPool",
+              "JointKernel",
+              "JointKernelBounds",
+              "JointKernelExceptionalSplit",
+              "Ledger",
+              "LocalAmplifier",
+              "LocalCRT",
+              "LocalCorrelation",
+              "MomentDataAdapter",
+              "NestedFourierMeasure",
+              "NestedHilbertPhase",
+              "NestedHybridKernel",
+              "NestedHybridResidual",
+              "NestedSecondClassProduction",
+              "NestedSecondResidual",
+              "NonzeroQuotientSupport",
+              "NormalizedActualCapacityChild",
+              "OrbitalCorrelation",
+              "OriginalOrbitFibre",
+              "ParentConstantSource",
+              "ParentMoment",
+              "ParentOrbitFibre",
+              "ParentRawSourceInput",
+              "ParentSource",
+              "ParentTruncation",
+              "PhaseDictionary",
+              "Pool",
+              "PoolCoverHybridStage",
+              "PoolFiniteLeaves",
+              "PoolFourierStage",
+              "PoolGaussDecomposition",
+              "PoolRawFourierStage",
+              "PoolSecondStage",
+              "PoolStageTerminalBudget",
+              "PowerfulDiagonal",
+              "PowerfulProducts",
+              "PreCauchySource",
+              "PrimePool",
+              "PrimePowerGcd",
+              "PrimePowerQuotientSupport",
+              "PrimeSupportMass",
+              "ProfileNormalizationInput",
+              "RankinLabels",
+              "RawSourcePhaseIntegral",
+              "ReductionOutput",
+              "ResidualTupleCount",
+              "ResidualZeroBudget",
+              "SIntegerFirstFourier",
+              "SecondActiveDualZeroDiagonal",
+              "SecondAllocatedSource",
+              "SecondAllocationKernel",
+              "SecondAllocationLabels",
+              "SecondBranchPartition",
+              "SecondBranchProduction",
+              "SecondCenteredBinding",
+              "SecondChartAllocation",
+              "SecondClassProduction",
+              "SecondCoefficientBinding",
+              "SecondCoefficientNormalization",
+              "SecondCommonNormalization",
+              "SecondCommonSource",
+              "SecondCorrelationSource",
+              "SecondDivisorDualZeroDiagonal",
+              "SecondDualZeroAmplitude",
+              "SecondDualZeroDiagonal",
+              "SecondFactorIdentification",
+              "SecondGeneratorSource",
+              "SecondHybridAllocation",
+              "SecondHybridChart",
+              "SecondHybridCoverSource",
+              "SecondHybridSource",
+              "SecondResidualSource",
+              "SecondSourceNormalization",
+              "SecondStage",
+              "SecondTailBudget",
+              "SecondZeroAmplitude",
+              "SecondZeroDiagonal",
+              "SecondZeroSupport",
+              "SignedPoissonZero",
+              "SignedSecondStage",
+              "SlotRestriction",
+              "SourceCartesianAtlas",
+              "SourceCartesianCover",
+              "SourceFactorExtraction",
+              "StageTerminalBudget",
+              "SupportCartesianReindex",
+              "SupportKernelPartition",
+              "SupportSourceExtraction",
+              "TailBudget",
+              "TailFiberCount",
+              "TerminalPowerBudget",
+              "UniformLengthCapacity",
+              "ValuationAllocation",
+              "WeightedNestedFourierMeasure",
+              "WholeAllocation",
+              "WholeGramOrigin",
+              "ZeroTerminalBudget"
+            ],
+            "expected_tracked_files": 9585,
+            "owner_claim_comment": 6572602229,
+            "coordinator_local_instance_comments": [
+              6571400398,
+              6572087480
+            ],
+            "shared_options_source": {
+              "commit": "7cafec4a404ce871cbcc0d3ecd2c6e71ff4278b9",
+              "bytes": 8605,
+              "sha256": "ea22cfe34581429899543796549da8ba9f1453ad867fd03b6f67ffc2ee4529cb",
+              "git_blob": "6ca5568c7bcc56a62790aa90ee261fd627d3c930"
+            },
+            "pool_path": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean",
+            "pool_overlay": {
+              "original": {
+                "bytes": 13461,
+                "sha256": "d2ffeb40fa9db40b4526f17aa9de69cd23e0679091cd4088cacda1b63be18b75",
+                "git_blob": "ac94d17f95bfc4640aedf52004b79131747d7ebd"
+              },
+              "candidate": {
+                "bytes": 13467,
+                "sha256": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+                "git_blob": "ec4568bab1589edf73a099bdc99e66f6b9f25595"
+              },
+              "old": "attribute [instance] coveredLeafKeyFintype\n",
+              "new": "attribute [local instance] coveredLeafKeyFintype\n",
+              "only_change": "Keep the existing public cache type/body and make its registration local (+6 B)."
+            },
+            "required_dependencies": {
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": {
+                "bytes": 78818,
+                "sha256": "db81dff1d17c12c72746738c9296a1d4bc87ec27d33958124ce36c79455bb5df",
+                "git_blob": "5117f6ad32f4e355976e38b341a2ae8eb032c6ab"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": {
+                "bytes": 13467,
+                "sha256": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+                "git_blob": "ec4568bab1589edf73a099bdc99e66f6b9f25595"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualPoolTerminal.lean": {
+                "bytes": 16772,
+                "sha256": "95072a7d70746559fe2d603f82999ea5160a4bea18a9b74cd2a6b0db867fa3c7",
+                "git_blob": "da149f06b2fc6acf0ae57e9224c2b88f0967196b"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalAmplifiedCarrier.lean": {
+                "bytes": 11484,
+                "sha256": "788de94c079afcf9428eb0c592abd1b0090c662ae0949ee3d699a8ac597f871b",
+                "git_blob": "7cd8e9393af61f8d9abdff990bed160f44f5e4f2"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.lean": {
+                "bytes": 7339,
+                "sha256": "165356d5ecbc018b0c0968856dd806e297969e53a38889b5116289ebcd208cbf",
+                "git_blob": "683a883b3bcde4b635f1c4c5cc4532d56cf60d21"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualGaussHybridTerminal.lean": {
+                "bytes": 19979,
+                "sha256": "6de73fb29bd9434bf272000b7b3dd506b6b24d592a23ddcbc99d8192ca295cff",
+                "git_blob": "4f1c9601de74b44b856af6357915a92b58d47f0f"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridFiniteLeaf.lean": {
+                "bytes": 12088,
+                "sha256": "6b31d140726f2840ee28eaddafdcfc4b69a614b22d4841c8ec2505fbb10506e0",
+                "git_blob": "f8c4fabb5fa4d3b7de22cdef623c22027e8841cb"
+              }
+            },
+            "reviewed_source_pins": {
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": "db81dff1d17c12c72746738c9296a1d4bc87ec27d33958124ce36c79455bb5df",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualPoolTerminal.lean": "95072a7d70746559fe2d603f82999ea5160a4bea18a9b74cd2a6b0db867fa3c7",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalAmplifiedCarrier.lean": "788de94c079afcf9428eb0c592abd1b0090c662ae0949ee3d699a8ac597f871b",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualPoolFiniteLeaves.lean": "4c317581fcadecddc5c62d3b4f92123332e910a9bca2bef3c651b377cb834a03",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredLabels.lean": "165356d5ecbc018b0c0968856dd806e297969e53a38889b5116289ebcd208cbf",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualGaussHybridTerminal.lean": "6de73fb29bd9434bf272000b7b3dd506b6b24d592a23ddcbc99d8192ca295cff",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridFiniteLeaf.lean": "6b31d140726f2840ee28eaddafdcfc4b69a614b22d4841c8ec2505fbb10506e0"
+            },
+            "previous_proof_candidate": {
+              "bytes": 17813,
+              "sha256": "9c89f246b8fb0569a6ce12d3b79a5e1896da99b2260509f6f9a2fbd9a3550dcd",
+              "git_blob": "2eb0913b276ad69d048d6d1934f2cb7b52a1dfcb"
+            },
+            "original_option_candidate": {
+              "bytes": 10618,
+              "sha256": "2b7bf1a34aafa843bd247e7d3e1613106aac86d4df78c43eca1d9eef198897b7",
+              "git_blob": "665640271de34bc0bdaac538538df8d686c3dca5"
+            },
+            "original_five_proof_edit_names": [
+              "three_ambient_free_private_scalar_helpers",
+              "zeroBudget_eq_four_sources_proof_only",
+              "tailBudget_eq_four_sources_proof_only",
+              "phase_cost_eq_budgets_leaves_proof_only",
+              "integral_phase_cost_eq_budgets_leaves_proof_only"
+            ],
+            "local_option_two_edit_chain_reference": [
+              "preserve_shared_7caf_import_option_prefix",
+              "enable_existing_Pool_Fintype_locally_at_shared_position"
+            ],
+            "source_candidate_not_yet_owner_adopted": true
+          }
+          CONTRACT
+          cat > a2-dualpool-local-scalar-native/provenance.py <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+          import tomllib
+          
+          
+          def identity(data):
+              return {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                      'git_blob': hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()}
+          
+          
+          def validate_source_pair(original, candidate, contract):
+              assert identity(original) == contract['original']
+              assert identity(candidate) == contract['candidate']
+              forward = original
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['original_start'], edit['original_end']
+                  old, new = edit['old'].encode(), edit['new'].encode()
+                  assert original[start:end] == old
+                  assert identity(old)['sha256'] == edit['old_sha256']
+                  assert identity(new)['sha256'] == edit['new_sha256']
+                  forward = forward[:start] + new + forward[end:]
+              assert forward == candidate
+              backward = candidate
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['candidate_start'], edit['candidate_end']
+                  assert candidate[start:end] == edit['new'].encode()
+                  backward = backward[:start] + edit['old'].encode() + backward[end:]
+              assert backward == original
+              for pattern, key in [(rb'^import (.+)$', 'original_imports'),
+                                   (rb'^#print axioms (.+)$', 'original_prints')]:
+                  assert [x.decode() for x in re.findall(pattern, original, re.M)] == contract[key]
+                  assert [x.decode() for x in re.findall(pattern, candidate, re.M)] == contract[key]
+              assert [x.decode() for x in re.findall(rb'^set_option\b.*$', candidate, re.M)] == contract['candidate_options']
+              assert b'A2_DUALPOOL_DIAGNOSTIC' not in candidate
+              assert b'run_tac IO.eprintln' not in candidate and b'run_cmd IO.eprintln' not in candidate
+              return {'original': identity(original), 'candidate': identity(candidate),
+                      'exact_forward_and_inverse': True,
+                      'original_imports': contract['original_imports'],
+                      'original_prints': contract['original_prints'],
+                      'candidate_options': contract['candidate_options']}
+          
+          
+          def validate_pool_pair(original, candidate, contract):
+              overlay = contract['pool_overlay']
+              assert identity(original) == overlay['original']
+              assert identity(candidate) == overlay['candidate']
+              old, new = overlay['old'].encode(), overlay['new'].encode()
+              assert original.count(old) == candidate.count(new) == 1
+              assert original.replace(old, new, 1) == candidate
+              assert candidate.replace(new, old, 1) == original
+              assert len(candidate) - len(original) == 6
+              assert b'attribute [instance] coveredLeafKeyFintype' not in candidate
+              return {'original': identity(original), 'candidate': identity(candidate),
+                      'only_change': overlay['only_change'], 'exact_forward_and_inverse': True}
+          
+          
+          def closure(graph, target):
+              found, pending = set(), [target]
+              while pending:
+                  name = pending.pop()
+                  if name in found:
+                      continue
+                  assert name in graph, 'Missing STEP module: ' + name
+                  found.add(name)
+                  pending.extend(graph[name])
+              return sorted(found)
+          
+          
+          def validate_inventory(source_bytes, config_bytes, contract):
+              task = contract['task_directory']
+              configs = {path: identity(data)['sha256'] for path, data in config_bytes.items()}
+              assert configs == contract['config_sha256'] and len(configs) == 7
+              assert config_bytes['lean-toolchain'].decode().strip() == 'leanprover/lean4:v4.35.0-rc3'
+              lake = tomllib.loads(config_bytes['lakefile.toml'].decode())
+              assert lake['weakLeanArgs'] == ['-j2']
+              assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+              mathlib = [x for x in json.loads(config_bytes['lake-manifest.json'])['packages'] if x['name'] == 'mathlib']
+              assert len(mathlib) == 1 and mathlib[0]['rev'] == contract['mathlib_commit']
+              imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$',
+                                   source_bytes[task + '/Interface.lean'].decode(), re.M)
+              expected = {p[:-5].replace('/', '.') for p in source_bytes if p != task + '/Interface.lean'}
+              libraries = [x['name'] for x in lake['lean_lib']]
+              assert len(source_bytes) == 1009 and len(imports) == len(set(imports)) == 1008
+              assert set(imports) == expected and len(libraries) == 20
+              graph = {Path(path).stem: re.findall(r'^import HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.([A-Za-z_0-9]+)\s*$', data.decode(), re.M)
+                       for path, data in source_bytes.items()}
+              actual_closure = closure(graph, contract['target'])
+              assert actual_closure == contract['expected_STEP_closure']
+              for path, expected_id in contract['required_dependencies'].items():
+                  assert identity(source_bytes[path]) == expected_id
+              return {'task_source_sha256': {p: identity(b)['sha256'] for p, b in source_bytes.items()},
+                      'config_sha256': configs, 'interface_imports': imports, 'libraries': libraries,
+                      'target_STEP_closure': actual_closure}
+          
+          
+          def main():
+              root = Path.cwd()
+              evidence = Path(__file__).resolve().parent
+              contract = json.loads((evidence / 'contract.json').read_text())
+              assert not contract['fixture_only'], (
+                  'UNPUBLISHABLE FIXTURE: rebind a reviewed complete repair and the actual current owner '
+                  'before freezing a runnable original normal workflow.')
+              phase = sys.argv[1]
+              assert phase in ['before', 'after']
+              def git(*args):
+                  return subprocess.check_output(['git', *args], text=True).strip()
+              assert git('rev-parse', contract['base'] + '^{tree}') == contract['base_tree']
+              head = git('rev-parse', 'HEAD')
+              assert head == os.environ['EXPECTED_SHA']
+              assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [head, contract['base']]
+              changed = git('diff', '--no-renames', '--name-only', contract['base'], 'HEAD').splitlines()
+              assert changed == sorted([contract['target_path'], contract['pool_path'], contract['workflow_path']])
+              assert git('diff', '--no-renames', '--name-status', contract['base'], 'HEAD').splitlines() == sorted([
+                  'M\t' + contract['target_path'], 'M\t' + contract['pool_path'], 'A\t' + contract['workflow_path']])
+              original = subprocess.check_output(['git', 'show', contract['base'] + ':' + contract['target_path']])
+              candidate = Path(contract['target_path']).read_bytes()
+              source_check = validate_source_pair(original, candidate, contract)
+              assert git('rev-parse', 'HEAD:' + contract['target_path']) == contract['candidate']['git_blob']
+              pool_original = subprocess.check_output(['git', 'show', contract['base'] + ':' + contract['pool_path']])
+              pool_candidate = Path(contract['pool_path']).read_bytes()
+              pool_check = validate_pool_pair(pool_original, pool_candidate, contract)
+              assert git('rev-parse', 'HEAD:' + contract['pool_path']) == contract['pool_overlay']['candidate']['git_blob']
+              task = Path(contract['task_directory'])
+              source_bytes = {str(p): p.read_bytes() for p in sorted(task.glob('*.lean'))}
+              config_bytes = {p: Path(p).read_bytes() for p in contract['config_sha256']}
+              inventory = validate_inventory(source_bytes, config_bytes, contract)
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+              assert len(tracked) == contract['expected_tracked_files']
+              def tracked_digest(path):
+                  p = Path(path)
+                  data = os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+                  return identity(data)['sha256']
+              record = {
+                  'stage': 'Complete DualPool original normal verification and fresh loaded namespace audit',
+                  'source_base': contract['base'], 'source_base_tree': contract['base_tree'],
+                  'head': head, 'tree': git('rev-parse', 'HEAD^{tree}'),
+                  'expected_head': os.environ['EXPECTED_SHA'],
+                  'changed_paths': changed, 'complete_source_identity': source_check,
+                  'Pool_local_registration_identity': pool_check,
+                  'coordinator_local_instance_comments': contract['coordinator_local_instance_comments'],
+                  'shared_file_options_source': contract['shared_options_source'],
+                  'target_modules': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + contract['target']],
+                  'original_prints': contract['original_prints'],
+                  'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                  'tracked_sha256': {p: tracked_digest(p) for p in tracked},
+                  'full_task_acceptance': False, **inventory,
+              }
+              assert not record['tracked_status']
+              assert json.loads(json.dumps(record)) == record
+              (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+              if phase == 'after':
+                  assert json.loads((evidence / 'before-source.json').read_text()) == record
+                  (evidence / 'source-integrity.json').write_text(json.dumps({
+                      'unchanged': True, 'head': head, 'tree': record['tree'],
+                      'tracked_files': len(tracked), 'task_modules': 1009,
+                      'interface_imports': 1008, 'libraries': 20}, indent=2) + '\n')
+              print(phase, head, record['tree'], len(tracked), 1009, 1008, 20, flush=True)
+          
+          
+          if __name__ == '__main__':
+              main()
+          PY
+          cat > a2-dualpool-local-scalar-native/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-dualpool-local-scalar-native')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-dualpool-local-scalar-native/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-dualpool-local-scalar-native/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a2-dualpool-local-scalar-native/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolFiniteLeaves:deps
+      - name: Compile the complete original module and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a2-dualpool-local-scalar-native/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolFiniteLeaves \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.DualTerminalCalibration.zeroBudget_eq_four_sources \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.DualTerminalCalibration.phase_cost_eq_budgets_leaves \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.DualTerminalCalibration.integral_phase_cost_eq_budgets_leaves \
+            --declaration HeckeSkeleton.Moments.EngineStep.actual_pool_dual_covered_leaf_integral_bound \
+            --evidence a2-dualpool-local-scalar-native/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-dualpool-local-scalar-native/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-dualpool-local-scalar-native-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-dualpool-local-scalar-native/
+          if-no-files-found: error
+          retention-days: 14
