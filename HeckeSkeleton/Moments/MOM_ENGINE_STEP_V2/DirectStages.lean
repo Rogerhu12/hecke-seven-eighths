@@ -80,9 +80,9 @@ def rightDivisorCoefficient (p : FirstBlockDirectData chart M X hX)
 There is no bound field; each stage contains only original charts. -/
 structure SecondStages (p : FirstBlockDirectData chart M X hX) where
   left : ∀ S (χ : (PUnit.{1} × PUnit.{1}) →* Circle), ActualGaussStage (E := E) hΓ μv hDiff
-    (p.leftData.directSource (p.leftDivisorCoefficient S χ)) finiteTest
+    (p.leftData.directSource ((FirstBlockDirectData.leftDivisorCoefficient (p := p)) S χ)) finiteTest
   right : ∀ S (χ : (PUnit.{1} × PUnit.{1}) →* Circle), ActualGaussStage (E := E) hΓ μv hDiff
-    (p.rightData.directSource (p.rightDivisorCoefficient S χ)) finiteTest
+    (p.rightData.directSource ((FirstBlockDirectData.rightDivisorCoefficient (p := p)) S χ)) finiteTest
 
 
 variable (p : FirstBlockDirectData chart M X hX)
@@ -90,36 +90,36 @@ variable (p : FirstBlockDirectData chart M X hX)
 def leftSourceCover (LA : SourceCartesianAtlas left fullI)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
-    SourceCartesianCover (p.leftData.directSource (p.leftDivisorCoefficient S χ)).columns
-      (p.leftData.directSource (p.leftDivisorCoefficient S χ)).ideal :=
+    SourceCartesianCover (p.leftData.directSource ((FirstBlockDirectData.leftDivisorCoefficient (p := p)) S χ)).columns
+      (p.leftData.directSource ((FirstBlockDirectData.leftDivisorCoefficient (p := p)) S χ)).ideal :=
   p.leftData.sourceCartesianCover LA (primeSupport DE.1) DE.1
     p.left_columns (fun i => by rw [p.left_ideal]; exact b.left_residual i)
-    (p.leftDivisorCoefficient S χ)
+    ((FirstBlockDirectData.leftDivisorCoefficient (p := p)) S χ)
 
 def rightSourceCover (RA : SourceCartesianAtlas right fullJ)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
-    SourceCartesianCover (p.rightData.directSource (p.rightDivisorCoefficient S χ)).columns
-      (p.rightData.directSource (p.rightDivisorCoefficient S χ)).ideal :=
+    SourceCartesianCover (p.rightData.directSource ((FirstBlockDirectData.rightDivisorCoefficient (p := p)) S χ)).columns
+      (p.rightData.directSource ((FirstBlockDirectData.rightDivisorCoefficient (p := p)) S χ)).ideal :=
   p.rightData.sourceCartesianCover RA (primeSupport DE.1) DE.2
     p.right_columns (fun j => by rw [p.right_ideal]; exact b.right_residual j)
-    (p.rightDivisorCoefficient S χ)
+    ((FirstBlockDirectData.rightDivisorCoefficient (p := p)) S χ)
 
 namespace SecondStages
 
 variable {p}
 
-structure TerminalCalibration (s : p.SecondStages (E := E) (hDiff := hDiff))
+structure TerminalCalibration (s : (FirstBlockDirectData.SecondStages (p := p)) (E := E) (hDiff := hDiff))
     (sTail sZero : Finset (ℕ × ℕ)) (k : ℕ) (Z Lmax Nsave decay : ℝ) where
   left : ∀ S χ, (s.left S χ).TerminalCalibration sTail sZero k Z Lmax Nsave decay
   right : ∀ S χ, (s.right S χ).TerminalCalibration sTail sZero k Z Lmax Nsave decay
 
-structure CoverHybridPredicates (s : p.SecondStages (E := E) (hDiff := hDiff))
+structure CoverHybridPredicates (s : (FirstBlockDirectData.SecondStages (p := p)) (E := E) (hDiff := hDiff))
     (LA : SourceCartesianAtlas left fullI) (RA : SourceCartesianAtlas right fullJ) where
   left : ∀ S χ, (s.left S χ).CoverHybridPredicates
-    (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ)
+    ((FirstBlockDirectData.leftSourceCover (p := p)) LA S χ) ((FirstBlockDirectData.leftSourceCover (p := p)) LA S χ)
   right : ∀ S χ, (s.right S χ).CoverHybridPredicates
-    (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
+    ((FirstBlockDirectData.rightSourceCover (p := p)) RA S χ) ((FirstBlockDirectData.rightSourceCover (p := p)) RA S χ)
 
 end SecondStages
 end FirstBlockDirectData

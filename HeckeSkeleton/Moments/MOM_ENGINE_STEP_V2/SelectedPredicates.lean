@@ -48,11 +48,11 @@ variable (request : Request c frame Cp Hp hCp hminimum hHp) (frequency : ℝ × 
 /-- The first moving phases are the generators already used by the
 original signed first-divisor transform. -/
 def directPredicates :
-    (directStages request frequency).prepared.CoverHybridPredicates (atlas request frequency) :=
+    ActualDirectFirstSource.SecondStages.CoverHybridPredicates (directPrepared request frequency) (atlas request frequency) :=
   fun DE D => {
-    left := fun S χ => ((directStages request frequency DE D).left S χ).supported.gated.literalHybridPredicates
-      (((firstSource request frequency).pieces DE D).leftSourceCover (atlas request frequency) S χ)
-      (((firstSource request frequency).pieces DE D).leftSourceCover (atlas request frequency) S χ)
+    left := fun S χ => (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := ((directStages request frequency DE D).left S χ)))))))
+      ((FirstBlockDirectData.leftSourceCover (p := ((firstSource request frequency).pieces DE D))) (atlas request frequency) S χ)
+      ((FirstBlockDirectData.leftSourceCover (p := ((firstSource request frequency).pieces DE D))) (atlas request frequency) S χ)
       (probeData K c) (momentRowCharacters K c)
       (CanonicalLiteralActualCharacters.unamplifiedPhases
         ((FirstCommonCharacterBlock.literalLeftFixed (b := ((firstSource request frequency).block DE))) D.val)
@@ -61,9 +61,9 @@ def directPredicates :
           (sIntegerMaskGenerator K (places K c) D.val).val)
         ((FirstCommonCharacterBlock.literalLeftFixed_generates (b := ((firstSource request frequency).block DE))) (TargetArithmetic.context c) D.val))
       (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
-    right := fun S χ => ((directStages request frequency DE D).right S χ).supported.gated.literalHybridPredicates
-      (((firstSource request frequency).pieces DE D).rightSourceCover (atlas request frequency) S χ)
-      (((firstSource request frequency).pieces DE D).rightSourceCover (atlas request frequency) S χ)
+    right := fun S χ => (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := ((directStages request frequency DE D).right S χ)))))))
+      ((FirstBlockDirectData.rightSourceCover (p := ((firstSource request frequency).pieces DE D))) (atlas request frequency) S χ)
+      ((FirstBlockDirectData.rightSourceCover (p := ((firstSource request frequency).pieces DE D))) (atlas request frequency) S χ)
       (probeData K c) (momentRowCharacters K c)
       (CanonicalLiteralActualCharacters.unamplifiedPhases
         ((FirstCommonCharacterBlock.literalRightFixed (b := ((firstSource request frequency).block DE))) D.val)
@@ -76,10 +76,10 @@ def directPredicates :
 /-- These predicates read the original row character, including the
 actual amplifier frequency before passive mask reduction. -/
 def pooledPredicates :
-    (pooledStages request frequency).supported.gated.CoverHybridPredicates (pooledAtlas request frequency) :=
+    EngineStep.ActualFirstSource.SecondStages.CoverHybridPredicates (pooledPrepared request frequency) (pooledAtlas request frequency) :=
   fun DE D => {
     left := fun S χ => {
-      main := (((pooledStages request frequency DE D).left S χ).main).supported.gated.literalHybridPredicates
+      main := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).left S χ).main)))))))
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).main)
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).main) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.unamplifiedPhases
@@ -89,7 +89,7 @@ def pooledPredicates :
             (sIntegerMaskGenerator K (places K c) D.val).val)
           ((FirstCommonCharacterBlock.literalLeftFixed_generates (b := ((pooledSource request frequency).block DE))) (TargetArithmetic.context c) D.val))
         (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
-      one p := (((pooledStages request frequency DE D).left S χ).one p).supported.gated.literalHybridPredicates
+      one p := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).left S χ).one p)))))))
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).residual p 1)
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).residual p 1) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.amplifiedPhases (TargetArithmetic.context c)
@@ -99,7 +99,7 @@ def pooledPredicates :
             (sIntegerMaskGenerator K (places K c) D.val).val)
           ((FirstCommonCharacterBlock.literalLeftFixed_generates (b := ((pooledSource request frequency).block DE))) (TargetArithmetic.context c) D.val) p.val 1)
         (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
-      six p := (((pooledStages request frequency DE D).left S χ).six p).supported.gated.literalHybridPredicates
+      six p := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).left S χ).six p)))))))
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).residual p 6)
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).residual p 6) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.amplifiedPhases (TargetArithmetic.context c)
@@ -109,7 +109,7 @@ def pooledPredicates :
             (sIntegerMaskGenerator K (places K c) D.val).val)
           ((FirstCommonCharacterBlock.literalLeftFixed_generates (b := ((pooledSource request frequency).block DE))) (TargetArithmetic.context c) D.val) p.val 6)
         (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
-      seven p := (((pooledStages request frequency DE D).left S χ).seven p).supported.gated.literalHybridPredicates
+      seven p := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).left S χ).seven p)))))))
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).residual p 7)
         ((((pooledSource request frequency).pools DE D).leftSourceCovers (pooledAtlas request frequency) S χ).residual p 7) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.amplifiedPhases (TargetArithmetic.context c)
@@ -121,7 +121,7 @@ def pooledPredicates :
         (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
     }
     right := fun S χ => {
-      main := (((pooledStages request frequency DE D).right S χ).main).supported.gated.literalHybridPredicates
+      main := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).right S χ).main)))))))
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).main)
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).main) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.unamplifiedPhases
@@ -131,7 +131,7 @@ def pooledPredicates :
             (sIntegerMaskGenerator K (places K c) D.val).val)
           ((FirstCommonCharacterBlock.literalRightFixed_generates (b := ((pooledSource request frequency).block DE))) (TargetArithmetic.context c) D.val))
         (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
-      one p := (((pooledStages request frequency DE D).right S χ).one p).supported.gated.literalHybridPredicates
+      one p := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).right S χ).one p)))))))
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).residual p 1)
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).residual p 1) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.amplifiedPhases (TargetArithmetic.context c)
@@ -141,7 +141,7 @@ def pooledPredicates :
             (sIntegerMaskGenerator K (places K c) D.val).val)
           ((FirstCommonCharacterBlock.literalRightFixed_generates (b := ((pooledSource request frequency).block DE))) (TargetArithmetic.context c) D.val) p.val 1)
         (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
-      six p := (((pooledStages request frequency DE D).right S χ).six p).supported.gated.literalHybridPredicates
+      six p := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).right S χ).six p)))))))
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).residual p 6)
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).residual p 6) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.amplifiedPhases (TargetArithmetic.context c)
@@ -151,7 +151,7 @@ def pooledPredicates :
             (sIntegerMaskGenerator K (places K c) D.val).val)
           ((FirstCommonCharacterBlock.literalRightFixed_generates (b := ((pooledSource request frequency).block DE))) (TargetArithmetic.context c) D.val) p.val 6)
         (recipe request frequency).moving (recipe request frequency).correction (model request frequency).data.theta
-      seven p := (((pooledStages request frequency DE D).right S χ).seven p).supported.gated.literalHybridPredicates
+      seven p := (ActualGaussStage.literalHybridPredicates (s := (ActualGaussStage.gated (s := (ActualGaussStage.supported (s := (((pooledStages request frequency DE D).right S χ).seven p)))))))
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).residual p 7)
         ((((pooledSource request frequency).pools DE D).rightSourceCovers (pooledAtlas request frequency) S χ).residual p 7) (probeData K c) (momentRowCharacters K c)
         (CanonicalLiteralActualCharacters.amplifiedPhases (TargetArithmetic.context c)

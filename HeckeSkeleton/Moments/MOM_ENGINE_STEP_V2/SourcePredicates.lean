@@ -100,7 +100,7 @@ variable (theta : Finset (HeckeCharacter K))
 
 def literalHybridPredicates : s.CoverHybridPredicates LC RC :=
   fun DE D _ _ label _ _ _ _ _ _ h =>
-    ((s.charts DE D).actualRows s.mask s.cutoff s.cutoff_one label).literalCharacter
+    (ActualSecondCorrelationRows.literalCharacter (S := ((s.charts DE D).actualRows s.mask s.cutoff s.cutoff_one label)))
       C P R F oldMoving correction
       ((SecondBlockProfileChart.originalNonunitPattern (chart := (s.charts DE D))) s.mask s.cutoff s.cutoff_one label)
       ((SecondBlockProfileChart.originalSector (chart := (s.charts DE D))) P s.mask s.cutoff s.cutoff_one label) h ∈ theta
@@ -108,11 +108,11 @@ def literalHybridPredicates : s.CoverHybridPredicates LC RC :=
 /-- The leaf reads this same predicate without changing its row,
 sector, first moving factors, or finite theta set. -/
 @[simp] theorem literalHybridPredicates_leaf
-    (v : s.CoveredClassKey LC RC) (kernel : SchwartzMap W ℂ)
+    (v : (ActualGaussStage.CoveredClassKey (s := s)) LC RC) (kernel : SchwartzMap W ℂ)
     (point : ι → W) (j : v.AllocationKey) :
-    (v.leaf (s.literalHybridPredicates LC RC P R F oldMoving correction theta)
+    (v.leaf ((ActualGaussStage.literalHybridPredicates (s := s)) LC RC P R F oldMoving correction theta)
       kernel point j).exceptional = fun h =>
-      (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).literalCharacter
+      (ActualSecondCorrelationRows.literalCharacter (S := (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel)))
         C P R F oldMoving correction
         ((SecondBlockProfileChart.originalNonunitPattern (chart := v.chart)) s.mask s.cutoff s.cutoff_one v.rowLabel)
         ((SecondBlockProfileChart.originalSector (chart := v.chart)) P s.mask s.cutoff s.cutoff_one v.rowLabel) h ∈ theta := rfl

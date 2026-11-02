@@ -86,7 +86,7 @@ theorem directRows
 
 /-- Both independent first divisor/phase sums are retained by this
 actual second transform. All kernels are the original row-ball kernels. -/
-def directStages : (firstSource request frequency).SecondStages
+def directStages : ActualDirectFirstSource.SecondStages (firstSource request frequency)
     (E := ℝ) (hDiff := TargetArithmetic.different c) := fun DE D => {
   left := fun S χ => ActualGaussStage.literalSectorStage
     (hΓ := actualSixthUnits_are_sixth (places K c))
@@ -95,7 +95,7 @@ def directStages : (firstSource request frequency).SecondStages
     (probeData K c) (selectedBox c frame).delta (selectedBox c frame).tilt_pos
     (selectedBox c frame).tilt_le_half
     (((firstSource request frequency).pieces DE D).leftData.directSource
-      (((firstSource request frequency).pieces DE D).leftDivisorCoefficient S χ))
+      ((FirstBlockDirectData.leftDivisorCoefficient (p := ((firstSource request frequency).pieces DE D))) S χ))
     (leftDirectGeometry request frequency DE D).retainedScale request.base
     (leftDirectGeometry request frequency DE D).enlargement
     (leftDirectGeometry request frequency DE D).retainedScale_pos
@@ -110,7 +110,7 @@ def directStages : (firstSource request frequency).SecondStages
     (probeData K c) (selectedBox c frame).delta (selectedBox c frame).tilt_pos
     (selectedBox c frame).tilt_le_half
     (((firstSource request frequency).pieces DE D).rightData.directSource
-      (((firstSource request frequency).pieces DE D).rightDivisorCoefficient S χ))
+      ((FirstBlockDirectData.rightDivisorCoefficient (p := ((firstSource request frequency).pieces DE D))) S χ))
     (rightDirectGeometry request frequency DE D).retainedScale request.base
     (rightDirectGeometry request frequency DE D).enlargement
     (rightDirectGeometry request frequency DE D).retainedScale_pos
@@ -166,8 +166,9 @@ def pooledStages : (pooledSource request frequency).SecondStages
       ((selectedBox c frame).secondCutoff request.base)
       ((selectedBox c frame).secondCutoff_ge_one (base_gt_one request).le) }
 
-def directPrepared := (directStages request frequency).prepared
-def pooledPrepared := (pooledStages request frequency).supported.gated
+def directPrepared := ActualDirectFirstSource.SecondStages.prepared (directStages request frequency)
+def pooledPrepared := ActualFirstSource.SecondStages.gated
+  (ActualFirstSource.SecondStages.supported (pooledStages request frequency))
 
 end SelectedSource
 end HeckeSkeleton.Moments.EngineStepV2

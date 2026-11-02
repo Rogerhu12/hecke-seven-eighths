@@ -53,31 +53,31 @@ namespace SelectedSource
 
 variable (request : Request c frame Cp Hp hCp hminimum hHp) (frequency : ℝ × ℝ)
 
-def directKeys := (directPrepared request frequency).liveLeaves
+def directKeys := ActualDirectFirstSource.SecondStages.liveLeaves (directPrepared request frequency)
   (atlas request frequency) (directPredicates request frequency) (normalization request frequency)
 
 def directLeaf (j : directKeys request frequency) :
     ActualHybridLeaf K (ActualSIntegerOrbit K (places K c)) ℝ ℝ :=
-  (directPrepared request frequency).parentLeaf (atlas request frequency)
+  ActualDirectFirstSource.SecondStages.parentLeaf (directPrepared request frequency) (atlas request frequency)
     (directPredicates request frequency) (normalization request frequency) j.val
 
 theorem directLeaf_live (j : directKeys request frequency) :
     (directLeaf request frequency j).Live :=
-  (directPrepared request frequency).liveLeaves_spec (atlas request frequency)
+  ActualDirectFirstSource.SecondStages.liveLeaves (directPrepared request frequency)_spec (atlas request frequency)
     (directPredicates request frequency) (normalization request frequency) j
 
-def pooledKeys := (pooledPrepared request frequency).liveLeaves
+def pooledKeys := ActualFirstSource.SecondStages.liveLeaves (pooledPrepared request frequency)
   (pooledAtlas request frequency) (pooledPredicates request frequency)
   (pooledNormalization request frequency)
 
 def pooledLeaf (j : pooledKeys request frequency) :
     ActualHybridLeaf K (ActualSIntegerOrbit K (places K c)) ℝ ℝ :=
-  (pooledPrepared request frequency).parentLeaf (pooledAtlas request frequency)
+  ActualFirstSource.SecondStages.parentLeaf (pooledPrepared request frequency) (pooledAtlas request frequency)
     (pooledPredicates request frequency) (pooledNormalization request frequency) j.val
 
 theorem pooledLeaf_live (j : pooledKeys request frequency) :
     (pooledLeaf request frequency j).Live :=
-  (pooledPrepared request frequency).liveLeaves_spec (pooledAtlas request frequency)
+  ActualFirstSource.SecondStages.liveLeaves (pooledPrepared request frequency)_spec (pooledAtlas request frequency)
     (pooledPredicates request frequency) (pooledNormalization request frequency) j
 
 /-- The tag is read from the actual dependent pool summand, retaining
@@ -94,16 +94,16 @@ def pooledTag (j : pooledKeys request frequency) : AmplificationTag :=
   | .inr (.inr (.inr (.inr _))) => .error .seven
 
 def directFirstTerminals : RawTerminalPair :=
-  (firstSource request frequency).firstRawTerminals (hDiff := TargetArithmetic.different c)
+  ActualDirectFirstSource.firstRawTerminals (firstSource request frequency) (hDiff := TargetArithmetic.different c)
 
 def directSecondTerminals : RawTerminalPair :=
-  (directPrepared request frequency).secondRawTerminals (normalization request frequency)
+  ActualDirectFirstSource.SecondStages.secondRawTerminals (directPrepared request frequency) (normalization request frequency)
 
 def pooledFirstTerminals : RawTerminalPair :=
-  (pooledSource request frequency).firstRawTerminals (hDiff := TargetArithmetic.different c)
+  ActualFirstSource.firstRawTerminals (pooledSource request frequency) (hDiff := TargetArithmetic.different c)
 
 def pooledSecondTerminals : RawTerminalPair :=
-  (pooledPrepared request frequency).secondRawTerminals (pooledNormalization request frequency)
+  ActualFirstSource.SecondStages.secondRawTerminals (pooledPrepared request frequency) (pooledNormalization request frequency)
 
 theorem directTerminals_nonneg :
     (0 ≤ (directFirstTerminals request frequency).1 ∧

@@ -47,7 +47,7 @@ variable {E W : Type*}
   [NormedAddCommGroup W] [InnerProductSpace ℝ W] [FiniteDimensional ℝ W]
   [MeasurableSpace W] [BorelSpace W]
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
-local instance actualGaussFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+local instance rawTerminalCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
 
 /-- Coordinates are the genuine zero term and physical tail. -/
@@ -67,7 +67,7 @@ def rawTruncationCost : ℝ :=
         (sIntegerFiniteTestFunction K A.Sf finiteTest) s.radius s.mask) -
       (s.sources DE).transform μv hDiff finiteTest‖
 
-theorem rawTruncationCost_nonneg : 0 ≤ s.rawTruncationCost :=
+theorem rawTruncationCost_nonneg : 0 ≤ (ActualGaussStage.rawTruncationCost (s := s)) :=
   Finset.sum_nonneg (fun _ _ => norm_nonneg _)
 
 /-- The original first Fourier phase multiplies both source columns.
@@ -77,11 +77,11 @@ def rawTerminals (F : SchwartzMap W ℂ) (x : ι → W) : RawTerminalPair :=
       (s.withMultiplier (fun i => jointPhase ξ (x i))).rawZeroCost
         ∂actualFourierMeasure F,
     (s.fiber : ℝ) * ∫ ξ,
-      (s.withMultiplier (fun i => jointPhase ξ (x i))).rawTruncationCost
+      (ActualGaussStage.rawTruncationCost (s := (s.withMultiplier (fun i => jointPhase ξ (x i)))))
         ∂actualFourierMeasure F)
 
 theorem rawTerminals_nonneg (F : SchwartzMap W ℂ) (x : ι → W) :
-    0 ≤ (s.rawTerminals F x).1 ∧ 0 ≤ (s.rawTerminals F x).2 := by
+    0 ≤ ((ActualGaussStage.rawTerminals (s := s)) F x).1 ∧ 0 ≤ ((ActualGaussStage.rawTerminals (s := s)) F x).2 := by
   constructor
   · exact mul_nonneg (Nat.cast_nonneg _)
       (integral_nonneg (fun _ => EngineStep.ActualGaussStage.rawZeroCost_nonneg _))
@@ -94,7 +94,7 @@ theorem rawTerminal_integrable (F : SchwartzMap W ℂ) (x : ι → W) :
       (fun ξ => (s.withMultiplier (fun i => jointPhase ξ (x i))).rawZeroCost)
         (actualFourierMeasure F) ∧
     Integrable
-      (fun ξ => (s.withMultiplier (fun i => jointPhase ξ (x i))).rawTruncationCost)
+      (fun ξ => (ActualGaussStage.rawTruncationCost (s := (s.withMultiplier (fun i => jointPhase ξ (x i))))))
         (actualFourierMeasure F) := by
   sorry
 
