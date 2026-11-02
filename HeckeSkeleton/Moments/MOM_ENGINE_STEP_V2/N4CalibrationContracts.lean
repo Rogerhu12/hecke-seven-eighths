@@ -6,9 +6,11 @@ set_option autoImplicit false
 /-!
 # N4: pure original-calibration identities and capacity task
 
-The primitive N3 binding and the quantified N4 task are declared without
+The primitive N3 binding and the quantified N4 tasks are declared without
 importing private capacity proofs. Their fields and quantifiers are the
 unchanged actual-source contract: no completed budget or child is an input.
+The uniform task exposes the same certificate's exact small scale error,
+with its demand selected before the call and every finite source label.
 
 Paper: Section 4.8, lines 2883--2946.
 -/
@@ -78,5 +80,23 @@ def OriginalCapacityTask (c : TargetContext K) (p : SourceParameters c) : Prop :
       (calibrations.side side a rectangle) pattern) →
     ∃ certificate : OriginalCapacityCertificate seed support calibrations,
       ∀ side a rectangle, (certificate.geometry side a rectangle).pattern = pattern
+
+/-- The fixed-frame demand precedes the call, source and finite labels.
+The same original capacity certificate carries both the fixed pattern
+and the exact raw scale error on every member of the actual family. -/
+def UniformOriginalCapacityTask (c : TargetContext K) (p : SourceParameters c) : Prop :=
+  ∀ frame : SourceFrame, ∃ demand : UniformDemand,
+    ∀ (call : Call c) (input : ProfileInput call), call.frame = frame →
+      demand.Ready call input → ∀ packet : RawLeafPacket call p,
+      packet.Realizes → ∀ (seed : OrdinarySeed packet)
+        (support : seed.ordinary.PassiveSupport input)
+        (calibrations : (seed.refinement input support).Calibrations)
+        (pattern : Fin packet.block.primeCount → Bool),
+      (∀ side a rectangle, N4.CalibrationBinding seed support side a rectangle
+        (calibrations.side side a rectangle) pattern) →
+      ∃ certificate : OriginalCapacityCertificate seed support calibrations,
+        (∀ side a rectangle, (certificate.geometry side a rectangle).pattern = pattern) ∧
+        ∀ side a rectangle,
+          (certificate.geometry side a rectangle).lengths.rawScaleError = p.loss
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

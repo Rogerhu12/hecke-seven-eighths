@@ -38,19 +38,7 @@ theorem originalCapacityTask (c : TargetContext K) (p : SourceParameters c) :
 finite labels. The returned certificate has the same geometry and
 pattern as the unrestricted construction, with the exact small error. -/
 theorem originalCapacityTask_uniform (c : TargetContext K) (p : SourceParameters c) :
-    ∀ frame : SourceFrame, ∃ demand : UniformDemand,
-      ∀ (call : Call c) (input : ProfileInput call), call.frame = frame →
-        demand.Ready call input → ∀ packet : RawLeafPacket call p,
-        packet.Realizes → ∀ (seed : OrdinarySeed packet)
-          (support : seed.ordinary.PassiveSupport input)
-          (calibrations : (seed.refinement input support).Calibrations)
-          (pattern : Fin packet.block.primeCount → Bool),
-        (∀ side a rectangle, N4.CalibrationBinding seed support side a rectangle
-          (calibrations.side side a rectangle) pattern) →
-        ∃ certificate : OriginalCapacityCertificate seed support calibrations,
-          (∀ side a rectangle, (certificate.geometry side a rectangle).pattern = pattern) ∧
-          ∀ side a rectangle,
-            (certificate.geometry side a rectangle).lengths.rawScaleError = p.loss := by
+    UniformOriginalCapacityTask c p := by
   intro frame
   refine ⟨N4.annulusDemand p frame, ?_⟩
   intro call input hframe ready packet hpacket seed support calibrations pattern bindings
