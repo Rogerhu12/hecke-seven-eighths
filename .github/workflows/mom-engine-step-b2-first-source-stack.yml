@@ -1,0 +1,716 @@
+name: B2 FirstSource frozen skeleton stack diagnostic
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-b2-first-source-stack]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-b2-first-source-stack-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  frozen_definition_stack:
+    name: Skeleton diagnostic ${{ matrix.module }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        module: [FirstSourceFiniteLeaves]
+    env:
+      LEAN_NUM_THREADS: '2'
+      ROOT_MODULE: ${{ matrix.module }}
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Pin the complete unchanged skeleton and prepare evidence-only observers
+        shell: bash
+        run: |
+          mkdir -p "b2-first-source-stack/$ROOT_MODULE"
+          git show --no-patch --format=fuller HEAD > "b2-first-source-stack/$ROOT_MODULE/checkout.txt"
+          cat > b2-first-source-stack/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+          root = Path.cwd()
+          module = os.environ['ROOT_MODULE']
+          assert module in ['FirstSourceFiniteLeaves']
+          evidence = root / 'b2-first-source-stack' / module
+          evidence.mkdir(parents=True, exist_ok=True)
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          def digest(path):
+              p = root / path
+              data = os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+              return hashlib.sha256(data).hexdigest()
+          source_base = 'c82bb8ac73c75f15347cd5c6f08b71cbda4974bc'
+          assert git('rev-parse', source_base + '^{tree}') == '61dcd4b829f51033efecd90b6ae5e8210d641d0c'
+          assert git('rev-parse', 'HEAD^') == source_base
+          assert len(git('rev-list', '--parents', '-n', '1', 'HEAD').split()) == 2
+          assert git('rev-parse', 'HEAD') == os.environ['EXPECTED_SHA']
+          assert git('diff', '--name-status', source_base, 'HEAD').splitlines() == ['A\t' + '.github/workflows/mom-engine-step-b2-first-source-stack.yml']
+          assert git('status', '--porcelain=v1', '--untracked-files=no') == ''
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          assert len(tracked) == 9593
+          pins = {
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstSourceFiniteLeaves.lean": "05f1f877be0d0aa6184f08f2d88c5750ccc202b6450b8357f0e0627371614cef",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": "d3cea2bf707178b13522388c750e3b61b27ad1f4e9ee778a997bc6cabb23270b"
+          }
+          for path, expected in pins.items():
+              assert digest(path) == expected, path
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          sources = sorted(str(p) for p in task.glob('*.lean'))
+          imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', (task / 'Interface.lean').read_text(), re.M)
+          expected_imports = {'HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + Path(p).stem for p in sources if Path(p).name != 'Interface.lean'}
+          libraries = [item['name'] for item in tomllib.loads((root / 'lakefile.toml').read_text())['lean_lib']]
+          configs = ['lean-toolchain', 'lakefile.toml', 'lake-manifest.json', 'vendor/class-field-theory/lean-toolchain', 'vendor/class-field-theory/lakefile.toml', 'vendor/class-field-theory/lake-manifest.json', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py']
+          assert len(sources) == 1009 and len(imports) == 1008 and set(imports) == expected_imports and len(libraries) == 20
+          source_ids = {'FirstSourceFiniteLeaves': {'bytes': 11003, 'sha256': '05f1f877be0d0aa6184f08f2d88c5750ccc202b6450b8357f0e0627371614cef', 'git_blob': 'fb042b7bd13a6129327eb4c848d00c3b44befc01'}}
+          for target, expected in source_ids.items():
+              p = task / (target + '.lean')
+              data = p.read_bytes()
+              assert len(data) == expected['bytes']
+              assert hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest() == expected['git_blob']
+          record = {'source_base': source_base, 'source_base_tree': '61dcd4b829f51033efecd90b6ae5e8210d641d0c',
+                    'head': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                    'expected_head': os.environ['EXPECTED_SHA'], 'module': module,
+                    'only_added_path': '.github/workflows/mom-engine-step-b2-first-source-stack.yml',
+                    'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                    'tracked_sha256': {p: digest(p) for p in tracked},
+                    'task_source_sha256': {p: digest(p) for p in sources},
+                    'config_sha256': {p: digest(p) for p in configs},
+                    'source_ids': source_ids, 'pins': pins, 'interface_imports': imports, 'libraries': libraries,
+                    'existing_skeleton_sorry_preserved_for_diagnostics_only': True,
+                    'original_skeleton_file_options_preserved': True,
+                    'Lean_options_added': [], 'normal_acceptance': False,
+                    'fresh_acceptance': False, 'production_acceptance': False}
+          assert json.loads(json.dumps(record)) == record
+          phase = sys.argv[1]
+          assert phase in ['before', 'after']
+          (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+          if phase == 'before':
+              (evidence / 'original-sources').mkdir(exist_ok=True)
+              for target in source_ids:
+                  (evidence / 'original-sources' / (target + '.lean')).write_bytes((task / (target + '.lean')).read_bytes())
+          else:
+              before = json.loads((evidence / 'before-source.json').read_text())
+              assert before == record, 'Tracked source or configuration changed during the diagnostic'
+              (evidence / 'source-integrity.json').write_text(json.dumps({
+                  'unchanged': True, 'tracked': len(tracked), 'task_modules': len(sources),
+                  'interface_imports': len(imports), 'libraries': len(libraries), 'configs': len(configs),
+                  'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}, indent=2) + '\n')
+          print(f'{phase}: {module}, {len(tracked)} tracked, {len(sources)} modules; skeleton diagnostic only')
+          PY
+          cat > b2-first-source-stack/observe.py <<'PY'
+          """Read-only skeleton diagnostic: normal Lake target plus one owned-process stack.
+
+          This helper is materialized only in the workflow evidence directory. It never
+          rewrites a tracked source, changes Lean options, or treats existing skeleton
+          admissions as production validation.
+          """
+          from pathlib import Path
+          import datetime
+          import json
+          import os
+          import select
+          import signal
+          import subprocess
+          import sys
+          import time
+
+          MODULES = {'FirstSourceFiniteLeaves'}
+          PHASE_WALL_SECONDS = 1200.0
+          KILL_AFTER_SECONDS = 30.0
+          STACK_AT_PROCESS_AGE_SECONDS = 150.0
+          GDB_WALL_SECONDS = 60.0
+          CLOCK_TICKS = os.sysconf('SC_CLK_TCK')
+          PAGE_BYTES = os.sysconf('SC_PAGE_SIZE')
+          STOP = False
+
+
+          def utc():
+              return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+
+          def atomic_json(path, value):
+              assert json.loads(json.dumps(value)) == value
+              temporary = path.with_suffix(path.suffix + '.tmp')
+              temporary.write_text(json.dumps(value, indent=2) + '\n')
+              temporary.replace(path)
+
+
+          def on_signal(signum, frame):
+              global STOP
+              STOP = True
+
+
+          def parse_stat(text):
+              # /proc/PID/stat field 2 is parenthesized and can itself contain spaces.
+              prefix, sep, tail = text.rpartition(')')
+              if not sep:
+                  raise ValueError('Malformed proc stat')
+              pid = int(prefix.split('(', 1)[0].strip())
+              fields = tail.split()
+              return {'pid': pid, 'state': fields[0], 'ppid': int(fields[1]),
+                      'pgrp': int(fields[2]), 'session': int(fields[3]),
+                      'utime_ticks': int(fields[11]), 'stime_ticks': int(fields[12]),
+                      'start_ticks': int(fields[19]), 'virtual_bytes': int(fields[20]),
+                      'rss_bytes': int(fields[21]) * PAGE_BYTES}
+
+
+          def read_process(pid):
+              directory = Path('/proc') / str(pid)
+              try:
+                  first = parse_stat((directory / 'stat').read_text())
+                  try:
+                      argv = [os.fsdecode(arg) for arg in (directory / 'cmdline').read_bytes().split(b'\0') if arg]
+                  except OSError:
+                      argv = []
+                  try:
+                      executable = str((directory / 'exe').resolve(strict=True))
+                  except OSError:
+                      # sudo/GDB can have a root-owned exe link; its public stat identity
+                      # must still remain visible for cleanup of our separate GDB group.
+                      executable = None
+                  second = parse_stat((directory / 'stat').read_text())
+                  if first['pid'] != second['pid'] or first['start_ticks'] != second['start_ticks']:
+                      return None
+                  second['argv'] = argv
+                  second['executable'] = executable
+                  second['cpu_seconds'] = (second['utime_ticks'] + second['stime_ticks']) / CLOCK_TICKS
+                  uptime = float(Path('/proc/uptime').read_text().split()[0])
+                  second['process_age_seconds'] = uptime - second['start_ticks'] / CLOCK_TICKS
+                  return second
+              except (OSError, ValueError, IndexError):
+                  return None
+
+
+          def filter_owned_group(leader, known_members, processes):
+              """A numerical group/session is insufficient without a live identity anchor."""
+              current_leader = processes.get(leader['pid'])
+              if current_leader is not None and current_leader['start_ticks'] != leader['start_ticks']:
+                  return {}
+              members = {pid: item for pid, item in processes.items()
+                         if item['pgrp'] == leader['pid'] and item['session'] == leader['pid']
+                         and item['start_ticks'] >= leader['start_ticks']}
+              if not any(known_members.get(pid) == item['start_ticks'] for pid, item in members.items()):
+                  return {}
+              return members
+
+
+          def owned_processes(handle):
+              leader = handle['leader']
+              if leader is None:
+                  return {}
+              processes = {}
+              for directory in Path('/proc').iterdir():
+                  if not directory.name.isdigit():
+                      continue
+                  item = read_process(int(directory.name))
+                  if item is not None:
+                      processes[item['pid']] = item
+              result = filter_owned_group(leader, handle['known_members'], processes)
+              handle['known_members'].update({pid: item['start_ticks'] for pid, item in result.items()})
+              return result
+
+
+          def new_handle(command):
+              return {'command': command, 'proc': None, 'leader': None, 'known_members': {},
+                      'exec_authorized': False, 'launch_command': None}
+
+
+          def owned_exec_child(report_fd, acknowledgement_fd, command):
+              """Report our birth identity and wait for permission before execing argv."""
+              try:
+                  item = parse_stat(Path('/proc/self/stat').read_text())
+                  pid = os.getpid()
+                  assert item['pid'] == pid and item['pgrp'] == pid and item['session'] == pid
+                  identity = {key: item[key] for key in ['pid', 'ppid', 'pgrp', 'session', 'start_ticks']}
+                  payload = (json.dumps(identity) + '\n').encode()
+                  assert len(payload) < 4096 and os.write(report_fd, payload) == len(payload)
+                  os.close(report_fd)
+                  # EOF or any other response refuses exec; a failed parent handshake
+                  # cannot leave an unidentified Lake or privileged GDB process running.
+                  permission = os.read(acknowledgement_fd, 1)
+                  os.close(acknowledgement_fd)
+                  if permission != b'1':
+                      return 126
+                  os.execvp(command[0], command)
+              except BaseException as exc:
+                  print('Owned launch failed: ' + type(exc).__name__ + ': ' + str(exc), file=sys.stderr, flush=True)
+                  return 126
+
+
+          def launch_owned(handle, repo, output, before_exec=None):
+              """The only pre-identity child is this unprivileged, acknowledgement-gated wrapper."""
+              report_read, report_write = os.pipe()
+              acknowledgement_read, acknowledgement_write = os.pipe()
+              descriptors = [report_read, report_write, acknowledgement_read, acknowledgement_write]
+              try:
+                  launch = [sys.executable, str(Path(__file__).resolve()), '--owned-exec',
+                            str(report_write), str(acknowledgement_read), json.dumps(handle['command'])]
+                  handle['launch_command'] = launch
+                  handle['proc'] = subprocess.Popen(launch, cwd=repo, stdout=output, stderr=subprocess.STDOUT,
+                                                   start_new_session=True,
+                                                   pass_fds=(report_write, acknowledgement_read))
+                  os.close(report_write)
+                  descriptors.remove(report_write)
+                  os.close(acknowledgement_read)
+                  descriptors.remove(acknowledgement_read)
+                  deadline = time.monotonic() + 10.0
+                  payload = b''
+                  while not payload.endswith(b'\n'):
+                      if STOP or time.monotonic() >= deadline:
+                          raise RuntimeError('Owned child identity handshake interrupted or timed out before exec')
+                      ready, _, _ = select.select([report_read], [], [], 0.2)
+                      if not ready:
+                          continue
+                      chunk = os.read(report_read, 4096)
+                      if not chunk:
+                          raise RuntimeError('Owned child closed its identity report before exec')
+                      payload += chunk
+                      if len(payload) > 4096:
+                          raise RuntimeError('Invalid owned child identity report')
+                  identity = json.loads(payload)
+                  assert set(identity) == {'pid', 'ppid', 'pgrp', 'session', 'start_ticks'}
+                  assert all(type(value) is int for value in identity.values())
+                  assert identity['pid'] == handle['proc'].pid and identity['ppid'] == os.getpid()
+                  assert identity['pgrp'] == identity['pid'] == identity['session'] and identity['start_ticks'] > 0
+                  current = read_process(identity['pid'])
+                  if current is None or any(current[key] != identity[key] for key in identity):
+                      raise RuntimeError('Could not confirm the owned wrapper identity before exec')
+                  # Record the identity before releasing the gate. exec preserves PID,
+                  # start time, process group and session; command argv itself is unchanged.
+                  handle['leader'] = identity
+                  handle['known_members'][identity['pid']] = identity['start_ticks']
+                  if before_exec is not None:
+                      before_exec()
+                  handle['exec_authorized'] = True
+                  if os.write(acknowledgement_write, b'1') != 1:
+                      raise RuntimeError('Could not release the owned child exec gate')
+              finally:
+                  for descriptor in descriptors:
+                      os.close(descriptor)
+
+
+          def descendant(item, leader, processes):
+              current = item['pid']
+              visited = set()
+              while current not in visited:
+                  visited.add(current)
+                  if current == leader['pid']:
+                      top = processes.get(current)
+                      return top is not None and top['start_ticks'] == leader['start_ticks']
+                  parent = processes.get(current)
+                  if parent is None:
+                      return False
+                  current = parent['ppid']
+              return False
+
+
+          def is_exact_target(item, leader, processes, lean_executable, target_source, repo):
+              if item['executable'] != lean_executable or not descendant(item, leader, processes):
+                  return False
+              if item['pgrp'] != leader['pid'] or item['session'] != leader['pid'] or item['start_ticks'] < leader['start_ticks']:
+                  return False
+              # Require the exact source argument, not a module substring in setup/output paths.
+              sources = []
+              for arg in item['argv'][1:]:
+                  if arg.startswith('-') or not arg.endswith('.lean'):
+                      continue
+                  path = Path(arg)
+                  sources.append(str((path if path.is_absolute() else repo / path).resolve()))
+              return sources == [str(target_source)]
+
+
+          def signal_owned_group(handle, sig, events, privileged=False):
+              leader = handle['leader']
+              members = owned_processes(handle)
+              if not members:
+                  return False
+              # The group/session was created by our gated Popen(start_new_session=True).
+              # A live leader or a previously recorded PID/start pair must still anchor it.
+              assert leader['pid'] > 1
+              if privileged:
+                  killed = subprocess.run(['sudo', '-n', '--', '/bin/kill', '--signal', signal.Signals(sig).name.removeprefix('SIG'),
+                                           '--', '-' + str(leader['pid'])], capture_output=True, text=True, timeout=10)
+                  if killed.returncode != 0 and owned_processes(handle):
+                      raise RuntimeError('Could not signal our owned GDB group: ' + killed.stderr)
+              else:
+                  try:
+                      os.killpg(leader['pid'], sig)
+                  except ProcessLookupError:
+                      return False
+              events.append({'at': utc(), 'signal': sig, 'owned_group': leader['pid'],
+                             'privileged_cleanup_only_for_owned_GDB_group': privileged,
+                             'member_pid_start_ticks': [[p, item['start_ticks']] for p, item in sorted(members.items())]})
+              return True
+
+
+          def cleanup_group(handle, events, errors, grace=KILL_AFTER_SECONDS, privileged=False):
+              if handle is None or handle['proc'] is None:
+                  return
+              proc = handle['proc']
+              if not handle['exec_authorized']:
+                  # This is still our unprivileged Python wrapper. The acknowledgement
+                  # pipe has closed on failure, so it cannot have execed or spawned children.
+                  if proc.poll() is None:
+                      proc.terminate()
+                  try:
+                      proc.wait(timeout=grace)
+                  except subprocess.TimeoutExpired:
+                      proc.kill()
+                      proc.wait(timeout=10)
+                  events.append({'at': utc(), 'gated_wrapper_pid': proc.pid,
+                                 'exec_was_never_authorized': True, 'exit_code': proc.returncode})
+                  return
+              assert handle['leader'] is not None
+              if owned_processes(handle):
+                  try:
+                      signal_owned_group(handle, signal.SIGTERM, events, privileged)
+                  except BaseException as exc:
+                      errors.append({'operation': 'TERM owned group', 'privileged': privileged,
+                                     'error': type(exc).__name__ + ': ' + str(exc)})
+                  deadline = time.monotonic() + grace
+                  while time.monotonic() < deadline:
+                      # Observe and remember members before poll can reap the leader.
+                      members = owned_processes(handle)
+                      proc.poll()
+                      if not members or all(item['state'] == 'Z' for item in members.values()):
+                          break
+                      time.sleep(0.2)
+                  if any(item['state'] != 'Z' for item in owned_processes(handle).values()):
+                      try:
+                          signal_owned_group(handle, signal.SIGKILL, events, privileged)
+                      except BaseException as exc:
+                          errors.append({'operation': 'KILL owned group', 'privileged': privileged,
+                                         'error': type(exc).__name__ + ': ' + str(exc)})
+              try:
+                  proc.wait(timeout=10)
+              except subprocess.TimeoutExpired:
+                  signal_owned_group(handle, signal.SIGKILL, events, privileged)
+                  proc.wait(timeout=10)
+
+
+          def remaining_recorded_processes(handle):
+              if handle is None or handle['proc'] is None:
+                  return []
+              if handle['leader'] is None:
+                  # If startup cleanup failed, this unreaped direct child is still only
+                  # the gated unprivileged wrapper; no Lake/GDB exec was authorized.
+                  item = read_process(handle['proc'].pid) if handle['proc'].returncode is None else None
+                  return [item] if item is not None and item['state'] != 'Z' else []
+              owned_processes(handle)
+              result = []
+              for pid, start_ticks in handle['known_members'].items():
+                  item = read_process(pid)
+                  if item is not None and item['start_ticks'] == start_ticks and item['state'] != 'Z':
+                      result.append(item)
+              return sorted(result, key=lambda item: item['pid'])
+
+
+          def run_phase(name, command, evidence, repo, lean_executable, target_source, take_stack):
+              global STOP
+              phase = evidence / name
+              phase.mkdir()
+              started = time.monotonic()
+              receipt = {'phase': name, 'command': command, 'cwd': str(repo), 'started_at': utc(),
+                         'wall_seconds': PHASE_WALL_SECONDS, 'kill_after_seconds': KILL_AFTER_SECONDS,
+                         'completed': False, 'timed_out': False, 'interrupted': False,
+                         'planned_diagnostic_stop_after_single_stack': False,
+                         'stack_requested': take_stack, 'stack_attempts': 0,
+                         'sample_process_age_seconds': STACK_AT_PROCESS_AGE_SECONDS if take_stack else None,
+                         'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}
+              atomic_json(phase / 'result.json', receipt)
+              lake_handle = new_handle(command)
+              gdb_handle = None
+              gdb_log = None
+              gdb_started = None
+              gdb_receipt = None
+              cleanup_events = []
+              cleanup_errors = []
+              next_record = 0.0
+              selected_identity = None
+              with (phase / 'build.log').open('w') as build_log, (phase / 'processes.jsonl').open('w') as process_log:
+                  try:
+                      launch_owned(lake_handle, repo, build_log)
+                      proc = lake_handle['proc']
+                      leader = lake_handle['leader']
+                      receipt['lake_pid'] = proc.pid
+                      receipt['lake_identity'] = leader
+                      receipt['lake_launch_command'] = lake_handle['launch_command']
+                      receipt['lake_exec_authorized_after_identity_handshake'] = lake_handle['exec_authorized']
+                      atomic_json(phase / 'result.json', receipt)
+                      while True:
+                          # Keep the unreaped leader available as an identity anchor until
+                          # any still-running members have been recorded.
+                          processes = owned_processes(lake_handle)
+                          if proc.poll() is not None:
+                              break
+                          elapsed = time.monotonic() - started
+                          if STOP or elapsed >= PHASE_WALL_SECONDS:
+                              receipt['timed_out'] = not STOP
+                              receipt['interrupted'] = STOP
+                              break
+                          if elapsed >= next_record:
+                              process_log.write(json.dumps({'at': utc(), 'phase_elapsed_seconds': elapsed,
+                                  'owned_group': leader['pid'], 'processes': [processes[p] for p in sorted(processes)]}) + '\n')
+                              process_log.flush()
+                              next_record = elapsed + 2.0
+                          targets = [item for item in processes.values() if
+                              is_exact_target(item, leader, processes, lean_executable, target_source, repo)] if take_stack else []
+                          if len(targets) > 1:
+                              atomic_json(phase / 'ambiguous-targets.json', targets)
+                              raise RuntimeError('Multiple exact owned Lean target processes; refusing to attach')
+                          if targets:
+                              item = targets[0]
+                              identity = [item['pid'], item['start_ticks']]
+                              if selected_identity is None:
+                                  selected_identity = identity
+                                  receipt['first_target_identity'] = item
+                                  atomic_json(phase / 'result.json', receipt)
+                                  print(json.dumps({'event': 'exact_target_seen', 'pid': item['pid'],
+                                                    'start_ticks': item['start_ticks'], 'source': str(target_source),
+                                                    'process_age_seconds': item['process_age_seconds']}), flush=True)
+                              elif identity != selected_identity:
+                                  raise RuntimeError('The target Lean PID or start time changed; refusing a replacement target')
+                              if receipt['stack_attempts'] == 0 and item['process_age_seconds'] >= STACK_AT_PROCESS_AGE_SECONDS:
+                                  # Re-read immediately before sudo/GDB and require the exact
+                                  # same process, executable, argv source and owned ancestry.
+                                  current = owned_processes(lake_handle)
+                                  confirmed = current.get(item['pid'])
+                                  if confirmed is None or confirmed['start_ticks'] != item['start_ticks'] or not is_exact_target(confirmed, leader, current, lean_executable, target_source, repo):
+                                      raise RuntimeError('Target identity changed before the single GDB attach')
+                                  receipt['stack_attempts'] = 1
+                                  atomic_json(phase / 'target-before-gdb.json', confirmed)
+                                  print(json.dumps({'event': 'single_stack_begin', 'pid': confirmed['pid'],
+                                                    'start_ticks': confirmed['start_ticks'],
+                                                    'process_age_seconds': confirmed['process_age_seconds']}), flush=True)
+                                  gdb_command = ['sudo', '-n', '--', 'gdb', '--quiet', '--nx', '--nh', '--batch',
+                                      '-iex', 'set auto-load off', '-iex', 'set debuginfod enabled off', '-ex', 'set pagination off',
+                                      '-ex', 'set height 0', '-ex', 'set width 0', '-ex', 'set confirm off',
+                                      '-ex', 'set print frame-arguments none',
+                                      '-p', str(confirmed['pid']), '-ex', 'info inferiors', '-ex', 'info threads',
+                                      '-ex', 'thread apply all bt', '-ex', 'detach', '-ex', 'quit']
+                                  gdb_receipt = {'command': gdb_command, 'target': confirmed, 'started_at': utc(),
+                                                 'phase_elapsed_seconds': elapsed, 'wall_seconds': GDB_WALL_SECONDS,
+                                                 'all_threads': True, 'frame_depth_limit': None,
+                                                 'attempt': 1, 'timed_out': False, 'completed': False}
+                                  atomic_json(phase / 'gdb-result.json', gdb_receipt)
+                                  gdb_log = (phase / 'stack-all-threads.txt').open('w')
+                                  gdb_started = time.monotonic()
+                                  gdb_handle = new_handle(gdb_command)
+                                  def confirm_target_before_gdb_exec():
+                                      latest = owned_processes(lake_handle)
+                                      target = latest.get(confirmed['pid'])
+                                      if target is None or target['start_ticks'] != confirmed['start_ticks'] or not is_exact_target(target, leader, latest, lean_executable, target_source, repo):
+                                          raise RuntimeError('Target identity changed during the GDB wrapper handshake; refusing exec')
+                                      atomic_json(phase / 'target-before-gdb-exec.json', target)
+                                  launch_owned(gdb_handle, repo, gdb_log, before_exec=confirm_target_before_gdb_exec)
+                                  gdb_receipt['launch_command'] = gdb_handle['launch_command']
+                                  gdb_receipt['leader_identity'] = gdb_handle['leader']
+                                  gdb_receipt['exec_authorized_after_identity_handshake'] = gdb_handle['exec_authorized']
+                                  atomic_json(phase / 'gdb-result.json', gdb_receipt)
+                                  atomic_json(phase / 'result.json', receipt)
+                          if gdb_handle is not None and not gdb_receipt['completed']:
+                              gdb = gdb_handle['proc']
+                              owned_processes(gdb_handle)
+                              if gdb.poll() is None and time.monotonic() - gdb_started >= GDB_WALL_SECONDS and not gdb_receipt.get('timeout_cleanup_attempted'):
+                                  gdb_receipt['timed_out'] = True
+                                  gdb_receipt['timeout_cleanup_attempted'] = True
+                                  receipt['planned_diagnostic_stop_after_single_stack'] = True
+                                  receipt['planned_stop_reason'] = 'The single GDB attempt reached its 60-second wall limit'
+                                  cleanup_group(gdb_handle, cleanup_events, cleanup_errors, grace=10.0, privileged=True)
+                              if gdb.poll() is not None:
+                                  gdb_receipt.update(completed=True, exit_code=gdb.returncode,
+                                                     elapsed_seconds=time.monotonic()-gdb_started, finished_at=utc())
+                                  atomic_json(phase / 'gdb-result.json', gdb_receipt)
+                                  gdb_log.flush()
+                                  print(json.dumps({'event': 'single_stack_end', 'gdb_exit_code': gdb.returncode,
+                                                    'gdb_elapsed_seconds': gdb_receipt['elapsed_seconds']}), flush=True)
+                                  after = read_process(selected_identity[0])
+                                  atomic_json(phase / 'target-after-gdb.json', {'same_start_ticks': after is not None and after['start_ticks']==selected_identity[1],
+                                                                              'process': after})
+                                  receipt['planned_diagnostic_stop_after_single_stack'] = True
+                                  receipt.setdefault('planned_stop_reason', 'The single GDB attempt completed; stop only our owned diagnostic target')
+                              if receipt['planned_diagnostic_stop_after_single_stack']:
+                                  break
+                          time.sleep(0.2)
+                  except BaseException as exc:
+                      receipt['observer_error'] = type(exc).__name__ + ': ' + str(exc)
+                  finally:
+                      # Neither GDB cleanup nor its receipt/log writes may skip Lake
+                      # cleanup. Each error is retained rather than aborting finalization.
+                      try:
+                          cleanup_group(gdb_handle, cleanup_events, cleanup_errors, grace=10.0, privileged=True)
+                      except BaseException as exc:
+                          cleanup_errors.append({'operation': 'GDB final cleanup',
+                                                 'error': type(exc).__name__ + ': ' + str(exc)})
+                      finally:
+                          try:
+                              cleanup_group(lake_handle, cleanup_events, cleanup_errors)
+                          except BaseException as exc:
+                              cleanup_errors.append({'operation': 'Lake final cleanup',
+                                                     'error': type(exc).__name__ + ': ' + str(exc)})
+                      if gdb_log is not None:
+                          try:
+                              gdb_log.close()
+                          except BaseException as exc:
+                              cleanup_errors.append({'operation': 'GDB log close',
+                                                     'error': type(exc).__name__ + ': ' + str(exc)})
+                      lake_remaining = []
+                      gdb_remaining = []
+                      for label, handle in [('Lake', lake_handle), ('GDB', gdb_handle)]:
+                          try:
+                              remaining = remaining_recorded_processes(handle)
+                              if label == 'Lake':
+                                  lake_remaining = remaining
+                              else:
+                                  gdb_remaining = remaining
+                          except BaseException as exc:
+                              cleanup_errors.append({'operation': label + ' remaining process inspection',
+                                                     'error': type(exc).__name__ + ': ' + str(exc)})
+                      if gdb_receipt is not None:
+                          gdb_proc = gdb_handle['proc'] if gdb_handle else None
+                          if not gdb_receipt['completed']:
+                              gdb_receipt.update(completed=gdb_proc is not None and gdb_proc.returncode is not None,
+                                  exit_code=gdb_proc.returncode if gdb_proc else None,
+                                  elapsed_seconds=time.monotonic()-gdb_started if gdb_started is not None else None,
+                                  finished_at=utc())
+                          gdb_receipt.update(final_cleanup_checked_at=utc(), remaining_owned_non_zombie_processes=gdb_remaining,
+                              launch_command=gdb_handle['launch_command'] if gdb_handle else None,
+                              leader_identity=gdb_handle['leader'] if gdb_handle else None,
+                              exec_authorized_after_identity_handshake=gdb_handle['exec_authorized'] if gdb_handle else False)
+                          try:
+                              atomic_json(phase / 'gdb-result.json', gdb_receipt)
+                          except BaseException as exc:
+                              cleanup_errors.append({'operation': 'GDB receipt write',
+                                                     'error': type(exc).__name__ + ': ' + str(exc)})
+                          receipt['gdb_result'] = gdb_receipt
+                      lake_proc = lake_handle['proc']
+                      lake_exit = lake_proc.returncode if lake_proc is not None else None
+                      receipt.update(completed=lake_proc is not None and lake_exit is not None,
+                                     actual_lake_exit_code=lake_exit,
+                                     observed_exit_code=124 if receipt['timed_out'] else lake_exit,
+                                     elapsed_seconds=time.monotonic()-started, finished_at=utc(),
+                                     cleanup_events=cleanup_events, cleanup_errors=cleanup_errors,
+                                     lake_pid=lake_proc.pid if lake_proc is not None else None,
+                                     lake_identity=lake_handle['leader'], lake_launch_command=lake_handle['launch_command'],
+                                     lake_exec_authorized_after_identity_handshake=lake_handle['exec_authorized'],
+                                     remaining_owned_non_zombie_processes=lake_remaining,
+                                     remaining_owned_GDB_non_zombie_processes=gdb_remaining)
+                      if take_stack and receipt['stack_attempts'] == 0:
+                          receipt['no_stack_reason'] = 'No exact owned target survived to process age 150s; inspect build.log and actual exit status'
+                      atomic_json(phase / 'result.json', receipt)
+              print(json.dumps({'phase': name, 'observed_exit_code': receipt['observed_exit_code'],
+                                'elapsed_seconds': receipt['elapsed_seconds'], 'stack_attempts': receipt['stack_attempts'],
+                                'observer_error': receipt.get('observer_error'), 'normal_acceptance': False}), flush=True)
+              return receipt
+
+
+          def main():
+              module = os.environ['ROOT_MODULE']
+              assert module in MODULES
+              repo = Path.cwd().resolve()
+              evidence = repo / 'b2-first-source-stack' / module
+              evidence.mkdir(parents=True, exist_ok=True)
+              target_source = (repo / 'HeckeSkeleton/Moments/MOM_ENGINE_STEP' / (module + '.lean')).resolve()
+              version = subprocess.run(['lake', 'env', 'lean', '--version'], text=True, capture_output=True, timeout=30)
+              (evidence / 'toolchain.log').write_text(version.stdout + version.stderr)
+              assert version.returncode == 0 and '4.35.0-rc3' in version.stdout and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version.stdout
+              mathlib = subprocess.check_output(['git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD'], text=True).strip()
+              assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+              lean_path = subprocess.check_output(['lake', 'env', 'which', 'lean'], text=True).strip()
+              lean_executable = str(Path(lean_path).resolve(strict=True))
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              atomic_json(evidence / 'runtime.json', {'lean_executable': lean_executable, 'mathlib': mathlib,
+                          'lean_threads': 2, 'compiler_flags_added': [], 'source_rewritten': False,
+                          'existing_skeleton_sorry_is_diagnostic_only': True,
+                          'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False})
+              for sig in [signal.SIGTERM, signal.SIGINT]:
+                  signal.signal(sig, on_signal)
+              target = '+HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + module
+              deps = run_phase('dependencies', ['lake', 'build', target + ':deps'], evidence, repo, lean_executable, target_source, False)
+              if deps['observed_exit_code'] != 0 or deps.get('observer_error') or deps['cleanup_errors'] or deps['remaining_owned_non_zombie_processes'] or STOP:
+                  atomic_json(evidence / 'collection.json', {'dependencies': deps, 'target_not_started': True,
+                              'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False})
+                  return 1
+              result = run_phase('target', ['lake', 'build', target + ':olean'], evidence, repo, lean_executable, target_source, True)
+              collection = {'dependencies': deps, 'target': result, 'single_stack_attempt_limit': 1,
+                            'source_is_frozen_skeleton_with_existing_admissions': True,
+                            'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}
+              atomic_json(evidence / 'collection.json', collection)
+              # A successful diagnostic collection is never a successful Lean/fresh gate.
+              # The actual target result, including timeout or source error, remains above.
+              if result.get('observer_error') or result['cleanup_errors'] or result['remaining_owned_non_zombie_processes'] or result['remaining_owned_GDB_non_zombie_processes'] or STOP:
+                  return 1
+              if result.get('gdb_result') and (result['gdb_result']['exit_code'] != 0 or result['gdb_result']['timed_out']):
+                  return 1
+              return 0
+
+
+          if __name__ == '__main__':
+              if len(sys.argv) == 5 and sys.argv[1] == '--owned-exec':
+                  raise SystemExit(owned_exec_child(int(sys.argv[2]), int(sys.argv[3]), json.loads(sys.argv[4])))
+              raise SystemExit(main())
+          PY
+          python3 b2-first-source-stack/provenance.py before
+      - name: Record runner resources and retain the official mapping limit
+        shell: bash
+        run: |
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h / > "b2-first-source-stack/$ROOT_MODULE/disk-before.txt"
+          free -b > "b2-first-source-stack/$ROOT_MODULE/memory-before.txt"
+          sysctl vm.max_map_count > "b2-first-source-stack/$ROOT_MODULE/mapping-limit.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Install the standard debugger without changing ptrace or Lean options
+        shell: bash
+        run: |
+          if ! command -v gdb >/dev/null; then
+            sudo apt-get update > "b2-first-source-stack/$ROOT_MODULE/gdb-install.log" 2>&1
+            sudo apt-get install --yes --no-install-recommends gdb >> "b2-first-source-stack/$ROOT_MODULE/gdb-install.log" 2>&1
+          fi
+          gdb --version > "b2-first-source-stack/$ROOT_MODULE/gdb-version.txt"
+      - name: Build original dependencies and collect one exact owned-target all-thread stack
+        shell: bash
+        run: python3 -u b2-first-source-stack/observe.py
+      - name: Verify every tracked source and configuration again
+        if: always()
+        shell: bash
+        run: python3 b2-first-source-stack/provenance.py after
+      - name: Preserve full logs, source identity, process timings and the single stack
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: b2-first-source-stack-${{ matrix.module }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            b2-first-source-stack/${{ matrix.module }}/
+            b2-first-source-stack/provenance.py
+            b2-first-source-stack/observe.py
+          if-no-files-found: error
+          retention-days: 14
