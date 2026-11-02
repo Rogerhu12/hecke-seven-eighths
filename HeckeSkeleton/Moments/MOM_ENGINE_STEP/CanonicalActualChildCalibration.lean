@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBoundedChildSupport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFixedThetaClosure
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The bounded complete child of the same actual joint source

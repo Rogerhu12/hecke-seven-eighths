@@ -44,7 +44,7 @@ def powerSchwartz (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (c : ℂ) (exponent : ℝ)
     (φ : 𝓢(ℝ, ℂ)) (hsupport : tsupport φ ⊆ window) (y : ℝ) :
     powerSchwartz window hcompact hpositive c exponent φ hsupport y =
-      c * (φ y * (y ^ exponent : ℂ)) := by
+      c * (φ y * ((y ^ exponent : ℝ) : ℂ)) := by
   simp only [powerSchwartz, SchwartzMap.smul_apply, smul_eq_mul,
     CanonicalLogProfiles.Atom.schwartz_apply, CanonicalLogProfiles.Atom.multiplier,
     powerAtom, one_mul, jointPhase, inner_zero_left, AddChar.map_zero_eq_one,
@@ -55,7 +55,7 @@ theorem powerSchwartz_support (window : Set ℝ) (hcompact : IsCompact window)
     (φ : 𝓢(ℝ, ℂ)) (hsupport : tsupport φ ⊆ window) :
     tsupport (powerSchwartz window hcompact hpositive c exponent φ hsupport) ⊆ window := by
   have he : (powerSchwartz window hcompact hpositive c exponent φ hsupport : ℝ → ℂ) =
-      fun y => φ y * (c * (y ^ exponent : ℂ)) := by
+      fun y => φ y * (c * ((y ^ exponent : ℝ) : ℂ)) := by
     funext y
     rw [powerSchwartz_apply]
     ring
@@ -181,11 +181,11 @@ def powerProfiles {d' : CanonicalLiteralRectangles.Atoms (K := K) k}
     (hpositive : window ⊆ Set.Ioi 0) (exponent : ℝ)
     (leftScalar rightScalar : Bool → ℂ) (slotScalar : Fin k → ℂ)
     (hleft : ∀ r u t y, 0 < y →
-      (W'.left r).profile u t y = leftScalar r * ((W.left r).profile u t y * (y ^ exponent : ℂ)))
+      (W'.left r).profile u t y = leftScalar r * ((W.left r).profile u t y * ((y ^ exponent : ℝ) : ℂ)))
     (hright : ∀ r u t y, 0 < y →
-      (W'.right r).profile u t y = rightScalar r * ((W.right r).profile u t y * (y ^ exponent : ℂ)))
+      (W'.right r).profile u t y = rightScalar r * ((W.right r).profile u t y * ((y ^ exponent : ℝ) : ℂ)))
     (hslot : ∀ j t y, 0 < y →
-      (W'.slot j).profile t y = slotScalar j * ((W.slot j).profile t y * (y ^ exponent : ℂ))) :
+      (W'.slot j).profile t y = slotScalar j * ((W.slot j).profile t y * ((y ^ exponent : ℝ) : ℂ))) :
     W'.SchwartzModel window where
   left r := CanonicalLiteralSchwartzProfiles.powerSchwartz window hcompact hpositive
     (leftScalar r) exponent (E.left r) (E.left_support r)

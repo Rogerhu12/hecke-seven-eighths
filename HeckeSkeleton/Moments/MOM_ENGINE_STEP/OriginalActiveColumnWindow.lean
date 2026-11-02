@@ -174,8 +174,9 @@ theorem original_active_column_norm_lower_power
   have hsmall : Z ^ (-loss) ≤ lower ^ (cap + 2) := by
     rw [Real.rpow_neg hZ.le, inv_eq_one_div]
     apply (div_le_iff₀ (Real.rpow_pos_of_pos hZ loss)).mpr
-    have h := (div_le_iff₀ (pow_pos hlower (cap + 2))).mp
-      (by simpa only [one_div] using hthreshold)
+    have h : (1 : ℝ) ≤ Z ^ loss * lower ^ (cap + 2) :=
+      (div_le_iff₀ (pow_pos hlower (cap + 2))).mp
+        (by simpa only [one_div] using hthreshold)
     simpa only [mul_comm] using h
   have hcount : lower ^ (cap + 2) ≤ lower ^ (d.geometry.slotCount + 2) :=
     pow_le_pow_of_le_one hlower.le hlowerOne (Nat.add_le_add_right hcap 2)

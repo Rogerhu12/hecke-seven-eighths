@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledStag
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledColumns
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Exceptional estimates for the original primitive pooled sources

@@ -39,24 +39,24 @@ annulus factor is not paid again after the original inverse norm. -/
 theorem weighted_transform_norm_sq (N np δ₁ δ₂ : ℝ)
     (hN : 0 < N) (hp : 0 < np) (z : ℂ) :
     (np / N) *
-        ‖(((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-          (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)‖ ^ 2 =
+        ‖(((z * (Real.sqrt N : ℂ)) * ((np ^ (-1 : ℝ) : ℝ) : ℂ)) *
+          ((np ^ δ₁ : ℝ) : ℂ)) * ((np ^ δ₂ : ℝ) : ℂ)‖ ^ 2 =
       np ^ (-1 + 2 * (δ₁ + δ₂)) * ‖z‖ ^ 2 := by
   let e : ℝ := -1 + δ₁ + δ₂
-  have hpow : (np ^ (-1 : ℝ) : ℂ) * (np ^ δ₁ : ℂ) * (np ^ δ₂ : ℂ) =
-      (np ^ e : ℂ) := by
+  have hpow : ((np ^ (-1 : ℝ) : ℝ) : ℂ) * ((np ^ δ₁ : ℝ) : ℂ) * ((np ^ δ₂ : ℝ) : ℂ) =
+      ((np ^ e : ℝ) : ℂ) := by
     rw [← Complex.ofReal_mul, ← Complex.ofReal_mul,
       ← Real.rpow_add hp, ← Real.rpow_add hp]
-  have hshape : (((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-      (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ) = z * (Real.sqrt N : ℂ) * (np ^ e : ℂ) := by
+  have hshape : (((z * (Real.sqrt N : ℂ)) * ((np ^ (-1 : ℝ) : ℝ) : ℂ)) *
+      ((np ^ δ₁ : ℝ) : ℂ)) * ((np ^ δ₂ : ℝ) : ℂ) = z * (Real.sqrt N : ℂ) * ((np ^ e : ℝ) : ℂ) := by
     calc
       _ = z * (Real.sqrt N : ℂ) *
-          ((np ^ (-1 : ℝ) : ℂ) * (np ^ δ₁ : ℂ) * (np ^ δ₂ : ℂ)) := by ring
+          (((np ^ (-1 : ℝ) : ℝ) : ℂ) * ((np ^ δ₁ : ℝ) : ℂ) * ((np ^ δ₂ : ℝ) : ℂ)) := by ring
       _ = _ := by rw [hpow]
   have hexponent : np * (np ^ e) ^ 2 = np ^ (-1 + 2 * (δ₁ + δ₂)) := by
     calc
       _ = np ^ (1 : ℝ) * np ^ (e * (2 : ℝ)) := by
-        rw [Real.rpow_one, Real.rpow_mul_natCast hp.le]
+        rw [Real.rpow_one, Real.rpow_mul hp.le, Real.rpow_two]
       _ = np ^ (1 + e * 2) := (Real.rpow_add hp _ _).symm
       _ = _ := by congr 1; dsimp only [e]; ring
   rw [hshape, norm_mul, norm_mul,
@@ -71,8 +71,8 @@ theorem weighted_transform_norm_sq (N np δ₁ δ₂ : ℝ)
 theorem weighted_transform_norm_sq_le (N np δ₁ δ₂ : ℝ)
     (hN : 0 < N) (hp : 1 ≤ np) (hδ : δ₁ + δ₂ ≤ 1 / 2) (z : ℂ) :
     (np / N) *
-        ‖(((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-          (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)‖ ^ 2 ≤ ‖z‖ ^ 2 := by
+        ‖(((z * (Real.sqrt N : ℂ)) * ((np ^ (-1 : ℝ) : ℝ) : ℂ)) *
+          ((np ^ δ₁ : ℝ) : ℂ)) * ((np ^ δ₂ : ℝ) : ℂ)‖ ^ 2 ≤ ‖z‖ ^ 2 := by
   rw [weighted_transform_norm_sq N np δ₁ δ₂ hN (zero_lt_one.trans_le hp) z]
   have hpower := Real.rpow_le_one_of_one_le_of_nonpos hp
     (show -1 + 2 * (δ₁ + δ₂) ≤ 0 by linarith)

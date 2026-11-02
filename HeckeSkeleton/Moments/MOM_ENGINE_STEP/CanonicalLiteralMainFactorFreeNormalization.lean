@@ -11,6 +11,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRedistributedBindin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralComparisonProduct
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original sources normalize after exact residual-factor redistribution

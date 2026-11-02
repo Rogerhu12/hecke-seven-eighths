@@ -34,10 +34,10 @@ namespace CanonicalLiteralFactorFreeAtomCosts
 second common or allocation divisor is extracted. -/
 theorem transform_divide_factor (N np δ₁ δ₂ : ℝ)
     (hN : 0 < N) (hp : 0 < np) (z : ℂ) :
-    ((((z * (Real.sqrt N : ℂ)) * (np ^ (-1 : ℝ) : ℂ)) *
-        (np ^ δ₁ : ℂ)) * (np ^ δ₂ : ℂ)) *
+    ((((z * (Real.sqrt N : ℂ)) * ((np ^ (-1 : ℝ) : ℝ) : ℂ)) *
+        ((np ^ δ₁ : ℝ) : ℂ)) * ((np ^ δ₂ : ℝ) : ℂ)) *
         (CanonicalLiteralProfileScalars.plainFactor N N δ₁ δ₂ : ℂ)⁻¹ =
-      z * ((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ) := by
+      z * (((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ) := by
   have hratio : 0 < np / N := div_pos hp hN
   have hmul : N * (np / N) = np := by field_simp [hN.ne'] <;> ring
   have hpower := CanonicalLiteralProfileScalars.normPower_product hN hratio δ₁ δ₂
@@ -46,28 +46,28 @@ theorem transform_divide_factor (N np δ₁ δ₂ : ℝ)
     exact_mod_cast (CanonicalLiteralProfileScalars.plainFactor_pos hN hN δ₁ δ₂).ne'
   calc
     _ = z * (Real.sqrt N : ℂ) *
-        ((np ^ (-1 : ℝ) : ℂ) * (np ^ δ₁ : ℂ) * (np ^ δ₂ : ℂ)) *
+        (((np ^ (-1 : ℝ) : ℝ) : ℂ) * ((np ^ δ₁ : ℝ) : ℂ) * ((np ^ δ₂ : ℝ) : ℂ)) *
         (CanonicalLiteralProfileScalars.plainFactor N N δ₁ δ₂ : ℂ)⁻¹ := by ring
     _ = z * (Real.sqrt N : ℂ) *
-        ((N ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ) *
-          ((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) *
+        (((N ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ) *
+          (((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) *
         (CanonicalLiteralProfileScalars.plainFactor N N δ₁ δ₂ : ℂ)⁻¹ := by rw [hpower]
     _ = ((CanonicalLiteralProfileScalars.plainFactor N N δ₁ δ₂ : ℂ) *
         (CanonicalLiteralProfileScalars.plainFactor N N δ₁ δ₂ : ℂ)⁻¹) *
-        (z * ((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+        (z * (((np / N) ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
       simp only [CanonicalLiteralProfileScalars.plainFactor, Complex.ofReal_mul]
       ring
     _ = _ := by rw [mul_inv_cancel₀ hfactor, one_mul]
 
 theorem weighted_power_norm_sq (y δ₁ δ₂ : ℝ) (hy : 0 < y) (z : ℂ) :
-    y * ‖z * (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)‖ ^ 2 =
+    y * ‖z * ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)‖ ^ 2 =
       y ^ (-1 + 2 * (δ₁ + δ₂)) * ‖z‖ ^ 2 := by
   rw [norm_mul, Complex.norm_of_nonneg (Real.rpow_nonneg hy.le _), mul_pow]
   have hexponent : y * (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂) ^ 2 =
       y ^ (-1 + 2 * (δ₁ + δ₂)) := by
     calc
       _ = y ^ (1 : ℝ) * y ^ (CanonicalLiteralProfileScalars.exponent δ₁ δ₂ * (2 : ℝ)) := by
-        rw [Real.rpow_one, Real.rpow_mul_natCast hy.le]
+        rw [Real.rpow_one, Real.rpow_mul hy.le, Real.rpow_two]
       _ = y ^ (1 + CanonicalLiteralProfileScalars.exponent δ₁ δ₂ * 2) :=
         (Real.rpow_add hy _ _).symm
       _ = _ := by congr 1; unfold CanonicalLiteralProfileScalars.exponent; ring
@@ -106,9 +106,9 @@ theorem redistributedSecondInput_primeAtomCost_eq
   change ((Ideal.absNorm p.asIdeal : ℝ) / d.base ^ d.length (SlotRestriction.index b.keep i)) *
       ‖((((d.slotWeight (SlotRestriction.index b.keep i) p *
         (Real.sqrt (d.base ^ d.length (SlotRestriction.index b.keep i)) : ℂ)) *
-        ((Ideal.absNorm p.asIdeal : ℝ) ^ (-1 : ℝ) : ℂ)) *
-        ((Ideal.absNorm p.asIdeal : ℝ) ^ δ₁ : ℂ)) *
-        ((Ideal.absNorm p.asIdeal : ℝ) ^ δ₂ : ℂ)) *
+        (((Ideal.absNorm p.asIdeal : ℝ) ^ (-1 : ℝ) : ℝ) : ℂ)) *
+        (((Ideal.absNorm p.asIdeal : ℝ) ^ δ₁ : ℝ) : ℂ)) *
+        (((Ideal.absNorm p.asIdeal : ℝ) ^ δ₂ : ℝ) : ℂ)) *
         (CanonicalLiteralProfileScalars.plainFactor
           (d.base ^ d.length (SlotRestriction.index b.keep i))
           (d.base ^ d.length (SlotRestriction.index b.keep i)) δ₁ δ₂ : ℂ)⁻¹‖ ^ 2 = _

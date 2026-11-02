@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMassConsta
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitiveDirectFactoryFibres
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Uniform mass of the actual complete direct family
@@ -573,7 +574,8 @@ local notation "productBound" => literalPrimitiveDirect_coefficient_product
   (hT := hT) (hcontrol := hcontrol) (hprofile := hprofile) (hheight := hheight)
   (htilt₁ := htilt₁) (htilt₂ := htilt₂) (hcontour := hcontour)
 
-include htotal hwidth hN hT hcontrol hprofile hheight htilt₁ htilt₂ hcontour in
+include htotal hwidth hN hT hcontrol hprofile hheight htilt₁ htilt₂ hcontour
+  hδsum herrorPos hannulusThreshold hscaleThreshold hpaidError in
 /-- The whole actual direct family has a uniform mass.  Both original
 arithmetic divisors and all passive allocations are summed internally. -/
 theorem literalPrimitiveDirect_global_kernelMass

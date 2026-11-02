@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolSourceIntegral
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # All original amplified ordinary sources reach their actual kernels

@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimitivePassiveFactoryCard
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The genuine primitive factory label count

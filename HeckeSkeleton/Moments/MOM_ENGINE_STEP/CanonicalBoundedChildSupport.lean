@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalBoundedChildData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalEffectiveChildSupport
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Effective supports of the same bounded original child

@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolFactorFreeCompu
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolCharacters
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual exceptional sides of the four pooled branches

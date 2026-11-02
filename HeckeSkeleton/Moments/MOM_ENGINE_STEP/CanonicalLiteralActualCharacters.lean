@@ -47,7 +47,7 @@ def inverseCastEmbedding {k n : ℕ} (count : k = n) : Fin n ↪ Fin k where
   inj' := by
     intro i j hij
     apply Fin.ext
-    exact congrArg Fin.val hij
+    exact congrArg (fun x : Fin k => x.val) hij
 
 variable {A : SArithmeticData K}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
