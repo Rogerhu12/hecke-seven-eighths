@@ -83,7 +83,6 @@
         "TasksExceptionalSummation",
         "TasksFiniteLeaves",
         "TasksFirstAllowance",
-        "TasksFirstTransform",
         "TasksFirstZero",
         "TasksNominalGeometry",
         "TasksOriginalAtoms",
@@ -100,6 +99,27 @@
       "proved": false,
       "modules": [
         "Interface"
+      ]
+    },
+    {
+      "id": "s1_s2_helpers",
+      "name": "S1/S2 实际源、Cauchy族与精确行窗口",
+      "proved": true,
+      "modules": [
+        "S1ExactBound",
+        "S1SourceConstruction",
+        "S2FirstFamilyData",
+        "S2FirstFamilyCost",
+        "S2FirstRowWindow",
+        "S2FirstPhysicalCutoff"
+      ]
+    },
+    {
+      "id": "s1",
+      "name": "S1 原始第一次变换任务",
+      "proved": true,
+      "modules": [
+        "TasksFirstTransform"
       ]
     }
   ]
