@@ -259,6 +259,7 @@ local notation "ProductFourierSpace" => WithLp 2 (U × E)
 variable {ΨL ΨR : Ideal (𝓞 F) →* ℂ} {WL₁ WL₂ WR₁ WR₂ : ℝ → ℂ}
 variable (HL : ExceptionalVolumeControl ΨL WL₁ WL₂) (HR : ExceptionalVolumeControl ΨR WR₁ WR₂)
 
+set_option linter.unusedSectionVars false in
 /-- An exact outer scalar identity joins the actual source estimate to
 this original leaf.  The complete occurrence allocations are identified
 after their literal inclusion into the earlier arithmetic cap. -/
