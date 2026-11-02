@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [r4_irreducible, r5_fiberLeafAt, r6_unfoldTactic]
+        probe: [f1_funinfo]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
