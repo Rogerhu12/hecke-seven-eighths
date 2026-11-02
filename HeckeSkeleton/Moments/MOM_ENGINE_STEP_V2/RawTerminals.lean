@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
 
 set_option linter.unusedSectionVars false
@@ -74,10 +75,10 @@ theorem rawTruncationCost_nonneg : 0 ≤ (ActualGaussStage.rawTruncationCost (s 
 The same positive measure is used in the two raw terminal integrals. -/
 def rawTerminals (F : SchwartzMap W ℂ) (x : ι → W) : RawTerminalPair :=
   ((s.fiber : ℝ) * ∫ ξ,
-      (s.withMultiplier (fun i => jointPhase ξ (x i))).rawZeroCost
+      (EngineStep.ActualGaussStage.withMultiplier s (fun i => jointPhase ξ (x i))).rawZeroCost
         ∂actualFourierMeasure F,
     (s.fiber : ℝ) * ∫ ξ,
-      (ActualGaussStage.rawTruncationCost (s := (s.withMultiplier (fun i => jointPhase ξ (x i)))))
+      (ActualGaussStage.rawTruncationCost (s := (EngineStep.ActualGaussStage.withMultiplier s (fun i => jointPhase ξ (x i)))))
         ∂actualFourierMeasure F)
 
 theorem rawTerminals_nonneg (F : SchwartzMap W ℂ) (x : ι → W) :
@@ -91,10 +92,10 @@ theorem rawTerminals_nonneg (F : SchwartzMap W ℂ) (x : ι → W) :
 /-- Integrability is established on the actual coefficient phase orbit. -/
 theorem rawTerminal_integrable (F : SchwartzMap W ℂ) (x : ι → W) :
     Integrable
-      (fun ξ => (s.withMultiplier (fun i => jointPhase ξ (x i))).rawZeroCost)
+      (fun ξ => (EngineStep.ActualGaussStage.withMultiplier s (fun i => jointPhase ξ (x i))).rawZeroCost)
         (actualFourierMeasure F) ∧
     Integrable
-      (fun ξ => (ActualGaussStage.rawTruncationCost (s := (s.withMultiplier (fun i => jointPhase ξ (x i))))))
+      (fun ξ => (ActualGaussStage.rawTruncationCost (s := (EngineStep.ActualGaussStage.withMultiplier s (fun i => jointPhase ξ (x i))))))
         (actualFourierMeasure F) := by
   sorry
 

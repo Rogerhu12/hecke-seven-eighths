@@ -91,7 +91,7 @@ def withOriginalPool
   mask := s.mask
   fiber := s.fiber
   charts := s.charts
-  pools v D := (s.pieces v D).withOriginalPool P frozenLeft frozenRight
+  pools v D := FirstBlockDirectData.withOriginalPool (s.pieces v D) P frozenLeft frozenRight
     hfrozenLeft hfrozenRight rowLeft rowRight boundLeft boundRight divisorBound
     hrowLeft hrowRight hdivisor (hrowsLeft v D) (hrowsRight v D)
     hfrozenNormLeft hfrozenNormRight hcolumns hdensityLeft hdensityRight
