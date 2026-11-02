@@ -355,17 +355,13 @@ def literalLeftMainFactorFreeNormalizationIndex :=
     ((literalLeftMainRecipe hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1).redistributeNormFactors δ₁ δ₂)
   have hbaseL : (v.literalLeftAtoms leftAtoms).base = Z := by
-    change (v.literalLeftAtoms oldLeftAtoms).base = Z
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (oldLeftAtoms).base = Z
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hbaseR : (v.literalRightAtoms rightAtoms).base = Z := by
-    change (v.literalRightAtoms oldRightAtoms).base = Z
-    simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (oldRightAtoms).base = Z
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hcorr : Q.correction ∈ (data ξ).theta := by
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
@@ -389,12 +385,12 @@ def literalLeftMainFactorFreeNormalizationIndex :=
     rw [domain.total_length]
   have hcenteredL : (leftAtoms).centered = centered := by
     change (oldLeftAtoms).centered = centered
-    simp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcenteredR : (rightAtoms).centered = centered := by
     change (oldRightAtoms).centered = centered
-    simp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    dsimp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcombined := literalLeftMainCombinedProfile_le
     hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
@@ -710,17 +706,13 @@ def literalRightMainFactorFreeNormalizationIndex :=
     ((literalRightMainRecipe hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1).redistributeNormFactors δ₁ δ₂)
   have hbaseL : (v.literalLeftAtoms leftAtoms).base = Z := by
-    change (v.literalLeftAtoms oldLeftAtoms).base = Z
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (oldLeftAtoms).base = Z
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hbaseR : (v.literalRightAtoms rightAtoms).base = Z := by
-    change (v.literalRightAtoms oldRightAtoms).base = Z
-    simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (oldRightAtoms).base = Z
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hcorr : Q.correction ∈ (data ξ).theta := by
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
@@ -744,12 +736,12 @@ def literalRightMainFactorFreeNormalizationIndex :=
     rw [domain.total_length]
   have hcenteredL : (leftAtoms).centered = centered := by
     change (oldLeftAtoms).centered = centered
-    simp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcenteredR : (rightAtoms).centered = centered := by
     change (oldRightAtoms).centered = centered
-    simp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    dsimp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcombined := literalRightMainCombinedProfile_le
     hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
