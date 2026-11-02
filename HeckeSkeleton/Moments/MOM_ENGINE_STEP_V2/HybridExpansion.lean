@@ -18,7 +18,7 @@ open scoped Classical BigOperators
 
 namespace HeckeSkeleton.Moments.EngineStepV2
 
-open NumberField MeasureTheory HeckeGeneral.Characters HeckeGeneral.Analysis
+open NumberField IsDedekindDomain MeasureTheory HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
 open HeckeGeneral.Analysis.ActualSIntegerMoments
 open EngineStep EngineInduction

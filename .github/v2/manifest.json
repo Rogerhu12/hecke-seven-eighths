@@ -22,6 +22,7 @@
       "proved": false,
       "modules": [
         "SourceFrame",
+        "ChoiceBox",
         "PreparedCall",
         "UniformChoices"
       ]
@@ -31,6 +32,9 @@
       "name": "实际两次变换与同一子项构造",
       "proved": false,
       "modules": [
+        "FullSupportParameters",
+        "FirstSource",
+        "FirstGaussData",
         "CoveredStage",
         "SourceProduction",
         "ChildProduction"
