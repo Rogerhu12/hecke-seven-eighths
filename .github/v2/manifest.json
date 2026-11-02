@@ -79,11 +79,20 @@
       ]
     },
     {
+      "id": "g_n5a",
+      "name": "N5a uniform original-profile formula proof (strict audit required)",
+      "proved": true,
+      "modules": [
+        "ProfileFormulaPower",
+        "ProfileFormulaTask",
+        "ProfileFormulaTransforms"
+      ]
+    },
+    {
       "id": "g1",
       "name": "独立论文证明任务（蓝图占位）",
       "proved": false,
       "modules": [
-        "ProfileFormulaTask",
         "TasksAmplification",
         "TasksChildArithmetic",
         "TasksChildProfiles",
