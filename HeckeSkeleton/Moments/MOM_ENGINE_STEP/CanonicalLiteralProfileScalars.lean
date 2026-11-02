@@ -42,8 +42,8 @@ theorem plainFactor_pos {G N : ℝ} (hG : 0 < G) (hN : 0 < N) (δ₁ δ₂ : ℝ
   mul_pos (Real.sqrt_pos.mpr hG) (Real.rpow_pos_of_pos hN _)
 
 theorem normPower_product {N y : ℝ} (hN : 0 < N) (hy : 0 < y) (δ₁ δ₂ : ℝ) :
-    ((N * y) ^ (-1 : ℝ) : ℂ) * ((N * y) ^ δ₁ : ℂ) * ((N * y) ^ δ₂ : ℂ) =
-      (N ^ exponent δ₁ δ₂ : ℂ) * (y ^ exponent δ₁ δ₂ : ℂ) := by
+    (((N * y) ^ (-1 : ℝ) : ℝ) : ℂ) * (((N * y) ^ δ₁ : ℝ) : ℂ) * (((N * y) ^ δ₂ : ℝ) : ℂ) =
+      ((N ^ exponent δ₁ δ₂ : ℝ) : ℂ) * ((y ^ exponent δ₁ δ₂ : ℝ) : ℂ) := by
   have h : (N * y) ^ (-1 : ℝ) * (N * y) ^ δ₁ * (N * y) ^ δ₂ =
       N ^ exponent δ₁ δ₂ * y ^ exponent δ₁ δ₂ := by
     rw [← Real.rpow_add (mul_pos hN hy), ← Real.rpow_add (mul_pos hN hy),
@@ -156,12 +156,12 @@ theorem secondInput_left_shape (r : Bool)
         (CanonicalLiteralProfileScalars.plainFactor
           ((d.extract b).scale₁ false) ((d.extract b).scale₁ r) δ₁ δ₂ : ℂ) *
         ((W.left r).profile u time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
   change ((((((W.left r).profile u time y * d.commonScalar b) *
       (Real.sqrt ((d.extract b).scale₁ false) : ℂ)) *
-      (((d.extract b).scale₁ r * y) ^ (-1 : ℝ) : ℂ)) *
-      (((d.extract b).scale₁ r * y) ^ δ₁ : ℂ)) *
-      (((d.extract b).scale₁ r * y) ^ δ₂ : ℂ)) *
+      ((((d.extract b).scale₁ r * y) ^ (-1 : ℝ) : ℝ) : ℂ)) *
+      ((((d.extract b).scale₁ r * y) ^ δ₁ : ℝ) : ℂ)) *
+      ((((d.extract b).scale₁ r * y) ^ δ₂ : ℝ) : ℂ)) *
       (((A.exteriorNorm power ^ δ₁ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) power.val firstElement) = _
   have hp := CanonicalLiteralProfileScalars.normPower_product
@@ -171,9 +171,9 @@ theorem secondInput_left_shape (r : Bool)
         (((A.exteriorNorm power ^ δ₁ : ℝ) : ℂ) *
           actualIdealResidue (A := A) (σ := σ) power.val firstElement)) *
         (Real.sqrt ((d.extract b).scale₁ false) : ℂ) * (W.left r).profile u time y *
-        ((((d.extract b).scale₁ r * y) ^ (-1 : ℝ) : ℂ) *
-          (((d.extract b).scale₁ r * y) ^ δ₁ : ℂ) *
-          (((d.extract b).scale₁ r * y) ^ δ₂ : ℂ)) := by ring
+        (((((d.extract b).scale₁ r * y) ^ (-1 : ℝ) : ℝ) : ℂ) *
+          ((((d.extract b).scale₁ r * y) ^ δ₁ : ℝ) : ℂ) *
+          ((((d.extract b).scale₁ r * y) ^ δ₂ : ℝ) : ℂ)) := by ring
     _ = _ := by rw [hp]; simp only [CanonicalLiteralProfileScalars.plainFactor,
       Complex.ofReal_mul]; ring
 
@@ -184,19 +184,19 @@ theorem secondInput_right_shape (r : Bool)
       (CanonicalLiteralProfileScalars.plainFactor
         ((d.extract b).scale₂ false) ((d.extract b).scale₂ r) δ₁ δ₂ : ℂ) *
         ((W.right r).profile u time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
   change ((((W.right r).profile u time y *
       (Real.sqrt ((d.extract b).scale₂ false) : ℂ)) *
-      (((d.extract b).scale₂ r * y) ^ (-1 : ℝ) : ℂ)) *
-      (((d.extract b).scale₂ r * y) ^ δ₁ : ℂ)) *
-      (((d.extract b).scale₂ r * y) ^ δ₂ : ℂ) = _
+      ((((d.extract b).scale₂ r * y) ^ (-1 : ℝ) : ℝ) : ℂ)) *
+      ((((d.extract b).scale₂ r * y) ^ δ₁ : ℝ) : ℂ)) *
+      ((((d.extract b).scale₂ r * y) ^ δ₂ : ℝ) : ℂ) = _
   have hp := CanonicalLiteralProfileScalars.normPower_product
     ((d.extract b).scale₂_pos r) hy δ₁ δ₂
   calc
     _ = (Real.sqrt ((d.extract b).scale₂ false) : ℂ) * (W.right r).profile u time y *
-        ((((d.extract b).scale₂ r * y) ^ (-1 : ℝ) : ℂ) *
-          (((d.extract b).scale₂ r * y) ^ δ₁ : ℂ) *
-          (((d.extract b).scale₂ r * y) ^ δ₂ : ℂ)) := by ring
+        (((((d.extract b).scale₂ r * y) ^ (-1 : ℝ) : ℝ) : ℂ) *
+          ((((d.extract b).scale₂ r * y) ^ δ₁ : ℝ) : ℂ) *
+          ((((d.extract b).scale₂ r * y) ^ δ₂ : ℝ) : ℂ)) := by ring
     _ = _ := by rw [hp]; simp only [CanonicalLiteralProfileScalars.plainFactor,
       Complex.ofReal_mul]; ring
 
@@ -207,21 +207,21 @@ theorem secondInput_slot_shape (j : Fin b.keep.card) (time : ℝ) {y : ℝ} (hy 
         ((d.extract b).base ^ (d.extract b).length j)
         ((d.extract b).base ^ (d.extract b).length j) δ₁ δ₂ : ℂ) *
         ((W.slot (SlotRestriction.index b.keep j)).profile time y *
-          (y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℂ)) := by
+          ((y ^ CanonicalLiteralProfileScalars.exponent δ₁ δ₂ : ℝ) : ℂ)) := by
   change ((((W.slot (SlotRestriction.index b.keep j)).profile time y *
       (Real.sqrt ((d.extract b).base ^ (d.extract b).length j) : ℂ)) *
-      ((((d.extract b).base ^ (d.extract b).length j) * y) ^ (-1 : ℝ) : ℂ)) *
-      ((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₁ : ℂ)) *
-      ((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₂ : ℂ) = _
+      (((((d.extract b).base ^ (d.extract b).length j) * y) ^ (-1 : ℝ) : ℝ) : ℂ)) *
+      (((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₁ : ℝ) : ℂ)) *
+      (((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₂ : ℝ) : ℂ) = _
   have hp := CanonicalLiteralProfileScalars.normPower_product
     (Real.rpow_pos_of_pos (zero_lt_one.trans (d.extract b).base_gt_one)
       ((d.extract b).length j)) hy δ₁ δ₂
   calc
     _ = (Real.sqrt ((d.extract b).base ^ (d.extract b).length j) : ℂ) *
         (W.slot (SlotRestriction.index b.keep j)).profile time y *
-        (((((d.extract b).base ^ (d.extract b).length j) * y) ^ (-1 : ℝ) : ℂ) *
-          ((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₁ : ℂ) *
-          ((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₂ : ℂ)) := by ring
+        ((((((d.extract b).base ^ (d.extract b).length j) * y) ^ (-1 : ℝ) : ℝ) : ℂ) *
+          (((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₁ : ℝ) : ℂ) *
+          (((((d.extract b).base ^ (d.extract b).length j) * y) ^ δ₂ : ℝ) : ℂ)) := by ring
     _ = _ := by rw [hp]; simp only [CanonicalLiteralProfileScalars.plainFactor,
       Complex.ofReal_mul]; ring
 

@@ -221,6 +221,18 @@ jobs:
             --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.canonicalLog_leftResidualCoefficient \
             --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.canonicalLog_rightResidualCoefficient \
             --evidence mom-b2-profile-source-roots
+      - name: Verify the repaired profile scalars root and its six original declarations
+        run: |
+          python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileScalars \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralProfileScalars.plainFactor_product_of_equal_product \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralProfileScalars.balance_preserves_product \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.extracted_plainFactor_product \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.ProfileData.secondInput_left_shape \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.ProfileData.secondInput_right_shape \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.ProfileData.secondInput_slot_shape \
+            --evidence mom-b2-profile-scalars-root
       - name: Verify all forty-six Actual-independent modules in the owned downstream closure
         run: |
           python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
@@ -264,6 +276,7 @@ jobs:
             mom-b2-profile-independent/
             mom-b2-literal-roots/
             mom-b2-profile-source-roots/
+            mom-b2-profile-scalars-root/
             mom-b2-profile-identity/
           if-no-files-found: warn
           retention-days: 14
@@ -419,5 +432,103 @@ jobs:
             mom-b2-fibre-mass-dual-pool-roots/
             mom-b2-inherited-actual-independent/
             mom-b2-inherited-actual-identity/
+          if-no-files-found: warn
+          retention-days: 14
+
+  group_one:
+    name: Complete G1 production modules and fresh audit
+    if: github.ref == 'refs/heads/cloud/mom-engine-step-b2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and match the official mapping limit
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h /
+          sysctl vm.max_map_count
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore normal project and branch artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Record the complete production source identity
+        run: |
+          mkdir -p mom-b2-g1-identity
+          python3 - <<'G1PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from mom_engine_b2_native_watch import source_identity, atomic_json
+          atomic_json(Path('mom-b2-g1-identity/before.json'), source_identity(Path.cwd()))
+          G1PY
+      - name: Verify all eighty-one original G1 modules and their 265 original declarations
+        run: |
+          python3 -u - <<'G1PY'
+          import hashlib, json, re, subprocess, sys
+          from pathlib import Path
+          frozen_list = Path('.github/groups/g1.txt').read_bytes()
+          assert hashlib.sha256(frozen_list).hexdigest() == '19809e5489ca407279db695b0ca0e51c7aa9edf091ab20b0e5c26ca4f004806a', 'Frozen G1 membership changed'
+          paths = frozen_list.decode().splitlines()
+          assert len(paths) == len(set(paths)) == 81, 'Incomplete original G1 module list'
+          assert all(re.fullmatch(r'HeckeSkeleton/Moments/MOM_ENGINE_STEP/[A-Za-z_][A-Za-z_0-9]*[.]lean', path) for path in paths)
+          modules = [path[:-5].replace('/', '.') for path in paths]
+          evidence = Path('mom-b2-g1-production')
+          evidence.mkdir(parents=True, exist_ok=True)
+          names = []
+          for path in paths:
+              found = re.findall(r'^#print axioms ([A-Za-z_][A-Za-z_0-9.]*)[ \t]*$', Path(path).read_text(), re.MULTILINE)
+              assert found, f'Original declaration prints missing from {path}'
+              names.extend(found)
+          assert len(names) == len(set(names)) == 265, 'Original G1 declaration list changed'
+          command = [sys.executable, '-u', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py',
+                     *modules, '--namespace', 'HeckeSkeleton.Moments.EngineStep',
+                     '--evidence', str(evidence / 'verification')]
+          for name in names:
+              command.extend(['--declaration', name])
+          (evidence / 'group-scope.json').write_text(json.dumps({
+              'group': 1, 'membership_source': '9743346af34fe89e834ac149874426c25c272aeb',
+              'membership_sha256': hashlib.sha256(frozen_list).hexdigest(),
+              'production_modules': modules, 'original_declarations': names,
+              'namespace': 'HeckeSkeleton.Moments.EngineStep',
+              'skeleton_overlay_used': False,
+          }, indent=2) + '\n')
+          (evidence / 'verification-command.json').write_text(json.dumps(command, indent=2) + '\n')
+          raise SystemExit(subprocess.call(command))
+          G1PY
+      - name: Check the same complete production source identity after G1 validation
+        if: always()
+        run: |
+          python3 - <<'G1PY'
+          import json, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from mom_engine_b2_native_watch import source_identity, atomic_json
+          before = json.loads(Path('mom-b2-g1-identity/before.json').read_text())
+          after = source_identity(Path.cwd())
+          atomic_json(Path('mom-b2-g1-identity/after.json'), after)
+          assert before == after, 'Tracked source identity changed during G1 validation'
+          G1PY
+      - name: Preserve complete G1 compiler and fresh namespace evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-b2-g1-complete-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            mom-b2-g1-production/
+            mom-b2-g1-identity/
           if-no-files-found: warn
           retention-days: 14
