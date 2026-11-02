@@ -10,7 +10,8 @@ set_option stderrAsMessages false
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: imports"
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: imports [mono_ms={ms}]"
     stderr.flush
 
 /-!
@@ -339,6 +340,36 @@ theorem ancestor_index (x : AllocationColumn K (cover.cover.branch a).slotCount)
       (OrdinaryOriginalCoordinates.allocationColumn_cast_roundtrip (hcover.count a) x)
   exact hr.symm.trans h
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before ancestor_index_of_count [mono_ms={ms}]"
+    stderr.flush
+
+-- Align count proofs while the source and its original cover are abstract.
+include hcover in
+private theorem ancestor_index_of_count
+    (hc : (cover.first a).keep.card = (cover.cover.branch a).slotCount)
+    (x : AllocationColumn K (cover.cover.branch a).slotCount)
+    (hx : x ∈ (cover.cover.branch a).reindex.cartesian) :
+    source.ancestor ((cover.cover.branch a).reindex.index x) =
+      call.workingRaw.originalIndex ((cover.first a).reconstruct
+        (cast (congrArg (AllocationColumn K) hc.symm) x)) := by
+  run_tac do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: ancestor_index_of_count.proof [mono_ms={ms}]"
+    stderr.flush
+  exact hcover.ancestor_index a x hx
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: ancestor_index_of_count complete [mono_ms={ms}]"
+    stderr.flush
+
 end OriginalCover.Realizes
 
 namespace RawLeafPacket
@@ -432,7 +463,8 @@ theorem realizes_firstCartesian (hpacket : packet.Realizes) (side : Bool)
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before realizes_firstIndex_of_count"
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before realizes_firstIndex_of_count [mono_ms={ms}]"
     stderr.flush
 
 private theorem realizes_firstIndex_of_count (hpacket : packet.Realizes) (side : Bool)
@@ -444,33 +476,110 @@ private theorem realizes_firstIndex_of_count (hpacket : packet.Realizes) (side :
         (cast (congrArg (AllocationColumn K) hc.symm) x)) := by
   run_tac do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.proof"
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.proof [mono_ms={ms}]"
     stderr.flush
-  rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
+  have hresult :
+      packet.second.physical.ancestor ((packet.firstAtlas side).reindex.index x) =
+        call.workingRaw.originalIndex ((packet.firstBranch side).reconstruct
+          (cast (congrArg (AllocationColumn K) hc.symm) x)) := by
+    rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
+    run_tac do
+      let stderr ← IO.getStderr
+      let ms ← IO.monoMsNow
+      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.trace [mono_ms={ms}]"
+      stderr.flush
+    cases side with
+    | false =>
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.false [mono_ms={ms}]"
+        stderr.flush
+      exact OriginalCover.Realizes.ancestor_index_of_count
+        (hraw (raw.index j).val.1.1).1 (raw.index j).val.1.2.2.2.1 hc x hx
+    | true =>
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true [mono_ms={ms}]"
+        stderr.flush
+      let key : raw.covers.Key := (raw.index j).val
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.key [mono_ms={ms}]"
+        stderr.flush
+      let sourceIndex : Fin trace.expansion.count := key.1.1
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.sourceIndex [mono_ms={ms}]"
+        stderr.flush
+      let cover : OriginalCover (trace.second.source sourceIndex).physical :=
+        raw.covers.right sourceIndex
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.cover [mono_ms={ms}]"
+        stderr.flush
+      have hcover : cover.Realizes := (hraw sourceIndex).2
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.hcover [mono_ms={ms}]"
+        stderr.flush
+      let v : SourceClassKey (trace.second.source sourceIndex).stage
+          (raw.covers.left sourceIndex).cover cover.cover := key.1.2
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.classKey [mono_ms={ms}]"
+        stderr.flush
+      let a : cover.cover.labels := v.2.2.2.1
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.label [mono_ms={ms}]"
+        stderr.flush
+      let x' : AllocationColumn K (cover.cover.branch a).slotCount := x
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.column [mono_ms={ms}]"
+        stderr.flush
+      have hx' : x' ∈ (cover.cover.branch a).reindex.cartesian := hx
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.membership [mono_ms={ms}]"
+        stderr.flush
+      have hindex :
+          (trace.second.source sourceIndex).physical.ancestor
+              ((cover.cover.branch a).reindex.index x') =
+            call.workingRaw.originalIndex ((cover.first a).reconstruct
+              (cast (congrArg (AllocationColumn K) hc.symm) x')) :=
+        OriginalCover.Realizes.ancestor_index_of_count
+          (source := (trace.second.source sourceIndex).physical) (cover := cover)
+          hcover a hc x' hx'
+      run_tac do
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.index [mono_ms={ms}]"
+        stderr.flush
+      exact hindex
   run_tac do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.trace"
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.proof_assembled [mono_ms={ms}]"
     stderr.flush
-  cases side with
-  | false =>
-    run_tac do
-      let stderr ← IO.getStderr
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.false"
-      stderr.flush
-    exact (hraw (raw.index j).val.1.1).1.ancestor_index
-      (raw.index j).val.1.2.2.2.1 x hx
-  | true =>
-    run_tac do
-      let stderr ← IO.getStderr
-      stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true"
-      stderr.flush
-    exact (hraw (raw.index j).val.1.1).2.ancestor_index
-      (raw.index j).val.1.2.2.2.2.1 x hx
+  exact hresult
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before realizes_firstIndex"
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before realizes_firstIndex [mono_ms={ms}]"
     stderr.flush
 
 theorem realizes_firstIndex (hpacket : packet.Realizes) (side : Bool)
