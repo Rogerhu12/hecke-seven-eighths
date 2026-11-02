@@ -1,5 +1,7 @@
 # MOM_ENGINE_STEP E 线：先批量清机械错误，再修证明错误
 
+**更新：E 现在负责第 2 组（PR #24，分支 `cloud/mom-engine-step-g2`），按 [MOM_ENGINE_STEP_GROUPS.md](MOM_ENGINE_STEP_GROUPS.md) 工作。下面两类机械错误照样要清，但只在第 2 组的文件里清。**
+
 先读 [README.md](README.md)（通用规矩，特别是规矩 6），再把 PR #9 的全部评论分页读完。
 
 ## 背景
