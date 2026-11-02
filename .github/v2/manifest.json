@@ -29,7 +29,10 @@
         "ProfileChoices",
         "TargetArithmetic",
         "AnalyticChoices",
-        "MassIndexChoices"
+        "MassIndexChoices",
+        "RawTerminalData",
+        "PhysicalConstants",
+        "MassProfileChoices"
       ]
     },
     {
@@ -86,7 +89,8 @@
         "SelectedStages",
         "SelectedPredicates",
         "LiteralCovered",
-        "LiteralGeometry"
+        "LiteralGeometry",
+        "LiteralAnalyticProduction"
       ]
     },
     {
