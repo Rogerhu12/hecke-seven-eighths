@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSideAnalytic
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedFamily
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original analytic window fills the actual passive family input

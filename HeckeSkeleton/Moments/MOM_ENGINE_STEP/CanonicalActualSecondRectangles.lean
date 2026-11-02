@@ -6,6 +6,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual second rectangles from the original occurrence tables

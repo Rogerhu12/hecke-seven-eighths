@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveCapacityMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstCombinedAllowance
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original arithmetic index for the actual passive family

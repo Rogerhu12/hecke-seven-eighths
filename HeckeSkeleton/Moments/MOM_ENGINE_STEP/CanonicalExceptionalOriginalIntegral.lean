@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalOriginalPointwise
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Integrate the two actual original exceptional source estimates

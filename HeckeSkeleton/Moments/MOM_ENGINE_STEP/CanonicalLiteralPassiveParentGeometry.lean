@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveActualCapaci
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyGeometry
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Parent geometry of the actual independent passive family

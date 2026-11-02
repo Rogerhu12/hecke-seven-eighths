@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolFactor
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFamily
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original amplified live-key dispatcher

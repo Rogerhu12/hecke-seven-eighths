@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveEngineConc
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectNormalizedChildren
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual direct family gives the engine conclusion

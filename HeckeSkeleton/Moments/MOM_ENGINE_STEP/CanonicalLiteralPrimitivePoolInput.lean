@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolPassiveInput
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Analytic inputs for the original pool factories

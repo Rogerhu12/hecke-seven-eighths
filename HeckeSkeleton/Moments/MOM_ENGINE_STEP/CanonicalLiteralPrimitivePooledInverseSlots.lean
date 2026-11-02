@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledFact
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveInverseSlots
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Inherited inverse slot characters in the original pooled output

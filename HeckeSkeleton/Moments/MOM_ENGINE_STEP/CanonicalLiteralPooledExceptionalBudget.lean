@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalOrdinary
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalFirstSupport
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual pooled exceptional leaves from original inputs
@@ -334,7 +335,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hwidth hthreshold hsupport hvolume hcutoffPaid hcutoffPower hactiveColumns
   hDE horiginalColumns holdOriginal in
@@ -352,7 +353,7 @@ theorem literalLeftMainExceptional_pointwise
         Z ^ (-idealLogLength Z j.1.val) := by
   sorry
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hsupport hcutoffPaid hcutoffPower hactiveColumns in
 /-- The same stored left-main theta leaf is bounded using only its
@@ -545,7 +546,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hwidth hthreshold hsupport hvolume hcutoffPaid hcutoffPower hactiveColumns
   hDE horiginalColumns holdOriginal in
@@ -563,7 +564,7 @@ theorem literalRightMainExceptional_pointwise
         Z ^ (-idealLogLength Z j.1.val) := by
   sorry
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hsupport hcutoffPaid hcutoffPower hactiveColumns in
 /-- The same stored right-main theta leaf is bounded using only its
@@ -769,7 +770,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hwidth hthreshold hsupport hvolume hcutoffPaid hcutoffPower hactiveColumns
   hDE hfirstBox horiginalColumns holdOriginal in
@@ -787,7 +788,7 @@ theorem literalLeftPoolExceptional_pointwise
         Z ^ (-idealLogLength Z j.1.val) := by
   sorry
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hsupport hcutoffPaid hcutoffPower hactiveColumns in
 /-- The same stored left valuation theta leaf is bounded using only its
@@ -990,7 +991,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hwidth hthreshold hsupport hvolume hcutoffPaid hcutoffPower hactiveColumns
   hDE hfirstBox horiginalColumns holdOriginal in
@@ -1008,7 +1009,7 @@ theorem literalRightPoolExceptional_pointwise
         Z ^ (-idealLogLength Z j.1.val) := by
   sorry
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hsupport hcutoffPaid hcutoffPower hactiveColumns in
 /-- The same stored right valuation theta leaf is bounded using only its
