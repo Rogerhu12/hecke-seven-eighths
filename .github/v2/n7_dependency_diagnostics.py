@@ -8,6 +8,8 @@ The diagnostic follows that exact limit without overriding it. No canonical
 Lean file is edited and no probe .olean is written. Full-copy probes disable
 Elab.async and print flushed stderr checkpoints at complete command boundaries.
 stderrAsMessages is disabled in probes so #eval cannot buffer stderr as messages.
+An optional --ordinary-heartbeats budget wraps only the complete OrdinaryData
+selected command in the temporary source probe and records its line mapping.
 
 Use --module OrdinaryData or --module RawContracts for a smaller job; the default
 runs both import-only probes before either full-copy probe. Four probes can each
@@ -30,6 +32,10 @@ import time
 
 MODULES = ("OrdinaryData", "RawContracts")
 KNOWN_WATCHDOG_LIMITS = (300, 600)
+ORDINARY_HEARTBEAT_TARGETS = {
+    "OrdinaryData": "structure OrdinaryData ",
+    "ordinaryBranchKey": "def ordinaryBranchKey ",
+}
 SOURCE_DIR = Path("HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2")
 CHECKPOINTS = {
     "OrdinaryData": (
@@ -39,7 +45,7 @@ CHECKPOINTS = {
         ("def rightIdeal ", "after-leftIdeal"),
         ("def leftWhole ", "after-rightIdeal"),
         ("def rightWhole ", "after-leftWhole"),
-        ("end RawLeafPacket", "after-rightWhole"),
+        ("end RawLeafPacket", "after-packet-helpers"),
         ("structure OrdinaryData ", "before-OrdinaryData"),
         ("namespace OrdinaryData", "after-OrdinaryData"),
         ("abbrev rows ", "before-rows"),
@@ -82,12 +88,18 @@ def marker(module: str, stage: str, label: str) -> str:
             f"  stderr.putStrLn {json.dumps(message)}\n  stderr.flush)\n\n")
 
 
-def boundary(source: str, needle: str) -> int:
-    """Exact known declaration anchor; keep its doc/`set_option ... in` wrapper."""
-    matches = list(re.finditer(r"^" + re.escape(needle), source, re.MULTILINE))
+def declaration_start(source: str, needle: str) -> int:
+    """Match the known command, including an optional explicit noncomputable modifier."""
+    modifier = r"(?:noncomputable[ \t]+)?" if needle.startswith("def ") else ""
+    matches = list(re.finditer(r"^" + modifier + re.escape(needle), source, re.MULTILINE))
     if len(matches) != 1:
         raise ValueError(f"Expected one complete-command anchor {needle!r}, got {len(matches)}")
-    position = matches[0].start()
+    return matches[0].start()
+
+
+def boundary(source: str, needle: str) -> int:
+    """Keep the complete known declaration's doc and local option wrappers."""
+    position = declaration_start(source, needle)
     while True:
         preceding = source[:position].rstrip()
         if preceding.endswith("-/"):
@@ -131,7 +143,19 @@ def configured_watchdog_limit(source: str) -> int:
     return int(values[0])
 
 
-def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
+def positive_heartbeat_budget(text: str) -> int:
+    try:
+        value = int(text)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("expected a positive integer") from error
+    if not 0 < value <= 200000:
+        raise argparse.ArgumentTypeError("heartbeat diagnostic budget must be in 1..200000")
+    return value
+
+
+def prepare(root: Path, evidence: Path, modules: list[str], *,
+            ordinary_heartbeats: int | None = None,
+            ordinary_heartbeat_target: str = "OrdinaryData") -> dict:
     probes = evidence / "probes"
     probes.mkdir(parents=True, exist_ok=True)
     manifest = {"purpose": "DIAGNOSTIC ONLY; NOT ACCEPTED PROOF OUTPUT",
@@ -139,6 +163,8 @@ def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
                 "gate_sha256": digest(root / ".github/v2/build.py"),
                 "module_timeout_seconds": configured_watchdog_limit(
                     (root / ".github/v2/build.py").read_text(encoding="utf-8")),
+                "ordinary_heartbeats": ordinary_heartbeats,
+                "ordinary_heartbeat_target": ordinary_heartbeat_target,
                 "import_modules": [], "probes": []}
     for module in modules:
         relative = SOURCE_DIR / f"{module}.lean"
@@ -148,8 +174,22 @@ def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
         manifest["import_modules"].extend(imports)
         probe_options = "\nset_option stderrAsMessages false\nset_option Elab.async false\n"
         events = [(len(header), probe_options + marker(module, "source", "imports-ok"))]
-        for needle, label in CHECKPOINTS[module]:
-            events.append((boundary(source, needle), marker(module, "source", label)))
+        checkpoints = list(CHECKPOINTS[module])
+        heartbeat_anchor = ORDINARY_HEARTBEAT_TARGETS[ordinary_heartbeat_target]
+        if (module == "OrdinaryData" and ordinary_heartbeats is not None
+                and heartbeat_anchor not in {needle for needle, _ in checkpoints}):
+            checkpoints.append((heartbeat_anchor, "before-heartbeat-" + ordinary_heartbeat_target))
+        for needle, label in checkpoints:
+            position = boundary(source, needle)
+            insertion = marker(module, "source", label)
+            if (module == "OrdinaryData" and needle == heartbeat_anchor
+                    and ordinary_heartbeats is not None):
+                declaration = declaration_start(source, needle)
+                prefix = source[position:declaration]
+                if re.search(r"^set_option maxHeartbeats\b.* in$", prefix, re.MULTILINE):
+                    raise ValueError("Canonical target already sets maxHeartbeats; inspect it")
+                insertion += f"set_option maxHeartbeats {ordinary_heartbeats} in\n"
+            events.append((position, insertion))
         copied = source
         for position, insertion in sorted(events, reverse=True):
             copied = copied[:position] + insertion + copied[position:]
@@ -158,8 +198,20 @@ def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
                             ("source", copied)):
             path = probes / f"N7Diag{module}{stage.title()}.lean"
             path.write_text(text, encoding="utf-8")
+            heartbeat_probe = None
+            if module == "OrdinaryData" and stage == "source" and ordinary_heartbeats is not None:
+                needle = heartbeat_anchor
+                heartbeat_probe = {
+                    "budget": ordinary_heartbeats,
+                    "target": ordinary_heartbeat_target,
+                    "anchor": heartbeat_anchor,
+                    "scope": "one complete command in temporary source probe",
+                    "canonical_command_line": source[:declaration_start(source, needle)].count("\n") + 1,
+                    "probe_command_line": text[:declaration_start(text, needle)].count("\n") + 1,
+                }
             manifest["probes"].append({"module": module, "stage": stage,
-                                       "path": str(path), "sha256": digest(path)})
+                                       "path": str(path), "sha256": digest(path),
+                                       "heartbeat_probe": heartbeat_probe})
     manifest["import_modules"] = list(dict.fromkeys(manifest["import_modules"]))
     manifest.update(prerequisite_plan(manifest["import_modules"]))
     (evidence / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -173,6 +225,11 @@ def main() -> int:
     parser.add_argument("--module", action="append", choices=MODULES)
     parser.add_argument("--imports-only", action="store_true")
     parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--ordinary-heartbeats", type=positive_heartbeat_budget,
+                        help="diagnostic-only local budget for one OrdinaryData command")
+    parser.add_argument("--ordinary-heartbeat-target",
+                        choices=tuple(ORDINARY_HEARTBEAT_TARGETS), default="OrdinaryData",
+                        help="complete command receiving the optional diagnostic budget")
     args = parser.parse_args()
     if not args.prepare_only and os.environ.get("GITHUB_ACTIONS") != "true":
         parser.error("Lean/Lake execution is CI-only; local usage requires --prepare-only")
@@ -180,7 +237,12 @@ def main() -> int:
     evidence = (args.output or root / "v2-build/n7-diagnostics").resolve()
     evidence.mkdir(parents=True, exist_ok=True)
     modules = list(dict.fromkeys(args.module or MODULES))
-    manifest = prepare(root, evidence, modules)
+    if args.ordinary_heartbeats is not None and ("OrdinaryData" not in modules or args.imports_only):
+        parser.error("--ordinary-heartbeats requires an OrdinaryData source probe")
+    if args.ordinary_heartbeat_target != "OrdinaryData" and args.ordinary_heartbeats is None:
+        parser.error("--ordinary-heartbeat-target requires --ordinary-heartbeats")
+    manifest = prepare(root, evidence, modules, ordinary_heartbeats=args.ordinary_heartbeats,
+                       ordinary_heartbeat_target=args.ordinary_heartbeat_target)
     print(f"DIAGNOSTIC ONLY; NOT ACCEPTED PROOF OUTPUT: {evidence}", flush=True)
     if args.prepare_only:
         print("Prepared probes only; Lean/Lake were not executed.", flush=True)
@@ -199,6 +261,8 @@ def main() -> int:
     results = {"accepted_as_proof": False,
                "head": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
                "module_timeout_seconds": gate.MODULE_TIMEOUT_SECONDS,
+               "ordinary_heartbeats": manifest["ordinary_heartbeats"],
+               "ordinary_heartbeat_target": manifest["ordinary_heartbeat_target"],
                "excluded_toolchain_imports": manifest["excluded_toolchain_imports"],
                "prerequisites": None, "stages": [], "canonical_sources_unchanged": None}
 
@@ -233,7 +297,8 @@ def main() -> int:
                 started = time.monotonic()
                 code = gate.logged(["lake", "env", "lean", probe["path"]], log_name)
                 lines = (evidence / log_name).read_text(encoding="utf-8", errors="replace").splitlines()
-                checkpoints = [line for line in lines if line.startswith("V2_DIAG MOM_ENGINE_STEP_V2 ")]
+                checkpoints = [line for line in lines if line.startswith(
+                    ("V2_DIAG MOM_ENGINE_STEP_V2 ", "MOM_ENGINE_STEP_V2 "))]
                 terminal = "imports-ok" if stage == "imports" else "source-end"
                 expected = f"V2_DIAG MOM_ENGINE_STEP_V2 {module} {stage} {terminal}"
                 marker_present = expected in checkpoints

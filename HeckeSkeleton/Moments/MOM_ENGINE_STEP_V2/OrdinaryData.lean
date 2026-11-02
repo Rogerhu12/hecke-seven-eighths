@@ -88,6 +88,9 @@ run_cmd do
 /-- The same finite subtype, kept reducible for its local finite instances. -/
 abbrev ordinaryBranchType : Type :=
   ↥(liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
+    (k := SourceClassKey.leftSlots
+      (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
+      packet.key)
     packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
     packet.rightIdeal)
@@ -99,7 +102,7 @@ run_cmd do
     stderr.flush
 
 /-- The original allocation, with its existing carrier made explicit. -/
-def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
+noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
     SourceClassKey.AllocationKey
       (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
       packet.key :=
