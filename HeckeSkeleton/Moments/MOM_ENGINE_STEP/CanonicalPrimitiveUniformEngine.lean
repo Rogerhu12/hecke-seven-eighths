@@ -28,6 +28,8 @@ set_option autoImplicit false
 noncomputable section
 open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
+universe u
+
 namespace HeckeSkeleton.Moments.EngineStep.CanonicalPrimitiveUniformEngine
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
@@ -82,8 +84,8 @@ variable (C : A.GeneralArithmeticContext σ η hS)
 variable (hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
   HeckeGeneral.Characters.localDifferentExponent K v = 0)
 variable (b : Box) (mesh : ℝ) (hmesh : 0 ≤ mesh) (orders : Finset (ℕ × ℕ))
-variable (first : CanonicalPrimitiveFirstTerminalConstants.Fixed μv ν C hDiff b orders)
-variable (second : CanonicalPrimitiveSecondTerminalConstants.Fixed
+variable (first : CanonicalPrimitiveFirstTerminalConstants.Fixed.{u} μv ν C hDiff b orders)
+variable (second : CanonicalPrimitiveSecondTerminalConstants.Fixed.{0}
   (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
   μv hDiff C (rowBallFiniteFamily K A.Sf 1) b)
 variable (heightC exceptionalConstant : ℝ)
@@ -114,7 +116,7 @@ variable (Drecipe : ComparisonPoissonCoefficientData K A)
 variable (hD : GlobalPairCancel.HasArithmeticRecipes A σ hS C.correction.B Drecipe)
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
 variable {R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P}
-variable {Index : Type*} {data : Index → MomentData K ω ψ}
+variable {Index : Type u} {data : Index → MomentData K ω ψ}
 variable (Q : CompleteMovingRowRecipe A P R data)
 variable (W : NormProfileRecipe data) (ξ : Index)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
