@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PreparedDualBudgetBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonGaussOrigin
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original pooled parent reaches its existing complete family

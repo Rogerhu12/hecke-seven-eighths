@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveEngineConc
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSourceTerminalNonneg
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual amplified family gives the engine conclusion

@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolComputedProfile
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectFactorFreeComputed
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Computed profiles for the redistributed actual pool tables

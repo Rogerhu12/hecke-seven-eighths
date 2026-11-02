@@ -6,6 +6,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCombinedIndexedWeig
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual normalized children and their original arithmetic index

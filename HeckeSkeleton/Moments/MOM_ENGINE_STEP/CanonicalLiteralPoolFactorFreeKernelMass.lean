@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormalizedRadii
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNominalWeightWindows
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Kernel mass of the actual redistributed pool families

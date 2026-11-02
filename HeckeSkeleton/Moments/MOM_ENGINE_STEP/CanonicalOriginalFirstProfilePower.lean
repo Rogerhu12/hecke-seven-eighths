@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveFirstSourc
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalTerminalPowers
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Exact first-profile powers of the original primitive source

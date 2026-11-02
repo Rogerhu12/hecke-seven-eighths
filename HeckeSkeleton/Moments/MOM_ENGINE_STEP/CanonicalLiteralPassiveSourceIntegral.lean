@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveSourceBound
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveFourierControl
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original finite source is controlled by its actual passive kernels

@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActiveNormalizedFamily
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original output dictionaries of the same passive normalized family

@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainKernel
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePoolKernelMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Complete mass of the original amplified dependent family

@@ -8,6 +8,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStageFibres
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActualSourceMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Computed coefficient windows on the actual pooled dispatcher
