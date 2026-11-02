@@ -13,6 +13,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRedistributedBindin
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralComparisonProduct
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original sources construct the independent passive normalized family

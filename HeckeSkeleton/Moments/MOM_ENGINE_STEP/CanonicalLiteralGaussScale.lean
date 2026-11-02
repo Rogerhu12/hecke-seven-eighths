@@ -32,6 +32,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Physical (ProbeData RowCharacterInput)
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.IdealMobiusDivisorSum
+open HeckeSkeleton.Moments.EngineStep.WholeAllocation
 
 variable {K : Type} [Field K] [NumberField K]
 

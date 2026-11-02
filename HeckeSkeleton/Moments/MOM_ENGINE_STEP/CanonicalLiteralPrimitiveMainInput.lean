@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveMainSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMainPassiveInput
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Analytic inputs for the original main factories

@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPoolPassiveSourceIn
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CurriedNormalizedSource
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual pool source inequality on its existing family

@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectCoefficients
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectAtlas
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original direct coefficients on the already constructed source atlas

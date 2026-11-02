@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralResidualDeletion
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original atom tables on the main and valuation source covers

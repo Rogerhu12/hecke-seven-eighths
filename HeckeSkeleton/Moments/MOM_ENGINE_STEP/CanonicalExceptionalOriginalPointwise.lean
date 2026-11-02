@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalParentWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalIndexMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Compose actual first and second exceptional estimates at their original index

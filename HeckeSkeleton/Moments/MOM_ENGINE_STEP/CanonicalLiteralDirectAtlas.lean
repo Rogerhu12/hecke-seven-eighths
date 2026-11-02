@@ -71,6 +71,7 @@ theorem sourceCartesianCover_literalDictionary (c : ι → ℂ) (a : T.labels S 
   dsimp only [SourceCartesianAtlas.literalDictionary, SourceCartesianAtlas.ofReindex]
   rw [T.residualReindex_plain₁, T.residualReindex_plain₂,
     T.residualReindex_slots, T.residualReindex_index]
+  exact hcols.symm
 
 end DirectGaussData
 end HeckeSkeleton.Moments.EngineStep

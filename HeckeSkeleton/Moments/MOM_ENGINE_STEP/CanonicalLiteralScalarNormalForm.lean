@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAtlasAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPlainBalance
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDeletion
 
 set_option linter.unusedSectionVars false
 
@@ -148,7 +149,7 @@ theorem secondInput_eq_scale_core
           (d.secondInputScalar (σ := σ) b power firstElement δ₁) := by
   unfold secondInput secondInputCore secondInputScalar
   dsimp only [firstExtracted]
-  rw [scale_twoStageNorms, scale_movingSingleton, scale_movingSingleton,
+  erw [scale_twoStageNorms, scale_movingSingleton, scale_movingSingleton,
     scale_movingSingleton, scale_scale]
 
 theorem secondInput_whole_eq_scalar_core

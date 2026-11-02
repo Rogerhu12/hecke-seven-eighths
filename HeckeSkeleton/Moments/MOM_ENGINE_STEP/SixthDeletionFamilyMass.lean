@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionScalarMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalFamilyWeights
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Full-deletion weights on the already chosen normalized family

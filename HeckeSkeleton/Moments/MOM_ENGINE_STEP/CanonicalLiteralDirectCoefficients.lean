@@ -128,8 +128,7 @@ theorem canonicalLeftDirect_secondInput
   have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.leftResidual i) =
       b.leftResidual i := by
     apply Subtype.ext
-    change 1 * (b.leftResidual i).val = _
-    exact one_mul _
+    simp only [ExteriorIdealEuler.mul, unitExterior, Ideal.top_mul]
   rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
@@ -186,8 +185,7 @@ theorem canonicalRightDirect_secondInput
   have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.rightResidual i) =
       b.rightResidual i := by
     apply Subtype.ext
-    change 1 * (b.rightResidual i).val = _
-    exact one_mul _
+    simp only [ExteriorIdealEuler.mul, unitExterior, Ideal.top_mul]
   rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
     (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity

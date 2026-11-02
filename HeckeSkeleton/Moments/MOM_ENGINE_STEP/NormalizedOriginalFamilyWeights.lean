@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticNormalizedLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridGeometry
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original pointwise weights on the combined live-leaf family

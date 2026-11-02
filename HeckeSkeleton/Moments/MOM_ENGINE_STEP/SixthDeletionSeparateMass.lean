@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSeparateAtomMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOriginalFamilyWeights
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Full-deletion mass with the original row scalar retained once

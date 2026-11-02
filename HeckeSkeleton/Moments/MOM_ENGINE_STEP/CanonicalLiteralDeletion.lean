@@ -57,6 +57,7 @@ theorem literalDeletionIdeal_norm_le (S : Finset (Ideal (𝓞 K)))
   have hn := Nat.le_of_dvd
     (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hD))
     (map_dvd Ideal.absNorm (literalDeletionIdeal_dvd S hS D hD hsub))
+  dsimp only [HeckeGeneral.Analysis.idealNorm]
   exact_mod_cast hn
 
 namespace FixedChildCharacters
