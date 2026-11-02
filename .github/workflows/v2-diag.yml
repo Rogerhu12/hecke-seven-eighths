@@ -1,0 +1,71 @@
+name: V2 slow-module diagnosis
+
+# Coordinator diagnosis only (branch cloud/mom-v2-diag, never merged): build
+# the imports of RawContracts and OrdinaryData, then elaborate a copy of each
+# with a stderr marker before every declaration and the trace profiler on, so
+# the log shows which declaration is slow and how long each one takes.
+on:
+  push:
+    branches: [cloud/mom-v2-diag]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diag:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Reserve runner space and configure memory mappings
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+        with:
+          branch-cache: restore
+      - name: Build the imports of both slow modules
+        run: |
+          P=HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
+          lake build +$P.GeometryContracts:olean +$P.SourceCharacters:olean +$P.RawRectangleData:olean \
+            $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/OrdinaryData.lean) 2>&1 | tail -20
+      - name: Elaborate the marked copies one at a time
+        run: |
+          mkdir -p diag
+          for f in RawContracts OrdinaryData; do
+            echo "===== $f"
+            ( while true; do sleep 30; ps -eo etimes=,rss=,args= | awk '$3 ~ /lean$/ {printf "MEM %ss %dMiB\n", $1, $2/1024}'; done ) &
+            mon=$!
+            set +e
+            timeout --signal=KILL 1200s lake env lean -DstderrAsMessages=false \
+              -Dtrace.profiler=true -Dtrace.profiler.threshold=2000 \
+              .github/diag/$f.marked.lean 2>&1 |
+              while IFS= read -r line; do printf '%s %s\n' "$(date -u +%H:%M:%S)" "$line"; done |
+              tee diag/$f.log | grep --line-buffered -E 'PROBE_MARK|took|error|MEM' | cut -c1-300
+            echo "lean exit: ${PIPESTATUS[0]}" | tee -a diag/$f.log
+            kill $mon 2>/dev/null
+            set -e
+          done
+      - name: Upload the diagnosis logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-diag-${{ github.run_id }}
+          path: diag/
+          retention-days: 14
