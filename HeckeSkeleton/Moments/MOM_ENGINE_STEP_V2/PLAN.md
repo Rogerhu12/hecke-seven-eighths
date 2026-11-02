@@ -4,7 +4,7 @@
 
 公开入口仍为 `HeckeSkeleton.Moments.EngineStepV2.pairedStepHypothesis`，目标为原 `EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c`。全部原始参数、mesh、支持受限 volume 量词及 induction 输入保持不变；没有添加 parent bound、child admissibility、terminal 或 mass 结论作前提。
 
-按 PR #31 评论 6573415153，**当前阶段是具体数据构造与 CI 修复，尚未达到正式陈述骨架里程碑**。截至 `fc56067838b5054e506eb8934a387ca6a5684175`，84 个模块、25,778 物理行（含注释与空行）已直接推送。统一 schedule/bounds/call 和两次变换的实际有限展开已具体定义；`selectedNormalization` 的最终实际叶子接线正在完成。逐定义构造来源与状态见 [DATA_CONSTRUCTIONS.md](DATA_CONSTRUCTIONS.md)。
+按 PR #31 评论 6573415153，**当前阶段是具体数据构造与 CI 修复，尚未达到正式陈述骨架里程碑**。截至 `43d3f5587e12e74a36cddc0e61296ec2e06daa43`，90 个模块、27,039 物理行（含注释与空行）已直接推送。统一 schedule/bounds/call、两次变换的实际有限展开和 selectedNormalization 的同一叶子接线均已具体定义；完整实际闭包等待 CI 全量通过。解析窗口和 arithmetic recipe 中用于提取数据的存在性证明也已展开，不能留作证明占位。逐定义构造来源与状态见 [DATA_CONSTRUCTIONS.md](DATA_CONSTRUCTIONS.md)。
 
 数据字段必须是实际 record、有限集合、原核、原 profile、原 label 的构造。结构内 Prop 字段及 theorem 的证明可在此阶段使用显式 `sorry`；不得用新写的占位存在性定理配合 choice 隐藏数据。引用已合入且已证明的原分析/算术存在性定理选择统一常数和原 Mellin profile 是实际构造。
 
@@ -25,12 +25,12 @@
 | 组 | 当前模块数 | 可依赖的前组 | 责任 | 当前模块完成预算 |
 |---|---:|---|---|---:|
 | G1 | 8 | 无 | 公共有限族与原始叶子接口 | 1870 |
-| G2 | 60 | G1 | 公共物理数据、规范化构造与统一数值预算 | 47800 |
-| G3 | 10 | G1–G2 | 选定原源、同一叶子与实际输出 | 7000 |
+| G2 | 61 | G1 | 公共物理数据、规范化构造与统一数值预算 | 48050 |
+| G3 | 15 | G1–G2 | 选定原源、同一叶子与实际输出 | 11250 |
 | G4 | 3 | G1–G3 | 四个终端与完整核质量 | 11200 |
 | G5 | 3 | G1–G4 | 严格输出族与原目标 | 1050 |
 
-现有模块逐项预算合计 **68,920 行**。另外预留 **8,000 行**给最终 normalization 接线、CI 发现的必要 helper 和不可省略的证明，合计规划 **76,920 行**，保持低于 100,000 行目标。这是根据真实迁移闭包修正后的工程估计，取代最初 19 模块草图的 57,620 行；不是完成证明后的实测压缩结果。新增 helper 会从对应预算/预留中列账，不能只统计包装入口。
+现有模块逐项预算合计 **73,420 行**。另外预留 **3,500 行**给最终 normalization 接线、CI 发现的必要 helper 和不可省略的证明，合计规划 **76,920 行**，保持低于 100,000 行目标。这是根据真实迁移闭包修正后的工程估计，取代最初 19 模块草图的 57,620 行；不是完成证明后的实测压缩结果。新增 helper 会从对应预算/预留中列账，不能只统计包装入口。
 
 当前保留的 theorem/Prop 占位尚未验收。真实对象全部接通后，CI 必须逐一编译全部声明；此后先推进 G1 八模块证明。每组完成时，清空本组占位并在 fresh Lean 中对本组所有加载声明（含 private/generated）的依赖递归检查公理，仅允许 propext、Classical.choice、Quot.sound。
 
@@ -46,22 +46,22 @@
 | G1 | `HybridExpansion` | 89 | 350 |
 | G1 | `LeafCoverage` | 53 | 200 |
 | G1 | `LeafNormalization` | 81 | 400 |
-| G2 | `AnalyticChoices` | 103 | 350 |
+| G2 | `AnalyticChoices` | 147 | 350 |
 | G2 | `BlockGaussStage` | 305 | 400 |
 | G2 | `ChoiceBox` | 275 | 400 |
-| G2 | `CoveredStage` | 165 | 250 |
-| G2 | `DirectLeaves` | 145 | 200 |
+| G2 | `CoveredStage` | 175 | 250 |
+| G2 | `DirectLeaves` | 148 | 200 |
 | G2 | `DirectParent` | 97 | 150 |
 | G2 | `DirectPreparation` | 167 | 250 |
 | G2 | `DirectStages` | 130 | 200 |
-| G2 | `ExceptionalChoices` | 160 | 250 |
+| G2 | `ExceptionalChoices` | 161 | 250 |
 | G2 | `FirstGaussData` | 340 | 500 |
 | G2 | `FirstGeometry` | 142 | 200 |
 | G2 | `FirstNormalization` | 97 | 150 |
-| G2 | `FirstSource` | 232 | 300 |
+| G2 | `FirstSource` | 234 | 300 |
 | G2 | `FullSupportParameters` | 339 | 400 |
-| G2 | `GaussOrbitRows` | 386 | 450 |
-| G2 | `GaussStage` | 335 | 400 |
+| G2 | `GaussOrbitRows` | 395 | 450 |
+| G2 | `GaussStage` | 341 | 400 |
 | G2 | `LiteralAnalyticProduction` | 245 | 300 |
 | G2 | `LiteralAtlas` | 1191 | 3400 |
 | G2 | `LiteralAtoms` | 274 | 550 |
@@ -78,21 +78,21 @@
 | G2 | `LiteralProfiles` | 542 | 1300 |
 | G2 | `LiteralTransforms` | 575 | 1800 |
 | G2 | `LiteralWindows` | 2337 | 5300 |
-| G2 | `MassIndexChoices` | 128 | 200 |
-| G2 | `MassProfileChoices` | 133 | 300 |
+| G2 | `MassIndexChoices` | 133 | 200 |
+| G2 | `MassProfileChoices` | 143 | 300 |
 | G2 | `NormalizedFamilyAdapter` | 161 | 250 |
 | G2 | `OriginalPoolStages` | 126 | 250 |
 | G2 | `ParentTerminals` | 159 | 250 |
 | G2 | `PatternRows` | 207 | 300 |
 | G2 | `PhysicalConstants` | 168 | 250 |
 | G2 | `PoolAttachment` | 104 | 200 |
-| G2 | `PoolLeaves` | 113 | 200 |
+| G2 | `PoolLeaves` | 116 | 200 |
 | G2 | `PooledFirstLeaves` | 180 | 250 |
-| G2 | `PooledParent` | 110 | 200 |
+| G2 | `PooledParent` | 114 | 200 |
 | G2 | `PreparedCall` | 117 | 200 |
-| G2 | `PrimitiveFirstSource` | 197 | 300 |
+| G2 | `PrimitiveFirstSource` | 198 | 300 |
 | G2 | `ProfileChoices` | 146 | 300 |
-| G2 | `RawTerminalData` | 166 | 250 |
+| G2 | `RawTerminalData` | 168 | 250 |
 | G2 | `RawTerminals` | 104 | 200 |
 | G2 | `RowClasses` | 258 | 350 |
 | G2 | `SectorRows` | 322 | 400 |
@@ -103,25 +103,31 @@
 | G2 | `SourcePool` | 71 | 150 |
 | G2 | `SourcePredicates` | 123 | 200 |
 | G2 | `SourceSupport` | 293 | 350 |
-| G2 | `TargetArithmetic` | 70 | 150 |
+| G2 | `TargetArithmetic` | 145 | 150 |
 | G2 | `UnmaskedStage` | 139 | 200 |
 | G2 | `VolumeChoices` | 148 | 200 |
-| G3 | `ChildProduction` | 58 | 2200 |
-| G3 | `SelectedLeafPacket` | 126 | 200 |
+| G2 | `LiteralRowProfileBound` | 151 | 250 |
+| G3 | `ChildProduction` | 117 | 2200 |
+| G3 | `SelectedFamily` | 199 | 1000 |
+| G3 | `SelectedLeafPacket` | 129 | 200 |
 | G3 | `SelectedLeaves` | 123 | 250 |
-| G3 | `SelectedLiteralInputs` | 236 | 500 |
+| G3 | `SelectedLiteralInputs` | 237 | 500 |
+| G3 | `SelectedLiteralProfiles` | 196 | 800 |
 | G3 | `SelectedPredicates` | 169 | 250 |
 | G3 | `SelectedProfileData` | 107 | 200 |
-| G3 | `SelectedSource` | 191 | 300 |
+| G3 | `SelectedSource` | 193 | 300 |
 | G3 | `SelectedStages` | 174 | 300 |
 | G3 | `SourceProduction` | 141 | 1800 |
 | G3 | `UniformChoices` | 200 | 1000 |
+| G3 | `SelectedMetadata` | 142 | 350 |
+| G3 | `SelectedNormalizedFamily` | 89 | 250 |
+| G3 | `SelectedPackets` | 238 | 1850 |
 | G4 | `TerminalCalibration` | 69 | 6000 |
 | G4 | `KernelCalibration` | 69 | 5000 |
 | G4 | `LocalProduction` | 47 | 200 |
 | G5 | `StrictFamily` | 115 | 700 |
 | G5 | `SourceHypothesis` | 51 | 150 |
-| G5 | `Interface` | 89 | 200 |
+| G5 | `Interface` | 95 | 200 |
 
 ## 数据优先的执行顺序
 

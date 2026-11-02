@@ -304,7 +304,8 @@ def literalPassiveNormalizedFamilyOfWindow :=
       CanonicalLiteralRectangles.Atoms.scale, hbaseRight] using domain
   let leftProducer := fun (aL : CanonicalLiteralPassiveNonzero.nonzeroLabels leftTests
       leftAllocation A (choice.mask extra)) (r : Bool) =>
-    (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.literalPassiveSideFromWindow (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v))
+    HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.literalPassiveSideFromWindow
+      (chart := HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v)
       (P := P) (Rchar := Rchar) (hclass := hp) (hsector := hs)
       (X := cutoff) (hX := hcutoff) (label := (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v))
       (weight := (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRows v) leftAtoms rightAtoms).withColumnConstants
@@ -358,7 +359,8 @@ def literalPassiveNormalizedFamilyOfWindow :=
           CanonicalLiteralRectangles.Atoms.scale, hbaseLeft] using hheight)
   let rightProducer := fun (aR : CanonicalLiteralPassiveNonzero.nonzeroLabels rightTests
       rightAllocation A (choice.mask extra)) (r : Bool) =>
-    (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.literalPassiveSideFromWindow (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v))
+    HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.literalPassiveSideFromWindow
+      (chart := HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v)
       (P := P) (Rchar := Rchar) (hclass := hp) (hsector := hs)
       (X := cutoff) (hX := hcutoff) (label := (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v))
       (weight := (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRows v) leftAtoms rightAtoms).withColumnConstants
