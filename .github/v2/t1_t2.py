@@ -111,8 +111,8 @@ def preflight() -> tuple[list[str], dict[str, str]]:
         errors.append(f"Cannot validate the manifest: {type(exception).__name__}: {exception}")
     if len(OWNED_MODULES) != 28 or len(set(OWNED_MODULES)) != 28:
         errors.append("The diagnostic driver must list exactly 28 distinct T1/T2 modules")
-    if (v2_build.MODULE_TIMEOUT_SECONDS, v2_build.WATCH_INTERVAL_SECONDS) != (600, 15):
-        errors.append("The shared Watcher must use a 600-second limit and 15-second polling")
+    if (v2_build.MODULE_TIMEOUT_SECONDS, v2_build.WATCH_INTERVAL_SECONDS) != (300, 15):
+        errors.append("The shared Watcher must use a 300-second limit and 15-second polling")
     for name in REQUIRED_CONFIG_PATHS:
         if not (ROOT / name).is_file():
             errors.append("Missing verification input: " + name)
@@ -152,9 +152,10 @@ run_cmd do
   let env ← getEnv
   let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
   let modulePrefix : Name := `HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
+  let moduleNames := env.header.moduleNames
   let names := (env.constants.toList.filterMap fun (name, _) =>
     let fromV2Module := match env.getModuleIdxFor? name with
-      | some idx => modulePrefix.isPrefixOf (env.header.moduleNames[idx.toNat]!)
+      | some idx => modulePrefix.isPrefixOf (moduleNames[idx.toNat]!)
       | none => false
     if nsPrefix.isPrefixOf (privateToUserName name) || fromV2Module then
       some name

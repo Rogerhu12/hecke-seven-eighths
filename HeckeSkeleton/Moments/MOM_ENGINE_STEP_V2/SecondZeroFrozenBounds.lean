@@ -54,15 +54,23 @@ private theorem first_residual_dvd_column (F : FirstPresentation call p)
     ∃ j ∈ F.source.columns,
       (FirstCauchyKey.residual key).val ∣ (F.source.ideal j).val := by
   obtain ⟨j, hj, hS⟩ := Finset.mem_biUnion.mp (FirstCauchyKey.residual key).property
-  have hd := (mem_idealDivisors ((FirstCauchyKey.piece key).rightData.ideal j).property.1).mp hS
+  have hd := (DedekindZetaZeroFree.LargeSieve.mem_idealDivisors
+    ((FirstCauchyKey.piece key).rightData.ideal j).property.1).mp hS
   have hj' : j ∈ F.source.columns := by
     rw [(FirstCauchyKey.piece key).right_columns] at hj
     exact (Finset.mem_filter.mp hj).1
   refine ⟨j, hj', hd.trans ?_⟩
-  rw [(FirstCauchyKey.piece key).right_ideal, (FirstCauchyKey.block key).right_residual]
-  refine ⟨supportExtract (F.source.ideal j).val (primeSupport key.1.val.1), ?_⟩
-  exact (support_reconstruct (F.source.ideal j).val (F.source.ideal j).property.1
-    (primeSupport key.1.val.1)).symm.trans (mul_comm _ _)
+  have hideal : ((FirstCauchyKey.piece key).rightData.ideal j).val =
+      supportResidual (F.source.ideal j).val (primeSupport key.1.val.1) :=
+    (congrArg (fun f : F.source.Column → (Arithmetic.data c).Exterior => (f j).val)
+      (FirstCauchyKey.piece key).right_ideal).trans ((FirstCauchyKey.block key).right_residual j)
+  have hdiv : supportResidual (F.source.ideal j).val (primeSupport key.1.val.1) ∣
+      (F.source.ideal j).val := by
+    refine ⟨supportExtract (F.source.ideal j).val (primeSupport key.1.val.1), ?_⟩
+    exact (support_reconstruct (F.source.ideal j).val (F.source.ideal j).property.1
+      (primeSupport key.1.val.1)).symm.trans (mul_comm _ _)
+  exact Eq.mp (congrArg (fun I : Ideal (𝓞 K) => I ∣ (F.source.ideal j).val)
+    hideal.symm) hdiv
 
 theorem first_key_residual_norm_le_five
     (frame : SourceFrame) (input : ProfileInput call) (hframe : call.frame = frame)

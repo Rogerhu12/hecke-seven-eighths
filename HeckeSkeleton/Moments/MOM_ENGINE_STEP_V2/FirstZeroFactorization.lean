@@ -26,7 +26,11 @@ open HeckeSkeleton.Moments.EngineStep
 
 variable {K : Type} [Field K] [NumberField K]
 
-attribute [local instance] sourcePrincipal
+attribute [local instance]
+  sourcePrincipal sourceNormOneSpace sourceNormOneBorel
+  Expansion.ActualProbeContext.localCompletionSpace
+  Expansion.ActualProbeContext.localCompletionBorel
+  Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 

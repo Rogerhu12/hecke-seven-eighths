@@ -94,19 +94,24 @@ theorem first_family_frequency_le_of_norm_box
       call.base ^ (5 : ℝ) := by
     have hdiv : firstActiveRadical (family.source i).first.selected.val
         (family.source i).first.opposite.val ∣ (family.source i).first.selected.val :=
-      support_product_dvd (family.source i).first.selected.property.1 (Finset.filter_subset _ _)
-    exact (norm_le_of_dvd (family.source i).first.selected.property.1 hdiv).trans hselected
+      support_product_dvd (nonZeroDivisors.coe_ne_zero (family.source i).first.selected)
+        (Finset.filter_subset _ _)
+    exact (norm_le_of_dvd (nonZeroDivisors.coe_ne_zero (family.source i).first.selected)
+      hdiv).trans hselected
   have hphysical :
       (Ideal.absNorm (family.source i).first.complementary.val : ℝ) ≤ call.base ^ (5 : ℝ) := by
     rw [hfamily.complementary i]
     exact (first_physical_divisor_norm_le F hF (family.index i).1 (family.index i).2.1).trans
       hcommon.1
   have ha := log_length_le_of_norm_le _ (firstActiveRadical_ne_zero _ _) 5 hactive
-  have hd := log_length_le_of_norm_le _ (family.source i).first.complementary.property.1 5 hphysical
+  have hd := log_length_le_of_norm_le _
+    (nonZeroDivisors.coe_ne_zero (family.source i).first.complementary) 5 hphysical
   have hselected0 := idealLogLength_nonneg call.base call.domain.scale
-    (family.source i).first.selected.val (family.source i).first.selected.property.1
+    (family.source i).first.selected.val
+      (nonZeroDivisors.coe_ne_zero (family.source i).first.selected)
   have hopposite0 := idealLogLength_nonneg call.base call.domain.scale
-    (family.source i).first.opposite.val (family.source i).first.opposite.property.1
+    (family.source i).first.opposite.val
+      (nonZeroDivisors.coe_ne_zero (family.source i).first.opposite)
   have hm := working_m_nonneg call hF.active
   have htotal := working_total_le call
   have hs : recipeInductionSigma c ≤ 1 := source_sigma_le_one

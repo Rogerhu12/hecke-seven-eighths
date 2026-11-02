@@ -273,6 +273,7 @@ theorem second_source_zero_bound_uniform
       (∫ x, (source.phaseStage x).rawZeroCost ∂actualFourierMeasure source.physical.firstKernel) ≤
         (actualFourierMeasure source.physical.firstKernel).real Set.univ * bound := by
     have h := integral_mono_of_nonneg
+      (μ := actualFourierMeasure source.physical.firstKernel)
       (Filter.Eventually.of_forall (fun x => (source.phaseStage x).rawZeroCost_nonneg))
       (integrable_const bound) (Filter.Eventually.of_forall hpoint)
     simpa only [integral_const, smul_eq_mul] using h
