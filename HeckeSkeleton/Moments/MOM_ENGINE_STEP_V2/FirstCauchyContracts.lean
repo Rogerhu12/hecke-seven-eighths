@@ -183,6 +183,7 @@ variable {F : FirstPresentation call p} (family : FirstCauchyFamily F)
 def cost : ℝ := ∑ i, (family.source i).cost
 
 structure Realizes : Prop where
+  column : ∀ i, (family.source i).Column = F.source.Column
   leftAllowance : ∀ v D S chi,
     family.normalization.left v D S chi = firstLeftAllowance call.base
       (call.workingParameters.n₁ + call.workingParameters.n₂ + call.workingParameters.z +

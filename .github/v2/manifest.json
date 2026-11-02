@@ -7,10 +7,15 @@
       "proved": true,
       "modules": [
         "ArithmeticData",
+        "ArithmeticMassAssembly",
         "AssemblyCore",
         "BudgetAssembly",
         "CalibrationData",
         "CallData",
+        "ChildArithmeticContracts",
+        "ChildInvariantData",
+        "ChildProfileAssembly",
+        "ChildProfileContracts",
         "EmptyAssembly",
         "EstimateData",
         "ExceptionalContracts",
@@ -26,8 +31,10 @@
         "NormalizationAssembly",
         "NormalizedData",
         "NormalizedOutputAssembly",
+        "OrdinaryContracts",
         "OrdinaryData",
         "OriginalInput",
+        "OriginalOccurrenceData",
         "OriginalPhaseData",
         "OutputAssembly",
         "PassiveData",
@@ -58,7 +65,9 @@
         "TerminalData",
         "UniformAssembly",
         "UniformContracts",
-        "UniformData"
+        "UniformData",
+        "UniformOrderPreparation",
+        "UniformScalarPreparation"
       ]
     },
     {
@@ -68,6 +77,8 @@
       "modules": [
         "ProfileFormulaTask",
         "TasksAmplification",
+        "TasksChildArithmetic",
+        "TasksChildProfiles",
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
         "TasksFiniteLeaves",
@@ -75,6 +86,7 @@
         "TasksFirstTransform",
         "TasksFirstZero",
         "TasksNominalGeometry",
+        "TasksOriginalAtoms",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
