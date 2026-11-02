@@ -1,0 +1,285 @@
+name: A2 First divisor pool proof repairs normal build and fresh task axiom audit
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-first-divisor-pool-native]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-first-divisor-pool-native-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  first_divisor_pool:
+    name: Normal FirstDivisorPoolTerminal
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      ROOT_MODULE: 'FirstDivisorPoolTerminal'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-first-divisor-pool-native
+          git show --no-patch --format=fuller HEAD > a2-first-divisor-pool-native/checkout.txt
+          cat > a2-first-divisor-pool-native/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+          root = Path.cwd()
+          evidence = root / 'a2-first-divisor-pool-native'
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          def digest(path):
+              return hashlib.sha256((root / path).read_bytes()).hexdigest()
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          sources = sorted(str(p) for p in task.glob('*.lean'))
+          configs = ['lean-toolchain', 'lakefile.toml', 'lake-manifest.json',
+                     'vendor/class-field-theory/lean-toolchain',
+                     'vendor/class-field-theory/lakefile.toml',
+                     'vendor/class-field-theory/lake-manifest.json', str(task / 'verify.py')]
+          interface = (task / 'Interface.lean').read_text()
+          imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', interface, re.M)))
+          libraries = [x['name'] for x in tomllib.loads(Path('lakefile.toml').read_text())['lean_lib']]
+          normal_root = os.environ['ROOT_MODULE']
+          assert normal_root == 'FirstDivisorPoolTerminal', 'Unexpected normal root'
+          source_base = 'd90f7b55d06812fe388dd36c3bfb4bb39343d721'
+          source_base_tree = git('rev-parse', source_base + '^{tree}')
+          assert source_base_tree == 'daaa8fd23cc5322a54044a3d5ff0c86de29eafeb', 'Unexpected frozen complete production tree'
+          assert git('rev-parse', 'HEAD^') == source_base, 'Unexpected direct parent'
+          assert len(git('rev-list', '--parents', '-n', '1', 'HEAD').split()) == 2
+          changed = git('diff', '--name-only', source_base, 'HEAD').splitlines()
+          assert changed == ['.github/workflows/mom-engine-step-a2-first-divisor-pool-native.yml', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstDivisorPoolTerminal.lean', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean'], 'Only the three proof repairs, Pool local registration and this workflow are permitted'
+          assert git('diff', '--name-status', source_base, 'HEAD').splitlines() == ['A\t.github/workflows/mom-engine-step-a2-first-divisor-pool-native.yml', 'M\tHeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstDivisorPoolTerminal.lean', 'M\tHeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean']
+          assert len(tracked) == 9585, 'The complete frozen 9584-path source plus one workflow is required'
+          reviewed_source_pins = {
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalAmplifiedCarrier.lean": "788de94c079afcf9428eb0c592abd1b0090c662ae0949ee3d699a8ac597f871b",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualGaussHybridTerminal.lean": "6de73fb29bd9434bf272000b7b3dd506b6b24d592a23ddcbc99d8192ca295cff",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalAllocationFingerprint.lean": "30f35dba5d488d40a93fbee78c1eca888aee327a109af235a9320b2c8e2c1e5b",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectCoveredStage.lean": "b57bf05548ee52e0cc5a4b60ae24a74247e54b08021218e54bd6b015b3155cc8",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/GatedGaussStages.lean": "9bfd8faeb0505dd7f47b1d824ba2562ab6cd8d168ceecc077429071c6d7cedef",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualGaussFiniteLeaves.lean": "b81c8566cf067792b4e25363381a746281df5460a1e81dad68590ec090d742e2",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralExtraction.lean": "b1bc990df3791577b2e1c0cf609a65fd185715e808253f43533f1b9f9bbcd1bd",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralAtlas.lean": "ff8ab19caf36f5a9ec27ec7a6d9612511644a47b05ff33ee1bf8e4d05484b5b2",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralMovingTwist.lean": "a9639e024d61244af768073acca6479c31bc217ef0a79e0004b2ed943d9e37a5",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OrdinaryLiteralExceptionalLeaf.lean": "09e4b083c71e6773b55fda90ab3412e7f4214552afc8e74f8b96c79705f72a7f",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualExceptionalColumnOrientation.lean": "2304963616c4daf16c15b860f1bfe5634f31d984f996a4205ef00362c9b2c77c",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": "db81dff1d17c12c72746738c9296a1d4bc87ec27d33958124ce36c79455bb5df",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148",
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralChartLocations.lean": "6e84e05f89df4db4512f988af15378d1dcd681e3c336b66c0a07aad253d57e89",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalLiteralCommonLeaf.lean": "b890ed1e86998f7c78d52f216b7bd407310fcffd5b3a9eaed30f07c51f6a31a0",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalOriginalGaussTuples.lean": "dfa4e97d244f5b237d9401422e9adcd686e03635a7c1376aa76666ee99a5fb9f",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectSecondStages.lean": "884eae448a40b42c145a4bba77d44aa19c3a79463a9825436a272f2c6e7559f0",
+              "cloud_tasks/MOM_ENGINE_STEP_E.md": "fd62b1e3f7891148293159587a60d7beaa4bfb42dbcf416d1c74bf08c9ac231f",
+              "cloud_tasks/MOM_ENGINE_STEP_GROUPS.md": "3c3bc0add6f48504dbc3acab59441677acbb3f79f1f978a92f3e0ff8980a667f",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstDivisorPoolTerminal.lean": "bf30f0f0ff5447ec1922bc5737c4998a061bdc98624823dbe86a7fa040f965bb",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstDivisorTerminalCalibration.lean": "69c2d68309e50d9b548f4e314c2611e2a809256edf9cdfcdffdc06830283d334",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CommonTerminalCalibration.lean": "804e3b21740954fcdafba49288a0a27aa28bcebc9292f8d44831a277f2e09a34",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalTerminalBudget.lean": "e9ea1af616a888a246dd9a532f0bbb1b6576a223276b29a878c5683560fe4ebf",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalMaskCardinality.lean": "58e72148c817bedf729cfc57d344d7293dec247a936f052ff72e4995bd3ac4c7",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalFirstTerminalCalibration.lean": "64ea223adb1cd06a833dd5806ccc78f0255dd9ef62429465ac86919c66bee297",
+              "cloud_tasks/README.md": "0d97e9fa7e0deeea6237423b45a7dc863368a38e74edc10b7932d781d6b4f391",
+              ".github/groups/group_build.py": "df3332a6f1d7fd1c4487bf8d2ee86e586265ebba9ebbf21e9dbc322ff742a1c2",
+              ".github/groups/skeleton.py": "462e28934f21679cbe1cad548536c869c37a91749d8cfbfdda56f8c3f1341122",
+              ".github/probe/probe_map.py": "78f2a76122f3fe2b79491960286accbbf2ebb169fc59c85be6ff93a2e50e346d",
+              ".github/groups/g1.txt": "19809e5489ca407279db695b0ca0e51c7aa9edf091ab20b0e5c26ca4f004806a",
+              ".github/groups/interface.json": "5c460e4c2d681149d790b6078732ae7591f98a961a832a3c44fac8d2873689f2",
+              ".github/workflows/mom-step-group.yml": "8e993d7ab5b16abb58957f6f35bfce3565e6428704ac21872bcff91adae53643"
+          }
+          for path, expected in reviewed_source_pins.items():
+              assert digest(path) == expected, 'Unexpected frozen source or original configuration: ' + path
+          candidate_path = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstDivisorPoolTerminal.lean'
+          pool_path = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean'
+          original_target_identity = {'bytes': 14735, 'sha256': 'a3d18156bebe86694354b26a1c74884723df14b80a389257cce8dceac91ee814', 'git_blob': 'b773c0d6da073dd6e9051008044c19469931f9ca'}
+          candidate_target_identity = {'bytes': 14877, 'sha256': 'bf30f0f0ff5447ec1922bc5737c4998a061bdc98624823dbe86a7fa040f965bb', 'git_blob': '68b0a5e6de930ef51c00041a6cb5cc448939b82b'}
+          original_pool_identity = {'bytes': 13461, 'sha256': 'd2ffeb40fa9db40b4526f17aa9de69cd23e0679091cd4088cacda1b63be18b75', 'git_blob': 'ac94d17f95bfc4640aedf52004b79131747d7ebd'}
+          candidate_pool_identity = {'bytes': 13467, 'sha256': '7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98', 'git_blob': 'ec4568bab1589edf73a099bdc99e66f6b9f25595'}
+          def source_identity(data):
+              return {'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest(),
+                      'git_blob':hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()}
+          def verify_exact_target_edits(original, candidate):
+              assert source_identity(original) == {'bytes': 14735, 'sha256': 'a3d18156bebe86694354b26a1c74884723df14b80a389257cce8dceac91ee814', 'git_blob': 'b773c0d6da073dd6e9051008044c19469931f9ca'}
+              assert source_identity(candidate) == {'bytes': 14877, 'sha256': 'bf30f0f0ff5447ec1922bc5737c4998a061bdc98624823dbe86a7fa040f965bb', 'git_blob': '68b0a5e6de930ef51c00041a6cb5cc448939b82b'}
+              edits = [{'name': 'zero_budget_calibration_product_exponent', 'old_start_char': 9520, 'old_line': 191, 'old': '    (by simpa only [T.calibration_tag] using hbudget b)\n', 'new': '    (by\n      rw [T.calibration_tag]\n      change T.zeroExponent b + (T.profile b).productExponent * ε ≤ budget\n      exact hbudget b)\n', 'new_start_char': 9520, 'new_line': 191, 'declaration': 'zeroBudget_le_original_profiles'}, {'name': 'zero_budget_explicit_tag_le_arguments', 'old_start_char': 9813, 'old_line': 195, 'old': '(by exact_mod_cast Q.tag_le b)', 'new': '(by exact_mod_cast OriginalTupleMultiplicities.tag_le T Q b)', 'new_start_char': 9892, 'new_line': 198, 'declaration': 'zeroBudget_le_original_profiles'}, {'name': 'tail_budget_explicit_tag_le_arguments', 'old_start_char': 12427, 'old_line': 241, 'old': '(by exact_mod_cast Q.tag_le b)', 'new': '(by exact_mod_cast OriginalTupleMultiplicities.tag_le T Q b)', 'new_start_char': 12536, 'new_line': 244, 'declaration': 'tailBudget_le_original_profiles'}]
+              forward = original.decode()
+              for edit in sorted(edits,key=lambda x:x['old_start_char'],reverse=True):
+                  start=edit['old_start_char']
+                  assert forward[start:start+len(edit['old'])] == edit['old'], edit['name']
+                  forward=forward[:start]+edit['new']+forward[start+len(edit['old']):]
+              assert forward.encode() == candidate
+              backward=candidate.decode()
+              for edit in sorted(edits,key=lambda x:x['new_start_char'],reverse=True):
+                  start=edit['new_start_char']
+                  assert backward[start:start+len(edit['new'])] == edit['new'], edit['name']
+                  backward=backward[:start]+edit['old']+backward[start+len(edit['new']):]
+              assert backward.encode() == original
+              return {'exact_three_existing_proof_ranges':True,'two_way_complete_source_inverse':True,
+                      'eleven_original_heads_four_data_blocks_and_other_proofs_unchanged':True,
+                      'no_option_instance_assumption_carrier_or_budget_change':True}
+          def verify_pool_local_registration(original, candidate):
+              assert source_identity(original) == {'bytes': 13461, 'sha256': 'd2ffeb40fa9db40b4526f17aa9de69cd23e0679091cd4088cacda1b63be18b75', 'git_blob': 'ac94d17f95bfc4640aedf52004b79131747d7ebd'}
+              assert source_identity(candidate) == {'bytes': 13467, 'sha256': '7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98', 'git_blob': 'ec4568bab1589edf73a099bdc99e66f6b9f25595'}
+              old=b'attribute [instance] coveredLeafKeyFintype\n'
+              new=b'attribute [local instance] coveredLeafKeyFintype\n'
+              assert original.count(old)==1 and candidate.count(new)==1
+              assert candidate==original.replace(old,new,1)
+              assert original==candidate.replace(new,old,1)
+              assert len(candidate)==len(original)+6
+              return {'only_registration_scope_local':True,'bytes_delta':6,'two_way_complete_source_inverse':True,
+                      'public_abbrev_instance_term_all_original_heads_data_and_proofs_unchanged':True,
+                      'coordinator_comments':[6571400398,6572087480]}
+          original_target_bytes=subprocess.check_output(['git','show',source_base+':'+candidate_path])
+          candidate_target_bytes=(root/candidate_path).read_bytes()
+          original_pool_bytes=subprocess.check_output(['git','show',source_base+':'+pool_path])
+          candidate_pool_bytes=(root/pool_path).read_bytes()
+          proof_rewrite=verify_exact_target_edits(original_target_bytes,candidate_target_bytes)
+          pool_registration=verify_pool_local_registration(original_pool_bytes,candidate_pool_bytes)
+          for path, old_identity, new_identity in [(candidate_path,original_target_identity,candidate_target_identity),
+                                                  (pool_path,original_pool_identity,candidate_pool_identity)]:
+              assert git('rev-parse',source_base+':'+path)==old_identity['git_blob']
+              assert git('rev-parse','HEAD:'+path)==new_identity['git_blob']
+          original_prints = ['HeckeSkeleton.Moments.EngineStep.ActualPoolStages.FirstDivisorWindows.zeroBudget_le_original_profiles', 'HeckeSkeleton.Moments.EngineStep.ActualPoolStages.FirstDivisorWindows.tailBudget_le_original_profiles', 'HeckeSkeleton.Moments.EngineStep.first_terminal_tuple_multiplicity_subpower']
+          assert re.findall(r'^#print axioms (\S+)$',candidate_target_bytes.decode(),re.M)==original_prints
+          assert re.findall(r'^#print axioms (\S+)$',original_target_bytes.decode(),re.M)==original_prints
+          assert re.findall(r'^#print axioms (\S+)$',candidate_pool_bytes.decode(),re.M)==re.findall(r'^#print axioms (\S+)$',original_pool_bytes.decode(),re.M)
+          lake_config=tomllib.loads(Path('lakefile.toml').read_text())
+          assert lake_config['weakLeanArgs']==['-j2']
+          assert lake_config['leanOptions']=={'autoImplicit':False,'relaxedAutoImplicit':False}
+          record = {'source_base':source_base,'source_base_tree':source_base_tree,'normal_root':normal_root,
+                    'changed_paths_from_base':changed,'owner_claim_comment':6572602229,
+                    'coordinator_local_instance_comments':[6571400398,6572087480],
+                    'one_complete_real_root_and_its_three_original_prints':True,
+                    'source_candidate_not_yet_owner_adopted':True,
+                    'candidate_path':candidate_path,'original_target_identity':original_target_identity,
+                    'candidate_target_identity':candidate_target_identity,'proof_rewrite':proof_rewrite,
+                    'pool_dependency_path':pool_path,'original_pool_identity':original_pool_identity,
+                    'candidate_pool_identity':candidate_pool_identity,'pool_registration':pool_registration,
+                    'no_global_cache_restored':True,'no_other_consumer_changes':True,
+                    'original_prints':original_prints,
+                    'no_diagnostic_auxiliary_or_probe_files_added':True,
+                    'original_verifier_and_all_original_declaration_prints_used':True,
+                    'fresh_audit_scope':'Every loaded EngineStep declaration, including private/generated declarations through the original verifier',
+                    'full_G1_Interface_and_Whole20_acceptance_not_claimed_by_this_single_root_run':True,
+                    'reviewed_source_pins':reviewed_source_pins,
+                    'head':git('rev-parse','HEAD'),'tree':git('rev-parse','HEAD^{tree}'),
+                    'expected_head':os.environ['EXPECTED_SHA'],
+                    'tracked_status':git('status','--porcelain=v1','--untracked-files=no'),
+                    'tracked_sha256':{p:digest(p) for p in tracked},
+                    'task_source_sha256':{p:digest(p) for p in sources},
+                    'config_sha256':{p:digest(p) for p in configs},
+                    'interface_imports':imports,'libraries':libraries}
+          assert json.loads(json.dumps(record)) == record, 'Provenance must use only stable JSON-native types'
+          phase = sys.argv[1]
+          (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+          assert record['head'] == record['expected_head'], 'Unexpected checkout SHA'
+          assert not record['tracked_status'], 'Tracked source changes detected'
+          assert len(sources) == 1009, 'Task module inventory changed'
+          assert len(imports) == 1008, 'Complete Interface import inventory changed'
+          assert len(libraries) == 20, 'Library inventory changed'
+          assert len(configs) == 7, 'Configuration inventory changed'
+          if phase == 'after':
+              before = json.loads((evidence / 'before-source.json').read_text())
+              assert before == record, 'Source, configuration, index inventory or HEAD changed'
+              (evidence / 'source-integrity.json').write_text(json.dumps({
+                  'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                  'tracked_files': len(tracked), 'task_modules': len(sources),
+                  'interface_imports': len(imports), 'libraries': len(libraries)}, indent=2) + '\n')
+          print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, {len(sources)} task modules, {len(libraries)} libraries')
+          PY
+          cat > a2-first-divisor-pool-native/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-first-divisor-pool-native')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-first-divisor-pool-native/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-first-divisor-pool-native/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build this original root's import closure separately
+        id: dependencies
+        run: |
+          python3 -u a2-first-divisor-pool-native/run.py dependencies 1200 \
+            lake build "+HeckeSkeleton.Moments.MOM_ENGINE_STEP.${ROOT_MODULE}:deps"
+      - name: Compile FirstDivisorPoolTerminal and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a2-first-divisor-pool-native/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPoolTerminal \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.FirstDivisorWindows.zeroBudget_le_original_profiles \
+            --declaration HeckeSkeleton.Moments.EngineStep.ActualPoolStages.FirstDivisorWindows.tailBudget_le_original_profiles \
+            --declaration HeckeSkeleton.Moments.EngineStep.first_terminal_tuple_multiplicity_subpower \
+            --evidence a2-first-divisor-pool-native/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-first-divisor-pool-native/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-first-divisor-pool-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-first-divisor-pool-native/
+          if-no-files-found: error
+          retention-days: 14
