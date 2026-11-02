@@ -122,7 +122,8 @@ theorem original_slot_window
     (call.base ^ (call.node.data.geometry.slots i).length) q).mp hq'
   have hrep : input.raw.primeRep i 0
       ((Ideal.absNorm q.asIdeal : ℝ) / call.base ^ call.originalLength i) ≠ 0 := by
-    simpa only [input.raw.prime_eq] using hprofile
+    intro hzero
+    exact hprofile ((input.raw.prime_eq i 0 _).trans hzero)
   exact input.raw.prime_support i 0 (Set.mem_univ _) hrep
 
 end ProfileInput

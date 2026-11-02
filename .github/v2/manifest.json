@@ -403,7 +403,8 @@
       "groups": [
         "t3_proved",
         "t3_shared_n1",
-        "t3_shared_n4"
+        "t3_shared_n4",
+        "t3_shared_n8"
       ],
       "modules": [
         "TasksExceptionalSummation"

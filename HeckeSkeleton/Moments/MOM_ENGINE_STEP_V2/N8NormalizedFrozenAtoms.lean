@@ -80,7 +80,8 @@ theorem passive_witness_window
       ((Ideal.absNorm
         ((PassiveAllocation.allocation (support.carrier side) seed.ordinary.passiveMask a).witness.2 i).asIdeal : ℝ) /
         call.base ^ (call.node.data.geometry.slots (seed.slotIndex side i)).length) ≠ 0 := by
-    simpa only [input.raw.prime_eq] using hprofile
+    intro hzero
+    exact hprofile ((input.raw.prime_eq (seed.slotIndex side i) 0 _).trans hzero)
   exact input.raw.prime_support (seed.slotIndex side i) 0 (Set.mem_univ _) hrep
 
 include input support in

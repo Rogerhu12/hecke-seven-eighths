@@ -109,7 +109,8 @@ theorem inner_witness_window (input : ProfileInput call)
   have hrep : input.raw.primeRep (D.secondIndex side i) 0
       ((Ideal.absNorm ((O.originalAllocation side).witness.2 i).asIdeal : ℝ) /
         call.base ^ (call.node.data.geometry.slots (D.secondIndex side i)).length) ≠ 0 := by
-    simpa only [input.raw.prime_eq] using hp
+    intro hzero
+    exact hp ((input.raw.prime_eq (D.secondIndex side i) 0 _).trans hzero)
   exact input.raw.prime_support (D.secondIndex side i) 0 (Set.mem_univ _) hrep
 
 end OriginalOccurrenceData

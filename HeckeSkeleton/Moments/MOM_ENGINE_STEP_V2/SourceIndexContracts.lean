@@ -116,4 +116,3 @@ def SourceIndexTask (c : TargetContext K) (p : SourceParameters c) : Prop :=
     Nonempty (SourceIndexCertificate c frame p loss)
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
-
