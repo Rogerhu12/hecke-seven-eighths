@@ -161,11 +161,17 @@ def canonicalOutputGeometry (windows : (N).UnitWindows) :
     (((packets b.val.1).calibrations.side true b.val.2.2.1 b.val.2.2.2.2).theta_eq ξ)
   left_slot_characters b ξ i := by
     have h := ((N).family.leftChild (N).labels b).frozen_slot_in_theta ξ i
-    rw [((packets b.val.1).calibrations.side false b.val.2.1 b.val.2.2.2.1).theta_eq ξ] at h
+    have htheta : (((N).family.leftCalibration b.val).data ξ).theta =
+        call.node.data.theta :=
+      ((packets b.val.1).calibrations.side false b.val.2.1 b.val.2.2.2.1).theta_eq ξ
+    rw [htheta] at h
     exact h
   right_slot_characters b ξ i := by
     have h := ((N).family.rightChild (N).labels b).frozen_slot_in_theta ξ i
-    rw [((packets b.val.1).calibrations.side true b.val.2.2.1 b.val.2.2.2.2).theta_eq ξ] at h
+    have htheta : (((N).family.rightCalibration b.val).data ξ).theta =
+        call.node.data.theta :=
+      ((packets b.val.1).calibrations.side true b.val.2.2.1 b.val.2.2.2.2).theta_eq ξ
+    rw [htheta] at h
     exact h
   left_admissible b ξ :=
     ⟨windows false b ξ, normalizedChild_rowMask
