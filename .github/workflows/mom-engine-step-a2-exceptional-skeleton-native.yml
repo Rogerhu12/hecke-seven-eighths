@@ -1,0 +1,247 @@
+name: A2 Exceptional definitions and selected skeleton consumers
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-exceptional-skeleton-native]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-exceptional-skeleton-native-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  selected_skeleton_build:
+    name: Skeleton definitions ${{ matrix.module }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        module: [CanonicalExceptionalWeights, CanonicalOrdinaryWeights, ActualExceptionalLeafBudget, CanonicalFirstTerminalWeights, ActualNormalizedLabelWeights]
+    env:
+      LEAN_NUM_THREADS: '2'
+      GROUP_KILL_AFTER: '1200'
+      ROOT_MODULE: ${{ matrix.module }}
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Pin the synchronized shared skeleton and preserve full source identity
+        shell: bash
+        run: |
+          mkdir -p "a2-exceptional-skeleton-native/$ROOT_MODULE"
+          git show --no-patch --format=fuller HEAD > "a2-exceptional-skeleton-native/$ROOT_MODULE/checkout.txt"
+          cat > a2-exceptional-skeleton-native/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+          root = Path.cwd()
+          module = os.environ['ROOT_MODULE']
+          assert module in ['CanonicalExceptionalWeights', 'CanonicalOrdinaryWeights', 'ActualExceptionalLeafBudget', 'CanonicalFirstTerminalWeights', 'ActualNormalizedLabelWeights']
+          evidence = root / 'a2-exceptional-skeleton-native' / module
+          evidence.mkdir(parents=True, exist_ok=True)
+          def git(*args):
+              return subprocess.check_output(['git', *args], text=True).strip()
+          def digest(path):
+              p = root / path
+              data = os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+              return hashlib.sha256(data).hexdigest()
+          source_base = '2e1f2760f6c290bb99b3823deb5d61c1281b618a'
+          assert git('rev-parse', source_base + '^{tree}') == 'a546cc61f30983e5787aec48815a5a5f4e2e1820'
+          assert git('rev-parse', 'HEAD^') == source_base
+          assert len(git('rev-list', '--parents', '-n', '1', 'HEAD').split()) == 2
+          assert git('rev-parse', 'HEAD') == os.environ['EXPECTED_SHA']
+          assert git('diff', '--name-status', source_base, 'HEAD').splitlines() == ['A\t' + '.github/workflows/mom-engine-step-a2-exceptional-skeleton-native.yml']
+          assert git('status', '--porcelain=v1', '--untracked-files=no') == ''
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+          assert len(tracked) == 9593
+          pins = {'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47', 'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0', 'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c', 'vendor/class-field-theory/lean-toolchain': '8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a', 'vendor/class-field-theory/lakefile.toml': '04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf', 'vendor/class-field-theory/lake-manifest.json': 'ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148', '.github/groups/group_build.py': 'df3332a6f1d7fd1c4487bf8d2ee86e586265ebba9ebbf21e9dbc322ff742a1c2', '.github/groups/skeleton.py': '462e28934f21679cbe1cad548536c869c37a91749d8cfbfdda56f8c3f1341122', '.github/probe/probe_map.py': '78f2a76122f3fe2b79491960286accbbf2ebb169fc59c85be6ff93a2e50e346d', '.github/groups/g1.txt': '19809e5489ca407279db695b0ca0e51c7aa9edf091ab20b0e5c26ca4f004806a', '.github/workflows/mom-step-group.yml': '484856bbf84be639afccac2334ea7ac5705ebd7164327a3561dbd0f4df6f291f', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean': 'ec903fe983b1c38ef4f6d37bdebc9c8225e621693ea56c964c18fe9f19474d66', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalOrdinaryWeights.lean': 'ba10ce5b642b9daa973b6cc5ec126222c628fa5df0b4f64d1952f69cc44d0343', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualExceptionalLeafBudget.lean': '706995ca8215a4921213cd85b09eeb4586f616aabffe9efc87c90583ed35e2b2', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalFirstTerminalWeights.lean': 'e15f17e88e9c3d9b7b72471e1701007034880096cd9da3ee0ac6db1a176f9664', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualNormalizedLabelWeights.lean': 'b1154af9a7ce62130dbf2071df91b731d93af313be7b65f3c1206b75872ebae2', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean': 'd3cea2bf707178b13522388c750e3b61b27ad1f4e9ee778a997bc6cabb23270b', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectParentLeaves.lean': '89b9e1a77fb4d28196f6fd74cd35282a670d7910256d289831e8fc41edd1db81', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstBlockFiniteLeaves.lean': '0e034d36d9d101e9038f70111fddfdcb339751510c6f4b975f9285bc75839eec', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstSourceFiniteLeaves.lean': '05f1f877be0d0aa6184f08f2d88c5750ccc202b6450b8357f0e0627371614cef'}
+          for path, expected in pins.items():
+              assert digest(path) == expected, path
+          task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+          sources = sorted(str(p) for p in task.glob('*.lean'))
+          imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', (task / 'Interface.lean').read_text(), re.M)
+          expected_imports = {'HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + Path(p).stem for p in sources if Path(p).name != 'Interface.lean'}
+          libraries = [item['name'] for item in tomllib.loads((root / 'lakefile.toml').read_text())['lean_lib']]
+          configs = ['lean-toolchain', 'lakefile.toml', 'lake-manifest.json', 'vendor/class-field-theory/lean-toolchain', 'vendor/class-field-theory/lakefile.toml', 'vendor/class-field-theory/lake-manifest.json', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py']
+          assert len(sources) == 1009 and len(imports) == 1008 and set(imports) == expected_imports and len(libraries) == 20
+          source_ids = {'CanonicalExceptionalWeights': {'bytes': 8519, 'sha256': 'ec903fe983b1c38ef4f6d37bdebc9c8225e621693ea56c964c18fe9f19474d66', 'git_blob': '9637cb87ab067746a062f0ddd275130cc2d41f71'}, 'CanonicalOrdinaryWeights': {'bytes': 14532, 'sha256': 'ba10ce5b642b9daa973b6cc5ec126222c628fa5df0b4f64d1952f69cc44d0343', 'git_blob': '3e3aff1cbaf30a54e79ebb95f2d7761ed8d337e9'}, 'ActualExceptionalLeafBudget': {'bytes': 9823, 'sha256': '706995ca8215a4921213cd85b09eeb4586f616aabffe9efc87c90583ed35e2b2', 'git_blob': '3e6a0fa2940f3a202c0469787382203d4a37da70'}, 'CanonicalFirstTerminalWeights': {'bytes': 9070, 'sha256': 'e15f17e88e9c3d9b7b72471e1701007034880096cd9da3ee0ac6db1a176f9664', 'git_blob': 'b4f3d8f8a9eed30866759ce9bea35dc503acb192'}, 'ActualNormalizedLabelWeights': {'bytes': 6987, 'sha256': 'b1154af9a7ce62130dbf2071df91b731d93af313be7b65f3c1206b75872ebae2', 'git_blob': 'ade763653af6cbb5eac217886c393750f8b2a76a'}}
+          for target, expected in source_ids.items():
+              p = task / (target + '.lean')
+              data = p.read_bytes()
+              assert len(data) == expected['bytes']
+              assert hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest() == expected['git_blob']
+          record = {'source_base': source_base, 'source_base_tree': 'a546cc61f30983e5787aec48815a5a5f4e2e1820',
+                    'head': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                    'expected_head': os.environ['EXPECTED_SHA'], 'module': module,
+                    'only_added_path': '.github/workflows/mom-engine-step-a2-exceptional-skeleton-native.yml',
+                    'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                    'tracked_sha256': {p: digest(p) for p in tracked},
+                    'task_source_sha256': {p: digest(p) for p in sources},
+                    'config_sha256': {p: digest(p) for p in configs},
+                    'source_ids': source_ids, 'pins': pins, 'interface_imports': imports, 'libraries': libraries,
+                    'existing_skeleton_sorry_preserved_for_definition_checks_only': True,
+                    'source_kind': 'complete shared skeleton with existing sorry bodies and retained rfl',
+                    'declared_source_change_announcement': 'https://github.com/Rogerhu12/hecke-seven-eighths/pull/9#issuecomment-6570448883',
+                    'original_skeleton_file_options_preserved': True,
+                    'selected_targets': ['CanonicalExceptionalWeights', 'CanonicalOrdinaryWeights', 'ActualExceptionalLeafBudget', 'CanonicalFirstTerminalWeights', 'ActualNormalizedLabelWeights'],
+                    'dependency_paths_to_two_rec_root': {'CanonicalExceptionalWeights': ['CanonicalExceptionalWeights'], 'CanonicalOrdinaryWeights': ['CanonicalOrdinaryWeights', 'CanonicalExceptionalWeights'], 'ActualExceptionalLeafBudget': ['ActualExceptionalLeafBudget', 'CanonicalExceptionalWeights'], 'CanonicalFirstTerminalWeights': ['CanonicalFirstTerminalWeights', 'CanonicalOrdinaryWeights', 'CanonicalExceptionalWeights'], 'ActualNormalizedLabelWeights': ['ActualNormalizedLabelWeights', 'CanonicalOrdinaryWeights', 'CanonicalExceptionalWeights']},
+                    'Lean_options_added': [], 'normal_acceptance': False,
+                    'fresh_acceptance': False, 'production_acceptance': False}
+          assert json.loads(json.dumps(record)) == record
+          phase = sys.argv[1]
+          assert phase in ['before', 'after']
+          (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+          if phase == 'before':
+              (evidence / 'original-sources').mkdir(exist_ok=True)
+              (evidence / 'frozen-helpers').mkdir(exist_ok=True)
+              for target in source_ids:
+                  (evidence / 'original-sources' / (target + '.lean')).write_bytes((task / (target + '.lean')).read_bytes())
+              for helper in ['.github/groups/group_build.py', '.github/groups/skeleton.py', '.github/probe/probe_map.py']:
+                  (evidence / 'frozen-helpers' / Path(helper).name).write_bytes((root / helper).read_bytes())
+          else:
+              before = json.loads((evidence / 'before-source.json').read_text())
+              assert before == record, 'Tracked source or configuration changed during the diagnostic'
+              (evidence / 'source-integrity.json').write_text(json.dumps({
+                  'unchanged': True, 'tracked': len(tracked), 'task_modules': len(sources),
+                  'interface_imports': len(imports), 'libraries': len(libraries), 'configs': len(configs),
+                  'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}, indent=2) + '\n')
+          print(f'{phase}: {module}, {len(tracked)} tracked, {len(sources)} modules; skeleton statement/definition check only')
+          PY
+          cat > a2-exceptional-skeleton-native/run-selected.py <<'PY'
+          """Build one complete selected skeleton target with the unchanged group watcher.
+
+          This is a statement/definition and retained-rfl check. Existing skeleton sorry
+          bodies remain in place, so this run is never a real-proof or fresh acceptance.
+          """
+          from pathlib import Path
+          import datetime
+          import importlib.util
+          import json
+          import os
+          import subprocess
+          import sys
+          import time
+
+          sys.dont_write_bytecode = True
+          ROOT = Path.cwd().resolve()
+          MODULES = ['CanonicalExceptionalWeights', 'CanonicalOrdinaryWeights',
+                     'ActualExceptionalLeafBudget', 'CanonicalFirstTerminalWeights',
+                     'ActualNormalizedLabelWeights']
+          MODULE = os.environ['ROOT_MODULE']
+          assert MODULE in MODULES
+          EVIDENCE = ROOT / 'a2-exceptional-skeleton-native' / MODULE
+          EVIDENCE.mkdir(parents=True, exist_ok=True)
+          assert os.environ['LEAN_NUM_THREADS'] == '2'
+          assert os.environ['GROUP_KILL_AFTER'] == '1200'
+          _spec = importlib.util.spec_from_file_location('a2_frozen_skeleton', ROOT / '.github/groups/skeleton.py')
+          skeleton = importlib.util.module_from_spec(_spec)
+          _spec.loader.exec_module(skeleton)
+          pm = skeleton.pm
+          assert pm.KILL_AFTER == 1200
+          version = subprocess.run(['lake', 'env', 'lean', '--version'], text=True, capture_output=True, timeout=30)
+          (EVIDENCE / 'toolchain.log').write_text(version.stdout + version.stderr)
+          assert version.returncode == 0 and '4.35.0-rc3' in version.stdout and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version.stdout
+          mathlib = subprocess.check_output(['git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD'], text=True).strip()
+          assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+          module = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + MODULE
+          command = ['lake', 'build', '+' + module + ':olean']
+          watcher = pm.Watcher(EVIDENCE / 'processes.log', set())
+          started_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+          start = time.monotonic()
+          code = None
+          build_error = None
+          watcher.start()
+          try:
+              with (EVIDENCE / 'build.log').open('w', encoding='utf-8') as log:
+                  p = subprocess.Popen(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                       text=True, encoding='utf-8', errors='replace')
+                  for line in p.stdout:
+                      log.write(line)
+                      log.flush()
+                      clean = pm.ANSI.sub('', line).rstrip()
+                      if clean.startswith(('✖', 'error:')) or (pm.HEAD.match(clean) and 'MOM_ENGINE_STEP' in clean):
+                          print(clean, flush=True)
+                  code = p.wait()
+          except BaseException as error:
+              build_error = type(error).__name__ + ': ' + str(error)
+              raise
+          finally:
+              watcher.stop.set()
+              watcher.join(timeout=30)
+              elapsed = time.monotonic() - start
+              receipt = {'module': module, 'command': command, 'started_at': started_at,
+                         'finished_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                         'elapsed_seconds': elapsed, 'actual_Lake_exit_code': code,
+                         'watcher_class': 'unmodified .github/probe/probe_map.py Watcher',
+                         'per_Lean_process_kill_after_seconds': pm.KILL_AFTER,
+                         'watcher_join_timeout_seconds': 30, 'watcher_alive_after_join': watcher.is_alive(),
+                         'watcher_killed': watcher.killed, 'max_elapsed': watcher.max_elapsed,
+                         'max_rss_KiB': watcher.max_rss, 'runner_error': build_error,
+                         'Lean_threads': 2, 'Lean_flags_added': [], 'mathlib': mathlib,
+                         'source_kind': 'complete shared skeleton with existing sorry bodies and retained rfl',
+                         'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}
+              assert json.loads(json.dumps(receipt)) == receipt
+              (EVIDENCE / 'result.json').write_text(json.dumps(receipt, indent=2) + '\n')
+
+          parsed = pm.parse_log(EVIDENCE / 'build.log')
+          failed = sorted(m for m, v in parsed['modules'].items() if v['symbol'] == '✖')
+          errors = [e for e in parsed['errors'] if not (e['message'] or '').startswith('build failed')]
+          target_result = parsed['modules'].get(module)
+          passed = code == 0 and not failed and not errors and not watcher.killed and not watcher.is_alive()
+          summary = {'target': module, 'target_log_result': target_result, 'actual_Lake_exit_code': code,
+                     'elapsed_seconds': elapsed, 'failed_modules': failed, 'errors': errors,
+                     'watcher_killed': watcher.killed, 'skeleton_subset_build_pass': passed,
+                     'does_not_validate_original_sorry_replaced_proofs': True,
+                     'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}
+          (EVIDENCE / 'modules.json').write_text(json.dumps(parsed['modules'], indent=2) + '\n')
+          (EVIDENCE / 'errors.json').write_text(json.dumps(errors, indent=2) + '\n')
+          (EVIDENCE / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+          print(json.dumps({'module': MODULE, 'Lake_exit': code, 'elapsed_seconds': elapsed,
+                            'killed_count': len(watcher.killed), 'source_errors': len(errors),
+                            'skeleton_subset_build_pass': passed, 'normal_acceptance': False}), flush=True)
+          raise SystemExit(0 if passed else 1)
+          PY
+          python3 a2-exceptional-skeleton-native/provenance.py before
+      - name: Record runner resources and retain the official mapping limit
+        shell: bash
+        run: |
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          df -h / > "a2-exceptional-skeleton-native/$ROOT_MODULE/disk-before.txt"
+          free -b > "a2-exceptional-skeleton-native/$ROOT_MODULE/memory-before.txt"
+          sysctl vm.max_map_count > "a2-exceptional-skeleton-native/$ROOT_MODULE/mapping-limit.txt"
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore ordinary project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build one complete skeleton target with the original 1200 second watcher
+        shell: bash
+        run: python3 -u a2-exceptional-skeleton-native/run-selected.py
+      - name: Verify every tracked source and configuration again
+        if: always()
+        shell: bash
+        run: python3 a2-exceptional-skeleton-native/provenance.py after
+      - name: Preserve original build logs and exact skeleton identities
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-exceptional-skeleton-native-${{ matrix.module }}-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            a2-exceptional-skeleton-native/${{ matrix.module }}/
+            a2-exceptional-skeleton-native/provenance.py
+            a2-exceptional-skeleton-native/run-selected.py
+          if-no-files-found: error
+          retention-days: 14
