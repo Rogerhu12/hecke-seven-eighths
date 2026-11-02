@@ -27,7 +27,7 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
-open EngineStep HeckeSkeleton.Moments.EngineInduction
+open EngineStep CommonSupportMass HeckeSkeleton.Moments.EngineInduction
 open scoped Classical NumberField
 
 variable {K : Type} [Field K] [NumberField K]
@@ -70,43 +70,43 @@ local notation "b" => selectedBox c frame
 local notation "loss" => massLoss c frame
 
 def directPassive : ℝ :=
-  passivePairConstant (K := K) b.cap b.columnBound (loss / 8)
-    b.columnBound_nonneg (by have h := massLoss_pos c frame; positivity)
+  passivePairConstant (K := K) (b).cap (b).columnBound (loss / 8)
+    (b).columnBound_nonneg (by have h := massLoss_pos c frame; positivity)
 
 def pooledPassive : ℝ :=
   max (directPassive c frame)
-    (passivePairConstant (K := K) b.cap (b.columnBound + 2 * (b.step / 3)) (loss / 8)
-      (by have h₁ := b.columnBound_nonneg; have h₂ := b.step_pos; positivity)
+    (passivePairConstant (K := K) (b).cap ((b).columnBound + 2 * ((b).step / 3)) (loss / 8)
+      (by have h₁ := (b).columnBound_nonneg; have h₂ := (b).step_pos; positivity)
       (by have h := massLoss_pos c frame; positivity))
 
 def directPhysical : ℝ :=
-  physicalConstant c b.cap b.columnBound (loss / 2) b.columnBound_nonneg
+  physicalConstant c (b).cap (b).columnBound (loss / 2) (b).columnBound_nonneg
     (half_pos (massLoss_pos c frame))
 
 def pooledPhysical : ℝ :=
-  physicalConstant c b.cap (b.columnBound + 7 * (b.step / 3)) (loss / 2)
-    (by have h₁ := b.columnBound_nonneg; have h₂ := b.step_pos; positivity)
+  physicalConstant c (b).cap ((b).columnBound + 7 * ((b).step / 3)) (loss / 2)
+    (by have h₁ := (b).columnBound_nonneg; have h₂ := (b).step_pos; positivity)
     (half_pos (massLoss_pos c frame))
 
 def directHarmonic : ℝ :=
   (TwoDivisorCommonBranch.uniform_index_mass (K := K)
-    (b.cap + 2) b.columnBound loss b.columnBound_nonneg (massLoss_pos c frame)).choose
+    ((b).cap + 2) (b).columnBound loss (b).columnBound_nonneg (massLoss_pos c frame)).choose
 
-theorem poolLoss_small : b.loss < b.step / 3 := by
-  have h := b.loss_le_step
-  have hs := b.step_pos
+theorem poolLoss_small : (b).loss < (b).step / 3 := by
+  have h := (b).loss_le_step
+  have hs := (b).step_pos
   linarith
 
 /-- The original second-fibre count uses the actual original row exponent. -/
 def pooledFibreCap : ℕ :=
-  max 1 ⌈(b.rowBound + 6 * (b.step / 3)) / ((b.step / 3) / 2)⌉₊
+  max 1 ⌈((b).rowBound + 6 * ((b).step / 3)) / (((b).step / 3) / 2)⌉₊
 
 private def harmonicExistence :=
   amplified_finite_index_mass (A := TargetArithmetic.arithmetic c)
-    (b.cap + 2) b.columnBound loss (b.step / 3) b.loss b.rowBound b.columnBound
-    b.columnBound_nonneg (massLoss_pos c frame)
-    (div_pos b.step_pos (by norm_num)) b.loss_pos (poolLoss_small c frame)
-    b.rowBound_nonneg b.columnBound_nonneg
+    ((b).cap + 2) (b).columnBound loss ((b).step / 3) (b).loss (b).rowBound (b).columnBound
+    (b).columnBound_nonneg (massLoss_pos c frame)
+    (div_pos (b).step_pos (by norm_num)) (b).loss_pos (poolLoss_small c frame)
+    (b).rowBound_nonneg (b).columnBound_nonneg
 
 def pooledHarmonic : ℝ := (harmonicExistence c frame).choose
 
@@ -117,7 +117,7 @@ theorem pooledThreshold_gt_one : 1 < pooledThreshold c frame :=
 
 theorem directHarmonic_pos : 0 < directHarmonic c frame :=
   (TwoDivisorCommonBranch.uniform_index_mass (K := K)
-    (b.cap + 2) b.columnBound loss b.columnBound_nonneg (massLoss_pos c frame)).choose_spec.1
+    ((b).cap + 2) (b).columnBound loss (b).columnBound_nonneg (massLoss_pos c frame)).choose_spec.1
 
 theorem pooledHarmonic_pos : 0 < pooledHarmonic c frame :=
   (harmonicExistence c frame).choose_spec.choose_spec.1

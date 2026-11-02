@@ -39,13 +39,13 @@ variable (c : TargetContext K) (frame : SourceFrame) (rank : ℕ)
 
 local notation "b" => selectedBox c frame
 local notation "orders" => childOrdersAtRank c frame rank
-local notation "J" => orders.sup Prod.snd
+local notation "J" => (orders).sup Prod.snd
 
 private def fourierExistence :=
   normalized_capacity_nested_kernel_uniform_mass.{0, 0, 0, 0}
     (F := K) (A := TargetArithmetic.arithmetic c) (σ := TargetArithmetic.embedding c)
     (ω := c.family.omega) (ψ := targetCharacter K c) (U := ℝ) (E := ℝ)
-    b.cap J J J J
+    (b).cap J J J J
 
 def firstOrders : Finset (ℕ × ℕ) := (fourierExistence c frame rank).choose
 def secondOrders : Finset (ℕ × ℕ) := (fourierExistence c frame rank).choose_spec.choose
@@ -74,7 +74,7 @@ theorem rawWindow_positive : rawWindow c frame rank ⊆ Set.Ioi 0 :=
 def shapeCoefficient : ℝ :=
   CanonicalLogProfiles.shapeCoefficient (rawWindow c frame rank) isCompact_Icc
     (rawWindow_positive c frame rank)
-    (CanonicalLiteralProfileScalars.exponent b.tilt b.tilt)
+    (CanonicalLiteralProfileScalars.exponent (b).tilt (b).tilt)
     (CanonicalLogProfiles.sourceOrders orders)
 
 def phaseCoefficient (sign : ℝ) : ℝ :=
@@ -82,13 +82,13 @@ def phaseCoefficient (sign : ℝ) : ℝ :=
     (rawWindow_positive c frame rank) sign orders
 
 def fixedCoefficient (sign : ℝ) : ℝ :=
-  (1 + 2 * CanonicalLogProfiles.clippingCoefficient b.hi orders) *
-    (1 + (1 + shapeCoefficient c frame rank * (1 + Real.sqrt b.hi)) *
+  (1 + 2 * CanonicalLogProfiles.clippingCoefficient (b).hi orders) *
+    (1 + (1 + shapeCoefficient c frame rank * (1 + Real.sqrt (b).hi)) *
       (1 + phaseCoefficient c frame rank sign))
 
 def profileCoefficient : ℝ :=
   (1 + max (fixedCoefficient c frame rank 1) (fixedCoefficient c frame rank (-1))) ^
-    massRadiusPower c * (max 1 b.hi) ^ b.cap
+    massRadiusPower c * (max 1 (b).hi) ^ (b).cap
 
 def unitIndex : ℝ :=
   ((sixthPowerSUnitSubgroup K

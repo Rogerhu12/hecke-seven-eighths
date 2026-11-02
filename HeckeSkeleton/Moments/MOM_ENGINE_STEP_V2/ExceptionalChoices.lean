@@ -43,22 +43,22 @@ local instance exceptionalChoiceUnitClassesFintype :
   Fintype.ofFinite _
 
 def profileCoefficient : ℝ :=
-  1 + CanonicalLogProfiles.shapeCoefficient (Set.Icc b.lo b.hi) isCompact_Icc
+  1 + CanonicalLogProfiles.shapeCoefficient (Set.Icc (b).lo (b).hi) isCompact_Icc
     (VolumeChoices.positive b)
-    (-1 + b.tilt + b.tilt) (CanonicalLogProfiles.sourceOrders (VolumeChoices.orders c b))
+    (-1 + (b).tilt + (b).tilt) (CanonicalLogProfiles.sourceOrders (VolumeChoices.orders c b))
 
 /-- The original two atom budgets include the central annulus payment. -/
 def pairCoefficient : ℝ :=
-  b.hi ^ (2 * b.cap) *
-    (idealCountConstant K ^ (2 * b.cap) * b.hi ^ (5 * b.cap + 2))
+  (b).hi ^ (2 * (b).cap) *
+    (idealCountConstant K ^ (2 * (b).cap) * (b).hi ^ (5 * (b).cap + 2))
 
-def firstCoefficient : ℝ := orbitalFieldFactor K * b.hi ^ b.cap
+def firstCoefficient : ℝ := orbitalFieldFactor K * (b).hi ^ (b).cap
 
 def sourceCoefficient : ℝ :=
-  b.hi ^ b.cap * orbitalFieldFactor K *
+  (b).hi ^ (b).cap * orbitalFieldFactor K *
     ((sixthPowerSUnitSubgroup K
       ((TargetArithmetic.arithmetic c).Sf : Set (HeightOneSpectrum (𝓞 K)))).index : ℝ) *
-    (pairCoefficient c frame * profileCoefficient c frame ^ (10 * b.cap + 8) *
+    (pairCoefficient c frame * profileCoefficient c frame ^ (10 * (b).cap + 8) *
       VolumeChoices.constant c b)
 
 def fourierFactor : ℝ :=
@@ -75,15 +75,15 @@ def integralCoefficient : ℝ :=
 def leafCoefficient : ℝ :=
   (PhysicalConstants.poolFiberCap b : ℝ) * integralCoefficient c frame
 
-def indexLoss : ℝ := b.ε / 64
+def indexLoss : ℝ := (b).ε / 64
 
-theorem indexLoss_pos : 0 < indexLoss c frame := div_pos b.ε_pos (by norm_num)
+theorem indexLoss_pos : 0 < indexLoss c frame := div_pos (b).ε_pos (by norm_num)
 
-def indexBox : ℝ := b.columnBound + 7 * (b.step / 3)
+def indexBox : ℝ := (b).columnBound + 7 * ((b).step / 3)
 
 theorem indexBox_nonneg : 0 ≤ indexBox c frame := by
-  have hB := b.columnBound_nonneg
-  have hs := b.step_pos
+  have hB := (b).columnBound_nonneg
+  have hs := (b).step_pos
   unfold indexBox
   positivity
 
@@ -92,30 +92,30 @@ literal source-to-arithmetic-carrier map, including its two entrances. -/
 def physicalCoefficient (box : ℝ) (hbox : 0 ≤ box) : ℝ :=
   2 * MassIndexChoices.firstMaskConstant (K := K) box (indexLoss c frame)
       hbox (indexLoss_pos c frame) *
-    OriginalFiniteFibre.coordinateConstant (K := K) b.cap
+    OriginalFiniteFibre.coordinateConstant (K := K) (b).cap
       (Fintype.card (PUnit.{1} × SixthUnitClasses K
         ((TargetArithmetic.arithmetic c).Sf : Set (HeightOneSpectrum (𝓞 K)))))
       0 0 box (indexLoss c frame) hbox (indexLoss_pos c frame)
 
 def directHarmonic : ℝ :=
   (TwoDivisorCommonBranch.uniform_exceptional_dyad_mass (K := K)
-    (b.cap + 2) b.columnBound (indexLoss c frame)
-    b.columnBound_nonneg (indexLoss_pos c frame)).choose
+    ((b).cap + 2) (b).columnBound (indexLoss c frame)
+    (b).columnBound_nonneg (indexLoss_pos c frame)).choose
 
 private def pooledExistence :=
   uniform_amplified_exceptional_dyad_mass (A := TargetArithmetic.arithmetic c)
-    (b.cap + 2) (indexBox c frame) (indexLoss c frame)
-    (b.step / 3) b.loss b.rowBound b.columnBound
+    ((b).cap + 2) (indexBox c frame) (indexLoss c frame)
+    ((b).step / 3) (b).loss (b).rowBound (b).columnBound
     (indexBox_nonneg c frame) (indexLoss_pos c frame)
-    (div_pos b.step_pos (by norm_num)) b.loss_pos (MassIndexChoices.poolLoss_small c frame)
-    b.rowBound_nonneg b.columnBound_nonneg
+    (div_pos (b).step_pos (by norm_num)) (b).loss_pos (MassIndexChoices.poolLoss_small c frame)
+    (b).rowBound_nonneg (b).columnBound_nonneg
 
 def pooledHarmonic : ℝ := (pooledExistence c frame).choose
 def pooledThreshold : ℝ := (pooledExistence c frame).choose_spec.choose
 
 def directConstant : ℝ :=
   (leafCoefficient c frame + 1) *
-    (physicalCoefficient c frame b.columnBound b.columnBound_nonneg * directHarmonic c frame)
+    (physicalCoefficient c frame (b).columnBound (b).columnBound_nonneg * directHarmonic c frame)
 
 def pooledConstant : ℝ :=
   (leafCoefficient c frame + 1) *
