@@ -204,11 +204,9 @@ theorem literalOriginalAtoms_firstScalar_norm_le
     (I power : A.Exterior) (firstElement : A.R) (δ₁ : ℝ) (hδ₁ : δ₁ ≤ 1 / 2)
     (hI : frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2 = I.val)
     (hpower : power.val ∣ I.val) :
-    ‖(Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂)
-        .secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤
+    ‖(Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap) := by
-  apply (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂)
-    .secondInputScalar_norm_le_of_power_dvd C b I power firstElement δ₁ hδ₁ hI hpower
+  apply (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).secondInputScalar_norm_le_of_power_dvd C b I power firstElement δ₁ hδ₁ hI hpower
       (Q.literalSourceCharacters_maskIndicator ξ) cap
       (CanonicalLiteralFirstScalarCost.atomBudget annulus B) hcap
       (CanonicalLiteralFirstScalarCost.atomBudget_one annulus B)
@@ -241,10 +239,8 @@ theorem literalOriginalAtoms_firstScalar_pair_norm_le
     (hIL : frozenSourceIdeal bL.plainDivisor₁ bL.plainDivisor₂ bL.keep bL.witness.2 = IL.val)
     (hIR : frozenSourceIdeal bR.plainDivisor₁ bR.plainDivisor₂ bR.keep bR.witness.2 = IR.val)
     (hpowerL : powerL.val ∣ IL.val) (hpowerR : powerR.val ∣ IR.val) :
-    ‖(Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂)
-        .secondInputScalar (σ := σ) bL powerL elementL δ₁‖ *
-      ‖(Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂)
-        .secondInputScalar (σ := σ) bR powerR elementR δ₁‖ ≤
+    ‖(Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).secondInputScalar (σ := σ) bL powerL elementL δ₁‖ *
+      ‖(Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).secondInputScalar (σ := σ) bR powerR elementR δ₁‖ ≤
       (CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap := by
   have hL := Q.literalOriginalAtoms_firstScalar_norm_le ξ W a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ C original hzero ht annulus hannulus hwindow cap hcap

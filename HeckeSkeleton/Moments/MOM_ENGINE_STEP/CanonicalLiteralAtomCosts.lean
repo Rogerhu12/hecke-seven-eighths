@@ -266,8 +266,7 @@ theorem literalOriginalAtoms_secondInput_primeAtomCost_le
     ((Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).secondInput
       (σ := σ) b P R power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).primeAtomCost i p ≤ B ^ 2 := by
-  apply ((Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂)
-    .secondInput_primeAtomCost_le P R b power firstFixed poolFixed unitFixed
+  apply ((Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).secondInput_primeAtomCost_le P R b power firstFixed poolFixed unitFixed
       firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hδ i p).trans
   exact pow_le_pow_left₀ (norm_nonneg _)
     (Q.literalOriginalAtoms_slot_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂

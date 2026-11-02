@@ -213,8 +213,7 @@ variable (hactiveColumns : ∀ i ∈ ((p.divisorPools.leftData S).mainSource (p.
 variable (hold : A.exteriorNorm
   (((CanonicalLiteralActualCharacters.unamplifiedPhases firstFixed
     (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst)
-    .moving P R Q.moving).effectiveFullSupport
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst).moving P R Q.moving).effectiveFullSupport
       (Q.remaining * literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))) ≤
   Z ^ (geometry.skeleton.q + geometry.skeleton.R + geometry.skeleton.E + geometry.skeleton.wo))
 variable (hexceptional : (v.leaf exceptional F firstPoint j).exceptional = fun h =>
@@ -428,8 +427,7 @@ variable (hactiveColumns : ∀ i ∈ ((p.divisorPools.rightData S).mainSource (p
 variable (hold : A.exteriorNorm
   (((CanonicalLiteralActualCharacters.unamplifiedPhases firstFixed
     (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst)
-    .moving P R Q.moving).effectiveFullSupport
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) hfirst).moving P R Q.moving).effectiveFullSupport
       (Q.remaining * literalDeletionIdeal (primeSupport DE.1) (fun _ hp => support_prime hp))) ≤
   Z ^ (geometry.skeleton.q + geometry.skeleton.R + geometry.skeleton.E + geometry.skeleton.wo))
 variable (hexceptional : (v.leaf exceptional F firstPoint j).exceptional = fun h =>

@@ -143,8 +143,7 @@ def factorsOriginalSixthLengthsAll :
       parent_region := ⟨domain.kappa_lower, domain.kappa_upper, domain.capacity⟩
       kappa := hκ
       direct_slots := ?_
-      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall)
-        .reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
+      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall).reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
       rawScaleError := d.computedRawError G.skeleton.rawDegree error rectangle
       rawScaleError_nonneg := d.computedRawError_nonneg G.skeleton.rawDegree error rectangle herr
       original_scale_product := hproduct }
@@ -157,13 +156,11 @@ def factorsOriginalSixthLengthsAll :
 
 @[simp] theorem factorsOriginalSixthLengthsAll_rawError :
     (d.factorsOriginalSixthLengthsAll R side χ ideal hideal firstSign rectangle L selection hne
-      D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr)
-      .rawScaleError = d.computedRawError G.skeleton.rawDegree error rectangle := rfl
+      D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr).rawScaleError = d.computedRawError G.skeleton.rawDegree error rectangle := rfl
 
 @[simp] theorem factorsOriginalSixthLengthsAll_error :
     (d.factorsOriginalSixthLengthsAll R side χ ideal hideal firstSign rectangle L selection hne
-      D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr)
-      .scales.error = cutoff := by
+      D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr).scales.error = cutoff := by
   simp only [factorsOriginalSixthLengthsAll, OriginalNominalGeometry.ScaleWindows.error,
     OriginalNominalGeometry.ScaleWindows.reparameterize,
     OriginalNominalGeometry.literalEndpointWindows, add_zero]

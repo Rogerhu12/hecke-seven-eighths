@@ -247,15 +247,13 @@ def literalLeftRecipe
     (d : CanonicalLiteralRectangles.Atoms (K := K) (LC.branch v.2.2.1).slotCount)
     (E : Recipe P R F parent oldMoving correction remaining extra d) :
     Recipe P R F parent oldMoving correction remaining extra (v.literalLeftAtoms d) :=
-  (((E.onAtlas v.literalLeftParent rfl).extract v.literalLeftBranch)
-    .onAtlas v.literalLeftResidualAtlas rfl)
+  (((E.onAtlas v.literalLeftParent rfl).extract v.literalLeftBranch).onAtlas v.literalLeftResidualAtlas rfl)
 
 def literalRightRecipe
     (d : CanonicalLiteralRectangles.Atoms (K := K) (RC.branch v.2.2.2.1).slotCount)
     (E : Recipe P R F parent oldMoving correction remaining extra d) :
     Recipe P R F parent oldMoving correction remaining extra (v.literalRightAtoms d) :=
-  (((E.onAtlas v.literalRightParent rfl).extract v.literalRightBranch)
-    .onAtlas v.literalRightResidualAtlas rfl)
+  (((E.onAtlas v.literalRightParent rfl).extract v.literalRightBranch).onAtlas v.literalRightResidualAtlas rfl)
 
 end ActualGaussStage.CoveredClassKey
 end CoveredLeaves

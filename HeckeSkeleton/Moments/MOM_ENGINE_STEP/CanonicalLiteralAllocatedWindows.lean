@@ -140,10 +140,8 @@ original arithmetic ideal, norm factor or extracted moment ideal. -/
 theorem literalAllocated_active_reweighted_allowed_cutoff
     (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → ℂ)
     (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
-    (h : ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂).live) (ξ : WithLp 2 (ℝ × ℝ)) :
-    let R₀ := (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂
+    (h : ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂).live) (ξ : WithLp 2 (ℝ × ℝ)) :
+    let R₀ := (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂
     (data P Rchar W B F parent oldMoving correction hcorr C R₀.primes R₀.leftMultiplicity
       R₀.rightMultiplicity pattern ν remaining extra m q inverse index rectangle firstSign
       negative ξ).allowedRow (R₀.extractedRow C h).momentIdeal ∧
@@ -181,10 +179,8 @@ case, with the identical source row and data projections. -/
 theorem literalAllocated_reweighted_allowed_cutoff
     (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → ℂ)
     (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
-    (h : ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂).live) (ξ : WithLp 2 (ℝ × ℝ)) :
-    let R₀ := (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂
+    (h : ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂).live) (ξ : WithLp 2 (ℝ × ℝ)) :
+    let R₀ := (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂
     (data P Rchar W B F parent oldMoving correction hcorr C R₀.primes R₀.leftMultiplicity
       R₀.rightMultiplicity pattern ν remaining extra m q inverse index rectangle firstSign
       negative ξ).allowedRow (R₀.extractedRow C h).momentIdeal ∧

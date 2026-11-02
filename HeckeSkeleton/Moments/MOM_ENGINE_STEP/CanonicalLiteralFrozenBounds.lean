@@ -97,9 +97,7 @@ theorem sourceCharacters_maskIndicator (F : FixedPhases A)
     change (if IsCoprime I (D.support.val * remaining.val) then (1 : ℂ) else 0) = 0 ∨
       (if IsCoprime I (D.support.val * remaining.val) then (1 : ℂ) else 0) = 1
     split_ifs <;> simp
-  exact (((hT.movingSingleton P R F.firstIdeal F.firstElement F.first_generates)
-    .movingSingleton P R F.poolIdeal F.poolElement F.pool_generates)
-    .movingSingleton P R F.unitIdeal F.unitElement F.unit_generates).deleteMask extra
+  exact (((hT.movingSingleton P R F.firstIdeal F.firstElement F.first_generates).movingSingleton P R F.poolIdeal F.poolElement F.pool_generates).movingSingleton P R F.unitIdeal F.unitElement F.unit_generates).deleteMask extra
 
 end CanonicalLiteralPhaseCalibration
 

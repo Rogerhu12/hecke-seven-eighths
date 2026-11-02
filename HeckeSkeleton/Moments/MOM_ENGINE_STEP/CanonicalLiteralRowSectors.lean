@@ -67,11 +67,9 @@ extraction, even after its common scalar has been moved into the weight. -/
 def originalReweightedPatternSector
     (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → ℂ)
     (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
-    (h : ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂).live) :
+    (h : ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂).live) :
     PatternSector P
-      ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁)
-        .restrictRows keep₂) C
+      ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) C
       (chart.originalNonunitPattern M X hX label) (chart.originalSector P M X hX label) := by
   let R₁ := { chart.actualRows M X hX label with weight := weight }
   let R₂ := R₁.restrictRows keep₁
@@ -83,8 +81,7 @@ def originalReweightedPatternSector
 @[simp] theorem originalReweightedPatternSector_val_val
     (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → ℂ)
     (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
-    (h : ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁)
-      .restrictRows keep₂).live) :
+    (h : ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂).live) :
     (chart.originalReweightedPatternSector P hpattern hsector M X hX label
       weight keep₁ keep₂ h).val.val = h := rfl
 
@@ -100,13 +97,9 @@ variable (exceptional : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K)
 /-- This is the carrier used by the actual common-atom mass dictionary
 and the ordinary rectangle frames.  All four row updates are literal. -/
 def originalSupportedPatternSector
-    (h : ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms)
-        .restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0))
-      .restrictRows (fun q => ¬exceptional q)).live) :
+    (h : ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms).restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0)).restrictRows (fun q => ¬exceptional q)).live) :
     PatternSector P
-      ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms)
-          .restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0))
-        .restrictRows (fun q => ¬exceptional q)) C
+      ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms).restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0)).restrictRows (fun q => ¬exceptional q)) C
       (chart.originalNonunitPattern M X hX label) (chart.originalSector P M X hX label) :=
   chart.originalReweightedPatternSector P hpattern hsector M X hX label
     (fun q => (chart.actualRows M X hX label).weight q *
@@ -115,9 +108,7 @@ def originalSupportedPatternSector
     (fun q => ¬exceptional q) h
 
 @[simp] theorem originalSupportedPatternSector_val_val
-    (h : ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms)
-        .restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0))
-      .restrictRows (fun q => ¬exceptional q)).live) :
+    (h : ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms).restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0)).restrictRows (fun q => ¬exceptional q)).live) :
     (chart.originalSupportedPatternSector P hpattern hsector M X hX label
       leftAtoms rightAtoms exceptional h).val.val = h := rfl
 
