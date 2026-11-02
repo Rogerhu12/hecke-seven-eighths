@@ -220,8 +220,11 @@ theorem literalOriginalAtoms_secondInput_gaussScale_lower
   have h := (seed).secondInput_gaussScale_lower_one (σ := σ) b P R
     power firstFixed poolFixed unitFixed firstElement poolElement unitElement
     hfirst hpool hunit δ₁ δ₂ (a.n₁ + a.n₂) hproduct hp
-  simpa only [Q.literalOriginalAtoms_gaussScale ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂,
-    one_mul, SlotGeometry.totalLength] using h
+  rw [Q.literalOriginalAtoms_gaussScale ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂, one_mul] at h
+  change Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength -
+    idealLogLength Z
+      (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2)) ≤ _ at h
+  exact h
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

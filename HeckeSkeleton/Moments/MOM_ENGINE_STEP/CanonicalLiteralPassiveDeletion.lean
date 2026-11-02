@@ -205,7 +205,11 @@ theorem joint_mask_allocations (M : Ideal (𝓞 K)) (hM : M ≠ 0)
       ∑ a ∈ (liveLabels M S₁ S₂ S id id HeightOneSpectrum.asIdeal).attach,
         sign a.val *
           jointFourierColumn (allocation M S₁ S₂ S hS₁ hS₂ a).columns C x ξ := by
-  simpa only [allocation_columns, Finset.sum_attach] using
+  simp only [allocation_columns]
+  rw [Finset.sum_attach (liveLabels M S₁ S₂ S id id HeightOneSpectrum.asIdeal)
+    (fun a => sign a * jointFourierColumn
+      (columns S₁ S₂ S id id HeightOneSpectrum.asIdeal a) C x ξ)]
+  simpa only [allocationColumnIdeal, id_eq] using
     joint_mask_liveLabels M hM S₁ S₂ S id id HeightOneSpectrum.asIdeal C x ξ
 
 /-- Literal deletion of a whole two-rectangle table is the preceding
@@ -246,7 +250,11 @@ theorem atoms_deleteMask_allocations
           (allocation M.val d.plain₁ d.plain₂ d.slots
             d.plain₁_nonzero d.plain₂_nonzero a).columns d.whole x ξ := by
   rw [atoms_deleteMask_joint]
-  simp only [allocation_columns, Finset.sum_attach]
+  simp only [allocation_columns]
+  rw [Finset.sum_attach
+    (liveLabels M.val d.plain₁ d.plain₂ d.slots id id HeightOneSpectrum.asIdeal)
+    (fun a => sign a * jointFourierColumn
+      (columns d.plain₁ d.plain₂ d.slots id id HeightOneSpectrum.asIdeal a) d.whole x ξ)]
   symm
   apply Finset.sum_subset
     (liveLabels_subset M.val d.plain₁ d.plain₂ d.slots id id HeightOneSpectrum.asIdeal)
