@@ -48,6 +48,18 @@ private theorem nonexceptional_transport (z : ℝ)
     exact hn (principal hp)
   · exact hn
 
+private theorem nonexceptional_on_rows {H : Type} (rows : Finset H) (z : ℝ)
+    (original current : H → HeckeCharacter K) (background : HeckeCharacter K)
+    (originalTheta currentTheta : Finset (HeckeCharacter K))
+    (hrow : ∀ h, current h = original h) (htheta : currentTheta = originalTheta)
+    (ordinary : ∀ h ∈ rows, original h ∉ originalTheta)
+    (principal : ∀ h, background * current h = 1 → current h ∈ currentTheta) :
+    ∀ h ∈ rows, if z = 0 then background * current h ≠ 1
+      else current h ∉ currentTheta := by
+  intro h hh
+  exact nonexceptional_transport z (original h) (current h) background
+    originalTheta currentTheta (hrow h) htheta (ordinary h hh) (principal h)
+
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 variable (seed : OrdinarySeed packet) (input : ProfileInput call)
@@ -143,7 +155,8 @@ theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     remaining ξ _ (CanonicalOriginalPhaseCalibration.primeIdeal q)
       (right_ne_zero_of_mul hv), ?_⟩
   by_contra hn
-  let j := SlotRestriction.index (s).allocation.keep i
+  let count : (d ξ).geometry.slotCount = (s).allocation.keep.card := rfl
+  let j := SlotRestriction.index (s).allocation.keep (Fin.cast count i)
   have hz := masks.paid_prime_zero side j q hn
   have hz' := congrArg (fun z : ℂ => z *
     actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
@@ -152,11 +165,9 @@ theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
       ((s).row h).element) hz
   have hcharacters : (s).characters h =
       seed.phases.characters true (seed.slotIndex side) := rfl
-  have hcast (count : (d ξ).geometry.slotCount = (s).allocation.keep.card) :
-      Fin.cast count i = (i : Fin (s).allocation.keep.card) := Fin.ext rfl
   apply hv
   exact ((atoms ξ h).slot i q).trans (by
-    simpa only [FixedChildCharacters.restrictSlots, hcharacters, hcast, j,
+    simpa only [FixedChildCharacters.restrictSlots, hcharacters, j,
       zero_mul] using hz')
 
 include canonical masks atoms in
@@ -227,7 +238,8 @@ variable (right_scale : (s).base ^ parameters.n₂ =
 variable (slot_sum : parameters.z = ∑ i, (s).childLength i)
 variable (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).originalIdeal h) ≤
   (s).normFactor h * (s).base ^ (parameters.m + parameters.q))
-variable (ordinary : ∀ h ∈ (s).rows, (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
+variable (ordinary : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
+  (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
 
 include ordinary in
 set_option maxHeartbeats 1000000 in
@@ -236,16 +248,16 @@ private theorem nonexceptional_at (ξ : EngineParameter) (h : seed.ordinary.rows
     if parameters.z = 0 then
       (d ξ).plainBackground * (d ξ).rowCharacter ((s).row h).momentIdeal ≠ 1
     else (d ξ).rowCharacter ((s).row h).momentIdeal ∉ (d ξ).theta := by
-  have hrow : (d ξ).rowCharacter ((s).row h).momentIdeal =
-      (d 0).rowCharacter ((s).row h).momentIdeal := rfl
+  have hrow : ∀ h : seed.ordinary.rows.live,
+      (d ξ).rowCharacter ((s).row h).momentIdeal =
+        (d 0).rowCharacter ((s).row h).momentIdeal := fun _ => rfl
   have htheta : (d ξ).theta = call.node.data.theta := rfl
-  have ho := @ordinary h hh
-  exact nonexceptional_transport parameters.z
-    ((d 0).rowCharacter ((s).row h).momentIdeal)
-    ((d ξ).rowCharacter ((s).row h).momentIdeal) (d ξ).plainBackground
-    call.node.data.theta (d ξ).theta hrow htheta ho
-    (principal_in_theta seed input support side a rectangle moving correction hcorr
-      sector remaining ξ ((s).row h).momentIdeal)
+  exact nonexceptional_on_rows (H := seed.ordinary.rows.live) (s).rows parameters.z
+    (fun h => (d 0).rowCharacter ((s).row h).momentIdeal)
+    (fun h => (d ξ).rowCharacter ((s).row h).momentIdeal) (d ξ).plainBackground
+    call.node.data.theta (d ξ).theta hrow htheta ordinary
+    (fun h => principal_in_theta seed input support side a rectangle moving correction hcorr
+      sector remaining ξ ((s).row h).momentIdeal) h hh
 
 set_option maxHeartbeats 1000000 in
 def calibration : (s).Calibration (σ := Arithmetic.embedding c)
