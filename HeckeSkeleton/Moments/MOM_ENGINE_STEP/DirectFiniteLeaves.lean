@@ -229,7 +229,7 @@ theorem linearized_le_finiteCost
       (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
       (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
       (LC RC : SourceCartesianCover G.columns G.ideal)
-      (ex : s.CoverHybridPredicates LC RC) (F : SchwartzMap W ℂ) (x : ι → W),
+      (ex : (s.CoverHybridPredicates LC RC : Type)) (F : SchwartzMap W ℂ) (x : ι → W),
       (∫ ξ, G.phaseEnergy (hDiff := hDiff) x ξ ∂actualFourierMeasure F) ≤
         (actualFourierMeasure F).real Set.univ *
           (T.zeroBudget ε Czero + T.tailBudget Cerror) +
@@ -239,7 +239,7 @@ theorem linearized_le_finiteCost
       (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
       (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
       (LC RC : SourceCartesianCover G.columns G.ideal)
-      (ex : s.CoverHybridPredicates LC RC) (F : SchwartzMap W ℂ) (x : κ → W),
+      (ex : (s.CoverHybridPredicates LC RC : Type)) (F : SchwartzMap W ℂ) (x : κ → W),
       (∫ ξ, G.phaseEnergy (hDiff := hDiff) x ξ ∂actualFourierMeasure F) ≤
         (actualFourierMeasure F).real Set.univ *
           (T.zeroBudget ε Czero + T.tailBudget Cerror) +
