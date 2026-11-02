@@ -37,6 +37,17 @@ attribute [local instance]
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
+private theorem allocated_mem_cartesian {k : ℕ}
+    (D : Ideal (𝓞 K))
+    (a : HeckePort.IdealMobiusDivisorSum.primeSupport D → Finset (Fin (k + 2)))
+    (S₁ S₂ : Finset (Ideal (𝓞 K)))
+    (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
+    (i : AllocationColumn K k)
+    (hi : i ∈ pairedAllocatedColumns D a S₁ S₂ S id id HeightOneSpectrum.asIdeal) :
+    i ∈ childCartesianColumns S₁ S₂ S := by
+  rw [paired_allocated_columns_eq_filter] at hi
+  exact (Finset.mem_filter.mp hi).1
+
 namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p)
@@ -55,15 +66,13 @@ def atomRightPoint (_h : Arithmetic.Orbit c) :
 
 theorem leftAllocated_cartesian (i : AllocationColumn K packet.leaf.leftSlots)
     (hi : i ∈ packet.leaf.left) : i ∈ packet.leftReindex.cartesian := by
-  change i ∈ pairedAllocatedColumns _ _ _ _ _ id id HeightOneSpectrum.asIdeal at hi
-  rw [paired_allocated_columns_eq_filter] at hi
-  exact (Finset.mem_filter.mp hi).1
+  exact allocated_mem_cartesian packet.allocation.1.val packet.allocation.2.2.1.val
+    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots i hi
 
 theorem rightAllocated_cartesian (i : AllocationColumn K packet.leaf.rightSlots)
     (hi : i ∈ packet.leaf.right) : i ∈ packet.rightReindex.cartesian := by
-  change i ∈ pairedAllocatedColumns _ _ _ _ _ id id HeightOneSpectrum.asIdeal at hi
-  rw [paired_allocated_columns_eq_filter] at hi
-  exact (Finset.mem_filter.mp hi).1
+  exact allocated_mem_cartesian packet.allocation.1.val packet.allocation.2.2.2.val
+    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots i hi
 
 variable (hpacket : packet.Realizes) (phases : OriginalPhaseData packet)
 variable (hleft : ∀ r i, i ∈ packet.leftReindex.cartesian →
@@ -123,9 +132,13 @@ def atomBinding :
       exact packet.beforeAtomTable_comparisonWeight hpacket
         (packet.atomOrdinaryData hpacket phases hleft hright) phases _ r I
   rightWeight side r h I := by
-    cases side <;>
-      exact packet.beforeAtomTable_rightWeight hpacket
-        (packet.atomOrdinaryData hpacket phases hleft hright) phases _ r I
+    cases side with
+    | false =>
+        exact packet.beforeAtomTable_rightWeight hpacket
+          (packet.atomOrdinaryData hpacket phases hleft hright) phases false r I
+    | true =>
+        exact packet.beforeAtomTable_rightWeight hpacket
+          (packet.atomOrdinaryData hpacket phases hleft hright) phases true r I
   slotWeight side r h i q := by cases side <;> rfl
   leftLocation side r h I := by cases side <;> rfl
   rightLocation side r h I := by cases side <;> rfl
