@@ -44,7 +44,7 @@ jobs:
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
       - name: Diagnose OrdinaryData imports and command boundaries
-        run: python3 -u .github/v2/n7_dependency_diagnostics.py --module OrdinaryData --ordinary-heartbeats 10000 --output v2-diagnostics
+        run: python3 -u .github/v2/n7_dependency_diagnostics.py --module OrdinaryData --ordinary-heartbeats 10000 --ordinary-heartbeat-target ordinaryBranchKey --output v2-diagnostics
       - name: Upload diagnostic evidence
         if: always()
         uses: actions/upload-artifact@v4
