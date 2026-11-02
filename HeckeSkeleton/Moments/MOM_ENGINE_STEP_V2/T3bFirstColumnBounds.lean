@@ -84,7 +84,7 @@ theorem t3b_plainScale_le (rectangle plain : Bool) :
         linarith [call.domain.width_nonneg]
 
 private theorem left_norm_le_of_support (input : ProfileInput call)
-    (u I : NonzeroIdeal K) (N : ℝ) (hN : 0 < N)
+    (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N : ℝ) (hN : 0 < N)
     (hI : I ∈ call.localizedData.plainTest₁.support u 0 N) :
     idealNorm K I ≤ T3b.profileAnnulus c call.frame * N := by
   have hp := (call.localizedData.plainTest₁.support_spec u 0 N I).mp hI
@@ -95,7 +95,7 @@ private theorem left_norm_le_of_support (input : ProfileInput call)
     (T3b.profileWindow_upper c call.frame (call.t3b_window_subset input hw))
 
 private theorem right_norm_le_of_support (input : ProfileInput call)
-    (u I : NonzeroIdeal K) (N : ℝ) (hN : 0 < N)
+    (u I : HeckeGeneral.Analysis.NonzeroIdeal K) (N : ℝ) (hN : 0 < N)
     (hI : I ∈ call.localizedData.plainTest₂.support u 0 N) :
     idealNorm K I ≤ T3b.profileAnnulus c call.frame * N := by
   have hp := (call.localizedData.plainTest₂.support_spec u 0 N I).mp hI
@@ -106,7 +106,7 @@ private theorem right_norm_le_of_support (input : ProfileInput call)
     (T3b.profileWindow_upper c call.frame (call.t3b_window_subset input hw))
 
 theorem t3b_leftCarrier_norm_le (input : ProfileInput call)
-    (I : NonzeroIdeal K) (hI : I ∈ call.workingRaw.leftColumns) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ call.workingRaw.leftColumns) :
     idealNorm K I ≤ T3b.profileAnnulus c call.frame *
       call.base ^ (call.node.parameters.n₁ + call.node.parameters.n₂) := by
   obtain ⟨u, _, hu⟩ := Finset.mem_biUnion.mp hI
@@ -121,7 +121,7 @@ theorem t3b_leftCarrier_norm_le (input : ProfileInput call)
         (T3b.profileAnnulus_pos c call.frame).le)
 
 theorem t3b_rightCarrier_norm_le (input : ProfileInput call)
-    (I : NonzeroIdeal K) (hI : I ∈ call.workingRaw.rightColumns) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ call.workingRaw.rightColumns) :
     idealNorm K I ≤ T3b.profileAnnulus c call.frame *
       call.base ^ (call.node.parameters.n₁ + call.node.parameters.n₂) := by
   obtain ⟨u, _, hu⟩ := Finset.mem_biUnion.mp hI

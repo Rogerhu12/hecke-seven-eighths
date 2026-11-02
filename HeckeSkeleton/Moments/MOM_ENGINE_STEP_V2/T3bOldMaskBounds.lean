@@ -95,7 +95,7 @@ theorem originalPoolMoving_support {σ : K →+* ℂ}
   rw [commonRadical, hs, Finset.inter_self, Finset.prod_singleton]
 
 theorem append_effectiveSupport_norm_le (D E : OriginalMovingFactors A P R)
-    (remaining : NonzeroIdeal K) :
+    (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
     A.exteriorNorm ((D.append E).effectiveFullSupport remaining) ≤
       A.exteriorNorm (D.effectiveFullSupport remaining) * A.exteriorNorm E.support :=
   D.append_fullMaskSupport_norm_le E (remainingMaskIdeal A remaining)
