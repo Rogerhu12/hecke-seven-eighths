@@ -49,7 +49,10 @@ This 473-line minimal closure proves the actual first frozen ideal includes the 
 
 ## B-line CI repair
 
-`OriginalPhaseData.lean` and `.github/v2/build.py` are synchronized verbatim with B-line `ad4f0a10927063901caae60440f8c3847f232231` (local principal-ideal instance and the shared process watchdog).
+`OriginalPhaseData.lean` is synchronized verbatim with B-line
+`ad4f0a10927063901caae60440f8c3847f232231` (local principal-ideal instance).
+The shared process watchdog introduced at that commit remains in the newer
+public driver recorded below.
 
 `RawContracts.lean` and `OrdinaryData.lean` are synchronized verbatim with B-line
 `9f44dd0c6f3acd958e851aa1a124f556ad24f6f8`: local structure-generation options only,
@@ -57,11 +60,16 @@ with all mathematical fields and task statements preserved.
 
 ## N8 original frozen-profile and common-scalar bounds
 
-Reused verbatim from PR #42 candidate `773795d60dabbb136311e8187e21d130714e3aeb`,
-following PR #31 comments `6578016005`, `6578119255` and `6578269366`:
+Originally split in PR #42 candidate `773795d60dabbb136311e8187e21d130714e3aeb`,
+following PR #31 comments `6578016005`, `6578119255` and `6578269366`.
+Both files now match `8cda5bb1ad0785d9ee862e0ef868f802f252d8e8` verbatim:
 
 - `N8FrozenProfileBounds.lean` (100 lines)
-- `N8CommonScalarBounds.lean` (247 lines)
+- `N8CommonScalarBounds.lean` (248 lines)
+
+The update changes only the nonnegative finite-product API to `prod_le_prod₀`
+and supplies the existing arithmetic data/embedding parameters explicitly in
+the envelope bound. Statements and original scalar formulas are unchanged.
 
 These two modules preserve the upstream public names and original prime
 profiles, complete common frozen ideals and pointwise scalar estimates.
@@ -78,6 +86,7 @@ The public V2 driver `.github/v2/build.py` is copied verbatim from B commit
 `2d38e5d510eeb3412cef6200c19d79da0045d576`. The separate T3 proof job retains
 its audit of every loaded V2-origin declaration and requires both task endpoints.
 The CI-only diagnostic script `.github/v2/n7_dependency_diagnostics.py` is copied
-verbatim from N7 commit `12638baac6c52431d32e657d4f77fdc5c3903d87`.
+verbatim from N7 commit `e77d89c9eaed9c2dc8ee4ca3a82cf4394c10cb56` (the original 12638 script plus
+its explicit `IO Unit` marker-type correction).
 This branch probes RawContracts; N7 probes OrdinaryData. Temporary instrumented
 source output is diagnostic only and cannot replace the canonical build or axiom audit.

@@ -165,7 +165,7 @@ theorem t3b_columnCarrier_norm_le (input : ProfileInput call)
       C ^ call.localizedData.geometry.slotCount * (∏ i, call.base ^ call.originalLength i) := by
     calc
       _ ≤ ∏ i, C * call.base ^ call.originalLength i :=
-        Finset.prod_le_prod (fun i _ => Nat.cast_nonneg _)
+        Finset.prod_le_prod₀ (fun i _ => Nat.cast_nonneg _)
           (fun i _ => call.t3b_slotCarrier_norm_le input i (v.2 i)
             (Fintype.mem_piFinset.mp htuple.2 i))
       _ = _ := by simp only [Finset.prod_mul_distrib, Finset.prod_const,

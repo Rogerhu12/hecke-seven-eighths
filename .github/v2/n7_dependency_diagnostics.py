@@ -76,8 +76,8 @@ def digest(path: Path) -> str:
 
 def marker(module: str, stage: str, label: str) -> str:
     message = f"V2_DIAG MOM_ENGINE_STEP_V2 {module} {stage} {label}"
-    return ("\n#eval do\n  let stderr ← IO.getStderr\n"
-            f"  stderr.putStrLn {json.dumps(message)}\n  stderr.flush\n\n")
+    return ("\n#eval (show IO Unit from do\n  let stderr ← IO.getStderr\n"
+            f"  stderr.putStrLn {json.dumps(message)}\n  stderr.flush)\n\n")
 
 
 def boundary(source: str, needle: str) -> int:

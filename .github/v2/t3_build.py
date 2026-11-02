@@ -58,10 +58,11 @@ def audit_source(modules: list[str], required: list[str]) -> str:
         "run_cmd do",
         "  let env ← getEnv",
         "  let modulePrefix : Name := `" + gate.PREFIX,
+        "  let moduleNames := env.header.moduleNames",
         "  let names := (env.constants.toList.filterMap fun (name, _) =>",
         "    match env.getModuleIdxFor? name with",
         "    | some idx =>",
-        "      if modulePrefix.isPrefixOf env.header.moduleNames[idx.toNat]! then some name else none",
+        "      if modulePrefix.isPrefixOf (moduleNames[idx.toNat]!) then some name else none",
         "    | none => none).toArray.qsort Name.lt",
         "  unless !names.isEmpty do",
         '    throwError "No declarations originating in V2 modules found"',
@@ -93,7 +94,10 @@ def main() -> int:
     names = sorted({name for g in groups for name in g["modules"]})
     if len(names) != sum(len(g["modules"]) for g in groups):
         raise SystemExit("Duplicate T3 module")
-    required_tasks = TASK_DECLARATIONS if set(TASK_DECLARATIONS).issubset(names) else {}
+    missing_tasks = set(TASK_DECLARATIONS) - set(names)
+    if missing_tasks:
+        raise SystemExit("Missing required T3 task modules: " + ", ".join(sorted(missing_tasks)))
+    required_tasks = TASK_DECLARATIONS
     snapshots = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                  for p in sorted(gate.TASK.glob("*.lean"))}
     config_snapshots = {path: hashlib.sha256((ROOT / path).read_bytes()).hexdigest()
