@@ -1,0 +1,60 @@
+name: MOM Engine Step V2 N8 and N9 proofs
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-v2-n8-n9-proofs-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  n8n9-proofs:
+    if: >-
+      github.event.pull_request.number == 42 ||
+      github.head_ref == 'cloud/mom-v2-n8-n9' ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-v2-n8-n9')
+    name: N8 and N9 ${{ matrix.stage }} proofs (N8b partial)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        stage: [analysis, complete]
+    env:
+      LEAN_NUM_THREADS: '2'
+      N8N9_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and configure memory mappings
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build task proofs and recursively audit their loaded V2 environment
+        run: python3 -u .github/v2/n8n9_proofs.py --stage ${{ matrix.stage }}
+      - name: Upload N8 and N9 proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-v2-n8-n9-${{ matrix.stage }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: v2-n8n9-${{ matrix.stage }}-build/
+          retention-days: 14

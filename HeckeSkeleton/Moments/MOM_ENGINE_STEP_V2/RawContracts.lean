@@ -124,6 +124,9 @@ abbrev LiveKey := {key : covers.Key //
 
 end RawCovers
 
+set_option diagnostics true in
+set_option genInjectivity false in
+set_option genSizeOf false in
 /-- No leaf is chosen independently. Packets are computed from the
 exact live key, its original first branches and its S5 geometry. -/
 structure RawFamily {second : SecondFamily expansion} (geometry : GeometryFamily second) where

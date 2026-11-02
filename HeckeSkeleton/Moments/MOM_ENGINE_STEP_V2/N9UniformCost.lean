@@ -66,9 +66,9 @@ theorem kernelPower_bound (cost : UniformCost) (coefficient : ℝ)
     ring
   have hbase : 1 + B ≤ (1 + cost.coefficient) * P := by
     calc
-      1 + B ≤ 1 + cost.value amplitude height := add_le_add_left B_le 1
+      1 + B ≤ 1 + cost.value amplitude height := add_le_add le_rfl B_le
       _ = 1 + cost.coefficient * P := by rw [value_eq]
-      _ ≤ P + cost.coefficient * P := add_le_add_right P_one _
+      _ ≤ P + cost.coefficient * P := add_le_add P_one le_rfl
       _ = _ := by ring
   calc
     _ ≤ coefficient * ((1 + cost.coefficient) * P) ^ degree :=

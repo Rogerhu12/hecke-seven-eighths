@@ -1,5 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedScaleBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFirstLedger
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ReserveBudget
 
 set_option linter.unusedSectionVars false
@@ -83,7 +82,7 @@ theorem arithmetic_loss_budget (p : SourceParameters c) (a : ℝ)
     (ha : a ≤ 128 * ((c.geometry.slots : ℝ) + 1)) :
     call.node.parameters.κ * (momentMesh K c.family).val + a * p.loss ≤
       recipeInductionEdgeLoss c / 2 - 2 * p.loss :=
-  (add_le_add_left (mul_le_mul_of_nonneg_right ha p.loss_pos.le) _).trans
+  (add_le_add le_rfl (mul_le_mul_of_nonneg_right ha p.loss_pos.le)).trans
     (p.mesh_slot_loss_le_arithmeticRemainder _ call.domain.kappa_upper)
 
 theorem arithmetic_loss_rpow (p : SourceParameters c) (a : ℝ)
@@ -92,9 +91,31 @@ theorem arithmetic_loss_rpow (p : SourceParameters c) (a : ℝ)
       call.base ^ (recipeInductionEdgeLoss c / 2 - 2 * p.loss) :=
   Real.rpow_le_rpow_of_exponent_le call.domain.scale.le (call.arithmetic_loss_budget p a ha)
 
+/-- Twenty original capacity losses, nine first-scale tilt losses,
+two passive-label losses, and the literal first-chart tilt all fit the
+unchanged source reserve together with its original mesh. -/
+theorem normalized_arithmetic_exponent (p : SourceParameters c) :
+    31 * p.loss + 2 * N8Source.columnExponent c * p.tilt +
+        call.node.parameters.κ * (momentMesh K c.family).val ≤
+      recipeInductionEdgeLoss c / 2 - 2 * p.loss := by
+  have hs : 0 ≤ (c.geometry.slots : ℝ) := Nat.cast_nonneg _
+  have hσ := N8ScalarWindow.sigma_le_one c
+  have hσslots := mul_le_mul_of_nonneg_right hσ
+    (show 0 ≤ (c.geometry.slots : ℝ) + 2 by linarith)
+  have hcost : 31 + 2 * N8Source.columnExponent c ≤
+      128 * ((c.geometry.slots : ℝ) + 1) := by
+    dsimp only [N8Source.columnExponent, N8Source.originalLengthBound]
+    push_cast
+    nlinarith
+  have htilt := mul_le_mul_of_nonneg_left p.tilt_le_loss
+    (mul_nonneg (by norm_num : (0 : ℝ) ≤ 2) (N8Source.columnExponent_pos c).le)
+  have hpaid := call.arithmetic_loss_budget p (31 + 2 * N8Source.columnExponent c) hcost
+  nlinarith
+
 end Call
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.ProfileInput.frozenAtomBudget_pow_le
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.RawLeafPacket.annulus_factor_le
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.Call.arithmetic_loss_budget
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.Call.normalized_arithmetic_exponent

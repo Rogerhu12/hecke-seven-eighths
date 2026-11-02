@@ -140,16 +140,19 @@
       "name": "n8b_proved",
       "proved": true,
       "modules": [
+        "N8NormalizedArithmeticReduction",
         "N8NormalizedBudget",
         "N8NormalizedCanonical",
         "N8NormalizedCapacityMass",
         "N8NormalizedCommonBounds",
         "N8NormalizedCostBounds",
         "N8NormalizedFibres",
+        "N8NormalizedFirstLedger",
         "N8NormalizedFixedEnvelope",
         "N8NormalizedFrozenAtoms",
         "N8NormalizedInnerAtoms",
         "N8NormalizedLabels",
+        "N8NormalizedLeafWeights",
         "N8NormalizedOriginalScalars",
         "N8NormalizedPassiveMass",
         "N8NormalizedPassiveWindows",
@@ -196,6 +199,10 @@
         "CalibrationPhases",
         "CalibrationProfiles",
         "CalibrationRows",
+        "FirstPhysicalMaskBounds",
+        "FirstSourceCarrierBounds",
+        "FirstZeroInputBounds",
+        "FirstZeroMaskBounds",
         "FullKappaContracts",
         "N4ComputedLengths",
         "N4FrozenIdeals",
@@ -220,7 +227,12 @@
         "PassiveSource",
         "PassiveSourceReindex",
         "ProfileWindowClipping",
-        "ProfileWindowContracts"
+        "ProfileWindowContracts",
+        "SecondZeroFirstMass",
+        "SecondZeroNormalization",
+        "SecondZeroOrbitMultiplicity",
+        "SecondZeroRowSizeBounds",
+        "SourceEqualityTransport"
       ]
     }
   ]

@@ -100,12 +100,12 @@ theorem weighted_losses_le_reserve (a b d e : ℝ)
         d * p.tilt + e * p.loss ≤ sourceReserve c.family.lamA := by
   calc
     _ ≤ a * p.loss + b * p.loss + d * p.loss + e * p.loss := by
-      exact add_le_add_right
+      exact add_le_add
         (add_le_add
           (add_le_add
             (mul_le_mul_of_nonneg_left p.firstCutoff_small ha)
             (mul_le_mul_of_nonneg_left p.secondCutoff_small hb))
-          (mul_le_mul_of_nonneg_left p.tilt_le_loss hd)) _
+          (mul_le_mul_of_nonneg_left p.tilt_le_loss hd)) le_rfl
     _ = (a + b + d + e) * p.loss := by ring
     _ ≤ sourceReserve c.family.lamA := p.loss_mul_le_reserve _ hbudget
 

@@ -162,7 +162,7 @@ theorem original_pool_prefactor_mass (c : TargetContext K) (p : SourceParameters
   have hcard : (pool.pool.primes.card : ℝ) / (pool.data i).density ≤
       2 * idealCountConstant K * call.base ^ p.loss := hd.2.2.1
   have hmult : (pool.data i).multiplicity ≤ B := by
-    exact div_le_div_of_nonneg_right (add_le_add_right hM (6 * ell))
+    exact div_le_div_of_nonneg_right (add_le_add hM le_rfl)
       (div_nonneg hell.le (by norm_num))
   have hpref : 4 / (pool.data i).density ≤ 8 * call.base ^ (-ell + p.loss) := by
     calc
