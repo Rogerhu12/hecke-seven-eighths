@@ -58,7 +58,7 @@ B 线在 PR #31 发布了任务总表（S1–S6、N1–N9、T1–T4、U1，共 2
 ## 基线并行修复（2026-11-03 01:00 起）
 
 RawContracts 和 OrdinaryData 编不过，挡住了 8 个任务和组装。协调员的诊断（PR #31 上的评论，分支 `diag/v2-kernel`）结论如下：
-- 卡在 Lean 内部的 `getFunInfo → collectDeps`。这一步不检查心跳，也不缓存，所以心跳上限、skipKernelTC、noncomputable、关 linter 都不起作用。
+- 卡在 Lean 内部的 `getFunInfo → collectDeps`。计时已确认具体常量：`SourceClassKey.rightReindex` 的推断类型深度 171，对它调用 getFunInfo 100s 内没有返回；`block`（深度 82）只要 3ms。这一步不检查心跳，也不缓存，所以心跳上限、skipKernelTC、noncomputable、关 linter 都不起作用。
 - 一旦要比较两个写法不同的 `SourceClassKey.AllocationKey …`（或这一族的其他 abbrev），就会卡住。
 - 能编过的写法：柯里化的 `leafAt (i) (v : SourceClassKey …) (allocation : SourceClassKey.AllocationKey v)`（10s）；结构体键 `KeyS`，用字段调 `leafAt`（14s）；用有名字的 def 包起 fibre 的 Σ 键，Fintype 用 `unfold …; infer_instance`。
 - 仍然卡住的写法：Σ 键与柯里化参数互相转换，即投影、match、`Sigma.casesOn`、`Sigma.uncurry`、`obtain` 加 `unfold` 这几种；Ordinary 的 `branch.val : AllocationKey packet.key`，以及它与 `HybridAllocationLabel …` 之间的 `rfl`。
@@ -67,9 +67,9 @@ RawContracts 和 OrdinaryData 编不过，挡住了 8 个任务和组装。协�
 
 | 方案 | 负责会话 | 内容 |
 |---|---|---|
-| A | 新会话 1 | 把 RawLeafData 里 `SourceClassKey` 这一族的段落变量（E、hΓ、μv、hDiff、G、finiteTest 等）打包成一个结构体参数，缩短隐式参数串。然后看原来的 Σ `Key` 加 match 版本的 `leaf`，以及 OrdinaryData 的 `ordinaryBranchKey`，能不能编过。 |
-| B | 新会话 2 | Key 改成结构体 `KeyS`（i、v、allocation），`leaf`、`classKey`、`LiveKey` 都基于它。需要找到一种 Fintype 实例的写法，全程不把 Σ 和结构体互相转换（例如对 fibre 用 `unfold` 加 `infer_instance` 的路子，或者直接构造 Finset）。 |
-| D | 新会话 3 | OrdinaryData：重写 `ordinaryBranchType` / `ordinaryBranchKey`，不再要求 `branch.val` 直接是 `AllocationKey packet.key`。例如把分支类型定义成 `AllocationKey packet.key` 的子类型，或者让 `ordinaryBranchKey` 返回分支本身，另外给出对应关系。下游陈述的意思不变。 |
+| A | 新会话 1 | 直接修根因：给 RawLeafData 里的 `SourceClassKey.leftReindex` / `rightReindex`（以及同类没有类型标注、结果类型很深的 abbrev）配上短类型。例如先定义 `def RightReindexType (v) : Type := …`，再写 `def rightReindex (v) : RightReindexType v := …`。对这些常量做 getFunInfo 计时（探针 `.github/kdiag/f1_funinfo.lean`），应该在毫秒级；然后编整份原 RawContracts 和 OrdinaryData。 |
+| B | 新会话 2 | 把 reindex 用到的字段（plain₁、plain₂、slots、index 等）打包成一个小结构体，或者把 Key 改成结构体 `KeyS`（i、v、allocation，`leaf` 用字段调 `leafAt`，已测 14s）。目标是不论 A 成功与否，RawContracts 都有一条能编过的路。 |
+| D | 新会话 3 | OrdinaryData：先在 A 的思路下确认 `ordinaryBranchKey` 能不能编过；不行就重写 `ordinaryBranchType` / `ordinaryBranchKey`，不再要求 `branch.val` 直接是 `AllocationKey packet.key`（例如分支类型改成 `AllocationKey packet.key` 的子类型，或者返回分支本身再给对应关系）。下游陈述的意思不变。 |
 
 规矩：
 1. 从 `diag/v2-kernel` 切出 `diag/v2-fix-<方案字母小写>`。把 `.github/workflows/v2-kdiag.yml` 的触发分支改成自己的分支，在 `.github/kdiag/` 放自己的探针（可以是 B 当前 head 的整份 RawContracts.lean 或 OrdinaryData.lean 的改写版），矩阵列出探针名。每个探针 100s 上限，超时自动抓调用栈。一次可以并行好几个探针。
