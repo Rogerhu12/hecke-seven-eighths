@@ -189,7 +189,7 @@ def normPower (δ : ℝ) : (d.normPower δ).ProfileData where
     (W.left_frozen r u t y)
   right_frozen r u t y := congrArg (fun z => z * ((d.scale₂ r * y) ^ δ : ℝ))
     (W.right_frozen r u t y)
-  slot_frozen j t y := congrArg (fun z => z * ((d.base ^ d.length j * y) ^ δ : ℝ))
+  slot_frozen j t y := congrArg (fun z : ℂ => z * ((d.base ^ d.length j * y) ^ δ : ℝ))
     (W.slot_frozen j t y)
   left_eval r u t I := by
     change (W.left r).profile u t (idealNorm K I / d.scale₁ r) *
