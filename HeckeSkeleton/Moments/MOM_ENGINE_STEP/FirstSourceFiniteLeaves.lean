@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GatedGaussStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original parent reaches its actual finite live two-transform leaves
 
@@ -27,6 +29,8 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments
+
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}

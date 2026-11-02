@@ -1,0 +1,746 @@
+# Complete real Live source plus exact full FirstSource dependency; fixed 5658 owner and three-path guards; original normal verifier and fresh audit.
+name: A2 LiveSourceConditions complete real normal verification and fresh audit
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-live-source-normal]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-live-source-normal-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  live_source:
+    name: LiveSourceConditions normal native and fresh audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-live-source-normal
+          git show --no-patch --format=fuller HEAD > a2-live-source-normal/checkout.txt
+          cat > a2-live-source-normal/contract.json <<'CONTRACT'
+          {
+            "fixture_only": false,
+            "publishable": true,
+            "source_status": "Complete real LiveSourceConditions with eight equivalent nondependent tag projection definitions, all original sixteen proofs retained; full real FirstSource dependency differs only by the two existing shared local-option lines. Normal and fresh validation pending.",
+            "rebind_policy": "Immutable complete 5658 owner; only LiveSourceConditions, FirstSourceFiniteLeaves, and this workflow may differ.",
+            "base": "565885588c313a5e8001a1a8bc24d1ec431b7cbc",
+            "base_tree": "8f80da228523ba670cdb006c670df9ba3407cd65",
+            "task_directory": "HeckeSkeleton/Moments/MOM_ENGINE_STEP",
+            "target": "LiveSourceConditions",
+            "target_path": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/LiveSourceConditions.lean",
+            "dependency_path": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstSourceFiniteLeaves.lean",
+            "workflow_path": ".github/workflows/mom-engine-step-a2-live-source-normal.yml",
+            "original": {
+              "bytes": 20257,
+              "sha256": "1d731676176a0eb92cb04f376db383b2ec4f591bdcfefcc1f1523f41f451c3a8",
+              "git_blob": "89dc724be03da1af57911dd9f28e341c931625b4"
+            },
+            "candidate": {
+              "bytes": 20320,
+              "sha256": "584b7ecef3e3d928ed159136e7743a24b0da78b48491771e5079c38eca30d9c9",
+              "git_blob": "3c3ca485ff5007cf4e3f04d17c25870915a4c8d6"
+            },
+            "source_edits": [
+              {
+                "kind": "preserve_existing_shared_file_option",
+                "original_start": 67,
+                "original_end": 67,
+                "candidate_start": 67,
+                "candidate_end": 110,
+                "old": "",
+                "new": "set_option linter.unusedSectionVars false\n\n",
+                "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "new_sha256": "471f6ea44adcd065898d7bc7098b236b47c23584f8d4279378bb8c1d8640df6e"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 4783,
+                "original_end": 5014,
+                "candidate_start": 4826,
+                "candidate_end": 5061,
+                "old": "def commonLabel : s.CoveredLeafKey B → Ideal (𝓞 K) × Ideal (𝓞 K)\n  | .inl j => j.1.1.val\n  | .inr (.inl ⟨_, j⟩) => j.1.1.val\n  | .inr (.inr (.inl ⟨_, j⟩)) => j.1.1.val\n  | .inr (.inr (.inr ⟨_, j⟩)) => j.1.1.val",
+                "new": "def commonLabel : s.CoveredLeafKey B → Ideal (𝓞 K) × Ideal (𝓞 K) :=\n  Sum.elim\n    (fun j => j.1.1.val)\n    (Sum.elim\n      (fun q => q.2.1.1.val)\n      (Sum.elim\n        (fun q => q.2.1.1.val)\n        (fun q => q.2.1.1.val)))",
+                "old_sha256": "00cbb34a948c4e426294c1f250072f9ec0d6b54a7380aeb374d368b3eeacce34",
+                "new_sha256": "19bbf14974b1071fcc03a5b7d1d9264d583fe617dec7050e327858d5df648fc8",
+                "signature": "def commonLabel : s.CoveredLeafKey B → Ideal (𝓞 K) × Ideal (𝓞 K)",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.commonLabel"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 5016,
+                "original_end": 5230,
+                "candidate_start": 5063,
+                "candidate_end": 5281,
+                "old": "def innerDivisor : s.CoveredLeafKey B → Ideal (𝓞 K)\n  | .inl j => j.2.1.val\n  | .inr (.inl ⟨_, j⟩) => j.2.1.val\n  | .inr (.inr (.inl ⟨_, j⟩)) => j.2.1.val\n  | .inr (.inr (.inr ⟨_, j⟩)) => j.2.1.val",
+                "new": "def innerDivisor : s.CoveredLeafKey B → Ideal (𝓞 K) :=\n  Sum.elim\n    (fun j => j.2.1.val)\n    (Sum.elim\n      (fun q => q.2.2.1.val)\n      (Sum.elim\n        (fun q => q.2.2.1.val)\n        (fun q => q.2.2.1.val)))",
+                "old_sha256": "013dfb09628f50cee102af253346ff060a220245d3b9554ac6c1c2e0f792579d",
+                "new_sha256": "48a61d97d30f1c3a938a4588e50ed688b77d73152ce32e09d67e854e8e721eac",
+                "signature": "def innerDivisor : s.CoveredLeafKey B → Ideal (𝓞 K)",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.innerDivisor"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 5232,
+                "original_end": 5467,
+                "candidate_start": 5283,
+                "candidate_end": 5522,
+                "old": "def physicalRows : s.CoveredLeafKey B → Finset A.R\n  | .inl _ => d.mainRows\n  | .inr (.inl ⟨p, _⟩) => d.errorRows p.val\n  | .inr (.inr (.inl ⟨p, _⟩)) => d.errorRows p.val\n  | .inr (.inr (.inr ⟨p, _⟩)) => d.errorRows p.val",
+                "new": "def physicalRows : s.CoveredLeafKey B → Finset A.R :=\n  Sum.elim\n    (fun _ => d.mainRows)\n    (Sum.elim\n      (fun q => d.errorRows q.1.val)\n      (Sum.elim\n        (fun q => d.errorRows q.1.val)\n        (fun q => d.errorRows q.1.val)))",
+                "old_sha256": "f49375a8f718dfaf85429ccebc1ee0e38d43b54142ec74195b7a784cf9ea7d1c",
+                "new_sha256": "e618988f1a56a44ef8a81ee3e335184824b9b003aae45faf89bd72ad2d984b67",
+                "signature": "def physicalRows : s.CoveredLeafKey B → Finset A.R",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.physicalRows"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 5469,
+                "original_end": 5832,
+                "candidate_start": 5524,
+                "candidate_end": 5891,
+                "old": "def sourceCommonLabels : s.CoveredLeafKey B → Finset (Ideal (𝓞 K) × Ideal (𝓞 K))\n  | .inl _ => (d.mainSource c).activeCommon\n  | .inr (.inl ⟨p, _⟩) => (d.residualSource p.val 1 c).activeCommon\n  | .inr (.inr (.inl ⟨p, _⟩)) => (d.residualSource p.val 6 c).activeCommon\n  | .inr (.inr (.inr ⟨p, _⟩)) => (d.residualSource p.val 7 c).activeCommon",
+                "new": "def sourceCommonLabels : s.CoveredLeafKey B → Finset (Ideal (𝓞 K) × Ideal (𝓞 K)) :=\n  Sum.elim\n    (fun _ => (d.mainSource c).activeCommon)\n    (Sum.elim\n      (fun q => (d.residualSource q.1.val 1 c).activeCommon)\n      (Sum.elim\n        (fun q => (d.residualSource q.1.val 6 c).activeCommon)\n        (fun q => (d.residualSource q.1.val 7 c).activeCommon)))",
+                "old_sha256": "cc7779cbaee1349a50ec478cd63935cbc7ef824d4f603b19ab45b8b43d134a52",
+                "new_sha256": "889b8acadb626cdaa90098073892241096c5a0b5385bbfbacd195d246af5ac57",
+                "signature": "def sourceCommonLabels : s.CoveredLeafKey B → Finset (Ideal (𝓞 K) × Ideal (𝓞 K))",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.sourceCommonLabels"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 5834,
+                "original_end": 6054,
+                "candidate_start": 5893,
+                "candidate_end": 6117,
+                "old": "def errorPrime : s.CoveredLeafKey B → Option (ExteriorPrime A)\n  | .inl _ => none\n  | .inr (.inl ⟨p, _⟩) => some p.val\n  | .inr (.inr (.inl ⟨p, _⟩)) => some p.val\n  | .inr (.inr (.inr ⟨p, _⟩)) => some p.val",
+                "new": "def errorPrime : s.CoveredLeafKey B → Option (ExteriorPrime A) :=\n  Sum.elim\n    (fun _ => none)\n    (Sum.elim\n      (fun q => some q.1.val)\n      (Sum.elim\n        (fun q => some q.1.val)\n        (fun q => some q.1.val)))",
+                "old_sha256": "2e7d2aa6ad1c3a5cf5a2d327d4eaa794007bf4e560e94602fecc75aa7571ce01",
+                "new_sha256": "62248e4b118759f9dc9ab2399b6ed2d7960e3270aeec7e1437b032f698f0d994",
+                "signature": "def errorPrime : s.CoveredLeafKey B → Option (ExteriorPrime A)",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.errorPrime"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 12103,
+                "original_end": 12368,
+                "candidate_start": 12166,
+                "candidate_end": 12431,
+                "old": "def commonLabel (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) × Ideal (𝓞 K) :=\n  match j.2.2 with\n  | .inl a => (s.left j.1 j.2.1).commonLabel (p.leftSourceCovers LA j.1 j.2.1) a\n  | .inr a => (s.right j.1 j.2.1).commonLabel (p.rightSourceCovers RA j.1 j.2.1) a",
+                "new": "def commonLabel (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) × Ideal (𝓞 K) :=\n  Sum.elim\n    (fun a => (s.left j.1 j.2.1).commonLabel (p.leftSourceCovers LA j.1 j.2.1) a)\n    (fun a => (s.right j.1 j.2.1).commonLabel (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2",
+                "old_sha256": "9818a15a0bd01f6085dfbceafbc48bfc36c9b5623013eaae25c36f3e4f693081",
+                "new_sha256": "ed52289ce97d94e6900fe5a856ffa5eec51b97cb0979b489069e376c1338bcf9",
+                "signature": "def commonLabel (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) × Ideal (𝓞 K)",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.commonLabel"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 12370,
+                "original_end": 12620,
+                "candidate_start": 12433,
+                "candidate_end": 12683,
+                "old": "def innerDivisor (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) :=\n  match j.2.2 with\n  | .inl a => (s.left j.1 j.2.1).innerDivisor (p.leftSourceCovers LA j.1 j.2.1) a\n  | .inr a => (s.right j.1 j.2.1).innerDivisor (p.rightSourceCovers RA j.1 j.2.1) a",
+                "new": "def innerDivisor (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) :=\n  Sum.elim\n    (fun a => (s.left j.1 j.2.1).innerDivisor (p.leftSourceCovers LA j.1 j.2.1) a)\n    (fun a => (s.right j.1 j.2.1).innerDivisor (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2",
+                "old_sha256": "5081c4193dfe713e8b00c1f9906de4bc8132069f0795f8aba6debc52a575db12",
+                "new_sha256": "d2b2b33b3d33c3cff67abd0b499268bf9714cc6837aede53527725b77ce906ab",
+                "signature": "def innerDivisor (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K)",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.innerDivisor"
+              },
+              {
+                "kind": "replace_definition_body",
+                "original_start": 12622,
+                "original_end": 12876,
+                "candidate_start": 12685,
+                "candidate_end": 12939,
+                "old": "def errorPrime (j : s.CoveredLeafKey LA RA) : Option (ExteriorPrime A) :=\n  match j.2.2 with\n  | .inl a => (s.left j.1 j.2.1).errorPrime (p.leftSourceCovers LA j.1 j.2.1) a\n  | .inr a => (s.right j.1 j.2.1).errorPrime (p.rightSourceCovers RA j.1 j.2.1) a",
+                "new": "def errorPrime (j : s.CoveredLeafKey LA RA) : Option (ExteriorPrime A) :=\n  Sum.elim\n    (fun a => (s.left j.1 j.2.1).errorPrime (p.leftSourceCovers LA j.1 j.2.1) a)\n    (fun a => (s.right j.1 j.2.1).errorPrime (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2",
+                "old_sha256": "ed5346bd72165cf1bea06a74524a2b5ada6ff5cfab943ce4455899659186bc29",
+                "new_sha256": "dacc7b96d469f0afb1fe0eec043bd148a265749ed9878645cc2fed4df725e10a",
+                "signature": "def errorPrime (j : s.CoveredLeafKey LA RA) : Option (ExteriorPrime A)",
+                "full_name": "HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.errorPrime"
+              }
+            ],
+            "original_imports": [
+              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportedGaussStages"
+            ],
+            "original_prints": [
+              "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.supported_gated_fiberLeaf_live",
+              "HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.live_common_old_mask",
+              "HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.live_errorPrime_avoids_old_mask"
+            ],
+            "candidate_options": [
+              "set_option linter.unusedSectionVars false"
+            ],
+            "config_sha256": {
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148"
+            },
+            "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
+            "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+            "expected_STEP_closure": [
+              "ActualCapacityProduction",
+              "ActualChildInvariants",
+              "ActualChildRows",
+              "ActualChildren",
+              "ActualCommonLabelConditions",
+              "ActualCorrelationBound",
+              "ActualFamilyIntegrability",
+              "ActualFirstCharacters",
+              "ActualFirstSource",
+              "ActualFirstTerminalBudget",
+              "ActualFirstZero",
+              "ActualFrequencyPartition",
+              "ActualGaussCoverHybridTerminal",
+              "ActualGaussFiniteLeaves",
+              "ActualGaussRawTerminal",
+              "ActualLengths",
+              "ActualPool",
+              "ActualScaleClipping",
+              "AllocatedCapacityProvider",
+              "AllocatedChildFamily",
+              "AllocatedChildProvider",
+              "AllocatedSubsupport",
+              "AllocationKernel",
+              "AllocationMass",
+              "AmplifierDifference",
+              "AmplifierGaussExtraction",
+              "AmplifierPoolReindex",
+              "AmplifierResidualSupport",
+              "AmplifierSupportDictionary",
+              "AmplifierValuationSupport",
+              "ArithmeticPrimePool",
+              "CanonicalFirstBlocks",
+              "Capacity",
+              "CenteredAllocatedChildren",
+              "ChildAssembly",
+              "ChildMomentDataAdapter",
+              "ChildTermDictionary",
+              "Coefficient",
+              "CombinedSupportPoolAtlas",
+              "CommonHarmonicMass",
+              "CommonRadical",
+              "CommonSupportPartition",
+              "CoprimeCoefficient",
+              "CorrelationKernel",
+              "CoverHybridPhaseIntegral",
+              "DerivedCapacity",
+              "EffectiveChildSupport",
+              "FinitePhase",
+              "FiniteProductGauss",
+              "FirstActiveDictionary",
+              "FirstBlockFiniteLeaves",
+              "FirstCharacterSource",
+              "FirstCommonGauss",
+              "FirstCommonMass",
+              "FirstCommonNormalization",
+              "FirstCommonSupportSource",
+              "FirstDivisorPhysicalSource",
+              "FirstDivisorPool",
+              "FirstFiniteSource",
+              "FirstGaussPool",
+              "FirstGaussPoolKernel",
+              "FirstKernel",
+              "FirstLinearizedSource",
+              "FirstPooledResidual",
+              "FirstPooledStage",
+              "FirstResidualSource",
+              "FirstSecondCoveredSource",
+              "FirstSecondRawSource",
+              "FirstSecondSource",
+              "FirstSourceFiniteLeaves",
+              "FirstStage",
+              "FirstWeightedReduction",
+              "FirstZeroAmplitude",
+              "FirstZeroDiagonal",
+              "FirstZeroSupport",
+              "FixedChildFamily",
+              "GatedGaussStages",
+              "GaussEnergySource",
+              "GaussPairTransform",
+              "GaussPhaseTerminal",
+              "GaussPoolDictionary",
+              "GaussSource",
+              "GaussStageKernelIntegral",
+              "GaussStagePhaseTransport",
+              "GeneratedCorrelation",
+              "GeneratedZeroGauss",
+              "HybridFiniteLeaf",
+              "HybridLeafSupport",
+              "IdealPool",
+              "JointKernel",
+              "JointKernelBounds",
+              "JointKernelExceptionalSplit",
+              "Ledger",
+              "LiveSourceConditions",
+              "LocalAmplifier",
+              "LocalCRT",
+              "LocalCorrelation",
+              "MomentDataAdapter",
+              "NestedFourierMeasure",
+              "NestedHilbertPhase",
+              "NestedHybridKernel",
+              "NestedHybridResidual",
+              "NestedSecondClassProduction",
+              "NestedSecondResidual",
+              "NonzeroQuotientSupport",
+              "NormalizedActualCapacityChild",
+              "OrbitalCorrelation",
+              "ParentMoment",
+              "ParentSource",
+              "ParentTruncation",
+              "PhaseDictionary",
+              "Pool",
+              "PoolCoverHybridStage",
+              "PoolFiniteLeaves",
+              "PoolFourierStage",
+              "PoolGaussDecomposition",
+              "PoolRawFourierStage",
+              "PoolSecondStage",
+              "PoolStageTerminalBudget",
+              "PowerfulDiagonal",
+              "PowerfulProducts",
+              "PreCauchySource",
+              "PrimePool",
+              "PrimePowerGcd",
+              "PrimePowerQuotientSupport",
+              "PrimeSupportMass",
+              "ProfileNormalizationInput",
+              "RankinLabels",
+              "RawSourcePhaseIntegral",
+              "ReductionOutput",
+              "ResidualTupleCount",
+              "ResidualZeroBudget",
+              "SIntegerFirstFourier",
+              "SecondAllocatedSource",
+              "SecondAllocationKernel",
+              "SecondBranchProduction",
+              "SecondCenteredBinding",
+              "SecondChartAllocation",
+              "SecondClassProduction",
+              "SecondCoefficientBinding",
+              "SecondCoefficientNormalization",
+              "SecondCommonSource",
+              "SecondCorrelationSource",
+              "SecondGeneratorSource",
+              "SecondHybridAllocation",
+              "SecondHybridChart",
+              "SecondHybridCoverSource",
+              "SecondHybridSource",
+              "SecondResidualSource",
+              "SecondStage",
+              "SecondTailBudget",
+              "SecondZeroAmplitude",
+              "SecondZeroDiagonal",
+              "SecondZeroSupport",
+              "SlotRestriction",
+              "SourceCartesianAtlas",
+              "SourceCartesianCover",
+              "SourceFactorExtraction",
+              "StageTerminalBudget",
+              "SupportCartesianReindex",
+              "SupportKernelPartition",
+              "SupportedGaussStages",
+              "TailBudget",
+              "TailFiberCount",
+              "TerminalPowerBudget",
+              "UniformLengthCapacity",
+              "ValuationAllocation",
+              "WeightedNestedFourierMeasure",
+              "WholeAllocation",
+              "ZeroTerminalBudget"
+            ],
+            "expected_tracked_files": 9585,
+            "required_dependencies": {
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": {
+                "bytes": 78818,
+                "sha256": "db81dff1d17c12c72746738c9296a1d4bc87ec27d33958124ce36c79455bb5df",
+                "git_blob": "5117f6ad32f4e355976e38b341a2ae8eb032c6ab"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstSourceFiniteLeaves.lean": {
+                "bytes": 14335,
+                "sha256": "e190f0c8d766bd32ffa6225896ec536bb047545d089cbd136dd561f4f2f24ac6",
+                "git_blob": "59df2b56ab5636f6420666104157f68ccb6ba971"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstBlockFiniteLeaves.lean": {
+                "bytes": 14821,
+                "sha256": "2834839a90001f1e7311859a733e6bdfe73071a72ea29276cc111479ed23179e",
+                "git_blob": "e46f43f81cfff1d16b589fd6c5a4348c6896b4b6"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": {
+                "bytes": 13467,
+                "sha256": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+                "git_blob": "ec4568bab1589edf73a099bdc99e66f6b9f25595"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/SupportedGaussStages.lean": {
+                "bytes": 14888,
+                "sha256": "4592be4830bbe8e922c5e245b4e605bc5af24fa72a69a043a12e1c35bc189f7e",
+                "git_blob": "f892972983e6c73aac82633d63d467ee61280579"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/GatedGaussStages.lean": {
+                "bytes": 13348,
+                "sha256": "9bfd8faeb0505dd7f47b1d824ba2562ab6cd8d168ceecc077429071c6d7cedef",
+                "git_blob": "2532c934f3728da15ad30c79a76927c52992c2d4"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridLeafSupport.lean": {
+                "bytes": 6609,
+                "sha256": "1f7ddd1741d0165497ed531646ae26a10927b2b8d8f29fa8abeb7fc6451155d2",
+                "git_blob": "aa508cc6450ccd16cb2dbf919fb337cd013877e9"
+              }
+            },
+            "dependency_overlay": {
+              "original": {
+                "bytes": 14192,
+                "sha256": "104792224d72db08b175bbc3956f1abcff71fd79c3ff2ed92124680a29408791",
+                "git_blob": "739ae8d96bd1f9699c6c2e1259d5eaae88a569ec"
+              },
+              "candidate": {
+                "bytes": 14335,
+                "sha256": "e190f0c8d766bd32ffa6225896ec536bb047545d089cbd136dd561f4f2f24ac6",
+                "git_blob": "59df2b56ab5636f6420666104157f68ccb6ba971"
+              },
+              "source_edits": [
+                {
+                  "kind": "preserve_existing_shared_file_linter",
+                  "original_start": 193,
+                  "original_end": 193,
+                  "candidate_start": 193,
+                  "candidate_end": 236,
+                  "old": "",
+                  "new": "\nset_option linter.unusedSectionVars false\n",
+                  "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "new_sha256": "dfd6b4821ac8eeb61c25c3b921081fa86bd3bab06bcc164872725cac5e45796a"
+                },
+                {
+                  "kind": "enable_existing_Pool_cache_locally_at_shared_position",
+                  "original_start": 1254,
+                  "original_end": 1254,
+                  "candidate_start": 1297,
+                  "candidate_end": 1397,
+                  "old": "",
+                  "new": "\nattribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype\n",
+                  "old_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "new_sha256": "20dba3b3a80e1d5519392724420467fd0d1fb6b45d4d03ad75eee48e6e3910bc"
+                }
+              ],
+              "only_changes": [
+                "Existing shared 43 B file-level linter line",
+                "Existing shared 100 B fully qualified local Pool cache activation"
+              ],
+              "all_original_proofs_headers_data_imports_prints_preserved": true,
+              "B2_build_observed_but_fresh_pending_here": true
+            },
+            "coordinator_local_instance_comments": [
+              6571400398,
+              6572087480
+            ],
+            "shared_options_source": {
+              "commit": "ac280d14aca765bd283c929677ecfaf36543aaea",
+              "LiveSourceConditions_skeleton_git_blob": "1b3db23f80d08469203d7fde492b7def3db733ba",
+              "FirstSourceFiniteLeaves_skeleton_git_blob": "42f15b4e380ef05ccbdfa9f9a025dc0c75e61d66"
+            },
+            "Live_complete_real_proofs16_and_definitions11_preserved_except8_disclosed_value_bodies": true,
+            "no_new_helper_or_budget_or_global_instance": true,
+            "FirstSourceTerminalNonneg_not_in_actual_170_STEP_closure": true,
+            "skeleton_build_is_not_full_real_or_fresh_acceptance": true,
+            "complete_sources_candidate_not_yet_owner_adopted": true,
+            "reviewed_source_pins": {
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": "db81dff1d17c12c72746738c9296a1d4bc87ec27d33958124ce36c79455bb5df",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstSourceFiniteLeaves.lean": "e190f0c8d766bd32ffa6225896ec536bb047545d089cbd136dd561f4f2f24ac6",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstBlockFiniteLeaves.lean": "2834839a90001f1e7311859a733e6bdfe73071a72ea29276cc111479ed23179e",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": "7984bec055c28f421ccd1b8cc8215290763cb58d14c49bc9dbc436ce08813b98",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/SupportedGaussStages.lean": "4592be4830bbe8e922c5e245b4e605bc5af24fa72a69a043a12e1c35bc189f7e",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/GatedGaussStages.lean": "9bfd8faeb0505dd7f47b1d824ba2562ab6cd8d168ceecc077429071c6d7cedef",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridLeafSupport.lean": "1f7ddd1741d0165497ed531646ae26a10927b2b8d8f29fa8abeb7fc6451155d2",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/LiveSourceConditions.lean": "584b7ecef3e3d928ed159136e7743a24b0da78b48491771e5079c38eca30d9c9"
+            }
+          }
+          CONTRACT
+          cat > a2-live-source-normal/provenance.py <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+          import tomllib
+          
+          
+          def identity(data):
+              return {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                      'git_blob': hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()}
+          
+          
+          def validate_source_pair(original, candidate, contract):
+              assert identity(original) == contract['original']
+              assert identity(candidate) == contract['candidate']
+              forward = original
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['original_start'], edit['original_end']
+                  old, new = edit['old'].encode(), edit['new'].encode()
+                  assert original[start:end] == old
+                  assert identity(old)['sha256'] == edit['old_sha256']
+                  assert identity(new)['sha256'] == edit['new_sha256']
+                  forward = forward[:start] + new + forward[end:]
+              assert forward == candidate
+              backward = candidate
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['candidate_start'], edit['candidate_end']
+                  assert candidate[start:end] == edit['new'].encode()
+                  backward = backward[:start] + edit['old'].encode() + backward[end:]
+              assert backward == original
+              for pattern, key in [(rb'^import (.+)$', 'original_imports'),
+                                   (rb'^#print axioms (.+)$', 'original_prints')]:
+                  assert [x.decode() for x in re.findall(pattern, original, re.M)] == contract[key]
+                  assert [x.decode() for x in re.findall(pattern, candidate, re.M)] == contract[key]
+              assert [x.decode() for x in re.findall(rb'^set_option\b.*$', candidate, re.M)] == contract['candidate_options']
+              assert re.search(rb'\b(?:sorry|admit)\b', candidate) is None
+              assert len(re.findall(rb'^def ', original, re.M)) == len(re.findall(rb'^def ', candidate, re.M)) == 11
+              assert len(re.findall(rb'^theorem ', original, re.M)) == len(re.findall(rb'^theorem ', candidate, re.M)) == 16
+              assert len(contract['source_edits']) == 9
+              assert original.split(b'namespace ActualFirstSource.SecondStages\n')[1] == candidate.split(b'namespace ActualFirstSource.SecondStages\n')[1]
+              for edit in contract['source_edits'][1:]:
+                  assert edit['old'].startswith(edit['signature']) and edit['new'].startswith(edit['signature'])
+              assert b'private theorem' not in candidate
+              assert b'run_tac IO.eprintln' not in candidate and b'run_cmd IO.eprintln' not in candidate
+              return {'original': identity(original), 'candidate': identity(candidate),
+                      'exact_forward_and_inverse': True,
+                      'original_imports': contract['original_imports'],
+                      'original_prints': contract['original_prints'],
+                      'candidate_options': contract['candidate_options']}
+          
+          
+          def validate_dependency_pair(original, candidate, contract):
+              overlay = contract['dependency_overlay']
+              assert identity(original) == overlay['original']
+              assert identity(candidate) == overlay['candidate']
+              forward, backward = original, candidate
+              for edit in reversed(overlay['source_edits']):
+                  a, z = edit['original_start'], edit['original_end']
+                  assert original[a:z] == edit['old'].encode()
+                  forward = forward[:a] + edit['new'].encode() + forward[z:]
+                  a, z = edit['candidate_start'], edit['candidate_end']
+                  assert candidate[a:z] == edit['new'].encode()
+                  backward = backward[:a] + edit['old'].encode() + backward[z:]
+              assert forward == candidate and backward == original
+              assert len(overlay['source_edits']) == 2 and len(candidate) - len(original) == 143
+              assert re.search(rb'\b(?:sorry|admit)\b', candidate) is None
+              assert b'attribute [instance]' not in candidate
+              for pattern in [rb'^import .+$', rb'^#print axioms .+$']:
+                  assert re.findall(pattern, candidate, re.M) == re.findall(pattern, original, re.M)
+              return {'original': identity(original), 'candidate': identity(candidate),
+                      'only_changes': overlay['only_changes'], 'exact_forward_and_inverse': True,
+                      'complete_original_proofs_preserved': True}
+          
+          
+          def closure(graph, target):
+              found, pending = set(), [target]
+              while pending:
+                  name = pending.pop()
+                  if name in found:
+                      continue
+                  assert name in graph, 'Missing STEP module: ' + name
+                  found.add(name)
+                  pending.extend(graph[name])
+              return sorted(found)
+          
+          
+          def validate_inventory(source_bytes, config_bytes, contract):
+              task = contract['task_directory']
+              configs = {path: identity(data)['sha256'] for path, data in config_bytes.items()}
+              assert configs == contract['config_sha256'] and len(configs) == 7
+              assert config_bytes['lean-toolchain'].decode().strip() == 'leanprover/lean4:v4.35.0-rc3'
+              lake = tomllib.loads(config_bytes['lakefile.toml'].decode())
+              assert lake['weakLeanArgs'] == ['-j2']
+              assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+              mathlib = [x for x in json.loads(config_bytes['lake-manifest.json'])['packages'] if x['name'] == 'mathlib']
+              assert len(mathlib) == 1 and mathlib[0]['rev'] == contract['mathlib_commit']
+              imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$',
+                                   source_bytes[task + '/Interface.lean'].decode(), re.M)
+              expected = {p[:-5].replace('/', '.') for p in source_bytes if p != task + '/Interface.lean'}
+              libraries = [x['name'] for x in lake['lean_lib']]
+              assert len(source_bytes) == 1009 and len(imports) == len(set(imports)) == 1008
+              assert set(imports) == expected and len(libraries) == 20
+              graph = {Path(path).stem: re.findall(r'^(?:public\s+)?import\s+HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.([A-Za-z_0-9]+)\s*$', data.decode(), re.M)
+                       for path, data in source_bytes.items()}
+              actual_closure = closure(graph, contract['target'])
+              assert actual_closure == contract['expected_STEP_closure']
+              for path, expected_id in contract['required_dependencies'].items():
+                  assert identity(source_bytes[path]) == expected_id
+              return {'task_source_sha256': {p: identity(b)['sha256'] for p, b in source_bytes.items()},
+                      'config_sha256': configs, 'interface_imports': imports, 'libraries': libraries,
+                      'target_STEP_closure': actual_closure}
+          
+          
+          def main():
+              root = Path.cwd()
+              evidence = Path(__file__).resolve().parent
+              contract = json.loads((evidence / 'contract.json').read_text())
+              assert not contract['fixture_only'], (
+                  'UNPUBLISHABLE FIXTURE: rebind a reviewed complete repair and the actual current owner '
+                  'before freezing a runnable original normal workflow.')
+              phase = sys.argv[1]
+              assert phase in ['before', 'after']
+              def git(*args):
+                  return subprocess.check_output(['git', *args], text=True).strip()
+              assert git('rev-parse', contract['base'] + '^{tree}') == contract['base_tree']
+              head = git('rev-parse', 'HEAD')
+              assert head == os.environ['EXPECTED_SHA']
+              assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [head, contract['base']]
+              changed = git('diff', '--no-renames', '--name-only', contract['base'], 'HEAD').splitlines()
+              assert changed == sorted([contract['target_path'], contract['dependency_path'], contract['workflow_path']])
+              assert git('diff', '--no-renames', '--name-status', contract['base'], 'HEAD').splitlines() == sorted([
+                  'M\t' + contract['target_path'], 'M\t' + contract['dependency_path'], 'A\t' + contract['workflow_path']])
+              original = subprocess.check_output(['git', 'show', contract['base'] + ':' + contract['target_path']])
+              candidate = Path(contract['target_path']).read_bytes()
+              source_check = validate_source_pair(original, candidate, contract)
+              assert git('rev-parse', 'HEAD:' + contract['target_path']) == contract['candidate']['git_blob']
+              dep_original = subprocess.check_output(['git', 'show', contract['base'] + ':' + contract['dependency_path']])
+              dep_candidate = Path(contract['dependency_path']).read_bytes()
+              dep_check = validate_dependency_pair(dep_original, dep_candidate, contract)
+              assert git('rev-parse', 'HEAD:' + contract['dependency_path']) == contract['dependency_overlay']['candidate']['git_blob']
+              task = Path(contract['task_directory'])
+              source_bytes = {str(p): p.read_bytes() for p in sorted(task.glob('*.lean'))}
+              config_bytes = {p: Path(p).read_bytes() for p in contract['config_sha256']}
+              inventory = validate_inventory(source_bytes, config_bytes, contract)
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+              assert len(tracked) == contract['expected_tracked_files']
+              def tracked_digest(path):
+                  p = Path(path)
+                  data = os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+                  return identity(data)['sha256']
+              record = {
+                  'stage': 'Complete LiveSourceConditions original normal verification and fresh loaded namespace audit',
+                  'source_base': contract['base'], 'source_base_tree': contract['base_tree'],
+                  'head': head, 'tree': git('rev-parse', 'HEAD^{tree}'),
+                  'expected_head': os.environ['EXPECTED_SHA'],
+                  'changed_paths': changed, 'complete_source_identity': source_check,
+                  'FirstSource_full_dependency_source_identity': dep_check,
+                  'coordinator_local_instance_comments': contract['coordinator_local_instance_comments'],
+                  'shared_file_options_source': contract['shared_options_source'],
+                  'target_modules': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + contract['target']],
+                  'original_prints': contract['original_prints'],
+                  'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                  'tracked_sha256': {p: tracked_digest(p) for p in tracked},
+                  'full_task_acceptance': False, **inventory,
+              }
+              assert not record['tracked_status']
+              assert json.loads(json.dumps(record)) == record
+              (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+              if phase == 'after':
+                  assert json.loads((evidence / 'before-source.json').read_text()) == record
+                  (evidence / 'source-integrity.json').write_text(json.dumps({
+                      'unchanged': True, 'head': head, 'tree': record['tree'],
+                      'tracked_files': len(tracked), 'task_modules': 1009,
+                      'interface_imports': 1008, 'libraries': 20}, indent=2) + '\n')
+              print(phase, head, record['tree'], len(tracked), 1009, 1008, 20, flush=True)
+          
+          
+          if __name__ == '__main__':
+              main()
+          PY
+          cat > a2-live-source-normal/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-live-source-normal')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-live-source-normal/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-live-source-normal/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a2-live-source-normal/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.LiveSourceConditions:deps
+      - name: Compile the complete original module and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a2-live-source-normal/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.LiveSourceConditions \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+          --declaration HeckeSkeleton.Moments.EngineStep.ActualGaussStage.supported_gated_fiberLeaf_live \
+          --declaration HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.live_common_old_mask \
+          --declaration HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.live_errorPrime_avoids_old_mask \
+            --evidence a2-live-source-normal/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-live-source-normal/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-live-source-normal-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-live-source-normal/
+          if-no-files-found: error
+          retention-days: 14
