@@ -1,0 +1,62 @@
+name: MOM Engine Step V2 S6/N1 proofs
+on:
+  pull_request:
+    branches: [dtests-handoff]
+    paths:
+      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/**'
+      - '.github/v2/**'
+      - '.github/workflows/**'
+      - '.github/actions/restore-lake-cache/**'
+      - 'lean-toolchain'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-v2-s6-n1-proofs-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  s6-n1-proofs:
+    if: ${{ (github.head_ref || github.ref_name) == 'cloud/mom-v2-s6-n1' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      LEAN_NUM_THREADS: '2'
+      PYTHONDONTWRITEBYTECODE: '1'
+      S6_N1_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      S6_N1_SOURCE_BRANCH: ${{ github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and configure memory mappings
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: ./.github/actions/restore-lake-cache
+      - name: Build S6/N1 entries and freshly audit the full owned proof inventory
+        run: python3 -u .github/v2/s6_n1_audit.py
+      - name: Upload S6/N1 proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-engine-step-v2-s6-n1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: v2-s6-n1-build/
+          retention-days: 14
+

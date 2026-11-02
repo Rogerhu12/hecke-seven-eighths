@@ -62,7 +62,9 @@ theorem twist_plain (T : FixedChildCharacters K k)
         heckeIdealCoefficient K T.plainTwist J * T.mask J.val := by ring
     _ = (heckeIdealCoefficient K T.plain J *
           actualIdealResidue (A := A) (σ := σ) J.val a) *
-        heckeIdealCoefficient K T.plainTwist J * T.mask J.val := by rw [← he]
+        heckeIdealCoefficient K T.plainTwist J * T.mask J.val := by
+      exact congrArg (fun z : ℂ => z * heckeIdealCoefficient K T.plainTwist J *
+        T.mask J.val) he.symm
     _ = _ := by ring
 
 theorem twist_prime (T : FixedChildCharacters K k)
@@ -87,7 +89,9 @@ theorem twist_prime (T : FixedChildCharacters K k)
         primeCoefficient K (T.slotTwist j) q * T.mask q.asIdeal := by ring
     _ = (primeCoefficient K (T.slot j) q *
           actualIdealResidue (A := A) (σ := σ) q.asIdeal a) *
-        primeCoefficient K (T.slotTwist j) q * T.mask q.asIdeal := by rw [← he]
+        primeCoefficient K (T.slotTwist j) q * T.mask q.asIdeal := by
+      exact congrArg (fun z : ℂ => z * primeCoefficient K (T.slotTwist j) q *
+        T.mask q.asIdeal) he.symm
     _ = _ := by ring
 
 /-- This is a product identity at one actual column. Exteriority of

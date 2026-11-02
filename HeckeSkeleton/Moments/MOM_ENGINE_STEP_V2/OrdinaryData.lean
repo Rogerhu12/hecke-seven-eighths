@@ -54,6 +54,9 @@ def rightWhole (i : AllocationColumn K packet.leaf.rightSlots) : ℂ :=
 
 end RawLeafPacket
 
+set_option diagnostics true in
+set_option genInjectivity false in
+set_option genSizeOf false in
 /-- The independent divisor allocation is the original one. The
 single-atom binding permits the common row translation which cancels
 inside the polynomial norm, before either continuous integration. -/
