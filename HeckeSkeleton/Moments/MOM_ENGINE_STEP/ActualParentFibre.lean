@@ -680,11 +680,16 @@ end FirstBlockPoolData
 namespace OriginalFiniteFibre
 
 def firstMaskConstant (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) : ℝ :=
-  Classical.choose (first_block_mask_labels_subpower (K := K) B ε hB hε)
+  let C : ℝ := Classical.choose
+    (support_tuple_multiplicity_subpower (K := K) 1 B (ε / 2) hB (by positivity))
+  C * C
 
 theorem firstMaskConstant_pos (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) :
-    0 < firstMaskConstant (K := K) B ε hB hε :=
-  (Classical.choose_spec (first_block_mask_labels_subpower (K := K) B ε hB hε)).1
+    0 < firstMaskConstant (K := K) B ε hB hε := by
+  have hhalf : 0 < ε / 2 := by positivity
+  have hC := (Classical.choose_spec
+    (support_tuple_multiplicity_subpower (K := K) 1 B (ε / 2) hB hhalf)).1
+  exact mul_pos hC hC
 
 theorem firstMaskCount_le (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε)
     (hZ : 1 ≤ Z) {ι κ : Type*} {I : ι → A.Exterior} {J : κ → A.Exterior}
@@ -692,9 +697,32 @@ theorem firstMaskCount_le (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε)
     (M : Finset (HeightOneSpectrum A.R)) (R : Ideal (𝓞 K)) (hR : R ≠ 0)
     (hNR : (Ideal.absNorm R : ℝ) ≤ Z ^ B) (hND : (Ideal.absNorm DE.1 : ℝ) ≤ Z ^ B)
     (mask : OriginalMaskPrimeData M R) :
-    ((b.mask M).powerset.card : ℝ) ≤ firstMaskConstant (K := K) B ε hB hε * Z ^ ε :=
-  (Classical.choose_spec (first_block_mask_labels_subpower (K := K) B ε hB hε)).2
-    Z hZ b M R hR hNR hND mask
+    ((b.mask M).powerset.card : ℝ) ≤ firstMaskConstant (K := K) B ε hB hε * Z ^ ε := by
+  have hhalf : 0 < ε / 2 := by positivity
+  let C : ℝ := Classical.choose
+    (support_tuple_multiplicity_subpower (K := K) 1 B (ε / 2) hB hhalf)
+  have hC : 0 < C := (Classical.choose_spec
+    (support_tuple_multiplicity_subpower (K := K) 1 B (ε / 2) hB hhalf)).1
+  have hb : ∀ (Z : ℝ), 1 ≤ Z → ∀ D : Ideal (𝓞 K),
+      (Ideal.absNorm D : ℝ) ≤ Z ^ B →
+      (DedekindZetaZeroFree.LargeSieve.idealDivisorCount D : ℝ) ^ 1 ≤ C * Z ^ (ε / 2) :=
+    (Classical.choose_spec
+      (support_tuple_multiplicity_subpower (K := K) 1 B (ε / 2) hB hhalf)).2
+  change ((b.mask M).powerset.card : ℝ) ≤ (C * C) * Z ^ ε
+  have hRbound : (DedekindZetaZeroFree.LargeSieve.idealDivisorCount R : ℝ) ≤ C * Z ^ (ε / 2) := by
+    simpa only [pow_one] using hb Z hZ R hNR
+  have hDbound : (DedekindZetaZeroFree.LargeSieve.idealDivisorCount DE.1 : ℝ) ≤ C * Z ^ (ε / 2) := by
+    simpa only [pow_one] using hb Z hZ DE.1 hND
+  have hcard : ((b.mask M).powerset.card : ℝ) ≤
+      (DedekindZetaZeroFree.LargeSieve.idealDivisorCount R : ℝ) * (DedekindZetaZeroFree.LargeSieve.idealDivisorCount DE.1 : ℝ) := by
+    exact_mod_cast b.mask_powerset_card_le M R hR mask
+  calc
+    _ ≤ (DedekindZetaZeroFree.LargeSieve.idealDivisorCount R : ℝ) * (DedekindZetaZeroFree.LargeSieve.idealDivisorCount DE.1 : ℝ) := hcard
+    _ ≤ (C * Z ^ (ε / 2)) * (C * Z ^ (ε / 2)) :=
+      mul_le_mul hRbound hDbound (Nat.cast_nonneg _) (by positivity)
+    _ = (C * C) * (Z ^ (ε / 2) * Z ^ (ε / 2)) := by ring
+    _ = _ := by
+      rw [← Real.rpow_add (zero_lt_one.trans_le hZ), show ε / 2 + ε / 2 = ε by ring]
 
 /-- The actual residual cover ideal costs only the original column
 window and at most seven copies of the pool's original norm window. -/

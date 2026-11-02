@@ -28,7 +28,9 @@ jobs:
     timeout-minutes: 240
     env:
       LEAN_NUM_THREADS: '2'
-      GROUP_KILL_AFTER: '1200'
+      # Skeleton modules have no proofs, so one that takes 5 minutes is
+      # already broken; group modules carry their real proofs.
+      GROUP_KILL_AFTER: ${{ github.event_name == 'pull_request' && '1200' || '300' }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:

@@ -53,6 +53,14 @@ variable {hDiff : ∀ v : HeightOneSpectrum (𝓞 K), v ∉ A.Sf →
 local instance canonicalLiteralCoveredLeafCircleCharacterFintype :
     Fintype ((PUnit.{1} × PUnit.{1}) →* Circle) := Fintype.ofFinite _
 
+private theorem literalCommonFibre_nonempty
+    {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
+    (T : SourceCartesianAtlas columns ideal)
+    (P : Finset (Ideal (𝓞 K))) (D : Ideal (𝓞 K)) (d : T.labels P D) :
+    (T.commonFibre P D d).Nonempty := by
+  obtain ⟨i, hi, he⟩ := Finset.mem_image.mp d.property
+  exact ⟨i, Finset.mem_filter.mpr ⟨hi, he⟩⟩
+
 namespace ActualGaussStage.CoveredClassKey
 
 variable {ι : Type*} {G : ActualGaussSource C ι}
@@ -75,16 +83,16 @@ its original support transports. Only nonemptiness is proved here. -/
 def literalLeftResidualAtlas : SourceCartesianAtlas
     (v.literalLeftParent.commonFibre (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1)
     v.block.leftResidual :=
-  SourceCartesianAtlas.ofReindex v.leftReindex (by
-    obtain ⟨i, hi, he⟩ := Finset.mem_image.mp v.2.2.2.2.2.1.property
-    exact ⟨i, Finset.mem_filter.mpr ⟨hi, he⟩⟩)
+  SourceCartesianAtlas.ofReindex v.leftReindex
+    (literalCommonFibre_nonempty v.literalLeftParent
+      (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1)
 
 def literalRightResidualAtlas : SourceCartesianAtlas
     (v.literalRightParent.commonFibre (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2)
     v.block.rightResidual :=
-  SourceCartesianAtlas.ofReindex v.rightReindex (by
-    obtain ⟨i, hi, he⟩ := Finset.mem_image.mp v.2.2.2.2.2.2.property
-    exact ⟨i, Finset.mem_filter.mpr ⟨hi, he⟩⟩)
+  SourceCartesianAtlas.ofReindex v.rightReindex
+    (literalCommonFibre_nonempty v.literalRightParent
+      (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2)
 
 variable (leftAtoms : CanonicalLiteralRectangles.Atoms (K := K)
   (LC.branch v.2.2.1).slotCount)
@@ -307,9 +315,16 @@ def literalOrdinaryBinding :
     change ((_ * _) * _ * _) = ((_ * _ * _) * _)
     ring
   leftCoefficient _ _ _ _ := rfl
-  rightCoefficient _ _ _ _ := by
-    simp only [literalExtraction, ActualHybridLeaf.ConstantAtomExtraction.leaf,
-      ActualHybridLeaf.withConstantAtoms, star_star]
+  rightCoefficient h _ i _ := by
+    change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
+        (fun i => v.block.rightResidual (v.rightReindex.index i))
+        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
+        (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i)) =
+      secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
+        (fun i => v.block.rightResidual (v.rightReindex.index i))
+        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
+        (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i
+    exact star_star _
   leftPoint := leftPoint
   rightPoint := rightPoint
 
