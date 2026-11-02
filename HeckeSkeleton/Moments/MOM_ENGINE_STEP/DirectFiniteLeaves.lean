@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
+set_option linter.unusedSectionVars false
 
 /-!
 # Actual canonical leaves of the direct entrance
@@ -19,6 +20,64 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
+
+private theorem direct_finite_scalar_bound
+    {I J X : Type*} [Fintype I] [Fintype J] [MeasurableSpace X]
+    {L R : I → J → Type*}
+    [instL : ∀ i j, Fintype (L i j)] [instR : ∀ i j, Fintype (R i j)]
+    (μ : Measure X) (mass : ℝ)
+    (a : I → ℝ) (b : J → ℝ)
+    (c NL NR zL zR tL tR : I → J → ℝ)
+    (fL fR gL gR : I → J → X → ℝ)
+    (costL : ∀ i j, L i j → ℝ) (costR : ∀ i j, R i j → ℝ)
+    (leaf : (Σ i, Σ j, L i j ⊕ R i j) → ℝ)
+    (hNL : ∀ i j, 0 ≤ NL i j) (hNR : ∀ i j, 0 ≤ NR i j)
+    (hweight : ∀ i j, 0 ≤ a i * b j * c i j)
+    (hphaseL : ∀ i j x, gL i j x = fL i j x)
+    (hphaseR : ∀ i j x, gR i j x = fR i j x)
+    (hleft : ∀ i j, (∫ x, gL i j x ∂μ) ≤
+      mass * (zL i j + tL i j) + ∑ k, costL i j k)
+    (hright : ∀ i j, (∫ x, gR i j x ∂μ) ≤
+      mass * (zR i j + tR i j) + ∑ k, costR i j k)
+    (hleafL : ∀ i j k, leaf ⟨i, j, .inl k⟩ =
+      (a i * b j * c i j / NL i j) * costL i j k)
+    (hleafR : ∀ i j k, leaf ⟨i, j, .inr k⟩ =
+      (a i * b j * c i j / NR i j) * costR i j k) :
+    (∑ i, a i * ∑ j, b j * c i j *
+      ((∫ x, fL i j x / NL i j ∂μ) + ∫ x, fR i j x / NR i j ∂μ)) ≤
+      (∑ i, ∑ j, (a i * b j * c i j) *
+        (mass * zL i j / NL i j + mass * zR i j / NR i j)) +
+      (∑ i, ∑ j, (a i * b j * c i j) *
+        (mass * tL i j / NL i j + mass * tR i j / NR i j)) +
+      ∑ q, leaf q := by
+  simp only [Finset.mul_sum, Fintype.sum_sigma]
+  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
+  apply Finset.sum_le_sum
+  intro i _
+  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
+  apply Finset.sum_le_sum
+  intro j _
+  have hl : (∫ x, fL i j x ∂μ) ≤
+      mass * (zL i j + tL i j) + ∑ k, costL i j k := by
+    calc
+      _ = ∫ x, gL i j x ∂μ :=
+        integral_congr_ae (Filter.Eventually.of_forall fun x => (hphaseL i j x).symm)
+      _ ≤ _ := hleft i j
+  have hr : (∫ x, fR i j x ∂μ) ≤
+      mass * (zR i j + tR i j) + ∑ k, costR i j k := by
+    calc
+      _ = ∫ x, gR i j x ∂μ :=
+        integral_congr_ae (Filter.Eventually.of_forall fun x => (hphaseR i j x).symm)
+      _ ≤ _ := hright i j
+  rw [integral_div, integral_div]
+  have hh := mul_le_mul_of_nonneg_left
+    (add_le_add (div_le_div_of_nonneg_right hl (hNL i j))
+      (div_le_div_of_nonneg_right hr (hNR i j))) (hweight i j)
+  convert hh using 1
+  · ring
+  · simp only [Fintype.sum_sum_type, hleafL, hleafR]
+    rw [← Finset.mul_sum, ← Finset.mul_sum]
+    ring
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -211,34 +270,66 @@ theorem linearized_le_finiteCost
           (s.fiberCoveredLeaf LC RC ex F x j).cost) :
     p.linearizedCost hDiff NL NR ≤
       T.finiteCost LA RA exceptional NL NR hNL hNR ε Cerror Czero := by
-  unfold FirstBlockDirectData.linearizedCost firstDirectLinearizedCost finiteCost
-    zeroBudget tailBudget
-  simp only [Finset.mul_sum, Fintype.sum_sigma, coveredLeaf]
-  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
-  apply Finset.sum_le_sum
-  intro S _
-  rw [← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
-  apply Finset.sum_le_sum
-  intro χ _
-  have hl := hstage _ (s.left S χ) (T.left S χ)
-    (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ)
-    (exceptional.left S χ) chart.kernel chart.leftPoint
-  have hr := hstage _ (s.right S χ) (T.right S χ)
-    (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
-    (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j)
-  simp only [DirectGaussData.directSource_phaseEnergy] at hl hr
-  rw [integral_div, integral_div]
-  have hh := mul_le_mul_of_nonneg_left
-    (add_le_add (div_le_div_of_nonneg_right hl (hNL S χ).le)
-      (div_le_div_of_nonneg_right hr (hNR S χ).le))
-    (classWeight_nonneg NL NR S χ)
-  convert hh using 1
-  · dsimp only [classWeight, leftDivisorCoefficient, rightDivisorCoefficient]
-    ring
-  · simp only [Fintype.sum_sum_type, classLeaf, ActualHybridLeaf.scale_cost]
-    rw [← Finset.mul_sum, ← Finset.mul_sum]
-    unfold classZeroBudget classTailBudget
-    ring
+  exact direct_finite_scalar_bound
+    (I := divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (J := (PUnit × PUnit) →* Circle)
+    (L := fun S χ => (s.left S χ).CoveredLeafKey
+      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ))
+    (R := fun S χ => (s.right S χ).CoveredLeafKey
+      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ))
+    (instL := fun S χ => inferInstance) (instR := fun S χ => inferInstance)
+    (μ := actualFourierMeasure chart.kernel)
+    (mass := (actualFourierMeasure chart.kernel).real Set.univ)
+    (a := fun S => ‖(moebius S.val : ℂ)‖)
+    (b := fun χ => ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖)
+    (c := fun S χ => p.rowBound * Real.sqrt (NL S χ) * Real.sqrt (NR S χ) / 2)
+    (NL := NL) (NR := NR)
+    (zL := fun S χ => (T.left S χ).zeroBudget ε Czero)
+    (zR := fun S χ => (T.right S χ).zeroBudget ε Czero)
+    (tL := fun S χ => (T.left S χ).tailBudget Cerror)
+    (tR := fun S χ => (T.right S χ).tailBudget Cerror)
+    (fL := fun S χ ξ => (p.leftData.directSource
+      (FirstGaussPoolData.twistedCoefficient
+        (p.leftDivisorCoefficient S χ) chart.leftPoint ξ)).energy hDiff)
+    (fR := fun S χ ξ => (p.rightData.directSource
+      (FirstGaussPoolData.twistedCoefficient
+        (p.rightDivisorCoefficient S χ) (fun j => -chart.rightPoint j) ξ)).energy hDiff)
+    (gL := fun S χ ξ => (p.leftData.directSource (p.leftDivisorCoefficient S χ)).phaseEnergy
+      (hDiff := hDiff) chart.leftPoint ξ)
+    (gR := fun S χ ξ => (p.rightData.directSource (p.rightDivisorCoefficient S χ)).phaseEnergy
+      (hDiff := hDiff) (fun j => -chart.rightPoint j) ξ)
+    (costL := fun S χ j => ((s.left S χ).fiberCoveredLeaf
+      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
+      chart.kernel chart.leftPoint j).cost)
+    (costR := fun S χ j => ((s.right S χ).fiberCoveredLeaf
+      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
+      chart.kernel (fun j => -chart.rightPoint j) j).cost)
+    (leaf := fun j : s.CoveredLeafKey LA RA =>
+      (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).cost)
+    (hNL := fun S χ => (hNL S χ).le)
+    (hNR := fun S χ => (hNR S χ).le)
+    (hweight := fun S χ => classWeight_nonneg (p := p) NL NR S χ)
+    (hphaseL := fun S χ ξ =>
+      p.leftData.directSource_phaseEnergy (p.leftDivisorCoefficient S χ) chart.leftPoint ξ)
+    (hphaseR := fun S χ ξ =>
+      p.rightData.directSource_phaseEnergy (p.rightDivisorCoefficient S χ)
+        (fun j => -chart.rightPoint j) ξ)
+    (hleft := fun S χ => hstage _ (s.left S χ) (T.left S χ)
+      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ)
+      (exceptional.left S χ) chart.kernel chart.leftPoint)
+    (hright := fun S χ => hstage _ (s.right S χ) (T.right S χ)
+      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
+      (exceptional.right S χ) chart.kernel (fun j => -chart.rightPoint j))
+    (hleafL := fun S χ j => ((s.left S χ).fiberCoveredLeaf
+      (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
+      chart.kernel chart.leftPoint j).scale_cost
+        (classWeight NL NR S χ / NL S χ)
+        (div_nonneg (classWeight_nonneg NL NR S χ) (hNL S χ).le))
+    (hleafR := fun S χ j => ((s.right S χ).fiberCoveredLeaf
+      (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
+      chart.kernel (fun j => -chart.rightPoint j) j).scale_cost
+        (classWeight NL NR S χ / NR S χ)
+        (div_nonneg (classWeight_nonneg NL NR S χ) (hNR S χ).le))
 
 end TerminalCalibration
 end SecondStages

@@ -1,5 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves
+set_option linter.unusedSectionVars false
 
 /-!
 # Actual left/right pool leaves of one original first-transform block
@@ -20,6 +21,16 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
+
+private abbrev first_block_sum_fintype
+    {I J : Type*} [Fintype I] [Fintype J] : Fintype (I ⊕ J) :=
+  inferInstance
+
+private abbrev first_block_sigma_sigma_fintype
+    {I J : Type*} {F : I → J → Type*}
+    [Fintype I] [Fintype J] [∀ i j, Fintype (F i j)] :
+    Fintype (Σ i, Σ j, F i j) :=
+  inferInstance
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -72,9 +83,27 @@ abbrev CoveredClassKey
   (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ) ⊕
     (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ)
 
+abbrev coveredClassKeyFintype
+    (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (χ : (PUnit × PUnit) →* Circle) :
+    Fintype (s.CoveredClassKey LA RA S χ) :=
+  first_block_sum_fintype
+    (I := (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ))
+    (J := (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ))
+
+attribute [instance] coveredClassKeyFintype
+
 abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
     Σ χ : (PUnit × PUnit) →* Circle, s.CoveredClassKey LA RA S χ
+
+abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
+  first_block_sigma_sigma_fintype
+    (I := divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (J := (PUnit × PUnit) →* Circle)
+    (F := fun S χ => s.CoveredClassKey LA RA S χ)
+
+attribute [instance] coveredLeafKeyFintype
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
