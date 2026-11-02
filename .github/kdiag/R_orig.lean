@@ -169,12 +169,20 @@ run_cmd do
 
 
 noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  sorry
+  match key with
+  | ⟨⟨i, v⟩, allocation⟩ =>
+      secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
+        (second.source i) (covers.left i).cover (covers.right i).cover v
+        (RawCovers.predicates
+          (K := K) (c := c) (call := call) (p := p)
+          (F := F) (family := family) (expansion := expansion)
+          (second := second) covers i)
+        allocation
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_sorrybody done"
+    stderr.putStrLn "KDIAG R_orig done"
     stderr.flush
 
 end RawCovers

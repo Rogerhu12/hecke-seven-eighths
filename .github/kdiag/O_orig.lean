@@ -102,12 +102,12 @@ noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
     SourceClassKey.AllocationKey
       (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
       packet.key :=
-  sorry
+  branch.val
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG O_sorrybody done"
+    stderr.putStrLn "KDIAG O_orig done"
     stderr.flush
 
 end RawLeafPacket

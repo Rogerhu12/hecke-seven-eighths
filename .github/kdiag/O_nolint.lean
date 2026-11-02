@@ -98,7 +98,7 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryBranchType"
     stderr.flush
 
-set_option debug.skipKernelTC true in
+set_option linter.all false in
 noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
     SourceClassKey.AllocationKey
       (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
@@ -108,7 +108,7 @@ noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG O_skipkernel done"
+    stderr.putStrLn "KDIAG O_nolint done"
     stderr.flush
 
 end RawLeafPacket

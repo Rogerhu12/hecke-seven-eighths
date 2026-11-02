@@ -168,7 +168,7 @@ run_cmd do
     stderr.flush
 
 
-set_option debug.skipKernelTC true in
+set_option linter.all false in
 noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
   match key with
   | ⟨⟨i, v⟩, allocation⟩ =>
@@ -183,7 +183,7 @@ noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG R_skipkernel done"
+    stderr.putStrLn "KDIAG R_nolint done"
     stderr.flush
 
 end RawCovers

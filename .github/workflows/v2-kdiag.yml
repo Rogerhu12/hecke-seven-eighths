@@ -47,23 +47,31 @@ jobs:
           D=HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2
           f=$([ "${{ matrix.side }}" = R ] && echo RawContracts || echo OrdinaryData)
           lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' $D/$f.lean) 2>&1 | tail -5; test ${PIPESTATUS[0]} -eq 0
-      - name: Elaborate the probes one at a time
+      - name: Install gdb for stack samples
+        run: sudo apt-get install -y -qq gdb > /dev/null
+      - name: Elaborate the probes one at a time, sampling stacks
         run: |
           mkdir -p kdiag-out
-          for v in sorrybody curried skipkernel heartbeats; do
+          for v in orig curried nolint; do
             [ -f .github/kdiag/${{ matrix.side }}_$v.lean ] || continue
             n=${{ matrix.side }}_$v
             echo "===== $n"
-            ( while true; do sleep 30; ps -eo etimes=,rss=,args= | awk '$3 ~ /lean$/ {printf "MEM %ss %dMiB\n", $1, $2/1024}'; done ) &
-            mon=$!
             start=$(date +%s)
-            set +e
-            timeout --signal=KILL 300s lake env lean -DstderrAsMessages=false .github/kdiag/$n.lean > kdiag-out/$n.log 2>&1
-            code=$?
-            set -e
-            kill $mon 2>/dev/null
+            lake env lean -DstderrAsMessages=false .github/kdiag/$n.lean > kdiag-out/$n.log 2>&1 &
+            wrapper=$!
+            for t in 100 160 220; do
+              while [ $(( $(date +%s) - start )) -lt $t ] && kill -0 $wrapper 2>/dev/null; do sleep 2; done
+              kill -0 $wrapper 2>/dev/null || break
+              pid=$(pgrep -n -x lean || true)
+              [ -n "$pid" ] || continue
+              echo "--- KDIAG_STACK $n at ${t}s pid $pid rss $(( $(ps -o rss= -p $pid) / 1024 ))MiB"
+              sudo gdb -p $pid -batch -ex "set pagination off" -ex "thread apply all bt 60" 2>/dev/null                 | grep -E '^#|^Thread' | sed -E 's/ \(.*\) at / at /; s/0x[0-9a-f]+ in //' | cut -c1-200                 > kdiag-out/$n.stack.$t.txt
+              grep -B1 -A45 -E 'Thread 1 ' kdiag-out/$n.stack.$t.txt | head -50
+              grep -c '^#' kdiag-out/$n.stack.$t.txt | sed 's/^/frames total: /'
+            done
+            if kill -0 $wrapper 2>/dev/null; then pkill -KILL -x lean; code=killed; else wait $wrapper; code=$?; fi
             echo "KDIAG_RESULT $n exit=$code seconds=$(( $(date +%s) - start ))"
-            head -c 6000 kdiag-out/$n.log
+            head -c 4000 kdiag-out/$n.log
           done
       - name: Upload the probe logs
         if: always()
