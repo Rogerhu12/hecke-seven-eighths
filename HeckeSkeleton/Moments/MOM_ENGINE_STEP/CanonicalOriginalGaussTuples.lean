@@ -188,7 +188,7 @@ variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 namespace FirstBlockDirectData
 
 variable (p : FirstBlockDirectData chart M X hX)
-variable (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+variable (S : HeckePort.Moments.MobiusRegroup.divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
 variable (χ : (PUnit × PUnit) →* Circle)
 
 /-- The original left direct tuple on the unchanged divisor/character source. -/
@@ -234,7 +234,7 @@ namespace FirstBlockPoolData
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {base ell eps : ℝ}
 variable {pool : PowerScaleExteriorPool A bad base ell eps}
 variable (p : FirstBlockPoolData chart pool M X hX)
-variable (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+variable (S : HeckePort.Moments.MobiusRegroup.divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
 variable (χ : (PUnit × PUnit) →* Circle)
 
 /-- The original left main tuple keeps the same first common-divisor count. -/
