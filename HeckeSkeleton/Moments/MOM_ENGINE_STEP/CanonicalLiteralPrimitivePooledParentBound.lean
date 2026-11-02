@@ -275,7 +275,7 @@ terminals, the actual exceptional rows and the existing ordinary kernels. -/
 theorem literalPrimitivePooled_rawCost_le_kernel
     (T : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
-    (hstage : ∀ {j : Type*} (p : FirstGaussPoolData C pool j)
+    (hstage : ∀ {j : Type} (p : FirstGaussPoolData C pool j)
       (c : j → ℂ) (x : j → ℝ)
       (stage : ActualPoolStages (E := ℝ)
         (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -324,7 +324,7 @@ are combined with the proved source inequality on this exact family. -/
 theorem literalPrimitivePooled_parent_le_kernel
     (T : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
-    (hstage : ∀ {j : Type*} (p : FirstGaussPoolData C pool j)
+    (hstage : ∀ {j : Type} (p : FirstGaussPoolData C pool j)
       (c : j → ℂ) (x : j → ℝ)
       (stage : ActualPoolStages (E := ℝ)
         (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))

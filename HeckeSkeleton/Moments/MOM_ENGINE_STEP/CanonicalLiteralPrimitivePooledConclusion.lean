@@ -455,7 +455,7 @@ def literalPrimitivePooledConclusion
     (hlarge : totalThreshold ≤ Z)
     (terminal : (stages).DualTerminalCalibration sTail sZero terminalSlots Lmax Nsave decay)
     (hCerror : 0 ≤ Cerror) (hCzero : 0 ≤ Czero)
-    (hstage : ∀ {j : Type*} (p : FirstGaussPoolData C pool j)
+    (hstage : ∀ {j : Type} (p : FirstGaussPoolData C pool j)
       (c : j → ℂ) (x : j → ℝ)
       (stage : ActualPoolStages (E := ℝ)
         (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
