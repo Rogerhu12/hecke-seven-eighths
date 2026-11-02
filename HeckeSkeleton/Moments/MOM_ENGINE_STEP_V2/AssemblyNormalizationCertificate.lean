@@ -78,12 +78,17 @@ theorem normalizationCertificate_of_tasks (c : TargetContext K)
     trace htrace geometry hgeometry raw hraw
   let orders := call.childOrders
   have horders : call.childOrders ⊆ orders := Finset.Subset.refl _
-  have inputOrders : (W orders).inputOrders ⊆ input.orders := ready.ready_right.orders
+  have inputOrders : (W orders).inputOrders ⊆ input.orders :=
+    (UniformDemand.ready_right
+      (left := capacityDemand) (right := profileDemand orders) ready).orders
   let leaves (j : Fin raw.count) :
       LeafNormalization (raw.packet j) input choices (W orders) horders :=
     Classical.choice (leafNormalization_of_tasks atoms refinement calibration
       frame capacityDemand produceCapacity choices normalize orders (W orders)
-      call input hframe ready.ready_left inputOrders horders (raw.packet j)
+      call input hframe
+      (UniformDemand.ready_left
+        (left := capacityDemand) (right := profileDemand orders) ready)
+      inputOrders horders (raw.packet j)
       (RawFamily.packet_realizes trace htrace hgeometry raw hraw j))
   let packets := fun j => (leaves j).massPacket
   let O := fun j => (leaves j).seed.ordinary
