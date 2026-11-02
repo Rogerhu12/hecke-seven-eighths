@@ -28,18 +28,20 @@ NAMESPACE = "HeckeSkeleton.Moments.EngineStepV2"
 ALLOWED = ["propext", "Classical.choice", "Quot.sound"]
 GROUPS = ("n8a_proved", "n8b_proved", "n9_proved")
 ANALYSIS_MODULES = ("N9FixedRadiusMass", "N9UniformCost")
+COMPLETE_WARMUP_MODULES = ("RawContracts", "OrdinaryData")
 ANALYSIS_THEOREMS = (
     NAMESPACE + ".Blueprint.fixed_radius_kernel_mass",
     NAMESPACE + ".Blueprint.kernelMass_le_uniformCost",
 )
 COMPLETE_MODULES = (
     "N8SourceIndexProof", "TasksSourceIndex", "N8NormalizedMassProof",
-    "TasksNormalizedMass", "N9OriginalWindowMass",
+    "TasksNormalizedMass", "N8NormalizedArithmeticAssembly", "N9OriginalWindowMass",
 )
 COMPLETE_THEOREMS = (
     NAMESPACE + ".Blueprint.N8Source.sourceIndexTask",
     NAMESPACE + ".Blueprint.Tasks.sourceIndex",
     NAMESPACE + ".Blueprint.Tasks.normalizedMass",
+    NAMESPACE + ".Assembly.canonicalArithmeticMass",
     NAMESPACE + ".Blueprint.Tasks.originalWindowKernelMass",
 )
 FORBIDDEN = re.compile(r"\b(?:sorry|axiom|admit|native_decide|sorryAx)\b")
@@ -182,7 +184,7 @@ def main() -> int:
         if stage == "analysis" else
         "All modules in n8a_proved, n8b_proved, and n9_proved, with the "
         "Tasks.sourceIndex, Tasks.normalizedMass, and Tasks.originalWindowKernelMass "
-        "main statements required"
+        "main statements and Assembly.canonicalArithmeticMass required"
     )
     n8b_status = (
         "Not certified by the analysis stage"
@@ -195,6 +197,10 @@ def main() -> int:
         "stage": stage,
         "toolchain": (ROOT / "lean-toolchain").read_text(encoding="utf-8").strip(),
         "targets": [PREFIX + "." + module for module in modules],
+        "sequential_warmup_targets": (
+            [PREFIX + "." + module for module in COMPLETE_WARMUP_MODULES]
+            if stage == "complete" else []
+        ),
         "required_theorems": required,
         "manifest": manifest,
         "source_sha256": snapshots,
@@ -213,6 +219,7 @@ def main() -> int:
     results = {
         "stage": stage,
         "preflight_passed": not errors,
+        "warmup_exits": {},
         "build_exit": None,
         "audit_exit": None,
         "audit_success_marker": False,
@@ -221,6 +228,26 @@ def main() -> int:
         "n8b_status": environment["n8b_status"],
     }
     if not errors:
+        if stage == "complete":
+            # Isolate the two shared roots before the full task build.  A
+            # failed warmup remains a gate failure even if a later build
+            # succeeds; it never substitutes for the complete build/audit.
+            for module in COMPLETE_WARMUP_MODULES:
+                log_name = "warmup-" + module + ".log"
+                try:
+                    code = shared.logged(
+                        ["lake", "build", "+" + PREFIX + "." + module + ":olean"],
+                        log_name)
+                    results["warmup_exits"][module] = code
+                    if code != 0:
+                        errors.append(f"Sequential warmup {module} failed with exit {code}")
+                except Exception as error:
+                    results["warmup_exits"][module] = None
+                    message = f"Sequential warmup {module}: {type(error).__name__}: {error}"
+                    errors.append(message)
+                    with (evidence / log_name).open("a", encoding="utf-8") as stream:
+                        stream.write(message + "\n")
+                    print(message, file=sys.stderr, flush=True)
         try:
             results["build_exit"] = shared.logged(
                 ["lake", "build", *("+" + PREFIX + "." + module + ":olean" for module in modules)], "build.log")
@@ -261,6 +288,8 @@ def main() -> int:
                + f"- Exact head: `{head}`\n"
                + f"- Selected modules: {len(modules)}\n"
                + f"- Task scope: {task_scope}.\n"
+               + (f"- Sequential shared-root warmup exits: {results['warmup_exits']}.\n"
+                  if stage == "complete" else "")
                + f"- Lake exit: {results['build_exit']}\n"
                + f"- Fresh Lean audit exit: {results['audit_exit']}\n"
                + f"- Loaded V2 declarations recursively audited: {results.get('audited_declaration_count', 0)}\n"
