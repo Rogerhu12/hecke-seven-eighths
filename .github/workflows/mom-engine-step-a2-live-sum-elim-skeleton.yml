@@ -1,0 +1,619 @@
+# Complete current shared skeleton declaration check, exactly eight Sum.elim definitions; never production normal or fresh acceptance.
+name: A2 LiveSourceConditions complete shared skeleton declaration check
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a2-live-sum-elim-skeleton]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a2-live-sum-elim-skeleton-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  live_source:
+    name: LiveSourceConditions full shared skeleton only
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a2-live-sum-elim-skeleton
+          git show --no-patch --format=fuller HEAD > a2-live-sum-elim-skeleton/checkout.txt
+          cat > a2-live-sum-elim-skeleton/contract.json <<'CONTRACT'
+          {
+            "fixture_only": false,
+            "source_status": "Full shared skeleton with exactly eight nondependent tag projection bodies changed; all existing proof placeholders preserved. Not complete-real-source normal or fresh acceptance.",
+            "rebind_policy": "Immutable complete ac280 dependency graph; only the reviewed target skeleton and this one workflow may differ.",
+            "base": "ac280d14aca765bd283c929677ecfaf36543aaea",
+            "base_tree": "50de828b32da533f532205efe79a9f3e94905909",
+            "task_directory": "HeckeSkeleton/Moments/MOM_ENGINE_STEP",
+            "target": "LiveSourceConditions",
+            "target_path": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/LiveSourceConditions.lean",
+            "workflow_path": ".github/workflows/mom-engine-step-a2-live-sum-elim-skeleton.yml",
+            "original": {
+              "bytes": 12992,
+              "sha256": "94c1097a04e1baade045cdf163db1bc9c3eff24cbc3e73bedcf04019069405a0",
+              "git_blob": "1b3db23f80d08469203d7fde492b7def3db733ba"
+            },
+            "candidate": {
+              "bytes": 13012,
+              "sha256": "d6ffd5416eb4335a2394fd71933b28bd5e9f24cb02f42e58c174c2fcd71390e7",
+              "git_blob": "fbd638aee2efba057751798b935e7c8c16139f68"
+            },
+            "source_edits": [
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.commonLabel",
+                "kind": "replace",
+                "original_start": 4061,
+                "original_end": 4292,
+                "candidate_start": 4061,
+                "candidate_end": 4296,
+                "old": "def commonLabel : s.CoveredLeafKey B → Ideal (𝓞 K) × Ideal (𝓞 K)\n  | .inl j => j.1.1.val\n  | .inr (.inl ⟨_, j⟩) => j.1.1.val\n  | .inr (.inr (.inl ⟨_, j⟩)) => j.1.1.val\n  | .inr (.inr (.inr ⟨_, j⟩)) => j.1.1.val",
+                "new": "def commonLabel : s.CoveredLeafKey B → Ideal (𝓞 K) × Ideal (𝓞 K) :=\n  Sum.elim\n    (fun j => j.1.1.val)\n    (Sum.elim\n      (fun q => q.2.1.1.val)\n      (Sum.elim\n        (fun q => q.2.1.1.val)\n        (fun q => q.2.1.1.val)))",
+                "old_sha256": "00cbb34a948c4e426294c1f250072f9ec0d6b54a7380aeb374d368b3eeacce34",
+                "new_sha256": "19bbf14974b1071fcc03a5b7d1d9264d583fe617dec7050e327858d5df648fc8"
+              },
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.innerDivisor",
+                "kind": "replace",
+                "original_start": 4294,
+                "original_end": 4508,
+                "candidate_start": 4298,
+                "candidate_end": 4516,
+                "old": "def innerDivisor : s.CoveredLeafKey B → Ideal (𝓞 K)\n  | .inl j => j.2.1.val\n  | .inr (.inl ⟨_, j⟩) => j.2.1.val\n  | .inr (.inr (.inl ⟨_, j⟩)) => j.2.1.val\n  | .inr (.inr (.inr ⟨_, j⟩)) => j.2.1.val",
+                "new": "def innerDivisor : s.CoveredLeafKey B → Ideal (𝓞 K) :=\n  Sum.elim\n    (fun j => j.2.1.val)\n    (Sum.elim\n      (fun q => q.2.2.1.val)\n      (Sum.elim\n        (fun q => q.2.2.1.val)\n        (fun q => q.2.2.1.val)))",
+                "old_sha256": "013dfb09628f50cee102af253346ff060a220245d3b9554ac6c1c2e0f792579d",
+                "new_sha256": "48a61d97d30f1c3a938a4588e50ed688b77d73152ce32e09d67e854e8e721eac"
+              },
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.physicalRows",
+                "kind": "replace",
+                "original_start": 4510,
+                "original_end": 4745,
+                "candidate_start": 4518,
+                "candidate_end": 4757,
+                "old": "def physicalRows : s.CoveredLeafKey B → Finset A.R\n  | .inl _ => d.mainRows\n  | .inr (.inl ⟨p, _⟩) => d.errorRows p.val\n  | .inr (.inr (.inl ⟨p, _⟩)) => d.errorRows p.val\n  | .inr (.inr (.inr ⟨p, _⟩)) => d.errorRows p.val",
+                "new": "def physicalRows : s.CoveredLeafKey B → Finset A.R :=\n  Sum.elim\n    (fun _ => d.mainRows)\n    (Sum.elim\n      (fun q => d.errorRows q.1.val)\n      (Sum.elim\n        (fun q => d.errorRows q.1.val)\n        (fun q => d.errorRows q.1.val)))",
+                "old_sha256": "f49375a8f718dfaf85429ccebc1ee0e38d43b54142ec74195b7a784cf9ea7d1c",
+                "new_sha256": "e618988f1a56a44ef8a81ee3e335184824b9b003aae45faf89bd72ad2d984b67"
+              },
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.sourceCommonLabels",
+                "kind": "replace",
+                "original_start": 4747,
+                "original_end": 5110,
+                "candidate_start": 4759,
+                "candidate_end": 5126,
+                "old": "def sourceCommonLabels : s.CoveredLeafKey B → Finset (Ideal (𝓞 K) × Ideal (𝓞 K))\n  | .inl _ => (d.mainSource c).activeCommon\n  | .inr (.inl ⟨p, _⟩) => (d.residualSource p.val 1 c).activeCommon\n  | .inr (.inr (.inl ⟨p, _⟩)) => (d.residualSource p.val 6 c).activeCommon\n  | .inr (.inr (.inr ⟨p, _⟩)) => (d.residualSource p.val 7 c).activeCommon",
+                "new": "def sourceCommonLabels : s.CoveredLeafKey B → Finset (Ideal (𝓞 K) × Ideal (𝓞 K)) :=\n  Sum.elim\n    (fun _ => (d.mainSource c).activeCommon)\n    (Sum.elim\n      (fun q => (d.residualSource q.1.val 1 c).activeCommon)\n      (Sum.elim\n        (fun q => (d.residualSource q.1.val 6 c).activeCommon)\n        (fun q => (d.residualSource q.1.val 7 c).activeCommon)))",
+                "old_sha256": "cc7779cbaee1349a50ec478cd63935cbc7ef824d4f603b19ab45b8b43d134a52",
+                "new_sha256": "889b8acadb626cdaa90098073892241096c5a0b5385bbfbacd195d246af5ac57"
+              },
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.ActualPoolStages.errorPrime",
+                "kind": "replace",
+                "original_start": 5112,
+                "original_end": 5332,
+                "candidate_start": 5128,
+                "candidate_end": 5352,
+                "old": "def errorPrime : s.CoveredLeafKey B → Option (ExteriorPrime A)\n  | .inl _ => none\n  | .inr (.inl ⟨p, _⟩) => some p.val\n  | .inr (.inr (.inl ⟨p, _⟩)) => some p.val\n  | .inr (.inr (.inr ⟨p, _⟩)) => some p.val",
+                "new": "def errorPrime : s.CoveredLeafKey B → Option (ExteriorPrime A) :=\n  Sum.elim\n    (fun _ => none)\n    (Sum.elim\n      (fun q => some q.1.val)\n      (Sum.elim\n        (fun q => some q.1.val)\n        (fun q => some q.1.val)))",
+                "old_sha256": "2e7d2aa6ad1c3a5cf5a2d327d4eaa794007bf4e560e94602fecc75aa7571ce01",
+                "new_sha256": "62248e4b118759f9dc9ab2399b6ed2d7960e3270aeec7e1437b032f698f0d994"
+              },
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.commonLabel",
+                "kind": "replace",
+                "original_start": 8690,
+                "original_end": 8955,
+                "candidate_start": 8710,
+                "candidate_end": 8975,
+                "old": "def commonLabel (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) × Ideal (𝓞 K) :=\n  match j.2.2 with\n  | .inl a => (s.left j.1 j.2.1).commonLabel (p.leftSourceCovers LA j.1 j.2.1) a\n  | .inr a => (s.right j.1 j.2.1).commonLabel (p.rightSourceCovers RA j.1 j.2.1) a",
+                "new": "def commonLabel (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) × Ideal (𝓞 K) :=\n  Sum.elim\n    (fun a => (s.left j.1 j.2.1).commonLabel (p.leftSourceCovers LA j.1 j.2.1) a)\n    (fun a => (s.right j.1 j.2.1).commonLabel (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2",
+                "old_sha256": "9818a15a0bd01f6085dfbceafbc48bfc36c9b5623013eaae25c36f3e4f693081",
+                "new_sha256": "ed52289ce97d94e6900fe5a856ffa5eec51b97cb0979b489069e376c1338bcf9"
+              },
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.innerDivisor",
+                "kind": "replace",
+                "original_start": 8957,
+                "original_end": 9207,
+                "candidate_start": 8977,
+                "candidate_end": 9227,
+                "old": "def innerDivisor (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) :=\n  match j.2.2 with\n  | .inl a => (s.left j.1 j.2.1).innerDivisor (p.leftSourceCovers LA j.1 j.2.1) a\n  | .inr a => (s.right j.1 j.2.1).innerDivisor (p.rightSourceCovers RA j.1 j.2.1) a",
+                "new": "def innerDivisor (j : s.CoveredLeafKey LA RA) : Ideal (𝓞 K) :=\n  Sum.elim\n    (fun a => (s.left j.1 j.2.1).innerDivisor (p.leftSourceCovers LA j.1 j.2.1) a)\n    (fun a => (s.right j.1 j.2.1).innerDivisor (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2",
+                "old_sha256": "5081c4193dfe713e8b00c1f9906de4bc8132069f0795f8aba6debc52a575db12",
+                "new_sha256": "d2b2b33b3d33c3cff67abd0b499268bf9714cc6837aede53527725b77ce906ab"
+              },
+              {
+                "full_name": "HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.errorPrime",
+                "kind": "replace",
+                "original_start": 9209,
+                "original_end": 9463,
+                "candidate_start": 9229,
+                "candidate_end": 9483,
+                "old": "def errorPrime (j : s.CoveredLeafKey LA RA) : Option (ExteriorPrime A) :=\n  match j.2.2 with\n  | .inl a => (s.left j.1 j.2.1).errorPrime (p.leftSourceCovers LA j.1 j.2.1) a\n  | .inr a => (s.right j.1 j.2.1).errorPrime (p.rightSourceCovers RA j.1 j.2.1) a",
+                "new": "def errorPrime (j : s.CoveredLeafKey LA RA) : Option (ExteriorPrime A) :=\n  Sum.elim\n    (fun a => (s.left j.1 j.2.1).errorPrime (p.leftSourceCovers LA j.1 j.2.1) a)\n    (fun a => (s.right j.1 j.2.1).errorPrime (p.rightSourceCovers RA j.1 j.2.1) a) j.2.2",
+                "old_sha256": "ed5346bd72165cf1bea06a74524a2b5ada6ff5cfab943ce4455899659186bc29",
+                "new_sha256": "dacc7b96d469f0afb1fe0eec043bd148a265749ed9878645cc2fed4df725e10a"
+              }
+            ],
+            "original_imports": [
+              "HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportedGaussStages"
+            ],
+            "original_prints": [
+              "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.supported_gated_fiberLeaf_live",
+              "HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.live_common_old_mask",
+              "HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.live_errorPrime_avoids_old_mask"
+            ],
+            "candidate_options": [
+              "set_option linter.unusedSectionVars false"
+            ],
+            "config_sha256": {
+              "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+              "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+              "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+              "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+              "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+              "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148"
+            },
+            "mathlib_commit": "0493595ecd5da8ef14742febab99728f98e948e8",
+            "lean_commit": "470d5ce1400764999581fd26d5d72b00d990b0f4",
+            "expected_STEP_closure": [
+              "ActualCapacityProduction",
+              "ActualChildInvariants",
+              "ActualChildRows",
+              "ActualChildren",
+              "ActualCommonLabelConditions",
+              "ActualCorrelationBound",
+              "ActualFamilyIntegrability",
+              "ActualFirstCharacters",
+              "ActualFirstSource",
+              "ActualFirstTerminalBudget",
+              "ActualFirstZero",
+              "ActualFrequencyPartition",
+              "ActualGaussCoverHybridTerminal",
+              "ActualGaussFiniteLeaves",
+              "ActualGaussRawTerminal",
+              "ActualLengths",
+              "ActualPool",
+              "ActualScaleClipping",
+              "AllocatedCapacityProvider",
+              "AllocatedChildFamily",
+              "AllocatedChildProvider",
+              "AllocatedSubsupport",
+              "AllocationKernel",
+              "AllocationMass",
+              "AmplifierDifference",
+              "AmplifierGaussExtraction",
+              "AmplifierPoolReindex",
+              "AmplifierResidualSupport",
+              "AmplifierSupportDictionary",
+              "AmplifierValuationSupport",
+              "ArithmeticPrimePool",
+              "CanonicalFirstBlocks",
+              "Capacity",
+              "CenteredAllocatedChildren",
+              "ChildAssembly",
+              "ChildMomentDataAdapter",
+              "ChildTermDictionary",
+              "Coefficient",
+              "CombinedSupportPoolAtlas",
+              "CommonHarmonicMass",
+              "CommonRadical",
+              "CommonSupportPartition",
+              "CoprimeCoefficient",
+              "CorrelationKernel",
+              "CoverHybridPhaseIntegral",
+              "DerivedCapacity",
+              "EffectiveChildSupport",
+              "FinitePhase",
+              "FiniteProductGauss",
+              "FirstActiveDictionary",
+              "FirstBlockFiniteLeaves",
+              "FirstCharacterSource",
+              "FirstCommonGauss",
+              "FirstCommonMass",
+              "FirstCommonNormalization",
+              "FirstCommonSupportSource",
+              "FirstDivisorPhysicalSource",
+              "FirstDivisorPool",
+              "FirstFiniteSource",
+              "FirstGaussPool",
+              "FirstGaussPoolKernel",
+              "FirstKernel",
+              "FirstLinearizedSource",
+              "FirstPooledResidual",
+              "FirstPooledStage",
+              "FirstResidualSource",
+              "FirstSecondCoveredSource",
+              "FirstSecondRawSource",
+              "FirstSecondSource",
+              "FirstSourceFiniteLeaves",
+              "FirstStage",
+              "FirstWeightedReduction",
+              "FirstZeroAmplitude",
+              "FirstZeroDiagonal",
+              "FirstZeroSupport",
+              "FixedChildFamily",
+              "GatedGaussStages",
+              "GaussEnergySource",
+              "GaussPairTransform",
+              "GaussPhaseTerminal",
+              "GaussPoolDictionary",
+              "GaussSource",
+              "GaussStageKernelIntegral",
+              "GaussStagePhaseTransport",
+              "GeneratedCorrelation",
+              "GeneratedZeroGauss",
+              "HybridFiniteLeaf",
+              "HybridLeafSupport",
+              "IdealPool",
+              "JointKernel",
+              "JointKernelBounds",
+              "JointKernelExceptionalSplit",
+              "Ledger",
+              "LiveSourceConditions",
+              "LocalAmplifier",
+              "LocalCRT",
+              "LocalCorrelation",
+              "MomentDataAdapter",
+              "NestedFourierMeasure",
+              "NestedHilbertPhase",
+              "NestedHybridKernel",
+              "NestedHybridResidual",
+              "NestedSecondClassProduction",
+              "NestedSecondResidual",
+              "NonzeroQuotientSupport",
+              "NormalizedActualCapacityChild",
+              "OrbitalCorrelation",
+              "ParentMoment",
+              "ParentSource",
+              "ParentTruncation",
+              "PhaseDictionary",
+              "Pool",
+              "PoolCoverHybridStage",
+              "PoolFiniteLeaves",
+              "PoolFourierStage",
+              "PoolGaussDecomposition",
+              "PoolRawFourierStage",
+              "PoolSecondStage",
+              "PoolStageTerminalBudget",
+              "PowerfulDiagonal",
+              "PowerfulProducts",
+              "PreCauchySource",
+              "PrimePool",
+              "PrimePowerGcd",
+              "PrimePowerQuotientSupport",
+              "PrimeSupportMass",
+              "ProfileNormalizationInput",
+              "RankinLabels",
+              "RawSourcePhaseIntegral",
+              "ReductionOutput",
+              "ResidualTupleCount",
+              "ResidualZeroBudget",
+              "SIntegerFirstFourier",
+              "SecondAllocatedSource",
+              "SecondAllocationKernel",
+              "SecondBranchProduction",
+              "SecondCenteredBinding",
+              "SecondChartAllocation",
+              "SecondClassProduction",
+              "SecondCoefficientBinding",
+              "SecondCoefficientNormalization",
+              "SecondCommonSource",
+              "SecondCorrelationSource",
+              "SecondGeneratorSource",
+              "SecondHybridAllocation",
+              "SecondHybridChart",
+              "SecondHybridCoverSource",
+              "SecondHybridSource",
+              "SecondResidualSource",
+              "SecondStage",
+              "SecondTailBudget",
+              "SecondZeroAmplitude",
+              "SecondZeroDiagonal",
+              "SecondZeroSupport",
+              "SlotRestriction",
+              "SourceCartesianAtlas",
+              "SourceCartesianCover",
+              "SourceFactorExtraction",
+              "StageTerminalBudget",
+              "SupportCartesianReindex",
+              "SupportKernelPartition",
+              "SupportedGaussStages",
+              "TailBudget",
+              "TailFiberCount",
+              "TerminalPowerBudget",
+              "UniformLengthCapacity",
+              "ValuationAllocation",
+              "WeightedNestedFourierMeasure",
+              "WholeAllocation",
+              "ZeroTerminalBudget"
+            ],
+            "expected_tracked_files": 9593,
+            "required_unchanged_dependencies": {
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstBlockFiniteLeaves.lean": {
+                "bytes": 11870,
+                "sha256": "fdef82650acba0246170bf44dbce11ca6f457f49e61b86d31716a97895fee961",
+                "git_blob": "24b8f6ff7d1028d202144dab301088eb2038d15e"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstSourceFiniteLeaves.lean": {
+                "bytes": 11103,
+                "sha256": "bb753e4ebf0831c86e196af62c92876b249fde4100fa697c7d3f997b320fe199",
+                "git_blob": "42f15b4e380ef05ccbdfa9f9a025dc0c75e61d66"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean": {
+                "bytes": 78390,
+                "sha256": "d3cea2bf707178b13522388c750e3b61b27ad1f4e9ee778a997bc6cabb23270b",
+                "git_blob": "de2c2981559eac103fcd004ff51d1327cc3b40e3"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean": {
+                "bytes": 9555,
+                "sha256": "e049e18a7676fe5fae38dafb31f3bc85f88983fac2cf438845b39ab7c44eef51",
+                "git_blob": "eb2aa1882ef05dd0f1faebd827da645ec92b269d"
+              },
+              "HeckeSkeleton/Moments/MOM_ENGINE_STEP/SupportedGaussStages.lean": {
+                "bytes": 12647,
+                "sha256": "639a6b4f3bdb93cbc51c5c360a5537c9b5955df14be12251c7562b8ac4d03450",
+                "git_blob": "649dfaf054f1148c536125df43e4069d984f8f3a"
+              }
+            },
+            "source_skeleton_proof_count": 16,
+            "source_definition_count": 11,
+            "existing_skeleton_proofs_preserved": true,
+            "new_helpers_or_definitions": 0,
+            "comments_read": [
+              6572767574,
+              6572882640
+            ],
+            "single_slow_declaration_or_stack_identified": false,
+            "no_new_Lean_options": true,
+            "normal_acceptance": false,
+            "fresh_acceptance": false,
+            "production_acceptance": false
+          }
+          CONTRACT
+          cat > a2-live-sum-elim-skeleton/provenance.py <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+          import tomllib
+          
+          
+          def identity(data):
+              return {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                      'git_blob': hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()}
+          
+          
+          def validate_source_pair(original, candidate, contract):
+              assert identity(original) == contract['original']
+              assert identity(candidate) == contract['candidate']
+              forward = original
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['original_start'], edit['original_end']
+                  old, new = edit['old'].encode(), edit['new'].encode()
+                  assert original[start:end] == old
+                  assert identity(old)['sha256'] == edit['old_sha256']
+                  assert identity(new)['sha256'] == edit['new_sha256']
+                  forward = forward[:start] + new + forward[end:]
+              assert forward == candidate
+              backward = candidate
+              for edit in reversed(contract['source_edits']):
+                  start, end = edit['candidate_start'], edit['candidate_end']
+                  assert candidate[start:end] == edit['new'].encode()
+                  backward = backward[:start] + edit['old'].encode() + backward[end:]
+              assert backward == original
+              for pattern, key in [(rb'^import (.+)$', 'original_imports'),
+                                   (rb'^#print axioms (.+)$', 'original_prints')]:
+                  assert [x.decode() for x in re.findall(pattern, original, re.M)] == contract[key]
+                  assert [x.decode() for x in re.findall(pattern, candidate, re.M)] == contract[key]
+              assert [x.decode() for x in re.findall(rb'^set_option\b.*$', candidate, re.M)] == contract['candidate_options']
+              assert b'run_tac IO.eprintln' not in candidate and b'run_cmd IO.eprintln' not in candidate
+              assert candidate.count(b'  sorry\n') == original.count(b'  sorry\n') == contract['source_skeleton_proof_count']
+              assert len(re.findall(rb'^def ', candidate, re.M)) == len(re.findall(rb'^def ', original, re.M)) == contract['source_definition_count']
+              assert candidate.split(b'/-!', 1)[0] == original.split(b'/-!', 1)[0]
+              return {'original': identity(original), 'candidate': identity(candidate),
+                      'exact_forward_and_inverse': True,
+                      'original_imports': contract['original_imports'],
+                      'original_prints': contract['original_prints'],
+                      'candidate_options': contract['candidate_options'],
+                      'existing_skeleton_proofs_preserved': True,
+                      'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}
+          
+          
+          def closure(graph, target):
+              found, pending = set(), [target]
+              while pending:
+                  name = pending.pop()
+                  if name in found:
+                      continue
+                  assert name in graph, 'Missing STEP module: ' + name
+                  found.add(name)
+                  pending.extend(graph[name])
+              return sorted(found)
+          
+          
+          def validate_inventory(source_bytes, config_bytes, contract):
+              task = contract['task_directory']
+              configs = {path: identity(data)['sha256'] for path, data in config_bytes.items()}
+              assert configs == contract['config_sha256'] and len(configs) == 7
+              assert config_bytes['lean-toolchain'].decode().strip() == 'leanprover/lean4:v4.35.0-rc3'
+              lake = tomllib.loads(config_bytes['lakefile.toml'].decode())
+              assert lake['weakLeanArgs'] == ['-j2']
+              assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+              mathlib = [x for x in json.loads(config_bytes['lake-manifest.json'])['packages'] if x['name'] == 'mathlib']
+              assert len(mathlib) == 1 and mathlib[0]['rev'] == contract['mathlib_commit']
+              imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$',
+                                   source_bytes[task + '/Interface.lean'].decode(), re.M)
+              expected = {p[:-5].replace('/', '.') for p in source_bytes if p != task + '/Interface.lean'}
+              libraries = [x['name'] for x in lake['lean_lib']]
+              assert len(source_bytes) == 1009 and len(imports) == len(set(imports)) == 1008
+              assert set(imports) == expected and len(libraries) == 20
+              graph = {Path(path).stem: re.findall(r'^import HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.([A-Za-z_0-9]+)\s*$', data.decode(), re.M)
+                       for path, data in source_bytes.items()}
+              actual_closure = closure(graph, contract['target'])
+              assert actual_closure == contract['expected_STEP_closure']
+              for path, expected_id in contract['required_unchanged_dependencies'].items():
+                  assert identity(source_bytes[path]) == expected_id
+              return {'task_source_sha256': {p: identity(b)['sha256'] for p, b in source_bytes.items()},
+                      'config_sha256': configs, 'interface_imports': imports, 'libraries': libraries,
+                      'target_STEP_closure': actual_closure}
+          
+          
+          def main():
+              root = Path.cwd()
+              evidence = Path(__file__).resolve().parent
+              contract = json.loads((evidence / 'contract.json').read_text())
+              assert not contract['fixture_only'], (
+                  'This local fixture cannot be published without a separately frozen complete shared source.')
+              phase = sys.argv[1]
+              assert phase in ['before', 'after']
+              def git(*args):
+                  return subprocess.check_output(['git', *args], text=True).strip()
+              assert git('rev-parse', contract['base'] + '^{tree}') == contract['base_tree']
+              head = git('rev-parse', 'HEAD')
+              assert head == os.environ['EXPECTED_SHA']
+              assert git('rev-list', '--parents', '-n', '1', 'HEAD').split() == [head, contract['base']]
+              changed = git('diff', '--no-renames', '--name-only', contract['base'], 'HEAD').splitlines()
+              assert changed == sorted([contract['target_path'], contract['workflow_path']])
+              assert git('diff', '--no-renames', '--name-status', contract['base'], 'HEAD').splitlines() == sorted([
+                  'M\t' + contract['target_path'], 'A\t' + contract['workflow_path']])
+              original = subprocess.check_output(['git', 'show', contract['base'] + ':' + contract['target_path']])
+              candidate = Path(contract['target_path']).read_bytes()
+              source_check = validate_source_pair(original, candidate, contract)
+              assert git('rev-parse', 'HEAD:' + contract['target_path']) == contract['candidate']['git_blob']
+              task = Path(contract['task_directory'])
+              source_bytes = {str(p): p.read_bytes() for p in sorted(task.glob('*.lean'))}
+              config_bytes = {p: Path(p).read_bytes() for p in contract['config_sha256']}
+              inventory = validate_inventory(source_bytes, config_bytes, contract)
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+              assert len(tracked) == contract['expected_tracked_files']
+              def tracked_digest(path):
+                  p = Path(path)
+                  data = os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+                  return identity(data)['sha256']
+              record = {
+                  'stage': 'Complete LiveSourceConditions shared-skeleton declaration build; never real-source normal or fresh acceptance',
+                  'source_base': contract['base'], 'source_base_tree': contract['base_tree'],
+                  'head': head, 'tree': git('rev-parse', 'HEAD^{tree}'),
+                  'expected_head': os.environ['EXPECTED_SHA'],
+                  'changed_paths': changed, 'complete_source_identity': source_check,
+                  'target_modules': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + contract['target']],
+                  'original_prints': contract['original_prints'],
+                  'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                  'tracked_sha256': {p: tracked_digest(p) for p in tracked},
+                  'full_task_acceptance': False, 'normal_acceptance': False,
+                  'fresh_acceptance': False, 'production_acceptance': False,
+                  'existing_skeleton_sorry_retained': True, 'new_Lean_options': [], **inventory,
+              }
+              assert not record['tracked_status']
+              assert json.loads(json.dumps(record)) == record
+              (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+              if phase == 'after':
+                  assert json.loads((evidence / 'before-source.json').read_text()) == record
+                  (evidence / 'source-integrity.json').write_text(json.dumps({
+                      'unchanged': True, 'head': head, 'tree': record['tree'],
+                      'tracked_files': len(tracked), 'task_modules': 1009,
+                      'interface_imports': 1008, 'libraries': 20,
+                      'normal_acceptance': False, 'fresh_acceptance': False,
+                      'production_acceptance': False}, indent=2) + '\n')
+              print(phase, head, record['tree'], len(tracked), 1009, 1008, 20, flush=True)
+          
+          
+          if __name__ == '__main__':
+              main()
+          PY
+          cat > a2-live-sum-elim-skeleton/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a2-live-sum-elim-skeleton')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a2-live-sum-elim-skeleton/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a2-live-sum-elim-skeleton/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a2-live-sum-elim-skeleton/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.LiveSourceConditions:deps
+      - name: Compile the complete shared skeleton module with its original file options
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a2-live-sum-elim-skeleton/run.py declarations 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.LiveSourceConditions
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a2-live-sum-elim-skeleton/provenance.py after
+      - name: Preserve complete skeleton build logs and all source hashes; no production acceptance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a2-live-sum-elim-skeleton-${{ github.sha }}-${{ github.run_attempt }}
+          path: a2-live-sum-elim-skeleton/
+          if-no-files-found: error
+          retention-days: 14
