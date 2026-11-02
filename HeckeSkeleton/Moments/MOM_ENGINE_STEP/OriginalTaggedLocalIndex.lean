@@ -1,5 +1,4 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAmplifiedCarrier
-
 set_option linter.unusedSectionVars false
 
 /-!
@@ -19,6 +18,14 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open CommonSupportMass
 
+private def option_dependent_value
+    {α : Type*} {β : Option α → Sort*}
+    (o : Option α) (f0 : o = none → β none)
+    (fs : ∀ a, o = some a → β (some a)) : β o :=
+  match (generalizing := false) h : o with
+  | none => f0 h
+  | some a => fs a h
+
 private theorem option_dependent_match_property
     {α : Type*} {β : Option α → Sort*}
     (o : Option α) (f0 : o = none → β none)
@@ -26,9 +33,7 @@ private theorem option_dependent_match_property
     (P : ∀ q, β q → Prop)
     (h0 : ∀ h, P none (f0 h))
     (hs : ∀ a h, P (some a) (fs a h)) :
-    P o (match (generalizing := false) h : o with
-      | none => f0 h
-      | some a => fs a h) := by
+    P o (option_dependent_value o f0 fs) := by
   sorry
 
 variable {K : Type} [Field K] [NumberField K]
@@ -45,12 +50,13 @@ def localBranch (i : I) : TwoDivisorCommonBranch (K := K) :=
   | some q => L.errorCarrier tag q.1 q.2
 
 def localIndex (i : I) : (L.localBranch tag i).Index :=
-  show (match tag i with
-    | none => L.mainCarrier tag
-    | some q => L.errorCarrier tag q.1 q.2).Index from
-  match h : tag i with
-  | none => (L.mainLabels tag).index ⟨i, h⟩
-  | some q => (L.errorLabels tag q.1 q.2).index ⟨i, h⟩
+  option_dependent_value
+    (β := fun q => (match q with
+      | none => L.mainCarrier tag
+      | some p => L.errorCarrier tag p.1 p.2).Index)
+    (tag i)
+    (fun h => (L.mainLabels tag).index ⟨i, h⟩)
+    (fun q h => (L.errorLabels tag q.1 q.2).index ⟨i, h⟩)
 
 @[simp] theorem localIndex_first (i : I) :
     (L.localIndex tag i).1.val = L.first i := by
