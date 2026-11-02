@@ -62,10 +62,10 @@ def supportedExceptionalIntegrand (z : ℝ × ℝ) : ℝ :=
       (-packet.leaf.rightFirst h.val j, packet.leaf.rightSecond h.val j))
     (WithLp.toLp 2 z)
 
-def sixthBase (h : packet.R.live) : NonzeroIdeal K :=
+def sixthBase (h : packet.R.live) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   sixthPowerFreePart (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal
 
-def exceptionalBases : Finset (NonzeroIdeal K) :=
+def exceptionalBases : Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   packet.exceptionalRows.image packet.sixthBase
 
 def multiplicityOneRadical (h : packet.R.live) : (Arithmetic.data c).Exterior :=
@@ -91,7 +91,7 @@ structure ExceptionalRecovery : Prop where
       packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val),
       6 ∣ (normalizedFactors (packet.R.originalIdeal h.val).val).count
         (packet.R.primes i).val.asIdeal
-  extracted_fibres : ∀ I : NonzeroIdeal K,
+  extracted_fibres : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal K,
     (packet.exceptionalRows.filter (fun h =>
       (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal = I)).card ≤
         (Arithmetic.unitSubgroup c).index

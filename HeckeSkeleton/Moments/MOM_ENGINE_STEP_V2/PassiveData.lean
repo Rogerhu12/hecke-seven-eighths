@@ -57,13 +57,13 @@ variable {input : ProfileInput call} {k : ℕ} (S : SmoothSideSupport input k)
 def plainTest (_S : SmoothSideSupport input k) (side : Bool) : IdealTest K :=
   if side then call.node.data.plainTest₂ else call.node.data.plainTest₁
 
-def rectangleSupport (rectangle side : Bool) : Finset (NonzeroIdeal K) :=
+def rectangleSupport (rectangle side : Bool) : Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   let f := S.plain rectangle side
   if f.formula.scalar = 0 then ∅ else
     (S.plainTest side).support f.row f.time
       (S.plainScale rectangle side / f.formula.dilation)
 
-def smoothPlain (side : Bool) : Finset (NonzeroIdeal K) :=
+def smoothPlain (side : Bool) : Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   S.rectangleSupport false side ∪ S.rectangleSupport true side
 
 def length (i : Fin k) : ℝ :=
@@ -77,7 +77,7 @@ def smoothSlot (i : Fin k) : Finset (HeightOneSpectrum (𝓞 K)) :=
 /-- These two gates remain in force before and after passive expansion.
 The moving gate is the paid support, not the whole first deletion set. -/
 def plainCarrier (paid : (Arithmetic.data c).Exterior) (side : Bool) :
-    Finset (NonzeroIdeal K) :=
+    Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   (S.smoothPlain side).filter
     (fun I => IsCoprime I.val (Arithmetic.data c).cS ∧ IsCoprime I.val paid.val)
 
@@ -99,13 +99,13 @@ def candidates (mask : Ideal (𝓞 K)) (k : ℕ) : Finset (Key K k) :=
 def sign {k : ℕ} (a : Key K k) : ℂ :=
   (moebius a.1 : ℂ) * AllocationMass.sign (primeSupport a.1) a.2
 
-def idealCarrier (s : Finset (NonzeroIdeal K)) : Finset (Ideal (𝓞 K)) :=
+def idealCarrier (s : Finset (HeckeGeneral.Analysis.NonzeroIdeal K)) : Finset (Ideal (𝓞 K)) :=
   s.image (fun I => I.val)
 
 /-- A carrier is computed from one smooth-support dictionary; it is
 not the old allocation's already truncated `childPlain` support. -/
 structure Carrier (K : Type) [Field K] [NumberField K] (k : ℕ) where
-  plain : Bool → Finset (NonzeroIdeal K)
+  plain : Bool → Finset (HeckeGeneral.Analysis.NonzeroIdeal K)
   slots : Fin k → Finset (HeightOneSpectrum (𝓞 K))
 
 variable {k : ℕ} (B : Carrier K k)

@@ -93,7 +93,6 @@
         "TasksFirstTransform",
         "TasksFirstZero",
         "TasksNominalGeometry",
-        "TasksOriginalAtoms",
         "TasksPassiveRefinement",
         "TasksSecondTransform",
         "TasksSecondZero",
@@ -133,7 +132,16 @@
         "OrdinaryCharacterFacts",
         "OrdinaryAtomExtraction",
         "OrdinaryNormPower",
-        "OrdinaryScaleFacts"
+        "OrdinaryScaleFacts",
+        "OrdinaryOriginalTerms",
+        "OrdinaryNormProfile",
+        "OrdinaryOriginalCoordinates",
+        "OrdinaryMultiplierTransport",
+        "OrdinaryPhaseCoefficients",
+        "OrdinaryRawAtomData",
+        "OrdinaryFromAtoms",
+        "OrdinaryFirstAtomFormula",
+        "OrdinaryRawAtomFormula"
       ]
     },
     {
@@ -142,6 +150,14 @@
       "proved": true,
       "modules": [
         "TasksFiniteLeaves"
+      ]
+    },
+    {
+      "id": "n1",
+      "name": "N1 original ordinary atom and occurrence dictionary",
+      "proved": true,
+      "modules": [
+        "TasksOriginalAtoms"
       ]
     }
   ]

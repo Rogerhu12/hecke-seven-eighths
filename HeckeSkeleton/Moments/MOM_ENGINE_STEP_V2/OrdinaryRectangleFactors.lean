@@ -25,6 +25,7 @@ open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.Moments HeckePort.Moments.Support
+open HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -114,6 +115,8 @@ variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 namespace FirstPresentation
 
 variable (F : FirstPresentation call p) (hF : F.Realizes)
+
+include hF
 
 theorem chart_leftCoefficient (v : F.source.CommonLabel)
     (D : ((F.source.block v).mask F.source.mask).powerset) (i : F.source.Column) :

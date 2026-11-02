@@ -44,7 +44,7 @@ namespace FiniteLeaves
 fibre and outer scalar each paid once. -/
 theorem source_nonzero_le_sum (source : SecondSource call p)
     (LC RC : SourceCartesianCover source.physical.source.columns source.physical.source.ideal)
-    (exceptional : source.stage.CoverHybridPredicates LC RC) :
+    (exceptional : EngineStep.ActualGaussStage.CoverHybridPredicates.{0, 0, 0, 0} source.stage LC RC) :
     source.nonzero ≤ ∑ key : (Σ v : SourceClassKey source.stage LC RC,
         SourceClassKey.AllocationKey v),
       (secondSourceLeaf source LC RC key.1 exceptional key.2).cost := by

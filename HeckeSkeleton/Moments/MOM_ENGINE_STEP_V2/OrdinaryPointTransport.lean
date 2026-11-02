@@ -42,6 +42,8 @@ namespace FirstPresentation
 
 variable (F : FirstPresentation call p) (hF : F.Realizes)
 
+include hF
+
 theorem chart_leftPoint (v : F.source.CommonLabel)
     (D : ((F.source.block v).mask F.source.mask).powerset) (i : F.source.Column) :
     (F.source.charts v D).leftPoint i =

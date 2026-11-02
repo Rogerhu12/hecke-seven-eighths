@@ -101,6 +101,42 @@ theorem first_phase_facts (hfamily : family.Realizes) (i : Fin family.count) :
       primeSupport_nonzero (family.source i).first.selected.val J
         (nonZeroDivisors.coe_ne_zero _) hJ)
 
+theorem first_deletion_prime (hfamily : family.Realizes) (i : Fin family.count) :
+    ∀ Q ∈ (family.source i).first.fullDeletion, Prime Q := by
+  intro Q hQ
+  rw [hfamily.deletion i] at hQ
+  exact ((mem_normalizedFactors_iff
+    (nonZeroDivisors.coe_ne_zero (family.source i).first.selected)).mp
+      (by simpa only [primeSupport, Multiset.mem_toFinset] using hQ)).1
+
+theorem deletion_prime (hfamily : family.Realizes)
+    (expansion : PoolExpansion family) (hexpansion : expansion.Realizes)
+    (i : Fin expansion.count) :
+    ∀ Q ∈ (expansion.source i).first.fullDeletion, Prime Q := by
+  cases expansion with
+  | direct => exact first_deletion_prime hfamily i
+  | pooled P count index source =>
+    rcases hexpansion with ⟨hslots, hP, horigin⟩
+    have hf := first_deletion_prime hfamily (index i).1
+    have ho := horigin i
+    cases he : (index i).2 with
+    | inl u =>
+      rw [PoolPresentation.Origin, he] at ho
+      rcases ho with ⟨hcol, hs, ha, hm, hk, hp, hw, hfirst⟩
+      simpa only [PoolExpansion.source, hfirst] using hf
+    | inr qe =>
+      rw [PoolPresentation.Origin, he] at ho
+      rcases ho with ⟨hcol, hs, ha, hm, hk, hp, hw, hselected, hopposite,
+        hcomplementary, hresidual, helement, hright, hpower, hscale, htag,
+        hdeletion, hpaid⟩
+      change ∀ Q ∈ (source i).first.fullDeletion, Prime Q
+      rw [hdeletion]
+      intro Q hQ
+      rcases Finset.mem_union.mp hQ with hQ | hQ
+      · exact hf Q hQ
+      · rw [Finset.mem_singleton.mp hQ]
+        exact qe.1.val.val.prime
+
 theorem phase_facts (hfamily : family.Realizes)
     (expansion : PoolExpansion family) (hexpansion : expansion.Realizes)
     (i : Fin expansion.count) :
