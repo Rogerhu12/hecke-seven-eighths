@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralProfileData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EffectiveChildSupport
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Actual finite supports after occurrence extraction
 

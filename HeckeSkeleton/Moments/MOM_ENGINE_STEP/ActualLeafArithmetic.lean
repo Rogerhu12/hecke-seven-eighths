@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredFibre
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalSourceSlotCaps
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalArithmeticCarrier
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Arithmetic projections of the literal parent leaves
 

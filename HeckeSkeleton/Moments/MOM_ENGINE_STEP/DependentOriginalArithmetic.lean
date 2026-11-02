@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAmplifiedCarrier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFibres
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original arithmetic index of dependent passive families
 

@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolTerminalMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The canonical finite leaves use the proved original terminal sums
 

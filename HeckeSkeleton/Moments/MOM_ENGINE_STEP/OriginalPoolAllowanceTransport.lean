@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAmplifiedCarrier
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original pool pays its actual moving-support exponent
 

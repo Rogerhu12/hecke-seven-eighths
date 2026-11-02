@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaPartition
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryLiteralExceptionalLeaf
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafExceptionalBinding
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Either original column supplies the exceptional terminal
 

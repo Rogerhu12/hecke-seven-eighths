@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualDirectFirstSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSourceCover
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectCoveredStage
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Direct original first-divisor sources use the same second stages
 

@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOrdinaryWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstTerminalIndexMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The two original second terminals keep their first divisor
 

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original first allowances in the actual zero and tail classes
 

@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSourceBudgets
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original paired parent reaches the actual normalized child kernels
 

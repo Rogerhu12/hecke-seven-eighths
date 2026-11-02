@@ -1,6 +1,9 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportedGaussStages
 
+set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
+
 /-!
 # Genuine live arithmetic support in the direct entrance
 

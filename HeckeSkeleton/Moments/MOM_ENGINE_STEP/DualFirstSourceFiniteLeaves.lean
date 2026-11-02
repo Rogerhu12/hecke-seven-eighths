@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstBlockFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSourceFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The signed original parent and its same finite live family
 
@@ -27,6 +29,8 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments
 open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
+
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}

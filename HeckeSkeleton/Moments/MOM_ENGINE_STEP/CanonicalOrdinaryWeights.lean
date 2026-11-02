@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalCapacityKernelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The literal outer weight of the same ordinary child
 

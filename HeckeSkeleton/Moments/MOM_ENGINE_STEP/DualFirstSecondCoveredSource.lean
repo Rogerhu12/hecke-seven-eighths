@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSecondSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The signed parent reaches the original covered hybrid children
 

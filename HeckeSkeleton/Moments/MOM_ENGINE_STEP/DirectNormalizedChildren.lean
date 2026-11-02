@@ -6,6 +6,9 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf
 
+set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
+
 /-!
 # Direct Gauss sources produce the same normalized children
 

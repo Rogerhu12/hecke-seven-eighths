@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralRectangles
 import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Exact individual norm factors of the two actual transforms
 

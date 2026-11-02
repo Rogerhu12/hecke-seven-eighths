@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralTransforms
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The same literal rectangles after actual common-support extraction
 

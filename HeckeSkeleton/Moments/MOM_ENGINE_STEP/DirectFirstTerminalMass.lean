@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectParentLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The original first-label terminal mass without a prime pool
 
@@ -73,10 +75,10 @@ def firstTerminalArithmeticMass : ℝ :=
   ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
     ∑ S : divisorPool (s.pieces v D).rightData.columns
       (fun j => ((s.pieces v D).rightData.ideal j).val),
-    ∑ χ : (PUnit × PUnit) →* Circle,
+    ∑ χ : (PUnit.{1} × PUnit.{1}) →* Circle,
       firstCommonWeight Z v.val.1 v.val.2 *
         (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
-          ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
+          ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) χ‖
 
 theorem first_divisor_original_norm
     (v : s.CommonLabel) (D : ((s.block v).mask s.mask).powerset)

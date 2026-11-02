@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAllocationFingerprint
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The two-divisor arithmetic carrier computed from original finite labels
 

@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMovingTwist
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The actual two-transform coefficient from the original atom table
 

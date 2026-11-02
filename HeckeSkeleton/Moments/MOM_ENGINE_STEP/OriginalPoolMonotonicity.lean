@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalPoolAllowanceTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
 
+set_option linter.unusedSectionVars false
+
 /-!
 # One uniform pool bound for varying original row and frozen windows
 

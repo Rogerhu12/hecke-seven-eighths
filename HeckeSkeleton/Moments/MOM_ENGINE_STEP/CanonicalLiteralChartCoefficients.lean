@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondLogChart
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Literal coefficients of the two canonical logarithmic charts
 

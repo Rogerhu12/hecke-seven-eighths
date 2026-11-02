@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualFirstSecondCoveredSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockFiniteLeaves
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Pure-dual first-block budgets on the original hybrid leaves
 
@@ -22,6 +24,8 @@ namespace HeckeSkeleton.Moments.EngineStep
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
+
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}

@@ -3,6 +3,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondSource
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Original occurrence tuples on the six actual Gauss sources
 

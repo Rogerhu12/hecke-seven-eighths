@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalGaussProfileCompensation
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSignedProfileBudget
 
+set_option linter.unusedSectionVars false
+
 /-!
 # Bounded original Gauss compensation, including empty comparisons
 

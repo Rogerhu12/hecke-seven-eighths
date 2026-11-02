@@ -1,5 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSourceTerminalNonneg
 
+set_option linter.unusedSectionVars false
+
 /-!
 # The four actual terminal budgets in parent normalization
 
