@@ -54,8 +54,8 @@ theorem maskGenerator_norm_mono (S : Finset (HeightOneSpectrum (𝓞 K)))
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable (F : FirstPresentation call p) (hF : F.Realizes)
 
-/-- The actual squarefree divisor count is paid by its mask norm. -/
 include hF in
+/-- The actual squarefree divisor count is paid by its mask norm. -/
 theorem first_mask_powerset_card (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base)
     (v : F.source.CommonLabel) (i : F.source.Column)
@@ -201,7 +201,11 @@ theorem finite_orbit_rows_card (c : TargetContext K)
     fun q => ⟨q.val, hrows q.val q.property⟩
   have hinj : Function.Injective embed := by
     intro q q' hq
-    exact Subtype.ext (congrArg Subtype.val hq)
+    apply Subtype.ext
+    exact congrArg
+      (fun z : BoundedSIntegerOrbits K
+        ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (Arithmetic.unitSubgroup c) H => z.val) hq
   have hn := Nat.card_le_card_of_injective embed hinj
   have hn' : rows.card ≤ Nat.card (BoundedSIntegerOrbits K
       ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))

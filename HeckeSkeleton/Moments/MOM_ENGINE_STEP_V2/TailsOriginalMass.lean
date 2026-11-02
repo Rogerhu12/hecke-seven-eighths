@@ -176,9 +176,9 @@ theorem first_pair_truncationMass_le (input : ProfileInput call)
         Real.rpow_add call.base_pos]
       ring
 
+include hF in
 /-- The exact finite first tail mass has a fixed polynomial degree.
 The estimate uses no cardinality assumption on its public carrier. -/
-include hF in
 theorem first_tailCost_bound (input : ProfileInput call)
     (horders : originalOrders ⊆ input.orders)
     (hlarge : originalThreshold c call.frame ≤ call.base)

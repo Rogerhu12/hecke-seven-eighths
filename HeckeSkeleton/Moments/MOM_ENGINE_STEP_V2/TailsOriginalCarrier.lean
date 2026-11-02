@@ -34,11 +34,11 @@ attribute [local instance]
   Expansion.ActualProbeContext.localCompletionBorel
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
-private theorem carrier_ideal_support_norm_le (W : IdealTest K) (u : NonzeroIdeal K)
+private theorem carrier_ideal_support_norm_le (W : IdealTest K) (u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (t N Z A lo hi : ℝ) (hN : 0 < N) (hZ : 0 < Z)
     (hscale : N ≤ Z ^ A) (hupper : hi ≤ Z)
     (hsupport : Function.support (W.profile u t) ⊆ Set.Icc lo hi)
-    (I : NonzeroIdeal K) (hI : I ∈ W.support u t N) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ W.support u t N) :
     idealNorm K I ≤ Z ^ (A + 1) := by
   have hr := (hsupport ((W.support_spec u t N I).mp hI)).2.trans hupper
   have hn : idealNorm K I ≤ Z * N := (div_le_iff₀ hN).mp hr
@@ -48,11 +48,11 @@ private theorem carrier_ideal_support_norm_le (W : IdealTest K) (u : NonzeroIdea
     _ = Z ^ (A + 1) := by rw [Real.rpow_add hZ, Real.rpow_one]; ring
 
 private theorem carrier_plain_carrier_norm_le
-    (rows : Finset (NonzeroIdeal K)) (W : IdealTest K)
+    (rows : Finset (HeckeGeneral.Analysis.NonzeroIdeal K)) (W : IdealTest K)
     (t X Y Z A lo hi : ℝ) (hX : 0 < X) (hY : 0 < Y) (hZ : 0 < Z)
     (hscaleX : X ≤ Z ^ A) (hscaleY : Y ≤ Z ^ A) (hupper : hi ≤ Z)
     (hsupport : ∀ u, Function.support (W.profile u t) ⊆ Set.Icc lo hi)
-    (I : NonzeroIdeal K) (hI : I ∈ parentPlainCarrier rows W t X Y) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : I ∈ parentPlainCarrier rows W t X Y) :
     idealNorm K I ≤ Z ^ (A + 1) := by
   obtain ⟨u, _, hI⟩ := Finset.mem_biUnion.mp hI
   rcases Finset.mem_union.mp hI with hI | hI
@@ -101,7 +101,7 @@ theorem carrier_raw_column_norm_le
     calc
       (∏ i, (Ideal.absNorm (v.2 i).asIdeal : ℝ)) ≤
           ∏ i, Z ^ ((d.geometry.slots i).length + 1) :=
-        Finset.prod_le_prod (fun _ _ => Nat.cast_nonneg _) (fun i _ => hslot i)
+        Finset.prod_le_prod₀ (fun _ _ => Nat.cast_nonneg _) (fun i _ => hslot i)
       _ = Z ^ (d.geometry.totalLength + d.geometry.slotCount) := by
         rw [← Real.rpow_sum_of_pos hZ]
         congr 1
@@ -179,7 +179,7 @@ theorem original_carrier_window_upper (input : ProfileInput call)
     (hlarge : originalThreshold c call.frame ≤ call.base) :
     2 * call.prepared.upper ≤ call.base := by
   have hA : originalAnnulus c call.frame ≤ originalThreshold c call.frame := by
-    simpa only [pow_one] using
+    simpa only [originalThreshold, pow_one] using
       pow_le_pow_right₀ (originalAnnulus_one_le c call.frame)
         (show 1 ≤ c.geometry.slots + 2 by omega)
   have hu : call.prepared.upper ≤ call.frame.upper * (2 : ℝ) ^ call.rankBound := by
