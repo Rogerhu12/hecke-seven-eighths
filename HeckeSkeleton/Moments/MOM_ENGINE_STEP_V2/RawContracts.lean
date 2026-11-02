@@ -168,7 +168,8 @@ run_cmd do
     stderr.flush
 
 def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  secondSourceLeaf (second.source key.1.1) (covers.left key.1.1).cover
+  secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
+    (second.source key.1.1) (covers.left key.1.1).cover
     (covers.right key.1.1).cover key.1.2 (covers.predicates key.1.1) key.2
 
 run_cmd do
