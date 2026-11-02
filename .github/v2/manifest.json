@@ -28,7 +28,8 @@
         "VolumeChoices",
         "ProfileChoices",
         "TargetArithmetic",
-        "AnalyticChoices"
+        "AnalyticChoices",
+        "MassIndexChoices"
       ]
     },
     {
@@ -80,7 +81,12 @@
         "DirectPreparation",
         "SourcePredicates",
         "SelectedSource",
-        "LiteralInput"
+        "LiteralInput",
+        "OriginalPoolStages",
+        "SelectedStages",
+        "SelectedPredicates",
+        "LiteralCovered",
+        "LiteralGeometry"
       ]
     },
     {
