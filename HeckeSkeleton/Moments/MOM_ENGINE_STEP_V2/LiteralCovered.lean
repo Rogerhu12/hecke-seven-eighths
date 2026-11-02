@@ -241,13 +241,13 @@ variable (R : ActualSecondCorrelationRows A σ H ι)
 variable (left : CanonicalLiteralRectangles.Atoms (K := K) k)
 variable (right : CanonicalLiteralRectangles.Atoms (K := K) l)
 variable {support : Finset (Ideal (𝓞 K))}
-variable (bL : SupportCartesianBranch left.plain₁ left.plain₂ left.slots support)
-variable (bR : SupportCartesianBranch right.plain₁ right.plain₂ right.slots support)
+variable (bL : SupportCartesianBranch (left).plain₁ (left).plain₂ (left).slots support)
+variable (bR : SupportCartesianBranch (right).plain₁ (right).plain₂ (right).slots support)
 variable (IL : AllocationColumn K bL.keep.card → A.Exterior)
 variable (IR : AllocationColumn K bR.keep.card → A.Exterior)
 variable (b : liveSecondAllocationBranches (Ray := PUnit.{1})
-  (left.extract bL).plain₁ (left.extract bL).plain₂ (left.extract bL).slots
-  (right.extract bR).plain₁ (right.extract bR).plain₂ (right.extract bR).slots IR)
+  ((left).extract bL).plain₁ ((left).extract bL).plain₂ ((left).extract bL).slots
+  ((right).extract bR).plain₁ ((right).extract bR).plain₂ ((right).extract bR).slots IR)
 variable (exceptional : H → Prop)
 variable (F₁ F₂ : SchwartzMap ℝ ℂ)
 variable (power : A.Exterior) (firstSign : ℝ) (rowLog : H → ℝ)
@@ -259,14 +259,14 @@ local instance canonicalLiteralCommonLeafCircleCharacterFintype :
 coefficients. Both fixed common atoms are still inside the columns. -/
 def sourceLeaf : ActualHybridLeaf K H ℝ ℝ :=
   fullCorrelationHybridLeaf F₁ F₂ R.rows
-    (left.extract bL).plain₁ (left.extract bL).plain₂ (left.extract bL).slots
-    (right.extract bR).plain₁ (right.extract bR).plain₂ (right.extract bR).slots
+    ((left).extract bL).plain₁ ((left).extract bL).plain₂ ((left).extract bL).slots
+    ((right).extract bR).plain₁ ((right).extract bR).plain₂ ((right).extract bR).slots
     (fun j => (IR j).val) (fun h => R.weight h * R.correlation h)
     (fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)))
-    (fun χ h i => left.whole (bL.reconstruct i) *
+    (fun χ h i => (left).whole (bL.reconstruct i) *
       (fixedLeftPhase PUnit.{1} χ PUnit.unit : ℂ) *
         σ (A.sexticResidue (IL i) (R.frequency h)))
-    (fun χ h j => right.whole (bR.reconstruct j) *
+    (fun χ h j => (right).whole (bR.reconstruct j) *
       (fixedRightPhase PUnit.{1} χ PUnit.unit : ℂ) *
         σ (A.sexticResidue (IR j) (-R.frequency h)))
     (fun _ i => -firstSign * Real.log
@@ -282,7 +282,7 @@ def sourceLeaf : ActualHybridLeaf K H ℝ ℝ :=
 private theorem left_mem_residual
     (i : AllocationColumn K bL.keep.card)
     (hi : i ∈ b.val.leftColumns
-      (left.extract bL).plain₁ (left.extract bL).plain₂ (left.extract bL).slots) :
+      ((left).extract bL).plain₁ ((left).extract bL).plain₂ ((left).extract bL).slots) :
     i ∈ bL.residualColumns := by
   sorry
 
@@ -295,20 +295,20 @@ private theorem right_mem_residual
 rectangles, by the individual occurrence product proved earlier. -/
 def extraction :
     (sourceLeaf R left right bL bR IL IR b exceptional F₁ F₂ power firstSign rowLog).ConstantAtomExtraction where
-  leftScalar := left.commonScalar bL
-  rightScalar := right.commonScalar bR
+  leftScalar := (left).commonScalar bL
+  rightScalar := (right).commonScalar bR
   leftResidual := secondAllocatedLeftCoefficient (σ := σ) PUnit.{1} IL R.frequency
-    (fun _ => PUnit.unit) b.val.2.1 (left.extract bL).whole
+    (fun _ => PUnit.unit) b.val.2.1 ((left).extract bL).whole
   rightResidual := fun h j => star (secondAllocatedRightCoefficient (σ := σ) PUnit.{1}
-    IR R.frequency (fun _ => PUnit.unit) b.val.2.1 (right.extract bR).whole h j)
+    IR R.frequency (fun _ => PUnit.unit) b.val.2.1 ((right).extract bR).whole h j)
   left h _ i hi := by
-    change left.whole (bL.reconstruct i) * _ * _ = _
-    rw [left.extract_whole bL i (left_mem_residual left right bL bR IR b i hi)]
+    change (left).whole (bL.reconstruct i) * _ * _ = _
+    rw [(left).extract_whole bL i (left_mem_residual left right bL bR IR b i hi)]
     dsimp only [secondAllocatedLeftCoefficient]
     ring
   right h _ j hj := by
-    change right.whole (bR.reconstruct j) * _ * _ = _
-    rw [right.extract_whole bR j (right_mem_residual left right bL bR IR b j hj)]
+    change (right).whole (bR.reconstruct j) * _ * _ = _
+    rw [(right).extract_whole bR j (right_mem_residual left right bL bR IR b j hj)]
     simp only [secondAllocatedRightCoefficient, star_star]
     ring
 
@@ -316,20 +316,20 @@ def extraction :
 frequency, generator, classification and original ideal is unchanged. -/
 def commonRows : ActualSecondCorrelationRows A σ H ι :=
   { R with weight := fun h =>
-      R.weight h * left.commonScalar bL * star (right.commonScalar bR) }
+      R.weight h * (left).commonScalar bL * star ((right).commonScalar bR) }
 
 variable (hIL : ∀ i ∈ childCartesianColumns
-    (left.extract bL).plain₁ (left.extract bL).plain₂ (left.extract bL).slots,
+    ((left).extract bL).plain₁ ((left).extract bL).plain₂ ((left).extract bL).slots,
   (IL i).val = allocationColumnIdeal i)
 variable (hIR : ∀ j ∈ childCartesianColumns
-    (right.extract bR).plain₁ (right.extract bR).plain₂ (right.extract bR).slots,
+    ((right).extract bR).plain₁ ((right).extract bR).plain₂ ((right).extract bR).slots,
   (IR j).val = allocationColumnIdeal j)
 
 /-- Actual two-rectangle factors of the reweighted source. The right
 first coordinate has the sign imposed by its stored conjugate column. -/
 def rectangles :=
   CanonicalLiteralRectangles.rectangles (commonRows R left right bL bR)
-    (left.extract bL) (right.extract bR) IL IR hIL hIR b exceptional firstSign (-firstSign)
+    ((left).extract bL) ((right).extract bR) IL IR hIL hIR b exceptional firstSign (-firstSign)
 
 /-- Exact binding to the same source leaf. The translations are
 calculated from the original pool power and common occurrence ideals. -/
@@ -341,16 +341,16 @@ def ordinaryBinding :
   right := rfl
   exceptional _ _ := Iff.rfl
   rowWeight h _ := by
-    change (R.weight h * R.correlation h) * left.commonScalar bL *
-        star (right.commonScalar bR) =
-      (R.weight h * left.commonScalar bL * star (right.commonScalar bR)) * R.correlation h
+    change (R.weight h * R.correlation h) * (left).commonScalar bL *
+        star ((right).commonScalar bR) =
+      (R.weight h * (left).commonScalar bL * star ((right).commonScalar bR)) * R.correlation h
     ring
   leftCoefficient _ _ _ _ := rfl
   rightCoefficient h _ j _ := by
     change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
-        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 (right.extract bR).whole h j)) =
+        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 ((right).extract bR).whole h j)) =
       secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
-        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 (right.extract bR).whole h j
+        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 ((right).extract bR).whole h j
     exact star_star _
   leftPoint h _ := by
     refine ⟨WithLp.toLp 2
@@ -359,8 +359,8 @@ def ordinaryBinding :
     intro i hi
     have hm := left_mem_residual left right bL bR IR b i hi
     have hp := Finset.mem_product.mp (Finset.mem_product.mp hm).1
-    have h₁ := (left.extract bL).plain₁_nonzero i.1.1 hp.1
-    have h₂ := (left.extract bL).plain₂_nonzero i.1.2 hp.2
+    have h₁ := ((left).extract bL).plain₁_nonzero i.1.1 hp.1
+    have h₂ := ((left).extract bL).plain₂_nonzero i.1.2 hp.2
     apply CanonicalLiteralLocations.actual_product_locations firstSign (rowLog h)
       i h₁ h₂
       (power.val * allocationColumnIdeal (bL.reconstruct i))
@@ -379,8 +379,8 @@ def ordinaryBinding :
     intro j hj
     have hm := right_mem_residual left right bL bR IR b j hj
     have hp := Finset.mem_product.mp (Finset.mem_product.mp hm).1
-    have h₁ := (right.extract bR).plain₁_nonzero j.1.1 hp.1
-    have h₂ := (right.extract bR).plain₂_nonzero j.1.2 hp.2
+    have h₁ := ((right).extract bR).plain₁_nonzero j.1.1 hp.1
+    have h₂ := ((right).extract bR).plain₂_nonzero j.1.2 hp.2
     have he := CanonicalLiteralLocations.actual_product_locations (-firstSign) 0
       j h₁ h₂
       (power.val * allocationColumnIdeal (bR.reconstruct j))
@@ -412,7 +412,7 @@ def supportedRows : ActualSecondCorrelationRows A σ H ι :=
 
 def supportedRectangles :=
   CanonicalLiteralRectangles.rectangles (supportedRows R left right bL bR)
-    (left.extract bL) (right.extract bR) IL IR hIL hIR b exceptional firstSign (-firstSign)
+    ((left).extract bL) ((right).extract bR) IL IR hIL hIR b exceptional firstSign (-firstSign)
 
 /-- Correlation-zero rows are omitted by an exact zero-summand identity,
 while both computed logarithmic translations remain unchanged. This is
@@ -432,8 +432,8 @@ def supportedOrdinaryBinding :
       by_contra hc
       exact hn ((Finset.mem_filter (p := fun a : H => R.correlation a ≠ 0)
         (s := R.rows) (a := h)).mpr ⟨hh, hc⟩)
-    change (R.weight h * R.correlation h) * left.commonScalar bL *
-      star (right.commonScalar bR) = 0
+    change (R.weight h * R.correlation h) * (left).commonScalar bL *
+      star ((right).commonScalar bR) = 0
     simp only [hc, mul_zero, zero_mul]
   left := rfl
   right := rfl
@@ -452,8 +452,8 @@ def supportedOrdinaryBinding :
 /-- The row record above is exactly the record consumed by the genuine
 common-atom mass budget when its primitive single-atom windows are given. -/
 theorem commonRows_eq_withCommonAtoms
-    (BL : bL.CommonAtomBounds left.characters left.base left.length left.slotWeight)
-    (BR : bR.CommonAtomBounds right.characters right.base right.length right.slotWeight)
+    (BL : bL.CommonAtomBounds (left).characters (left).base (left).length (left).slotWeight)
+    (BR : bR.CommonAtomBounds (right).characters (right).base (right).length (right).slotWeight)
     (CL CR : A.Exterior)
     (hCL : bL.literalExtractedIdeal = CL.val)
     (hCR : bR.literalExtractedIdeal = CR.val) :
@@ -822,8 +822,8 @@ def ofCorrelationSupportedPattern
     (C : A.GeneralArithmeticContext σ η hS) {kLeft kRight : ℕ}
     (left : FrozenSourceAtoms A σ H R.rows kLeft)
     (right : FrozenSourceAtoms A σ H R.rows kRight)
-    (hleft : left.ideal = (primePowerProduct R.primes R.leftMultiplicity).val)
-    (hright : right.ideal = (primePowerProduct R.primes R.rightMultiplicity).val)
+    (hleft : (left).ideal = (primePowerProduct R.primes R.leftMultiplicity).val)
+    (hright : (right).ideal = (primePowerProduct R.primes R.rightMultiplicity).val)
     (pattern : ι → Bool)
     (hpattern : ∀ h ∈ R.rows, actualNonunitPattern C R.primes
       R.leftMultiplicity R.rightMultiplicity (R.frequency h) = pattern)
@@ -838,8 +838,8 @@ def ofCorrelationSupportedPattern
     ActualSecondRowMass
       ((R.withCommonAtoms left right).restrictRows (fun h => R.correlation h ≠ 0))
       C kLeft kRight := by
-  let left' := left.onRows R.live (Finset.filter_subset _ _)
-  let right' := right.onRows R.live (Finset.filter_subset _ _)
+  let left' := (left).onRows R.live (Finset.filter_subset _ _)
+  let right' := (right).onRows R.live (Finset.filter_subset _ _)
   refine ofCommonAtoms (R.restrictRows (fun h => R.correlation h ≠ 0)) C
     left' right' hleft hright radius mask profile B hB
     (fun h hh => hprofile h (Finset.mem_filter.mp hh).1)

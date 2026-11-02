@@ -878,13 +878,13 @@ def frozenBounds (hmask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacte
   profile_nonneg i := sq_nonneg _
   plain₁_bound h _ := by
     cases side <;> exact OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one
-      paid.plain paid.plainTwist paid.mask _ (hmask _)
+      (paid).plain (paid).plainTwist (paid).mask _ (hmask _)
   plain₂_bound h _ := by
     cases side <;> exact OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one
-      paid.plain paid.plainTwist paid.mask _ (hmask _)
+      (paid).plain (paid).plainTwist (paid).mask _ (hmask _)
   prime_bound h _ i _ := by
     cases side <;> exact OriginalProfileAtomBounds.sourcePrimeCoefficient_norm_le_one
-      (paid.slot i) (paid.slotTwist i) paid.mask _ (hmask _)
+      ((paid).slot i) ((paid).slotTwist i) (paid).mask _ (hmask _)
   prime_annulus i _ := by
     cases side <;> exact le_of_eq (div_mul_cancel₀ _
       (Real.rpow_pos_of_pos (zero_lt_one.trans (t).base_gt_one) _).ne').symm

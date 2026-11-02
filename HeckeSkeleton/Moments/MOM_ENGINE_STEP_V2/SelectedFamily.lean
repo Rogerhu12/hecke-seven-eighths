@@ -58,8 +58,8 @@ local notation "box" => selectedBox c frame
 local notation "chart" => ActualGaussStage.CoveredClassKey.chart p.key
 local notation "block" => ActualGaussStage.CoveredClassKey.block p.key
 local notation "label" => ActualGaussStage.CoveredClassKey.rowLabel p.key
-local notation "cutoff" => box.secondCutoff request.base
-local notation "hcutoff" => box.secondCutoff_ge_one (SelectedSource.base_gt_one request).le
+local notation "cutoff" => (box).secondCutoff request.base
+local notation "hcutoff" => (box).secondCutoff_ge_one (SelectedSource.base_gt_one request).le
 local notation "pattern" => SecondBlockProfileChart.originalNonunitPattern chart ∅ cutoff hcutoff label
 local notation "sector" => SecondBlockProfileChart.originalSector chart (probeData K c) ∅ cutoff hcutoff label
 local notation "bare" => ActualGaussStage.CoveredClassKey.leaf p.key p.exceptional p.firstKernel p.location p.allocation
@@ -70,45 +70,45 @@ structure Valid : Prop where
   physicalRows : p.physical.source.rows.Nonempty
   firstSign : p.firstSign = 1 ∨ p.firstSign = -1
   leftCoefficient : ∀ i ∈ (p.cover.branch p.key.2.2.1).reindex.cartesian,
-    (p.cover.branch p.key.2.2.1).reindex.index i ∈ block.leftColumns p.physical.source.columns →
-      chart.sourceLeftCoefficient ((p.cover.branch p.key.2.2.1).reindex.index i) =
+    (p.cover.branch p.key.2.2.1).reindex.index i ∈ (block).leftColumns p.physical.source.columns →
+      (chart).sourceLeftCoefficient ((p.cover.branch p.key.2.2.1).reindex.index i) =
         (p.firstAtoms false).whole i
   rightCoefficient : ∀ i ∈ (p.cover.branch p.key.2.2.2.1).reindex.cartesian,
-    (p.cover.branch p.key.2.2.2.1).reindex.index i ∈ block.rightColumns p.physical.source.columns →
-      chart.sourceRightCoefficient ((p.cover.branch p.key.2.2.2.1).reindex.index i) =
+    (p.cover.branch p.key.2.2.2.1).reindex.index i ∈ (block).rightColumns p.physical.source.columns →
+      (chart).sourceRightCoefficient ((p.cover.branch p.key.2.2.2.1).reindex.index i) =
         (p.firstAtoms true).whole i
   leftCharacters : (ActualGaussStage.CoveredClassKey.literalLeftAtoms p.key (p.firstAtoms false)).characters =
     CanonicalLiteralPhaseCalibration.sourceCharacters (probeData K c) (momentRowCharacters K c)
-      p.leftInput.phases parent recipe.moving recipe.correction recipe.remaining
+      p.leftInput.phases parent (recipe).moving (recipe).correction (recipe).remaining
       p.leftInput.deletion p.leftSlots.index
   rightCharacters : (ActualGaussStage.CoveredClassKey.literalRightAtoms p.key (p.firstAtoms true)).characters =
     CanonicalLiteralPhaseCalibration.sourceCharacters (probeData K c) (momentRowCharacters K c)
-      p.leftInput.phases parent recipe.moving recipe.correction recipe.remaining
+      p.leftInput.phases parent (recipe).moving (recipe).correction (recipe).remaining
       p.leftInput.deletion p.rightSlots.index
   columns : ∀ i ∈ p.physical.source.columns, p.physical.source.coefficient i ≠ 0 →
     (TargetArithmetic.arithmetic c).exteriorNorm (p.physical.source.ideal i) ≤
-      request.base ^ (p.geometry.skeleton.A - p.geometry.skeleton.c - p.geometry.skeleton.w + box.loss)
+      request.base ^ (p.geometry.skeleton.A - p.geometry.skeleton.c - p.geometry.skeleton.w + (box).loss)
   paidSupport : (TargetArithmetic.arithmetic c).exteriorNorm
-    ((p.choice.phases.moving (probeData K c) (momentRowCharacters K c) recipe.moving)
-      .effectiveFullSupport recipe.remaining) ≤
+    ((p.choice.phases.moving (probeData K c) (momentRowCharacters K c) (recipe).moving)
+      .effectiveFullSupport (recipe).remaining) ≤
         request.base ^ (p.geometry.skeleton.q + p.geometry.skeleton.R +
           p.geometry.skeleton.E + p.geometry.skeleton.wo)
-  directSlots : p.geometry.tag = .direct → parent.geometry.slotCount = 0
-  exceptional : bare.exceptional = fun h =>
-    ActualSecondCorrelationRows.literalCharacter (chart.actualRows ∅ cutoff hcutoff label)
+  directSlots : p.geometry.tag = .direct → (parent).geometry.slotCount = 0
+  exceptional : (bare).exceptional = fun h =>
+    ActualSecondCorrelationRows.literalCharacter ((chart).actualRows ∅ cutoff hcutoff label)
       (TargetArithmetic.context c) (probeData K c) (momentRowCharacters K c)
-      p.leftInput.phases recipe.moving recipe.correction pattern sector h ∈ parent.theta
-  widthBox : OriginalNominalGeometry.literalRowParameter p.geometry (3 * box.loss) +
+      p.leftInput.phases (recipe).moving (recipe).correction pattern sector h ∈ (parent).theta
+  widthBox : OriginalNominalGeometry.literalRowParameter p.geometry (3 * (box).loss) +
     OriginalNominalGeometry.literalSupportParameter p.geometry
       (idealLogLength request.base
-        (secondSixthRootIdeal block.primes block.leftMultiplicity block.rightMultiplicity).val) ≤
-          box.rawNormBound
-  leftPoint : ∀ h ∈ bare.rows, ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ bare.left,
-    WithLp.toLp 2 (bare.leftFirst h i, bare.leftSecond h i) =
+        (secondSixthRootIdeal (block).primes (block).leftMultiplicity (block).rightMultiplicity).val) ≤
+          (box).rawNormBound
+  leftPoint : ∀ h ∈ (bare).rows, ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ (bare).left,
+    WithLp.toLp 2 ((bare).leftFirst h i, (bare).leftSecond h i) =
       z + rawSourceLocation (CanonicalLiteralLocations.plain p.firstSign)
         (CanonicalLiteralLocations.plain p.firstSign) (CanonicalLiteralLocations.prime p.firstSign) i
-  rightPoint : ∀ h ∈ bare.rows, ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ bare.right,
-    WithLp.toLp 2 (-bare.rightFirst h i, bare.rightSecond h i) =
+  rightPoint : ∀ h ∈ (bare).rows, ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ (bare).right,
+    WithLp.toLp 2 (-(bare).rightFirst h i, (bare).rightSecond h i) =
       z + rawSourceLocation (CanonicalLiteralLocations.plain (-p.firstSign))
         (CanonicalLiteralLocations.plain (-p.firstSign))
         (CanonicalLiteralLocations.prime (-p.firstSign)) i
@@ -123,7 +123,7 @@ def family :=
     (μv := TargetArithmetic.localMeasures (K := K))
     (hDiff := TargetArithmetic.different c) (ν := TargetArithmetic.finiteMeasure (K := K))
     (P := probeData K c) (Rchar := momentRowCharacters K c)
-    (δ₂ := box.delta) (hδ₂ := box.tilt_pos) (hδ₂half := box.tilt_le_half)
+    (δ₂ := (box).delta) (hδ₂ := (box).tilt_pos) (hδ₂half := (box).tilt_le_half)
     (G := p.physical.source) (retainedScale := p.physical.firstGeometry.retainedScale)
     (Z := request.base) (g := p.physical.firstGeometry.enlargement)
     (hscale := p.physical.firstGeometry.retainedScale_pos)
@@ -140,8 +140,8 @@ def family :=
     (leftProfiles := p.leftProfiles hrows) (rightProfiles := p.rightProfiles hrows)
     (hbaseLeft := rfl) (hbaseRight := rfl)
     (F := p.leftInput.phases) (choice := p.choice)
-    (parent := parent) (oldMoving := recipe.moving) (correction := recipe.correction)
-    (hcorr := by sorry) (remaining := recipe.remaining) (extra := p.leftInput.deletion)
+    (parent := parent) (oldMoving := (recipe).moving) (correction := (recipe).correction)
+    (hcorr := by sorry) (remaining := (recipe).remaining) (extra := p.leftInput.deletion)
     (leftSlots := p.leftSlots) (rightSlots := p.rightSlots)
     (hleftCharacters := valid.leftCharacters) (hrightCharacters := valid.rightCharacters)
     (profileBound := 1) (hprofileBound := zero_le_one) (hprofile := by
@@ -150,7 +150,7 @@ def family :=
         (hΓ := actualSixthUnits_are_sixth (places K c))
         (μv := TargetArithmetic.localMeasures (K := K))
         (hDiff := TargetArithmetic.different c) (ν := TargetArithmetic.finiteMeasure (K := K))
-        (probeData K c) box.delta box.tilt_pos box.tilt_le_half p.physical.source
+        (probeData K c) (box).delta (box).tilt_pos (box).tilt_le_half p.physical.source
         p.physical.firstGeometry.retainedScale request.base p.physical.firstGeometry.enlargement
         p.physical.firstGeometry.retainedScale_pos
         (zero_lt_one.trans (SelectedSource.base_gt_one request)) cutoff hcutoff p.physical.row_bound
@@ -159,9 +159,9 @@ def family :=
     (a := parameters) (step := recipeInductionSigma c) (geometry := p.geometry)
     (hretained := rfl) (henlargement := rfl)
     (hsecond := by sorry) (hopposite := by sorry) (hunit := by sorry) (hnonunit := by sorry)
-    (columnLoss := box.loss) (cutoffExponent := box.loss)
-    (hcolumnLoss := box.loss_pos.le) (hcutoffExponent := box.loss_pos.le)
-    (hcutoffPower := box.secondCutoff_le (SelectedSource.base_gt_one request).le)
+    (columnLoss := (box).loss) (cutoffExponent := (box).loss)
+    (hcolumnLoss := (box).loss_pos.le) (hcutoffExponent := (box).loss_pos.le)
+    (hcutoffPower := (box).secondCutoff_le (SelectedSource.base_gt_one request).le)
     (hactiveColumns := valid.columns) (hpaidSupport := valid.paidSupport)
     (reference := SelectedProfileData.reference request frequency hrows) (time := 0)
     (hone := by sorry) (hroot := SelectedSource.probe_root (c := c))
@@ -172,8 +172,8 @@ def family :=
     (Y₂ := request.base ^ (SelectedSource.model request frequency).comparison₂)
     (floor := 16 * recipeInductionSigma c) (padding := recipeInductionSigma c / 16)
     (domain := by sorry) (direct := valid.directSlots)
-    (hsmall := by sorry) (error := box.loss) (herror := box.loss_pos.le)
-    (hstep := box.step_pos) (mesh := (momentMesh K c.family).val)
+    (hsmall := by sorry) (error := (box).loss) (herror := (box).loss_pos.le)
+    (hstep := (box).step_pos) (mesh := (momentMesh K c.family).val)
     (hmesh := by sorry) (hfit := by sorry)
     (lo := SelectedProfileData.lower request) (hi := SelectedProfileData.upper request)
     (hlo := SelectedProfileData.lower_pos request) (hhi := by sorry)
@@ -186,13 +186,13 @@ def family :=
     (analyticHeight := analyticHeightConstant c frame * (1 + Real.log request.base))
     (hδ := analyticContour_pos c frame (selectedRank request))
     (hδhi := analyticContour_le_quarter c frame (selectedRank request))
-    (normBox := box.rawNormBound) (heightC := analyticHeightConstant c frame)
+    (normBox := (box).rawNormBound) (heightC := analyticHeightConstant c frame)
     (analyticWindow := by
       rw [(request.preparedSourceData (selectedCall request) frequency).source.theta_eq]
       exact analyticHeightWindow c frame (momentRowCharacters K c))
     (boundary := fun _ => targetDynamicFiniteOrderBoundary c _ request.kappa)
     (hslotInverse := by sorry)
-    (hwidthBox := by simpa only [show 2 * box.loss + box.loss = 3 * box.loss by ring] using valid.widthBox)
+    (hwidthBox := by simpa only [show 2 * (box).loss + (box).loss = 3 * (box).loss by ring] using valid.widthBox)
     (hheight := le_rfl)
 
 end SelectedLeafPacket
