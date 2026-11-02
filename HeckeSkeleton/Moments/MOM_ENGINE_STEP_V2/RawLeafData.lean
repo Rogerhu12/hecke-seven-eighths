@@ -171,6 +171,7 @@ def secondSourceLeaf {call : Call c} {p : SourceParameters c}
       (source.physical.outerWeight * (source.stage.fiber : ℝ))
       (mul_nonneg source.physical.outerWeight_nonneg (Nat.cast_nonneg _))
 
+set_option maxHeartbeats 1000000 in
 /-- One nonzero physical leaf with both original occurrence labels.
 Empty source rows or a non-live polynomial produce no member of the
 eventual finite family; neither an arbitrary reference row nor a
