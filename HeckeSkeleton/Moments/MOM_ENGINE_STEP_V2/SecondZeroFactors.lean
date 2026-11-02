@@ -22,6 +22,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.SecondZeroProof
 
 open EngineStep EngineInduction EngineInduction.Source
 open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
+open DedekindZetaZeroFree.LargeSieve
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis MeasureTheory
 open HeckePort.IdealMobiusDivisorSum HeckePort.Moments HeckePort.Moments.Support
@@ -108,8 +109,11 @@ theorem OriginalSupportFactors.errorActualFactors
   have hinj : Set.InjOn (fun ij t => (factors ij t).val)
       ((cols ×ˢ cols) : Set ((d.valuationColumns q n) × (d.valuationColumns q n))) := by
     intro ij _ uv _ he
-    have hp : (ij.1.val, ij.2.val) = (uv.1.val, uv.2.val) :=
-      W.injective ⟨hmem ij.1, hmem ij.2⟩ ⟨hmem uv.1, hmem uv.2⟩ he
+    have hp : (ij.1.val, ij.2.val) = (uv.1.val, uv.2.val) := by
+      apply W.injective
+      · exact ⟨hmem ij.1, hmem ij.2⟩
+      · exact ⟨hmem uv.1, hmem uv.2⟩
+      · exact he
     exact Prod.ext (Subtype.ext (congrArg Prod.fst hp)) (Subtype.ext (congrArg Prod.snd hp))
   have hproduct : ∀ ij ∈ cols ×ˢ cols,
       PowerfulDiagonal.tupleIdeal (fun t => (factors ij t).val) =
@@ -202,13 +206,14 @@ def first_key_support_factors (hF : F.Realizes) (key : FirstCauchyKey F) :
       Finset.mem_product.mpr hij
     have huv' : uv ∈ (FirstCauchyKey.data key).columns ×ˢ (FirstCauchyKey.data key).columns :=
       Finset.mem_product.mpr huv
-    rw [firstExteriorPairFactors_val F hF ij
+    have hijval := firstExteriorPairFactors_val F hF ij
       (first_key_column_mem F key ij.1 (Finset.mem_product.mp hij').1)
-      (first_key_column_mem F key ij.2 (Finset.mem_product.mp hij').2),
-      firstExteriorPairFactors_val F hF uv
+      (first_key_column_mem F key ij.2 (Finset.mem_product.mp hij').2)
+    have huvval := firstExteriorPairFactors_val F hF uv
       (first_key_column_mem F key uv.1 (Finset.mem_product.mp huv').1)
-      (first_key_column_mem F key uv.2 (Finset.mem_product.mp huv').2)] at he
-    exact FirstZeroProof.firstPairFactors_injective F he
+      (first_key_column_mem F key uv.2 (Finset.mem_product.mp huv').2)
+    exact FirstZeroProof.firstPairFactors_injective F
+      (hijval.symm.trans (he.trans huvval))
   product := by
     intro ij hij
     have hi := first_key_column_mem F key ij.1 (Finset.mem_product.mp hij).1
@@ -232,11 +237,19 @@ def first_key_support_factors (hF : F.Realizes) (key : FirstCauchyKey F) :
     cases hs : FirstCauchyKey.side key
     · simp only [FirstCauchyKey.data, hs, Bool.false_eq_true, if_false,
         DirectGaussData.directSource]
-      rw [(FirstCauchyKey.piece key).left_ideal, (FirstCauchyKey.block key).left_residual]
-      rfl
+      have hideal : ((FirstCauchyKey.piece key).leftData.ideal i).val =
+          supportResidual (F.source.ideal i).val (primeSupport key.1.val.1) :=
+        (congrArg (fun f : F.source.Column → (Arithmetic.data c).Exterior => (f i).val)
+          (FirstCauchyKey.piece key).left_ideal).trans
+            ((FirstCauchyKey.block key).left_residual i)
+      exact hideal
     · simp only [FirstCauchyKey.data, hs, if_true, DirectGaussData.directSource]
-      rw [(FirstCauchyKey.piece key).right_ideal, (FirstCauchyKey.block key).right_residual]
-      rfl
+      have hideal : ((FirstCauchyKey.piece key).rightData.ideal i).val =
+          supportResidual (F.source.ideal i).val (primeSupport key.1.val.1) :=
+        (congrArg (fun f : F.source.Column → (Arithmetic.data c).Exterior => (f i).val)
+          (FirstCauchyKey.piece key).right_ideal).trans
+            ((FirstCauchyKey.block key).right_residual i)
+      exact hideal
 
 variable {F} {family : FirstCauchyFamily F}
 
