@@ -241,13 +241,22 @@ theorem uniform_second_zero_certificate (c : TargetContext K)
     _ = coefficient * amplitude * call.base ^
         (2 * recipeInductionSigma c + recipeInductionSigma c / 16 +
           10 * p.tilt + 22 * p.loss) := by
-      rw [show 2 * recipeInductionSigma c + recipeInductionSigma c / 16 +
-          10 * p.tilt + 22 * p.loss =
-        (2 * recipeInductionSigma c + p.loss) + (A + 10 * p.tilt + p.loss) +
-          (-A + recipeInductionSigma c / 16 + 20 * p.loss) by ring,
-        Real.rpow_add call.base_pos, Real.rpow_add call.base_pos]
-      dsimp only [coefficient, smallPower]
-      ring
+      have hpowers : call.base ^ (2 * recipeInductionSigma c + p.loss) *
+          call.base ^ (A + 10 * p.tilt + p.loss) *
+          call.base ^ (-A + recipeInductionSigma c / 16 + 20 * p.loss) =
+          call.base ^ (2 * recipeInductionSigma c + recipeInductionSigma c / 16 +
+            10 * p.tilt + 22 * p.loss) := by
+        rw [← Real.rpow_add call.base_pos, ← Real.rpow_add call.base_pos]
+        congr 1
+        ring
+      calc
+        _ = coefficient * amplitude *
+            (call.base ^ (2 * recipeInductionSigma c + p.loss) *
+              call.base ^ (A + 10 * p.tilt + p.loss) *
+              call.base ^ (-A + recipeInductionSigma c / 16 + 20 * p.loss)) := by
+          dsimp only [coefficient, smallPower]
+          ring
+        _ = _ := by rw [hpowers]
     _ ≤ coefficient * amplitude * call.base ^ recipeInductionTerminalLoss c :=
       mul_le_mul_of_nonneg_left
         (Real.rpow_le_rpow_of_exponent_le call.domain.scale.le (second_zero_loss_le_terminal p))
