@@ -203,16 +203,24 @@ def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
     (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i)
   left h _ i hi := by
     change v.chart.sourceLeftCoefficient (v.leftReindex.index i) * _ * _ = _
-    rw [v.literal_left_coefficient leftAtoms leftCoefficient i
-      (v.literal_left_mem exceptional F x j i hi)]
     dsimp only [secondAllocatedLeftCoefficient]
-    exact literal_coefficient_assoc _ _ _ _
+    exact (congrArg (fun z : ℂ =>
+      z * (fixedLeftPhase PUnit.{1} j.2.1 PUnit.unit : ℂ) *
+        σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
+          ((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h)))
+      (v.literal_left_coefficient leftAtoms leftCoefficient i
+        (v.literal_left_mem exceptional F x j i hi))).trans
+      (literal_coefficient_assoc _ _ _ _)
   right h _ i hi := by
     change v.chart.sourceRightCoefficient (v.rightReindex.index i) * _ * _ = _
-    rw [v.literal_right_coefficient rightAtoms rightCoefficient i
-      (v.literal_right_mem exceptional F x j i hi)]
     simp only [secondAllocatedRightCoefficient, star_star]
-    exact literal_coefficient_assoc _ _ _ _
+    exact (congrArg (fun z : ℂ =>
+      z * (fixedRightPhase PUnit.{1} j.2.1 PUnit.unit : ℂ) *
+        σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
+          (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))
+      (v.literal_right_coefficient rightAtoms rightCoefficient i
+        (v.literal_right_mem exceptional F x j i hi))).trans
+      (literal_coefficient_assoc _ _ _ _)
 
 /-- This reweighting is the one forced by the two constants just
 extracted from the stored whole coefficients. -/
@@ -242,10 +250,8 @@ def literalAllocation (hlive : (v.leaf exceptional F x j).Live) :
     apply hlive.1
     change ‖(moebius j.1.val : ℂ)‖ * _ = 0
     simp only [moebius_of_not_squarefree hn, Int.cast_zero, norm_zero, zero_mul]
-  · obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.1
-    exact ⟨i, hi⟩
-  · obtain ⟨h, hh, i, hi, hc⟩ := hlive.2.2
-    exact ⟨i, hi⟩
+  · exact hlive.2.1.elim (fun _ hh => hh.2.elim (fun i hi => ⟨i, hi.1⟩))
+  · exact hlive.2.2.elim (fun _ hh => hh.2.elim (fun i hi => ⟨i, hi.1⟩))
 
 /-- Both rectangles now belong to the exact same stored allocation and
 the exact original correlation support. -/
