@@ -72,7 +72,8 @@ theorem pool_generates (paid : Bool) :
   cases hp : P.pool with
   | none =>
       simp only [poolIdeal, poolElement, hp]
-      exact ⟨one_ne_zero, by simp [unitExterior, SArithmeticData.extendIdeal]⟩
+      exact ⟨one_ne_zero, by
+        simp [unitExterior, SArithmeticData.extendIdeal, Ideal.map_top]⟩
   | some qe =>
       rcases qe with ⟨e, q⟩
       simp only [poolIdeal, poolElement, hp]
@@ -105,14 +106,17 @@ theorem pool_residue (J : HeckeGeneral.Analysis.NonzeroIdeal K) :
       actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
           J.val (poolElement P true) * gate (poolPassiveIdeal P).val J.val := by
   cases hp : P.pool with
-  | none => simp [poolElement, poolPassiveIdeal, hp, unitExterior, gate]
+  | none =>
+      simp only [poolElement, poolPassiveIdeal, hp, unitExterior, gate,
+        ← Ideal.one_eq_top, isCoprime_one_right, ite_true, mul_one]
   | some qe =>
       rcases qe with ⟨e, q⟩
-      simpa only [poolElement, poolPassiveIdeal, hp, Bool.false_eq_true, if_false,
-        if_true, gate] using
-        CanonicalLiteralPassivePhases.residue_eq_reduced_element
-          (probeData K c) (momentRowCharacters K c) rfl rfl
-          (Arithmetic.context c) q e J
+      simp only [poolElement, poolPassiveIdeal, hp, Bool.false_eq_true,
+        ite_false, ite_true, gate]
+      exact CanonicalLiteralPassivePhases.residue_eq_reduced_element
+        (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+        (probeData K c) (momentRowCharacters K c) rfl rfl
+        (Arithmetic.context c) q e J
 
 private theorem pool_residue_eq_coefficient (paid : Bool)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -121,14 +125,31 @@ private theorem pool_residue_eq_coefficient (paid : Bool)
     actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
         J.val (poolElement P paid) =
       heckeIdealCoefficient K (P.poolMoving paid).character J := by
-  rw [CanonicalOriginalPhaseCalibration.residue_eq_probe_evaluation
-    (probeData K c) rfl rfl]
-  rw [CanonicalLiteralFirstPhase.singleton_evaluation
-    (probeData K c) (momentRowCharacters K c)
-    (poolIdeal P paid) (poolElement P paid) (pool_generates P paid) J,
-    ← poolMoving_eq P paid]
-  rw [if_pos ⟨(CanonicalOriginalPhaseCalibration.outside_iff_coprime J).mpr hfixed,
-    hpool⟩, mul_one]
+  let D : OriginalMovingFactors (Arithmetic.data c)
+      (probeData K c) (momentRowCharacters K c) :=
+    OriginalMovingFactors.singleton
+      ⟨poolElement P paid, (pool_generates P paid).1⟩ 1
+  have hd : P.poolMoving paid = D := poolMoving_eq P paid
+  have he := CanonicalOriginalPhaseCalibration.residue_eq_probe_evaluation
+    (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    (probeData K c) rfl rfl J (poolElement P paid)
+  have hs := CanonicalLiteralFirstPhase.singleton_evaluation
+    (A := Arithmetic.data c) (probeData K c) (momentRowCharacters K c)
+    (poolIdeal P paid) (poolElement P paid) (pool_generates P paid) J
+  have hmask :
+      (if sexticIdealOutsideS K
+          ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) J ∧
+          IsCoprime J.val (poolIdeal P paid).val then (1 : ℂ) else 0) = 1 :=
+    if_pos ⟨(CanonicalOriginalPhaseCalibration.outside_iff_coprime
+      (A := Arithmetic.data c) J).mpr hfixed, hpool⟩
+  have hmask' :=
+    (congrArg (fun z : ℂ => heckeIdealCoefficient K D.character J * z) hmask).trans
+      (mul_one _)
+  have hcharacter := congrArg
+    (fun E : OriginalMovingFactors (Arithmetic.data c)
+        (probeData K c) (momentRowCharacters K c) =>
+      heckeIdealCoefficient K E.character J) hd
+  exact he.trans (hs.trans (hmask'.trans hcharacter.symm))
 
 /-- Global equality is proved, not postulated: the actual residue
 identity determines the two finite-order characters at all primes
@@ -140,11 +161,12 @@ theorem poolMoving_character : (P.poolMoving false).character = (P.poolMoving tr
   have hM : M ≠ 0 := mul_ne_zero
     (mul_ne_zero (poolIdeal P false).property.1 (poolIdeal P true).property.1)
     (poolPassiveIdeal P).property.1
-  have hfinite := idealPrimeDivisors_finite K M hM
+  have hfinite :=
+    AlgebraicNumberTheory.PowerResidueSymbols.idealPrimeDivisors_finite K M hM
   let bad : Finset (HeightOneSpectrum (𝓞 K)) := (Arithmetic.data c).Sf ∪ hfinite.toFinset
-  apply HeckeGeneral.Characters.RowUniquenessDraft.finiteOrder_heckeCharacter_eq_of_primeCoefficient_eq_away
+  refine HeckeGeneral.Characters.RowUniquenessDraft.finiteOrder_heckeCharacter_eq_of_primeCoefficient_eq_away
     K (P.poolMoving false).character (P.poolMoving true).character
-    (P.poolMoving false).character_finite (P.poolMoving true).character_finite bad
+    (P.poolMoving false).character_finite (P.poolMoving true).character_finite bad ?_
   intro q hq
   have hqS : q ∉ ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) := by
     intro h
@@ -160,13 +182,24 @@ theorem poolMoving_character : (P.poolMoving false).character = (P.poolMoving tr
     simpa only [M, IsCoprime.mul_right_iff] using hcop
   have hfixed : IsCoprime (CanonicalOriginalPhaseCalibration.primeIdeal q).val
       (Arithmetic.data c).cS :=
-    (CanonicalOriginalPhaseCalibration.outside_iff_coprime _).mp
-      (CanonicalOriginalPhaseCalibration.outside_prime (probeData K c) q hqS)
-  have he := pool_residue P (CanonicalOriginalPhaseCalibration.primeIdeal q)
-  rw [pool_residue_eq_coefficient P false _ hfixed hparts.1.1,
-    pool_residue_eq_coefficient P true _ hfixed hparts.1.2] at he
-  simpa only [gate, if_pos hparts.2, mul_one,
-    CanonicalOriginalPhaseCalibration.coefficient_prime] using he
+    (CanonicalOriginalPhaseCalibration.outside_iff_coprime
+      (A := Arithmetic.data c) _).mp
+      (CanonicalOriginalPhaseCalibration.outside_prime
+        (A := Arithmetic.data c) (probeData K c) q hqS)
+  have hleft := pool_residue_eq_coefficient P false
+    (CanonicalOriginalPhaseCalibration.primeIdeal q) hfixed hparts.1.1
+  have hright := pool_residue_eq_coefficient P true
+    (CanonicalOriginalPhaseCalibration.primeIdeal q) hfixed hparts.1.2
+  have hgate : gate (poolPassiveIdeal P).val
+      (CanonicalOriginalPhaseCalibration.primeIdeal q).val = 1 :=
+    if_pos hparts.2
+  have he := hleft.symm.trans
+    ((pool_residue P (CanonicalOriginalPhaseCalibration.primeIdeal q)).trans
+      ((congrArg₂ (fun x y : ℂ => x * y) hright hgate).trans (mul_one _)))
+  exact (CanonicalOriginalPhaseCalibration.coefficient_prime
+      (P.poolMoving false).character q).symm.trans
+    (he.trans (CanonicalOriginalPhaseCalibration.coefficient_prime
+      (P.poolMoving true).character q))
 
 private theorem pool_coprime (I : Ideal (𝓞 K)) :
     IsCoprime I (poolIdeal P false).val ↔
@@ -211,8 +244,31 @@ private def commonMoving : OriginalMovingFactors (Arithmetic.data c)
 
 private theorem moving_character (paid : Bool) :
     (P.moving paid).character = (commonMoving P).character * (P.poolMoving paid).character := by
-  simp only [OriginalPhaseData.moving, commonMoving, OriginalMovingFactors.append_character]
-  ac_rfl
+  let D : OriginalMovingFactors (Arithmetic.data c)
+      (probeData K c) (momentRowCharacters K c) :=
+    call.localizedSource.source.recipe.moving.append P.firstMoving
+  let E : OriginalMovingFactors (Arithmetic.data c)
+      (probeData K c) (momentRowCharacters K c) :=
+    CanonicalLiteralFixedPhases.emptyDivisorMoving
+      (probeData K c) (momentRowCharacters K c)
+  let Q := P.poolMoving paid
+  change ((D.append Q).append E).character = (D.append E).character * Q.character
+  calc
+    _ = (D.append Q).character * E.character :=
+      OriginalMovingFactors.append_character
+        (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+        (D.append Q) E
+    _ = (D.character * Q.character) * E.character :=
+      congrArg (fun χ : HeckeCharacter K => χ * E.character)
+        (OriginalMovingFactors.append_character
+          (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+          D Q)
+    _ = (D.character * E.character) * Q.character := mul_right_comm _ _ _
+    _ = _ :=
+      congrArg (fun χ : HeckeCharacter K => χ * Q.character)
+        (OriginalMovingFactors.append_character
+          (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+          D E).symm
 
 /-- The same complete moving character is used by the original
 exceptional predicate and by the paid child's row recipe. -/
@@ -223,13 +279,51 @@ private theorem moving_coprime (paid : Bool) (I : Ideal (𝓞 K)) :
     IsCoprime I (P.moving paid).support.val ↔
       IsCoprime I (commonMoving P).support.val ∧
         IsCoprime I (poolIdeal P paid).val := by
+  have hfull : (P.poolMoving paid).fullIdeal = poolIdeal P paid :=
+    (congrArg
+      (fun D : OriginalMovingFactors (Arithmetic.data c)
+        (probeData K c) (momentRowCharacters K c) => D.fullIdeal)
+      (poolMoving_eq P paid)).trans
+        (OriginalMovingFactors.singleton_fullIdeal
+          (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+          (poolIdeal P paid) (poolElement P paid) (pool_generates P paid) 1)
   have hp : IsCoprime I (P.poolMoving paid).support.val ↔
-      IsCoprime I (poolIdeal P paid).val := by
-    rw [(P.poolMoving paid).coprime_support_iff_fullIdeal, poolMoving_eq P paid,
-      OriginalMovingFactors.singleton_fullIdeal _ _ (pool_generates P paid) 1]
-  simp only [OriginalPhaseData.moving, commonMoving,
-    OriginalMovingFactors.coprime_append_support, hp]
-  tauto
+      IsCoprime I (poolIdeal P paid).val :=
+    (OriginalMovingFactors.coprime_support_iff_fullIdeal
+      (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+      (P.poolMoving paid) I).trans
+        (Iff.of_eq (congrArg
+          (fun J : (Arithmetic.data c).Exterior => IsCoprime I J.val) hfull))
+  let D : OriginalMovingFactors (Arithmetic.data c)
+      (probeData K c) (momentRowCharacters K c) :=
+    call.localizedSource.source.recipe.moving.append P.firstMoving
+  let E : OriginalMovingFactors (Arithmetic.data c)
+      (probeData K c) (momentRowCharacters K c) :=
+    CanonicalLiteralFixedPhases.emptyDivisorMoving
+      (probeData K c) (momentRowCharacters K c)
+  let Q := P.poolMoving paid
+  have hleft : IsCoprime I (P.moving paid).support.val ↔
+      (IsCoprime I D.support.val ∧ IsCoprime I Q.support.val) ∧
+        IsCoprime I E.support.val :=
+    (OriginalMovingFactors.coprime_append_support
+      (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+      (D.append Q) E I).trans
+        (and_congr
+          (OriginalMovingFactors.coprime_append_support
+            (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+            D Q I) Iff.rfl)
+  have hright : IsCoprime I (commonMoving P).support.val ↔
+      IsCoprime I D.support.val ∧ IsCoprime I E.support.val :=
+    OriginalMovingFactors.coprime_append_support
+      (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+      D E I
+  constructor
+  · intro h
+    rcases hleft.mp h with ⟨⟨hD, hQ⟩, hE⟩
+    exact ⟨hright.mpr ⟨hD, hE⟩, hp.mp hQ⟩
+  · rintro ⟨hDE, hQ⟩
+    rcases hright.mp hDE with ⟨hD, hE⟩
+    exact hleft.mpr ⟨⟨hD, hp.mpr hQ⟩, hE⟩
 
 private def commonGate (I : Ideal (𝓞 K)) : ℂ :=
   gate (commonMoving P).support.val I *
@@ -246,19 +340,36 @@ private theorem mask_eq (paid : Bool) (I : Ideal (𝓞 K)) :
       ((P.moving paid).effectiveFullSupport call.localizedSource.source.recipe.remaining).val ↔
       (IsCoprime I (commonMoving P).support.val ∧ IsCoprime I (poolIdeal P paid).val) ∧
         IsCoprime I (remainingMaskIdeal (Arithmetic.data c)
-          call.localizedSource.source.recipe.remaining).val := by
-    rw [OriginalMovingFactors.effectiveFullSupport_val,
-      OriginalMovingFactors.fullMaskSupport_coprime_iff, moving_coprime P paid I]
+          call.localizedSource.source.recipe.remaining).val :=
+    (OriginalMovingFactors.fullMaskSupport_coprime_iff
+      (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+      (P.moving paid)
+      (remainingMaskIdeal (Arithmetic.data c) call.localizedSource.source.recipe.remaining) I).trans
+        (and_congr (moving_coprime P paid I) Iff.rfl)
+  have hgate :
+      gate ((P.moving paid).effectiveFullSupport
+        call.localizedSource.source.recipe.remaining).val I =
+      commonGate P I * gate (poolIdeal P paid).val I := by
+    by_cases hc : IsCoprime I (commonMoving P).support.val <;>
+      by_cases hp : IsCoprime I (poolIdeal P paid).val <;>
+      by_cases hr : IsCoprime I (remainingMaskIdeal (Arithmetic.data c)
+        call.localizedSource.source.recipe.remaining).val <;>
+      simp only [gate, commonGate, hfull, hc, hp, hr, and_self, true_and, false_and,
+        and_true, and_false, ite_true, ite_false, one_mul, mul_one, zero_mul, mul_zero]
+  have hdelete :
+      gate (if paid then (1 : HeckeGeneral.Analysis.NonzeroIdeal K) else P.deletionIdeal).val I =
+        deletionGate P paid I := by
+    cases paid
+    · rfl
+    · change (if IsCoprime I (1 : Ideal (𝓞 K)) then (1 : ℂ) else 0) = 1
+      exact if_pos isCoprime_one_right
   change gate
     (((P.moving paid).effectiveFullSupport call.localizedSource.source.recipe.remaining).val *
       (if paid then (1 : HeckeGeneral.Analysis.NonzeroIdeal K) else P.deletionIdeal).val) I = _
-  rw [gate_mul]
-  by_cases hc : IsCoprime I (commonMoving P).support.val <;>
-    by_cases hp : IsCoprime I (poolIdeal P paid).val <;>
-    by_cases hr : IsCoprime I (remainingMaskIdeal (Arithmetic.data c)
-      call.localizedSource.source.recipe.remaining).val <;>
-    cases paid <;>
-    simp [gate, hfull, commonGate, deletionGate, hc, hp, hr]
+  exact (gate_mul
+    ((P.moving paid).effectiveFullSupport call.localizedSource.source.recipe.remaining).val
+    (if paid then (1 : HeckeGeneral.Analysis.NonzeroIdeal K) else P.deletionIdeal).val I).trans
+      (congrArg₂ (fun x y : ℂ => x * y) hgate hdelete)
 
 /-- The full original deletion absorbs the pool's only passive mask.
 Unlike the element calibration, this is an ideal identity at every
@@ -309,7 +420,16 @@ private theorem coefficient_eq_residue (paid : Bool) (χ : HeckeCharacter K)
     _ = (heckeIdealCoefficient K ((χ * (commonMoving P).character) *
           (P.poolMoving paid).character) J * gate (poolIdeal P paid).val J.val) *
           commonGate P J.val * deletionGate P paid J.val := by ring
-    _ = _ := by rw [← he]
+    _ = _ := by
+      have heGate :
+          heckeIdealCoefficient K (χ * (commonMoving P).character) J *
+              actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+                J.val (poolElement P paid) =
+            heckeIdealCoefficient K ((χ * (commonMoving P).character) *
+              (P.poolMoving paid).character) J * gate (poolIdeal P paid).val J.val := he
+      exact congrArg
+        (fun z : ℂ => z * commonGate P J.val * deletionGate P paid J.val)
+        heGate.symm
 
 /-- A single ideal's exact original coefficient, including the extra
 valuation-six mask.  The entire background remains arbitrary. -/
@@ -324,7 +444,7 @@ theorem coefficient_reduced (χ : HeckeCharacter K)
     gate (poolPassiveIdeal P).val J.val * gate P.deletionIdeal.val J.val
   rw [coefficient_eq_residue P false χ J hJ,
     coefficient_eq_residue P true χ J hJ, pool_residue P J]
-  simp only [deletionGate, if_false, if_true]
+  simp only [deletionGate, Bool.false_eq_true, if_false, if_true]
   ring
 
 theorem coefficient_fullDeletion (χ : HeckeCharacter K)
@@ -362,9 +482,10 @@ theorem prime_coefficient_global (hpassive : (poolPassiveIdeal P).val ∣ P.dele
       sourcePrimeCoefficient ((P.characters true index).slot i)
         ((P.characters true index).slotTwist i) (P.characters true index).mask q *
           originalCoprimeMask P.deletionIdeal q.asIdeal := by
+  have hqval : (CanonicalOriginalPhaseCalibration.primeIdeal q).val = q.asIdeal := rfl
   simpa only [OriginalPhaseData.characters, CanonicalOriginalPhaseCalibration.sourceCharacters,
     sourcePrimeCoefficient, CanonicalOriginalPhaseCalibration.coefficient_prime,
-    primeCoefficient_one, mul_one, mul_assoc] using
+    hqval, primeCoefficient_one, mul_one, mul_assoc] using
       coefficient_fullDeletion_global P
         (call.localizedData.slotCoefficient (index i) * call.localizedSource.source.recipe.correction)
         hpassive (CanonicalOriginalPhaseCalibration.primeIdeal q)
@@ -390,9 +511,10 @@ theorem prime_coefficient (hpassive : (poolPassiveIdeal P).val ∣ P.deletionIde
       sourcePrimeCoefficient ((P.characters true index).slot i)
         ((P.characters true index).slotTwist i) (P.characters true index).mask q *
           originalCoprimeMask P.deletionIdeal q.asIdeal := by
+  have hqval : (CanonicalOriginalPhaseCalibration.primeIdeal q).val = q.asIdeal := rfl
   simpa only [OriginalPhaseData.characters, CanonicalOriginalPhaseCalibration.sourceCharacters,
     sourcePrimeCoefficient, CanonicalOriginalPhaseCalibration.coefficient_prime,
-    primeCoefficient_one, mul_one, mul_assoc] using
+    hqval, primeCoefficient_one, mul_one, mul_assoc] using
       coefficient_fullDeletion P
         (call.localizedData.slotCoefficient (index i) * call.localizedSource.source.recipe.correction)
         hpassive (CanonicalOriginalPhaseCalibration.primeIdeal q) hq
