@@ -28,3 +28,16 @@ Root: `OrdinaryRawAtomFormula.lean`, specifically `RawLeafPacket.beforeAtomTable
 - `OrdinarySourceTransport.lean`
 
 Original snapshot: 4431 physical lines. Any CI-driven compatibility changes will be recorded in this task PR and sent to PR #32.
+
+## N4 frozen ideals and scale identities
+
+Reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`:
+
+- `N4ScaleProduct.lean`
+- `N4FrozenIdeals.lean`
+
+This 473-line minimal closure proves the actual first frozen ideal includes the complete pool valuation, and the second frozen ideal is the actual common ideal. T3b uses the universal packet identities, without importing an ordinary-only certificate or any placeholder task.
+
+## B-line CI repair
+
+`OriginalPhaseData.lean` and `.github/v2/build.py` are synchronized verbatim with B-line `ad4f0a10927063901caae60440f8c3847f232231` (local principal-ideal instance and the shared process watchdog).

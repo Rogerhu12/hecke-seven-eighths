@@ -124,17 +124,28 @@
         "T3aValuationAtomCharacters",
         "T3aValuationCalibration",
         "T3aValuationLocal",
+        "T3aValuationMaskSupport",
         "T3aValuationPackets",
         "T3aValuationSupport",
         "T3aValuations",
         "T3bAtomComparison",
         "T3bAtomFrames",
+        "T3bFirstWeights",
         "T3bIndexAssembly",
         "T3bIndexWeights",
         "T3bKernels",
         "T3bNumericalLedger",
+        "T3bOrbitFibrePackets",
+        "T3bOrbitFibres",
+        "T3bOriginalSupport",
         "T3bPairedRows",
+        "T3bPlainCharts",
+        "T3bPlainSupport",
         "T3bProfiles",
+        "T3bRowBounds",
+        "T3bScaleCompensation",
+        "T3bSourceBinding",
+        "T3bSources",
         "T3bSupportedVolume",
         "T3bUnscaledAtoms",
         "T3bWholeBinding",
@@ -168,6 +179,15 @@
         "OrdinaryScaleFacts",
         "OrdinarySourceFacts",
         "OrdinarySourceTransport"
+      ]
+    },
+    {
+      "id": "t3_shared_n4",
+      "name": "PR39 原冻结理想及实际scale恒等式（原样复用）",
+      "proved": true,
+      "modules": [
+        "N4FrozenIdeals",
+        "N4ScaleProduct"
       ]
     }
   ]
