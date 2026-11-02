@@ -4,6 +4,8 @@
 
 ## 当前阶段
 
+**更新：按协调员评论 6573415153，先补实所有数据构造，再重新检验所有下游陈述。当前仍未达到正式骨架里程碑。逐定义来源、估计与状态见 [DATA_CONSTRUCTIONS.md](DATA_CONSTRUCTIONS.md)。新增构造 helper 属其对应构造组。**
+
 这是一份陈述骨架：未完成组使用显式 `sorry`，包括尚待实现的数据构造。骨架 CI 只证明声明/定义的类型和接线正确，不代表配对引擎定理已证明。每组完成后须去掉本组所有占位，并在独立 Lean 进程中递归检查全部已加载 V2 声明（包含 private/generated），只允许 `propext`、`Classical.choice`、`Quot.sound`。
 
 ## 设计

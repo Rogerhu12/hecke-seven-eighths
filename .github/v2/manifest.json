@@ -1,5 +1,5 @@
 {
-  "phase": "statement-skeleton",
+  "phase": "concrete-data-construction",
   "groups": [
     {
       "id": "g1",
@@ -31,6 +31,7 @@
       "name": "实际两次变换与同一子项构造",
       "proved": false,
       "modules": [
+        "CoveredStage",
         "SourceProduction",
         "ChildProduction"
       ]

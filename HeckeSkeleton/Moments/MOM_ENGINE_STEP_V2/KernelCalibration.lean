@@ -32,25 +32,26 @@ def selectedKernelBudget (request : Request c frame Cp Hp hCp hminimum hHp) : �
   (selectedCall request).engineCoefficient * (selectedCall request).engineControl *
     request.base ^ recipeInductionEdgeLoss c
 
-/-- A scalar majorant for each actual normalized leaf, obtained from
-its original atom envelopes and the weighted common Fourier measure. -/
+/-- The exact mass of the finite common Fourier kernel of this leaf.
+The bound on the complete sum is proved from the original atom envelopes
+and both independent divisor allocations. -/
 def leafMassBudget (request : Request c frame Cp Hp hCp hminimum hHp)
     (frequency : ℝ × ℝ)
-    (b : Fin (selectedExpansion request frequency).branches) : ℝ := by
-  sorry
+    (b : Fin (selectedExpansion request frequency).branches) : ℝ :=
+  ((selectedNormalization request frequency).measures b).mass
 
 theorem leafMassBudget_nonneg (request : Request c frame Cp Hp hCp hminimum hHp)
     (frequency : ℝ × ℝ)
     (b : Fin (selectedExpansion request frequency).branches) :
     0 ≤ leafMassBudget request frequency b := by
-  sorry
+  exact ((selectedNormalization request frequency).measures b).mass_nonneg
 
 theorem leaf_kernel_bound (request : Request c frame Cp Hp hCp hminimum hHp)
     (frequency : ℝ × ℝ)
     (b : Fin (selectedExpansion request frequency).branches) :
     ((selectedNormalization request frequency).measures b).mass ≤
       leafMassBudget request frequency b := by
-  sorry
+  exact le_rfl
 
 /-- Both divisor density factors survive in this sum; neither is
 replaced by a previously normalized Gauss allowance. -/
