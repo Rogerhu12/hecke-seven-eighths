@@ -29,7 +29,8 @@ variable {k : ℕ} (d : Atoms (K := K) k)
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (T : SourceCartesianAtlas columns ideal) (h : k = T.slotCount) :
     (d.onAtlas T h).centered = d.centered := by
-  sorry
+  cases h
+  rfl
 
 namespace OriginalWeightWindows
 
@@ -49,13 +50,19 @@ theorem nominal_scale (hcentered : d.centered = centered) (r : Bool)
     (hr : r = false ∨ d.centered = true) :
     d.scaleProduct r * (Ideal.absNorm G.literalFirstExtraction.val : ℝ) ≤
       annulus ^ cap * Z ^ (a.n₁ + a.n₂ + a.z) := by
-  sorry
+  rw [hcentered] at hr
+  simpa only [hfirst, htotal] using W.present_scale r hr
 
 /-- The complete first frozen norm is precisely the original
 `c + w` contribution, including the actual pool power. -/
 theorem nominal_gauss :
     Z ^ (G.skeleton.A - G.skeleton.c - G.skeleton.w) ≤ d.gaussScale := by
-  sorry
+  have he : total - idealLogLength Z firstFrozen =
+      G.skeleton.A - G.skeleton.c - G.skeleton.w := by
+    rw [← hfirst, G.literalFirstExtraction_length, htotal]
+    change G.skeleton.A - (G.skeleton.c + G.skeleton.w) = _
+    ring
+  simpa only [he] using W.gauss_lower
 
 end OriginalWeightWindows
 end CanonicalLiteralRectangles.Atoms

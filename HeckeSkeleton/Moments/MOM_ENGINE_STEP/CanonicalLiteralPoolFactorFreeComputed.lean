@@ -165,7 +165,10 @@ theorem literalLeftMainFactorFreeComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  sorry
+  unfold literalLeftMainFactorFreeComputedProfiles
+  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
 
 /-- All profile data are constructed for this same actual table,
 with the complete positive factor charged in its first scalar. -/
@@ -228,7 +231,10 @@ theorem literalRightMainFactorFreeComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  sorry
+  unfold literalRightMainFactorFreeComputedProfiles
+  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
 
 /-- All profile data are constructed for this same actual table,
 with the complete positive factor charged in its first scalar. -/
@@ -301,7 +307,10 @@ theorem literalLeftPoolFactorFreeComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  sorry
+  unfold literalLeftPoolFactorFreeComputedProfiles
+  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
 
 /-- All profile data are constructed for this same actual table,
 with the complete positive factor charged in its first scalar. -/
@@ -374,7 +383,10 @@ theorem literalRightPoolFactorFreeComputedProfiles_bound
       fun r => bound + bound * CanonicalLogProfiles.shapeCoefficient window hcompact hwindow
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
-  sorry
+  unfold literalRightPoolFactorFreeComputedProfiles
+  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
+    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

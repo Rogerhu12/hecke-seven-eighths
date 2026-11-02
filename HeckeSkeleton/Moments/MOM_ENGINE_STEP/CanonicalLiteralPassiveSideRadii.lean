@@ -231,7 +231,8 @@ its physical rows and paid moving recipe. -/
 @[simp] theorem literalPassiveSideNormalization_calibration :
     ∀ analytic hanalytic,
       (produced analytic hanalytic).calibration = calibration := by
-  sorry
+  intro analytic hanalytic
+  cases side <;> rfl
 
 private theorem literalPassiveSideNormalization_amplitude_raw (z : ℝ × ℝ) :
     ∀ analytic hanalytic,
@@ -244,7 +245,8 @@ private theorem literalPassiveSideNormalization_amplitude_raw (z : ℝ × ℝ) :
                 (geometry.literalRowParameter capacityCutoff +
                   geometry.literalSupportParameter rootLength))))
           (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  sorry
+  intro analytic hanalytic
+  cases side <;> rfl
 
 /-- The actual analytic enlargement uses the original total parameter
 `m + q`; the extra passive divisor is kept in the allocation scalar. -/
@@ -254,7 +256,9 @@ private theorem literalPassiveSideNormalization_amplitude_raw (z : ℝ × ℝ) :
         polynomialProfileRadius
           (CanonicalFullKappaPrime.enlargedCoefficient rawCoefficient enlargement)
           (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  sorry
+  intro analytic hanalytic
+  rw [literalPassiveSideNormalization_amplitude_raw]
+  rw [rowParameter, supportParameter]
 
 /-- This is the radius of the same capacity used to choose the child.
 No new normalization is selected on the active carrier. -/
@@ -264,13 +268,16 @@ No new normalization is selected on the active carrier. -/
         polynomialProfileRadius
           (CanonicalFullKappaPrime.enlargedCoefficient rawCoefficient enlargement)
           (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  sorry
+  intro analytic hanalytic
+  change (produced analytic hanalytic).amplitude (WithLp.toLp 2 z) = _
+  rw [literalPassiveSideNormalization_amplitude]
 
 @[simp] theorem literalPassiveSideNormalization_primeBound
     (i : Fin (f).source.allocation.keep.card) :
     ∀ analytic hanalytic,
       (produced analytic hanalytic).normalizedCapacityData.primeBound i = 1 := by
-  sorry
+  intro analytic hanalytic
+  cases side <;> rfl
 
 /-- The error fallback belongs only to the raw scale ledger; it does
 not replace the already computed profile coefficient above. -/
@@ -278,7 +285,8 @@ not replace the already computed profile coefficient above. -/
     ∀ analytic hanalytic,
       (produced analytic hanalytic).capacity.rawClipError =
         (t).computedRawError geometry.skeleton.rawDegree error rectangle := by
-  sorry
+  intro analytic hanalytic
+  cases side <;> rfl
 
 end SecondBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

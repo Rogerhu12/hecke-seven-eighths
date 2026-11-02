@@ -479,7 +479,104 @@ theorem literalPassiveNormalizedFamily_kernelMass
                 (schwartzSeminormFamily ℝ ℝ ℂ) (originalLeaf).secondKernel *
                 ∑ rs : family.active labels,
                   originalOuter * family.weight labels (a.m + a.q) rs := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight
+  dsimp only
+  let family := production analyticLeft analyticRight heightLeft heightRight
+  let L := leftCoefficient
+  let R := rightCoefficient
+  let factor := analyticFactor
+  let fixed := CanonicalLiteralActiveRadius.twoSignsCoefficient originalBound lo hi hlo δ₁ δ₂ orders
+  let s₁ := CanonicalLiteralKernelConstants.firstOrders K A σ ω ψ cap (orders.sup Prod.snd)
+  let s₂ := CanonicalLiteralKernelConstants.secondOrders K A σ ω ψ cap (orders.sup Prod.snd)
+  let S₁ := s₁.sup (schwartzSeminormFamily ℝ ℝ ℂ) (originalLeaf).firstKernel
+  let S₂ := s₂.sup (schwartzSeminormFamily ℝ ℝ ℂ) (originalLeaf).secondKernel
+  have hL (rs : Labels) : 0 ≤ L rs :=
+    (leftComputed.passiveTable leftAllocation A leftPaid).coefficient_nonneg Z _ domain.scale.le
+      isCompact_Icc (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign rs.1.2
+  have hR (rs : Labels) : 0 ≤ R rs :=
+    (rightComputed.passiveTable rightAllocation A rightPaid).coefficient_nonneg Z _ domain.scale.le
+      isCompact_Icc (CanonicalLogProfiles.positiveAnnulus lo hi hlo) (-firstSign) rs.2.2
+  have hfactor : 1 ≤ factor := CanonicalFullKappaPrime.one_le_radiusFactor
+    (K := K) Z δ mesh (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
+    (CompleteMovingRowRecipe.primeMaskLogBound A Z (m + q)) domain.scale.le hδ.le hmesh
+  have hB : 0 ≤ originalBound :=
+    (show 0 ≤ originalOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ)
+        (original.leftRep reference time) by positivity).trans
+      (original.left_bound reference hreference time htime)
+  have hfixed : 0 ≤ fixed := CanonicalLiteralActiveRadius.twoSignsCoefficient_nonneg
+    originalBound lo hi hB hlo hhi δ₁ δ₂ orders
+  have hS₁ : 0 ≤ S₁ := by positivity
+  have hS₂ : 0 ≤ S₂ := by positivity
+  have hLfixed (rs : family.active Finset.univ) : L rs.val ≤ fixed :=
+    (leftActiveBound leftSeed leftFirst δ₁ hδlo hδhi' hcomparisonL hcenteredL
+      hbaseL hfirstL₁ hfirstL₂ hboundL analyticLeft analyticRight heightLeft heightRight rs).trans
+      (CanonicalLiteralActiveRadius.fixedCoefficient_le_twoSigns
+        originalBound lo hi hlo δ₁ δ₂ firstSign orders hfirstSign)
+  have hnegativeSign : -firstSign = 1 ∨ -firstSign = -1 := by
+    rcases hfirstSign with h | h
+    · right; rw [h]
+    · left; rw [h]; norm_num
+  have hRfixed (rs : family.active Finset.univ) : R rs.val ≤ fixed :=
+    (rightActiveBound rightSeed rightFirst δ₁ hδlo hδhi' hcomparisonR hcenteredR
+      hbaseR hfirstR₁ hfirstR₂ hboundR analyticLeft analyticRight heightLeft heightRight rs).trans
+      (CanonicalLiteralActiveRadius.fixedCoefficient_le_twoSigns
+        originalBound lo hi hlo δ₁ δ₂ (-firstSign) orders hnegativeSign)
+  let control := (2 * factor) ^ ((cap + 2) + (cap + 2)) *
+    (1 + fixed) ^ ((cap + 2) + (cap + 2)) * S₁ * S₂
+  have hprofiles (rs : family.active Finset.univ) :
+      pairedProfileEnvelopeConstant (CanonicalFullKappaPrime.enlargedCoefficient (L rs.val) factor)
+        (CanonicalFullKappaPrime.enlargedCoefficient (R rs.val) factor) cap cap *
+          S₁ * S₂ ≤ control := by
+    have he := (CanonicalFullKappaPrime.paired_envelopeConstant_le
+      (L rs.val) (R rs.val) factor (hL rs.val) (hR rs.val) hfactor cap cap).trans
+      (mul_le_mul_of_nonneg_left
+        (CanonicalFullKappaPrime.paired_envelopeConstant_le_bound (L rs.val) (R rs.val) fixed
+          (hL rs.val) (hR rs.val) (hLfixed rs) (hRfixed rs) cap cap)
+        (pow_nonneg (mul_nonneg (by norm_num) (zero_le_one.trans hfactor)) _))
+    exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right he hS₁) hS₂
+  have hcapL (rs : Labels) : (family.leftSource rs).allocation.keep.card ≤ cap := by
+    let slots := CanonicalLiteralPassiveFrames.tableOriginalSlots
+      leftTests leftAllocation A leftPaid parent leftRecipe.slots
+    have hf : family.leftSlots rs ≤ parent.geometry.slotCount := by
+      simpa only [Fintype.card_fin] using
+        Fintype.card_le_of_injective slots.index slots.index.injective
+    have hk : (family.leftSource rs).allocation.keep.card ≤ family.leftSlots rs := by
+      simpa only [Fintype.card_fin] using
+        Finset.card_le_univ (family.leftSource rs).allocation.keep
+    exact hk.trans (hf.trans hcap)
+  have hcapR (rs : Labels) : (family.rightSource rs).allocation.keep.card ≤ cap := by
+    let slots := CanonicalLiteralPassiveFrames.tableOriginalSlots
+      rightTests rightAllocation A rightPaid parent rightRecipe.slots
+    have hf : family.rightSlots rs ≤ parent.geometry.slotCount := by
+      simpa only [Fintype.card_fin] using
+        Fintype.card_le_of_injective slots.index slots.index.injective
+    have hk : (family.rightSource rs).allocation.keep.card ≤ family.rightSlots rs := by
+      simpa only [Fintype.card_fin] using
+        Finset.card_le_univ (family.rightSource rs).allocation.keep
+    exact hk.trans (hf.trans hcap)
+  have houter : 0 ≤ originalOuter := mul_nonneg (originalLeaf).weight_nonneg
+    (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _))
+  have hm := (actual_finite_normalized_kernel_mass_active
+    (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
+    cap (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd) (orders.sup Prod.snd))
+      .choose_spec.choose_spec.choose_spec.2
+  have hout := hm Z hZ family Finset.univ
+    (fun _ : Labels => (originalLeaf).firstKernel) (fun _ : Labels => (originalLeaf).secondKernel)
+    (fun _ : Labels => originalOuter)
+    (fun rs => CanonicalFullKappaPrime.enlargedCoefficient (L rs) factor)
+    (fun rs => CanonicalFullKappaPrime.enlargedCoefficient (R rs) factor)
+    (a.m + a.q) control (fun _ _ => houter)
+    (fun rs _ => CanonicalFullKappaPrime.enlargedCoefficient_nonneg
+      (hL rs) (zero_le_one.trans hfactor))
+    (fun rs _ => CanonicalFullKappaPrime.enlargedCoefficient_nonneg
+      (hR rs) (zero_le_one.trans hfactor))
+    (fun rs _ => hcapL rs) (fun rs _ => hcapR rs)
+    (fun rs _ z => leftRadiusProof analyticLeft analyticRight heightLeft heightRight rs z)
+    (fun rs _ z => rightRadiusProof analyticLeft analyticRight heightLeft heightRight rs z)
+    hprofiles
+  refine ⟨hout.1, hout.2.trans_eq ?_⟩
+  dsimp only [control, S₁, S₂, s₁, s₂, CanonicalLiteralKernelConstants.constant]
+  ring
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

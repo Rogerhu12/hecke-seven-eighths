@@ -184,8 +184,9 @@ local notation "originalLengths" =>
 @[simp] theorem literalCapacityBinding_rawError :
     (originalLengths).rawScaleError = d.computedRawError G.skeleton.rawDegree error rectangle := rfl
 
-@[simp] theorem literalCapacityBinding_widthError : (originalLengths).scales.error = cutoff := by
-  sorry
+@[simp] theorem literalCapacityBinding_widthError : (originalLengths).scales.error = cutoff :=
+  d.factorsOriginalSixthLengthsAll_error rows side χ ideal hideal firstSign rectangle L selection hne
+    D parent a step G domain slots direct cutoff rootLength hcutoff hsmall hparameters error herr
 
 local notation "allSide" =>
   d.produceLiteralSideAll W rows side χ ideal hideal firstSign rectangle L selection hne D
@@ -203,7 +204,7 @@ theorem produceLiteralSideAll_capacity_heq :
       ((originalLengths).capacityInputOfPattern rows.primes_injective
         (by cases side <;> assumption) (by cases side <;> assumption) pattern
         hsecond hopposite hunit hstep mesh hmesh hfit originalAtoms) := by
-  sorry
+  cases side <;> rfl
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

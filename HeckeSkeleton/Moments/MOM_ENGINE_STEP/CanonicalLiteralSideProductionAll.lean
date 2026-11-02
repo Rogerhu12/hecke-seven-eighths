@@ -175,7 +175,7 @@ local notation "allSide" =>
     hreference htime horders computed hprimeOrders δ analyticHeight hδ hδhi analytic hanalytic
 
 @[simp] theorem produceLiteralSideAll_calibration : (allSide).calibration = D := by
-  sorry
+  cases side <;> rfl
 
 /-- This is equality of the entire constructed side, not just equality
 of an upper bound. Thus the already selected capacity data and its
@@ -194,7 +194,10 @@ theorem produceLiteralSideAll_eq
         annulus cap error herr hbound hthreshold hm hn hsecond hopposite hunit hstep
         mesh hmesh hfit lo hi hlo hhi orders original hreference htime horders computed
         hprimeOrders δ analyticHeight hδ hδhi analytic hanalytic := by
-  sorry
+  have he := d.factorsOriginalSixthLengthsAll_eq (C := C) rows side χ ideal hideal firstSign
+    rectangle L selection hne D parent a step G domain slots direct cutoff rootLength
+    hcutoff hsmall hparameters error herr annulus cap hbound hthreshold
+  cases side <;> simp only [produceLiteralSideAll, produceLiteralSide, he]
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

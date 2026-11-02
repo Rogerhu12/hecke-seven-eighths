@@ -661,7 +661,8 @@ theorem literalNormalizationArithmeticInput_eq_self :
       (originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight).withArithmetic
         (originalArithmeticInput analyticLeft analyticRight hanalyticLeft hanalyticRight) =
       originalNormalization analyticLeft analyticRight hanalyticLeft hanalyticRight := by
-  sorry
+  intro analyticLeft analyticRight hanalyticLeft hanalyticRight
+  rfl
 
 end SameOriginalNormalization
 

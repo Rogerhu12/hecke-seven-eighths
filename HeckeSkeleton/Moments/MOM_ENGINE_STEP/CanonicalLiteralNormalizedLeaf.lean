@@ -42,19 +42,21 @@ variable (G : OriginalNominalGeometry (K := K) a Z step)
 
 theorem atBase_literalRowParameter (base : ℝ) (hbase : base = Z) (cutoff : ℝ) :
     (G.atBase base hbase).literalRowParameter cutoff = G.literalRowParameter cutoff := by
-  sorry
+  subst base
+  rfl
 
 theorem atBase_literalSupportParameter (base : ℝ) (hbase : base = Z) (root : ℝ) :
     (G.atBase base hbase).literalSupportParameter root = G.literalSupportParameter root := by
-  sorry
+  subst base
+  rfl
 
 theorem swapSecond_literalRowParameter (cutoff : ℝ) :
     G.swapSecond.literalRowParameter cutoff = G.literalRowParameter cutoff := by
-  sorry
+  simp only [literalRowParameter, frequencyCenter, G.swapSecond_skeleton]
 
 theorem swapSecond_literalSupportParameter (root : ℝ) :
     G.swapSecond.literalSupportParameter root = G.literalSupportParameter root := by
-  sorry
+  simp only [literalSupportParameter, supportCenter, G.swapSecond_skeleton]
 
 end OriginalNominalGeometry
 

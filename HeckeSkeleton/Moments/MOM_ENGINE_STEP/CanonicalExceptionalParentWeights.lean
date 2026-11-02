@@ -86,7 +86,14 @@ theorem stripOuter_parentLeaf_weight_original_relative
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             (R.secondPhaseAt L j)‖) /
         R.firstAllowanceAt L total j := by
-  sorry
+  rw [extract.stripOuter_weight]
+  calc
+    _ = (‖leftScalar‖ * ‖rightScalar‖) *
+        ((R.parentLeaf L exceptional (s.canonicalNormalization hZ total) j).weight /
+          Z ^ parentWidth) := by ring
+    _ = _ := by
+      rw [R.parentLeaf_weight_original_relative L hZ total exceptional parentWidth j]
+      ring
 
 end ActualDirectFirstSource.SecondStages
 
@@ -119,7 +126,14 @@ theorem stripOuter_parentLeaf_weight_original_relative
           ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle))
             (R.secondPhaseAt L j)‖) /
         R.firstAllowanceAt L total j := by
-  sorry
+  rw [extract.stripOuter_weight]
+  calc
+    _ = (‖leftScalar‖ * ‖rightScalar‖) *
+        ((R.parentLeaf L exceptional (s.canonicalNormalization hZ total) j).weight /
+          Z ^ parentWidth) := by ring
+    _ = _ := by
+      rw [R.parentLeaf_weight_original_relative L hZ total exceptional parentWidth j]
+      ring
 
 end ActualFirstSource.SecondStages
 

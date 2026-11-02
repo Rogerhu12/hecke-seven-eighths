@@ -152,7 +152,7 @@ amplitude on the original joint Fourier parameter. -/
             (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
             (CompleteMovingRowRecipe.primeMaskLogBound A (f).source.base (m + q))))
         (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  sorry
+  cases side <;> rfl
 
 /-- This is the radius on the same chosen normalized-capacity object,
 not a replacement profile bound. -/
@@ -166,12 +166,12 @@ not a replacement profile bound. -/
             (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
             (CompleteMovingRowRecipe.primeMaskLogBound A (f).source.base (m + q))))
         (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  sorry
+  cases side <;> rfl
 
 @[simp] theorem produceLiteralSideAll_primeBound
     (i : Fin (f).source.allocation.keep.card) :
     (allSide).normalizedCapacityData.primeBound i = 1 := by
-  sorry
+  cases side <;> rfl
 
 /-- Only this raw-degree cost may be large on an absent rectangle.
 Its profile radius is still the independently computed same radius
@@ -180,7 +180,7 @@ identifies this exact object with the small-error constructor. -/
 @[simp] theorem produceLiteralSideAll_rawClipError :
     (allSide).capacity.rawClipError =
       d.computedRawError G.skeleton.rawDegree error rectangle := by
-  sorry
+  cases side <;> rfl
 
 end CanonicalLiteralRectangles.Atoms
 end HeckeSkeleton.Moments.EngineStep

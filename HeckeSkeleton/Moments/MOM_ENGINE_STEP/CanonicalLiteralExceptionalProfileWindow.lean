@@ -44,13 +44,15 @@ def coefficient (window : Set ℝ) (hcompact : IsCompact window)
 
 theorem coefficient_one (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (δ₁ δ₂ : ℝ) (orders : Finset (ℕ × ℕ)) :
-    1 ≤ coefficient window hcompact hpositive δ₁ δ₂ orders := by
-  sorry
+    1 ≤ coefficient window hcompact hpositive δ₁ δ₂ orders :=
+  le_add_of_nonneg_right (CanonicalLogProfiles.shapeCoefficient_nonneg
+    window hcompact hpositive _ _)
 
 private theorem orders_mono (orders : Finset (ℕ × ℕ)) (φ : 𝓢(ℝ, ℂ)) :
     orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) φ ≤
-      (CanonicalLogProfiles.sourceOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) φ := by
-  sorry
+      (CanonicalLogProfiles.sourceOrders orders).sup (schwartzSeminormFamily ℂ ℝ ℂ) φ :=
+  Seminorm.finset_sup_apply_le (apply_nonneg _ _)
+    (fun p hp => Seminorm.le_finset_sup_apply (CanonicalLogProfiles.subset_sourceOrders orders hp))
 
 section OriginalFactorFree
 
@@ -111,7 +113,33 @@ theorem computed_sourceOrders_bounds :
     (∀ j, (CanonicalLogProfiles.sourceOrders orders).sup
       (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.slot j) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) := by
-  sorry
+  let E := Q.literalOriginalSchwartzModel ξ recipe a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ reference href original hreference ht hpositive hcompact.isClosed
+  have hb := Q.literalOriginalSchwartzModel_bound ξ recipe a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ reference href original hreference ht hpositive hcompact.isClosed hamplitude
+  let Cshape := CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
+    (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders orders)
+  have hC : 0 ≤ Cshape := CanonicalLogProfiles.shapeCoefficient_nonneg
+    window hcompact hpositive _ _
+  have hlarge : Cshape * amplitude ≤
+      coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude :=
+    mul_le_mul_of_nonneg_right (le_add_of_nonneg_left zero_le_one) hamplitude
+  refine ⟨?_, ?_, ?_⟩
+  · intro r
+    exact (E.factorFree_left_bound (σ := σ) b P R power firstFixed poolFixed unitFixed
+      firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hcompact hpositive
+      r (CanonicalLogProfiles.sourceOrders orders)).trans
+        ((mul_le_mul_of_nonneg_left (hb.1 r) hC).trans hlarge)
+  · intro r
+    exact (E.factorFree_right_bound (σ := σ) b P R power firstFixed poolFixed unitFixed
+      firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hcompact hpositive
+      r (CanonicalLogProfiles.sourceOrders orders)).trans
+        ((mul_le_mul_of_nonneg_left (hb.2.1 r) hC).trans hlarge)
+  · intro j
+    exact (E.factorFree_slot_bound (σ := σ) b P R power firstFixed poolFixed unitFixed
+      firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂ hcompact hpositive
+      j (CanonicalLogProfiles.sourceOrders orders)).trans
+        ((mul_le_mul_of_nonneg_left (hb.2.2 (SlotRestriction.index b.keep j)) hC).trans hlarge)
 
 /-- In particular the requested volume orders hold on these same
 representatives. No new representative or normalization is chosen. -/
@@ -122,7 +150,13 @@ theorem computed_bounds :
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) ∧
     (∀ j, orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((T).model.slot j) ≤
         coefficient window hcompact hpositive δ₁ δ₂ orders * amplitude) := by
-  sorry
+  have h := computed_sourceOrders_bounds Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    reference href orders amplitude hamplitude original hreference ht hcompact hpositive
+    hprime b power firstFixed poolFixed unitFixed firstElement poolElement unitElement
+    hfirst hpool hunit δ₁ δ₂
+  exact ⟨fun r => (orders_mono orders _).trans (h.1 r),
+    fun r => (orders_mono orders _).trans (h.2.1 r),
+    fun j => (orders_mono orders _).trans (h.2.2 j)⟩
 
 /-- A certificate for the same model with its proved uniform numerical
 bound. Existing profile transports can consume this certificate. It
@@ -171,14 +205,36 @@ theorem term_nonzero_profile_values (r : Bool) (i : AllocationColumn K k)
     (hne : d.term r i ≠ 0) :
     E.left r (idealNorm K (sourceMomentIdeal i.1.1) / d.scale₁ r) ≠ 0 ∧
       E.right r (idealNorm K (sourceMomentIdeal i.1.2) / d.scale₂ r) ≠ 0 := by
-  sorry
+  have hraw := right_ne_zero_of_mul hne
+  change rawBareSourceCoefficient d.characters (d.scale₁ r) (d.scale₂ r)
+    d.base d.length (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight i ≠ 0 at hraw
+  dsimp only [rawBareSourceCoefficient, FixedChildCharacters.bareCoefficient,
+    childCartesianCoefficient] at hraw
+  have hleft : d.rectangleLeftWeight r (sourceMomentIdeal i.1.1) ≠ 0 :=
+    right_ne_zero_of_mul (right_ne_zero_of_mul (left_ne_zero_of_mul (left_ne_zero_of_mul hraw)))
+  have hright : d.rightWeight r (sourceMomentIdeal i.1.2) ≠ 0 :=
+    right_ne_zero_of_mul (right_ne_zero_of_mul (right_ne_zero_of_mul (left_ne_zero_of_mul hraw)))
+  rw [← W.left_eval r 1 0, E.left_eq] at hleft
+  rw [← W.right_eval r 1 0, E.right_eq] at hright
+  exact ⟨hleft, hright⟩
 
 include E in
 theorem term_scale_lower (hi : ℝ) (hhi : 0 < hi)
     (hwindow : window ⊆ Set.Iic hi) (r : Bool) (i : AllocationColumn K k)
     (hne : d.term r i ≠ 0) :
     1 / hi ≤ d.scale₁ r ∧ 1 / hi ≤ d.scale₂ r := by
-  sorry
+  have hv := term_nonzero_profile_values E r i hne
+  have hleft := hwindow (E.left_support r (subset_tsupport _ hv.1))
+  have hright := hwindow (E.right_support r (subset_tsupport _ hv.2))
+  constructor
+  · apply (div_le_iff₀ hhi).mpr
+    have h := (one_le_idealNorm K (sourceMomentIdeal i.1.1)).trans
+      ((div_le_iff₀ (d.scale₁_pos r)).mp hleft)
+    simpa only [mul_comm] using h
+  · apply (div_le_iff₀ hhi).mpr
+    have h := (one_le_idealNorm K (sourceMomentIdeal i.1.2)).trans
+      ((div_le_iff₀ (d.scale₂_pos r)).mp hright)
+    simpa only [mul_comm] using h
 
 include E in
 /-- A whole centered column may be active in either rectangle. Their
@@ -189,7 +245,27 @@ theorem whole_scale_product_lower (hi : ℝ) (hhi : 0 < hi)
       d.scale₁ true * d.scale₂ true = d.scale₁ false * d.scale₂ false)
     (i : AllocationColumn K k) (hne : d.whole i ≠ 0) :
     hi ^ (-2 : ℝ) ≤ d.scale₁ false * d.scale₂ false := by
-  sorry
+  have hterm : ∃ r, d.term r i ≠ 0 := by
+    by_cases hfalse : d.term false i = 0
+    · refine ⟨true, ?_⟩
+      intro htrue
+      exact hne (by simp only [CanonicalLiteralRectangles.Atoms.whole, hfalse, htrue, sub_self])
+    · exact ⟨false, hfalse⟩
+  obtain ⟨r, hr⟩ := hterm
+  have hlower := term_scale_lower E hi hhi hwindow r i hr
+  have heq : hi ^ (-2 : ℝ) = (1 / hi) * (1 / hi) := by
+    rw [show (-2 : ℝ) = -(2 : ℝ) by norm_num, Real.rpow_neg hhi.le, Real.rpow_two]
+    simp only [pow_two, one_div, mul_inv_rev]
+  have h := mul_le_mul hlower.1 hlower.2 (div_nonneg zero_le_one hhi.le) (d.scale₁_pos r).le
+  rw [← heq] at h
+  cases r
+  · exact h
+  · have hc : d.centered = true := by
+      cases he : d.centered
+      · have hz : d.term true i = 0 := by simp only [d.term_true, he, Bool.false_eq_true, if_false]
+        exact (hr hz).elim
+      · exact he
+    exact h.trans_eq (hproduct hc)
 
 end WholeSupport
 

@@ -37,8 +37,10 @@ def constant : ℝ :=
     (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
     cap order order order order).choose_spec.choose_spec.choose
 
-theorem constant_pos : 0 < constant K A σ ω ψ cap order := by
-  sorry
+theorem constant_pos : 0 < constant K A σ ω ψ cap order :=
+  (actual_finite_normalized_kernel_mass_active
+    (F := K) (A := A) (σ := σ) (ω := ω) (ψ := ψ) (U := ℝ) (E := ℝ)
+    cap order order order order).choose_spec.choose_spec.choose_spec.1
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralKernelConstants
 

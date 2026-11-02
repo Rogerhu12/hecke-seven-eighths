@@ -33,19 +33,22 @@ theorem onAtlas_base_eq {A : SArithmeticData K} {ι : Type*}
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (atlas : SourceCartesianAtlas columns ideal) (count : k = atlas.slotCount) :
     (d.onAtlas atlas count).base = d.base := by
-  sorry
+  cases count
+  rfl
 
 theorem onAtlas_left_scale {A : SArithmeticData K} {ι : Type*}
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (atlas : SourceCartesianAtlas columns ideal) (count : k = atlas.slotCount) (r : Bool) :
     (d.onAtlas atlas count).scale₁ r = d.scale₁ r := by
-  sorry
+  cases count
+  rfl
 
 theorem onAtlas_right_scale {A : SArithmeticData K} {ι : Type*}
     {columns : Finset ι} {ideal : ι → A.Exterior}
     (atlas : SourceCartesianAtlas columns ideal) (count : k = atlas.slotCount) (r : Bool) :
     (d.onAtlas atlas count).scale₂ r = d.scale₂ r := by
-  sorry
+  cases count
+  rfl
 
 end CanonicalLiteralRectangles.Atoms
 
@@ -66,13 +69,19 @@ theorem left_scale (allocation : ActualColumnAllocation K b.keep.card)
     (r : Bool) (m q κ : ℝ) :
     d.base ^ (CanonicalLiteralAllocatedData.parameters (d.extract b) allocation r m q κ).n₁ =
       d.scale₁ r / idealNorm K (leftDivisor d b allocation) := by
-  sorry
+  rw [CanonicalLiteralAllocatedData.left_scale]
+  change (d.scale₁ r / idealNorm K b.plainDivisor₁) /
+    idealNorm K (allocation.plainDivisor 0) = _
+  rw [leftDivisor, CanonicalLiteralProfileData.idealNorm_mul, div_div]
 
 theorem right_scale (allocation : ActualColumnAllocation K b.keep.card)
     (r : Bool) (m q κ : ℝ) :
     d.base ^ (CanonicalLiteralAllocatedData.parameters (d.extract b) allocation r m q κ).n₂ =
       d.scale₂ r / idealNorm K (rightDivisor d b allocation) := by
-  sorry
+  rw [CanonicalLiteralAllocatedData.right_scale]
+  change (d.scale₂ r / idealNorm K b.plainDivisor₂) /
+    idealNorm K (allocation.plainDivisor (Fin.succ 0)) = _
+  rw [rightDivisor, CanonicalLiteralProfileData.idealNorm_mul, div_div]
 
 variable {A : SArithmeticData K} {ι : Type*}
 variable {columns : Finset ι} {ideal : ι → A.Exterior}
@@ -88,13 +97,39 @@ theorem atlas_left_scale (allocation : ActualColumnAllocation K atlas.slotCount)
     (r : Bool) (m q κ : ℝ) :
     d.base ^ (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₁ =
       d.scale₁ r / idealNorm K (b.plainDivisor₁ * allocation.plainDivisor 0) := by
-  sorry
+  have hbase : (actualTable).base = d.base := (d.extract b).onAtlas_base_eq atlas count
+  calc
+    _ = (actualTable).base ^
+        (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₁ := by
+      rw [hbase]
+    _ = (actualTable).scale₁ r / idealNorm K (allocation.plainDivisor 0) :=
+      CanonicalLiteralAllocatedData.left_scale actualTable allocation r m q κ
+    _ = _ := by
+      change ((d.extract b).onAtlas atlas count).scale₁ r /
+        idealNorm K (allocation.plainDivisor 0) = _
+      rw [(d.extract b).onAtlas_left_scale atlas count r]
+      change (d.scale₁ r / idealNorm K b.plainDivisor₁) /
+        idealNorm K (allocation.plainDivisor 0) = _
+      rw [CanonicalLiteralProfileData.idealNorm_mul, div_div]
 
 theorem atlas_right_scale (allocation : ActualColumnAllocation K atlas.slotCount)
     (r : Bool) (m q κ : ℝ) :
     d.base ^ (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₂ =
       d.scale₂ r / idealNorm K (b.plainDivisor₂ * allocation.plainDivisor (Fin.succ 0)) := by
-  sorry
+  have hbase : (actualTable).base = d.base := (d.extract b).onAtlas_base_eq atlas count
+  calc
+    _ = (actualTable).base ^
+        (CanonicalLiteralAllocatedData.parameters actualTable allocation r m q κ).n₂ := by
+      rw [hbase]
+    _ = (actualTable).scale₂ r / idealNorm K (allocation.plainDivisor (Fin.succ 0)) :=
+      CanonicalLiteralAllocatedData.right_scale actualTable allocation r m q κ
+    _ = _ := by
+      change ((d.extract b).onAtlas atlas count).scale₂ r /
+        idealNorm K (allocation.plainDivisor (Fin.succ 0)) = _
+      rw [(d.extract b).onAtlas_right_scale atlas count r]
+      change (d.scale₂ r / idealNorm K b.plainDivisor₂) /
+        idealNorm K (allocation.plainDivisor (Fin.succ 0)) = _
+      rw [CanonicalLiteralProfileData.idealNorm_mul, div_div]
 
 end CanonicalLiteralQuotientScales
 end HeckeSkeleton.Moments.EngineStep

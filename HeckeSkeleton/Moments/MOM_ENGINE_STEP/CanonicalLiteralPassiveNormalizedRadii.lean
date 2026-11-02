@@ -277,13 +277,15 @@ local notation "analyticFactor" => CanonicalFullKappaPrime.radiusFactor K Z δ m
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels),
       ((production analyticLeft analyticRight heightLeft heightRight).leftCalibration b).parameters =
         leftParameters b := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b
+  rfl
 
 @[simp] theorem literalPassiveNormalizedFamily_rightParameters :
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels),
       ((production analyticLeft analyticRight heightLeft heightRight).rightCalibration b).parameters =
         rightParameters b := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b
+  rfl
 
 @[simp] theorem literalPassiveNormalizedFamily_leftRadius :
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels) (z : ℝ × ℝ),
@@ -292,7 +294,38 @@ local notation "analyticFactor" => CanonicalFullKappaPrime.radiusFactor K Z δ m
         polynomialProfileRadius
           (CanonicalFullKappaPrime.enlargedCoefficient (leftCoefficient b) analyticFactor)
           (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b z
+  let «GL» := geometry.atBase (leftTable).base hbaseLeft
+  have hmL : «GL».literalRowParameter paidCutoff = m :=
+    geometry.atBase_literalRowParameter (leftTable).base hbaseLeft paidCutoff
+  have hrootL : idealLogLength (leftTable).base
+      (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity
+        (ordinaryRows).rightMultiplicity).val = rootLength := by
+    change idealLogLength (v.literalLeftAtoms leftAtoms).base
+      (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity).val = _
+    rw [hbaseLeft]
+  have hqL : «GL».literalSupportParameter
+      (idealLogLength (leftTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity
+          (ordinaryRows).rightMultiplicity).val) = q := by
+    rw [hrootL]
+    exact geometry.atBase_literalSupportParameter (leftTable).base hbaseLeft rootLength
+  change polynomialProfileRadius
+    (CanonicalFullKappaPrime.enlargedCoefficient
+      ((leftComputed.passiveTable leftAllocation A leftPaid).coefficient (leftTable).base
+        (leftParameters b) isCompact_Icc
+        (CanonicalLogProfiles.positiveAnnulus lo hi hlo) firstSign b.1.2)
+      (CanonicalFullKappaPrime.radiusFactor K (leftTable).base δ mesh
+        (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
+        (CompleteMovingRowRecipe.primeMaskLogBound A (leftTable).base
+          («GL».literalRowParameter paidCutoff + «GL».literalSupportParameter
+            (idealLogLength (leftTable).base
+              (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).leftMultiplicity
+                (ordinaryRows).rightMultiplicity).val)))))
+    (orders.sup Prod.snd) (orders.sup Prod.snd) z = _
+  rw [hmL, hqL]
+  have hb : (leftTable).base = Z := hbaseLeft
+  rw [hb]
 
 @[simp] theorem literalPassiveNormalizedFamily_rightRadius :
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels) (z : ℝ × ℝ),
@@ -301,19 +334,58 @@ local notation "analyticFactor" => CanonicalFullKappaPrime.radiusFactor K Z δ m
         polynomialProfileRadius
           (CanonicalFullKappaPrime.enlargedCoefficient (rightCoefficient b) analyticFactor)
           (orders.sup Prod.snd) (orders.sup Prod.snd) z := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b z
+  let GR := geometry.swapSecond.atBase (rightTable).base hbaseRight
+  have hmR : GR.literalRowParameter paidCutoff = m := by
+    rw [OriginalNominalGeometry.atBase_literalRowParameter,
+      geometry.swapSecond_literalRowParameter]
+  have hrootR : idealLogLength (rightTable).base
+      (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+        (ordinaryRows).leftMultiplicity).val = rootLength := by
+    have he := SecondColumnSide.literal_root .right ordinaryRows
+    change secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+      (ordinaryRows).leftMultiplicity = secondSixthRootIdeal (ordinaryRows).primes
+      (ordinaryRows).leftMultiplicity (ordinaryRows).rightMultiplicity at he
+    rw [he]
+    change idealLogLength (v.literalRightAtoms rightAtoms).base
+      (secondSixthRootIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity).val = _
+    rw [hbaseRight]
+  have hqR : GR.literalSupportParameter
+      (idealLogLength (rightTable).base
+        (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+          (ordinaryRows).leftMultiplicity).val) = q := by
+    rw [hrootR, OriginalNominalGeometry.atBase_literalSupportParameter,
+      geometry.swapSecond_literalSupportParameter]
+  change polynomialProfileRadius
+    (CanonicalFullKappaPrime.enlargedCoefficient
+      ((rightComputed.passiveTable rightAllocation A rightPaid).coefficient (rightTable).base
+        (rightParameters b) isCompact_Icc
+        (CanonicalLogProfiles.positiveAnnulus lo hi hlo) (-firstSign) b.2.2)
+      (CanonicalFullKappaPrime.radiusFactor K (rightTable).base δ mesh
+        (CanonicalHeckePrimeAnalytic.degreeBound K) analyticHeight
+        (CompleteMovingRowRecipe.primeMaskLogBound A (rightTable).base
+          (GR.literalRowParameter paidCutoff + GR.literalSupportParameter
+            (idealLogLength (rightTable).base
+              (secondSixthRootIdeal (ordinaryRows).primes (ordinaryRows).rightMultiplicity
+                (ordinaryRows).leftMultiplicity).val)))))
+    (orders.sup Prod.snd) (orders.sup Prod.snd) z = _
+  rw [hmR, hqR]
+  have hb : (rightTable).base = Z := hbaseRight
+  rw [hb]
 
 @[simp] theorem literalPassiveNormalizedFamily_leftPrimeBound :
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels)
       (i : Fin (passiveLeft b).keep.card),
       ((production analyticLeft analyticRight heightLeft heightRight).leftCapacity b).primeBound i = 1 := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b i
+  rfl
 
 @[simp] theorem literalPassiveNormalizedFamily_rightPrimeBound :
     ∀ analyticLeft analyticRight heightLeft heightRight (b : Labels)
       (i : Fin (passiveRight b).keep.card),
       ((production analyticLeft analyticRight heightLeft heightRight).rightCapacity b).primeBound i = 1 := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight b i
+  rfl
 
 /-- The active witness is taken after passive decomposition and from
 this exact left calibration. Its comparison scale is used only when
@@ -336,7 +408,34 @@ theorem literalPassiveNormalizedFamily_leftActiveCoefficient_le
     ∀ rs : (production analyticLeft analyticRight heightLeft heightRight).active Finset.univ,
       leftCoefficient rs.val ≤
         CanonicalLiteralRadiusBound.fixedCoefficient originalBound lo hi hlo δ₁ δ₂ firstSign orders := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight rs
+  let family := production analyticLeft analyticRight heightLeft heightRight
+  have hactive : ¬ ∀ ξ, (CanonicalLiteralPassiveFrames.frame leftTests leftAllocation A leftPaid
+      C ordinaryRows .left (choice.mask extra) rs.val.1.1.val firstSign rs.val.1.2).source.energy
+        (σ := σ) ξ = 0 := (Finset.mem_filter.mp rs.property).2.1
+  have hwhich := CanonicalLiteralPassiveFrames.active_rectangle leftTests leftAllocation A leftPaid
+    C ordinaryRows .left (choice.mask extra) rs.val.1.1.val firstSign rs.val.1.2 hactive
+  have hproduct : seed.scale₁ rs.val.1.2 * seed.scale₂ rs.val.1.2 =
+      seed.scale₁ false * seed.scale₂ false := by
+    rcases hwhich with hr | hc
+    · rw [hr]
+    · cases hr : rs.val.1.2 with
+      | false => simp only [hr]
+      | true => simpa only [hr] using hcomparison (hcentered.symm.trans hc)
+  have hB : 0 ≤ originalBound :=
+    (show 0 ≤ originalOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ)
+        (original.leftRep reference time) by positivity).trans
+      (original.left_bound reference hreference time htime)
+  have hf := CanonicalLiteralPassiveActiveRadius.coefficient_le_fixed_of_source_active
+    seed first (v.literalLeftOriginal leftAtoms) v.literalLeftBranch
+    v.literalLeftResidualAtlas rfl leftScalar⁻¹ leftBalance leftTests leftAllocation leftPaid
+    (choice.mask extra) rs.val.1.1.val leftComputed rs.val.1.2 m q a.κ δ₁ δ₂ firstSign false
+    hB hlo hhi hδlo hδhi' hproduct hbase (hfirst₁ rs.val.1.2) (hfirst₂ rs.val.1.2)
+    (congrFun hbound rs.val.1.2)
+    (family.leftSource rs.val) (family.leftCalibration rs.val)
+    hbase rfl (fun _ => rfl) (fun _ => rfl) hactive
+  have hb : (family.leftSource rs.val).base = Z := hbaseLeft
+  simpa only [hb] using hf
 
 /-- The right source uses its own independent passive allocation and
 the unchanged negative Fourier orientation. -/
@@ -358,7 +457,34 @@ theorem literalPassiveNormalizedFamily_rightActiveCoefficient_le
     ∀ rs : (production analyticLeft analyticRight heightLeft heightRight).active Finset.univ,
       rightCoefficient rs.val ≤
         CanonicalLiteralRadiusBound.fixedCoefficient originalBound lo hi hlo δ₁ δ₂ (-firstSign) orders := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight rs
+  let family := production analyticLeft analyticRight heightLeft heightRight
+  have hactive : ¬ ∀ ξ, (CanonicalLiteralPassiveFrames.frame rightTests rightAllocation A rightPaid
+      C ordinaryRows .right (choice.mask extra) rs.val.2.1.val (-firstSign) rs.val.2.2).source.energy
+        (σ := σ) ξ = 0 := (Finset.mem_filter.mp rs.property).2.2
+  have hwhich := CanonicalLiteralPassiveFrames.active_rectangle rightTests rightAllocation A rightPaid
+    C ordinaryRows .right (choice.mask extra) rs.val.2.1.val (-firstSign) rs.val.2.2 hactive
+  have hproduct : seed.scale₁ rs.val.2.2 * seed.scale₂ rs.val.2.2 =
+      seed.scale₁ false * seed.scale₂ false := by
+    rcases hwhich with hr | hc
+    · rw [hr]
+    · cases hr : rs.val.2.2 with
+      | false => simp only [hr]
+      | true => simpa only [hr] using hcomparison (hcentered.symm.trans hc)
+  have hB : 0 ≤ originalBound :=
+    (show 0 ≤ originalOrders.sup (schwartzSeminormFamily ℂ ℝ ℂ)
+        (original.leftRep reference time) by positivity).trans
+      (original.left_bound reference hreference time htime)
+  have hf := CanonicalLiteralPassiveActiveRadius.coefficient_le_fixed_of_source_active
+    seed first (v.literalRightOriginal rightAtoms) v.literalRightBranch
+    v.literalRightResidualAtlas rfl rightScalar⁻¹ rightBalance rightTests rightAllocation rightPaid
+    (choice.mask extra) rs.val.2.1.val rightComputed rs.val.2.2 m q a.κ δ₁ δ₂ (-firstSign) true
+    hB hlo hhi hδlo hδhi' hproduct hbase (hfirst₁ rs.val.2.2) (hfirst₂ rs.val.2.2)
+    (congrFun hbound rs.val.2.2)
+    (family.rightSource rs.val) (family.rightCalibration rs.val)
+    hbase rfl (fun _ => rfl) (fun _ => rfl) hactive
+  have hb : (family.rightSource rs.val).base = Z := hbaseRight
+  simpa only [hb] using hf
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

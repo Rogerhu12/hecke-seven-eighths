@@ -51,8 +51,8 @@ variable {bound annulus base total : ℝ} {firstFrozen : Ideal (𝓞 K)}
 
 theorem atomBound_one
     (_W : d.OriginalWeightWindows centered cap bound annulus base total firstFrozen) :
-    1 ≤ CanonicalLiteralMassProfilePower.slotBudget bound := by
-  sorry
+    1 ≤ CanonicalLiteralMassProfilePower.slotBudget bound :=
+  CanonicalLiteralMassProfilePower.slotBudget_one bound
 
 end OriginalWeightWindows
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms

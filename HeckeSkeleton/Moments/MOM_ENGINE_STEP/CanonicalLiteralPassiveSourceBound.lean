@@ -270,7 +270,83 @@ theorem literalPassiveNormalizedFamily_sourcePairs :
     let family := production analyticLeft analyticRight heightLeft heightRight
     (rectangles).originalIntegrand ξ / Z ^ parentWidth ≤ frozenPair *
       ∑ b : Labels, family.sourcePair parentWidth b ξ := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight parentWidth ξ
+  let family := production analyticLeft analyticRight heightLeft heightRight
+  have hpre := v.literalPassiveOriginalIntegrand_le
+    (P := P) (Rchar := Rchar) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
+    (G := G) (retainedScale := retainedScale) (Z := Z) (g := g)
+    (hscale := hscale) (hZ := hZ) (cutoff := cutoff) (hcutoff := hcutoff)
+    (hnorm := hnorm) (dimension := dimension) (width := width)
+    (character := character) (dyad := dyad) (LC := LC) (RC := RC)
+    (exceptional := exceptional) (firstKernel := firstKernel) (x := x) (j := j)
+    (hlive := hlive) (firstSign := firstSign) (leftAtoms := leftAtoms) (rightAtoms := rightAtoms)
+    (leftScalar := leftScalar) (rightScalar := rightScalar)
+    (leftBalance := leftBalance) (rightBalance := rightBalance)
+    (hleftBalance := hleftBalance) (hrightBalance := hrightBalance)
+    (firstSupport := firstSupport) (hfirst := hfirst)
+    (leftProfiles := leftProfiles) (rightProfiles := rightProfiles)
+    (F := F) (choice := choice) (parent := parent) (oldMoving := oldMoving)
+    (correction := correction) (hcorr := hcorr) (remaining := remaining) (extra := extra)
+    (hextra := hextra) (leftRecipe := leftRecipe) (rightRecipe := rightRecipe)
+    (hone := hone) (hroot := hroot) (hemb := hemb) ξ
+  have hsourcePair (b : Labels) : family.sourcePair parentWidth b ξ =
+      Real.sqrt ((leftFrame b.1).energy ξ) * Real.sqrt ((rightFrame b.2).energy ξ) /
+        Z ^ parentWidth := by
+    change (Real.sqrt (‖(leftFrame b.1).normalizer‖ ^ 2 *
+        (leftFrame b.1).source.energy (σ := σ) ξ) *
+      Real.sqrt (‖(rightFrame b.2).normalizer‖ ^ 2 *
+        (rightFrame b.2).source.energy (σ := σ) ξ)) / Z ^ parentWidth = _
+    rw [← (leftFrame b.1).energy_eq_source, ← (rightFrame b.2).energy_eq_source]
+  have hsum : (∑ b : Labels, family.sourcePair parentWidth b ξ) =
+      ((∑ b : LeftLabel, Real.sqrt ((leftFrame b).energy ξ)) *
+        (∑ b : RightLabel, Real.sqrt ((rightFrame b).energy ξ))) / Z ^ parentWidth := by
+    simp only [hsourcePair, Fintype.sum_prod_type, ← Finset.sum_div, Finset.sum_mul_sum]
+  have hL := CanonicalLiteralPassiveFrameEnergy.sqrt_passiveColumn_le_frames
+    leftAllocation leftTests leftPaid C ordinaryRows (choice.mask extra) firstSign false ξ
+  have hR := CanonicalLiteralPassiveFrameEnergy.sqrt_passiveColumn_le_frames
+    rightAllocation rightTests rightPaid C ordinaryRows (choice.mask extra) (-firstSign) true ξ
+  have hleftSum :
+      (∑ b ∈ CanonicalLiteralPassiveNonzero.nonzeroLabels leftTests leftAllocation A
+        (choice.mask extra),
+        (Real.sqrt ((CanonicalLiteralPassiveFrames.frame leftTests leftAllocation A leftPaid
+          C ordinaryRows .left (choice.mask extra) b firstSign false).energy ξ) +
+          Real.sqrt ((CanonicalLiteralPassiveFrames.frame leftTests leftAllocation A leftPaid
+            C ordinaryRows .left (choice.mask extra) b firstSign true).energy ξ))) =
+        ∑ b : LeftLabel, Real.sqrt ((leftFrame b).energy ξ) := by
+    rw [Fintype.sum_prod_type, Finset.sum_coe_sort]
+    apply Finset.sum_congr rfl
+    intro b hb
+    simp [add_comm]
+  have hrightSum :
+      (∑ b ∈ CanonicalLiteralPassiveNonzero.nonzeroLabels rightTests rightAllocation A
+        (choice.mask extra),
+        (Real.sqrt ((CanonicalLiteralPassiveFrames.frame rightTests rightAllocation A rightPaid
+          C ordinaryRows .right (choice.mask extra) b (-firstSign) false).energy ξ) +
+          Real.sqrt ((CanonicalLiteralPassiveFrames.frame rightTests rightAllocation A rightPaid
+            C ordinaryRows .right (choice.mask extra) b (-firstSign) true).energy ξ))) =
+        ∑ b : RightLabel, Real.sqrt ((rightFrame b).energy ξ) := by
+    rw [Fintype.sum_prod_type, Finset.sum_coe_sort]
+    apply Finset.sum_congr rfl
+    intro b hb
+    simp [add_comm]
+  change _ ≤ ∑ b ∈ CanonicalLiteralPassiveNonzero.nonzeroLabels
+    leftTests leftAllocation A (choice.mask extra), _ at hL
+  change _ ≤ ∑ b ∈ CanonicalLiteralPassiveNonzero.nonzeroLabels
+    rightTests rightAllocation A (choice.mask extra), _ at hR
+  rw [hleftSum] at hL
+  rw [hrightSum] at hR
+  have hp : passiveIntegrand ξ / Z ^ parentWidth ≤
+      ∑ b : Labels, family.sourcePair parentWidth b ξ := by
+    rw [hsum]
+    apply div_le_div_of_nonneg_right _ (Real.rpow_pos_of_pos hZ parentWidth).le
+    exact mul_le_mul hL hR (Real.sqrt_nonneg _)
+      (Finset.sum_nonneg fun _ _ => Real.sqrt_nonneg _)
+  have hcost : 0 ≤ frozenPair := mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)
+  calc
+    _ ≤ frozenPair * (passiveIntegrand ξ / Z ^ parentWidth) := by
+      convert div_le_div_of_nonneg_right hpre (Real.rpow_pos_of_pos hZ parentWidth).le using 1 <;> ring
+    _ ≤ frozenPair * ∑ b : Labels, family.sourcePair parentWidth b ξ :=
+      mul_le_mul_of_nonneg_left hp hcost
 
 include hfirst hextra in
 /-- Capacity is applied after the actual passive labels have been
@@ -283,7 +359,48 @@ theorem literalPassiveNormalizedFamily_sourceBound :
       ∑ b : family.active Finset.univ,
         family.weight Finset.univ parentWidth b * family.envelope Finset.univ b ξ *
           family.childPair Finset.univ b ξ := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight parentWidth ξ
+  let family := production analyticLeft analyticRight heightLeft heightRight
+  have hp :=
+    v.literalPassiveNormalizedFamily_sourcePairs
+      (P := P) (Rchar := Rchar) (δ₂ := δ₂)
+      (hδ₂ := hδ₂) (hδ₂half := hδ₂half) (G := G)
+      (retainedScale := retainedScale) (Z := Z) (g := g)
+      (hscale := hscale) (hZ := hZ) (cutoff := cutoff)
+      (hcutoff := hcutoff) (hnorm := hnorm) (dimension := dimension)
+      (width := width) (character := character) (dyad := dyad)
+      (LC := LC) (RC := RC) (exceptional := exceptional)
+      (firstKernel := firstKernel) (x := x) (j := j)
+      (hlive := hlive) (firstSign := firstSign) (leftAtoms := leftAtoms)
+      (rightAtoms := rightAtoms) (leftScalar := leftScalar) (rightScalar := rightScalar)
+      (leftBalance := leftBalance) (rightBalance := rightBalance) (hleftBalance := hleftBalance)
+      (hrightBalance := hrightBalance) (firstSupport := firstSupport) (hfirst := hfirst) (leftProfiles := leftProfiles)
+      (rightProfiles := rightProfiles) (hbaseLeft := hbaseLeft) (hbaseRight := hbaseRight)
+      (F := F) (choice := choice) (parent := parent)
+      (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
+      (remaining := remaining) (extra := extra) (hextra := hextra) (leftRecipe := leftRecipe)
+      (rightRecipe := rightRecipe) (profileBound := profileBound) (hprofileBound := hprofileBound)
+      (hprofile := hprofile) (a := a) (step := step)
+      (geometry := geometry) (hretained := hretained) (henlargement := henlargement)
+      (hsecond := hsecond) (hopposite := hopposite) (hunit := hunit)
+      (hnonunit := hnonunit) (columnLoss := columnLoss) (cutoffExponent := cutoffExponent)
+      (hcolumnLoss := hcolumnLoss) (hcutoffExponent := hcutoffExponent) (hcutoffPower := hcutoffPower)
+      (hactiveColumns := hactiveColumns) (hpaidSupport := hpaidSupport) (reference := reference)
+      (time := time) (hone := hone) (hroot := hroot)
+      (hemb := hemb) (hbackground := hbackground) (hslot := hslot)
+      (hexceptional := hexceptional) (domain := domain) (direct := direct)
+      (hsmall := hsmall) (error := error) (herror := herror)
+      (hstep := hstep) (mesh := mesh) (hmesh := hmesh)
+      (hfit := hfit) (lo := lo) (hi := hi)
+      (hlo := hlo) (hhi := hhi) (orders := orders)
+      (original := original) (hreference := hreference) (htime := htime)
+      (horders := horders) (leftComputed := leftComputed) (rightComputed := rightComputed)
+      (hprimeOrders := hprimeOrders) (δ := δ) (analyticHeight := analyticHeight)
+      (hδ := hδ) (hδhi := hδhi)
+      analyticLeft analyticRight heightLeft heightRight parentWidth ξ
+  exact hp.trans (mul_le_mul_of_nonneg_left
+    (family.finite_pointwise Finset.univ parentWidth hZ ξ)
+    (mul_nonneg (Real.sqrt_nonneg _) (Real.sqrt_nonneg _)))
 
 include hfirst hextra in
 /-- The original stored leaf, before its two exact scalar extractions,
@@ -296,7 +413,45 @@ theorem literalPassiveNormalizedFamily_originalSourcePairs
     let family := production analyticLeft analyticRight heightLeft heightRight
     (v.leaf exceptional firstKernel x j).ordinaryIntegrand z / Z ^ parentWidth ≤ frozenPair *
       ∑ b : Labels, family.sourcePair parentWidth b (WithLp.toLp 2 z) := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight parentWidth z
+  rw [X.ordinaryIntegrand_eq, binding.ordinaryIntegrand_eq]
+  exact
+    v.literalPassiveNormalizedFamily_sourcePairs
+      (P := P) (Rchar := Rchar) (δ₂ := δ₂)
+      (hδ₂ := hδ₂) (hδ₂half := hδ₂half) (G := G)
+      (retainedScale := retainedScale) (Z := Z) (g := g)
+      (hscale := hscale) (hZ := hZ) (cutoff := cutoff)
+      (hcutoff := hcutoff) (hnorm := hnorm) (dimension := dimension)
+      (width := width) (character := character) (dyad := dyad)
+      (LC := LC) (RC := RC) (exceptional := exceptional)
+      (firstKernel := firstKernel) (x := x) (j := j)
+      (hlive := hlive) (firstSign := firstSign) (leftAtoms := leftAtoms)
+      (rightAtoms := rightAtoms) (leftScalar := leftScalar) (rightScalar := rightScalar)
+      (leftBalance := leftBalance) (rightBalance := rightBalance) (hleftBalance := hleftBalance)
+      (hrightBalance := hrightBalance) (firstSupport := firstSupport) (hfirst := hfirst) (leftProfiles := leftProfiles)
+      (rightProfiles := rightProfiles) (hbaseLeft := hbaseLeft) (hbaseRight := hbaseRight)
+      (F := F) (choice := choice) (parent := parent)
+      (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
+      (remaining := remaining) (extra := extra) (hextra := hextra) (leftRecipe := leftRecipe)
+      (rightRecipe := rightRecipe) (profileBound := profileBound) (hprofileBound := hprofileBound)
+      (hprofile := hprofile) (a := a) (step := step)
+      (geometry := geometry) (hretained := hretained) (henlargement := henlargement)
+      (hsecond := hsecond) (hopposite := hopposite) (hunit := hunit)
+      (hnonunit := hnonunit) (columnLoss := columnLoss) (cutoffExponent := cutoffExponent)
+      (hcolumnLoss := hcolumnLoss) (hcutoffExponent := hcutoffExponent) (hcutoffPower := hcutoffPower)
+      (hactiveColumns := hactiveColumns) (hpaidSupport := hpaidSupport) (reference := reference)
+      (time := time) (hone := hone) (hroot := hroot)
+      (hemb := hemb) (hbackground := hbackground) (hslot := hslot)
+      (hexceptional := hexceptional) (domain := domain) (direct := direct)
+      (hsmall := hsmall) (error := error) (herror := herror)
+      (hstep := hstep) (mesh := mesh) (hmesh := hmesh)
+      (hfit := hfit) (lo := lo) (hi := hi)
+      (hlo := hlo) (hhi := hhi) (orders := orders)
+      (original := original) (hreference := hreference) (htime := htime)
+      (horders := horders) (leftComputed := leftComputed) (rightComputed := rightComputed)
+      (hprimeOrders := hprimeOrders) (δ := δ) (analyticHeight := analyticHeight)
+      (hδ := hδ) (hδhi := hδhi)
+      analyticLeft analyticRight heightLeft heightRight parentWidth (WithLp.toLp 2 z)
 
 include hfirst hextra in
 /-- The original finite coefficient arrays give integrability under
@@ -311,7 +466,68 @@ theorem literalPassiveNormalizedFamily_ordinaryCost_le_sourcePairs
       ∑ b : Labels, ((v.leaf exceptional firstKernel x j).weight * frozenPair) *
         ∫ z : ℝ × ℝ, family.sourcePair parentWidth b (WithLp.toLp 2 z)
           ∂(v.leaf exceptional firstKernel x j).measure := by
-  sorry
+  intro analyticLeft analyticRight heightLeft heightRight parentWidth
+  let family := production analyticLeft analyticRight heightLeft heightRight
+  let leaf := v.leaf exceptional firstKernel x j
+  have hp : ∀ z : ℝ × ℝ, leaf.ordinaryIntegrand z / Z ^ parentWidth ≤
+      frozenPair * ∑ b : Labels, family.sourcePair parentWidth b (WithLp.toLp 2 z) :=
+    v.literalPassiveNormalizedFamily_originalSourcePairs
+      (P := P) (Rchar := Rchar) (δ₂ := δ₂)
+      (hδ₂ := hδ₂) (hδ₂half := hδ₂half) (G := G)
+      (retainedScale := retainedScale) (Z := Z) (g := g)
+      (hscale := hscale) (hZ := hZ) (cutoff := cutoff)
+      (hcutoff := hcutoff) (hnorm := hnorm) (dimension := dimension)
+      (width := width) (character := character) (dyad := dyad)
+      (LC := LC) (RC := RC) (exceptional := exceptional)
+      (firstKernel := firstKernel) (x := x) (j := j)
+      (hlive := hlive) (firstSign := firstSign) (leftAtoms := leftAtoms)
+      (rightAtoms := rightAtoms) (leftScalar := leftScalar) (rightScalar := rightScalar)
+      (leftBalance := leftBalance) (rightBalance := rightBalance) (hleftBalance := hleftBalance)
+      (hrightBalance := hrightBalance) (firstSupport := firstSupport) (hfirst := hfirst) (leftProfiles := leftProfiles)
+      (rightProfiles := rightProfiles) (hbaseLeft := hbaseLeft) (hbaseRight := hbaseRight)
+      (F := F) (choice := choice) (parent := parent)
+      (oldMoving := oldMoving) (correction := correction) (hcorr := hcorr)
+      (remaining := remaining) (extra := extra) (hextra := hextra) (leftRecipe := leftRecipe)
+      (rightRecipe := rightRecipe) (profileBound := profileBound) (hprofileBound := hprofileBound)
+      (hprofile := hprofile) (a := a) (step := step)
+      (geometry := geometry) (hretained := hretained) (henlargement := henlargement)
+      (hsecond := hsecond) (hopposite := hopposite) (hunit := hunit)
+      (hnonunit := hnonunit) (columnLoss := columnLoss) (cutoffExponent := cutoffExponent)
+      (hcolumnLoss := hcolumnLoss) (hcutoffExponent := hcutoffExponent) (hcutoffPower := hcutoffPower)
+      (hactiveColumns := hactiveColumns) (hpaidSupport := hpaidSupport) (reference := reference)
+      (time := time) (hone := hone) (hroot := hroot)
+      (hemb := hemb) (hbackground := hbackground) (hslot := hslot)
+      (hexceptional := hexceptional) (domain := domain) (direct := direct)
+      (hsmall := hsmall) (error := error) (herror := herror)
+      (hstep := hstep) (mesh := mesh) (hmesh := hmesh)
+      (hfit := hfit) (lo := lo) (hi := hi)
+      (hlo := hlo) (hhi := hhi) (orders := orders)
+      (original := original) (hreference := hreference) (htime := htime)
+      (horders := horders) (leftComputed := leftComputed) (rightComputed := rightComputed)
+      (hprimeOrders := hprimeOrders) (δ := δ) (analyticHeight := analyticHeight)
+      (hδ := hδ) (hδhi := hδhi)
+      X binding analyticLeft analyticRight heightLeft heightRight parentWidth
+  have hi (b : Labels) : Integrable
+      (fun z : ℝ × ℝ => family.sourcePair parentWidth b (WithLp.toLp 2 z)) leaf.measure :=
+    family.sourcePair_nested_integrable leaf.firstKernel leaf.secondKernel parentWidth b
+  calc
+    _ = leaf.weight * ∫ z, leaf.ordinaryIntegrand z / Z ^ parentWidth ∂leaf.measure := by
+      rw [integral_div]
+      unfold ActualHybridLeaf.ordinaryCost
+      ring
+    _ ≤ leaf.weight * ∫ z,
+        frozenPair * ∑ b : Labels, family.sourcePair parentWidth b (WithLp.toLp 2 z)
+          ∂leaf.measure := by
+      apply mul_le_mul_of_nonneg_left _ leaf.weight_nonneg
+      apply integral_mono (leaf.ordinaryIntegrand_integrable.div_const _)
+        ((integrable_finsetSum Finset.univ (fun b _ => hi b)).const_mul frozenPair)
+      exact hp
+    _ = _ := by
+      rw [integral_const_mul, integral_finsetSum Finset.univ (fun b _ => hi b)]
+      simp only [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro b _
+      ring
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

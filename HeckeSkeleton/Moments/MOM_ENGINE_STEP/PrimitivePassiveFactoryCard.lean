@@ -30,8 +30,8 @@ def directConstant (cap : ℕ) (columnBound ε : ℝ)
 
 theorem directConstant_pos (cap : ℕ) (columnBound ε : ℝ)
     (hcolumnBound : 0 ≤ columnBound) (hε : 0 < ε) :
-    0 < directConstant K cap columnBound ε hcolumnBound hε := by
-  sorry
+    0 < directConstant K cap columnBound ε hcolumnBound hε :=
+  (Classical.choose_spec (direct_pair_card (K := K) cap columnBound ε hcolumnBound hε)).1
 
 def poolConstant (cap : ℕ) (columnBound primeBound ε : ℝ)
     (hcolumnBound : 0 ≤ columnBound) (hprimeBound : 0 ≤ primeBound)
@@ -42,8 +42,9 @@ def poolConstant (cap : ℕ) (columnBound primeBound ε : ℝ)
 theorem poolConstant_pos (cap : ℕ) (columnBound primeBound ε : ℝ)
     (hcolumnBound : 0 ≤ columnBound) (hprimeBound : 0 ≤ primeBound)
     (hε : 0 < ε) :
-    0 < poolConstant K cap columnBound primeBound ε hcolumnBound hprimeBound hε := by
-  sorry
+    0 < poolConstant K cap columnBound primeBound ε hcolumnBound hprimeBound hε :=
+  (Classical.choose_spec (pool_pair_card (K := K) cap columnBound primeBound ε
+    hcolumnBound hprimeBound hε)).1
 
 variable {K}
 variable {A : SArithmeticData K} {ω ψ : HeckeCharacter K}
@@ -64,7 +65,16 @@ theorem direct_bound (cap : ℕ) (columnBound ε : ℝ)
     (hcap : parent.geometry.slotCount ≤ cap) :
     (Fintype.card (PairLabel (A := A) left right BL BR (firstMask D) (firstMask D)) : ℝ) ≤
       directConstant K cap columnBound ε hcolumnBound hε * Z ^ ε := by
-  sorry
+  have hk : k ≤ parent.geometry.slotCount := by
+    simpa only [Fintype.card_fin] using
+      Fintype.card_le_of_injective leftSlots.index leftSlots.index.injective
+  have hl : l ≤ parent.geometry.slotCount := by
+    simpa only [Fintype.card_fin] using
+      Fintype.card_le_of_injective rightSlots.index rightSlots.index.injective
+  exact (Classical.choose_spec
+    (direct_pair_card (K := K) cap columnBound ε hcolumnBound hε)).2
+      Z hZ A D hD hDN k l leftAtoms rightAtoms left right BL BR
+      (hk.trans hcap) (hl.trans hcap)
 
 /-- The pool mask keeps the extra copy of the prime at valuation six.
 The prime window and first common ideal pay their own factors. -/
@@ -80,7 +90,15 @@ theorem pool_bound (cap : ℕ) (columnBound primeBound ε : ℝ)
     (Fintype.card (PairLabel (A := A) left right BL BR
       (poolMask D p e) (poolMask D p e)) : ℝ) ≤
       poolConstant K cap columnBound primeBound ε hcolumnBound hprimeBound hε * Z ^ ε := by
-  sorry
+  have hk : k ≤ parent.geometry.slotCount := by
+    simpa only [Fintype.card_fin] using
+      Fintype.card_le_of_injective leftSlots.index leftSlots.index.injective
+  have hl : l ≤ parent.geometry.slotCount := by
+    simpa only [Fintype.card_fin] using
+      Fintype.card_le_of_injective rightSlots.index rightSlots.index.injective
+  exact (Classical.choose_spec (pool_pair_card (K := K) cap columnBound primeBound ε
+    hcolumnBound hprimeBound hε)).2 Z hZ A D hD hDN p hp e k l
+      leftAtoms rightAtoms left right BL BR (hk.trans hcap) (hl.trans hcap)
 
 end HeckeSkeleton.Moments.EngineStep.PrimitivePassiveFactoryCard
 

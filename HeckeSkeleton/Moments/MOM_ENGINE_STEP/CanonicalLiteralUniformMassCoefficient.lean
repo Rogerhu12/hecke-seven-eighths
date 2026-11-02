@@ -64,7 +64,81 @@ theorem exists_uniform_coefficient
           row * firstKernel * secondKernel ≤
             Cmass * control ^ degree cap d dRow dFirstKernel dSecondKernel heightDegree *
               Z ^ ε := by
-  sorry
+  let N := (cap + 2) + (cap + 2)
+  let profileDegree :=
+    CanonicalLiteralMassProfilePower.degree cap d dRow dFirstKernel dSecondKernel
+  let Ckernel :=
+    CanonicalLiteralKernelConstants.constant K A σ ω ψ cap (orders.sup Prod.snd)
+  let Cprofile :=
+    CanonicalLiteralMassProfilePower.coefficient cap annulus lo hi hlo δ₁ δ₂ orders
+  have hCkernel : 0 < Ckernel :=
+    CanonicalLiteralKernelConstants.constant_pos K A σ ω ψ cap (orders.sup Prod.snd)
+  have hCprofile : 0 < Cprofile :=
+    CanonicalLiteralMassProfilePower.coefficient_pos cap annulus lo hi hlo hhi δ₁ δ₂ orders
+  obtain ⟨δ, Cr, hδ, hδhi, hCr, hradius⟩ :=
+    CanonicalFullKappaPrime.exists_complete_profile_radius_bound A N heightDegree
+      ε mesh (CanonicalHeckePrimeAnalytic.degreeBound K) heightConstant widthBound
+      hε CanonicalHeckePrimeAnalytic.degreeBound_pos.le hwidth
+  refine ⟨δ, Ckernel * (2 * Cr) ^ N * Cprofile, hδ, hδhi, ?_, ?_⟩
+  · exact mul_pos (mul_pos hCkernel
+      (pow_pos (mul_pos (by norm_num) (zero_lt_one.trans_le hCr)) _)) hCprofile
+  intro Z T width height control originalBound row firstKernel secondKernel
+    hZ hT hbox hheight hcontrol hB hBbound hrow hrowBound
+    hfirst hfirstBound hsecond hsecondBound
+  have hcontrolOne : 1 ≤ control := (le_add_of_nonneg_right hT).trans hcontrol
+  have hcontrolZero : 0 ≤ control := zero_le_one.trans hcontrolOne
+  have hZε : 0 ≤ Z ^ ε := Real.rpow_nonneg (zero_le_one.trans hZ) _
+  let factor := CanonicalFullKappaPrime.radiusFactor K Z δ mesh
+    (CanonicalHeckePrimeAnalytic.degreeBound K) height
+    (CompleteMovingRowRecipe.primeMaskLogBound A Z width)
+  have hheightPower : (1 + T) ^ (heightDegree * N) ≤ control ^ (heightDegree * N) :=
+    pow_le_pow_left₀ (by positivity) hcontrol _
+  have hfactor : (2 * factor) ^ N ≤
+      (2 * Cr) ^ N * control ^ (heightDegree * N) * Z ^ ε := by
+    calc
+      _ = (2 : ℝ) ^ N * factor ^ N := mul_pow _ _ _
+      _ ≤ (2 : ℝ) ^ N *
+          (Cr ^ N * (1 + T) ^ (heightDegree * N) * Z ^ ε) :=
+        mul_le_mul_of_nonneg_left
+          (hradius Z T width height hZ hT hbox hheight) (pow_nonneg (by norm_num) _)
+      _ ≤ (2 : ℝ) ^ N * (Cr ^ N * control ^ (heightDegree * N) * Z ^ ε) :=
+        mul_le_mul_of_nonneg_left
+          (mul_le_mul_of_nonneg_right
+            (mul_le_mul_of_nonneg_left hheightPower
+              (pow_nonneg (zero_le_one.trans hCr) _)) hZε)
+          (pow_nonneg (by norm_num) _)
+      _ = _ := by rw [mul_pow]; ring
+  have hprofiles := CanonicalLiteralMassProfilePower.complete_coefficient_le_profilePower
+    cap d dRow dFirstKernel dSecondKernel annulus originalBound control lo hi hlo hhi
+    δ₁ δ₂ orders row firstKernel secondKernel hannulus hB hcontrolOne hBbound
+    hrow hfirst hsecond hrowBound hfirstBound hsecondBound
+  have hfixed : 0 ≤ CanonicalLiteralActiveRadius.twoSignsCoefficient
+      originalBound lo hi hlo δ₁ δ₂ orders :=
+    CanonicalLiteralActiveRadius.twoSignsCoefficient_nonneg
+      originalBound lo hi hB hlo hhi δ₁ δ₂ orders
+  have hatom : 0 ≤ atomBudget annulus originalBound :=
+    zero_le_one.trans (atomBudget_one annulus originalBound)
+  have hslot : 0 ≤ CanonicalLiteralMassProfilePower.slotBudget originalBound :=
+    zero_le_one.trans (CanonicalLiteralMassProfilePower.slotBudget_one originalBound)
+  have hproduct := mul_le_mul hfactor hprofiles (by positivity)
+    (mul_nonneg (mul_nonneg (pow_nonneg
+      (mul_nonneg (by norm_num) (zero_le_one.trans hCr)) _)
+      (pow_nonneg hcontrolZero _)) hZε)
+  calc
+    _ = Ckernel * ((2 * factor) ^ N *
+        (((1 + CanonicalLiteralActiveRadius.twoSignsCoefficient
+            originalBound lo hi hlo δ₁ δ₂ orders) ^ N *
+          (atomBudget annulus originalBound ^ cap *
+            CanonicalLiteralMassProfilePower.slotBudget originalBound ^ (2 * cap))) *
+          row * firstKernel * secondKernel)) := by
+      dsimp only [Ckernel, factor, N]
+      ring
+    _ ≤ Ckernel * (((2 * Cr) ^ N * control ^ (heightDegree * N) * Z ^ ε) *
+        (Cprofile * control ^ profileDegree)) :=
+      mul_le_mul_of_nonneg_left hproduct hCkernel.le
+    _ = _ := by
+      simp only [degree, N, profileDegree, pow_add]
+      ring
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralUniformMassCoefficient
 

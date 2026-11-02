@@ -60,8 +60,8 @@ def allocate (allocation : ActualColumnAllocation K k) :
 
 theorem allocate_prime_support (allocation : ActualColumnAllocation K k)
     (hprime : ∀ j, Function.support (E.slot j) ⊆ Set.Ioo (1 : ℝ) 2) :
-    ∀ j, Function.support ((E.allocate allocation).slot j) ⊆ Set.Ioo (1 : ℝ) 2 := by
-  sorry
+    ∀ j, Function.support ((E.allocate allocation).slot j) ⊆ Set.Ioo (1 : ℝ) 2 :=
+  fun j => hprime (SlotRestriction.index allocation.keep j)
 
 end CanonicalLiteralRectangles.Atoms.ProfileData.SchwartzModel
 
@@ -149,8 +149,8 @@ theorem passiveBranch_prime_support (allocation : ActualColumnAllocation K k)
     (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (a : { a // a ∈ CanonicalLiteralPassiveSource.labels W allocation A M }) :
     ∀ j, Function.support ((T.passiveBranch allocation A paid M a).model.slot j) ⊆
-      Set.Ioo (1 : ℝ) 2 := by
-  sorry
+      Set.Ioo (1 : ℝ) 2 :=
+  (T.passiveBranch allocation A paid M a).prime_window
 
 @[simp] theorem passiveBranch_rawCoefficient (allocation : ActualColumnAllocation K k)
     (A : SArithmeticData K) (paid : FixedChildCharacters K allocation.keep.card)
