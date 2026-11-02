@@ -56,16 +56,25 @@ run_cmd do
     stderr.putStrLn "KDIAG o ideal done"
     stderr.flush
 
-example : SourceClassKey.AllocationKey (s := packet.second.stage) (LC := packet.leftCover)
-      (RC := packet.rightCover) packet.key =
-    SecondAllocationBranch (A := Arithmetic.data c) PUnit.{1}
-      packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-      packet.rightIdeal' (SourceClassKey.leftSlots packet.key) := rfl
+example : ((PUnit.{1} × PUnit.{1}) →* Circle) = ((PUnit.{1} × PUnit.{1}) →* Circle) := rfl
+
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG o1_rflK done"
+    stderr.putStrLn "KDIAG o4 trivial done"
+    stderr.flush
+
+example : SourceClassKey.AllocationKey (s := packet.second.stage) (LC := packet.leftCover)
+      (RC := packet.rightCover) packet.key =
+    HybridAllocationLabel packet.rightReindex.plain₁ packet.rightReindex.plain₂
+      packet.rightReindex.slots (fun j => (packet.rightIdeal' j).val)
+      (SourceClassKey.leftSlots packet.key) ((PUnit.{1} × PUnit.{1}) →* Circle) := rfl
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG o4_chars done"
     stderr.flush
 
 end RawLeafPacket

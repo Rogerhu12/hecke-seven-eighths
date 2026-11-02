@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [r1_namedFibers, o1_rflK, o2_rflHole]
+        probe: [r2_instExplicit, r3_instTactic, o3_pool, o4_chars]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -30,7 +30,6 @@ jobs:
           if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
             sudo sysctl -w vm.max_map_count=262144
           fi
-          sudo apt-get install -y -qq gdb > /dev/null
       - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
           auto-config: 'false'
@@ -42,7 +41,7 @@ jobs:
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
         with:
-          branch-cache: restore
+          branch-cache: 'true'
       - name: Build the imports of the probe
         run: |
           lake build $(sed -n 's/^import \(HeckeSkeleton\.[^ ]*\)$/+\1:olean/p' .github/kdiag/${{ matrix.probe }}.lean) 2>&1 | tail -3; test ${PIPESTATUS[0]} -eq 0
@@ -50,13 +49,14 @@ jobs:
         run: |
           mkdir -p kdiag-out
           n=${{ matrix.probe }}
-          limit=150
+          limit=100
           start=$(date +%s)
           lake env lean -DstderrAsMessages=false .github/kdiag/$n.lean > kdiag-out/$n.log 2>&1 &
           wrapper=$!
           while [ $(( $(date +%s) - start )) -lt $limit ] && kill -0 $wrapper 2>/dev/null; do sleep 2; done
           if kill -0 $wrapper 2>/dev/null; then
             pid=$(pgrep -n -x lean || true)
+            sudo apt-get install -y -qq gdb > /dev/null
             sudo gdb -p $pid -batch -ex "set pagination off" -ex "thread apply all bt" 2>/dev/null > kdiag-out/$n.full.txt || true
             echo "--- distinct Lean functions on the busy thread, outermost last"
             awk '/^Thread/{t=$0} {a[t]=a[t] ORS $0} /collectDeps/{busy=t} END{print a[busy]}' kdiag-out/$n.full.txt \

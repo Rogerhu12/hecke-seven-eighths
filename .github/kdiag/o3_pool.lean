@@ -56,16 +56,20 @@ run_cmd do
     stderr.putStrLn "KDIAG o ideal done"
     stderr.flush
 
-example : SourceClassKey.AllocationKey (s := packet.second.stage) (LC := packet.leftCover)
-      (RC := packet.rightCover) packet.key =
-    SecondAllocationBranch (A := Arithmetic.data c) PUnit.{1}
-      packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-      packet.rightIdeal' packet.leftReindex.slots.length := rfl
+example : divisorPool (A := Arithmetic.data c)
+      (childCartesianColumns (SourceClassKey.rightReindex packet.key).plain₁
+        (SourceClassKey.rightReindex packet.key).plain₂ (SourceClassKey.rightReindex packet.key).slots)
+      (fun j => ((SourceClassKey.block packet.key).rightResidual
+        ((SourceClassKey.rightReindex packet.key).index j)).val) =
+    divisorPool (A := Arithmetic.data c)
+      (childCartesianColumns packet.rightReindex.plain₁ packet.rightReindex.plain₂
+        packet.rightReindex.slots)
+      (fun j => (packet.rightIdeal' j).val) := rfl
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG o2 done"
+    stderr.putStrLn "KDIAG o3_pool done"
     stderr.flush
 
 end RawLeafPacket
