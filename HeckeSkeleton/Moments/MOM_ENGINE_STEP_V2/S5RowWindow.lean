@@ -139,6 +139,9 @@ theorem second_physicalCutoff_bound (source : SecondSource call p)
       change D ∈ source.stage.mask.powerset at hD
       rw [realized.mask] at hD
       exact (Finset.mem_powerset.mp hD).antisymm (Finset.empty_subset _)
+    change (((source.stage.sources DE).pairs i j).dualRadius
+      source.stage.radius D).val⁻¹ ≤
+        call.base ^ (physicalFrequencyCenter source.physical + 8 * p.loss)
     rw [second_pair_inverseRadius source DE i hi j hj D, hD0,
       sIntegerMaskGenerator_empty_norm, mul_one]
     have hm := mul_le_mul hni hnj

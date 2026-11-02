@@ -1,0 +1,50 @@
+name: MOM Engine Step V2 S3 and S5
+
+on:
+  pull_request:
+    branches: [dtests-handoff]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-v2-s3-s5-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  s3-s5:
+    if: github.event.pull_request.head.ref == 'cloud/mom-v2-s3-s5'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      LEAN_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Reserve runner space and configure memory mappings
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build S3 and S5 and audit all loaded V2 declarations
+        run: python3 -u .github/v2/s3_s5.py
+      - name: Upload S3 and S5 verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-v2-s3-s5-${{ github.run_id }}-${{ github.run_attempt }}
+          path: v2-s3-s5-build/
+          retention-days: 14
