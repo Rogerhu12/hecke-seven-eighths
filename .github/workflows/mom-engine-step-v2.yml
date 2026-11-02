@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: mom-engine-step-v2-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   v2-modules:

@@ -67,7 +67,11 @@
         "LiteralProfiles",
         "LiteralAtlas",
         "LiteralPhases",
-        "LiteralWindows"
+        "LiteralWindows",
+        "LiteralPassive",
+        "LiteralCapacity",
+        "RawTerminals",
+        "ParentTerminals"
       ]
     },
     {
