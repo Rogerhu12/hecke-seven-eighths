@@ -209,11 +209,8 @@ def secondInput (W : d.SupportData excluded) (hS : ∀ p ∈ S, Prime p)
   let w := W.firstExtracted b hS
   let v := (((w.addGauss (e.scale₁ false) (e.scale₂ false)
     (fun j => e.base ^ e.length j) (e.scale₁_pos false) (e.scale₂_pos false)
-    (fun _ => Real.rpow_pos_of_pos (zero_lt_one.trans e.base_gt_one) _)).normPower (-1))
-      .normPower δ₁).normPower δ₂
-  exact (((v.movingSingleton P R firstFixed firstElement hfirst)
-    .movingSingleton P R poolFixed poolElement hpool)
-    .movingSingleton P R unitFixed unitElement hunit).scale
+    (fun _ => Real.rpow_pos_of_pos (zero_lt_one.trans e.base_gt_one) _)).normPower (-1)).normPower δ₁).normPower δ₂
+  exact (((v.movingSingleton P R firstFixed firstElement hfirst).movingSingleton P R poolFixed poolElement hpool).movingSingleton P R unitFixed unitElement hunit).scale
       (((A.exteriorNorm power ^ δ₁ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) power.val firstElement)
 

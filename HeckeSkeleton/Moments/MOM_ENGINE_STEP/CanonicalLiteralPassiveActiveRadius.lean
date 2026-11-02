@@ -75,8 +75,7 @@ variable {A : SArithmeticData K} {ι : Type*}
 variable {columns : Finset ι} {ideal : ι → A.Exterior}
 variable (atlas : SourceCartesianAtlas columns ideal) (count : second.keep.card = atlas.slotCount)
 variable (scalar : ℂ) (balance : Bool → ℝ)
-variable (W : ((((beforeSecond.extract second).onAtlas atlas count).scale scalar)
-  .balancePlain balance).ProfileData)
+variable (W : ((((beforeSecond.extract second).onAtlas atlas count).scale scalar).balancePlain balance).ProfileData)
 variable (allocation : ActualColumnAllocation K atlas.slotCount)
 variable (paid : FixedChildCharacters K allocation.keep.card)
 variable (M : HeckeGeneral.Analysis.NonzeroIdeal K)

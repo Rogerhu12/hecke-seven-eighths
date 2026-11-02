@@ -63,11 +63,8 @@ def literalLeftComputedProfiles
     (T : ComputedProfiles ((E.profiles.scale scalar⁻¹).balancePlain balance)
       window orders bound) :
     ComputedProfiles
-      ((((v.literalLeftProfileSupport d E hleft hright hslot).profiles).scale scalar⁻¹)
-        .balancePlain balance) window orders bound :=
-  ((T.onAtlasThenScaleBalance scalar⁻¹ balance v.literalLeftParent rfl)
-    .extractThenScaleBalance scalar⁻¹ balance v.literalLeftBranch)
-      .onAtlasThenScaleBalance scalar⁻¹ balance v.literalLeftResidualAtlas rfl
+      ((((v.literalLeftProfileSupport d E hleft hright hslot).profiles).scale scalar⁻¹).balancePlain balance) window orders bound :=
+  ((T.onAtlasThenScaleBalance scalar⁻¹ balance v.literalLeftParent rfl).extractThenScaleBalance scalar⁻¹ balance v.literalLeftBranch).onAtlasThenScaleBalance scalar⁻¹ balance v.literalLeftResidualAtlas rfl
 
 def literalRightComputedProfiles
     (d : CanonicalLiteralRectangles.Atoms (K := K) (RC.branch v.2.2.2.1).slotCount)
@@ -79,11 +76,8 @@ def literalRightComputedProfiles
     (T : ComputedProfiles ((E.profiles.scale scalar⁻¹).balancePlain balance)
       window orders bound) :
     ComputedProfiles
-      ((((v.literalRightProfileSupport d E hleft hright hslot).profiles).scale scalar⁻¹)
-        .balancePlain balance) window orders bound :=
-  ((T.onAtlasThenScaleBalance scalar⁻¹ balance v.literalRightParent rfl)
-    .extractThenScaleBalance scalar⁻¹ balance v.literalRightBranch)
-      .onAtlasThenScaleBalance scalar⁻¹ balance v.literalRightResidualAtlas rfl
+      ((((v.literalRightProfileSupport d E hleft hright hslot).profiles).scale scalar⁻¹).balancePlain balance) window orders bound :=
+  ((T.onAtlasThenScaleBalance scalar⁻¹ balance v.literalRightParent rfl).extractThenScaleBalance scalar⁻¹ balance v.literalRightBranch).onAtlasThenScaleBalance scalar⁻¹ balance v.literalRightResidualAtlas rfl
 
 @[simp] theorem literalLeftComputedProfiles_bound
     (d : CanonicalLiteralRectangles.Atoms (K := K) (LC.branch v.2.2.1).slotCount)

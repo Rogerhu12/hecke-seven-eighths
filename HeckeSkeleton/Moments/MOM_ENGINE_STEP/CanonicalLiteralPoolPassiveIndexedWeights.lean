@@ -403,8 +403,7 @@ def literalLeftPoolPassiveNormalizationIndex :=
       ((choice.phases.moving P R Q.moving).effectiveFullSupport Q.remaining) ≤
         Z ^ (geometry.skeleton.q + geometry.skeleton.R + geometry.skeleton.E + geometry.skeleton.wo) := by
     change A.exteriorNorm
-      (((CanonicalLiteralPaidCharacters.reducedPhases fixedPhases C q.val valuation)
-        .moving P R Q.moving).effectiveFullSupport Q.remaining) ≤
+      (((CanonicalLiteralPaidCharacters.reducedPhases fixedPhases C q.val valuation).moving P R Q.moving).effectiveFullSupport Q.remaining) ≤
       Z ^ (a.q + geometry.skeleton.R + geometry.skeleton.E + geometry.skeleton.wo)
     rw [hactive, hphysical, hmoving]
     simpa only [← valuation_eq] using
@@ -800,8 +799,7 @@ def literalRightPoolPassiveNormalizationIndex :=
       ((choice.phases.moving P R Q.moving).effectiveFullSupport Q.remaining) ≤
         Z ^ (geometry.skeleton.q + geometry.skeleton.R + geometry.skeleton.E + geometry.skeleton.wo) := by
     change A.exteriorNorm
-      (((CanonicalLiteralPaidCharacters.reducedPhases fixedPhases C q.val valuation)
-        .moving P R Q.moving).effectiveFullSupport Q.remaining) ≤
+      (((CanonicalLiteralPaidCharacters.reducedPhases fixedPhases C q.val valuation).moving P R Q.moving).effectiveFullSupport Q.remaining) ≤
       Z ^ (a.q + geometry.skeleton.R + geometry.skeleton.E + geometry.skeleton.wo)
     rw [hactive, hphysical, hmoving]
     simpa only [← valuation_eq] using

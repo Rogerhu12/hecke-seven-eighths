@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves
 
 set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
+set_option maxHeartbeats 1000000
 
 /-!
 # Actual left/right pool leaves of one original first-transform block
@@ -47,6 +49,15 @@ local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local instance firstBlockFiniteLeavesCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
 
+private abbrev firstBlock_sum_fintype {α β : Type*} [Fintype α] [Fintype β] :
+    Fintype (α ⊕ β) :=
+  inferInstance
+
+private abbrev firstBlock_sigma_sigma_fintype {S X : Type*} {F : S → X → Type*}
+    [Fintype S] [Fintype X] [∀ a b, Fintype (F a b)] :
+    Fintype (Σ a : S, Σ b : X, F a b) :=
+  inferInstance
+
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
 variable {P : PowerScaleExteriorPool A bad Z ell eps}
@@ -77,6 +88,18 @@ abbrev CoveredClassKey
 abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
     Σ χ : (PUnit × PUnit) →* Circle, s.CoveredClassKey LA RA S χ
+
+private abbrev coveredClassKeyFintype
+    (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
+    (χ : (PUnit × PUnit) →* Circle) : Fintype (s.CoveredClassKey LA RA S χ) :=
+  firstBlock_sum_fintype
+
+attribute [local instance] coveredClassKeyFintype
+
+private abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
+  firstBlock_sigma_sigma_fintype
+
+attribute [local instance] coveredLeafKeyFintype
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →

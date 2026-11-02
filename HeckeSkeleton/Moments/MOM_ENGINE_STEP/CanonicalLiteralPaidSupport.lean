@@ -170,8 +170,7 @@ private theorem unamplified_window (firstIdeal : A.Exterior) (a : A.R)
     (hfirst : A.exteriorNorm
       (OriginalMovingFactors.singleton (P := P) (R := R) ⟨a, ha.1⟩ 1).support ≤
       Z ^ firstCost) :
-    A.exteriorNorm (((unamplifiedPhases firstIdeal a ha).moving P R old)
-      .effectiveFullSupport remaining) ≤ Z ^ (q + firstCost) := by
+    A.exteriorNorm (((unamplifiedPhases firstIdeal a ha).moving P R old).effectiveFullSupport remaining) ≤ Z ^ (q + firstCost) := by
   sorry
 
 private theorem reduced_window (firstIdeal : A.Exterior) (a : A.R)
@@ -182,8 +181,7 @@ private theorem reduced_window (firstIdeal : A.Exterior) (a : A.R)
       (OriginalMovingFactors.singleton (P := P) (R := R) ⟨a, ha.1⟩ 1).support ≤
       Z ^ firstCost) :
     A.exteriorNorm (((reducedPhases
-      (amplifiedPhases C firstIdeal a ha p e.multiplicity) C p e).moving P R old)
-      .effectiveFullSupport remaining) ≤
+      (amplifiedPhases C firstIdeal a ha p e.multiplicity) C p e).moving P R old).effectiveFullSupport remaining) ≤
       Z ^ (q + firstCost + (e.movingMultiplicity : ℝ) * idealLogLength Z p.val.asIdeal) := by
   sorry
 

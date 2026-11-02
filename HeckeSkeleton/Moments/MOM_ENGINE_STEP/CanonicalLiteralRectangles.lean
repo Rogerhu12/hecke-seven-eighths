@@ -173,10 +173,8 @@ def rectangles (R : ActualSecondCorrelationRows A σ H ι)
   rightTerms := right.term
   left_difference _ _ := rfl
   right_difference _ _ := rfl
-  leftFactors r := left.factors (R.restrictRows fun h => ¬exceptional h)
-    .left b.val.2.1 IL hIL firstLeftSign r
-  rightFactors r := right.factors (R.restrictRows fun h => ¬exceptional h)
-    .right b.val.2.1 IR hIR firstRightSign r
+  leftFactors r := left.factors (R.restrictRows fun h => ¬exceptional h).left b.val.2.1 IL hIL firstLeftSign r
+  rightFactors r := right.factors (R.restrictRows fun h => ¬exceptional h).right b.val.2.1 IR hIR firstRightSign r
 
 end CanonicalLiteralRectangles
 
