@@ -115,6 +115,7 @@
         "PassivePairing",
         "PassiveParentSupport",
         "PassivePhaseBridge",
+        "PassivePhaseCore",
         "PassivePlainRecovery",
         "PassiveScalar",
         "PassiveSecondCarrier",

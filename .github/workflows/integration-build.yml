@@ -7,6 +7,7 @@ name: Whole-project build
 on:
   pull_request:
     branches: [dtests-handoff]
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
 permissions:
@@ -18,9 +19,9 @@ concurrency:
 
 jobs:
   build:
-    # V2 task branches are verified by their own scoped workflow; the whole
-    # project is built once on the V2 integration PR instead.
-    if: ${{ !startsWith(github.head_ref, 'cloud/mom-v2-') }}
+    # V2 task branches use their scoped gates; B uses its full V2 gate while a draft.
+    # The unchanged whole-project build runs for B when ready, or manually.
+    if: github.event_name == 'workflow_dispatch' || (!startsWith(github.head_ref, 'cloud/mom-v2-') && (github.head_ref != 'cloud/mom-engine-step-v2' || github.event.pull_request.draft == false))
     runs-on: ubuntu-latest
     timeout-minutes: 300
     env:
