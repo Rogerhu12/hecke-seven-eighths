@@ -58,6 +58,35 @@ def firstTiltError (F : FirstPresentation call p) (key : FirstCauchyKey F) : ℝ
     key.2.1.val).val - call.workingParameters.m +
       idealLogLength call.base (firstActiveRadical key.1.val.1 key.1.val.2))
 
+/-- Cancel the selected allowance at the scalar level while retaining
+the original Mobius norm, including its zero case. -/
+private theorem firstCauchy_outer_scalar_mul_allowance_mobius
+    (fiber : ℕ) (mu phase row majorant left right : ℝ) (side : Bool)
+    (hfiber : fiber = 1) (hmu : 0 ≤ mu) (hphase : phase ≤ 1)
+    (hrow : 0 ≤ row) (hmajorant : row ≤ majorant)
+    (hleft : 0 < left) (hright : 0 < right) :
+    ((fiber : ℝ) * mu * phase * (row * Real.sqrt left * Real.sqrt right / 2) /
+        (if side then right else left)) * (if side then right else left) ≤
+      mu * (majorant * Real.sqrt left * Real.sqrt right / 2) := by
+  have hden : 0 < if side then right else left := by
+    split_ifs
+    · exact hright
+    · exact hleft
+  have hweight : 0 ≤ row * Real.sqrt left * Real.sqrt right / 2 :=
+    div_nonneg (mul_nonneg
+      (mul_nonneg hrow (Real.sqrt_nonneg left)) (Real.sqrt_nonneg right)) (by norm_num)
+  rw [hfiber, Nat.cast_one, one_mul, div_mul_cancel₀ _ hden.ne']
+  calc
+    _ ≤ (mu * 1) * (row * Real.sqrt left * Real.sqrt right / 2) :=
+      mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hphase hmu) hweight
+    _ ≤ _ := by
+      rw [mul_one]
+      apply mul_le_mul_of_nonneg_left _ hmu
+      apply div_le_div_of_nonneg_right _ (by norm_num)
+      exact mul_le_mul_of_nonneg_right
+        (mul_le_mul_of_nonneg_right hmajorant (Real.sqrt_nonneg left))
+        (Real.sqrt_nonneg right)
+
 /-- Preserve the original Mobius norm through Cauchy's selected side. -/
 theorem firstCauchy_outer_mul_allowance_mobius
     (hF : F.Realizes) (key : FirstCauchyKey F) (N : F.source.Normalization) :
@@ -66,32 +95,19 @@ theorem firstCauchy_outer_mul_allowance_mobius
     FirstCauchyKey.outer key N * (if FirstCauchyKey.side key then NR else NL) ≤
       ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ *
         (firstRowMajorant F key.1 key.2.1 * Real.sqrt NL * Real.sqrt NR / 2) := by
-  dsimp only
-  let NL := N.left key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
-  let NR := N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key)
-  have hden : 0 < if FirstCauchyKey.side key then NR else NL := by
-    split_ifs
-    · exact N.right_pos _ _ _ _
-    · exact N.left_pos _ _ _ _
-  have hW : 0 ≤ (FirstCauchyKey.piece key).rowBound * Real.sqrt NL * Real.sqrt NR / 2 := by
-    exact div_nonneg (mul_nonneg
-      (mul_nonneg (FirstCauchyKey.piece key).rowBound_nonneg (Real.sqrt_nonneg _))
-      (Real.sqrt_nonneg _)) (by norm_num)
-  unfold FirstCauchyKey.outer
-  rw [hF.fiber, Nat.cast_one, one_mul, div_mul_cancel₀ _ hden.ne']
-  calc
-    _ ≤ (‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ * 1) *
-        ((FirstCauchyKey.piece key).rowBound * Real.sqrt NL * Real.sqrt NR / 2) :=
-      mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left
-        (fixed_phase_coefficient_norm PUnit (fun _ => (1 : Circle))
-          (FirstCauchyKey.character key)) (norm_nonneg _)) hW
-    _ ≤ _ := by
-      rw [mul_one]
-      apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
-      apply div_le_div_of_nonneg_right _ (by norm_num)
-      exact mul_le_mul_of_nonneg_right
-        (mul_le_mul_of_nonneg_right (realizedFirst_rowBound_le F hF key.1 key.2.1)
-          (Real.sqrt_nonneg _)) (Real.sqrt_nonneg _)
+  exact firstCauchy_outer_scalar_mul_allowance_mobius F.source.fiber
+    ‖(moebius (FirstCauchyKey.residual key).val : ℂ)‖
+    ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle))
+      (FirstCauchyKey.character key)‖
+    (FirstCauchyKey.piece key).rowBound (firstRowMajorant F key.1 key.2.1)
+    (N.left key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key))
+    (N.right key.1 key.2.1 (FirstCauchyKey.residual key) (FirstCauchyKey.character key))
+    (FirstCauchyKey.side key) hF.fiber (norm_nonneg _)
+    (fixed_phase_coefficient_norm PUnit.{1} (fun _ => (1 : Circle))
+      (FirstCauchyKey.character key))
+    (FirstCauchyKey.piece key).rowBound_nonneg
+    (realizedFirst_rowBound_le F hF key.1 key.2.1)
+    (N.left_pos _ _ _ _) (N.right_pos _ _ _ _)
 
 /-- The exact scalar identity isolates only the original positive
 Mellin tilt. The unchanged parent width is used on both sides. -/

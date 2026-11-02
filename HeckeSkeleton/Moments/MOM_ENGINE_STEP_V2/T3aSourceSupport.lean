@@ -31,6 +31,18 @@ variable {K : Type} [Field K] [NumberField K]
 
 namespace T3a
 
+open WholeAllocation
+
+private theorem allocated_mem_cartesian {k : ℕ} (D : Ideal (𝓞 K))
+    (v : HeckePort.IdealMobiusDivisorSum.primeSupport D → Finset (Fin (k + 2)))
+    (S₁ S₂ : Finset (Ideal (𝓞 K)))
+    (S : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
+    (i : AllocationColumn K k)
+    (hi : i ∈ pairedAllocatedColumns D v S₁ S₂ S id id HeightOneSpectrum.asIdeal) :
+    i ∈ childCartesianColumns S₁ S₂ S := by
+  rw [paired_allocated_columns_eq_filter] at hi
+  exact (Finset.mem_filter.mp hi).1
+
 /-- A nonzero original Cartesian atom has a nonzero complete mask
 on its full ideal, including the empty-slot case. -/
 theorem bare_mask_nonzero {k : ℕ} (T : FixedChildCharacters K k)
@@ -91,7 +103,8 @@ theorem exceptional_nonzero_left_rectangle (hpacket : packet.Realizes) :
   have hwhole : packet.leftWhole x ≠ 0 :=
     (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hc).1).1
   have hx' : x ∈ packet.leftReindex.cartesian :=
-    packet.ordinaryAllocation.val.leftColumns_subset hx
+    T3a.allocated_mem_cartesian packet.allocation.1.val packet.allocation.2.2.1.val
+      packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots x hx
   have hsplit := packet.leftWhole_eq_rectangle_sub hpacket x
     (packet.realizes_coefficient hpacket (packet.leftReindex.index x))
   refine ⟨x, hx', ?_⟩

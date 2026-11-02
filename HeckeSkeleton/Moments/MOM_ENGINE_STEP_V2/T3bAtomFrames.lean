@@ -151,9 +151,15 @@ theorem t3b_left_coefficient (h : Arithmetic.Orbit c)
       (fixedLeftPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ) *
       Arithmetic.embedding c ((Arithmetic.data c).sexticResidue
         (packet.leftIdeal i) (packet.R.frequency h))
-  rw [d.t3bComparison_centeredCoefficient,
-    packet.t3b_left_whole hpacket phases i (packet.t3b_left_cartesian i hi)]
-  rfl
+  have hcenter := d.t3bComparison_centeredCoefficient
+    (SecondColumnSide.left.phase PUnit.{1} packet.allocation.2.1)
+    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots i
+  have hwhole := hcenter.trans
+    (packet.t3b_left_whole hpacket phases i (packet.t3b_left_cartesian i hi))
+  exact (congrArg (fun z : ℂ => z *
+    (fixedLeftPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ) *
+    Arithmetic.embedding c ((Arithmetic.data c).sexticResidue
+      (packet.leftIdeal i) (packet.R.frequency h))) hwhole).symm
 
 /-- The right side has the original star exactly once, after the full
 subtraction and its actual negative residual frequency. -/
@@ -171,9 +177,15 @@ theorem t3b_right_coefficient (h : Arithmetic.Orbit c)
       (fixedRightPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ) *
       Arithmetic.embedding c ((Arithmetic.data c).sexticResidue
         (packet.rightIdeal i) (-packet.R.frequency h)))
-  rw [d.t3bComparison_centeredCoefficient,
-    packet.t3b_right_whole hpacket phases i (packet.t3b_right_cartesian i hi)]
-  rfl
+  have hcenter := d.t3bComparison_centeredCoefficient
+    (SecondColumnSide.right.phase PUnit.{1} packet.allocation.2.1)
+    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots i
+  have hwhole := hcenter.trans
+    (packet.t3b_right_whole hpacket phases i (packet.t3b_right_cartesian i hi))
+  exact (congrArg (fun z : ℂ => star (z *
+    (fixedRightPhase PUnit.{1} packet.allocation.2.1 PUnit.unit : ℂ) *
+    Arithmetic.embedding c ((Arithmetic.data c).sexticResidue
+      (packet.rightIdeal i) (-packet.R.frequency h)))) hwhole).symm
 
 theorem t3b_exceptional_integrand
     {theta : Finset (HeckeCharacter K)}
