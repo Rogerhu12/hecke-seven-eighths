@@ -133,8 +133,9 @@ theorem literalLeftMainAtoms_originalScale
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
     rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
+    have hkeep := Finset.card_le_univ branch.keep
+    rw [Fintype.card_fin] at hkeep
+    exact hkeep.trans hcap
   · intro r
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = DE.1 := by
@@ -144,10 +145,11 @@ theorem literalLeftMainAtoms_originalScale
     erw [hfrozen] at h
     rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalLeftMainAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+    simp only [literalLeftMainAtoms,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct]
+    erw [CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct]
+    exact h
 
 /-- The original prime window, actual retained count and full frozen
 scale bound for this original right main label. -/
@@ -193,8 +195,9 @@ theorem literalRightMainAtoms_originalScale
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
     rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
+    have hkeep := Finset.card_le_univ branch.keep
+    rw [Fintype.card_fin] at hkeep
+    exact hkeep.trans hcap
   · intro r
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = DE.2 := by
@@ -204,10 +207,11 @@ theorem literalRightMainAtoms_originalScale
     erw [hfrozen] at h
     rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalRightMainAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+    simp only [literalRightMainAtoms,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct]
+    erw [CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct]
+    exact h
 
 /-- The original prime window, actual retained count and full frozen
 scale bound for this original left pool label. -/
@@ -255,19 +259,24 @@ theorem literalLeftPoolAtoms_originalScale
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
     rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
+    have hkeep := Finset.card_le_univ branch.keep
+    rw [Fintype.card_fin] at hkeep
+    exact hkeep.trans hcap
   · intro r
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = (DE.1 * q.val.val.asIdeal ^ n) := by
       have hw := ((p.divisorPools.leftData S).combinedBranchForLabel_spec
         (raw).originalAtlas (primeSupport DE.1) DE.1
         ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2
+      have hideal : ∀ i, ((p.divisorPools.leftData S).ideal i).val =
+          supportResidual ((raw).columnExterior i).val (primeSupport DE.1) := by
+        intro i
+        rw [p.divisorPools.left_ideal S, p.left_ideal]
+        exact b.left_residual i
       have he := (p.divisorPools.leftData S).combined_extract_of_mem
         (primeSupport DE.1) DE.1
         ((p.divisorPools.left_columns S).trans p.left_columns)
-        (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
-          exact b.left_residual i) q.val n
+        hideal q.val n
         ((raw).originalAtlas.reindex.index branch.witness) hw
       rw [(raw).originalAtlas.reindex.ideal_product branch.witness
         (branch.original_subset branch.witness_mem),
@@ -277,10 +286,11 @@ theorem literalLeftPoolAtoms_originalScale
     erw [hfrozen] at h
     rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalLeftPoolAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+    simp only [literalLeftPoolAtoms,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct]
+    erw [CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct]
+    exact h
 
 /-- The original prime window, actual retained count and full frozen
 scale bound for this original right pool label. -/
@@ -328,19 +338,24 @@ theorem literalRightPoolAtoms_originalScale
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
     rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
+    have hkeep := Finset.card_le_univ branch.keep
+    rw [Fintype.card_fin] at hkeep
+    exact hkeep.trans hcap
   · intro r
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = (DE.2 * q.val.val.asIdeal ^ n) := by
       have hw := ((p.divisorPools.rightData S).combinedBranchForLabel_spec
         (raw).originalAtlas (primeSupport DE.1) DE.2
         ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2
+      have hideal : ∀ i, ((p.divisorPools.rightData S).ideal i).val =
+          supportResidual ((raw).columnExterior i).val (primeSupport DE.1) := by
+        intro i
+        rw [p.divisorPools.right_ideal S, p.right_ideal]
+        exact b.right_residual i
       have he := (p.divisorPools.rightData S).combined_extract_of_mem
         (primeSupport DE.1) DE.2
         ((p.divisorPools.right_columns S).trans p.right_columns)
-        (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
-          exact b.right_residual i) q.val n
+        hideal q.val n
         ((raw).originalAtlas.reindex.index branch.witness) hw
       rw [(raw).originalAtlas.reindex.ideal_product branch.witness
         (branch.original_subset branch.witness_mem),
@@ -350,10 +365,11 @@ theorem literalRightPoolAtoms_originalScale
     erw [hfrozen] at h
     rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalRightPoolAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+    simp only [literalRightPoolAtoms,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct]
+    erw [CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct]
+    exact h
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

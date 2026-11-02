@@ -131,8 +131,9 @@ theorem literalLeftDirectAtoms_originalScale
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
     rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
+    have hkeep := Finset.card_le_univ branch.keep
+    rw [Fintype.card_fin] at hkeep
+    exact hkeep.trans hcap
   · intro r
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = DE.1 := by
@@ -142,10 +143,11 @@ theorem literalLeftDirectAtoms_originalScale
     erw [hfrozen] at h
     rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalLeftDirectAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+    simp only [literalLeftDirectAtoms,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct]
+    erw [CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct]
+    exact h
 
 /-- The original prime window, actual retained count and full frozen
 scale bound for this original right direct label. -/
@@ -191,8 +193,9 @@ theorem literalRightDirectAtoms_originalScale
   refine ⟨ha.deleteMask _, ?_, ?_⟩
   · change T.slotCount ≤ cap
     rw [show T.slotCount = branch.keep.card from congrArg Sigma.fst e]
-    exact (by simpa only [Fintype.card_fin] using
-      (Finset.card_le_univ branch.keep)).trans hcap
+    have hkeep := Finset.card_le_univ branch.keep
+    rw [Fintype.card_fin] at hkeep
+    exact hkeep.trans hcap
   · intro r
     have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
         branch.keep branch.witness.2 = DE.2 := by
@@ -202,10 +205,11 @@ theorem literalRightDirectAtoms_originalScale
     erw [hfrozen] at h
     rw [Q.literalOriginalAtoms_scaleProduct ξ W a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ r hcomparison] at h
-    simpa only [literalRightDirectAtoms,
-      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
-      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct] using h
+    simp only [literalRightDirectAtoms,
+      CanonicalLiteralRectangles.Atoms.deleteMask_scaleProduct]
+    erw [CanonicalLiteralRectangles.Atoms.onAtlas_scaleProduct,
+      CanonicalLiteralRectangles.Atoms.secondInput_scaleProduct]
+    exact h
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

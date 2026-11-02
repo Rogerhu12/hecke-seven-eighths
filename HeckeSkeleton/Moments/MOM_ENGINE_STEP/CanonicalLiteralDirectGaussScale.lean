@@ -119,8 +119,9 @@ theorem literalLeftDirectAtoms_gaussScale_lower
     hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
   erw [hfrozen] at h
-  simpa only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  simp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask]
+  erw [CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas]
+  exact h
 
 /-- The full original frozen ideal determines the lower Gauss scale
 of this actual right direct table. -/
@@ -154,8 +155,9 @@ theorem literalRightDirectAtoms_gaussScale_lower
     hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
   erw [hfrozen] at h
-  simpa only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  simp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask]
+  erw [CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas]
+  exact h
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
