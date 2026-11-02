@@ -98,12 +98,12 @@ def physicalCoefficient (box : ℝ) (hbox : 0 ≤ box) : ℝ :=
       0 0 box (indexLoss c frame) hbox (indexLoss_pos c frame)
 
 def directHarmonic : ℝ :=
-  (TwoDivisorCommonBranch.uniform_exceptional_dyad_mass (K := K)
+  (TwoDivisorCommonBranch.uniform_exceptional_dyad_mass.{0} (K := K)
     ((b).cap + 2) (b).columnBound (indexLoss c frame)
     (b).columnBound_nonneg (indexLoss_pos c frame)).choose
 
 private def pooledExistence :=
-  uniform_amplified_exceptional_dyad_mass (A := TargetArithmetic.arithmetic c)
+  uniform_amplified_exceptional_dyad_mass.{0} (A := TargetArithmetic.arithmetic c)
     ((b).cap + 2) (indexBox c frame) (indexLoss c frame)
     ((b).step / 3) (b).loss (b).rowBound (b).columnBound
     (indexBox_nonneg c frame) (indexLoss_pos c frame)

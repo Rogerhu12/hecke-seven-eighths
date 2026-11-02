@@ -89,7 +89,7 @@ def pooledPhysical : ℝ :=
     (half_pos (massLoss_pos c frame))
 
 def directHarmonic : ℝ :=
-  (TwoDivisorCommonBranch.uniform_index_mass (K := K)
+  (TwoDivisorCommonBranch.uniform_index_mass.{0} (K := K)
     ((b).cap + 2) (b).columnBound loss (b).columnBound_nonneg (massLoss_pos c frame)).choose
 
 theorem poolLoss_small : (b).loss < (b).step / 3 := by
@@ -116,7 +116,7 @@ theorem pooledThreshold_gt_one : 1 < pooledThreshold c frame :=
   (harmonicExistence c frame).choose_spec.choose_spec.2.1
 
 theorem directHarmonic_pos : 0 < directHarmonic c frame :=
-  (TwoDivisorCommonBranch.uniform_index_mass (K := K)
+  (TwoDivisorCommonBranch.uniform_index_mass.{0} (K := K)
     ((b).cap + 2) (b).columnBound loss (b).columnBound_nonneg (massLoss_pos c frame)).choose_spec.1
 
 theorem pooledHarmonic_pos : 0 < pooledHarmonic c frame :=
