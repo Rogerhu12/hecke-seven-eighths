@@ -55,8 +55,9 @@ The shared process watchdog introduced at that commit remains in the newer
 public driver recorded below.
 
 `RawContracts.lean` and `OrdinaryData.lean` are synchronized verbatim with B-line
-`9f44dd0c6f3acd958e851aa1a124f556ad24f6f8`: local structure-generation options only,
-with all mathematical fields and task statements preserved.
+`1f94711c004cb71cf92fd64eb320bc050b031347`: local structure-generation options,
+synchronous elaboration and flushed command checkpoints only, with all
+mathematical fields and task statements preserved.
 
 ## N8 original frozen-profile and common-scalar bounds
 
@@ -83,7 +84,9 @@ ordinary normalized-mass certificate is imported.
 ## CI synchronization and shared dependency diagnostics
 
 The public V2 driver `.github/v2/build.py` is copied verbatim from B commit
-`2d38e5d510eeb3412cef6200c19d79da0045d576`. The separate T3 proof job retains
+`1f94711c004cb71cf92fd64eb320bc050b031347`. The public manifest task scopes are
+also synchronized, with the existing two-module `t3_shared_n8` group included
+in this branch's explicit T3 scope. The separate T3 proof job retains
 its audit of every loaded V2-origin declaration and requires both task endpoints.
 The CI-only diagnostic script `.github/v2/n7_dependency_diagnostics.py` is copied
 verbatim from N7 commit `e77d89c9eaed9c2dc8ee4ca3a82cf4394c10cb56` (the original 12638 script plus
