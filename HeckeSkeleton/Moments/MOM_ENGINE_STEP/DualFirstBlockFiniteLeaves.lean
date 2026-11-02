@@ -25,6 +25,8 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}

@@ -193,9 +193,10 @@ theorem literalLeftMainComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalLeftMainComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound,
-    literalScalarFreeComputedProfiles, CanonicalLiteralFullKappaInput.scalarFreeBalanced_bound]
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound
+    _ _ _ _).trans
+      (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound
+        _ _ _ _ _)
 
 /-- The original finite seminorm window constructs the complete
 profile certificate on the existing right main table. The actual
@@ -259,9 +260,10 @@ theorem literalRightMainComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalRightMainComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound,
-    literalScalarFreeComputedProfiles, CanonicalLiteralFullKappaInput.scalarFreeBalanced_bound]
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound
+    _ _ _ _).trans
+      (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound
+        _ _ _ _ _)
 
 /-- The original finite seminorm window constructs the complete
 profile certificate on the existing left pool table. The actual
@@ -335,9 +337,10 @@ theorem literalLeftPoolComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalLeftPoolComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound,
-    literalScalarFreeComputedProfiles, CanonicalLiteralFullKappaInput.scalarFreeBalanced_bound]
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound
+    _ _ _ _).trans
+      (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound
+        _ _ _ _ _)
 
 /-- The original finite seminorm window constructs the complete
 profile certificate on the existing right pool table. The actual
@@ -411,9 +414,10 @@ theorem literalRightPoolComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalRightPoolComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound,
-    literalScalarFreeComputedProfiles, CanonicalLiteralFullKappaInput.scalarFreeBalanced_bound]
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenScaleBalance_bound
+    _ _ _ _).trans
+      (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenScaleBalance_bound
+        _ _ _ _ _)
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

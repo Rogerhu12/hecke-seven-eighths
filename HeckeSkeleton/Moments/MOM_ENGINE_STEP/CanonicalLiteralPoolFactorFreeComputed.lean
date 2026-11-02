@@ -167,9 +167,11 @@ theorem literalLeftMainFactorFreeComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalLeftMainFactorFreeComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound _).trans
+    ((CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound
+      _ _ _ _ _).trans
+        (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound
+          _ _ _ _ _ _))
 
 /-- All profile data are constructed for this same actual table,
 with the complete positive factor charged in its first scalar. -/
@@ -233,9 +235,11 @@ theorem literalRightMainFactorFreeComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalRightMainFactorFreeComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound _).trans
+    ((CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound
+      _ _ _ _ _).trans
+        (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound
+          _ _ _ _ _ _))
 
 /-- All profile data are constructed for this same actual table,
 with the complete positive factor charged in its first scalar. -/
@@ -309,9 +313,11 @@ theorem literalLeftPoolFactorFreeComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalLeftPoolFactorFreeComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound _).trans
+    ((CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound
+      _ _ _ _ _).trans
+        (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound
+          _ _ _ _ _ _))
 
 /-- All profile data are constructed for this same actual table,
 with the complete positive factor charged in its first scalar. -/
@@ -385,9 +391,11 @@ theorem literalRightPoolFactorFreeComputedProfiles_bound
         (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) (CanonicalLogProfiles.sourceOrders s) *
           (1 + CanonicalLiteralBalancedSchwartz.factor seed branch δ₁ δ₂ r) := by
   unfold literalRightPoolFactorFreeComputedProfiles
-  simp only [CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound,
-    CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound] <;> rfl
+  exact (CanonicalLiteralFullKappaInput.ComputedProfiles.balanceOne_bound _).trans
+    ((CanonicalLiteralFullKappaInput.ComputedProfiles.deleteMaskThenRedistributeScale_bound
+      _ _ _ _ _).trans
+        (CanonicalLiteralFullKappaInput.ComputedProfiles.onAtlasThenRedistributeScale_bound
+          _ _ _ _ _ _))
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
