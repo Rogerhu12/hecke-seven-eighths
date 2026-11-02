@@ -49,7 +49,7 @@ private theorem firstPhaseRadical_dvd
     (primes : ι → ExteriorPrime A) (hp : Function.Injective primes)
     (m n : ι → ℕ) (hm : ∀ i, 0 < m i) (D : A.Exterior)
     (hD : D.val ∣ (primePowerProduct primes m).val)
-    (e : activeSupport Finset.univ m n → ℕ) :
+    (e : HeckePort.Moments.Active.activeSupport Finset.univ m n → ℕ) :
     commonRadical
       (D.val * (primePowerProduct (firstActivePrimes primes m n) e).val)
       (D.val * (primePowerProduct (firstActivePrimes primes m n) e).val) ∣
@@ -61,8 +61,9 @@ private theorem firstPhaseRadical_dvd
       (D.val * (primePowerProduct (firstActivePrimes primes m n) e).val) =
       primeSupport D.val ∪
         primeSupport (primePowerProduct (firstActivePrimes primes m n) e).val := by
-    simp only [primeSupport, normalizedFactors_mul D.property.1
-      (primePowerProduct (firstActivePrimes primes m n) e).property.1, Multiset.toFinset_add]
+    exact (congrArg Multiset.toFinset (normalizedFactors_mul D.property.1
+      (primePowerProduct (firstActivePrimes primes m n) e).property.1)).trans
+        (Multiset.toFinset_add _ _)
   rw [hsplit] at hQ
   rcases Finset.mem_union.mp hQ with hQ | hQ
   · exact primeSupport_mono (primePowerProduct primes m).property.1 hD hQ
@@ -70,6 +71,22 @@ private theorem firstPhaseRadical_dvd
     obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hQ
     rw [primePowerProduct_support primes hp m hm]
     exact Finset.mem_image.mpr ⟨i.val, Finset.mem_univ _, rfl⟩
+
+private theorem firstMoving_support_dvd {σ : K →+* ℂ}
+    {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
+    (C : A.GeneralArithmeticContext σ η hS)
+    (primes : ι → ExteriorPrime A) (hp : Function.Injective primes)
+    (m n : ι → ℕ) (hm : ∀ i, 0 < m i) (D : A.Exterior)
+    (hD : D.val ∣ (primePowerProduct primes m).val)
+    (δ : A.R) (hδ : A.Generates D δ) (side : Bool) :
+    (if side then CanonicalLiteralFirstPhase.rightMoving C P R primes m n D δ hδ
+      else CanonicalLiteralFirstPhase.leftMoving C P R primes m n D δ hδ).support.val ∣
+        (primePowerProduct primes m).val := by
+  split_ifs
+  · rw [CanonicalLiteralFirstPhase.rightMoving_support]
+    exact firstPhaseRadical_dvd primes hp m n hm D hD _
+  · rw [CanonicalLiteralFirstPhase.leftMoving_support]
+    exact firstPhaseRadical_dvd primes hp m n hm D hD _
 
 theorem singleton_one_support :
     (OriginalMovingFactors.singleton (P := P) (R := R) ⟨1, one_ne_zero⟩ 1).support.val = 1 := by
@@ -144,14 +161,15 @@ theorem t3b_moving_support_dvd_left (key : FirstCauchyKey F) (hF : F.Realizes) :
   have hD : D.val ∣ (primePowerProduct b.primes b.leftMultiplicity).val := by
     rw [b.common_left]
     exact F.t3b_firstDivisor_dvd_left hF key.1 key.2.1
-  unfold FirstCauchyKey.moving
-  split_ifs
-  · rw [CanonicalLiteralFirstPhase.rightMoving_support, ← b.common_left]
-    exact T3b.firstPhaseRadical_dvd b.primes b.primes_injective b.leftMultiplicity
-      b.rightMultiplicity b.left_positive D hD _
-  · rw [CanonicalLiteralFirstPhase.leftMoving_support, ← b.common_left]
-    exact T3b.firstPhaseRadical_dvd b.primes b.primes_injective b.leftMultiplicity
-      b.rightMultiplicity b.left_positive D hD _
+  let delta := sIntegerMaskGenerator K
+    ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K))) key.divisor.val
+  have hrad : (FirstCauchyKey.moving key).support.val ∣
+      (primePowerProduct b.primes b.leftMultiplicity).val :=
+    T3b.firstMoving_support_dvd (P := probeData K c) (R := momentRowCharacters K c)
+      (Arithmetic.context c) b.primes b.primes_injective b.leftMultiplicity
+      b.rightMultiplicity b.left_positive D hD delta.val
+      (originalFrequencyIdeal_generates _ delta.property) key.side
+  exact hrad.trans (dvd_of_eq b.common_left)
 
 theorem t3b_moving_norm_le (key : FirstCauchyKey F) (hF : F.Realizes)
     (input : ProfileInput call) :
@@ -189,22 +207,27 @@ theorem t3b_poolMoving_norm_le (expansion : PoolExpansion family)
     (i : Fin expansion.count) :
     (Arithmetic.data c).exteriorNorm (expansion.poolMoving i).support ≤
       T3b.poolPrimeBound call := by
+  have hunit : (Arithmetic.data c).exteriorNorm
+      (OriginalMovingFactors.singleton (P := probeData K c) (R := momentRowCharacters K c)
+        ⟨1, one_ne_zero⟩ 1).support = 1 :=
+    (congrArg (fun I : Ideal (𝓞 K) => (Ideal.absNorm I : ℝ))
+      (T3b.singleton_one_support (A := Arithmetic.data c)
+        (P := probeData K c) (R := momentRowCharacters K c))).trans
+      (by simp only [map_one, Nat.cast_one])
   cases expansion with
   | direct =>
-    change (Ideal.absNorm
-      (OriginalMovingFactors.singleton (P := probeData K c) (R := momentRowCharacters K c)
-        ⟨1, one_ne_zero⟩ 1).support.val : ℝ) ≤ _
-    rw [T3b.singleton_one_support, map_one, Nat.cast_one]
-    exact T3b.poolPrimeBound_one
+    exact hunit.trans_le T3b.poolPrimeBound_one
   | pooled P count index source =>
-    change (Ideal.absNorm ((PoolExpansion.pooled P count index source).poolMoving i).support.val : ℝ) ≤ _
     cases htag : (index i).2 with
     | inl u =>
-      simp only [poolMoving, htag, T3b.singleton_one_support, map_one, Nat.cast_one]
-      exact T3b.poolPrimeBound_one
+      simp only [poolMoving, htag]
+      exact hunit.trans_le T3b.poolPrimeBound_one
     | inr qe =>
-      simp only [poolMoving, htag, T3b.originalPoolMoving_support]
-      exact P.pool.norm_upper qe.1.val qe.1.property
+      simp only [poolMoving, htag]
+      exact (congrArg (fun I : Ideal (𝓞 K) => (Ideal.absNorm I : ℝ))
+        (T3b.originalPoolMoving_support (P := probeData K c) (R := momentRowCharacters K c)
+          (Arithmetic.context c) qe.1.val qe.2)).trans_le
+        (P.pool.norm_upper qe.1.val qe.1.property)
 
 theorem t3b_deletion_norm_le (expansion : PoolExpansion family)
     (hF : F.Realizes) (hfamily : family.Realizes) (hexpansion : expansion.Realizes)
@@ -253,8 +276,10 @@ theorem t3b_effectiveMoving_norm_le (expansion : PoolExpansion family)
     (probeData K c) (momentRowCharacters K c)
   let remaining := call.localizedSource.source.recipe.remaining
   have hempty : (Arithmetic.data c).exteriorNorm empty.support = 1 := by
-    change (Ideal.absNorm empty.support.val : ℝ) = 1
-    rw [CanonicalLiteralFixedPhases.emptyDivisorMoving_support, map_one, Nat.cast_one]
+    exact (congrArg (fun I : Ideal (𝓞 K) => (Ideal.absNorm I : ℝ))
+      (CanonicalLiteralFixedPhases.emptyDivisorMoving_support (A := Arithmetic.data c)
+        (probeData K c) (momentRowCharacters K c))).trans
+      (by simp only [map_one, Nat.cast_one])
   have hfirst : (Arithmetic.data c).exteriorNorm first.support ≤ T3b.firstColumnBound call :=
     (family.index (expansion.firstIndex i)).t3b_moving_norm_le hF input
   have hpool : (Arithmetic.data c).exteriorNorm pool.support ≤ T3b.poolPrimeBound call :=
@@ -404,7 +429,10 @@ theorem t3bCompleteMask_norm_uniform (trace : SourceTrace call p) (htrace : trac
         call.base ^ (T3b.oldMaskExponentBound c + T3b.secondOriginalRowExponentBound c p) :=
       mul_le_mul_of_nonneg_right hthreshold (Real.rpow_nonneg call.base_pos.le _)
     _ = _ := by
-      rw [T3b.completeMaskExponentBound, Real.rpow_add call.base_pos, Real.rpow_one]
+      rw [T3b.completeMaskExponentBound,
+        Real.rpow_add call.base_pos
+          (T3b.oldMaskExponentBound c + T3b.secondOriginalRowExponentBound c p) 1,
+        Real.rpow_one]
       ring
 
 end RawFamily

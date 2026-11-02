@@ -163,6 +163,7 @@ theorem t3bPlainProfile_identity (input : ProfileInput call)
   change packet.normProfile plain _ * (_ * _) =
     _ * (_ * packet.t3bNormProfile hpacket input plain _)
   rw [packet.t3bNormProfile_apply hpacket input]
+  dsimp only [t3bQuotientScale, HeckeGeneral.Analysis.idealNorm]
   ring
 
 theorem t3bCompleteMask_avoids (h : packet.R.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
