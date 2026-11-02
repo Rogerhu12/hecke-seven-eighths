@@ -322,7 +322,9 @@
         "N4UniformCapacity",
         "N4UniformThreshold",
         "OriginalCapacityContracts",
-        "TasksOriginalCapacity"
+        "TasksOriginalCapacity",
+        "N4ExtractionScale",
+        "N4SourceBudget"
       ],
       "roots": [
         "TasksOriginalCapacity"

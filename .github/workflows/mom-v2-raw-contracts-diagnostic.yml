@@ -1,12 +1,9 @@
 name: RawContracts shared dependency diagnostics
 
+# Diagnostic only. The coordinator owns the shared dependency investigation;
+# unchanged inputs need not repeat these probes on every proof-only PR update.
 on:
-  pull_request:
-    branches: [dtests-handoff]
-    paths:
-      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/**'
-      - '.github/v2/**'
-      - '.github/workflows/mom-v2-raw-contracts-diagnostic.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,7 +14,7 @@ concurrency:
 
 jobs:
   raw-contracts-diagnostic:
-    if: github.event.pull_request.head.ref == 'cloud/mom-v2-n4-n6'
+    if: github.ref_name == 'cloud/mom-v2-n4-n6'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
@@ -25,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
           persist-credentials: false
       - name: Reserve runner space and configure memory mappings
         run: |
