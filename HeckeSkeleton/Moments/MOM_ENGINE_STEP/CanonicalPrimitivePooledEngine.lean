@@ -308,8 +308,7 @@ local notation "conclusion" => literalPrimitivePooledConclusion
   (hlengthBound := b.lengthBound_nonneg) (hcolumnBound := b.columnBound_nonneg)
   («htotal» := htotal) («hN» := hN) (pool := pool) (hdensity := hdensity)
   (hδsum := by linarith [b.tilt_le_quarter]) (herrorPos := b.error_pos)
-  (hannulusThreshold := (pow_le_pow_right₀ b.hi_ge_one
-    (by omega : b.cap ≤ 2 * b.cap)).trans (b.fullThreshold_spec.2.2.2.2 Z hlarge).1)
+  (hannulusThreshold := b.fullThreshold_spec.2.2.2.1.trans hlarge)
   (hscaleThreshold := (b.fullThreshold_spec.2.2.2.2 Z hlarge).1)
   (hpaidError := b.support_error_le)
   (profileDegree := 1) (heightDegree := 0) (widthMax := b.widthMax)
