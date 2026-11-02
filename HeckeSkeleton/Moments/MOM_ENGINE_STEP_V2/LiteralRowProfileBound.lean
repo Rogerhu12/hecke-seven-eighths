@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SectorRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceGates
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceSupport
+
+set_option linter.unusedSectionVars false
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogTiltWindows
 
 /-!
