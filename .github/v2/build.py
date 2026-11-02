@@ -26,7 +26,7 @@ EVIDENCE = ROOT / "v2-build"
 PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2"
 NAMESPACE = "HeckeSkeleton.Moments.EngineStepV2"
 ALLOWED = ["propext", "Classical.choice", "Quot.sound"]
-MODULE_TIMEOUT_SECONDS = 600
+MODULE_TIMEOUT_SECONDS = 300
 WATCH_INTERVAL_SECONDS = 15
 WATCHDOG_RESULTS: dict[str, dict] = {}
 TASK_BRANCH_PREFIX = "cloud/mom-v2-"
@@ -388,9 +388,10 @@ run_cmd do
   let env ← getEnv
   let nsPrefix : Name := @@HeckeSkeleton.Moments.EngineStepV2
   let modulePrefix : Name := @@HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
+  let moduleNames := env.header.moduleNames
   let moduleOf (name : Name) : Option Name := do
     let idx ← env.getModuleIdxFor? name
-    env.header.moduleNames[idx.toNat]?
+    moduleNames[idx.toNat]?
   let names := (env.constants.toList.filterMap fun (name, _) =>
     if nsPrefix.isPrefixOf (privateToUserName name) ||
         (moduleOf name).any (modulePrefix.isPrefixOf ·)
