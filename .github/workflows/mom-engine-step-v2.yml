@@ -1,11 +1,5 @@
 name: MOM Engine Step V2 modules
 on:
-  push:
-    branches: [cloud/mom-engine-step-v2]
-    paths:
-      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/**'
-      - '.github/workflows/mom-engine-step-v2.yml'
-      - '.github/v2/**'
   pull_request:
     branches: [dtests-handoff]
     paths:
@@ -32,8 +26,9 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - name: Configure memory mappings
+      - name: Reserve runner space and configure memory mappings
         run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
           if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
             sudo sysctl -w vm.max_map_count=262144
           fi
@@ -47,13 +42,8 @@ jobs:
           use-github-cache: 'false'
       - name: Restore precompiled project artifacts
         uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
-      - name: Build V2 interface
-        shell: bash
-        run: |
-          mkdir -p v2-build
-          git rev-parse HEAD > v2-build/head.txt
-          set -o pipefail
-          lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.Interface:olean 2>&1 | tee v2-build/build.log
+      - name: Build every V2 module and audit proved groups
+        run: python3 -u .github/v2/build.py
       - name: Upload V2 build evidence
         if: always()
         uses: actions/upload-artifact@v4
