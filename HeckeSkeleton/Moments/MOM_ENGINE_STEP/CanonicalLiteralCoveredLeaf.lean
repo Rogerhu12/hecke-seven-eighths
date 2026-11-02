@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
 set_option linter.unusedSectionVars false
+set_option profiler true
+set_option profiler.threshold 1000
 
 /-!
 # Literal common extraction on the stored covered leaf
@@ -119,7 +121,7 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 
 @[simp] theorem literalRightAtoms_whole
     (i : AllocationColumn K v.literalRightBranch.keep.card) :
-    (v.literalRightAtoms rightAtoms).whole i =
+    (no_index (v.literalRightAtoms rightAtoms)).whole i =
       ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
   sorry
 
