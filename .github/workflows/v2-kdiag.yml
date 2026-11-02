@@ -65,8 +65,7 @@ jobs:
               if [ -n "$pid" ]; then
                 sudo gdb -p $pid -batch -ex "set pagination off" -ex "thread apply all bt -70" 2>/dev/null > kdiag-out/$n.outer.txt
                 echo "--- outer frames of the busy thread"
-                awk '/^Thread/{t=$0} /collectDeps/{busy=t} {a[t]=a[t] "
-" $0} END{print a[busy]}' kdiag-out/$n.outer.txt                   | sed -E 's/ \(.*\) from .*//; s/^#[0-9]+ +(0x[0-9a-f]+ in )?//' | grep -v -E 'collectDeps|SnapshotTree|^$' | cut -c1-170 | head -70
+                awk '/^Thread/{t=$0} /collectDeps/{busy=t} {a[t]=a[t] ORS $0} END{print a[busy]}' kdiag-out/$n.outer.txt                   | sed -E 's/ \(.*\) from .*//; s/^#[0-9]+ +(0x[0-9a-f]+ in )?//' | grep -v -E 'collectDeps|SnapshotTree|^$' | cut -c1-170 | head -70
               fi
               pkill -KILL -x lean; code=killed
             else wait $wrapper; code=$?; fi
