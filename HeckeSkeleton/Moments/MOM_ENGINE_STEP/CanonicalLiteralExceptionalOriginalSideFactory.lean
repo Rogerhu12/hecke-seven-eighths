@@ -308,8 +308,7 @@ def Result {n k : ℕ} (originalAtoms : CanonicalLiteralRectangles.Atoms (K := K
     output.firstSign = firstSign ∧ output.divisor = divisor ∧ HEq output.selection selection ∧
     output.history.originalCount = n ∧ HEq output.history.original originalAtoms ∧
     output.history.firstIdeal = firstIdeal ∧ output.history.secondIdeal = secondIdeal ∧
-    (CanonicalLiteralExceptionalPaidSource.historyActualSecondInput P R extra output.history)
-      .commonScalar output.history.second = commonScalar ∧
+    (CanonicalLiteralExceptionalPaidSource.historyActualSecondInput P R extra output.history).commonScalar output.history.second = commonScalar ∧
     (∀ j, Function.support (output.model.slot j) ⊆ Set.Ioo (1 : ℝ) 2) ∧
     (originalAtoms.centered = true →
       CanonicalLiteralExceptionalCharts.SamePlainProfiles output.model) ∧
@@ -340,8 +339,7 @@ def result : Result (σ := σ) Q ξ Z orders amplitude hcompact hpositive
     rfl, HEq.rfl, rfl, rfl, rfl,
     (originalComputed Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href
       orders amplitude hamplitude original hreference ht hcompact hpositive hprime
-      first hfirstSupport F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot)
-        .prime_window,
+      first hfirstSupport F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot).prime_window,
     side_samePlainProfiles Q ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href
       orders amplitude hamplitude original hreference ht hcompact hpositive hprime
       first hfirstSupport F power δ₁ δ₂ second hsecondSupport atlas count hleft hright hslot
