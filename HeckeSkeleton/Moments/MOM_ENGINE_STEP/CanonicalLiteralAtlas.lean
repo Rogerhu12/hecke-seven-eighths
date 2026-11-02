@@ -69,28 +69,24 @@ variable (hJ : ∀ i ∈ columns, (J i).val = supportResidual (ideal i).val P)
     (R.supportResidualLabelBranch P b J hJ).plain₁ =
       SupportCartesian.plainResidual R.plain₁ P b.plainExtract₁ := by
   unfold supportResidualLabelBranch
-  simp only [eqRec_eq_cast]
   exact carrier_cast_plain₁ (R.supportExtractionLabel_fibre P b).symm _ _
 
 @[simp] theorem supportResidualLabelBranch_plain₂ :
     (R.supportResidualLabelBranch P b J hJ).plain₂ =
       SupportCartesian.plainResidual R.plain₂ P b.plainExtract₂ := by
   unfold supportResidualLabelBranch
-  simp only [eqRec_eq_cast]
   exact carrier_cast_plain₂ (R.supportExtractionLabel_fibre P b).symm _ _
 
 @[simp] theorem supportResidualLabelBranch_slots :
     (R.supportResidualLabelBranch P b J hJ).slots =
       fun j => SupportCartesian.primeLive (R.slots (SlotRestriction.index b.keep j)) P := by
   unfold supportResidualLabelBranch
-  simp only [eqRec_eq_cast]
   exact carrier_cast_slots (R.supportExtractionLabel_fibre P b).symm _ _
 
 @[simp] theorem supportResidualLabelBranch_index :
     (R.supportResidualLabelBranch P b J hJ).index =
       fun i => R.index (b.reconstruct i) := by
   unfold supportResidualLabelBranch
-  simp only [eqRec_eq_cast]
   exact carrier_cast_index (R.supportExtractionLabel_fibre P b).symm _ _
 
 end CartesianSourceReindex
@@ -107,7 +103,6 @@ variable (a : T.labels P D)
     (T.residualReindex P D J hJ a).plain₁ =
       SupportCartesian.plainResidual T.reindex.plain₁ P (T.branch P D a).plainExtract₁ := by
   unfold residualReindex
-  simp only [eqRec_eq_cast]
   rw [CartesianSourceReindex.carrier_cast_plain₁ (T.commonFibre_eq_full P D a).symm]
   rw [CartesianSourceReindex.carrier_cast_plain₁
     (congrArg (fun key => columns.filter
@@ -118,7 +113,6 @@ variable (a : T.labels P D)
     (T.residualReindex P D J hJ a).plain₂ =
       SupportCartesian.plainResidual T.reindex.plain₂ P (T.branch P D a).plainExtract₂ := by
   unfold residualReindex
-  simp only [eqRec_eq_cast]
   rw [CartesianSourceReindex.carrier_cast_plain₂ (T.commonFibre_eq_full P D a).symm]
   rw [CartesianSourceReindex.carrier_cast_plain₂
     (congrArg (fun key => columns.filter
@@ -130,7 +124,6 @@ variable (a : T.labels P D)
       SupportCartesian.primeLive
         (T.reindex.slots (SlotRestriction.index (T.branch P D a).keep j)) P := by
   unfold residualReindex
-  simp only [eqRec_eq_cast]
   rw [CartesianSourceReindex.carrier_cast_slots (T.commonFibre_eq_full P D a).symm]
   rw [CartesianSourceReindex.carrier_cast_slots
     (congrArg (fun key => columns.filter
@@ -143,7 +136,6 @@ not selected anew from an equality of complete ideals. -/
     (T.residualReindex P D J hJ a).index =
       fun i => T.reindex.index ((T.branch P D a).reconstruct i) := by
   unfold residualReindex
-  simp only [eqRec_eq_cast]
   rw [CartesianSourceReindex.carrier_cast_index (T.commonFibre_eq_full P D a).symm]
   rw [CartesianSourceReindex.carrier_cast_index
     (congrArg (fun key => columns.filter

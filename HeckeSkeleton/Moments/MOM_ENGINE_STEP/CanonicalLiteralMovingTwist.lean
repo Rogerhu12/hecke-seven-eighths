@@ -67,7 +67,12 @@ theorem movingSingleton_plain
   calc
     _ = (heckeIdealCoefficient K _ J * (if IsCoprime J.val I.val then 1 else 0)) *
         heckeIdealCoefficient K T.plainTwist J * T.mask J.val := by ring
-    _ = _ := by rw [← he]; ring
+    _ = (heckeIdealCoefficient K T.plain J *
+          actualIdealResidue (A := A) (σ := σ) J.val a) *
+        heckeIdealCoefficient K T.plainTwist J * T.mask J.val :=
+      congrArg (fun z : ℂ => z * heckeIdealCoefficient K T.plainTwist J * T.mask J.val)
+        he.symm
+    _ = _ := by ring
 
 theorem movingSingleton_prime
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
@@ -90,7 +95,12 @@ theorem movingSingleton_prime
   calc
     _ = (primeCoefficient K _ p * (if IsCoprime p.asIdeal I.val then 1 else 0)) *
         primeCoefficient K (T.slotTwist j) p * T.mask p.asIdeal := by ring
-    _ = _ := by rw [← he]; ring
+    _ = (primeCoefficient K (T.slot j) p *
+          actualIdealResidue (A := A) (σ := σ) p.asIdeal a) *
+        primeCoefficient K (T.slotTwist j) p * T.mask p.asIdeal :=
+      congrArg (fun z : ℂ => z * primeCoefficient K (T.slotTwist j) p * T.mask p.asIdeal)
+        he.symm
+    _ = _ := by ring
 
 /-- Multiplicativity is applied to the actual complete ideal product.
 The exterior condition at that product proves the required condition at

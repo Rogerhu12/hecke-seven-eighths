@@ -41,21 +41,25 @@ def localIndex (i : I) : (L.localBranch tag i).Index :=
 @[simp] theorem localIndex_first (i : I) :
     (L.localIndex tag i).1.val = L.first i := by
   unfold localIndex
+  dsimp only
   split <;> rfl
 
 @[simp] theorem localIndex_firstDivisor (i : I) :
     (L.localIndex tag i).2.1.val = L.firstDivisor i := by
   unfold localIndex
+  dsimp only
   split <;> rfl
 
 @[simp] theorem localIndex_second (i : I) :
     (L.localIndex tag i).2.2.1.val = L.second i := by
   unfold localIndex
+  dsimp only
   split <;> rfl
 
 @[simp] theorem localIndex_secondDivisor (i : I) :
     (L.localIndex tag i).2.2.2.1.val = (L.allocation i).1 := by
   unfold localIndex
+  dsimp only
   split <;> rfl
 
 variable {bad : Finset (HeightOneSpectrum (𝓞 K))} {Z ell eps : ℝ}
@@ -74,9 +78,9 @@ theorem amplifiedIndexWeight_local (M B : ℝ) (i : I) :
        | some q => FirstGaussPoolData.localErrorWeight q.2 q.1 *
            (Ideal.absNorm q.2.val.asIdeal : ℝ) ^ amplifierMovingExponent q.1) *
         (L.localBranch tag i).indexWeight (L.localIndex tag i) := by
-  cases h : tag i with
-  | none => simp only [amplifiedIndex, h, amplifiedIndexWeight, localBranch, localIndex]; ring
-  | some q => simp only [amplifiedIndex, h, amplifiedIndexWeight, localBranch, localIndex]; ring
+  unfold amplifiedIndex localIndex localBranch
+  dsimp only
+  split <;> simp_all only [amplifiedIndexWeight, Q] <;> ring
 
 end OriginalArithmeticLabels
 end HeckeSkeleton.Moments.EngineStep
