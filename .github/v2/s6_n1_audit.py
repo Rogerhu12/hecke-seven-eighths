@@ -26,7 +26,6 @@ EVIDENCE = ROOT / "v2-s6-n1-build"
 PREFIX = "HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2"
 BRANCH = "cloud/mom-v2-s6-n1"
 ENTRY_MODULES = ("TasksFiniteLeaves", "TasksOriginalAtoms")
-WARMUP_MODULES = ("RawContracts", "OrdinaryData")
 EXPECTED_GROUPS = {
     "s6_n1_helpers": [
         "FiniteLeavesCover",
@@ -287,8 +286,6 @@ def main() -> int:
         "owned_groups": EXPECTED_GROUPS,
         "owned_module_count": len(OWN_MODULES),
         "targets": targets,
-        "warmup_order": WARMUP_MODULES,
-        "warmup_targets": {name: "+" + PREFIX + "." + name + ":olean" for name in WARMUP_MODULES},
         "required_declarations": REQUIRED,
         "allowed_axioms": ALLOWED,
         "source_sha256": before_sources,
@@ -302,34 +299,21 @@ def main() -> int:
     (EVIDENCE / "environment.json").write_text(
         json.dumps(environment, indent=2) + "\n", encoding="utf-8"
     )
-    warmup_exits = {name: None for name in WARMUP_MODULES}
     build_exit = None
     audit_exit = None
     audit_output = ""
     # A fresh run must not leave an old successful audit beside a failed build.
     (EVIDENCE / "axioms.log").unlink(missing_ok=True)
     if not errors:
-        # Keep the same environment and child compiler thread configuration.
-        # Each synchronous logged call finishes before the other large target starts.
-        for module in WARMUP_MODULES:
-            try:
-                warmup_exits[module] = shared.logged(
-                    ["lake", "build", "+" + PREFIX + "." + module + ":olean"],
-                    "warmup_" + module + ".log",
+        try:
+            build_exit = shared.logged(["lake", "build", *targets], "build.log")
+            if build_exit == 0:
+                audit_exit = shared.logged(
+                    ["lake", "env", "lean", str(audit_path)], "axioms.log"
                 )
-            except (OSError, subprocess.SubprocessError) as error:
-                errors.append("Could not run warmup " + module + ": " + str(error))
-        # Obtain both independent warmup results, then avoid rebuilding a failed target.
-        if not errors and all(code == 0 for code in warmup_exits.values()):
-            try:
-                build_exit = shared.logged(["lake", "build", *targets], "build.log")
-                if build_exit == 0:
-                    audit_exit = shared.logged(
-                        ["lake", "env", "lean", str(audit_path)], "axioms.log"
-                    )
-                    audit_output = (EVIDENCE / "axioms.log").read_text(encoding="utf-8")
-            except (OSError, subprocess.SubprocessError) as error:
-                errors.append("Could not run verification: " + str(error))
+                audit_output = (EVIDENCE / "axioms.log").read_text(encoding="utf-8")
+        except (OSError, subprocess.SubprocessError) as error:
+            errors.append("Could not run verification: " + str(error))
 
     after_sources = snapshot_safely(source_snapshot, "V2 sources after verification", errors)
     after_configuration = snapshot_safely(
@@ -367,16 +351,13 @@ def main() -> int:
         name: MODULE_MARKER + PREFIX + "." + name in audit_output for name in OWN_MODULES
     }
     watchdogs = dict(shared.WATCHDOG_RESULTS)
-    expected_watchdogs = {"build.log", "axioms.log"} | {
-        "warmup_" + module + ".log" for module in WARMUP_MODULES
-    }
+    expected_watchdogs = {"build.log", "axioms.log"}
     watchdogs_complete = set(watchdogs) == expected_watchdogs
     watchdog_killed = sum(len(report["killed"]) for report in watchdogs.values())
     watchdog_errors = sum(len(report["monitor_errors"]) for report in watchdogs.values())
     watchdog_ok = watchdogs_complete and watchdog_killed == 0 and watchdog_errors == 0
     success = (
-        not errors and all(code == 0 for code in warmup_exits.values())
-        and build_exit == 0 and audit_exit == 0 and marker
+        not errors and build_exit == 0 and audit_exit == 0 and marker
         and all(required_present.values()) and all(modules_present.values()) and watchdog_ok
     )
     result = {
@@ -386,7 +367,6 @@ def main() -> int:
         "supplementary_check": True,
         "targets": targets,
         "owned_groups": EXPECTED_GROUPS,
-        "warmup_exits": warmup_exits,
         "build_exit": build_exit,
         "audit_exit": audit_exit,
         "success_marker": marker,
@@ -418,10 +398,9 @@ def main() -> int:
         + f"- Fixed owned inventory scanned: {len(OWN_MODULES)} modules.\n"
         + f"- All owned modules loaded: {all(modules_present.values())}\n"
         + f"- Both required task declarations present: {all(required_present.values())}\n"
-        + f"- Sequential warmup exits: {warmup_exits}.\n"
         + f"- Lake exit: {build_exit}; fresh Lean audit exit: {audit_exit}.\n"
         + f"- Shared per-module Lean timeout: {shared.MODULE_TIMEOUT_SECONDS}s.\n"
-        + f"- All four watchdog reports complete: {watchdogs_complete}.\n"
+        + f"- Both watchdog reports complete: {watchdogs_complete}.\n"
         + f"- Watchdog terminations: {watchdog_killed}; monitor errors: {watchdog_errors}.\n"
         + f"- V2 source files hashed: {len(before_sources)}; changed: {len(changed_sources)}.\n"
         + f"- Configuration files hashed: {len(before_configuration)}; changed: {len(changed_configuration)}.\n"
