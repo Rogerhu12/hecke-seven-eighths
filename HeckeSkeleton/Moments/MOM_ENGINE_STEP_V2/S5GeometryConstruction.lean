@@ -168,7 +168,11 @@ theorem classGeometry_correlation (key : SecondClassKey trace.second) (active : 
       (primePowerProduct key.R.primes key.R.rightMultiplicity).val) : ℝ) /
       (Ideal.absNorm (unitFrequencyRadical (Arithmetic.context c) key.R.primes
         key.R.leftMultiplicity key.R.rightMultiplicity (key.R.frequency h.val)).val : ℝ) at hb
-  rw [key.block.common_left, key.block.common_right] at hb
+  have hleft : (primePowerProduct key.R.primes key.R.leftMultiplicity).val =
+      key.common.val.1 := key.block.common_left
+  have hright : (primePowerProduct key.R.primes key.R.rightMultiplicity).val =
+      key.common.val.2 := key.block.common_right
+  rw [hleft, hright] at hb
   rw [show G.ideals.second.val = _ from classGeometry_second trace realized key active side,
     show G.ideals.secondOpposite.val = _ from
       classGeometry_secondOpposite trace realized key active side]

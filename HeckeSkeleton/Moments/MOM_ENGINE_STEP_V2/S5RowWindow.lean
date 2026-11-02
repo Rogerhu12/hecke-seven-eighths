@@ -231,7 +231,11 @@ theorem classGeometry_normFactor (key : SecondClassKey trace.second) (active : k
       (primePowerProduct key.R.primes key.R.rightMultiplicity).val) : ℝ) *
         (Ideal.absNorm (nonunitFrequencyRadical (Arithmetic.context c) key.R.primes
           key.R.leftMultiplicity key.R.rightMultiplicity (key.R.frequency h.val)).val : ℝ) = _
-  rw [key.block.common_left, key.block.common_right]
+  have hleft : (primePowerProduct key.R.primes key.R.leftMultiplicity).val =
+      key.common.val.1 := key.block.common_left
+  have hright : (primePowerProduct key.R.primes key.R.rightMultiplicity).val =
+      key.common.val.2 := key.block.common_right
+  rw [hleft, hright]
   cases side <;>
     simp only [Bool.false_eq_true, ↓reduceIte, gcd_comm]
 
