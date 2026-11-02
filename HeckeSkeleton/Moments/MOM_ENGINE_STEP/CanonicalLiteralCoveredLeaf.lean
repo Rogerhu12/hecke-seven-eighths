@@ -10,7 +10,7 @@ set_option profiler.threshold 1000
 set_option Elab.async false
 set_option stderrAsMessages false
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf imports_done"
   log.flush
@@ -52,7 +52,7 @@ private theorem literal_row_weight_comm (w q a b : ℂ) :
     (w * q) * a * b = (w * a * b) * q := by
   sorry
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf helpers_done"
   log.flush
@@ -124,7 +124,7 @@ variable (rightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 abbrev literalLeftOriginal := leftAtoms.onAtlas v.literalLeftParent rfl
 abbrev literalRightOriginal := rightAtoms.onAtlas v.literalRightParent rfl
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf atoms_before"
   log.flush
@@ -140,7 +140,7 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
   ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).onAtlas
     v.literalRightResidualAtlas rfl
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf atoms_done"
   log.flush
@@ -158,7 +158,7 @@ set_option maxHeartbeats 1000000 in
       ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
   sorry
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf whole_done"
   log.flush
@@ -188,7 +188,7 @@ private theorem literal_left_mem (i : AllocationColumn K v.leftSlots)
     (hi : i ∈ (v.leaf exceptional F x j).left) : i ∈ v.leftReindex.cartesian := by
   sorry
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf left_mem_done"
   log.flush
@@ -197,7 +197,7 @@ private theorem literal_right_mem (i : AllocationColumn K v.literalRightBranch.k
     (hi : i ∈ (v.leaf exceptional F x j).right) : i ∈ v.rightReindex.cartesian := by
   sorry
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf right_mem_done"
   log.flush
@@ -226,7 +226,7 @@ private theorem literal_right_coefficient
         (v.literalRightAtoms rightAtoms).whole i := by
   sorry
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf coefficients_done"
   log.flush
@@ -265,7 +265,7 @@ def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
         (v.literal_right_mem exceptional F x j i hi))).trans
       (literal_coefficient_assoc _ _ _ _)
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf extraction_done"
   log.flush
@@ -285,7 +285,7 @@ def literalSupportedRows : ActualSecondCorrelationRows A σ
   (v.literalRows leftAtoms rightAtoms).restrictRows (fun h =>
     (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).correlation h ≠ 0)
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf rows_done"
   log.flush
@@ -306,7 +306,7 @@ def literalAllocation (hlive : (v.leaf exceptional F x j).Live) :
   · exact hlive.2.1.elim (fun _ hh => hh.2.elim (fun i hi => ⟨i, hi.1⟩))
   · exact hlive.2.2.elim (fun _ hh => hh.2.elim (fun i hi => ⟨i, hi.1⟩))
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf allocation_done"
   log.flush
@@ -322,7 +322,7 @@ def literalRectangles (firstSign : ℝ) (hlive : (v.leaf exceptional F x j).Live
     (v.literalAllocation exceptional F x j hlive)
     (v.leaf exceptional F x j).exceptional firstSign (-firstSign)
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf rectangles_done"
   log.flush
@@ -378,7 +378,7 @@ def literalOrdinaryBinding :
   leftPoint := leftPoint
   rightPoint := rightPoint
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf binding_done"
   log.flush
@@ -395,7 +395,7 @@ def literalOrdinaryBinding :
     (v.literalExtraction leftAtoms rightAtoms exceptional F x j
       leftCoefficient rightCoefficient).leaf.weight = (v.leaf exceptional F x j).weight := rfl
 
-#eval do
+#eval show IO Unit from do
   let log ← IO.getStderr
   log.putStrLn "G2_PROGRESS CanonicalLiteralCoveredLeaf three_simp_done"
   log.flush
