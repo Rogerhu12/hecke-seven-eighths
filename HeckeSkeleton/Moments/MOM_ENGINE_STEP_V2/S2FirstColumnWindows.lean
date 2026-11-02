@@ -191,6 +191,7 @@ theorem chart_right_coefficient (F : FirstPresentation call p) (hF : F.Realizes)
   rw [hfield]
   rfl
 
+set_option backward.isDefEq.respectTransparency false in
 theorem key_coefficient_factor (F : FirstPresentation call p) (hF : F.Realizes)
     (key : FirstCauchyKey F) (i : F.source.Column) :
     FirstCauchyKey.coefficient key i = FirstCauchyKey.multiplier key i * F.coefficient i := by
@@ -202,7 +203,7 @@ theorem key_coefficient_factor (F : FirstPresentation call p) (hF : F.Realizes)
       FirstBlockDirectData.originalRightCoefficient, FirstCauchyKey.piece,
       chart_left_coefficient F hF, chart_right_coefficient F hF, zero_mul, mul_zero] <;>
     dsimp only [FirstCauchyKey.block, FirstCauchyKey.divisor, ActualDirectFirstSource.block] <;>
-    ring
+    ring1!
 
 theorem key_column_mem (F : FirstPresentation call p) (key : FirstCauchyKey F)
     (i : F.source.Column) (hi : i ∈ (FirstCauchyKey.data key).columns) : i ∈ F.source.columns := by
