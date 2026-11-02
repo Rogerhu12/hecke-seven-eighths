@@ -91,24 +91,33 @@ abbrev chart := s.charts v.1 v.2.1
 
 abbrev rowLabel := v.2.2.2.2.1
 
-/-- Name the exact residual reindex type before using it as a result type.
-This keeps `getFunInfo` from traversing the expanded dependent source tree. -/
-def LeftReindexType : Type _ :=
-  CartesianSourceReindex
-    ((LC.branch v.2.2.1).commonFibre (primeSupport v.1.val.1) v.1.val.1
-      v.2.2.2.2.2.1)
-    (SourceClassKey.block v).leftResidual
-    ((LC.branch v.2.2.1).branch (primeSupport v.1.val.1) v.1.val.1
-      v.2.2.2.2.2.1).keep.card
+/-- Keep the parameters of each reindex short as well as its result type.
+The slot count remains named when Lean infers an index or slots projection. -/
+def leftFibre : Finset ι :=
+  (LC.branch v.2.2.1).commonFibre (primeSupport v.1.val.1) v.1.val.1
+    v.2.2.2.2.2.1
 
-/-- The right residual reindex type, with the original fibre and slot count. -/
+def rightFibre : Finset ι :=
+  (RC.branch v.2.2.2.1).commonFibre (primeSupport v.1.val.1) v.1.val.2
+    v.2.2.2.2.2.2
+
+def leftResidual : ι → A.Exterior := (SourceClassKey.block v).leftResidual
+
+def rightResidual : ι → A.Exterior := (SourceClassKey.block v).rightResidual
+
+def leftSlots : ℕ :=
+  ((LC.branch v.2.2.1).branch (primeSupport v.1.val.1) v.1.val.1
+    v.2.2.2.2.2.1).keep.card
+
+def rightSlots : ℕ :=
+  ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2
+    v.2.2.2.2.2.2).keep.card
+
+def LeftReindexType : Type _ :=
+  CartesianSourceReindex (leftFibre v) (leftResidual v) (leftSlots v)
+
 def RightReindexType : Type _ :=
-  CartesianSourceReindex
-    ((RC.branch v.2.2.2.1).commonFibre (primeSupport v.1.val.1) v.1.val.2
-      v.2.2.2.2.2.2)
-    (SourceClassKey.block v).rightResidual
-    ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2
-      v.2.2.2.2.2.2).keep.card
+  CartesianSourceReindex (rightFibre v) (rightResidual v) (rightSlots v)
 
 def leftReindex : LeftReindexType v :=
   (LC.branch v.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.1
@@ -117,10 +126,6 @@ def leftReindex : LeftReindexType v :=
 def rightReindex : RightReindexType v :=
   (RC.branch v.2.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.2
     (SourceClassKey.block v).rightResidual (fun j _ => (SourceClassKey.block v).right_residual j) v.2.2.2.2.2.2
-
-abbrev leftSlots :=
-  ((LC.branch v.2.2.1).branch (primeSupport v.1.val.1) v.1.val.1
-    v.2.2.2.2.2.1).keep.card
 
 abbrev AllocationKey :=
   HybridAllocationLabel (SourceClassKey.rightReindex v).plain₁ (SourceClassKey.rightReindex v).plain₂ (SourceClassKey.rightReindex v).slots
@@ -268,8 +273,14 @@ open Lean Elab Command in
 run_cmd do
   let env ← getEnv
   let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
+  let modulePrefix : Name := `HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
+  let moduleNames := env.header.moduleNames
+  let moduleOf (name : Name) : Option Name := do
+    let idx ← env.getModuleIdxFor? name
+    moduleNames[idx.toNat]?
   let names := (env.constants.toList.filterMap fun (name, _) =>
-    if nsPrefix.isPrefixOf (privateToUserName name) then some name else none).toArray.qsort Name.lt
+    if nsPrefix.isPrefixOf (privateToUserName name) ||
+        (moduleOf name).any (modulePrefix.isPrefixOf ·) then some name else none).toArray.qsort Name.lt
   unless !names.isEmpty do
     throwError "No loaded V2 declarations found"
   let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
