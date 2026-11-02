@@ -107,10 +107,12 @@ theorem amplitude_le_frozenAmplitude : input.amplitude ≤ input.frozenAmplitude
     mul_le_mul_of_nonneg_left (le_max_left 1 (call.prepared.lower / 2)⁻¹)
       (zero_le_one.trans input.amplitude_one_le)
 
+include input in
 theorem commonAnnulus_nonneg : 0 ≤ 2 * call.prepared.upper := by
   have hu := call.prepared.lower_pos.trans_le call.prepared.interval
   positivity
 
+include input in
 theorem original_slot_window
     (i : Fin call.localizedData.geometry.slotCount) (q : HeightOneSpectrum (𝓞 K))
     (hq : q ∈ call.workingRaw.exteriorSlots i) :

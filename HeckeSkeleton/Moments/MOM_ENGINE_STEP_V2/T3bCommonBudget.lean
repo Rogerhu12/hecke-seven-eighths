@@ -49,6 +49,7 @@ namespace ProfileInput
 
 variable (input : ProfileInput call)
 
+include input in
 theorem t3b_commonAnnulus_le :
     2 * call.prepared.upper ≤ 2 * (T3b.profileRange c call.frame).upper := by
   have hmem : 2 * call.prepared.upper ∈ call.window :=

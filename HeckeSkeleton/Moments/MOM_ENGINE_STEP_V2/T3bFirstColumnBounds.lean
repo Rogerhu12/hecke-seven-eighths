@@ -221,6 +221,8 @@ namespace FirstPresentation
 variable (F : FirstPresentation call p) (hF : F.Realizes)
 variable (input : ProfileInput call)
 
+include hF input
+
 theorem t3b_column_norm_le (i : F.source.Column) (hi : i ∈ F.source.columns) :
     (Arithmetic.data c).exteriorNorm (F.source.ideal i) ≤
       T3b.firstColumnAnnulus c call.frame *

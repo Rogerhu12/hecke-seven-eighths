@@ -211,8 +211,13 @@ theorem rawMass_le_scale_quotient
     rw [← s.productX, div_mul_div_comm]
   have hcomp : s.product * live * N ≤
       B ^ (2 * cap) * (s.X₁ * s.X₂ * ∏ i, L i) := by
-    have hm := mul_le_mul_of_nonneg_left hNupper
-      (mul_nonneg hq.le (Finset.prod_nonneg (fun _ _ => (hL _).le)))
+    have hlive : 0 ≤ live := by
+      dsimp only [live]
+      exact Finset.prod_nonneg
+        (fun j _ => (hL (SlotRestriction.index s.allocation.keep j)).le)
+    have hm : s.product * live * N ≤
+        (s.product * live) * (D * (B ^ (2 * cap) * ∏ i ∈ frozen, L i)) :=
+      mul_le_mul_of_nonneg_left hNupper (mul_nonneg hq.le hlive)
     apply hm.trans_eq
     rw [hprod, product_split s.allocation.keep L]
     change (_ / D) * live * (D * _) = _

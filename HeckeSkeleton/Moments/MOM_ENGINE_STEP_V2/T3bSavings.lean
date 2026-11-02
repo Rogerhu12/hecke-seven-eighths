@@ -137,6 +137,7 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p) (hpacket : packet.Realizes)
 
+include hpacket in
 theorem t3b_removedLength_le :
     packet.second.physical.first.tag.removedLength call.base ≤ 7 * recipeInductionSigma c / 3 := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩
@@ -144,6 +145,7 @@ theorem t3b_removedLength_le :
   rw [htrace.second.physical]
   exact trace.expansion.t3b_removedLength_le htrace.cauchy htrace.expansion _
 
+include hpacket in
 theorem t3b_nominal_supportError (side : Bool) :
     (packet.nominal side).supportError = 4 * p.loss := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, _, rfl⟩
@@ -155,6 +157,7 @@ def t3bFirstSaving (side : Bool) : ℝ :=
     (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
     G.boundary G.skeleton.g (G.tag.poolLength (recipeInductionSigma c))
 
+include hpacket in
 theorem t3bFirstSaving_lower (side : Bool) :
     2 * ((packet.nominal side).skeleton.c + (packet.nominal side).skeleton.w) / 3 -
         3 * recipeInductionSigma c - 5 * (4 * p.loss) / 6 ≤ packet.t3bFirstSaving side := by
@@ -178,6 +181,7 @@ theorem t3bMultiplicityOneLength_rpow (h : packet.R.live) :
       (Arithmetic.data c).exteriorNorm (packet.multiplicityOneRadical h) :=
   rpow_idealLogLength call.base call.domain.scale _ (packet.multiplicityOneRadical h).property.1
 
+include hpacket in
 theorem t3b_multiplicityOneRadical_eq (h k : packet.R.live) :
     packet.multiplicityOneRadical h = packet.multiplicityOneRadical k := by
   have hprimes : multiplicityOneNonunitPrimes (Arithmetic.context c) packet.R.primes
@@ -190,6 +194,7 @@ theorem t3b_multiplicityOneRadical_eq (h k : packet.R.live) :
   unfold multiplicityOneRadical multiplicityOneNonunitRadical
   rw [hprimes]
 
+include hpacket in
 theorem t3bMultiplicityOneLength_eq (h k : packet.R.live) :
     packet.t3bMultiplicityOneLength h = packet.t3bMultiplicityOneLength k := by
   rw [t3bMultiplicityOneLength, t3bMultiplicityOneLength,
@@ -202,6 +207,7 @@ def t3bSecondSaving (side : Bool) (h : packet.R.live) : ℝ :=
 
 /-- The original complete correlation gives the second saving for
 every live row, on either orientation of the actual common pair. -/
+include hpacket in
 theorem t3bSecondSaving_lower (side : Bool) (h : packet.R.live) :
     2 * (packet.nominal side).halfSecond / 3 ≤ packet.t3bSecondSaving side h := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩

@@ -166,6 +166,7 @@ namespace RawFamily
 variable (trace : SourceTrace call p) (htrace : trace.Realizes)
 variable {geometry : GeometryFamily trace.second} (raw : RawFamily geometry)
 
+include htrace in
 theorem packet_moving_unramified (j : Fin raw.count)
     (hpacket : (raw.packet j).Realizes) (i : Fin (raw.packet j).block.primeCount) :
     UnramifiedAt K (trace.expansion.moving (raw.index j).val.1.1).character

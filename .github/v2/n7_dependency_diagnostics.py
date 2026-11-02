@@ -115,6 +115,13 @@ def import_header(source: str) -> tuple[str, list[str]]:
     return "".join(lines[:count]), imports
 
 
+def prerequisite_plan(imports: list[str]) -> dict:
+    excluded = [name for name in imports if name == "Lean" or name.startswith("Lean.")]
+    return {"excluded_toolchain_imports": excluded,
+            "prerequisite_targets": ["+" + name + ":olean" for name in imports
+                                     if name not in excluded]}
+
+
 def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
     probes = evidence / "probes"
     probes.mkdir(parents=True, exist_ok=True)
@@ -143,6 +150,7 @@ def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
             manifest["probes"].append({"module": module, "stage": stage,
                                        "path": str(path), "sha256": digest(path)})
     manifest["import_modules"] = list(dict.fromkeys(manifest["import_modules"]))
+    manifest.update(prerequisite_plan(manifest["import_modules"]))
     (evidence / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return manifest
 
@@ -174,19 +182,27 @@ def main() -> int:
     sys.modules[spec.name] = gate
     spec.loader.exec_module(gate)  # Imported under another name: never calls main().
     gate.EVIDENCE = evidence
-    if gate.MODULE_TIMEOUT_SECONDS != 600:
-        raise RuntimeError("Expected the shared 600-second watchdog; inspect the new gate first")
+    if gate.MODULE_TIMEOUT_SECONDS != 300:
+        raise RuntimeError("Expected the shared 300-second watchdog from B 95eedd; inspect the new gate first")
     results = {"accepted_as_proof": False,
+               "module_timeout_seconds": gate.MODULE_TIMEOUT_SECONDS,
                "head": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+               "excluded_toolchain_imports": manifest["excluded_toolchain_imports"],
                "prerequisites": None, "stages": [], "canonical_sources_unchanged": None}
 
     def save() -> None:
         (evidence / "result.json").write_text(json.dumps(results, indent=2) + "\n")
 
     try:
-        targets = ["+" + name + ":olean" for name in manifest["import_modules"]]
-        prerequisite = gate.logged(["lake", "build", *targets], "prerequisites.log")
-        results["prerequisites"] = {"exit_code": prerequisite, "targets": targets}
+        targets = manifest["prerequisite_targets"]
+        if targets:
+            prerequisite = gate.logged(["lake", "build", *targets], "build.log")
+        else:
+            prerequisite = 0
+            print("No repository prerequisite targets; skipping lake build.", flush=True)
+        results["prerequisites"] = {
+            "exit_code": prerequisite, "targets": targets, "skipped": not targets,
+            "log": "build.log" if targets else None}
         save()
         if prerequisite != 0:
             return prerequisite if 0 < prerequisite < 256 else 1

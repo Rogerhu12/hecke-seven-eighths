@@ -63,14 +63,22 @@ mathematical fields and task statements preserved.
 
 Originally split in PR #42 candidate `773795d60dabbb136311e8187e21d130714e3aeb`,
 following PR #31 comments `6578016005`, `6578119255` and `6578269366`.
-Both files now match `8cda5bb1ad0785d9ee862e0ef868f802f252d8e8` verbatim:
+The upstream snapshot is `8cda5bb1ad0785d9ee862e0ef868f802f252d8e8`, with the
+additional CI compatibility correction recorded below:
 
 - `N8FrozenProfileBounds.lean` (100 lines)
-- `N8CommonScalarBounds.lean` (248 lines)
+- `N8CommonScalarBounds.lean` (250 lines)
 
 The update changes only the nonnegative finite-product API to `prod_le_prod₀`
 and supplies the existing arithmetic data/embedding parameters explicitly in
 the envelope bound. Statements and original scalar formulas are unchanged.
+
+Run `41454774485`, job `125308565392`, also exposed the omission of the section
+variable `input` from `commonAnnulus_nonneg` and `original_slot_window`.
+Both intended input-dot helper methods now use `include input in`, preserving
+the original inequalities and proof bodies while retaining the `ProfileInput`
+argument needed by their existing callers and the latter proof's raw fields.
+This exact two-line compatibility patch is coordinated with N8 in PR #31.
 
 These two modules preserve the upstream public names and original prime
 profiles, complete common frozen ideals and pointwise scalar estimates.
@@ -83,13 +91,18 @@ ordinary normalized-mass certificate is imported.
 
 ## CI synchronization and shared dependency diagnostics
 
-The public V2 driver `.github/v2/build.py` is copied verbatim from B commit
-`1f94711c004cb71cf92fd64eb320bc050b031347`. The public manifest task scopes are
-also synchronized, with the existing two-module `t3_shared_n8` group included
-in this branch's explicit T3 scope. The separate T3 proof job retains
-its audit of every loaded V2-origin declaration and requires both task endpoints.
-The CI-only diagnostic script `.github/v2/n7_dependency_diagnostics.py` is copied
-verbatim from N7 commit `e77d89c9eaed9c2dc8ee4ca3a82cf4394c10cb56` (the original 12638 script plus
-its explicit `IO Unit` marker-type correction).
+The public V2 driver `.github/v2/build.py` follows B commit
+`95eedd865d20389b7efa0e37405cf996d2d0a6db`, including its stricter 300-second
+per-module watchdog. The one performance correction accepted in PR #31 comment
+`6578888764` caches `env.header.moduleNames` once before declaration filtering;
+the selected declaration set and axiom whitelist are unchanged. Public manifest
+task scopes follow B1f, with `t3_shared_n8` included in this branch's explicit
+94-module T3 scope. The separate T3 proof job also requires both task endpoints.
+
+The diagnostic script follows N7 commit
+`054b434f2acab53a1ff5e7cfc79e56ea06803cbf`, including explicit `IO Unit` markers,
+filtered console output and exclusion of toolchain imports from Lake targets.
+The probe imports remain complete. Its safety assertion is synchronized to B's
+new 300-second timeout and the value is recorded in diagnostic results.
 This branch probes RawContracts; N7 probes OrdinaryData. Temporary instrumented
 source output is diagnostic only and cannot replace the canonical build or axiom audit.

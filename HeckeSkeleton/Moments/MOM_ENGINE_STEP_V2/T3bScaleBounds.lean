@@ -246,27 +246,32 @@ theorem t3bScaleLower_centered_lower (hc : call.node.centered = true) (side : Bo
     (le_min (packet.t3bQuotientScale_centered_lower hpacket phases hc side true false)
       (packet.t3bQuotientScale_centered_lower hpacket phases hc side true true))
 
+include hpacket in
 theorem t3b_nominal_first (side : Bool) :
     (packet.nominal side).ideals.first.val = packet.second.physical.first.selected.val := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   exact (hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)).first side
 
+include hpacket in
 theorem t3b_nominal_second (side : Bool) :
     (packet.nominal side).ideals.second.val = packet.secondIdeal side := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   exact (hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)).second side
 
+include hpacket in
 theorem t3b_nominal_secondOpposite (side : Bool) :
     (packet.nominal side).ideals.secondOpposite.val = packet.secondIdeal (!side) := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   cases side <;>
     exact (hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)).secondOpposite _
 
+include hpacket in
 theorem t3b_nominal_tag (side : Bool) :
     (packet.nominal side).tag = packet.second.physical.first.tag := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   exact (hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)).tag side
 
+include phases in
 theorem t3b_poolLength_eq :
     idealLogLength call.base packet.second.physical.first.poolPower.val =
       packet.second.physical.first.tag.removedLength call.base := by
@@ -285,6 +290,7 @@ theorem t3b_poolLength_eq :
     rw [hpower, htag]
     exact idealLogLength_pow call.base q.val.asIdeal e.multiplicity
 
+include hpacket phases in
 theorem t3bScaleLoss_eq_nominal (side : Bool) :
     packet.t3bScaleLoss side =
       (packet.nominal side).skeleton.c + (packet.nominal side).skeleton.w +
@@ -300,6 +306,7 @@ theorem t3bScaleLoss_eq_nominal (side : Bool) :
   rw [packet.t3b_nominal_first hpacket, packet.t3b_nominal_tag hpacket,
     packet.t3b_nominal_second hpacket]
 
+include hpacket in
 theorem t3b_halfSecond_eq (side : Bool) :
     (packet.nominal side).halfSecond =
       (idealLogLength call.base (packet.secondIdeal side) +
@@ -309,6 +316,7 @@ theorem t3b_halfSecond_eq (side : Bool) :
 
 /-- The side is selected from the original pair of second common
 ideals. Both complete centered profiles remain attached to that side. -/
+include hpacket phases in
 theorem t3b_exists_small_second_side :
     ∃ side : Bool, packet.t3bScaleLoss side ≤
       (packet.nominal side).skeleton.c + (packet.nominal side).skeleton.w +

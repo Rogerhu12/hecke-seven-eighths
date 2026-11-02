@@ -128,6 +128,7 @@ theorem t3b_firstAtlas_slot_mem (side : Bool)
   rw [he] at hq
   exact (Finset.mem_filter.mp hq).1
 
+include hpacket in
 theorem t3b_firstAtlas_slots_le (side : Bool) :
     (packet.firstAtlas side).slotCount ≤ c.geometry.slots := by
   rw [← packet.realizes_firstCount hpacket side]
@@ -234,6 +235,7 @@ theorem t3b_secondScale_upper (input : ProfileInput call) (side : Bool) :
   rw [packet.t3b_firstScaleProduct_full hpacket side false] at h
   exact h
 
+include hpacket in
 theorem t3b_poolNorm_le_firstFrozenNorm (side : Bool) :
     (Arithmetic.data c).exteriorNorm packet.second.physical.first.poolPower ≤
       (Ideal.absNorm (N4.firstFrozenIdeal packet side) : ℝ) := by

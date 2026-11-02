@@ -51,28 +51,33 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p) (hpacket : packet.Realizes)
 
+include hpacket in
 theorem t3b_nominal_opposite (side : Bool) :
     (packet.nominal side).ideals.opposite.val = packet.second.physical.first.opposite.val := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   exact (hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)).opposite side
 
+include hpacket in
 theorem t3b_nominal_complementary (side : Bool) :
     (packet.nominal side).ideals.complementary.val =
       packet.second.physical.first.complementary.val := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   exact (hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)).complementary side
 
+include hpacket in
 theorem t3b_nominal_retained (side : Bool) :
     (packet.nominal side).retainedScale = packet.second.physical.first.retainedScale := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
   exact (hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)).retainedScale side
 
+include hpacket in
 theorem t3b_nominal_firstFrequency (side : Bool) :
     (packet.nominal side).skeleton.firstFrequency = packet.second.physical.firstFrequency := by
   simp only [NominalChildGeometry.firstFrequency, OriginalNominalGeometry.skeleton,
     PhysicalSource.firstFrequency, packet.t3b_nominal_first hpacket,
     packet.t3b_nominal_opposite hpacket, packet.t3b_nominal_complementary hpacket]
 
+include hpacket in
 theorem t3b_nominal_retainedLength_rpow (side : Bool) :
     call.base ^ (packet.nominal side).skeleton.Krow =
       packet.second.physical.first.retainedScale := by
@@ -81,6 +86,7 @@ theorem t3b_nominal_retainedLength_rpow (side : Bool) :
   exact T3b.rpow_logLength call.base _ call.domain.scale
     packet.second.physical.first.retainedScale_pos
 
+include hpacket in
 theorem t3b_nominal_enlargement (side : Bool) :
     (packet.nominal side).skeleton.g = packet.second.physical.enlargement := by
   have hfreq : (packet.nominal side).ideals.firstFrequency call.workingParameters call.base =
@@ -101,6 +107,7 @@ theorem t3b_enlargement_nonneg : 0 ≤ packet.second.physical.enlargement := by
   exact add_nonneg (le_max_right _ _) hpad
 
 /-- The true original row amplitude is paid at its own nominal radius. -/
+include hpacket in
 theorem t3bRowAmplitude_le_nominal (side : Bool) :
     packet.t3bRowAmplitude ≤ orbitalFieldFactor K *
       call.base ^ ((packet.nominal side).skeleton.Krow + (packet.nominal side).skeleton.g) := by
@@ -124,6 +131,7 @@ theorem t3bRowAmplitude_le_nominal (side : Bool) :
 
 /-- The denominator contains both actual common ideals, with either
 orientation giving exactly the same twice-half-common exponent. -/
+include hpacket in
 theorem t3b_secondNorm_product_eq (side : Bool) :
     (Ideal.absNorm (packet.secondIdeal false) : ℝ) *
         (Ideal.absNorm (packet.secondIdeal true) : ℝ) =
@@ -141,6 +149,7 @@ theorem t3b_secondNorm_product_eq (side : Bool) :
     rpow_idealLogLength call.base call.domain.scale _ (hn (!side))]
   cases side <;> simp only [Bool.not_false, Bool.not_true] <;> ring
 
+include hpacket in
 theorem t3b_firstAllowance_eq_nominal (side : Bool) :
     packet.second.physical.first.t3bAllowance =
       call.base ^ ((packet.nominal side).skeleton.A + (packet.nominal side).skeleton.q +

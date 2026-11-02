@@ -94,6 +94,8 @@ def extract (deleted : Finset (Ideal (𝓞 K)))
     exact Finset.mem_image.mpr
       ⟨(D * I).val, Finset.mem_filter.mpr ⟨hm, hsplit.1⟩, hsplit.2⟩
 
+include d
+
 /-- The final independent allocation's plain divisor belongs to the
 same support and hence avoids every previously deleted prime. -/
 theorem divisor_avoids (D J : Ideal (𝓞 K)) (hJ : J ∈ carrier) (hD : D ∣ J) :

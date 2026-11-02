@@ -43,6 +43,7 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p) (hpacket : packet.Realizes)
 
+include hpacket in
 theorem t3b_secondRadical_rpow (side : Bool) :
     call.base ^ (packet.nominal side).secondRadical =
       (Ideal.absNorm (commonRadical (packet.secondIdeal false) (packet.secondIdeal true)) : ℝ) := by

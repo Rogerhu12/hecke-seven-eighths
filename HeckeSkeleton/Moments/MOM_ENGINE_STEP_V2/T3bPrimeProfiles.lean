@@ -131,6 +131,7 @@ theorem t3bBefore_slot_mem (side : Bool) (i : Fin (packet.ordinarySlots side))
     rw [OrdinaryOriginalCoordinates.residualReindex_slots] at hq
     exact (Finset.mem_filter.mp hq).1
 
+include hpacket in
 theorem t3bUnscaled_slots_le (side : Bool) : packet.ordinarySlots side ≤ c.geometry.slots := by
   rw [← packet.secondAtomCount side]
   have h : (packet.secondBranch side).keep.card ≤ (packet.firstAtlas side).slotCount := by
