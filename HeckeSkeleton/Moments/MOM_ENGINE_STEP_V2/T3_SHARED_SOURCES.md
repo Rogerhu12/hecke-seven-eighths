@@ -55,9 +55,13 @@ The shared process watchdog introduced at that commit remains in the newer
 public driver recorded below.
 
 `RawContracts.lean` and `OrdinaryData.lean` are synchronized verbatim with B-line
-`1f94711c004cb71cf92fd64eb320bc050b031347`: local structure-generation options,
-synchronous elaboration and flushed command checkpoints only, with all
-mathematical fields and task statements preserved.
+`1f5849c7025a1bd57589ab3d3e580503a159a3c3`: local structure-generation options,
+synchronous elaboration and flushed command checkpoints, plus explicit existing
+context parameters in `RawCovers.leaf`, the original arithmetic data in
+`OrdinaryData.branch`, and the complete original telescope in `OrdinaryBinding`.
+`SourceIndexContracts.lean` also follows that exact B snapshot: the two existing
+Möbius factors are fully namespace-qualified. Mathematical fields, carrier
+types, coefficients and task statements are preserved.
 
 ## N8 original frozen-profile and common-scalar bounds
 
@@ -67,7 +71,7 @@ The upstream snapshot is `8cda5bb1ad0785d9ee862e0ef868f802f252d8e8`, with the
 additional CI compatibility correction recorded below:
 
 - `N8FrozenProfileBounds.lean` (100 lines)
-- `N8CommonScalarBounds.lean` (250 lines)
+- `N8CommonScalarBounds.lean` (251 lines)
 
 The update changes only the nonnegative finite-product API to `prod_le_prod₀`
 and supplies the existing arithmetic data/embedding parameters explicitly in
@@ -79,6 +83,13 @@ Both intended input-dot helper methods now use `include input in`, preserving
 the original inequalities and proof bodies while retaining the `ProfileInput`
 argument needed by their existing callers and the latter proof's raw fields.
 This exact two-line compatibility patch is coordinated with N8 in PR #31.
+
+Run `41458052013`, job `125319706480`, then exposed an unmatched simplifier
+rewrite in `original_slot_window`. The nonzero representative proof now applies
+`input.raw.prime_eq i 0 _` in its original direction and composes it with the
+assumed zero equality before invoking the original-profile nonzero hypothesis.
+The profile, evaluation point and window statement are unchanged; the exact
+patch is recorded in PR #31 comment `6579471045`.
 
 These two modules preserve the upstream public names and original prime
 profiles, complete common frozen ideals and pointwise scalar estimates.
@@ -92,11 +103,11 @@ ordinary normalized-mass certificate is imported.
 ## CI synchronization and shared dependency diagnostics
 
 The public V2 driver `.github/v2/build.py` follows B commit
-`95eedd865d20389b7efa0e37405cf996d2d0a6db`, including its stricter 300-second
-per-module watchdog. The one performance correction accepted in PR #31 comment
-`6578888764` caches `env.header.moduleNames` once before declaration filtering;
-the selected declaration set and axiom whitelist are unchanged. Public manifest
-task scopes follow B1f, with `t3_shared_n8` included in this branch's explicit
+`1f5849c7025a1bd57589ab3d3e580503a159a3c3` verbatim, including its strict
+300-second per-module watchdog and the typed `moduleNames` cache accepted in
+PR #31 comment `6578888764`. The selected declaration set and axiom whitelist
+are unchanged. Public manifest task scopes follow the same B commit, with
+`t3_shared_n8` included in this branch's explicit
 94-module T3 scope. The separate T3 proof job also requires both task endpoints.
 
 The diagnostic script follows N7 commit

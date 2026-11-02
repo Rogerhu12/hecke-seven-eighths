@@ -91,8 +91,11 @@ theorem extracted_plain_coefficient
   rw [actualIdealResidue_frequency_mul, hphase, coprime_completePhaseMask_iff]
   have hcoefficient (ψ : HeckeCharacter K) :
       CanonicalExceptionalVolume.coefficient ψ J.val = heckeIdealCoefficient K ψ J := rfl
-  rw [hcoefficient]
-  by_cases hgood : phaseMask row.momentIdeal D.support.val
+  have hmask : originalCoprimeMask oldMask J.val =
+      (if IsCoprime J.val oldMask.val then (1 : ℂ) else 0) := rfl
+  rw [hcoefficient, hmask]
+  by_cases hgood : phaseMask row.momentIdeal
+      (secondOriginalMovingFactors P R C primes m n pattern).support.val
       (secondSixthRootIdeal primes m n) J ∧ IsCoprime J.val oldMask.val
   · have hmove : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ J.val →
         UnramifiedAt K D.character p := by
@@ -108,15 +111,15 @@ theorem extracted_plain_coefficient
       ((background * preχ) * D.character) * χu by ac_rfl,
       coefficient_mul_right_unramified _ _ J hrow,
       coefficient_mul_right_unramified _ _ J hmove]
-    simp only [originalCoprimeMask, hgood, hgood.1, hgood.2, and_self, if_true,
-      mul_one, one_mul]
+    dsimp only [D, χu]
+    simp only [hgood, hgood.1, hgood.2, and_self, ite_true, mul_one, one_mul]
     ring
-  · by_cases hm : phaseMask row.momentIdeal D.support.val
+  · by_cases hm : phaseMask row.momentIdeal
+        (secondOriginalMovingFactors P R C primes m n pattern).support.val
         (secondSixthRootIdeal primes m n) J
     · have ho : ¬IsCoprime J.val oldMask.val := fun ho => hgood ⟨hm, ho⟩
-      simp only [originalCoprimeMask, if_neg hgood, if_neg ho, if_pos hm,
-        mul_zero, zero_mul]
-    · simp only [originalCoprimeMask, if_neg hgood, if_neg hm, mul_zero, zero_mul]
+      simp only [ite_eq_right hgood, ite_eq_right ho, ite_eq_left hm, mul_zero, zero_mul]
+    · simp only [ite_eq_right hgood, ite_eq_right hm, mul_zero, zero_mul]
 
 /-- The actual negative frequency has exactly the same coefficient;
 the original twelfth root has already proved its sign invariance. -/

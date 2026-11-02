@@ -386,9 +386,9 @@ import Lean.Util.CollectAxioms
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
+  let moduleNames : Array Name := env.header.moduleNames
   let nsPrefix : Name := @@HeckeSkeleton.Moments.EngineStepV2
   let modulePrefix : Name := @@HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
-  let moduleNames := env.header.moduleNames
   let moduleOf (name : Name) : Option Name := do
     let idx ← env.getModuleIdxFor? name
     moduleNames[idx.toNat]?
