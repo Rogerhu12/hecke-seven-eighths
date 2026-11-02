@@ -26,7 +26,7 @@ namespace HeckeSkeleton.Moments.EngineStepV2.Assembly
 open NumberField MeasureTheory
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global
-open EngineStep Blueprint
+open EngineStep EngineInduction.Source Blueprint
 
 attribute [local instance]
   sourcePrincipal sourceNormOneSpace sourceNormOneBorel
