@@ -78,7 +78,7 @@ theorem extract_gaussScale :
       (∏ j ∈ Finset.univ \ b.keep, d.gaussSlot j) *
         ∏ j, d.gaussSlot (SlotRestriction.index b.keep j) := by
     simpa only [Finset.sdiff_eq_filter, Finset.mem_univ, true_and] using
-      (SlotRestriction.product_extend b.keep (fun _ => PUnit.unit)
+      (SlotRestriction.product_extend (P := PUnit.{1}) b.keep (fun _ => PUnit.unit)
         (fun _ => PUnit.unit) (fun j _ => d.gaussSlot j))
   change (d.gauss₁ * ∏ j ∈ Finset.univ \ b.keep, d.gaussSlot j) * d.gauss₂ *
       (∏ j, d.gaussSlot (SlotRestriction.index b.keep j)) =
