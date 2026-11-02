@@ -56,7 +56,7 @@ def ordinaryOccurrences (hpacket : packet.Realizes) (O : OrdinaryData packet) :
 
 /-- One original paired row, used only to identify the original
 row-independent plain profiles. -/
-def originalReference (hpacket : packet.Realizes) : NonzeroIdeal K :=
+def originalReference (hpacket : packet.Realizes) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   (packet.realizes_originalRows hpacket).choose
 
 theorem originalReference_mem (hpacket : packet.Realizes) :

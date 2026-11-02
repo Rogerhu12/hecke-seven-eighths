@@ -40,8 +40,8 @@ structure OrdinaryAtomTable (k : ℕ) where
   base_gt_one : 1 < base
   length : Fin k → ℝ
   length_pos : ∀ j, 0 < length j
-  leftWeight : Bool → NonzeroIdeal K → ℂ
-  rightWeight : Bool → NonzeroIdeal K → ℂ
+  leftWeight : Bool → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ
+  rightWeight : Bool → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ
   slotWeight : Fin k → HeightOneSpectrum (𝓞 K) → ℂ
   gauss₁ : ℝ
   gauss₂ : ℝ
@@ -54,7 +54,7 @@ namespace OrdinaryAtomTable
 
 variable {k : ℕ} (d : OrdinaryAtomTable (K := K) k)
 
-def comparisonWeight (r : Bool) : NonzeroIdeal K → ℂ :=
+def comparisonWeight (r : Bool) : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ :=
   if r && !d.centered then fun _ => 0 else d.leftWeight r
 
 def dictionary (phase : PUnit.{1} →* Circle)
@@ -103,7 +103,7 @@ of both rectangles. -/
 def scale (z : ℂ) : OrdinaryAtomTable (K := K) k :=
   { d with leftWeight := fun r I => z * d.leftWeight r I }
 
-theorem scale_comparisonWeight (z : ℂ) (r : Bool) (I : NonzeroIdeal K) :
+theorem scale_comparisonWeight (z : ℂ) (r : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.scale z).comparisonWeight r I = z * d.comparisonWeight r I := by
   unfold comparisonWeight scale
   split_ifs <;> simp only [mul_zero]

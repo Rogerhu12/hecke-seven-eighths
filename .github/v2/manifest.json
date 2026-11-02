@@ -12,6 +12,7 @@
         "BudgetAssembly",
         "CalibrationData",
         "CallData",
+        "CanonicalRefinement",
         "ChildArithmeticContracts",
         "ChildInvariantData",
         "ChildProfileAssembly",
@@ -25,14 +26,17 @@
         "FirstSourceContracts",
         "FirstZeroContracts",
         "GeometryContracts",
+        "GlobalAssembly",
         "InputDemands",
         "KernelMassAssembly",
         "LocalAssembly",
         "NormalizationAssembly",
+        "NormalizationCertificate",
         "NormalizedData",
         "NormalizedOutputAssembly",
         "OrdinaryContracts",
         "OrdinaryData",
+        "OrdinarySeedAtomBinding",
         "OriginalInput",
         "OriginalOccurrenceData",
         "OriginalPhaseData",
@@ -48,6 +52,7 @@
         "RawLeafData",
         "RawRectangleData",
         "RefinementAssembly",
+        "RefinementContracts",
         "RefinementData",
         "SecondContracts",
         "SecondData",
@@ -60,13 +65,16 @@
         "SourceIndexContracts",
         "SourceScalarData",
         "TailContracts",
+        "TasksUniform",
         "TerminalAssembly",
         "TerminalContracts",
         "TerminalData",
         "UniformAssembly",
         "UniformContracts",
         "UniformData",
+        "UniformMellinPreparation",
         "UniformOrderPreparation",
+        "UniformRealizationProof",
         "UniformScalarPreparation"
       ]
     },
@@ -86,11 +94,11 @@
         "TasksFirstZero",
         "TasksNominalGeometry",
         "TasksOriginalAtoms",
+        "TasksPassiveRefinement",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
-        "TasksTails",
-        "TasksUniform"
+        "TasksTails"
       ]
     },
     {
@@ -117,7 +125,15 @@
         "OrdinaryRectangleFactors",
         "OrdinarySourceTransport",
         "OrdinaryAtomModel",
-        "OrdinaryOccurrenceFacts"
+        "OrdinaryOccurrenceFacts",
+        "OrdinaryPhaseFacts",
+        "OrdinaryPointTransport",
+        "OrdinaryLeafLocations",
+        "OrdinaryDivisorGate",
+        "OrdinaryCharacterFacts",
+        "OrdinaryAtomExtraction",
+        "OrdinaryNormPower",
+        "OrdinaryScaleFacts"
       ]
     },
     {

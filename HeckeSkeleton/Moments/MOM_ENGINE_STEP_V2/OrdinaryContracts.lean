@@ -1,6 +1,6 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalOccurrenceData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinarySeedAtomBinding
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -37,6 +37,7 @@ structure OrdinarySeed (packet : RawLeafPacket call p) where
   ordinary : OrdinaryData packet
   phases : OriginalPhaseData packet
   occurrences : OriginalOccurrenceData ordinary
+  atoms : OriginalAtomBinding ordinary phases occurrences
   reference : NonzeroIdeal K
   reference_mem : reference ∈ pairedRows call.node.data call.node.parameters call.base
   plain_scales : ∀ side rectangle plain,

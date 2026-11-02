@@ -122,9 +122,64 @@ def ordinaryDataOfRectangles
   right_rectangle := hright
   binding := packet.ordinaryBinding rectangles
 
+/-- A row translation is common to every column, so the residual
+logarithmic locations give the same original polynomial norm. -/
+def ordinaryBindingTranslated
+    (x : Arithmetic.Orbit c → AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+    (y : Arithmetic.Orbit c → AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+    (rectangles : HybridOrdinaryRectangles packet.R PUnit
+      packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
+      packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
+      packet.leftIdeal packet.rightIdeal (fun _ => PUnit.unit) (fun _ => PUnit.unit)
+      packet.leftWhole packet.rightWhole x y packet.ordinaryAllocation packet.leaf.exceptional)
+    (hx : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.leftColumns,
+      packet.ordinaryLeftPoint h i = z + x h i)
+    (hy : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.rightColumns,
+      packet.ordinaryRightPoint h i = z + y h i) :
+    packet.leaf.OrdinaryBinding rectangles where
+  rows := fun _ hh => hh
+  rows_zero _ hh hn := False.elim (hn hh)
+  left := rfl
+  right := rfl
+  exceptional _ _ := Iff.rfl
+  rowWeight _ _ := rfl
+  leftCoefficient _ _ _ _ := rfl
+  rightCoefficient _ _ _ _ := rfl
+  leftPoint := hx
+  rightPoint := hy
+
+def ordinaryDataOfTranslatedRectangles
+    (x : Arithmetic.Orbit c → AllocationColumn K packet.leaf.leftSlots → EngineParameter)
+    (y : Arithmetic.Orbit c → AllocationColumn K packet.leaf.rightSlots → EngineParameter)
+    (rectangles : HybridOrdinaryRectangles packet.R PUnit
+      packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
+      packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
+      packet.leftIdeal packet.rightIdeal (fun _ => PUnit.unit) (fun _ => PUnit.unit)
+      packet.leftWhole packet.rightWhole x y packet.ordinaryAllocation packet.leaf.exceptional)
+    (hleft : ∀ r i, i ∈ childCartesianColumns packet.leftReindex.plain₁
+      packet.leftReindex.plain₂ packet.leftReindex.slots →
+        rectangles.leftTerms r i = packet.originalLeftRectangle r i)
+    (hright : ∀ r i, i ∈ childCartesianColumns packet.rightReindex.plain₁
+      packet.rightReindex.plain₂ packet.rightReindex.slots →
+        rectangles.rightTerms r i = packet.originalRightRectangle r i)
+    (hx : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.leftColumns,
+      packet.ordinaryLeftPoint h i = z + x h i)
+    (hy : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.rightColumns,
+      packet.ordinaryRightPoint h i = z + y h i) :
+    OrdinaryData packet where
+  leftPoint := x
+  rightPoint := y
+  branch := packet.ordinaryAllocation
+  branch_eq := rfl
+  rectangles := rectangles
+  left_rectangle := hleft
+  right_rectangle := hright
+  binding := packet.ordinaryBindingTranslated x y rectangles hx hy
+
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.RawLeafPacket.ordinaryAllocation
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.RawLeafPacket.ordinaryBinding
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.RawLeafPacket.ordinaryDataOfRectangles
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Blueprint.RawLeafPacket.ordinaryDataOfTranslatedRectangles

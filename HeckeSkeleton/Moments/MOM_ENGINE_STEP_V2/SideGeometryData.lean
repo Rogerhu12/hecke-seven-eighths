@@ -48,7 +48,7 @@ variable (s : ActualAllocatedSource (Arithmetic.data c) EngineParameter Row k)
 variable (D : OriginalCalibration call s)
 
 structure SideGeometryData where
-  nominal : OriginalNominalGeometry call.workingParameters s.base
+  nominal : OriginalNominalGeometry (K := K) call.workingParameters s.base
     (recipeInductionSigma c)
   pattern : ι → Bool
   selected_pos : ∀ i, 0 < selectedMultiplicity R side i
