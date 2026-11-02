@@ -89,17 +89,17 @@ abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
     Σ χ : (PUnit × PUnit) →* Circle, s.CoveredClassKey LA RA S χ
 
-private abbrev coveredClassKeyFintype
+abbrev coveredClassKeyFintype
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) : Fintype (s.CoveredClassKey LA RA S χ) :=
   firstBlock_sum_fintype
 
-attribute [local instance] coveredClassKeyFintype
+attribute [instance] coveredClassKeyFintype
 
-private abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
+abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
   firstBlock_sigma_sigma_fintype
 
-attribute [local instance] coveredLeafKeyFintype
+attribute [instance] coveredLeafKeyFintype
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →

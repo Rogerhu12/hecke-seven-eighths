@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCapacity
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralArithmeticInput
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Actual capacity inputs of the independent passive family

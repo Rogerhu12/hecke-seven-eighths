@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExistingJointNormalization
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralAllocatedRecipe
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The complete joint budget of the same literal normalized children

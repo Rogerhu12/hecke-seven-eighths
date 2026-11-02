@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralInactiveRectangle
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralKernelConstants
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Radii of the same constructed normalized covered family

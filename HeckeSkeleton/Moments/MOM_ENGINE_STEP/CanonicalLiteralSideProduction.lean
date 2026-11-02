@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFrameCalibration
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaRightNormalization
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The computed literal frame produces its actual normalized side

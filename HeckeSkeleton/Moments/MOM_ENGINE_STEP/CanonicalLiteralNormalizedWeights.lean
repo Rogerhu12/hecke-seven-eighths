@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCoveredGaussScale
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionSeparateMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Original windows bound the same literal normalized pairs

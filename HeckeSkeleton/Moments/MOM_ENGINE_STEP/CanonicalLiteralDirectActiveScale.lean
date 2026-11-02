@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralDirectScalars
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralScaleProduct
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Actual direct scale windows on present rectangles

@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralExceptionalBinding
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The same actual theta-class magnitude enters the paid source theorem

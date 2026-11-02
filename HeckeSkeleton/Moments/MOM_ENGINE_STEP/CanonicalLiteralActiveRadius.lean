@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralQuotientScales
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalActiveProfileKernelMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The fixed bound on an already computed active literal radius

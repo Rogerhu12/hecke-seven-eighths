@@ -5,6 +5,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralActualCharacters
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalPairAllowance
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The actual covered literal leaf produces its normalization data

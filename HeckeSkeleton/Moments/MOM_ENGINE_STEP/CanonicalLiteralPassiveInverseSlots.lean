@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassiveInheritance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DependentNormalizedFamily
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Inverse slot characters of the actual passive family

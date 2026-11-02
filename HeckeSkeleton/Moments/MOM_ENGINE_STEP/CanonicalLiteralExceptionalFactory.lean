@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalThetaRows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCentralCoefficientBound
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Actual exceptional families on an original theta class

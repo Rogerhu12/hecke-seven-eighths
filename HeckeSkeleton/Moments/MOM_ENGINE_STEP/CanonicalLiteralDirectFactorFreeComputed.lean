@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFactorFreeProfiles
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralNormFactorTransport
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Computed profiles for the redistributed actual direct tables

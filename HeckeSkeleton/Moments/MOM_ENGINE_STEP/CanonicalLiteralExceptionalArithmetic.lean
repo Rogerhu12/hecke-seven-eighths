@@ -6,6 +6,7 @@ import HeckeGeneral.Characters.FiniteRamification
 import HeckeAxiom.ArithmeticChoice
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Arithmetic and original fibres of the literal exceptional class

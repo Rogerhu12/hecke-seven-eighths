@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectTerm
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralStageFibres
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # Closed bounds on the actual direct terminal family

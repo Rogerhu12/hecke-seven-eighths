@@ -3,6 +3,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitiveDirectGlob
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPrimitivePooledGlobalMass
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The fixed contour and mass constants of the primitive engine

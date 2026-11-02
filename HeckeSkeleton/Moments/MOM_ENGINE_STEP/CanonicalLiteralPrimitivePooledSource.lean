@@ -4,6 +4,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectLeafNormWindows
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalFirstPhysicalWindows
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The same original first source with one actual prime pool
