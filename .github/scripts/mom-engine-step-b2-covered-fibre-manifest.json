@@ -1,0 +1,837 @@
+{
+  "schema": 1,
+  "source_base": "fc81504445e862ba6a310b308f0673bdaf2195cb",
+  "source_base_tree": "56fe2c341598fa7e6465de2f19f1649557094496",
+  "source": "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredFibre.lean",
+  "source_bytes": 16946,
+  "source_lines": 335,
+  "source_sha256": "fe36c35582c51bd17659ed92951de1c252a82fa187bdc64e97c94692fe512cb1",
+  "source_git_blob": "dc9d0d3e3644c19c4a329eb48e065e969d3b8fb7",
+  "source_owner": "B2 inherited B specified proof scope; definitions and headers unchanged",
+  "ownership_comments": [
+    6561561489,
+    6561547507,
+    6566705572,
+    6567600183
+  ],
+  "prefix": "B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC",
+  "marked_bytes": 23060,
+  "marked_sha256": "876ad7c6ccef7b4d64f855803640cb22fcc67d264cd410c986438bdec037246d",
+  "marker_count": 62,
+  "command_marker_count": 44,
+  "tactic_marker_count": 18,
+  "declaration_count": 17,
+  "declarations": [
+    {
+      "kind": "instance",
+      "name": "actualCoveredFibreCircleCharacterFintype",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.actualCoveredFibreCircleCharacterFintype",
+      "header_line": 50,
+      "doc_header_start_line": 50,
+      "insert_after_line": 51,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "def",
+      "name": "actualRowLabels",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.actualRowLabels",
+      "header_line": 60,
+      "doc_header_start_line": 59,
+      "insert_after_line": 65,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "abbrev",
+      "name": "rightSupportSlots",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.CoveredClassKey.rightSupportSlots",
+      "header_line": 71,
+      "doc_header_start_line": 71,
+      "insert_after_line": 74,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "theorem",
+      "name": "leftSlots_le",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.CoveredClassKey.leftSlots_le",
+      "header_line": 75,
+      "doc_header_start_line": 75,
+      "insert_after_line": 81,
+      "proof_body_first_line": 77
+    },
+    {
+      "kind": "theorem",
+      "name": "rightSupportSlots_le",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.CoveredClassKey.rightSupportSlots_le",
+      "header_line": 82,
+      "doc_header_start_line": 82,
+      "insert_after_line": 88,
+      "proof_body_first_line": 84
+    },
+    {
+      "kind": "theorem",
+      "name": "rowLabel_mem_of_live",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.CoveredClassKey.rowLabel_mem_of_live",
+      "header_line": 89,
+      "doc_header_start_line": 89,
+      "insert_after_line": 99,
+      "proof_body_first_line": 94
+    },
+    {
+      "kind": "abbrev",
+      "name": "PresentSupportClassKey",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.PresentSupportClassKey",
+      "header_line": 107,
+      "doc_header_start_line": 106,
+      "insert_after_line": 110,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "def",
+      "name": "presentSupportClass",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.presentSupportClass",
+      "header_line": 111,
+      "doc_header_start_line": 111,
+      "insert_after_line": 114,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "def",
+      "name": "presentClassFibre",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.presentClassFibre",
+      "header_line": 115,
+      "doc_header_start_line": 115,
+      "insert_after_line": 118,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "theorem",
+      "name": "presentClassFibre_card_le",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.presentClassFibre_card_le",
+      "header_line": 122,
+      "doc_header_start_line": 119,
+      "insert_after_line": 143,
+      "proof_body_first_line": 130
+    },
+    {
+      "kind": "theorem",
+      "name": "actualRowLabels_card_le",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.actualRowLabels_card_le",
+      "header_line": 146,
+      "doc_header_start_line": 144,
+      "insert_after_line": 158,
+      "proof_body_first_line": 155
+    },
+    {
+      "kind": "def",
+      "name": "presentCommonFibre",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.presentCommonFibre",
+      "header_line": 161,
+      "doc_header_start_line": 159,
+      "insert_after_line": 164,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "theorem",
+      "name": "presentCommonFibre_card_le_coordinates",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.presentCommonFibre_card_le_coordinates",
+      "header_line": 165,
+      "doc_header_start_line": 165,
+      "insert_after_line": 218,
+      "proof_body_first_line": 181
+    },
+    {
+      "kind": "def",
+      "name": "coveredAllocationFingerprint",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.coveredAllocationFingerprint",
+      "header_line": 224,
+      "doc_header_start_line": 224,
+      "insert_after_line": 227,
+      "proof_body_first_line": null
+    },
+    {
+      "kind": "theorem",
+      "name": "covered_class_allocationFingerprint_injective",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_class_allocationFingerprint_injective",
+      "header_line": 228,
+      "doc_header_start_line": 228,
+      "insert_after_line": 238,
+      "proof_body_first_line": 231
+    },
+    {
+      "kind": "theorem",
+      "name": "covered_index_fibre_card_le",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_index_fibre_card_le",
+      "header_line": 242,
+      "doc_header_start_line": 239,
+      "insert_after_line": 278,
+      "proof_body_first_line": 259
+    },
+    {
+      "kind": "theorem",
+      "name": "covered_index_fibre_card_le_coordinates",
+      "qualified_name": "HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_index_fibre_card_le_coordinates",
+      "header_line": 284,
+      "doc_header_start_line": 279,
+      "insert_after_line": 328,
+      "proof_body_first_line": 308
+    }
+  ],
+  "explicit_private_source_declarations": [],
+  "private_generated_note": "The complete source is retained. Generated declarations cannot be enumerated as compiled facts before a successful complete elaboration; the unchanged normal verifier still audits every loaded EngineStep/private/generated declaration.",
+  "imports": [
+    "import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalAllocationFingerprint\n",
+    "import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCoverCardinality\n",
+    "import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport\n"
+  ],
+  "original_prints": [
+    "#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.CoveredClassKey.rowLabel_mem_of_live\n",
+    "#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.presentClassFibre_card_le\n",
+    "#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_index_fibre_card_le\n",
+    "#print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_index_fibre_card_le_coordinates\n"
+  ],
+  "markers": [
+    {
+      "original_insert_before_line": 4,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "AFTER_ORIGINAL_IMPORTS",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC AFTER_ORIGINAL_IMPORTS\"\n",
+      "instrumented_line": 4
+    },
+    {
+      "original_insert_before_line": 50,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_actualCoveredFibreCircleCharacterFintype",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_actualCoveredFibreCircleCharacterFintype\"\n",
+      "instrumented_line": 51
+    },
+    {
+      "original_insert_before_line": 51,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_actualCoveredFibreCircleCharacterFintype",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_actualCoveredFibreCircleCharacterFintype\"\n",
+      "instrumented_line": 53
+    },
+    {
+      "original_insert_before_line": 59,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_actualRowLabels",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_actualRowLabels\"\n",
+      "instrumented_line": 62
+    },
+    {
+      "original_insert_before_line": 65,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_actualRowLabels",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_actualRowLabels\"\n",
+      "instrumented_line": 69
+    },
+    {
+      "original_insert_before_line": 71,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_rightSupportSlots",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_rightSupportSlots\"\n",
+      "instrumented_line": 76
+    },
+    {
+      "original_insert_before_line": 74,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_rightSupportSlots",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_rightSupportSlots\"\n",
+      "instrumented_line": 80
+    },
+    {
+      "original_insert_before_line": 75,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_leftSlots_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_leftSlots_le\"\n",
+      "instrumented_line": 82
+    },
+    {
+      "original_insert_before_line": 77,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_leftSlots_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_leftSlots_le\"\n",
+      "instrumented_line": 85
+    },
+    {
+      "original_insert_before_line": 81,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_leftSlots_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_leftSlots_le\"\n",
+      "instrumented_line": 90
+    },
+    {
+      "original_insert_before_line": 81,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_leftSlots_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_leftSlots_le\"\n",
+      "instrumented_line": 91
+    },
+    {
+      "original_insert_before_line": 82,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_rightSupportSlots_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_rightSupportSlots_le\"\n",
+      "instrumented_line": 93
+    },
+    {
+      "original_insert_before_line": 84,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_rightSupportSlots_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_rightSupportSlots_le\"\n",
+      "instrumented_line": 96
+    },
+    {
+      "original_insert_before_line": 88,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_rightSupportSlots_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_rightSupportSlots_le\"\n",
+      "instrumented_line": 101
+    },
+    {
+      "original_insert_before_line": 88,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_rightSupportSlots_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_rightSupportSlots_le\"\n",
+      "instrumented_line": 102
+    },
+    {
+      "original_insert_before_line": 89,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_rowLabel_mem_of_live",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_rowLabel_mem_of_live\"\n",
+      "instrumented_line": 104
+    },
+    {
+      "original_insert_before_line": 94,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_rowLabel_mem_of_live",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_rowLabel_mem_of_live\"\n",
+      "instrumented_line": 110
+    },
+    {
+      "original_insert_before_line": 99,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_rowLabel_mem_of_live",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_rowLabel_mem_of_live\"\n",
+      "instrumented_line": 116
+    },
+    {
+      "original_insert_before_line": 99,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_rowLabel_mem_of_live",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_rowLabel_mem_of_live\"\n",
+      "instrumented_line": 117
+    },
+    {
+      "original_insert_before_line": 106,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_PresentSupportClassKey",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_PresentSupportClassKey\"\n",
+      "instrumented_line": 125
+    },
+    {
+      "original_insert_before_line": 110,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_PresentSupportClassKey",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_PresentSupportClassKey\"\n",
+      "instrumented_line": 130
+    },
+    {
+      "original_insert_before_line": 111,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_presentSupportClass",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_presentSupportClass\"\n",
+      "instrumented_line": 132
+    },
+    {
+      "original_insert_before_line": 114,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_presentSupportClass",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_presentSupportClass\"\n",
+      "instrumented_line": 136
+    },
+    {
+      "original_insert_before_line": 115,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_presentClassFibre",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_presentClassFibre\"\n",
+      "instrumented_line": 138
+    },
+    {
+      "original_insert_before_line": 118,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_presentClassFibre",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_presentClassFibre\"\n",
+      "instrumented_line": 142
+    },
+    {
+      "original_insert_before_line": 119,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_presentClassFibre_card_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_presentClassFibre_card_le\"\n",
+      "instrumented_line": 144
+    },
+    {
+      "original_insert_before_line": 130,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_presentClassFibre_card_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_presentClassFibre_card_le\"\n",
+      "instrumented_line": 156
+    },
+    {
+      "original_insert_before_line": 143,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_presentClassFibre_card_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_presentClassFibre_card_le\"\n",
+      "instrumented_line": 170
+    },
+    {
+      "original_insert_before_line": 143,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_presentClassFibre_card_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_presentClassFibre_card_le\"\n",
+      "instrumented_line": 171
+    },
+    {
+      "original_insert_before_line": 144,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_actualRowLabels_card_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_actualRowLabels_card_le\"\n",
+      "instrumented_line": 173
+    },
+    {
+      "original_insert_before_line": 155,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_actualRowLabels_card_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_actualRowLabels_card_le\"\n",
+      "instrumented_line": 185
+    },
+    {
+      "original_insert_before_line": 158,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_actualRowLabels_card_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_actualRowLabels_card_le\"\n",
+      "instrumented_line": 189
+    },
+    {
+      "original_insert_before_line": 158,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_actualRowLabels_card_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_actualRowLabels_card_le\"\n",
+      "instrumented_line": 190
+    },
+    {
+      "original_insert_before_line": 159,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_presentCommonFibre",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_presentCommonFibre\"\n",
+      "instrumented_line": 192
+    },
+    {
+      "original_insert_before_line": 164,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_presentCommonFibre",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_presentCommonFibre\"\n",
+      "instrumented_line": 198
+    },
+    {
+      "original_insert_before_line": 165,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_presentCommonFibre_card_le_coordinates",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_presentCommonFibre_card_le_coordinates\"\n",
+      "instrumented_line": 200
+    },
+    {
+      "original_insert_before_line": 181,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_presentCommonFibre_card_le_coordinates",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_presentCommonFibre_card_le_coordinates\"\n",
+      "instrumented_line": 217
+    },
+    {
+      "original_insert_before_line": 218,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_presentCommonFibre_card_le_coordinates",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_presentCommonFibre_card_le_coordinates\"\n",
+      "instrumented_line": 255
+    },
+    {
+      "original_insert_before_line": 218,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_presentCommonFibre_card_le_coordinates",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_presentCommonFibre_card_le_coordinates\"\n",
+      "instrumented_line": 256
+    },
+    {
+      "original_insert_before_line": 224,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_coveredAllocationFingerprint",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_coveredAllocationFingerprint\"\n",
+      "instrumented_line": 263
+    },
+    {
+      "original_insert_before_line": 227,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_coveredAllocationFingerprint",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_coveredAllocationFingerprint\"\n",
+      "instrumented_line": 267
+    },
+    {
+      "original_insert_before_line": 228,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_covered_class_allocationFingerprint_injective",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_covered_class_allocationFingerprint_injective\"\n",
+      "instrumented_line": 269
+    },
+    {
+      "original_insert_before_line": 231,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_covered_class_allocationFingerprint_injective",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_covered_class_allocationFingerprint_injective\"\n",
+      "instrumented_line": 273
+    },
+    {
+      "original_insert_before_line": 238,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_covered_class_allocationFingerprint_injective",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_covered_class_allocationFingerprint_injective\"\n",
+      "instrumented_line": 281
+    },
+    {
+      "original_insert_before_line": 238,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_covered_class_allocationFingerprint_injective",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_covered_class_allocationFingerprint_injective\"\n",
+      "instrumented_line": 282
+    },
+    {
+      "original_insert_before_line": 239,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_covered_index_fibre_card_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_covered_index_fibre_card_le\"\n",
+      "instrumented_line": 284
+    },
+    {
+      "original_insert_before_line": 259,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_covered_index_fibre_card_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_covered_index_fibre_card_le\"\n",
+      "instrumented_line": 305
+    },
+    {
+      "original_insert_before_line": 278,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_covered_index_fibre_card_le",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_covered_index_fibre_card_le\"\n",
+      "instrumented_line": 325
+    },
+    {
+      "original_insert_before_line": 278,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_covered_index_fibre_card_le",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_covered_index_fibre_card_le\"\n",
+      "instrumented_line": 326
+    },
+    {
+      "original_insert_before_line": 279,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_HEADER_covered_index_fibre_card_le_coordinates",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_HEADER_covered_index_fibre_card_le_coordinates\"\n",
+      "instrumented_line": 328
+    },
+    {
+      "original_insert_before_line": 308,
+      "priority": 30,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_BEGIN_covered_index_fibre_card_le_coordinates",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_BEGIN_covered_index_fibre_card_le_coordinates\"\n",
+      "instrumented_line": 358
+    },
+    {
+      "original_insert_before_line": 328,
+      "priority": 10,
+      "kind": "tactic",
+      "indent": 2,
+      "label": "PROOF_RETURNED_covered_index_fibre_card_le_coordinates",
+      "inserted_line": "  run_tac IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC PROOF_RETURNED_covered_index_fibre_card_le_coordinates\"\n",
+      "instrumented_line": 379
+    },
+    {
+      "original_insert_before_line": 328,
+      "priority": 80,
+      "kind": "command",
+      "indent": 0,
+      "label": "COMMAND_CONTINUED_AFTER_covered_index_fibre_card_le_coordinates",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC COMMAND_CONTINUED_AFTER_covered_index_fibre_card_le_coordinates\"\n",
+      "instrumented_line": 380
+    },
+    {
+      "original_insert_before_line": 332,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_ORIGINAL_PRINT_332",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_ORIGINAL_PRINT_332\"\n",
+      "instrumented_line": 385
+    },
+    {
+      "original_insert_before_line": 333,
+      "priority": 20,
+      "kind": "command",
+      "indent": 0,
+      "label": "AFTER_ORIGINAL_PRINT_332",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC AFTER_ORIGINAL_PRINT_332\"\n",
+      "instrumented_line": 387
+    },
+    {
+      "original_insert_before_line": 333,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_ORIGINAL_PRINT_333",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_ORIGINAL_PRINT_333\"\n",
+      "instrumented_line": 388
+    },
+    {
+      "original_insert_before_line": 334,
+      "priority": 20,
+      "kind": "command",
+      "indent": 0,
+      "label": "AFTER_ORIGINAL_PRINT_333",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC AFTER_ORIGINAL_PRINT_333\"\n",
+      "instrumented_line": 390
+    },
+    {
+      "original_insert_before_line": 334,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_ORIGINAL_PRINT_334",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_ORIGINAL_PRINT_334\"\n",
+      "instrumented_line": 391
+    },
+    {
+      "original_insert_before_line": 335,
+      "priority": 20,
+      "kind": "command",
+      "indent": 0,
+      "label": "AFTER_ORIGINAL_PRINT_334",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC AFTER_ORIGINAL_PRINT_334\"\n",
+      "instrumented_line": 393
+    },
+    {
+      "original_insert_before_line": 335,
+      "priority": 90,
+      "kind": "command",
+      "indent": 0,
+      "label": "BEFORE_ORIGINAL_PRINT_335",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC BEFORE_ORIGINAL_PRINT_335\"\n",
+      "instrumented_line": 394
+    },
+    {
+      "original_insert_before_line": 336,
+      "priority": 20,
+      "kind": "command",
+      "indent": 0,
+      "label": "AFTER_ORIGINAL_PRINT_335",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC AFTER_ORIGINAL_PRINT_335\"\n",
+      "instrumented_line": 396
+    },
+    {
+      "original_insert_before_line": 336,
+      "priority": 99,
+      "kind": "command",
+      "indent": 0,
+      "label": "AFTER_ALL_ORIGINAL_COMMANDS",
+      "inserted_line": "run_cmd IO.eprintln \"B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC AFTER_ALL_ORIGINAL_COMMANDS\"\n",
+      "instrumented_line": 397
+    }
+  ],
+  "paths": {
+    "driver": ".github/scripts/mom-engine-step-b2-covered-fibre-driver.py",
+    "harness": ".github/scripts/mom-engine-step-b2-covered-fibre-harness.py",
+    "manifest": ".github/scripts/mom-engine-step-b2-covered-fibre-manifest.json",
+    "workflow": ".github/workflows/mom-engine-step-b2-covered-fibre-diagnostic.yml"
+  },
+  "production_pins": {
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualCoveredFibre.lean": "fe36c35582c51bd17659ed92951de1c252a82fa187bdc64e97c94692fe512cb1",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalAllocationFingerprint.lean": "30f35dba5d488d40a93fbee78c1eca888aee327a109af235a9320b2c8e2c1e5b",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/OriginalCoverCardinality.lean": "a898003612d5e64779ca39a84e3e99bc52a4f1c2c9af4f4e480ebf1cedb98873",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/HybridLeafSupport.lean": "1f7ddd1741d0165497ed531646ae26a10927b2b8d8f29fa8abeb7fc6451155d2",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/ActualGaussFiniteLeaves.lean": "b81c8566cf067792b4e25363381a746281df5460a1e81dad68590ec090d742e2",
+    "lean-toolchain": "bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47",
+    "lakefile.toml": "2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0",
+    "lake-manifest.json": "ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c",
+    "vendor/class-field-theory/lean-toolchain": "8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a",
+    "vendor/class-field-theory/lakefile.toml": "04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf",
+    "vendor/class-field-theory/lake-manifest.json": "ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py": "1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148",
+    "scripts/mom_engine_b2_native_watch.py": "7bc3820b5fdfa58a810985d54871a19062cd647d61893548aa9d7c66d1797634"
+  },
+  "config_paths": [
+    "lean-toolchain",
+    "lakefile.toml",
+    "lake-manifest.json",
+    "vendor/class-field-theory/lean-toolchain",
+    "vendor/class-field-theory/lakefile.toml",
+    "vendor/class-field-theory/lake-manifest.json",
+    "HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py"
+  ],
+  "driver_sha256": "85bed5ff8a0620a9df44e8756f082911a4443afdd78a3aa1e1609425e00eb099",
+  "driver_reference": {
+    "head": "f0206e8f6575f264498e28a348d1e5f508b95c3a",
+    "path": ".github/scripts/mom-engine-step-a2-gated-stack-driver.py",
+    "blob": "94ad16e6f7c7e1ce02ad46d1acbe24779a741cde",
+    "sha256": "08a51bf300f3c7327d9ac3a4cbebd6b94a5d59baea08217cedde4224728cb2b9",
+    "identity_only_replacements": [
+      [
+        "A2_OWNER_GATED_DIAGNOSTIC",
+        "B2_ACTUAL_COVERED_FIBRE_DIAGNOSTIC"
+      ],
+      [
+        "74103e801a3bcb1326d9c9dbf5f7b4238b66e034bba021436ad5d7059faf1d96",
+        "fe36c35582c51bd17659ed92951de1c252a82fa187bdc64e97c94692fe512cb1"
+      ],
+      [
+        "494f623054e5922ebda91869589f46002c5081faa85f548c58ecf1a5c0466ae0",
+        "876ad7c6ccef7b4d64f855803640cb22fcc67d264cd410c986438bdec037246d"
+      ],
+      [
+        "GatedGaussStages.lean",
+        "ActualCoveredFibre.lean"
+      ],
+      [
+        "frozen full Gated 74103e80 source plus 75 reversible markers",
+        "frozen full ActualCoveredFibre fe36c355 source plus 62 reversible markers"
+      ],
+      [
+        "Checkout Gated source differs from the frozen 74103e80 source",
+        "Checkout ActualCoveredFibre source differs from the frozen fe36c355 source"
+      ]
+    ],
+    "exact_inverse_verified": true
+  },
+  "sampling": {
+    "after_imports_seconds": [
+      60.0,
+      100.0
+    ],
+    "all_threads": true,
+    "max_frames_per_thread": 256,
+    "driver_wall_seconds": 150,
+    "outer_wall_seconds": 150,
+    "cleanup_grace_seconds": 10,
+    "lean_threads": 2,
+    "default_heartbeat": true,
+    "default_async": true,
+    "default_linters": true,
+    "profiler_override": null,
+    "stderrAsMessages": false,
+    "stderr_note": "IO marker transport only, inherited unchanged from the reviewed A2 driver."
+  },
+  "diagnostic_only": true,
+  "acceptance_evidence": false,
+  "production_approval": false
+}

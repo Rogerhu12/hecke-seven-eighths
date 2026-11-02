@@ -1,0 +1,171 @@
+name: B2 ActualCoveredFibre complete default source diagnostic only
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-b2-covered-fibre-diagnostic]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-b2-covered-fibre-diagnostic-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  diagnostic:
+    if: ${{ github.ref == 'refs/heads/cloud/mom-engine-step-b2-covered-fibre-diagnostic' }}
+    name: covered_fibre_default_gdb
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Verify frozen helpers and record the complete source identity
+        shell: bash
+        run: |
+          mkdir -p b2-covered-fibre-diagnostic
+          git show --no-patch --format=fuller HEAD > b2-covered-fibre-diagnostic/checkout.txt
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          pins = {
+              '.github/scripts/mom-engine-step-b2-covered-fibre-driver.py': '85bed5ff8a0620a9df44e8756f082911a4443afdd78a3aa1e1609425e00eb099',
+              '.github/scripts/mom-engine-step-b2-covered-fibre-harness.py': 'df106a4cb88d9c7777674c3499e9eefb070322a97def9232c65021b2c1fe7cad',
+              '.github/scripts/mom-engine-step-b2-covered-fibre-manifest.json': '23372812582c8e651a38db7048214a382c788ba57ae42b36ca2cf829cf280cd9',
+          }
+          for path, expected in pins.items():
+              assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, 'Frozen helper changed: ' + path
+          PY
+          cat > b2-covered-fibre-diagnostic/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('b2-covered-fibre-diagnostic')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 .github/scripts/mom-engine-step-b2-covered-fibre-harness.py \
+            --repo "$GITHUB_WORKSPACE" --evidence b2-covered-fibre-diagnostic --provenance before
+      - name: Match the official memory mapping limit
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > b2-covered-fibre-diagnostic/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore normal project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the three original imports and their full normal closure
+        id: dependencies
+        run: |
+          python3 -u b2-covered-fibre-diagnostic/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredFibre:deps
+      - name: Install and verify the standard GDB harness dependency
+        id: debugger
+        timeout-minutes: 8
+        run: |
+          python3 -u - <<'PYGDB'
+          import json, pathlib, shutil, subprocess
+          evidence = pathlib.Path('b2-covered-fibre-diagnostic')
+          evidence.mkdir(exist_ok=True)
+          gdb = shutil.which('gdb')
+          result = {
+              'scope': 'diagnostic-only GDB harness dependency setup',
+              'gdb_preinstalled': gdb is not None,
+              'dependency_install_attempted': False,
+              'installed_or_modified_any_dependency': False,
+              'changed_system_security_settings': False,
+              'debugger_runs_as_root': False,
+              'complete_target_module_compiled': False,
+              'original_module_acceptance': False,
+              'full_task_acceptance': False,
+              'exit_code': 1,
+          }
+          try:
+              if gdb is None:
+                  result['dependency_install_attempted'] = True
+                  result['installed_or_modified_any_dependency'] = True
+                  with (evidence / 'gdb-install.log').open('w') as log:
+                      for command in [
+                          ['sudo', 'apt-get', 'update'],
+                          ['sudo', 'apt-get', 'install', '--yes', '--no-install-recommends', 'gdb'],
+                      ]:
+                          log.write('COMMAND: ' + ' '.join(command) + '\n')
+                          log.flush()
+                          subprocess.run(command, stdout=log, stderr=subprocess.STDOUT,
+                                         stdin=subprocess.DEVNULL, timeout=180, check=True)
+                  gdb = shutil.which('gdb')
+              result['gdb_available'] = gdb is not None
+              result['gdb_path'] = gdb
+              if gdb is None:
+                  result['reason'] = 'The standard package install did not provide gdb'
+              else:
+                  process = subprocess.run([gdb, '--version'], text=True, capture_output=True, timeout=10)
+                  result['gdb_version_first_line'] = process.stdout.splitlines()[0] if process.stdout else ''
+                  result['version_exit_code'] = process.returncode
+                  result['exit_code'] = 0 if process.returncode == 0 else 1
+          except (OSError, subprocess.SubprocessError) as error:
+              result['reason'] = str(error)
+          (evidence / 'harness-dependency.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result), flush=True)
+          raise SystemExit(result['exit_code'])
+          PYGDB
+      - name: Observe the full unchanged source with default proof options
+        run: |
+          python3 -u .github/scripts/mom-engine-step-b2-covered-fibre-harness.py \
+            --repo "$GITHUB_WORKSPACE" --evidence b2-covered-fibre-diagnostic/diagnostic
+      - name: Check complete tracked source identity after observation
+        if: always()
+        run: |
+          python3 .github/scripts/mom-engine-step-b2-covered-fibre-harness.py \
+            --repo "$GITHUB_WORKSPACE" --evidence b2-covered-fibre-diagnostic --provenance after
+      - name: Preserve complete diagnostic evidence and explicit false acceptance flags
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: b2-covered-fibre-default-gdb-${{ github.sha }}-${{ github.run_attempt }}
+          path: b2-covered-fibre-diagnostic/
+          if-no-files-found: error
+          retention-days: 14
