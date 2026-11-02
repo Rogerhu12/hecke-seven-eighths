@@ -84,19 +84,26 @@
       "proved": true,
       "modules": [
         "CalibrationAssembly",
+        "CalibrationAtoms",
         "CalibrationClass",
         "CalibrationConstruction",
+        "CalibrationContracts",
         "CalibrationCosts",
         "CalibrationFourierProfiles",
         "CalibrationOrigin",
+        "CalibrationParameters",
         "CalibrationPhases",
         "CalibrationProfiles",
         "CalibrationRows",
         "CalibrationSupport",
+        "CanonicalCalibration",
         "PassiveCanonicalAtoms",
         "PassiveCanonicalProfiles",
         "PassiveCanonicalSupport",
+        "PassiveCarrierFacts",
         "PassiveColumnBridge",
+        "PassiveCommonAvoidance",
+        "PassiveCoverOrigin",
         "PassiveEnergy",
         "PassiveExpansion",
         "PassiveFiniteSupport",
@@ -105,12 +112,21 @@
         "PassivePaidMask",
         "PassivePairing",
         "PassivePhaseBridge",
+        "PassivePlainRecovery",
         "PassiveScalar",
         "PassiveSmoothSupport",
         "PassiveSource",
         "PassiveSourceOrigin",
         "PassiveSourceReindex",
         "PassiveSupportRecovery"
+      ]
+    },
+    {
+      "id": "n3",
+      "name": "N3 原 canonical residual source 的实际校准",
+      "proved": true,
+      "modules": [
+        "TasksOriginalCalibration"
       ]
     },
     {

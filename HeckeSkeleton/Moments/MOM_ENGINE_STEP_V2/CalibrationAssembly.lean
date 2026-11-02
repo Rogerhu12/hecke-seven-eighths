@@ -89,6 +89,7 @@ variable (atoms : ∀ ξ (h : seed.ordinary.rows.live),
     (σ := Arithmetic.embedding c) (d ξ) rfl
     (s.row h).momentIdeal (s.extractedFactor h) (s.row h).element)
 
+include masks atoms in
 theorem plain_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hv : heckeIdealCoefficient K ((d ξ).plainBackground *
@@ -112,6 +113,7 @@ theorem plain_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
   rw [hz, zero_mul, zero_mul] at hv
   exact hv rfl
 
+include masks atoms in
 theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (i : Fin (d ξ).geometry.slotCount) (q : HeightOneSpectrum (𝓞 K))
     (hv : primeCoefficient K ((d ξ).rowCharacter (s.row h).momentIdeal *
@@ -136,6 +138,7 @@ theorem prime_gates (ξ : EngineParameter) (h : seed.ordinary.rows.live)
   rw [hz, zero_mul, zero_mul] at hv
   exact hv rfl
 
+include canonical masks atoms in
 theorem left_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
     EffectivePlainSupport (d ξ) (d ξ).plainTest₁ (s.row h).momentIdeal
       (s.scale₁ / idealNorm K (s.allocation.plainDivisor 0)) 0
@@ -156,6 +159,7 @@ theorem left_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
     packet.second.physical.first.paidSupport seed.ordinary.passiveMask a rectangle false
     ξ I hp hg.1 hg.2
 
+include canonical masks atoms in
 theorem right_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
     EffectivePlainSupport (d ξ) (d ξ).plainTest₂ (s.row h).momentIdeal
       (s.scale₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0))) 0
@@ -176,6 +180,7 @@ theorem right_support (ξ : EngineParameter) (h : seed.ordinary.rows.live) :
     packet.second.physical.first.paidSupport seed.ordinary.passiveMask a rectangle true
     ξ I hp hg.1 hg.2
 
+include canonical masks atoms in
 theorem slot_support (ξ : EngineParameter) (h : seed.ordinary.rows.live)
     (i : Fin (d ξ).geometry.slotCount) :
     EffectivePrimeSupport (d ξ) i (s.row h).momentIdeal s.base 0
@@ -232,7 +237,7 @@ def calibration : s.Calibration (σ := Arithmetic.embedding c)
     exact CalibrationConstruction.right_profile seed input support side a rectangle ξ h I
   slot_profile ξ h _ i q _ :=
     CalibrationConstruction.slot_profile seed input support side a rectangle ξ h i q
-  allowed ξ h hh := CalibrationRows.allowed_source s _ h hh
+  allowed ξ h hh := Finset.mem_image.mpr ⟨h, hh, rfl⟩
   cutoff := cutoff
   nonexceptional ξ h hh := by
     split

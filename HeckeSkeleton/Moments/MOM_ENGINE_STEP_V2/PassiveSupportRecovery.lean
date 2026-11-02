@@ -39,6 +39,8 @@ variable (R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
 variable (hroot : P.arithmetic.root6 = A.zeta12 ^ 2)
 variable (hemb : P.arithmetic.embedding = σ)
 
+include P R hroot hemb
+
 theorem residue_nonzero_coprime (G : A.Exterior) (g : A.R) (hg : A.Generates G g)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hn : actualIdealResidue (A := A) (σ := σ) J.val g ≠ 0) : IsCoprime J.val G.val := by

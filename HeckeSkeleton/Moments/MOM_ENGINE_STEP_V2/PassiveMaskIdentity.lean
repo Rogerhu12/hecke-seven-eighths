@@ -32,6 +32,7 @@ namespace OriginalPhaseData
 variable (P : OriginalPhaseData packet) (hpacket : packet.Realizes)
 variable {k : ℕ} (index : Fin k → Fin call.node.data.geometry.slotCount)
 
+include hpacket in
 theorem paid_plain_coefficient_zero (I : NonzeroIdeal K)
     (hpaid : ¬IsCoprime I.val packet.second.physical.first.paidSupport.val) :
     sourcePlainCoefficient (P.characters true index).plain
@@ -41,6 +42,7 @@ theorem paid_plain_coefficient_zero (I : NonzeroIdeal K)
   simp only [characters, CanonicalOriginalPhaseCalibration.sourceCharacters,
     sourcePlainCoefficient, originalCoprimeMask, if_neg hm, mul_zero]
 
+include hpacket in
 theorem paid_prime_coefficient_zero (i : Fin k) (q : HeightOneSpectrum (𝓞 K))
     (hpaid : ¬IsCoprime q.asIdeal packet.second.physical.first.paidSupport.val) :
     sourcePrimeCoefficient ((P.characters true index).slot i)
