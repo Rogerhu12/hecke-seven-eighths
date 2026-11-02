@@ -61,88 +61,88 @@ def appendFactors (D E : OriginalMovingFactors A P Rchar) :
 
 variable (D E : OriginalMovingFactors A P Rchar)
 
-@[simp] theorem appendFactors_count : (D.appendFactors E).count = D.count + E.count := rfl
+@[simp] theorem appendFactors_count : ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).count = D.count + E.count := rfl
 
 @[simp] theorem appendFactors_element_left (i : Fin D.count) :
-    (D.appendFactors E).element (Fin.castAdd E.count i) = D.element i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).element (Fin.castAdd E.count i) = D.element i := by
   sorry
 
 @[simp] theorem appendFactors_element_right (i : Fin E.count) :
-    (D.appendFactors E).element (Fin.natAdd D.count i) = E.element i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).element (Fin.natAdd D.count i) = E.element i := by
   sorry
 
 @[simp] theorem appendFactors_power_left (i : Fin D.count) :
-    (D.appendFactors E).power (Fin.castAdd E.count i) = D.power i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).power (Fin.castAdd E.count i) = D.power i := by
   sorry
 
 @[simp] theorem appendFactors_power_right (i : Fin E.count) :
-    (D.appendFactors E).power (Fin.natAdd D.count i) = E.power i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).power (Fin.natAdd D.count i) = E.power i := by
   sorry
 
 @[simp] theorem appendFactors_decomposition_left (i : Fin D.count) :
-    (D.appendFactors E).decomposition (Fin.castAdd E.count i) = D.decomposition i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).decomposition (Fin.castAdd E.count i) = D.decomposition i := by
   sorry
 
 @[simp] theorem appendFactors_decomposition_right (i : Fin E.count) :
-    (D.appendFactors E).decomposition (Fin.natAdd D.count i) = E.decomposition i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).decomposition (Fin.natAdd D.count i) = E.decomposition i := by
   sorry
 
 @[simp] theorem appendFactors_factorIdeal_left (i : Fin D.count) :
-    (D.appendFactors E).factorIdeal (Fin.castAdd E.count i) = D.factorIdeal i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).factorIdeal (Fin.castAdd E.count i) = D.factorIdeal i := by
   sorry
 
 @[simp] theorem appendFactors_factorIdeal_right (i : Fin E.count) :
-    (D.appendFactors E).factorIdeal (Fin.natAdd D.count i) = E.factorIdeal i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).factorIdeal (Fin.natAdd D.count i) = E.factorIdeal i := by
   sorry
 
 @[simp] theorem appendFactors_factorCharacter_left (i : Fin D.count) :
-    (D.appendFactors E).factorCharacter (Fin.castAdd E.count i) = D.factorCharacter i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).factorCharacter (Fin.castAdd E.count i) = D.factorCharacter i := by
   sorry
 
 @[simp] theorem appendFactors_factorCharacter_right (i : Fin E.count) :
-    (D.appendFactors E).factorCharacter (Fin.natAdd D.count i) = E.factorCharacter i := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).factorCharacter (Fin.natAdd D.count i) = E.factorCharacter i := by
   sorry
 
 theorem appendFactors_character :
-    (D.appendFactors E).character = D.character * E.character := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).character = D.character * E.character := by
   sorry
 
 theorem appendFactors_fullIdeal_val :
-    (D.appendFactors E).fullIdeal.val = D.fullIdeal.val * E.fullIdeal.val := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).fullIdeal.val = D.fullIdeal.val * E.fullIdeal.val := by
   sorry
 
 theorem appendFactors_fullIdeal :
-    (D.appendFactors E).fullIdeal = ExteriorIdealEuler.mul D.fullIdeal E.fullIdeal := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).fullIdeal = ExteriorIdealEuler.mul D.fullIdeal E.fullIdeal := by
   sorry
 
 /-- No coprimality or distinction between the two lists is required. -/
 theorem appendFactors_support_primes :
-    primeSupport (D.appendFactors E).support.val =
+    primeSupport ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).support.val =
       primeSupport D.support.val ∪ primeSupport E.support.val := by
   sorry
 
 /-- The displayed radical retains every original prime even if its
 integer character exponent is zero or cancels another occurrence. -/
 theorem appendFactors_support_val :
-    (D.appendFactors E).support.val =
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).support.val =
       commonRadical (D.support.val * E.support.val) (D.support.val * E.support.val) := by
   sorry
 
 theorem appendFactors_support_coprime_iff (I : Ideal (𝓞 K)) :
-    IsCoprime I (D.appendFactors E).support.val ↔
+    IsCoprime I ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).support.val ↔
       IsCoprime I D.support.val ∧ IsCoprime I E.support.val := by
   sorry
 
 theorem appendFactors_fullMaskSupport_primes
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    primeSupport ((D.appendFactors E).fullMaskSupport remaining).val =
+    primeSupport (((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).fullMaskSupport remaining).val =
       (primeSupport D.support.val ∪ primeSupport E.support.val) ∪
         primeSupport remaining.val := by
   sorry
 
 theorem appendFactors_fullMaskSupport_coprime_iff
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Ideal (𝓞 K)) :
-    IsCoprime I ((D.appendFactors E).fullMaskSupport remaining).val ↔
+    IsCoprime I (((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).fullMaskSupport remaining).val ↔
       (IsCoprime I D.support.val ∧ IsCoprime I E.support.val) ∧
         IsCoprime I remaining.val := by
   sorry
@@ -158,7 +158,7 @@ theorem appendFactors_normalizedFullMask
     (remaining u : HeckeGeneral.Analysis.NonzeroIdeal K)
     (F : A.Exterior) (I : Ideal (𝓞 K)) :
     ((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
-      decide (IsCoprime I (D.appendFactors E).support.val)) &&
+      decide (IsCoprime I ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).support.val)) &&
       decide (IsCoprime I (remainingMaskIdeal A remaining * exteriorMomentIdeal F).val)) =
     ((((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
       decide (IsCoprime I D.support.val)) && decide (IsCoprime I remaining.val)) &&
@@ -167,7 +167,7 @@ theorem appendFactors_normalizedFullMask
 
 theorem appendFactors_normalizedFullMask_primes
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K) (F : A.Exterior) :
-    primeSupport ((D.appendFactors E).fullMaskSupport
+    primeSupport (((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).fullMaskSupport
         (remainingMaskIdeal A remaining * exteriorMomentIdeal F)).val =
       (primeSupport D.support.val ∪ primeSupport E.support.val) ∪
         ((primeSupport remaining.val \ primeSupport A.cS) ∪ primeSupport F.val) := by
@@ -205,7 +205,7 @@ def withRemainingFactor (W : D.SupportAtoms old unit nonunit remaining) (F : A.E
 def appendFactors
     (W : D.SupportAtoms old unit nonunit remaining)
     (V : E.SupportAtoms old unit nonunit remaining) :
-    (D.appendFactors E).SupportAtoms old unit nonunit remaining where
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) E).SupportAtoms old unit nonunit remaining where
   ideal := Fin.append W.ideal V.ideal
   generates i := by
     refine Fin.addCases (fun j => ?_) (fun j => ?_) i
@@ -232,24 +232,24 @@ for the original list. Its exponent is the original exponent one. -/
 def appendSecondFactor (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (pattern : ι → Bool) :
     OriginalMovingFactors A P Rchar :=
-  D.appendFactors (secondOriginalMovingFactors P Rchar C p m n pattern)
+  (HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) (secondOriginalMovingFactors P Rchar C p m n pattern)
 
 @[simp] theorem appendSecondFactor_count
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (pattern : ι → Bool) :
-    (D.appendSecondFactor C p m n pattern).count = D.count + 1 := rfl
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor D) C p m n pattern).count = D.count + 1 := rfl
 
 theorem appendSecondFactor_character
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (pattern : ι → Bool) :
-    (D.appendSecondFactor C p m n pattern).character =
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor D) C p m n pattern).character =
       D.character * (secondOriginalMovingFactors P Rchar C p m n pattern).character := by
   sorry
 
 theorem appendSecondFactor_support_primes
     (C : A.GeneralArithmeticContext σ η hS)
     (p : ι → ExteriorPrime A) (m n : ι → ℕ) (pattern : ι → Bool) :
-    primeSupport (D.appendSecondFactor C p m n pattern).support.val =
+    primeSupport ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor D) C p m n pattern).support.val =
       primeSupport D.support.val ∪
         primeSupport (secondOriginalMovingFactors P Rchar C p m n pattern).support.val := by
   sorry
@@ -263,13 +263,13 @@ def appendSecondFullDeletionSupportAtoms
     (C : A.GeneralArithmeticContext σ η hS) (p : ι → ExteriorPrime A)
     (m n : ι → ℕ) (hm : ∀ i, 0 < m i) (hn : ∀ i, 0 < n i) (h : A.R)
     (hne : ∀ i, actualPrimePowerCorrelation C (p i) (m i) (n i) h ≠ 0) :
-    (D.appendSecondFactor C p m n (actualNonunitPattern C p m n h)).SupportAtoms
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor D) C p m n (actualNonunitPattern C p m n h)).SupportAtoms
       (ExteriorIdealEuler.mul (D.effectiveFullSupport remaining) (secondSixthRootIdeal p m n))
       (unitFrequencyRadical C p m n h) (nonunitFrequencyRadical C p m n h)
       (remainingMaskIdeal A remaining * secondSixthRootNonzeroIdeal p m n) :=
-  ((D.effectiveSupportAtoms remaining
-      (unitFrequencyRadical C p m n h) (nonunitFrequencyRadical C p m n h)).withRemainingFactor
-        (secondSixthRootIdeal p m n)).appendFactors
+  (HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.SupportAtoms.appendFactors ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.SupportAtoms.withRemainingFactor (D.effectiveSupportAtoms remaining
+      (unitFrequencyRadical C p m n h) (nonunitFrequencyRadical C p m n h)))
+        (secondSixthRootIdeal p m n)))
     (secondOriginalMovingSupportAtoms P Rchar C p m n hm hn h hne
       (D.effectiveFullSupport remaining) (remainingMaskIdeal A remaining)
       (D.remainingMaskIdeal_dvd_effectiveFullSupport remaining))
@@ -283,7 +283,7 @@ theorem appendSecondFullDeletion_norm_window
     (hne : ∀ i, actualPrimePowerCorrelation C (p i) (m i) (n i) h ≠ 0)
     (Z : ℝ) (hZ : 1 < Z) :
     idealNorm K
-        ((D.appendSecondFactor C p m n (actualNonunitPattern C p m n h)).fullMaskSupport
+        (((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor D) C p m n (actualNonunitPattern C p m n h)).fullMaskSupport
           (remainingMaskIdeal A remaining * secondSixthRootNonzeroIdeal p m n)) ≤
       Z ^ (idealLogLength Z (D.effectiveFullSupport remaining).val +
         idealLogLength Z (secondSixthRootIdeal p m n).val +
@@ -307,14 +307,14 @@ def appendedNonunitClassSupportAtoms
     (C : A.GeneralArithmeticContext σ η hS)
     (hm : ∀ i, 0 < S.leftMultiplicity i) (hn : ∀ i, 0 < S.rightMultiplicity i)
     (pattern : ι → Bool) (h : S.NonunitClass C pattern) :
-    (oldMoving.appendSecondFactor C S.primes S.leftMultiplicity S.rightMultiplicity pattern).SupportAtoms
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor oldMoving) C S.primes S.leftMultiplicity S.rightMultiplicity pattern).SupportAtoms
       (ExteriorIdealEuler.mul (oldMoving.effectiveFullSupport remaining)
         (secondSixthRootIdeal S.primes S.leftMultiplicity S.rightMultiplicity))
       (unitFrequencyRadical C S.primes S.leftMultiplicity S.rightMultiplicity (S.frequency h.val.val))
       (nonunitFrequencyRadical C S.primes S.leftMultiplicity S.rightMultiplicity (S.frequency h.val.val))
       (remainingMaskIdeal A remaining *
         secondSixthRootNonzeroIdeal S.primes S.leftMultiplicity S.rightMultiplicity) := by
-  have W := oldMoving.appendSecondFullDeletionSupportAtoms remaining C S.primes
+  have W := (HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFullDeletionSupportAtoms oldMoving) remaining C S.primes
     S.leftMultiplicity S.rightMultiplicity hm hn (S.frequency h.val.val)
     (S.live_local_correlation_nonzero C h.val)
   rw [h.property] at W
@@ -337,7 +337,7 @@ variable (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
 /-- The new complete-row character keeps the original moving product
 separate from the genuinely appended factor and the complete residual row. -/
 theorem appended_rowCharacter (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    (data parent (oldMoving.appendFactors newMoving) correction hcorr sector remaining budget
+    (data parent ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors oldMoving) newMoving) correction hcorr sector remaining budget
       inverse left right geometry index).rowCharacter u =
       (correction * oldMoving.character * newMoving.character) *
         completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P Rchar (sector u) u := by
@@ -347,7 +347,7 @@ theorem appended_rowCharacter (u : HeckeGeneral.Analysis.NonzeroIdeal K) :
 new mask equality supplied by its caller. -/
 theorem appended_commonMask (F : A.Exterior)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (I : Ideal (𝓞 K)) :
-    (data parent (oldMoving.appendFactors newMoving) correction hcorr sector
+    (data parent ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors oldMoving) newMoving) correction hcorr sector
       (remainingMaskIdeal A remaining * exteriorMomentIdeal F) budget
       inverse left right geometry index).commonMask u I =
     ((((completeIdealCommonMask K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) u I &&
@@ -399,7 +399,7 @@ variable (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
 list. The sole old-support window concerns its original effective
 ideal; all factor and remaining divisibilities are proved internally. -/
 theorem actualRows_appended_pattern_fullDeletion_joint_window
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart))
     (oldMoving : OriginalMovingFactors A P Rchar)
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
@@ -412,10 +412,10 @@ theorem actualRows_appended_pattern_fullDeletion_joint_window
     (hright : ∀ j ∈ right, A.exteriorNorm (fullJ j) ≤ Z ^ a₀)
     (hold : A.exteriorNorm (oldMoving.effectiveFullSupport remaining) ≤ Z ^ (q + wo))
     (h : (chart.actualRows ∅ X hX label).live) :
-    let pattern := chart.originalNonunitPattern ∅ X hX label
+    let pattern := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label
     idealNorm K ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal *
         idealNorm K
-          ((oldMoving.appendSecondFactor C b.primes b.leftMultiplicity b.rightMultiplicity pattern).fullMaskSupport
+          (((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor oldMoving) C b.primes b.leftMultiplicity b.rightMultiplicity pattern).fullMaskSupport
             (remainingMaskIdeal A remaining *
               secondSixthRootNonzeroIdeal b.primes b.leftMultiplicity b.rightMultiplicity)) ≤
       Z ^ (secondCommonChildWidth Z a₀ q wo (Real.log retainedScale / Real.log Z) g
@@ -431,7 +431,7 @@ theorem actualRows_appended_pattern_fullDeletion_joint_window
 moving list, original finite correction, all tests and selected slots
 are preserved; only the genuine second factor and root are appended. -/
 theorem canonicalOriginalChild_allowed_of_appended_pattern
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart))
     (oldMoving : OriginalMovingFactors A P Rchar)
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
@@ -450,9 +450,9 @@ theorem canonicalOriginalChild_allowed_of_appended_pattern
     (inverseTest leftTest rightTest : IdealTest K) (geometry : SlotGeometry K)
     (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
     (h : (chart.actualRows ∅ X hX label).live) :
-    let pattern := chart.originalNonunitPattern ∅ X hX label
+    let pattern := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label
     (CanonicalOriginalChildData.data parent
-      (oldMoving.appendSecondFactor C b.primes b.leftMultiplicity b.rightMultiplicity pattern)
+      ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor oldMoving) C b.primes b.leftMultiplicity b.rightMultiplicity pattern)
       correction hcorr sector
       (remainingMaskIdeal A remaining *
         secondSixthRootNonzeroIdeal b.primes b.leftMultiplicity b.rightMultiplicity)
@@ -544,7 +544,7 @@ def childData (parent : MomentData K ω ψ)
     (inverse left right : IdealTest K) (geometry : SlotGeometry K)
     (index : Fin geometry.slotCount → Fin parent.geometry.slotCount) : MomentData K ω ψ :=
   CanonicalOriginalChildData.data parent
-    (oldMoving.appendSecondFactor C primes m n pattern)
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor oldMoving) C primes m n pattern)
     correction (Or.inr hcorr) (fun _ => ν)
     (remainingMaskIdeal A remaining * exteriorMomentIdeal (secondSixthRootIdeal primes m n))
     budget inverse left right geometry index
@@ -978,7 +978,7 @@ def unitMoving : OriginalMovingFactors A P R :=
 /-- The list is appended in exactly the order of the literal atom
 operations.  No exponent is combined or cancelled. -/
 def moving (D : OriginalMovingFactors A P R) : OriginalMovingFactors A P R :=
-  ((D.appendFactors (F.firstMoving P R)).appendFactors (F.poolMoving P R)).appendFactors
+  (HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendFactors D) (F.firstMoving P R))) (F.poolMoving P R)))
     (F.unitMoving P R)
 
 theorem moving_character (D : OriginalMovingFactors A P R) :
@@ -1003,9 +1003,7 @@ theorem moving_support_coprime (D : OriginalMovingFactors A P R) (I : Ideal (�
 prime appears in one of the fixed residue phases. -/
 def applyCharacters {k : ℕ} (T : FixedChildCharacters K k)
     (extra : HeckeGeneral.Analysis.NonzeroIdeal K) : FixedChildCharacters K k :=
-  ((((T.movingSingleton P R F.firstIdeal F.firstElement F.first_generates).movingSingleton
-    P R F.poolIdeal F.poolElement F.pool_generates).movingSingleton
-    P R F.unitIdeal F.unitElement F.unit_generates).deleteMask extra)
+  ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) F.firstIdeal F.firstElement F.first_generates)) F.poolIdeal F.poolElement F.pool_generates)) F.unitIdeal F.unitElement F.unit_generates)) extra)
 
 @[simp] theorem applyCharacters_restrictSlots {k : ℕ} (T : FixedChildCharacters K k)
     (extra : HeckeGeneral.Analysis.NonzeroIdeal K) (keep : Finset (Fin k)) :
@@ -1757,7 +1755,7 @@ namespace SecondBlockProfileChart
 variable (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
   profiles finiteTest radius D)
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-variable (hpattern : chart.NonunitLabelStable) (hsector : chart.SectorLabelStable P)
+variable (hpattern : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart)) (hsector : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.SectorLabelStable chart) P)
 variable (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
 variable (label : Fin (chart.rowLabelCount + 1))
 
@@ -1769,19 +1767,19 @@ def originalReweightedPatternSector
     (h : ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂).live) :
     PatternSector P
       ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) C
-      (chart.originalNonunitPattern M X hX label) (chart.originalSector P M X hX label) := by
+      ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) M X hX label) ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalSector chart) P M X hX label) := by
   let R₁ := { chart.actualRows M X hX label with weight := weight }
   let R₂ := R₁.restrictRows keep₁
   let h₁ : R₂.live := R₂.liveInclusion keep₂ h
   let h₀ : (chart.actualRows M X hX label).live := R₁.liveInclusion keep₁ h₁
-  let hp := chart.originalPatternSector P hpattern hsector M X hX label h₀
+  let hp := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalPatternSector chart) P hpattern hsector M X hX label h₀
   exact ⟨⟨h, hp.val.property⟩, hp.property⟩
 
 @[simp] theorem originalReweightedPatternSector_val_val
     (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → ℂ)
     (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
     (h : ((({ chart.actualRows M X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂).live) :
-    (chart.originalReweightedPatternSector P hpattern hsector M X hX label
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalReweightedPatternSector chart) P hpattern hsector M X hX label
       weight keep₁ keep₂ h).val.val = h := rfl
 
 variable {kLeft kRight : ℕ}
@@ -1799,8 +1797,8 @@ def originalSupportedPatternSector
     (h : ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms).restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0)).restrictRows (fun q => ¬exceptional q)).live) :
     PatternSector P
       ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms).restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0)).restrictRows (fun q => ¬exceptional q)) C
-      (chart.originalNonunitPattern M X hX label) (chart.originalSector P M X hX label) :=
-  chart.originalReweightedPatternSector P hpattern hsector M X hX label
+      ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) M X hX label) ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalSector chart) P M X hX label) :=
+  (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalReweightedPatternSector chart) P hpattern hsector M X hX label
     (fun q => (chart.actualRows M X hX label).weight q *
       leftAtoms.value q * star (rightAtoms.value q))
     (fun q => (chart.actualRows M X hX label).correlation q ≠ 0)
@@ -1808,7 +1806,7 @@ def originalSupportedPatternSector
 
 @[simp] theorem originalSupportedPatternSector_val_val
     (h : ((((chart.actualRows M X hX label).withCommonAtoms leftAtoms rightAtoms).restrictRows (fun q => (chart.actualRows M X hX label).correlation q ≠ 0)).restrictRows (fun q => ¬exceptional q)).live) :
-    (chart.originalSupportedPatternSector P hpattern hsector M X hX label
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalSupportedPatternSector chart) P hpattern hsector M X hX label
       leftAtoms rightAtoms exceptional h).val.val = h := rfl
 
 end SecondBlockProfileChart
@@ -1863,7 +1861,7 @@ variable (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
 the active second factor, before any profile or capacity choice. -/
 def rowCharacter (u : HeckeGeneral.Analysis.NonzeroIdeal K) : HeckeCharacter K :=
   correction *
-    ((F.moving P R oldMoving).appendSecondFactor C p leftMultiplicity rightMultiplicity
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor (F.moving P R oldMoving)) C p leftMultiplicity rightMultiplicity
       pattern).character *
     completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P R ν u
 
@@ -1930,7 +1928,7 @@ def literalCharacter (h : H) : HeckeCharacter K :=
 def literalFiniteCharacters (theta : Finset (HeckeCharacter K)) :
     PairedFiniteCharacters theta H :=
   PairedFiniteCharacters.diagonal theta
-    (S.literalCharacter C P R F oldMoving correction pattern ν)
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R F oldMoving correction pattern ν)
 
 /-- Reweighting and two exact row restrictions leave the arithmetic
 ideal and the character used in the original predicate unchanged. -/
@@ -1940,7 +1938,7 @@ theorem literalCharacter_reweighted
     let T := (({ S with weight := weight }).restrictRows keep₁).restrictRows keep₂
     CanonicalLiteralAllocatedData.rowCharacter P R F oldMoving correction C T.primes
       T.leftMultiplicity T.rightMultiplicity pattern ν (T.extractedRow C h).momentIdeal =
-      S.literalCharacter C P R F oldMoving correction pattern ν h.val := by
+      (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R F oldMoving correction pattern ν h.val := by
   sorry
 
 end ActualSecondCorrelationRows

@@ -79,18 +79,18 @@ def gated : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest :=
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) :
-    (s.gated.charts DE D).kernel = (s.charts DE D).kernel := rfl
+    ((gated s).charts DE D).kernel = (s.charts DE D).kernel := rfl
 
 @[simp] theorem gated_sources
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) :
-    s.gated.sources DE = s.sources DE := rfl
+    (gated s).sources DE = s.sources DE := rfl
 
 theorem gated_leftCoefficient_nonzero
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
-    (hi : (s.gated.charts DE D).leftCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
+    (hi : ((gated s).charts DE D).leftCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
   intro hi0
   exact hi (by simp only [gated, if_pos hi0])
 
@@ -98,7 +98,7 @@ theorem gated_rightCoefficient_nonzero
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
-    (hi : (s.gated.charts DE D).rightCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
+    (hi : ((gated s).charts DE D).rightCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
   intro hi0
   exact hi (by simp only [gated, if_pos hi0])
 
@@ -106,39 +106,41 @@ theorem gated_sourceLeftCoefficient_nonzero
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
-    (hi : (s.gated.charts DE D).sourceLeftCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
-  exact s.gated_leftCoefficient_nonzero DE D i (mul_ne_zero_iff.mp hi).1
+    (hi : ((gated s).charts DE D).sourceLeftCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
+  exact gated_leftCoefficient_nonzero s DE D i (mul_ne_zero_iff.mp hi).1
 
 theorem gated_sourceRightCoefficient_nonzero
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
-    (hi : (s.gated.charts DE D).sourceRightCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
-  exact s.gated_rightCoefficient_nonzero DE D i (mul_ne_zero_iff.mp hi).1
+    (hi : ((gated s).charts DE D).sourceRightCoefficient i ≠ 0) : G.coefficient i ≠ 0 := by
+  exact gated_rightCoefficient_nonzero s DE D i (mul_ne_zero_iff.mp hi).1
 
 
 
 variable (LC RC : SourceCartesianCover G.columns G.ideal)
-variable (exceptional : s.gated.CoverHybridPredicates LC RC)
+variable (exceptional : (gated s).CoverHybridPredicates LC RC)
 
 /-- A live literal left leaf coefficient now gives a nonzero
 coefficient of the original whole Gauss source. -/
 theorem gated_leaf_left_nonzero
     (F : SchwartzMap W ℂ) (x : ι → W)
-    (j : s.gated.CoveredLeafKey LC RC) (h : Q)
-    (i : AllocationColumn K (s.gated.coveredLeaf LC RC exceptional F x j).leftSlots)
-    (hi : (s.gated.coveredLeaf LC RC exceptional F x j).leftCoefficient h i ≠ 0) :
-    G.coefficient (j.1.leftReindex.index i) ≠ 0 := by
-  apply s.gated_sourceLeftCoefficient_nonzero j.1.1 j.1.2.1 _
+    (j : CoveredLeafKey (gated s) LC RC) (h : Q)
+    (i : AllocationColumn K (coveredLeaf (gated s) LC RC exceptional F x j).leftSlots)
+    (hi : (coveredLeaf (gated s) LC RC exceptional F x j).leftCoefficient h i ≠ 0) :
+    G.coefficient ((CoveredClassKey.leftReindex
+      (s := gated s) (LC := LC) (RC := RC) j.1).index i) ≠ 0 := by
+  apply gated_sourceLeftCoefficient_nonzero s j.1.1 j.1.2.1 _
   exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).1).1
 
 theorem gated_leaf_right_nonzero
     (F : SchwartzMap W ℂ) (x : ι → W)
-    (j : s.gated.CoveredLeafKey LC RC) (h : Q)
-    (i : AllocationColumn K (s.gated.coveredLeaf LC RC exceptional F x j).rightSlots)
-    (hi : (s.gated.coveredLeaf LC RC exceptional F x j).rightCoefficient h i ≠ 0) :
-    G.coefficient (j.1.rightReindex.index i) ≠ 0 := by
-  apply s.gated_sourceRightCoefficient_nonzero j.1.1 j.1.2.1 _
+    (j : CoveredLeafKey (gated s) LC RC) (h : Q)
+    (i : AllocationColumn K (coveredLeaf (gated s) LC RC exceptional F x j).rightSlots)
+    (hi : (coveredLeaf (gated s) LC RC exceptional F x j).rightCoefficient h i ≠ 0) :
+    G.coefficient ((CoveredClassKey.rightReindex
+      (s := gated s) (LC := LC) (RC := RC) j.1).index i) ≠ 0 := by
+  apply gated_sourceRightCoefficient_nonzero s j.1.1 j.1.2.1 _
   exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).1).1
 
 end ActualGaussStage
@@ -151,10 +153,10 @@ namespace ActualPoolStages
 
 def gated (s : ActualPoolStages (E := E) hΓ μv hDiff dpool c finiteTest) :
     ActualPoolStages (E := E) hΓ μv hDiff dpool c finiteTest where
-  main := s.main.gated
-  one p := (s.one p).gated
-  six p := (s.six p).gated
-  seven p := (s.seven p).gated
+  main := ActualGaussStage.gated s.main
+  one p := ActualGaussStage.gated (s.one p)
+  six p := ActualGaussStage.gated (s.six p)
+  seven p := ActualGaussStage.gated (s.seven p)
 
 
 end ActualPoolStages
@@ -170,8 +172,8 @@ variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 variable {p : FirstBlockPoolData chart P M X hX}
 
 def gated (s : p.SecondStages (E := E) (hDiff := hDiff)) : p.SecondStages (E := E) (hDiff := hDiff) where
-  left S χ := (s.left S χ).gated
-  right S χ := (s.right S χ).gated
+  left S χ := ActualPoolStages.gated (s.left S χ)
+  right S χ := ActualPoolStages.gated (s.right S χ)
 
 
 end FirstBlockPoolData.SecondStages
@@ -185,7 +187,8 @@ namespace ActualFirstSource.SecondStages
 variable {s : ActualFirstSource (E := W) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX}
 
 def gated (R : s.SecondStages (E := E) (hDiff := hDiff)) :
-    s.SecondStages (E := E) (hDiff := hDiff) := fun v D => (R v D).gated
+    s.SecondStages (E := E) (hDiff := hDiff) :=
+  fun v D => FirstBlockPoolData.SecondStages.gated (R v D)
 
 
 end ActualFirstSource.SecondStages

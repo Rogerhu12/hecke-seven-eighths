@@ -65,7 +65,7 @@ variable (chart : SecondBlockProfileChart (E := ℝ) hΓ μv hDiff b C left righ
   profiles finiteTest radius D.val)
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
 variable (Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
-variable (hclass : chart.NonunitLabelStable) (hsector : chart.SectorLabelStable P)
+variable (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart)) (hsector : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.SectorLabelStable chart) P)
 variable (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
 variable (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → ℂ)
 variable (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
@@ -98,8 +98,8 @@ variable (hwidth : m + q =
     (primePowerProduct b.primes b.leftMultiplicity).val
     (primePowerProduct b.primes b.rightMultiplicity).val
     (secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity
-      (chart.originalNonunitPattern ∅ X hX label)).val
-    (secondPatternNonunitIdeal b.primes (chart.originalNonunitPattern ∅ X hX label)).val +
+      ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label)).val
+    (secondPatternNonunitIdeal b.primes ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label)).val +
     idealLogLength d.base (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
     cutoffExponent)
 variable (inverse : IdealTest K)
@@ -112,8 +112,8 @@ variable (side : SecondColumnSide) (firstSign : ℝ) (rectangle : Bool)
 
 local notation "S" =>
   (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂
-local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
-local notation "sector" => chart.originalSector P ∅ X hX label
+local notation "pattern" => (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label
+local notation "sector" => (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalSector chart) P ∅ X hX label
 local notation "idx" => (fun j => slots.index (SlotRestriction.index B.keep j))
 local notation "paid" => paidSourceCharacters P Rchar choice.phases parent oldMoving
   correction remaining idx
@@ -123,8 +123,8 @@ local notation "allocation" => branch W B A (choice.mask extra) a
 local notation "f" => frame W B A paid C S side (choice.mask extra) a firstSign rectangle
 
 variable (keep₂_eq : keep₂ = fun h =>
-  (chart.actualRows ∅ X hX label).literalCharacter C P Rchar F oldMoving correction
-    (chart.originalNonunitPattern ∅ X hX label) (chart.originalSector P ∅ X hX label) h ∉
+  (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter (chart.actualRows ∅ X hX label)) C P Rchar F oldMoving correction
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label) ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalSector chart) P ∅ X hX label) h ∉
       parent.theta)
 variable (parentParameters : RealParameters) (step : ℝ)
 variable (geometry : OriginalNominalGeometry (K := K) parentParameters
@@ -133,15 +133,15 @@ variable (geometry : OriginalNominalGeometry (K := K) parentParameters
     ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base step)
 variable (capacityCutoff : ℝ) (hcapacityCutoff : 0 ≤ capacityCutoff)
 variable (hsmall : 2 * capacityCutoff ≤ step)
-variable (rowParameter : geometry.literalRowParameter capacityCutoff = m)
-variable (supportParameter : geometry.literalSupportParameter
+variable (rowParameter : (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter geometry) capacityCutoff = m)
+variable (supportParameter : (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter geometry)
   (idealLogLength
     (frame W B A (paidSourceCharacters P Rchar choice.phases parent oldMoving correction
       remaining (fun j => slots.index (SlotRestriction.index B.keep j))) C
       ((({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂) side (choice.mask extra) a firstSign rectangle).source.base
     (secondSixthRootIdeal b.primes
-      (side.literalMultiplicity (chart.actualRows ∅ X hX label))
-      (side.literalOppositeMultiplicity (chart.actualRows ∅ X hX label))).val) = q)
+      ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalMultiplicity side) (chart.actualRows ∅ X hX label))
+      ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalOppositeMultiplicity side) (chart.actualRows ∅ X hX label))).val) = q)
 variable (kappa : κ = parentParameters.κ)
 variable {centered : Bool} {Y₁ Y₂ floor padding : ℝ}
 variable (domain : PairedEngineDomain centered parent parentParameters
@@ -153,15 +153,15 @@ variable (direct : geometry.tag = .direct → parent.geometry.slotCount = 0)
 variable (error : ℝ) (herr : 0 ≤ error)
 variable (hsecond : geometry.ideals.second.val =
   (primePowerProduct b.primes
-    (side.literalMultiplicity (chart.actualRows ∅ X hX label))).val)
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalMultiplicity side) (chart.actualRows ∅ X hX label))).val)
 variable (hopposite : geometry.ideals.secondOpposite.val =
   (primePowerProduct b.primes
-    (side.literalOppositeMultiplicity (chart.actualRows ∅ X hX label))).val)
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalOppositeMultiplicity side) (chart.actualRows ∅ X hX label))).val)
 variable (hunit : geometry.ideals.unitPart.val =
   (secondPatternUnitIdeal b.primes
-    (side.literalMultiplicity (chart.actualRows ∅ X hX label))
-    (side.literalOppositeMultiplicity (chart.actualRows ∅ X hX label))
-    (chart.originalNonunitPattern ∅ X hX label)).val)
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalMultiplicity side) (chart.actualRows ∅ X hX label))
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalOppositeMultiplicity side) (chart.actualRows ∅ X hX label))
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label)).val)
 variable (hstep : 0 < step) (mesh : ℝ) (hmesh : 0 ≤ mesh)
 variable (hfit : parent.geometry.fitsMesh mesh)
 variable (reference : HeckeGeneral.Analysis.NonzeroIdeal K) (time : ℝ)
@@ -193,7 +193,7 @@ variable (hheight : heightC * (1 + Real.log d.base) ≤ analyticHeight)
 certificates from the original uniform window, then computes the
 full-kappa profile radius and the sixth-root capacity input. -/
 def literalPassiveSideFromWindow :=
-  let cal := chart.literalPassiveFrameCalibration P Rchar hclass hsector X hX label
+  let cal := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.literalPassiveFrameCalibration chart) P Rchar hclass hsector X hX label
     weight keep₁ keep₂ rowMass d W B F choice parent oldMoving correction hcorr remaining extra
     slots.index a ha retainedScale g a₀ oldq wo cutoffExponent hscale hradius hcutoff hproduct
     hpaidSupport m q κ hwidth inverse hone hroot hemb hbackground hslot side firstSign rectangle
@@ -203,21 +203,21 @@ def literalPassiveSideFromWindow :=
   have hdata : ∀ ξ, cal.data ξ = CanonicalLiteralAllocatedData.data P Rchar E (f).allocation
       choice.phases parent oldMoving correction hcorr C (S).primes (S).leftMultiplicity
       (S).rightMultiplicity pattern sector remaining 1
-      (geometry.literalRowParameter capacityCutoff)
-      (geometry.literalSupportParameter (idealLogLength (f).source.base
-        (secondSixthRootIdeal (S).primes (side.literalMultiplicity S)
-          (side.literalOppositeMultiplicity S)).val))
+      ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter geometry) capacityCutoff)
+      ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter geometry) (idealLogLength (f).source.base
+        (secondSixthRootIdeal (S).primes ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalMultiplicity side) S)
+          ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalOppositeMultiplicity side) S)).val))
       (CanonicalLiteralProfileData.frozenNormTest parent.inverseTest reference time)
-      originalSlots.index rectangle firstSign side.literalNegative ξ := by
+      originalSlots.index rectangle firstSign (HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalNegative side) ξ := by
     intro ξ
     rw [rowParameter, supportParameter]
     rw [← inverse_eq]
     rfl
   have hparameters : cal.parameters = CanonicalLiteralAllocatedData.parameters t (f).allocation
-      rectangle (geometry.literalRowParameter capacityCutoff)
-      (geometry.literalSupportParameter (idealLogLength (f).source.base
-        (secondSixthRootIdeal (S).primes (side.literalMultiplicity S)
-          (side.literalOppositeMultiplicity S)).val)) parentParameters.κ := by
+      rectangle ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter geometry) capacityCutoff)
+      ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter geometry) (idealLogLength (f).source.base
+        (secondSixthRootIdeal (S).primes ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalMultiplicity side) S)
+          ((HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalOppositeMultiplicity side) S)).val)) parentParameters.κ := by
     rw [rowParameter, supportParameter, ← kappa]
     rfl
   let analytic := (t).literalSideAnalyticInput E S side (1 : (PUnit.{1} × PUnit.{1}) →* Circle)

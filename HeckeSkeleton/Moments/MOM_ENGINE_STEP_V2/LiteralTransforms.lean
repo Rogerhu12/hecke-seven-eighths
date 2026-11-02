@@ -344,8 +344,8 @@ theorem movingSingleton_plain
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a)
     (J : HeckeGeneral.Analysis.NonzeroIdeal K) (hJ : IsCoprime J.val A.cS) :
-    sourcePlainCoefficient (T.movingSingleton P R I a ha).plain
-        (T.movingSingleton P R I a ha).plainTwist (T.movingSingleton P R I a ha).mask J =
+    sourcePlainCoefficient ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha).plain
+        ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha).plainTwist ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha).mask J =
       sourcePlainCoefficient T.plain T.plainTwist T.mask J *
         actualIdealResidue (A := A) (σ := σ) J.val a := by
   sorry
@@ -354,9 +354,9 @@ theorem movingSingleton_prime
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a)
     (j : Fin k) (p : HeightOneSpectrum (𝓞 K)) (hp : IsCoprime p.asIdeal A.cS) :
-    sourcePrimeCoefficient ((T.movingSingleton P R I a ha).slot j)
-        ((T.movingSingleton P R I a ha).slotTwist j)
-        (T.movingSingleton P R I a ha).mask p =
+    sourcePrimeCoefficient (((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha).slot j)
+        (((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha).slotTwist j)
+        ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha).mask p =
       sourcePrimeCoefficient (T.slot j) (T.slotTwist j) T.mask p *
         actualIdealResidue (A := A) (σ := σ) p.asIdeal a := by
   sorry
@@ -372,7 +372,7 @@ theorem movingSingleton_bare
     (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
     (i : AllocationColumn K k) (J : A.Exterior)
     (hJ : J.val = allocationColumnIdeal i) :
-    rawBareSourceCoefficient (T.movingSingleton P R I a ha)
+    rawBareSourceCoefficient ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha)
         N₁ N₂ Z length w₁ w₂ w i =
       rawBareSourceCoefficient T N₁ N₂ Z length w₁ w₂ w i *
         actualIdealResidue (A := A) (σ := σ) J.val a := by
@@ -380,8 +380,8 @@ theorem movingSingleton_bare
 
 @[simp] theorem movingSingleton_restrictSlots
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a) (keep : Finset (Fin k)) :
-    (T.movingSingleton P R I a ha).restrictSlots keep =
-      (T.restrictSlots keep).movingSingleton P R I a ha := rfl
+    ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha).restrictSlots keep =
+      (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R (T.restrictSlots keep)) I a ha := rfl
 
 end FixedChildCharacters
 
@@ -391,7 +391,7 @@ variable (d : CanonicalLiteralRectangles.Atoms (K := K) k)
 
 def movingSingleton (I : A.Exterior) (a : A.R) (ha : A.Generates I a) :
     CanonicalLiteralRectangles.Atoms (K := K) k :=
-  { d with characters := d.characters.movingSingleton P R I a ha }
+  { d with characters := (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R d.characters) I a ha }
 
 theorem movingSingleton_term
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)

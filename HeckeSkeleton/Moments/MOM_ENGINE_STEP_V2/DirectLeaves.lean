@@ -62,7 +62,7 @@ variable {p : FirstBlockDirectData chart M X hX}
 
 namespace SecondStages
 
-variable (s : p.SecondStages (E := E) (hDiff := hDiff))
+variable (s : FirstBlockDirectData.SecondStages p (E := E) (hDiff := hDiff))
 variable (LA : SourceCartesianAtlas left fullI) (RA : SourceCartesianAtlas right fullJ)
 
 /-- The actual first internal divisor and finite phase precede the
@@ -70,12 +70,12 @@ left/right choice and all genuine second-transform labels. -/
 abbrev CoveredClassKey
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :=
-  (s.left S χ).CoveredLeafKey (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) ⊕
-    (s.right S χ).CoveredLeafKey (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ)
+  ActualGaussStage.CoveredLeafKey (s.left S χ) (FirstBlockDirectData.leftSourceCover p LA S χ) (FirstBlockDirectData.leftSourceCover p LA S χ) ⊕
+    ActualGaussStage.CoveredLeafKey (s.right S χ) (FirstBlockDirectData.rightSourceCover p RA S χ) (FirstBlockDirectData.rightSourceCover p RA S χ)
 
 abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
-    Σ χ : (PUnit × PUnit) →* Circle, s.CoveredClassKey LA RA S χ
+    Σ χ : (PUnit × PUnit) →* Circle, FirstBlockDirectData.SecondStages.CoveredClassKey s LA RA S χ
 
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
@@ -103,41 +103,41 @@ theorem classWeight_eq_zero_of_not_squarefree
   simp only [classWeight, moebius_of_not_squarefree hS, Int.cast_zero,
     norm_zero, zero_mul]
 
-def classLeaf (exceptional : s.CoverHybridPredicates LA RA)
+def classLeaf (exceptional : FirstBlockDirectData.SecondStages.CoverHybridPredicates s LA RA)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
-    s.CoveredClassKey LA RA S χ → ActualHybridLeaf K Q W E
+    FirstBlockDirectData.SecondStages.CoveredClassKey s LA RA S χ → ActualHybridLeaf K Q W E
   | .inl j =>
-      ((s.left S χ).fiberCoveredLeaf (p.leftSourceCover LA S χ) (p.leftSourceCover LA S χ) (exceptional.left S χ)
+      (ActualGaussStage.fiberCoveredLeaf (s.left S χ) (FirstBlockDirectData.leftSourceCover p LA S χ) (FirstBlockDirectData.leftSourceCover p LA S χ) (exceptional.left S χ)
         chart.kernel chart.leftPoint j).scale
         (classWeight (p := p) NL NR S χ / NL S χ)
         (div_nonneg (classWeight_nonneg NL NR S χ) (hNL S χ).le)
   | .inr j =>
-      ((s.right S χ).fiberCoveredLeaf (p.rightSourceCover RA S χ) (p.rightSourceCover RA S χ) (exceptional.right S χ)
+      (ActualGaussStage.fiberCoveredLeaf (s.right S χ) (FirstBlockDirectData.rightSourceCover p RA S χ) (FirstBlockDirectData.rightSourceCover p RA S χ) (exceptional.right S χ)
         chart.kernel (fun j => -chart.rightPoint j) j).scale
         (classWeight (p := p) NL NR S χ / NR S χ)
         (div_nonneg (classWeight_nonneg NL NR S χ) (hNR S χ).le)
 
-def coveredLeaf (exceptional : s.CoverHybridPredicates LA RA)
-    (j : s.CoveredLeafKey LA RA) : ActualHybridLeaf K Q W E :=
-  s.classLeaf LA RA NL NR hNL hNR exceptional j.1 j.2.1 j.2.2
+def coveredLeaf (exceptional : FirstBlockDirectData.SecondStages.CoverHybridPredicates s LA RA)
+    (j : FirstBlockDirectData.SecondStages.CoveredLeafKey s LA RA) : ActualHybridLeaf K Q W E :=
+  FirstBlockDirectData.SecondStages.classLeaf s LA RA NL NR hNL hNR exceptional j.1 j.2.1 j.2.2
 
 /-- The original nonsquarefree first divisors are genuinely zero
 weight leaves; no squarefreeness premise is imposed on the pool. -/
 theorem coveredLeaf_weight_eq_zero_of_not_squarefree
-    (exceptional : s.CoverHybridPredicates LA RA) (j : s.CoveredLeafKey LA RA)
+    (exceptional : FirstBlockDirectData.SecondStages.CoverHybridPredicates s LA RA) (j : FirstBlockDirectData.SecondStages.CoveredLeafKey s LA RA)
     (hj : ¬Squarefree j.1.val) :
-    (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).weight = 0 := by
+    (FirstBlockDirectData.SecondStages.coveredLeaf s LA RA NL NR hNL hNR exceptional j).weight = 0 := by
   rcases j with ⟨S, χ, j | j⟩ <;>
     simp only [coveredLeaf, classLeaf, ActualHybridLeaf.scale,
       classWeight_eq_zero_of_not_squarefree NL NR S χ hj, zero_div, zero_mul]
 
 theorem coveredLeaf_weight_nonzero_squarefree
-    (exceptional : s.CoverHybridPredicates LA RA) (j : s.CoveredLeafKey LA RA)
-    (hj : (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).weight ≠ 0) :
+    (exceptional : FirstBlockDirectData.SecondStages.CoverHybridPredicates s LA RA) (j : FirstBlockDirectData.SecondStages.CoveredLeafKey s LA RA)
+    (hj : (FirstBlockDirectData.SecondStages.coveredLeaf s LA RA NL NR hNL hNR exceptional j).weight ≠ 0) :
     Squarefree j.1.val := by
   by_contra hS
-  exact hj (s.coveredLeaf_weight_eq_zero_of_not_squarefree LA RA NL NR hNL hNR exceptional j hS)
+  exact hj (FirstBlockDirectData.SecondStages.coveredLeaf_weight_eq_zero_of_not_squarefree s LA RA NL NR hNL hNR exceptional j hS)
 
 end SecondStages
 end FirstBlockDirectData

@@ -65,11 +65,11 @@ def atBase (base : ℝ) (hbase : base = Z) :
   error_prime_lower e p ht := by simpa only [hbase] using G.error_prime_lower e p ht
 
 theorem atBase_skeleton (base : ℝ) (hbase : base = Z) :
-    (G.atBase base hbase).skeleton = G.skeleton := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.atBase G) base hbase).skeleton = G.skeleton := by
   sorry
 
 theorem atBase_boundary (base : ℝ) (hbase : base = Z) :
-    (G.atBase base hbase).boundary = G.boundary := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.atBase G) base hbase).boundary = G.boundary := by
   sorry
 
 /-- The existing ideal permutation gives the opposite second side.
@@ -86,11 +86,11 @@ def swapSecond : OriginalNominalGeometry (K := K) a Z step where
   error_prime_lower := G.error_prime_lower
 
 theorem swapSecond_skeleton :
-    G.swapSecond.skeleton =
+    (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.swapSecond G).skeleton =
       { G.skeleton with c₂ := idealLogLength Z G.ideals.secondOpposite.val } := by
   sorry
 
-theorem swapSecond_boundary : G.swapSecond.boundary = G.boundary := rfl
+theorem swapSecond_boundary : (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.swapSecond G).boundary = G.boundary := rfl
 
 end OriginalNominalGeometry
 
@@ -100,19 +100,19 @@ variable {a : RealParameters} {Z step : ℝ}
 variable (G : OriginalNominalGeometry (K := K) a Z step)
 
 theorem atBase_literalRowParameter (base : ℝ) (hbase : base = Z) (cutoff : ℝ) :
-    (G.atBase base hbase).literalRowParameter cutoff = G.literalRowParameter cutoff := by
+    (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.atBase G) base hbase)) cutoff = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff := by
   sorry
 
 theorem atBase_literalSupportParameter (base : ℝ) (hbase : base = Z) (root : ℝ) :
-    (G.atBase base hbase).literalSupportParameter root = G.literalSupportParameter root := by
+    (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.atBase G) base hbase)) root = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) root := by
   sorry
 
 theorem swapSecond_literalRowParameter (cutoff : ℝ) :
-    G.swapSecond.literalRowParameter cutoff = G.literalRowParameter cutoff := by
+    (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.swapSecond G)) cutoff = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff := by
   sorry
 
 theorem swapSecond_literalSupportParameter (root : ℝ) :
-    G.swapSecond.literalSupportParameter root = G.literalSupportParameter root := by
+    (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.swapSecond G)) root = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) root := by
   sorry
 
 end OriginalNominalGeometry

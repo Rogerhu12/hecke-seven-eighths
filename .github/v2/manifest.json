@@ -93,7 +93,9 @@
         "LiteralGeometry",
         "LiteralAnalyticProduction",
         "SelectedLeaves",
-        "SelectedLiteralInputs"
+        "SelectedLiteralInputs",
+        "LiteralCoveredProduction",
+        "LiteralCoveredStrip"
       ]
     },
     {

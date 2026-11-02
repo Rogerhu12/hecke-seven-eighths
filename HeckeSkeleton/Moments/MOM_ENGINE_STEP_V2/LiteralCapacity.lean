@@ -292,7 +292,7 @@ theorem PrimeNormWindow.onAtlas (h : d.PrimeNormWindow B)
 theorem PrimeNormWindow.onAtlas_dictionary (h : d.PrimeNormWindow B)
     {A : SArithmeticData K} {ι : Type*} {columns : Finset ι} {ideal : ι → A.Exterior}
     (T : SourceCartesianAtlas columns ideal) (index : AllocationColumn K k → ι)
-    (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩) :
+    (e : (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary T) = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩) :
     (d.onAtlas T (congrArg Sigma.fst e).symm).PrimeNormWindow B := by
   sorry
 
@@ -397,7 +397,7 @@ variable (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
 
 theorem literalOriginalAtoms_scaleProduct (r : Bool)
     (hcomparison : Y₁ * Y₂ = Z ^ (a.n₁ + a.n₂)) :
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).scaleProduct r =
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).scaleProduct r =
       Z ^ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) := by
   sorry
 
@@ -406,7 +406,7 @@ theorem literalOriginalAtoms_primeNormWindow
     {heightDomain window : Set ℝ} {seminorms : Finset (ℕ × ℕ)} {amplitude : ℝ}
     (profiles : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) amplitude)
     (B : ℝ) (ht : t ∈ heightDomain) (hwindow : ∀ x ∈ window, x ≤ B) :
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).PrimeNormWindow B := by
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).PrimeNormWindow B := by
   sorry
 
 end CompleteMovingRowRecipe
@@ -453,7 +453,7 @@ def extractionIdeal (tag : OriginalNominalTag K) : HeckeGeneral.Analysis.Nonzero
       mem_nonZeroDivisors_of_ne_zero (pow_ne_zero _ p.ne_bot)⟩
 
 theorem extractionIdeal_length (tag : OriginalNominalTag K) (Z : ℝ) :
-    idealLogLength Z tag.extractionIdeal.val = tag.removedLength Z := by
+    idealLogLength Z (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalTag.extractionIdeal tag).val = tag.removedLength Z := by
   sorry
 
 end OriginalNominalTag
@@ -474,15 +474,15 @@ variable (G : OriginalNominalGeometry (K := K) a Z step)
 /-- The same original first ideal times the actual removed pool power.
 For main and direct branches the latter is the unit ideal. -/
 def literalFirstExtraction : HeckeGeneral.Analysis.NonzeroIdeal K :=
-  G.ideals.first * G.tag.extractionIdeal
+  G.ideals.first * (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalTag.extractionIdeal G.tag)
 
 theorem literalFirstExtraction_length :
-    idealLogLength Z G.literalFirstExtraction.val = G.skeleton.c + G.skeleton.w := by
+    idealLogLength Z (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalFirstExtraction G).val = G.skeleton.c + G.skeleton.w := by
   sorry
 
 theorem literalRawDegree :
     G.skeleton.rawDegree = a.n₁ + a.n₂ + a.z -
-      idealLogLength Z G.literalFirstExtraction.val -
+      idealLogLength Z (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalFirstExtraction G).val -
         idealLogLength Z G.ideals.second.val := by
   sorry
 
@@ -498,8 +498,8 @@ def literalSupportParameter (rootLength : ℝ) : ℝ :=
 proved internally. Only the original cutoff size enters the error. -/
 def literalEndpointWindows (hZ : 1 < Z) (cutoff rootLength : ℝ)
     (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step) :
-    G.ScaleWindows (G.literalRowParameter cutoff)
-      (G.literalSupportParameter rootLength - rootLength) where
+    G.ScaleWindows ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff)
+      ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength - rootLength) where
   rowScale := Z ^ (G.frequencyCenter + cutoff)
   supportScale := Z ^ G.supportCenter
   rowScale_pos := Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _
@@ -535,13 +535,13 @@ def literalEndpointWindows (hZ : 1 < Z) (cutoff rootLength : ℝ)
 
 @[simp] theorem literalEndpointWindows_error (hZ : 1 < Z) (cutoff rootLength : ℝ)
     (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step) :
-    (G.literalEndpointWindows hZ cutoff rootLength hcutoff hsmall).error = cutoff := by
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalEndpointWindows G) hZ cutoff rootLength hcutoff hsmall).error = cutoff := by
   sorry
 
 /-- The actual joint budget is the nominal width plus the two explicit
 costs used by the physical-cutoff and full-deletion constructions. -/
 theorem literalParameters_width (cutoff rootLength : ℝ) :
-    G.literalRowParameter cutoff + G.literalSupportParameter rootLength =
+    (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff + (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength =
       G.skeleton.nominalWidth + rootLength + cutoff := by
   sorry
 
@@ -558,7 +558,7 @@ covered-leaf theorems are precisely the raw-degree factors. -/
 theorem scaleProduct_le_originalRawDegree
     (B : ℝ) (cap : ℕ) (error : ℝ) (rectangle : Bool)
     (hbound : d.scaleProduct rectangle *
-      ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
+      ((Ideal.absNorm (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalFirstExtraction G).val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
       B ^ (2 * cap) * d.base ^ (a.n₁ + a.n₂ + a.z))
     (herror : B ^ (2 * cap) ≤ d.base ^ error) :
@@ -609,7 +609,7 @@ variable (G : OriginalNominalGeometry (K := K) a Z step)
 /-- The original active column upper window enters the dual frequency
 twice. Its cost is an explicit row error of this same geometry. -/
 theorem literalParameters_secondWidth (columnLoss cutoff rootLength : ℝ) :
-    G.literalRowParameter (2 * columnLoss + cutoff) + G.literalSupportParameter rootLength =
+    (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) (2 * columnLoss + cutoff) + (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength =
       secondCommonChildWidth Z
         (G.skeleton.A - G.skeleton.c - G.skeleton.w + columnLoss)
         (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.wo
@@ -642,7 +642,7 @@ def reparameterize {m q m' q' : ℝ} (W : G.ScaleWindows m q)
   support_parameter := by rw [hq]; exact W.support_parameter
 
 @[simp] theorem reparameterize_error {m q m' q' : ℝ} (W : G.ScaleWindows m q)
-    (hm : m' = m) (hq : q' = q) : (W.reparameterize hm hq).error = W.error := rfl
+    (hm : m' = m) (hq : q' = q) : ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.ScaleWindows.reparameterize W) hm hq).error = W.error := rfl
 
 end ScaleWindows
 
@@ -702,10 +702,10 @@ def factorsOriginalSixthLengths
     (direct : G.tag = .direct → parent.geometry.slotCount = 0)
     (cutoff rootLength : ℝ) (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step)
     (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters d (f).allocation
-      rectangle (G.literalRowParameter cutoff) (G.literalSupportParameter rootLength) a.κ)
+      rectangle ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff) ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength) a.κ)
     (annulus : ℝ) (cap : ℕ) (error : ℝ) (herr : 0 ≤ error)
     (hbound : d.scaleProduct rectangle *
-      ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
+      ((Ideal.absNorm (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalFirstExtraction G).val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
       annulus ^ (2 * cap) * (f).source.base ^ (a.n₁ + a.n₂ + a.z))
     (hthreshold : annulus ^ (2 * cap) ≤ (f).source.base ^ error) :
@@ -720,10 +720,10 @@ def factorsOriginalSixthLengths
   have hκ : D.parameters.κ = a.κ := by
     rw [hparameters]
     rfl
-  have hm : D.parameters.m = G.literalRowParameter cutoff := by
+  have hm : D.parameters.m = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff := by
     rw [hparameters]
     rfl
-  have hq : D.parameters.q = G.literalSupportParameter rootLength := by
+  have hq : D.parameters.q = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength := by
     rw [hparameters]
     rfl
   refine
@@ -733,7 +733,7 @@ def factorsOriginalSixthLengths
       parent_region := ⟨domain.kappa_lower, domain.kappa_upper, domain.capacity⟩
       kappa := hκ
       direct_slots := ?_
-      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall).reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
+      scales := (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.ScaleWindows.reparameterize ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalEndpointWindows G) (f).source.base_gt_one cutoff rootLength hcutoff hsmall)) hm (congrArg (fun y : ℝ => y - rootLength) hq)
       rawScaleError := error
       rawScaleError_nonneg := herr
       original_scale_product := hproduct }
@@ -751,10 +751,10 @@ def factorsOriginalSixthLengths
     (direct : G.tag = .direct → parent.geometry.slotCount = 0)
     (cutoff rootLength : ℝ) (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step)
     (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters d (f).allocation
-      rectangle (G.literalRowParameter cutoff) (G.literalSupportParameter rootLength) a.κ)
+      rectangle ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff) ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength) a.κ)
     (annulus : ℝ) (cap : ℕ) (error : ℝ) (herr : 0 ≤ error)
     (hbound : d.scaleProduct rectangle *
-      ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
+      ((Ideal.absNorm (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalFirstExtraction G).val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
       annulus ^ (2 * cap) * (f).source.base ^ (a.n₁ + a.n₂ + a.z))
     (hthreshold : annulus ^ (2 * cap) ≤ (f).source.base ^ error) :
@@ -826,7 +826,7 @@ theorem computedRawError_eq_of_two_norms {a : RealParameters} {step : ℝ}
     (G : OriginalNominalGeometry (K := K) a d.base step)
     (annulus : ℝ) (cap : ℕ) (error : ℝ) (r : Bool)
     (hbound : d.scaleProduct r *
-      ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
+      ((Ideal.absNorm (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalFirstExtraction G).val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
       annulus ^ (2 * cap) * d.base ^ (a.n₁ + a.n₂ + a.z))
     (hthreshold : annulus ^ (2 * cap) ≤ d.base ^ error) :
@@ -867,7 +867,7 @@ variable (direct : G.tag = .direct → parent.geometry.slotCount = 0)
 variable (cutoff rootLength : ℝ) (hcutoff : 0 ≤ cutoff) (hsmall : 2 * cutoff ≤ step)
 variable (hparameters : D.parameters = CanonicalLiteralAllocatedData.parameters d
   ((d.factors R side χ ideal hideal firstSign rectangle).frame C L selection hne).allocation
-  rectangle (G.literalRowParameter cutoff) (G.literalSupportParameter rootLength) a.κ)
+  rectangle ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff) ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength) a.κ)
 variable (error : ℝ) (herr : 0 ≤ error)
 
 /-- The actual original slot and endpoint data construct this binding
@@ -884,10 +884,10 @@ def factorsOriginalSixthLengthsAll :
   have hκ : D.parameters.κ = a.κ := by
     rw [hparameters]
     rfl
-  have hm : D.parameters.m = G.literalRowParameter cutoff := by
+  have hm : D.parameters.m = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalRowParameter G) cutoff := by
     rw [hparameters]
     rfl
-  have hq : D.parameters.q = G.literalSupportParameter rootLength := by
+  have hq : D.parameters.q = (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalSupportParameter G) rootLength := by
     rw [hparameters]
     rfl
   refine
@@ -897,7 +897,7 @@ def factorsOriginalSixthLengthsAll :
       parent_region := ⟨domain.kappa_lower, domain.kappa_upper, domain.capacity⟩
       kappa := hκ
       direct_slots := ?_
-      scales := (G.literalEndpointWindows (f).source.base_gt_one cutoff rootLength hcutoff hsmall).reparameterize hm (congrArg (fun y : ℝ => y - rootLength) hq)
+      scales := (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.ScaleWindows.reparameterize ((HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalEndpointWindows G) (f).source.base_gt_one cutoff rootLength hcutoff hsmall)) hm (congrArg (fun y : ℝ => y - rootLength) hq)
       rawScaleError := d.computedRawError G.skeleton.rawDegree error rectangle
       rawScaleError_nonneg := d.computedRawError_nonneg G.skeleton.rawDegree error rectangle herr
       original_scale_product := hproduct }
@@ -923,7 +923,7 @@ and slot embedding. The proof fields agree by proof irrelevance. -/
 theorem factorsOriginalSixthLengthsAll_eq
     (annulus : ℝ) (cap : ℕ)
     (hbound : d.scaleProduct rectangle *
-      ((Ideal.absNorm G.literalFirstExtraction.val : ℝ) *
+      ((Ideal.absNorm (HeckeSkeleton.Moments.EngineStepV2.OriginalNominalGeometry.literalFirstExtraction G).val : ℝ) *
         (Ideal.absNorm G.ideals.second.val : ℝ)) ≤
       annulus ^ (2 * cap) * (f).source.base ^ (a.n₁ + a.n₂ + a.z))
     (hthreshold : annulus ^ (2 * cap) ≤ (f).source.base ^ error) :

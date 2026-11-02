@@ -64,7 +64,7 @@ variable {ι : Type*} (G : ActualGaussSource C ι)
 def coefficientSupport : Finset ι := G.columns.filter fun i => G.coefficient i ≠ 0
 
 def activeCommon : Finset (Ideal (𝓞 K) × Ideal (𝓞 K)) :=
-  commonSupportPool G.coefficientSupport G.coefficientSupport
+  commonSupportPool (coefficientSupport G) (coefficientSupport G)
     (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)
 
 theorem energy_eq_zero_of_rows_eq_empty (h : G.rows = ∅) : G.energy hDiff = 0 := by
@@ -75,7 +75,7 @@ coefficient; columns on which the coefficient is zero need no condition. -/
 theorem activeCommon_old_mask
     (S : Ideal (𝓞 K)) (hS : Squarefree S)
     (hdiv : ∀ i ∈ G.columns, G.coefficient i ≠ 0 → S ∣ (G.ideal i).val)
-    (DE : Ideal (𝓞 K) × Ideal (𝓞 K)) (hDE : DE ∈ G.activeCommon) :
+    (DE : Ideal (𝓞 K) × Ideal (𝓞 K)) (hDE : DE ∈ activeCommon G) :
     S ∣ DE.1 ∧ S ∣ DE.2 := by
   obtain ⟨ij, hij, he⟩ := Finset.mem_image.mp hDE
   have hi := Finset.mem_filter.mp (Finset.mem_product.mp hij).1
@@ -87,7 +87,7 @@ theorem activeCommon_old_mask
 
 theorem activeCommon_norm_le (Y : ℝ)
     (hN : ∀ i ∈ G.columns, G.coefficient i ≠ 0 → (Ideal.absNorm (G.ideal i).val : ℝ) ≤ Y)
-    (DE : Ideal (𝓞 K) × Ideal (𝓞 K)) (hDE : DE ∈ G.activeCommon) :
+    (DE : Ideal (𝓞 K) × Ideal (𝓞 K)) (hDE : DE ∈ activeCommon G) :
     (Ideal.absNorm DE.1 : ℝ) ≤ Y ∧ (Ideal.absNorm DE.2 : ℝ) ≤ Y := by
   obtain ⟨ij, hij, he⟩ := Finset.mem_image.mp hDE
   have hi := Finset.mem_filter.mp (Finset.mem_product.mp hij).1
@@ -119,7 +119,7 @@ theorem activeCommon_of_pair
       ((canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property).leftResidual i).val
       ((canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property).rightResidual j).val)
     (hci : G.coefficient i ≠ 0) (hcj : G.coefficient j ≠ 0) :
-    DE.val ∈ G.activeCommon := by
+    DE.val ∈ ActualGaussSource.activeCommon G := by
   let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property
   have hi' := Finset.mem_filter.mp hi
   have hj' := Finset.mem_filter.mp hj
@@ -136,7 +136,7 @@ theorem activeCommon_of_pair
 common-label gates are justified from original coprime coefficient
 pairs, so they are inserted before the Möbius and phase expansions. -/
 def supported : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest :=
-  { s.gated with
+  { gated s with
     fiber := if G.rows = ∅ then 0 else s.fiber
     calibration :=
       { s.calibration with
@@ -146,38 +146,41 @@ def supported : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest :=
           · simp [hrows]
           · simpa only [if_neg hrows] using s.calibration.fiber q }
     charts := fun DE D =>
-      { s.gated.charts DE D with
+      { (gated s).charts DE D with
         leftCoefficient := fun i =>
-          if DE.val ∈ G.activeCommon then (s.gated.charts DE D).leftCoefficient i else 0
+          if DE.val ∈ ActualGaussSource.activeCommon G
+          then ((gated s).charts DE D).leftCoefficient i else 0
         rightCoefficient := fun j =>
-          if DE.val ∈ G.activeCommon then (s.gated.charts DE D).rightCoefficient j else 0
+          if DE.val ∈ ActualGaussSource.activeCommon G
+          then ((gated s).charts DE D).rightCoefficient j else 0
         profile := by
           intro q i hi j hj hcop
-          by_cases hactive : DE.val ∈ G.activeCommon
-          · simpa only [if_pos hactive] using (s.gated.charts DE D).profile q i hi j hj hcop
+          by_cases hactive : DE.val ∈ ActualGaussSource.activeCommon G
+          · simpa only [if_pos hactive] using ((gated s).charts DE D).profile q i hi j hj hcop
           · have hz : G.coefficient i = 0 ∨ G.coefficient j = 0 := by
               by_cases hci : G.coefficient i = 0
               · exact Or.inl hci
               · exact Or.inr (by
                   by_contra hcj
-                  exact hactive (s.activeCommon_of_pair DE i j hi hj hcop hci hcj))
-            have he := (s.gated.charts DE D).profile q i hi j hj hcop
+                  exact hactive (activeCommon_of_pair s DE i j hi hj hcop hci hcj))
+            have he := ((gated s).charts DE D).profile q i hi j hj hcop
             rcases hz with hci | hcj
             · simpa only [gated, if_pos hci, if_neg hactive, zero_mul, mul_zero] using he
             · simpa only [gated, if_pos hcj, if_neg hactive, star_zero, mul_zero, zero_mul] using he } }
 
-@[simp] theorem supported_fiber_eq_zero (hrows : G.rows = ∅) : s.supported.fiber = 0 := by
+@[simp] theorem supported_fiber_eq_zero (hrows : G.rows = ∅) : (supported s).fiber = 0 := by
   simp only [supported, if_pos hrows]
 
-theorem supported_fiber_nonzero_rows (hne : s.supported.fiber ≠ 0) : G.rows.Nonempty := by
+theorem supported_fiber_nonzero_rows (hne : (supported s).fiber ≠ 0) : G.rows.Nonempty := by
   by_contra hrows
-  exact hne (s.supported_fiber_eq_zero (Finset.not_nonempty_iff_eq_empty.mp hrows))
+  exact hne (supported_fiber_eq_zero s (Finset.not_nonempty_iff_eq_empty.mp hrows))
 
 theorem supported_left_nonzero_active
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
-    (hi : (s.supported.charts DE D).leftCoefficient i ≠ 0) : DE.val ∈ G.activeCommon := by
+    (hi : ((supported s).charts DE D).leftCoefficient i ≠ 0) :
+    DE.val ∈ ActualGaussSource.activeCommon G := by
   by_contra hn
   exact hi (by simp only [supported, if_neg hn])
 
@@ -185,21 +188,24 @@ theorem gated_left_nonzero_original
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : s.mask.powerset) (i : ι)
-    (hi : (s.gated.charts DE D).leftCoefficient i ≠ 0) :
+    (hi : ((gated s).charts DE D).leftCoefficient i ≠ 0) :
     (s.charts DE D).leftCoefficient i ≠ 0 := by
   intro hz
   exact hi (by simp only [gated, hz, ite_self])
 
 theorem supported_gated_leaf_active
     (LC RC : SourceCartesianCover G.columns G.ideal)
-    (exceptional : s.supported.gated.CoverHybridPredicates LC RC)
+    (exceptional : (gated (supported s)).CoverHybridPredicates LC RC)
     (F : SchwartzMap W ℂ) (x : ι → W)
-    (j : s.supported.gated.CoveredLeafKey LC RC) (h : Q)
-    (i : AllocationColumn K (s.supported.gated.coveredLeaf LC RC exceptional F x j).leftSlots)
-    (hi : (s.supported.gated.coveredLeaf LC RC exceptional F x j).leftCoefficient h i ≠ 0) :
-    j.1.1.val ∈ G.activeCommon := by
-  apply s.supported_left_nonzero_active j.1.1 j.1.2.1 (j.1.leftReindex.index i)
-  apply s.supported.gated_left_nonzero_original j.1.1 j.1.2.1 _
+    (j : CoveredLeafKey (gated (supported s)) LC RC) (h : Q)
+    (i : AllocationColumn K
+      (coveredLeaf (gated (supported s)) LC RC exceptional F x j).leftSlots)
+    (hi : (coveredLeaf (gated (supported s)) LC RC exceptional F x j).leftCoefficient h i ≠ 0) :
+    j.1.1.val ∈ ActualGaussSource.activeCommon G := by
+  apply supported_left_nonzero_active s j.1.1 j.1.2.1
+    ((CoveredClassKey.leftReindex
+      (s := gated (supported s)) (LC := LC) (RC := RC) j.1).index i)
+  apply gated_left_nonzero_original (supported s) j.1.1 j.1.2.1 _
   exact (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp (mul_ne_zero_iff.mp hi).1).1).1
 
 
@@ -231,9 +237,9 @@ theorem residualSource_nonzero_dvd (d : FirstGaussPoolData C P ι)
     S ∣ ((d.residualSource p n c).ideal i).val := by
   apply (d.residualPresentation p n i).dvd_residual_of_dvd_original S
   · exact hc i.val (Finset.mem_filter.mp i.property).1
-      (d.residualCoefficient_nonzero_original p n c i hi)
+      (residualCoefficient_nonzero_original d p n c i hi)
   · intro hp
-    exact d.errorRows_nonempty_not_dvd_frozen p hrows (hp.trans hS)
+    exact errorRows_nonempty_not_dvd_frozen d p hrows (hp.trans hS)
 
 end FirstGaussPoolData
 
@@ -241,10 +247,10 @@ namespace ActualPoolStages
 
 def supported (s : ActualPoolStages (E := E) hΓ μv hDiff dpool c finiteTest) :
     ActualPoolStages (E := E) hΓ μv hDiff dpool c finiteTest where
-  main := s.main.supported
-  one p := (s.one p).supported
-  six p := (s.six p).supported
-  seven p := (s.seven p).supported
+  main := ActualGaussStage.supported s.main
+  one p := ActualGaussStage.supported (s.one p)
+  six p := ActualGaussStage.supported (s.six p)
+  seven p := ActualGaussStage.supported (s.seven p)
 
 
 end ActualPoolStages
@@ -260,8 +266,8 @@ variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 variable {p : FirstBlockPoolData chart P M X hX}
 
 def supported (s : p.SecondStages (E := E) (hDiff := hDiff)) : p.SecondStages (E := E) (hDiff := hDiff) where
-  left S χ := (s.left S χ).supported
-  right S χ := (s.right S χ).supported
+  left S χ := ActualPoolStages.supported (s.left S χ)
+  right S χ := ActualPoolStages.supported (s.right S χ)
 
 
 end FirstBlockPoolData.SecondStages
@@ -275,7 +281,8 @@ namespace ActualFirstSource.SecondStages
 variable {s : ActualFirstSource (E := W) hΓ μv C P finiteTest centered d a t Y₁ Y₂ X hX}
 
 def supported (R : s.SecondStages (E := E) (hDiff := hDiff)) :
-    s.SecondStages (E := E) (hDiff := hDiff) := fun v D => (R v D).supported
+    s.SecondStages (E := E) (hDiff := hDiff) :=
+  fun v D => FirstBlockPoolData.SecondStages.supported (R v D)
 
 
 end ActualFirstSource.SecondStages

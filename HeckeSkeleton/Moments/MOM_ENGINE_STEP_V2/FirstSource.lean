@@ -148,7 +148,7 @@ def fullSupportRadius (Z width : ℝ) (hZ : 0 < Z) : {r : ℝ // 0 < r} :=
 
 /-- The sharp inverse radius used by the first pure-dual zero. -/
 theorem fullSupportRadius_inverse (Z width : ℝ) (hZ : 1 < Z) :
-    (Q.fullSupportRadius Z width (zero_lt_one.trans hZ)).val⁻¹ =
+    ((CompleteMovingRowRecipe.fullSupportRadius (Q := Q)) Z width (zero_lt_one.trans hZ)).val⁻¹ =
       Z ^ (width - idealLogLength Z (Q.moving.effectiveFullSupport Q.remaining).val) := by
   change ((Ideal.absNorm (Q.moving.effectiveFullSupport Q.remaining).val : ℝ) / Z ^ width)⁻¹ = _
   rw [inv_div, Real.rpow_sub (zero_lt_one.trans hZ),
@@ -160,7 +160,7 @@ theorem fullSupportRadius_row_window
     (Z width : ℝ) (hZ : 0 < Z) (hbudget : Q.FullJointBudget Z width)
     (ξ : X) (a : RealParameters)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows (data ξ) a Z) :
-    (Q.fullSupportRadius Z width hZ).val *
+    ((CompleteMovingRowRecipe.fullSupportRadius (Q := Q)) Z width hZ).val *
       (sIntegerOrbitNorm K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
         (sixthPowerSUnitSubgroup K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
         ((Q.arithmeticAtoms ξ).rowMap u)).val ≤ 1 := by
@@ -193,18 +193,18 @@ def canonicalFullSupportDirectFirstSource
       centered (data ξ) a t Y₁ Y₂ cutoff hcutoff := by
   let atoms := (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t
   let raw := atoms.raw Y₁ Y₂
-  let radius := Q.fullSupportRadius Z (a.m + a.q) hZ
+  let radius := (CompleteMovingRowRecipe.fullSupportRadius (Q := Q)) Z (a.m + a.q) hZ
   have hideal (u) (hu : u ∈ pairedRows (data ξ) a Z) :
       (ProbeOrbitNormSum.principalExterior A (raw.rowMap u).out).val = u.val :=
     Q.arithmeticAtoms_originalIdeal ξ u
       (((data ξ).rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1
   have chart := CanonicalRowBall.chart (pairedRows (data ξ) a Z) raw.rowMap radius 1 ∅ 1
-    (fun u hu => Q.fullSupportRadius_row_window Z (a.m + a.q) hZ hbudget ξ a u hu)
+    (fun u hu => (CompleteMovingRowRecipe.fullSupportRadius_row_window (Q := Q)) Z (a.m + a.q) hZ hbudget ξ a u hu)
     (fun _ _ => by simp [sIntegerOrbitAvoidanceMask])
     (parent_rowMap_fibres_le_one_of_originalIdeal (pairedRows (data ξ) a Z) raw.rowMap hideal)
-  exact (atoms.values Y₁ Y₂).canonicalDirectFirstSourceOfChart
+  exact ParentRawAtoms.ConstantValues.canonicalDirectFirstSourceOfChart
     (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
-    (μv := μv) (ν := ν) C radius ∅ chart
+    (μv := μv) (ν := ν) C (atoms.values Y₁ Y₂) radius ∅ chart
     (fun I _ q => Q.arithmeticAtoms_leftPhase hroot hemb ξ q I)
     (fun I _ q => Q.arithmeticAtoms_rightPhase hroot hemb ξ q I)
     (fun i p _ q => Q.arithmeticAtoms_primePhase hroot hemb ξ q i p)
@@ -219,8 +219,8 @@ def canonicalFullSupportDirectFirstSource
     (hbudget : Q.FullJointBudget Z (a.m + a.q))
     (centered : Bool) (cutoff : ℝ) (hcutoff : 1 ≤ cutoff)
     (δ : ℝ) (hδ : 0 < δ) (hδhalf : δ ≤ 1 / 2) :
-    (Q.canonicalFullSupportDirectFirstSource μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
-      centered cutoff hcutoff δ hδ hδhalf).radius = Q.fullSupportRadius Z (a.m + a.q) hZ := rfl
+    ((CompleteMovingRowRecipe.canonicalFullSupportDirectFirstSource (Q := Q) (μv := μv) (ν := ν)) C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
+      centered cutoff hcutoff δ hδ hδhalf).radius = (CompleteMovingRowRecipe.fullSupportRadius (Q := Q)) Z (a.m + a.q) hZ := rfl
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStepV2

@@ -65,29 +65,29 @@ namespace ActualDirectFirstSource
 variable (s : ActualDirectFirstSource (E := W) hΓ μv C Z finiteTest centered d a t Y₁ Y₂ X hX)
 
 abbrev SecondStages := ∀ v : s.CommonLabel, ∀ D : ((s.block v).mask s.mask).powerset,
-  (s.pieces v D).SecondStages (E := E) (hDiff := hDiff)
+  FirstBlockDirectData.SecondStages (s.pieces v D) (E := E) (hDiff := hDiff)
 
 namespace SecondStages
 
-variable {s} (R : s.SecondStages (E := E) (hDiff := hDiff))
+variable {s} (R : ActualDirectFirstSource.SecondStages s (E := E) (hDiff := hDiff))
 
 abbrev TerminalCalibration (sTail sZero : Finset (ℕ × ℕ))
     (k : ℕ) (Lmax Nsave decay : ℝ) :=
   ∀ v : s.CommonLabel, ∀ D : ((s.block v).mask s.mask).powerset,
-    (R v D).TerminalCalibration sTail sZero k Z Lmax Nsave decay
+    FirstBlockDirectData.SecondStages.TerminalCalibration (R v D) sTail sZero k Z Lmax Nsave decay
 
 abbrev CoverHybridPredicates (L : SourceCartesianAtlas s.columns s.ideal) :=
   ∀ v : s.CommonLabel, ∀ D : ((s.block v).mask s.mask).powerset,
-    (R v D).CoverHybridPredicates L L
+    FirstBlockDirectData.SecondStages.CoverHybridPredicates (R v D) L L
 
 abbrev CoveredLeafKey (L : SourceCartesianAtlas s.columns s.ideal) :=
   Σ v : s.CommonLabel, Σ D : ((s.block v).mask s.mask).powerset,
-    (R v D).CoveredLeafKey L L
+    FirstBlockDirectData.SecondStages.CoveredLeafKey (R v D) L L
 
 def parentLeaf (L : SourceCartesianAtlas s.columns s.ideal)
-    (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
-    (j : R.CoveredLeafKey L) : ActualHybridLeaf K Q W E :=
-  ((R j.1 j.2.1).coveredLeaf L L (N.left j.1 j.2.1) (N.right j.1 j.2.1)
+    (exceptional : ActualDirectFirstSource.SecondStages.CoverHybridPredicates R L) (N : s.Normalization)
+    (j : ActualDirectFirstSource.SecondStages.CoveredLeafKey R L) : ActualHybridLeaf K Q W E :=
+  (FirstBlockDirectData.SecondStages.coveredLeaf (R j.1 j.2.1) L L (N.left j.1 j.2.1) (N.right j.1 j.2.1)
     (N.left_pos j.1 j.2.1) (N.right_pos j.1 j.2.1)
     (exceptional j.1 j.2.1) j.2.2).scale (s.fiber : ℝ) (Nat.cast_nonneg _)
 

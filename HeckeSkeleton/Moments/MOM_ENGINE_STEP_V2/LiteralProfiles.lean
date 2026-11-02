@@ -316,7 +316,7 @@ def literalOriginalProfileData (ξ : X)
     (hleft : ∀ y, (data ξ).plainTest₁.profile reference t y ≠ 0 → 0 < y)
     (hright : ∀ y, (data ξ).plainTest₂.profile reference t y ≠ 0 → 0 < y)
     (hprime : ∀ j y, ((data ξ).geometry.slots j).profile t y ≠ 0 → 0 < y) :
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).ProfileData where
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).ProfileData where
   left r := CanonicalLiteralProfileData.mulIdealTest
     (CanonicalLiteralProfileData.frozenNormTest (data ξ).plainTest₁ reference t)
     (fun _ => if r && !centered then 0 else 1)
@@ -355,8 +355,8 @@ def literalOriginalProfileDataOfWindow (ξ : X)
     (original : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) bound)
     (hreference : reference ∈ rowDomain) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Ioi 0) :
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).ProfileData :=
-  Q.literalOriginalProfileData ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).ProfileData :=
+  (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalProfileData Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ reference href
     (fun y hy => hwindow (original.left_support reference hreference t ht (by
       simpa only [Function.mem_support, ← original.left_eq] using hy)))
     (fun y hy => hwindow (original.right_support reference hreference t ht (by
@@ -374,8 +374,8 @@ theorem literalOriginalAtoms_left_weight_mem (ξ : X)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
     (href : reference ∈ pairedRows (data ξ) a Z) (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : IsCoprime I.val A.cS)
-    (hweight : (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).leftWeight r I ≠ 0) :
-    I.val ∈ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₁ := by
+    (hweight : ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).leftWeight r I ≠ 0) :
+    I.val ∈ ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₁ := by
   sorry
 
 theorem literalOriginalAtoms_right_weight_mem (ξ : X)
@@ -385,8 +385,8 @@ theorem literalOriginalAtoms_right_weight_mem (ξ : X)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
     (href : reference ∈ pairedRows (data ξ) a Z) (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) (hI : IsCoprime I.val A.cS)
-    (hweight : (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).rightWeight r I ≠ 0) :
-    I.val ∈ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₂ := by
+    (hweight : ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).rightWeight r I ≠ 0) :
+    I.val ∈ ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₂ := by
   sorry
 
 /-- Prime profiles have no row parameter. Only the original exterior
@@ -397,8 +397,8 @@ theorem literalOriginalAtoms_slot_weight_mem (ξ : X)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (j : Fin (data ξ).geometry.slotCount) (p : HeightOneSpectrum (𝓞 K))
     (hp : IsCoprime p.asIdeal A.cS)
-    (hweight : (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slotWeight j p ≠ 0) :
-    p ∈ (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slots j := by
+    (hweight : ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slotWeight j p ≠ 0) :
+    p ∈ ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slots j := by
   sorry
 
 end CompleteMovingRowRecipe

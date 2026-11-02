@@ -67,24 +67,24 @@ variable {p : FirstBlockDirectData chart M X hX}
 theorem leftDivisorCoefficient_nonzero_dvd
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) (i : ι)
-    (hi : p.leftDivisorCoefficient S χ i ≠ 0) : S.val ∣ (p.leftData.ideal i).val := by
+    (hi : FirstBlockDirectData.leftDivisorCoefficient p S χ i ≠ 0) : S.val ∣ (p.leftData.ideal i).val := by
   by_contra hn
   exact hi (by simp only [leftDivisorCoefficient, if_neg hn])
 
 theorem rightDivisorCoefficient_nonzero_dvd
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) (i : κ)
-    (hi : p.rightDivisorCoefficient S χ i ≠ 0) : S.val ∣ (p.rightData.ideal i).val := by
+    (hi : FirstBlockDirectData.rightDivisorCoefficient p S χ i ≠ 0) : S.val ∣ (p.rightData.ideal i).val := by
   by_contra hn
   exact hi (by simp only [rightDivisorCoefficient, if_neg hn])
 
 namespace SecondStages
 
-variable (s : p.SecondStages (E := E) (hDiff := hDiff))
+variable (s : FirstBlockDirectData.SecondStages p (E := E) (hDiff := hDiff))
 
-def prepared : p.SecondStages (E := E) (hDiff := hDiff) where
-  left S χ := (s.left S χ).supported.gated
-  right S χ := (s.right S χ).supported.gated
+def prepared : FirstBlockDirectData.SecondStages p (E := E) (hDiff := hDiff) where
+  left S χ := ActualGaussStage.gated (ActualGaussStage.supported (s.left S χ))
+  right S χ := ActualGaussStage.gated (ActualGaussStage.supported (s.right S χ))
 
 
 
@@ -94,12 +94,12 @@ theorem left_active_common_contains_first_divisor
     (DE : commonSupportPool p.leftData.columns p.leftData.columns
       (fun i => (p.leftData.ideal i).val) (fun j => (p.leftData.ideal j).val))
     (D : (s.left S χ).mask.powerset) (i : ι)
-    (hi : ((s.prepared.left S χ).charts DE D).leftCoefficient i ≠ 0) :
+    (hi : (((FirstBlockDirectData.SecondStages.prepared s).left S χ).charts DE D).leftCoefficient i ≠ 0) :
     S.val ∣ DE.val.1 ∧ S.val ∣ DE.val.2 := by
-  apply (p.leftData.directSource (p.leftDivisorCoefficient S χ)).activeCommon_old_mask
+  apply ActualGaussSource.activeCommon_old_mask (p.leftData.directSource (FirstBlockDirectData.leftDivisorCoefficient p S χ))
     S.val hS (fun i _ hi => leftDivisorCoefficient_nonzero_dvd S χ i hi) DE.val
-  apply (s.left S χ).supported_left_nonzero_active DE D i
-  exact (s.left S χ).supported.gated_left_nonzero_original DE D i hi
+  apply ActualGaussStage.supported_left_nonzero_active (s.left S χ) DE D i
+  exact ActualGaussStage.gated_left_nonzero_original (ActualGaussStage.supported (s.left S χ)) DE D i hi
 
 theorem right_active_common_contains_first_divisor
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -107,12 +107,12 @@ theorem right_active_common_contains_first_divisor
     (DE : commonSupportPool p.rightData.columns p.rightData.columns
       (fun i => (p.rightData.ideal i).val) (fun j => (p.rightData.ideal j).val))
     (D : (s.right S χ).mask.powerset) (i : κ)
-    (hi : ((s.prepared.right S χ).charts DE D).leftCoefficient i ≠ 0) :
+    (hi : (((FirstBlockDirectData.SecondStages.prepared s).right S χ).charts DE D).leftCoefficient i ≠ 0) :
     S.val ∣ DE.val.1 ∧ S.val ∣ DE.val.2 := by
-  apply (p.rightData.directSource (p.rightDivisorCoefficient S χ)).activeCommon_old_mask
+  apply ActualGaussSource.activeCommon_old_mask (p.rightData.directSource (FirstBlockDirectData.rightDivisorCoefficient p S χ))
     S.val hS (fun i _ hi => rightDivisorCoefficient_nonzero_dvd S χ i hi) DE.val
-  apply (s.right S χ).supported_left_nonzero_active DE D i
-  exact (s.right S χ).supported.gated_left_nonzero_original DE D i hi
+  apply ActualGaussStage.supported_left_nonzero_active (s.right S χ) DE D i
+  exact ActualGaussStage.gated_left_nonzero_original (ActualGaussStage.supported (s.right S χ)) DE D i hi
 
 end SecondStages
 end FirstBlockDirectData
@@ -124,40 +124,40 @@ variable {s : ActualDirectFirstSource (E := W) hΓ μv C Z finiteTest centered d
 
 namespace ActualDirectFirstSource.SecondStages
 
-variable (R : s.SecondStages (E := E) (hDiff := hDiff))
+variable (R : ActualDirectFirstSource.SecondStages s (E := E) (hDiff := hDiff))
 
-def prepared : s.SecondStages (E := E) (hDiff := hDiff) := fun v D => (R v D).prepared
+def prepared : ActualDirectFirstSource.SecondStages s (E := E) (hDiff := hDiff) := fun v D => FirstBlockDirectData.SecondStages.prepared (R v D)
 
 
 
 variable (L : SourceCartesianAtlas s.columns s.ideal)
 
-def liveLeaves (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
-    Finset (R.CoveredLeafKey L) := ActualHybridFamily.live (R.parentLeaf L exceptional N)
+def liveLeaves (exceptional : ActualDirectFirstSource.SecondStages.CoverHybridPredicates R L) (N : s.Normalization) :
+    Finset (ActualDirectFirstSource.SecondStages.CoveredLeafKey R L) := ActualHybridFamily.live (ActualDirectFirstSource.SecondStages.parentLeaf R L exceptional N)
 
-theorem liveLeaves_spec (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
-    (j : R.liveLeaves L exceptional N) :
-    (R.parentLeaf L exceptional N j.val).Live := ActualHybridFamily.live_spec _ j
+theorem liveLeaves_spec (exceptional : ActualDirectFirstSource.SecondStages.CoverHybridPredicates R L) (N : s.Normalization)
+    (j : ActualDirectFirstSource.SecondStages.liveLeaves R L exceptional N) :
+    (ActualDirectFirstSource.SecondStages.parentLeaf R L exceptional N j.val).Live := ActualHybridFamily.live_spec _ j
 
 theorem live_first_divisor_squarefree
-    (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
-    (j : R.liveLeaves L exceptional N) : Squarefree j.val.2.2.1.val := by
-  have hw := (R.liveLeaves_spec L exceptional N j).1
+    (exceptional : ActualDirectFirstSource.SecondStages.CoverHybridPredicates R L) (N : s.Normalization)
+    (j : ActualDirectFirstSource.SecondStages.liveLeaves R L exceptional N) : Squarefree j.val.2.2.1.val := by
+  have hw := (ActualDirectFirstSource.SecondStages.liveLeaves_spec R L exceptional N j).1
   change (s.fiber : ℝ) *
-    ((R j.val.1 j.val.2.1).coveredLeaf L L
+    (FirstBlockDirectData.SecondStages.coveredLeaf (R j.val.1 j.val.2.1) L L
       (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
       (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
       (exceptional j.val.1 j.val.2.1) j.val.2.2).weight ≠ 0 at hw
-  exact (R j.val.1 j.val.2.1).coveredLeaf_weight_nonzero_squarefree L L
+  exact FirstBlockDirectData.SecondStages.coveredLeaf_weight_nonzero_squarefree (R j.val.1 j.val.2.1) L L
     (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
     (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
     (exceptional j.val.1 j.val.2.1) j.val.2.2 (mul_ne_zero_iff.mp hw).2
 
 theorem leaves_cost_eq_live
-    (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
-    (∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost) =
-      (∑ j : R.liveLeaves L exceptional N, (R.parentLeaf L exceptional N j.val).exceptionalCost) +
-      (∑ j : R.liveLeaves L exceptional N, (R.parentLeaf L exceptional N j.val).ordinaryCost) := by
+    (exceptional : ActualDirectFirstSource.SecondStages.CoverHybridPredicates R L) (N : s.Normalization) :
+    (∑ j : ActualDirectFirstSource.SecondStages.CoveredLeafKey R L, (ActualDirectFirstSource.SecondStages.parentLeaf R L exceptional N j).cost) =
+      (∑ j : ActualDirectFirstSource.SecondStages.liveLeaves R L exceptional N, (ActualDirectFirstSource.SecondStages.parentLeaf R L exceptional N j.val).exceptionalCost) +
+      (∑ j : ActualDirectFirstSource.SecondStages.liveLeaves R L exceptional N, (ActualDirectFirstSource.SecondStages.parentLeaf R L exceptional N j.val).ordinaryCost) := by
   rw [ActualHybridFamily.sum_cost_eq_live]
   simp only [ActualHybridLeaf.cost, Finset.sum_add_distrib]
 

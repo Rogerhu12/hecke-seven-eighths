@@ -80,39 +80,39 @@ def originalNonunitPattern
   else fun _ => false
 
 theorem actualRows_originalNonunitPattern
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).rows) :
     actualNonunitPattern C b.primes b.leftMultiplicity b.rightMultiplicity (-h.val.out.val) =
-      chart.originalNonunitPattern M X hX label := by
+      (SecondBlockProfileChart.originalNonunitPattern (chart := chart)) M X hX label := by
   have hrows : (chart.actualRows M X hX label).rows.Nonempty := ⟨h.val, h.property⟩
   rw [originalNonunitPattern, dif_pos hrows]
   funext i
   apply decide_eq_decide.mpr
   exact hclass h.val hrows.choose
-    ((chart.actualRows_original_rowLabel M X hX label h).trans
-      (chart.actualRows_original_rowLabel M X hX label
+    (((SecondBlockProfileChart.actualRows_original_rowLabel (chart := chart)) M X hX label h).trans
+      ((SecondBlockProfileChart.actualRows_original_rowLabel (chart := chart)) M X hX label
         ⟨hrows.choose, hrows.choose_spec⟩).symm) i
 
 /-- Every original live row is placed in the same already chosen
 class, without asking the caller for an ordinary-row witness. -/
 def originalNonunitClass
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).live) :
     (chart.actualRows M X hX label).NonunitClass C
-      (chart.originalNonunitPattern M X hX label) :=
-  ⟨h, chart.actualRows_originalNonunitPattern hclass M X hX label
+      ((SecondBlockProfileChart.originalNonunitPattern (chart := chart)) M X hX label) :=
+  ⟨h, (SecondBlockProfileChart.actualRows_originalNonunitPattern (chart := chart)) hclass M X hX label
     ⟨h.val, (Finset.mem_filter.mp h.property).1⟩⟩
 
 @[simp] theorem originalNonunitClass_val
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).live) :
-    (chart.originalNonunitClass hclass M X hX label h).val = h := rfl
+    ((SecondBlockProfileChart.originalNonunitClass (chart := chart)) hclass M X hX label h).val = h := rfl
 
 end OriginalPattern
 
@@ -125,7 +125,7 @@ variable (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
 /-- The original physical cutoff bounds the full retained mask on
 one fixed pattern budget. Its two radical ideals do not depend on h. -/
 theorem actualRows_pattern_fullDeletion_joint_window
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
@@ -140,7 +140,7 @@ theorem actualRows_pattern_fullDeletion_joint_window
     (hremaining : remaining.val ∣ old.val)
     (hold : A.exteriorNorm old ≤ Z ^ (q + wo))
     (h : (chart.actualRows ∅ X hX label).live) :
-    let pattern := chart.originalNonunitPattern ∅ X hX label
+    let pattern := (SecondBlockProfileChart.originalNonunitPattern (chart := chart)) ∅ X hX label
     idealNorm K ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal *
         idealNorm K
           ((secondOriginalMovingFactors P Rchar C b.primes b.leftMultiplicity
@@ -159,7 +159,7 @@ theorem actualRows_pattern_fullDeletion_joint_window
 rows. In particular this universal claim is available on an empty
 ordinary class before its normalization data are constructed. -/
 theorem canonicalOriginalChild_allowed_of_pattern_fullDeletion
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
@@ -180,7 +180,7 @@ theorem canonicalOriginalChild_allowed_of_pattern_fullDeletion
     (inverseTest leftTest rightTest : IdealTest K) (geometry : SlotGeometry K)
     (index : Fin geometry.slotCount → Fin parent.geometry.slotCount)
     (h : (chart.actualRows ∅ X hX label).live) :
-    let pattern := chart.originalNonunitPattern ∅ X hX label
+    let pattern := (SecondBlockProfileChart.originalNonunitPattern (chart := chart)) ∅ X hX label
     (CanonicalOriginalChildData.data parent
       (secondOriginalMovingFactors P Rchar C b.primes b.leftMultiplicity b.rightMultiplicity pattern)
       correction hcorr sector

@@ -62,11 +62,11 @@ def canonicalRetainedScale (I : OriginalNominalIdeals K)
 
 theorem canonicalRetainedScale_pos (I : OriginalNominalIdeals K)
     (a : RealParameters) (Z supportError : ℝ) (hZ : 0 < Z) :
-    0 < I.canonicalRetainedScale a Z supportError := Real.rpow_pos_of_pos hZ _
+    0 < (OriginalNominalIdeals.canonicalRetainedScale (I := I)) a Z supportError := Real.rpow_pos_of_pos hZ _
 
 theorem canonicalRetainedLength (I : OriginalNominalIdeals K)
     (a : RealParameters) (Z supportError : ℝ) (hZ : 1 < Z) :
-    Real.log (I.canonicalRetainedScale a Z supportError) / Real.log Z =
+    Real.log ((OriginalNominalIdeals.canonicalRetainedScale (I := I)) a Z supportError) / Real.log Z =
       I.firstFrequency a Z + supportError := by
   rw [canonicalRetainedScale, Real.log_rpow (zero_lt_one.trans hZ)]
   exact mul_div_cancel_right₀ _ (ne_of_gt (Real.log_pos hZ))
@@ -80,14 +80,14 @@ variable {a : RealParameters} {Z step : ℝ}
 def canonicalDirect (I : OriginalNominalIdeals K) (supportError : ℝ)
     (hZ : 0 < Z) (herr : 0 ≤ supportError) :
     OriginalNominalGeometry (K := K) a Z step :=
-  forDirect I (I.canonicalRetainedScale a Z supportError) supportError
-    (I.canonicalRetainedScale_pos a Z supportError hZ) herr le_rfl
+  forDirect I ((OriginalNominalIdeals.canonicalRetainedScale (I := I)) a Z supportError) supportError
+    ((OriginalNominalIdeals.canonicalRetainedScale_pos (I := I)) a Z supportError hZ) herr le_rfl
 
 def canonicalMain (I : OriginalNominalIdeals K) (supportError : ℝ)
     (hZ : 0 < Z) (herr : 0 ≤ supportError) :
     OriginalNominalGeometry (K := K) a Z step :=
-  forMain I (I.canonicalRetainedScale a Z supportError) supportError
-    (I.canonicalRetainedScale_pos a Z supportError hZ) herr le_rfl
+  forMain I ((OriginalNominalIdeals.canonicalRetainedScale (I := I)) a Z supportError) supportError
+    ((OriginalNominalIdeals.canonicalRetainedScale_pos (I := I)) a Z supportError hZ) herr le_rfl
 
 def canonicalPoolError
     {bad : Finset (HeightOneSpectrum (𝓞 K))} {eps : ℝ}
@@ -95,8 +95,8 @@ def canonicalPoolError
     (e : AmplifierValuation) (p : P.primes)
     (I : OriginalNominalIdeals K) (supportError : ℝ) (herr : 0 ≤ supportError) :
     OriginalNominalGeometry (K := K) a Z step :=
-  forPoolError P e p I (I.canonicalRetainedScale a Z supportError) supportError
-    (I.canonicalRetainedScale_pos a Z supportError (zero_lt_one.trans P.base_gt_one))
+  forPoolError P e p I ((OriginalNominalIdeals.canonicalRetainedScale (I := I)) a Z supportError) supportError
+    ((OriginalNominalIdeals.canonicalRetainedScale_pos (I := I)) a Z supportError (zero_lt_one.trans P.base_gt_one))
     herr le_rfl
 
 /-- This pays exactly the sixth-power insertion on the main branch;
@@ -113,20 +113,20 @@ theorem enlargement_ge_pool (G : OriginalNominalGeometry (K := K) a Z step)
 theorem enlargement_nonneg (G : OriginalNominalGeometry (K := K) a Z step)
     (hstep : 0 ≤ step) : 0 ≤ G.enlargement :=
   (mul_nonneg (by norm_num) (G.tag.poolLength_nonneg step hstep)).trans
-    (G.enlargement_ge_pool hstep)
+    ((OriginalNominalGeometry.enlargement_ge_pool (G := G)) hstep)
 
 /-- The actual second common factors do not enter the first row
 enlargement. This expression can be fixed before the second transform
 and then reused with its subsequently computed frequency pattern. -/
 theorem enlargement_eq_endpoint (G : OriginalNominalGeometry (K := K) a Z step)
     (hZ : 1 < Z)
-    (hscale : G.retainedScale = G.ideals.canonicalRetainedScale a Z G.supportError) :
+    (hscale : G.retainedScale = (OriginalNominalIdeals.canonicalRetainedScale (I := G.ideals)) a Z G.supportError) :
     G.enlargement =
       max (idealLogLength Z G.ideals.opposite.val - idealLogLength Z G.ideals.first.val -
         G.supportError - 2 * G.tag.removedLength Z + G.tag.movingLength Z) 0 +
         G.tag.padding step := by
   unfold enlargement shiftedCommon retainedLength
-  rw [hscale, G.ideals.canonicalRetainedLength a Z G.supportError hZ]
+  rw [hscale, (OriginalNominalIdeals.canonicalRetainedLength (I := G.ideals)) a Z G.supportError hZ]
   congr 2
   ring
 
@@ -134,7 +134,7 @@ theorem retainedScale_le_enlarged (G : OriginalNominalGeometry (K := K) a Z step
     (hZ : 1 ≤ Z) (hstep : 0 ≤ step) :
     G.retainedScale ≤ G.retainedScale * Z ^ G.enlargement := by
   simpa only [mul_one] using mul_le_mul_of_nonneg_left
-    (Real.one_le_rpow hZ (G.enlargement_nonneg hstep)) G.retainedScale_pos.le
+    (Real.one_le_rpow hZ ((OriginalNominalGeometry.enlargement_nonneg (G := G)) hstep)) G.retainedScale_pos.le
 
 end OriginalNominalGeometry
 

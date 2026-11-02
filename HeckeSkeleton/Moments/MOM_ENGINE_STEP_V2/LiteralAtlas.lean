@@ -169,7 +169,7 @@ def literalDictionary (T : SourceCartesianAtlas columns ideal) :
 private theorem literalDictionary_cast (h : columns = otherColumns)
     (e : SourceCartesianAtlas columns ideal = SourceCartesianAtlas otherColumns ideal)
     (T : SourceCartesianAtlas columns ideal) :
-    (cast e T).literalDictionary = T.literalDictionary := by
+    (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary (cast e T)) = (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary T) := by
   sorry
 
 end SourceCartesianAtlas
@@ -194,7 +194,7 @@ variable (c : ι → ℂ)
 /-- The existing main cover carries precisely the retained original
 plain and prime occurrences and the actual reconstruction index. -/
 theorem mainAtlasForLabel_literalDictionary (a : T.labels S D) :
-    (d.mainAtlasForLabel T S D hcolumns hideal c a).literalDictionary =
+    (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary (d.mainAtlasForLabel T S D hcolumns hideal c a)) =
       ⟨(T.branch S D a).keep.card,
         (SupportCartesian.plainResidual T.reindex.plain₁ S
             (T.branch S D a).plainExtract₁,
@@ -207,7 +207,7 @@ theorem mainAtlasForLabel_literalDictionary (a : T.labels S D) :
 
 /-- This is the identical package at the public whole-main cover. -/
 theorem mainSourceCartesianCover_literalDictionary (a : T.labels S D) :
-    ((d.mainSourceCartesianCover T S D hcolumns hideal c).branch a).literalDictionary =
+    (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary ((d.mainSourceCartesianCover T S D hcolumns hideal c).branch a)) =
       ⟨(T.branch S D a).keep.card,
         (SupportCartesian.plainResidual T.reindex.plain₁ S
             (T.branch S D a).plainExtract₁,
@@ -239,7 +239,7 @@ theorem combinedAtlasForLabel_literalDictionary
     (a : d.combinedLabels T S p n) :
     let b := d.combinedBranchForLabel T S D hcolumns p n a
     let hb := (d.combinedBranchForLabel_spec T S D hcolumns p n a).2
-    (d.combinedAtlasForLabel T S D hcolumns hideal p n c a).literalDictionary =
+    (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary (d.combinedAtlasForLabel T S D hcolumns hideal p n c a)) =
       ⟨b.keep.card,
         (SupportCartesian.plainResidual T.reindex.plain₁ (S ∪ {p.val.asIdeal})
             b.plainExtract₁,
@@ -257,7 +257,7 @@ theorem residualSourceCartesianCover_literalDictionary
     (a : d.combinedLabels T S p n) :
     let b := d.combinedBranchForLabel T S D hcolumns p n a
     let hb := (d.combinedBranchForLabel_spec T S D hcolumns p n a).2
-    ((d.residualSourceCartesianCover T S D hcolumns hideal p n c).branch a).literalDictionary =
+    (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary ((d.residualSourceCartesianCover T S D hcolumns hideal p n c).branch a)) =
       ⟨b.keep.card,
         (SupportCartesian.plainResidual T.reindex.plain₁ (S ∪ {p.val.asIdeal})
             b.plainExtract₁,
@@ -509,7 +509,7 @@ def literalOriginalSupportData (ξ : X)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (reference : HeckeGeneral.Analysis.NonzeroIdeal K)
     (href : reference ∈ pairedRows (data ξ) a Z) :
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).SupportData
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).SupportData
       (primeSupport A.cS) where
   left_avoids I hI := by
     obtain ⟨J, hJ, rfl⟩ := Finset.mem_image.mp hI
@@ -520,14 +520,14 @@ def literalOriginalSupportData (ξ : X)
   slot_avoids j p hp :=
     (coprime_support_iff p.asIdeal A.cS A.cS_ne_zero).mp (Finset.mem_filter.mp hp).2
   left_mem r I hI havoid :=
-    Q.literalOriginalAtoms_left_weight_mem ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms_left_weight_mem Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       reference href r I ((coprime_support_iff I.val A.cS A.cS_ne_zero).mpr havoid)
       (CanonicalLiteralRectangles.Atoms.rectangleLeftWeight_ne_zero _ r I hI)
   right_mem r I hI havoid :=
-    Q.literalOriginalAtoms_right_weight_mem ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms_right_weight_mem Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       reference href r I ((coprime_support_iff I.val A.cS A.cS_ne_zero).mpr havoid) hI
   slot_mem j p hp havoid :=
-    Q.literalOriginalAtoms_slot_weight_mem ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ j p
+    (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms_slot_weight_mem Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ j p
       ((coprime_support_iff p.asIdeal A.cS A.cS_ne_zero).mpr havoid) hp
 
 end CompleteMovingRowRecipe
@@ -696,7 +696,7 @@ variable (T : SourceCartesianAtlas columns ideal)
 /-- The supports are the already constructed atlas supports, while
 all coefficient and profile data come from the original literal table. -/
 def onAtlas (h : k = T.slotCount) : Atoms (K := K) T.slotCount :=
-  d.onDictionary T.literalDictionary h T.plain₁_nonzero T.plain₂_nonzero
+  d.onDictionary (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary T) h T.plain₁_nonzero T.plain₂_nonzero
 
 @[simp] theorem onAtlas_plain₁ (h : k = T.slotCount) :
     (d.onAtlas T h).plain₁ = T.reindex.plain₁ := rfl
@@ -720,19 +720,19 @@ theorem onAtlas_whole (h : k = T.slotCount)
 /-- The original occurrence equality, rather than a completed column
 identity, proves that support retargeting leaves this atom table intact. -/
 theorem onAtlas_eq_cast (index : AllocationColumn K k → ι)
-    (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩) :
+    (e : (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary T) = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩) :
     d.onAtlas T (congrArg Sigma.fst e).symm =
       cast (congrArg (Atoms (K := K)) (congrArg Sigma.fst e).symm) d := by
   sorry
 
 theorem onAtlas_index (index : AllocationColumn K k → ι)
-    (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩)
+    (e : (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary T) = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩)
     (i : AllocationColumn K T.slotCount) :
     T.reindex.index i = index (castColumn (congrArg Sigma.fst e) i) := by
   sorry
 
 theorem onAtlas_membership (index : AllocationColumn K k → ι)
-    (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩)
+    (e : (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary T) = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩)
     (i : AllocationColumn K T.slotCount) :
     i ∈ T.reindex.cartesian ↔
       castColumn (congrArg Sigma.fst e) i ∈
@@ -776,7 +776,7 @@ private def castTable {l : ℕ} (h : k = l) :
 /-- The true individual support dictionary follows through the
 original finite occurrence equality. -/
 def onAtlas (index : AllocationColumn K k → ι)
-    (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩) :
+    (e : (HeckeSkeleton.Moments.EngineStepV2.SourceCartesianAtlas.literalDictionary T) = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩) :
     (d.onAtlas T (congrArg Sigma.fst e).symm).SupportData excluded := by
   rw [d.onAtlas_eq_cast T index e]
   exact W.castTable (congrArg Sigma.fst e).symm
@@ -852,18 +852,18 @@ def deleteMask (M : HeckeGeneral.Analysis.NonzeroIdeal K) : FixedChildCharacters
 
 @[simp] theorem deleteMask_restrictSlots (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (keep : Finset (Fin k)) :
-    (T.deleteMask M).restrictSlots keep = (T.restrictSlots keep).deleteMask M := rfl
+    ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).restrictSlots keep = (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask (T.restrictSlots keep)) M := rfl
 
 theorem deleteMask_plain (M I : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    sourcePlainCoefficient (T.deleteMask M).plain (T.deleteMask M).plainTwist
-        (T.deleteMask M).mask I =
+    sourcePlainCoefficient ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).plain ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).plainTwist
+        ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).mask I =
       sourcePlainCoefficient T.plain T.plainTwist T.mask I * originalCoprimeMask M I.val := by
   sorry
 
 theorem deleteMask_prime (M : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin k)
     (p : HeightOneSpectrum (𝓞 K)) :
-    sourcePrimeCoefficient ((T.deleteMask M).slot i) ((T.deleteMask M).slotTwist i)
-        (T.deleteMask M).mask p =
+    sourcePrimeCoefficient (((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).slot i) (((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).slotTwist i)
+        ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).mask p =
       sourcePrimeCoefficient (T.slot i) (T.slotTwist i) T.mask p *
         originalCoprimeMask M p.asIdeal := by
   sorry
@@ -875,7 +875,7 @@ theorem rawBare_deleteMask (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
     (i : AllocationColumn K k) (h₁ : i.1.1 ≠ 0) (h₂ : i.1.2 ≠ 0) :
-    rawBareSourceCoefficient (T.deleteMask M) N₁ N₂ Z length w₁ w₂ w i =
+    rawBareSourceCoefficient ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M) N₁ N₂ Z length w₁ w₂ w i =
       rawBareSourceCoefficient T N₁ N₂ Z length w₁ w₂ w i *
         originalCoprimeMask M (allocationColumnIdeal i) := by
   sorry
@@ -890,7 +890,7 @@ variable (d : CanonicalLiteralRectangles.Atoms (K := K) k)
 real column carrier is retained literally. -/
 def deleteMask (M : HeckeGeneral.Analysis.NonzeroIdeal K) :
     CanonicalLiteralRectangles.Atoms (K := K) k :=
-  { d with characters := d.characters.deleteMask M }
+  { d with characters := (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask d.characters) M }
 
 theorem deleteMask_term (M : HeckeGeneral.Analysis.NonzeroIdeal K)
     (r : Bool) (i : AllocationColumn K k)

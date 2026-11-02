@@ -68,7 +68,7 @@ variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
 variable (a : RealParameters) (I : OriginalNominalIdeals K)
 variable (supportError : ℝ) (herr : 0 ≤ supportError) (hstep : 0 < step)
 variable (hrows : ∀ h ∈ d.rows,
-  A.exteriorNorm (originalFrequencyIdeal h) ≤ I.canonicalRetainedScale a Z supportError)
+  A.exteriorNorm (originalFrequencyIdeal h) ≤ (OriginalNominalIdeals.canonicalRetainedScale (I := I)) a Z supportError)
 
 local notation "mainGeometry" => OriginalNominalGeometry.canonicalMain
   (a := a) (step := step) I supportError (zero_lt_one.trans pool.base_gt_one) herr
@@ -103,7 +103,7 @@ def literalValuationStage (e : AmplifierValuation) (p : pool.primes) :
     (poolGeometry e p I supportError herr).enlargement
     (poolGeometry e p I supportError herr).retainedScale_pos
     (zero_lt_one.trans pool.base_gt_one) cutoff hcutoff
-    (d.literalPoolRows a I supportError herr hstep hrows e p)
+    ((FirstGaussPoolData.literalPoolRows (d := d)) a I supportError herr hstep hrows e p)
 
 /-- These are the actual four sources of the original one-pool identity. -/
 def literalCanonicalStages : ActualPoolStages (E := ℝ) hΓ μv hDiff d c
@@ -112,12 +112,12 @@ def literalCanonicalStages : ActualPoolStages (E := ℝ) hΓ μv hDiff d c
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     P δ hδ hδhalf (d.mainSource c) (mainGeometry).retainedScale Z (mainGeometry).enlargement
     (mainGeometry).retainedScale_pos (zero_lt_one.trans pool.base_gt_one) cutoff hcutoff
-    (d.literalMainRows a I supportError herr hstep hrows)
-  one p := d.literalValuationStage (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    ((FirstGaussPoolData.literalMainRows (d := d)) a I supportError herr hstep hrows)
+  one p := (FirstGaussPoolData.literalValuationStage (d := d)) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     c P a I supportError herr hstep hrows δ hδ hδhalf cutoff hcutoff .one p
-  six p := d.literalValuationStage (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+  six p := (FirstGaussPoolData.literalValuationStage (d := d)) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     c P a I supportError herr hstep hrows δ hδ hδhalf cutoff hcutoff .six p
-  seven p := d.literalValuationStage (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+  seven p := (FirstGaussPoolData.literalValuationStage (d := d)) (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     c P a I supportError herr hstep hrows δ hδ hδhalf cutoff hcutoff .seven p
 
 

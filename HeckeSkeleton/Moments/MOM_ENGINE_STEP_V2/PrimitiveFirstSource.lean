@@ -61,8 +61,8 @@ variable {ω ψ : HeckeCharacter K} {Index : Type*} {data : Index → MomentData
 variable (Q : CompleteMovingRowRecipe A P R data)
 
 @[simp] theorem fullSupportParameters_idempotent (a : RealParameters) (Z : ℝ) :
-    Q.fullSupportParameters (Q.fullSupportParameters a Z) Z =
-      Q.fullSupportParameters a Z := by
+    (CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z) Z =
+      (CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z := by
   unfold fullSupportParameters withSupportLength
   congr 1 <;> ring
 
@@ -75,7 +75,7 @@ variable (hbudget : Q.FullJointBudget Z (a.m + a.q))
 variable (centered : Bool) (cutoff : ℝ) (hcutoff : 1 ≤ cutoff)
 variable (δ₁ : ℝ) (hδ₁ : 0 < δ₁) (hδ₁half : δ₁ ≤ 1 / 2)
 
-local notation "internal" => Q.fullSupportParameters a Z
+local notation "internal" => (CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z
 local notation "atoms" => (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) internal Z t
 local notation "raw" => (atoms).raw Y₁ Y₂
 
@@ -88,12 +88,12 @@ def literalPrimitiveFirstSource :
       (E := ℝ) (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv C Z (rowBallFiniteFamily K A.Sf 1)
       centered (data ξ) internal t Y₁ Y₂ cutoff hcutoff :=
-  Q.canonicalFullSupportDirectFirstSource μv ν C hroot hemb W ξ internal Z t Y₁ Y₂
+  (CompleteMovingRowRecipe.canonicalFullSupportDirectFirstSource (Q := Q) (μv := μv) (ν := ν)) C hroot hemb W ξ internal Z t Y₁ Y₂
     (zero_lt_one.trans hZ)
-    (by simpa only [Q.fullSupportParameters_width] using hbudget)
+    (by simpa only [(CompleteMovingRowRecipe.fullSupportParameters_width (Q := Q))] using hbudget)
     centered cutoff hcutoff δ₁ hδ₁ hδ₁half
 
-local notation "source" => Q.literalPrimitiveFirstSource μv ν C hroot hemb W ξ
+local notation "source" => (CompleteMovingRowRecipe.literalPrimitiveFirstSource (Q := Q) (μv := μv) (ν := ν)) C hroot hemb W ξ
   a Z t Y₁ Y₂ hZ hbudget centered cutoff hcutoff δ₁ hδ₁ hδ₁half
 
 /-- The original exterior Cartesian atlas of the same actual source. -/
@@ -101,7 +101,7 @@ def literalPrimitiveFirstAtlas : SourceCartesianAtlas (source).columns (source).
   (raw).originalAtlas
 
 @[simp] theorem literalPrimitiveFirstAtlas_slotCount :
-    (Q.literalPrimitiveFirstAtlas μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
+    ((CompleteMovingRowRecipe.literalPrimitiveFirstAtlas (Q := Q) (μv := μv) (ν := ν)) C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
       centered cutoff hcutoff δ₁ hδ₁ hδ₁half).slotCount = (data ξ).geometry.slotCount := rfl
 
 /-- The first normalization uses the original selected physical
@@ -113,8 +113,8 @@ def literalPrimitiveFirstTotal (DE : (source).CommonLabel)
     idealLogLength Z (firstPhysicalDivisorIdeal (A := A) D.val).val
 
 def literalPrimitiveFirstNormalization : (source).Normalization :=
-  (source).canonicalNormalization hZ
-    (Q.literalPrimitiveFirstTotal μv ν C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
+  (ActualDirectFirstSource.canonicalNormalization (s := (source))) hZ
+    ((CompleteMovingRowRecipe.literalPrimitiveFirstTotal (Q := Q) (μv := μv) (ν := ν)) C hroot hemb W ξ a Z t Y₁ Y₂ hZ hbudget
       centered cutoff hcutoff δ₁ hδ₁ hδ₁half)
 
 @[simp] theorem literalPrimitiveFirstSource_fiber : (source).fiber = 1 := rfl
@@ -123,30 +123,30 @@ def literalPrimitiveFirstNormalization : (source).Normalization :=
 
 theorem literalPrimitiveFirstSource_radius :
     (source).radius.val = Z ^ (-(internal).m) := by
-  change (Q.fullSupportRadius Z ((internal).m + (internal).q)
+  change ((CompleteMovingRowRecipe.fullSupportRadius (Q := Q)) Z ((internal).m + (internal).q)
     (zero_lt_one.trans hZ)).val = _
-  rw [Q.fullSupportParameters_width]
+  rw [(CompleteMovingRowRecipe.fullSupportParameters_width (Q := Q))]
   rw [Real.rpow_neg (zero_lt_one.trans hZ).le,
-    ← Q.fullSupportRadius_inverse_eq_parameters_m a Z hZ, inv_inv]
+    ← (CompleteMovingRowRecipe.fullSupportRadius_inverse_eq_parameters_m (Q := Q)) a Z hZ, inv_inv]
 
 include hZ in
 theorem literalPrimitiveFirstSource_oldSupport :
     A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) ≤ Z ^ (internal).q :=
-  (Q.fullSupportParameters_support_norm a Z hZ).le
+  ((CompleteMovingRowRecipe.fullSupportParameters_support_norm (Q := Q)) a Z hZ).le
 
 theorem literalPrimitiveFirstSource_domain {floor padding : ℝ}
     (domain : PairedEngineDomain centered (data ξ) a Z Y₁ Y₂ floor padding) :
     PairedEngineDomain centered (data ξ) internal Z Y₁ Y₂ floor padding :=
-  domain.withSupportLength (Q.fullSupportLength Z)
+  (PairedEngineDomain.withSupportLength (domain := domain)) ((CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z)
 
 theorem literalPrimitiveFirstSource_pairedRows :
     pairedRows (data ξ) internal Z = pairedRows (data ξ) a Z :=
-  pairedRows_withSupportLength (data ξ) a (Q.fullSupportLength Z) Z
+  pairedRows_withSupportLength (data ξ) a ((CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z) Z
 
 theorem literalPrimitiveFirstSource_parent :
     pairedStageEnergy centered (data ξ) internal Z t Y₁ Y₂ =
       pairedStageEnergy centered (data ξ) a Z t Y₁ Y₂ :=
-  pairedStageEnergy_withSupportLength centered (data ξ) a (Q.fullSupportLength Z) Z t Y₁ Y₂
+  pairedStageEnergy_withSupportLength centered (data ξ) a ((CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z) Z t Y₁ Y₂
 
 variable (cap : ℕ) (annulus loss cutoffExponent : ℝ)
 variable (hannulus : 1 ≤ annulus) (hcap : (data ξ).geometry.slotCount ≤ cap)
@@ -168,7 +168,7 @@ and the chosen cutoff power are used. -/
 theorem literalPrimitiveFirstSource_physicalCutoff
     (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     ((source).source DE).divisorPhysicalCutoff D.val ≤
-      (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
+      (OriginalNominalIdeals.canonicalRetainedScale (I := ((FirstCommonCharacterBlock.literalLeftCoordinates (b := ((source).block DE))) D.val)))
         internal Z (2 * loss + cutoffExponent) := by
   sorry
 
@@ -179,11 +179,11 @@ theorem literalPrimitiveFirstSource_row_windows
     (DE : (source).CommonLabel) (D : (((source).block DE).mask (source).mask).powerset) :
     (∀ h ∈ ((source).pieces DE D).leftData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
-        (((source).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
+        (OriginalNominalIdeals.canonicalRetainedScale (I := ((FirstCommonCharacterBlock.literalLeftCoordinates (b := ((source).block DE))) D.val)))
           internal Z (2 * loss + cutoffExponent)) ∧
     (∀ h ∈ ((source).pieces DE D).rightData.rows,
       A.exteriorNorm (originalFrequencyIdeal h) ≤
-        (((source).block DE).literalRightCoordinates D.val).canonicalRetainedScale
+        (OriginalNominalIdeals.canonicalRetainedScale (I := ((FirstCommonCharacterBlock.literalRightCoordinates (b := ((source).block DE))) D.val)))
           internal Z (2 * loss + cutoffExponent)) := by
   sorry
 

@@ -531,31 +531,31 @@ variable {ι : Type*} {G : ActualGaussSource C ι}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {s : ActualGaussStage (E := ℝ) hΓ μv hDiff G finiteTest}
 variable {LC RC : SourceCartesianCover G.columns G.ideal}
-variable (v : s.CoveredClassKey LC RC)
+variable (v : (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey s) LC RC)
 
 abbrev literalLeftParent := LC.branch v.2.2.1
 abbrev literalRightParent := RC.branch v.2.2.2.1
 
 abbrev literalLeftBranch :=
-  v.literalLeftParent.branch (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1
+  (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftParent v).branch (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1
 
 abbrev literalRightBranch :=
-  v.literalRightParent.branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2
+  (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightParent v).branch (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2
 
 /-- These atlas objects reuse the stored residual index, including all
 its original support transports. Only nonemptiness is proved here. -/
 def literalLeftResidualAtlas : SourceCartesianAtlas
-    (v.literalLeftParent.commonFibre (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1)
-    v.block.leftResidual :=
-  SourceCartesianAtlas.ofReindex v.leftReindex
-    (literalCommonFibre_nonempty v.literalLeftParent
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftParent v).commonFibre (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1)
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).leftResidual :=
+  SourceCartesianAtlas.ofReindex (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v)
+    (literalCommonFibre_nonempty (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftParent v)
       (primeSupport v.1.val.1) v.1.val.1 v.2.2.2.2.2.1)
 
 def literalRightResidualAtlas : SourceCartesianAtlas
-    (v.literalRightParent.commonFibre (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2)
-    v.block.rightResidual :=
-  SourceCartesianAtlas.ofReindex v.rightReindex
-    (literalCommonFibre_nonempty v.literalRightParent
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightParent v).commonFibre (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2)
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightResidual :=
+  SourceCartesianAtlas.ofReindex (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v)
+    (literalCommonFibre_nonempty (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightParent v)
       (primeSupport v.1.val.1) v.1.val.2 v.2.2.2.2.2.2)
 
 variable (leftAtoms : CanonicalLiteralRectangles.Atoms (K := K)
@@ -563,133 +563,133 @@ variable (leftAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 variable (rightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
   (RC.branch v.2.2.2.1).slotCount)
 
-abbrev literalLeftOriginal := leftAtoms.onAtlas v.literalLeftParent rfl
-abbrev literalRightOriginal := rightAtoms.onAtlas v.literalRightParent rfl
+abbrev literalLeftOriginal := leftAtoms.onAtlas (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftParent v) rfl
+abbrev literalRightOriginal := rightAtoms.onAtlas (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightParent v) rfl
 
 /-- The complete original Gauss product stays in the actual residual
 atom table. The common scalar is extracted separately exactly once. -/
-def literalLeftAtoms : CanonicalLiteralRectangles.Atoms (K := K) v.leftSlots :=
-  ((v.literalLeftOriginal leftAtoms).extract v.literalLeftBranch).onAtlas
-    v.literalLeftResidualAtlas rfl
+def literalLeftAtoms : CanonicalLiteralRectangles.Atoms (K := K) (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftSlots v) :=
+  (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftOriginal v) leftAtoms).extract (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v)).onAtlas
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftResidualAtlas v) rfl
 
 def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
-    v.literalRightBranch.keep.card :=
-  ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).onAtlas
-    v.literalRightResidualAtlas rfl
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v).keep.card :=
+  (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightOriginal v) rightAtoms).extract (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v)).onAtlas
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightResidualAtlas v) rfl
 
-@[simp] theorem literalLeftAtoms_whole (i : AllocationColumn K v.leftSlots) :
-    (v.literalLeftAtoms leftAtoms).whole i =
-      ((v.literalLeftOriginal leftAtoms).extract v.literalLeftBranch).whole i := by
+@[simp] theorem literalLeftAtoms_whole (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftSlots v)) :
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftAtoms v) leftAtoms).whole i =
+      (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftOriginal v) leftAtoms).extract (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v)).whole i := by
   sorry
 
 @[simp] theorem literalRightAtoms_whole
-    (i : AllocationColumn K v.literalRightBranch.keep.card) :
-    (no_index (v.literalRightAtoms rightAtoms)).whole i =
-      ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
+    (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v).keep.card) :
+    (no_index ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightAtoms v) rightAtoms)).whole i =
+      (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightOriginal v) rightAtoms).extract (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v)).whole i := by
   sorry
 
-theorem literalLeft_cartesian (i : AllocationColumn K v.leftSlots) :
-    i ∈ v.leftReindex.cartesian ↔ i ∈ v.literalLeftBranch.residualColumns := by
+theorem literalLeft_cartesian (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftSlots v)) :
+    i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).cartesian ↔ i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v).residualColumns := by
   sorry
 
-theorem literalRight_cartesian (i : AllocationColumn K v.literalRightBranch.keep.card) :
-    i ∈ v.rightReindex.cartesian ↔ i ∈ v.literalRightBranch.residualColumns := by
+theorem literalRight_cartesian (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v).keep.card) :
+    i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).cartesian ↔ i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v).residualColumns := by
   sorry
 
-theorem literalLeft_index_common (i : AllocationColumn K v.leftSlots)
-    (hi : i ∈ v.leftReindex.cartesian) :
-    v.leftReindex.index i ∈ v.block.leftColumns G.columns := by
+theorem literalLeft_index_common (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftSlots v))
+    (hi : i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).cartesian) :
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).index i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).leftColumns G.columns := by
   sorry
 
-theorem literalRight_index_common (i : AllocationColumn K v.literalRightBranch.keep.card)
-    (hi : i ∈ v.rightReindex.cartesian) :
-    v.rightReindex.index i ∈ v.block.rightColumns G.columns := by
+theorem literalRight_index_common (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v).keep.card)
+    (hi : i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).cartesian) :
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightColumns G.columns := by
   sorry
 
 variable (exceptional : s.CoverHybridPredicates LC RC)
-variable (F : SchwartzMap ℝ ℂ) (x : ι → ℝ) (j : v.AllocationKey)
+variable (F : SchwartzMap ℝ ℂ) (x : ι → ℝ) (j : (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.AllocationKey v))
 
-private theorem literal_left_mem (i : AllocationColumn K v.leftSlots)
-    (hi : i ∈ (v.leaf exceptional F x j).left) : i ∈ v.leftReindex.cartesian := by
+private theorem literal_left_mem (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftSlots v))
+    (hi : i ∈ ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).left) : i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).cartesian := by
   sorry
 
-private theorem literal_right_mem (i : AllocationColumn K v.literalRightBranch.keep.card)
-    (hi : i ∈ (v.leaf exceptional F x j).right) : i ∈ v.rightReindex.cartesian := by
+private theorem literal_right_mem (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v).keep.card)
+    (hi : i ∈ ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).right) : i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).cartesian := by
   sorry
 
 variable (leftCoefficient : ∀ i ∈ (LC.branch v.2.2.1).reindex.cartesian,
-  (LC.branch v.2.2.1).reindex.index i ∈ v.block.leftColumns G.columns →
-    v.chart.sourceLeftCoefficient ((LC.branch v.2.2.1).reindex.index i) = leftAtoms.whole i)
+  (LC.branch v.2.2.1).reindex.index i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).leftColumns G.columns →
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).sourceLeftCoefficient ((LC.branch v.2.2.1).reindex.index i) = leftAtoms.whole i)
 variable (rightCoefficient : ∀ i ∈ (RC.branch v.2.2.2.1).reindex.cartesian,
-  (RC.branch v.2.2.2.1).reindex.index i ∈ v.block.rightColumns G.columns →
-    v.chart.sourceRightCoefficient ((RC.branch v.2.2.2.1).reindex.index i) = rightAtoms.whole i)
+  (RC.branch v.2.2.2.1).reindex.index i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightColumns G.columns →
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).sourceRightCoefficient ((RC.branch v.2.2.2.1).reindex.index i) = rightAtoms.whole i)
 
 include leftCoefficient in
 private theorem literal_left_coefficient
-    (i : AllocationColumn K v.leftSlots) (hi : i ∈ v.leftReindex.cartesian) :
-    v.chart.sourceLeftCoefficient (v.leftReindex.index i) =
-      (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch *
-        (v.literalLeftAtoms leftAtoms).whole i := by
+    (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftSlots v)) (hi : i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).cartesian) :
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).sourceLeftCoefficient ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).index i) =
+      ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftOriginal v) leftAtoms).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v) *
+        ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftAtoms v) leftAtoms).whole i := by
   sorry
 
 include rightCoefficient in
 private theorem literal_right_coefficient
-    (i : AllocationColumn K v.literalRightBranch.keep.card)
-    (hi : i ∈ v.rightReindex.cartesian) :
-    v.chart.sourceRightCoefficient (v.rightReindex.index i) =
-      (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch *
-        (v.literalRightAtoms rightAtoms).whole i := by
+    (i : AllocationColumn K (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v).keep.card)
+    (hi : i ∈ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).cartesian) :
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).sourceRightCoefficient ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i) =
+      ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightOriginal v) rightAtoms).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v) *
+        ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightAtoms v) rightAtoms).whole i := by
   sorry
 
 /-- The extraction is attached to the original stored finite leaf.
 All coefficient equalities are proved at its actual allocated columns. -/
-def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
-  leftScalar := (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch
-  rightScalar := (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch
+def literalExtraction : ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).ConstantAtomExtraction where
+  leftScalar := ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftOriginal v) leftAtoms).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v)
+  rightScalar := ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightOriginal v) rightAtoms).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v)
   leftResidual := secondAllocatedLeftCoefficient (σ := σ) PUnit.{1}
-    (fun i => v.block.leftResidual (v.leftReindex.index i))
-    (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
-    (fun _ => PUnit.unit) j.2.1 (v.literalLeftAtoms leftAtoms).whole
+    (fun i => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).leftResidual ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).index i))
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).frequency
+    (fun _ => PUnit.unit) j.2.1 ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftAtoms v) leftAtoms).whole
   rightResidual := fun h i => star (secondAllocatedRightCoefficient (σ := σ) PUnit.{1}
-    (fun i => v.block.rightResidual (v.rightReindex.index i))
-    (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
-    (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i)
+    (fun i => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightResidual ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i))
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).frequency
+    (fun _ => PUnit.unit) j.2.1 ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightAtoms v) rightAtoms).whole h i)
   left h _ i hi := by
-    change v.chart.sourceLeftCoefficient (v.leftReindex.index i) * _ * _ = _
-    rw [v.literal_left_coefficient leftAtoms leftCoefficient i
-      (v.literal_left_mem exceptional F x j i hi)]
+    change (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).sourceLeftCoefficient ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).index i) * _ * _ = _
+    rw [(HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literal_left_coefficient v) leftAtoms leftCoefficient i
+      ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literal_left_mem v) exceptional F x j i hi)]
     dsimp only [secondAllocatedLeftCoefficient]
     ring
   right h _ i hi := by
-    change v.chart.sourceRightCoefficient (v.rightReindex.index i) * _ * _ = _
-    rw [v.literal_right_coefficient rightAtoms rightCoefficient i
-      (v.literal_right_mem exceptional F x j i hi)]
+    change (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).sourceRightCoefficient ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i) * _ * _ = _
+    rw [(HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literal_right_coefficient v) rightAtoms rightCoefficient i
+      ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literal_right_mem v) exceptional F x j i hi)]
     simp only [secondAllocatedRightCoefficient, star_star]
     ring
 
 /-- This reweighting is the one forced by the two constants just
 extracted from the stored whole coefficients. -/
 def literalRows : ActualSecondCorrelationRows A σ
-    (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) (Fin v.block.primeCount) :=
-  { v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel with
+    (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) (Fin (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).primeCount) :=
+  { (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v) with
     weight := fun h =>
-      (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).weight h *
-        (v.literalLeftOriginal leftAtoms).commonScalar v.literalLeftBranch *
-        star ((v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch) }
+      ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).weight h *
+        ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftOriginal v) leftAtoms).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v) *
+        star (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightOriginal v) rightAtoms).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v)) }
 
 def literalSupportedRows : ActualSecondCorrelationRows A σ
-    (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) (Fin v.block.primeCount) :=
-  (v.literalRows leftAtoms rightAtoms).restrictRows (fun h =>
-    (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).correlation h ≠ 0)
+    (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) (Fin (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).primeCount) :=
+  ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRows v) leftAtoms rightAtoms).restrictRows (fun h =>
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).correlation h ≠ 0)
 
 /-- Nonempty original allocated columns and squarefreeness come from
 the stored live leaf. No fresh allocation or nonempty-source premise
 is chosen for its child. -/
-def literalAllocation (hlive : (v.leaf exceptional F x j).Live) :
+def literalAllocation (hlive : ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).Live) :
     liveSecondAllocationBranches (Ray := PUnit.{1})
-      v.leftReindex.plain₁ v.leftReindex.plain₂ v.leftReindex.slots
-      v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots
-      (fun i => v.block.rightResidual (v.rightReindex.index i)) := by
+      (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).plain₁ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).plain₂ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).slots
+      (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).plain₁ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).plain₂ (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).slots
+      (fun i => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightResidual ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i)) := by
   refine ⟨j, Finset.mem_filter.mpr ⟨Finset.mem_univ _, ?_, ?_, ?_⟩⟩
   · by_contra hn
     apply hlive.1
@@ -702,27 +702,27 @@ def literalAllocation (hlive : (v.leaf exceptional F x j).Live) :
 
 /-- Both rectangles now belong to the exact same stored allocation and
 the exact original correlation support. -/
-def literalRectangles (firstSign : ℝ) (hlive : (v.leaf exceptional F x j).Live) :=
-  CanonicalLiteralRectangles.rectangles (v.literalSupportedRows leftAtoms rightAtoms)
-    (v.literalLeftAtoms leftAtoms) (v.literalRightAtoms rightAtoms)
-    (fun i => v.block.leftResidual (v.leftReindex.index i))
-    (fun i => v.block.rightResidual (v.rightReindex.index i))
-    v.leftReindex.ideal_product v.rightReindex.ideal_product
-    (v.literalAllocation exceptional F x j hlive)
-    (v.leaf exceptional F x j).exceptional firstSign (-firstSign)
+def literalRectangles (firstSign : ℝ) (hlive : ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).Live) :=
+  CanonicalLiteralRectangles.rectangles ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalSupportedRows v) leftAtoms rightAtoms)
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftAtoms v) leftAtoms) ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightAtoms v) rightAtoms)
+    (fun i => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).leftResidual ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).index i))
+    (fun i => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightResidual ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i))
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leftReindex v).ideal_product (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).ideal_product
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalAllocation v) exceptional F x j hlive)
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).exceptional firstSign (-firstSign)
 
-variable (firstSign : ℝ) (hlive : (v.leaf exceptional F x j).Live)
-variable (leftPoint : ∀ h ∈ (v.leaf exceptional F x j).rows,
-  ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ (v.leaf exceptional F x j).left,
-    WithLp.toLp 2 ((v.leaf exceptional F x j).leftFirst h i,
-      (v.leaf exceptional F x j).leftSecond h i) =
+variable (firstSign : ℝ) (hlive : ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).Live)
+variable (leftPoint : ∀ h ∈ ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).rows,
+  ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).left,
+    WithLp.toLp 2 (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).leftFirst h i,
+      ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).leftSecond h i) =
         z + rawSourceLocation (CanonicalLiteralLocations.plain firstSign)
           (CanonicalLiteralLocations.plain firstSign)
           (CanonicalLiteralLocations.prime firstSign) i)
-variable (rightPoint : ∀ h ∈ (v.leaf exceptional F x j).rows,
-  ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ (v.leaf exceptional F x j).right,
-    WithLp.toLp 2 (-(v.leaf exceptional F x j).rightFirst h i,
-      (v.leaf exceptional F x j).rightSecond h i) =
+variable (rightPoint : ∀ h ∈ ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).rows,
+  ∃ z : WithLp 2 (ℝ × ℝ), ∀ i ∈ ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).right,
+    WithLp.toLp 2 (-((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).rightFirst h i,
+      ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).rightSecond h i) =
         z + rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.prime (-firstSign)) i)
@@ -731,15 +731,15 @@ variable (rightPoint : ∀ h ∈ (v.leaf exceptional F x j).rows,
 not to a separately manufactured finite polynomial. The only omitted
 rows have their original full correlation equal to zero. -/
 def literalOrdinaryBinding :
-    (v.literalExtraction leftAtoms rightAtoms exceptional F x j
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalExtraction v) leftAtoms rightAtoms exceptional F x j
       leftCoefficient rightCoefficient).leaf.OrdinaryBinding
-        (v.literalRectangles leftAtoms rightAtoms exceptional F x j firstSign hlive) where
+        ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRectangles v) leftAtoms rightAtoms exceptional F x j firstSign hlive) where
   rows h hh := (Finset.mem_filter.mp hh).1
   rows_zero h hh hn := by
-    have hc : (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).correlation h = 0 := by
+    have hc : ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).correlation h = 0 := by
       by_contra hc
       exact hn (Finset.mem_filter.mpr ⟨hh, hc⟩)
-    change ((_ * (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).correlation h) *
+    change ((_ * ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).correlation h) *
       _ * _) = 0
     simp only [hc, mul_zero, zero_mul]
   left := rfl
@@ -751,28 +751,28 @@ def literalOrdinaryBinding :
   leftCoefficient _ _ _ _ := rfl
   rightCoefficient h _ i _ := by
     change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
-        (fun i => v.block.rightResidual (v.rightReindex.index i))
-        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
-        (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i)) =
+        (fun i => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightResidual ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i))
+        ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).frequency
+        (fun _ => PUnit.unit) j.2.1 ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightAtoms v) rightAtoms).whole h i)) =
       secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
-        (fun i => v.block.rightResidual (v.rightReindex.index i))
-        (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency
-        (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i
+        (fun i => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightResidual ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rightReindex v).index i))
+        ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).frequency
+        (fun _ => PUnit.unit) j.2.1 ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightAtoms v) rightAtoms).whole h i
     exact star_star _
   leftPoint := leftPoint
   rightPoint := rightPoint
 
 @[simp] theorem literalExtraction_firstKernel :
-    (v.literalExtraction leftAtoms rightAtoms exceptional F x j
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalExtraction v) leftAtoms rightAtoms exceptional F x j
       leftCoefficient rightCoefficient).leaf.firstKernel = F := rfl
 
 @[simp] theorem literalExtraction_secondKernel :
-    (v.literalExtraction leftAtoms rightAtoms exceptional F x j
-      leftCoefficient rightCoefficient).leaf.secondKernel = v.chart.kernel := rfl
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalExtraction v) leftAtoms rightAtoms exceptional F x j
+      leftCoefficient rightCoefficient).leaf.secondKernel = (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).kernel := rfl
 
 @[simp] theorem literalExtraction_outerWeight :
-    (v.literalExtraction leftAtoms rightAtoms exceptional F x j
-      leftCoefficient rightCoefficient).leaf.weight = (v.leaf exceptional F x j).weight := rfl
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalExtraction v) leftAtoms rightAtoms exceptional F x j
+      leftCoefficient rightCoefficient).leaf.weight = ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.leaf v) exceptional F x j).weight := rfl
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStepV2
@@ -885,7 +885,7 @@ namespace SecondBlockProfileChart
 
 variable (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
   profiles finiteTest radius D)
-variable (hclass : chart.NonunitLabelStable)
+variable (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart))
 variable (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
 variable (label : Fin (chart.rowLabelCount + 1))
 variable {kLeft kRight : ℕ}
@@ -911,28 +911,28 @@ def actualRowsSupportedMass :
       C kLeft kRight :=
   ActualSecondRowMass.ofCorrelationSupportedPattern
     (chart.actualRows M X hX label) C leftAtoms rightAtoms hleft hright
-    (chart.originalNonunitPattern M X hX label)
-    (fun q hq => chart.actualRows_originalNonunitPattern hclass M X hX label ⟨q, hq⟩)
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) M X hX label)
+    (fun q hq => (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.actualRows_originalNonunitPattern chart) hclass M X hX label ⟨q, hq⟩)
     radius D chart.weight bound hbound hprofile (fun _ _ => rfl)
     b.left_positive Γ.index (chart.actualRows_original_fibers M X hX label)
 
 @[simp] theorem actualRowsSupportedMass_unitIdeal :
-    (chart.actualRowsSupportedMass hclass M X hX label leftAtoms rightAtoms hleft hright
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.actualRowsSupportedMass chart) hclass M X hX label leftAtoms rightAtoms hleft hright
       bound hbound hprofile).unitIdeal =
       secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity
-        (chart.originalNonunitPattern M X hX label) := rfl
+        ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) M X hX label) := rfl
 
 @[simp] theorem actualRowsSupportedMass_nonunitIdeal :
-    (chart.actualRowsSupportedMass hclass M X hX label leftAtoms rightAtoms hleft hright
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.actualRowsSupportedMass chart) hclass M X hX label leftAtoms rightAtoms hleft hright
       bound hbound hprofile).nonunitIdeal =
-      secondPatternNonunitIdeal b.primes (chart.originalNonunitPattern M X hX label) := rfl
+      secondPatternNonunitIdeal b.primes ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) M X hX label) := rfl
 
 @[simp] theorem actualRowsSupportedMass_originalFiber :
-    (chart.actualRowsSupportedMass hclass M X hX label leftAtoms rightAtoms hleft hright
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.actualRowsSupportedMass chart) hclass M X hX label leftAtoms rightAtoms hleft hright
       bound hbound hprofile).originalFiber = Γ.index := rfl
 
 @[simp] theorem actualRowsSupportedMass_commonEnvelope :
-    (chart.actualRowsSupportedMass hclass M X hX label leftAtoms rightAtoms hleft hright
+    ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.actualRowsSupportedMass chart) hclass M X hX label leftAtoms rightAtoms hleft hright
       bound hbound hprofile).commonEnvelope =
       bound * Real.sqrt leftAtoms.envelope * Real.sqrt rightAtoms.envelope := rfl
 
@@ -940,12 +940,12 @@ def actualRowsSupportedMass :
 proofs. Its computed pattern ideals and fixed orbit fibre are retained. -/
 theorem actualRowsSupportedMass_ordinary_fields
     (exceptional : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop) :
-    let W := (chart.actualRowsSupportedMass hclass M X hX label leftAtoms rightAtoms
+    let W := ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.actualRowsSupportedMass chart) hclass M X hX label leftAtoms rightAtoms
       hleft hright bound hbound hprofile).restrictRows (fun q => ¬exceptional q)
     W.unitIdeal = secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity
-        (chart.originalNonunitPattern M X hX label) ∧
+        ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) M X hX label) ∧
       W.nonunitIdeal = secondPatternNonunitIdeal b.primes
-        (chart.originalNonunitPattern M X hX label) ∧
+        ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) M X hX label) ∧
       W.originalFiber = Γ.index := by
   sorry
 
@@ -1004,74 +1004,74 @@ variable {ι : Type*} {G : ActualGaussSource C ι}
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {s : ActualGaussStage (E := ℝ) hΓ μv hDiff G finiteTest}
 variable {LC RC : SourceCartesianCover G.columns G.ideal}
-variable (v : s.CoveredClassKey LC RC)
+variable (v : (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey s) LC RC)
 
 variable (leftAtoms : CanonicalLiteralRectangles.Atoms (K := K)
   (LC.branch v.2.2.1).slotCount)
 variable (rightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
   (RC.branch v.2.2.2.1).slotCount)
-variable (leftMask : leftAtoms.characters.MaskIndicator)
-variable (rightMask : rightAtoms.characters.MaskIndicator)
+variable (leftMask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator leftAtoms.characters))
+variable (rightMask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator rightAtoms.characters))
 
-local notation "R₀" => v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel
-local notation "left" => v.literalLeftOriginal leftAtoms
-local notation "right" => v.literalRightOriginal rightAtoms
+local notation "R₀" => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)
+local notation "left" => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftOriginal v) leftAtoms
+local notation "right" => (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightOriginal v) rightAtoms
 
 def literalLeftCommonAtoms : FrozenSourceAtoms A σ
     (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
-    (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).rows
     (LC.branch v.2.2.1).slotCount :=
-  ((left).commonAtomBounds v.literalLeftBranch leftMask).atoms (R₀).rows
+  ((left).commonAtomBounds (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v) leftMask).atoms (R₀).rows
 
 def literalRightCommonAtoms : FrozenSourceAtoms A σ
     (SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
-    (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).rows
     (RC.branch v.2.2.2.1).slotCount :=
-  ((right).commonAtomBounds v.literalRightBranch rightMask).atoms (R₀).rows
+  ((right).commonAtomBounds (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v) rightMask).atoms (R₀).rows
 
 theorem literalLeftCommonAtoms_ideal :
-    (v.literalLeftCommonAtoms leftAtoms leftMask).ideal =
-      (primePowerProduct v.block.primes v.block.leftMultiplicity).val := by
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftCommonAtoms v) leftAtoms leftMask).ideal =
+      (primePowerProduct (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).primes (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).leftMultiplicity).val := by
   sorry
 
 theorem literalRightCommonAtoms_ideal :
-    (v.literalRightCommonAtoms rightAtoms rightMask).ideal =
-      (primePowerProduct v.block.primes v.block.rightMultiplicity).val := by
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightCommonAtoms v) rightAtoms rightMask).ideal =
+      (primePowerProduct (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).primes (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightMultiplicity).val := by
   sorry
 
 theorem literalLeftCommonAtoms_value
     (h : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
-    (v.literalLeftCommonAtoms leftAtoms leftMask).value h =
-      (left).commonScalar v.literalLeftBranch := by
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftCommonAtoms v) leftAtoms leftMask).value h =
+      (left).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftBranch v) := by
   sorry
 
 theorem literalRightCommonAtoms_value
     (h : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
-    (v.literalRightCommonAtoms rightAtoms rightMask).value h =
-      (right).commonScalar v.literalRightBranch := by
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightCommonAtoms v) rightAtoms rightMask).value h =
+      (right).commonScalar (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightBranch v) := by
   sorry
 
 theorem literalRows_eq_withCommonAtoms :
-    v.literalRows leftAtoms rightAtoms =
-      (R₀).withCommonAtoms (v.literalLeftCommonAtoms leftAtoms leftMask)
-        (v.literalRightCommonAtoms rightAtoms rightMask) := by
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRows v) leftAtoms rightAtoms =
+      (R₀).withCommonAtoms ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftCommonAtoms v) leftAtoms leftMask)
+        ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightCommonAtoms v) rightAtoms rightMask) := by
   sorry
 
-variable (hclass : v.chart.NonunitLabelStable)
+variable (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v)))
 variable (bound : ℝ) (hbound : 0 ≤ bound)
-variable (hprofile : ∀ h ∈ (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).rows,
-  ‖v.chart.weight h‖ ≤ bound)
+variable (hprofile : ∀ h ∈ ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).actualRows s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)).rows,
+  ‖(HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v).weight h‖ ≤ bound)
 
 /-- This record has exactly the actual literal row carrier. Rebuilding
 its fields keeps the calculated numerical costs transparent rather than
 hiding them behind a transport of the whole dependent record. -/
 def literalSupportedRowMass :
-    ActualSecondRowMass (v.literalSupportedRows leftAtoms rightAtoms) C
+    ActualSecondRowMass ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalSupportedRows v) leftAtoms rightAtoms) C
       (LC.branch v.2.2.1).slotCount (RC.branch v.2.2.2.1).slotCount := by
-  let W := v.chart.actualRowsSupportedMass hclass s.mask s.cutoff s.cutoff_one v.rowLabel
-    (v.literalLeftCommonAtoms leftAtoms leftMask) (v.literalRightCommonAtoms rightAtoms rightMask)
-    (v.literalLeftCommonAtoms_ideal leftAtoms leftMask)
-    (v.literalRightCommonAtoms_ideal rightAtoms rightMask) bound hbound hprofile
+  let W := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.actualRowsSupportedMass (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v)) hclass s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftCommonAtoms v) leftAtoms leftMask) ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightCommonAtoms v) rightAtoms rightMask)
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftCommonAtoms_ideal v) leftAtoms leftMask)
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightCommonAtoms_ideal v) rightAtoms rightMask) bound hbound hprofile
   refine {
     leftAtoms := W.leftAtoms
     rightAtoms := W.rightAtoms
@@ -1093,27 +1093,27 @@ def literalSupportedRowMass :
     original_fibers := W.original_fibers }
   intro h hh
   have hw := W.weight_eq h hh
-  change (R₀).weight h * (v.literalLeftCommonAtoms leftAtoms leftMask).value h *
-    star ((v.literalRightCommonAtoms rightAtoms rightMask).value h) = _ at hw
-  rw [v.literalLeftCommonAtoms_value leftAtoms leftMask h,
-    v.literalRightCommonAtoms_value rightAtoms rightMask h] at hw
+  change (R₀).weight h * ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftCommonAtoms v) leftAtoms leftMask).value h *
+    star (((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightCommonAtoms v) rightAtoms rightMask).value h) = _ at hw
+  rw [(HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalLeftCommonAtoms_value v) leftAtoms leftMask h,
+    (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalRightCommonAtoms_value v) rightAtoms rightMask h] at hw
   exact hw
 
 @[simp] theorem literalSupportedRowMass_fiber :
-    (v.literalSupportedRowMass leftAtoms rightAtoms leftMask rightMask
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalSupportedRowMass v) leftAtoms rightAtoms leftMask rightMask
       hclass bound hbound hprofile).originalFiber = Γ.index := rfl
 
 @[simp] theorem literalSupportedRowMass_unit :
-    (v.literalSupportedRowMass leftAtoms rightAtoms leftMask rightMask
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalSupportedRowMass v) leftAtoms rightAtoms leftMask rightMask
       hclass bound hbound hprofile).unitIdeal =
-      secondPatternUnitIdeal v.block.primes v.block.leftMultiplicity v.block.rightMultiplicity
-        (v.chart.originalNonunitPattern s.mask s.cutoff s.cutoff_one v.rowLabel) := rfl
+      secondPatternUnitIdeal (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).primes (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).leftMultiplicity (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).rightMultiplicity
+        ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v)) s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)) := rfl
 
 @[simp] theorem literalSupportedRowMass_nonunit :
-    (v.literalSupportedRowMass leftAtoms rightAtoms leftMask rightMask
+    ((HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.literalSupportedRowMass v) leftAtoms rightAtoms leftMask rightMask
       hclass bound hbound hprofile).nonunitIdeal =
-      secondPatternNonunitIdeal v.block.primes
-        (v.chart.originalNonunitPattern s.mask s.cutoff s.cutoff_one v.rowLabel) := rfl
+      secondPatternNonunitIdeal (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.block v).primes
+        ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.chart v)) s.mask s.cutoff s.cutoff_one (HeckeSkeleton.Moments.EngineStepV2.ActualGaussStage.CoveredClassKey.rowLabel v)) := rfl
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStepV2

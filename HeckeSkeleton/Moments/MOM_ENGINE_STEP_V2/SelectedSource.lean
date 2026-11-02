@@ -71,7 +71,7 @@ def normProfiles := localizedNormProfileRecipe
   (model request frequency).parameters request.base
 
 def parameters : RealParameters :=
-  (recipe request frequency).fullSupportParameters (model request frequency).parameters request.base
+  (CompleteMovingRowRecipe.fullSupportParameters (Q := (recipe request frequency))) (model request frequency).parameters request.base
 
 def raw :=
   (((recipe request frequency).arithmeticAtoms PUnit.unit).constantAtoms
@@ -81,7 +81,9 @@ def raw :=
       (request.base ^ (model request frequency).comparison₂)
 
 theorem base_gt_one : 1 < request.base := by
-  sorry
+  have h₂ : (2 : ℝ) ≤ selectedBaseThreshold c frame := le_max_left _ _
+  exact lt_of_lt_of_le (by norm_num : (1 : ℝ) < 2)
+    (h₂.trans (selectedBase_large request))
 
 theorem fullJointBudget : (recipe request frequency).FullJointBudget request.base
     ((model request frequency).parameters.m + (model request frequency).parameters.q) :=
@@ -98,8 +100,7 @@ theorem probe_embedding :
 /-- The actual first Poisson source. Its input is the same original
 recipe after the proved finite-row restriction, at time zero. -/
 def firstSource :=
-  (recipe request frequency).literalPrimitiveFirstSource
-    (TargetArithmetic.localMeasures (K := K)) (TargetArithmetic.finiteMeasure (K := K))
+  (CompleteMovingRowRecipe.literalPrimitiveFirstSource (Q := (recipe request frequency)) (μv := (TargetArithmetic.localMeasures (K := K))) (ν := (TargetArithmetic.finiteMeasure (K := K))))
     (TargetArithmetic.context c) (probe_root (c := c)) (probe_embedding (c := c))
     (normProfiles request frequency) PUnit.unit (model request frequency).parameters
     request.base 0 (request.base ^ (model request frequency).comparison₁)
@@ -118,8 +119,7 @@ def atlas : SourceCartesianAtlas (firstSource request frequency).columns
 /-- The first allowances retain the actual first common radical and
 the actual selected complementary divisor, including both norm lengths. -/
 def normalization : (firstSource request frequency).Normalization :=
-  (recipe request frequency).literalPrimitiveFirstNormalization
-    (TargetArithmetic.localMeasures (K := K)) (TargetArithmetic.finiteMeasure (K := K))
+  (CompleteMovingRowRecipe.literalPrimitiveFirstNormalization (Q := (recipe request frequency)) (μv := (TargetArithmetic.localMeasures (K := K))) (ν := (TargetArithmetic.finiteMeasure (K := K))))
     (TargetArithmetic.context c) (probe_root (c := c)) (probe_embedding (c := c))
     (normProfiles request frequency) PUnit.unit (model request frequency).parameters
     request.base 0 (request.base ^ (model request frequency).comparison₁)
@@ -133,8 +133,8 @@ def normalization : (firstSource request frequency).Normalization :=
 
 theorem pool_large :
     CanonicalPrimitiveEnginePool.threshold (TargetArithmetic.arithmetic c)
-      (selectedBox c frame) ≤ request.base := by
-  sorry
+      (selectedBox c frame) ≤ request.base :=
+  (selectedBaseThreshold_windows c frame (selectedBase_large request)).2.1
 
 /-- The original single pool is chosen once, before either first side
 or any second common label, divisor, phase or capacity deletion. -/
@@ -163,7 +163,7 @@ theorem firstRows_bound
 /-- Installing the one pool changes only the amplifier data. The
 original first source, actual atoms, Fourier chart and atlas are reused. -/
 def pooledSource :=
-  (firstSource request frequency).withOriginalPool (pool request) 1 1
+  (ActualDirectFirstSource.withOriginalPool (s := (firstSource request frequency))) (pool request) 1 1
     one_ne_zero one_ne_zero (selectedBox c frame).rowBound (selectedBox c frame).rowBound
     0 0 (selectedBox c frame).columnBound
     (selectedBox c frame).rowBound_nonneg (selectedBox c frame).rowBound_nonneg
@@ -180,7 +180,7 @@ def pooledAtlas : SourceCartesianAtlas (pooledSource request frequency).columns
     (pooledSource request frequency).ideal := atlas request frequency
 
 def pooledNormalization : (pooledSource request frequency).Normalization :=
-  (pooledSource request frequency).canonicalNormalization (base_gt_one request)
+  (ActualFirstSource.canonicalNormalization (s := (pooledSource request frequency))) (base_gt_one request)
     (fun DE D => (parameters request frequency).n₁ + (parameters request frequency).n₂ +
       (parameters request frequency).z + (parameters request frequency).q +
       idealLogLength request.base (firstActiveRadical DE.val.1 DE.val.2) +

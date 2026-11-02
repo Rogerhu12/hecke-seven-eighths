@@ -18,7 +18,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2
 
-open NumberField MeasureTheory HeckeGeneral.Characters
+open NumberField MeasureTheory HeckeGeneral.Characters DedekindZetaZeroFree
 open HeckeGeneral.Analysis.ConditionalMoments EngineStep
 
 variable {K : Type} [Field K] [NumberField K]

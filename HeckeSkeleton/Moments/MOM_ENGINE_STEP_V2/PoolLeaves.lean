@@ -66,46 +66,46 @@ variable (B : d.SourceCovers c)
 /-- The four summands are the genuine main, valuation-one,
 valuation-six and valuation-seven sources.  Every error retains p. -/
 abbrev CoveredLeafKey :=
-  s.main.CoveredLeafKey B.main B.main ⊕
-    ((Σ p : P.primes, (s.one p).CoveredLeafKey (B.residual p 1) (B.residual p 1)) ⊕
-      ((Σ p : P.primes, (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6)) ⊕
-        (Σ p : P.primes, (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))))
+  ActualGaussStage.CoveredLeafKey s.main B.main B.main ⊕
+    ((Σ p : P.primes, ActualGaussStage.CoveredLeafKey (s.one p) (B.residual p 1) (B.residual p 1)) ⊕
+      ((Σ p : P.primes, ActualGaussStage.CoveredLeafKey (s.six p) (B.residual p 6) (B.residual p 6)) ⊕
+        (Σ p : P.primes, ActualGaussStage.CoveredLeafKey (s.seven p) (B.residual p 7) (B.residual p 7))))
 
-abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey B) :=
+abbrev coveredLeafKeyFintype : Fintype (ActualPoolStages.CoveredLeafKey s B) :=
   pool_sum_sigma_fintype
     (P := P.primes)
-    (I₀ := s.main.CoveredLeafKey B.main B.main)
-    (I₁ := fun p => (s.one p).CoveredLeafKey (B.residual p 1) (B.residual p 1))
-    (I₆ := fun p => (s.six p).CoveredLeafKey (B.residual p 6) (B.residual p 6))
-    (I₇ := fun p => (s.seven p).CoveredLeafKey (B.residual p 7) (B.residual p 7))
+    (I₀ := ActualGaussStage.CoveredLeafKey s.main B.main B.main)
+    (I₁ := fun p => ActualGaussStage.CoveredLeafKey (s.one p) (B.residual p 1) (B.residual p 1))
+    (I₆ := fun p => ActualGaussStage.CoveredLeafKey (s.six p) (B.residual p 6) (B.residual p 6))
+    (I₇ := fun p => ActualGaussStage.CoveredLeafKey (s.seven p) (B.residual p 7) (B.residual p 7))
 
 attribute [local instance] coveredLeafKeyFintype
 
 def coveredLeaf (exceptional : s.CoverHybridPredicates B)
-    (F : SchwartzMap W ℂ) (x : ι → W) : s.CoveredLeafKey B → ActualHybridLeaf K Q W E
+    (F : SchwartzMap W ℂ) (x : ι → W) : ActualPoolStages.CoveredLeafKey s B → ActualHybridLeaf K Q W E
   | .inl b =>
-      (s.main.fiberCoveredLeaf B.main B.main exceptional.main F x b).scale
+      (ActualGaussStage.fiberCoveredLeaf s.main B.main B.main exceptional.main F x b).scale
         ((4 / d.density) * d.multiplicity)
         (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le) d.multiplicity_nonneg)
   | .inr (.inl ⟨p, b⟩) =>
-      ((s.one p).fiberCoveredLeaf (B.residual p 1) (B.residual p 1) (exceptional.one p)
+      (ActualGaussStage.fiberCoveredLeaf (s.one p) (B.residual p 1) (B.residual p 1) (exceptional.one p)
         F (fun i => x i.val) b).scale ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 1)
         (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
           (FirstGaussPoolData.localErrorWeight_nonneg p.val 1))
   | .inr (.inr (.inl ⟨p, b⟩)) =>
-      ((s.six p).fiberCoveredLeaf (B.residual p 6) (B.residual p 6) (exceptional.six p)
+      (ActualGaussStage.fiberCoveredLeaf (s.six p) (B.residual p 6) (B.residual p 6) (exceptional.six p)
         F (fun i => x i.val) b).scale ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 6)
         (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
           (FirstGaussPoolData.localErrorWeight_nonneg p.val 6))
   | .inr (.inr (.inr ⟨p, b⟩)) =>
-      ((s.seven p).fiberCoveredLeaf (B.residual p 7) (B.residual p 7) (exceptional.seven p)
+      (ActualGaussStage.fiberCoveredLeaf (s.seven p) (B.residual p 7) (B.residual p 7) (exceptional.seven p)
         F (fun i => x i.val) b).scale ((4 / d.density) * FirstGaussPoolData.localErrorWeight p.val 7)
         (mul_nonneg (div_nonneg (by norm_num) d.density_pos.le)
           (FirstGaussPoolData.localErrorWeight_nonneg p.val 7))
 
 @[simp] theorem coveredLeaf_firstKernel (exceptional : s.CoverHybridPredicates B)
-    (F : SchwartzMap W ℂ) (x : ι → W) (b : s.CoveredLeafKey B) :
-    (s.coveredLeaf B exceptional F x b).firstKernel = F := by
+    (F : SchwartzMap W ℂ) (x : ι → W) (b : ActualPoolStages.CoveredLeafKey s B) :
+    (ActualPoolStages.coveredLeaf s B exceptional F x b).firstKernel = F := by
   rcases b with b | (⟨p, b⟩ | (⟨p, b⟩ | ⟨p, b⟩)) <;> rfl
 
 end ActualPoolStages

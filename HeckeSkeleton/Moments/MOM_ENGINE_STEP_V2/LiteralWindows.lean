@@ -492,7 +492,7 @@ def literalOriginalSchwartzModel (ξ : X)
     (original : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) bound)
     (hreference : reference ∈ rowDomain) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Ioi 0) (hclosed : IsClosed window) :
-    (Q.literalOriginalProfileDataOfWindow ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalProfileDataOfWindow Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       reference href original hreference ht hwindow).SchwartzModel window where
   left r := if r && !centered then 0 else original.leftRep reference t
   right _ := original.rightRep reference t
@@ -523,7 +523,7 @@ theorem literalOriginalSchwartzModel_bound (ξ : X)
     (original : RawProfileWindow rowDomain heightDomain window seminorms (data ξ) bound)
     (hreference : reference ∈ rowDomain) (ht : t ∈ heightDomain)
     (hwindow : window ⊆ Set.Ioi 0) (hclosed : IsClosed window) (hbound : 0 ≤ bound) :
-    let E := Q.literalOriginalSchwartzModel ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    let E := (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalSchwartzModel Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       reference href original hreference ht hwindow hclosed
     (∀ r, seminorms.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) ≤ bound) ∧
       (∀ r, seminorms.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) ≤ bound) ∧
@@ -2305,26 +2305,26 @@ def literalScalarFreeComputedProfiles
     (hprime : ∀ j, Function.support (original.primeRep j t) ⊆ Set.Ioo (1 : ℝ) 2)
     {support : Finset (Ideal (𝓞 K))}
     (b : SupportCartesianBranch
-      (Q.literalOriginalAtoms ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₁
-      (Q.literalOriginalAtoms ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₂
-      (Q.literalOriginalAtoms ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slots support)
+      ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₁
+      ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂).plain₂
+      ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂).slots support)
     (power firstFixed poolFixed unitFixed : A.Exterior)
     (firstElement poolElement unitElement : A.R)
     (hfirst : A.Generates firstFixed firstElement)
     (hpool : A.Generates poolFixed poolElement)
     (hunit : A.Generates unitFixed unitElement)
     (δ₁ δ₂ : ℝ) (hδhi : δ₁ + δ₂ ≤ 1 / 2) :
-    let W := Q.literalOriginalProfileDataOfWindow ξ recipe a Z t Y₁ Y₂ centered
+    let W := (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalProfileDataOfWindow Q) ξ recipe a Z t Y₁ Y₂ centered
       hZ hY₁ hY₂ reference href original hreference ht hpositive
-    let d := Q.literalOriginalAtoms ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    let d := (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ recipe a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     let outer := d.commonScalar b * (((A.exteriorNorm power ^ δ₁ : ℝ) : ℂ) *
       actualIdealResidue (A := A) (σ := σ) power.val firstElement)
     CanonicalLiteralFullKappaInput.ComputedProfiles
       (((W.secondInput (σ := σ) b P R power firstFixed poolFixed unitFixed
         firstElement poolElement unitElement hfirst hpool hunit δ₁ δ₂).scale outer⁻¹).balancePlain (CanonicalLiteralBalancedSchwartz.balance d b δ₁ δ₂)) window s B := by
-  let E := Q.literalOriginalSchwartzModel ξ recipe a Z t Y₁ Y₂ centered
+  let E := (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalSchwartzModel Q) ξ recipe a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ reference href original hreference ht hpositive hcompact.isClosed
-  have hb := Q.literalOriginalSchwartzModel_bound ξ recipe a Z t Y₁ Y₂ centered
+  have hb := (HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalSchwartzModel_bound Q) ξ recipe a Z t Y₁ Y₂ centered
     hZ hY₁ hY₂ reference href original hreference ht hpositive hcompact.isClosed hB
   exact CanonicalLiteralFullKappaInput.scalarFreeBalanced (σ := σ) E b P R power firstFixed
     poolFixed unitFixed firstElement poolElement unitElement hfirst hpool hunit

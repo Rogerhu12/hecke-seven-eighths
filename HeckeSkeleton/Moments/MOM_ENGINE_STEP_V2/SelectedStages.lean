@@ -56,7 +56,7 @@ def leftDirectGeometry (DE : (firstSource request frequency).CommonLabel)
     OriginalNominalGeometry (K := K) (parameters request frequency) request.base
       (recipeInductionSigma c) :=
   OriginalNominalGeometry.canonicalDirect
-    (((firstSource request frequency).block DE).literalLeftCoordinates D.val)
+    ((FirstCommonCharacterBlock.literalLeftCoordinates (b := ((firstSource request frequency).block DE))) D.val)
     (selectedBox c frame).error (zero_lt_one.trans (base_gt_one request))
     (selectedBox c frame).error_pos.le
 
@@ -66,7 +66,7 @@ def rightDirectGeometry (DE : (firstSource request frequency).CommonLabel)
     OriginalNominalGeometry (K := K) (parameters request frequency) request.base
       (recipeInductionSigma c) :=
   OriginalNominalGeometry.canonicalDirect
-    (((firstSource request frequency).block DE).literalRightCoordinates D.val)
+    ((FirstCommonCharacterBlock.literalRightCoordinates (b := ((firstSource request frequency).block DE))) D.val)
     (selectedBox c frame).error (zero_lt_one.trans (base_gt_one request))
     (selectedBox c frame).error_pos.le
 
@@ -127,11 +127,11 @@ theorem pooledRows
       (fun j => (((pooledSource request frequency).pools DE D).rightData.ideal j).val)) :
     (∀ h ∈ (((pooledSource request frequency).pools DE D).divisorPools.leftData S).rows,
       (TargetArithmetic.arithmetic c).exteriorNorm (originalFrequencyIdeal h) ≤
-        (((pooledSource request frequency).block DE).literalLeftCoordinates D.val).canonicalRetainedScale
+        (OriginalNominalIdeals.canonicalRetainedScale (I := ((FirstCommonCharacterBlock.literalLeftCoordinates (b := ((pooledSource request frequency).block DE))) D.val)))
           (parameters request frequency) request.base (selectedBox c frame).error) ∧
     (∀ h ∈ (((pooledSource request frequency).pools DE D).divisorPools.rightData S).rows,
       (TargetArithmetic.arithmetic c).exteriorNorm (originalFrequencyIdeal h) ≤
-        (((pooledSource request frequency).block DE).literalRightCoordinates D.val).canonicalRetainedScale
+        (OriginalNominalIdeals.canonicalRetainedScale (I := ((FirstCommonCharacterBlock.literalRightCoordinates (b := ((pooledSource request frequency).block DE))) D.val)))
           (parameters request frequency) request.base (selectedBox c frame).error) := by
   sorry
 
@@ -140,26 +140,26 @@ valuation-seven sources on each independent side. -/
 def pooledStages : (pooledSource request frequency).SecondStages
     (E := ℝ) (hDiff := TargetArithmetic.different c) := fun DE D => {
   left := fun S χ =>
-    (((pooledSource request frequency).pools DE D).divisorPools.leftData S).literalCanonicalStages
+    (FirstGaussPoolData.literalCanonicalStages (d := (((pooledSource request frequency).pools DE D).divisorPools.leftData S)))
       (hΓ := actualSixthUnits_are_sixth (places K c))
       (μv := TargetArithmetic.localMeasures (K := K))
       (hDiff := TargetArithmetic.different c) (ν := TargetArithmetic.finiteMeasure (K := K))
       (((pooledSource request frequency).pools DE D).leftDivisorCoefficient S χ)
       (probeData K c) (parameters request frequency)
-      (((pooledSource request frequency).block DE).literalLeftCoordinates D.val)
+      ((FirstCommonCharacterBlock.literalLeftCoordinates (b := ((pooledSource request frequency).block DE))) D.val)
       (selectedBox c frame).error (selectedBox c frame).error_pos.le
       (selectedBox c frame).step_pos (pooledRows request frequency DE D S).1
       (selectedBox c frame).delta (selectedBox c frame).tilt_pos (selectedBox c frame).tilt_le_half
       ((selectedBox c frame).secondCutoff request.base)
       ((selectedBox c frame).secondCutoff_ge_one (base_gt_one request).le)
   right := fun S χ =>
-    (((pooledSource request frequency).pools DE D).divisorPools.rightData S).literalCanonicalStages
+    (FirstGaussPoolData.literalCanonicalStages (d := (((pooledSource request frequency).pools DE D).divisorPools.rightData S)))
       (hΓ := actualSixthUnits_are_sixth (places K c))
       (μv := TargetArithmetic.localMeasures (K := K))
       (hDiff := TargetArithmetic.different c) (ν := TargetArithmetic.finiteMeasure (K := K))
       (((pooledSource request frequency).pools DE D).rightDivisorCoefficient S χ)
       (probeData K c) (parameters request frequency)
-      (((pooledSource request frequency).block DE).literalRightCoordinates D.val)
+      ((FirstCommonCharacterBlock.literalRightCoordinates (b := ((pooledSource request frequency).block DE))) D.val)
       (selectedBox c frame).error (selectedBox c frame).error_pos.le
       (selectedBox c frame).step_pos (pooledRows request frequency DE D S).2
       (selectedBox c frame).delta (selectedBox c frame).tilt_pos (selectedBox c frame).tilt_le_half

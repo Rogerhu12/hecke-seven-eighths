@@ -56,8 +56,12 @@ def maskConstant (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) : ℝ :=
 theorem maskConstant_nonneg (B ε : ℝ) (hB : 0 ≤ B) (hε : 0 < ε) :
     0 ≤ maskConstant (K := K) B ε hB hε := sq_nonneg _
 
-def rowSeminorm (c : TargetContext K) (s : Finset (ℕ × ℕ)) : ℝ :=
-  s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)
+def rowSeminorm (c : TargetContext K) (s : Finset (ℕ × ℕ)) : ℝ := by
+  letI : MeasurableSpace (sLocalNormOneGroup K
+      ((TargetArithmetic.arithmetic c).Sf : Set (HeightOneSpectrum (𝓞 K)))) := borel _
+  letI : BorelSpace (sLocalNormOneGroup K
+      ((TargetArithmetic.arithmetic c).Sf : Set (HeightOneSpectrum (𝓞 K)))) := ⟨rfl⟩
+  exact s.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ)
     (CanonicalRowBall.archTest K (TargetArithmetic.arithmetic c).Sf 1)
 
 theorem rowSeminorm_nonneg (c : TargetContext K) (s : Finset (ℕ × ℕ)) :

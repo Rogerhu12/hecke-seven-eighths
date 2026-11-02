@@ -52,13 +52,13 @@ variable (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
 
 def rawTerminals (F : SchwartzMap W ℂ) (x : ι → W) : RawTerminalPair :=
   (4 / d.density) •
-    (d.multiplicity • s.main.rawTerminals F x +
+    (d.multiplicity • ActualGaussStage.rawTerminals s.main F x +
       (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 1 •
-        (s.one p).rawTerminals F (fun i => x i.val)) +
+        ActualGaussStage.rawTerminals (s.one p) F (fun i => x i.val)) +
       (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 6 •
-        (s.six p).rawTerminals F (fun i => x i.val)) +
+        ActualGaussStage.rawTerminals (s.six p) F (fun i => x i.val)) +
       (∑ p : P.primes, FirstGaussPoolData.localErrorWeight p.val 7 •
-        (s.seven p).rawTerminals F (fun i => x i.val)))
+        ActualGaussStage.rawTerminals (s.seven p) F (fun i => x i.val)))
 
 end ActualPoolStages
 
@@ -78,14 +78,14 @@ local instance terminalCircleCharacterFintype :
 namespace FirstBlockDirectData.SecondStages
 
 variable {p : FirstBlockDirectData chart M X hX}
-variable (s : p.SecondStages (E := E) (hDiff := hDiff))
+variable (s : FirstBlockDirectData.SecondStages p (E := E) (hDiff := hDiff))
 
 def rawTerminals
     (NL NR : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val) →
       ((PUnit × PUnit) →* Circle) → ℝ) : RawTerminalPair :=
   ∑ S, ∑ χ, classWeight NL NR S χ •
-    ((NL S χ)⁻¹ • (s.left S χ).rawTerminals chart.kernel chart.leftPoint +
-      (NR S χ)⁻¹ • (s.right S χ).rawTerminals chart.kernel (fun j => -chart.rightPoint j))
+    ((NL S χ)⁻¹ • ActualGaussStage.rawTerminals (s.left S χ) chart.kernel chart.leftPoint +
+      (NR S χ)⁻¹ • ActualGaussStage.rawTerminals (s.right S χ) chart.kernel (fun j => -chart.rightPoint j))
 
 end FirstBlockDirectData.SecondStages
 
@@ -98,8 +98,8 @@ def rawTerminals
     (NL NR : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val) →
       ((PUnit × PUnit) →* Circle) → ℝ) : RawTerminalPair :=
   ∑ S, ∑ χ, classWeight NL NR S χ •
-    ((NL S χ)⁻¹ • (s.left S χ).rawTerminals chart.kernel chart.leftPoint +
-      (NR S χ)⁻¹ • (s.right S χ).rawTerminals chart.kernel (fun j => -chart.rightPoint j))
+    ((NL S χ)⁻¹ • ActualPoolStages.rawTerminals (s.left S χ) chart.kernel chart.leftPoint +
+      (NR S χ)⁻¹ • ActualPoolStages.rawTerminals (s.right S χ) chart.kernel (fun j => -chart.rightPoint j))
 
 end FirstBlockPoolData.SecondStages
 end FirstBlocks
@@ -123,11 +123,11 @@ def firstRawTerminals : RawTerminalPair :=
 
 namespace SecondStages
 
-variable {s} (R : s.SecondStages (E := E) (hDiff := hDiff))
+variable {s} (R : ActualDirectFirstSource.SecondStages s (E := E) (hDiff := hDiff))
 
 def secondRawTerminals (N : s.Normalization) : RawTerminalPair :=
   (s.fiber : ℝ) • ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
-    (R v D).rawTerminals (N.left v D) (N.right v D)
+    FirstBlockDirectData.SecondStages.rawTerminals (R v D) (N.left v D) (N.right v D)
 
 end SecondStages
 end ActualDirectFirstSource
@@ -151,7 +151,7 @@ variable {s} (R : s.SecondStages (E := E) (hDiff := hDiff))
 
 def secondRawTerminals (N : s.Normalization) : RawTerminalPair :=
   (s.fiber : ℝ) • ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
-    (R v D).rawTerminals (N.left v D) (N.right v D)
+    FirstBlockPoolData.SecondStages.rawTerminals (R v D) (N.left v D) (N.right v D)
 
 end SecondStages
 end ActualFirstSource

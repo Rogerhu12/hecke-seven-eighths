@@ -128,20 +128,20 @@ theorem of_parent_parameters
 theorem withSupportLength
     (domain : PairedEngineDomain centered d a Z Y₁ Y₂ floor padding) (supportLength : ℝ) :
     PairedEngineDomain centered d
-      (HeckeSkeleton.Moments.EngineStepV2.withSupportLength a supportLength)
+      ((PairedEngineDomain.withSupportLength (domain := HeckeSkeleton.Moments.EngineStepV2)) a supportLength)
       Z Y₁ Y₂ floor padding :=
-  domain.of_parent_parameters (withSupportLength_width a supportLength) rfl rfl rfl rfl
+  (PairedEngineDomain.of_parent_parameters (domain := domain)) (withSupportLength_width a supportLength) rfl rfl rfl rfl
 
 theorem withSupportLength_iff (supportLength : ℝ) :
     PairedEngineDomain centered d
-      (HeckeSkeleton.Moments.EngineStepV2.withSupportLength a supportLength)
+      ((PairedEngineDomain.withSupportLength (domain := HeckeSkeleton.Moments.EngineStepV2)) a supportLength)
       Z Y₁ Y₂ floor padding ↔
         PairedEngineDomain centered d a Z Y₁ Y₂ floor padding := by
   constructor
   · intro domain
-    exact domain.of_parent_parameters (withSupportLength_width a supportLength).symm
+    exact (PairedEngineDomain.of_parent_parameters (domain := domain)) (withSupportLength_width a supportLength).symm
       rfl rfl rfl rfl
-  · exact fun domain => domain.withSupportLength supportLength
+  · exact fun domain => (PairedEngineDomain.withSupportLength (domain := domain)) supportLength
 
 end PairedEngineDomain
 
@@ -159,39 +159,39 @@ def fullSupportLength (Z : ℝ) : ℝ :=
   idealLogLength Z (Q.moving.effectiveFullSupport Q.remaining).val
 
 def fullSupportParameters (a : RealParameters) (Z : ℝ) : RealParameters :=
-  withSupportLength a (Q.fullSupportLength Z)
+  withSupportLength a ((CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z)
 
-theorem fullSupportLength_nonneg (Z : ℝ) (hZ : 1 < Z) : 0 ≤ Q.fullSupportLength Z :=
+theorem fullSupportLength_nonneg (Z : ℝ) (hZ : 1 < Z) : 0 ≤ (CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z :=
   idealLogLength_nonneg Z hZ _ (Q.moving.effectiveFullSupport Q.remaining).property.1
 
 theorem rpow_fullSupportLength (Z : ℝ) (hZ : 1 < Z) :
-    Z ^ Q.fullSupportLength Z = A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) :=
+    Z ^ (CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z = A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) :=
   rpow_idealLogLength Z hZ _ (Q.moving.effectiveFullSupport Q.remaining).property.1
 
 @[simp] theorem fullSupportParameters_m (a : RealParameters) (Z : ℝ) :
-    (Q.fullSupportParameters a Z).m = a.m + a.q - Q.fullSupportLength Z := rfl
+    ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).m = a.m + a.q - (CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z := rfl
 
 @[simp] theorem fullSupportParameters_q (a : RealParameters) (Z : ℝ) :
-    (Q.fullSupportParameters a Z).q = Q.fullSupportLength Z := rfl
+    ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).q = (CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z := rfl
 
 @[simp] theorem fullSupportParameters_width (a : RealParameters) (Z : ℝ) :
-    (Q.fullSupportParameters a Z).m + (Q.fullSupportParameters a Z).q = a.m + a.q :=
-  withSupportLength_width a (Q.fullSupportLength Z)
+    ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).m + ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).q = a.m + a.q :=
+  withSupportLength_width a ((CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z)
 
 theorem fullSupportParameters_q_nonneg (a : RealParameters) (Z : ℝ) (hZ : 1 < Z) :
-    0 ≤ (Q.fullSupportParameters a Z).q := Q.fullSupportLength_nonneg Z hZ
+    0 ≤ ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).q := (CompleteMovingRowRecipe.fullSupportLength_nonneg (Q := Q)) Z hZ
 
 /-- The entire actual full support is paid exactly by the new `q`. -/
 theorem fullSupportParameters_support_norm (a : RealParameters) (Z : ℝ) (hZ : 1 < Z) :
     A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) =
-      Z ^ (Q.fullSupportParameters a Z).q := (Q.rpow_fullSupportLength Z hZ).symm
+      Z ^ ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).q := ((CompleteMovingRowRecipe.rpow_fullSupportLength (Q := Q)) Z hZ).symm
 
 /-- The original displayed support is a genuine divisor of the full
 support; no former displayed-support window is enlarged by assertion. -/
 theorem supportBudget_fullSupportParameters (a : RealParameters) (Z : ℝ) (hZ : 1 < Z) :
-    Q.SupportBudget Z (Q.fullSupportParameters a Z).q := by
-  change A.exteriorNorm Q.moving.support ≤ Z ^ Q.fullSupportLength Z
-  rw [Q.rpow_fullSupportLength Z hZ]
+    Q.SupportBudget Z ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).q := by
+  change A.exteriorNorm Q.moving.support ≤ Z ^ (CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z
+  rw [(CompleteMovingRowRecipe.rpow_fullSupportLength (Q := Q)) Z hZ]
   exact HeckePort.Moments.norm_le_of_dvd
     (Q.moving.effectiveFullSupport Q.remaining).property.1
     (Q.moving.support_dvd_effectiveFullSupport Q.remaining)
@@ -201,15 +201,15 @@ width. This equivalence does not reverse the one-way radical reduction
 of the original remaining ideal. -/
 theorem fullJointBudget_fullSupportParameters_iff (a : RealParameters) (Z : ℝ) :
     Q.FullJointBudget Z
-      ((Q.fullSupportParameters a Z).m + (Q.fullSupportParameters a Z).q) ↔
+      (((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).m + ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).q) ↔
         Q.FullJointBudget Z (a.m + a.q) := by
-  rw [Q.fullSupportParameters_width]
+  rw [(CompleteMovingRowRecipe.fullSupportParameters_width (Q := Q))]
 
 theorem exteriorRemaining_fullJointBudget_fullSupportParameters
     (a : RealParameters) (Z : ℝ) (hbudget : Q.FullJointBudget Z (a.m + a.q)) :
     Q.exteriorRemaining.FullJointBudget Z
-      ((Q.fullSupportParameters a Z).m + (Q.fullSupportParameters a Z).q) := by
-  rw [Q.fullSupportParameters_width]
+      (((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).m + ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).q) := by
+  rw [(CompleteMovingRowRecipe.fullSupportParameters_width (Q := Q))]
   exact Q.exteriorRemaining_fullJointBudget Z (a.m + a.q) hbudget
 
 /-- A real admitted original row bounds the new support length by the
@@ -217,9 +217,9 @@ original width. No nonempty-source condition is required elsewhere. -/
 theorem fullSupportLength_le_width_of_allowed
     (Z width : ℝ) (hZ : 1 < Z) (hbudget : Q.FullJointBudget Z width)
     (ξ : X) (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : (data ξ).allowedRow u) :
-    Q.fullSupportLength Z ≤ width := by
+    (CompleteMovingRowRecipe.fullSupportLength (Q := Q)) Z ≤ width := by
   apply (Real.rpow_le_rpow_left_iff hZ).mp
-  rw [Q.rpow_fullSupportLength Z hZ]
+  rw [(CompleteMovingRowRecipe.rpow_fullSupportLength (Q := Q)) Z hZ]
   calc
     _ = 1 * A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) := (one_mul _).symm
     _ ≤ idealNorm K u * A.exteriorNorm (Q.moving.effectiveFullSupport Q.remaining) :=
@@ -230,27 +230,27 @@ theorem fullSupportParameters_m_nonneg_of_pairedRow
     (a : RealParameters) (Z : ℝ) (hZ : 1 < Z)
     (hbudget : Q.FullJointBudget Z (a.m + a.q)) (ξ : X)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (hu : u ∈ pairedRows (data ξ) a Z) :
-    0 ≤ (Q.fullSupportParameters a Z).m := by
+    0 ≤ ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).m := by
   apply sub_nonneg.mpr
-  exact Q.fullSupportLength_le_width_of_allowed Z (a.m + a.q) hZ hbudget ξ u
+  exact (CompleteMovingRowRecipe.fullSupportLength_le_width_of_allowed (Q := Q)) Z (a.m + a.q) hZ hbudget ξ u
     (((data ξ).rows_spec _ u).mp (Finset.mem_filter.mp hu).1).1
 
 theorem pairedRows_empty_of_fullSupportParameters_m_neg
     (a : RealParameters) (Z : ℝ) (hZ : 1 < Z)
     (hbudget : Q.FullJointBudget Z (a.m + a.q))
-    (hnegative : (Q.fullSupportParameters a Z).m < 0) (ξ : X) :
+    (hnegative : ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).m < 0) (ξ : X) :
     pairedRows (data ξ) a Z = ∅ := by
   apply Finset.eq_empty_iff_forall_not_mem.mpr
   intro u hu
-  exact (not_le_of_gt hnegative) (Q.fullSupportParameters_m_nonneg_of_pairedRow a Z hZ hbudget ξ u hu)
+  exact (not_le_of_gt hnegative) ((CompleteMovingRowRecipe.fullSupportParameters_m_nonneg_of_pairedRow (Q := Q)) a Z hZ hbudget ξ u hu)
 
 /-- The actual tighter first radius has exactly the repartitioned
 inverse exponent. The original source chart is not reconstructed. -/
 theorem fullSupportRadius_inverse_eq_parameters_m
     (a : RealParameters) (Z : ℝ) (hZ : 1 < Z) :
-    (Q.fullSupportRadius Z (a.m + a.q) (zero_lt_one.trans hZ)).val⁻¹ =
-      Z ^ (Q.fullSupportParameters a Z).m :=
-  Q.fullSupportRadius_inverse Z (a.m + a.q) hZ
+    ((CompleteMovingRowRecipe.fullSupportRadius (Q := Q)) Z (a.m + a.q) (zero_lt_one.trans hZ)).val⁻¹ =
+      Z ^ ((CompleteMovingRowRecipe.fullSupportParameters (Q := Q)) a Z).m :=
+  (CompleteMovingRowRecipe.fullSupportRadius_inverse (Q := Q)) Z (a.m + a.q) hZ
 
 end CompleteMovingRowRecipe
 
@@ -320,11 +320,11 @@ def ofWithSupportLength
 variable (out : PairedEngineConclusion (Ω := Ω) centered d (withSupportLength a supportLength)
   Z t Y₁ Y₂ σ ε terminalExponent C control admissible)
 
-@[simp] theorem ofWithSupportLength_leftData : out.ofWithSupportLength.leftData = out.leftData := rfl
+@[simp] theorem ofWithSupportLength_leftData : (PairedEngineConclusion.ofWithSupportLength (out := out)).leftData = out.leftData := rfl
 
-@[simp] theorem ofWithSupportLength_rightData : out.ofWithSupportLength.rightData = out.rightData := rfl
+@[simp] theorem ofWithSupportLength_rightData : (PairedEngineConclusion.ofWithSupportLength (out := out)).rightData = out.rightData := rfl
 
-@[simp] theorem ofWithSupportLength_kernel : out.ofWithSupportLength.kernel = out.kernel := rfl
+@[simp] theorem ofWithSupportLength_kernel : (PairedEngineConclusion.ofWithSupportLength (out := out)).kernel = out.kernel := rfl
 
 end PairedEngineConclusion
 end HeckeSkeleton.Moments.EngineStepV2

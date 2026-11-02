@@ -179,7 +179,7 @@ theorem actualRows_empty_active_pair_fullJoint_window
 /-- The active-profile physical window now pays every actual appended
 factor and the full sixth root, with the original fixed pattern. -/
 theorem actualRows_appended_active_pair_fullDeletion_joint_window
-    (hclass : chart.NonunitLabelStable)
+    (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart))
     (oldMoving : OriginalMovingFactors A P Rchar)
     (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
     (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
@@ -192,10 +192,10 @@ theorem actualRows_appended_active_pair_fullDeletion_joint_window
       (Ideal.absNorm ((fullI i).val * (fullJ j).val) : ℝ) ≤ Z ^ (2 * a₀))
     (hold : A.exteriorNorm (oldMoving.effectiveFullSupport remaining) ≤ Z ^ (q + wo))
     (h : (chart.actualRows ∅ X hX label).live) :
-    let pattern := chart.originalNonunitPattern ∅ X hX label
+    let pattern := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label
     idealNorm K ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal *
         idealNorm K
-          ((oldMoving.appendSecondFactor C b.primes b.leftMultiplicity b.rightMultiplicity pattern).fullMaskSupport
+          (((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor oldMoving) C b.primes b.leftMultiplicity b.rightMultiplicity pattern).fullMaskSupport
             (remainingMaskIdeal A remaining *
               secondSixthRootNonzeroIdeal b.primes b.leftMultiplicity b.rightMultiplicity)) ≤
       Z ^ (secondCommonChildWidth Z a₀ q wo (Real.log retainedScale / Real.log Z) g
@@ -272,7 +272,7 @@ namespace SecondBlockProfileChart
 
 variable (chart : SecondBlockProfileChart (E := E) hΓ μv hDiff b C left right
   profiles finiteTest radius D.val)
-variable (hclass : chart.NonunitLabelStable)
+variable (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart))
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
 variable (Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
 variable {ω ψ : HeckeCharacter K} {k : ℕ}
@@ -300,8 +300,8 @@ variable (hwidth : m + q =
     (primePowerProduct b.primes b.leftMultiplicity).val
     (primePowerProduct b.primes b.rightMultiplicity).val
     (secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity
-      (chart.originalNonunitPattern ∅ X hX label)).val
-    (secondPatternNonunitIdeal b.primes (chart.originalNonunitPattern ∅ X hX label)).val +
+      ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label)).val
+    (secondPatternNonunitIdeal b.primes ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label)).val +
     idealLogLength d.base (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
     cutoffExponent)
 variable (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
@@ -309,7 +309,7 @@ variable (inverse : IdealTest K) (index : Fin k → Fin parent.geometry.slotCoun
 variable (rectangle : Bool) (firstSign : ℝ) (negative : Bool)
 
 local notation "S" => chart.actualRows ∅ X hX label
-local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
+local notation "pattern" => (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label
 local notation "child" => data P Rchar W B F parent oldMoving correction hcorr C b.primes
   b.leftMultiplicity b.rightMultiplicity pattern ν remaining extra m q inverse index
   rectangle firstSign negative
@@ -418,21 +418,21 @@ def MaskIndicator : Prop := ∀ I : Ideal (𝓞 K), T.mask I = 0 ∨ T.mask I = 
 
 variable {T}
 
-theorem MaskIndicator.restrictSlots (h : T.MaskIndicator) (keep : Finset (Fin k)) :
-    (T.restrictSlots keep).MaskIndicator := by
+theorem MaskIndicator.restrictSlots (h : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator T)) (keep : Finset (Fin k)) :
+    (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator (T.restrictSlots keep)) := by
   sorry
 
-theorem MaskIndicator.deleteMask (h : T.MaskIndicator)
-    (M : HeckeGeneral.Analysis.NonzeroIdeal K) : (T.deleteMask M).MaskIndicator := by
+theorem MaskIndicator.deleteMask (h : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator T))
+    (M : HeckeGeneral.Analysis.NonzeroIdeal K) : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M)) := by
   sorry
 
 variable {A : SArithmeticData K}
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
 variable (R : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
 
-theorem MaskIndicator.movingSingleton (h : T.MaskIndicator)
+theorem MaskIndicator.movingSingleton (h : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator T))
     (I : A.Exterior) (a : A.R) (ha : A.Generates I a) :
-    (T.movingSingleton P R I a ha).MaskIndicator := by
+    (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.movingSingleton P R T) I a ha)) := by
   sorry
 
 end FixedChildCharacters
@@ -451,7 +451,7 @@ theorem sourceCharacters_maskIndicator (F : FixedPhases A)
     (correction : HeckeCharacter K)
     (remaining extra : HeckeGeneral.Analysis.NonzeroIdeal K) {k : ℕ}
     (index : Fin k → Fin parent.geometry.slotCount) :
-    (sourceCharacters P R F parent D correction remaining extra index).MaskIndicator := by
+    (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator (sourceCharacters P R F parent D correction remaining extra index)) := by
   sorry
 
 end CanonicalLiteralPhaseCalibration
@@ -468,7 +468,7 @@ extraction. Its witnesses and deleted occurrences are those of the
 stored original support branch. -/
 def commonAtomBounds {support : Finset (Ideal (𝓞 K))}
     (b : SupportCartesianBranch d.plain₁ d.plain₂ d.slots support)
-    (hmask : d.characters.MaskIndicator) :
+    (hmask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator d.characters)) :
     b.CommonAtomBounds d.characters d.base d.length d.slotWeight where
   base_pos := zero_lt_one.trans d.base_gt_one
   annulus i := (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) / d.base ^ d.length i
@@ -502,7 +502,7 @@ local notation "f" => (d.factors S side χ ideal hideal firstSign rectangle).fra
 /-- Costs are computed on the very witness of the original
 allocation. The original finite prime window subsequently bounds
 these per-prime values uniformly; it need not be assumed here. -/
-def frozenBounds (hmask : d.characters.MaskIndicator)
+def frozenBounds (hmask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator d.characters))
     (hL : Squarefree L)
     (hselection : selection ∈ AllocationMass.idealAllocations L (k + 2)) :
     (f).source.FrozenAtomBounds where
@@ -531,7 +531,7 @@ def frozenBounds (hmask : d.characters.MaskIndicator)
   divisor_squarefree := hL
   allocation_mem := hselection
 
-theorem frozenBounds_scalarBound (hmask : d.characters.MaskIndicator)
+theorem frozenBounds_scalarBound (hmask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator d.characters))
     (hL : Squarefree L)
     (hselection : selection ∈ AllocationMass.idealAllocations L (k + 2)) :
     (d.frozenBounds S C side χ ideal hideal firstSign rectangle L selection hne
@@ -713,8 +713,8 @@ theorem appended_character (F : FixedPhases A)
     (hpool : F.poolElement = generator C p ^ (2 * e.multiplicity))
     (oldMoving : OriginalMovingFactors A P R) (primes : ι → ExteriorPrime A)
     (m n : ι → ℕ) (pattern : ι → Bool) :
-    ((F.moving P R oldMoving).appendSecondFactor C primes m n pattern).character =
-      (((reducedPhases F C p e).moving P R oldMoving).appendSecondFactor
+    ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor (F.moving P R oldMoving)) C primes m n pattern).character =
+      ((HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor ((reducedPhases F C p e).moving P R oldMoving))
         C primes m n pattern).character := by
   sorry
 
@@ -739,8 +739,8 @@ theorem literalCharacter_eq {H : Type*} (S : ActualSecondCorrelationRows A σ H 
     (oldMoving : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
     (pattern : ι → Bool)
     (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (h : H) :
-    S.literalCharacter C P R F oldMoving correction pattern ν h =
-      S.literalCharacter C P R (reducedPhases F C p e) oldMoving correction pattern ν h := by
+    (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R F oldMoving correction pattern ν h =
+      (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R (reducedPhases F C p e) oldMoving correction pattern ν h := by
   sorry
 
 /-- The original ordinary filter is unchanged before any passive
@@ -753,8 +753,8 @@ theorem ordinary_iff {H : Type*} (S : ActualSecondCorrelationRows A σ H ι)
     (pattern : ι → Bool)
     (ν : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (theta : Finset (HeckeCharacter K)) (h : H) :
-    S.literalCharacter C P R F oldMoving correction pattern ν h ∉ theta ↔
-      S.literalCharacter C P R (reducedPhases F C p e) oldMoving correction pattern ν h ∉ theta := by
+    (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R F oldMoving correction pattern ν h ∉ theta ↔
+      (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R (reducedPhases F C p e) oldMoving correction pattern ν h ∉ theta := by
   sorry
 
 end HeckeSkeleton.Moments.EngineStepV2.CanonicalLiteralPaidRowCharacters
@@ -799,7 +799,7 @@ variable (correction : HeckeCharacter K) (remaining : HeckeGeneral.Analysis.Nonz
 variable (index : Fin k → Fin parent.geometry.slotCount)
 
 theorem paidSourceCharacters_maskIndicator :
-    (paidSourceCharacters P R F parent oldMoving correction remaining index).MaskIndicator := by
+    (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator (paidSourceCharacters P R F parent oldMoving correction remaining index)) := by
   sorry
 
 variable {d : CanonicalLiteralRectangles.Atoms (K := K) k}
@@ -868,7 +868,7 @@ local notation "t" => table W B A paid
 
 /-- Individual original atom bounds on this exact passive allocation.
 The independent divisor norm is retained by `scalarBound`. -/
-def frozenBounds (hmask : paid.MaskIndicator) (ha : a ∈ nonzeroLabels W B A M) :
+def frozenBounds (hmask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator paid)) (ha : a ∈ nonzeroLabels W B A M) :
     (f).source.FrozenAtomBounds where
   annulus i := (Ideal.absNorm ((branch W B A M a).witness.2 i).asIdeal : ℝ) /
     (t).base ^ (t).length i
@@ -894,7 +894,7 @@ def frozenBounds (hmask : paid.MaskIndicator) (ha : a ∈ nonzeroLabels W B A M)
   allocation_mem := by
     cases side <;> exact selection_mem W B A M a
 
-theorem frozenBounds_scalarBound (hmask : paid.MaskIndicator)
+theorem frozenBounds_scalarBound (hmask : (HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.MaskIndicator paid))
     (ha : a ∈ nonzeroLabels W B A M) :
     (frozenBounds W B paid C S side M a firstSign rectangle hmask ha).scalarBound =
       (∏ i ∈ Finset.univ \ (branch W B A M a).keep,
@@ -920,8 +920,8 @@ theorem literalCharacter_eq (S : ActualSecondCorrelationRows A σ H ι)
     (oldMoving : OriginalMovingFactors A P R) (correction : HeckeCharacter K)
     (pattern : ι → Bool)
     (sector : SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))) (h : H) :
-    S.literalCharacter C P R F oldMoving correction pattern sector h =
-      S.literalCharacter C P R choice.phases oldMoving correction pattern sector h := by
+    (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R F oldMoving correction pattern sector h =
+      (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter S) C P R choice.phases oldMoving correction pattern sector h := by
   sorry
 
 end CanonicalLiteralPassiveSource.PhaseChoice
@@ -988,7 +988,7 @@ variable (chart : SecondBlockProfileChart (E := ℝ) hΓ μv hDiff b C left righ
   profiles finiteTest radius D.val)
 variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
 variable (Rchar : RowCharacterInput K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) P)
-variable (hclass : chart.NonunitLabelStable) (hsector : chart.SectorLabelStable P)
+variable (hclass : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.NonunitLabelStable chart)) (hsector : (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.SectorLabelStable chart) P)
 variable (X : ℝ) (hX : 1 ≤ X) (label : Fin (chart.rowLabelCount + 1))
 variable (weight : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → ℂ)
 variable (keep₁ keep₂ : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Prop)
@@ -1021,8 +1021,8 @@ variable (hwidth : m + q =
     (primePowerProduct b.primes b.leftMultiplicity).val
     (primePowerProduct b.primes b.rightMultiplicity).val
     (secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity
-      (chart.originalNonunitPattern ∅ X hX label)).val
-    (secondPatternNonunitIdeal b.primes (chart.originalNonunitPattern ∅ X hX label)).val +
+      ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label)).val
+    (secondPatternNonunitIdeal b.primes ((HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label)).val +
     idealLogLength d.base (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
     cutoffExponent)
 variable (inverse : IdealTest K)
@@ -1035,8 +1035,8 @@ variable (side : SecondColumnSide) (firstSign : ℝ) (rectangle : Bool)
 
 local notation "S" =>
   (({ chart.actualRows ∅ X hX label with weight := weight }).restrictRows keep₁).restrictRows keep₂
-local notation "pattern" => chart.originalNonunitPattern ∅ X hX label
-local notation "sector" => chart.originalSector P ∅ X hX label
+local notation "pattern" => (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalNonunitPattern chart) ∅ X hX label
+local notation "sector" => (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalSector chart) P ∅ X hX label
 local notation "idx" => (fun j => index (SlotRestriction.index B.keep j))
 local notation "paid" => paidSourceCharacters P Rchar choice.phases parent oldMoving
   correction remaining idx
@@ -1050,7 +1050,7 @@ old support, first active/divisor factors and reduced pool moving
 factor. No passive ideal appears in this window. -/
 def literalPassiveFrameFullCalibration :
     ActualAllocatedSource.FullCalibration (f).source (σ := σ) ω ψ := by
-  let negative := side.literalNegative
+  let negative := (HeckeSkeleton.Moments.EngineStepV2.SecondColumnSide.literalNegative side)
   let newData := data P Rchar E allocation choice.phases parent oldMoving correction hcorr C
     (S).primes (S).leftMultiplicity (S).rightMultiplicity pattern sector remaining 1 m q inverse
     idx rectangle firstSign negative
@@ -1074,7 +1074,7 @@ def literalPassiveFrameFullCalibration :
   have hwindow (h : (S).live) (ξ : WithLp 2 (ℝ × ℝ)) :
       (newData ξ).allowedRow ((S).extractedRow C h).momentIdeal ∧
         A.exteriorNorm ((S).originalIdeal h.val) ≤ (S).normFactor C h.val * d.base ^ (m + q) :=
-    chart.literalAllocated_active_reweighted_allowed_cutoff hclass P Rchar E allocation
+    (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.literalAllocated_active_reweighted_allowed_cutoff chart) hclass P Rchar E allocation
       choice.phases parent oldMoving correction hcorr remaining 1 X hX label
       retainedScale g a₀ oldq wo cutoffExponent hscale hradius hcutoff hproduct hpaid m q
       hwidth sector inverse idx rectangle firstSign negative weight keep₁ keep₂ h ξ
@@ -1113,7 +1113,7 @@ def literalPassiveFrameFullCalibration :
   · cases side <;> exact CanonicalLiteralAllocatedData.right_scale t allocation rectangle m q κ
   · cases side <;> rfl
   · intro ξ h
-    let row := chart.originalReweightedPatternSector P hclass hsector ∅ X hX label
+    let row := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.originalReweightedPatternSector chart) P hclass hsector ∅ X hX label
       weight keep₁ keep₂ h
     cases side <;>
       exact actualPaidDictionary P Rchar choice.phases parent oldMoving correction remaining idx
@@ -1155,10 +1155,10 @@ def literalPassiveFrameFullCalibration :
 new passive allocation. Sixth-power reduction does not change it. -/
 def literalPassiveFrameCalibration
     (keep₂_eq : keep₂ = fun h =>
-      (chart.actualRows ∅ X hX label).literalCharacter C P Rchar F oldMoving correction
+      (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter (chart.actualRows ∅ X hX label)) C P Rchar F oldMoving correction
         pattern sector h ∉ parent.theta) :
     (f).source.Calibration (σ := σ) ω ψ := by
-  let full := chart.literalPassiveFrameFullCalibration P Rchar hclass hsector X hX label
+  let full := (HeckeSkeleton.Moments.EngineStepV2.SecondBlockProfileChart.literalPassiveFrameFullCalibration chart) P Rchar hclass hsector X hX label
     weight keep₁ keep₂ rowMass d W B F choice parent oldMoving correction hcorr remaining extra
     index a ha retainedScale g a₀ oldq wo cutoffExponent hscale hradius hcutoff hproduct
     hpaidSupport m q κ hwidth inverse hone hroot hemb hbackground hslot side firstSign rectangle
@@ -1196,9 +1196,9 @@ def literalPassiveFrameCalibration
     (Finset.mem_filter.mp (Finset.mem_filter.mp h.property).1).2
   rw [keep₂_eq] at hk
   have he : (full.data ξ).rowCharacter ((f).source.row h).momentIdeal =
-      (chart.actualRows ∅ X hX label).literalCharacter C P Rchar F oldMoving correction
+      (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter (chart.actualRows ∅ X hX label)) C P Rchar F oldMoving correction
         pattern sector h.val := by
-    have hp := (chart.actualRows ∅ X hX label).literalCharacter_reweighted C P Rchar
+    have hp := (HeckeSkeleton.Moments.EngineStepV2.ActualSecondCorrelationRows.literalCharacter_reweighted (chart.actualRows ∅ X hX label)) C P Rchar
       choice.phases oldMoving correction pattern sector weight keep₁ keep₂ h
     have hc := choice.literalCharacter_eq P Rchar (chart.actualRows ∅ X hX label)
       oldMoving correction pattern sector h.val
@@ -1268,7 +1268,7 @@ variable (rectangle : Bool) (firstSign : ℝ) (negative : Bool)
 def recipe : CompleteMovingRowRecipe A P R
     (data P R W B F parent oldMoving correction hcorr C p leftMultiplicity rightMultiplicity
       pattern ν remaining extra m q inverse index rectangle firstSign negative) where
-  moving := (F.moving P R oldMoving).appendSecondFactor C p leftMultiplicity
+  moving := (HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor (F.moving P R oldMoving)) C p leftMultiplicity
     rightMultiplicity pattern
   correction := correction
   correction_mem _ := Or.inr hcorr
@@ -1282,7 +1282,7 @@ def recipe : CompleteMovingRowRecipe A P R
 @[simp] theorem recipe_moving :
     (recipe P R W B F parent oldMoving correction hcorr C p leftMultiplicity rightMultiplicity
       pattern ν remaining extra m q inverse index rectangle firstSign negative).moving =
-      (F.moving P R oldMoving).appendSecondFactor C p leftMultiplicity rightMultiplicity pattern := rfl
+      (HeckeSkeleton.Moments.EngineStepV2.OriginalMovingFactors.appendSecondFactor (F.moving P R oldMoving)) C p leftMultiplicity rightMultiplicity pattern := rfl
 
 @[simp] theorem recipe_remaining :
     (recipe P R W B F parent oldMoving correction hcorr C p leftMultiplicity rightMultiplicity

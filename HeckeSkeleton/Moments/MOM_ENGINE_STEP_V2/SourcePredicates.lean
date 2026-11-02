@@ -102,8 +102,8 @@ def literalHybridPredicates : s.CoverHybridPredicates LC RC :=
   fun DE D _ _ label _ _ _ _ _ _ h =>
     ((s.charts DE D).actualRows s.mask s.cutoff s.cutoff_one label).literalCharacter
       C P R F oldMoving correction
-      ((s.charts DE D).originalNonunitPattern s.mask s.cutoff s.cutoff_one label)
-      ((s.charts DE D).originalSector P s.mask s.cutoff s.cutoff_one label) h ∈ theta
+      ((SecondBlockProfileChart.originalNonunitPattern (chart := (s.charts DE D))) s.mask s.cutoff s.cutoff_one label)
+      ((SecondBlockProfileChart.originalSector (chart := (s.charts DE D))) P s.mask s.cutoff s.cutoff_one label) h ∈ theta
 
 /-- The leaf reads this same predicate without changing its row,
 sector, first moving factors, or finite theta set. -/
@@ -114,8 +114,8 @@ sector, first moving factors, or finite theta set. -/
       kernel point j).exceptional = fun h =>
       (v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).literalCharacter
         C P R F oldMoving correction
-        (v.chart.originalNonunitPattern s.mask s.cutoff s.cutoff_one v.rowLabel)
-        (v.chart.originalSector P s.mask s.cutoff s.cutoff_one v.rowLabel) h ∈ theta := rfl
+        ((SecondBlockProfileChart.originalNonunitPattern (chart := v.chart)) s.mask s.cutoff s.cutoff_one v.rowLabel)
+        ((SecondBlockProfileChart.originalSector (chart := v.chart)) P s.mask s.cutoff s.cutoff_one v.rowLabel) h ∈ theta := rfl
 
 end ActualGaussStage
 end HeckeSkeleton.Moments.EngineStepV2

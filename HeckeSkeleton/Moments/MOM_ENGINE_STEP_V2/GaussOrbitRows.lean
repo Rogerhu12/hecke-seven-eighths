@@ -301,7 +301,7 @@ theorem main_orbit_multiplicity_le (d : FirstGaussPoolData C P ι)
     engineOrbitMultiplicity (Γ := Γ) d.mainRows ≤ ⌈d.multiplicity⌉₊ := by
   apply engineOrbitMultiplicity_le
   intro q
-  exact Nat.cast_le.mp ((d.main_orbit_fibres_le source b hb horiginal q).trans
+  exact Nat.cast_le.mp (((FirstGaussPoolData.main_orbit_fibres_le (d := d)) source b hb horiginal q).trans
     (Nat.le_ceil d.multiplicity))
 
 /-- A fixed original exponent window chooses the integer fibre cap
@@ -312,7 +312,7 @@ theorem main_orbit_multiplicity_le_uniform (M : ℝ)
     (horiginal : d.rows ⊆ source.image (fun q => q.out.val * b)) :
     engineOrbitMultiplicity (Γ := Γ) d.mainRows ≤
       ⌈(M + 6 * ell) / (ell / 2)⌉₊ := by
-  apply (d.main_orbit_multiplicity_le source b hb horiginal).trans
+  apply ((FirstGaussPoolData.main_orbit_multiplicity_le (d := d)) source b hb horiginal).trans
   apply Nat.ceil_le_ceil
   exact div_le_div_of_nonneg_right (add_le_add hM le_rfl)
     (div_nonneg P.exponent_pos.le (by norm_num))

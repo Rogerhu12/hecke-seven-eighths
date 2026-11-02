@@ -87,7 +87,7 @@ theorem actualRows_live_rowLabel
     (Finset.mem_filter.mp h.property).1
   exact (Finset.mem_filter.mp hrow).2
 
-theorem actualRows_live_nonunitPattern_eq (hclass : chart.NonunitLabelStable)
+theorem actualRows_live_nonunitPattern_eq (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (anchor h : (chart.actualRows M X hX label).live) :
@@ -96,44 +96,44 @@ theorem actualRows_live_nonunitPattern_eq (hclass : chart.NonunitLabelStable)
   funext i
   apply decide_eq_decide.mpr
   exact hclass h.val anchor.val
-    ((chart.actualRows_live_rowLabel M X hX label h).trans
-      (chart.actualRows_live_rowLabel M X hX label anchor).symm) i
+    (((SecondBlockProfileChart.actualRows_live_rowLabel (chart := chart)) M X hX label h).trans
+      ((SecondBlockProfileChart.actualRows_live_rowLabel (chart := chart)) M X hX label anchor).symm) i
 
 /-- Every live row is in the anchor's actual pattern class. This
 merely attaches a proved identity to the same original live row. -/
-def actualRows_liveNonunitClass (hclass : chart.NonunitLabelStable)
+def actualRows_liveNonunitClass (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (anchor h : (chart.actualRows M X hX label).live) :
     (chart.actualRows M X hX label).NonunitClass C
       (actualNonunitPattern C b.primes b.leftMultiplicity b.rightMultiplicity (-anchor.val.out.val)) :=
-  ⟨h, chart.actualRows_live_nonunitPattern_eq hclass M X hX label anchor h⟩
+  ⟨h, (SecondBlockProfileChart.actualRows_live_nonunitPattern_eq (chart := chart)) hclass M X hX label anchor h⟩
 
-@[simp] theorem actualRows_liveNonunitClass_val (hclass : chart.NonunitLabelStable)
+@[simp] theorem actualRows_liveNonunitClass_val (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (anchor h : (chart.actualRows M X hX label).live) :
-    (chart.actualRows_liveNonunitClass hclass M X hX label anchor h).val = h := rfl
+    ((SecondBlockProfileChart.actualRows_liveNonunitClass (chart := chart)) hclass M X hX label anchor h).val = h := rfl
 
 /-- The class is the full original live carrier, with an identity
 underlying map. In particular there is no new fibre or sector count. -/
-def actualRows_liveNonunitClassEquiv (hclass : chart.NonunitLabelStable)
+def actualRows_liveNonunitClassEquiv (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (anchor : (chart.actualRows M X hX label).live) :
     (chart.actualRows M X hX label).live ≃
       (chart.actualRows M X hX label).NonunitClass C
         (actualNonunitPattern C b.primes b.leftMultiplicity b.rightMultiplicity (-anchor.val.out.val)) where
-  toFun := chart.actualRows_liveNonunitClass hclass M X hX label anchor
+  toFun := (SecondBlockProfileChart.actualRows_liveNonunitClass (chart := chart)) hclass M X hX label anchor
   invFun h := h.val
   left_inv _ := rfl
   right_inv _ := Subtype.ext rfl
 
-@[simp] theorem actualRows_liveNonunitClassEquiv_apply_val (hclass : chart.NonunitLabelStable)
+@[simp] theorem actualRows_liveNonunitClassEquiv_apply_val (hclass : (SecondBlockProfileChart.NonunitLabelStable (chart := chart)))
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (anchor h : (chart.actualRows M X hX label).live) :
-    ((chart.actualRows_liveNonunitClassEquiv hclass M X hX label anchor) h).val = h := rfl
+    (((SecondBlockProfileChart.actualRows_liveNonunitClassEquiv (chart := chart)) hclass M X hX label anchor) h).val = h := rfl
 
 end SecondBlockProfileChart
 
@@ -180,9 +180,9 @@ nonunit flags without an additional premise about the source. -/
 theorem canonicalRowBallByBlock_nonunitLabelStable
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val)) (D : mask.powerset) :
-    ((canonicalRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    (SecondBlockProfileChart.NonunitLabelStable (chart := ((canonicalRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       δ hδ hδhalf G retainedScale Z g hscale hZ mask cutoff hcutoff
-      hnorm havoid hcolumn dimension width character dyad).charts DE D).NonunitLabelStable := by
+      hnorm havoid hcolumn dimension width character dyad).charts DE D))) := by
   intro q q' he i
   exact canonicalRowBallByBlock_nonunitSaving_iff_of_rowLabel_eq
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
@@ -205,9 +205,9 @@ theorem canonicalUnmaskedRowBallByBlock_nonunitLabelStable
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : (∅ : Finset (HeightOneSpectrum A.R)).powerset) :
-    ((canonicalUnmaskedRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    (SecondBlockProfileChart.NonunitLabelStable (chart := ((canonicalUnmaskedRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-      dimension width character dyad).charts DE D).NonunitLabelStable := by
+      dimension width character dyad).charts DE D))) := by
   intro q q' he i
   exact canonicalRowBallByBlock_nonunitSaving_iff_of_rowLabel_eq
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
@@ -236,10 +236,10 @@ def canonicalUnmaskedRowBallByBlock_liveNonunitClassEquiv :
           (S.frequency anchor.val)) := by
   dsimp only
   intro DE D label anchor
-  exact ((canonicalUnmaskedRowBallByBlock
+  exact (SecondBlockProfileChart.actualRows_liveNonunitClassEquiv (chart := ((canonicalUnmaskedRowBallByBlock
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-    dimension width character dyad).charts DE D).actualRows_liveNonunitClassEquiv
+    dimension width character dyad).charts DE D)))
       (canonicalUnmaskedRowBallByBlock_nonunitLabelStable
         (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
         δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm

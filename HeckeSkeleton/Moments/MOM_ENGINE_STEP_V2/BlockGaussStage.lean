@@ -51,27 +51,27 @@ def originalPrimeSupport : Finset (HeightOneSpectrum (𝓞 K)) :=
   Finset.univ.image (fun i => (b.primes i).val)
 
 theorem originalPrimeSupport_ideal_image :
-    b.originalPrimeSupport.image (fun p => p.asIdeal) = primeSupport DE.1 := by
+    (FirstCommonCharacterBlock.originalPrimeSupport (b := b)).image (fun p => p.asIdeal) = primeSupport DE.1 := by
   rw [← b.common_left,
     primePowerProduct_support b.primes b.primes_injective b.leftMultiplicity b.left_positive]
   simp only [originalPrimeSupport, Finset.image_image, Function.comp_def]
 
 theorem originalPrimeSupport_divides (p : HeightOneSpectrum (𝓞 K))
-    (hp : p ∈ b.originalPrimeSupport) : p.asIdeal ∣ DE.1 := by
+    (hp : p ∈ (FirstCommonCharacterBlock.originalPrimeSupport (b := b))) : p.asIdeal ∣ DE.1 := by
   obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp hp
   sorry
 
 /-- The actual divided-frequency selection at this block's original
 multiplicities.  The image remains a subset of its complete prime set. -/
 def dividedNonunitSupport (C : A.GeneralArithmeticContext σ η htrace) (h : A.R) :
-    b.originalPrimeSupport.powerset :=
+    (FirstCommonCharacterBlock.originalPrimeSupport (b := b)).powerset :=
   ⟨(Finset.univ.filter (fun i => nonunitFrequencySaving C (b.primes i)
       (b.leftMultiplicity i) (b.rightMultiplicity i) h)).image (fun i => (b.primes i).val),
     Finset.mem_powerset.mpr (Finset.image_subset_image (Finset.filter_subset _ _))⟩
 
 @[simp] theorem prime_mem_dividedNonunitSupport
     (C : A.GeneralArithmeticContext σ η htrace) (h : A.R) (i : Fin b.primeCount) :
-    (b.primes i).val ∈ (b.dividedNonunitSupport C h).val ↔
+    (b.primes i).val ∈ ((FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C h).val ↔
       nonunitFrequencySaving C (b.primes i)
         (b.leftMultiplicity i) (b.rightMultiplicity i) h := by
   change (b.primes i).val ∈ (Finset.univ.filter (fun j => nonunitFrequencySaving C
@@ -88,24 +88,24 @@ def dividedNonunitSupport (C : A.GeneralArithmeticContext σ η htrace) (h : A.R
 
 theorem nonunitSaving_iff_of_dividedSupport_eq
     (C : A.GeneralArithmeticContext σ η htrace) (h h' : A.R)
-    (he : b.dividedNonunitSupport C h = b.dividedNonunitSupport C h')
+    (he : (FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C h = (FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C h')
     (i : Fin b.primeCount) :
     nonunitFrequencySaving C (b.primes i) (b.leftMultiplicity i) (b.rightMultiplicity i) h ↔
       nonunitFrequencySaving C (b.primes i)
         (b.leftMultiplicity i) (b.rightMultiplicity i) h' := by
-  have hm : (b.primes i).val ∈ (b.dividedNonunitSupport C h).val ↔
-      (b.primes i).val ∈ (b.dividedNonunitSupport C h').val := by rw [he]
+  have hm : (b.primes i).val ∈ ((FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C h).val ↔
+      (b.primes i).val ∈ ((FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C h').val := by rw [he]
   simpa only [prime_mem_dividedNonunitSupport] using hm
 
 theorem nonunitRadical_eq_of_dividedSupport_eq
     (C : A.GeneralArithmeticContext σ η htrace) (h h' : A.R)
-    (he : b.dividedNonunitSupport C h = b.dividedNonunitSupport C h') :
+    (he : (FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C h = (FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C h') :
     nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity h =
       nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity h' := by
   unfold nonunitFrequencyRadical
   congr 1
   funext i
-  rw [b.nonunitSaving_iff_of_dividedSupport_eq C h h' he i]
+  rw [(FirstCommonCharacterBlock.nonunitSaving_iff_of_dividedSupport_eq (b := b)) C h h' he i]
 
 end FirstCommonCharacterBlock
 
@@ -122,17 +122,17 @@ def code {Θ : Type*} (dimension width : ℕ)
     (dyad : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ →
       Fin dimension → Fin (width + 1))
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
-    OriginalFiniteFibre.RowCode b.originalPrimeSupport Θ dimension width :=
-  (b.dividedNonunitSupport C (-q.out.val), character q, dyad q)
+    OriginalFiniteFibre.RowCode (FirstCommonCharacterBlock.originalPrimeSupport (b := b)) Θ dimension width :=
+  ((FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C (-q.out.val), character q, dyad q)
 
 def label {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
     (character : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Θ)
     (dyad : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ →
       Fin dimension → Fin (width + 1))
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
-    Fin (Fintype.card (OriginalFiniteFibre.RowCode b.originalPrimeSupport
+    Fin (Fintype.card (OriginalFiniteFibre.RowCode (FirstCommonCharacterBlock.originalPrimeSupport (b := b))
       Θ dimension width) + 1) :=
-  OriginalGaussRowClassifier.encode b.originalPrimeSupport dimension width
+  OriginalGaussRowClassifier.encode (FirstCommonCharacterBlock.originalPrimeSupport (b := b)) dimension width
     (code C b dimension width character dyad q)
 
 theorem label_eq_iff {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
@@ -141,14 +141,14 @@ theorem label_eq_iff {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
       Fin dimension → Fin (width + 1))
     (q q' : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     label C b dimension width character dyad q = label C b dimension width character dyad q' ↔
-      b.dividedNonunitSupport C (-q.out.val) = b.dividedNonunitSupport C (-q'.out.val) ∧
+      (FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C (-q.out.val) = (FirstCommonCharacterBlock.dividedNonunitSupport (b := b)) C (-q'.out.val) ∧
         character q = character q' ∧ dyad q = dyad q' := by
-  change OriginalGaussRowClassifier.encode b.originalPrimeSupport dimension width
+  change OriginalGaussRowClassifier.encode (FirstCommonCharacterBlock.originalPrimeSupport (b := b)) dimension width
     (code C b dimension width character dyad q) =
-      OriginalGaussRowClassifier.encode b.originalPrimeSupport dimension width
+      OriginalGaussRowClassifier.encode (FirstCommonCharacterBlock.originalPrimeSupport (b := b)) dimension width
         (code C b dimension width character dyad q') ↔ _
   rw [(OriginalGaussRowClassifier.encode_injective
-    b.originalPrimeSupport dimension width).eq_iff]
+    (FirstCommonCharacterBlock.originalPrimeSupport (b := b)) dimension width).eq_iff]
   simp only [code, Prod.mk.injEq]
 
 /-- This is the exact per-prime hypothesis consumed by the live-row
@@ -164,7 +164,7 @@ theorem nonunitSaving_iff_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width
         (-q.out.val) ↔
       nonunitFrequencySaving C (b.primes i) (b.leftMultiplicity i) (b.rightMultiplicity i)
         (-q'.out.val) :=
-  b.nonunitSaving_iff_of_dividedSupport_eq C _ _
+  (FirstCommonCharacterBlock.nonunitSaving_iff_of_dividedSupport_eq (b := b)) C _ _
     ((label_eq_iff C b dimension width character dyad q q').mp he).1 i
 
 theorem nonunitRadical_eq_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
@@ -176,7 +176,7 @@ theorem nonunitRadical_eq_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width
       label C b dimension width character dyad q') :
     nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-q.out.val) =
       nonunitFrequencyRadical C b.primes b.leftMultiplicity b.rightMultiplicity (-q'.out.val) :=
-  b.nonunitRadical_eq_of_dividedSupport_eq C _ _
+  (FirstCommonCharacterBlock.nonunitRadical_eq_of_dividedSupport_eq (b := b)) C _ _
     ((label_eq_iff C b dimension width character dyad q q').mp he).1
 
 end OriginalBlockGaussRowClassifier
@@ -235,7 +235,7 @@ def canonicalRowBallByBlock :
       let b := canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property
       { (canonicalRowBall (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
           δ hδ hδ1 G retainedScale Z g hscale hZ mask cutoff hcutoff
-          hnorm havoid hcolumn b.originalPrimeSupport dimension width character dyad).charts DE D with
+          hnorm havoid hcolumn (FirstCommonCharacterBlock.originalPrimeSupport (b := b)) dimension width character dyad).charts DE D with
         rowLabel := OriginalBlockGaussRowClassifier.label C b dimension width
           (character DE D) (dyad DE D) } }
 

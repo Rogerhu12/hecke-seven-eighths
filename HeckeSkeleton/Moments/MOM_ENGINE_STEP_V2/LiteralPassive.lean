@@ -447,7 +447,7 @@ theorem coefficient_deleteMask
     (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
     (v : (HeckeGeneral.Analysis.NonzeroIdeal K × HeckeGeneral.Analysis.NonzeroIdeal K) ×
       (Fin k → HeightOneSpectrum (𝓞 K))) :
-    (T.deleteMask M).coefficient (σ := σ) g h' N₁ N₂ Z length w₁ w₂ w v =
+    ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).coefficient (σ := σ) g h' N₁ N₂ Z length w₁ w₂ w v =
       T.coefficient (σ := σ) g h' N₁ N₂ Z length w₁ w₂ w v *
         originalCoprimeMask M (childIndexIdeal v) := by
   sorry
@@ -458,7 +458,7 @@ theorem raw_coefficient_deleteMask
     (w₁ w₂ : HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
     (w : Fin k → HeightOneSpectrum (𝓞 K) → ℂ)
     (i : AllocationColumn K k) (h₁ : i.1.1 ≠ 0) (h₂ : i.1.2 ≠ 0) :
-    rawSourceCoefficient (σ := σ) (T.deleteMask M) g h' N₁ N₂ Z length w₁ w₂ w i =
+    rawSourceCoefficient (σ := σ) ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M) g h' N₁ N₂ Z length w₁ w₂ w i =
       rawSourceCoefficient (σ := σ) T g h' N₁ N₂ Z length w₁ w₂ w i *
         originalCoprimeMask M (allocationColumnIdeal i) := by
   sorry
@@ -473,7 +473,7 @@ theorem raw_joint_allocations
     (x₁ x₂ : HeckeGeneral.Analysis.NonzeroIdeal K → V)
     (x : Fin k → HeightOneSpectrum (𝓞 K) → V) (ξ : V) :
     jointFourierColumn (childCartesianColumns S₁ S₂ S)
-      (rawSourceCoefficient (σ := σ) (T.deleteMask M) g h' N₁ N₂ Z length w₁ w₂ w)
+      (rawSourceCoefficient (σ := σ) ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M) g h' N₁ N₂ Z length w₁ w₂ w)
       (rawSourceLocation x₁ x₂ x) ξ =
       ∑ a ∈ (liveLabels M.val S₁ S₂ S id id HeightOneSpectrum.asIdeal).attach,
         sign a.val * jointFourierColumn (allocation M.val S₁ S₂ S hS₁ hS₂ a).columns
@@ -494,8 +494,8 @@ theorem raw_centered_joint_allocations
     (x : Fin k → HeightOneSpectrum (𝓞 K) → V) (normalizer : ℂ) (ξ : V) :
     jointFourierColumn (childCartesianColumns S₁ S₂ S)
       (fun i => normalizer *
-        (rawSourceCoefficient (σ := σ) (T.deleteMask M) g h' X₁ X₂ Z length w₁ w₂ w i -
-         rawSourceCoefficient (σ := σ) (T.deleteMask M) g h' Y₁ Y₂ Z length v₁ v₂ w i))
+        (rawSourceCoefficient (σ := σ) ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M) g h' X₁ X₂ Z length w₁ w₂ w i -
+         rawSourceCoefficient (σ := σ) ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M) g h' Y₁ Y₂ Z length v₁ v₂ w i))
       (rawSourceLocation x₁ x₂ x) ξ =
       ∑ a ∈ (liveLabels M.val S₁ S₂ S id id HeightOneSpectrum.asIdeal).attach,
         sign a.val * jointFourierColumn (allocation M.val S₁ S₂ S hS₁ hS₂ a).columns
@@ -515,7 +515,7 @@ theorem calibrated_passive_allocations
     (hlength : ∀ i, (d.geometry.slots i).length = length (Fin.cast count i))
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (g h' : A.R)
     (Dold : old.Calibration (σ := σ) d count u g h')
-    (Dpaid : (T.deleteMask M).Calibration (σ := σ) d count u g h')
+    (Dpaid : ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).Calibration (σ := σ) d count u g h')
     (N₁ N₂ Z t : ℝ)
     (S₁ S₂ U₁ U₂ : Finset (HeckeGeneral.Analysis.NonzeroIdeal K))
     (S U : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
@@ -768,7 +768,7 @@ theorem calibrated_centered_allocations
     (hlength : ∀ r i, ((d r).geometry.slots i).length = length (Fin.cast (count r) i))
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (g h' : A.R)
     (Dold : ∀ r, old.Calibration (σ := σ) (d r) (count r) u g h')
-    (Dpaid : ∀ r, (T.deleteMask M).Calibration (σ := σ) (d r) (count r) u g h')
+    (Dpaid : ∀ r, ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask T) M).Calibration (σ := σ) (d r) (count r) u g h')
     (N₁ N₂ : Bool → ℝ) (Z t : ℝ)
     (S₁ S₂ U₁ U₂ : Finset (HeckeGeneral.Analysis.NonzeroIdeal K))
     (S U : Fin k → Finset (HeightOneSpectrum (𝓞 K)))
@@ -1394,7 +1394,7 @@ def calibration_delete (d : MomentData K ω ψ) (count : d.geometry.slotCount = 
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (g h : A.R)
     (original : (sourceCharacters P R F parent oldMoving correction remaining extra index).Calibration
       (σ := σ) d count u g h) :
-    ((paidSourceCharacters P R F parent oldMoving correction remaining index).deleteMask extra).Calibration
+    ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask (paidSourceCharacters P R F parent oldMoving correction remaining index)) extra).Calibration
       (σ := σ) d count u g h :=
   calibrationOfGate extra rfl
     (source_plain_delete P R F parent oldMoving correction remaining extra index)
@@ -1410,7 +1410,7 @@ def calibration_reduced
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (g h : A.R)
     (original : (sourceCharacters P R F parent oldMoving correction remaining extra index).Calibration
       (σ := σ) d count u g h) :
-    ((paidSourceCharacters P R (reducedPhases F C p e) parent oldMoving correction remaining index).deleteMask
+    ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask (paidSourceCharacters P R (reducedPhases F C p e) parent oldMoving correction remaining index))
       (passiveMask extra p e)).Calibration (σ := σ) d count u g h :=
   calibrationOfGate (passiveMask extra p e) rfl
     (source_plain_reduced P R F parent oldMoving correction remaining extra index hroot hemb C p e hpool)
@@ -1630,8 +1630,8 @@ def calibration (choice : PhaseChoice F C)
     (u : HeckeGeneral.Analysis.NonzeroIdeal K) (g h : A.R)
     (original : (sourceCharacters P R F parent oldMoving correction remaining extra index).Calibration
       (σ := σ) data count u g h) :
-    ((CanonicalLiteralPaidCharacters.paidSourceCharacters P R choice.phases parent oldMoving
-      correction remaining index).deleteMask (choice.mask extra)).Calibration
+    ((HeckeSkeleton.Moments.EngineStepV2.FixedChildCharacters.deleteMask (CanonicalLiteralPaidCharacters.paidSourceCharacters P R choice.phases parent oldMoving
+      correction remaining index)) (choice.mask extra)).Calibration
       (σ := σ) data count u g h := by
   cases choice with
   | unamplified =>

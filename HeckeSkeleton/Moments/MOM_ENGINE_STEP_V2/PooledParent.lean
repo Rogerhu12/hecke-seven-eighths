@@ -71,25 +71,25 @@ variable (L : SourceCartesianAtlas s.columns s.ideal)
 finite labels of both pool sides. -/
 abbrev CoveredLeafKey :=
   Σ v : s.CommonLabel, Σ D : ((s.block v).mask s.mask).powerset,
-    (R v D).CoveredLeafKey L L
+    FirstBlockPoolData.SecondStages.CoveredLeafKey (R v D) L L
 
 def coveredLeaf (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
-    (j : R.CoveredLeafKey L) : ActualHybridLeaf K Q W E :=
-  (R j.1 j.2.1).coveredLeaf L L (N.left j.1 j.2.1) (N.right j.1 j.2.1)
+    (j : ActualFirstSource.SecondStages.CoveredLeafKey R L) : ActualHybridLeaf K Q W E :=
+  FirstBlockPoolData.SecondStages.coveredLeaf (R j.1 j.2.1) L L (N.left j.1 j.2.1) (N.right j.1 j.2.1)
     (N.left_pos j.1 j.2.1) (N.right_pos j.1 j.2.1)
     (exceptional j.1 j.2.1) j.2.2
 
 def parentLeaf (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
-    (j : R.CoveredLeafKey L) : ActualHybridLeaf K Q W E :=
-  (R.coveredLeaf L exceptional N j).scale (s.fiber : ℝ) (Nat.cast_nonneg _)
+    (j : ActualFirstSource.SecondStages.CoveredLeafKey R L) : ActualHybridLeaf K Q W E :=
+  (ActualFirstSource.SecondStages.coveredLeaf R L exceptional N j).scale (s.fiber : ℝ) (Nat.cast_nonneg _)
 
 def liveLeaves (exceptional : R.CoverHybridPredicates L) (N : s.Normalization) :
-    Finset (R.CoveredLeafKey L) :=
-  ActualHybridFamily.live (R.parentLeaf L exceptional N)
+    Finset (ActualFirstSource.SecondStages.CoveredLeafKey R L) :=
+  ActualHybridFamily.live (ActualFirstSource.SecondStages.parentLeaf R L exceptional N)
 
 theorem liveLeaves_spec (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
-    (j : R.liveLeaves L exceptional N) :
-    (R.parentLeaf L exceptional N j.val).Live :=
+    (j : ActualFirstSource.SecondStages.liveLeaves R L exceptional N) :
+    (ActualFirstSource.SecondStages.parentLeaf R L exceptional N j.val).Live :=
   ActualHybridFamily.live_spec _ j
 
 /-- A retained label's first internal divisor is squarefree because
@@ -97,10 +97,10 @@ the actual original Möbius weight is nonzero, not because the divisor
 pool was assumed squarefree. -/
 theorem live_first_divisor_squarefree
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
-    (j : R.liveLeaves L exceptional N) : Squarefree j.val.2.2.1.val := by
-  have hw := (R.liveLeaves_spec L exceptional N j).1
-  change (s.fiber : ℝ) * (R.coveredLeaf L exceptional N j.val).weight ≠ 0 at hw
-  exact (R j.val.1 j.val.2.1).coveredLeaf_weight_nonzero_squarefree L L
+    (j : ActualFirstSource.SecondStages.liveLeaves R L exceptional N) : Squarefree j.val.2.2.1.val := by
+  have hw := (ActualFirstSource.SecondStages.liveLeaves_spec R L exceptional N j).1
+  change (s.fiber : ℝ) * (ActualFirstSource.SecondStages.coveredLeaf R L exceptional N j.val).weight ≠ 0 at hw
+  exact FirstBlockPoolData.SecondStages.coveredLeaf_weight_nonzero_squarefree (R j.val.1 j.val.2.1) L L
     (N.left j.val.1 j.val.2.1) (N.right j.val.1 j.val.2.1)
     (N.left_pos j.val.1 j.val.2.1) (N.right_pos j.val.1 j.val.2.1)
     (exceptional j.val.1 j.val.2.1) j.val.2.2 (mul_ne_zero_iff.mp hw).2

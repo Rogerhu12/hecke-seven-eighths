@@ -237,7 +237,7 @@ def literalOriginalAtoms (ξ : X)
     (W : NormProfileRecipe (fun _ : PUnit => data ξ))
     (a : RealParameters) (Z t Y₁ Y₂ : ℝ) (centered : Bool)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂) :
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).normalizer = 1 := by
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).normalizer = 1 := by
   sorry
 
 /-- Each actual original rectangle is produced from the original
@@ -249,7 +249,7 @@ theorem literalOriginalAtoms_term (ξ : X)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (i : AllocationColumn K (data ξ).geometry.slotCount) :
     let atoms := (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).term comparison i =
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).term comparison i =
       if comparison && !centered then 0 else
         (atoms.values Y₁ Y₂).rectangle comparison ((atoms.raw Y₁ Y₂).originalIndex i) := by
   sorry
@@ -263,7 +263,7 @@ theorem literalOriginalAtoms_whole (ξ : X)
     (hZ : 1 < Z) (hY₁ : 0 < Y₁) (hY₂ : 0 < Y₂)
     (i : AllocationColumn K (data ξ).geometry.slotCount) :
     let atoms := (Q.arithmeticAtoms ξ).constantAtoms W a Z t
-    (Q.literalOriginalAtoms ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).whole i =
+    ((HeckeSkeleton.Moments.EngineStepV2.CompleteMovingRowRecipe.literalOriginalAtoms Q) ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂).whole i =
       (atoms.values Y₁ Y₂).coefficient centered ((atoms.raw Y₁ Y₂).originalIndex i) := by
   sorry
 

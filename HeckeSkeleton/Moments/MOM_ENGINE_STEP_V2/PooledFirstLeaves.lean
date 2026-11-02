@@ -87,28 +87,28 @@ left/right choice and all genuine pool/second-transform labels. -/
 abbrev CoveredClassKey
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :=
-  (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ) ⊕
-    (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ)
+  ActualPoolStages.CoveredLeafKey (s.left S χ) (p.leftSourceCovers LA S χ) ⊕
+    ActualPoolStages.CoveredLeafKey (s.right S χ) (p.rightSourceCovers RA S χ)
 
 abbrev coveredClassKeyFintype
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
-    Fintype (s.CoveredClassKey LA RA S χ) :=
+    Fintype (FirstBlockPoolData.SecondStages.CoveredClassKey s LA RA S χ) :=
   first_block_sum_fintype
-    (I := (s.left S χ).CoveredLeafKey (p.leftSourceCovers LA S χ))
-    (J := (s.right S χ).CoveredLeafKey (p.rightSourceCovers RA S χ))
+    (I := ActualPoolStages.CoveredLeafKey (s.left S χ) (p.leftSourceCovers LA S χ))
+    (J := ActualPoolStages.CoveredLeafKey (s.right S χ) (p.rightSourceCovers RA S χ))
 
 attribute [local instance] coveredClassKeyFintype
 
 abbrev CoveredLeafKey :=
   Σ S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val),
-    Σ χ : (PUnit × PUnit) →* Circle, s.CoveredClassKey LA RA S χ
+    Σ χ : (PUnit × PUnit) →* Circle, FirstBlockPoolData.SecondStages.CoveredClassKey s LA RA S χ
 
-abbrev coveredLeafKeyFintype : Fintype (s.CoveredLeafKey LA RA) :=
+abbrev coveredLeafKeyFintype : Fintype (FirstBlockPoolData.SecondStages.CoveredLeafKey s LA RA) :=
   first_block_sigma_sigma_fintype
     (I := divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (J := (PUnit × PUnit) →* Circle)
-    (F := fun S χ => s.CoveredClassKey LA RA S χ)
+    (F := fun S χ => FirstBlockPoolData.SecondStages.CoveredClassKey s LA RA S χ)
 
 attribute [local instance] coveredLeafKeyFintype
 
@@ -141,38 +141,38 @@ theorem classWeight_eq_zero_of_not_squarefree
 def classLeaf (exceptional : s.CoverHybridPredicates LA RA)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
     (χ : (PUnit × PUnit) →* Circle) :
-    s.CoveredClassKey LA RA S χ → ActualHybridLeaf K Q W E
+    FirstBlockPoolData.SecondStages.CoveredClassKey s LA RA S χ → ActualHybridLeaf K Q W E
   | .inl j =>
-      ((s.left S χ).coveredLeaf (p.leftSourceCovers LA S χ) (exceptional.left S χ)
+      (ActualPoolStages.coveredLeaf (s.left S χ) (p.leftSourceCovers LA S χ) (exceptional.left S χ)
         chart.kernel chart.leftPoint j).scale
         (classWeight (p := p) NL NR S χ / NL S χ)
         (div_nonneg (classWeight_nonneg NL NR S χ) (hNL S χ).le)
   | .inr j =>
-      ((s.right S χ).coveredLeaf (p.rightSourceCovers RA S χ) (exceptional.right S χ)
+      (ActualPoolStages.coveredLeaf (s.right S χ) (p.rightSourceCovers RA S χ) (exceptional.right S χ)
         chart.kernel (fun j => -chart.rightPoint j) j).scale
         (classWeight (p := p) NL NR S χ / NR S χ)
         (div_nonneg (classWeight_nonneg NL NR S χ) (hNR S χ).le)
 
 def coveredLeaf (exceptional : s.CoverHybridPredicates LA RA)
-    (j : s.CoveredLeafKey LA RA) : ActualHybridLeaf K Q W E :=
-  s.classLeaf LA RA NL NR hNL hNR exceptional j.1 j.2.1 j.2.2
+    (j : FirstBlockPoolData.SecondStages.CoveredLeafKey s LA RA) : ActualHybridLeaf K Q W E :=
+  FirstBlockPoolData.SecondStages.classLeaf s LA RA NL NR hNL hNR exceptional j.1 j.2.1 j.2.2
 
 /-- The original nonsquarefree first divisors are genuinely zero
 weight leaves; no squarefreeness premise is imposed on the pool. -/
 theorem coveredLeaf_weight_eq_zero_of_not_squarefree
-    (exceptional : s.CoverHybridPredicates LA RA) (j : s.CoveredLeafKey LA RA)
+    (exceptional : s.CoverHybridPredicates LA RA) (j : FirstBlockPoolData.SecondStages.CoveredLeafKey s LA RA)
     (hj : ¬Squarefree j.1.val) :
-    (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).weight = 0 := by
+    (FirstBlockPoolData.SecondStages.coveredLeaf s LA RA NL NR hNL hNR exceptional j).weight = 0 := by
   rcases j with ⟨S, χ, j | j⟩ <;>
     simp only [coveredLeaf, classLeaf, ActualHybridLeaf.scale,
       classWeight_eq_zero_of_not_squarefree NL NR S χ hj, zero_div, zero_mul]
 
 theorem coveredLeaf_weight_nonzero_squarefree
-    (exceptional : s.CoverHybridPredicates LA RA) (j : s.CoveredLeafKey LA RA)
-    (hj : (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).weight ≠ 0) :
+    (exceptional : s.CoverHybridPredicates LA RA) (j : FirstBlockPoolData.SecondStages.CoveredLeafKey s LA RA)
+    (hj : (FirstBlockPoolData.SecondStages.coveredLeaf s LA RA NL NR hNL hNR exceptional j).weight ≠ 0) :
     Squarefree j.1.val := by
   by_contra hS
-  exact hj (s.coveredLeaf_weight_eq_zero_of_not_squarefree LA RA NL NR hNL hNR exceptional j hS)
+  exact hj (FirstBlockPoolData.SecondStages.coveredLeaf_weight_eq_zero_of_not_squarefree s LA RA NL NR hNL hNR exceptional j hS)
 
 end SecondStages
 end FirstBlockPoolData

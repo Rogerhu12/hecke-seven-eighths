@@ -69,10 +69,10 @@ def originalRowNormFactor
 without a reference to the row carrier or to a future row label. -/
 def originalRowExtraction
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
-    (hc : b.originalRowCorrelation C q ≠ 0) :
+    (hc : (FirstCommonCharacterBlock.originalRowCorrelation (b := b)) C q ≠ 0) :
     ActualChildRow
       (ProbeOrbitNormSum.principalExterior A ⟨-q.out.val, neg_ne_zero.mpr q.out.property⟩)
-      (-q.out.val) (b.originalRowFactor C q) (b.originalRowNormFactor C q) :=
+      (-q.out.val) ((FirstCommonCharacterBlock.originalRowFactor (b := b)) C q) ((FirstCommonCharacterBlock.originalRowNormFactor (b := b)) C q) :=
   Classical.choice (exists_actual_extracted_child_row_of_generates C b.primes
     b.primes_injective b.leftMultiplicity b.rightMultiplicity
     (engineAllowedGenerator C b.commonLeftIdeal) (engineAllowedGenerator C b.commonRightIdeal)
@@ -86,8 +86,8 @@ def originalRowSector
     (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) :=
-  if hc : b.originalRowCorrelation C q ≠ 0 then
-    (b.originalRowExtraction C q hc).sector P
+  if hc : (FirstCommonCharacterBlock.originalRowCorrelation (b := b)) C q ≠ 0 then
+    ((FirstCommonCharacterBlock.originalRowExtraction (b := b)) C q hc).sector P
   else 1
 
 /-- This augments the finite classification label, not the parent's
@@ -98,7 +98,7 @@ def sectorCharacter
     (character : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ → Θ)
     (q : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ) :
     Θ × SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) :=
-  (character q, b.originalRowSector C P q)
+  (character q, (FirstCommonCharacterBlock.originalRowSector (b := b)) C P q)
 
 end FirstCommonCharacterBlock
 
@@ -118,11 +118,11 @@ theorem sector_eq_of_label_eq {Θ : Type*} [Fintype Θ] (dimension width : ℕ)
     (dyad : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ →
       Fin dimension → Fin (width + 1))
     (q q' : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ)
-    (he : label C b dimension width (b.sectorCharacter C P character) dyad q =
-      label C b dimension width (b.sectorCharacter C P character) dyad q') :
-    b.originalRowSector C P q = b.originalRowSector C P q' :=
+    (he : label C b dimension width ((FirstCommonCharacterBlock.sectorCharacter (b := b)) C P character) dyad q =
+      label C b dimension width ((FirstCommonCharacterBlock.sectorCharacter (b := b)) C P character) dyad q') :
+    (FirstCommonCharacterBlock.originalRowSector (b := b)) C P q = (FirstCommonCharacterBlock.originalRowSector (b := b)) C P q' :=
   congrArg Prod.snd ((label_eq_iff C b dimension width
-    (b.sectorCharacter C P character) dyad q q').mp he).2.1
+    ((FirstCommonCharacterBlock.sectorCharacter (b := b)) C P character) dyad q q').mp he).2.1
 
 end OriginalBlockGaussRowClassifier
 
@@ -156,7 +156,7 @@ variable (P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
 def SectorLabelStable : Prop :=
   ∀ q q' : SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ,
     chart.rowLabel q = chart.rowLabel q' →
-      b.originalRowSector C P q = b.originalRowSector C P q'
+      (FirstCommonCharacterBlock.originalRowSector (b := b)) C P q = (FirstCommonCharacterBlock.originalRowSector (b := b)) C P q'
 
 /-- The actual source chooses precisely the same extracted row as
 the pre-label arithmetic construction. Different membership proofs do
@@ -166,8 +166,8 @@ theorem actualRows_sector_eq_original
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).live) :
     ((chart.actualRows M X hX label).extractedRow C h).sector P =
-      b.originalRowSector C P h.val := by
-  have hc : b.originalRowCorrelation C h.val ≠ 0 := (Finset.mem_filter.mp h.property).2
+      (FirstCommonCharacterBlock.originalRowSector (b := b)) C P h.val := by
+  have hc : (FirstCommonCharacterBlock.originalRowCorrelation (b := b)) C h.val ≠ 0 := (Finset.mem_filter.mp h.property).2
   rw [FirstCommonCharacterBlock.originalRowSector, dif_pos hc]
   rfl
 
@@ -178,44 +178,44 @@ def originalSector
     (label : Fin (chart.rowLabelCount + 1)) :
     SixthUnitClasses K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) :=
   if hrows : (chart.actualRows M X hX label).rows.Nonempty then
-    b.originalRowSector C P hrows.choose
+    (FirstCommonCharacterBlock.originalRowSector (b := b)) C P hrows.choose
   else 1
 
 theorem actualRows_originalSector
-    (hclass : chart.SectorLabelStable P)
+    (hclass : (SecondBlockProfileChart.SectorLabelStable (chart := chart)) P)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).live) :
     ((chart.actualRows M X hX label).extractedRow C h).sector P =
-      chart.originalSector P M X hX label := by
+      (SecondBlockProfileChart.originalSector (chart := chart)) P M X hX label := by
   have hh := (Finset.mem_filter.mp h.property).1
   have hrows : (chart.actualRows M X hX label).rows.Nonempty := ⟨h.val, hh⟩
-  rw [chart.actualRows_sector_eq_original P M X hX label h,
+  rw [(SecondBlockProfileChart.actualRows_sector_eq_original (chart := chart)) P M X hX label h,
     originalSector, dif_pos hrows]
   exact hclass h.val hrows.choose
-    ((chart.actualRows_original_rowLabel M X hX label ⟨h.val, hh⟩).trans
-      (chart.actualRows_original_rowLabel M X hX label
+    (((SecondBlockProfileChart.actualRows_original_rowLabel (chart := chart)) M X hX label ⟨h.val, hh⟩).trans
+      ((SecondBlockProfileChart.actualRows_original_rowLabel (chart := chart)) M X hX label
         ⟨hrows.choose, hrows.choose_spec⟩).symm)
 
 /-- This is the original live row with both arithmetic identities
 proved internally. It is the exact input to the literal phase and
 allocated-profile dictionaries, including an empty ordinary source. -/
 def originalPatternSector
-    (hpattern : chart.NonunitLabelStable) (hsector : chart.SectorLabelStable P)
+    (hpattern : (SecondBlockProfileChart.NonunitLabelStable (chart := chart))) (hsector : (SecondBlockProfileChart.SectorLabelStable (chart := chart)) P)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).live) :
     PatternSector P (chart.actualRows M X hX label) C
-      (chart.originalNonunitPattern M X hX label) (chart.originalSector P M X hX label) :=
-  ⟨chart.originalNonunitClass hpattern M X hX label h,
-    chart.actualRows_originalSector P hsector M X hX label h⟩
+      ((SecondBlockProfileChart.originalNonunitPattern (chart := chart)) M X hX label) ((SecondBlockProfileChart.originalSector (chart := chart)) P M X hX label) :=
+  ⟨(SecondBlockProfileChart.originalNonunitClass (chart := chart)) hpattern M X hX label h,
+    (SecondBlockProfileChart.actualRows_originalSector (chart := chart)) P hsector M X hX label h⟩
 
 @[simp] theorem originalPatternSector_val_val
-    (hpattern : chart.NonunitLabelStable) (hsector : chart.SectorLabelStable P)
+    (hpattern : (SecondBlockProfileChart.NonunitLabelStable (chart := chart))) (hsector : (SecondBlockProfileChart.SectorLabelStable (chart := chart)) P)
     (M : Finset (HeightOneSpectrum A.R)) (X : ℝ) (hX : 1 ≤ X)
     (label : Fin (chart.rowLabelCount + 1))
     (h : (chart.actualRows M X hX label).live) :
-    (chart.originalPatternSector P hpattern hsector M X hX label h).val.val = h := rfl
+    ((SecondBlockProfileChart.originalPatternSector (chart := chart)) P hpattern hsector M X hX label h).val.val = h := rfl
 
 end SecondBlockProfileChart
 end Charts
@@ -272,16 +272,16 @@ def canonicalUnmaskedSectorRowBallByBlock :
   canonicalUnmaskedRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
     dimension width
-    (fun DE => (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
-      DE.val DE.property).sectorCharacter C P (character DE)) dyad
+    (fun DE => (FirstCommonCharacterBlock.sectorCharacter (b := (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+      DE.val DE.property))) C P (character DE)) dyad
 
 theorem canonicalUnmaskedSectorRowBallByBlock_sectorLabelStable
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : (∅ : Finset (HeightOneSpectrum A.R)).powerset) :
-    ((canonicalUnmaskedSectorRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    (SecondBlockProfileChart.SectorLabelStable (chart := ((canonicalUnmaskedSectorRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       P δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-      dimension width character dyad).charts DE D).SectorLabelStable P := by
+      dimension width character dyad).charts DE D))) P := by
   intro q q' he
   exact OriginalBlockGaussRowClassifier.sector_eq_of_label_eq C
     (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal DE.val DE.property)
@@ -291,15 +291,15 @@ theorem canonicalUnmaskedSectorRowBallByBlock_nonunitLabelStable
     (DE : commonSupportPool G.columns G.columns
       (fun i => (G.ideal i).val) (fun j => (G.ideal j).val))
     (D : (∅ : Finset (HeightOneSpectrum A.R)).powerset) :
-    ((canonicalUnmaskedSectorRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
+    (SecondBlockProfileChart.NonunitLabelStable (chart := ((canonicalUnmaskedSectorRowBallByBlock (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
       P δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
-      dimension width character dyad).charts DE D).NonunitLabelStable :=
+      dimension width character dyad).charts DE D))) :=
   canonicalUnmaskedRowBallByBlock_nonunitLabelStable
     (hΓ := hΓ) (μv := μv) (hDiff := hDiff) (ν := ν)
     δ hδ hδhalf G retainedScale Z g hscale hZ cutoff hcutoff hnorm
     dimension width
-    (fun DE => (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
-      DE.val DE.property).sectorCharacter C P (character DE)) dyad DE D
+    (fun DE => (FirstCommonCharacterBlock.sectorCharacter (b := (canonicalFirstCommonBlock C G.columns G.columns G.ideal G.ideal
+      DE.val DE.property))) C P (character DE)) dyad DE D
 
 /-- The extra finite factor is fixed by the original field and S.
 It is independent of the row, Fourier parameters and moving scale. -/
