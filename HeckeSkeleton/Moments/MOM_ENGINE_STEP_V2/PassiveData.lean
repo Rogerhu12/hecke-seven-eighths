@@ -94,10 +94,10 @@ abbrev Key (K : Type) [Field K] [NumberField K] (k : ℕ) :=
   Σ D : Ideal (𝓞 K), primeSupport D → Finset (Fin (k + 2))
 
 def candidates (mask : Ideal (𝓞 K)) (k : ℕ) : Finset (Key K k) :=
-  (idealDivisors mask).sigma (fun D => AllocationMass.idealAllocations D (k + 2))
+  (DedekindZetaZeroFree.LargeSieve.idealDivisors mask).sigma (fun D => AllocationMass.idealAllocations D (k + 2))
 
 def sign {k : ℕ} (a : Key K k) : ℂ :=
-  (moebius a.1 : ℂ) * AllocationMass.sign (primeSupport a.1) a.2
+  (UniqueFactorizationMonoid.moebius a.1 : ℂ) * AllocationMass.sign (primeSupport a.1) a.2
 
 def idealCarrier (s : Finset (HeckeGeneral.Analysis.NonzeroIdeal K)) : Finset (Ideal (𝓞 K)) :=
   s.image (fun I => I.val)

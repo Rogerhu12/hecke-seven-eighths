@@ -62,9 +62,9 @@ theorem sourceCertificate (c : TargetContext K) (frame : SourceFrame)
   intro call input hframe ready active
   obtain ⟨F, hF, hfirst⟩ := firstTransform call active
   obtain ⟨family, hfamily, hcauchy, hfirstWindows⟩ :=
-    hfirstDemand call input hframe ready.ready_left F hF
+    hfirstDemand call input hframe (UniformDemand.ready_left ready) F hF
   obtain ⟨expansion, hexpansion, hpool, hpoolWindows⟩ :=
-    hpoolDemand call input hframe ready.ready_right F hF family hfamily hfirstWindows
+    hpoolDemand call input hframe (UniformDemand.ready_right ready) F hF family hfamily hfirstWindows
   obtain ⟨second, hsecond, hsecondBound⟩ :=
     secondTransform call F hF family hfamily expansion hexpansion hpoolWindows
   let trace : SourceTrace call p := ⟨F, family, expansion, second⟩
@@ -89,3 +89,4 @@ theorem sourceCertificate (c : TargetContext K) (frame : SourceFrame)
 end HeckeSkeleton.Moments.EngineStepV2.Assembly
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.sourceCertificate
+
