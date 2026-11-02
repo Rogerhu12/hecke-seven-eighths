@@ -166,8 +166,7 @@ theorem factors_normalizationScale
     (selection : primeSupport L → Finset (Fin (k + 2)))
     (hne : (pairedAllocatedColumns L selection d.plain₁ d.plain₂ d.slots
       id id HeightOneSpectrum.asIdeal).Nonempty) :
-    ((d.factors R side χ ideal hideal firstSign rectangle).frame C L selection hne)
-      .normalizationScale = d.gaussScale := rfl
+    ((d.factors R side χ ideal hideal firstSign rectangle).frame C L selection hne).normalizationScale = d.gaussScale := rfl
 
 end CanonicalLiteralRectangles.Atoms
 

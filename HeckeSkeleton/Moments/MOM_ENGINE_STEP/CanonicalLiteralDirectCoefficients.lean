@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSourceCoefficients
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The original unamplified coefficients in the literal atom table

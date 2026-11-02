@@ -2,6 +2,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualPoolTerminal
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFiniteLeaves
 
 set_option linter.unusedSectionVars false
+set_option synthInstance.maxHeartbeats 400000
+set_option maxHeartbeats 1000000
 
 /-!
 # Pure-dual pool budgets on the same original finite leaves
