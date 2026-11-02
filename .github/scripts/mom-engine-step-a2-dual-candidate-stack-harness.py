@@ -1,0 +1,279 @@
+#!/usr/bin/env python3
+"""Sample the complete pending Dual e3e2453 candidate with all 108 markers.
+
+The frozen candidate has a known private raw-integral helper rewrite error.
+This sampler preserves that source exactly and observes the independent phase
+finite-sum declaration after exact returned. It does not validate any proof.
+All source linters, Lean async and heartbeat remain at defaults. Command
+continuation can follow error recovery; inspect full raw MI and all threads.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+
+SOURCE = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP/DualGaussHybridTerminal.lean')
+SOURCE_SHA = 'e3e2453aff96995252298f97c9ee85074252d4cb937a118e40411f5e760eb6ac'
+SOURCE_BYTES = 17905
+WRAPPER = Path('.github/scripts/mom-engine-step-a2-dual-candidate-diagnostic.py')
+WRAPPER_SHA = '3d736c13349b589ac227c69260fad27ec872d772dbfa9cff2b86d36deb24cd81'
+DRIVER = Path('.github/scripts/mom-engine-step-a2-dual-candidate-stack-driver.py')
+DRIVER_SHA = '30620e6b480e26fe6143dfa1498027fa465ace8a1b05a406f0fa867bdeffc8dd'
+MARKED_SHA = 'd2b4ed2cb225ce4baa610ea4a98960cc6ca11730ce28c083bd79ff24c9ad8d4f'
+MARKED_BYTES = 26850
+PREFIX = 'A2_DUAL_E3E2453_DIAGNOSTIC '
+TARGET = 'phase_cost_eq_budgets_leaves'
+FALSE_FLAGS = {
+    'acceptance_evidence': False, 'original_module_native_was_run': False,
+    'original_module_acceptance': False, 'complete_target_module_compiled': False,
+    'complete_module_within_five_minutes': False, 'full_task_acceptance': False,
+    'compiler_outputs_can_be_restored_as_project_cache': False,
+    'production_approval': False, 'candidate_native_validation_performed': False,
+    'candidate_equivalence_claimed': False, 'fresh_axiom_audit_performed': False,
+}
+PINNED_FILES = {
+    'source': (SOURCE, SOURCE_SHA),
+    'wrapper_script': (WRAPPER, WRAPPER_SHA),
+    'driver_script': (DRIVER, DRIVER_SHA),
+}
+
+
+def digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def write_json(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--repo', required=True, type=Path)
+    parser.add_argument('--evidence', required=True, type=Path)
+    parser.add_argument('--prepare-only', action='store_true',
+                        help='Verify all pins and full-source reversal without starting Lake, Lean or GDB')
+    args = parser.parse_args()
+    repo, evidence = args.repo.resolve(), args.evidence.resolve()
+    assert '.lake' not in evidence.parts
+    evidence.mkdir(parents=True, exist_ok=True)
+    assert not (evidence / 'harness-result.json').exists(), 'Use a fresh evidence directory'
+    result = {
+        **FALSE_FLAGS,
+        'scope': 'All-thread GDB diagnostic of the frozen complete pending Dual e3e2453 candidate with 108 markers and known raw-helper error',
+        'source_sha256': SOURCE_SHA, 'source_bytes': SOURCE_BYTES,
+        'wrapper_sha256': WRAPPER_SHA, 'driver_sha256': DRIVER_SHA,
+        'diagnostic_source_sha256': MARKED_SHA, 'diagnostic_source_bytes': MARKED_BYTES,
+        'driver_provenance_base_sha256': '08a51bf300f3c7327d9ac3a4cbebd6b94a5d59baea08217cedde4224728cb2b9',
+        'driver_provenance': 'Offline seven identity-only replacements from Gated08a; no prior driver required at runtime',
+        'proof_candidate_author': 'A2/owner',
+        'source_base': 'ca69a28ed37112770c5f401bb268dac6017a6ae9',
+        'source_base_tree': 'de2511948b652098e4334d732867244041154c4c',
+        'source_candidate_head': 'abbe08285275bed30d830476110c3739e8b5f8b5',
+        'source_candidate_tree': 'cc199f73b722a985646d4a373ba67671a4b37a7c',
+        'base_owner_head': '16927b5cb39e3034ac86d3af49e39aae17440af4',
+        'base_owner_tree': 'caa913a0e45a8bb31db1251a15a69e91732ac921',
+        'candidate_source_not_adopted_as_owner_production': True,
+        'owner_adoption_performed_by_this_diagnostic': False,
+        'known_source_error': {'declaration': 'dual_scalar_integral_const_nonzero_const',
+                               'candidate_line': 38, 'column': 4,
+                               'evidence_run': 41375411609, 'artifact': 13111510518,
+                               'summary': 'integral_add rewrite pattern mismatch; command continuation follows error recovery'},
+        'phase_finite_sum_helper_does_not_call_raw_integral_helper': True,
+        'warning_option_override': None, 'target_warning_option_override': None,
+        'other_warning_option_override': None, 'global_warning_option_override': None,
+        'all_original_linters_default': True,
+        'stderr_option_override': False,
+        'stderr_option_reason': 'Diagnostic marker transport only; original normal verifier is unchanged',
+        'heartbeat_override': None, 'lean_async_override': None, 'profiler_override': None,
+        'outer_timeout_seconds': 150, 'outer_kill_after_seconds': 10,
+        'driver_main_timeout_seconds': 150, 'driver_cleanup_seconds': 10,
+        'sample_offsets_after_imports_seconds': [60.0, 100.0],
+        'stack_frame_limit_per_thread': 256,
+        'marker_times_are_observed_arrival_only': True,
+        'snapshot_boundary_interpretation': 'Use exact marker arrivals, complete raw MI and all-thread stacks; command continuation can follow error recovery and no marker proves source acceptance',
+        'prepare_only': args.prepare_only,
+        'driver_started': False, 'status': 'preflight', 'source_unchanged': False,
+    }
+    write_json(evidence / 'harness-result.json', result)
+    original = None
+    temporary = None
+    compile_input = None
+    process = None
+    handlers = {}
+    code = 1
+    started = time.monotonic()
+
+    def interrupted(signum, _frame):
+        raise InterruptedError('Stack harness interrupted by signal ' + str(signum))
+
+    try:
+        for label, (path, expected) in PINNED_FILES.items():
+            assert digest(repo / path) == expected, 'Frozen input changed: ' + label
+        result['driver_identity_verified'] = True
+        sys.dont_write_bytecode = True
+        spec = importlib.util.spec_from_file_location('a2_frozen_dual_candidate108_wrapper', repo / WRAPPER)
+        assert spec is not None and spec.loader is not None
+        wrapper = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(wrapper)
+        assert wrapper.EXPECTED_SOURCE == SOURCE_SHA and wrapper.EXPECTED_BYTES == SOURCE_BYTES
+        assert wrapper.SOURCE == SOURCE and wrapper.PREFIX + ' ' == PREFIX
+        assert wrapper.EXPECTED_MARKED_SHA256 == MARKED_SHA and wrapper.EXPECTED_MARKED_BYTES == MARKED_BYTES
+        assert wrapper.TIMEOUT_SECONDS == 150 and wrapper.KILL_AFTER_SECONDS == 10
+        assert wrapper.SOURCE_CANDIDATE_HEAD == result['source_candidate_head']
+        assert wrapper.SOURCE_CANDIDATE_TREE == result['source_candidate_tree']
+        assert wrapper.BASE_OWNER_HEAD == result['base_owner_head']
+        assert wrapper.BASE_OWNER_TREE == result['base_owner_tree']
+        original = (repo / SOURCE).read_bytes()
+        marked, manifest, checks = wrapper.instrument(original)
+        assert len(original) == SOURCE_BYTES
+        assert hashlib.sha256(marked).hexdigest() == MARKED_SHA and len(marked) == MARKED_BYTES
+        assert len(manifest) == checks['marker_count'] == 108
+        assert checks['declaration_count'] == 17
+        assert checks['command_marker_count'] == 41 and checks['tactic_marker_count'] == 67
+        assert checks['original_import_count'] == 3 and checks['original_print_axioms_count'] == 5
+        assert checks['byte_reversal_verified'] and checks['all_original_lines_preserved_in_order']
+        assert checks['all_original_data_headers_and_proofs_preserved_after_marker_removal']
+        assert checks['doccomment_associations_verified'] and checks['include_doc_header_blocks_preserved']
+        assert checks['new_warning_scope_count'] == checks['warning_scope_count'] == 0
+        assert checks['all_original_linters_default'] and checks['full_original_module_copy_used']
+        marker_lines = {entry['inserted_line'].encode() for entry in manifest}
+        assert len(marker_lines) == 108
+        assert b''.join(line for line in marked.splitlines(keepends=True) if line not in marker_lines) == original
+        assert b'set_option ' not in marked and b'as_aux_lemma' not in marked
+        labels = [entry['label'] for entry in manifest]
+        for label in ['SUM_AFTER_EXACT', 'COMMAND_CONTINUED_AFTER_' + TARGET, 'AFTER_ALL_ORIGINAL_COMMANDS']:
+            assert labels.count(label) == 1
+        (evidence / 'DualGaussHybridTerminal.original.lean').write_bytes(original)
+        (evidence / 'MomEngineDualGaussHybridTerminalDiagE3e2453.lean').write_bytes(marked)
+        (evidence / 'dual_candidate_wrapper.py').write_bytes((repo / WRAPPER).read_bytes())
+        (evidence / 'lean_gdb_parent_driver.py').write_bytes((repo / DRIVER).read_bytes())
+        write_json(evidence / 'marker-manifest.json', manifest)
+        result.update(checks)
+        result.update(complete_frozen_dual_candidate_with_108_markers=True,
+                      target_default_warning_verified=True, marker_removal_recovers_original_bytes=True)
+        if args.prepare_only:
+            result.update(status='prepared_only', temporary_input_removed=True,
+                          temporary_output_removed=True, no_process_started=True)
+            code = 0
+        else:
+            assert os.environ.get('LEAN_NUM_THREADS') == '2'
+            for name in ['ActualGaussDualRawTerminal', 'ActualGaussHybridTerminal', 'ActualGaussFiniteLeaves']:
+                assert (repo / '.lake/build/lib/lean/HeckeSkeleton/Moments/MOM_ENGINE_STEP' /
+                        (name + '.olean')).is_file(), 'Run normal Lake :deps first: ' + name
+            # Keep the proven package-root input behavior; every compiler
+            # product is redirected to a unique /tmp directory, never .lake.
+            fd, name = tempfile.mkstemp(prefix='MomEngineDualCandidateStackE3e2453_', suffix='.lean', dir=repo)
+            compile_input = Path(name)
+            with os.fdopen(fd, 'wb') as stream:
+                stream.write(marked)
+            temporary = tempfile.TemporaryDirectory(prefix='mom-engine-a2-dual-candidate-stack-', dir='/tmp')
+            output = Path(temporary.name)
+            driver_evidence = evidence / 'driver'
+            driver_evidence.mkdir()
+            command = ['timeout', '--signal=TERM', '--kill-after=10s', '150s',
+                       'lake', 'env', 'python3', str(repo / DRIVER),
+                       '--input', str(compile_input), '--output', str(output / 'compiler'),
+                       '--evidence', str(driver_evidence)]
+            result.update(command=command, compile_input=str(compile_input),
+                          compiler_output_directory=str(output / 'compiler'),
+                          driver_started=True, status='running')
+            write_json(evidence / 'harness-result.json', result)
+            for sig in (signal.SIGINT, signal.SIGTERM):
+                handlers[sig] = signal.signal(sig, interrupted)
+            with (evidence / 'driver-console.log').open('w') as log:
+                log.write(json.dumps({'command': command, 'cwd': str(repo)}) + '\n')
+                log.flush()
+                process = subprocess.Popen(command, cwd=repo, stdout=subprocess.PIPE,
+                                           stderr=subprocess.STDOUT, text=True, start_new_session=True)
+                result['owned_wrapper_process_group'] = process.pid
+                assert process.stdout is not None
+                for line in process.stdout:
+                    log.write(line)
+                    log.flush()
+                    print(line, end='', flush=True)
+                code = process.wait()
+            result.update(status='diagnostic_finished', driver_wrapper_exit_code=code)
+    except BaseException as exc:
+        result.update(status='harness_error', error=repr(exc))
+        code = 1
+    finally:
+        # The verified driver cleans only its same-user direct-child inferior.
+        # This fallback signals only the new outer timeout process group.
+        if process is not None and process.poll() is None:
+            try:
+                os.killpg(process.pid, signal.SIGTERM)
+                process.wait(timeout=12)
+            except subprocess.TimeoutExpired:
+                os.killpg(process.pid, signal.SIGKILL)
+                process.wait(timeout=3)
+            except ProcessLookupError:
+                pass
+        for sig, previous in handlers.items():
+            signal.signal(sig, previous)
+        report = evidence / 'driver/stack-result.json'
+        if report.exists():
+            try:
+                driver_result = json.loads(report.read_text())
+                result['driver_result'] = driver_result
+                result['snapshot_boundary_observations'] = []
+                events = driver_result.get('phase_markers', [])
+                for sample in driver_result.get('snapshots', []):
+                    prior_events = [event for event in events
+                                    if event['elapsed_seconds'] <= sample['elapsed_seconds']]
+                    observed = {event['text'] for event in prior_events}
+                    result['snapshot_boundary_observations'].append({
+                        'snapshot_number': sample['number'],
+                        'dual_phase_sum_after_exact_marker_observed':
+                            'A2_DUAL_E3E2453_DIAGNOSTIC SUM_AFTER_EXACT' in observed,
+                        'dual_phase_sum_command_continued_marker_observed':
+                            'A2_DUAL_E3E2453_DIAGNOSTIC COMMAND_CONTINUED_AFTER_phase_cost_eq_budgets_leaves' in observed,
+                        'interpretation': 'Exact parsed marker arrival only; inspect full raw MI log for joined warning-tail events before interpreting an absent marker',
+                    })
+                if not driver_result.get('cleanup_complete', False):
+                    code = 1
+                    result['status'] = 'diagnostic_cleanup_failed'
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                code = 1
+                result.update(status='unreadable_driver_result', report_error=repr(exc))
+        elif result['driver_started']:
+            code = 1
+            result['status'] = 'missing_driver_result'
+        for label, (path, expected) in PINNED_FILES.items():
+            try:
+                result[label + '_unchanged'] = digest(repo / path) == expected
+            except OSError:
+                result[label + '_unchanged'] = False
+        if original is not None:
+            result['source_unchanged'] = result['source_unchanged'] and (repo / SOURCE).read_bytes() == original
+        if compile_input is not None:
+            result['diagnostic_input_unchanged'] = digest(compile_input) == MARKED_SHA
+            compile_input.unlink()
+            result['temporary_input_removed'] = not compile_input.exists()
+            if not result['diagnostic_input_unchanged']:
+                code = 1
+        if temporary is not None:
+            output_path = Path(temporary.name)
+            temporary.cleanup()
+            result['temporary_output_removed'] = not output_path.exists()
+        if not all(result.get(label + '_unchanged', False) for label in PINNED_FILES):
+            code = 1
+        result.update(FALSE_FLAGS)
+        result.update(elapsed_seconds=time.monotonic() - started, harness_exit_code=code)
+        write_json(evidence / 'harness-result.json', result)
+        print(json.dumps({key: result[key] for key in [
+            'status', 'driver_started', 'source_unchanged', 'harness_exit_code',
+            'elapsed_seconds', 'acceptance_evidence', 'production_approval']}, ensure_ascii=False), flush=True)
+    return code if code >= 0 else 128 - code
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
