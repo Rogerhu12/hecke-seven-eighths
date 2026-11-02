@@ -3,7 +3,8 @@
 
 Run from a repository checkout after setup/cache restoration. The existing V2
 build helper first builds the exact original imports, then runs temporary probes
-sequentially with its existing 600-second per-Lean-process watchdog. No canonical
+sequentially with its configured per-Lean-process watchdog (300 or 600 seconds).
+The diagnostic follows that exact limit without overriding it. No canonical
 Lean file is edited and no probe .olean is written. Full-copy probes disable
 Elab.async and print flushed stderr checkpoints at complete command boundaries.
 stderrAsMessages is disabled in probes so #eval cannot buffer stderr as messages.
@@ -28,6 +29,7 @@ import sys
 import time
 
 MODULES = ("OrdinaryData", "RawContracts")
+KNOWN_WATCHDOG_LIMITS = (300, 600)
 SOURCE_DIR = Path("HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2")
 CHECKPOINTS = {
     "OrdinaryData": (
@@ -115,12 +117,28 @@ def import_header(source: str) -> tuple[str, list[str]]:
     return "".join(lines[:count]), imports
 
 
+def prerequisite_plan(imports: list[str]) -> dict:
+    excluded = [name for name in imports if name == "Lean" or name.startswith("Lean.")]
+    return {"excluded_toolchain_imports": excluded,
+            "prerequisite_targets": ["+" + name + ":olean" for name in imports
+                                     if name not in excluded]}
+
+
+def configured_watchdog_limit(source: str) -> int:
+    values = re.findall(r"^MODULE_TIMEOUT_SECONDS\s*=\s*(\d+)\s*$", source, re.MULTILINE)
+    if len(values) != 1 or int(values[0]) not in KNOWN_WATCHDOG_LIMITS:
+        raise RuntimeError("Expected the shared watchdog's known 300/600-second literal; inspect the gate")
+    return int(values[0])
+
+
 def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
     probes = evidence / "probes"
     probes.mkdir(parents=True, exist_ok=True)
     manifest = {"purpose": "DIAGNOSTIC ONLY; NOT ACCEPTED PROOF OUTPUT",
                 "accepted_as_proof": False, "canonical_sha256": {},
                 "gate_sha256": digest(root / ".github/v2/build.py"),
+                "module_timeout_seconds": configured_watchdog_limit(
+                    (root / ".github/v2/build.py").read_text(encoding="utf-8")),
                 "import_modules": [], "probes": []}
     for module in modules:
         relative = SOURCE_DIR / f"{module}.lean"
@@ -143,6 +161,7 @@ def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
             manifest["probes"].append({"module": module, "stage": stage,
                                        "path": str(path), "sha256": digest(path)})
     manifest["import_modules"] = list(dict.fromkeys(manifest["import_modules"]))
+    manifest.update(prerequisite_plan(manifest["import_modules"]))
     (evidence / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return manifest
 
@@ -174,20 +193,28 @@ def main() -> int:
     sys.modules[spec.name] = gate
     spec.loader.exec_module(gate)  # Imported under another name: never calls main().
     gate.EVIDENCE = evidence
-    if gate.MODULE_TIMEOUT_SECONDS != 600:
-        raise RuntimeError("Expected the shared 600-second watchdog; inspect the new gate first")
+    if (gate.MODULE_TIMEOUT_SECONDS not in KNOWN_WATCHDOG_LIMITS or
+            gate.MODULE_TIMEOUT_SECONDS != manifest["module_timeout_seconds"]):
+        raise RuntimeError("Shared watchdog changed or is unsupported; inspect the gate and prepare again")
     results = {"accepted_as_proof": False,
                "head": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+               "module_timeout_seconds": gate.MODULE_TIMEOUT_SECONDS,
+               "excluded_toolchain_imports": manifest["excluded_toolchain_imports"],
                "prerequisites": None, "stages": [], "canonical_sources_unchanged": None}
 
     def save() -> None:
         (evidence / "result.json").write_text(json.dumps(results, indent=2) + "\n")
 
     try:
-        targets = ["+" + name + ":olean" for name in manifest["import_modules"]]
-        prerequisite = gate.logged(["lake", "build", *targets], "build.log")
+        targets = manifest["prerequisite_targets"]
+        if targets:
+            prerequisite = gate.logged(["lake", "build", *targets], "build.log")
+        else:
+            prerequisite = 0
+            print("No repository prerequisite targets; skipping lake build.", flush=True)
         results["prerequisites"] = {
-            "exit_code": prerequisite, "targets": targets, "log": "build.log"}
+            "exit_code": prerequisite, "targets": targets, "skipped": not targets,
+            "log": "build.log" if targets else None}
         save()
         if prerequisite != 0:
             return prerequisite if 0 < prerequisite < 256 else 1
