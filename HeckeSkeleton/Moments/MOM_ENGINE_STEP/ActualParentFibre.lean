@@ -31,7 +31,7 @@ theorem realCount_nonneg (P : α → Prop) : 0 ≤ realCount P := Nat.cast_nonne
 
 theorem realCount_eq_sum (P : α → Prop) :
     realCount P = ∑ a : α, if P a then (1 : ℝ) else 0 := by
-  simp [realCount, Finset.card_eq_sum_ones, Finset.sum_filter]
+  exact Finset.natCast_card_filter P Finset.univ
 
 theorem realCount_eq_zero (P : α → Prop) (hP : ∀ a, ¬ P a) : realCount P = 0 := by
   rw [realCount_eq_sum]
@@ -55,6 +55,7 @@ theorem realCount_injective {P : α → Prop} {Q : β → Prop}
       ⟨Finset.mem_univ _, h a (Finset.mem_filter.mp ha).2⟩
   have hc := Finset.card_le_card hsub
   rw [Finset.card_image_of_injective _ hf] at hc
+  unfold realCount
   exact_mod_cast hc
 
 theorem realCount_equiv (e : α ≃ β) (P : α → Prop) :
@@ -119,7 +120,10 @@ theorem realCount_sigma_subsingleton_le {ι : Type*} [Fintype ι] [Subsingleton 
 
 theorem realCount_prod_left (P : α → Prop) :
     realCount (fun x : α × β => P x.1) = (Fintype.card β : ℝ) * realCount P := by
-  simp only [realCount_eq_sum, Fintype.sum_prod_type, Finset.sum_const,
+  simp only [realCount_eq_sum, Fintype.sum_prod_type]
+  change (∑ a : α, ∑ _b : β, if P a then (1 : ℝ) else 0) =
+    (Fintype.card β : ℝ) * ∑ a : α, if P a then (1 : ℝ) else 0
+  simp only [Finset.sum_const,
     Finset.card_univ, nsmul_eq_mul, ← Finset.mul_sum]
 
 abbrev FourTag (ι : Type*) := Unit ⊕ (ι ⊕ (ι ⊕ ι))

@@ -2,6 +2,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralSideProduction
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralComputedLengths
 
 set_option linter.unusedSectionVars false
+set_option quotPrecheck false
 
 /-!
 # The same literal side is normalized before activity is tested

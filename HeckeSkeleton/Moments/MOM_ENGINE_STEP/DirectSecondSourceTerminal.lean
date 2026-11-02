@@ -322,7 +322,7 @@ private theorem direct_terminal_tuple_multiplicity_subpower (k : ℕ) (B ε : �
       _ = (Ideal.absNorm D : ℝ) ^ 2 := by simp only [map_pow, Nat.cast_pow]
       _ ≤ (Z ^ B) ^ 2 := pow_le_pow_left₀ (Nat.cast_nonneg _) hD 2
       _ = _ := by rw [← Real.rpow_natCast, ← Real.rpow_mul hz]; congr 1; ring
-  exact hcount Z hZ (D ^ 2) hD2
+  simpa only [Nat.cast_pow] using hcount Z hZ (D ^ 2) hD2
 
 /-- The two actual direct masks are charged to their original mask
 ideal and side common ideal, prime by prime.  Taking the maximum pays

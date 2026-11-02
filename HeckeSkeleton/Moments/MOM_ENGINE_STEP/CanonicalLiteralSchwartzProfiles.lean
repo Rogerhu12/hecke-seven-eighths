@@ -44,7 +44,7 @@ def powerSchwartz (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (c : ℂ) (exponent : ℝ)
     (φ : 𝓢(ℝ, ℂ)) (hsupport : tsupport φ ⊆ window) (y : ℝ) :
     powerSchwartz window hcompact hpositive c exponent φ hsupport y =
-      c * (φ y * (y ^ exponent : ℂ)) := by
+      c * (φ y * ((y ^ exponent : ℝ) : ℂ)) := by
   sorry
 
 theorem powerSchwartz_support (window : Set ℝ) (hcompact : IsCompact window)
@@ -167,11 +167,11 @@ def powerProfiles {d' : CanonicalLiteralRectangles.Atoms (K := K) k}
     (hpositive : window ⊆ Set.Ioi 0) (exponent : ℝ)
     (leftScalar rightScalar : Bool → ℂ) (slotScalar : Fin k → ℂ)
     (hleft : ∀ r u t y, 0 < y →
-      (W'.left r).profile u t y = leftScalar r * ((W.left r).profile u t y * (y ^ exponent : ℂ)))
+      (W'.left r).profile u t y = leftScalar r * ((W.left r).profile u t y * ((y ^ exponent : ℝ) : ℂ)))
     (hright : ∀ r u t y, 0 < y →
-      (W'.right r).profile u t y = rightScalar r * ((W.right r).profile u t y * (y ^ exponent : ℂ)))
+      (W'.right r).profile u t y = rightScalar r * ((W.right r).profile u t y * ((y ^ exponent : ℝ) : ℂ)))
     (hslot : ∀ j t y, 0 < y →
-      (W'.slot j).profile t y = slotScalar j * ((W.slot j).profile t y * (y ^ exponent : ℂ))) :
+      (W'.slot j).profile t y = slotScalar j * ((W.slot j).profile t y * ((y ^ exponent : ℝ) : ℂ))) :
     W'.SchwartzModel window where
   left r := CanonicalLiteralSchwartzProfiles.powerSchwartz window hcompact hpositive
     (leftScalar r) exponent (E.left r) (E.left_support r)
