@@ -73,9 +73,9 @@ def rightDivisorCoefficient (p : FirstBlockDirectData chart M X hX)
 /-- Literal direct stages at every actual first divisor and phase.
 There is no bound field; each stage contains only original charts. -/
 structure SecondStages (p : FirstBlockDirectData chart M X hX) where
-  left : ∀ S χ, ActualGaussStage (E := E) hΓ μv hDiff
+  left : ∀ S (χ : (PUnit.{1} × PUnit.{1}) →* Circle), ActualGaussStage (E := E) hΓ μv hDiff
     (p.leftData.directSource (p.leftDivisorCoefficient S χ)) finiteTest
-  right : ∀ S χ, ActualGaussStage (E := E) hΓ μv hDiff
+  right : ∀ S (χ : (PUnit.{1} × PUnit.{1}) →* Circle), ActualGaussStage (E := E) hΓ μv hDiff
     (p.rightData.directSource (p.rightDivisorCoefficient S χ)) finiteTest
 
 

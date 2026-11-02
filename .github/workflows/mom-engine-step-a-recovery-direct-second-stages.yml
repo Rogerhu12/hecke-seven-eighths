@@ -1,0 +1,306 @@
+name: A recovery approved DirectSecondStages native verification
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a-recovery-direct-second-stages]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a-recovery-direct-second-stages-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  direct_second_stages:
+    name: DirectSecondStages normal native and fresh audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a-recovery-direct-second-stages
+          git show --no-patch --format=fuller HEAD > a-recovery-direct-second-stages/checkout.txt
+          cat > a-recovery-direct-second-stages/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+
+          SOURCE_BASE = '963828c933e17aabcc85e89ed0edebe761e801fd'
+          SOURCE_TREE = 'aff62713bd683448f00663e3d84dfdc691232b7d'
+          WORKFLOW = '.github/workflows/mom-engine-step-a-recovery-direct-second-stages.yml'
+          TASK = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP'
+          TARGET = 'DirectSecondStages'
+          EVIDENCE = 'a-recovery-direct-second-stages'
+          CONFIG_PINS = {
+              'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47',
+              'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0',
+              'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c',
+              'vendor/class-field-theory/lean-toolchain': '8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a',
+              'vendor/class-field-theory/lakefile.toml': '04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf',
+              'vendor/class-field-theory/lake-manifest.json': 'ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49',
+              'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148',
+          }
+          PINS = {
+              'DirectSecondStages': {
+                  'original': [6373, '824f2f4b63fdca90db17136ed92b13131e7df6ecad6ed71dd28bc2150e8c0750', 'f1218d5f2a0ff6d30f12e2ec834bc3afb0928451'],
+                  'candidate': [6455, '884eae448a40b42c145a4bba77d44aa19c3a79463a9825436a272f2c6e7559f0', 'e1016c8a5fc81bf312163d1ed6cd642555bb11eb'],
+                  'approval_comment': 6567856227,
+                  'original_prints': [
+                      'HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.leftSourceCover',
+                      'HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.rightSourceCover',
+                  ],
+                  'original_imports': [
+                      'HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualDirectFirstSource',
+                      'HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSourceCover',
+                      'HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectCoveredStage',
+                  ],
+              },
+              'DirectCoveredStage': {
+                  'original': [5217, '243ed35cc7230b41cd4dbaae596b1332e98da6707253d08ba7de58c4650f8372', '0de27a5df6060aee323c51bdb28065227495cf05'],
+                  'intermediate': [5247, '7e9ef16662ac3d88c9823480d2a052b05a1b920b2b9d306485e1fbb80b42eff9', '39c09ba15b1e59c94c7c84f9c189a4925f03d3b2'],
+                  'candidate': [5289, 'b57bf05548ee52e0cc5a4b60ae24a74247e54b08021218e54bd6b015b3155cc8', '40ce0889e5745b7e280f470ea5de389fdd569c16'],
+                  'approval_comment': 6567833323,
+                  'original_prints': ['HeckeSkeleton.Moments.EngineStep.actual_direct_fourier_covered_terminal_bound'],
+                  'original_imports': [
+                      'HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectGaussSource',
+                      'HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves',
+                  ],
+              },
+          }
+
+          def git(root, *args):
+              return subprocess.check_output(['git', *args], cwd=root, text=True).strip()
+
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+
+          def identity(data):
+              return [len(data), sha(data), hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()]
+
+          def one_replace(data, old, new):
+              assert data.count(old) == 1, 'Approved edit anchor is not unique'
+              return data.replace(old, new, 1)
+
+          def validate_source_files(root, source_base):
+              result = {}
+              for stem, pin in PINS.items():
+                  path = TASK + '/' + stem + '.lean'
+                  original = subprocess.check_output(['git', 'show', source_base + ':' + path], cwd=root)
+                  current = (root / path).read_bytes()
+                  assert identity(original) == pin['original'], 'Unexpected direct-parent source: ' + path
+                  assert git(root, 'rev-parse', source_base + ':' + path) == pin['original'][2]
+                  assert identity(current) == pin['candidate'], 'Unexpected approved whole source: ' + path
+                  if stem == 'DirectSecondStages':
+                      edits = []
+                      expected = original
+                      for field, offset in [('left', 3980), ('right', 4112)]:
+                          old = ('  ' + field + ' : ∀ S χ, ActualGaussStage (E := E) hΓ μv hDiff\n').encode()
+                          new = ('  ' + field + ' : ∀ S (χ : (PUnit.{1} × PUnit.{1}) →* Circle), ActualGaussStage (E := E) hΓ μv hDiff\n').encode()
+                          assert original[offset:offset + len(old)] == old
+                          assert len(new) - len(old) == 41
+                          edits.append((old, new))
+                          expected = one_replace(expected, old, new)
+                      assert expected == current and len(current) - len(original) == 82
+                      for order in [edits, list(reversed(edits))]:
+                          recovered = current
+                          for old, new in order:
+                              recovered = one_replace(recovered, new, old)
+                          assert recovered == original, 'The two approved field annotations must invert exactly'
+                      assert not re.findall(rb'^set_option\b.*$', current, re.M)
+                      details = {'field_annotations': 2, 'delta_bytes': 82, 'both_inverse_orders_exact': True}
+                  else:
+                      old = ('  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,\n'
+                             '    hCerror, hCzero, hb⟩ :=\n'
+                             '    actual_gauss_cover_hybrid_terminal_bound (E := E) (ν := ν) (μ := μ)\n'
+                             '      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax\n').encode()
+                      new = ('  have hterminal :=\n'
+                             '    actual_gauss_cover_hybrid_terminal_bound (E := E) (ν := ν) (μ := μ)\n'
+                             '      hΓ μv hDiff C Drecipe hD finiteTest hlc hcs k ε hε Lmax Nsave ξmax hξmax\n'
+                             '  obtain ⟨decay, hdecay, hchoice, hq, sTail, sZero, Cerror, Czero,\n'
+                             '    hCerror, hCzero, hb⟩ := hterminal\n').encode()
+                      intermediate = one_replace(original, old, new)
+                      assert identity(intermediate) == pin['intermediate'] and len(new) - len(old) == 30
+                      option = b'set_option linter.unusedSectionVars false\n'
+                      offset = 132
+                      assert len(option) == 42 and intermediate[:offset].endswith(b'import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves\n')
+                      assert intermediate[:offset] + option + intermediate[offset:] == current
+                      assert current.count(option) == 1 and current[offset:offset + len(option)] == option
+                      recovered_intermediate = current[:offset] + current[offset + len(option):]
+                      assert recovered_intermediate == intermediate
+                      assert one_replace(recovered_intermediate, new, old) == original
+                      assert re.findall(rb'^set_option\b.*$', current, re.M) == [option.rstrip(b'\n')]
+                      assert not re.findall(rb'^set_option\b.*$', original, re.M)
+                      details = {'proof_delta_bytes': 30, 'approved_file_option_bytes': 42,
+                                 'option_offset': offset, 'delta_bytes': 72,
+                                 'exact_inverse_to_approved_7e9_then_parent': True}
+                  for pattern, key in [(rb'^import (.+)$', 'original_imports'), (rb'^#print axioms (.+)$', 'original_prints')]:
+                      before = [x.decode() for x in re.findall(pattern, original, re.M)]
+                      after = [x.decode() for x in re.findall(pattern, current, re.M)]
+                      assert before == after == pin[key], 'Original imports or print targets changed: ' + path
+                  result[path] = {'original': pin['original'], 'candidate': pin['candidate'],
+                                  'approval_comment': pin['approval_comment'], **details,
+                                  'original_imports': pin['original_imports'], 'original_prints': pin['original_prints']}
+              return result
+
+          def validate_inventory(root):
+              sources = sorted(str(p.relative_to(root)) for p in (root / TASK).glob('*.lean'))
+              config = {p: sha((root / p).read_bytes()) for p in CONFIG_PINS}
+              assert config == CONFIG_PINS, 'Fixed verifier or configuration changed'
+              assert (root / 'lean-toolchain').read_text().strip() == 'leanprover/lean4:v4.35.0-rc3'
+              lake = tomllib.loads((root / 'lakefile.toml').read_text())
+              assert lake['weakLeanArgs'] == ['-j2']
+              assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+              mathlib = [p for p in json.loads((root / 'lake-manifest.json').read_text())['packages'] if p['name'] == 'mathlib']
+              assert len(mathlib) == 1 and mathlib[0]['rev'] == '0493595ecd5da8ef14742febab99728f98e948e8'
+              imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', (root / TASK / 'Interface.lean').read_text(), re.M)))
+              libraries = [x['name'] for x in lake['lean_lib']]
+              assert len(sources) == 1009 and len(imports) == 1008 and len(libraries) == 20
+              graph = {Path(p).stem: re.findall(r'^import HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.([A-Za-z_0-9]+)\s*$', (root / p).read_text(), re.M) for p in sources}
+              closure, pending = set(), [TARGET]
+              while pending:
+                  name = pending.pop()
+                  if name in closure:
+                      continue
+                  assert name in graph, 'Missing STEP source in import closure: ' + name
+                  closure.add(name)
+                  pending.extend(graph[name])
+              unrelated_roots = ['GatedGaussStages', 'PoolFiniteLeaves', 'DualGaussHybridTerminal', 'OriginalTaggedLocalIndex']
+              assert not set(unrelated_roots).intersection(closure)
+              return {'task_source_sha256': {p: sha((root / p).read_bytes()) for p in sources},
+                      'config_sha256': config, 'interface_imports': imports, 'libraries': libraries,
+                      'target_STEP_import_closure': sorted(closure), 'excluded_unrelated_roots': unrelated_roots}
+
+          def main():
+              root = Path.cwd()
+              evidence = root / EVIDENCE
+              phase = sys.argv[1]
+              assert phase in ['before', 'after']
+              assert git(root, 'rev-parse', SOURCE_BASE + '^{tree}') == SOURCE_TREE
+              parents = git(root, 'rev-list', '--parents', '-n', '1', 'HEAD').split()[1:]
+              assert parents == [SOURCE_BASE], 'The auxiliary commit must have the single exact approved owner parent'
+              expected_sources = sorted(TASK + '/' + stem + '.lean' for stem in PINS)
+              changed = git(root, 'diff', '--no-renames', '--name-only', SOURCE_BASE, 'HEAD').splitlines()
+              assert changed == sorted([WORKFLOW, *expected_sources]), 'Only the two approved whole sources and this new workflow may change'
+              statuses = git(root, 'diff', '--no-renames', '--name-status', SOURCE_BASE, 'HEAD').splitlines()
+              assert statuses == sorted(['A\t' + WORKFLOW, *('M\t' + p for p in expected_sources)])
+              source_identity = validate_source_files(root, SOURCE_BASE)
+              inventory = validate_inventory(root)
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=root).decode().split('\0')[:-1]
+              record = {'stage': 'DirectSecondStages complete normal verification and fresh loaded namespace audit',
+                        'source_base': SOURCE_BASE, 'source_base_tree': SOURCE_TREE, 'parents': parents,
+                        'approved_whole_sources': source_identity,
+                        'target_module': 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages',
+                        'original_target_prints': PINS[TARGET]['original_prints'],
+                        'additional_dependency_prints': PINS['DirectCoveredStage']['original_prints'],
+                        'full_task_acceptance': False, 'changed_paths_from_base': changed,
+                        'head': git(root, 'rev-parse', 'HEAD'), 'tree': git(root, 'rev-parse', 'HEAD^{tree}'),
+                        'expected_head': os.environ['EXPECTED_SHA'],
+                        'tracked_status': git(root, 'status', '--porcelain=v1', '--untracked-files=no'),
+                        'tracked_sha256': {p: sha((root / p).read_bytes()) for p in tracked}, **inventory}
+              (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+              assert record['head'] == record['expected_head'], 'Unexpected checkout SHA'
+              assert not record['tracked_status'], 'Tracked source changes detected'
+              if phase == 'after':
+                  before = json.loads((evidence / 'before-source.json').read_text())
+                  assert before == record, 'Source, configuration, index inventory or HEAD changed'
+                  (evidence / 'source-integrity.json').write_text(json.dumps({
+                      'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                      'tracked_files': len(tracked), 'task_modules': len(inventory['task_source_sha256']),
+                      'interface_imports': len(inventory['interface_imports']),
+                      'libraries': len(inventory['libraries'])}, indent=2) + '\n')
+              print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, 1009 task modules, 20 libraries')
+
+          if __name__ == '__main__':
+              main()
+          PY
+          cat > a-recovery-direct-second-stages/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a-recovery-direct-second-stages')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a-recovery-direct-second-stages/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a-recovery-direct-second-stages/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build the original import closure separately
+        id: dependencies
+        run: |
+          python3 -u a-recovery-direct-second-stages/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages:deps
+      - name: Compile the complete original module and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a-recovery-direct-second-stages/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.leftSourceCover \
+            --declaration HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.rightSourceCover \
+            --declaration HeckeSkeleton.Moments.EngineStep.actual_direct_fourier_covered_terminal_bound \
+            --evidence a-recovery-direct-second-stages/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a-recovery-direct-second-stages/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-recovery-direct-second-stages-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a-recovery-direct-second-stages/
+          if-no-files-found: error
+          retention-days: 14
