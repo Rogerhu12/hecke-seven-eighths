@@ -42,21 +42,24 @@ theorem selected {Λ : Type*} {Z : ℝ}
     (b : family.active labels) (z : V) :
     (family.leftData labels b z).plainBackground = parent.plainBackground ∧
     (family.rightData labels b z).plainBackground = parent.plainBackground := by
-  sorry
+  constructor
+  · exact ((family.leftChild labels b).frozen_plainBackground_eq z).trans
+      (hraw b.val z).1
+  · exact ((family.rightChild labels b).frozen_plainBackground_eq z).trans
+      (hraw b.val z).2
 
 theorem atBase {Λ : Type*} {Z : ℝ}
     (family : ActualNormalizedPairFamily A σ V Λ ω ψ Z)
     (parent : MomentData K ω ψ) (hraw : Raw family parent)
     (base : ℝ) (sameBase : Z = base) :
-    Raw (family.atBase base sameBase) parent := by
-  sorry
+    Raw (family.atBase base sameBase) parent := hraw
 
 /-- The raw calibration of the sigma family is the original component's. -/
 theorem sigmaCombine {J : Type*} {Λ : J → Type*} {Z : ℝ}
     (families : ∀ j, ActualNormalizedPairFamily A σ V (Λ j) ω ψ Z)
     (parent : MomentData K ω ψ) (hraw : ∀ j, Raw (families j) parent) :
-    Raw (ActualNormalizedPairFamily.sigmaCombine families) parent := by
-  sorry
+    Raw (ActualNormalizedPairFamily.sigmaCombine families) parent :=
+  fun b z => hraw b.1 b.2 z
 
 /-- Read the same actual finite family after its existing Fin enumeration. -/
 theorem selectedFin {Λ : Type*} [Fintype Λ] {Z : ℝ}
@@ -68,8 +71,9 @@ theorem selectedFin {Λ : Type*} [Fintype Λ] {Z : ℝ}
         parent.plainBackground ∧
     (family.rightData Finset.univ
       ((Fintype.equivFin (family.active Finset.univ)).symm i) z).plainBackground =
-        parent.plainBackground := by
-  sorry
+        parent.plainBackground :=
+  selected family Finset.univ parent hraw
+    ((Fintype.equivFin (family.active Finset.univ)).symm i) z
 
 theorem next_background {parent child : MomentData K ω ψ}
     (hbackground : child.plainBackground = parent.plainBackground)
@@ -77,7 +81,7 @@ theorem next_background {parent child : MomentData K ω ψ}
     (hparent : parent.plainBackground⁻¹ ∈ parent.theta ∨
       ¬ FiniteOrder parent.plainBackground) :
     child.plainBackground⁻¹ ∈ child.theta ∨ ¬ FiniteOrder child.plainBackground := by
-  sorry
+  simpa only [hbackground, htheta] using hparent
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalPlainBackgroundTransport
 
@@ -102,7 +106,8 @@ def SamePlainBackground : Prop :=
 
 theorem samePlainBackground_of_zero_branches (hzero : out.branches = 0) :
     out.SamePlainBackground := by
-  sorry
+  intro b z
+  exact Fin.elim0 (Fin.cast hzero b)
 
 /-- Exact arithmetic fields plus the already public theta identity suffice. -/
 theorem next_background_of_samePlainBackground
@@ -113,7 +118,11 @@ theorem next_background_of_samePlainBackground
       ¬ FiniteOrder (out.leftData b z).plainBackground) ∧
     ((out.rightData b z).plainBackground⁻¹ ∈ (out.rightData b z).theta ∨
       ¬ FiniteOrder (out.rightData b z).plainBackground) := by
-  sorry
+  constructor
+  · exact CanonicalPlainBackgroundTransport.next_background
+      (h b z).1 (out.left_theta b z) hparent
+  · exact CanonicalPlainBackgroundTransport.next_background
+      (h b z).2 (out.right_theta b z) hparent
 
 /-- Refining proofs does not alter either background field. -/
 theorem samePlainBackground_withAdmissible
@@ -121,7 +130,6 @@ theorem samePlainBackground_withAdmissible
     (hleft : ∀ b z, target (out.leftData b z) (out.leftParameters b))
     (hright : ∀ b z, target (out.rightData b z) (out.rightParameters b))
     (h : out.SamePlainBackground) :
-    (out.withAdmissible target hleft hright).SamePlainBackground := by
-  sorry
+    (out.withAdmissible target hleft hright).SamePlainBackground := h
 
 end HeckeSkeleton.Moments.EngineStep.PairedEngineConclusion

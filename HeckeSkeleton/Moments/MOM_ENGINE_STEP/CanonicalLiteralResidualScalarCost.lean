@@ -44,7 +44,23 @@ theorem residual_tilt_le
     (hproduct : Z ^ total ≤ residual * frozen) :
     residual ^ (-1 / 2 + δ₁ + δ₂) * power ^ δ₁ / Real.sqrt frozen ≤
       Z ^ (total * (-1 / 2 + δ₁ + δ₂)) := by
-  sorry
+  have hfrozenpos : 0 < frozen := zero_lt_one.trans_le hfrozen
+  have htilt : power ^ δ₁ ≤ frozen ^ (δ₁ + δ₂) :=
+    (Real.rpow_le_rpow hpower hdivides hδ₁).trans
+      (Real.rpow_le_rpow_of_exponent_le hfrozen (by linarith))
+  calc
+    _ ≤ residual ^ (-1 / 2 + δ₁ + δ₂) * frozen ^ (δ₁ + δ₂) /
+        Real.sqrt frozen :=
+      div_le_div_of_nonneg_right
+        (mul_le_mul_of_nonneg_left htilt (Real.rpow_nonneg hresidual.le _))
+        (Real.sqrt_nonneg _)
+    _ = (residual * frozen) ^ (-1 / 2 + δ₁ + δ₂) := by
+      rw [mul_div_assoc, Real.sqrt_eq_rpow, ← Real.rpow_sub hfrozenpos]
+      have he : δ₁ + δ₂ - 1 / 2 = -1 / 2 + δ₁ + δ₂ := by ring
+      rw [he, ← Real.mul_rpow hresidual.le hfrozenpos.le]
+    _ ≤ (Z ^ total) ^ (-1 / 2 + δ₁ + δ₂) :=
+      Real.rpow_le_rpow_of_nonpos (Real.rpow_pos_of_pos hZ _) hproduct (by linarith)
+    _ = Z ^ (total * (-1 / 2 + δ₁ + δ₂)) := (Real.rpow_mul hZ.le _ _).symm
 
 end CanonicalLiteralResidualScalarCost
 
@@ -77,7 +93,41 @@ theorem secondInputResidualScalar_norm_le_original_atoms
     ‖(d.twoStageProfileFactor b δ₁ δ₂ : ℂ) *
         d.secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤
       Real.sqrt (B ^ cap) * d.base ^ (total * (-1 / 2 + δ₁ + δ₂)) := by
-  sorry
+  have hz : 0 < d.base := zero_lt_one.trans d.base_gt_one
+  have hnorm : A.exteriorNorm power ≤ (Ideal.absNorm I.val : ℝ) :=
+    ideal_norm_le_of_dvd I.property.1 hpower
+  have hone : (1 : ℝ) ≤ Ideal.absNorm I.val := by
+    exact_mod_cast Nat.one_le_iff_ne_zero.mpr
+      (Ideal.absNorm_eq_zero_iff.not.mpr I.property.1)
+  have hproduct : d.base ^ total ≤
+      (d.extract b).scaleProduct false * (Ideal.absNorm I.val : ℝ) := by
+    calc
+      _ = d.base ^ (total - idealLogLength d.base I.val) *
+          (Ideal.absNorm I.val : ℝ) := by
+        rw [← rpow_idealLogLength d.base d.base_gt_one I.val I.property.1,
+          ← Real.rpow_add hz, sub_add_cancel]
+      _ ≤ _ := mul_le_mul_of_nonneg_right hscale (by positivity)
+  have htilt := CanonicalLiteralResidualScalarCost.residual_tilt_le
+    hz ((d.extract b).scaleProduct_pos false) hone (A.exteriorNorm_pos power).le
+    hnorm hδ₁ hδ₂ hδ hproduct
+  change ‖(((d.extract b).scaleProduct false ^ (-1 / 2 + δ₁ + δ₂) : ℝ) : ℂ) *
+    d.secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤ _
+  rw [norm_mul, Complex.norm_of_nonneg
+    (Real.rpow_nonneg ((d.extract b).scaleProduct_pos false).le _)]
+  change (d.extract b).scaleProduct false ^ (-1 / 2 + δ₁ + δ₂) *
+      ‖d.secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤ _
+  calc
+    _ ≤ (d.extract b).scaleProduct false ^ (-1 / 2 + δ₁ + δ₂) *
+        (Real.sqrt (B ^ cap) * A.exteriorNorm power ^ δ₁ /
+          Real.sqrt (Ideal.absNorm I.val : ℝ)) :=
+      mul_le_mul_of_nonneg_left
+        (d.secondInputScalar_norm_le_original_atoms C b I power firstElement δ₁
+          hI hmask cap B hcap hB hcost)
+        (Real.rpow_nonneg ((d.extract b).scaleProduct_pos false).le _)
+    _ = Real.sqrt (B ^ cap) *
+        ((d.extract b).scaleProduct false ^ (-1 / 2 + δ₁ + δ₂) *
+          A.exteriorNorm power ^ δ₁ / Real.sqrt (Ideal.absNorm I.val : ℝ)) := by ring
+    _ ≤ _ := mul_le_mul_of_nonneg_left htilt (Real.sqrt_nonneg _)
 
 end CanonicalLiteralRectangles.Atoms
 
@@ -107,7 +157,19 @@ theorem literalOriginalAtoms_extract_scaleProduct_lower
       idealLogLength Z
         (frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2)) ≤
       ((seed).extract b).scaleProduct false := by
-  sorry
+  have hp (i) (_hi : i ∈ Finset.univ \ b.keep) :
+      (seed).base ^ (seed).length i ≤ (Ideal.absNorm (b.witness.2 i).asIdeal : ℝ) := by
+    have hslot := (Finset.mem_filter.mp (b.witness_slots i)).1
+    change b.witness.2 i ∈
+      (((Q.arithmeticAtoms ξ).constantAtoms W a Z t).raw Y₁ Y₂).exteriorSlots i at hslot
+    exact profiles.primeScale_le_norm_of_open_prime_window Z t (zero_lt_one.trans hZ)
+      hprime i (b.witness.2 i) (Finset.mem_filter.mp hslot).1
+  have hproduct : (seed).scale₁ false * (seed).scale₂ false = (seed).base ^ (a.n₁ + a.n₂) :=
+    (Real.rpow_add (zero_lt_one.trans hZ) a.n₁ a.n₂).symm
+  have h := b.residualGaussScale_lower_one (seed).base (seed).base_gt_one (seed).length
+    ((seed).scale₁ false) ((seed).scale₂ false) (a.n₁ + a.n₂)
+    ((seed).scale₁_pos false).le ((seed).scale₂_pos false).le hproduct hp
+  simpa only [SlotGeometry.totalLength] using h
 
 variable (C : A.GeneralArithmeticContext σ η htrace)
 
@@ -133,7 +195,17 @@ theorem literalOriginalAtoms_residualScalar_norm_le
         (seed).secondInputScalar (σ := σ) b power firstElement δ₁‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap) *
         Z ^ ((a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (-1 / 2 + δ₁ + δ₂)) := by
-  sorry
+  apply (seed).secondInputResidualScalar_norm_le_original_atoms C b I power firstElement
+    δ₁ δ₂ (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) hδ₁ hδ₂ hδ hI hpower
+    (Q.literalSourceCharacters_maskIndicator ξ) cap
+    (CanonicalLiteralFirstScalarCost.atomBudget annulus B) hcap
+    (CanonicalLiteralFirstScalarCost.atomBudget_one annulus B)
+  · intro i _
+    exact (Q.literalOriginalAtoms_primeAtomCost_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      original hzero ht annulus hannulus hwindow i (b.witness.2 i)).trans
+      (CanonicalLiteralFirstScalarCost.atomBudget_atom annulus B)
+  · simpa only [hI] using Q.literalOriginalAtoms_extract_scaleProduct_lower
+      ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b original hprime
 
 /-- Both literal column scalars restore the full original decay.
 The only loss is the two explicitly chosen Mellin tilts. -/
@@ -160,7 +232,26 @@ theorem literalOriginalAtoms_residualScalar_pair_norm_le
       (CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap *
         Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) +
           2 * (a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (δ₁ + δ₂)) := by
-  sorry
+  have hL := Q.literalOriginalAtoms_residualScalar_norm_le ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ C original hzero ht hprime annulus hannulus hwindow cap hcap
+    bL IL powerL elementL δ₁ δ₂ hδ₁ hδ₂ hδ hIL hpowerL
+  have hR := Q.literalOriginalAtoms_residualScalar_norm_le ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ C original hzero ht hprime annulus hannulus hwindow cap hcap
+    bR IR powerR elementR δ₁ δ₂ hδ₁ hδ₂ hδ hIR hpowerR
+  have h := mul_le_mul hL hR (norm_nonneg _)
+    (mul_nonneg (Real.sqrt_nonneg _) (Real.rpow_nonneg (zero_le_one.trans hZ.le) _))
+  apply h.trans_eq
+  calc
+    _ = (Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap) *
+        Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus B) ^ cap)) *
+      (Z ^ ((a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (-1 / 2 + δ₁ + δ₂)) *
+        Z ^ ((a.n₁ + a.n₂ + (data ξ).geometry.totalLength) * (-1 / 2 + δ₁ + δ₂))) := by ring
+    _ = _ := by
+      rw [Real.mul_self_sqrt (pow_nonneg
+        (zero_le_one.trans (CanonicalLiteralFirstScalarCost.atomBudget_one annulus B)) cap),
+        ← Real.rpow_add (zero_lt_one.trans hZ)]
+      congr 2
+      ring
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

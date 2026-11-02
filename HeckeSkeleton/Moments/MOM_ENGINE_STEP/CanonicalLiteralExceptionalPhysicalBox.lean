@@ -37,7 +37,12 @@ first cancellation, including its original padding. -/
 theorem frequency_support_le_parent
     (G : OriginalNominalGeometry (K := K) a Z step) (hstep : 0 ≤ step) :
     G.frequencyCenter + G.supportCenter ≤ a.m + a.q - step := by
-  sorry
+  have hg := G.enlargement_bound hstep
+  dsimp only [NominalChildGeometry.enlargementJ, NominalChildGeometry.shiftedCommon,
+    NominalChildGeometry.firstFrequency, OriginalNominalGeometry.skeleton] at hg
+  dsimp only [OriginalNominalGeometry.frequencyCenter, OriginalNominalGeometry.supportCenter,
+    OriginalNominalGeometry.skeleton]
+  linarith
 
 variable {A : SArithmeticData K} {ι : Type*} [Fintype ι] [DecidableEq ι]
 
@@ -60,7 +65,15 @@ theorem physicalWidth_le_parent
     (columnLoss cutoffExponent : ℝ) (hZ : 1 < Z) (hstep : 0 ≤ step) :
     physicalWidth G p m n pattern columnLoss cutoffExponent ≤
       a.m + a.q - step + 2 * columnLoss + cutoffExponent := by
-  sorry
+  have hfirst := frequency_support_le_parent G hstep
+  have hunit := secondPatternUnitIdeal_root_log_slack Z hZ p m n hm hn pattern
+  dsimp only [OriginalNominalGeometry.frequencyCenter, OriginalNominalGeometry.supportCenter]
+    at hfirst
+  change 2 * (G.skeleton.A - G.skeleton.c - G.skeleton.w) -
+    G.skeleton.Krow - G.skeleton.g +
+      (a.q + G.skeleton.R + G.skeleton.E + G.skeleton.wo) ≤ a.m + a.q - step at hfirst
+  dsimp only [physicalWidth, secondCommonChildWidth]
+  linarith
 
 /-- Increasing the initial support allowance changes only the physical
 mask exponent by that exact amount. -/
@@ -76,7 +89,8 @@ theorem physicalWidth_shift
       (secondPatternUnitIdeal p m n pattern).val (secondPatternNonunitIdeal p pattern).val +
         idealLogLength Z (secondSixthRootIdeal p m n).val + cutoffExponent =
       physicalWidth G p m n pattern columnLoss cutoffExponent + extraWidth := by
-  sorry
+  unfold physicalWidth secondCommonChildWidth
+  ring
 
 /-- One box pays the parent width, and one pays the genuine original
 first deletion. One additional exponent pays the fixed initial modulus.
@@ -87,7 +101,8 @@ def maskExponent (widthMax columnLoss cutoffExponent : ℝ) : ℝ :=
 theorem maskExponent_nonneg {widthMax columnLoss cutoffExponent : ℝ}
     (hwidth : 0 ≤ widthMax) (hcolumn : 0 ≤ columnLoss) (hcutoff : 0 ≤ cutoffExponent) :
     0 ≤ maskExponent widthMax columnLoss cutoffExponent := by
-  sorry
+  unfold maskExponent
+  linarith
 
 theorem physicalWidth_add_one_le
     (G : OriginalNominalGeometry (K := K) a Z step)
@@ -97,7 +112,8 @@ theorem physicalWidth_add_one_le
     (hwidth : a.m + a.q ≤ widthMax) :
     physicalWidth G p m n pattern columnLoss cutoffExponent + 1 ≤
       widthMax + 2 * columnLoss + cutoffExponent + 1 := by
-  sorry
+  have h := physicalWidth_le_parent G p m n hm hn pattern columnLoss cutoffExponent hZ hstep
+  linarith
 
 theorem physicalWidth_add_width_add_one_le
     (G : OriginalNominalGeometry (K := K) a Z step)
@@ -107,7 +123,10 @@ theorem physicalWidth_add_width_add_one_le
     (hwidth : a.m + a.q ≤ widthMax) :
     physicalWidth G p m n pattern columnLoss cutoffExponent + widthMax + 1 ≤
       maskExponent widthMax columnLoss cutoffExponent := by
-  sorry
+  have h := physicalWidth_add_one_le G p m n hm hn pattern widthMax
+    columnLoss cutoffExponent hZ hstep hwidth
+  unfold maskExponent
+  linarith
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralExceptionalPhysicalBox
 

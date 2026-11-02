@@ -51,8 +51,8 @@ local notation "Index" => CanonicalOriginalPhaseCalibration.PatternSector P rows
 
 /-- The actual correlation remains in the row weight exactly once. -/
 theorem row_bound (q : Index) :
-    ‖rows.weight q.val.val.val * rows.correlation q.val.val.val‖ ≤ mass.rowBound := by
-  sorry
+    ‖rows.weight q.val.val.val * rows.correlation q.val.val.val‖ ≤ mass.rowBound :=
+  mass.row_bound q.val.val.val (Finset.mem_filter.mp q.val.val.property).1
 
 /-- Two genuine subtype injections preserve the original ideal-fibre
 bound. The finite carrier can be the whole pattern source or its one
@@ -60,7 +60,20 @@ common ordinary restriction. -/
 theorem extracted_fibers (carrier : Finset Index) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (carrier.filter (fun q => (rows.extractedRow C q.val.val).momentIdeal = I)).card ≤
       mass.originalFiber := by
-  sorry
+  let T := carrier.filter (fun q => (rows.extractedRow C q.val.val).momentIdeal = I)
+  have hinj : Function.Injective (fun q : Index => q.val.val) :=
+    Subtype.val_injective.comp Subtype.val_injective
+  have hsub : T.image (fun q => q.val.val) ⊆
+      (Finset.univ : Finset rows.live).filter
+        (fun h => (rows.extractedRow C h).momentIdeal = I) := by
+    intro h hh
+    obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hh
+    exact Finset.mem_filter.mpr ⟨Finset.mem_univ _, (Finset.mem_filter.mp hq).2⟩
+  calc
+    _ = (T.image (fun q => q.val.val)).card :=
+      (Finset.card_image_of_injective T hinj).symm
+    _ ≤ _ := Finset.card_le_card hsub
+    _ ≤ mass.originalFiber := mass.extracted_fibers I
 
 end ActualFibres
 
@@ -151,7 +164,18 @@ theorem source_full_mask_window
         (secondPatternNonunitIdeal b.primes pattern).val +
         idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
         cutoffExponent) := by
-  sorry
+  let row := (chart.actualRows ∅ X hX label).extractedRow C h
+  have hw := CanonicalExteriorChildBudget.actualRows_raw_remaining_joint_window chart hclass
+    oldMoving remaining hremaining X hX label retainedScale Z g a₀ q wo cutoffExponent
+    hscale hZ hradius hcutoff hleft hright hold h
+  dsimp only at hw ⊢
+  have hp := mul_le_mul_of_nonneg_left hw row.factor_pos.le
+  change _ ≤ (chart.actualRows ∅ X hX label).normFactor C h.val * _ at hp
+  rw [← mul_assoc] at hp
+  change ((chart.actualRows ∅ X hX label).normFactor C h.val *
+    A.exteriorNorm row.ideal) * _ ≤ _ at hp
+  rw [← row.norm_factor] at hp
+  exact hp
 
 /-- The same complete budget proves the actual frequency cutoff after
 using the original lower bound one on a nonzero-ideal norm. -/
@@ -178,7 +202,30 @@ theorem source_cutoff
         (secondPatternNonunitIdeal b.primes pattern).val +
         idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
         cutoffExponent) := by
-  sorry
+  let pattern := chart.originalNonunitPattern ∅ X hX label
+  let mask := (oldMoving.append (secondOriginalMovingFactors P Rchar C b.primes
+            b.leftMultiplicity b.rightMultiplicity pattern)).fullMaskSupport
+              (remaining * exteriorMomentIdeal
+                (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity))
+  let row := (chart.actualRows ∅ X hX label).extractedRow C h
+  have hw := CanonicalExteriorChildBudget.actualRows_raw_remaining_joint_window chart hclass
+    oldMoving remaining hremaining X hX label retainedScale Z g a₀ q wo cutoffExponent
+    hscale hZ hradius hcutoff hleft hright hold h
+  have hrow : idealNorm K row.momentIdeal ≤ Z ^ (secondCommonChildWidth Z a₀ q wo (Real.log retainedScale / Real.log Z) g
+        (primePowerProduct b.primes b.leftMultiplicity).val
+        (primePowerProduct b.primes b.rightMultiplicity).val
+        (secondPatternUnitIdeal b.primes b.leftMultiplicity b.rightMultiplicity pattern).val
+        (secondPatternNonunitIdeal b.primes pattern).val +
+        idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
+        cutoffExponent) := by
+    calc
+      idealNorm K row.momentIdeal = idealNorm K row.momentIdeal * 1 := (mul_one _).symm
+      _ ≤ idealNorm K row.momentIdeal * idealNorm K mask :=
+        mul_le_mul_of_nonneg_left (one_le_idealNorm K mask) (idealNorm_pos K _).le
+      _ ≤ _ := hw
+  dsimp only
+  rw [row.norm_factor]
+  exact mul_le_mul_of_nonneg_left hrow row.factor_pos.le
 
 /-- The raw arithmetic constructor is allowed on every actual source
 row in this original physical window. Its test profiles may be the
@@ -213,7 +260,11 @@ theorem child_allowed
         idealLogLength Z (secondSixthRootIdeal b.primes b.leftMultiplicity b.rightMultiplicity).val +
         cutoffExponent)) inverse leftTest rightTest geometry index).allowedRow
         ((chart.actualRows ∅ X hX label).extractedRow C h).momentIdeal := by
-  sorry
+  refine ⟨(HeckeAxiom.exteriorEquiv A
+    ((chart.actualRows ∅ X hX label).extractedRow C h).ideal).property, ?_⟩
+  exact CanonicalExteriorChildBudget.actualRows_raw_remaining_joint_window chart hclass
+    oldMoving remaining hremaining X hX label retainedScale Z g a₀ q wo cutoffExponent
+    hscale hZ hradius hcutoff hleft hright hold h
 
 section SupportedMass
 
@@ -246,8 +297,8 @@ local notation "Index" =>
 its original common atoms, after removing only zero correlations. -/
 theorem supported_row_bound (q : Index) :
     ‖(supported).weight q.val.val.val * (supported).correlation q.val.val.val‖ ≤
-      (mass).rowBound := by
-  sorry
+      (mass).rowBound :=
+  row_bound supported C mass pattern sector q
 
 include hclass hleft hright hbound hprofile in
 /-- The original orbit index is still the fibre bound on any ordinary
@@ -256,7 +307,7 @@ input: the original chart constructs it internally. -/
 theorem supported_extracted_fibers (carrier : Finset Index) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (carrier.filter
       (fun q => ((supported).extractedRow C q.val.val).momentIdeal = I)).card ≤ Γ.index := by
-  sorry
+  exact extracted_fibers supported C mass pattern sector carrier I
 
 end SupportedMass
 

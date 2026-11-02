@@ -77,7 +77,8 @@ theorem recipe_fullJointBudget :
     (recipe P R W B F parent oldMoving correction hcorr C p leftMultiplicity rightMultiplicity
       pattern ν remaining extra m q inverse index rectangle firstSign negative).FullJointBudget
         d.base (m + q) := by
-  sorry
+  intro ξ u hu
+  exact hu.2
 
 /-- The exact same arithmetic recipe applies to the clipped profiles.
 The width here is still the original complete-deletion width. -/
@@ -94,7 +95,8 @@ theorem clippedRecipe_fullJointBudget (κ : ℝ) :
     (clippedRecipe P R W B F parent oldMoving correction hcorr C p leftMultiplicity
       rightMultiplicity pattern ν remaining extra m q inverse index rectangle firstSign
       negative κ).FullJointBudget d.base (m + q) := by
-  sorry
+  intro ξ u hu
+  exact hu.2
 
 end HeckeSkeleton.Moments.EngineStep.CanonicalLiteralAllocatedData
 

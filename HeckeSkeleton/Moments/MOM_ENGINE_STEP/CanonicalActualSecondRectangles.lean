@@ -45,13 +45,15 @@ theorem left_original_divisor_dvd
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (left : Finset α) (S : Ideal (𝓞 K)) (hS : S ∣ DE.1)
     (i : α) (hi : i ∈ b.leftColumns left) : S ∣ (fullI i).val := by
-  sorry
+  rw [b.left_reconstruct left i hi, b.common_left]
+  exact hS.trans (dvd_mul_right DE.1 (b.leftResidual i).val)
 
 theorem right_original_divisor_dvd
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (right : Finset β) (S : Ideal (𝓞 K)) (hS : S ∣ DE.2)
     (i : β) (hi : i ∈ b.rightColumns right) : S ∣ (fullJ i).val := by
-  sorry
+  rw [b.right_reconstruct right i hi, b.common_right]
+  exact hS.trans (dvd_mul_right DE.2 (b.rightResidual i).val)
 
 /-- No coefficient support is enlarged when the live common-ideal
 divisibility is used to simplify the old gate. -/
@@ -59,15 +61,15 @@ theorem left_divisor_gate
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (left : Finset α) (S : Ideal (𝓞 K)) (hS : S ∣ DE.1)
     (c : α → ℂ) (i : α) (hi : i ∈ b.leftColumns left) :
-    (if S ∣ (fullI i).val then c i else 0) = c i := by
-  sorry
+    (if S ∣ (fullI i).val then c i else 0) = c i :=
+  if_pos (left_original_divisor_dvd b left S hS i hi)
 
 theorem right_divisor_gate
     (b : FirstCommonCharacterBlock fullI fullJ DE)
     (right : Finset β) (S : Ideal (𝓞 K)) (hS : S ∣ DE.2)
     (c : β → ℂ) (i : β) (hi : i ∈ b.rightColumns right) :
-    (if S ∣ (fullJ i).val then c i else 0) = c i := by
-  sorry
+    (if S ∣ (fullJ i).val then c i else 0) = c i :=
+  if_pos (right_original_divisor_dvd b right S hS i hi)
 
 end OriginalDivisorGate
 
@@ -152,7 +154,12 @@ theorem firstResidualTerm_eq
       Q.originalCommonScalar x Z t S₁ S₂ S b *
         (firstResidualDictionary Q x W a Z t Y₁ Y₂ S₁ S₂ S common b C primes m n
           firstRight δ tilt ξ hroot hemb J hJ hactive side χ comparison).coefficient i := by
-  sorry
+  rw [firstResidualTerm,
+    Q.originalTermDictionary_extract x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S b comparison i hi,
+    firstResidualDictionary, CanonicalCommonColumnMask.dictionary_coefficient,
+    firstWeightedDictionary_coefficient]
+  · exact mul_assoc _ _ _
+  · exact hi
 
 /-- The same original common scalar multiplies the complete centered
 subtraction. Neither rectangle is bounded separately here. -/
@@ -172,7 +179,11 @@ theorem firstResidualTerm_centered
           firstRight δ tilt ξ hroot hemb J hJ hactive side χ false).coefficient i -
          (firstResidualDictionary Q x W a Z t Y₁ Y₂ S₁ S₂ S common b C primes m n
           firstRight δ tilt ξ hroot hemb J hJ hactive side χ true).coefficient i) := by
-  sorry
+  rw [firstResidualTerm_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S common b C primes m n
+      firstRight δ tilt ξ hroot hemb J hJ hactive side χ false i hi,
+    firstResidualTerm_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S common b C primes m n
+      firstRight δ tilt ξ hroot hemb J hJ hactive side χ true i hi,
+    mul_sub]
 
 end FirstOriginalTable
 
@@ -192,7 +203,11 @@ theorem reconstruct_ideal
     allocationColumnIdeal (b.reconstruct i) =
       frozenSourceIdeal b.plainDivisor₁ b.plainDivisor₂ b.keep b.witness.2 *
         allocationColumnIdeal i := by
-  sorry
+  simp only [allocationColumnIdeal, SupportCartesianBranch.reconstruct,
+    SlotRestriction.product_extend, frozenSourceIdeal,
+    SupportCartesianBranch.plainDivisor₁, SupportCartesianBranch.plainDivisor₂,
+    Finset.sdiff_eq_filter, Finset.mem_univ, true_and]
+  ring
 
 private theorem bare_left_scalar
     (T : FixedChildCharacters K k) (N₁ N₂ Z : ℝ) (length : Fin k → ℝ)
@@ -201,7 +216,9 @@ private theorem bare_left_scalar
     (c : ℂ) (i : AllocationColumn K k) :
     rawBareSourceCoefficient T N₁ N₂ Z length (fun I => c * w₁ I) w₂ w i =
       c * rawBareSourceCoefficient T N₁ N₂ Z length w₁ w₂ w i := by
-  sorry
+  simp only [rawBareSourceCoefficient, FixedChildCharacters.bareCoefficient,
+    childCartesianCoefficient]
+  ring
 
 private theorem punit_dictionary_bare
     {T : FixedChildCharacters K k} (side : SecondColumnSide)
@@ -210,7 +227,9 @@ private theorem punit_dictionary_bare
     (i : AllocationColumn K k) (hi : i ∈ childCartesianColumns S₁ S₂ S) :
     F.coefficient i = rawBareSourceCoefficient T F.scale₁ F.scale₂ F.base F.length
       F.leftWeight F.rightWeight F.slotWeight i := by
-  sorry
+  have h := F.coefficient_phase i hi
+  simpa only [Subsingleton.elim (F.ray i) PUnit.unit,
+    CanonicalSecondRectangularFactors.punit_phase, mul_one] using h
 
 variable {ω ψ : HeckeCharacter K}
 variable {P : ProbeData K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))}
@@ -225,7 +244,13 @@ retained, with its original generator. -/
 theorem second_weight_empty (tilt : ℝ) :
     CanonicalSecondRectangularFactors.secondWeight (σ := σ) tilt (ε).val =
       (E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt := by
-  sorry
+  ext I
+  simp only [CanonicalSecondRectangularFactors.secondWeight,
+    CanonicalSecondRectangularFactors.secondMaskMovingFactors,
+    CanonicalSecondRectangularFactors.idealPhase, OriginalMovingFactors.residueHom,
+    OriginalMovingFactors.residueValue, OriginalMovingFactors.singleton,
+    MonoidHom.mul_apply, MonoidHom.coe_mk, OneHom.coe_mk,
+    Fin.prod_univ_one, zpow_neg_one, mul_comm]
 
 variable (parent : MomentData K ω ψ) (correction : HeckeCharacter K)
 variable («prefix» : OriginalMovingFactors A P R) (remaining : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -277,7 +302,10 @@ theorem secondResidualCoreDictionary_coefficient
       b.bareResidualCoefficient (movingSourceCharacters parent correction «prefix» remaining index)
         F.scale₁ F.scale₂ F.base F.length F.leftWeight F.rightWeight F.slotWeight i *
           weight₂ (J i).val := by
-  sorry
+  rw [secondResidualCoreDictionary, emptyMaskWeightedDictionary_coefficient]
+  · rw [hJ i hi, second_weight_empty (P := P) (R := R)]
+    rfl
+  · exact hi
 
 /-- The second table is computed from the actual first single-atom
 table. Its only new character is the actual empty-mask unit character;
@@ -304,7 +332,22 @@ theorem secondResidualDictionary_coefficient
     (secondResidualDictionary parent correction «prefix» remaining index hroot hemb
       side χ F b common scalar tilt J hJ).coefficient i =
       scalar * F.coefficient (b.reconstruct i) * weight₂ (common.val * (J i).val) := by
-  sorry
+  rw [secondResidualDictionary, emptyMaskWeightedDictionary_coefficient]
+  · rw [bare_left_scalar]
+    have hb := punit_dictionary_bare side χ F (b.reconstruct i)
+      (b.original_subset (b.reconstruct_mem i hi))
+    rw [hb, b.raw_bare_extract]
+    · rw [map_mul, hJ i hi]
+      simp only [second_weight_empty (P := P) (R := R)]
+      change (scalar * commonScalar *
+        ((E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt) common.val) *
+          b.bareResidualCoefficient (movingSourceCharacters parent correction «prefix» remaining index)
+            F.scale₁ F.scale₂ F.base F.length F.leftWeight F.rightWeight F.slotWeight i *
+          ((E₂).residueHom (σ := σ) * CanonicalSecondRectangularFactors.normPower tilt)
+            (allocationColumnIdeal i) = _
+      ring
+    · exact hi
+  · exact hi
 
 /-- The scalar is outside the residual core, so it can be moved into
 the actual row weight exactly once, before either row Cauchy step. -/
@@ -314,7 +357,12 @@ theorem second_original_to_core
       (scalar * commonScalar * weight₂ common.val) *
         (secondResidualCoreDictionary parent correction «prefix» remaining index hroot hemb
           side χ F b tilt J hJ).coefficient i := by
-  sorry
+  rw [secondResidualCoreDictionary_coefficient parent correction «prefix» remaining index
+    hroot hemb side χ F b tilt J hJ i hi,
+    punit_dictionary_bare side χ F (b.reconstruct i)
+      (b.original_subset (b.reconstruct_mem i hi)),
+    b.raw_bare_extract _ _ _ _ _ _ _ _ i hi, map_mul]
+  ring
 
 end ActualSecondExtraction
 
@@ -373,7 +421,16 @@ theorem originalNormalizers_coefficient
     (originalNormalizers F G₁ G₂ G).normalizedCoefficient
         (Real.sqrt G₁ : ℂ)⁻¹ (Real.sqrt G₂ : ℂ)⁻¹
         (fun j => (Real.sqrt (G j) : ℂ)⁻¹) i = F.coefficient i := by
-  sorry
+  have h₁ : (Real.sqrt G₁ : ℂ) ≠ 0 := by
+    exact_mod_cast (Real.sqrt_pos.mpr hG₁).ne'
+  have h₂ : (Real.sqrt G₂ : ℂ) ≠ 0 := by
+    exact_mod_cast (Real.sqrt_pos.mpr hG₂).ne'
+  have hs (j : Fin k) : (Real.sqrt (G j) : ℂ) ≠ 0 := by
+    exact_mod_cast (Real.sqrt_pos.mpr (hG j)).ne'
+  simp only [SecondCoefficientTermDictionary.normalizedCoefficient,
+    SecondCoefficientTermDictionary.coefficient, originalNormalizers,
+    childCartesianCoefficient, inv_mul_cancel_left₀ h₁,
+    inv_mul_cancel_left₀ h₂, inv_mul_cancel_left₀ (hs _)]
 
 @[simp] theorem originalNormalizers_ray (i : AllocationColumn K k) :
     (originalNormalizers F G₁ G₂ G).ray i = F.ray i := rfl
@@ -389,7 +446,9 @@ theorem normalizedCoefficient_plain_product
         (fun j => (Real.sqrt (G j) : ℂ)⁻¹) i =
       F.normalizedCoefficient (Real.sqrt H₁ : ℂ)⁻¹ (Real.sqrt H₂ : ℂ)⁻¹
         (fun j => (Real.sqrt (G j) : ℂ)⁻¹) i := by
-  sorry
+  rw [F.normalizedCoefficient_eq, F.normalizedCoefficient_eq]
+  exact congrArg (fun z : ℂ => z * F.coefficient i)
+    (extraGaussNormalizer_plain_product_eq G₁ G₂ H₁ H₂ G hG₁ hH₁ hproduct)
 
 end OriginalNormalizers
 
@@ -403,12 +462,18 @@ the identity follows from the stated original comparison exponents. -/
 theorem centered_plain_product
     (domain : PairedEngineDomain true d a Z Y₁ Y₂ floor padding) :
     Y₁ * Y₂ = Z ^ a.n₁ * Z ^ a.n₂ := by
-  sorry
+  rw [domain.comparison_left rfl, domain.comparison_right rfl,
+    ← Real.rpow_add (zero_lt_one.trans domain.scale),
+    ← Real.rpow_add (zero_lt_one.trans domain.scale)]
+  congr 1
+  ring
 
 theorem centered_plain_positive
     (domain : PairedEngineDomain true d a Z Y₁ Y₂ floor padding) :
     0 < Y₁ ∧ 0 < Y₂ := by
-  sorry
+  rw [domain.comparison_left rfl, domain.comparison_right rfl]
+  exact ⟨Real.rpow_pos_of_pos (zero_lt_one.trans domain.scale) _,
+    Real.rpow_pos_of_pos (zero_lt_one.trans domain.scale) _⟩
 
 end OriginalComparisonScales
 
@@ -589,17 +654,36 @@ local notation "H₂" => fun comparison : Bool =>
 private theorem actual_plain_product (comparison : Bool)
     (hplainProduct : comparison = true → Y₁ * Y₂ = Z ^ a.n₁ * Z ^ a.n₂) :
     G₁ * G₂ = H₁ comparison * H₂ comparison := by
-  sorry
+  cases comparison with
+  | false => rfl
+  | true =>
+    change G₁ * G₂ =
+      (Y₁ / idealNorm K b₁.plainDivisor₁ / idealNorm K b₂.plainDivisor₁) *
+        (Y₂ / idealNorm K b₁.plainDivisor₂ / idealNorm K b₂.plainDivisor₂)
+    simp only [div_eq_mul_inv]
+    calc
+      _ = (Z ^ a.n₁ * Z ^ a.n₂) *
+          ((idealNorm K b₁.plainDivisor₁)⁻¹ * (idealNorm K b₂.plainDivisor₁)⁻¹ *
+            (idealNorm K b₁.plainDivisor₂)⁻¹ * (idealNorm K b₂.plainDivisor₂)⁻¹) := by ring
+      _ = _ := by rw [← hplainProduct rfl]; ring
 
 include hZ in
 private theorem actual_left_positive (comparison : Bool)
     (hY₁ : comparison = true → 0 < Y₁) : 0 < H₁ comparison := by
-  sorry
+  apply div_pos _ (idealNorm_pos K _)
+  apply div_pos _ (idealNorm_pos K _)
+  cases comparison
+  · exact Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _
+  · exact hY₁ rfl
 
 include hZ in
 private theorem actual_right_positive (comparison : Bool)
     (hY₂ : comparison = true → 0 < Y₂) : 0 < H₂ comparison := by
-  sorry
+  apply div_pos _ (idealNorm_pos K _)
+  apply div_pos _ (idealNorm_pos K _)
+  cases comparison
+  · exact Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _
+  · exact hY₂ rfl
 
 /-- One of the two literal original comparison rectangles. Both
 transforms, both common extractions, the original correction, all old
@@ -671,7 +755,11 @@ theorem originalSecondWholeCoefficient_difference (i : AllocationColumn K b₂.k
       primes m n firstRight δ firstTilt ξ secondCommon b₂ J₂ secondTilt i =
       firstTerm false (b₂.reconstruct i) * weight₂ (secondCommon.val * (J₂ i).val) -
         firstTerm true (b₂.reconstruct i) * weight₂ (secondCommon.val * (J₂ i).val) := by
-  sorry
+  unfold originalSecondWholeCoefficient firstResidualTerm
+  rw [Q.originalTermDictionary_coefficient x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S false,
+    Q.originalTermDictionary_coefficient x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S true]
+  change (_ - _) * _ * _ = _ * _ * _ - _ * _ * _
+  ring
 
 /-- The actual original Gauss modulus is reconstructed from the same
 second common branch, rather than replaced by a nominal product. -/
@@ -680,7 +768,8 @@ theorem originalSourceModulus
       secondCommon.val)
     (i : AllocationColumn K b₂.keep.card) (hi : i ∈ b₂.residualColumns) :
     (J₁ (b₂.reconstruct i)).val = secondCommon.val * (J₂ i).val := by
-  sorry
+  rw [hJ₁ (b₂.reconstruct i) (b₂.original_subset (b₂.reconstruct_mem i hi)),
+    reconstruct_ideal b₂ i, hcommon, hJ₂ i hi]
 
 theorem originalSourceModulus_norm
     (hcommon : frozenSourceIdeal b₂.plainDivisor₁ b₂.plainDivisor₂ b₂.keep b₂.witness.2 =
@@ -688,7 +777,10 @@ theorem originalSourceModulus_norm
     (i : AllocationColumn K b₂.keep.card) (hi : i ∈ b₂.residualColumns) :
     A.exteriorNorm (J₁ (b₂.reconstruct i)) =
       A.exteriorNorm secondCommon * A.exteriorNorm (J₂ i) := by
-  sorry
+  change (Ideal.absNorm (J₁ (b₂.reconstruct i)).val : ℝ) =
+    (Ideal.absNorm secondCommon.val : ℝ) * (Ideal.absNorm (J₂ i).val : ℝ)
+  rw [originalSourceModulus x S₁ S₂ S firstCommon b₁ J₁ hJ₁ secondCommon b₂ J₂ hJ₂
+    hcommon i hi, map_mul, Nat.cast_mul]
 
 /-- The rectangle now has the literal source modulus in both original
 fields used by the canonical second chart. The complete modulus identity
@@ -742,7 +834,7 @@ theorem originalSecondCommonScalar_eq (comparison : Bool) :
             (Q.remaining * exteriorMomentIdeal firstCommon) idx₁)
           (firstTable comparison).base (firstTable comparison).length
           (firstTable comparison).slotWeight * weight₂ secondCommon.val := by
-  sorry
+  cases comparison <;> rfl
 
 /-- The residual factor source uses the actual raw first weights and
 all actual retained occurrences; it contains no extracted common scalar. -/
@@ -767,7 +859,20 @@ theorem originalSecondSource_to_core
       originalSecondCoreCoefficient Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon b₁ C
         primes m n firstRight δ firstTilt ξ hroot hemb J₁ hJ₁ hactive side χ
         secondCommon b₂ J₂ secondTilt comparison i := by
-  sorry
+  rw [firstResidualTerm_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon b₁ C primes m n
+      firstRight δ firstTilt ξ hroot hemb J₁ hJ₁ hactive side χ comparison
+      (b₂.reconstruct i) (b₂.original_subset (b₂.reconstruct_mem i hi)),
+    originalSourceModulus x S₁ S₂ S firstCommon b₁ J₁ hJ₁ secondCommon b₂ J₂ hJ₂ hcommon i hi,
+    originalSecondCommonScalar_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon b₁ C
+      primes m n firstRight δ firstTilt ξ hroot hemb J₁ hJ₁ hactive side χ
+      secondCommon b₂ secondTilt comparison]
+  have h := second_original_to_core (data x) Q.correction (Q.moving.append E₁)
+    (Q.remaining * exteriorMomentIdeal firstCommon) idx₁ hroot hemb side χ
+    (firstTable comparison) b₂ secondCommon
+    (Q.originalCommonScalar x Z t S₁ S₂ S b₁) secondTilt J₂ hJ₂ i hi
+  rw [secondResidualCoreDictionary_coefficient] at h
+  · exact h
+  · exact hi
 
 /-- The public residual rectangle uses the same nominal Gauss scales
 as the full source rectangle, but its extracted common scalar belongs
@@ -852,7 +957,11 @@ theorem originalSecondCoreComparison_coefficient
         originalSecondCoreCoefficient Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon b₁ C
           primes m n firstRight δ firstTilt ξ hroot hemb J₁ hJ₁ hactive side χ
           secondCommon b₂ J₂ secondTilt true i := by
-  sorry
+  rw [SecondCoefficientComparison.centeredCoefficient,
+    originalSecondCoreComparison_dictionary]
+  exact congrArg₂ (fun z w : ℂ => z - w)
+    ((coreFactor false (by simp)).coefficient_factor i hi).symm
+    ((coreFactor true (fun _ => hcomparison)).coefficient_factor i hi).symm
 
 /-- The original full common scalar multiplies the complete difference
 exactly once. This is the identity used before common-scalar reweighting,
@@ -870,7 +979,16 @@ theorem originalSecondSource_centered_to_core
         (coreComparison hcomparison).centeredCoefficient
           (Real.sqrt G₁ : ℂ)⁻¹ (Real.sqrt G₂ : ℂ)⁻¹
           (fun j => (Real.sqrt (Gslots j) : ℂ)⁻¹) i := by
-  sorry
+  rw [originalSecondSource_to_core Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon b₁ C
+      primes m n firstRight δ firstTilt ξ hroot hemb J₁ hJ₁ hactive side χ
+      secondCommon b₂ J₂ hJ₂ secondTilt hcommon false i hi,
+    originalSecondSource_to_core Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon b₁ C
+      primes m n firstRight δ firstTilt ξ hroot hemb J₁ hJ₁ hactive side χ
+      secondCommon b₂ J₂ hJ₂ secondTilt hcommon true i hi,
+    originalSecondCoreComparison_coefficient Q x W a Z t Y₁ Y₂ hZ S₁ S₂ S firstCommon b₁ C
+      primes m n firstRight δ firstTilt ξ hroot hemb J₁ hJ₁ hactive rows side χ
+      secondCommon b₂ J₂ hJ₂ secondTilt rowOffset hcomparison i hi,
+    mul_sub]
 
 end SameOriginalRectangles
 
@@ -938,7 +1056,14 @@ theorem main_left_coefficient
         (chart).leftPoint ξ)).coefficient i =
       c i * ((EL).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
         ((B).leftResidual i).val := by
-  sorry
+  have hg : p.leftDivisorCoefficient Sdiv χ i = p.originalLeftCoefficient i := by
+    rw [FirstBlockPoolData.leftDivisorCoefficient, if_pos hdiv]
+    change _ * ((SecondColumnSide.left.phase PUnit χ) PUnit.unit : ℂ) = _
+    rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
+  change p.leftDivisorCoefficient Sdiv χ i * jointPhase ξ ((chart).leftPoint i) = _
+  rw [hg]
+  exact canonical_first_left_twisted (P := P) (R := R) hΓ μv ν C left right
+    fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i
 
 /-- The right source keeps its original opposite first Fourier
 location. No conjugation is added to this coefficient field. -/
@@ -949,7 +1074,14 @@ theorem main_right_coefficient
         (fun j => -(chart).rightPoint j) ξ)).coefficient i =
       e i * ((ER).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
         ((B).rightResidual i).val := by
-  sorry
+  have hg : p.rightDivisorCoefficient Sdiv χ i = p.originalRightCoefficient i := by
+    rw [FirstBlockPoolData.rightDivisorCoefficient, if_pos hdiv]
+    change _ * ((SecondColumnSide.right.phase PUnit χ) PUnit.unit : ℂ) = _
+    rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
+  change p.rightDivisorCoefficient Sdiv χ i * jointPhase ξ (-(chart).rightPoint i) = _
+  rw [hg]
+  exact canonical_first_right_twisted (P := P) (R := R) hΓ μv ν C left right
+    fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i
 
 /-- Each genuine 1/6/7 error coefficient retains its actual prime norm
 power and the full computed reciprocal prime character. -/
@@ -964,7 +1096,14 @@ theorem error_left_coefficient
         ((B).leftResidual i.val).val) * (Q prime : ℂ) ^ n *
           (poolMovingFactors (P := P) (R := R) C prime n).residueValue (σ := σ)
             ((p.divisorPools.leftData Sdiv).residualPresentation prime n i).residual.val := by
-  sorry
+  change (p.divisorPools.leftData Sdiv).residualCoefficient prime n _ i = _
+  rw [FirstGaussPoolData.residualCoefficient_eq, pool_columnPhase (P := P) (R := R)]
+  rw [show FirstGaussPoolData.twistedCoefficient (p.leftDivisorCoefficient Sdiv χ)
+      (chart).leftPoint ξ i.val =
+      c i.val * ((EL).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
+        ((B).leftResidual i.val).val from
+    main_left_coefficient hΓ μv ν P R C left right fullI fullJ DE hDE φ c e finiteTest
+      hlc hcs radius mask tilt htilt htiltHalf p Sdiv χ ξ i.val hdiv]
 
 theorem error_right_coefficient
     (prime : ExteriorPrime A) (n : ℕ)
@@ -977,7 +1116,14 @@ theorem error_right_coefficient
         ((B).rightResidual i.val).val) * (Q prime : ℂ) ^ n *
           (poolMovingFactors (P := P) (R := R) C prime n).residueValue (σ := σ)
             ((p.divisorPools.rightData Sdiv).residualPresentation prime n i).residual.val := by
-  sorry
+  change (p.divisorPools.rightData Sdiv).residualCoefficient prime n _ i = _
+  rw [FirstGaussPoolData.residualCoefficient_eq, pool_columnPhase (P := P) (R := R)]
+  rw [show FirstGaussPoolData.twistedCoefficient (p.rightDivisorCoefficient Sdiv χ)
+      (fun j => -(chart).rightPoint j) ξ i.val =
+      e i.val * ((ER).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
+        ((B).rightResidual i.val).val from
+    main_right_coefficient hΓ μv ν P R C left right fullI fullJ DE hDE φ c e finiteTest
+      hlc hcs radius mask tilt htilt htiltHalf p Sdiv χ ξ i.val hdiv]
 
 variable (p₀ : FirstBlockDirectData chart M cutoff hcutoff)
 variable (Ddiv : divisorPool p₀.rightData.columns (fun j => (p₀.rightData.ideal j).val))
@@ -991,7 +1137,14 @@ theorem direct_left_coefficient
         (chart).leftPoint ξ)).coefficient i =
       c i * ((EL).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ (-1))
         ((B).leftResidual i).val := by
-  sorry
+  have hg : p₀.leftDivisorCoefficient Ddiv χ i = p₀.originalLeftCoefficient i := by
+    rw [FirstBlockDirectData.leftDivisorCoefficient, if_pos hdiv]
+    change _ * ((SecondColumnSide.left.phase PUnit χ) PUnit.unit : ℂ) = _
+    rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
+  change p₀.leftDivisorCoefficient Ddiv χ i * jointPhase ξ ((chart).leftPoint i) = _
+  rw [hg]
+  exact canonical_first_left_twisted (P := P) (R := R) hΓ μv ν C left right
+    fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i
 
 /-- The direct right regime also uses the original negative location,
 leaving the later allocated coefficient to apply the whole star once. -/
@@ -1002,7 +1155,14 @@ theorem direct_right_coefficient
         (fun j => -(chart).rightPoint j) ξ)).coefficient i =
       e i * ((ER).residueHom (σ := σ) * normLogWeight (tilt - 1) ξ 1)
         ((B).rightResidual i).val := by
-  sorry
+  have hg : p₀.rightDivisorCoefficient Ddiv χ i = p₀.originalRightCoefficient i := by
+    rw [FirstBlockDirectData.rightDivisorCoefficient, if_pos hdiv]
+    change _ * ((SecondColumnSide.right.phase PUnit χ) PUnit.unit : ℂ) = _
+    rw [CanonicalSecondRectangularFactors.punit_phase, mul_one]
+  change p₀.rightDivisorCoefficient Ddiv χ i * jointPhase ξ (-(chart).rightPoint i) = _
+  rw [hg]
+  exact canonical_first_right_twisted (P := P) (R := R) hΓ μv ν C left right
+    fullI fullJ DE hDE φ c e finiteTest hlc hcs radius mask tilt htilt htiltHalf ξ i
 
 end SameGaussCoefficient
 

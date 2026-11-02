@@ -63,13 +63,17 @@ def passiveMask (extra : HeckeGeneral.Analysis.NonzeroIdeal K)
 
 @[simp] theorem coprimeMask_one (I : Ideal (𝓞 K)) :
     originalCoprimeMask (1 : HeckeGeneral.Analysis.NonzeroIdeal K) I = 1 := by
-  sorry
+  change (if IsCoprime I (1 : Ideal (𝓞 K)) then (1 : ℂ) else 0) = 1
+  simp
 
 theorem coprimeMask_mul (M N : HeckeGeneral.Analysis.NonzeroIdeal K)
     (I : Ideal (𝓞 K)) :
     originalCoprimeMask (M * N) I =
       originalCoprimeMask M I * originalCoprimeMask N I := by
-  sorry
+  change (if IsCoprime I (M.val * N.val) then (1 : ℂ) else 0) =
+    (if IsCoprime I M.val then 1 else 0) * (if IsCoprime I N.val then 1 else 0)
+  rw [IsCoprime.mul_right_iff]
+  by_cases hM : IsCoprime I M.val <;> by_cases hN : IsCoprime I N.val <;> simp [hM, hN]
 
 /-- The exact three original residues in a single plain coefficient. -/
 theorem applyCharacters_plain (F : FixedPhases A) (T : FixedChildCharacters K k)
@@ -83,7 +87,13 @@ theorem applyCharacters_plain (F : FixedPhases A) (T : FixedChildCharacters K k)
         actualIdealResidue (A := A) (σ := σ) J.val F.poolElement *
         actualIdealResidue (A := A) (σ := σ) J.val F.unitElement *
         originalCoprimeMask extra J.val := by
-  sorry
+  rw [FixedPhases.applyCharacters, FixedChildCharacters.deleteMask_plain]
+  rw [FixedChildCharacters.movingSingleton_plain P R _ hroot hemb
+      F.unitIdeal F.unitElement F.unit_generates J hJ,
+    FixedChildCharacters.movingSingleton_plain P R _ hroot hemb
+      F.poolIdeal F.poolElement F.pool_generates J hJ,
+    FixedChildCharacters.movingSingleton_plain P R _ hroot hemb
+      F.firstIdeal F.firstElement F.first_generates J hJ]
 
 theorem applyCharacters_prime (F : FixedPhases A) (T : FixedChildCharacters K k)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
@@ -96,7 +106,13 @@ theorem applyCharacters_prime (F : FixedPhases A) (T : FixedChildCharacters K k)
         actualIdealResidue (A := A) (σ := σ) q.asIdeal F.poolElement *
         actualIdealResidue (A := A) (σ := σ) q.asIdeal F.unitElement *
         originalCoprimeMask extra q.asIdeal := by
-  sorry
+  rw [FixedPhases.applyCharacters, FixedChildCharacters.deleteMask_prime]
+  rw [FixedChildCharacters.movingSingleton_prime P R _ hroot hemb
+      F.unitIdeal F.unitElement F.unit_generates i q hq,
+    FixedChildCharacters.movingSingleton_prime P R _ hroot hemb
+      F.poolIdeal F.poolElement F.pool_generates i q hq,
+    FixedChildCharacters.movingSingleton_prime P R _ hroot hemb
+      F.firstIdeal F.firstElement F.first_generates i q hq]
 
 theorem applyCharacters_plain_delete (F : FixedPhases A) (T : FixedChildCharacters K k)
     (extra J : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -105,7 +121,8 @@ theorem applyCharacters_plain_delete (F : FixedPhases A) (T : FixedChildCharacte
       sourcePlainCoefficient (F.applyCharacters P R T 1).plain
         (F.applyCharacters P R T 1).plainTwist (F.applyCharacters P R T 1).mask J *
         originalCoprimeMask extra J.val := by
-  sorry
+  simp only [FixedPhases.applyCharacters, FixedChildCharacters.deleteMask_plain,
+    coprimeMask_one, mul_one]
 
 theorem applyCharacters_prime_delete (F : FixedPhases A) (T : FixedChildCharacters K k)
     (extra : HeckeGeneral.Analysis.NonzeroIdeal K) (i : Fin k)
@@ -115,7 +132,8 @@ theorem applyCharacters_prime_delete (F : FixedPhases A) (T : FixedChildCharacte
       sourcePrimeCoefficient ((F.applyCharacters P R T 1).slot i)
         ((F.applyCharacters P R T 1).slotTwist i) (F.applyCharacters P R T 1).mask q *
         originalCoprimeMask extra q.asIdeal := by
-  sorry
+  simp only [FixedPhases.applyCharacters, FixedChildCharacters.deleteMask_prime,
+    coprimeMask_one, mul_one]
 
 /-- The amplifier reduction is proved against the actual original
 generated element, without identifying whole character records. -/
@@ -130,7 +148,14 @@ theorem applyCharacters_plain_reduced (F : FixedPhases A) (T : FixedChildCharact
         ((reducedPhases F C p e).applyCharacters P R T 1).plainTwist
         ((reducedPhases F C p e).applyCharacters P R T 1).mask J *
         originalCoprimeMask (passiveMask extra p e) J.val := by
-  sorry
+  rw [applyCharacters_plain P R F T hroot hemb extra J hJ,
+    applyCharacters_plain P R (reducedPhases F C p e) T hroot hemb 1 J hJ]
+  simp only [reducedPhases, coprimeMask_one, mul_one]
+  rw [hpool, CanonicalLiteralPassivePhases.residue_eq_reduced_element P R hroot hemb C p e J,
+    passiveMask, coprimeMask_mul]
+  change _ = _ * (originalCoprimeMask extra J.val *
+    (if IsCoprime J.val (CanonicalLiteralPassivePhases.passiveIdeal p e).val then 1 else 0))
+  ring
 
 theorem applyCharacters_prime_reduced (F : FixedPhases A) (T : FixedChildCharacters K k)
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
@@ -144,7 +169,14 @@ theorem applyCharacters_prime_reduced (F : FixedPhases A) (T : FixedChildCharact
         (((reducedPhases F C p e).applyCharacters P R T 1).slotTwist i)
         ((reducedPhases F C p e).applyCharacters P R T 1).mask q *
         originalCoprimeMask (passiveMask extra p e) q.asIdeal := by
-  sorry
+  rw [applyCharacters_prime P R F T hroot hemb extra i q hq,
+    applyCharacters_prime P R (reducedPhases F C p e) T hroot hemb 1 i q hq]
+  simp only [reducedPhases, coprimeMask_one, mul_one]
+  rw [hpool, CanonicalLiteralPassivePhases.residue_eq_reduced_element P R hroot hemb C p e
+    (CanonicalOriginalPhaseCalibration.primeIdeal q), passiveMask, coprimeMask_mul]
+  change _ = _ * (originalCoprimeMask extra q.asIdeal *
+    (if IsCoprime q.asIdeal (CanonicalLiteralPassivePhases.passiveIdeal p e).val then 1 else 0))
+  ring
 
 private theorem plain_term_of_gate (T U : FixedChildCharacters K k)
     (M : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -156,7 +188,12 @@ private theorem plain_term_of_gate (T U : FixedChildCharacters K k)
     sourcePlainTerm (σ := σ) T.plain T.plainTwist T.mask g h w N J =
       sourcePlainTerm (σ := σ) U.plain U.plainTwist U.mask g h w N J *
         originalCoprimeMask M J.val := by
-  sorry
+  by_cases hJ : IsCoprime J.val A.cS
+  · simp only [sourcePlainTerm, he J hJ]
+    ring
+  · have hz : actualIdealResidue (A := A) (σ := σ) J.val (g * h) = 0 :=
+      dif_neg (fun h => hJ h.2)
+    simp only [sourcePlainTerm, hz, mul_zero, zero_mul]
 
 private theorem prime_term_of_gate (T U : FixedChildCharacters K k)
     (M : HeckeGeneral.Analysis.NonzeroIdeal K)
@@ -169,7 +206,12 @@ private theorem prime_term_of_gate (T U : FixedChildCharacters K k)
     sourcePrimeTerm (σ := σ) (T.slot i) (T.slotTwist i) T.mask g h w N q =
       sourcePrimeTerm (σ := σ) (U.slot i) (U.slotTwist i) U.mask g h w N q *
         originalCoprimeMask M q.asIdeal := by
-  sorry
+  by_cases hq : IsCoprime q.asIdeal A.cS
+  · simp only [sourcePrimeTerm, he i q hq]
+    ring
+  · have hz : actualIdealResidue (A := A) (σ := σ) q.asIdeal (g * h) = 0 :=
+      dif_neg (fun h => hq h.2)
+    simp only [sourcePrimeTerm, hz, mul_zero, zero_mul]
 
 section Source
 
@@ -207,7 +249,9 @@ private theorem sourceCharacters_one_plain (J : HeckeGeneral.Analysis.NonzeroIde
         (paidSourceCharacters P R F parent oldMoving correction remaining index).plain
         (paidSourceCharacters P R F parent oldMoving correction remaining index).plainTwist
         (paidSourceCharacters P R F parent oldMoving correction remaining index).mask J := by
-  sorry
+  simpa only [paidSourceCharacters, mul_one] using
+    CanonicalLiteralPhaseCalibration.sourceCharacters_plain_coefficient
+      P R F parent oldMoving correction remaining 1 index J hJ
 
 private theorem sourceCharacters_one_prime (i : Fin k) (q : HeightOneSpectrum (𝓞 K))
     (hq : IsCoprime q.asIdeal A.cS) :
@@ -219,7 +263,9 @@ private theorem sourceCharacters_one_prime (i : Fin k) (q : HeightOneSpectrum (�
         ((paidSourceCharacters P R F parent oldMoving correction remaining index).slot i)
         ((paidSourceCharacters P R F parent oldMoving correction remaining index).slotTwist i)
         (paidSourceCharacters P R F parent oldMoving correction remaining index).mask q := by
-  sorry
+  simpa only [paidSourceCharacters, mul_one] using
+    CanonicalLiteralPhaseCalibration.sourceCharacters_prime_coefficient
+      P R F parent oldMoving correction remaining 1 index i q hq
 
 /-- Direct/main sources require only removal of the separate finite
 deletion from the paid source. No phase replacement is involved. -/
@@ -234,7 +280,8 @@ theorem source_plain_delete (J : HeckeGeneral.Analysis.NonzeroIdeal K)
         (paidSourceCharacters P R F parent oldMoving correction remaining index).plainTwist
         (paidSourceCharacters P R F parent oldMoving correction remaining index).mask J *
         originalCoprimeMask extra J.val := by
-  sorry
+  rw [← sourceCharacters_one_plain P R F parent oldMoving correction remaining index J hJ]
+  exact applyCharacters_plain_delete P R F _ extra J
 
 theorem source_prime_delete (i : Fin k) (q : HeightOneSpectrum (𝓞 K))
     (hq : IsCoprime q.asIdeal A.cS) :
@@ -247,7 +294,8 @@ theorem source_prime_delete (i : Fin k) (q : HeightOneSpectrum (𝓞 K))
         ((paidSourceCharacters P R F parent oldMoving correction remaining index).slotTwist i)
         (paidSourceCharacters P R F parent oldMoving correction remaining index).mask q *
         originalCoprimeMask extra q.asIdeal := by
-  sorry
+  rw [← sourceCharacters_one_prime P R F parent oldMoving correction remaining index i q hq]
+  exact applyCharacters_prime_delete P R F _ extra i q
 
 theorem source_plain_reduced
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
@@ -263,7 +311,9 @@ theorem source_plain_reduced
         (paidSourceCharacters P R (reducedPhases F C p e) parent oldMoving correction remaining index).plainTwist
         (paidSourceCharacters P R (reducedPhases F C p e) parent oldMoving correction remaining index).mask J *
         originalCoprimeMask (passiveMask extra p e) J.val := by
-  sorry
+  rw [← sourceCharacters_one_plain P R (reducedPhases F C p e) parent oldMoving correction
+    remaining index J hJ]
+  exact applyCharacters_plain_reduced P R F _ hroot hemb C p e hpool extra J hJ
 
 theorem source_prime_reduced
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
@@ -279,7 +329,9 @@ theorem source_prime_reduced
         ((paidSourceCharacters P R (reducedPhases F C p e) parent oldMoving correction remaining index).slotTwist i)
         (paidSourceCharacters P R (reducedPhases F C p e) parent oldMoving correction remaining index).mask q *
         originalCoprimeMask (passiveMask extra p e) q.asIdeal := by
-  sorry
+  rw [← sourceCharacters_one_prime P R (reducedPhases F C p e) parent oldMoving correction
+    remaining index i q hq]
+  exact applyCharacters_prime_reduced P R F _ hroot hemb C p e hpool extra i q hq
 
 /-- The direct/main single-ideal identity holds on the full smooth
 support, without an exterior-ideal condition on its argument. -/
@@ -291,7 +343,9 @@ theorem source_plain_term_delete (g h : A.R)
     sourcePlainTerm (σ := σ) old.plain old.plainTwist old.mask g h w N J =
       sourcePlainTerm (σ := σ) paid.plain paid.plainTwist paid.mask g h w N J *
         originalCoprimeMask extra J.val := by
-  sorry
+  dsimp only
+  exact plain_term_of_gate _ _ extra
+    (source_plain_delete P R F parent oldMoving correction remaining extra index) g h w N J
 
 theorem source_prime_term_delete (g h : A.R)
     (w : HeightOneSpectrum (𝓞 K) → ℂ) (N : ℝ) (i : Fin k) (q : HeightOneSpectrum (𝓞 K)) :
@@ -300,7 +354,9 @@ theorem source_prime_term_delete (g h : A.R)
     sourcePrimeTerm (σ := σ) (old.slot i) (old.slotTwist i) old.mask g h w N q =
       sourcePrimeTerm (σ := σ) (paid.slot i) (paid.slotTwist i) paid.mask g h w N q *
         originalCoprimeMask extra q.asIdeal := by
-  sorry
+  dsimp only
+  exact prime_term_of_gate _ _ extra
+    (source_prime_delete P R F parent oldMoving correction remaining extra index) g h w N i q
 
 /-- The reduced amplifier source and its entire passive deletion are
 identified on every nonzero ideal before a new child is constructed. -/
@@ -316,7 +372,10 @@ theorem source_plain_term_reduced
     sourcePlainTerm (σ := σ) old.plain old.plainTwist old.mask g h w N J =
       sourcePlainTerm (σ := σ) paid.plain paid.plainTwist paid.mask g h w N J *
         originalCoprimeMask (passiveMask extra p e) J.val := by
-  sorry
+  dsimp only
+  exact plain_term_of_gate _ _ (passiveMask extra p e)
+    (source_plain_reduced P R F parent oldMoving correction remaining extra index
+      hroot hemb C p e hpool) g h w N J
 
 theorem source_prime_term_reduced
     (hroot : P.arithmetic.root6 = A.zeta12 ^ 2) (hemb : P.arithmetic.embedding = σ)
@@ -330,7 +389,10 @@ theorem source_prime_term_reduced
     sourcePrimeTerm (σ := σ) (old.slot i) (old.slotTwist i) old.mask g h w N q =
       sourcePrimeTerm (σ := σ) (paid.slot i) (paid.slotTwist i) paid.mask g h w N q *
         originalCoprimeMask (passiveMask extra p e) q.asIdeal := by
-  sorry
+  dsimp only
+  exact prime_term_of_gate _ _ (passiveMask extra p e)
+    (source_prime_reduced P R F parent oldMoving correction remaining extra index
+      hroot hemb C p e hpool) g h w N i q
 
 private def calibrationOfGate
     {T U : FixedChildCharacters K k} (M : HeckeGeneral.Analysis.NonzeroIdeal K)

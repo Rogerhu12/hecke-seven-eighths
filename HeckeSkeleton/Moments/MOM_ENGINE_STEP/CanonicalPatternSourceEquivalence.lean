@@ -47,7 +47,11 @@ def allSubtypeEquiv : H ≃ {h : H // p h} where
 include hp in
 theorem allSubtype_energy (ξ : V) :
     (s.subtypeRows p).energy (σ := σ) ξ = s.energy (σ := σ) ξ := by
-  sorry
+  rw [s.subtypeRows_energy p ξ]
+  have he : s.rows.filter p = s.rows := Finset.filter_eq_self.mpr (fun h _ => hp h)
+  change jointColumnEnergy (s.rows.filter p) _ _ _ _ ξ = _
+  rw [he]
+  rfl
 
 namespace Calibration
 
@@ -199,7 +203,9 @@ include hpattern hsector in
 theorem byPatternSector_energy_of_stable (ξ : V) :
     (byPatternSector P rows C s pattern sector).energy (σ := σ) ξ =
       s.energy (σ := σ) ξ := by
-  sorry
+  unfold byPatternSector
+  rw [ActualAllocatedSource.allSubtype_energy _ _ (fun h => hsector h.val),
+    s.allSubtype_energy _ hpattern]
 
 /-- Consume the atom calibration on the proof-bearing row type and
 return it to the literal original source, without changing its mass. -/

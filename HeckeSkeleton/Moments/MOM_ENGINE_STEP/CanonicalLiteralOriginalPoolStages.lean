@@ -75,7 +75,22 @@ include hrows hstep in
 theorem literalMainRows : ∀ h ∈ d.mainRows,
     A.exteriorNorm (originalFrequencyIdeal h) ≤
       (mainGeometry).retainedScale * Z ^ (mainGeometry).enlargement := by
-  sorry
+  intro h hh
+  have hw := d.main_originalFrequencyIdeal_norm_le_sharp
+    (I.firstFrequency a Z + supportError) hrows h hh
+  have hg : 6 * (step / 3) ≤ (mainGeometry).enlargement := by
+    simpa only [OriginalNominalGeometry.canonicalMain, OriginalNominalGeometry.forMain,
+      OriginalNominalTag.poolLength] using (mainGeometry).enlargement_ge_pool hstep.le
+  calc
+    A.exteriorNorm (originalFrequencyIdeal h) ≤
+        Z ^ (I.firstFrequency a Z + supportError + 6 * (step / 3)) := hw
+    _ = (mainGeometry).retainedScale * Z ^ (6 * (step / 3)) := by
+      rw [Real.rpow_add (zero_lt_one.trans pool.base_gt_one)]
+      rfl
+    _ ≤ (mainGeometry).retainedScale * Z ^ (mainGeometry).enlargement :=
+      mul_le_mul_of_nonneg_left
+        (Real.rpow_le_rpow_of_exponent_le pool.base_gt_one.le hg)
+        (mainGeometry).retainedScale_pos.le
 
 include hrows hstep in
 theorem literalPoolRows (e : AmplifierValuation) (p : pool.primes) :
@@ -83,7 +98,10 @@ theorem literalPoolRows (e : AmplifierValuation) (p : pool.primes) :
       A.exteriorNorm (originalFrequencyIdeal h) ≤
         (poolGeometry e p I supportError herr).retainedScale *
           Z ^ (poolGeometry e p I supportError herr).enlargement := by
-  sorry
+  intro h hh
+  exact (d.error_originalFrequencyIdeal_norm_le_sharp _ hrows p.val h hh).trans
+    ((poolGeometry e p I supportError herr).retainedScale_le_enlarged
+      pool.base_gt_one.le hstep.le)
 
 variable (δ : ℝ) (hδ : 0 < δ) (hδhalf : δ ≤ 1 / 2)
 variable (cutoff : ℝ) (hcutoff : 1 ≤ cutoff)

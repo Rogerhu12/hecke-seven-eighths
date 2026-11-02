@@ -106,13 +106,21 @@ theorem active_column_exponent_nonneg (Z exponent : ℝ) (hZ : 1 < Z)
     (hupper : ∀ i ∈ G.columns, G.coefficient i ≠ 0 →
       A.exteriorNorm (G.ideal i) ≤ Z ^ exponent)
     (hactive : ∃ i ∈ G.columns, G.coefficient i ≠ 0) : 0 ≤ exponent := by
-  sorry
+  obtain ⟨i, hi, hc⟩ := hactive
+  have hone : 1 ≤ A.exteriorNorm (G.ideal i) := by
+    exact_mod_cast Nat.one_le_iff_ne_zero.mpr
+      (Ideal.absNorm_eq_zero_iff.not.mpr (G.ideal i).property.1)
+  apply (Real.rpow_le_rpow_left_iff hZ).mp
+  simpa only [Real.rpow_zero] using hone.trans (hupper i hi hc)
 
 theorem originalSharpZeroPower (Z total pre frozen loss inverse δ : ℝ) (hZ : 0 < Z) :
     Z ^ (-total + 2 * pre * δ - (total - loss - frozen)) * Z ^ inverse *
         Real.sqrt (Z ^ (2 * (total + loss - frozen))) =
       Z ^ (-total + 2 * pre * δ + inverse + 2 * loss) := by
-  sorry
+  rw [Real.sqrt_eq_rpow, ← Real.rpow_mul hZ.le, ← Real.rpow_add hZ,
+    ← Real.rpow_add hZ]
+  congr 1
+  ring
 
 section OriginalAtoms
 
@@ -319,7 +327,52 @@ theorem canonicalOriginalDualCalibration_amplitude_bounds
           Z ^ (-(a.n₁ + a.n₂ + d.geometry.totalLength) +
             2 * (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z common.val) * δ +
               inverseRadiusExponent + 2 * loss) := by
-  sorry
+  dsimp only
+  have hz : 0 < Z := zero_lt_one.trans domain.scale
+  constructor
+  · by_cases hactive : ∃ i ∈ G.columns, G.coefficient i ≠ 0
+    · simp only [canonicalOriginalDualCalibration, dif_pos hactive,
+        dualCalibrationOfOriginalNumerator, le_refl]
+    · simp only [canonicalOriginalDualCalibration, dif_neg hactive,
+        DualTerminalCalibration.zeroCoefficients]
+      exact mul_nonneg (div_nonneg (sq_nonneg _) (Nat.cast_nonneg _)) (apply_nonneg _ _)
+  · by_cases hactive : ∃ i ∈ G.columns, G.coefficient i ≠ 0
+    swap
+    · simp only [canonicalOriginalDualCalibration, dif_neg hactive,
+        DualTerminalCalibration.zeroCoefficients]
+      exact mul_nonneg
+        (div_nonneg (mul_nonneg (sq_nonneg _) (apply_nonneg _ _)) (Nat.cast_nonneg _))
+        (Real.rpow_nonneg hz.le _)
+    have hupper : ∀ i ∈ G.columns, G.coefficient i ≠ 0 →
+        A.exteriorNorm (G.ideal i) ≤
+          Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z post.frozen) := by
+      intro i hi' hc
+      apply post.upper Z (a.n₁ + a.n₂ + d.geometry.totalLength + loss) domain.scale i hi'
+      exact atoms.original_active_column_norm_le_power profiles cap hi loss hhi hcap
+        hupperThreshold hz hrows ht hupperWindow centered
+        domain.comparison_scale_left_nonneg domain.comparison_product_eq_power (D.index i)
+        (D.index_mem i hi') (D.original_nonzero i hi' hc)
+    have hu := active_column_exponent_nonneg (G := G) Z
+      (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z post.frozen)
+      domain.scale hupper hactive
+    simp only [canonicalOriginalDualCalibration, dif_pos hactive,
+      dualCalibrationOfOriginalNumerator, max_eq_right hu, hmaskEmpty, Finset.card_empty,
+      pow_zero, one_mul, D.countingDivisor_eq hphysical]
+    apply le_of_eq
+    calc
+      _ = (((2 * B ^ (cap + 2)) ^ 2 *
+          sZero.sup (schwartzSeminormFamily ℂ (mixedEmbedding.euclidean.mixedSpace K) ℂ) s.profile) /
+            (Ideal.absNorm divisor : ℝ)) *
+          (Z ^ (-(a.n₁ + a.n₂ + d.geometry.totalLength) +
+              2 * (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z common.val) * δ -
+                (a.n₁ + a.n₂ + d.geometry.totalLength - loss - idealLogLength Z post.frozen)) *
+            Z ^ inverseRadiusExponent *
+              Real.sqrt (Z ^ (2 * (a.n₁ + a.n₂ + d.geometry.totalLength + loss -
+                idealLogLength Z post.frozen)))) := by ring
+      _ = _ := by
+        rw [originalSharpZeroPower Z (a.n₁ + a.n₂ + d.geometry.totalLength)
+          (a.n₁ + a.n₂ + d.geometry.totalLength + loss - idealLogLength Z common.val)
+          (idealLogLength Z post.frozen) loss inverseRadiusExponent δ hz]
 
 
 end OriginalAtoms

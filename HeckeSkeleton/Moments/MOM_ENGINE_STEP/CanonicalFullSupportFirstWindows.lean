@@ -41,7 +41,11 @@ theorem firstTailExponent_le_originalPhysicalDegree
     firstTailExponent (2 * (cap + 2)) (2 * columnDegree)
       (2 * (-originalDegree / 2)) bound (2 * bound) ≤
         originalFirstPhysicalDegree cap bound := by
-  sorry
+  have hm := mul_le_mul_of_nonneg_right
+    (mul_le_mul_of_nonneg_left hcolumn (by norm_num : (0 : ℝ) ≤ 2))
+    (Nat.cast_nonneg (2 * (cap + 2)) : (0 : ℝ) ≤ ((2 * (cap + 2) : ℕ) : ℝ))
+  dsimp only [firstTailExponent, originalFirstPhysicalDegree]
+  linarith
 
 namespace CompleteMovingRowRecipe
 

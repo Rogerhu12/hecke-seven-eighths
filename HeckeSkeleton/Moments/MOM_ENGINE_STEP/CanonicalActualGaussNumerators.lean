@@ -41,14 +41,21 @@ theorem FirstGaussPoolData.residualCoefficient_raw_norm
     ‖d.residualCoefficient p n c i *
         (A.exteriorNorm (d.residualPresentation p n i).residual : ℂ)‖ =
       ‖c i.val * (A.exteriorNorm (d.ideal i.val) : ℂ)‖ := by
-  sorry
+  have hnorm : (A.exteriorNorm (d.residualPresentation p n i).residual : ℂ) ≠ 0 := by
+    exact_mod_cast (A.exteriorNorm_pos (d.residualPresentation p n i).residual).ne'
+  unfold FirstGaussPoolData.residualCoefficient FirstGaussPoolData.adjustedCoefficient
+  rw [div_mul_cancel₀ _ hnorm, norm_mul,
+    (d.residualPresentation p n i).columnPhase_norm, mul_one]
 
 end PoolNumerator
 
 private theorem residue_numerator_norm_le
     {N : ℝ} (hN : 0 < N) (δ : ℝ) (c v : ℂ) (hv : ‖v‖ ≤ 1) :
     ‖((c * ((N ^ δ : ℝ) : ℂ) * v) / (N : ℂ)) * (N : ℂ)‖ ≤ ‖c‖ * N ^ δ := by
-  sorry
+  have hNc : (N : ℂ) ≠ 0 := by exact_mod_cast hN.ne'
+  rw [div_mul_cancel₀ _ hNc, norm_mul, CanonicalFirstLog.scaledTiltScalar_norm hN]
+  exact (mul_le_mul_of_nonneg_left hv
+    (mul_nonneg (norm_nonneg _) (Real.rpow_nonneg hN.le _))).trans_eq (mul_one _)
 
 namespace ActualGaussSource
 
@@ -84,8 +91,10 @@ variable (D : G.OriginalNumerator columns ideal coefficient divisor common δ)
 theorem pre_norm_window (Z upper : ℝ) (hZ : 1 < Z)
     (hfull : ∀ i ∈ columns, coefficient i ≠ 0 → A.exteriorNorm (ideal i) ≤ Z ^ upper)
     (i : ι) (hi : i ∈ G.columns) (hc : G.coefficient i ≠ 0) :
-    A.exteriorNorm (D.preIdeal i) ≤ Z ^ (upper - idealLogLength Z common.val) := by
-  sorry
+    A.exteriorNorm (D.preIdeal i) ≤ Z ^ (upper - idealLogLength Z common.val) :=
+  reconstructed_exterior_norm_window (ideal (D.index i)) common (D.preIdeal i)
+    (D.reconstructed i hi) Z upper hZ
+    (hfull _ (D.index_mem i hi) (D.original_nonzero i hi hc))
 
 include D in
 /-- The central inverse square root is the original parent one.
@@ -97,7 +106,14 @@ theorem central_norm_le (Z total upper constant : ℝ) (hZ : 1 < Z)
     (i : ι) (hi : i ∈ G.columns) (hc : G.coefficient i ≠ 0) :
     ‖G.coefficient i * (A.exteriorNorm (G.ideal i) : ℂ)‖ ≤
       constant * Z ^ (-total / 2 + (upper - idealLogLength Z common.val) * δ) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have htilt := CanonicalFirstLog.tilt_le_of_norm_window
+    (A.exteriorNorm_pos (D.preIdeal i)) hz hδ (D.pre_norm_window Z upper hZ hfull i hi hc)
+  exact ((D.numerator_norm i hi).trans
+    (mul_le_mul (hcentral _ (D.index_mem i hi)) htilt
+      (Real.rpow_nonneg (A.exteriorNorm_pos _).le _)
+      (mul_nonneg hconstant (Real.rpow_nonneg hz.le _)))).trans_eq
+        (by rw [Real.rpow_add hz]; ring)
 
 include D in
 /-- The sharp original pair bound. No first-divisor density is
@@ -112,7 +128,18 @@ theorem central_pair_le (Z total upper constant : ℝ) (hZ : 1 < Z)
     ‖G.coefficient i * (A.exteriorNorm (G.ideal i) : ℂ)‖ *
         ‖G.coefficient j * (A.exteriorNorm (G.ideal j) : ℂ)‖ ≤
       constant ^ 2 * Z ^ (-total + 2 * (upper - idealLogLength Z common.val) * δ) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hleft := D.central_norm_le Z total upper constant hZ hconstant hδ hcentral hfull i hi hci
+  have hright := D.central_norm_le Z total upper constant hZ hconstant hδ hcentral hfull j hj hcj
+  have hp := mul_le_mul hleft hright (norm_nonneg _)
+    (mul_nonneg hconstant (Real.rpow_nonneg hz.le _))
+  apply hp.trans_eq
+  rw [pow_two, show -total + 2 * (upper - idealLogLength Z common.val) * δ =
+    (-total / 2 + (upper - idealLogLength Z common.val) * δ) +
+      (-total / 2 + (upper - idealLogLength Z common.val) * δ) by ring,
+    Real.rpow_add hz (-total / 2 + (upper - idealLogLength Z common.val) * δ)
+      (-total / 2 + (upper - idealLogLength Z common.val) * δ)]
+  ring
 
 
 include D in
@@ -121,8 +148,9 @@ This is the only norm window used when buying its density for a tail. -/
 theorem divisor_norm_window (Z upper : ℝ) (hZ : 1 < Z)
     (hfull : ∀ i ∈ columns, coefficient i ≠ 0 → A.exteriorNorm (ideal i) ≤ Z ^ upper)
     (i : ι) (hi : i ∈ G.columns) (hc : G.coefficient i ≠ 0) :
-    (Ideal.absNorm divisor : ℝ) ≤ Z ^ (upper - idealLogLength Z common.val) := by
-  sorry
+    (Ideal.absNorm divisor : ℝ) ≤ Z ^ (upper - idealLogLength Z common.val) :=
+  (ideal_norm_le_of_dvd (D.preIdeal i).property.1 (D.divisor_dvd i hi hc)).trans
+    (D.pre_norm_window Z upper hZ hfull i hi hc)
 
 include D in
 /-- A tail may buy the first-divisor density with the full explicit
@@ -140,7 +168,27 @@ theorem central_pair_le_divisor_for_tail
       (constant ^ 2 / (Ideal.absNorm divisor : ℝ)) *
         Z ^ ((upper - idealLogLength Z common.val) - total +
           2 * (upper - idealLogLength Z common.val) * δ) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans hZ
+  have hN : 0 < (Ideal.absNorm divisor : ℝ) :=
+    Nat.cast_pos.mpr (Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hdivisor))
+  have hpair := D.central_pair_le Z total upper constant hZ hconstant hδ hcentral hfull
+    i j hi hj hci hcj
+  have hpaid := D.divisor_norm_window Z upper hZ hfull i hi hci
+  rw [div_mul_eq_mul_div]
+  apply (le_div_iff₀ hN).mpr
+  calc
+    _ ≤ (constant ^ 2 * Z ^ (-total + 2 * (upper - idealLogLength Z common.val) * δ)) *
+        Z ^ (upper - idealLogLength Z common.val) :=
+      mul_le_mul hpair hpaid hN.le
+        (mul_nonneg (sq_nonneg _) (Real.rpow_nonneg hz.le _))
+    _ = _ := by
+      rw [show (upper - idealLogLength Z common.val) - total +
+          2 * (upper - idealLogLength Z common.val) * δ =
+        (-total + 2 * (upper - idealLogLength Z common.val) * δ) +
+          (upper - idealLogLength Z common.val) by ring,
+        Real.rpow_add hz (-total + 2 * (upper - idealLogLength Z common.val) * δ)
+          (upper - idealLogLength Z common.val)]
+      ring
 
 end OriginalNumerator
 end ActualGaussSource
@@ -196,7 +244,8 @@ variable (χ : (PUnit × PUnit) →* Circle)
 theorem canonicalLeftDivisor_dvd_of_ne_zero (i : ι)
     (hc : p.leftDivisorCoefficient S χ i ≠ 0) :
     S.val ∣ (p.leftData.ideal i).val := by
-  sorry
+  by_contra h
+  exact hc (by simp only [leftDivisorCoefficient, if_neg h])
 
 /-- The actual first phase is bounded only after its original residue
 identity, and the first-divisor gate is kept in the coefficient. -/
@@ -204,12 +253,40 @@ theorem canonicalLeftDivisor_raw_norm_le (i : ι)
     (hi : i ∈ p.leftData.columns) :
     ‖p.leftDivisorCoefficient S χ i * (A.exteriorNorm (p.leftData.ideal i) : ℂ)‖ ≤
       ‖c i‖ * A.exteriorNorm (b.leftResidual i) ^ δ := by
-  sorry
+  by_cases hSi : S.val ∣ (p.leftData.ideal i).val
+  swap
+  · simpa only [leftDivisorCoefficient, if_neg hSi, zero_mul, norm_zero] using
+      (mul_nonneg (norm_nonneg (c i))
+        (Real.rpow_nonneg (A.exteriorNorm_pos (b.leftResidual i)).le δ))
+  have ha : A.IsAllowed C.correction.B
+      (Units.mk0 (b.leftGenerator i : K)
+        (by exact_mod_cast (b.left_generates i).1)) := by
+    have hgen := p.leftData.allowed i hi
+    simpa only [p.left_generator] using hgen
+  have hχ : (fixedLeftPhase PUnit χ PUnit.unit : ℂ) = 1 := by
+    change ((fixedLeftPhase PUnit χ) (1 : PUnit) : ℂ) = 1
+    rw [map_one, Circle.coe_one]
+  unfold leftDivisorCoefficient
+  rw [if_pos hSi, hχ, mul_one]
+  change ‖(FirstBlockProfileChart.canonicalLogWithCoefficients hΓ μv ν b C left right
+      φ c e finiteTest hlc hcs radius D δ hδ hδhalf).leftCoefficient i *
+    firstLeftDivisorFactor
+      (generatedOriginalColumn (σ := σ) hΓ (b.leftResidual i)
+        (b.leftGenerator i) (b.left_generates i))
+      (actualActiveColumn hΓ C b.primes b.primes_injective
+        b.leftMultiplicity b.rightMultiplicity)
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val *
+    (A.exteriorNorm (p.leftData.ideal i) : ℂ)‖ ≤ _
+  rw [FirstBlockProfileChart.canonicalLog_leftSourceCoefficient hΓ μv ν b C
+    left right φ c e finiteTest hlc hcs radius δ hδ hδhalf D i ha, p.left_ideal]
+  exact residue_numerator_norm_le (A.exteriorNorm_pos _) δ (c i) _
+    (actualIdealResidue_norm_le_one C _ _)
 
 theorem canonicalRightDivisor_dvd_of_ne_zero (j : κ)
     (hc : p.rightDivisorCoefficient S χ j ≠ 0) :
     S.val ∣ (p.rightData.ideal j).val := by
-  sorry
+  by_contra h
+  exact hc (by simp only [rightDivisorCoefficient, if_neg h])
 
 /-- The actual first phase is bounded only after its original residue
 identity, and the first-divisor gate is kept in the coefficient. -/
@@ -217,7 +294,34 @@ theorem canonicalRightDivisor_raw_norm_le (j : κ)
     (hi : j ∈ p.rightData.columns) :
     ‖p.rightDivisorCoefficient S χ j * (A.exteriorNorm (p.rightData.ideal j) : ℂ)‖ ≤
       ‖e j‖ * A.exteriorNorm (b.rightResidual j) ^ δ := by
-  sorry
+  by_cases hSj : S.val ∣ (p.rightData.ideal j).val
+  swap
+  · simpa only [rightDivisorCoefficient, if_neg hSj, zero_mul, norm_zero] using
+      (mul_nonneg (norm_nonneg (e j))
+        (Real.rpow_nonneg (A.exteriorNorm_pos (b.rightResidual j)).le δ))
+  have ha : A.IsAllowed C.correction.B
+      (Units.mk0 (b.rightGenerator j : K)
+        (by exact_mod_cast (b.right_generates j).1)) := by
+    have hgen := p.rightData.allowed j hi
+    simpa only [p.right_generator] using hgen
+  have hχ : (fixedRightPhase PUnit χ PUnit.unit : ℂ) = 1 := by
+    change ((fixedRightPhase PUnit χ) (1 : PUnit) : ℂ) = 1
+    rw [map_one, Circle.coe_one]
+  unfold rightDivisorCoefficient
+  rw [if_pos hSj, hχ, mul_one]
+  change ‖(FirstBlockProfileChart.canonicalLogWithCoefficients hΓ μv ν b C left right
+      φ c e finiteTest hlc hcs radius D δ hδ hδhalf).rightCoefficient j *
+    firstRightDivisorFactor
+      (generatedOriginalColumn (σ := σ) hΓ (b.rightResidual j)
+        (b.rightGenerator j) (b.right_generates j))
+      (actualActiveColumn hΓ C b.primes b.primes_injective
+        b.leftMultiplicity b.rightMultiplicity)
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val *
+    (A.exteriorNorm (p.rightData.ideal j) : ℂ)‖ ≤ _
+  rw [FirstBlockProfileChart.canonicalLog_rightSourceCoefficient hΓ μv ν b C
+    left right φ c e finiteTest hlc hcs radius δ hδ hδhalf D j ha, p.right_ideal]
+  exact residue_numerator_norm_le (A.exteriorNorm_pos _) δ (e j) _
+    (actualIdealResidue_norm_le_one C _ _)
 
 /-- The dictionary is computed from this exact source, including its
 original divisor coefficient and finite phase. -/
@@ -292,7 +396,8 @@ variable (χ : (PUnit × PUnit) →* Circle)
 theorem canonicalLeftDivisor_dvd_of_ne_zero (i : ι)
     (hc : p.leftDivisorCoefficient S χ i ≠ 0) :
     S.val ∣ (p.leftData.ideal i).val := by
-  sorry
+  by_contra h
+  exact hc (by simp only [leftDivisorCoefficient, if_neg h])
 
 /-- The actual first phase is bounded only after its original residue
 identity, and the first-divisor gate is kept in the coefficient. -/
@@ -300,7 +405,15 @@ theorem canonicalLeftDivisor_raw_norm_le (i : ι)
     (hi : i ∈ p.leftData.columns) :
     ‖p.leftDivisorCoefficient S χ i * (A.exteriorNorm (p.leftData.ideal i) : ℂ)‖ ≤
       ‖c i‖ * A.exteriorNorm (b.leftResidual i) ^ δ := by
-  sorry
+  by_cases hSi : S.val ∣ (p.leftData.ideal i).val
+  swap
+  · simpa only [leftDivisorCoefficient, if_neg hSi, zero_mul, norm_zero] using
+      (mul_nonneg (norm_nonneg (c i))
+        (Real.rpow_nonneg (A.exteriorNorm_pos (b.leftResidual i)).le δ))
+  rw [p.canonicalLog_leftDivisorCoefficient hΓ μv ν b C left right φ c e
+    finiteTest hlc hcs radius D δ hδ hδhalf S χ i hi hSi, p.left_ideal]
+  exact residue_numerator_norm_le (A.exteriorNorm_pos _) δ (c i) _
+    (actualIdealResidue_norm_le_one C _ _)
 
 /-- The original pool phase has norm one. The numerator retains the
 pre-pool logarithmic tilt, with no new profile or source. -/
@@ -312,12 +425,20 @@ theorem canonicalLeftPool_raw_norm_le
       (A.exteriorNorm (((p.divisorPools.leftData S).residualSource prime n
         (p.leftDivisorCoefficient S χ)).ideal i) : ℂ)‖ ≤
       ‖c i.val‖ * A.exteriorNorm (b.leftResidual i.val) ^ δ := by
-  sorry
+  change ‖(p.divisorPools.leftData S).residualCoefficient prime n
+    (p.leftDivisorCoefficient S χ) i *
+    (A.exteriorNorm ((p.divisorPools.leftData S).residualPresentation prime n i).residual : ℂ)‖ ≤ _
+  rw [FirstGaussPoolData.residualCoefficient_raw_norm, p.divisorPools.left_ideal S]
+  exact p.canonicalLeftDivisor_raw_norm_le hΓ μv ν b C left right φ c e finiteTest
+    hlc hcs radius D δ hδ hδhalf S χ i.val
+    (by simpa only [p.divisorPools.left_columns S] using
+      (Finset.mem_filter.mp i.property).1)
 
 theorem canonicalRightDivisor_dvd_of_ne_zero (j : κ)
     (hc : p.rightDivisorCoefficient S χ j ≠ 0) :
     S.val ∣ (p.rightData.ideal j).val := by
-  sorry
+  by_contra h
+  exact hc (by simp only [rightDivisorCoefficient, if_neg h])
 
 /-- The actual first phase is bounded only after its original residue
 identity, and the first-divisor gate is kept in the coefficient. -/
@@ -325,7 +446,15 @@ theorem canonicalRightDivisor_raw_norm_le (j : κ)
     (hi : j ∈ p.rightData.columns) :
     ‖p.rightDivisorCoefficient S χ j * (A.exteriorNorm (p.rightData.ideal j) : ℂ)‖ ≤
       ‖e j‖ * A.exteriorNorm (b.rightResidual j) ^ δ := by
-  sorry
+  by_cases hSj : S.val ∣ (p.rightData.ideal j).val
+  swap
+  · simpa only [rightDivisorCoefficient, if_neg hSj, zero_mul, norm_zero] using
+      (mul_nonneg (norm_nonneg (e j))
+        (Real.rpow_nonneg (A.exteriorNorm_pos (b.rightResidual j)).le δ))
+  rw [p.canonicalLog_rightDivisorCoefficient hΓ μv ν b C left right φ c e
+    finiteTest hlc hcs radius D δ hδ hδhalf S χ j hi hSj, p.right_ideal]
+  exact residue_numerator_norm_le (A.exteriorNorm_pos _) δ (e j) _
+    (actualIdealResidue_norm_le_one C _ _)
 
 /-- The original pool phase has norm one. The numerator retains the
 pre-pool logarithmic tilt, with no new profile or source. -/
@@ -337,7 +466,14 @@ theorem canonicalRightPool_raw_norm_le
       (A.exteriorNorm (((p.divisorPools.rightData S).residualSource prime n
         (p.rightDivisorCoefficient S χ)).ideal j) : ℂ)‖ ≤
       ‖e j.val‖ * A.exteriorNorm (b.rightResidual j.val) ^ δ := by
-  sorry
+  change ‖(p.divisorPools.rightData S).residualCoefficient prime n
+    (p.rightDivisorCoefficient S χ) j *
+    (A.exteriorNorm ((p.divisorPools.rightData S).residualPresentation prime n j).residual : ℂ)‖ ≤ _
+  rw [FirstGaussPoolData.residualCoefficient_raw_norm, p.divisorPools.right_ideal S]
+  exact p.canonicalRightDivisor_raw_norm_le hΓ μv ν b C left right φ c e finiteTest
+    hlc hcs radius D δ hδ hδhalf S χ j.val
+    (by simpa only [p.divisorPools.right_columns S] using
+      (Finset.mem_filter.mp j.property).1)
 
 /-- The dictionary is computed from this exact source, including its
 original divisor coefficient and finite phase. -/
@@ -377,7 +513,11 @@ theorem canonicalLeftPool_nonzero_pre (prime : ExteriorPrime A) (n : ℕ)
     (i : (p.divisorPools.leftData S).valuationColumns prime n)
     (hc : ((p.divisorPools.leftData S).residualSource prime n (p.leftDivisorCoefficient S χ)).coefficient i ≠ 0) :
     p.leftDivisorCoefficient S χ i.val ≠ 0 := by
-  sorry
+  intro hz
+  apply hc
+  change (p.divisorPools.leftData S).residualCoefficient prime n
+    (p.leftDivisorCoefficient S χ) i = 0
+  rw [FirstGaussPoolData.residualCoefficient_eq, hz, zero_mul, zero_mul]
 
 /-- The pool record remembers the ideal before removal of the full
 prime power. The first divisor is also transported to the post-pool ideal only
@@ -460,7 +600,11 @@ theorem canonicalRightPool_nonzero_pre (prime : ExteriorPrime A) (n : ℕ)
     (j : (p.divisorPools.rightData S).valuationColumns prime n)
     (hc : ((p.divisorPools.rightData S).residualSource prime n (p.rightDivisorCoefficient S χ)).coefficient j ≠ 0) :
     p.rightDivisorCoefficient S χ j.val ≠ 0 := by
-  sorry
+  intro hz
+  apply hc
+  change (p.divisorPools.rightData S).residualCoefficient prime n
+    (p.rightDivisorCoefficient S χ) j = 0
+  rw [FirstGaussPoolData.residualCoefficient_eq, hz, zero_mul, zero_mul]
 
 /-- The pool record remembers the ideal before removal of the full
 prime power. The first divisor is also transported to the post-pool ideal only

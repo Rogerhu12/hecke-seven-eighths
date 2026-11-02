@@ -108,7 +108,24 @@ theorem literalLeftDirectAtoms_primeAtomCost_le
     (literalLeftDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).primeAtomCost i prime ≤ bound ^ 2 := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let T := (p.leftSourceCover (raw).originalAtlas S χ).branch label
+  have e := literalLeftDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  change (input.onAtlas T (congrArg Sigma.fst e).symm).primeAtomCost i prime ≤ bound ^ 2
+  rw [CanonicalLiteralRectangles.Atoms.primeAtomCost_onAtlas]
+  exact Q.literalOriginalAtoms_secondInput_primeAtomCost_le ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ profiles hzero ht branch (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A) _ 1 _ hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ hδ _ prime
 
 /-- The real first common ideal is retained in the proof. The direct
 power is the unit ideal, so its original scalar has a fixed cost. -/
@@ -119,7 +136,19 @@ theorem literalLeftDirectScalar_norm_le
     ‖literalLeftDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let I := primePowerProduct b.primes b.leftMultiplicity
+  have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
+      branch.keep branch.witness.2 = I.val :=
+    (branch.frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.1 label)).trans
+        b.common_left.symm
+  exact Q.literalOriginalAtoms_firstScalar_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    C profiles hzero ht annulus hannulus hwindow cap hcap branch I (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    δ₁ hδ₁half hfrozen (by change (1 : Ideal (𝓞 K)) ∣ I.val; exact one_dvd _)
 
 /-- Every original common or frozen occurrence of this actual table
 has cost at most the square of the original profile control. -/
@@ -136,7 +165,24 @@ theorem literalRightDirectAtoms_primeAtomCost_le
     (literalRightDirectAtoms hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
       firstFixed hfirst δ₂ label).primeAtomCost i prime ≤ bound ^ 2 := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let T := (p.rightSourceCover (raw).originalAtlas S χ).branch label
+  have e := literalRightDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  let input := (seed).secondInput (σ := σ) branch P R (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂
+  change (input.onAtlas T (congrArg Sigma.fst e).symm).primeAtomCost i prime ≤ bound ^ 2
+  rw [CanonicalLiteralRectangles.Atoms.primeAtomCost_onAtlas]
+  exact Q.literalOriginalAtoms_secondInput_primeAtomCost_le ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ profiles hzero ht branch (unitExterior A) firstFixed
+    (unitExterior A) (unitExterior A) _ 1 _ hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ hδ _ prime
 
 /-- The real first common ideal is retained in the proof. The direct
 power is the unit ideal, so its original scalar has a fixed cost. -/
@@ -147,7 +193,19 @@ theorem literalRightDirectScalar_norm_le
     ‖literalRightDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label‖ ≤
       Real.sqrt ((CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap) := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let I := primePowerProduct b.primes b.rightMultiplicity
+  have hfrozen : frozenSourceIdeal branch.plainDivisor₁ branch.plainDivisor₂
+      branch.keep branch.witness.2 = I.val :=
+    (branch.frozenSourceIdeal_eq.trans
+      ((raw).originalAtlas.branch_product (primeSupport DE.1) DE.2 label)).trans
+        b.common_right.symm
+  exact Q.literalOriginalAtoms_firstScalar_norm_le ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    C profiles hzero ht annulus hannulus hwindow cap hcap branch I (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes
+      b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    δ₁ hδ₁half hfrozen (by change (1 : Ideal (𝓞 K)) ∣ I.val; exact one_dvd _)
 
 /-- The two actual first constants are charged together, once in the
 row profile. The constant depends only on the original annulus,
@@ -162,7 +220,15 @@ theorem literalDirectScalars_pair_norm_le
       ‖literalRightDirectScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ rightLabel‖ ≤
         (CanonicalLiteralFirstScalarCost.atomBudget annulus bound) ^ cap := by
-  sorry
+  have hL := literalLeftDirectScalar_norm_le hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    profiles hzero ht annulus hannulus hwindow cap hcap leftLabel
+  have hR := literalRightDirectScalar_norm_le hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered
+    hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    profiles hzero ht annulus hannulus hwindow cap hcap rightLabel
+  exact (mul_le_mul hL hR (norm_nonneg _) (Real.sqrt_nonneg _)).trans_eq
+    (Real.mul_self_sqrt (pow_nonneg
+      (zero_le_one.trans (CanonicalLiteralFirstScalarCost.atomBudget_one annulus bound)) cap))
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

@@ -126,7 +126,12 @@ theorem literalCharacter_reweighted
     CanonicalLiteralAllocatedData.rowCharacter P R F oldMoving correction C T.primes
       T.leftMultiplicity T.rightMultiplicity pattern ν (T.extractedRow C h).momentIdeal =
       S.literalCharacter C P R F oldMoving correction pattern ν h.val := by
-  sorry
+  let T₁ := { S with weight := weight }
+  let T₂ := T₁.restrictRows keep₁
+  let h₁ : T₂.live := T₂.liveInclusion keep₂ h
+  let h₀ : S.live := T₁.liveInclusion keep₁ h₁
+  rw [literalCharacter, dif_pos h₀.property]
+  rfl
 
 end ActualSecondCorrelationRows
 end HeckeSkeleton.Moments.EngineStep

@@ -38,7 +38,8 @@ theorem slotCoefficient_cast {d₁ d₂ : MomentData K ω ψ} (e : d₁ = d₂)
     (i : Fin d₁.geometry.slotCount) :
     d₁.slotCoefficient i = d₂.slotCoefficient
       (Fin.cast (congrArg (fun d : MomentData K ω ψ => d.geometry.slotCount) e) i) := by
-  sorry
+  cases e
+  rfl
 
 section LiteralData
 
@@ -98,11 +99,19 @@ include hdata
 
 theorem frozen_plainBackground_eq_parent (ξ : WithLp 2 (ℝ × ℝ)) :
     (out.frozenData ξ).plainBackground = parent.plainBackground := by
-  sorry
+  calc
+    _ = (D.data ξ).plainBackground := out.frozen_plainBackground_eq ξ
+    _ = (literalData ξ).plainBackground :=
+      congrArg (fun raw : MomentData K ω ψ => raw.plainBackground) (hdata ξ)
+    _ = parent.plainBackground := rfl
 
 theorem frozen_theta_eq_parent (ξ : WithLp 2 (ℝ × ℝ)) :
     (out.frozenData ξ).theta = parent.theta := by
-  sorry
+  calc
+    _ = (D.data ξ).theta := out.frozen_theta_eq ξ
+    _ = (literalData ξ).theta :=
+      congrArg (fun raw : MomentData K ω ψ => raw.theta) (hdata ξ)
+    _ = parent.theta := rfl
 
 /-- Neither the negative Fourier side nor profile normalization inverts
 the actual literal slot character. -/
@@ -112,26 +121,47 @@ theorem frozen_slotCoefficient_eq_parent (ξ : WithLp 2 (ℝ × ℝ))
       (selectedOriginalIndex P R W B F parent oldMoving correction hcorr C p
         leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
         rectangle firstSign negative out hdata ξ i) := by
-  sorry
+  calc
+    _ = (D.data ξ).slotCoefficient (selectedSlotIndex
+        (lengthSelection (G.normalizedData ξ) source.allocation.keep.card
+          (G.normalizedData_count ξ) (Finset.univ \ out.removed)) i) :=
+      out.frozen_slotCoefficient_eq ξ i
+    _ = (literalData ξ).slotCoefficient (Fin.cast
+        (congrArg (fun raw : MomentData K ω ψ => raw.geometry.slotCount) (hdata ξ))
+        (selectedSlotIndex
+          (lengthSelection (G.normalizedData ξ) source.allocation.keep.card
+            (G.normalizedData_count ξ) (Finset.univ \ out.removed)) i)) :=
+      slotCoefficient_cast (hdata ξ) _
+    _ = _ := rfl
 
 /-- Any property of the original slots passes along the same index. -/
 theorem frozen_slot_property (property : HeckeCharacter K → Prop)
     (hproperty : ∀ i, property (parent.slotCoefficient i))
     (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin (out.frozenData ξ).geometry.slotCount) :
     property ((out.frozenData ξ).slotCoefficient i) := by
-  sorry
+  rw [frozen_slotCoefficient_eq_parent P R W B F parent oldMoving correction hcorr C p
+    leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
+    rectangle firstSign negative out hdata ξ i]
+  exact hproperty _
 
 theorem frozen_slot_inverse_mem_parent
     (hinverse : ∀ i, (parent.slotCoefficient i)⁻¹ ∈ parent.theta)
     (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin (out.frozenData ξ).geometry.slotCount) :
-    ((out.frozenData ξ).slotCoefficient i)⁻¹ ∈ parent.theta := by
-  sorry
+    ((out.frozenData ξ).slotCoefficient i)⁻¹ ∈ parent.theta :=
+  frozen_slot_property P R W B F parent oldMoving correction hcorr C p
+    leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
+    rectangle firstSign negative out hdata (fun χ => χ⁻¹ ∈ parent.theta) hinverse ξ i
 
 theorem frozen_slot_inverse_mem_theta
     (hinverse : ∀ i, (parent.slotCoefficient i)⁻¹ ∈ parent.theta)
     (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin (out.frozenData ξ).geometry.slotCount) :
     ((out.frozenData ξ).slotCoefficient i)⁻¹ ∈ (out.frozenData ξ).theta := by
-  sorry
+  rw [frozen_theta_eq_parent P R W B F parent oldMoving correction hcorr C p
+    leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
+    rectangle firstSign negative out hdata ξ]
+  exact frozen_slot_inverse_mem_parent P R W B F parent oldMoving correction hcorr C p
+    leftMultiplicity rightMultiplicity pattern ν remaining extra m q inverse index
+    rectangle firstSign negative out hdata hinverse ξ i
 
 end SelectedChild
 end LiteralData

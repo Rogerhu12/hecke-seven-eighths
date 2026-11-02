@@ -70,20 +70,16 @@ def literalRightCoordinates (D : Finset (HeightOneSpectrum A.R)) :
     (b.literalLeftCoordinates D).complementary
 
 @[simp] theorem literalLeftCoordinates_first (D : Finset (HeightOneSpectrum A.R)) :
-    (b.literalLeftCoordinates D).first.val = DE.1 := by
-  sorry
+    (b.literalLeftCoordinates D).first.val = DE.1 := b.common_left
 
 @[simp] theorem literalLeftCoordinates_opposite (D : Finset (HeightOneSpectrum A.R)) :
-    (b.literalLeftCoordinates D).opposite.val = DE.2 := by
-  sorry
+    (b.literalLeftCoordinates D).opposite.val = DE.2 := b.common_right
 
 @[simp] theorem literalRightCoordinates_first (D : Finset (HeightOneSpectrum A.R)) :
-    (b.literalRightCoordinates D).first.val = DE.2 := by
-  sorry
+    (b.literalRightCoordinates D).first.val = DE.2 := b.common_right
 
 @[simp] theorem literalRightCoordinates_opposite (D : Finset (HeightOneSpectrum A.R)) :
-    (b.literalRightCoordinates D).opposite.val = DE.1 := by
-  sorry
+    (b.literalRightCoordinates D).opposite.val = DE.1 := b.common_left
 
 @[simp] theorem literalLeftCoordinates_complementary (D : Finset (HeightOneSpectrum A.R)) :
     (b.literalLeftCoordinates D).complementary.val = (firstPhysicalDivisorIdeal D).val := rfl
@@ -95,7 +91,12 @@ theorem literalRightCoordinates_firstFrequency
     (D : Finset (HeightOneSpectrum A.R)) (a : RealParameters) (Z : ℝ) :
     (b.literalRightCoordinates D).firstFrequency a Z =
       (b.literalLeftCoordinates D).firstFrequency a Z := by
-  sorry
+  simp only [OriginalNominalIdeals.firstFrequency,
+    b.literalLeftCoordinates_first, b.literalLeftCoordinates_opposite,
+    b.literalRightCoordinates_first, b.literalRightCoordinates_opposite,
+    b.literalLeftCoordinates_complementary, b.literalRightCoordinates_complementary,
+    firstActiveRadical_swap_of_support DE.1 DE.2 b.common_support_eq]
+  ring
 
 /-- The actual fixed first phase needs no chosen ideal or generator
 identity from the caller. -/
@@ -114,16 +115,22 @@ theorem literalLeftFixed_generates (C : A.GeneralArithmeticContext σ η hS)
     A.Generates (b.literalLeftFixed D)
       (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity
         b.rightMultiplicity
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) := by
-  sorry
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) :=
+  CanonicalLiteralFirstPhase.leftElement_generates C b.primes b.leftMultiplicity
+    b.rightMultiplicity (firstPhysicalDivisorIdeal D) _
+    (originalFrequencyIdeal_generates _
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).property)
 
 theorem literalRightFixed_generates (C : A.GeneralArithmeticContext σ η hS)
     (D : Finset (HeightOneSpectrum A.R)) :
     A.Generates (b.literalRightFixed D)
       (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity
         b.rightMultiplicity
-        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) := by
-  sorry
+        (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val) :=
+  CanonicalLiteralFirstPhase.rightElement_generates C b.primes b.leftMultiplicity
+    b.rightMultiplicity (firstPhysicalDivisorIdeal D) _
+    (originalFrequencyIdeal_generates _
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).property)
 
 end FirstCommonCharacterBlock
 

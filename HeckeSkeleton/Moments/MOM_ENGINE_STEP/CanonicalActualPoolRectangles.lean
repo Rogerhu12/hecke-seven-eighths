@@ -44,11 +44,18 @@ def combinedCommon (D : A.Exterior) (p : ExteriorPrime A) (n : ℕ) : A.Exterior
 theorem combinedCommon_support (D : A.Exterior) (p : ExteriorPrime A)
     (n : ℕ) (hn : 0 < n) :
     primeSupport (combinedCommon D p n).val = primeSupport D.val ∪ {p.val.asIdeal} := by
-  sorry
+  change (normalizedFactors (D.val * p.val.asIdeal ^ n)).toFinset = _
+  rw [normalizedFactors_mul D.property.1 (pow_ne_zero n p.val.ne_bot),
+    Multiset.toFinset_add, p.val.irreducible.normalizedFactors_pow, normalize_eq,
+    Multiset.toFinset_replicate, if_neg (Nat.ne_of_gt hn)]
+  rfl
 
 theorem prime_dvd_combinedCommon (D : A.Exterior) (p : ExteriorPrime A)
     (n : ℕ) (hn : 0 < n) : p.val.asIdeal ∣ (combinedCommon D p n).val := by
-  sorry
+  apply (prime_mem_support_iff_dvd p.val.asIdeal _ p.val.prime
+    (combinedCommon D p n).property.1).mp
+  rw [combinedCommon_support D p n hn]
+  exact Finset.mem_union_right _ (Finset.mem_singleton_self _)
 
 section ResidualCoprimality
 
@@ -62,7 +69,10 @@ because each residual is the actual support complement. -/
 theorem residual_coprime_common (i : AllocationColumn K b.keep.card)
     (hi : i ∈ b.residualColumns) :
     IsCoprime (allocationColumnIdeal i) common.val := by
-  sorry
+  have hr := b.residual_ideal (b.reconstruct i) (b.reconstruct_mem i hi)
+  rw [b.residual_reconstruct i hi] at hr
+  rw [← hr]
+  exact CanonicalCommonColumnMask.residual_coprime common _
 
 end ResidualCoprimality
 
@@ -174,7 +184,8 @@ theorem poolDictionary_coefficient (i : AllocationColumn K k) :
     (poolDictionary parent correction «prefix» remaining index hroot hemb C p n
       side χ S₁ S₂ S F J hJ witness hwitness hcop).coefficient i =
       F.coefficient i * (E).residueHom (σ := σ) (allocationColumnIdeal i) := by
-  sorry
+  exact (CanonicalSecondRectangularFactors.rectangle_mul_ideal_weight
+    ((E).residueHom (σ := σ)) F.leftAtom F.rightAtom F.slotAtom i).symm
 
 end PoolTable
 
@@ -250,7 +261,16 @@ theorem originalPoolCoefficient_eq (comparison : Bool)
           C primes m n firstRight δ tilt ξ *
         (originalPoolDictionary Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
           C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ comparison).coefficient i := by
-  sorry
+  rw [originalPoolCoefficient, originalPoolScalar, originalPoolDictionary,
+    poolDictionary_coefficient, map_mul, hJ i hi]
+  have h := firstResidualTerm_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S common b C primes m n
+    firstRight δ tilt ξ hroot hemb J hJ hactive side χ comparison i hi
+  change _ * M₁ (allocationColumnIdeal i) = _ at h
+  calc
+    _ = ((Q.originalTermDictionary x W a Z t Y₁ Y₂ .left 1 S₁ S₂ S comparison).coefficient (b.reconstruct i) * M₁ (allocationColumnIdeal i)) *
+        M₁ (powerIdeal p v).val * (LocalFiniteSums.Q p : ℂ) ^ v *
+          (Epool).residueHom (σ := σ) (allocationColumnIdeal i) := by ring
+    _ = _ := by rw [h]; ring
 
 variable [IsPrincipalIdealRing A.R]
 variable {H ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -284,7 +304,18 @@ local notation "H₂" => fun comparison : Bool =>
 private theorem pool_plain_product (comparison : Bool)
     (hproduct : comparison = true → Y₁ * Y₂ = Z ^ a.n₁ * Z ^ a.n₂) :
     G₁ * G₂ = H₁ comparison * H₂ comparison := by
-  sorry
+  cases comparison with
+  | false => rfl
+  | true =>
+    change G₁ * G₂ =
+      (Y₁ / idealNorm K b.plainDivisor₁ / idealNorm K b₂.plainDivisor₁) *
+        (Y₂ / idealNorm K b.plainDivisor₂ / idealNorm K b₂.plainDivisor₂)
+    simp only [div_eq_mul_inv]
+    calc
+      _ = (Z ^ a.n₁ * Z ^ a.n₂) *
+          ((idealNorm K b.plainDivisor₁)⁻¹ * (idealNorm K b₂.plainDivisor₁)⁻¹ *
+            (idealNorm K b.plainDivisor₂)⁻¹ * (idealNorm K b₂.plainDivisor₂)⁻¹) := by ring
+      _ = _ := by rw [← hproduct rfl]; ring
 
 /-- The actual pool source supplies a full second rectangle. The only
 new scalar is the explicit original prime-power scalar proved above.
@@ -354,7 +385,7 @@ theorem originalPoolSecondCommonScalar_eq (comparison : Bool) :
           (Q.remaining * exteriorMomentIdeal common) idx)
         (poolTable comparison).base (poolTable comparison).length
         (poolTable comparison).slotWeight * weight₂ secondCommon.val := by
-  sorry
+  cases comparison <;> rfl
 
 def originalPoolSecondCoreCoefficient (comparison : Bool)
     (i : AllocationColumn K b₂.keep.card) : ℂ :=
@@ -380,7 +411,19 @@ theorem originalPoolSecondSource_to_core
         originalPoolSecondCoreCoefficient Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
           C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ
           secondCommon b₂ J₂ secondTilt comparison i := by
-  sorry
+  rw [originalPoolCoefficient_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
+      C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ comparison
+      (b₂.reconstruct i) (b₂.original_subset (b₂.reconstruct_mem i hi)),
+    originalSourceModulus x S₁ S₂ S common b J hJ secondCommon b₂ J₂ hJ₂ hcommon i hi,
+    originalPoolSecondCommonScalar_eq Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
+      C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ
+      secondCommon b₂ secondTilt comparison]
+  have h := second_original_to_core (data x) Q.correction prefix
+    (Q.remaining * exteriorMomentIdeal common) idx hroot hemb side χ (poolTable comparison)
+    b₂ secondCommon poolScalar secondTilt J₂ hJ₂ i hi
+  rw [secondResidualCoreDictionary_coefficient] at h
+  · exact h
+  · exact hi
 
 /-- The source used after that exact reweighting has a constructed
 rectangle with the same original total normalization scale. -/
@@ -469,7 +512,11 @@ theorem originalPoolSecondCoreComparison_coefficient
         originalPoolSecondCoreCoefficient Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
           C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ
           secondCommon b₂ J₂ secondTilt true i := by
-  sorry
+  rw [SecondCoefficientComparison.centeredCoefficient,
+    originalPoolSecondCoreComparison_dictionary]
+  exact congrArg₂ (fun z w : ℂ => z - w)
+    ((coreFactor false (by simp)).coefficient_factor i hi).symm
+    ((coreFactor true (fun _ => hcomparison)).coefficient_factor i hi).symm
 
 /-- Both complete original pool rectangles share the very same scalar
 before Cauchy. Their full difference is retained in the core comparison. -/
@@ -486,7 +533,16 @@ theorem originalPoolSecondSource_centered_to_core
         (coreComparison hcomparison).centeredCoefficient
           (Real.sqrt G₁ : ℂ)⁻¹ (Real.sqrt G₂ : ℂ)⁻¹
           (fun j => (Real.sqrt (Gslots j) : ℂ)⁻¹) i := by
-  sorry
+  rw [originalPoolSecondSource_to_core Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
+      C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ
+      secondCommon b₂ J₂ hJ₂ secondTilt hcommon false i hi,
+    originalPoolSecondSource_to_core Q x W a Z t Y₁ Y₂ S₁ S₂ S firstCommon p v hv b
+      C primes m n firstRight δ tilt ξ hroot hemb J hJ hactive side χ
+      secondCommon b₂ J₂ hJ₂ secondTilt hcommon true i hi,
+    originalPoolSecondCoreComparison_coefficient Q x W a Z t Y₁ Y₂
+      S₁ S₂ S firstCommon p v hv b C primes m n firstRight δ tilt ξ hroot hemb
+      J hJ hactive side χ rows secondCommon b₂ J₂ hJ₂ secondTilt rowOffset hZ hcomparison i hi,
+    mul_sub]
 
 end ActualOriginalPool
 

@@ -45,13 +45,22 @@ def powerSchwartz (window : Set ℝ) (hcompact : IsCompact window)
     (φ : 𝓢(ℝ, ℂ)) (hsupport : tsupport φ ⊆ window) (y : ℝ) :
     powerSchwartz window hcompact hpositive c exponent φ hsupport y =
       c * (φ y * (y ^ exponent : ℂ)) := by
-  sorry
+  simp only [powerSchwartz, SchwartzMap.smul_apply, smul_eq_mul,
+    CanonicalLogProfiles.Atom.schwartz_apply, CanonicalLogProfiles.Atom.multiplier,
+    powerAtom, one_mul, jointPhase, inner_zero_left, AddChar.map_zero_eq_one,
+    Circle.coe_one, mul_one]
 
 theorem powerSchwartz_support (window : Set ℝ) (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (c : ℂ) (exponent : ℝ)
     (φ : 𝓢(ℝ, ℂ)) (hsupport : tsupport φ ⊆ window) :
     tsupport (powerSchwartz window hcompact hpositive c exponent φ hsupport) ⊆ window := by
-  sorry
+  have he : (powerSchwartz window hcompact hpositive c exponent φ hsupport : ℝ → ℂ) =
+      fun y => φ y * (c * (y ^ exponent : ℂ)) := by
+    funext y
+    rw [powerSchwartz_apply]
+    ring
+  rw [he]
+  exact tsupport_mul_subset_left.trans hsupport
 
 /-- Its coefficient and required original orders are fixed by the
 annulus, real power and target orders before the original profile. -/
@@ -62,7 +71,12 @@ theorem powerSchwartz_finset_bound (window : Set ℝ) (hcompact : IsCompact wind
         (powerSchwartz window hcompact hpositive c exponent φ hsupport) ≤
       ‖c‖ * CanonicalLogProfiles.shapeCoefficient window hcompact hpositive exponent s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) φ := by
-  sorry
+  have h := (powerAtom exponent).schwartz_finset_bound
+    window hcompact hpositive s 0 φ hsupport
+  simp only [CanonicalLogProfiles.Atom.profileCoefficient, powerAtom, norm_zero,
+    Real.one_rpow, mul_zero, add_zero, one_pow, mul_one] at h
+  rw [powerSchwartz, map_smul_eq_mul]
+  exact (mul_le_mul_of_nonneg_left h (norm_nonneg c)).trans_eq (by ring)
 
 end CanonicalLiteralSchwartzProfiles
 
@@ -151,13 +165,13 @@ def balancePlain (c : Bool → ℝ) : (W.balancePlain c).SchwartzModel window wh
 
 theorem balancePlain_left_seminorm (c : Bool → ℝ) (r : Bool) (s : Finset (ℕ × ℕ)) :
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((E.balancePlain c).left r) =
-      ‖(c r : ℂ)‖ * s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) := by
-  sorry
+      ‖(c r : ℂ)‖ * s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) :=
+  map_smul_eq_mul _ _ _
 
 theorem balancePlain_right_seminorm (c : Bool → ℝ) (r : Bool) (s : Finset (ℕ × ℕ)) :
     s.sup (schwartzSeminormFamily ℂ ℝ ℂ) ((E.balancePlain c).right r) =
-      ‖(c r : ℂ)⁻¹‖ * s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) := by
-  sorry
+      ‖(c r : ℂ)⁻¹‖ * s.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) :=
+  map_smul_eq_mul _ _ _
 
 /-- A transport for literal individual profile identities. The
 following `secondInput` constructor supplies these identities from the
@@ -270,8 +284,9 @@ theorem secondInput_left_seminorm_le (hcompact : IsCompact window)
           ((d.extract b).scale₁ false) ((d.extract b).scale₁ r) δ₁ δ₂ : ℂ)‖ *
         CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
           (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
-        (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) := by
-  sorry
+        (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) :=
+  CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound
+    window hcompact hpositive _ _ s _ (E.left_support r)
 
 theorem secondInput_right_seminorm_le (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (r : Bool) (s : Finset (ℕ × ℕ)) :
@@ -282,8 +297,9 @@ theorem secondInput_right_seminorm_le (hcompact : IsCompact window)
         ((d.extract b).scale₂ false) ((d.extract b).scale₂ r) δ₁ δ₂ : ℂ)‖ *
         CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
           (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
-        (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) := by
-  sorry
+        (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) :=
+  CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound
+    window hcompact hpositive _ _ s _ (E.right_support r)
 
 theorem secondInput_slot_seminorm_le (hcompact : IsCompact window)
     (hpositive : window ⊆ Set.Ioi 0) (j : Fin b.keep.card) (s : Finset (ℕ × ℕ)) :
@@ -296,8 +312,9 @@ theorem secondInput_slot_seminorm_le (hcompact : IsCompact window)
         CanonicalLogProfiles.shapeCoefficient window hcompact hpositive
           (CanonicalLiteralProfileScalars.exponent δ₁ δ₂) s *
         (CanonicalLogProfiles.sourceOrders s).sup (schwartzSeminormFamily ℂ ℝ ℂ)
-          (E.slot (SlotRestriction.index b.keep j)) := by
-  sorry
+          (E.slot (SlotRestriction.index b.keep j)) :=
+  CanonicalLiteralSchwartzProfiles.powerSchwartz_finset_bound
+    window hcompact hpositive _ _ s _ (E.slot_support (SlotRestriction.index b.keep j))
 
 end SchwartzModel
 end CanonicalLiteralRectangles.Atoms.ProfileData
@@ -359,7 +376,17 @@ theorem literalOriginalSchwartzModel_bound (ξ : X)
     (∀ r, seminorms.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.left r) ≤ bound) ∧
       (∀ r, seminorms.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.right r) ≤ bound) ∧
       (∀ j, seminorms.sup (schwartzSeminormFamily ℂ ℝ ℂ) (E.slot j) ≤ bound) := by
-  sorry
+  refine ⟨?_, ?_, ?_⟩
+  · intro r
+    change seminorms.sup (schwartzSeminormFamily ℂ ℝ ℂ)
+      (if r && !centered then 0 else original.leftRep reference t) ≤ bound
+    split_ifs
+    · simpa only [map_zero] using hbound
+    · exact original.left_bound reference hreference t ht
+  · intro r
+    exact original.right_bound reference hreference t ht
+  · intro j
+    exact original.prime_bound j t ht
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

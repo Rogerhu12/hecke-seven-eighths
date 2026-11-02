@@ -44,7 +44,8 @@ variable {K : Type} [Field K] [NumberField K]
 
 private theorem original_first_atom_norm_le (c f : ℂ) (B : ℝ)
     (hc : ‖c‖ ≤ 1) (hf : ‖f‖ ≤ B) : ‖c * f‖ ≤ B := by
-  sorry
+  rw [norm_mul]
+  simpa only [one_mul] using mul_le_mul hc hf (norm_nonneg _) zero_le_one
 
 namespace ParentConstantAtoms
 
@@ -70,7 +71,22 @@ theorem original_profile_bounds_of_column
     (∀ x, ‖atoms.leftProfile x‖ ≤ B) ∧
       (∀ x, ‖atoms.rightProfile x‖ ≤ B) ∧
       (∀ i x, ‖(d.geometry.slots i).profile t x‖ ≤ B) := by
-  sorry
+  have hm := Finset.mem_product.mp hv
+  have hplain := Finset.mem_product.mp hm.1
+  obtain ⟨u, hu, _⟩ := Finset.mem_biUnion.mp hplain.1
+  refine ⟨?_, ?_, ?_⟩
+  · intro x
+    rw [← atoms.left_profile u hu, profiles.left_eq]
+    exact (OriginalProfileAtomBounds.norm_le_profileOrders orders (profiles.leftRep u t) x).trans
+      (profiles.left_bound u (hrows u hu) t ht)
+  · intro x
+    rw [← atoms.right_profile u hu, profiles.right_eq]
+    exact (OriginalProfileAtomBounds.norm_le_profileOrders orders (profiles.rightRep u t) x).trans
+      (profiles.right_bound u (hrows u hu) t ht)
+  · intro i x
+    rw [profiles.prime_eq]
+    exact (OriginalProfileAtomBounds.norm_le_profileOrders orders (profiles.primeRep i t) x).trans
+      (profiles.prime_bound i t ht)
 
 /-- The original arithmetic and profile atoms prove the whole
 coefficient window. Both rectangles retain their central factors and
@@ -86,7 +102,15 @@ theorem coefficient_norm_le_raw_profile_window
     (v : (atoms.raw Y₁ Y₂).Column) (hv : v ∈ (atoms.raw Y₁ Y₂).columns) :
     ‖(atoms.values Y₁ Y₂).coefficient centered v‖ ≤
       (2 * B ^ (cap + 2)) * Z ^ (-(a.n₁ + a.n₂ + d.geometry.totalLength) / 2) := by
-  sorry
+  obtain ⟨hleft, hright, hprime⟩ := atoms.original_profile_bounds_of_column profiles hrows ht v hv
+  exact atoms.coefficient_norm_le_original_central_cap cap hcap B hB hZ
+    (fun comparison I _ => original_first_atom_norm_le _ _ B (hleftArithmetic I)
+      (hleft (idealNorm K I / (if comparison then Y₁ else Z ^ a.n₁))))
+    (fun comparison I _ => original_first_atom_norm_le _ _ B (hrightArithmetic I)
+      (hright (idealNorm K I / (if comparison then Y₂ else Z ^ a.n₂))))
+    (fun i p _ => original_first_atom_norm_le _ _ B (hprimeArithmetic i p)
+      (hprime i ((Ideal.absNorm p.asIdeal : ℝ) / Z ^ (d.geometry.slots i).length)))
+    centered hY₁ hcomparison v hv
 
 end OriginalProfiles
 end ParentConstantAtoms
@@ -269,8 +293,10 @@ theorem coefficient_norm_le_raw_profile_window
     (hv : v ∈ (((Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t).raw Y₁ Y₂).columns) :
     ‖(((Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t).values Y₁ Y₂).coefficient centered v‖ ≤
       (2 * B ^ (cap + 2)) *
-        Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) / 2) := by
-  sorry
+        Z ^ (-(a.n₁ + a.n₂ + (data ξ).geometry.totalLength) / 2) :=
+  ((Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t).coefficient_norm_le_raw_profile_window
+    profiles (Q.arithmeticAtoms_left_norm_le_one ξ) (Q.arithmeticAtoms_right_norm_le_one ξ)
+    (Q.arithmeticAtoms_prime_norm_le_one ξ) cap hcap hB hZ hrows ht centered hY₁ hcomparison v hv
 
 section FirstWindows
 

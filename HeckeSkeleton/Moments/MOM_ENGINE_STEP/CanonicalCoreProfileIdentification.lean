@@ -42,13 +42,21 @@ theorem phase_pair (slope secondSlope x y ξ ζ : ℝ) :
     jointPhase (WithLp.toLp 2 (ξ, ζ))
         (x • firstDirection slope + y • secondDirection secondSlope) =
       jointPhase ξ (slope * x) * jointPhase ζ (secondSlope * y) := by
-  sorry
+  have he : x • firstDirection slope + y • secondDirection secondSlope =
+      WithLp.toLp 2 (slope * x, secondSlope * y) := by
+    apply (WithLp.ofLp_injective 2)
+    change (x * slope + y * 0, x * 0 + y * secondSlope) =
+      (slope * x, secondSlope * y)
+    ext <;> ring
+  rw [he, jointPhase_toLp_pair]
 
 theorem normLogWeight_nonzero (exponent ξ slope : ℝ) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     normLogWeight exponent ξ slope I.val =
       ((idealNorm K I ^ exponent : ℝ) : ℂ) *
         jointPhase ξ (slope * Real.log (idealNorm K I)) := by
-  sorry
+  simp only [normLogWeight, MonoidHom.mul_apply,
+    CanonicalSecondRectangularFactors.normPower, logPhaseHom,
+    MonoidHom.coe_mk, OneHom.coe_mk, if_neg (nonZeroDivisors.coe_ne_zero I)] <;> rfl
 
 theorem normPower_nonzero (exponent : ℝ) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     CanonicalSecondRectangularFactors.normPower exponent I.val =
@@ -56,13 +64,15 @@ theorem normPower_nonzero (exponent : ℝ) (I : HeckeGeneral.Analysis.NonzeroIde
 
 private theorem norm_mul (D I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     idealNorm K (D * I) = idealNorm K D * idealNorm K I := by
-  sorry
+  change (Ideal.absNorm (D.val * I.val) : ℝ) = _
+  rw [map_mul, Nat.cast_mul] <;> rfl
 
 /-- Both quotients reconstruct the same original profile argument. -/
 theorem twice_quotient_norm_ratio (D₁ D₂ I : HeckeGeneral.Analysis.NonzeroIdeal K) (N : ℝ) :
     idealNorm K (D₁ * (D₂ * I)) / N =
       idealNorm K I / (N / idealNorm K D₁ / idealNorm K D₂) := by
-  sorry
+  rw [quotient_norm_ratio D₂ I (N / idealNorm K D₁),
+    quotient_norm_ratio D₁ (D₂ * I) N]
 
 /-- This function is the literal field of the computed core table.
 The earlier common norm remains inside the first inverse norm. -/
@@ -89,7 +99,16 @@ theorem rawPlainWeight_eq_clipped
           (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ))
           (idealNorm K I / (N / idealNorm K D₁ / idealNorm K D₂)) := by
-  sorry
+  have hG : 0 < N / idealNorm K D₁ / idealNorm K D₂ :=
+    div_pos (div_pos hN (idealNorm_pos K D₁)) (idealNorm_pos K D₂)
+  have hc := clipped_multiplier_identity
+    (N / idealNorm K D₁ / idealNorm K D₂) (idealNorm K D₂) (idealNorm K I)
+    B δ₁ δ₂ hG (one_le_idealNorm K D₂) (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ W hW
+    (firstDirection slope) (secondDirection secondSlope) (WithLp.toLp 2 (ξ, ζ))
+  rw [phase_pair] at hc
+  simp only [rawPlainWeight, normLogWeight_nonzero, normPower_nonzero,
+    norm_mul D₂ I, twice_quotient_norm_ratio]
+  convert hc using 1 <;> simp only [Complex.ofReal_mul] <;> ring
 
 def rawPrimeWeight (W : ℝ → ℂ) (N δ₁ δ₂ ξ slope : ℝ)
     (p : HeightOneSpectrum (𝓞 K)) : ℂ :=
@@ -106,7 +125,18 @@ theorem rawPrimeWeight_eq_clipped
       ((clippedScalar N 1 B δ₁ δ₂ : ℂ) * W ((Ideal.absNorm p.asIdeal : ℝ) / N)) *
         (atom N 1 δ₁ δ₂ (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ)) ((Ideal.absNorm p.asIdeal : ℝ) / N) := by
-  sorry
+  let I : HeckeGeneral.Analysis.NonzeroIdeal K := ⟨p.asIdeal, mem_nonZeroDivisors_of_ne_zero p.ne_bot⟩
+  have hc := clipped_multiplier_identity N 1 (idealNorm K I) B δ₁ δ₂ hN le_rfl
+    (one_le_idealNorm K I) hB hδ₁ hδ₂ hδ W hW
+    (firstDirection slope) (secondDirection secondSlope) (WithLp.toLp 2 (ξ, ζ))
+  rw [phase_pair] at hc
+  simp only [one_mul] at hc
+  have hl := normLogWeight_nonzero (δ₁ - 1) ξ slope I
+  have hp := normPower_nonzero δ₂ I
+  change normLogWeight (δ₁ - 1) ξ slope p.asIdeal = _ at hl
+  change CanonicalSecondRectangularFactors.normPower δ₂ p.asIdeal = _ at hp
+  rw [rawPrimeWeight, hl, hp]
+  convert hc using 1 <;> simp only [Complex.ofReal_mul] <;> ring
 
 /-- The first Fourier mode can be moved to an original location before
 any capacity child is selected. The remaining coefficient is fixed. -/
@@ -115,14 +145,23 @@ theorem rawPlainWeight_eq_zero_mul_phase
     rawPlainWeight W N D₁ D₂ δ₁ δ₂ ξ slope I =
       rawPlainWeight W N D₁ D₂ δ₁ δ₂ 0 slope I *
         jointPhase ξ (slope * Real.log (idealNorm K (D₂ * I))) := by
-  sorry
+  simp only [rawPlainWeight, normLogWeight_nonzero, jointPhase, inner_zero_left,
+    AddChar.map_zero_eq_one, Circle.coe_one, mul_one]
+  ring
 
 theorem rawPrimeWeight_eq_zero_mul_phase
     (W : ℝ → ℂ) (N δ₁ δ₂ ξ slope : ℝ) (p : HeightOneSpectrum (𝓞 K)) :
     rawPrimeWeight W N δ₁ δ₂ ξ slope p =
       rawPrimeWeight W N δ₁ δ₂ 0 slope p *
         jointPhase ξ (slope * Real.log (Ideal.absNorm p.asIdeal : ℝ)) := by
-  sorry
+  let I : HeckeGeneral.Analysis.NonzeroIdeal K := ⟨p.asIdeal, mem_nonZeroDivisors_of_ne_zero p.ne_bot⟩
+  have hξ := normLogWeight_nonzero (δ₁ - 1) ξ slope I
+  have hzero := normLogWeight_nonzero (δ₁ - 1) 0 slope I
+  change normLogWeight (δ₁ - 1) ξ slope p.asIdeal = _ at hξ
+  change normLogWeight (δ₁ - 1) 0 slope p.asIdeal = _ at hzero
+  simp only [rawPrimeWeight, hξ, hzero, jointPhase, inner_zero_left,
+    AddChar.map_zero_eq_one, Circle.coe_one, mul_one]
+  ring
 
 /-- The literal Fourier-independent weight and the joint location
 produce the same bounded profile on every original ideal. -/
@@ -142,7 +181,9 @@ theorem rawPlainWeight_joint_clipped
           (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ))
           (idealNorm K I / (N / idealNorm K D₁ / idealNorm K D₂)) := by
-  sorry
+  rw [phase_pair, ← mul_assoc, ← rawPlainWeight_eq_zero_mul_phase]
+  exact rawPlainWeight_eq_clipped W N hN D₁ D₂ I B δ₁ δ₂ ξ ζ slope secondSlope
+    hB hδ₁ hδ₂ hδ hW
 
 theorem rawPrimeWeight_joint_clipped
     (W : ℝ → ℂ) (N : ℝ) (hN : 0 < N) (p : HeightOneSpectrum (𝓞 K))
@@ -156,7 +197,9 @@ theorem rawPrimeWeight_joint_clipped
       ((clippedScalar N 1 B δ₁ δ₂ : ℂ) * W ((Ideal.absNorm p.asIdeal : ℝ) / N)) *
         (atom N 1 δ₁ δ₂ (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ)) ((Ideal.absNorm p.asIdeal : ℝ) / N) := by
-  sorry
+  rw [phase_pair, ← mul_assoc, ← rawPrimeWeight_eq_zero_mul_phase]
+  exact rawPrimeWeight_eq_clipped W N hN p B δ₁ δ₂ ξ ζ slope secondSlope
+    hB hδ₁ hδ₂ hδ hW
 
 /-- The later allocated divisor changes the physical profile scale.
 The compensation still uses the original frame scale, so no extra
@@ -179,7 +222,9 @@ theorem rawPlainWeight_allocated_joint_clipped
           (WithLp.toLp 2 (ξ, ζ))
           (idealNorm K I /
             ((N / idealNorm K D₁ / idealNorm K D₂) / idealNorm K E)) := by
-  sorry
+  simp only [quotient_norm_ratio E I]
+  exact rawPlainWeight_joint_clipped W N hN D₁ D₂ (E * I) B δ₁ δ₂ ξ ζ slope secondSlope
+    hB hδ₁ hδ₂ hδ hW
 
 section OriginalWindows
 
@@ -196,11 +241,19 @@ include w hwindow hanchor hanchorDomain ht in
 /-- The norm-profile representative inherits the original support at
 the original source anchor. It is not supplied with a moving window. -/
 theorem normRecipe_left_annulus (y : ℝ) (hy : W.left PUnit.unit t y ≠ 0) : y ≤ B := by
-  sorry
+  apply hwindow
+  apply w.left_support anchor hanchorDomain t ht
+  change w.leftRep anchor t y ≠ 0
+  rw [← w.left_eq anchor t y, W.left_eq PUnit.unit anchor hanchor t y]
+  exact hy
 
 include w hwindow hanchor hanchorDomain ht in
 theorem normRecipe_right_annulus (y : ℝ) (hy : W.right PUnit.unit t y ≠ 0) : y ≤ B := by
-  sorry
+  apply hwindow
+  apply w.right_support anchor hanchorDomain t ht
+  change w.rightRep anchor t y ≠ 0
+  rw [← w.right_eq anchor t y, W.right_eq PUnit.unit anchor hanchor t y]
+  exact hy
 
 end OriginalWindows
 
@@ -298,7 +351,16 @@ theorem core_leftWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ s
         (atom G₁ (idealNorm K b₂.plainDivisor₁) firstTilt secondTilt
           (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ)) (idealNorm K I / G₁) := by
-  sorry
+  have hN : 0 < N₁ := by
+    cases comparison
+    · exact Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _
+    · exact (hcomparison rfl).1
+  change rawPlainWeight (W.left PUnit.unit t) N₁ b₁.plainDivisor₁ b₂.plainDivisor₁
+    firstTilt secondTilt ξ slope I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) = _
+  exact rawPlainWeight_eq_clipped (W.left PUnit.unit t) N₁ hN
+    b₁.plainDivisor₁ b₂.plainDivisor₁ I B firstTilt secondTilt ξ ζ slope secondSlope
+    hB hfirst hsecond htilts
+    (normRecipe_left_annulus (data x) W raw hwindow anchor hanchor hanchorDomain t ht)
 
 include raw hwindow hB hfirst hsecond htilts hanchor hanchorDomain ht in
 theorem core_rightWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ secondSlope : ℝ) :
@@ -308,7 +370,16 @@ theorem core_rightWeight_clipped (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ζ 
         (atom G₂ (idealNorm K b₂.plainDivisor₂) firstTilt secondTilt
           (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ)) (idealNorm K I / G₂) := by
-  sorry
+  have hN : 0 < N₂ := by
+    cases comparison
+    · exact Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _
+    · exact (hcomparison rfl).2.1
+  change rawPlainWeight (W.right PUnit.unit t) N₂ b₁.plainDivisor₂ b₂.plainDivisor₂
+    firstTilt secondTilt ξ slope I * jointPhase ζ (secondSlope * Real.log (idealNorm K I)) = _
+  exact rawPlainWeight_eq_clipped (W.right PUnit.unit t) N₂ hN
+    b₁.plainDivisor₂ b₂.plainDivisor₂ I B firstTilt secondTilt ξ ζ slope secondSlope
+    hB hfirst hsecond htilts
+    (normRecipe_right_annulus (data x) W raw hwindow anchor hanchor hanchorDomain t ht)
 
 include raw hwindow hB hfirst hsecond htilts ht in
 theorem core_slotWeight_clipped (j : Fin b₂.keep.card)
@@ -320,7 +391,19 @@ theorem core_slotWeight_clipped (j : Fin b₂.keep.card)
           ((Ideal.absNorm p.asIdeal : ℝ) / G)) *
         (atom G 1 firstTilt secondTilt (firstDirection slope) (secondDirection secondSlope)).multiplier
           (WithLp.toLp 2 (ξ, ζ)) ((Ideal.absNorm p.asIdeal : ℝ) / G) := by
-  sorry
+  dsimp only
+  change rawPrimeWeight (((data x).geometry.slots (idx₁ (idx₂ j))).profile t)
+    (Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length)
+    firstTilt secondTilt ξ slope p * jointPhase ζ (secondSlope * Real.log (Ideal.absNorm p.asIdeal : ℝ)) = _
+  apply rawPrimeWeight_eq_clipped
+    (((data x).geometry.slots (idx₁ (idx₂ j))).profile t)
+    (Z ^ ((data x).geometry.slots (idx₁ (idx₂ j))).length)
+    (Real.rpow_pos_of_pos (zero_lt_one.trans hZ) _) p B firstTilt secondTilt ξ ζ slope secondSlope
+    hB hfirst hsecond htilts
+  intro y hy
+  apply hwindow
+  apply raw.prime_support (idx₁ (idx₂ j)) t ht
+  simpa only [raw.prime_eq] using hy
 
 end ActualCoreFields
 

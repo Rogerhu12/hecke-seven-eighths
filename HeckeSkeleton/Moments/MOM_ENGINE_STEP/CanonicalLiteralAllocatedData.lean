@@ -51,20 +51,22 @@ def parameters : RealParameters where
 
 theorem left_scale :
     d.base ^ (parameters d B rectangle m q κ).n₁ =
-      d.scale₁ rectangle / idealNorm K (B.plainDivisor 0) := by
-  sorry
+      d.scale₁ rectangle / idealNorm K (B.plainDivisor 0) :=
+  Real.rpow_logb (zero_lt_one.trans d.base_gt_one) d.base_gt_one.ne'
+    (div_pos (d.scale₁_pos rectangle) (idealNorm_pos K _))
 
 theorem right_scale :
     d.base ^ (parameters d B rectangle m q κ).n₂ =
-      d.scale₂ rectangle / idealNorm K (B.plainDivisor (Fin.succ 0)) := by
-  sorry
+      d.scale₂ rectangle / idealNorm K (B.plainDivisor (Fin.succ 0)) :=
+  Real.rpow_logb (zero_lt_one.trans d.base_gt_one) d.base_gt_one.ne'
+    (div_pos (d.scale₂_pos rectangle) (idealNorm_pos K _))
 
 @[simp] theorem slot_sum :
     (parameters d B rectangle m q κ).z =
       ∑ i : Fin B.keep.card, d.length (SlotRestriction.index B.keep i) := rfl
 
-theorem slot_sum_nonneg : 0 ≤ (parameters d B rectangle m q κ).z := by
-  sorry
+theorem slot_sum_nonneg : 0 ≤ (parameters d B rectangle m q κ).z :=
+  Finset.sum_nonneg (fun i _ => (d.length_pos (SlotRestriction.index B.keep i)).le)
 
 @[simp] theorem parameters_width :
     (parameters d B rectangle m q κ).m + (parameters d B rectangle m q κ).q = m + q := rfl
@@ -96,31 +98,36 @@ def geometry (ξ : WithLp 2 (ℝ × ℝ)) : SlotGeometry K :=
     (geometry W B firstSign negative ξ).slotCount = B.keep.card := rfl
 
 theorem preGeometry_length (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin k) :
-    ((preGeometry W firstSign negative ξ).slots i).length = d.length i := by
-  sorry
+    ((preGeometry W firstSign negative ξ).slots i).length = d.length i :=
+  W.fourierSlot_length i firstSign negative ξ
 
 theorem geometry_length (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin B.keep.card) :
     ((geometry W B firstSign negative ξ).slots i).length =
-      d.length (SlotRestriction.index B.keep i) := by
-  sorry
+      d.length (SlotRestriction.index B.keep i) :=
+  W.fourierSlot_length (SlotRestriction.index B.keep i) firstSign negative ξ
 
 theorem geometry_totalLength (ξ : WithLp 2 (ℝ × ℝ)) :
     (geometry W B firstSign negative ξ).totalLength =
       ∑ i : Fin B.keep.card, d.length (SlotRestriction.index B.keep i) := by
-  sorry
+  change (∑ i : Fin B.keep.card,
+    (W.fourierSlot (SlotRestriction.index B.keep i) firstSign negative ξ).length) = _
+  exact Finset.sum_congr rfl (fun i _ =>
+    W.fourierSlot_length (SlotRestriction.index B.keep i) firstSign negative ξ)
 
 /-- The chosen allocation uses the original mesh, through its literal
 retained-slot embedding. No coarser mesh is introduced. -/
 theorem geometry_fitsMesh (mesh : ℝ)
     (hmesh : ∀ i ∈ B.keep, d.length i ≤ mesh) (ξ : WithLp 2 (ℝ × ℝ)) :
     (geometry W B firstSign negative ξ).fitsMesh mesh := by
-  sorry
+  intro i
+  rw [geometry_length W B firstSign negative ξ i]
+  exact hmesh _ (B.keep.equivFin.symm i).property
 
 theorem geometry_slot_sum (rectangle : Bool) (m q κ : ℝ)
     (ξ : WithLp 2 (ℝ × ℝ)) :
     (parameters d B rectangle m q κ).z =
-      (geometry W B firstSign negative ξ).totalLength := by
-  sorry
+      (geometry W B firstSign negative ξ).totalLength :=
+  (geometry_totalLength W B firstSign negative ξ).symm
 
 /-- The phase contains the original product `B₁ * I`; the Fourier
 multiplier has not been incorrectly rescaled to the quotient alone. -/
@@ -131,7 +138,9 @@ theorem left_profile (rectangle : Bool) (m q κ : ℝ)
           (CanonicalLiteralLocations.plain firstSign (B.plainDivisor 0 * I))) =
       (W.fourierLeft rectangle firstSign negative ξ).profile u (height ξ)
         (idealNorm K I / d.base ^ (parameters d B rectangle m q κ).n₁) := by
-  sorry
+  rw [left_scale d B rectangle m q κ]
+  exact (W.fourierLeft_allocated rectangle firstSign negative ξ u 0
+    (B.plainDivisor 0) I).symm
 
 theorem right_profile (rectangle : Bool) (m q κ : ℝ)
     (ξ : WithLp 2 (ℝ × ℝ)) (u I : HeckeGeneral.Analysis.NonzeroIdeal K) :
@@ -140,7 +149,9 @@ theorem right_profile (rectangle : Bool) (m q κ : ℝ)
           (CanonicalLiteralLocations.plain firstSign (B.plainDivisor (Fin.succ 0) * I))) =
       (W.fourierRight rectangle firstSign negative ξ).profile u (height ξ)
         (idealNorm K I / d.base ^ (parameters d B rectangle m q κ).n₂) := by
-  sorry
+  rw [right_scale d B rectangle m q κ]
+  exact (W.fourierRight_allocated rectangle firstSign negative ξ u 0
+    (B.plainDivisor (Fin.succ 0)) I).symm
 
 theorem slot_profile (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin B.keep.card)
     (p : HeightOneSpectrum (𝓞 K)) :
@@ -150,7 +161,8 @@ theorem slot_profile (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin B.keep.card)
       ((geometry W B firstSign negative ξ).slots i).profile (height ξ)
         ((Ideal.absNorm p.asIdeal : ℝ) /
           d.base ^ ((geometry W B firstSign negative ξ).slots i).length) := by
-  sorry
+  rw [geometry_length W B firstSign negative ξ i]
+  exact (W.fourierSlot_eval (SlotRestriction.index B.keep i) firstSign negative ξ 0 p).symm
 
 end Profiles
 
@@ -192,8 +204,8 @@ def data (ξ : WithLp 2 (ℝ × ℝ)) : MomentData K ω ψ :=
 theorem data_lengths (ξ : WithLp 2 (ℝ × ℝ)) (i : Fin B.keep.card) :
     ((data P R W B F parent oldMoving correction hcorr C p leftMultiplicity rightMultiplicity
       pattern ν remaining extra m q inverse index rectangle firstSign negative ξ).geometry.slots i).length =
-        d.length (SlotRestriction.index B.keep i) := by
-  sorry
+        d.length (SlotRestriction.index B.keep i) :=
+  geometry_length W B firstSign negative ξ i
 
 /-- The literal frozen profiles themselves construct the norm recipe
 on every new allowed row; no row-independence field is requested. -/
