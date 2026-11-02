@@ -22,6 +22,10 @@ open EngineStep NumberField IsDedekindDomain
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.ThetaSkeleton.Global
 
+private theorem eq_of_unit_normalizer (x y : ℝ) (z : ℂ)
+    (he : x = ‖z‖ ^ 2 * y) (hz : z = 1) : x = y := by
+  simpa only [hz, norm_one, one_pow, one_mul] using he
+
 attribute [local instance]
   sourcePrincipal sourceNormOneSpace sourceNormOneBorel
   Expansion.ActualProbeContext.localCompletionSpace
@@ -41,16 +45,18 @@ theorem rectangleEnergy_eq_source (side rectangle : Bool) (ξ : EngineParameter)
       (seed.ordinary.originalSource side rectangle).energy
         (σ := Arithmetic.embedding c) ξ := by
   cases side
-  · change (seed.ordinary.leftFrame rectangle).energy ξ = _
-    rw [(seed.ordinary.leftFrame rectangle).energy_eq_source]
-    have hg := seed.atoms.gaussNormalizer false rectangle
-    change (seed.ordinary.leftFrame rectangle).normalizer = 1 at hg
-    simp only [hg, norm_one, one_pow, one_mul, OrdinaryData.originalSource]
-  · change (seed.ordinary.rightFrame rectangle).energy ξ = _
-    rw [(seed.ordinary.rightFrame rectangle).energy_eq_source]
-    have hg := seed.atoms.gaussNormalizer true rectangle
-    change (seed.ordinary.rightFrame rectangle).normalizer = 1 at hg
-    simp only [hg, norm_one, one_pow, one_mul, OrdinaryData.originalSource]
+  · change (seed.ordinary.leftFrame rectangle).energy ξ =
+      (seed.ordinary.leftFrame rectangle).source.energy (σ := Arithmetic.embedding c) ξ
+    have hg : (seed.ordinary.leftFrame rectangle).normalizer = 1 :=
+      seed.atoms.gaussNormalizer false rectangle
+    exact eq_of_unit_normalizer _ _ _
+      ((seed.ordinary.leftFrame rectangle).energy_eq_source ξ) hg
+  · change (seed.ordinary.rightFrame rectangle).energy ξ =
+      (seed.ordinary.rightFrame rectangle).source.energy (σ := Arithmetic.embedding c) ξ
+    have hg : (seed.ordinary.rightFrame rectangle).normalizer = 1 :=
+      seed.atoms.gaussNormalizer true rectangle
+    exact eq_of_unit_normalizer _ _ _
+      ((seed.ordinary.rightFrame rectangle).energy_eq_source ξ) hg
 
 theorem rectangleRoot_eq_unscaled (side rectangle : Bool) (ξ : EngineParameter) :
     Real.sqrt (seed.ordinary.rectangleEnergy side rectangle ξ) =
@@ -69,13 +75,17 @@ theorem unscaledRoot_le_labels (hpacket : packet.Realizes)
           Real.sqrt ((seed.canonicalSource input (seed.canonicalSupport input)
             side a rectangle).energy (σ := Arithmetic.embedding c) ξ) := by
   rw [seed.unscaledOriginal_energy_restored input hpacket side rectangle ξ]
-  simpa only [seed.canonicalSource_energy] using
-    PassiveAllocation.sqrt_residual_energy_le
-      ((seed.canonicalSupport input).carrier side) seed.ordinary.passiveMask
-      (seed.ordinary.passiveMask_ne_zero seed.phases.deletion_nonzero)
-      (seed.ordinary.originalSource side false).rows
-      (seed.canonicalWeight side) (seed.canonicalCoefficient input true side rectangle)
-      (fun _ => seed.canonicalLocation side) ξ
+  have hbound := PassiveAllocation.sqrt_residual_energy_le
+    ((seed.canonicalSupport input).carrier side) seed.ordinary.passiveMask
+    (seed.ordinary.passiveMask_ne_zero seed.phases.deletion_nonzero)
+    (seed.ordinary.originalSource side false).rows
+    (seed.canonicalWeight side) (seed.canonicalCoefficient input true side rectangle)
+    (fun _ => seed.canonicalLocation side) ξ
+  refine hbound.trans_eq ?_
+  apply Finset.sum_congr rfl
+  intro a _
+  exact congrArg (fun e : ℝ => ‖PassiveAllocation.sign a.val‖ * Real.sqrt e)
+    (seed.canonicalSource_energy input (seed.canonicalSupport input) side a rectangle ξ).symm
 
 theorem rectangleRoot_le_sideSum (hpacket : packet.Realizes)
     (side rectangle : Bool) (ξ : EngineParameter) :
