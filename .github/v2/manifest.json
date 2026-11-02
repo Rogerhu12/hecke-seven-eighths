@@ -330,6 +330,7 @@
         "AssemblyCalibrationBridge",
         "AssemblyFourierBridge",
         "AssemblyLeafConstruction",
+        "AssemblyLogProfileData",
         "AssemblyMomentDataExt",
         "AssemblyNormalizationCertificate",
         "AssemblyNormalizationGeometry",

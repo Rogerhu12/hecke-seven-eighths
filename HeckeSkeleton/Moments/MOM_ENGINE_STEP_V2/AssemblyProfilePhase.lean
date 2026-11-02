@@ -39,7 +39,7 @@ theorem logPhase_inner (phase translation : ℝ × ℝ)
       ProfileFormula.linear phase ξ * Real.log x +
         ProfileFormula.linear translation ξ := by
   rw [inner_add_right, real_inner_smul_right]
-  simp only [WithLp.prod_inner_apply, WithLp.ofLp_toLp, Real.inner_apply,
+  simp only [WithLp.prod_inner_apply, Real.inner_apply,
     ProfileFormula.linear]
   ring
 
@@ -52,8 +52,8 @@ theorem value_eq_zero_mul_phase (f : ProfileFormula)
         (WithLp.toLp 2 f.translation + Real.log x • WithLp.toLp 2 f.phase) := by
   rw [jointPhase, Real.fourierChar_apply, logPhase_inner, value_zero]
   by_cases hx : 0 < x
-  · simp only [ProfileFormula.value, hx, if_true] <;> rfl
-  · simp only [ProfileFormula.value, hx, if_false, zero_mul]
+  · simp only [ProfileFormula.value, hx, ite_true]
+  · simp only [ProfileFormula.value, hx, ite_false, zero_mul]
 
 /-- All non-phase factors remain in the original zero-frequency
 profile. The atom therefore has unit scale and exponent zero. -/
@@ -86,12 +86,12 @@ theorem value_eq_zero_of_zero_phase (f : ProfileFormula)
 
 theorem value_eq_zero_of_nonpos (f : ProfileFormula)
     (ξ : EngineParameter) (x : ℝ) (hx : x ≤ 0) : f.value ξ x = 0 := by
-  simp only [ProfileFormula.value, not_lt.mpr hx, if_false]
+  simp only [ProfileFormula.value, not_lt.mpr hx, ite_false]
 
 theorem argument_pos_of_value_ne_zero (f : ProfileFormula)
     (ξ : EngineParameter) (x : ℝ) (hvalue : f.value ξ x ≠ 0) : 0 < x := by
   by_contra hx
-  exact hvalue (by simp only [ProfileFormula.value, hx, if_false])
+  exact hvalue (by simp only [ProfileFormula.value, hx, ite_false])
 
 variable {K : Type} [Field K] [NumberField K]
 

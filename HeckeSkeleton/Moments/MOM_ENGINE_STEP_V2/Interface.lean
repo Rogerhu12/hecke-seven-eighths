@@ -1,4 +1,5 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.BlueprintAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyLogProfileData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyMomentDataExt
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyProfilePhase
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyNormalizationGeometry
