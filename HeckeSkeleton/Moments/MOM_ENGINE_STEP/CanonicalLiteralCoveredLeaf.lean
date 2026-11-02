@@ -4,6 +4,8 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussFiniteLeaves
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
 
 set_option linter.unusedSectionVars false
+set_option profiler true
+set_option profiler.threshold 1000
 
 /-!
 # Literal common extraction on the stored covered leaf
@@ -33,6 +35,16 @@ open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments MeasureTheor
 open HeckePort.Moments HeckePort.Moments.Support HeckePort.Moments.MobiusRegroup
 open HeckePort.IdealMobiusDivisorSum
 open WholeAllocation
+
+private theorem literal_coefficient_assoc (c a b d : ℂ) :
+    (c * a) * b * d = c * (a * b * d) :=
+  (congrArg (fun z : ℂ => z * d) (mul_assoc c a b)).trans
+    (mul_assoc c (a * b) d)
+
+private theorem literal_row_weight_comm (w q a b : ℂ) :
+    (w * q) * a * b = (w * a * b) * q :=
+  (congrArg (fun z : ℂ => z * b) (mul_right_comm w q a)).trans
+    (mul_right_comm (w * a) q b)
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -122,7 +134,7 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 
 @[simp] theorem literalRightAtoms_whole
     (i : AllocationColumn K v.literalRightBranch.keep.card) :
-    (v.literalRightAtoms rightAtoms).whole i =
+    (no_index (v.literalRightAtoms rightAtoms)).whole i =
       ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
   exact CanonicalLiteralRectangles.Atoms.onAtlas_whole
     (d := (v.literalRightOriginal rightAtoms).extract v.literalRightBranch)
@@ -231,13 +243,13 @@ def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
     rw [v.literal_left_coefficient leftAtoms leftCoefficient i
       (v.literal_left_mem exceptional F x j i hi)]
     dsimp only [secondAllocatedLeftCoefficient]
-    ring
+    exact literal_coefficient_assoc _ _ _ _
   right h _ i hi := by
     change v.chart.sourceRightCoefficient (v.rightReindex.index i) * _ * _ = _
     rw [v.literal_right_coefficient rightAtoms rightCoefficient i
       (v.literal_right_mem exceptional F x j i hi)]
     simp only [secondAllocatedRightCoefficient, star_star]
-    ring
+    exact literal_coefficient_assoc _ _ _ _
 
 /-- This reweighting is the one forced by the two constants just
 extracted from the stored whole coefficients. -/
@@ -319,7 +331,7 @@ def literalOrdinaryBinding :
   exceptional _ _ := Iff.rfl
   rowWeight h _ := by
     change ((_ * _) * _ * _) = ((_ * _ * _) * _)
-    ring
+    exact literal_row_weight_comm _ _ _ _
   leftCoefficient _ _ _ _ := rfl
   rightCoefficient h _ i _ := by
     change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}

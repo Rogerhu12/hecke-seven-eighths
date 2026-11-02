@@ -291,7 +291,8 @@ theorem twoStageProfileSlotFactor_eq (δ₁ δ₂ : ℝ) (i : Fin b.keep.card) :
       ((d.extract b).base ^ (d.extract b).length i) ^ (-1 / 2 + δ₁ + δ₂) := by
   unfold twoStageProfileSlotFactor CanonicalLiteralProfileScalars.plainFactor
   rw [Real.sqrt_eq_rpow, ← Real.rpow_add
-    (Real.rpow_pos_of_pos (zero_lt_one.trans d.base_gt_one) _)]
+    (Real.rpow_pos_of_pos (zero_lt_one.trans (d.extract b).base_gt_one)
+      ((d.extract b).length i))]
   congr 1
   unfold CanonicalLiteralProfileScalars.exponent
   ring
@@ -309,12 +310,15 @@ theorem twoStageProfileFactor_product (δ₁ δ₂ : ℝ) (r : Bool)
     twoStageProfileLeftFactor twoStageProfileRightFactor
   rw [d.extracted_plainFactor_product b r δ₁ δ₂ hproduct]
   simp_rw [d.twoStageProfileSlotFactor_eq b δ₁ δ₂]
-  rw [Real.finsetProd_rpow Finset.univ _
-    (fun i _ => Real.rpow_nonneg (zero_le_one.trans d.base_gt_one.le) _) _]
+  rw [Real.finsetProd_rpow Finset.univ
+    (fun i : Fin b.keep.card => (d.extract b).base ^ (d.extract b).length i)
+    (fun i _ => Real.rpow_nonneg (zero_le_one.trans (d.extract b).base_gt_one.le)
+      ((d.extract b).length i)) (-1 / 2 + δ₁ + δ₂)]
   exact (Real.mul_rpow
     (mul_pos ((d.extract b).scale₁_pos false) ((d.extract b).scale₂_pos false)).le
     (Finset.prod_nonneg fun i _ =>
-      Real.rpow_nonneg (zero_le_one.trans d.base_gt_one.le) _)
+      Real.rpow_nonneg (zero_le_one.trans (d.extract b).base_gt_one.le)
+        ((d.extract b).length i))
     (-1 / 2 + δ₁ + δ₂)).symm
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -372,7 +376,8 @@ theorem secondInput_eq_profileFactor_mul (δ₁ δ₂ : ℝ)
       (d.twoStageProfileLeftFactor_pos b δ₁ δ₂)
       (d.twoStageProfileRightFactor_pos b δ₁ δ₂)
       (d.twoStageProfileSlotFactor_pos b δ₁ δ₂) hc i
-  simpa only [d.twoStageProfileFactor_product b δ₁ δ₂ false rfl] using he
+  rw [d.twoStageProfileFactor_product b δ₁ δ₂ false rfl] at he
+  exact he
 
 theorem redistributedSecondInput_whole (δ₁ δ₂ : ℝ)
     (hproduct : d.centered = true →

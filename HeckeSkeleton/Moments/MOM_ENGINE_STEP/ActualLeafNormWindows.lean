@@ -107,7 +107,7 @@ variable (LC RC : SourceCartesianCover G.columns G.ideal)
 right column. All three support filters are retained in this proof. -/
 theorem covered_innerDivisor_norm_le (Y : ℝ)
     (hN : ∀ i ∈ G.columns, (Ideal.absNorm (G.ideal i).val : ℝ) ≤ Y)
-    (j : s.CoveredLeafKey LC RC) : (Ideal.absNorm j.2.1.val : ℝ) ≤ Y := by
+    (j : s.CoveredLeafKey LC RC) : Nat.cast (R := ℝ) (Ideal.absNorm j.2.1.val) ≤ Y := by
   let v := j.1
   apply actual_divisorPool_norm_le
     (childCartesianColumns v.rightReindex.plain₁ v.rightReindex.plain₂ v.rightReindex.slots)

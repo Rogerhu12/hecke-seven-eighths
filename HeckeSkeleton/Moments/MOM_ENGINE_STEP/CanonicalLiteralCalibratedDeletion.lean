@@ -136,6 +136,7 @@ theorem raw_centered_joint_allocations
       unfold jointFourierColumn
       apply Finset.sum_congr rfl
       intro i hi
+      dsimp only
       have hp := Finset.mem_product.mp (Finset.mem_product.mp hi).1
       rw [raw_coefficient_deleteMask T M g h' X₁ X₂ Z length w₁ w₂ w i
           (hS₁ _ hp.1) (hS₂ _ hp.2),

@@ -36,7 +36,8 @@ variable {K : Type} [Field K] [NumberField K]
 
 /-- This constant is selected before every moving original source. -/
 def originalFirstMaskConstant (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ) : ℝ :=
-  Classical.choose (first_block_mask_labels_subpower.{0, 0} (K := K) B δ hB hδ)
+  (Classical.choose (support_tuple_multiplicity_subpower (K := K)
+    1 B (δ / 2) hB (by positivity))) ^ 2
 
 theorem originalFirstMaskConstant_pos (B δ : ℝ) (hB : 0 ≤ B) (hδ : 0 < δ) :
     0 < originalFirstMaskConstant (K := K) B δ hB hδ := by

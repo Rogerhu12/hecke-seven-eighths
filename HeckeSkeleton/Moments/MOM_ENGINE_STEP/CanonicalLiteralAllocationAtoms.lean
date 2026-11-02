@@ -160,7 +160,8 @@ theorem allocate_term (r : Bool) (i : AllocationColumn K B.keep.card)
   rw [hlift₁, hlift₂, d.characters.bareCoefficient_extract
     (B.plainDivisor 0) (B.plainDivisor (Fin.succ 0))
     (d.scale₁ r) (d.scale₂ r) d.base d.length B.keep B.witness.2
-    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight]
+    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight
+    ((sourceMomentIdeal i.1.1, sourceMomentIdeal i.1.2), i.2)]
   unfold allocationScalar
   ring
 
@@ -254,7 +255,8 @@ theorem allocate_frequency_term (g h : A.R) (r : Bool)
   rw [hlift₁, hlift₂, d.characters.coefficient_extract (σ := σ) g h
     (B.plainDivisor 0) (B.plainDivisor (Fin.succ 0))
     (d.scale₁ r) (d.scale₂ r) d.base d.length B.keep B.witness.2
-    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight]
+    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight
+    ((sourceMomentIdeal i.1.1, sourceMomentIdeal i.1.2), i.2)]
   unfold ActualColumnAllocation.scalar
   ring
 

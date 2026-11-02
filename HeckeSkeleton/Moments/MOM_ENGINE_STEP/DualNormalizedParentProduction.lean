@@ -150,7 +150,6 @@ theorem actual_parent_dual_normalized_child_bound
     change (∑ j, (originalLeaves j).ordinaryCost) = _
     exact ActualHybridFamily.sum_ordinaryCost_eq_withConstantAtoms originalLeaves extract
   rw [← horiginal] at hord
-  simp_rw [family.childPair_eq_frozen Finset.univ] at hord
   refine ⟨hcutoff, ?_⟩
   calc
     _ ≤ ActualFirstSource.SecondStages.dualFirstZeroBudget F ε CfirstZero / Z ^ (a.m + a.q) +
@@ -161,7 +160,10 @@ theorem actual_parent_dual_normalized_child_bound
           R.ordinaryBudget L exceptional N₀ / Z ^ (a.m + a.q) := by
       simpa only [add_div] using
         div_le_div_of_nonneg_right hp (Real.rpow_nonneg hZ.le (a.m + a.q))
-    _ ≤ _ := add_le_add le_rfl hord
+    _ ≤ _ := add_le_add le_rfl (hord.trans_eq
+      (Finset.sum_congr rfl (fun b _ =>
+        integral_congr_ae (Filter.Eventually.of_forall (fun ξ =>
+          family.childPair_eq_frozen Finset.univ b ξ)))))
 
 end HeckeSkeleton.Moments.EngineStep
 

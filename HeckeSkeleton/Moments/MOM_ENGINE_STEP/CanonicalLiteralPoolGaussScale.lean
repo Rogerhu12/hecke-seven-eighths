@@ -120,9 +120,10 @@ theorem literalLeftMainAtoms_gaussScale_lower
     1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
     hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
-  simpa only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  erw [hfrozen] at h
+  simp only [literalLeftMainAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask]
+  erw [CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas]
+  exact h
 
 /-- The full original frozen ideal determines the lower Gauss scale
 of this actual right main table. -/
@@ -155,9 +156,10 @@ theorem literalRightMainAtoms_gaussScale_lower
     1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
     hfirst (unitExterior_generates A) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
-  simpa only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  erw [hfrozen] at h
+  simp only [literalRightMainAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask]
+  erw [CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas]
+  exact h
 
 /-- The full original frozen ideal determines the lower Gauss scale
 of this actual left pool table. -/
@@ -184,11 +186,15 @@ theorem literalLeftPoolAtoms_gaussScale_lower
     have hw := ((p.divisorPools.leftData S).combinedBranchForLabel_spec
       (raw).originalAtlas (primeSupport DE.1) DE.1
       ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2
+    have hideal : ∀ i, ((p.divisorPools.leftData S).ideal i).val =
+        supportResidual ((raw).columnExterior i).val (primeSupport DE.1) := by
+      intro i
+      rw [p.divisorPools.left_ideal S, p.left_ideal]
+      exact b.left_residual i
     have he := (p.divisorPools.leftData S).combined_extract_of_mem
       (primeSupport DE.1) DE.1
       ((p.divisorPools.left_columns S).trans p.left_columns)
-      (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal];
-        exact b.left_residual i) q.val n
+      hideal q.val n
       ((raw).originalAtlas.reindex.index branch.witness) hw
     rw [(raw).originalAtlas.reindex.ideal_product branch.witness
       (branch.original_subset branch.witness_mem),
@@ -203,9 +209,10 @@ theorem literalLeftPoolAtoms_gaussScale_lower
     (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
     hfirst (generator_power_generates C q.val (2 * n)) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
-  simpa only [literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  erw [hfrozen] at h
+  simp only [literalLeftPoolAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask]
+  erw [CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas]
+  exact h
 
 /-- The full original frozen ideal determines the lower Gauss scale
 of this actual right pool table. -/
@@ -232,11 +239,15 @@ theorem literalRightPoolAtoms_gaussScale_lower
     have hw := ((p.divisorPools.rightData S).combinedBranchForLabel_spec
       (raw).originalAtlas (primeSupport DE.1) DE.2
       ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2
+    have hideal : ∀ i, ((p.divisorPools.rightData S).ideal i).val =
+        supportResidual ((raw).columnExterior i).val (primeSupport DE.1) := by
+      intro i
+      rw [p.divisorPools.right_ideal S, p.right_ideal]
+      exact b.right_residual i
     have he := (p.divisorPools.rightData S).combined_extract_of_mem
       (primeSupport DE.1) DE.2
       ((p.divisorPools.right_columns S).trans p.right_columns)
-      (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal];
-        exact b.right_residual i) q.val n
+      hideal q.val n
       ((raw).originalAtlas.reindex.index branch.witness) hw
     rw [(raw).originalAtlas.reindex.ideal_product branch.witness
       (branch.original_subset branch.witness_mem),
@@ -251,9 +262,10 @@ theorem literalRightPoolAtoms_gaussScale_lower
     (generator C q.val ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
     hfirst (generator_power_generates C q.val (2 * n)) CanonicalLiteralFixedPhases.emptyDivisorInverse_generates
     δ₁ δ₂ profiles hprime
-  rw [hfrozen] at h
-  simpa only [literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask,
-    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas] using h
+  erw [hfrozen] at h
+  simp only [literalRightPoolAtoms, CanonicalLiteralRectangles.Atoms.gaussScale_deleteMask]
+  erw [CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas]
+  exact h
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

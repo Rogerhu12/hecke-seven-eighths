@@ -140,9 +140,11 @@ theorem canonicalLeftDirect_atlasCoefficient
     CanonicalLiteralAtlasAtoms.dictionary_index e i
   have hideal : (b.leftResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
     have he := T.reindex.ideal_product i hi
-    rw [p.left_ideal] at he
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
+    have hsource : (p.leftData.ideal (T.reindex.index i)).val =
+        (b.leftResidual (T.reindex.index i)).val :=
+      congrArg Subtype.val (congrFun p.left_ideal (T.reindex.index i))
+    exact hsource.symm.trans (he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
+      (congrArg Sigma.fst e) i).symm)
   exact CompleteMovingRowRecipe.canonicalLeftDirect_secondInput hΓ μv ν
     Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
     δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb
@@ -192,9 +194,11 @@ theorem canonicalRightDirect_atlasCoefficient
     CanonicalLiteralAtlasAtoms.dictionary_index e i
   have hideal : (b.rightResidual (T.reindex.index i)).val = allocationColumnIdeal j := by
     have he := T.reindex.ideal_product i hi
-    rw [p.right_ideal] at he
-    exact he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
-      (congrArg Sigma.fst e) i).symm
+    have hsource : (p.rightData.ideal (T.reindex.index i)).val =
+        (b.rightResidual (T.reindex.index i)).val :=
+      congrArg Subtype.val (congrFun p.right_ideal (T.reindex.index i))
+    exact hsource.symm.trans (he.trans (CanonicalLiteralAtlasAtoms.castColumn_ideal
+      (congrArg Sigma.fst e) i).symm)
   exact CompleteMovingRowRecipe.canonicalRightDirect_secondInput hΓ μv ν
     Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂ b C φ finiteTest hlc hcs radius D
     δ₁ hδ₁ hδ₁half p S χ support branch hroot hemb

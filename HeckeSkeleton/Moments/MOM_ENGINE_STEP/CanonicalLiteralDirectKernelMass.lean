@@ -299,15 +299,13 @@ def literalLeftDirectNormalizationKernelMass :=
     (literalLeftDirectRecipe hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
   have hbaseL : (v.literalLeftAtoms leftAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (leftAtoms).base = Z
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hbaseR : (v.literalRightAtoms rightAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (rightAtoms).base = Z
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hcorr : Q.correction ∈ (data ξ).theta := by
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
@@ -320,47 +318,43 @@ def literalLeftDirectNormalizationKernelMass :=
   have hcenteredL :
       (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain leftBalance).centered =
         (seed).centered := by
-    simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
-      ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (leftAtoms).centered = (seed).centered
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcenteredR :
       (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain rightBalance).centered =
         (seed).centered := by
-    simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
-      ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (rightAtoms).centered = (seed).centered
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = (seed).base := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (leftAtoms).base = (seed).base
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hseedBaseR : (v.literalRightOriginal rightAtoms).base = (seed).base := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (rightAtoms).base = (seed).base
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hfirstL₁ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstL₂ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hfirstR₁ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstR₂ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hboundL : computedL.bound = fun r => originalBound + originalBound *
       CanonicalLiteralRadiusBound.shapeCoefficient lo hi hlo δ₁ δ₂ orders *
         (1 + CanonicalLiteralBalancedSchwartz.factor seed firstL δ₁ δ₂ r) := by
@@ -592,15 +586,13 @@ def literalRightDirectNormalizationKernelMass :=
     (literalRightDirectRecipe hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
   have hbaseL : (v.literalLeftAtoms leftAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (leftAtoms).base = Z
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hbaseR : (v.literalRightAtoms rightAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (rightAtoms).base = Z
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hcorr : Q.correction ∈ (data ξ).theta := by
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
@@ -613,47 +605,43 @@ def literalRightDirectNormalizationKernelMass :=
   have hcenteredL :
       (((v.literalLeftAtoms leftAtoms).scale leftScalar⁻¹).balancePlain leftBalance).centered =
         (seed).centered := by
-    simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
-      ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (leftAtoms).centered = (seed).centered
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcenteredR :
       (((v.literalRightAtoms rightAtoms).scale rightScalar⁻¹).balancePlain rightBalance).centered =
         (seed).centered := by
-    simp only [CanonicalLiteralRectangles.Atoms.balancePlain, CanonicalLiteralRectangles.Atoms.scale,
-      ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (rightAtoms).centered = (seed).centered
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hseedBaseL : (v.literalLeftOriginal leftAtoms).base = (seed).base := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (leftAtoms).base = (seed).base
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hseedBaseR : (v.literalRightOriginal rightAtoms).base = (seed).base := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (rightAtoms).base = (seed).base
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hfirstL₁ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (leftAtoms).scale₁ r = ((seed).extract firstL).scale₁ r
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstL₂ (r : Bool) :
       (v.literalLeftOriginal leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (leftAtoms).scale₂ r = ((seed).extract firstL).scale₂ r
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hfirstR₁ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_left_scale] <;> rfl
+    change (rightAtoms).scale₁ r = ((seed).extract firstR).scale₁ r
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_left_scale _ _ _ r).trans (by rfl)
   have hfirstR₂ (r : Bool) :
       (v.literalRightOriginal rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_right_scale] <;> rfl
+    change (rightAtoms).scale₂ r = ((seed).extract firstR).scale₂ r
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_right_scale _ _ _ r).trans (by rfl)
   have hboundL : computedL.bound = fun r => originalBound + originalBound *
       CanonicalLiteralRadiusBound.shapeCoefficient lo hi hlo δ₁ δ₂ orders *
         (1 + CanonicalLiteralBalancedSchwartz.factor seed firstL δ₁ δ₂ r) := by

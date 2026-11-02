@@ -141,7 +141,7 @@ theorem literalLeftMainAtoms_eq_scale_core
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
   unfold literalLeftMainAtoms literalLeftMainCore literalLeftMainScalar
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
     CanonicalLiteralRectangles.Atoms.scale_onAtlas,
     CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
@@ -203,7 +203,7 @@ theorem literalLeftPoolAtoms_eq_scale_core
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label) := by
   unfold literalLeftPoolAtoms literalLeftPoolCore literalLeftPoolScalar
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
     CanonicalLiteralRectangles.Atoms.scale_onAtlas,
     CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
@@ -259,7 +259,7 @@ theorem literalRightMainAtoms_eq_scale_core
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
   unfold literalRightMainAtoms literalRightMainCore literalRightMainScalar
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
     CanonicalLiteralRectangles.Atoms.scale_onAtlas,
     CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
@@ -321,7 +321,7 @@ theorem literalRightPoolAtoms_eq_scale_core
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label) := by
   unfold literalRightPoolAtoms literalRightPoolCore literalRightPoolScalar
   dsimp only
-  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+  erw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
     CanonicalLiteralRectangles.Atoms.scale_onAtlas,
     CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 

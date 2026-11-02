@@ -106,7 +106,9 @@ def withZeroProduct (exponent : ℝ) (hpos : 0 ≤ exponent)
       (Ideal.absNorm ((I ij.1).val * (I ij.2).val) : ℝ) ≤ Z ^ exponent) :
     FirstDualOriginalWindows (hΓ := hΓ) C columns I blocks profiles radius M
       sTail sZero k Z X normBound Lmax Nsave decay :=
-  { T with zeroProductExponent := exponent, zeroProductExponent_nonneg := hpos,
+  { T with
+    zeroProductExponent := exponent
+    zeroProductExponent_nonneg := hpos
     zero_product_norm := hnorm }
 
 @[simp] theorem withZeroProduct_zeroExponent
