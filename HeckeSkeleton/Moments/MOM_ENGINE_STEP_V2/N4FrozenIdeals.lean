@@ -211,16 +211,12 @@ private theorem cover_frozen_ideal {source : PhysicalSource call p}
     rw [← hcover.label i hi, hlabel, hcover.first a]
   have hmem : source.ancestor i ∈
       (cover.first a).originalColumns.image call.workingRaw.originalReindex.index := by
-    have hfilter : source.ancestor i ∈
-        call.workingRaw.exteriorColumns.filter (fun j =>
-          call.workingRaw.originalReindex.supportExtractionLabel
-            source.first.fullDeletion j = (cover.first a).key) :=
-      Finset.mem_filter.mpr ⟨hancestor, hkey⟩
-    exact Eq.mp
-      (congrArg (fun S : Finset call.workingRaw.Column => source.ancestor i ∈ S)
-        (call.workingRaw.originalReindex.supportExtractionLabel_fibre
-          source.first.fullDeletion (cover.first a)))
-      hfilter
+    have hfibre := congrArg
+      (fun S : Finset call.workingRaw.Column => source.ancestor i ∈ S)
+      (call.workingRaw.originalReindex.supportExtractionLabel_fibre
+        source.first.fullDeletion (cover.first a))
+    simp only [Finset.mem_filter, Finset.mem_image] at hfibre
+    exact Finset.mem_image.mpr (Eq.mp hfibre ⟨hancestor, hkey⟩)
   obtain ⟨x, hx, hxi⟩ := Finset.mem_image.mp hmem
   rw [← hxi,
     call.workingRaw.originalReindex.ideal_product x ((cover.first a).original_subset hx),

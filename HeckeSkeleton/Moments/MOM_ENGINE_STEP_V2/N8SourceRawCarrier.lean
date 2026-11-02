@@ -56,8 +56,15 @@ theorem original_columns_extract (hF : F.Realizes) (hf : family.Realizes)
           (second.source i).physical.first.fullDeletion =
             (second.source i).physical.first.selected.val *
               (second.source i).physical.first.poolPower.val := by
-  simpa only [hsecond.physical i] using
+  let property (s : PhysicalSource call p) : Prop :=
+    ∀ j : s.Column,
+      j ∈ s.source.columns →
+      s.ancestor j ∈ call.workingRaw.exteriorColumns ∧
+        supportExtract (call.workingRaw.columnExterior (s.ancestor j)).val
+          s.first.fullDeletion = s.first.selected.val * s.first.poolPower.val
+  have hs : property (expansion.source i) :=
     expansion.original_columns_extract hF hf hexpansion i
+  exact Eq.mpr (congrArg property (hsecond.physical i)) hs
 
 theorem original_cover_card_le (hF : F.Realizes) (hf : family.Realizes)
     (hexpansion : expansion.Realizes) (hsecond : second.Realizes)

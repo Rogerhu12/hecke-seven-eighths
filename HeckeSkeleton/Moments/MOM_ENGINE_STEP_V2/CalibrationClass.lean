@@ -299,8 +299,31 @@ theorem exceptional_iff (P : OriginalPhaseData packet)
       call.node.data.theta ↔ rowCharacter P h ∈ call.node.data.theta
   rw [hm, hpattern, hsector]
   unfold rowCharacter
-  rw [OriginalMovingFactors.append_character, OriginalMovingFactors.append_character,
-    PassivePhaseBridge.moving_character_paid P]
+  let D := secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)
+    (Arithmetic.context c) (raw.packet j).R.primes (raw.packet j).R.leftMultiplicity
+    (raw.packet j).R.rightMultiplicity (pattern (raw.packet j))
+  have hcharacter : ((P.moving false).append D).character =
+      ((P.moving true).append D).character := by
+    calc
+      _ = (P.moving false).character * D.character :=
+        OriginalMovingFactors.append_character
+          (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+          (P.moving false) D
+      _ = (P.moving true).character * D.character :=
+        congrArg (fun χ : HeckeCharacter K => χ * D.character)
+          (PassivePhaseBridge.moving_character_paid P)
+      _ = _ :=
+        (OriginalMovingFactors.append_character
+          (A := Arithmetic.data c) (P := probeData K c) (R := momentRowCharacters K c)
+          (P.moving true) D).symm
+  have hmembership := congrArg (fun χ : HeckeCharacter K =>
+    call.localizedSource.source.recipe.correction * χ *
+      completeIdealRowCharacter K
+        ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+        (probeData K c) (momentRowCharacters K c) (sector (raw.packet j))
+        ((raw.packet j).R.extractedRow (Arithmetic.context c) h).momentIdeal ∈
+      call.node.data.theta) hcharacter
+  exact ⟨Eq.mp hmembership, Eq.mpr hmembership⟩
 
 theorem ordinary_nonexceptional (seed : OrdinarySeed packet)
     (hpacket : packet.Realizes) (h : seed.ordinary.rows.live) :
