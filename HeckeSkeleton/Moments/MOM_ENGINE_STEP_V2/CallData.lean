@@ -70,7 +70,7 @@ def original : OriginalInput c call.node call.base :=
 /-- Restricting to the actual paired rows changes only the row
 predicate; the complete dictionary and original profiles are retained. -/
 def localizedData : MomentData K c.family.omega (targetCharacter K c) :=
-  EngineStep.localizeOriginalParent call.node.data call.node.parameters call.base
+  EngineInduction.localizeOriginalParent call.node.data call.node.parameters call.base
 
 def localizedSource : CompleteSourceBudgetData c
     (Expansion.Project.canonicalDetectorTheta K (targetCharacter K c))
@@ -79,7 +79,7 @@ def localizedSource : CompleteSourceBudgetData c
 
 def localizedNormProfiles :
     EngineStep.NormProfileRecipe (fun _ : PUnit.{1} => call.localizedData) :=
-  EngineStep.localizedNormProfileRecipe call.normProfiles call.node.parameters call.base
+  EngineInduction.localizedNormProfileRecipe call.normProfiles call.node.parameters call.base
 
 /-- Geometric eligibility is inherited from the unchanged original
 parameters, comparison lengths and slot geometry. -/

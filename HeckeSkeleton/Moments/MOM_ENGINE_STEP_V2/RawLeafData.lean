@@ -178,7 +178,7 @@ structure RawLeafPacket (call : Call c) (p : SourceParameters c) where
   physicalRows : second.physical.source.rows.Nonempty
   live : (secondSourceLeaf second leftCover rightCover key exceptional allocation).Live
   nominal : Bool → OriginalNominalGeometry call.workingParameters call.base
-    (EngineInduction.recipeInductionSigma c)
+    (EngineInduction.Source.recipeInductionSigma c)
   leftFirst : SupportCartesianBranch call.workingRaw.originalPlain₁
     call.workingRaw.originalPlain₂ call.workingRaw.exteriorSlots
     (primeSupport second.physical.first.selected.val)

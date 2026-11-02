@@ -1,27 +1,53 @@
 {
-  "phase": "blueprint-data-and-assembly",
+  "phase": "blueprint-contracts-in-progress",
   "groups": [
     {
       "id": "g0",
-      "name": "真实输入与公共组装基础",
+      "name": "真实数据、纯陈述类型及完整组装辅助",
       "proved": true,
       "modules": [
-        "SourceFrame",
-        "OriginalInput",
-        "PreparedCall",
-        "CallData",
         "ArithmeticData",
-        "UniformData",
-        "EstimateData",
-        "SourceData",
-        "RawLeafData",
-        "NormalizedData",
-        "UniformContracts",
         "AssemblyCore",
-        "OutputAssembly",
-        "NormalizationAssembly",
         "BudgetAssembly",
+        "CallData",
+        "EmptyAssembly",
+        "EstimateData",
+        "FirstCauchyContracts",
+        "FirstSourceContracts",
+        "InputDemands",
+        "NormalizationAssembly",
+        "NormalizedData",
+        "OrdinaryData",
+        "OriginalInput",
+        "OutputAssembly",
+        "PassiveData",
+        "PreparedCall",
+        "PrimitiveAssembly",
+        "ProfileDictionary",
+        "ProfileFormula",
+        "RawLeafData",
+        "RawRectangleData",
+        "SourceData",
+        "SourceFrame",
         "UniformAssembly",
+        "UniformContracts",
+        "UniformData"
+      ]
+    },
+    {
+      "id": "g1",
+      "name": "独立论文证明任务（蓝图占位）",
+      "proved": false,
+      "modules": [
+        "ProfileFormulaTask",
+        "TasksUniform"
+      ]
+    },
+    {
+      "id": "g2",
+      "name": "蓝图聚合入口",
+      "proved": false,
+      "modules": [
         "Interface"
       ]
     }

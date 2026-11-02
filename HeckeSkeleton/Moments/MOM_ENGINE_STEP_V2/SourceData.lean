@@ -22,6 +22,7 @@ open scoped Classical BigOperators NumberField SchwartzMap
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
 open EngineStep EngineInduction
+open EngineInduction.Source
 open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
@@ -104,6 +105,11 @@ namespace Call
 
 variable {c : TargetContext K} (call : Call c)
 
+/-- A genuine original row is required before entering either physical
+transform. Empty original moments are discharged directly in assembly. -/
+def Active : Prop :=
+  (pairedRows call.node.data call.node.parameters call.base).Nonempty
+
 /-- The complete old mask is charged at its actual norm. This keeps
 the original width and the original two comparison lengths. -/
 def oldSupport :=
@@ -170,7 +176,7 @@ structure FirstCoordinates (call : Call c) where
   tag : OriginalNominalTag K
   retainedScale : ℝ
   retainedScale_pos : 0 < retainedScale
-  fullDeletion : Finset (HeightOneSpectrum (𝓞 K))
+  fullDeletion : Finset (Ideal (𝓞 K))
   paidSupport : (Arithmetic.data c).Exterior
 
 /-- One actual first-Cauchy summand, before the second transform.
@@ -178,11 +184,28 @@ The coefficient still contains its whole centered subtraction. -/
 structure PhysicalSource (call : Call c) (p : SourceParameters c) where
   Column : Type
   source : ActualGaussSource (Arithmetic.context c) Column
+  ancestor : Column → call.workingRaw.Column
+  multiplier : Column → ℂ
   firstKernel : SchwartzMap ℝ ℂ
   firstPoint : Column → ℝ
   outerWeight : ℝ
   outerWeight_nonneg : 0 ≤ outerWeight
   first : FirstCoordinates call
+
+namespace PhysicalSource
+
+variable {call : Call c} {p : SourceParameters c} (source : PhysicalSource call p)
+
+/-- Each rectangle is transported by the same original linear column
+operation. The second rectangle is exactly zero for an uncentered call. -/
+def rectangle (comparison : Bool) (i : source.Column) : ℂ :=
+  if comparison then
+    if call.node.centered then
+      source.multiplier i * call.workingValues.rectangle true (source.ancestor i)
+    else 0
+  else source.multiplier i * call.workingValues.rectangle false (source.ancestor i)
+
+end PhysicalSource
 
 /-- A second transform retains the identical physical Gauss source.
 Its zero, nonzero and tail expressions are the base raw expressions. -/

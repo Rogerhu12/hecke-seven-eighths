@@ -10,29 +10,41 @@ EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
 
 不修改 base 的定义、原量词、mesh 或 supported-volume 假设。各证明任务的主体暂用 `sorry`；组装模块显式接收这些任务的证明，不能使用 `sorry`，也不能导入已占位的任务定理。
 
-## 第 1 批：只保留真实输入
+## 当前批次：真实输入、候选任务陈述及完整组装辅助
 
-当前提交是蓝图的输入层，不是已完成的蓝图里程碑。活动 Lean 文件仅为：
+当前提交仍在固定蓝图接口，尚未登记完整蓝图里程碑。第一轮 CI 的 CallData 两个 namespace 错误已修正（原 localize/profile 构造位于 EngineInduction）。新增候选陈述只表达论文中间步骤；已存在的两个独立任务证明明确保留 sorry，完整组装辅助与数据不含占位。
 
-| 文件 | 实际行数 | 必要角色 |
+| 文件 | 当前物理行 | 角色 |
 |---|---:|---|
-| `SourceFrame` | 140 | 原 annulus/reflection、schedule/bounds、原 recursive request |
-| `OriginalInput` | 45 | base CompleteSourceData、原 NormProfileRecipe、原 finite parent atoms |
-| `PreparedCall` | 117 | 原 Mellin preprocessing、同源 source/profile 运输及外 Mellin 成本 |
-| `CallData` | 111 | 单次原输入及其 localization、domain、geometry 的实际派生 |
-| `ArithmeticData` | 71 | 同一 target 的 base arithmetic choice、unit subgroup、Haar measures |
-| `UniformData` | 67 | 原量词顺序下的 schedule/bounds/prepared 与外 Mellin budget |
-| `EstimateData` | 126 | 固定 rank/annulus、真实原 RawProfileWindow、具体 orders/threshold 资格 |
-| `SourceData` | 196 | 原 first/second source 数据、小正 loss/cutoff 的实际构造 |
-| `RawLeafData` | 214 | base covered physical carrier、实际 allocation 与 full-correlation leaf |
-| `NormalizedData` | 98 | 同一个 base normalized family、原两个 Fourier kernel、实际有限质量表达式 |
-| `UniformContracts` | 93 | 纯 numerical funding 及 uniform preparation 命题类型，无占位定理 |
-| `AssemblyCore` | 130 | 参数嵌入、exact universal child labels、Mellin strict family |
-| `OutputAssembly` | 102 | 同一 normalized family 接入原 ofFintype 与 exact recursive admissibility |
-| `NormalizationAssembly` | 49 | base source_integral 把同源预算运到同一 child/kernel |
-| `BudgetAssembly` | 101 | 四 terminal 加总及算术/Fourier 两份质量的纯数值组装 |
-| `UniformAssembly` | 76 | 显式 prepare/produce 下完整恢复原目标量词 |
-| `Interface` | 24 | 活动模块聚合入口；完整论文任务入口随后接入 |
+| `ArithmeticData` | 71 | 同一base arithmetic choice |
+| `AssemblyCore` | 130 | Mellin strict family组装 |
+| `BudgetAssembly` | 101 | 四terminal/同核mass数值组装 |
+| `CallData` | 111 | 同一call及localization |
+| `EmptyAssembly` | 41 | 真实空原rows的零输出 |
+| `EstimateData` | 126 | 原profile、rank与明确数值资格 |
+| `FirstCauchyContracts` | 224 | S2实际first Cauchy carrier/allowance |
+| `FirstSourceContracts` | 137 | S1原first source与规范原子身份 |
+| `InputDemands` | 93 | 明确orders/threshold的并集与max |
+| `Interface` | 36 | 聚合入口，完整任务组装仍待接入 |
+| `NormalizationAssembly` | 49 | base source_integral运输 |
+| `NormalizedData` | 98 | 同一base normalized family与原核 |
+| `OrdinaryData` | 94 | 原ordinary binding |
+| `OriginalInput` | 45 | 原finite parent atoms |
+| `OutputAssembly` | 102 | 同一family→原PairedEngineConclusion |
+| `PassiveData` | 99 | 原residual-mask有限divisor/allocation carrier |
+| `PreparedCall` | 117 | 原Mellin preprocessing |
+| `PrimitiveAssembly` | 45 | 精确recursive invariant五项组装 |
+| `ProfileDictionary` | 96 | 固定父representative及完整profile字典 |
+| `ProfileFormula` | 111 | 全实数原profile变换公式 |
+| `ProfileFormulaTask` | 21 | N5a统一profile公式估计（sorry） |
+| `RawLeafData` | 214 | 原covered keys/allocations及真实full-correlation leaf |
+| `RawRectangleData` | 70 | 原two-rectangle逐项公式 |
+| `SourceData` | 219 | source数据、正loss/cutoff、空row分支 |
+| `SourceFrame` | 140 | 原始量词与source request |
+| `TasksUniform` | 28 | U1统一输入准备（sorry） |
+| `UniformAssembly` | 76 | 原目标量词包装 |
+| `UniformContracts` | 93 | 原输入准备的纯任务类型 |
+| `UniformData` | 67 | uniform输入准备 |
 
 以上数据及派生定义全部具体构造，不从新 admitted existence 中选择数据。尚未使用的原 `OriginalInput` 证明陈述也已移除。原始 source 的存在证书来自 base 的 node invariant；Mellin/localization 直接调用 base 已有构造。
 
@@ -50,10 +62,19 @@ EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
 
 原 19 模块草图预算 **57,620 行**；旧实现方案后来重估为 **76,920 行**，增加 **19,300 行**，尚未通过完整 CI。该实现方案已经停止，不再作为蓝图路线继续扩展。
 
-本批 **17 模块、1,760 物理行**，全部为真实输入、纯任务命题类型或已完成的公共组装。这个数字是蓝图输入层体量，不是完整证明规模，也不是完成压缩的证据。完整蓝图会按每个任务列出预计证明行数、真实依赖、论文位置与 A 线参考，汇总后继续以 100,000 行为上限。未实现的通用化不提前计算节省。
+本批 **29 模块、2,854 物理行**；除两个独立任务证明的显式 sorry 外，数据、纯命题类型及公共组装均已具体实现。这个数字是蓝图输入层体量，不是完整证明规模，也不是完成压缩的证据。完整蓝图会按每个任务列出预计证明行数、真实依赖、论文位置与 A 线参考，汇总后继续以 100,000 行为上限。未实现的通用化不提前计算节省。
 
 ## CI 与执行节奏
 
-只用 GitHub CI 编译；每批完成即推送，等待该轮结果并读完日志才推下一批。专用 CI 精确 checkout head，验证 manifest 覆盖全部活动模块，并对 `proved` 组在 fresh Lean 中递归审计所有 V2 声明，只允许 `propext`、`Classical.choice`、`Quot.sound`。本批全为无占位真实数据及公共组装，作为 `g0` 审计。
+只用 GitHub CI 编译；每批完成即推送，等待该轮结果并读完日志才推下一批。专用 CI 精确 checkout head，验证 manifest 覆盖全部活动模块，并对 `proved` 组在 fresh Lean 中递归审计所有 V2 声明，只允许 `propext`、`Classical.choice`、`Quot.sound`。`g0` 只含真实数据、纯命题类型与完整组装辅助，并单独递归审计；`g1` 两个独立任务暂为显式 sorry；`g2` 聚合入口不计为最终任务组装完成。
 
 全部任务陈述与完整无占位组装在同一 head 编通后，发布正式逐任务清单供协调员安排并行会话。PR 保持 [不合并] draft；最终原目标无占位、三公理与 integration gate 通过后才进入审查。
+
+## 已固定的独立任务（清单尚未完整）
+
+| 名字 | 文件 | 输入/依赖 | 论文行号 | 预计证明行数 | 参考 |
+|---|---|---|---|---:|---|
+| `Blueprint.Tasks.uniformPreparation` | `TasksUniform.lean` | 六个固定UniformCost families、具体demands；只产生原输入及funding | 3043–3073 | 2,500–4,000 | base StrictProfileOrder、MellinSourcePreparation、ActualEngineProfiles；A finite-rank uniform choices |
+| `Blueprint.Tasks.profile_formula_control` | `ProfileFormulaTask.lean` | 固定global formula、positive support与dilation/power/phase bounds | 3043–3073 | 2,000–3,000 | base CanonicalLogProfiles；A原uniform log-profile calculus |
+
+其他 source/normalization/terminal 陈述及完整 `pairedStepHypothesis_of_blueprint` 仍在接线与审核，不作为已可分发的最终任务清单。

@@ -21,3 +21,5 @@
 `AssemblyCore.parameterOutput / strictBranch / strictFamily` 已给出完整实现，只接收显式实际 frequency outputs 和外 Mellin budget。它们不 import 任何占位任务，随本批接受三公理递归审计；完整论文任务到原目标的组装将在后续批次接入。
 
 本批也保留陈述确实使用的 SourceData / RawLeafData / NormalizedData：它们只包装 base 对象和真实有限表达式。canonicalSourceParameters 是正 min/除法构造；raw leaf 来自原 source class key、两次独立 allocation 和 base fullCorrelationHybridLeaf；不存在新的 admitted existence + choice。EstimateData 和 UniformContracts 的资格条件为明确的 orders inclusion、threshold 与原 profile window，证书不能自行选择空谓词。
+
+第二批修正 CallData 中两处原 localization 构造的命名空间，并把原 empty-row 情形明确分出。新增全局 ProfileFormula/ProfileDictionary 和真实 passive finite carrier，防止只约束有限ideal点、任意增加Schwartz bump或重复labels/放大weights。它们仍是具体定义；只有独立的 U1/N5a 证明文件保留明确 sorry。
