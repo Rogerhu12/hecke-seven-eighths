@@ -85,8 +85,6 @@
       "modules": [
         "ProfileFormulaTask",
         "TasksAmplification",
-        "TasksChildArithmetic",
-        "TasksChildProfiles",
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
         "TasksFiniteLeaves",
@@ -103,6 +101,24 @@
       ]
     },
     {
+      "id": "n7a",
+      "name": "N7a 同一 frozen child 的完整源预算与反射算术",
+      "proved": true,
+      "modules": [
+        "N7aChildSource",
+        "TasksChildArithmetic"
+      ]
+    },
+    {
+      "id": "n7b",
+      "name": "N7b 同一实际 active child 的正支撑窗口",
+      "proved": true,
+      "modules": [
+        "N7bProfileTransport",
+        "TasksChildProfiles"
+      ]
+    },
+    {
       "id": "g2",
       "name": "蓝图聚合入口",
       "proved": false,
@@ -112,3 +128,4 @@
     }
   ]
 }
+
