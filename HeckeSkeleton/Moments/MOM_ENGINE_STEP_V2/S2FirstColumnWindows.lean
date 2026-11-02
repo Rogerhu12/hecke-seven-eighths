@@ -107,7 +107,9 @@ theorem source_full_column_window (input : ProfileInput call) (hframe : call.fra
   let annulus := columnAnnulus c frame
   have hannulus : 1 ≤ annulus := columnAnnulus_one c frame
   have hannulus_pos : 0 < annulus := zero_lt_one.trans_le hannulus
-  have hw := original_column_norm_bounds call.workingAtoms input.localized
+  have hw := original_column_norm_bounds
+    (A := Arithmetic.data c) (Γ := Arithmetic.unitSubgroup c)
+    call.workingAtoms input.localized
     annulus⁻¹ annulus (inv_nonneg.mpr hannulus_pos.le) hannulus_pos.le call.base_pos
     (fun _ _ => Set.mem_univ _) (Set.mem_univ _) (call_window_subset input hframe)
     call.node.centered (fun _ => (Real.rpow_pos_of_pos call.base_pos _).le)

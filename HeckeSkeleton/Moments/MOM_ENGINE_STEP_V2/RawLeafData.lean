@@ -171,6 +171,20 @@ def secondSourceLeaf {call : Call c} {p : SourceParameters c}
       (source.physical.outerWeight * (source.stage.fiber : ℝ))
       (mul_nonneg source.physical.outerWeight_nonneg (Nat.cast_nonneg _))
 
+/-- A named proposition keeps the complete covered-leaf construction
+out of the dependent packet constructor's field telescope. -/
+def secondSourceLeafLive {call : Call c} {p : SourceParameters c}
+    (source : SecondSource call p)
+    (LC RC : SourceCartesianCover source.physical.source.columns
+      source.physical.source.ideal)
+    (key : SourceClassKey source.stage LC RC)
+    (exceptional :
+      ActualGaussStage.CoverHybridPredicates.{0, 0, 0, 0} source.stage LC RC)
+    (allocation : SourceClassKey.AllocationKey
+      (s := source.stage) (LC := LC) (RC := RC) key) : Prop :=
+  (secondSourceLeaf (call := call) (p := p) source LC RC key exceptional allocation).Live
+
+set_option diagnostics true in
 set_option maxHeartbeats 1000000 in
 /-- One nonzero physical leaf with both original occurrence labels.
 Empty source rows or a non-live polynomial produce no member of the
@@ -185,9 +199,11 @@ structure RawLeafPacket (call : Call c) (p : SourceParameters c) where
   key : SourceClassKey second.stage leftCover rightCover
   exceptional :
     ActualGaussStage.CoverHybridPredicates.{0, 0, 0, 0} second.stage leftCover rightCover
-  allocation : SourceClassKey.AllocationKey key
+  allocation : SourceClassKey.AllocationKey
+    (s := second.stage) (LC := leftCover) (RC := rightCover) key
   physicalRows : second.physical.source.rows.Nonempty
-  live : (secondSourceLeaf second leftCover rightCover key exceptional allocation).Live
+  live : secondSourceLeafLive (call := call) (p := p)
+    second leftCover rightCover key exceptional allocation
   nominal : Bool → OriginalNominalGeometry (K := K) call.workingParameters call.base
     (EngineInduction.Source.recipeInductionSigma c)
   leftFirst : SupportCartesianBranch call.workingRaw.originalPlain₁

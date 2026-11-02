@@ -98,7 +98,7 @@ theorem rectangle_column_norm_bounds
   have hm := Finset.mem_product.mp hv
   have hplain := Finset.mem_product.mp hm.1
   obtain ⟨u, hu, _⟩ := Finset.mem_biUnion.mp hplain.1
-  have hp := rectangle_profiles_nonzero atoms comparison v hrectangle
+  have hp := rectangle_profiles_nonzero (A := A) (Γ := Γ) atoms comparison v hrectangle
   have hleftRep : profiles.leftRep u t
       (idealNorm K v.1.1 / (if comparison then Y₁ else Z ^ a.n₁)) ≠ 0 := by
     simpa only [← atoms.left_profile u hu, profiles.left_eq] using hp.1
@@ -168,19 +168,21 @@ theorem original_column_norm_bounds
     (hwindow : window ⊆ Set.Icc lower upper) (centered : Bool)
     (hY₁ : centered = true → 0 ≤ Y₁)
     (hcomparison : centered = true → Y₁ * Y₂ = Z ^ (a.n₁ + a.n₂))
-    (v : (atoms.raw Y₁ Y₂).Column) (hv : v ∈ (atoms.raw Y₁ Y₂).exteriorColumns)
+    (v : (atoms.raw Y₁ Y₂).Column)
+    (hv : v ∈ (atoms.raw Y₁ Y₂).exteriorColumns (A := A) (Γ := Γ))
     (hcoefficient : (atoms.values Y₁ Y₂).coefficient centered v ≠ 0) :
     lower ^ (d.geometry.slotCount + 2) * Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength) ≤
-      (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnExterior v).val : ℝ) ∧
-    (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnExterior v).val : ℝ) ≤
+      (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnExterior (A := A) (Γ := Γ) v).val : ℝ) ∧
+    (Ideal.absNorm ((atoms.raw Y₁ Y₂).columnExterior (A := A) (Γ := Γ) v).val : ℝ) ≤
       upper ^ (d.geometry.slotCount + 2) * Z ^ (a.n₁ + a.n₂ + d.geometry.totalLength) := by
-  rw [(atoms.raw Y₁ Y₂).columnExterior_val_of_mem v hv]
+  rw [(atoms.raw Y₁ Y₂).columnExterior_val_of_mem (A := A) (Γ := Γ) v hv]
   obtain ⟨comparison, hallowed, hrectangle⟩ :=
-    coefficient_has_rectangle (atoms.values Y₁ Y₂) centered v hcoefficient
+    coefficient_has_rectangle (A := A) (Γ := Γ) (atoms.values Y₁ Y₂) centered v hcoefficient
   have hmem : v ∈ (atoms.raw Y₁ Y₂).columns := (Finset.mem_filter.mp hv).1
   cases comparison with
   | false =>
-      exact rectangle_column_norm_bounds atoms profiles lower upper hlower hupper hZ
+      exact rectangle_column_norm_bounds (A := A) (Γ := Γ)
+        atoms profiles lower upper hlower hupper hZ
         hrows ht hwindow false (Real.rpow_pos_of_pos hZ _) (Real.rpow_pos_of_pos hZ _)
         (by simpa only [Bool.false_eq_true, if_false] using
           (Real.rpow_add hZ a.n₁ a.n₂).symm) v hmem hrectangle
@@ -193,7 +195,8 @@ theorem original_column_norm_bounds
         rcases mul_pos_iff.mp hproduct with hpos | hneg
         · exact hpos
         · exact False.elim ((not_lt_of_ge (hY₁ hc)) hneg.1)
-      exact rectangle_column_norm_bounds atoms profiles lower upper hlower hupper hZ
+      exact rectangle_column_norm_bounds (A := A) (Γ := Γ)
+        atoms profiles lower upper hlower hupper hZ
         hrows ht hwindow true hscales.1 hscales.2 (hcomparison hc) v hmem hrectangle
 
 theorem annulus_power_threshold (cap : ℕ) (annulus loss : ℝ) (hloss : 0 < loss) :

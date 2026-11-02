@@ -85,6 +85,18 @@ def opposite (key : FirstCauchyKey F) : HeckeGeneral.Analysis.NonzeroIdeal K :=
     ⟨key.1.val.1, mem_nonZeroDivisors_of_ne_zero (key_left_ne_zero key)⟩
   else ⟨key.1.val.2, mem_nonZeroDivisors_of_ne_zero (key_right_ne_zero key)⟩
 
+theorem selected_val (key : FirstCauchyKey F) :
+    (selected key).val =
+      if FirstCauchyKey.side key then key.1.val.2 else key.1.val.1 := by
+  unfold selected
+  split_ifs <;> rfl
+
+theorem opposite_val (key : FirstCauchyKey F) :
+    (opposite key).val =
+      if FirstCauchyKey.side key then key.1.val.1 else key.1.val.2 := by
+  unfold opposite
+  split_ifs <;> rfl
+
 def complementary (key : FirstCauchyKey F) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   ⟨(firstPhysicalDivisorIdeal (A := Arithmetic.data c) key.2.1.val).val,
     mem_nonZeroDivisors_of_ne_zero
@@ -155,6 +167,7 @@ def family (F : FirstPresentation call p) : FirstCauchyFamily F where
   index := (Fintype.equivFin (FirstCauchyKey F)).symm
   source i := source ((Fintype.equivFin (FirstCauchyKey F)).symm i) (normalization F)
 
+set_option backward.isDefEq.respectTransparency false in
 theorem family_realizes (F : FirstPresentation call p) : (family F).Realizes where
   leftAllowance _ _ _ _ := rfl
   rightAllowance _ _ _ _ := rfl
@@ -165,14 +178,8 @@ theorem family_realizes (F : FirstPresentation call p) : (family F).Realizes whe
   kernel _ := rfl
   point _ := HEq.rfl
   outer _ := rfl
-  selected i := by
-    dsimp only [family, source, coordinates]
-    by_cases hs : FirstCauchyKey.side ((Fintype.equivFin (FirstCauchyKey F)).symm i) = true <;>
-      simp only [selected, hs, if_true, if_false]
-  opposite i := by
-    dsimp only [family, source, coordinates]
-    by_cases hs : FirstCauchyKey.side ((Fintype.equivFin (FirstCauchyKey F)).symm i) = true <;>
-      simp only [opposite, hs, if_true, if_false]
+  selected i := selected_val ((family F).index i)
+  opposite i := opposite_val ((family F).index i)
   complementary _ := rfl
   residual _ := rfl
   firstElement _ := rfl

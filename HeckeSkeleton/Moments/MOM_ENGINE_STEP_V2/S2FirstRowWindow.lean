@@ -70,7 +70,7 @@ theorem source_row_norm_le_cutoff (hF : F.Realizes)
     obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hh'
     rw [originalFrequencyIdeal_neg, originalFrequencyIdeal_out_norm]
     exact ((F.source.source key.1).mem_divisorRows key.2.1.val q).mp hq
-  · simp only [FirstCauchyKey.data, hs, if_false] at hh'
+  · simp only [FirstCauchyKey.data, hs, Bool.false_eq_true, if_false] at hh'
     rw [hF.leftRows key.1 key.2.1] at hh'
     obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hh'
     rw [originalFrequencyIdeal_out_norm]
@@ -88,7 +88,7 @@ theorem source_cutoff_one_of_nonempty (hF : F.Realizes)
     obtain ⟨q, hq, _⟩ := Finset.mem_image.mp hh'
     exact (one_le_sIntegerOrbitNorm q).trans
       (((F.source.source key.1).mem_divisorRows key.2.1.val q).mp hq)
-  · simp only [FirstCauchyKey.data, hs, if_false] at hh'
+  · simp only [FirstCauchyKey.data, hs, Bool.false_eq_true, if_false] at hh'
     rw [hF.leftRows key.1 key.2.1] at hh'
     obtain ⟨q, hq, _⟩ := Finset.mem_image.mp hh'
     exact (one_le_sIntegerOrbitNorm q).trans

@@ -66,7 +66,7 @@ theorem source_retained_upper (hF : F.Realizes)
     congr 1
     rw [S2Cutoff.activeRadical_swap (F.source.block key.1).common_support_eq]
     ring
-  · simpa only [selected, opposite, complementary, hs, if_false] using hb
+  · simpa only [selected, opposite, complementary, hs, Bool.false_eq_true, if_false] using hb
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.S2
 
