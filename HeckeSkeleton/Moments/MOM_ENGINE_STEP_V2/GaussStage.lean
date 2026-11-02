@@ -158,8 +158,14 @@ theorem labels_card_le {Θ : Type*} [Fintype Θ]
     (support : Finset (HeightOneSpectrum (𝓞 K))) (dimension width : ℕ)
     (character : Q → Θ) (dyad : Q → Fin dimension → Fin (width + 1)) (rows : Finset Q) :
     (rows.image (label support dimension width character dyad)).card ≤
-      2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension :=
-  OriginalFiniteFibre.row_image_card_le_coordinates rows
+      2 ^ support.card * Fintype.card Θ * (width + 1) ^ dimension := by
+  have hdec :
+      (fun a b : Fin (Fintype.card (OriginalFiniteFibre.RowCode support Θ dimension width) + 1) =>
+        Classical.propDecidable (a = b)) =
+      (inferInstance : DecidableEq
+        (Fin (Fintype.card (OriginalFiniteFibre.RowCode support Θ dimension width) + 1))) :=
+    Subsingleton.elim _ _
+  simpa only [hdec] using OriginalFiniteFibre.row_image_card_le_coordinates rows
     (label support dimension width character dyad) support dimension width
     (code support dimension width character dyad) (encode support dimension width)
     (fun _ _ => rfl)
