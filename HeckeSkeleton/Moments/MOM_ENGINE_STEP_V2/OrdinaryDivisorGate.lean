@@ -132,9 +132,9 @@ theorem main_divisorRealizes (hP : P.Realizes) (i : Fin family.count)
   apply source.divisorRealizes_of_transport
     ((P.data i).mainSource (family.source i).source.coefficient)
     (family.source i).first.residualDivisor.val hcolumn hsource
-    (congrArg (fun f => f.residualDivisor.val) hcoordinates)
+    (congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
   intro j hj hc
-  have hideal := congrArg (fun G => G.ideal j) (hP.original i)
+  have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
   have hcolumns := congrArg ActualGaussSource.columns (hP.original i)
   change (P.data i).ideal j = _ at hideal
   change (P.data i).columns = _ at hcolumns
@@ -161,7 +161,7 @@ theorem error_divisorRealizes (hP : P.Realizes) (i : Fin family.count)
   intro j _ hc
   apply OrdinaryDivisorGate.residual_divisor (P.data i) q.val e.multiplicity
     (family.source i).first.residualDivisor.val hnot j
-  have hideal := congrArg (fun G => G.ideal j.val) (hP.original i)
+  have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j.val) (hP.original i)
   have hcolumns := congrArg ActualGaussSource.columns (hP.original i)
   change (P.data i).ideal j.val = _ at hideal
   change (P.data i).columns = _ at hcolumns

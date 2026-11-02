@@ -225,11 +225,11 @@ theorem main_multiplierRealizes (hP : P.Realizes) (i : Fin family.count)
     (family.source i).multiplier (family.source i).first.residualDivisor.val
     (family.source i).first.firstElement (family.source i).first.poolPower none
     hcolumn hsource hmultiplier
-    (congrArg (fun f => f.residualDivisor.val) hcoordinates)
+    (congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
     (congrArg FirstCoordinates.firstElement hcoordinates)
     (congrArg FirstCoordinates.poolPower hcoordinates)
   intro j hj
-  have hideal := congrArg (fun G => G.ideal j) (hP.original i)
+  have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
   change (P.data i).ideal j = _ at hideal
   change (family.source i).first.residualDivisor.val ∣ ((P.data i).ideal j).val at hj
   change (family.source i).multiplier j = OrdinaryMultiplierTransport.formula _ _ _ _
@@ -256,7 +256,7 @@ theorem error_multiplierRealizes (hP : P.Realizes) (i : Fin family.count)
   apply OrdinaryMultiplierTransport.residualCoefficient_formula (Arithmetic.context c)
     (P.data i) q.val e p.tilt (family.source i).first.firstElement
     (family.source i).multiplier j
-  have hideal := congrArg (fun G => G.ideal j.val) (hP.original i)
+  have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j.val) (hP.original i)
   change (P.data i).ideal j.val = _ at hideal
   have hd : (family.source i).first.residualDivisor.val ∣
       ((family.source i).source.ideal j.val).val := by

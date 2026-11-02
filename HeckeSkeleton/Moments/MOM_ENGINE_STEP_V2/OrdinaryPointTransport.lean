@@ -151,7 +151,7 @@ theorem main_pointRealizes (hP : P.Realizes) (i : Fin family.count)
     (congrArg FirstCoordinates.poolPower hcoordinates)
   intro j
   have hideal : (P.data i).ideal j = (family.source i).source.ideal j :=
-    congrArg (fun G => G.ideal j) (hP.original i)
+    congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
   change (family.source i).firstPoint j = _ * Real.log
     (_ * (Arithmetic.data c).exteriorNorm ((P.data i).ideal j))
   rw [hideal]
@@ -173,7 +173,7 @@ theorem error_pointRealizes (hP : P.Realizes) (i : Fin family.count)
     hcolumn hsource hpoint hright hpool
   intro j
   have hideal : (P.data i).ideal j.val = (family.source i).source.ideal j.val :=
-    congrArg (fun G => G.ideal j.val) (hP.original i)
+    congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j.val) (hP.original i)
   have hunit : (Arithmetic.data c).exteriorNorm (unitExterior (Arithmetic.data c)) = 1 := by
     change (Ideal.absNorm (1 : Ideal (𝓞 K)) : ℝ) = 1
     simp only [map_one, Nat.cast_one]

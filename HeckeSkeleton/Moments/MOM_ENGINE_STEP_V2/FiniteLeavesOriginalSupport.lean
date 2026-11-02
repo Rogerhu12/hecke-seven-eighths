@@ -49,12 +49,12 @@ theorem original_label_union_left (S T : Finset (Ideal (𝓞 K)))
   rw [original_label_eq S v hv, original_label_eq S w hw]
   apply Prod.ext
   · apply Prod.ext
-    · have hh := congrArg (fun a => supportExtract a.1.1 S) he
+    · have hh := congrArg (fun a : SupportCartesian.ExtractionKey K call.localizedData.geometry.slotCount => supportExtract a.1.1 S) he
       simpa only [SupportCartesian.extractionKey, supportExtract_union_left] using hh
-    · have hh := congrArg (fun a => supportExtract a.1.2 S) he
+    · have hh := congrArg (fun a : SupportCartesian.ExtractionKey K call.localizedData.geometry.slotCount => supportExtract a.1.2 S) he
       simpa only [SupportCartesian.extractionKey, supportExtract_union_left] using hh
   · funext i
-    have hh := congrArg (fun a => supportExtract (a.2 i) S) he
+    have hh := congrArg (fun a : SupportCartesian.ExtractionKey K call.localizedData.geometry.slotCount => supportExtract (a.2 i) S) he
     simpa only [SupportCartesian.extractionKey, supportExtract_union_left] using hh
 
 theorem original_extract_congr (P : Finset (Ideal (𝓞 K)))
