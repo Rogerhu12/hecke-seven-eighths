@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [a0_rawleaf, a1_funinfo, a2_rawcontracts, a3_ordinarydata]
+        probe: [a0_rawleaf, a1_funinfo, a2_rawcontracts, a3_ordinarydata, a4_remaining_funinfo, a5_raw_funinfo]
     env:
       LEAN_NUM_THREADS: '2'
     steps:
@@ -68,7 +68,7 @@ jobs:
             echo "--- distinct Lean functions on the busy thread, outermost last"
             awk '/^Thread/{t=$0} {a[t]=a[t] ORS $0} /collectDeps/{busy=t} END{print a[busy]}' kdiag-out/$n.full.txt \
               | sed -E 's/ \(.*$//; s/^#[0-9]+ +(0x[0-9a-f]+ in )?//' | grep -E '^l_|^lean' \
-              | awk '!seen[$0]++' | sed -E 's/___redArg|___lam__[0-9]+|___boxed//g' | cut -c1-170 | head -120
+              | awk '!seen[$0]++' | sed -E 's/___redArg|___lam__[0-9]+|___boxed//g' | cut -c1-170 | sed -n '1,120p' || true
             pkill -KILL -x lean || true
             wait $wrapper || true
             code=124

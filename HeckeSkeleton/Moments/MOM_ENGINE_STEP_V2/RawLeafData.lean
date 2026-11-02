@@ -108,11 +108,11 @@ def RightReindexType : Type _ :=
     ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2
       v.2.2.2.2.2.2).keep.card
 
-abbrev leftReindex : LeftReindexType v :=
+def leftReindex : LeftReindexType v :=
   (LC.branch v.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.1
     (SourceClassKey.block v).leftResidual (fun i _ => (SourceClassKey.block v).left_residual i) v.2.2.2.2.2.1
 
-abbrev rightReindex : RightReindexType v :=
+def rightReindex : RightReindexType v :=
   (RC.branch v.2.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.2
     (SourceClassKey.block v).rightResidual (fun j _ => (SourceClassKey.block v).right_residual j) v.2.2.2.2.2.2
 

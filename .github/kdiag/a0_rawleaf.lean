@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoverHybridPhaseIntegral
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
+import Lean.Elab.Command
+import Lean.Util.CollectAxioms
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -108,11 +110,11 @@ def RightReindexType : Type _ :=
     ((RC.branch v.2.2.2.1).branch (primeSupport v.1.val.1) v.1.val.2
       v.2.2.2.2.2.2).keep.card
 
-abbrev leftReindex : LeftReindexType v :=
+def leftReindex : LeftReindexType v :=
   (LC.branch v.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.1
     (SourceClassKey.block v).leftResidual (fun i _ => (SourceClassKey.block v).left_residual i) v.2.2.2.2.2.1
 
-abbrev rightReindex : RightReindexType v :=
+def rightReindex : RightReindexType v :=
   (RC.branch v.2.2.2.1).residualReindex (primeSupport v.1.val.1) v.1.val.2
     (SourceClassKey.block v).rightResidual (fun j _ => (SourceClassKey.block v).right_residual j) v.2.2.2.2.2.2
 
@@ -261,3 +263,19 @@ end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
 
+
+open Lean Elab Command in
+run_cmd do
+  let env ← getEnv
+  let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
+  let names := (env.constants.toList.filterMap fun (name, _) =>
+    if nsPrefix.isPrefixOf (privateToUserName name) then some name else none).toArray.qsort Name.lt
+  unless !names.isEmpty do
+    throwError "No loaded V2 declarations found"
+  let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
+  for name in names do
+    let dependencies ← collectAxioms name
+    let extra := dependencies.filter fun ax => !permitted.contains ax
+    unless extra.isEmpty do
+      throwError "Unexpected axiom dependency in {name}: {extra}"
+  logInfo m!"V2_FIX_A_AXIOMS_PASSED: {names.size} declarations"

@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawRectangleData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafOrdinaryBinding
 import Lean.Elab.Command
+import Lean.Util.CollectAxioms
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -282,3 +283,19 @@ run_cmd do
 end OrdinaryData
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
+
+open Lean Elab Command in
+run_cmd do
+  let env ← getEnv
+  let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
+  let names := (env.constants.toList.filterMap fun (name, _) =>
+    if nsPrefix.isPrefixOf (privateToUserName name) then some name else none).toArray.qsort Name.lt
+  unless !names.isEmpty do
+    throwError "No loaded V2 declarations found"
+  let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
+  for name in names do
+    let dependencies ← collectAxioms name
+    let extra := dependencies.filter fun ax => !permitted.contains ax
+    unless extra.isEmpty do
+      throwError "Unexpected axiom dependency in {name}: {extra}"
+  logInfo m!"V2_FIX_A_AXIOMS_PASSED: {names.size} declarations"
