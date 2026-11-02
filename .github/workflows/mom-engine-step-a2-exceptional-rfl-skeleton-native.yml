@@ -1,0 +1,272 @@
+name: A2 Exceptional retained rfl proof in the complete current shared skeleton
+permissions:
+  contents: read
+concurrency:
+  group: mom-engine-step-a2-exceptional-rfl-skeleton-native-${{ github.sha }}
+  cancel-in-progress: false
+jobs:
+  selected_skeleton_build:
+    name: Skeleton CanonicalExceptionalWeights retained rfl check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      LEAN_NUM_THREADS: '2'
+      GROUP_KILL_AFTER: '1200'
+      ROOT_MODULE: CanonicalExceptionalWeights
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+    - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 2
+    - name: Pin current local-instance shared tree and the exact retained-rfl proof edit
+      shell: bash
+      run: |
+        mkdir -p a2-exceptional-rfl-skeleton-native/"$ROOT_MODULE"
+        git show --no-patch --format=fuller HEAD > a2-exceptional-rfl-skeleton-native/"$ROOT_MODULE"/checkout.txt
+        cat > a2-exceptional-rfl-skeleton-native/provenance.py <<'PY'
+        import hashlib, json, os, re, subprocess, sys, tomllib
+        from pathlib import Path
+        root = Path.cwd()
+        module = os.environ['ROOT_MODULE']
+        assert module in ['CanonicalExceptionalWeights']
+        evidence = root / 'a2-exceptional-rfl-skeleton-native' / module
+        evidence.mkdir(parents=True, exist_ok=True)
+        def git(*args):
+            return subprocess.check_output(['git', *args], text=True).strip()
+        def digest(path):
+            p = root / path
+            data = os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+            return hashlib.sha256(data).hexdigest()
+        source_base = 'ac280d14aca765bd283c929677ecfaf36543aaea'
+        assert git('rev-parse', source_base + '^{tree}') == '50de828b32da533f532205efe79a9f3e94905909'
+        assert git('rev-parse', 'HEAD^') == source_base
+        assert len(git('rev-list', '--parents', '-n', '1', 'HEAD').split()) == 2
+        assert git('rev-parse', 'HEAD') == os.environ['EXPECTED_SHA']
+        assert git('diff', '--no-renames', '--name-status', source_base, 'HEAD').splitlines() == ['A\t' + '.github/workflows/mom-engine-step-a2-exceptional-rfl-skeleton-native.yml', 'M\t' + 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean']
+        assert git('status', '--porcelain=v1', '--untracked-files=no') == ''
+        tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')[:-1]
+        assert len(tracked) == 9593
+        pins = {'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47', 'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0', 'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c', 'vendor/class-field-theory/lean-toolchain': '8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a', 'vendor/class-field-theory/lakefile.toml': '04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf', 'vendor/class-field-theory/lake-manifest.json': 'ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148', '.github/groups/group_build.py': 'df3332a6f1d7fd1c4487bf8d2ee86e586265ebba9ebbf21e9dbc322ff742a1c2', '.github/groups/skeleton.py': '462e28934f21679cbe1cad548536c869c37a91749d8cfbfdda56f8c3f1341122', '.github/probe/probe_map.py': '78f2a76122f3fe2b79491960286accbbf2ebb169fc59c85be6ff93a2e50e346d', '.github/groups/g1.txt': '19809e5489ca407279db695b0ca0e51c7aa9edf091ab20b0e5c26ca4f004806a', '.github/workflows/mom-step-group.yml': '677cbaf1c7df6c232aae36c9e49eca0db29cced35aadbde5f2a219339edd8ea7', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean': '04ece10d0fed28f5aa0061ec853b27b896151b3c1e1c4d0b853febf637f5eb2d', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/Interface.lean': 'd3cea2bf707178b13522388c750e3b61b27ad1f4e9ee778a997bc6cabb23270b', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/DirectParentLeaves.lean': '67a6aa762e7512516ebe95c8de8851be23ec120d8f3432523bfad9b2dbe1bc62', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstBlockFiniteLeaves.lean': 'fdef82650acba0246170bf44dbce11ca6f457f49e61b86d31716a97895fee961', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/FirstSourceFiniteLeaves.lean': 'bb753e4ebf0831c86e196af62c92876b249fde4100fa697c7d3f997b320fe199', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/PoolFiniteLeaves.lean': 'e049e18a7676fe5fae38dafb31f3bc85f88983fac2cf438845b39ab7c44eef51'}
+        for path, expected in pins.items():
+            assert digest(path) == expected, path
+        task = Path('HeckeSkeleton/Moments/MOM_ENGINE_STEP')
+        sources = sorted(str(p) for p in task.glob('*.lean'))
+        imports = re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', (task / 'Interface.lean').read_text(), re.M)
+        expected_imports = {'HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + Path(p).stem for p in sources if Path(p).name != 'Interface.lean'}
+        libraries = [item['name'] for item in tomllib.loads((root / 'lakefile.toml').read_text())['lean_lib']]
+        configs = ['lean-toolchain', 'lakefile.toml', 'lake-manifest.json', 'vendor/class-field-theory/lean-toolchain', 'vendor/class-field-theory/lakefile.toml', 'vendor/class-field-theory/lake-manifest.json', 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py']
+        assert len(sources) == 1009 and len(imports) == 1008 and set(imports) == expected_imports and len(libraries) == 20
+        source_ids = {'CanonicalExceptionalWeights': {'bytes': 8630, 'sha256': '04ece10d0fed28f5aa0061ec853b27b896151b3c1e1c4d0b853febf637f5eb2d', 'git_blob': 'b9f054cf986cd46ac7bc0e727670de548538ac85'}}
+        for target, expected in source_ids.items():
+            p = task / (target + '.lean')
+            data = p.read_bytes()
+            assert len(data) == expected['bytes']
+            assert hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest() == expected['git_blob']
+        def source_identity(data):
+            return {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                    'git_blob': hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()}
+        def verify_rfl_syntax_only(original, candidate):
+            assert source_identity(original) == {'bytes': 8619, 'sha256': '765ce8691b5cad1644ab3c21df763cc6e883b5ec145aab449679e164a67f6f66', 'git_blob': '23be348dfc5b990b60645c43f8ed9f8d49a94ba3'}
+            assert source_identity(candidate) == {'bytes': 8630, 'sha256': '04ece10d0fed28f5aa0061ec853b27b896151b3c1e1c4d0b853febf637f5eb2d', 'git_blob': 'b9f054cf986cd46ac7bc0e727670de548538ac85'}
+            old, new = b':= rfl\n', b':= by\n  exact rfl\n'
+            assert original.count(old) == candidate.count(new) == 1
+            assert original.replace(old, new, 1) == candidate
+            assert candidate.replace(new, old, 1) == original
+            assert len(candidate) - len(original) == 11
+            assert original.count(b'sorry') == candidate.count(b'sorry') == 3
+            header = b'@[simp] theorem leaf_weight_original\n'
+            assert original.count(header) == candidate.count(header) == 1
+            start = original.index(header)
+            assert original[start:original.index(old, start)] == candidate[start:candidate.index(new, start)]
+            assert [line for line in original.splitlines() if line.startswith(b'set_option ')] == [b'set_option linter.unusedSectionVars false']
+            assert [line for line in candidate.splitlines() if line.startswith(b'set_option ')] == [b'set_option linter.unusedSectionVars false']
+            return {'original': source_identity(original), 'candidate': source_identity(candidate),
+                    'exact_single_11_byte_proof_syntax_forward_and_inverse': True,
+                    'three_existing_sorry_bodies_unchanged_and_real_rfl_proof_retained': True,
+                    'all_other_source_bytes_including_local_instance_unchanged': True,
+                    'explicit_simp_and_entire_theorem_type_preserved': True,
+                    'automatic_defeq_backward_defeq_path_not_claimed_unchanged': True}
+        original_target = subprocess.check_output(['git', 'show', source_base + ':' + 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean'])
+        candidate_target = (root / 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean').read_bytes()
+        assert git('rev-parse', source_base + ':' + 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean') == '23be348dfc5b990b60645c43f8ed9f8d49a94ba3'
+        assert git('rev-parse', 'HEAD:' + 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean') == 'b9f054cf986cd46ac7bc0e727670de548538ac85'
+        rfl_source_check = verify_rfl_syntax_only(original_target, candidate_target)
+        record = {'source_base': source_base, 'source_base_tree': '50de828b32da533f532205efe79a9f3e94905909',
+                  'head': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                  'expected_head': os.environ['EXPECTED_SHA'], 'module': module,
+                  'only_added_path': '.github/workflows/mom-engine-step-a2-exceptional-rfl-skeleton-native.yml',
+                  'only_modified_source': 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/CanonicalExceptionalWeights.lean',
+                  'rfl_source_check': rfl_source_check,
+                  'complete_real_source_used_by_original_make_locally': {'bytes': 9892, 'sha256': 'fec067cdb97d93611d970ab1254499c8fabadaf6934c0f6d42a4a46b087cdf75', 'git_blob': 'bfc05768e06827b01ccf80828397a1d4c64b45d5'},
+                  'definition_changes_not_part_of_this_single_proof_candidate': True,
+                  'tracked_status': git('status', '--porcelain=v1', '--untracked-files=no'),
+                  'tracked_sha256': {p: digest(p) for p in tracked},
+                  'task_source_sha256': {p: digest(p) for p in sources},
+                  'config_sha256': {p: digest(p) for p in configs},
+                  'source_ids': source_ids, 'pins': pins, 'interface_imports': imports, 'libraries': libraries,
+                  'existing_skeleton_sorry_preserved_for_definition_checks_only': True,
+                  'source_kind': 'complete shared skeleton with existing sorry bodies and retained rfl',
+                  'declared_source_change_announcement': 'https://github.com/Rogerhu12/hecke-seven-eighths/pull/9#issuecomment-6570448883',
+                  'original_skeleton_file_options_preserved': True,
+                  'selected_targets': ['CanonicalExceptionalWeights'],
+                  'dependency_paths_to_two_rec_root': {'CanonicalExceptionalWeights': ['CanonicalExceptionalWeights']},
+                  'Lean_options_added': [], 'normal_acceptance': False,
+                  'fresh_acceptance': False, 'production_acceptance': False}
+        assert json.loads(json.dumps(record)) == record
+        phase = sys.argv[1]
+        assert phase in ['before', 'after']
+        (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+        if phase == 'before':
+            (evidence / 'parent-original-source.lean').write_bytes(original_target)
+            (evidence / 'original-sources').mkdir(exist_ok=True)
+            (evidence / 'frozen-helpers').mkdir(exist_ok=True)
+            for target in source_ids:
+                (evidence / 'original-sources' / (target + '.lean')).write_bytes((task / (target + '.lean')).read_bytes())
+            for helper in ['.github/groups/group_build.py', '.github/groups/skeleton.py', '.github/probe/probe_map.py']:
+                (evidence / 'frozen-helpers' / Path(helper).name).write_bytes((root / helper).read_bytes())
+        else:
+            before = json.loads((evidence / 'before-source.json').read_text())
+            assert before == record, 'Tracked source or configuration changed during the diagnostic'
+            (evidence / 'source-integrity.json').write_text(json.dumps({
+                'unchanged': True, 'tracked': len(tracked), 'task_modules': len(sources),
+                'interface_imports': len(imports), 'libraries': len(libraries), 'configs': len(configs),
+                'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}, indent=2) + '\n')
+        print(f'{phase}: {module}, {len(tracked)} tracked, {len(sources)} modules; skeleton statement/definition check only')
+        PY
+        cat > a2-exceptional-rfl-skeleton-native/run-selected.py <<'PY'
+        """Build one complete selected skeleton target with the unchanged group watcher.
+
+        This is a statement/definition and retained-rfl check. Existing skeleton sorry
+        bodies remain in place, so this run is never a real-proof or fresh acceptance.
+        """
+        from pathlib import Path
+        import datetime
+        import importlib.util
+        import json
+        import os
+        import subprocess
+        import sys
+        import time
+
+        sys.dont_write_bytecode = True
+        ROOT = Path.cwd().resolve()
+        MODULES = ['CanonicalExceptionalWeights']
+        MODULE = os.environ['ROOT_MODULE']
+        assert MODULE in MODULES
+        EVIDENCE = ROOT / 'a2-exceptional-rfl-skeleton-native' / MODULE
+        EVIDENCE.mkdir(parents=True, exist_ok=True)
+        assert os.environ['LEAN_NUM_THREADS'] == '2'
+        assert os.environ['GROUP_KILL_AFTER'] == '1200'
+        _spec = importlib.util.spec_from_file_location('a2_frozen_skeleton', ROOT / '.github/groups/skeleton.py')
+        skeleton = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(skeleton)
+        pm = skeleton.pm
+        assert pm.KILL_AFTER == 1200
+        version = subprocess.run(['lake', 'env', 'lean', '--version'], text=True, capture_output=True, timeout=30)
+        (EVIDENCE / 'toolchain.log').write_text(version.stdout + version.stderr)
+        assert version.returncode == 0 and '4.35.0-rc3' in version.stdout and '470d5ce1400764999581fd26d5d72b00d990b0f4' in version.stdout
+        mathlib = subprocess.check_output(['git', '-C', '.lake/packages/mathlib', 'rev-parse', 'HEAD'], text=True).strip()
+        assert mathlib == '0493595ecd5da8ef14742febab99728f98e948e8'
+        module = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + MODULE
+        command = ['lake', 'build', '+' + module + ':olean']
+        watcher = pm.Watcher(EVIDENCE / 'processes.log', set())
+        started_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        start = time.monotonic()
+        code = None
+        build_error = None
+        watcher.start()
+        try:
+            with (EVIDENCE / 'build.log').open('w', encoding='utf-8') as log:
+                p = subprocess.Popen(command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                     text=True, encoding='utf-8', errors='replace')
+                for line in p.stdout:
+                    log.write(line)
+                    log.flush()
+                    clean = pm.ANSI.sub('', line).rstrip()
+                    if clean.startswith(('✖', 'error:')) or (pm.HEAD.match(clean) and 'MOM_ENGINE_STEP' in clean):
+                        print(clean, flush=True)
+                code = p.wait()
+        except BaseException as error:
+            build_error = type(error).__name__ + ': ' + str(error)
+            raise
+        finally:
+            watcher.stop.set()
+            watcher.join(timeout=30)
+            elapsed = time.monotonic() - start
+            receipt = {'module': module, 'command': command, 'started_at': started_at,
+                       'finished_at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                       'elapsed_seconds': elapsed, 'actual_Lake_exit_code': code,
+                       'watcher_class': 'unmodified .github/probe/probe_map.py Watcher',
+                       'per_Lean_process_kill_after_seconds': pm.KILL_AFTER,
+                       'watcher_join_timeout_seconds': 30, 'watcher_alive_after_join': watcher.is_alive(),
+                       'watcher_killed': watcher.killed, 'max_elapsed': watcher.max_elapsed,
+                       'max_rss_KiB': watcher.max_rss, 'runner_error': build_error,
+                       'Lean_threads': 2, 'Lean_flags_added': [], 'mathlib': mathlib,
+                       'source_kind': 'complete shared skeleton with existing sorry bodies and retained rfl',
+                       'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}
+            assert json.loads(json.dumps(receipt)) == receipt
+            (EVIDENCE / 'result.json').write_text(json.dumps(receipt, indent=2) + '\n')
+
+        parsed = pm.parse_log(EVIDENCE / 'build.log')
+        failed = sorted(m for m, v in parsed['modules'].items() if v['symbol'] == '✖')
+        errors = [e for e in parsed['errors'] if not (e['message'] or '').startswith('build failed')]
+        target_result = parsed['modules'].get(module)
+        passed = code == 0 and not failed and not errors and not watcher.killed and not watcher.is_alive()
+        summary = {'target': module, 'target_log_result': target_result, 'actual_Lake_exit_code': code,
+                   'elapsed_seconds': elapsed, 'failed_modules': failed, 'errors': errors,
+                   'watcher_killed': watcher.killed, 'skeleton_subset_build_pass': passed,
+                   'does_not_validate_original_sorry_replaced_proofs': True,
+                   'normal_acceptance': False, 'fresh_acceptance': False, 'production_acceptance': False}
+        (EVIDENCE / 'modules.json').write_text(json.dumps(parsed['modules'], indent=2) + '\n')
+        (EVIDENCE / 'errors.json').write_text(json.dumps(errors, indent=2) + '\n')
+        (EVIDENCE / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+        print(json.dumps({'module': MODULE, 'Lake_exit': code, 'elapsed_seconds': elapsed,
+                          'killed_count': len(watcher.killed), 'source_errors': len(errors),
+                          'skeleton_subset_build_pass': passed, 'normal_acceptance': False}), flush=True)
+        raise SystemExit(0 if passed else 1)
+        PY
+        python3 a2-exceptional-rfl-skeleton-native/provenance.py before
+    - name: Record runner resources and retain the official mapping limit
+      shell: bash
+      run: |
+        if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+          sudo sysctl -w vm.max_map_count=262144
+        fi
+        df -h / > "a2-exceptional-rfl-skeleton-native/$ROOT_MODULE/disk-before.txt"
+        free -b > "a2-exceptional-rfl-skeleton-native/$ROOT_MODULE/memory-before.txt"
+        sysctl vm.max_map_count > "a2-exceptional-rfl-skeleton-native/$ROOT_MODULE/mapping-limit.txt"
+    - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+      with:
+        auto-config: 'false'
+        build: 'false'
+        test: 'false'
+        lint: 'false'
+        use-mathlib-cache: 'true'
+        use-github-cache: 'false'
+    - name: Restore ordinary project artifacts
+      uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+    - name: Build one complete skeleton target with the original 1200 second watcher
+      shell: bash
+      run: python3 -u a2-exceptional-rfl-skeleton-native/run-selected.py
+    - name: Verify every tracked source and configuration again
+      if: always()
+      shell: bash
+      run: python3 a2-exceptional-rfl-skeleton-native/provenance.py after
+    - name: Preserve original build logs and exact skeleton identities
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: a2-exceptional-rfl-skeleton-native-CanonicalExceptionalWeights-${{ github.sha }}-${{ github.run_attempt }}
+        path: |
+          a2-exceptional-rfl-skeleton-native/CanonicalExceptionalWeights/
+          a2-exceptional-rfl-skeleton-native/provenance.py
+          a2-exceptional-rfl-skeleton-native/run-selected.py
+        if-no-files-found: error
+        retention-days: 14
+'on':
+  push:
+    branches:
+    - cloud/mom-engine-step-a2-exceptional-rfl-skeleton-native
+  workflow_dispatch: null
