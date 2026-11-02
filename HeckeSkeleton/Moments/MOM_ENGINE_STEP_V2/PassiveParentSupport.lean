@@ -24,6 +24,14 @@ attribute [local instance]
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
 variable {K : Type} [Field K] [NumberField K]
+
+private theorem pairedRows_parameters_eq {ω ψ : HeckeCharacter K}
+    (d : MomentData K ω ψ) (a b : RealParameters) (Z : ℝ)
+    (hmq : a.m + a.q = b.m + b.q) (hz : a.z = b.z) :
+    pairedRows d a Z = pairedRows d b Z := by
+  unfold pairedRows
+  rw [hmq, hz]
+
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {packet : RawLeafPacket call p}
 
@@ -34,9 +42,11 @@ variable (seed : OrdinarySeed packet) (input : ProfileInput call)
 theorem reference_mem_working :
     seed.reference ∈ pairedRows call.localizedData call.workingParameters call.base := by
   have he : pairedRows call.localizedData call.workingParameters call.base =
-      pairedRows call.localizedData call.node.parameters call.base := by
-    ext u
-    simp only [pairedRows, Finset.mem_filter, Call.workingParameters, sub_add_cancel]
+      pairedRows call.localizedData call.node.parameters call.base :=
+    pairedRows_parameters_eq call.localizedData call.workingParameters call.node.parameters
+      call.base (by
+        dsimp only [Call.workingParameters]
+        exact sub_add_cancel _ _) rfl
   rw [he, Call.localizedData, EngineInduction.localizeOriginalParent_pairedRows]
   exact seed.reference_mem
 
