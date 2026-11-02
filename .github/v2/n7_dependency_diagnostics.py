@@ -131,11 +131,14 @@ def configured_watchdog_limit(source: str) -> int:
     return int(values[0])
 
 
-def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
+def prepare(root: Path, evidence: Path, modules: list[str],
+            raw_noncomputable_leaf: bool = False) -> dict:
     probes = evidence / "probes"
     probes.mkdir(parents=True, exist_ok=True)
     manifest = {"purpose": "DIAGNOSTIC ONLY; NOT ACCEPTED PROOF OUTPUT",
                 "accepted_as_proof": False, "canonical_sha256": {},
+                "diagnostic_variants": ({"RawContracts": ["explicit-noncomputable-leaf"]}
+                                        if raw_noncomputable_leaf else {}),
                 "gate_sha256": digest(root / ".github/v2/build.py"),
                 "module_timeout_seconds": configured_watchdog_limit(
                     (root / ".github/v2/build.py").read_text(encoding="utf-8")),
@@ -153,6 +156,15 @@ def prepare(root: Path, evidence: Path, modules: list[str]) -> dict:
         copied = source
         for position, insertion in sorted(events, reverse=True):
             copied = copied[:position] + insertion + copied[position:]
+        if module == "RawContracts" and raw_noncomputable_leaf:
+            anchor = "\ndef leaf ("
+            replacement = "\nnoncomputable def leaf ("
+            if copied.count(anchor) != 1 or replacement in copied:
+                raise ValueError("Expected exactly one ordinary RawCovers.leaf definition")
+            original_copy = copied
+            copied = copied.replace(anchor, replacement, 1)
+            if copied.replace(replacement, anchor, 1) != original_copy:
+                raise RuntimeError("The noncomputable-leaf diagnostic changed more than its modifier")
         copied += marker(module, "source", "source-end")
         for stage, text in (("imports", header + probe_options + marker(module, "imports", "imports-ok")),
                             ("source", copied)):
@@ -173,6 +185,8 @@ def main() -> int:
     parser.add_argument("--module", action="append", choices=MODULES)
     parser.add_argument("--imports-only", action="store_true")
     parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--raw-noncomputable-leaf", action="store_true",
+                        help="Diagnostic copy only: make RawCovers.leaf explicitly noncomputable")
     args = parser.parse_args()
     if not args.prepare_only and os.environ.get("GITHUB_ACTIONS") != "true":
         parser.error("Lean/Lake execution is CI-only; local usage requires --prepare-only")
@@ -180,7 +194,9 @@ def main() -> int:
     evidence = (args.output or root / "v2-build/n7-diagnostics").resolve()
     evidence.mkdir(parents=True, exist_ok=True)
     modules = list(dict.fromkeys(args.module or MODULES))
-    manifest = prepare(root, evidence, modules)
+    if args.raw_noncomputable_leaf and "RawContracts" not in modules:
+        parser.error("--raw-noncomputable-leaf requires RawContracts")
+    manifest = prepare(root, evidence, modules, args.raw_noncomputable_leaf)
     print(f"DIAGNOSTIC ONLY; NOT ACCEPTED PROOF OUTPUT: {evidence}", flush=True)
     if args.prepare_only:
         print("Prepared probes only; Lean/Lake were not executed.", flush=True)
@@ -199,6 +215,7 @@ def main() -> int:
     results = {"accepted_as_proof": False,
                "head": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
                "module_timeout_seconds": gate.MODULE_TIMEOUT_SECONDS,
+               "diagnostic_variants": manifest["diagnostic_variants"],
                "excluded_toolchain_imports": manifest["excluded_toolchain_imports"],
                "prerequisites": None, "stages": [], "canonical_sources_unchanged": None}
 
