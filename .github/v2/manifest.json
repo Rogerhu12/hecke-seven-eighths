@@ -134,6 +134,7 @@
       "proved": true,
       "modules": [
         "FullKappaContracts",
+        "FullKappaData",
         "N6AnalyticChoices",
         "N6FullKappaConstruction",
         "N6OriginalAnalytic",

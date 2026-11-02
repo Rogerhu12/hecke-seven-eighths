@@ -28,6 +28,8 @@ ALLOWED = ["propext", "Classical.choice", "Quot.sound"]
 MODULE_TIMEOUT_SECONDS = 600
 WATCH_INTERVAL_SECONDS = 15
 WATCHDOG_RESULTS: dict[str, dict] = {}
+TASK_BRANCH_PREFIX = "cloud/mom-v2-"
+BASE_BRANCH = "cloud/mom-engine-step-v2"
 
 
 def code_only(text: str) -> str:
@@ -239,6 +241,71 @@ def logged(command: list[str], name: str) -> int:
             return 124 if watcher.killed or watcher.errors else code
 
 
+def task_targets(names: list[str]) -> list[str] | None:
+    """The V2 modules a task branch changed relative to the v2 base, or None."""
+    head = os.environ.get("GITHUB_HEAD_REF") or os.environ.get("GITHUB_REF_NAME", "")
+    if not head.startswith(TASK_BRANCH_PREFIX):
+        return None
+    try:
+        for ref, local in ((BASE_BRANCH, "v2-base"), (head, "task-head")):
+            subprocess.run(["git", "fetch", "--no-tags", "--quiet", "--depth=400", "origin",
+                            f"+refs/heads/{ref}:refs/remotes/origin/{local}"], check=True)
+        base = subprocess.check_output(["git", "merge-base", "HEAD", "origin/v2-base"],
+                                       text=True).strip()
+        changed = subprocess.check_output(
+            ["git", "diff", "--name-only", base, "HEAD", "--", str(TASK.relative_to(ROOT))],
+            text=True).split()
+    except (OSError, subprocess.SubprocessError) as error:
+        print(f"V2_SCOPE_FALLBACK full build ({type(error).__name__}: {error})", flush=True)
+        return None
+    targets = sorted(({Path(f).stem for f in changed if f.endswith(".lean")} & set(names))
+                     - {"Interface"})
+    print(f"V2_SCOPE task branch {head}: base {base[:12]}, targets {targets}", flush=True)
+    return targets or None
+
+
+TASK_AUDIT = """
+import Lean.Elab.Command
+import Lean.Util.CollectAxioms
+
+open Lean Elab Command in
+run_cmd do
+  let env ← getEnv
+  let targets : Array Name := #[MODULES]
+  let mut names : Array Name := #[]
+  for (name, _) in env.constants.toList do
+    match env.getModuleIdxFor? name with
+    | some idx =>
+      if targets.contains (env.header.moduleNames[idx.toNat]!) then names := names.push name
+    | none => pure ()
+  unless !names.isEmpty do
+    throwError "No declarations found in the task modules"
+  let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
+  let mut bad : Nat := 0
+  for name in names.qsort Name.lt do
+    let dependencies ← collectAxioms name
+    let extra := dependencies.filter fun ax => !permitted.contains ax
+    unless extra.isEmpty do
+      bad := bad + 1
+      logInfo m!"V2_TASK_EXTRA_AXIOMS {name}: {extra}"
+  if bad == 0 then
+    logInfo m!"V2_TASK_AXIOMS_PASSED: {names.size} declarations"
+  else
+    throwError "{bad} task declarations use axioms beyond the standard three (sorryAx means an unfinished proof)"
+"""
+
+
+def scoped_audit(targets: list[str]) -> dict:
+    """Audit the axioms of exactly the declarations defined in the target modules."""
+    imports = "".join(f"import {PREFIX}.{name}\n" for name in targets)
+    modules = ", ".join(f"`{PREFIX}.{name}" for name in targets)
+    audit_path = EVIDENCE / "task_AxiomAudit.lean"
+    audit_path.write_text(imports + TASK_AUDIT.replace("MODULES", modules), encoding="utf-8")
+    code = logged(["lake", "env", "lean", str(audit_path)], "task_axioms.log")
+    output = (EVIDENCE / "task_axioms.log").read_text()
+    return {"exit_code": code, "success_marker": "V2_TASK_AXIOMS_PASSED:" in output}
+
+
 def main() -> int:
     EVIDENCE.mkdir(exist_ok=True)
     manifest_path = ROOT / ".github/v2/manifest.json"
@@ -275,13 +342,19 @@ def main() -> int:
         "watch_interval_seconds": WATCH_INTERVAL_SECONDS,
     }
     (EVIDENCE / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
+    targets = task_targets(names)
+    environment["task_targets"] = targets
+    (EVIDENCE / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
     start = time.monotonic()
     build_exit = logged(["lake", "build", *("+" + PREFIX + "." + name + ":olean"
-                                          for name in names)], "build.log")
-    results = {"build_exit": build_exit, "module_count": len(names),
+                                          for name in (targets or names))], "build.log")
+    results = {"build_exit": build_exit, "module_count": len(targets or names),
+               "task_targets": targets,
                "elapsed_seconds": time.monotonic() - start, "group_audits": {},
                "watchdogs": WATCHDOG_RESULTS}
-    if build_exit == 0:
+    if build_exit == 0 and targets:
+        results["group_audits"]["task"] = scoped_audit(targets)
+    elif build_exit == 0:
         for group in groups:
             if not group["proved"]:
                 continue
@@ -328,7 +401,8 @@ run_cmd do
         for result in results["group_audits"].values())
     summary = ("# MOM_ENGINE_STEP_V2\n\n"
                + f"- Exact head: `{environment['head']}`\n"
-               + f"- V2 modules: {len(names)}\n"
+               + (f"- Task branch scope: {', '.join(targets)}\n" if targets else "")
+               + f"- V2 modules built: {len(targets or names)}\n"
                + f"- Lake exit: {build_exit}\n"
                + f"- Per-module Lean timeout: {MODULE_TIMEOUT_SECONDS}s\n"
                + f"- Modules terminated: {sum(len(item['killed']) for item in WATCHDOG_RESULTS.values())}\n"

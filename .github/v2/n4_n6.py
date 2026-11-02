@@ -48,6 +48,7 @@ OWNED_GROUPS = {
     ),
     "n6": (
         "FullKappaContracts",
+        "FullKappaData",
         "N6AnalyticChoices",
         "N6FullKappaConstruction",
         "N6OriginalAnalytic",
@@ -96,12 +97,12 @@ def preflight() -> tuple[list[str], dict[str, str]]:
     errors = []
     discovered = {path.stem for pattern in ("N4*.lean", "N6*.lean")
                   for path in TASK.glob(pattern)} | {
-                      "OriginalCapacityContracts", "FullKappaContracts", *THEOREMS}
+                      "OriginalCapacityContracts", "FullKappaContracts", "FullKappaData", *THEOREMS}
     if discovered != set(OWNED_MODULES):
         errors.append("Owned N4/N6 module inventory changed: "
                       + repr(sorted(discovered.symmetric_difference(OWNED_MODULES))))
-    if len(OWNED_MODULES) != 25 or len(set(OWNED_MODULES)) != len(OWNED_MODULES):
-        errors.append("The fixed N4/N6 inventory must contain 25 distinct modules")
+    if len(OWNED_MODULES) != 26 or len(set(OWNED_MODULES)) != len(OWNED_MODULES):
+        errors.append("The fixed N4/N6 inventory must contain 26 distinct modules")
     try:
         manifest = json.loads((ROOT / ".github/v2/manifest.json").read_text(encoding="utf-8"))
         groups = manifest.get("groups") if isinstance(manifest, dict) else None
