@@ -69,6 +69,7 @@ theorem representative_spec (a : labels (source := source)) :
     representative a ∈ source.source.columns ∧ label (representative a) = a.val :=
   Classical.choose_spec (Finset.mem_image.mp a.property)
 
+include h in
 theorem label_mem (a : labels (source := source)) :
     a.val ∈ (childCartesianColumns call.workingRaw.originalPlain₁
       call.workingRaw.originalPlain₂ call.workingRaw.exteriorSlots).image
@@ -222,6 +223,7 @@ theorem cover_realizes : h.cover.Realizes where
   slots _ := HEq.rfl
   index a x hx := (h.index_spec a x hx).2
 
+include h in
 theorem exists_cover : ∃ cover : OriginalCover source, cover.Realizes :=
   ⟨h.cover, h.cover_realizes⟩
 
