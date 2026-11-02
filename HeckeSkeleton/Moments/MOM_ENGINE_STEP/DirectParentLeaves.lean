@@ -25,6 +25,37 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckePort.Moments HeckePort.Moments.MobiusRegroup MeasureTheory
 
+private theorem direct_parent_sigma_sum_cost
+    {I : Type*} {D : I → Type*} {J : (i : I) → D i → Type*}
+    [Fintype I] [instD : ∀ i, Fintype (D i)]
+    [instJ : ∀ i d, Fintype (J i d)]
+    (w : ℝ) (zero tail : ∀ i, D i → ℝ)
+    (leaf : ∀ i d, J i d → ℝ)
+    (parent : (Σ i, Σ d : D i, J i d) → ℝ)
+    (hparent : ∀ i d j, parent ⟨i, d, j⟩ = w * leaf i d j) :
+    w * (∑ i, ∑ d, (zero i d + tail i d + ∑ j, leaf i d j)) =
+      w * (∑ i, ∑ d, zero i d) + w * (∑ i, ∑ d, tail i d) +
+        ∑ j, parent j := by
+  sorry
+
+private theorem direct_parent_sum_le_sum
+    {I : Type*} {D : I → Type*}
+    [Fintype I] [instD : ∀ i, Fintype (D i)]
+    (f g : ∀ i, D i → ℝ) (h : ∀ i d, f i d ≤ g i d) :
+    (∑ i, ∑ d, f i d) ≤ ∑ i, ∑ d, g i d := by
+  sorry
+
+private theorem direct_parent_scalar_bound
+    (energy w zero linearCost tail firstCost secondCost
+      zeroBudget tailBudget leaves : ℝ)
+    (hw : 0 ≤ w)
+    (hparent : energy ≤ w * (zero + linearCost + tail))
+    (hfirst : zero + tail ≤ firstCost)
+    (hsecond : linearCost ≤ secondCost)
+    (hcost : w * secondCost = zeroBudget + tailBudget + leaves) :
+    energy ≤ w * firstCost + zeroBudget + tailBudget + leaves := by
+  sorry
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}

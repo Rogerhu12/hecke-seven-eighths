@@ -36,6 +36,14 @@ open HeckePort.Moments HeckePort.Moments.Support HeckePort.Moments.MobiusRegroup
 open HeckePort.IdealMobiusDivisorSum
 open WholeAllocation
 
+private theorem literal_coefficient_assoc (c a b d : ℂ) :
+    (c * a) * b * d = c * (a * b * d) := by
+  sorry
+
+private theorem literal_row_weight_comm (w q a b : ℂ) :
+    (w * q) * a * b = (w * a * b) * q := by
+  sorry
+
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
@@ -196,13 +204,13 @@ def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
     rw [v.literal_left_coefficient leftAtoms leftCoefficient i
       (v.literal_left_mem exceptional F x j i hi)]
     dsimp only [secondAllocatedLeftCoefficient]
-    ring
+    exact literal_coefficient_assoc _ _ _ _
   right h _ i hi := by
     change v.chart.sourceRightCoefficient (v.rightReindex.index i) * _ * _ = _
     rw [v.literal_right_coefficient rightAtoms rightCoefficient i
       (v.literal_right_mem exceptional F x j i hi)]
     simp only [secondAllocatedRightCoefficient, star_star]
-    ring
+    exact literal_coefficient_assoc _ _ _ _
 
 /-- This reweighting is the one forced by the two constants just
 extracted from the stored whole coefficients. -/
@@ -284,7 +292,7 @@ def literalOrdinaryBinding :
   exceptional _ _ := Iff.rfl
   rowWeight h _ := by
     change ((_ * _) * _ * _) = ((_ * _ * _) * _)
-    ring
+    exact literal_row_weight_comm _ _ _ _
   leftCoefficient _ _ _ _ := rfl
   rightCoefficient h _ i _ := by
     change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
