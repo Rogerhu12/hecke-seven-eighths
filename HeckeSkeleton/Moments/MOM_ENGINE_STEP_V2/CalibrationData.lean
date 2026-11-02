@@ -20,7 +20,7 @@ open scoped Classical BigOperators NumberField SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep
+open EngineStep EngineInduction EngineInduction.Source
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
@@ -56,6 +56,7 @@ structure OriginalCalibration (call : Call c)
   normProfiles : NormProfileRecipe calibration.data
   base_eq : s.base = call.base
   kappa_eq : calibration.parameters.κ = call.node.parameters.κ
+  plain_background : ∀ ξ, (calibration.data ξ).plainBackground = call.node.data.plainBackground
   originalSlots : OriginalSlotDictionary call.node.data s.length
   theta_eq : ∀ ξ, (calibration.data ξ).theta = call.node.data.theta
   slot_characters : ∀ ξ i, (calibration.data ξ).slotCoefficient i ∈ call.node.data.theta
@@ -68,6 +69,19 @@ namespace OriginalCalibration
 variable {call : Call c}
 variable {s : ActualAllocatedSource (Arithmetic.data c) EngineParameter H k}
 variable (D : OriginalCalibration call s)
+
+/-- These are raw arithmetic support conditions on this same finite
+source. In particular no additional allowed rows can appear after the
+capacity step. N4 supplies the two budgets from the original physical
+windows; the actual finite row image is fixed by the calibration task. -/
+structure SourceConditions : Prop where
+  allowed_exact : ∀ ξ u, (D.calibration.data ξ).allowedRow u ↔
+    ∃ h ∈ s.rows, (s.row h).momentIdeal = u
+  support : D.recipe.SupportBudget s.base D.calibration.parameters.q
+  joint : D.recipe.FullJointBudget s.base
+    (D.calibration.parameters.m + D.calibration.parameters.q)
+  timeIndependent : ∀ ξ, ProfileTimeIndependent (D.calibration.data ξ)
+  primeSupport : ∀ ξ, PrimeProfileSupport (D.calibration.data ξ)
 
 /-- The source identity is global in each real profile argument. The
 shape and scalar allowance are supplied before choosing the dictionary. -/

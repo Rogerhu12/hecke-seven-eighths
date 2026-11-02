@@ -30,6 +30,9 @@ open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
 open WholeAllocation
 
 variable {K : Type} [Field K] [NumberField K]
+
+section Generic
+
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
 variable {C : A.GeneralArithmeticContext σ η hS}
@@ -136,7 +139,10 @@ def rawLeaf (exceptional : s.CoverHybridPredicates LC RC)
 
 end SourceClassKey
 
+end Generic
+
 attribute [local instance]
+  actualGaussFiniteLeavesCircleCharacterFintype coveredClassKeyFintype
   sourcePrincipal sourceNormOneSpace sourceNormOneBorel
   Expansion.ActualProbeContext.localCompletionSpace
   Expansion.ActualProbeContext.localCompletionBorel

@@ -56,7 +56,7 @@ def main (P : PoolPresentation family) (i : Fin family.count) :
 
 theorem main_origin (P : PoolPresentation family) (i : Fin family.count) :
     P.MainOrigin i (main P i) := by
-  exact ⟨HEq.rfl, HEq.rfl, HEq.rfl, rfl, HEq.rfl, rfl, rfl⟩
+  exact ⟨rfl, HEq.rfl, HEq.rfl, HEq.rfl, rfl, HEq.rfl, rfl, rfl⟩
 
 def error (P : PoolPresentation family) (i : Fin family.count)
     (q : P.pool.primes) (e : AmplifierValuation) : PhysicalSource call p where
@@ -85,7 +85,7 @@ def error (P : PoolPresentation family) (i : Fin family.count)
 theorem error_origin (P : PoolPresentation family) (i : Fin family.count)
     (q : P.pool.primes) (e : AmplifierValuation) :
     P.ErrorOrigin i q e (error P i q e) := by
-  exact ⟨HEq.rfl, HEq.rfl, HEq.rfl, rfl, HEq.rfl, rfl,
+  exact ⟨rfl, HEq.rfl, HEq.rfl, HEq.rfl, rfl, HEq.rfl, rfl,
     rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 def physical (P : PoolPresentation family) (key : P.Index) :

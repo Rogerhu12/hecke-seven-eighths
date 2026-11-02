@@ -51,14 +51,14 @@ theorem expansion_error_prime_lower
     cases hk : (index i).2 with
     | inl unit =>
       simp only [PoolPresentation.Origin, hk] at ho
-      rcases ho with ⟨_, _, _, _, _, _, hfirst⟩
+      rcases ho with ⟨_, _, _, _, _, _, _, hfirst⟩
       have ht := congrArg FirstCoordinates.tag hfirst
       change (sources i).first.tag = .main at ht
       rw [ht] at htag
       cases htag
     | inr qe =>
       simp only [PoolPresentation.Origin, hk] at ho
-      rcases ho with ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, ht, _, _⟩
+      rcases ho with ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, ht, _, _⟩
       obtain ⟨_, hq⟩ := OriginalNominalTag.error.inj (ht.symm.trans htag)
       have hn := pool.pool.norm_lower qe.1.val qe.1.property
       simpa only [hq, show (recipeInductionSigma c / 3) / 2 =

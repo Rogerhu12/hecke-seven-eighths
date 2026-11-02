@@ -7,10 +7,15 @@
       "proved": true,
       "modules": [
         "ArithmeticData",
+        "ArithmeticMassAssembly",
         "AssemblyCore",
         "BudgetAssembly",
         "CalibrationData",
         "CallData",
+        "ChildArithmeticContracts",
+        "ChildInvariantData",
+        "ChildProfileAssembly",
+        "ChildProfileContracts",
         "EmptyAssembly",
         "EstimateData",
         "ExceptionalContracts",
@@ -26,8 +31,10 @@
         "NormalizationAssembly",
         "NormalizedData",
         "NormalizedOutputAssembly",
+        "OrdinaryContracts",
         "OrdinaryData",
         "OriginalInput",
+        "OriginalOccurrenceData",
         "OriginalPhaseData",
         "OutputAssembly",
         "PassiveData",
@@ -42,11 +49,17 @@
         "RawRectangleData",
         "RefinementAssembly",
         "RefinementData",
+        "S3Energy",
         "S3ExpansionData",
+        "S3FrozenDivisor",
         "S3PoolData",
+        "S3RowExponent",
+        "S3UniformDensity",
         "S5ClassIdeals",
         "S5GeometryConstruction",
         "S5NominalLedger",
+        "S5RowWindow",
+        "S5SupportWindow",
         "SecondContracts",
         "SecondData",
         "SecondZeroContracts",
@@ -63,7 +76,9 @@
         "TerminalData",
         "UniformAssembly",
         "UniformContracts",
-        "UniformData"
+        "UniformData",
+        "UniformOrderPreparation",
+        "UniformScalarPreparation"
       ]
     },
     {
@@ -73,13 +88,15 @@
       "modules": [
         "ProfileFormulaTask",
         "TasksAmplification",
+        "TasksChildArithmetic",
+        "TasksChildProfiles",
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
         "TasksFiniteLeaves",
         "TasksFirstAllowance",
         "TasksFirstTransform",
         "TasksFirstZero",
-        "TasksNominalGeometry",
+        "TasksOriginalAtoms",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
@@ -93,6 +110,14 @@
       "proved": false,
       "modules": [
         "Interface"
+      ]
+    },
+    {
+      "id": "s5",
+      "name": "S5 nominal geometry proof and recursive dependencies",
+      "proved": true,
+      "modules": [
+        "TasksNominalGeometry"
       ]
     }
   ]
