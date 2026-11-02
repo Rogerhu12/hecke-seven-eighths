@@ -50,7 +50,7 @@ theorem t3b_orbitMultiplicity_le (source : PhysicalSource call p)
   · change ((image.sup (fun q => (source.source.rows.filter (fun h =>
       engineElementOrbit (Γ := Arithmetic.unitSubgroup c) h = q)).card) : ℕ) : ℝ) ≤ B
     rw [Finset.not_nonempty_iff_eq_empty.mp hi, Finset.sup_empty]
-    exact hB
+    simpa only [bot_eq_zero, Nat.cast_zero] using hB
 
 end PhysicalSource
 

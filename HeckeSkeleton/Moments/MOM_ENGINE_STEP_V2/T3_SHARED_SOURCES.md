@@ -92,14 +92,33 @@ reported to N1 in PR #31 comment `6587076397`. N1 R17 snapshot
 on `Bool.true_eq_true`; it does not replace the two validated T3 source blobs.
 The complete T3 tasks and fresh audits remain unaccepted at this stage.
 
+N1 R18 snapshot `70c2e8601417a81236aea95cf5b138c0f6033b8e` subsequently built
+its corrected `OrdinaryRawAtomData` in 63s/65s in its public/strict gates.
+This file is now consumed verbatim from that owner snapshot: 252 lines,
+blob `a846d978462563413f773b8b4e506830cca7ff35`. All 23 public declaration
+headers and all seven complete computational definitions equal the previously
+validated T3 version; only two theorem proofs and private helper organization
+differ. The failing R18 MultiplierTransport and Coordinates variants are not
+consumed. T3's complete combination must still pass its own formal gates.
+
 The 67 flushed Coordinates labels in both official logs and the full strict
 artifact locate its remaining timeout after the `realizes_firstIndex` true
 branch and before `secondColumn`. The next proof correction factors the
 realization elimination into a private helper with an independent count
 equality; the public theorem supplies its same original count proof afterward.
 The original ancestor, column, cast, public statement and watchdog remain
-unchanged. Additional branch-completion labels distinguish construction of
-the existing cover equality from its final type alignment.
+unchanged. At T3 head `fe1eea49`, both cover equalities were constructed, but
+the last label remained `realizes_firstIndex_of_count.true.index` and the
+module still exceeded 300 seconds. Independent count abstraction alone was
+therefore insufficient; it is not reported as a successful timeout repair.
+
+The next correction performs count-proof alignment in a small private
+`OriginalCover.Realizes.ancestor_index_of_count` lemma before instantiation
+at the raw packet. Both actual branches then pass the same independent
+count proof used in their target. Ordinary returned markers and monotonic
+millisecond timestamps distinguish final tactic alignment from subsequent
+declaration checking and quantify time spent in earlier statements. Every
+public declaration and the 300-second module gate remain unchanged.
 
 ## N4 frozen ideals and scale identities
 
@@ -131,8 +150,11 @@ The current file follows PR #42 snapshot
 `6586842459` and PR #31 comment `6586880188`. The original fibre equality is
 first transported to a membership proposition, then filter/image membership
 is reduced and rebuilt using the target's own image constructor. No ideal,
-index or premise changes. Imports and every declaration header are unchanged;
-this final compatibility step still requires the next T3 formal CI run.
+index or premise changes. Imports and every declaration header are unchanged.
+The owner built this exact file in 29s/32s; T3 head `fe1eea49` independently
+built it in 35s/31s in its own public/strict gates, with the same standard
+axiom print. These are module results, not completion of either T3 task or
+the full fresh recursive audits.
 
 ## B-line CI repair
 
