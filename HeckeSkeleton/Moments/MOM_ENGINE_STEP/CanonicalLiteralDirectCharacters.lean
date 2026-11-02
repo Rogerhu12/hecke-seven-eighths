@@ -115,7 +115,11 @@ def literalLeftDirectRecipe
   have e := literalLeftDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
   have E := original.onAtlas ((p.leftSourceCover (raw).originalAtlas S χ).branch label) (congrArg Sigma.fst e).symm
-  simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
+  exact Eq.mp
+    (congrArg
+      (Recipe P R F (data ξ) Q.moving Q.correction Q.remaining extra)
+      (CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas _ _ _ _))
+    E
 
 /-- Exact original characters and the injective occurrence dictionary
 of the existing right direct table, constructed before any child bound. -/
@@ -143,7 +147,11 @@ def literalRightDirectRecipe
   have e := literalRightDirectCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
     b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
   have E := original.onAtlas ((p.rightSourceCover (raw).originalAtlas S χ).branch label) (congrArg Sigma.fst e).symm
-  simpa only [CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas] using E
+  exact Eq.mp
+    (congrArg
+      (Recipe P R F (data ξ) Q.moving Q.correction Q.remaining extra)
+      (CanonicalLiteralRectangles.Atoms.deleteMask_onAtlas _ _ _ _))
+    E
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
