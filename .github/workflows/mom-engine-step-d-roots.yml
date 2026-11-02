@@ -48,6 +48,17 @@ jobs:
             declarations:
               - HeckeSkeleton.Moments.EngineStep.exceptionalFourierControl
               - HeckeSkeleton.Moments.EngineStep.SecondSideFrame.exceptional_original_label_integral_from_atoms
+          - target: OriginalPoolMonotonicity
+            downstream: ''
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.PowerScaleExteriorPool.rowDensity_antitone_windows
+              - HeckeSkeleton.Moments.EngineStep.AmplifiedCommonIndex.pointwise_of_original_tag_uniform
+          - target: OriginalTaggedLocalIndex
+            downstream: ''
+            declarations:
+              - HeckeSkeleton.Moments.EngineStep.OriginalArithmeticLabels.localIndex_first
+              - HeckeSkeleton.Moments.EngineStep.OriginalArithmeticLabels.localIndex_secondDivisor
+              - HeckeSkeleton.Moments.EngineStep.OriginalArithmeticLabels.amplifiedIndexWeight_local
     env:
       LEAN_NUM_THREADS: '2'
       D_ROOT_TARGET: ${{ matrix.target }}
@@ -125,6 +136,7 @@ jobs:
             > "$D_ROOT_EVIDENCE/verification-status.json"
           exit "$D_ROOT_STATUS"
       - name: Build the independent downstream frontier and audit its namespace
+        if: ${{ matrix.downstream != '' }}
         shell: bash
         run: |
           mkdir -p "$D_ROOT_EVIDENCE/downstream"
