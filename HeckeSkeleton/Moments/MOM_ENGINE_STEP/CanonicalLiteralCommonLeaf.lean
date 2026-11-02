@@ -140,9 +140,12 @@ def ordinaryBinding :
       (R.weight h * left.commonScalar bL * star (right.commonScalar bR)) * R.correlation h
     ring
   leftCoefficient _ _ _ _ := rfl
-  rightCoefficient _ _ _ _ := by simp only [extraction,
-    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms,
-    star_star, commonRows]
+  rightCoefficient h _ j _ := by
+    change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
+        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 (right.extract bR).whole h j)) =
+      secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}
+        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 (right.extract bR).whole h j
+    exact star_star _
   leftPoint h _ := by
     refine ⟨WithLp.toLp 2
       (-firstSign * Real.log (Ideal.absNorm (power.val * bL.literalExtractedIdeal) : ℝ),
@@ -186,8 +189,15 @@ def ordinaryBinding :
     change WithLp.toLp 2
         (-(-firstSign * Real.log
           (Ideal.absNorm (power.val * allocationColumnIdeal (bR.reconstruct j)) : ℝ)),
-          -Real.log (Ideal.absNorm (allocationColumnIdeal (bR.reconstruct j)) : ℝ)) = _
-    simpa only [neg_neg, zero_sub, neg_mul] using he
+          -Real.log (Ideal.absNorm (allocationColumnIdeal (bR.reconstruct j)) : ℝ)) =
+      WithLp.toLp 2
+          (firstSign * Real.log (Ideal.absNorm (power.val * bR.literalExtractedIdeal) : ℝ),
+            -Real.log (Ideal.absNorm bR.literalExtractedIdeal : ℝ)) +
+        rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
+          (CanonicalLiteralLocations.plain (-firstSign))
+          (CanonicalLiteralLocations.prime (-firstSign)) j
+    simp only [neg_neg, zero_sub, neg_mul] at he ⊢
+    exact he
 
 /-- Only genuinely nonzero complete correlations enter the arithmetic
 row calibration. The literal finite source itself is not filtered. -/
