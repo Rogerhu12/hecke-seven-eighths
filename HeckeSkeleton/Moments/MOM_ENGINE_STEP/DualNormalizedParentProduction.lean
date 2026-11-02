@@ -121,7 +121,47 @@ theorem actual_parent_dual_normalized_child_bound
               (family.leftParameters Finset.univ b) Z 0) *
             Real.sqrt (normalizedPairedEnergy (family.rightData Finset.univ b ξ)
               (family.rightParameters Finset.univ b) Z 0) ∂kernels b := by
-  sorry
+  obtain ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
+    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, hb⟩ :=
+    actual_parent_two_stage_dual_finite_leaf_bound (W := W) (E := E) (ν := ν) (μ := μ)
+      hΓ μv hDiff C Drecipe hD rowBallSize k ε hε Lmax Nsave ξmax hξmax
+  refine ⟨decay, hdecay, hchoice, hq, sFirst, sFirstZero, sTail, sZero,
+    CfirstError, CfirstZero, Cerror, Czero, hCfE, hCfZ, hCE, hCZ, ?_⟩
+  intro Z ell eps bad P omega psi centered d a t Y₁ Y₂ X hX s coefficient hprofiles N₀ R conditions T F L exceptional
+    Ray instRayComm instRayFinite I instIFinite instIDecidable rowDomain heightDomain window seminorms
+    extract N
+  dsimp only
+  intro atoms
+  let originalLeaves := fun j : R.liveLeaves L exceptional N₀ =>
+    R.parentLeaf L exceptional N₀ j.val
+  let leaves := ActualHybridFamily.withConstantAtoms originalLeaves extract
+  let family := ActualHybridFamily.normalizedFamily leaves N
+  have hZ : 0 < Z := zero_lt_one.trans P.base_gt_one
+  obtain ⟨hcutoff, hp⟩ := hb Z ell eps bad P centered d a t Y₁ Y₂ X hX s coefficient hprofiles N₀
+    R conditions T F L exceptional
+  have ho := ActualHybridFamily.ordinaryBudget_le_sourcePairs leaves N (a.m + a.q) hZ
+  have hc := atoms.source_integral
+    (ActualHybridFamily.firstKernels leaves) (ActualHybridFamily.secondKernels leaves)
+    (ActualHybridFamily.outerWeights leaves) (a.m + a.q) hZ
+    (fun b _ => ActualHybridFamily.outerWeights_nonneg leaves b)
+  have hord := ho.trans hc
+  have horiginal :
+      R.ordinaryBudget L exceptional N₀ = ∑ j, (leaves j).ordinaryCost := by
+    change (∑ j, (originalLeaves j).ordinaryCost) = _
+    exact ActualHybridFamily.sum_ordinaryCost_eq_withConstantAtoms originalLeaves extract
+  rw [← horiginal] at hord
+  simp_rw [family.childPair_eq_frozen Finset.univ] at hord
+  refine ⟨hcutoff, ?_⟩
+  calc
+    _ ≤ ActualFirstSource.SecondStages.dualFirstZeroBudget F ε CfirstZero / Z ^ (a.m + a.q) +
+          R.dualSecondZeroBudget T N₀ ε Czero / Z ^ (a.m + a.q) +
+          R.exceptionalBudget L exceptional N₀ / Z ^ (a.m + a.q) +
+          R.dualTotalTailBudget T F N₀ CfirstError Cerror /
+            Z ^ (a.m + a.q) +
+          R.ordinaryBudget L exceptional N₀ / Z ^ (a.m + a.q) := by
+      simpa only [add_div] using
+        div_le_div_of_nonneg_right hp (Real.rpow_nonneg hZ.le (a.m + a.q))
+    _ ≤ _ := add_le_add le_rfl hord
 
 end HeckeSkeleton.Moments.EngineStep
 

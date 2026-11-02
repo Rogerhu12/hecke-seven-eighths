@@ -106,11 +106,11 @@ variable (s : ActualPoolStages (E := E) hΓ μv hDiff dpool c finiteTest)
 
 @[simp] theorem supported_tag (b : PoolSourceTag P) :
     s.supported.tag b = (s.tag b).supported := by
-  sorry
+  rcases b with u | p | p | p <;> rfl
 
 @[simp] theorem gated_tag (b : PoolSourceTag P) :
     s.gated.tag b = (s.tag b).gated := by
-  sorry
+  rcases b with u | p | p | p <;> rfl
 
 variable {s}
 

@@ -60,23 +60,29 @@ variable (rightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
 Gauss product, including every removed occurrence. -/
 @[simp] theorem literalLeftAtoms_gaussScale :
     (v.literalLeftAtoms leftAtoms).gaussScale = leftAtoms.gaussScale := by
-  sorry
+  simp only [literalLeftAtoms, literalLeftOriginal,
+    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.gaussScale_extract]
 
 /-- The right stored atlas has the same exact preservation; no second
 common ideal norm is divided out of the Gauss scale. -/
 @[simp] theorem literalRightAtoms_gaussScale :
     (v.literalRightAtoms rightAtoms).gaussScale = rightAtoms.gaussScale := by
-  sorry
+  simp only [literalRightAtoms, literalRightOriginal,
+    CanonicalLiteralRectangles.Atoms.gaussScale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.gaussScale_extract]
 
 @[simp] theorem literalLeftStripped_gaussScale (scalar : ℂ) (balance : Bool → ℝ) :
     (((v.literalLeftAtoms leftAtoms).scale scalar⁻¹).balancePlain balance).gaussScale =
       leftAtoms.gaussScale := by
-  sorry
+  rw [CanonicalLiteralRectangles.Atoms.gaussScale_balancePlain,
+    CanonicalLiteralRectangles.Atoms.gaussScale_scale, v.literalLeftAtoms_gaussScale]
 
 @[simp] theorem literalRightStripped_gaussScale (scalar : ℂ) (balance : Bool → ℝ) :
     (((v.literalRightAtoms rightAtoms).scale scalar⁻¹).balancePlain balance).gaussScale =
       rightAtoms.gaussScale := by
-  sorry
+  rw [CanonicalLiteralRectangles.Atoms.gaussScale_balancePlain,
+    CanonicalLiteralRectangles.Atoms.gaussScale_scale, v.literalRightAtoms_gaussScale]
 
 end ActualGaussStage.CoveredClassKey
 end HeckeSkeleton.Moments.EngineStep

@@ -109,7 +109,36 @@ theorem classZeroBudget_le_combined_profiles
         (firstCommonWeight Z DE.1 DE.2 *
           (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
             ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans P.base_gt_one
+  have hpool : 0 ≤ poolTerminalConstant K ell Mmax :=
+    (poolTerminalConstant_pos (K := K) ell Mmax P.exponent_pos
+      ((p.divisorPools.leftData S).rowExponent_nonneg.trans hleftRow)).le
+  have hL := (T.left S χ).zeroBudget_div_allowance_le_combined_profiles
+    ε Czero profileL (Ideal.absNorm S.val : ℝ) _ loss shift Mmax exponentL fiberCap tupleL
+    hC hprofileL (Nat.cast_nonneg _) hleftRow hleftLarge
+    hleftFiber hleftTuples hleftProfile hleftExponent
+  have hR := (T.right S χ).zeroBudget_div_allowance_le_combined_profiles
+    ε Czero profileR (Ideal.absNorm S.val : ℝ) _ loss shift Mmax exponentR fiberCap tupleR
+    hC hprofileR (Nat.cast_nonneg _) hrightRow hrightLarge
+    hrightFiber hrightTuples hrightProfile hrightExponent
+  have hfirst' := first_profile_power_with_shift
+    Z parentWidth total shift firstAmplitude p.weightBound hz hfirst
+  have hc := original_terminal_class_scalar_with_shift Z parentWidth
+    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
+    p.rowBound ‖(moebius S.val : ℂ)‖
+    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
+    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
+    ((T.left S χ).zeroBudget ε Czero) ((T.right S χ).zeroBudget ε Czero)
+    (poolTerminalConstant K ell Mmax * ((fiberCap : ℝ) * Czero * (tupleL : ℝ) * profileL))
+    (poolTerminalConstant K ell Mmax * ((fiberCap : ℝ) * Czero * (tupleR : ℝ) * profileR))
+    (Ideal.absNorm S.val : ℝ) loss shift firstAmplitude (firstCommonWeight Z DE.1 DE.2)
+    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
+    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
+    (firstTerminalFourierCost_nonneg chart.kernel) (by positivity) (by positivity)
+    (Nat.cast_nonneg _) hL hR (firstTerminalFourierCost_bound chart.kernel)
+    (p.normalized_allowance_prefactor P.base_gt_one total parentWidth
+      (firstAmplitude * Z ^ shift) hfirst')
+  simpa only [classZeroBudget, classWeight] using hc
 
 /-- The same pooled source, divisor and Fourier mass are used for
 the tail. The uniform cutoff saving is combined with the actual
@@ -152,7 +181,36 @@ theorem classTailBudget_le_combined_profiles
         (firstCommonWeight Z DE.1 DE.2 *
           (‖(moebius S.val : ℂ)‖ / (Ideal.absNorm S.val : ℝ)) *
             ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖) * Z ^ loss := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans P.base_gt_one
+  have hpool : 0 ≤ poolTerminalConstant K ell Mmax :=
+    (poolTerminalConstant_pos (K := K) ell Mmax P.exponent_pos
+      ((p.divisorPools.leftData S).rowExponent_nonneg.trans hleftRow)).le
+  have hL := (T.left S χ).tailBudget_div_allowance_le_combined_profiles
+    Cerror profileL (Ideal.absNorm S.val : ℝ) _ loss shift Mmax exponentL fiberCap tupleL
+    hC hprofileL (Nat.cast_nonneg _) hleftRow hleftLarge
+    hleftFiber hleftTuples hleftProfile hleftExponent
+  have hR := (T.right S χ).tailBudget_div_allowance_le_combined_profiles
+    Cerror profileR (Ideal.absNorm S.val : ℝ) _ loss shift Mmax exponentR fiberCap tupleR
+    hC hprofileR (Nat.cast_nonneg _) hrightRow hrightLarge
+    hrightFiber hrightTuples hrightProfile hrightExponent
+  have hfirst' := first_profile_power_with_shift
+    Z parentWidth total shift firstAmplitude p.weightBound hz hfirst
+  have hc := original_terminal_class_scalar_with_shift Z parentWidth
+    (firstLeftAllowance Z total DE.1 DE.2) (firstRightAllowance Z total DE.1 DE.2)
+    p.rowBound ‖(moebius S.val : ℂ)‖
+    ‖fixedPhaseCoefficient PUnit (fun _ => (1 : Circle)) χ‖
+    ((actualFourierMeasure chart.kernel).real Set.univ) (firstTerminalFourierCost chart.kernel)
+    ((T.left S χ).tailBudget Cerror) ((T.right S χ).tailBudget Cerror)
+    (poolTerminalConstant K ell Mmax * ((fiberCap : ℝ) * Cerror * (tupleL : ℝ) * profileL))
+    (poolTerminalConstant K ell Mmax * ((fiberCap : ℝ) * Cerror * (tupleR : ℝ) * profileR))
+    (Ideal.absNorm S.val : ℝ) loss shift firstAmplitude (firstCommonWeight Z DE.1 DE.2)
+    hz (firstLeftAllowance_pos Z total hz _ _) (firstRightAllowance_pos Z total hz _ _)
+    p.rowBound_nonneg (norm_nonneg _) (norm_nonneg _) ENNReal.toReal_nonneg
+    (firstTerminalFourierCost_nonneg chart.kernel) (by positivity) (by positivity)
+    (Nat.cast_nonneg _) hL hR (firstTerminalFourierCost_bound chart.kernel)
+    (p.normalized_allowance_prefactor P.base_gt_one total parentWidth
+      (firstAmplitude * Z ^ shift) hfirst')
+  simpa only [classTailBudget, classWeight] using hc
 
 end SecondStages.DualTerminalCalibration
 end FirstBlockPoolData

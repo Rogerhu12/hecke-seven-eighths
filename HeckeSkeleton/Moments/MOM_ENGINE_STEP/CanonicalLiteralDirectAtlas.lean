@@ -28,7 +28,8 @@ theorem literalDictionary_cast_columns {S T : Finset ι} {ideal : ι → A.Exter
     (h : S = T) (a : SourceCartesianAtlas S ideal) :
     (cast (congrArg (fun cols => SourceCartesianAtlas cols ideal) h) a).literalDictionary =
       a.literalDictionary := by
-  sorry
+  cases h
+  rfl
 
 end SourceCartesianAtlas
 
@@ -55,7 +56,21 @@ theorem sourceCartesianCover_literalDictionary (c : ι → ℂ) (a : T.labels S 
         (fun j => SupportCartesian.primeLive
           (T.reindex.slots (SlotRestriction.index (T.branch S D a).keep j)) S),
         (fun i => T.reindex.index ((T.branch S D a).reconstruct i))⟩ := by
-  sorry
+  have hcols : (d.directSource c).columns.filter
+      (fun i => T.reindex.supportExtractionLabel S i = a.val) = T.commonFibre S D a := by
+    change d.columns.filter _ = _
+    rw [hcolumns]
+    rfl
+  have hne : (T.commonFibre S D a).Nonempty := by
+    obtain ⟨i, hi, ha⟩ := Finset.mem_image.mp a.property
+    exact ⟨i, Finset.mem_filter.mpr ⟨hi, ha⟩⟩
+  change (cast (congrArg (fun cols => SourceCartesianAtlas cols d.ideal) hcols.symm)
+    (SourceCartesianAtlas.ofReindex
+      (T.residualReindex S D d.ideal (fun i _ => hideal i) a) hne)).literalDictionary = _
+  rw [SourceCartesianAtlas.literalDictionary_cast_columns]
+  dsimp only [SourceCartesianAtlas.literalDictionary, SourceCartesianAtlas.ofReindex]
+  rw [T.residualReindex_plain₁, T.residualReindex_plain₂,
+    T.residualReindex_slots, T.residualReindex_index]
 
 end DirectGaussData
 end HeckeSkeleton.Moments.EngineStep

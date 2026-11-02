@@ -43,7 +43,7 @@ theorem amplifiedInnerDivisor_eq_allocation
     (P : PowerScaleExteriorPool A bad Z ell eps)
     (j : AmplifiedCommonIndex P (L.mainCarrier tag) (L.errorCarrier tag)) :
     amplifiedInnerDivisor j = (L.amplifiedAllocation tag P j).1 := by
-  sorry
+  cases j <;> rfl
 
 end OriginalArithmeticLabels
 
@@ -85,7 +85,15 @@ theorem ActualFirstSource.SecondStages.arithmeticIndex_innerDivisor
     (j : R.liveLeaves L exceptional N) :
     amplifiedInnerDivisor (R.arithmeticIndex L hcap exceptional N j) =
       R.innerDivisor L j.val := by
-  sorry
+  calc
+    _ = ((R.arithmeticLabels L hcap exceptional N).amplifiedAllocation
+        (R.arithmeticTag L exceptional N) P (R.arithmeticIndex L hcap exceptional N j)).1 :=
+      (R.arithmeticLabels L hcap exceptional N).amplifiedInnerDivisor_eq_allocation
+        (R.arithmeticTag L exceptional N) P _
+    _ = ((R.arithmeticLabels L hcap exceptional N).allocation j).1 :=
+      congrArg (fun a : OriginalAllocationFingerprint K cap => a.1)
+        (R.arithmeticIndex_allocation L hcap exceptional N j)
+    _ = _ := R.arithmeticLabels_secondDivisor L hcap exceptional N j
 
 end AmplifiedIdentity
 
@@ -101,8 +109,8 @@ theorem ActualDirectFirstSource.SecondStages.originalIndex_innerDivisor
     (L : SourceCartesianAtlas s.columns s.ideal) {cap : ℕ} (hcap : L.slotCount ≤ cap)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
     (j : R.liveLeaves L exceptional N) :
-    (R.originalIndex L hcap exceptional N j).2.2.2.1.val = R.innerDivisor L j.val := by
-  sorry
+    (R.originalIndex L hcap exceptional N j).2.2.2.1.val = R.innerDivisor L j.val :=
+  R.arithmeticLabels_secondDivisor L hcap exceptional N j
 
 end DirectIdentity
 
@@ -143,7 +151,48 @@ theorem actual_amplified_exceptional_index_mass
             (R.supported.gated.arithmeticTag L exceptional N))
           (lower i) (R.supported.gated.arithmeticIndex L hcap exceptional N i)) ≤
         Cex * Z ^ (δ₁ + δ₂ + δ₃ + eps + mesh) / (Ideal.absNorm oldMask : ℝ) := by
-  sorry
+  obtain ⟨Ca, Z₀, hCa, hZ₀, hm⟩ := uniform_amplified_exceptional_dyad_mass
+    (A := A) (cap + 2) normBox δ₃ ell eps Mmax Bmax
+    hbox hδ₃ hell heps hepsell hMmax hBmax
+  let Cm := firstMaskConstant (K := K) normBox δ₁ hbox hδ₁
+  let Cc := coordinateConstant (K := K) cap (Fintype.card Θ)
+    dimension width normBox δ₂ hbox hδ₂
+  have hCm : 0 < Cm := firstMaskConstant_pos _ _ _ _
+  have hCc : 0 < Cc := coordinateConstant_pos _ _ _ _ _ _ _ _
+  refine ⟨2 * Cm * Cc * Ca, Z₀, by positivity, hZ₀, ?_⟩
+  intro Z hZ bad pool M B hM hMM hBB ω ψ centered d a t Y₁ Y₂ X hX s R L hcap
+    exceptional N B₀ hB₀ rows oldMask hs hs0 hmask maskIdeal hmask0 mask hmaskN hN lower mesh hwindow
+  have hz : 0 < Z := zero_lt_one.trans (hZ₀.trans_le hZ)
+  have hNB₀ : B₀ ≤ normBox :=
+    le_trans (le_add_of_nonneg_right (mul_nonneg (by norm_num) hell.le)) hB₀
+  have hNB : ∀ i ∈ s.columns, (Ideal.absNorm (s.ideal i).val : ℝ) ≤ Z ^ normBox :=
+    fun i hi => (hN i hi).trans
+      (Real.rpow_le_rpow_of_exponent_le pool.base_gt_one.le hNB₀)
+  have ha := R.arithmeticCarriers_admissible (L := L) (hcap := hcap) (N := N)
+    exceptional normBox oldMask hs hmask hNB
+  let multiplicity := 2 * Cm * Cc * Z ^ (δ₁ + δ₂)
+  have hmult : 0 ≤ multiplicity := by dsimp only [multiplicity]; positivity
+  have hcard (j : R.supported.gated.ArithmeticIndex L hcap exceptional N) :
+      ((Finset.univ.filter (fun i : R.supported.gated.liveLeaves L exceptional N =>
+        R.supported.gated.arithmeticIndex L hcap exceptional N i = j)).card : ℝ) ≤ multiplicity :=
+    R.supported.gated.originalAmplifiedIndex_fibre_subpower L hcap δ₁ δ₂ B₀ hbox hδ₁ hδ₂ hB₀
+      rows maskIdeal hmask0 mask hmaskN hN exceptional N j
+  have hwin (i : R.supported.gated.liveLeaves L exceptional N) :
+      (Ideal.absNorm (amplifiedInnerDivisor
+        (R.supported.gated.arithmeticIndex L hcap exceptional N i)) : ℝ) ≤ Z ^ (lower i + mesh) := by
+    rw [R.supported.gated.arithmeticIndex_innerDivisor L hcap exceptional N i]
+    exact hwindow i
+  have hsum := hm Z hZ bad pool M B hM hMM hBB oldMask hs hs0
+    ((R.supported.gated.arithmeticLabels L hcap exceptional N).mainCarrier
+      (R.supported.gated.arithmeticTag L exceptional N)) ha.1
+    ((R.supported.gated.arithmeticLabels L hcap exceptional N).errorCarrier
+      (R.supported.gated.arithmeticTag L exceptional N)) (fun n _ p _ => ha.2 n p)
+    (R.supported.gated.arithmeticIndex L hcap exceptional N) multiplicity mesh hmult hcard lower hwin
+  refine hsum.trans_eq ?_
+  rw [show δ₁ + δ₂ + δ₃ + eps + mesh = (δ₁ + δ₂) + (δ₃ + eps + mesh) by ring,
+    Real.rpow_add hz (δ₁ + δ₂) (δ₃ + eps + mesh)]
+  dsimp only [multiplicity]
+  ring
 
 /-- The same actual-source assembly for the direct entrance. There is
 no pool, tag count, density or amplification loss in the statement. -/
@@ -170,7 +219,37 @@ theorem actual_direct_exceptional_index_mass
         (R.prepared.arithmeticLabels L hcap exceptional N).carrier.exceptionalDyadWeight
           Z (lower i) (R.prepared.originalIndex L hcap exceptional N i)) ≤
         Cex * Z ^ (δ₁ + δ₂ + δ₃ + mesh) / (Ideal.absNorm oldMask : ℝ) := by
-  sorry
+  obtain ⟨Ca, hCa, hm⟩ := TwoDivisorCommonBranch.uniform_exceptional_dyad_mass
+    (K := K) (cap + 2) normBox δ₃ hbox hδ₃
+  let Cm := firstMaskConstant (K := K) normBox δ₁ hbox hδ₁
+  let Cc := coordinateConstant (K := K) cap (Fintype.card Θ)
+    dimension width normBox δ₂ hbox hδ₂
+  have hCm : 0 < Cm := firstMaskConstant_pos _ _ _ _
+  have hCc : 0 < Cc := coordinateConstant_pos _ _ _ _ _ _ _ _
+  refine ⟨2 * Cm * Cc * Ca, by positivity, ?_⟩
+  intro Z hZ ω ψ centered d a t Y₁ Y₂ X hX s R L hcap exceptional N rows
+    oldMask hs hs0 hmask maskIdeal hmask0 mask hmaskN hN lower mesh hwindow
+  have hz : 0 < Z := zero_lt_one.trans_le hZ
+  have ha := R.arithmeticLabels_admissible L hcap exceptional N normBox oldMask hs hmask hN
+  let multiplicity := 2 * Cm * Cc * Z ^ (δ₁ + δ₂)
+  have hmult : 0 ≤ multiplicity := by dsimp only [multiplicity]; positivity
+  have hcard (j : R.prepared.ArithmeticIndex L hcap exceptional N) :
+      ((Finset.univ.filter (fun i : R.prepared.liveLeaves L exceptional N =>
+        R.prepared.originalIndex L hcap exceptional N i = j)).card : ℝ) ≤ multiplicity :=
+    R.prepared.originalIndex_fibre_subpower L hcap δ₁ δ₂ hbox hδ₁ hδ₂ hZ
+      rows maskIdeal hmask0 mask hmaskN hN exceptional N j
+  have hwin (i : R.prepared.liveLeaves L exceptional N) :
+      (Ideal.absNorm (R.prepared.originalIndex L hcap exceptional N i).2.2.2.1.val : ℝ) ≤
+        Z ^ (lower i + mesh) := by
+    rw [R.prepared.originalIndex_innerDivisor L hcap exceptional N i]
+    exact hwindow i
+  have hsum := hm Z hZ oldMask hs hs0 (R.prepared.arithmeticLabels L hcap exceptional N).carrier ha
+    (R.prepared.originalIndex L hcap exceptional N) multiplicity mesh hmult hcard lower hwin
+  refine hsum.trans_eq ?_
+  rw [show δ₁ + δ₂ + δ₃ + mesh = (δ₁ + δ₂) + (δ₃ + mesh) by ring,
+    Real.rpow_add hz (δ₁ + δ₂) (δ₃ + mesh)]
+  dsimp only [multiplicity]
+  ring
 
 end HeckeSkeleton.Moments.EngineStep
 

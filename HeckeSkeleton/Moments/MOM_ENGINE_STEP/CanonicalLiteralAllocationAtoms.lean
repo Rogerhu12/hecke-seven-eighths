@@ -37,7 +37,17 @@ theorem sum_idealCarrier {k : ℕ}
     (f : AllocationColumn K k → ℂ) :
     (∑ i ∈ childCartesianColumns (idealCarrier S₁) (idealCarrier S₂) S, f i) =
       ∑ i ∈ childCartesianColumns S₁ S₂ S, f ((i.1.1.val, i.1.2.val), i.2) := by
-  sorry
+  simp only [childCartesianColumns, Finset.product_eq_sprod,
+    Finset.sum_product, idealCarrier]
+  rw [Finset.sum_image]
+  · apply Finset.sum_congr rfl
+    intro I _
+    rw [Finset.sum_image]
+    · rfl
+    · intro I _ J _ h
+      exact Subtype.ext h
+  · intro I _ J _ h
+    exact Subtype.ext h
 
 /-- The same two allocated plain factors and the original frozen slots. -/
 def reconstruct {k : ℕ} (B : ActualColumnAllocation K k)
@@ -84,16 +94,32 @@ theorem allocate_gaussScale :
     extraGaussScale (d.allocate B).gauss₁ (d.allocate B).gauss₂
         (d.allocate B).gaussSlot =
       extraGaussScale d.gauss₁ d.gauss₂ d.gaussSlot := by
-  sorry
+  have hsplit : (∏ i, d.gaussSlot i) =
+      (∏ i ∈ Finset.univ \ B.keep, d.gaussSlot i) *
+        ∏ i, d.gaussSlot (SlotRestriction.index B.keep i) := by
+    simpa only [Finset.sdiff_eq_filter, Finset.mem_univ, true_and] using
+      (SlotRestriction.product_extend (P := PUnit.{1}) B.keep (fun _ => PUnit.unit)
+        (fun _ => PUnit.unit) (fun i _ => d.gaussSlot i))
+  change (d.gauss₁ * ∏ i ∈ Finset.univ \ B.keep, d.gaussSlot i) * d.gauss₂ *
+      (∏ i, d.gaussSlot (SlotRestriction.index B.keep i)) =
+    d.gauss₁ * d.gauss₂ * ∏ i, d.gaussSlot i
+  rw [hsplit]
+  ring
 
 @[simp] theorem allocate_normalizer : (d.allocate B).normalizer = d.normalizer := by
-  sorry
+  unfold normalizer
+  rw [CanonicalLiteralTransforms.normalizer_eq_inv_sqrt _ _ _
+      (d.allocate B).gauss₁_pos (d.allocate B).gauss₂_pos (d.allocate B).gaussSlot_pos,
+    CanonicalLiteralTransforms.normalizer_eq_inv_sqrt _ _ _
+      d.gauss₁_pos d.gauss₂_pos d.gaussSlot_pos,
+    d.allocate_gaussScale B]
 
 theorem allocate_rectangleLeftWeight (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.allocate B).rectangleLeftWeight r I =
       d.rectangleLeftWeight r (B.plainDivisor 0 * I) := by
-  sorry
+  unfold rectangleLeftWeight allocate
+  split_ifs <;> rfl
 
 /-- The actual frozen arithmetic and prime-profile scalar, common to
 both rectangles. The additional Gauss normalizer stays in the table. -/
@@ -105,14 +131,48 @@ theorem allocate_term (r : Bool) (i : AllocationColumn K B.keep.card)
     (h₁ : i.1.1 ≠ 0) (h₂ : i.1.2 ≠ 0) :
     d.term r (CanonicalLiteralAllocationAtoms.reconstruct B i) =
       d.allocationScalar B * (d.allocate B).term r i := by
-  sorry
+  have hlift₁ : sourceMomentIdeal ((B.plainDivisor 0).val * i.1.1) =
+      B.plainDivisor 0 * sourceMomentIdeal i.1.1 := by
+    simpa only [sourceMomentIdeal_val_of_ne_zero i.1.1 h₁] using
+      sourceMomentIdeal_mul_val (B.plainDivisor 0) (sourceMomentIdeal i.1.1)
+  have hlift₂ : sourceMomentIdeal ((B.plainDivisor (Fin.succ 0)).val * i.1.2) =
+      B.plainDivisor (Fin.succ 0) * sourceMomentIdeal i.1.2 := by
+    simpa only [sourceMomentIdeal_val_of_ne_zero i.1.2 h₂] using
+      sourceMomentIdeal_mul_val (B.plainDivisor (Fin.succ 0)) (sourceMomentIdeal i.1.2)
+  have hres : (d.allocate B).term r i = d.normalizer *
+      (d.characters.restrictSlots B.keep).bareCoefficient
+        (d.scale₁ r / idealNorm K (B.plainDivisor 0))
+        (d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) d.base
+        (fun j => d.length (SlotRestriction.index B.keep j))
+        (fun I => d.rectangleLeftWeight r (B.plainDivisor 0 * I))
+        (fun I => d.rightWeight r (B.plainDivisor (Fin.succ 0) * I))
+        (fun j => d.slotWeight (SlotRestriction.index B.keep j))
+        ((sourceMomentIdeal i.1.1, sourceMomentIdeal i.1.2), i.2) := by
+    rw [term, d.allocate_normalizer B,
+      funext (d.allocate_rectangleLeftWeight B r)]
+    rfl
+  rw [hres]
+  change d.normalizer * d.characters.bareCoefficient
+    (d.scale₁ r) (d.scale₂ r) d.base d.length
+    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight
+    ((sourceMomentIdeal ((B.plainDivisor 0).val * i.1.1),
+      sourceMomentIdeal ((B.plainDivisor (Fin.succ 0)).val * i.1.2)),
+      SlotRestriction.extend B.keep B.witness.2 i.2) = _
+  rw [hlift₁, hlift₂, d.characters.bareCoefficient_extract
+    (B.plainDivisor 0) (B.plainDivisor (Fin.succ 0))
+    (d.scale₁ r) (d.scale₂ r) d.base d.length B.keep B.witness.2
+    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight]
+  unfold allocationScalar
+  ring
 
 /-- The centered subtraction is preserved before taking any norm. -/
 theorem allocate_whole (i : AllocationColumn K B.keep.card)
     (h₁ : i.1.1 ≠ 0) (h₂ : i.1.2 ≠ 0) :
     d.whole (CanonicalLiteralAllocationAtoms.reconstruct B i) =
       d.allocationScalar B * (d.allocate B).whole i := by
-  sorry
+  unfold whole
+  rw [d.allocate_term B false i h₁ h₂, d.allocate_term B true i h₁ h₂]
+  ring
 
 /-- Exact transport of the actual allocated polynomial. The location
 is composed with reconstruction, including every frozen occurrence. -/
@@ -125,7 +185,25 @@ theorem allocate_polynomial {V : Type*} [NormedAddCommGroup V] [InnerProductSpac
             (d.allocate B).slots)
           (d.allocate B).whole
           (fun i => point (CanonicalLiteralAllocationAtoms.reconstruct B i)) ξ := by
-  sorry
+  unfold jointFourierColumn
+  rw [show B.columns = WholeAllocation.pairedAllocatedColumns B.divisor B.selection
+      B.plain₁ B.plain₂ B.slots id id HeightOneSpectrum.asIdeal from rfl,
+    actual_allocated_polynomial_nonzero_subsupport B.divisor B.selection
+      B.plain₁ B.plain₂ B.slots B.plain₁_nonzero B.plain₂_nonzero B.witness B.witness_mem]
+  change _ = d.allocationScalar B *
+    ∑ i ∈ childCartesianColumns (idealCarrier B.childPlain₁) (idealCarrier B.childPlain₂)
+      B.childSlots, (d.allocate B).whole i *
+        jointPhase ξ (point (CanonicalLiteralAllocationAtoms.reconstruct B i))
+  rw [CanonicalLiteralAllocationAtoms.sum_idealCarrier, Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  change d.whole (CanonicalLiteralAllocationAtoms.reconstruct B
+      ((i.1.1.val, i.1.2.val), i.2)) *
+        jointPhase ξ (point (CanonicalLiteralAllocationAtoms.reconstruct B
+          ((i.1.1.val, i.1.2.val), i.2))) = _
+  rw [d.allocate_whole B ((i.1.1.val, i.1.2.val), i.2)
+    (nonZeroDivisors.coe_ne_zero i.1.1) (nonZeroDivisors.coe_ne_zero i.1.2)]
+  ring
 
 section Frequency
 
@@ -147,14 +225,49 @@ theorem allocate_frequency_term (g h : A.R) (r : Bool)
     d.frequencyTerm (σ := σ) g h r (CanonicalLiteralAllocationAtoms.reconstruct B i) =
       B.scalar (σ := σ) d.characters g h d.base d.length d.slotWeight *
         (d.allocate B).frequencyTerm (σ := σ) g h r i := by
-  sorry
+  have hlift₁ : sourceMomentIdeal ((B.plainDivisor 0).val * i.1.1) =
+      B.plainDivisor 0 * sourceMomentIdeal i.1.1 := by
+    simpa only [sourceMomentIdeal_val_of_ne_zero i.1.1 h₁] using
+      sourceMomentIdeal_mul_val (B.plainDivisor 0) (sourceMomentIdeal i.1.1)
+  have hlift₂ : sourceMomentIdeal ((B.plainDivisor (Fin.succ 0)).val * i.1.2) =
+      B.plainDivisor (Fin.succ 0) * sourceMomentIdeal i.1.2 := by
+    simpa only [sourceMomentIdeal_val_of_ne_zero i.1.2 h₂] using
+      sourceMomentIdeal_mul_val (B.plainDivisor (Fin.succ 0)) (sourceMomentIdeal i.1.2)
+  have hres : (d.allocate B).frequencyTerm (σ := σ) g h r i = d.normalizer *
+      (d.characters.restrictSlots B.keep).coefficient (σ := σ) g h
+        (d.scale₁ r / idealNorm K (B.plainDivisor 0))
+        (d.scale₂ r / idealNorm K (B.plainDivisor (Fin.succ 0))) d.base
+        (fun j => d.length (SlotRestriction.index B.keep j))
+        (fun I => d.rectangleLeftWeight r (B.plainDivisor 0 * I))
+        (fun I => d.rightWeight r (B.plainDivisor (Fin.succ 0) * I))
+        (fun j => d.slotWeight (SlotRestriction.index B.keep j))
+        ((sourceMomentIdeal i.1.1, sourceMomentIdeal i.1.2), i.2) := by
+    rw [frequencyTerm, d.allocate_normalizer B,
+      funext (d.allocate_rectangleLeftWeight B r)]
+    rfl
+  rw [hres]
+  change d.normalizer * d.characters.coefficient (σ := σ) g h
+    (d.scale₁ r) (d.scale₂ r) d.base d.length
+    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight
+    ((sourceMomentIdeal ((B.plainDivisor 0).val * i.1.1),
+      sourceMomentIdeal ((B.plainDivisor (Fin.succ 0)).val * i.1.2)),
+      SlotRestriction.extend B.keep B.witness.2 i.2) = _
+  rw [hlift₁, hlift₂, d.characters.coefficient_extract (σ := σ) g h
+    (B.plainDivisor 0) (B.plainDivisor (Fin.succ 0))
+    (d.scale₁ r) (d.scale₂ r) d.base d.length B.keep B.witness.2
+    (d.rectangleLeftWeight r) (d.rightWeight r) d.slotWeight]
+  unfold ActualColumnAllocation.scalar
+  ring
 
 theorem allocate_frequency_whole (g h : A.R)
     (i : AllocationColumn K B.keep.card) (h₁ : i.1.1 ≠ 0) (h₂ : i.1.2 ≠ 0) :
     d.frequencyWhole (σ := σ) g h (CanonicalLiteralAllocationAtoms.reconstruct B i) =
       B.scalar (σ := σ) d.characters g h d.base d.length d.slotWeight *
         (d.allocate B).frequencyWhole (σ := σ) g h i := by
-  sorry
+  unfold frequencyWhole
+  rw [d.allocate_frequency_term B g h false i h₁ h₂,
+    d.allocate_frequency_term B g h true i h₁ h₂]
+  ring
 
 /-- The exact allocated polynomial with the same complete actual
 frequency, both original rectangles, and one original normalizer. -/
@@ -168,7 +281,25 @@ theorem allocate_frequency_polynomial {V : Type*}
             (d.allocate B).slots)
           ((d.allocate B).frequencyWhole (σ := σ) g h)
           (fun i => point (CanonicalLiteralAllocationAtoms.reconstruct B i)) ξ := by
-  sorry
+  unfold jointFourierColumn
+  rw [show B.columns = WholeAllocation.pairedAllocatedColumns B.divisor B.selection
+      B.plain₁ B.plain₂ B.slots id id HeightOneSpectrum.asIdeal from rfl,
+    actual_allocated_polynomial_nonzero_subsupport B.divisor B.selection
+      B.plain₁ B.plain₂ B.slots B.plain₁_nonzero B.plain₂_nonzero B.witness B.witness_mem]
+  change _ = B.scalar (σ := σ) d.characters g h d.base d.length d.slotWeight *
+    ∑ i ∈ childCartesianColumns (idealCarrier B.childPlain₁) (idealCarrier B.childPlain₂)
+      B.childSlots, (d.allocate B).frequencyWhole (σ := σ) g h i *
+        jointPhase ξ (point (CanonicalLiteralAllocationAtoms.reconstruct B i))
+  rw [CanonicalLiteralAllocationAtoms.sum_idealCarrier, Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  change d.frequencyWhole (σ := σ) g h (CanonicalLiteralAllocationAtoms.reconstruct B
+      ((i.1.1.val, i.1.2.val), i.2)) *
+        jointPhase ξ (point (CanonicalLiteralAllocationAtoms.reconstruct B
+          ((i.1.1.val, i.1.2.val), i.2))) = _
+  rw [d.allocate_frequency_whole B g h ((i.1.1.val, i.1.2.val), i.2)
+    (nonZeroDivisors.coe_ne_zero i.1.1) (nonZeroDivisors.coe_ne_zero i.1.2)]
+  ring
 
 end Frequency
 

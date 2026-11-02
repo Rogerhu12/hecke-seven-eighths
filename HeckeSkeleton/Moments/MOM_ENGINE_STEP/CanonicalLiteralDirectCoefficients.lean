@@ -124,7 +124,36 @@ theorem canonicalLeftDirect_secondInput
         ((A.exteriorNorm (b.leftResidual i) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.leftResidual i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.leftResidual i) =
+      b.leftResidual i := by
+    apply Subtype.ext
+    change 1 * (b.leftResidual i).val = _
+    exact one_mul _
+  rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj
+    (b.leftResidual i) hideal, ← hindex, hunit,
+    actualIdealResidue_frequency_one, mul_one]
+  have ha : A.IsAllowed C.correction.B
+      (Units.mk0 (b.leftGenerator i : K)
+        (by exact_mod_cast (b.left_generates i).1)) := by
+    have he := p.leftData.allowed i hi
+    simpa only [p.left_generator] using he
+  have hχ : (fixedLeftPhase PUnit χ PUnit.unit : ℂ) = 1 := by
+    change ((fixedLeftPhase PUnit χ) (1 : PUnit) : ℂ) = 1
+    rw [map_one, Circle.coe_one]
+  unfold FirstBlockDirectData.leftDivisorCoefficient
+  rw [if_pos hSi, hχ, mul_one]
+  have he := FirstBlockProfileChart.canonicalLog_leftSourceCoefficient hΓ μv ν b C
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius
+    δ₁ hδ₁ hδ₁half D i ha
+  change p.originalLeftCoefficient i = _ at he
+  rw [he]
+  ring
 
 /-- The direct right source has the same unit-power specialization and
 retains the original right first phase. -/
@@ -153,7 +182,36 @@ theorem canonicalRightDirect_secondInput
         ((A.exteriorNorm (b.rightResidual i) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.rightResidual i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.rightResidual i) =
+      b.rightResidual i := by
+    apply Subtype.ext
+    change 1 * (b.rightResidual i).val = _
+    exact one_mul _
+  rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj
+    (b.rightResidual i) hideal, ← hindex, hunit,
+    actualIdealResidue_frequency_one, mul_one]
+  have ha : A.IsAllowed C.correction.B
+      (Units.mk0 (b.rightGenerator i : K)
+        (by exact_mod_cast (b.right_generates i).1)) := by
+    have he := p.rightData.allowed i hi
+    simpa only [p.right_generator] using he
+  have hχ : (fixedRightPhase PUnit χ PUnit.unit : ℂ) = 1 := by
+    change ((fixedRightPhase PUnit χ) (1 : PUnit) : ℂ) = 1
+    rw [map_one, Circle.coe_one]
+  unfold FirstBlockDirectData.rightDivisorCoefficient
+  rw [if_pos hSi, hχ, mul_one]
+  have he := FirstBlockProfileChart.canonicalLog_rightSourceCoefficient hΓ μv ν b C
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius
+    δ₁ hδ₁ hδ₁half D i ha
+  change p.originalRightCoefficient i = _ at he
+  rw [he]
+  ring
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

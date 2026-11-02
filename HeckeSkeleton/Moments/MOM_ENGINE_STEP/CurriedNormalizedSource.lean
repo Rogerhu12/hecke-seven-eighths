@@ -80,8 +80,8 @@ theorem ordinaryCost_le (S : f.SourceIntegral leaf)
     leaf.ordinaryCost / Z ^ parentWidth ≤
       ∑ b : (f.family input).active Finset.univ,
         ∫ ξ, (f.family input).childPair Finset.univ b ξ
-          ∂(f.family input).kernel Finset.univ S.measure parentWidth b := by
-  sorry
+          ∂(f.family input).kernel Finset.univ S.measure parentWidth b :=
+  S.bound input parentWidth
 
 end SourceIntegral
 end CurriedNormalizedFamily

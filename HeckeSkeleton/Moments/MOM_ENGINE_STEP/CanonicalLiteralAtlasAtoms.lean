@@ -44,12 +44,14 @@ def castColumn {k l : ℕ} (h : k = l) (i : AllocationColumn K k) :
 @[simp] theorem castColumn_symm {k l : ℕ} (h : k = l)
     (i : AllocationColumn K k) :
     castColumn h.symm (castColumn h i) = i := by
-  sorry
+  cases h
+  rfl
 
 @[simp] theorem castColumn_ideal {k l : ℕ} (h : k = l)
     (i : AllocationColumn K k) :
     allocationColumnIdeal (castColumn h i) = allocationColumnIdeal i := by
-  sorry
+  cases h
+  rfl
 
 abbrev Dictionary (ι : Type*) :=
   Σ n : ℕ, (Finset (Ideal (𝓞 K)) × Finset (Ideal (𝓞 K))) ×
@@ -59,14 +61,16 @@ abbrev Dictionary (ι : Type*) :=
 theorem dictionary_index {ι : Type*} {L M : Dictionary (K := K) ι}
     (h : L = M) (i : AllocationColumn K L.1) :
     L.2.2.2 i = M.2.2.2 (castColumn (congrArg Sigma.fst h) i) := by
-  sorry
+  cases h
+  rfl
 
 theorem dictionary_membership {ι : Type*} {L M : Dictionary (K := K) ι}
     (h : L = M) (i : AllocationColumn K L.1) :
     i ∈ childCartesianColumns L.2.1.1 L.2.1.2 L.2.2.1 ↔
       castColumn (congrArg Sigma.fst h) i ∈
         childCartesianColumns M.2.1.1 M.2.1.2 M.2.2.1 := by
-  sorry
+  cases h
+  rfl
 
 end CanonicalLiteralAtlasAtoms
 
@@ -93,7 +97,8 @@ private theorem onDictionary_eq_cast {ι : Type*}
     (h₁ : ∀ I ∈ D.2.1.1, I ≠ 0) (h₂ : ∀ I ∈ D.2.1.2, I ≠ 0) :
     d.onDictionary D (congrArg Sigma.fst e).symm h₁ h₂ =
       cast (congrArg (Atoms (K := K)) (congrArg Sigma.fst e).symm) d := by
-  sorry
+  cases e
+  rfl
 
 variable {A : SArithmeticData K} {ι : Type*}
 variable {columns : Finset ι} {ideal : ι → A.Exterior}
@@ -116,34 +121,36 @@ def onAtlas (h : k = T.slotCount) : Atoms (K := K) T.slotCount :=
 theorem onAtlas_term (h : k = T.slotCount) (r : Bool)
     (i : AllocationColumn K T.slotCount) :
     (d.onAtlas T h).term r i = d.term r (castColumn h.symm i) := by
-  sorry
+  cases h
+  rfl
 
 theorem onAtlas_whole (h : k = T.slotCount)
     (i : AllocationColumn K T.slotCount) :
     (d.onAtlas T h).whole i = d.whole (castColumn h.symm i) := by
-  sorry
+  cases h
+  rfl
 
 /-- The original occurrence equality, rather than a completed column
 identity, proves that support retargeting leaves this atom table intact. -/
 theorem onAtlas_eq_cast (index : AllocationColumn K k → ι)
     (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩) :
     d.onAtlas T (congrArg Sigma.fst e).symm =
-      cast (congrArg (Atoms (K := K)) (congrArg Sigma.fst e).symm) d := by
-  sorry
+      cast (congrArg (Atoms (K := K)) (congrArg Sigma.fst e).symm) d :=
+  d.onDictionary_eq_cast T.literalDictionary index e T.plain₁_nonzero T.plain₂_nonzero
 
 theorem onAtlas_index (index : AllocationColumn K k → ι)
     (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩)
     (i : AllocationColumn K T.slotCount) :
-    T.reindex.index i = index (castColumn (congrArg Sigma.fst e) i) := by
-  sorry
+    T.reindex.index i = index (castColumn (congrArg Sigma.fst e) i) :=
+  dictionary_index e i
 
 theorem onAtlas_membership (index : AllocationColumn K k → ι)
     (e : T.literalDictionary = ⟨k, (d.plain₁, d.plain₂), d.slots, index⟩)
     (i : AllocationColumn K T.slotCount) :
     i ∈ T.reindex.cartesian ↔
       castColumn (congrArg Sigma.fst e) i ∈
-        childCartesianColumns d.plain₁ d.plain₂ d.slots := by
-  sorry
+        childCartesianColumns d.plain₁ d.plain₂ d.slots :=
+  dictionary_membership e i
 
 namespace ProfileData
 

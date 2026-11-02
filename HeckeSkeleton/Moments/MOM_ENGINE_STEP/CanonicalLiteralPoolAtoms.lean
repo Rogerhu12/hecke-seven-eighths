@@ -104,8 +104,10 @@ theorem literalLeftMainCover_dictionary
           ((raw).originalAtlas.branch (primeSupport DE.1) DE.1 label).plainExtract₂),
         (fun j => SupportCartesian.primeLive
           ((seed).slots (SlotRestriction.index ((raw).originalAtlas.branch (primeSupport DE.1) DE.1 label).keep j)) (primeSupport DE.1)),
-        (fun i => (raw).originalIndex (((raw).originalAtlas.branch (primeSupport DE.1) DE.1 label).reconstruct i))⟩ := by
-  sorry
+        (fun i => (raw).originalIndex (((raw).originalAtlas.branch (primeSupport DE.1) DE.1 label).reconstruct i))⟩ :=
+  (p.divisorPools.leftData S).mainSourceCartesianCover_literalDictionary (raw).originalAtlas
+    (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
+    (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal]; exact b.left_residual i) (p.leftDivisorCoefficient S χ) label
 
 def literalLeftMainAtoms
     (firstFixed : A.Exterior)
@@ -150,7 +152,20 @@ theorem literalLeftMainAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ) ((p.divisorPools.leftData S).ideal
           (((p.leftSourceCovers (raw).originalAtlas S χ).main.branch label).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.1 label
+  let T := (p.leftSourceCovers (raw).originalAtlas S χ).main.branch label
+  have e := literalLeftMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  have hc := canonicalLeftMain_atlasCoefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    (primeSupport DE.1) branch hroot hemb T
+    (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
+  have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
+    (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
+  unfold literalLeftMainAtoms
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
+  simpa only [p.divisorPools.left_ideal S, p.left_ideal] using hc
 
 theorem literalLeftPoolCover_dictionary (q : pool.primes) (n : ℕ)
     (label : ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
@@ -165,8 +180,10 @@ theorem literalLeftPoolCover_dictionary (q : pool.primes) (n : ℕ)
         (SupportCartesian.plainResidual (seed).plain₁ (primeSupport DE.1 ∪ {q.val.val.asIdeal}) branch.plainExtract₁,
         SupportCartesian.plainResidual (seed).plain₂ (primeSupport DE.1 ∪ {q.val.val.asIdeal}) branch.plainExtract₂),
         (fun j => SupportCartesian.primeLive
-          ((seed).slots (SlotRestriction.index branch.keep j)) (primeSupport DE.1 ∪ {q.val.val.asIdeal})), index⟩ := by
-  sorry
+          ((seed).slots (SlotRestriction.index branch.keep j)) (primeSupport DE.1 ∪ {q.val.val.asIdeal})), index⟩ :=
+  (p.divisorPools.leftData S).residualSourceCartesianCover_literalDictionary (raw).originalAtlas
+    (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns)
+    (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal]; exact b.left_residual i) (p.leftDivisorCoefficient S χ) q.val n label
 
 def literalLeftPoolAtoms
     (firstFixed : A.Exterior)
@@ -217,7 +234,35 @@ theorem literalLeftPoolAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ) ((p.divisorPools.leftData S).residualPresentation q.val n
           ((((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label).reindex.index i)).residual.val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let branch := (p.divisorPools.leftData S).combinedBranchForLabel (raw).originalAtlas (primeSupport DE.1) DE.1
+    ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label
+  let index := ((p.divisorPools.leftData S).residualSource_cartesianBranch_of_original_support (raw).originalAtlas
+    (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns) (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal]; exact b.left_residual i)
+    q.val n (p.leftDivisorCoefficient S χ) branch ((p.divisorPools.leftData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.1
+      ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2).index
+  let T := ((p.leftSourceCovers (raw).originalAtlas S χ).residual q n).branch label
+  have e := literalLeftPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
+  have hc := canonicalLeftPool_atlasCoefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    (primeSupport DE.1 ∪ {q.val.val.asIdeal}) branch hroot hemb q.val n T index e
+    (fun j hj => (p.divisorPools.leftData S).residualSource_original_support_index_val (raw).originalAtlas
+      (primeSupport DE.1) DE.1 ((p.divisorPools.left_columns S).trans p.left_columns) (fun i => by rw [p.divisorPools.left_ideal S, p.left_ideal]; exact b.left_residual i)
+      (p.leftDivisorCoefficient S χ) q.val n branch ((p.divisorPools.leftData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.1
+      ((p.divisorPools.left_columns S).trans p.left_columns) q.val n label).2 j hj)
+    i hi hSi firstFixed hfirst δ₂
+  have hprime : ∀ p ∈ (primeSupport DE.1 ∪ {q.val.val.asIdeal}), Prime p := by
+    intro p hp
+    rcases Finset.mem_union.mp hp with hp | hp
+    · exact support_prime hp
+    · rw [Finset.mem_singleton] at hp
+      subst p
+      exact q.val.val.prime
+  have hm := branch.atlas_full_mask_one T hprime index e i hi
+  unfold literalLeftPoolAtoms
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
+  exact hc
 
 theorem literalRightMainCover_dictionary
     (label : (p.rightSourceCovers (raw).originalAtlas S χ).main.labels) :
@@ -229,8 +274,10 @@ theorem literalRightMainCover_dictionary
           ((raw).originalAtlas.branch (primeSupport DE.1) DE.2 label).plainExtract₂),
         (fun j => SupportCartesian.primeLive
           ((seed).slots (SlotRestriction.index ((raw).originalAtlas.branch (primeSupport DE.1) DE.2 label).keep j)) (primeSupport DE.1)),
-        (fun i => (raw).originalIndex (((raw).originalAtlas.branch (primeSupport DE.1) DE.2 label).reconstruct i))⟩ := by
-  sorry
+        (fun i => (raw).originalIndex (((raw).originalAtlas.branch (primeSupport DE.1) DE.2 label).reconstruct i))⟩ :=
+  (p.divisorPools.rightData S).mainSourceCartesianCover_literalDictionary (raw).originalAtlas
+    (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
+    (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal]; exact b.right_residual i) (p.rightDivisorCoefficient S χ) label
 
 def literalRightMainAtoms
     (firstFixed : A.Exterior)
@@ -275,7 +322,20 @@ theorem literalRightMainAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ) ((p.divisorPools.rightData S).ideal
           (((p.rightSourceCovers (raw).originalAtlas S χ).main.branch label).reindex.index i)).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let branch := (raw).originalAtlas.branch (primeSupport DE.1) DE.2 label
+  let T := (p.rightSourceCovers (raw).originalAtlas S χ).main.branch label
+  have e := literalRightMainCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label
+  have hc := canonicalRightMain_atlasCoefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    (primeSupport DE.1) branch hroot hemb T
+    (fun _ hm => (Finset.mem_filter.mp hm).1) e i hi hSi firstFixed hfirst δ₂
+  have hm := branch.atlas_full_mask_one T (fun _ hp => support_prime hp)
+    (fun j => (raw).originalIndex (branch.reconstruct j)) e i hi
+  unfold literalRightMainAtoms
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
+  simpa only [p.divisorPools.right_ideal S, p.right_ideal] using hc
 
 theorem literalRightPoolCover_dictionary (q : pool.primes) (n : ℕ)
     (label : ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).labels) :
@@ -290,8 +350,10 @@ theorem literalRightPoolCover_dictionary (q : pool.primes) (n : ℕ)
         (SupportCartesian.plainResidual (seed).plain₁ (primeSupport DE.1 ∪ {q.val.val.asIdeal}) branch.plainExtract₁,
         SupportCartesian.plainResidual (seed).plain₂ (primeSupport DE.1 ∪ {q.val.val.asIdeal}) branch.plainExtract₂),
         (fun j => SupportCartesian.primeLive
-          ((seed).slots (SlotRestriction.index branch.keep j)) (primeSupport DE.1 ∪ {q.val.val.asIdeal})), index⟩ := by
-  sorry
+          ((seed).slots (SlotRestriction.index branch.keep j)) (primeSupport DE.1 ∪ {q.val.val.asIdeal})), index⟩ :=
+  (p.divisorPools.rightData S).residualSourceCartesianCover_literalDictionary (raw).originalAtlas
+    (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns)
+    (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal]; exact b.right_residual i) (p.rightDivisorCoefficient S χ) q.val n label
 
 def literalRightPoolAtoms
     (firstFixed : A.Exterior)
@@ -342,7 +404,35 @@ theorem literalRightPoolAtoms_coefficient
         actualIdealResidue (A := A) (σ := σ) ((p.divisorPools.rightData S).residualPresentation q.val n
           ((((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label).reindex.index i)).residual.val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let branch := (p.divisorPools.rightData S).combinedBranchForLabel (raw).originalAtlas (primeSupport DE.1) DE.2
+    ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label
+  let index := ((p.divisorPools.rightData S).residualSource_cartesianBranch_of_original_support (raw).originalAtlas
+    (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns) (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal]; exact b.right_residual i)
+    q.val n (p.rightDivisorCoefficient S χ) branch ((p.divisorPools.rightData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.2
+      ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2).index
+  let T := ((p.rightSourceCovers (raw).originalAtlas S χ).residual q n).branch label
+  have e := literalRightPoolCover_dictionary hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label
+  have hc := canonicalRightPool_atlasCoefficient hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+      b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ
+    (primeSupport DE.1 ∪ {q.val.val.asIdeal}) branch hroot hemb q.val n T index e
+    (fun j hj => (p.divisorPools.rightData S).residualSource_original_support_index_val (raw).originalAtlas
+      (primeSupport DE.1) DE.2 ((p.divisorPools.right_columns S).trans p.right_columns) (fun i => by rw [p.divisorPools.right_ideal S, p.right_ideal]; exact b.right_residual i)
+      (p.rightDivisorCoefficient S χ) q.val n branch ((p.divisorPools.rightData S).combinedBranchForLabel_spec (raw).originalAtlas (primeSupport DE.1) DE.2
+      ((p.divisorPools.right_columns S).trans p.right_columns) q.val n label).2 j hj)
+    i hi hSi firstFixed hfirst δ₂
+  have hprime : ∀ p ∈ (primeSupport DE.1 ∪ {q.val.val.asIdeal}), Prime p := by
+    intro p hp
+    rcases Finset.mem_union.mp hp with hp | hp
+    · exact support_prime hp
+    · rw [Finset.mem_singleton] at hp
+      subst p
+      exact q.val.val.prime
+  have hm := branch.atlas_full_mask_one T hprime index e i hi
+  unfold literalRightPoolAtoms
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.deleteMask_whole _ _ i hi, hm, mul_one]
+  exact hc
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

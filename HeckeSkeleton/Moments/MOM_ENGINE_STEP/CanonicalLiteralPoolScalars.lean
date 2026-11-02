@@ -138,7 +138,11 @@ theorem literalLeftMainAtoms_eq_scale_core
         firstFixed hfirst δ₂ label).scale
           (literalLeftMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
-  sorry
+  unfold literalLeftMainAtoms literalLeftMainCore literalLeftMainScalar
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
 
 /-- The exact same atlas and full mask, with the two constant
@@ -196,7 +200,11 @@ theorem literalLeftPoolAtoms_eq_scale_core
         firstFixed hfirst δ₂ q n label).scale
           (literalLeftPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label) := by
-  sorry
+  unfold literalLeftPoolAtoms literalLeftPoolCore literalLeftPoolScalar
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
 
 /-- The exact same atlas and full mask, with the two constant
@@ -248,7 +256,11 @@ theorem literalRightMainAtoms_eq_scale_core
         firstFixed hfirst δ₂ label).scale
           (literalRightMainScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ label) := by
-  sorry
+  unfold literalRightMainAtoms literalRightMainCore literalRightMainScalar
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
 
 /-- The exact same atlas and full mask, with the two constant
@@ -306,7 +318,11 @@ theorem literalRightPoolAtoms_eq_scale_core
         firstFixed hfirst δ₂ q n label).scale
           (literalRightPoolScalar hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ q n label) := by
-  sorry
+  unfold literalRightPoolAtoms literalRightPoolCore literalRightPoolScalar
+  dsimp only
+  rw [CanonicalLiteralRectangles.Atoms.secondInput_eq_scale_core,
+    CanonicalLiteralRectangles.Atoms.scale_onAtlas,
+    CanonicalLiteralRectangles.Atoms.scale_deleteMask]
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep

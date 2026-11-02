@@ -69,11 +69,31 @@ include hNL hNR
 
 theorem zeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
     0 ≤ T.zeroBudget NL NR ε Czero := by
-  sorry
+  apply Finset.sum_nonneg
+  intro S _
+  apply Finset.sum_nonneg
+  intro χ _
+  unfold classZeroBudget
+  apply mul_nonneg (classWeight_nonneg NL NR S χ)
+  exact add_nonneg
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.left S χ).zeroBudget_nonneg ε Czero hC)) (hNL S χ).le)
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.right S χ).zeroBudget_nonneg ε Czero hC)) (hNR S χ).le)
 
 theorem tailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) :
     0 ≤ T.tailBudget NL NR Cerror := by
-  sorry
+  apply Finset.sum_nonneg
+  intro S _
+  apply Finset.sum_nonneg
+  intro χ _
+  unfold classTailBudget
+  apply mul_nonneg (classWeight_nonneg NL NR S χ)
+  exact add_nonneg
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.left S χ).tailBudget_nonneg Cerror hC)) (hNL S χ).le)
+    (div_nonneg (mul_nonneg ENNReal.toReal_nonneg
+      ((T.right S χ).tailBudget_nonneg Cerror hC)) (hNR S χ).le)
 
 end FirstBlockPoolData.SecondStages.DualTerminalCalibration
 
@@ -88,36 +108,46 @@ variable {R : s.SecondStages (E := E) (hDiff := hDiff)}
 variable (T : R.DualTerminalCalibration sTail sZero k Lmax Nsave decay) (N : s.Normalization)
 
 theorem dualZeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
-    0 ≤ R.dualZeroBudget T N ε Czero := by
-  sorry
+    0 ≤ R.dualZeroBudget T N ε Czero :=
+  Finset.sum_nonneg fun v _ => Finset.sum_nonneg fun D _ =>
+    (T v D).zeroBudget_nonneg (N.left v D) (N.right v D)
+      (N.left_pos v D) (N.right_pos v D) ε Czero hC
 
 theorem dualTailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) :
-    0 ≤ R.dualTailBudget T N Cerror := by
-  sorry
+    0 ≤ R.dualTailBudget T N Cerror :=
+  Finset.sum_nonneg fun v _ => Finset.sum_nonneg fun D _ =>
+    (T v D).tailBudget_nonneg (N.left v D) (N.right v D)
+      (N.left_pos v D) (N.right_pos v D) Cerror hC
 
 theorem dualSecondZeroBudget_nonneg (ε Czero : ℝ) (hC : 0 ≤ Czero) :
-    0 ≤ R.dualSecondZeroBudget T N ε Czero := by
-  sorry
+    0 ≤ R.dualSecondZeroBudget T N ε Czero :=
+  mul_nonneg (Nat.cast_nonneg _) (dualZeroBudget_nonneg T N ε Czero hC)
 
 theorem dualSecondTailBudget_nonneg (Cerror : ℝ) (hC : 0 ≤ Cerror) :
-    0 ≤ R.dualSecondTailBudget T N Cerror := by
-  sorry
+    0 ≤ R.dualSecondTailBudget T N Cerror :=
+  mul_nonneg (Nat.cast_nonneg _) (dualTailBudget_nonneg T N Cerror hC)
 
 variable {sFirst sFirstZero : Finset (ℕ × ℕ)}
 variable (F : s.DualTerminalCalibration sFirst sFirstZero k Lmax Nsave decay)
 
 theorem dualFirstZeroBudget_nonneg (ε CfirstZero : ℝ) (hC : 0 ≤ CfirstZero) :
-    0 ≤ dualFirstZeroBudget F ε CfirstZero := by
-  sorry
+    0 ≤ dualFirstZeroBudget F ε CfirstZero :=
+  mul_nonneg (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC) F.zeroAmplitude_nonneg)
+    (Real.rpow_nonneg (zero_le_one.trans F.windows.base_ge_one) _)
 
 theorem dualFirstTailBudget_nonneg (CfirstError : ℝ) (hC : 0 ≤ CfirstError) :
-    0 ≤ dualFirstTailBudget F CfirstError := by
-  sorry
+    0 ≤ dualFirstTailBudget F CfirstError :=
+  mul_nonneg (mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hC) F.windows.amplitude_nonneg)
+    (Real.rpow_nonneg (zero_le_one.trans F.windows.base_ge_one) _)
 
 theorem dualTotalTailBudget_nonneg (CfirstError Cerror : ℝ)
     (hfirst : 0 ≤ CfirstError) (hsecond : 0 ≤ Cerror) :
-    0 ≤ R.dualTotalTailBudget T F N CfirstError Cerror := by
-  sorry
+    0 ≤ R.dualTotalTailBudget T F N CfirstError Cerror :=
+  mul_nonneg (Nat.cast_nonneg _)
+    (add_nonneg
+      (mul_nonneg (mul_nonneg hfirst F.windows.amplitude_nonneg)
+        (Real.rpow_nonneg (zero_le_one.trans F.windows.base_ge_one) _))
+      (dualTailBudget_nonneg T N Cerror hsecond))
 
 end ActualFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep

@@ -24,8 +24,8 @@ namespace HeckeSkeleton.Moments.EngineStep
 def firstDualCountingLoss (bound ε : ℝ) : ℝ := ε / (4 * (bound + 1))
 
 theorem firstDualCountingLoss_pos (bound ε : ℝ) (hbound : 0 ≤ bound) (hε : 0 < ε) :
-    0 < firstDualCountingLoss bound ε := by
-  sorry
+    0 < firstDualCountingLoss bound ε :=
+  div_pos hε (mul_pos (by norm_num) (by linarith))
 
 /-- The full support length is paid with its actual sign. Only the
 annulus, mask-counting and powerful-counting losses remain after the
@@ -36,7 +36,16 @@ theorem first_dual_original_length_ledger
     (hlossOne : loss ≤ 1) (hloss : loss ≤ ε / 4) (hδ : δ ≤ ε / 4) (hε : 0 < ε) :
     -total + (parentWidth - supportLength) + δ + 2 * (total + loss) / 2 +
         2 * (total + loss) * firstDualCountingLoss bound ε - parentWidth ≤ ε := by
-  sorry
+  have hden : bound + 1 ≠ 0 := ne_of_gt (by linarith)
+  have hcount : 2 * (total + loss) * firstDualCountingLoss bound ε ≤ ε / 2 := by
+    calc
+      _ ≤ 2 * (bound + 1) * firstDualCountingLoss bound ε :=
+        mul_le_mul_of_nonneg_right (by linarith)
+          (firstDualCountingLoss_pos bound ε hbound hε).le
+      _ = _ := by
+        unfold firstDualCountingLoss
+        field_simp [hden] <;> ring
+  linarith
 
 /-- The degree uses the original occurrence cap, including the two
 plain profiles, before any child slots are removed. -/
@@ -48,7 +57,18 @@ theorem first_dual_original_profile_constant_le
     (hprofile : amplitude ≤ control ^ degree) :
     (2 * amplitude ^ (cap + 2)) ^ 2 * rowSeminorm ≤
       (4 * rowSeminorm) * control ^ firstDualOriginalProfileDegree cap degree := by
-  sorry
+  have hpow := pow_le_pow_left₀ hamplitude hprofile (cap + 2)
+  have hsquare := pow_le_pow_left₀ (pow_nonneg hamplitude _) hpow 2
+  calc
+    _ = (4 * rowSeminorm) * (amplitude ^ (cap + 2)) ^ 2 := by ring
+    _ ≤ (4 * rowSeminorm) * ((control ^ degree) ^ (cap + 2)) ^ 2 :=
+      mul_le_mul_of_nonneg_left hsquare (mul_nonneg (by norm_num) hrow)
+    _ = _ := by
+      rw [← pow_mul, ← pow_mul]
+      congr 1
+      congr 1
+      unfold firstDualOriginalProfileDegree
+      ring
 
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
@@ -93,7 +113,13 @@ theorem normalized_zero_le_original_lengths
         Z ^ (T.zeroProductExponent * firstDualCountingLoss bound ε)) / Z ^ parentWidth ≤
       (fiber : ℝ) * Czero * originalFirstMaskConstant (K := K) normBound δ hB hδ *
         T.zeroProfileConstant * Z ^ ε := by
-  sorry
+  apply T.normalized_zero_le hB δ hδ fiber parentWidth
+    (firstDualCountingLoss bound ε) Czero ε hC
+  have hledger := first_dual_original_length_ledger total bound parentWidth supportLength loss δ ε
+    hbound htotal hsupport hlossOne hloss hδbudget hε
+  unfold zeroExponent
+  rw [hcoefficient, hproduct]
+  linarith
 
 end FirstDualOriginalWindows
 end HeckeSkeleton.Moments.EngineStep

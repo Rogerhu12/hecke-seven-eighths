@@ -38,7 +38,25 @@ theorem amplified_carriers_admissible_of
     (h : L.carrier.Admissible (cap + 2) B Z oldMask) :
     (L.mainCarrier tag).Admissible (cap + 2) B Z oldMask ∧
       ∀ n p, (L.errorCarrier tag n p).Admissible (cap + 2) B Z oldMask := by
-  sorry
+  apply L.amplified_carriers_admissible tag B Z oldMask
+  · intro i
+    exact h.first_valid _ (L.first_mem i)
+  · intro i
+    exact h.first_norm _ (L.first_mem i)
+  · intro i
+    exact h.first_divisor_valid _ (L.first_mem i) _ (L.firstDivisor_mem i)
+  · intro i
+    exact h.first_divisor_norm _ (L.first_mem i) _ (L.firstDivisor_mem i)
+  · intro i
+    exact h.second_valid _ (L.first_mem i) _ (L.firstDivisor_mem i) _ (L.second_mem i)
+  · intro i
+    exact h.second_norm _ (L.first_mem i) _ (L.firstDivisor_mem i) _ (L.second_mem i)
+  · intro i
+    exact h.second_divisor_ne_zero _ (L.first_mem i) _ (L.firstDivisor_mem i)
+      _ (L.second_mem i) _ (L.secondDivisor_mem i)
+  · intro i
+    exact h.second_divisor_norm _ (L.first_mem i) _ (L.firstDivisor_mem i)
+      _ (L.second_mem i) _ (L.secondDivisor_mem i)
 
 end OriginalArithmeticLabels
 
@@ -88,8 +106,9 @@ def arithmeticIndex (j : R.liveLeaves L exceptional N) :
 theorem arithmeticIndex_allocation (j : R.liveLeaves L exceptional N) :
     (R.arithmeticLabels L hcap exceptional N).amplifiedAllocation
       (R.arithmeticTag L exceptional N) P (R.arithmeticIndex L hcap exceptional N j) =
-        (R.arithmeticLabels L hcap exceptional N).allocation j := by
-  sorry
+        (R.arithmeticLabels L hcap exceptional N).allocation j :=
+  (R.arithmeticLabels L hcap exceptional N).amplifiedIndex_allocation
+    (R.arithmeticTag L exceptional N) P (R.arithmeticTag_mem L exceptional N) j
 
 variable {exceptional}
 
@@ -103,8 +122,9 @@ theorem arithmeticCarriers_admissible
     ((R.supported.gated.arithmeticLabels L hcap exceptional N).mainCarrier
       (R.supported.gated.arithmeticTag L exceptional N)).Admissible (cap + 2) B Z oldMask ∧
     ∀ n p, ((R.supported.gated.arithmeticLabels L hcap exceptional N).errorCarrier
-      (R.supported.gated.arithmeticTag L exceptional N) n p).Admissible (cap + 2) B Z oldMask := by
-  sorry
+      (R.supported.gated.arithmeticTag L exceptional N) n p).Admissible (cap + 2) B Z oldMask :=
+  OriginalArithmeticLabels.amplified_carriers_admissible_of _ _
+    (R.arithmeticLabels_admissible L hcap exceptional N B oldMask hs hmask hN)
 
 end ActualFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep

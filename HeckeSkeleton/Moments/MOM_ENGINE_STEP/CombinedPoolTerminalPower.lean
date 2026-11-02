@@ -63,7 +63,35 @@ theorem original_pool_terminal_normalized_sum
       coefficient * poolTagNormCharge P b * Z ^ budget) :
     ((4 / d.density) * ∑ b, d.tagWeight b * f b) / Z ^ allowance ≤
       poolTerminalConstant K ell Mmax * coefficient * Z ^ (budget + eps) := by
-  sorry
+  have hz : 0 < Z := zero_lt_one.trans P.base_gt_one
+  calc
+    _ = (4 / d.density) * ∑ b, d.tagWeight b * (f b / Z ^ allowance) := by
+      rw [mul_div_assoc, Finset.sum_div]
+      congr 1
+      apply Finset.sum_congr rfl
+      intro b _
+      ring
+    _ ≤ (4 / d.density) * ∑ b, d.tagWeight b *
+        (coefficient * poolTagNormCharge P b * Z ^ budget) :=
+      mul_le_mul_of_nonneg_left
+        (Finset.sum_le_sum fun b _ =>
+          mul_le_mul_of_nonneg_left (hterm b) (d.tagWeight_nonneg b))
+        (div_nonneg (by norm_num) d.density_pos.le)
+    _ = (4 / d.density) * ∑ b,
+        (d.tagWeight b * poolTagNormCharge P b) * (coefficient * Z ^ budget) := by
+      congr 1
+      apply Finset.sum_congr rfl
+      intro b _
+      ring
+    _ = ((4 / d.density) * ∑ b,
+        d.tagWeight b * poolTagNormCharge P b) * (coefficient * Z ^ budget) := by
+      rw [← Finset.sum_mul]
+      ring
+    _ ≤ (poolTerminalConstant K ell Mmax * Z ^ eps) *
+        (coefficient * Z ^ budget) :=
+      mul_le_mul_of_nonneg_right (d.tag_norm_charge_mass_le Mmax hrow hlarge)
+        (mul_nonneg hcoefficient (Real.rpow_nonneg hz.le _))
+    _ = _ := by rw [Real.rpow_add hz]; ring
 
 namespace ActualPoolStages.DualTerminalCalibration
 
@@ -93,7 +121,24 @@ theorem zeroBudget_div_allowance_le_combined_profiles
       (poolTerminalConstant K ell Mmax *
         ((fiberCap : ℝ) * Czero * (tupleCap : ℝ) * profile) / divisorNorm) *
           Z ^ (loss - shift) := by
-  sorry
+  have hparts (b : PoolSourceTag P) :
+      (T.tag b).zeroBudget ε Czero / Z ^ allowance ≤
+        (((fiberCap : ℝ) * Czero * (tupleCap : ℝ) * profile) / divisorNorm) *
+          poolTagNormCharge P b * Z ^ (loss - shift - eps) := by
+    have h := (T.tag b).zeroBudget_div_allowance_le_of_nonzero_fiber
+      ε Czero (profile * poolTagNormCharge P b) divisorNorm
+      (amplitudeExponent b) allowance (loss - eps) shift fiberCap tupleCap
+      hC (mul_nonneg hprofile (poolTagNormCharge_nonneg b)) hdivisor
+      (hfiber b) (htuples b) (hAmplitude b) (by intro hf; linarith [hbudget b hf])
+    rw [show loss - eps - shift = loss - shift - eps by ring] at h
+    convert h using 1 <;> ring
+  have h := original_pool_terminal_normalized_sum d
+    (fun b => (T.tag b).zeroBudget ε Czero)
+    (((fiberCap : ℝ) * Czero * (tupleCap : ℝ) * profile) / divisorNorm)
+    (loss - shift - eps) allowance Mmax (by positivity) hrow hlarge hparts
+  rw [show loss - shift - eps + eps = loss - shift by ring] at h
+  unfold zeroBudget
+  convert h using 1 <;> ring
 
 /-- The same pool tags and density bound the full-Cartesian tail. The
 cutoff saving pays its coarse numerator exponent before normalization. -/
@@ -115,7 +160,24 @@ theorem tailBudget_div_allowance_le_combined_profiles
       (poolTerminalConstant K ell Mmax *
         ((fiberCap : ℝ) * Cerror * (tupleCap : ℝ) * profile) / divisorNorm) *
           Z ^ (loss - shift) := by
-  sorry
+  have hparts (b : PoolSourceTag P) :
+      (T.tag b).tailBudget Cerror / Z ^ allowance ≤
+        (((fiberCap : ℝ) * Cerror * (tupleCap : ℝ) * profile) / divisorNorm) *
+          poolTagNormCharge P b * Z ^ (loss - shift - eps) := by
+    have h := (T.tag b).tailBudget_div_allowance_le_of_nonzero_fiber
+      Cerror (profile * poolTagNormCharge P b) divisorNorm
+      (amplitudeExponent b) allowance (loss - eps) shift fiberCap tupleCap
+      hC (mul_nonneg hprofile (poolTagNormCharge_nonneg b)) hdivisor
+      (hfiber b) (htuples b) (hAmplitude b) (by intro hf; linarith [hbudget b hf])
+    rw [show loss - eps - shift = loss - shift - eps by ring] at h
+    convert h using 1 <;> ring
+  have h := original_pool_terminal_normalized_sum d
+    (fun b => (T.tag b).tailBudget Cerror)
+    (((fiberCap : ℝ) * Cerror * (tupleCap : ℝ) * profile) / divisorNorm)
+    (loss - shift - eps) allowance Mmax (by positivity) hrow hlarge hparts
+  rw [show loss - shift - eps + eps = loss - shift by ring] at h
+  unfold tailBudget
+  convert h using 1 <;> ring
 
 end ActualPoolStages.DualTerminalCalibration
 end HeckeSkeleton.Moments.EngineStep

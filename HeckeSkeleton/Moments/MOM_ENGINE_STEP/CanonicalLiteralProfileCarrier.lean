@@ -42,7 +42,9 @@ def idealCarrier (S : Finset (HeckeGeneral.Analysis.NonzeroIdeal K)) :
 
 theorem idealCarrier_nonzero (S : Finset (HeckeGeneral.Analysis.NonzeroIdeal K)) :
     ∀ I ∈ idealCarrier S, I ≠ 0 := by
-  sorry
+  intro I hI
+  obtain ⟨J, _, rfl⟩ := Finset.mem_image.mp hI
+  exact nonZeroDivisors.coe_ne_zero J
 
 /-- The raw ideal presentation is exactly the nonzero-ideal source,
 including its complete frequency and every original column location. -/
@@ -61,7 +63,21 @@ theorem raw_joint_idealCarrier
       jointFourierColumn (childCartesianColumns S₁ S₂ S)
         (T.coefficient (σ := σ) g h' N₁ N₂ Z length w₁ w₂ w)
         (childCartesianLocation x₁ x₂ x) ξ := by
-  sorry
+  simp only [jointFourierColumn, childCartesianColumns, Finset.product_eq_sprod,
+    Finset.sum_product, idealCarrier]
+  rw [Finset.sum_image]
+  · apply Finset.sum_congr rfl
+    intro I _
+    rw [Finset.sum_image]
+    · apply Finset.sum_congr rfl
+      intro J _
+      apply Finset.sum_congr rfl
+      intro v _
+      simp only [rawSourceCoefficient, rawSourceLocation, sourceMomentIdeal_coe]
+    · intro I _ J _ h
+      exact Subtype.ext h
+  · intro I _ J _ h
+    exact Subtype.ext h
 
 /-- Changing only finite carriers follows from the actual calibrated
 single atoms. The larger carriers need contain only their corresponding
@@ -99,7 +115,17 @@ theorem calibrated_support_change
       jointFourierColumn (childCartesianColumns U₁ U₂ U)
         (T.coefficient (σ := σ) g h' N₁ N₂ Z length w₁ w₂ w)
         (childCartesianLocation x₁ x₂ x) ξ := by
-  sorry
+  have hs := fixed_child_polynomial_from_effective_terms T d count length hlength
+    u g h' D N₁ N₂ Z t S₁ S₂ S hS₁ hS₂ hS w₁ w₂ w x₁ x₂ x ξ
+    (fun I _ => hW₁ I) (fun I _ => hW₂ I) (fun i p _ => hW i p)
+  have hu := fixed_child_polynomial_from_effective_terms T d count length hlength
+    u g h' D N₁ N₂ Z t U₁ U₂ U
+    (effectivePlainSupport_of_profile d d.plainTest₁ u N₁ t U₁ hU₁)
+    (effectivePlainSupport_of_profile d d.plainTest₂ u N₂ t U₂ hU₂)
+    (fun i => effectivePrimeSupport_of_profile d i u Z t (U (Fin.cast count i)) (hU i))
+    w₁ w₂ w x₁ x₂ x ξ
+    (fun I _ => hW₁ I) (fun I _ => hW₂ I) (fun i p _ => hW i p)
+  exact hs.trans hu.symm
 
 /-- In particular the source may use its full finite profile supports
 before the nonzero-ideal proofs are forgotten and divisors allocated. -/
@@ -136,7 +162,13 @@ theorem calibrated_full_profile_carrier
         (rawSourceCoefficient (σ := σ) T g h' N₁ N₂ Z
           (fun i => (d.geometry.slots i).length) w₁ w₂ w)
         (rawSourceLocation x₁ x₂ x) ξ := by
-  sorry
+  rw [raw_joint_idealCarrier]
+  exact calibrated_support_change T d rfl (fun i => (d.geometry.slots i).length)
+    (fun _ => rfl) u g h' D N₁ N₂ Z t S₁ S₂
+    (d.plainTest₁.support u t N₁) (d.plainTest₂.support u t N₂)
+    S (fun i => (d.geometry.slots i).support t (Z ^ (d.geometry.slots i).length))
+    hS₁ hS₂ hS (fun _ h => h) (fun _ h => h) (fun _ _ h => h)
+    w₁ w₂ w x₁ x₂ x ξ hW₁ hW₂ hW
 
 end CanonicalLiteralProfileCarrier
 end HeckeSkeleton.Moments.EngineStep

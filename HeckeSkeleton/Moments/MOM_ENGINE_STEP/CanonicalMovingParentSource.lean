@@ -37,7 +37,9 @@ variable {K : Type} [Field K] [NumberField K]
 theorem actualSixthUnits_are_sixth
     (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S] :
     ∀ u : sixthPowerSUnitSubgroup K S, ∃ v : S.unit K, u.val = v ^ 6 := by
-  sorry
+  intro u
+  obtain ⟨v, hv⟩ := u.property
+  exact ⟨v, hv.symm⟩
 
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
 variable {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}

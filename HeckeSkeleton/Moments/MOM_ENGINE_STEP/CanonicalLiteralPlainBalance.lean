@@ -51,19 +51,35 @@ theorem balancePlain_rectangleLeftWeight (c : Bool → ℝ) (r : Bool)
     (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (d.balancePlain c).rectangleLeftWeight r I =
       d.rectangleLeftWeight r I * (c r : ℂ) := by
-  sorry
+  unfold rectangleLeftWeight balancePlain
+  split_ifs <;> simp only [zero_mul]
 
 /-- The equality is proved for each original column, including every
 ramified zero and the absent comparison rectangle. -/
 theorem balancePlain_term (c : Bool → ℝ) (hc : ∀ r, 0 < c r)
     (r : Bool) (i : AllocationColumn K k) :
     (d.balancePlain c).term r i = d.term r i := by
-  sorry
+  have hcr : (c r : ℂ) ≠ 0 := by exact_mod_cast (hc r).ne'
+  have he := CanonicalLiteralTransforms.bare_mul_weights d.characters
+    (d.scale₁ r) (d.scale₂ r) d.base d.length
+    (d.rectangleLeftWeight r) (d.rightWeight r)
+    (fun _ => (c r : ℂ)) (fun _ => (c r : ℂ)⁻¹)
+    d.slotWeight (fun _ _ => 1) i
+  have hw := funext (d.balancePlain_rectangleLeftWeight c r)
+  unfold term
+  rw [hw]
+  change d.normalizer * rawBareSourceCoefficient d.characters
+      (d.scale₁ r) (d.scale₂ r) d.base d.length
+      (fun I => d.rectangleLeftWeight r I * (c r : ℂ))
+      (fun I => d.rightWeight r I * (c r : ℂ)⁻¹) d.slotWeight i = _
+  simpa only [mul_one, Finset.prod_const_one, mul_inv_cancel₀ hcr] using
+    congrArg (fun z => d.normalizer * z) he
 
 theorem balancePlain_whole (c : Bool → ℝ) (hc : ∀ r, 0 < c r)
     (i : AllocationColumn K k) :
     (d.balancePlain c).whole i = d.whole i := by
-  sorry
+  rw [whole, d.balancePlain_term c hc false, d.balancePlain_term c hc true]
+  rfl
 
 /-- Actual support extraction and reciprocal balancing commute. The
 original removed slots and the same witness are retained. -/
@@ -125,16 +141,22 @@ profiles. No upper bound or replacement scale is selected here. -/
 def ratio (left right : ℝ) : ℝ := Real.sqrt (right / left)
 
 theorem ratio_pos {left right : ℝ} (hl : 0 < left) (hr : 0 < right) :
-    0 < ratio left right := by
-  sorry
+    0 < ratio left right := Real.sqrt_pos.mpr (div_pos hr hl)
 
 theorem left_mul_ratio {left right : ℝ} (hl : 0 < left) (hr : 0 < right) :
     left * ratio left right = Real.sqrt (left * right) := by
-  sorry
+  apply (sq_eq_sq₀ (mul_nonneg hl.le (ratio_pos hl hr).le)
+    (Real.sqrt_nonneg _)).mp
+  rw [mul_pow, ratio, Real.sq_sqrt (div_pos hr hl).le, Real.sq_sqrt (mul_pos hl hr).le]
+  field_simp [hl.ne'] <;> ring
 
 theorem right_mul_ratio_inv {left right : ℝ} (hl : 0 < left) (hr : 0 < right) :
     right * (ratio left right)⁻¹ = Real.sqrt (left * right) := by
-  sorry
+  apply (sq_eq_sq₀ (mul_nonneg hr.le (inv_nonneg.mpr (ratio_pos hl hr).le))
+    (Real.sqrt_nonneg _)).mp
+  rw [mul_pow, inv_pow, ratio, Real.sq_sqrt (div_pos hr hl).le,
+    Real.sq_sqrt (mul_pos hl hr).le]
+  field_simp [hl.ne', hr.ne'] <;> ring
 
 end CanonicalLiteralPlainBalance
 

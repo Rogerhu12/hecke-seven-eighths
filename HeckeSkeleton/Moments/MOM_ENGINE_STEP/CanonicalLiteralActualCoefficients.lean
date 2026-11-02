@@ -127,7 +127,24 @@ theorem canonicalLeftMain_secondInput
         ((A.exteriorNorm (b.leftResidual i) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.leftResidual i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.leftResidual i) =
+      b.leftResidual i := by
+    apply Subtype.ext
+    change 1 * (b.leftResidual i).val = _
+    exact one_mul _
+  rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj
+    (b.leftResidual i) hideal, ← hindex, hunit,
+    actualIdealResidue_frequency_one, mul_one]
+  rw [FirstBlockPoolData.canonicalLog_leftDivisorCoefficient hΓ μv ν b C
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
+    δ₁ hδ₁ hδ₁half p S χ i hi hSi]
+  ring
 
 /-- The main right source has the same unit-power specialization and
 retains the original right first phase. -/
@@ -156,7 +173,24 @@ theorem canonicalRightMain_secondInput
         ((A.exteriorNorm (b.rightResidual i) ^ δ₂ : ℝ) : ℂ) *
         actualIdealResidue (A := A) (σ := σ) (b.rightResidual i).val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  have hunit : ExteriorIdealEuler.mul (unitExterior A) (b.rightResidual i) =
+      b.rightResidual i := by
+    apply Subtype.ext
+    change 1 * (b.rightResidual i).val = _
+    exact one_mul _
+  rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    support branch hroot hemb (unitExterior A) firstFixed (unitExterior A) (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    1 (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (unitExterior_generates A)
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj
+    (b.rightResidual i) hideal, ← hindex, hunit,
+    actualIdealResidue_frequency_one, mul_one]
+  rw [FirstBlockPoolData.canonicalLog_rightDivisorCoefficient hΓ μv ν b C
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
+    δ₁ hδ₁ hδ₁half p S χ i hi hSi]
+  ring
 
 /-- The genuine left error source at the original valuation index is
 the computed original atom table.  Both required dictionary identities
@@ -190,7 +224,23 @@ theorem canonicalLeftPool_secondInput
         actualIdealResidue (A := A) (σ := σ)
           ((p.divisorPools.leftData S).residualPresentation q n i).residual.val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let J := ((p.divisorPools.leftData S).residualPresentation q n i).residual
+  have hold : b.leftResidual i.val = ExteriorIdealEuler.mul (powerIdeal q n) J := by
+    apply Subtype.ext
+    have he := ((p.divisorPools.leftData S).residualPresentation q n i).reconstructed
+    simpa only [p.divisorPools.left_ideal S, p.left_ideal] using he
+  rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    support branch hroot hemb (powerIdeal q n) firstFixed (powerIdeal q (2 * n))
+    (unitExterior A)
+    (CanonicalLiteralFirstPhase.leftElement C b.primes b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj J hideal,
+    ← hindex, ← hold]
+  rw [FirstBlockPoolData.canonicalLog_leftResidualCoefficient hΓ μv ν b C
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
+    δ₁ hδ₁ hδ₁half p S χ q n i hSi]
 
 /-- The genuine right error source uses its original complementary
 first phase. The stored second right column is conjugated later by the
@@ -224,7 +274,23 @@ theorem canonicalRightPool_secondInput
         actualIdealResidue (A := A) (σ := σ)
           ((p.divisorPools.rightData S).residualPresentation q n i).residual.val
           (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A)) := by
-  sorry
+  let J := ((p.divisorPools.rightData S).residualPresentation q n i).residual
+  have hold : b.rightResidual i.val = ExteriorIdealEuler.mul (powerIdeal q n) J := by
+    apply Subtype.ext
+    have he := ((p.divisorPools.rightData S).residualPresentation q n i).reconstructed
+    simpa only [p.divisorPools.right_ideal S, p.right_ideal] using he
+  rw [Q.literalOriginalAtoms_secondInput_whole ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
+    support branch hroot hemb (powerIdeal q n) firstFixed (powerIdeal q (2 * n))
+    (unitExterior A)
+    (CanonicalLiteralFirstPhase.rightElement C b.primes b.leftMultiplicity b.rightMultiplicity
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val)
+    (generator C q ^ (2 * n)) (CanonicalLiteralFixedPhases.emptyDivisorInverse (A := A))
+    hfirst (generator_power_generates C q (2 * n))
+    CanonicalLiteralFixedPhases.emptyDivisorInverse_generates δ₁ δ₂ j hj J hideal,
+    ← hindex, ← hold]
+  rw [FirstBlockPoolData.canonicalLog_rightResidualCoefficient hΓ μv ν b C
+    (raw).exteriorColumns (raw).exteriorColumns φ c c finiteTest hlc hcs radius D
+    δ₁ hδ₁ hδ₁half p S χ q n i hSi]
 
 end CompleteMovingRowRecipe
 end HeckeSkeleton.Moments.EngineStep
