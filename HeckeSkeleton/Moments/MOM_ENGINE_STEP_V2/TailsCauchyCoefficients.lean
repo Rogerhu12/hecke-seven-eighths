@@ -25,6 +25,7 @@ open NumberField IsDedekindDomain MeasureTheory DedekindZetaZeroFree LocalFinite
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckePort.Moments
+open HeckePort.CenteredMomentCounting
 open HeckeGeneral.ThetaSkeleton.Physical.ActualGramMajorantDraft
 
 universe u v w

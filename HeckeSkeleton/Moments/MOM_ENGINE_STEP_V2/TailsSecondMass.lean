@@ -106,18 +106,22 @@ theorem second_pair_modulus_le (source : SecondSource call p)
     (Finset.mem_filter.mp hi).1
   have hj' : j ∈ source.physical.source.columns :=
     (Finset.mem_filter.mp hj).1
-  rw [(source.block v).second_modulus_norm (Arithmetic.units_are_sixth c)
-    (Arithmetic.different c) (Arithmetic.context c)
-    source.physical.source.columns source.physical.source.columns
-    (fun a b => (source.physical.source.coefficient a *
-      star (source.physical.source.coefficient b)) • source.stage.profile) i hi j hj,
-    map_mul, Nat.cast_mul]
-  change (Arithmetic.data c).exteriorNorm (source.physical.source.ideal i) *
-    (Arithmetic.data c).exteriorNorm (source.physical.source.ideal j) ≤ X ^ 2
-  simpa only [pow_two] using
-    mul_le_mul (hideal i (Finset.mem_filter.mpr ⟨hi', hci⟩))
-      (hideal j (Finset.mem_filter.mpr ⟨hj', hcj⟩))
-      ((Arithmetic.data c).exteriorNorm_pos _).le hX
+  calc
+    _ = (Ideal.absNorm ((source.physical.source.ideal i).val *
+        (source.physical.source.ideal j).val) : ℝ) :=
+      (source.block v).second_modulus_norm (Arithmetic.units_are_sixth c)
+        (Arithmetic.different c) (Arithmetic.context c)
+        source.physical.source.columns source.physical.source.columns
+        (fun a b => (source.physical.source.coefficient a *
+          star (source.physical.source.coefficient b)) • source.stage.profile) i hi j hj
+    _ ≤ _ := by
+      rw [map_mul, Nat.cast_mul]
+      change (Arithmetic.data c).exteriorNorm (source.physical.source.ideal i) *
+        (Arithmetic.data c).exteriorNorm (source.physical.source.ideal j) ≤ X ^ 2
+      simpa only [pow_two] using
+        mul_le_mul (hideal i (Finset.mem_filter.mpr ⟨hi', hci⟩))
+          (hideal j (Finset.mem_filter.mpr ⟨hj', hcj⟩))
+          ((Arithmetic.data c).exteriorNorm_pos _).le hX
 
 theorem second_pair_truncationMass_le (source : SecondSource call p)
     (hs : source.Realizes) (X R : ℝ) (hX : 0 ≤ X)

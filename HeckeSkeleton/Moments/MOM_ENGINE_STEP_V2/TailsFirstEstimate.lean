@@ -24,6 +24,8 @@ namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tails
 open NumberField HeckeGeneral.ThetaSkeleton.Global
 open EngineStep EngineInduction.Source
 
+attribute [local instance] sourcePrincipal
+
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 

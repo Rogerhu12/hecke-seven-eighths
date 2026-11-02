@@ -13,12 +13,12 @@ its original-source data are in SecondContracts. The proof constructs
 the actual stage once per source and sums its exact integrated bound.
 -/
 
+noncomputable section
+
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
 
 open NumberField HeckeGeneral.ThetaSkeleton.Global
 open scoped BigOperators
-
-noncomputable section
 
 variable {K : Type} [Field K] [NumberField K]
 
