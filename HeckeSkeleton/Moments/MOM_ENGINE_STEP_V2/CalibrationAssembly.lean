@@ -380,14 +380,34 @@ def original
   scalar_cost := rfl
   fiber_cost := rfl
 
-def dictionary :
-    (CalibrationAssembly.original
+def dictionary
+    (canonical : seed.CanonicalSupport input support)
+    (masks : seed.ResidualMaskIdentity)
+    (atoms : ∀ (ξ : EngineParameter) (h : seed.ordinary.rows.live),
+      let source := seed.canonicalSource input support side a rectangle
+      FixedChildCharacters.Calibration (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+        ((source.characters h).restrictSlots source.allocation.keep)
+        (CalibrationConstruction.data seed input support side a rectangle
+          moving correction hcorr sector remaining ξ)
+        (Eq.refl source.allocation.keep.card)
+        (source.row h).momentIdeal (source.extractedFactor h) (source.row h).element)
+    (left_scale : (s).base ^ parameters.n₁ =
+      (s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0))
+    (right_scale : (s).base ^ parameters.n₂ =
+      (s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0)))
+    (slot_sum : parameters.z = ∑ i, (s).childLength i)
+    (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).originalIdeal h) ≤
+      (s).normFactor h * (s).base ^ (parameters.m + parameters.q))
+    (ordinary : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
+      (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
+    (kappa : parameters.κ = call.node.parameters.κ) :
+    OriginalCalibration.RawDictionary (CalibrationAssembly.original
       (seed := seed) (input := input) (support := support) (canonical := canonical)
       (masks := masks) (side := side) (a := a) (rectangle := rectangle)
       (moving := moving) (correction := correction) (hcorr := hcorr) (sector := sector)
       (remaining := remaining) (atoms := atoms) (parameters := parameters)
       (left_scale := left_scale) (right_scale := right_scale) (slot_sum := slot_sum)
-      (cutoff := cutoff) (ordinary := ordinary) (kappa := kappa)).RawDictionary
+      (cutoff := cutoff) (ordinary := ordinary) (kappa := kappa))
       input CalibrationConstruction.shape 1 call.window :=
   CalibrationConstruction.dictionary seed input support side a rectangle moving correction hcorr
     sector remaining

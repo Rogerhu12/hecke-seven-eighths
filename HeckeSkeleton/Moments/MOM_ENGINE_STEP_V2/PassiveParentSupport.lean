@@ -36,6 +36,7 @@ theorem reference_mem_working :
   have he : pairedRows call.localizedData call.workingParameters call.base =
       pairedRows call.localizedData call.node.parameters call.base := by
     simp only [pairedRows, Call.workingParameters, sub_add_cancel]
+    rfl
   rw [he, Call.localizedData, EngineInduction.localizeOriginalParent_pairedRows]
   exact seed.reference_mem
 
@@ -75,8 +76,8 @@ theorem restoredPlain_mem_parent (side rectangle plain : Bool)
       (Arithmetic.data c).cS) :
     (seed.restoredPlainIdeal side plain I).val ∈
       branchInput (packet.firstBranch side) plain := by
-  have ho := (seed.plainProfile input side rectangle plain).formula.
-    original_ne_zero_of_value_ne_zero 0 _ hprofile
+  have ho := (seed.plainProfile input side rectangle plain).formula.original_ne_zero_of_value_ne_zero
+    0 _ hprofile
   have hd : (seed.plainProfile input side rectangle plain).formula.dilation = 1 := rfl
   rw [hd, one_mul, seed.restoredPlain_argument] at ho
   cases plain

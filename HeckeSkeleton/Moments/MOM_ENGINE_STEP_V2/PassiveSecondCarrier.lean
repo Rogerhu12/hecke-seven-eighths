@@ -387,27 +387,69 @@ theorem originalAllocation_slots_atlas (side : Bool) (i : Fin (O.originalSlotCou
   · run_tac do
       let stderr ← IO.getStderr
       let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.false.before_change [mono_ms={ms}]"
+      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.false.before_construct [mono_ms={ms}]"
       stderr.flush
-    change packet.leftReindex.slots i = _
+    have hslots := PassiveSecondCarrier.residualReindex_slots
+      (A := Arithmetic.data c) (packet.firstAtlas false)
+      (primeSupport packet.key.1.val.1) (packet.secondIdeal false)
+      packet.block.leftResidual (fun j _ => packet.block.left_residual j)
+      (packet.secondSupportKey false)
     run_tac do
       let stderr ← IO.getStderr
       let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.false.after_change [mono_ms={ms}]"
+      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.false.function_proved [mono_ms={ms}]"
       stderr.flush
-    exact congrFun (PassiveSecondCarrier.residualReindex_slots _ _ _ _ _ _) i
+    have hresult := congrFun hslots (Fin.cast (D.second_count false).symm i)
+    run_tac do
+      let stderr ← IO.getStderr
+      let ms ← IO.monoMsNow
+      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.false.proof_assembled [mono_ms={ms}]"
+      stderr.flush
+    run_tac
+      Lean.Elab.Tactic.withMainContext do
+        let goal ← Lean.Elab.Tactic.getMainGoal
+        let lctx := (← goal.getDecl).lctx
+        let some proof := lctx.findFromUserName? `hresult
+          | throwError "original slot-carrier proof not found"
+        goal.assign (Lean.mkFVar proof.fvarId)
+        Lean.Elab.Tactic.replaceMainGoal []
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.false.assigned [mono_ms={ms}]"
+        stderr.flush
   · run_tac do
       let stderr ← IO.getStderr
       let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.true.before_change [mono_ms={ms}]"
+      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.true.before_construct [mono_ms={ms}]"
       stderr.flush
-    change packet.rightReindex.slots i = _
+    have hslots := PassiveSecondCarrier.residualReindex_slots
+      (A := Arithmetic.data c) (packet.firstAtlas true)
+      (primeSupport packet.key.1.val.1) (packet.secondIdeal true)
+      packet.block.rightResidual (fun j _ => packet.block.right_residual j)
+      (packet.secondSupportKey true)
     run_tac do
       let stderr ← IO.getStderr
       let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.true.after_change [mono_ms={ms}]"
+      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.true.function_proved [mono_ms={ms}]"
       stderr.flush
-    exact congrFun (PassiveSecondCarrier.residualReindex_slots _ _ _ _ _ _) i
+    have hresult := congrFun hslots (Fin.cast (D.second_count true).symm i)
+    run_tac do
+      let stderr ← IO.getStderr
+      let ms ← IO.monoMsNow
+      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.true.proof_assembled [mono_ms={ms}]"
+      stderr.flush
+    run_tac
+      Lean.Elab.Tactic.withMainContext do
+        let goal ← Lean.Elab.Tactic.getMainGoal
+        let lctx := (← goal.getDecl).lctx
+        let some proof := lctx.findFromUserName? `hresult
+          | throwError "original slot-carrier proof not found"
+        goal.assign (Lean.mkFVar proof.fvarId)
+        Lean.Elab.Tactic.replaceMainGoal []
+        let stderr ← IO.getStderr
+        let ms ← IO.monoMsNow
+        stderr.putStrLn s!"MOM_ENGINE_STEP_V2 PassiveSecondCarrier step: originalAllocation_slots_atlas.true.assigned [mono_ms={ms}]"
+        stderr.flush
 
 run_cmd do
   Lean.Elab.Command.liftIO do
