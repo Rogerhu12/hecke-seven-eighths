@@ -69,8 +69,8 @@ theorem chart_weight_eq (q : Arithmetic.Orbit c) :
 
 theorem chart_mask_eq : packet.key.2.1.val = ∅ := by
   have hsubset := Finset.mem_powerset.mp packet.key.2.1.property
-  rw [packet.stage_mask_eq hpacket] at hsubset
-  exact Finset.eq_empty_of_subset_empty hsubset
+  exact Finset.eq_empty_of_subset_empty
+    (hsubset.trans (packet.stage_mask_eq hpacket).le)
 
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

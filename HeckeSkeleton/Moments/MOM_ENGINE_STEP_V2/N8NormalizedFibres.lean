@@ -51,7 +51,7 @@ theorem extracted_fibres_of_nonunit (N : Ideal (𝓞 K))
     (bound : ℕ)
     (hbound : ∀ I : Ideal (𝓞 K),
       (R.rows.filter (fun h => (R.originalIdeal h).val = I)).card ≤ bound)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((Finset.univ : Finset R.live).filter
       (fun h => (R.extractedRow C h).momentIdeal = I)).card ≤ bound := by
   let T : Finset R.live := Finset.univ.filter
@@ -64,7 +64,7 @@ theorem extracted_fibres_of_nonunit (N : Ideal (𝓞 K))
     intro h hh
     obtain ⟨x, hx, rfl⟩ := Finset.mem_image.mp hh
     have hi : (R.extractedRow C x).ideal.val = I.val :=
-      congrArg (fun J : NonzeroIdeal K => J.val) (Finset.mem_filter.mp hx).2
+      congrArg (fun J : HeckeGeneral.Analysis.NonzeroIdeal K => J.val) (Finset.mem_filter.mp hx).2
     refine Finset.mem_filter.mpr ⟨(Finset.mem_filter.mp x.property).1, ?_⟩
     rw [R.extractedRow_ideal_factor C x, hnonunit x, hi]
   calc
@@ -83,7 +83,7 @@ theorem extracted_fibres_of_pattern (pattern : ι → Bool)
     (bound : ℕ)
     (hbound : ∀ I : Ideal (𝓞 K),
       (R.rows.filter (fun h => (R.originalIdeal h).val = I)).card ≤ bound)
-    (I : NonzeroIdeal K) :
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((Finset.univ : Finset R.live).filter
       (fun h => (R.extractedRow C h).momentIdeal = I)).card ≤ bound := by
   let T : Finset R.live := Finset.univ.filter
@@ -101,7 +101,7 @@ theorem extracted_fibres_of_pattern (pattern : ι → Bool)
     intro h hh
     obtain ⟨x, hx, rfl⟩ := Finset.mem_image.mp hh
     have hi : (R.extractedRow C x).ideal.val = I.val :=
-      congrArg (fun J : NonzeroIdeal K => J.val) (Finset.mem_filter.mp hx).2
+      congrArg (fun J : HeckeGeneral.Analysis.NonzeroIdeal K => J.val) (Finset.mem_filter.mp hx).2
     refine Finset.mem_filter.mpr ⟨(Finset.mem_filter.mp x.property).1, ?_⟩
     rw [R.extractedRow_ideal_factor C x, hnonunit x, hi]
     rfl
@@ -145,7 +145,7 @@ theorem originalSource_fibres (pattern : Fin packet.block.primeCount → Bool)
     (hpattern : ∀ h : packet.R.live,
       actualNonunitPattern (Arithmetic.context c) packet.R.primes
         packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val) = pattern)
-    (side rectangle : Bool) (I : NonzeroIdeal K) :
+    (side rectangle : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((O.originalSource side rectangle).rows.filter
       (fun h => ((O.originalSource side rectangle).row h).momentIdeal = I)).card ≤
       (Arithmetic.unitSubgroup c).index := by
@@ -160,7 +160,7 @@ theorem originalSource_fibres (pattern : Fin packet.block.primeCount → Bool)
   exact hpattern h'
 
 theorem originalSource_fibres_realized (hpacket : packet.Realizes)
-    (side rectangle : Bool) (I : NonzeroIdeal K) :
+    (side rectangle : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     ((O.originalSource side rectangle).rows.filter
       (fun h => ((O.originalSource side rectangle).row h).momentIdeal = I)).card ≤
       (Arithmetic.unitSubgroup c).index := by

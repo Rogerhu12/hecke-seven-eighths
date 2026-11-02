@@ -41,7 +41,7 @@ def secondFrozenExterior (side : Bool) : (Arithmetic.data c).Exterior :=
   extractedExterior
     (packet.second.physical.source.ideal
       ((packet.firstAtlas side).reindex.index (packet.secondBranch side).witness))
-    (primeSupport packet.key.1.val.1)
+    (HeckePort.IdealMobiusDivisorSum.primeSupport packet.key.1.val.1)
 
 theorem secondFrozenExterior_val (side : Bool) :
     frozenSourceIdeal (packet.secondBranch side).plainDivisor₁
@@ -50,7 +50,7 @@ theorem secondFrozenExterior_val (side : Bool) :
   change _ = supportExtract
     (packet.second.physical.source.ideal
       ((packet.firstAtlas side).reindex.index (packet.secondBranch side).witness)).val
-    (primeSupport packet.key.1.val.1)
+    (HeckePort.IdealMobiusDivisorSum.primeSupport packet.key.1.val.1)
   rw [(packet.firstAtlas side).reindex.ideal_product (packet.secondBranch side).witness
     ((packet.secondBranch side).original_subset (packet.secondBranch side).witness_mem)]
   exact (packet.secondBranch side).frozenSourceIdeal_eq.trans

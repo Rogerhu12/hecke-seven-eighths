@@ -34,7 +34,7 @@ theorem kernelMass (c : TargetContext K) (p : SourceParameters c) :
   obtain ⟨coefficient, hcoefficient, bound⟩ := fixed_radius_kernel_mass
     (c := c) cap J₁₁ J₁₂ J₂₁ J₂₂ (secondKernel c p) (secondKernel c p)
   refine ⟨coefficient, hcoefficient, ?_⟩
-  intro call input trace htrace geometry raw O R C G B radius radiusCost
+  intro call input trace htrace geometry raw O R C G _N B radius radiusCost
     hB hradius hcost hpower D
   have hk := Assembly.refinedNormalizedData_original_kernels trace htrace raw O R C G
   exact bound call (Assembly.refinedNormalizedData raw O R C G)

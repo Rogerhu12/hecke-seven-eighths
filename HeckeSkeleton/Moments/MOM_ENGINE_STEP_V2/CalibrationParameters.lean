@@ -65,10 +65,10 @@ def parameters : RealParameters :=
   { call.node.parameters with
     m := rowExponent packet side
     q := supportExponent packet side
-    n₁ := Real.log (s.scale₁ / idealNorm K (s.allocation.plainDivisor 0)) / Real.log s.base
-    n₂ := Real.log (s.scale₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0))) /
-      Real.log s.base
-    z := ∑ i, s.childLength i }
+    n₁ := Real.log ((s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0)) / Real.log (s).base
+    n₂ := Real.log ((s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0))) /
+      Real.log (s).base
+    z := ∑ i, (s).childLength i }
 
 private theorem rpow_log_ratio (Z scale : ℝ) (hZ : 1 < Z) (hscale : 0 < scale) :
     Z ^ (Real.log scale / Real.log Z) = scale := by
@@ -77,24 +77,24 @@ private theorem rpow_log_ratio (Z scale : ℝ) (hZ : 1 < Z) (hscale : 0 < scale)
     rw [mul_comm, div_mul_cancel₀ _ (Real.log_pos hZ).ne']
   rw [he, Real.exp_log hscale]
 
-theorem left_scale : s.base ^ (parameters seed input support side a rectangle).n₁ =
-    s.scale₁ / idealNorm K (s.allocation.plainDivisor 0) :=
-  rpow_log_ratio s.base _ s.base_gt_one
+theorem left_scale : (s).base ^ (parameters seed input support side a rectangle).n₁ =
+    (s).scale₁ / idealNorm K ((s).allocation.plainDivisor 0) :=
+  rpow_log_ratio (s).base _ (s).base_gt_one
     (div_pos (seed.occurrences.plainScale_pos side rectangle false) (idealNorm_pos K _))
 
-theorem right_scale : s.base ^ (parameters seed input support side a rectangle).n₂ =
-    s.scale₂ / idealNorm K (s.allocation.plainDivisor (Fin.succ 0)) :=
-  rpow_log_ratio s.base _ s.base_gt_one
+theorem right_scale : (s).base ^ (parameters seed input support side a rectangle).n₂ =
+    (s).scale₂ / idealNorm K ((s).allocation.plainDivisor (Fin.succ 0)) :=
+  rpow_log_ratio (s).base _ (s).base_gt_one
     (div_pos (seed.occurrences.plainScale_pos side rectangle true) (idealNorm_pos K _))
 
 theorem slot_sum : (parameters seed input support side a rectangle).z =
-    ∑ i, s.childLength i := rfl
+    ∑ i, (s).childLength i := rfl
 
 theorem kappa : (parameters seed input support side a rectangle).κ = call.node.parameters.κ := rfl
 
 theorem cutoff (hpacket : packet.Realizes) (h : seed.ordinary.rows.live) :
-    (Arithmetic.data c).exteriorNorm (s.originalIdeal h) ≤ s.normFactor h *
-      s.base ^ ((parameters seed input support side a rectangle).m +
+    (Arithmetic.data c).exteriorNorm ((s).originalIdeal h) ≤ (s).normFactor h *
+      (s).base ^ ((parameters seed input support side a rectangle).m +
         (parameters seed input support side a rectangle).q) :=
   seed.canonicalSource_cutoff input support hpacket side a rectangle
     (supportExponent packet side) (supportExponent_nonneg packet hpacket side) h

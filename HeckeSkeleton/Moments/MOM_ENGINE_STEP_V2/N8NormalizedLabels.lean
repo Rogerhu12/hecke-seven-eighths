@@ -66,7 +66,8 @@ def refinedActiveEquiv :
   toFun b := ⟨b.val.1, ⟨b.val.2, Finset.mem_filter.mpr
     ⟨Finset.mem_univ _, (Finset.mem_filter.mp b.property).2⟩⟩⟩
   invFun b := ⟨⟨b.1, b.2.val⟩, Finset.mem_filter.mpr
-    ⟨Finset.mem_univ _, (Finset.mem_filter.mp b.2.property).2⟩⟩
+    ⟨@Finset.mem_univ _ (refinedNormalizedData raw O R C G).finite _,
+      (Finset.mem_filter.mp b.2.property).2⟩⟩
   left_inv := by
     rintro ⟨⟨j, b⟩, hb⟩
     rfl

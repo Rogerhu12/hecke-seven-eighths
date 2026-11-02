@@ -56,7 +56,7 @@ theorem retained_rpow_product_le {k : ℕ} (keep : Finset (Fin k))
       (SlotRestriction.product_extend keep (fun _ => (PUnit.unit : PUnit.{1}))
         (fun _ => (PUnit.unit : PUnit.{1})) (fun i _ => Z ^ length i))
   have hfrozen : 1 ≤ ∏ i ∈ Finset.univ \ keep, Z ^ length i :=
-    Finset.one_le_prod (fun i _ => Real.one_le_rpow hZ (hlength i))
+    Finset.one_le_prod₀ (fun i _ => Real.one_le_rpow hZ (hlength i))
   have hremaining : 0 ≤ ∏ j : Fin keep.card,
       Z ^ length (SlotRestriction.index keep j) :=
     Finset.prod_nonneg (fun _ _ => Real.rpow_nonneg (zero_le_one.trans hZ) _)

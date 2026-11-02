@@ -42,7 +42,7 @@ theorem slotRestriction_index_injective {k : ℕ} (keep : Finset (Fin k)) :
 theorem finCast_injective {m n : ℕ} (h : m = n) :
     Function.Injective (Fin.cast h) := by
   intro i j hij
-  exact Fin.ext (congrArg Fin.val hij)
+  exact Fin.ext (congrArg (fun x : Fin n => x.val) hij)
 
 end PassiveCanonicalSupport
 
@@ -103,9 +103,13 @@ def canonicalSupport : seed.ordinary.PassiveSupport input where
   length_eq := by
     intro side i
     have hi := seed.lengths side (Fin.cast (seed.residual_count side).symm i)
-    simpa only [SmoothSideSupport.length, canonicalSmoothSupport,
-      slotIndex, OriginalOccurrenceData.length, Call.originalLength,
-      Fin.cast_trans, Fin.cast_refl] using hi.symm
+    have hcast :
+        Fin.cast (seed.residual_count side)
+          (Fin.cast (seed.residual_count side).symm i) = i := by
+      apply Fin.ext
+      rfl
+    rw [hcast] at hi
+    exact hi.symm
 
 theorem canonicalSupport_spec : seed.CanonicalSupport input (seed.canonicalSupport input) where
   slots := fun _ => rfl

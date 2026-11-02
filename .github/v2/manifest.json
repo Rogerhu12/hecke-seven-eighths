@@ -232,6 +232,7 @@
         "PassiveExpansion",
         "PassiveMask",
         "PassivePhaseBridge",
+        "PassivePhaseCore",
         "PassiveScalar",
         "PassiveSecondCarrier",
         "PassiveSource",

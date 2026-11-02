@@ -74,18 +74,18 @@ theorem residual_mobius_candidates (B : Carrier K k) (mask : Ideal (𝓞 K))
       ∑ a ∈ candidates mask k, sign a * ∑ i ∈ columns B a, C i := by
   have hterm (i : AllocationColumn K k) :
       (if IsCoprime mask (columnIdeal i) then C i else 0) =
-        ∑ D ∈ idealDivisors mask, (moebius D : ℂ) *
+        ∑ D ∈ DedekindZetaZeroFree.LargeSieve.idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
           (if D ∣ columnIdeal i then C i else 0) := by
     have h := congrArg (fun z : ℂ => z * C i)
       (HeckePort.Moments.ideal_coprime_mobius mask (columnIdeal i) hmask)
     simpa only [ite_mul, one_mul, zero_mul, Finset.sum_mul,
       mul_ite, mul_zero] using h
   calc
-    _ = ∑ i ∈ carrierColumns B, ∑ D ∈ idealDivisors mask,
-        (moebius D : ℂ) * (if D ∣ columnIdeal i then C i else 0) := by
+    _ = ∑ i ∈ carrierColumns B, ∑ D ∈ DedekindZetaZeroFree.LargeSieve.idealDivisors mask,
+        (UniqueFactorizationMonoid.moebius D : ℂ) * (if D ∣ columnIdeal i then C i else 0) := by
       rw [Finset.sum_filter]
       exact Finset.sum_congr rfl fun i _ => hterm i
-    _ = ∑ D ∈ idealDivisors mask, (moebius D : ℂ) *
+    _ = ∑ D ∈ DedekindZetaZeroFree.LargeSieve.idealDivisors mask, (UniqueFactorizationMonoid.moebius D : ℂ) *
         ∑ i ∈ carrierColumns B with D ∣ columnIdeal i, C i := by
       rw [Finset.sum_comm]
       simp only [Finset.sum_filter, Finset.mul_sum]
@@ -97,11 +97,17 @@ theorem residual_mobius_candidates (B : Carrier K k) (mask : Ideal (𝓞 K))
         (idealCarrier (B.plain false)) (idealCarrier (B.plain true)) B.slots
         id id HeightOneSpectrum.asIdeal C
       calc
-        _ = (moebius D : ℂ) *
+        _ = (UniqueFactorizationMonoid.moebius D : ℂ) *
             ∑ v ∈ AllocationMass.idealAllocations D (k + 2),
               AllocationMass.sign (primeSupport D) v *
                 ∑ i ∈ columns B ⟨D, v⟩, C i := by
-          simpa only [carrierColumns, columnIdeal, columns, id_eq] using hD
+          refine Eq.trans ?_ hD
+          apply congrArg (fun z : ℂ => (UniqueFactorizationMonoid.moebius D : ℂ) * z)
+          apply Finset.sum_congr
+          · exact @Finset.filter_congr_decidable (AllocationColumn K k)
+              (carrierColumns B) (fun i => D ∣ columnIdeal i) _ _
+          · intro i _
+            rfl
         _ = _ := by
           simp only [Finset.mul_sum, sign, mul_assoc]
 
@@ -111,18 +117,23 @@ theorem candidates_sum_eq_labels (B : Carrier K k) (mask : Ideal (𝓞 K))
     (C : AllocationColumn K k → ℂ) :
     (∑ a ∈ candidates mask k, sign a * ∑ i ∈ columns B a, C i) =
       ∑ a : labels B mask, sign a.val * ∑ i ∈ columns B a.val, C i := by
-  rw [Finset.sum_coe_sort]
-  symm
-  unfold labels
-  rw [Finset.sum_filter]
-  apply Finset.sum_congr rfl
-  intro a _
-  by_cases hz : sign a = 0
-  · simp [hz]
-  · by_cases hc : (columns B a).Nonempty
-    · simp [hz, hc]
-    · have he : columns B a = ∅ := Finset.not_nonempty_iff_eq_empty.mp hc
-      simp [hz, hc, he]
+  calc
+    _ = ∑ a ∈ labels B mask, sign a * ∑ i ∈ columns B a, C i := by
+      symm
+      unfold labels
+      rw [Finset.sum_filter]
+      apply Finset.sum_congr rfl
+      intro a _
+      by_cases hz : sign a = 0
+      · simp [hz]
+      · by_cases hc : (columns B a).Nonempty
+        · simp [hz, hc]
+        · have he : columns B a = ∅ := Finset.not_nonempty_iff_eq_empty.mp hc
+          simp [hz, hc, he]
+    _ = _ := Finset.sum_subtype
+      (p := fun a : Key K k => a ∈ labels B mask)
+      (labels B mask) (fun _ => Iff.rfl)
+      (fun a => sign a * ∑ i ∈ columns B a, C i)
 
 /-- The residual gate expands with the original whole coefficient.
 The restored carriers still contain their fixed and paid exclusions. -/

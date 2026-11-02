@@ -69,7 +69,7 @@ theorem fullKappaKernelMass (c : TargetContext K) (p : SourceParameters c) :
     kernelMass c p c.geometry.slots J₁₁ J₁₂ J₂₁ J₂₂
   refine ⟨coefficient * choices.radiusConstant ^ fullKappaProfilePower c,
     mul_pos hcoefficient (pow_pos (zero_lt_one.trans_le choices.radiusConstant_one_le) _), ?_⟩
-  intro call input trace htrace geometry raw O R C G B hB D
+  intro call input trace htrace geometry raw O R C G _N B hB D
   have h := bound call input trace htrace geometry raw O R C G
     B (fullKappaKernelRadius choices call)
     (choices.radiusConstant ^ fullKappaProfilePower c) hB

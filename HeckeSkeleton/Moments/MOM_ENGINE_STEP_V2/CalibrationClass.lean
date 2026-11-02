@@ -151,7 +151,7 @@ private theorem expansion_moving (expansion : PoolExpansion family)
         (OriginalMovingFactors.singleton ⟨(expansion.source i).first.firstElement, ha⟩ 1)).append
           (unpaidPoolMoving poolChoice)).append
             (CanonicalLiteralFixedPhases.emptyDivisorMoving
-              (probeData K c) (momentRowCharacters K c)) := by
+              (probeData K c) (momentRowCharacters K c))) := by
   unfold PoolExpansion.moving
   rw [firstMoving_eq (family.index (expansion.firstIndex i)) _ ha
     (expansion_firstElement expansion hfamily hexpansion i),

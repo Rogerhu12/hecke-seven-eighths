@@ -67,9 +67,9 @@ theorem sum_label_sign_norm (B : Carrier K k) (mask : Ideal (𝓞 K)) :
     Fintype.card_coe, nsmul_eq_mul, mul_one]
 
 private theorem norm_le_of_mem_divisors {mask D : Ideal (𝓞 K)}
-    (hmask : mask ≠ 0) (hD : D ∈ idealDivisors mask) :
+    (hmask : mask ≠ 0) (hD : D ∈ LargeSieve.idealDivisors mask) :
     (Ideal.absNorm D : ℝ) ≤ Ideal.absNorm mask := by
-  have hdvd := (mem_idealDivisors hmask).mp hD
+  have hdvd := (LargeSieve.mem_idealDivisors hmask).mp hD
   obtain ⟨E, hE⟩ := hdvd
   have hn : 0 < Ideal.absNorm mask :=
     Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hmask)
@@ -91,21 +91,21 @@ theorem candidates_card_bound (cap : ℕ) (ε : ℝ) (hε : 0 < ε) :
     exact_mod_cast Nat.pos_of_ne_zero (Ideal.absNorm_eq_zero_iff.not.mpr hmask)
   have hfactor : 0 ≤ A * (Ideal.absNorm mask : ℝ) ^ (ε / 2) :=
     mul_nonneg hA.le (Real.rpow_nonneg hn.le _)
-  have hone (I : Ideal (𝓞 K)) (hI : I ∈ idealDivisors mask) :
+  have hone (I : Ideal (𝓞 K)) (hI : I ∈ LargeSieve.idealDivisors mask) :
       ((AllocationMass.idealAllocations I (k + 2)).card : ℝ) ≤
         A * (Ideal.absNorm mask : ℝ) ^ (ε / 2) := by
-    have hI0 : I ≠ 0 := ne_zero_of_dvd_ne_zero hmask ((mem_idealDivisors hmask).mp hI)
+    have hI0 : I ≠ 0 := ne_zero_of_dvd_ne_zero hmask ((LargeSieve.mem_idealDivisors hmask).mp hI)
     exact (halloc I hI0 (k + 2) (Nat.add_le_add_right hk 2)).trans
       (mul_le_mul_of_nonneg_left
         (Real.rpow_le_rpow (Nat.cast_nonneg _) (norm_le_of_mem_divisors hmask hI)
           (by positivity)) hA.le)
   calc
-    _ = ∑ I ∈ idealDivisors mask,
+    _ = ∑ I ∈ LargeSieve.idealDivisors mask,
         ((AllocationMass.idealAllocations I (k + 2)).card : ℝ) := by
       rw [candidates, Finset.card_sigma, Nat.cast_sum]
-    _ ≤ ∑ _I ∈ idealDivisors mask,
+    _ ≤ ∑ _I ∈ LargeSieve.idealDivisors mask,
         A * (Ideal.absNorm mask : ℝ) ^ (ε / 2) := Finset.sum_le_sum hone
-    _ = ((idealDivisors mask).card : ℝ) *
+    _ = ((LargeSieve.idealDivisors mask).card : ℝ) *
         (A * (Ideal.absNorm mask : ℝ) ^ (ε / 2)) := by simp
     _ ≤ (D * (Ideal.absNorm mask : ℝ) ^ (ε / 2)) *
         (A * (Ideal.absNorm mask : ℝ) ^ (ε / 2)) :=
@@ -180,7 +180,11 @@ comparison profile happens to vanish.  Subsequent activity filtering
 can remove that zero branch but cannot multiply its outer coefficient. -/
 theorem outer_eq_leaf_weight (b : support.Label) :
     support.outer b = packet.leaf.weight := by
-  simp only [outer, PassiveAllocation.label_sign_norm, mul_one]
+  have hleft := PassiveAllocation.label_sign_norm
+    (support.carrier false) O.passiveMask b.1
+  have hright := PassiveAllocation.label_sign_norm
+    (support.carrier true) O.passiveMask b.2.1
+  simp only [outer, hleft, hright, mul_one]
 
 theorem sum_outer :
     (∑ b : support.Label, support.outer b) =
