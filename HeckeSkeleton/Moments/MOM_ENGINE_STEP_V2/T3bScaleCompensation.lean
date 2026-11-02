@@ -101,7 +101,8 @@ theorem t3b_original_prime_norm_le (input : ProfileInput call)
     (call.base ^ call.originalLength i) q).mp (Finset.mem_filter.mp hq).1
   have hr : input.localized.primeRep i 0
       ((Ideal.absNorm q.asIdeal : ℝ) / call.base ^ call.originalLength i) ≠ 0 := by
-    simpa only [input.localized.prime_eq] using hp
+    intro hzero
+    exact hp ((input.localized.prime_eq i 0 _).trans hzero)
   have hw := call.t3b_window_subset input
     (input.localized.prime_support i 0 (Set.mem_univ _) hr)
   exact (div_le_iff₀ (Real.rpow_pos_of_pos call.base_pos _)).mp

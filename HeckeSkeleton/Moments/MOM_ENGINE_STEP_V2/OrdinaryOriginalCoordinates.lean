@@ -413,9 +413,9 @@ run_cmd do
     stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates checkpoint: before OriginalCover.Realizes.ancestor_index_of_count [mono_ms={ms}]"
     stderr.flush
 
+include hcover in
 /-- Align count proofs while the source and cover are abstract. Concrete
 packets then use exactly their supplied count proof in the result. -/
-include hcover in
 private theorem ancestor_index_of_count
     (hcount : (cover.first a).keep.card = (cover.cover.branch a).slotCount)
     (x : AllocationColumn K (cover.cover.branch a).slotCount)
@@ -647,7 +647,14 @@ private theorem realizes_firstIndex_of_count (hpacket : packet.Realizes) (side :
       let ms ← IO.monoMsNow
       stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.false.index [mono_ms={ms}]"
       stderr.flush
-    exact h
+    run_tac
+      Lean.Elab.Tactic.withMainContext do
+        let goal ← Lean.Elab.Tactic.getMainGoal
+        let lctx := (← goal.getDecl).lctx
+        let some proof := lctx.findFromUserName? `h
+          | throwError "original first-index proof not found"
+        goal.assign (Lean.mkFVar proof.fvarId)
+        Lean.Elab.Tactic.replaceMainGoal []
     run_tac do
       let stderr ← IO.getStderr
       let ms ← IO.monoMsNow
@@ -666,7 +673,14 @@ private theorem realizes_firstIndex_of_count (hpacket : packet.Realizes) (side :
       let ms ← IO.monoMsNow
       stderr.putStrLn s!"MOM_ENGINE_STEP_V2 OrdinaryOriginalCoordinates step: realizes_firstIndex_of_count.true.index [mono_ms={ms}]"
       stderr.flush
-    exact h
+    run_tac
+      Lean.Elab.Tactic.withMainContext do
+        let goal ← Lean.Elab.Tactic.getMainGoal
+        let lctx := (← goal.getDecl).lctx
+        let some proof := lctx.findFromUserName? `h
+          | throwError "original first-index proof not found"
+        goal.assign (Lean.mkFVar proof.fvarId)
+        Lean.Elab.Tactic.replaceMainGoal []
     run_tac do
       let stderr ← IO.getStderr
       let ms ← IO.monoMsNow

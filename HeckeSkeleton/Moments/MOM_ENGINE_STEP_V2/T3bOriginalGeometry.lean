@@ -53,6 +53,7 @@ theorem firstPhysicalDivisor_dvd_powerProduct
     (firstPhysicalDivisorIdeal (A := A) D).val ∣ (primePowerProduct primes e).val := by
   have hmask : A.extendIdeal (firstPhysicalDivisorIdeal (A := A) D) =
       IdealMobiusMask.primeProduct D := by
+    unfold firstPhysicalDivisorIdeal
     rw [← (originalFrequencyIdeal_generates
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
       (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).property).2]
@@ -137,7 +138,10 @@ theorem t3b_firstDivisor_dvd_left (F : FirstPresentation call p) (hF : F.Realize
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset) :
     (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val ∣ v.val.1 := by
   have hD := Finset.mem_powerset.mp D.property
-  rw [FirstCommonCharacterBlock.mask, hF.mask, Finset.empty_union] at hD
+  change D.val ⊆ F.source.mask ∪
+    firstPrincipalPrimeMask (F.source.block v).primes
+      (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity at hD
+  rw [hF.mask, Finset.empty_union] at hD
   rw [← (F.source.block v).common_left]
   exact T3b.firstPhysicalDivisor_dvd_powerProduct
     (F.source.block v).primes (F.source.block v).leftMultiplicity
@@ -148,7 +152,10 @@ theorem t3b_firstDivisor_dvd_right (F : FirstPresentation call p) (hF : F.Realiz
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset) :
     (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val ∣ v.val.2 := by
   have hD := Finset.mem_powerset.mp D.property
-  rw [FirstCommonCharacterBlock.mask, hF.mask, Finset.empty_union] at hD
+  change D.val ⊆ F.source.mask ∪
+    firstPrincipalPrimeMask (F.source.block v).primes
+      (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity at hD
+  rw [hF.mask, Finset.empty_union] at hD
   rw [← (F.source.block v).common_right]
   exact T3b.firstPhysicalDivisor_dvd_powerProduct
     (F.source.block v).primes (F.source.block v).leftMultiplicity

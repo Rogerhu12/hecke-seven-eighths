@@ -252,12 +252,9 @@ theorem main_multiplierRealizes (hP : P.Realizes) (i : Fin family.count)
     (family.source i).multiplier (family.source i).first.residualDivisor.val
     (family.source i).first.firstElement (family.source i).first.poolPower none
     hcolumn hsource hmultiplier
-    (by simpa only using
-      congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
-    (by simpa only using
-      congrArg (fun f : FirstCoordinates call => f.firstElement) hcoordinates)
-    (by simpa only using
-      congrArg (fun f : FirstCoordinates call => f.poolPower) hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.residualDivisor.val) hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.firstElement) hcoordinates)
+    (by simpa only using congrArg (fun f : FirstCoordinates call => f.poolPower) hcoordinates)
   intro j hj
   have hideal := congrArg (fun G : ActualGaussSource (Arithmetic.context c) (family.source i).Column => G.ideal j) (hP.original i)
   change (P.data i).ideal j = _ at hideal
@@ -354,7 +351,7 @@ theorem realizes_multiplier (hpacket : packet.Realizes) (phases : OriginalPhaseD
 
 theorem secondDivisor_eq_empty (hpacket : packet.Realizes) : packet.key.2.1.val = ∅ := by
   have hs := Finset.mem_powerset.mp packet.key.2.1.property
-  have he := congrArg (fun mask => packet.key.2.1.val ⊆ mask)
+  have he := congrArg (fun mask : Finset (HeightOneSpectrum (Arithmetic.data c).R) => packet.key.2.1.val ⊆ mask)
     (packet.realizes_second hpacket).mask
   exact Finset.subset_empty.mp (he.mp hs)
 

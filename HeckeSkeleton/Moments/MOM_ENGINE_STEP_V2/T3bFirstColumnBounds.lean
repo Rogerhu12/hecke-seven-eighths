@@ -89,7 +89,8 @@ private theorem left_norm_le_of_support (input : ProfileInput call)
     idealNorm K I ≤ T3b.profileAnnulus c call.frame * N := by
   have hp := (call.localizedData.plainTest₁.support_spec u 0 N I).mp hI
   have hr : input.localized.leftRep u 0 (idealNorm K I / N) ≠ 0 := by
-    simpa only [input.localized.left_eq] using hp
+    intro hzero
+    exact hp ((input.localized.left_eq u 0 _).trans hzero)
   have hw := input.localized.left_support u (Set.mem_univ _) 0 (Set.mem_univ _) hr
   exact (div_le_iff₀ hN).mp
     (T3b.profileWindow_upper c call.frame (call.t3b_window_subset input hw))
@@ -100,7 +101,8 @@ private theorem right_norm_le_of_support (input : ProfileInput call)
     idealNorm K I ≤ T3b.profileAnnulus c call.frame * N := by
   have hp := (call.localizedData.plainTest₂.support_spec u 0 N I).mp hI
   have hr : input.localized.rightRep u 0 (idealNorm K I / N) ≠ 0 := by
-    simpa only [input.localized.right_eq] using hp
+    intro hzero
+    exact hp ((input.localized.right_eq u 0 _).trans hzero)
   have hw := input.localized.right_support u (Set.mem_univ _) 0 (Set.mem_univ _) hr
   exact (div_le_iff₀ hN).mp
     (T3b.profileWindow_upper c call.frame (call.t3b_window_subset input hw))
@@ -144,7 +146,8 @@ theorem t3b_slotCarrier_norm_le (input : ProfileInput call)
     (call.base ^ call.originalLength i) q).mp hq
   have hr : input.localized.primeRep i 0
       ((Ideal.absNorm q.asIdeal : ℝ) / call.base ^ call.originalLength i) ≠ 0 := by
-    simpa only [input.localized.prime_eq] using hp
+    intro hzero
+    exact hp ((input.localized.prime_eq i 0 _).trans hzero)
   have hw := input.localized.prime_support i 0 (Set.mem_univ _) hr
   exact (div_le_iff₀ (Real.rpow_pos_of_pos call.base_pos _)).mp
     (T3b.profileWindow_upper c call.frame (call.t3b_window_subset input hw))

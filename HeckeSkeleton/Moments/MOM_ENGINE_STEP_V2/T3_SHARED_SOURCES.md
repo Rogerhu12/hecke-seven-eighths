@@ -101,6 +101,16 @@ validated T3 version; only two theorem proofs and private helper organization
 differ. The failing R18 MultiplierTransport and Coordinates variants are not
 consumed. T3's complete combination must still pass its own formal gates.
 
+N1 R19 snapshot `f8458da297108c7bc26d7b32021da464d0537287` then built
+`OrdinaryMultiplierTransport` in 101s/134s in its two formal gates. The
+current file is unified to that exact owner source: 444 lines, blob
+`20de319d3676cdacbda09c61f8aa5073189f315f`. Relative to the already built
+T3 447-line version, the only differences are three line wraps and the
+explicit original mask carrier `Finset (HeightOneSpectrum (Arithmetic.data c).R)`.
+All 19 public declaration headers, definitions and section parameters are
+unchanged. Both complete official logs were read before adoption. The
+owner's Coordinates variant still timed out and is not consumed.
+
 The 67 flushed Coordinates labels in both official logs and the full strict
 artifact locate its remaining timeout after the `realizes_firstIndex` true
 branch and before `secondColumn`. The next proof correction factors the
@@ -119,6 +129,35 @@ count proof used in their target. Ordinary returned markers and monotonic
 millisecond timestamps distinguish final tactic alignment from subsequent
 declaration checking and quantify time spent in earlier statements. Every
 public declaration and the 300-second module gate remain unchanged.
+
+At T3 head `6e2052a2a88cea217729459321ce1f29be532948`, both formal gates
+naturally failed. Their complete official logs and the six-file strict
+artifact `13176273454` agree on all four source diagnostics and all 73
+normalized Coordinates labels. The exact 183 source and 10 configuration
+hashes match the sealed head. RawAtomData built in 90s/78s, and the empty
+supremum correction in T3bOrbitFibrePackets built in 6.4s/6.7s.
+
+The monotonic timestamps isolate the remaining Coordinates bottleneck:
+the abstract count helper returns quickly, while the concrete false-branch
+`exact h` alone takes 98.653s/106.947s. Both jobs then stop after the true
+branch's `.index` label without its `.returned` label. The next correction
+therefore supplies the already constructed local `h` directly as the goal's
+proof term, using the `withMainContext`/local-FVar/`goal.assign` pattern from
+the true baseline's OrdinaryData. Normal synchronous kernel checking and
+the full recursive axiom audits remain enabled. The doc comment now directly
+precedes its private theorem, with `include hcover in` before the comment.
+All 33 public headers and every timing boundary remain unchanged; the
+next formal gates must establish whether this resolves the measured cost.
+
+The same consumer repair batch incorporates the three proof-only files from
+the parallel PR #41 candidate `c5f13434f42a7a43a6ddd540738335689a61af42`, whose
+unique parent is `6e2052a2`. T3aValuationAtomCharacters uses fixed-character
+membership transport through the original theta equality; T3bFirstColumnBounds
+and T3bScaleCompensation transport original-profile nonzeroness along the
+existing representative equalities. Their 40 public declaration headers,
+original definitions and parameters are unchanged. These are source-reviewed
+candidate proofs, not claimed CI results. T3bOriginalGeometry is separately
+repaired against the three actual diagnostics in this same R5 evidence.
 
 ## N4 frozen ideals and scale identities
 

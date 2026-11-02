@@ -166,9 +166,16 @@ theorem t3b_exceptional_catalogue (j : Fin raw.count) (h : (raw.packet j).R.live
   have hcanonical :
       (raw.packet j).t3bOriginalCharacter (OrdinaryPhaseFacts.ofRaw trace htrace raw j) h ∈
         Expansion.Project.canonicalDetectorTheta K (targetCharacter K c) := by
-    rw [raw.t3bOriginalCharacter_eq_source trace htrace j h,
-      ← call.source.source.theta_eq]
-    exact hmem
+    have hparent :
+        (raw.packet j).t3bOriginalCharacter (OrdinaryPhaseFacts.ofRaw trace htrace raw j) h ∈
+          call.node.data.theta :=
+      (congrArg
+        (fun χ : HeckeCharacter K => χ ∈ call.node.data.theta)
+        (raw.t3bOriginalCharacter_eq_source trace htrace j h)).mpr hmem
+    exact (congrArg
+      (fun theta : Finset (HeckeCharacter K) =>
+        (raw.packet j).t3bOriginalCharacter (OrdinaryPhaseFacts.ofRaw trace htrace raw j) h ∈ theta)
+      call.source.source.theta_eq).mp hparent
   obtain ⟨index, hindex⟩ := T3b.character_covers c call.localizedData.plainBackground _
     call.localizedData.plain_background_spec hcanonical false
   refine ⟨index, ?_⟩
