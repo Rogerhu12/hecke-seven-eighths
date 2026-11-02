@@ -133,8 +133,11 @@ theorem first_piece_rowBound_le
     intro q hq
     exact_mod_cast first_chart_weight_le F hF v D q
   have hweight : (F.source.pieces v D).weightBound ≤ R := by
-    rw [hF.weight]
-    exact_mod_cast hsup
+    calc
+      _ = ((((F.source.source v).divisorRows D.val).sup
+          (fun q => ‖(F.source.charts v D).weight q‖₊) : NNReal) : ℝ) :=
+        hF.weight v D
+      _ ≤ R := by exact_mod_cast hsup
   have hN := generates_sIntegerElementNorm
     (firstActiveIdeal b.primes b.leftMultiplicity b.rightMultiplicity)
     (firstActiveGenerator (Arithmetic.context c) b.primes b.leftMultiplicity b.rightMultiplicity)

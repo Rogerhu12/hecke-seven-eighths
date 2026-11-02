@@ -41,6 +41,7 @@ set_option maxHeartbeats 0
 open Lean Elab Command in
 run_cmd do
   let env := (← getEnv).setExporting false
+  let moduleNames := env.allImportedModuleNames
   let modulePrefix : Name := `HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2
   let nsPrefix : Name := `HeckeSkeleton.Moments.EngineStepV2
   let permitted : Array Name := #[`propext, `Classical.choice, `Quot.sound]
@@ -61,7 +62,7 @@ run_cmd do
     let fromModule ← match env.getModuleIdxFor? name with
       | none => pure false
       | some idx =>
-        match env.allImportedModuleNames[idx]? with
+        match moduleNames[idx]? with
         | none => throwError "Invalid imported-module index {idx} for {name}"
         | some moduleName => pure (modulePrefix.isPrefixOf moduleName)
     if fromModule || nsPrefix.isPrefixOf (privateToUserName name) then

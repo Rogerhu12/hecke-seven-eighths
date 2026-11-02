@@ -38,12 +38,12 @@ local instance firstCauchyCharacterFintype :
 
 theorem firstCauchyCharacter_card :
     Fintype.card ((PUnit.{1} × PUnit.{1}) →* Circle) = 1 := by
-  letI : Unique ((PUnit.{1} × PUnit.{1}) →* Circle) where
-    default := 1
-    uniq f := by
-      ext x
-      rw [Subsingleton.elim x 1]
-      simp
+  letI : Unique ((PUnit.{1} × PUnit.{1}) →* Circle) :=
+    { default := 1
+      uniq := fun f => by
+        ext x
+        rw [Subsingleton.elim x 1]
+        simp }
   exact Fintype.card_unique
 
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
@@ -90,20 +90,15 @@ theorem first_residualPool_card
   obtain ⟨j, hj, hdivisor⟩ := Finset.mem_biUnion.mp hI
   have hd := (mem_idealDivisors
     ((F.source.pieces v D).rightData.ideal j).property.1).mp hdivisor
-  have hI0 : I ≠ 0 := by
-    intro hz
-    rw [hz, zero_dvd_iff] at hd
-    exact ((F.source.pieces v D).rightData.ideal j).property.1 hd
   rw [(F.source.pieces v D).right_columns] at hj
   rw [(F.source.pieces v D).right_ideal] at hd
   have hfull : I ∣ (F.source.ideal j).val := by
     apply hd.trans
     rw [(F.source.block v).right_reconstruct F.source.columns j hj]
     exact dvd_mul_left _ _
-  exact ⟨hI0,
-    (tailsV2_physical_ideal_norm_le_of_dvd I (F.source.ideal j).val
-      (F.source.ideal j).property.1 hfull).trans
-        (first_ideal_norm_le_all F hF input hlarge j (Finset.mem_filter.mp hj).1)⟩
+  exact (tailsV2_physical_ideal_norm_le_of_dvd I (F.source.ideal j).val
+    (F.source.ideal j).property.1 hfull).trans
+      (first_ideal_norm_le_all F hF input hlarge j (Finset.mem_filter.mp hj).1)
 
 def firstFamilyCountConstant (c : TargetContext K) : ℝ :=
   2 * idealCountConstant K ^ (2 * (c.geometry.slots + 2) + 1)
