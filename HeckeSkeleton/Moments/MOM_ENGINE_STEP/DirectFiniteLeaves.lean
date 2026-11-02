@@ -1,5 +1,4 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSecondStages
-
 set_option linter.unusedSectionVars false
 
 /-!
@@ -21,6 +20,37 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree
 open UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Bridge HeckeGeneral.Characters
 open HeckeGeneral.Analysis HeckePort.Moments HeckePort.Moments.MobiusRegroup
+
+private theorem direct_finite_scalar_bound
+    {I J X : Type*} [Fintype I] [Fintype J] [MeasurableSpace X]
+    {L R : I → J → Type*}
+    [instL : ∀ i j, Fintype (L i j)] [instR : ∀ i j, Fintype (R i j)]
+    (μ : Measure X) (mass : ℝ)
+    (a : I → ℝ) (b : J → ℝ)
+    (c NL NR zL zR tL tR : I → J → ℝ)
+    (fL fR gL gR : I → J → X → ℝ)
+    (costL : ∀ i j, L i j → ℝ) (costR : ∀ i j, R i j → ℝ)
+    (leaf : (Σ i, Σ j, L i j ⊕ R i j) → ℝ)
+    (hNL : ∀ i j, 0 ≤ NL i j) (hNR : ∀ i j, 0 ≤ NR i j)
+    (hweight : ∀ i j, 0 ≤ a i * b j * c i j)
+    (hphaseL : ∀ i j x, gL i j x = fL i j x)
+    (hphaseR : ∀ i j x, gR i j x = fR i j x)
+    (hleft : ∀ i j, (∫ x, gL i j x ∂μ) ≤
+      mass * (zL i j + tL i j) + ∑ k, costL i j k)
+    (hright : ∀ i j, (∫ x, gR i j x ∂μ) ≤
+      mass * (zR i j + tR i j) + ∑ k, costR i j k)
+    (hleafL : ∀ i j k, leaf ⟨i, j, .inl k⟩ =
+      (a i * b j * c i j / NL i j) * costL i j k)
+    (hleafR : ∀ i j k, leaf ⟨i, j, .inr k⟩ =
+      (a i * b j * c i j / NR i j) * costR i j k) :
+    (∑ i, a i * ∑ j, b j * c i j *
+      ((∫ x, fL i j x / NL i j ∂μ) + ∫ x, fR i j x / NR i j ∂μ)) ≤
+      (∑ i, ∑ j, (a i * b j * c i j) *
+        (mass * zL i j / NL i j + mass * zR i j / NR i j)) +
+      (∑ i, ∑ j, (a i * b j * c i j) *
+        (mass * tL i j / NL i j + mass * tR i j / NR i j)) +
+      ∑ q, leaf q := by
+  sorry
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K} {σ : K →+* ℂ}
@@ -195,11 +225,21 @@ theorem linearized_le_finiteCost
       ((PUnit × PUnit) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
     (ε Cerror Czero : ℝ)
-    (hstage : ∀ {ι : Type*} (G : ActualGaussSource C ι)
+    (hstageLeft : ∀ (G : ActualGaussSource C ι)
       (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
       (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
       (LC RC : SourceCartesianCover G.columns G.ideal)
       (ex : s.CoverHybridPredicates LC RC) (F : SchwartzMap W ℂ) (x : ι → W),
+      (∫ ξ, G.phaseEnergy (hDiff := hDiff) x ξ ∂actualFourierMeasure F) ≤
+        (actualFourierMeasure F).real Set.univ *
+          (T.zeroBudget ε Czero + T.tailBudget Cerror) +
+        ∑ j : s.CoveredLeafKey LC RC,
+          (s.fiberCoveredLeaf LC RC ex F x j).cost)
+    (hstageRight : ∀ (G : ActualGaussSource C κ)
+      (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
+      (T : s.TerminalCalibration sTail sZero k Z Lmax Nsave decay)
+      (LC RC : SourceCartesianCover G.columns G.ideal)
+      (ex : s.CoverHybridPredicates LC RC) (F : SchwartzMap W ℂ) (x : κ → W),
       (∫ ξ, G.phaseEnergy (hDiff := hDiff) x ξ ∂actualFourierMeasure F) ≤
         (actualFourierMeasure F).real Set.univ *
           (T.zeroBudget ε Czero + T.tailBudget Cerror) +
