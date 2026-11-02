@@ -1,12 +1,7 @@
 name: N7 shared dependency diagnostics
 
 on:
-  pull_request:
-    branches: [dtests-handoff]
-    paths:
-      - 'HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/**'
-      - '.github/v2/**'
-      - '.github/workflows/mom-v2-n7-dependency-diagnostics.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,7 +12,7 @@ concurrency:
 
 jobs:
   ordinary-data-diagnostics:
-    if: github.head_ref == 'cloud/mom-v2-n7a-n7b'
+    if: github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-v2-n7a-n7b'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
