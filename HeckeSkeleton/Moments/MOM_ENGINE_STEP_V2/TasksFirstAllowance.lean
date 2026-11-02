@@ -19,6 +19,8 @@ open NumberField HeckeGeneral.ThetaSkeleton.Global
 
 variable {K : Type} [Field K] [NumberField K]
 
+attribute [local instance] sourcePrincipal
+
 theorem firstAllowance (c : TargetContext K) (p : SourceParameters c) :
     FirstAllowanceTask c p := by
   intro frame
