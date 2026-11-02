@@ -74,6 +74,8 @@ theorem label_mem (a : labels (source := source)) :
     a.val ∈ (childCartesianColumns call.workingRaw.originalPlain₁
       call.workingRaw.originalPlain₂ call.workingRaw.exteriorSlots).image
         (SupportCartesian.extractionKey source.first.fullDeletion) := by
+  change a.val ∈ call.workingRaw.originalReindex.cartesian.image
+    (SupportCartesian.extractionKey source.first.fullDeletion)
   rw [← call.workingRaw.originalReindex.supportExtractionLabel_image
     source.first.fullDeletion]
   obtain ⟨i, hi, he⟩ := Finset.mem_image.mp a.property
@@ -95,6 +97,8 @@ theorem reconstructed_label (a : labels (source := source))
     call.workingRaw.originalReindex.supportExtractionLabel source.first.fullDeletion
       (call.workingRaw.originalIndex ((h.first a).reconstruct x)) = a.val := by
   have hm := (h.first a).reconstruct_mem x hx
+  change call.workingRaw.originalReindex.supportExtractionLabel source.first.fullDeletion
+    (call.workingRaw.originalReindex.index ((h.first a).reconstruct x)) = a.val
   rw [call.workingRaw.originalReindex.supportExtractionLabel_index
     source.first.fullDeletion _ ((h.first a).original_subset hm)]
   rw [(h.first a).originalColumns_eq_filter] at hm
@@ -162,6 +166,9 @@ theorem index_surjective (a : labels (source := source))
     have hl := call.workingRaw.originalReindex.supportExtractionLabel_index
       source.first.fullDeletion v
       (call.workingRaw.originalCoordinates_mem _ (h.maps i hi₀))
+    change call.workingRaw.originalReindex.supportExtractionLabel source.first.fullDeletion
+      (call.workingRaw.originalIndex (call.workingRaw.originalCoordinates
+        (source.ancestor i))) = _ at hl
     rw [call.workingRaw.originalIndex_coordinates] at hl
     exact hl.symm.trans ((Finset.mem_filter.mp hi).2.trans (h.first_key a).symm)
   let x := (h.first a).residual v
@@ -209,7 +216,23 @@ def cover : OriginalCover source where
     labels := labels (source := source)
     label := label (source := source)
     maps := fun i hi => Finset.mem_image_of_mem _ hi
-    branch := h.atlas }
+    branch a := by
+      let B := h.atlas a
+      exact {
+        slotCount := B.slotCount
+        reindex := {
+          plain₁ := B.reindex.plain₁
+          plain₂ := B.reindex.plain₂
+          slots := B.reindex.slots
+          index := B.reindex.index
+          maps := fun x hx => by
+            simpa only [Finset.mem_filter] using B.reindex.maps x hx
+          injective := B.reindex.injective
+          surjective := fun i hi => B.reindex.surjective i (by
+            simpa only [Finset.mem_filter] using hi)
+          ideal_product := B.reindex.ideal_product }
+        plain₁_nonzero := B.plain₁_nonzero
+        plain₂_nonzero := B.plain₂_nonzero } }
   label := Function.Embedding.refl _
   first := h.first
 

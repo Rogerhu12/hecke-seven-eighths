@@ -1,6 +1,7 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawRectangleData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafOrdinaryBinding
-import Lean.Elab.Command
+import Lean
+
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -42,6 +43,134 @@ attribute [local instance]
 
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
+
+
+set_option genInjectivity false in
+set_option genSizeOf false in
+/-- Canonical source data used by the ordinary rectangle construction.
+The packet below supplies every field from its original physical source. -/
+structure OrdinarySourceInputs (c : TargetContext K) where
+  leaf : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ
+  primeCount : ℕ
+  rowData : ActualSecondCorrelationRows (Arithmetic.data c) (Arithmetic.embedding c)
+    (Arithmetic.Orbit c) (Fin primeCount)
+  leftPlain₁ : Finset (Ideal (𝓞 K))
+  leftPlain₂ : Finset (Ideal (𝓞 K))
+  leftPrimes : Fin leaf.leftSlots → Finset (HeightOneSpectrum (𝓞 K))
+  rightPlain₁ : Finset (Ideal (𝓞 K))
+  rightPlain₂ : Finset (Ideal (𝓞 K))
+  rightPrimes : Fin leaf.rightSlots → Finset (HeightOneSpectrum (𝓞 K))
+  leftIdeal : AllocationColumn K leaf.leftSlots → (Arithmetic.data c).Exterior
+  rightIdeal : AllocationColumn K leaf.rightSlots → (Arithmetic.data c).Exterior
+  leftWhole : AllocationColumn K leaf.leftSlots → ℂ
+  rightWhole : AllocationColumn K leaf.rightSlots → ℂ
+  originalLeftRectangle : Bool → AllocationColumn K leaf.leftSlots → ℂ
+  originalRightRectangle : Bool → AllocationColumn K leaf.rightSlots → ℂ
+
+namespace OrdinarySourceInputs
+
+variable (I : OrdinarySourceInputs c)
+
+abbrev branchType : Type :=
+  ↥(liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
+    (k := I.leaf.leftSlots)
+    I.leftPlain₁ I.leftPlain₂ I.leftPrimes
+    I.rightPlain₁ I.rightPlain₂ I.rightPrimes I.rightIdeal)
+
+def rectanglesType
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.rightSlots → EngineParameter)
+    (branch : I.branchType) : Type :=
+  HybridOrdinaryRectangles
+    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    (H := Arithmetic.Orbit c) (ι := Fin I.primeCount)
+    (V := EngineParameter) (k := I.leaf.leftSlots) (l := I.leaf.rightSlots)
+    I.rowData PUnit.{1}
+    I.leftPlain₁ I.leftPlain₂ I.leftPrimes
+    I.rightPlain₁ I.rightPlain₂ I.rightPrimes
+    I.leftIdeal I.rightIdeal
+    (fun _ => (PUnit.unit : PUnit.{1})) (fun _ => (PUnit.unit : PUnit.{1}))
+    I.leftWhole I.rightWhole leftPoint rightPoint branch I.leaf.exceptional
+
+def leftRectangleMatches
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.rightSlots → EngineParameter)
+    (branch : I.branchType)
+    (rectangles : I.rectanglesType leftPoint rightPoint branch) : Prop :=
+  ∀ (r : Bool) (i : AllocationColumn K I.leaf.leftSlots),
+    i ∈ childCartesianColumns I.leftPlain₁ I.leftPlain₂ I.leftPrimes →
+      rectangles.leftTerms r i = I.originalLeftRectangle r i
+
+def rightRectangleMatches
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.rightSlots → EngineParameter)
+    (branch : I.branchType)
+    (rectangles : I.rectanglesType leftPoint rightPoint branch) : Prop :=
+  ∀ (r : Bool) (i : AllocationColumn K I.leaf.rightSlots),
+    i ∈ childCartesianColumns I.rightPlain₁ I.rightPlain₂ I.rightPrimes →
+      rectangles.rightTerms r i = I.originalRightRectangle r i
+
+def bindingProp
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.rightSlots → EngineParameter)
+    (branch : I.branchType)
+    (rectangles : I.rectanglesType leftPoint rightPoint branch) : Prop :=
+  ActualHybridLeaf.OrdinaryBinding
+    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+    (H := Arithmetic.Orbit c) (ι := Fin I.primeCount)
+    (U := ℝ) (V := ℝ) (R := I.rowData) (Ray := PUnit.{1})
+    (leaf := I.leaf)
+    (S₁ := I.leftPlain₁) (S₂ := I.leftPlain₂) (S := I.leftPrimes)
+    (T₁ := I.rightPlain₁) (T₂ := I.rightPlain₂) (T := I.rightPrimes)
+    (IA := I.leftIdeal) (IB := I.rightIdeal)
+    (rayLeft := fun _ => (PUnit.unit : PUnit.{1}))
+    (rayRight := fun _ => (PUnit.unit : PUnit.{1}))
+    (wholeLeft := I.leftWhole) (wholeRight := I.rightWhole)
+    (x := leftPoint) (y := rightPoint)
+    (b := branch) (exceptional := I.leaf.exceptional) rectangles
+
+abbrev rows :=
+  I.rowData.restrictRows (fun h => ¬I.leaf.exceptional h)
+
+abbrev leftFrame
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.rightSlots → EngineParameter)
+    (branch : I.branchType)
+    (rectangles : I.rectanglesType leftPoint rightPoint branch)
+    (comparison : Bool) :
+    SecondSideFrame (V := EngineParameter) (Arithmetic.context c)
+      I.rows PUnit.{1} .left I.leaf.leftSlots :=
+  rectangles.leftFrame (Arithmetic.context c) comparison
+
+abbrev rightFrame
+    (leftPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.leftSlots → EngineParameter)
+    (rightPoint : Arithmetic.Orbit c →
+      AllocationColumn K I.leaf.rightSlots → EngineParameter)
+    (branch : I.branchType)
+    (rectangles : I.rectanglesType leftPoint rightPoint branch)
+    (comparison : Bool) :
+    SecondSideFrame (V := EngineParameter) (Arithmetic.context c)
+      I.rows PUnit.{1} .right I.leaf.rightSlots :=
+  rectangles.rightFrame (Arithmetic.context c) comparison
+
+end OrdinarySourceInputs
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: OrdinarySourceInputs"
+    stderr.flush
 
 namespace RawLeafPacket
 
@@ -85,15 +214,42 @@ run_cmd do
     stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightWhole"
     stderr.flush
 
+
+/-- Every field is copied from the fixed original packet. This wrapper
+introduces no new choices, predicates, coefficients or source carriers. -/
+def ordinaryInputs : OrdinarySourceInputs c := by
+  run_tac
+    Lean.Elab.Tactic.withMainContext do
+      let goal ← Lean.Elab.Tactic.getMainGoal
+      let target ← Lean.instantiateMVars (← goal.getType)
+      let .const inputName levels := target.getAppFn
+        | throwError "expected the original ordinary input record"
+      unless inputName == ``OrdinarySourceInputs do
+        throwError "unexpected ordinary input record"
+      let fields := #[
+        (← `(packet.leaf)), (← `(packet.block.primeCount)), (← `(packet.R)),
+        (← `(packet.leftReindex.plain₁)), (← `(packet.leftReindex.plain₂)),
+        (← `(packet.leftReindex.slots)),
+        (← `(packet.rightReindex.plain₁)), (← `(packet.rightReindex.plain₂)),
+        (← `(packet.rightReindex.slots)),
+        (← `(packet.leftIdeal)), (← `(packet.rightIdeal)),
+        (← `(packet.leftWhole)), (← `(packet.rightWhole)),
+        (← `(packet.originalLeftRectangle)), (← `(packet.originalRightRectangle))]
+      let mut args := target.getAppArgs
+      for field in fields do
+        args := args.push (← Lean.Elab.Tactic.elabTerm field none)
+      goal.assign (Lean.mkAppN (Lean.mkConst ``OrdinarySourceInputs.mk levels) args)
+      Lean.Elab.Tactic.replaceMainGoal []
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryInputs"
+    stderr.flush
+
 /-- The same finite subtype, kept reducible for its local finite instances. -/
 abbrev ordinaryBranchType : Type :=
-  ↥(liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
-    (k := SourceClassKey.leftSlots
-      (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
-      packet.key)
-    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
-    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-    packet.rightIdeal)
+  packet.ordinaryInputs.branchType
 
 run_cmd do
   Lean.Elab.Command.liftIO do
@@ -106,7 +262,15 @@ noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
     SourceClassKey.AllocationKey
       (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
       packet.key :=
-  branch.val
+  by
+    run_tac
+      Lean.Elab.Tactic.withMainContext do
+        let goal ← Lean.Elab.Tactic.getMainGoal
+        let lctx := (← goal.getDecl).lctx
+        let some b := lctx.findFromUserName? `branch
+          | throwError "original ordinary branch not found"
+        goal.assign (Lean.Expr.proj ``Subtype 0 (Lean.mkFVar b.fvarId))
+        Lean.Elab.Tactic.replaceMainGoal []
 
 run_cmd do
   Lean.Elab.Command.liftIO do
@@ -130,16 +294,7 @@ def ordinaryRectanglesType
     (rightPoint : Arithmetic.Orbit c →
       AllocationColumn K packet.leaf.rightSlots → EngineParameter)
     (branch : packet.ordinaryBranchType) : Type :=
-  HybridOrdinaryRectangles
-    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
-    (H := Arithmetic.Orbit c) (ι := Fin packet.block.primeCount)
-    (V := EngineParameter) (k := packet.leaf.leftSlots) (l := packet.leaf.rightSlots)
-    packet.R PUnit.{1}
-    packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
-    packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-    packet.leftIdeal packet.rightIdeal
-      (fun _ => (PUnit.unit : PUnit.{1})) (fun _ => (PUnit.unit : PUnit.{1}))
-    packet.leftWhole packet.rightWhole leftPoint rightPoint branch packet.leaf.exceptional
+  packet.ordinaryInputs.rectanglesType leftPoint rightPoint branch
 
 run_cmd do
   Lean.Elab.Command.liftIO do
@@ -154,10 +309,7 @@ def ordinaryLeftRectangleMatches
       AllocationColumn K packet.leaf.rightSlots → EngineParameter)
     (branch : packet.ordinaryBranchType)
     (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
-  ∀ (r : Bool) (i : AllocationColumn K packet.leaf.leftSlots),
-    i ∈ childCartesianColumns packet.leftReindex.plain₁
-    packet.leftReindex.plain₂ packet.leftReindex.slots →
-      rectangles.leftTerms r i = packet.originalLeftRectangle r i
+  packet.ordinaryInputs.leftRectangleMatches leftPoint rightPoint branch rectangles
 
 run_cmd do
   Lean.Elab.Command.liftIO do
@@ -172,10 +324,7 @@ def ordinaryRightRectangleMatches
       AllocationColumn K packet.leaf.rightSlots → EngineParameter)
     (branch : packet.ordinaryBranchType)
     (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
-  ∀ (r : Bool) (i : AllocationColumn K packet.leaf.rightSlots),
-    i ∈ childCartesianColumns packet.rightReindex.plain₁
-    packet.rightReindex.plain₂ packet.rightReindex.slots →
-      rectangles.rightTerms r i = packet.originalRightRectangle r i
+  packet.ordinaryInputs.rightRectangleMatches leftPoint rightPoint branch rectangles
 
 run_cmd do
   Lean.Elab.Command.liftIO do
@@ -191,22 +340,7 @@ def ordinaryBindingProp
       AllocationColumn K packet.leaf.rightSlots → EngineParameter)
     (branch : packet.ordinaryBranchType)
     (rectangles : packet.ordinaryRectanglesType leftPoint rightPoint branch) : Prop :=
-  ActualHybridLeaf.OrdinaryBinding
-    (K := K) (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
-    (H := Arithmetic.Orbit c) (ι := Fin packet.block.primeCount)
-    (U := ℝ) (V := ℝ) (R := packet.R) (Ray := PUnit.{1})
-    (leaf := packet.leaf)
-    (S₁ := packet.leftReindex.plain₁) (S₂ := packet.leftReindex.plain₂)
-    (S := packet.leftReindex.slots)
-    (T₁ := packet.rightReindex.plain₁) (T₂ := packet.rightReindex.plain₂)
-    (T := packet.rightReindex.slots)
-    (IA := packet.leftIdeal) (IB := packet.rightIdeal)
-    (rayLeft := fun _ => (PUnit.unit : PUnit.{1}))
-    (rayRight := fun _ => (PUnit.unit : PUnit.{1}))
-    (wholeLeft := packet.leftWhole) (wholeRight := packet.rightWhole)
-    (x := leftPoint) (y := rightPoint)
-    (b := branch) (exceptional := packet.leaf.exceptional)
-    rectangles
+  packet.ordinaryInputs.bindingProp leftPoint rightPoint branch rectangles
 
 run_cmd do
   Lean.Elab.Command.liftIO do
@@ -262,7 +396,7 @@ run_cmd do
     stderr.flush
 
 abbrev leftFrame (rectangle : Bool) :=
-  O.rectangles.leftFrame (Arithmetic.context c) rectangle
+  packet.ordinaryInputs.leftFrame O.leftPoint O.rightPoint O.branch O.rectangles rectangle
 
 run_cmd do
   Lean.Elab.Command.liftIO do
@@ -271,7 +405,7 @@ run_cmd do
     stderr.flush
 
 abbrev rightFrame (rectangle : Bool) :=
-  O.rectangles.rightFrame (Arithmetic.context c) rectangle
+  packet.ordinaryInputs.rightFrame O.leftPoint O.rightPoint O.branch O.rectangles rectangle
 
 run_cmd do
   Lean.Elab.Command.liftIO do

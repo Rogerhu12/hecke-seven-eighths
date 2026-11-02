@@ -54,13 +54,13 @@ def atomRightPoint (_h : Arithmetic.Orbit c) :
     (CanonicalLiteralLocations.prime (-packet.firstSign))
 
 theorem leftAllocated_cartesian (i : AllocationColumn K packet.leaf.leftSlots)
-    (hi : i ∈ packet.leaf.leftColumns) : i ∈ packet.leftReindex.cartesian := by
+    (hi : i ∈ packet.leaf.left) : i ∈ packet.leftReindex.cartesian := by
   change i ∈ pairedAllocatedColumns _ _ _ _ _ id id HeightOneSpectrum.asIdeal at hi
   rw [paired_allocated_columns_eq_filter] at hi
   exact (Finset.mem_filter.mp hi).1
 
 theorem rightAllocated_cartesian (i : AllocationColumn K packet.leaf.rightSlots)
-    (hi : i ∈ packet.leaf.rightColumns) : i ∈ packet.rightReindex.cartesian := by
+    (hi : i ∈ packet.leaf.right) : i ∈ packet.rightReindex.cartesian := by
   change i ∈ pairedAllocatedColumns _ _ _ _ _ id id HeightOneSpectrum.asIdeal at hi
   rw [paired_allocated_columns_eq_filter] at hi
   exact (Finset.mem_filter.mp hi).1

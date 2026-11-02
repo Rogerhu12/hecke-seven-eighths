@@ -32,6 +32,7 @@ open HeckePort.Moments HeckePort.IdealMobiusDivisorSum
 open WholeAllocation UniqueFactorizationMonoid
 
 attribute [local instance]
+  actualGaussFiniteLeavesCircleCharacterFintype
   sourcePrincipal sourceNormOneSpace sourceNormOneBorel
   Expansion.ActualProbeContext.localCompletionSpace
   Expansion.ActualProbeContext.localCompletionBorel
@@ -132,9 +133,9 @@ def ordinaryBindingTranslated
       packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
       packet.leftIdeal packet.rightIdeal (fun _ => PUnit.unit) (fun _ => PUnit.unit)
       packet.leftWhole packet.rightWhole x y packet.ordinaryAllocation packet.leaf.exceptional)
-    (hx : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.leftColumns,
+    (hx : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.left,
       packet.ordinaryLeftPoint h i = z + x h i)
-    (hy : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.rightColumns,
+    (hy : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.right,
       packet.ordinaryRightPoint h i = z + y h i) :
     packet.leaf.OrdinaryBinding rectangles where
   rows := fun _ hh => hh
@@ -162,9 +163,9 @@ def ordinaryDataOfTranslatedRectangles
     (hright : ∀ r i, i ∈ childCartesianColumns packet.rightReindex.plain₁
       packet.rightReindex.plain₂ packet.rightReindex.slots →
         rectangles.rightTerms r i = packet.originalRightRectangle r i)
-    (hx : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.leftColumns,
+    (hx : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.left,
       packet.ordinaryLeftPoint h i = z + x h i)
-    (hy : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.rightColumns,
+    (hy : ∀ h ∈ packet.R.rows, ∃ z, ∀ i ∈ packet.leaf.right,
       packet.ordinaryRightPoint h i = z + y h i) :
     OrdinaryData packet where
   leftPoint := x

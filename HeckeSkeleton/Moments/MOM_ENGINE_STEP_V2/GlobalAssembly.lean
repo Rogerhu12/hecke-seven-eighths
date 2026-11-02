@@ -52,22 +52,24 @@ theorem pairedStepHypothesis_of_certificates (c : TargetContext K)
   let input := (realization frame).inputs Cp Hp hCp hminimum hHp request frequency
   have hframe : call.frame = frame := rfl
   by_cases active : call.Active
-  · have ready : (demand frame call.childOrders).Ready call input.profile :=
+  · apply Classical.choice
+    have ready : (demand frame call.childOrders).Ready call input.profile :=
       UniformCost.demand_ready_of_withDemand input.firstZero_ready
     obtain ⟨trace, geometry, raw, htrace, hgeometry, hraw, hsource⟩ :=
-      (source frame).produce call input.profile hframe ready.ready_left active
+      (source frame).produce call input.profile hframe (UniformDemand.ready_left ready) active
     obtain ⟨normalized⟩ := (normalization frame).produce call input.profile hframe
-      ready.ready_right
+      (UniformDemand.ready_right ready)
       (UniformCost.ready_of_withDemand input.arithmeticMass_ready)
       (UniformCost.ready_of_withDemand input.profileMass_ready)
       trace htrace geometry hgeometry raw hraw
-    exact output_of_source_normalization (terminal frame)
+    exact ⟨output_of_source_normalization (terminal frame)
       (normalization frame).arithmeticCost (normalization frame).profileCost
       (demand frame) call input hframe trace htrace geometry hgeometry raw hraw
       hsource normalized.data normalized.geometry normalized.atoms normalized.admissible
-      normalized.ordinary normalized.arithmetic normalized.profile
+      normalized.ordinary normalized.arithmetic normalized.profile⟩
   · exact emptyOutput call active
 
 end HeckeSkeleton.Moments.EngineStepV2.Assembly
 
 #print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_certificates
+

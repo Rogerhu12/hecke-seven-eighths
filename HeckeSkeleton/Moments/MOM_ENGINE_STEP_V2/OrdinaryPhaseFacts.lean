@@ -23,6 +23,7 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
 open HeckePort.Moments HeckePort.Moments.Support UniqueFactorizationMonoid
+open HeckePort.IdealMobiusDivisorSum
 
 variable {K : Type} [Field K] [NumberField K]
 
@@ -59,6 +60,7 @@ theorem firstMoving_eq_singleton (key : FirstCauchyKey F) :
       OriginalMovingFactors.singleton (P := probeData K c) (R := momentRowCharacters K c)
         ⟨FirstCauchyKey.firstElement key, firstElement_nonzero key⟩ 1 := by
   unfold FirstCauchyKey.moving FirstCauchyKey.firstElement
+  dsimp only
   split_ifs <;> rfl
 
 def poolOption (expansion : PoolExpansion family) :
@@ -153,6 +155,7 @@ theorem phase_facts (hfamily : family.Realizes)
     | inl u =>
       rw [PoolPresentation.Origin, he] at ho
       rcases ho with ⟨hcol, hs, ha, hm, hk, hp, hw, hfirst⟩
+      simp only [poolOption, he, PoolExpansion.source, PoolExpansion.firstIndex]
       refine { first_eq := ?_, tag := ?_, power := ?_, deletion := ?_ }
       · simpa only [PoolExpansion.source, PoolExpansion.firstIndex, hfirst]
           using hf.first_eq
@@ -166,6 +169,7 @@ theorem phase_facts (hfamily : family.Realizes)
       rcases ho with ⟨hcol, hs, ha, hm, hk, hp, hw, hselected, hopposite,
         hcomplementary, hresidual, helement, hright, hpower, hscale, htag,
         hdeletion, hpaid⟩
+      simp only [poolOption, he, PoolExpansion.source, PoolExpansion.firstIndex]
       refine { first_eq := ?_, tag := ?_, power := ?_, deletion := ?_ }
       · exact helement.trans hf.first_eq
       · simpa only [poolOption, he, PoolExpansion.source] using htag
@@ -189,7 +193,12 @@ def ofSource (packet : RawLeafPacket call p)
     exact firstElement_nonzero _
   pool := poolOption expansion i
   pool_tag := by
-    simpa only [physical] using (phase_facts hfamily expansion hexpansion i).tag
+    have ht := (phase_facts hfamily expansion hexpansion i).tag
+    cases hp : poolOption expansion i with
+    | none => simpa only [hp, physical] using ht
+    | some ep =>
+      rcases ep with ⟨e, q⟩
+      simpa only [hp, physical] using ht
   pool_power := by
     simpa only [physical] using (phase_facts hfamily expansion hexpansion i).power
   deletion_nonzero := by
