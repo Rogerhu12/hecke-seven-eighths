@@ -27,6 +27,8 @@ namespace HybridExpansion
 def reindex (E : HybridExpansion c n Z input) {m : ℕ}
     (e : Fin m ≃ Fin E.branches) : HybridExpansion c n Z input where
   branches := m
+  pool := E.pool
+  tag b := E.tag (e b)
   leaf b := E.leaf (e b)
   firstZero := E.firstZero
   secondZero := E.secondZero

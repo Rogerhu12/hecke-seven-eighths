@@ -25,10 +25,17 @@ open EngineStep EngineInduction
 
 variable {K : Type} [Field K] [NumberField K]
 
+inductive AmplificationTag
+  | direct
+  | main
+  | error (valuation : EngineStep.AmplifierValuation)
+
 structure HybridExpansion (c : TargetContext K)
     (n : Node K c.family.omega (targetCharacter K c)) (Z : ℝ)
     (input : OriginalInput c n Z) where
   branches : ℕ
+  pool : Finset (HeightOneSpectrum (𝓞 K))
+  tag : Fin branches → AmplificationTag
   leaf : Fin branches → ActualHybridLeaf K (ActualSIntegerOrbit K (places K c)) ℝ ℝ
   firstZero : ℝ
   secondZero : ℝ
