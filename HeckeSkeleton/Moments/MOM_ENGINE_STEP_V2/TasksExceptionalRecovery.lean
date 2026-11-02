@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ExceptionalRecoveryContracts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aRecovery
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -10,8 +10,8 @@ Use the original finite theta catalogue, its exterior unramifiedness,
 the complete frequency reconstruction and the original nonzero frozen
 mask. Apply the proved Kummer character laws, actual orbit fibre count
 and `exceptional_frequency_base_fourth_power` to the same rows.
-Expected future proof: 3000--4500 lines, including the raw-source
-dictionary bridge; no new volume estimate is part of this task.
+The source bridge uses the original rectangular atom formulas before
+centering; no volume estimate is part of this arithmetic task.
 -/
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
@@ -21,8 +21,8 @@ open NumberField HeckeGeneral.ThetaSkeleton.Global
 variable {K : Type} [Field K] [NumberField K]
 
 theorem exceptional_recovery (c : TargetContext K) (p : SourceParameters c) :
-    ExceptionalRecoveryTask c p := by
-  sorry
+    ExceptionalRecoveryTask c p :=
+  fun _ packet hpacket => packet.exceptional_recovery_of_realizes hpacket
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
 

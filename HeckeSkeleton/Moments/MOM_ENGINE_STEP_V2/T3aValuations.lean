@@ -28,7 +28,8 @@ open NumberField IsDedekindDomain DedekindZetaZeroFree LocalFiniteSums
 open UniqueFactorizationMonoid
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments HeckeGeneral.Analysis.ActualSIntegerMoments
-open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical
 
 variable {K : Type} [Field K] [NumberField K]
 variable {A : SArithmeticData K}

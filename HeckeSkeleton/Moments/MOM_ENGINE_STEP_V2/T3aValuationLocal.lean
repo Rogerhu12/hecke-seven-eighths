@@ -24,7 +24,8 @@ open HeckeGeneral.Arithmetic HeckeGeneral.Characters
 open HeckeGeneral.Characters.ArithmeticKummerDraft
 open HeckeGeneral.Analysis HeckeGeneral.Analysis.ConditionalMoments
 open HeckeGeneral.Analysis.PrimeCalibrationDraft
-open HeckeGeneral.ThetaSkeleton.Global HeckeGeneral.ThetaSkeleton.Physical
+open HeckeGeneral.ThetaSkeleton HeckeGeneral.ThetaSkeleton.Global
+open HeckeGeneral.ThetaSkeleton.Physical
 open GlobalClassFieldTheory.Reciprocity
 open AlgebraicNumberTheory.PowerResidueSymbols
 
@@ -53,7 +54,7 @@ private theorem exists_primeUnit_order_six
     P.arithmetic.primitive6 p (P.arithmetic.away_six p hp)
   let hC := isPrimitiveRoot_sexticComplexRootUnit K P.arithmetic.root6
     P.arithmetic.primitive6 P.arithmetic.embedding
-  obtain ⟨u, hu⟩ := Arithmetic.FiniteFieldSexticCharacter.exists_unitCharacter_order_six
+  obtain ⟨u, hu⟩ := HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter.exists_unitCharacter_order_six
     F h6 ζF ζC hF hC
   obtain ⟨x, hx⟩ := Ideal.Quotient.mk_surjective (u : F)
   have hxv : x ∉ p.asIdeal := by
@@ -61,13 +62,13 @@ private theorem exists_primeUnit_order_six
     have hz : Ideal.Quotient.mk p.asIdeal x = 0 :=
       Ideal.Quotient.eq_zero_iff_mem.mpr hxmem
     exact u.ne_zero (hx.symm.trans hz)
-  let c : ℂˣ := Arithmetic.FiniteFieldSexticCharacter.unitCharacter
+  let c : ℂˣ := HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter.unitCharacter
     F h6 ζF ζC hF hC u
   refine ⟨x, hxv, c, hu, ?_⟩
-  change Arithmetic.FiniteFieldSexticCharacter.character F h6 ζF ζC hF hC
+  change HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter.character F h6 ζF ζC hF hC
     (Ideal.Quotient.mk p.asIdeal x) = (c : ℂ)
   rw [hx]
-  exact Arithmetic.FiniteFieldSexticCharacter.character_unit F h6 ζF ζC hF hC u
+  exact HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter.character_unit F h6 ζF ζC hF hC u
 
 /-- The literal local component detects the sum of the two row
 exponents, even when the individual characters are ramified. -/
