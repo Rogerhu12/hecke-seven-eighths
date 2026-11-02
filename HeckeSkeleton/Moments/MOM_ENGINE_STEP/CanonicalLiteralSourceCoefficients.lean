@@ -54,7 +54,7 @@ theorem residualCoefficient_logarithmic
           (A.exteriorNorm (d.residualPresentation p n i).residual : ℂ)) *
         actualIdealResidue (A := A) (σ := σ) (d.ideal i.val).val first *
         actualIdealResidue (A := A) (σ := σ)
-          (d.residualPresentation p n i).residual.val (generator C p ^ (2 * n)) := by
+          (d.residualPresentation p n i).residual.val (LocalFiniteSums.generator C p ^ (2 * n)) := by
   have hN : (A.exteriorNorm (d.ideal i.val) : ℂ) ≠ 0 := by
     exact_mod_cast (A.exteriorNorm_pos (d.ideal i.val)).ne'
   unfold residualCoefficient adjustedCoefficient
@@ -247,10 +247,14 @@ theorem canonicalLog_leftResidualCoefficient
       (Finset.mem_filter.mp i.property).1
   have hN : (A.exteriorNorm (b.leftResidual i.val) : ℂ) ≠ 0 := by
     exact_mod_cast (A.exteriorNorm_pos (b.leftResidual i.val)).ne'
+  have hnorm : (A.exteriorNorm ((p.divisorPools.leftData S).ideal i.val) : ℂ) =
+      (A.exteriorNorm (b.leftResidual i.val) : ℂ) :=
+    congrArg (fun I : A.Exterior => (A.exteriorNorm I : ℂ))
+      (congrFun ((p.divisorPools.left_ideal S).trans p.left_ideal) i.val)
   unfold FirstGaussPoolData.residualCoefficient FirstGaussPoolData.adjustedCoefficient
   rw [canonicalLog_leftDivisorCoefficient hΓ μv ν b C left right φ c e
       finiteTest hlc hcs radius D δ hδ hδhalf p S χ i.val hi hSi,
-    p.divisorPools.left_ideal S, p.left_ideal,
+    hnorm,
     AmplifierResidualPresentation.columnPhase_eq_residue]
   field_simp [hN] <;> ring
 
@@ -277,10 +281,14 @@ theorem canonicalLog_rightResidualCoefficient
       (Finset.mem_filter.mp j.property).1
   have hN : (A.exteriorNorm (b.rightResidual j.val) : ℂ) ≠ 0 := by
     exact_mod_cast (A.exteriorNorm_pos (b.rightResidual j.val)).ne'
+  have hnorm : (A.exteriorNorm ((p.divisorPools.rightData S).ideal j.val) : ℂ) =
+      (A.exteriorNorm (b.rightResidual j.val) : ℂ) :=
+    congrArg (fun I : A.Exterior => (A.exteriorNorm I : ℂ))
+      (congrFun ((p.divisorPools.right_ideal S).trans p.right_ideal) j.val)
   unfold FirstGaussPoolData.residualCoefficient FirstGaussPoolData.adjustedCoefficient
   rw [canonicalLog_rightDivisorCoefficient hΓ μv ν b C left right φ c e
       finiteTest hlc hcs radius D δ hδ hδhalf p S χ j.val hj hSj,
-    p.divisorPools.right_ideal S, p.right_ideal,
+    hnorm,
     AmplifierResidualPresentation.columnPhase_eq_residue]
   field_simp [hN] <;> ring
 

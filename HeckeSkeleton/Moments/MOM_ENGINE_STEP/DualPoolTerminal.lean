@@ -63,9 +63,15 @@ theorem energy_eq_tag_sources
     d.energy c = (4 / d.density) * ∑ b : PoolSourceTag P,
       d.tagWeight b * (d.tagSource c b).energy hDiff := by
   rw [d.energy_eq_sources hDiff Drecipe hD c]
+  apply congrArg (fun total : ℝ => (4 / d.density) * total)
+  let mainTerm : ℝ := d.multiplicity * (d.mainSource c).energy hDiff
+  let residualTerm (n : ℕ) : ℝ :=
+    ∑ p : P.primes, localErrorWeight p.val n * (d.residualSource p.val n c).energy hDiff
   simp only [PoolSourceTag, Fintype.sum_sum_type, Fintype.sum_unique,
     tagWeight, tagSource]
-  ring
+  change (mainTerm + residualTerm 1 + residualTerm 6) + residualTerm 7 =
+    mainTerm + (residualTerm 1 + (residualTerm 6 + residualTerm 7))
+  simp only [add_assoc]
 
 /-- The same original first phase on every physical tag. Residual
 columns use their original valuation subtype and its original index. -/
