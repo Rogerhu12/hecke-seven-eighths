@@ -159,6 +159,33 @@ original definitions and parameters are unchanged. These are source-reviewed
 candidate proofs, not claimed CI results. T3bOriginalGeometry is separately
 repaired against the three actual diagnostics in this same R5 evidence.
 
+T3 head `a80a8ec4ffeae331b7eb3801e5b495294ef27f7d` then built the exact
+Coordinates blob `cb0cfffbaa5ecd232ae3f8bfab9e90f319716ece` in 123s/125s
+in its public/strict gates. All 98 normalized checkpoints reached completion;
+the concrete false-branch alignment took 79ms/71ms and the true branch
+67ms/61ms. Both jobs had zero watchdog kills or monitor errors. The current
+942-line successful source is preserved verbatim and shared with N1.
+The owner-aligned MultiplierTransport also built here in 143s/129s, and
+OrdinaryFirstAtomFormula built in 7.5s/7.3s.
+
+Both R6 jobs still failed on three source errors. The complete official logs
+and all six files in strict artifact `13177328592` were read; all 193 source
+and configuration hashes matched the sealed head, and the error contexts
+matched exactly. The next correction in OrdinaryRawAtomFormula explicitly
+unfolds `firstResidualColumn` immediately before the existing final `ring`,
+so the original cast and its named wrapper become the same polynomial atom.
+Its five public declarations and its complete definition are unchanged.
+The two remaining T3bOriginalGeometry proofs first derive a mask-union
+equality independently of the original divisor subtype, then compose the
+existing subset proof with that equality. They no longer rewrite the
+divisor's dependent carrier. The resulting divisibility is transported
+through the original common-left/right equality with that same divisor
+fixed. All 12 public statements remain unchanged.
+
+The two T3 tasks and four fresh audits remain unaccepted at this stage.
+ValuationAtomCharacters, FirstColumnBounds and ScaleCompensation were not
+reached by R6 and are still candidate proofs awaiting the task's own CI.
+
 ## N4 frozen ideals and scale identities
 
 Initially reused verbatim from PR #39 candidate `d98ab940632fbc73127ac655493f89b5af6f67ef`:

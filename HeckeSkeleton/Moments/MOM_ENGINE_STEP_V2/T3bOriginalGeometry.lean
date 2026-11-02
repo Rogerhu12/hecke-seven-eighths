@@ -141,12 +141,17 @@ theorem t3b_firstDivisor_dvd_left (F : FirstPresentation call p) (hF : F.Realize
   change D.val ⊆ F.source.mask ∪
     firstPrincipalPrimeMask (F.source.block v).primes
       (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity at hD
-  rw [hF.mask, Finset.empty_union] at hD
-  rw [← (F.source.block v).common_left]
-  exact T3b.firstPhysicalDivisor_dvd_powerProduct
+  have hmask := (congrArg (fun M => M ∪
+    firstPrincipalPrimeMask (F.source.block v).primes
+      (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity)
+    hF.mask).trans (Finset.empty_union _)
+  have hdiv := T3b.firstPhysicalDivisor_dvd_powerProduct
     (F.source.block v).primes (F.source.block v).leftMultiplicity
     (F.source.block v).rightMultiplicity (F.source.block v).leftMultiplicity
-    (F.source.block v).left_positive D.val hD
+    (F.source.block v).left_positive D.val (hD.trans (Finset.subset_of_eq hmask))
+  exact (congrArg (fun I : Ideal (𝓞 K) =>
+    (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val ∣ I)
+    (F.source.block v).common_left).mp hdiv
 
 theorem t3b_firstDivisor_dvd_right (F : FirstPresentation call p) (hF : F.Realizes)
     (v : F.source.CommonLabel) (D : ((F.source.block v).mask F.source.mask).powerset) :
@@ -155,12 +160,17 @@ theorem t3b_firstDivisor_dvd_right (F : FirstPresentation call p) (hF : F.Realiz
   change D.val ⊆ F.source.mask ∪
     firstPrincipalPrimeMask (F.source.block v).primes
       (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity at hD
-  rw [hF.mask, Finset.empty_union] at hD
-  rw [← (F.source.block v).common_right]
-  exact T3b.firstPhysicalDivisor_dvd_powerProduct
+  have hmask := (congrArg (fun M => M ∪
+    firstPrincipalPrimeMask (F.source.block v).primes
+      (F.source.block v).leftMultiplicity (F.source.block v).rightMultiplicity)
+    hF.mask).trans (Finset.empty_union _)
+  have hdiv := T3b.firstPhysicalDivisor_dvd_powerProduct
     (F.source.block v).primes (F.source.block v).leftMultiplicity
     (F.source.block v).rightMultiplicity (F.source.block v).rightMultiplicity
-    (F.source.block v).right_positive D.val hD
+    (F.source.block v).right_positive D.val (hD.trans (Finset.subset_of_eq hmask))
+  exact (congrArg (fun I : Ideal (𝓞 K) =>
+    (firstPhysicalDivisorIdeal (A := Arithmetic.data c) D.val).val ∣ I)
+    (F.source.block v).common_right).mp hdiv
 
 end FirstPresentation
 

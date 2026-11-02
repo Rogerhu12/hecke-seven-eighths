@@ -94,6 +94,7 @@ theorem beforeAtomTable_eq_originalRectangle (hpacket : packet.Realizes)
     (packet.ancestor_secondColumn hpacket side x hx)
   rw [← packet.beforeAtomTable_term hpacket phases side rectangle x hx, hfirst, ← hmult,
     horiginal]
+  dsimp only [firstResidualColumn]
   ring
 
 theorem beforeAtomTable_left (hpacket : packet.Realizes)
