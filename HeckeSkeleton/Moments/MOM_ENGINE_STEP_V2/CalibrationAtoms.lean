@@ -90,6 +90,7 @@ variable (hsector : ∀ h : seed.ordinary.rows.live,
   (packet.R.extractedRow (Arithmetic.context c) (seed.ordinary.originalLiveRow h)).sector
     (probeData K c) = ν)
 
+include hpattern hsector in
 /-- No coefficient or residue identity is assumed: both dictionaries
 come from the actual extracted-factor decomposition and original sector. -/
 def dictionary (ξ : EngineParameter) (h : seed.ordinary.rows.live) :

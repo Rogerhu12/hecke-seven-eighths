@@ -104,6 +104,9 @@ theorem primeTerm_common_coprime (O : OrdinaryData packet) (side rectangle : Boo
   apply residue_common_coprime O side rectangle h
     (CanonicalOriginalPhaseCalibration.primeIdeal q)
   intro hz
+  change actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c) q.asIdeal
+    ((O.originalSource side rectangle).extractedFactor h *
+      ((O.originalSource side rectangle).row h).element) = 0 at hz
   exact hn (by simp only [sourcePrimeTerm, hz, mul_zero, zero_mul])
 
 theorem raw_common_coprime {k : ℕ} (O : OrdinaryData packet) (side rectangle : Bool)

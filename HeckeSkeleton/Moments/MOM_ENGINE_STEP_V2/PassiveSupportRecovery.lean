@@ -77,6 +77,7 @@ theorem primeTerm_nonzero_coprime (G : A.Exterior) (g h : A.R) (hg : A.Generates
   apply residue_mul_nonzero_coprime P R hroot hemb G g h hg
     (CanonicalOriginalPhaseCalibration.primeIdeal q)
   intro hz
+  change actualIdealResidue (A := A) (σ := σ) q.asIdeal (g * h) = 0 at hz
   exact hn (by simp only [sourcePrimeTerm, hz, mul_zero, zero_mul])
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.PassiveSupportRecovery

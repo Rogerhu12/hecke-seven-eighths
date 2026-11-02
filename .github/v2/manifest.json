@@ -97,10 +97,12 @@
         "CalibrationRows",
         "CalibrationSupport",
         "CanonicalCalibration",
+        "PassiveBounds",
         "PassiveCanonicalAtoms",
         "PassiveCanonicalProfiles",
         "PassiveCanonicalSupport",
         "PassiveCarrierFacts",
+        "PassiveCarrierRestoration",
         "PassiveColumnBridge",
         "PassiveCommonAvoidance",
         "PassiveCoverOrigin",
@@ -111,14 +113,24 @@
         "PassiveMaskIdentity",
         "PassivePaidMask",
         "PassivePairing",
+        "PassiveParentSupport",
         "PassivePhaseBridge",
         "PassivePlainRecovery",
         "PassiveScalar",
+        "PassiveSecondCarrier",
         "PassiveSmoothSupport",
         "PassiveSource",
         "PassiveSourceOrigin",
         "PassiveSourceReindex",
         "PassiveSupportRecovery"
+      ]
+    },
+    {
+      "id": "n2",
+      "name": "N2 原残余掩码与实际恢复支撑",
+      "proved": true,
+      "modules": [
+        "TasksPassiveRefinement"
       ]
     },
     {
@@ -146,7 +158,6 @@
         "TasksFirstZero",
         "TasksNominalGeometry",
         "TasksOriginalAtoms",
-        "TasksPassiveRefinement",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
