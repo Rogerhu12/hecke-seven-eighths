@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        probe: [m1_fst, m2_fstfst, m3_snd, m4_classkey, m5_mk, m6_struct, m7_Rfull, m8_Ofull, m9_Otype]
+        probe: [q1_structFintype, q2_explicitSigma, q3_ppexplicit, q4_ordinary]
     env:
       LEAN_NUM_THREADS: '2'
     steps:

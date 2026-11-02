@@ -47,67 +47,42 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p)
 
-def leftIdeal (i : AllocationColumn K packet.leaf.leftSlots) :
-    (Arithmetic.data c).Exterior :=
-  packet.block.leftResidual (packet.leftReindex.index i)
+noncomputable def leftIdeal' := fun i => packet.block.leftResidual (packet.leftReindex.index i)
+noncomputable def rightIdeal' := fun i => packet.block.rightResidual (packet.rightReindex.index i)
+
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftIdeal"
+    stderr.putStrLn "KDIAG q4 ideals done"
     stderr.flush
 
-def rightIdeal (i : AllocationColumn K packet.leaf.rightSlots) :
-    (Arithmetic.data c).Exterior :=
-  packet.block.rightResidual (packet.rightReindex.index i)
 
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightIdeal"
-    stderr.flush
-
-def leftWhole (i : AllocationColumn K packet.leaf.leftSlots) : ℂ :=
-  packet.chart.sourceLeftCoefficient (packet.leftReindex.index i)
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: leftWhole"
-    stderr.flush
-
-def rightWhole (i : AllocationColumn K packet.leaf.rightSlots) : ℂ :=
-  packet.chart.sourceRightCoefficient (packet.rightReindex.index i)
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: rightWhole"
-    stderr.flush
-
-/-- The same finite subtype, kept reducible for its local finite instances. -/
-abbrev ordinaryBranchType : Type :=
+abbrev ordinaryBranchType' : Type :=
   ↥(liveSecondAllocationBranches (A := Arithmetic.data c) (Ray := PUnit.{1})
     packet.leftReindex.plain₁ packet.leftReindex.plain₂ packet.leftReindex.slots
     packet.rightReindex.plain₁ packet.rightReindex.plain₂ packet.rightReindex.slots
-    packet.rightIdeal)
+    packet.rightIdeal')
+
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "MOM_ENGINE_STEP_V2 OrdinaryData checkpoint: ordinaryBranchType"
+    stderr.putStrLn "KDIAG q4 type done"
     stderr.flush
 
-noncomputable def ordinaryBranchKey (branch : packet.ordinaryBranchType) :
+
+noncomputable def ordinaryBranchKey' (branch : packet.ordinaryBranchType') :
     SourceClassKey.AllocationKey
       (s := packet.second.stage) (LC := packet.leftCover) (RC := packet.rightCover)
       packet.key :=
   branch.val
 
+
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG m8 done"
+    stderr.putStrLn "KDIAG q4_ordinary done"
     stderr.flush
 
 end RawLeafPacket

@@ -168,21 +168,105 @@ run_cmd do
     stderr.flush
 
 
-noncomputable def leaf (key : covers.Key) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
-  match key with
-  | ⟨⟨i, v⟩, allocation⟩ =>
-      secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
-        (second.source i) (covers.left i).cover (covers.right i).cover v
-        (RawCovers.predicates
-          (K := K) (c := c) (call := call) (p := p)
-          (F := F) (family := family) (expansion := expansion)
-          (second := second) covers i)
-        allocation
+noncomputable def leafAt (i : Fin expansion.count)
+    (v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
+    (allocation : SourceClassKey.AllocationKey v) :
+    ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  secondSourceLeaf (K := K) (c := c) (call := call) (p := p)
+    (second.source i) (covers.left i).cover (covers.right i).cover v
+    (RawCovers.predicates
+      (K := K) (c := c) (call := call) (p := p)
+      (F := F) (family := family) (expansion := expansion)
+      (second := second) covers i)
+    allocation
 
 run_cmd do
   Lean.Elab.Command.liftIO do
     let stderr ← IO.getStderr
-    stderr.putStrLn "KDIAG m7 done"
+    stderr.putStrLn "KDIAG q1_structFintype leafAt done"
+    stderr.flush
+
+
+set_option genInjectivity false in
+set_option genSizeOf false in
+structure KeyS where
+  i : Fin expansion.count
+  v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover
+  allocation : SourceClassKey.AllocationKey v
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG q1 structure done"
+    stderr.flush
+
+
+/-- The same three components as a nested Sigma, written with the structure's binders. -/
+abbrev KeyTriple :=
+  Σ i : Fin expansion.count,
+    Σ v : SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover,
+      SourceClassKey.AllocationKey v
+
+def keyEquiv : covers.KeyS ≃ covers.KeyTriple where
+  toFun k := ⟨k.i, k.v, k.allocation⟩
+  invFun t := ⟨t.1, t.2.1, t.2.2⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG q1 equiv done"
+    stderr.flush
+
+
+noncomputable instance keySFintype : Fintype covers.KeyS :=
+  Fintype.ofEquiv covers.KeyTriple covers.keyEquiv.symm
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG q1 fintype done"
+    stderr.flush
+
+
+noncomputable def leaf (key : covers.KeyS) : ActualHybridLeaf K (Arithmetic.Orbit c) ℝ ℝ :=
+  covers.leafAt key.i key.v key.allocation
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG q1 leaf done"
+    stderr.flush
+
+
+def classKey (key : covers.KeyS) : SecondClassKey second where
+  sourceIndex := key.i
+  common := key.v.1
+  divisor := key.v.2.1
+  rowLabel := SourceClassKey.rowLabel key.v
+
+abbrev LiveKey := {key : covers.KeyS //
+  (covers.leaf key).Live ∧ (covers.classKey key).Active}
+
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG q1 livekey done"
+    stderr.flush
+
+
+example : Fintype covers.LiveKey := inferInstance
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    stderr.putStrLn "KDIAG q1_structFintype done"
     stderr.flush
 
 end RawCovers
