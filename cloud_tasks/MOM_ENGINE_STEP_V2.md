@@ -76,6 +76,10 @@ RawContracts 和 OrdinaryData 编不过，挡住了 8 个任务和组装。协�
 2. 通过标准：改写后的整份 RawContracts.lean（或 OrdinaryData.lean）每个都在 100s 内编完；冻结陈述的数学意思不变；列出下游要跟着改的地方。
 3. 每轮结果贴到 PR #31，写明哪些写法过了、哪些卡了。不要推送 `cloud/mom-engine-step-v2`，B 负责采纳。
 
+## 桩基线（2026-11-03 01:30 起，用户批准）
+
+修复方案还在试的时候，B 在 `cloud/mom-engine-step-v2` 上以 `STUB:` 提交，把编不过的几个定义体（`leaf`、`ordinaryBranchKey`、`leftFrame` / `rightFrame` 等）换成 `opaque` 占位，陈述一字不改。桩清单贴在 PR #31。被挡住的任务和组装同步桩基线后继续：只依赖陈述的证明照常写；需要展开这些定义的地方先写成独立引理并标出来。修复方案通过、真定义换回后，所有任务按真基线重新验收一次，桩基线上的绿色只算阶段性结果。
+
 ## 做法
 
 ### 第一阶段：设计和陈述骨架
