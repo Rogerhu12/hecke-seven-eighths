@@ -105,8 +105,8 @@ structure Realizes : Prop where
   rightRows : ∀ v D, (F.source.pieces v D).rightData.rows =
     ((F.source.source v).divisorRows D.val).image (fun q => -q.out.val)
   weight : ∀ v D, (F.source.pieces v D).weightBound =
-    (((F.source.source v).divisorRows D.val).sup
-      (fun q => ‖(F.source.charts v D).weight q‖₊) : ℝ)
+    ((((F.source.source v).divisorRows D.val).sup
+      (fun q => ‖(F.source.charts v D).weight q‖₊) : NNReal) : ℝ)
 
 def zero : ℝ :=
   (F.source.fiber : ℝ) * F.source.zeroCost (Arithmetic.different c)
@@ -120,8 +120,8 @@ def tail : ℝ :=
           ((F.source.source v).pairs i j).maskedSeries
             (sIntegerFiniteTestFunction K (Arithmetic.data c).Sf
               (rowBallFiniteFamily K (Arithmetic.data c).Sf 1))
-            F.source.radius F.source.mask) -
-      (F.source.source v).transform (Arithmetic.localMeasures (K := K))
+            (F.source.source v).radius (F.source.source v).mask) -
+      (F.source.source v).divisorTransform (Arithmetic.localMeasures (K := K))
         (Arithmetic.different c) (rowBallFiniteFamily K (Arithmetic.data c).Sf 1)‖
 
 end FirstPresentation

@@ -178,6 +178,68 @@ theorem coefficient_eq_multiplier (hF : F.Realizes) (i : F.source.Column) :
       ring
   · simp only [FirstCauchyKey.coefficient, FirstCauchyKey.multiplier, if_neg hdiv, zero_mul]
 
+theorem data_ideal (i : F.source.Column) :
+    (FirstCauchyKey.data key).ideal i =
+      if FirstCauchyKey.side key then (FirstCauchyKey.block key).rightResidual i
+      else (FirstCauchyKey.block key).leftResidual i := by
+  unfold FirstCauchyKey.data
+  split_ifs
+  · exact congrFun (FirstCauchyKey.piece key).right_ideal i
+  · exact congrFun (FirstCauchyKey.piece key).left_ideal i
+
+theorem firstElement_ne_zero : FirstCauchyKey.firstElement key ≠ 0 := by
+  let delta := sIntegerMaskGenerator K
+    ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
+      (FirstCauchyKey.divisor key).val
+  have hd : (Arithmetic.data c).Generates
+      (firstPhysicalDivisorIdeal (A := Arithmetic.data c)
+        (FirstCauchyKey.divisor key).val) delta.val :=
+    originalFrequencyIdeal_generates delta.val delta.property
+  unfold FirstCauchyKey.firstElement
+  dsimp only
+  split_ifs
+  · exact (CanonicalLiteralFirstPhase.rightElement_generates (Arithmetic.context c)
+      (FirstCauchyKey.block key).primes (FirstCauchyKey.block key).leftMultiplicity
+      (FirstCauchyKey.block key).rightMultiplicity _ delta.val hd).1
+  · exact (CanonicalLiteralFirstPhase.leftElement_generates (Arithmetic.context c)
+      (FirstCauchyKey.block key).primes (FirstCauchyKey.block key).leftMultiplicity
+      (FirstCauchyKey.block key).rightMultiplicity _ delta.val hd).1
+
+/-- After its original gate is known, the actual first scalar is a
+norm tilt divided by the same norm, times the full nonunit-preserving
+fixed residue. It is uniform across both original comparison terms. -/
+theorem multiplier_eq_residue (i : F.source.Column)
+    (hdiv : (FirstCauchyKey.residual key).val ∣ ((FirstCauchyKey.data key).ideal i).val) :
+    FirstCauchyKey.multiplier key i =
+      ((((Arithmetic.data c).exteriorNorm ((FirstCauchyKey.data key).ideal i) ^ p.tilt : ℝ) : ℂ) /
+        ((Arithmetic.data c).exteriorNorm ((FirstCauchyKey.data key).ideal i) : ℂ)) *
+      actualIdealResidue (A := Arithmetic.data c) (σ := Arithmetic.embedding c)
+        ((FirstCauchyKey.data key).ideal i).val (FirstCauchyKey.firstElement key) := by
+  have hallowed := canonicalFirstCommonBlock_allowed (Arithmetic.context c)
+    F.source.columns F.source.columns F.source.ideal F.source.ideal key.1.val key.1.property
+  have hleft := allowed_mk0_of_generator (Arithmetic.context c).correction.B
+    ((FirstCauchyKey.block key).leftGenerator i)
+    ((FirstCauchyKey.block key).left_generates i).1 (hallowed.1 i)
+  have hright := allowed_mk0_of_generator (Arithmetic.context c).correction.B
+    ((FirstCauchyKey.block key).rightGenerator i)
+    ((FirstCauchyKey.block key).right_generates i).1 (hallowed.2 i)
+  rw [FirstCauchyKey.multiplier, if_pos hdiv, key.phase_eq_one, mul_one, key.data_ideal i]
+  cases hs : FirstCauchyKey.side key
+  · simp only [hs, Bool.false_eq_true, if_false, FirstCauchyKey.firstElement]
+    rw [CanonicalLiteralFirstPhase.leftDivisorFactor
+      (Arithmetic.units_are_sixth c) (Arithmetic.context c)
+      (FirstCauchyKey.block key).primes (FirstCauchyKey.block key).primes_injective
+      (FirstCauchyKey.block key).leftMultiplicity (FirstCauchyKey.block key).rightMultiplicity
+      ((FirstCauchyKey.block key).leftResidual i) ((FirstCauchyKey.block key).leftGenerator i)
+      ((FirstCauchyKey.block key).left_generates i) hleft]
+  · simp only [hs, if_true, FirstCauchyKey.firstElement]
+    rw [CanonicalLiteralFirstPhase.rightDivisorFactor
+      (Arithmetic.units_are_sixth c) (Arithmetic.context c)
+      (FirstCauchyKey.block key).primes (FirstCauchyKey.block key).primes_injective
+      (FirstCauchyKey.block key).leftMultiplicity (FirstCauchyKey.block key).rightMultiplicity
+      ((FirstCauchyKey.block key).rightResidual i) ((FirstCauchyKey.block key).rightGenerator i)
+      ((FirstCauchyKey.block key).right_generates i) hright]
+
 end FirstCauchyKey
 
 namespace PhysicalSource

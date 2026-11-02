@@ -7,10 +7,15 @@
       "proved": true,
       "modules": [
         "ArithmeticData",
+        "ArithmeticMassAssembly",
         "AssemblyCore",
         "BudgetAssembly",
         "CalibrationData",
         "CallData",
+        "ChildArithmeticContracts",
+        "ChildInvariantData",
+        "ChildProfileAssembly",
+        "ChildProfileContracts",
         "EmptyAssembly",
         "EstimateData",
         "ExceptionalContracts",
@@ -26,8 +31,10 @@
         "NormalizationAssembly",
         "NormalizedData",
         "NormalizedOutputAssembly",
+        "OrdinaryContracts",
         "OrdinaryData",
         "OriginalInput",
+        "OriginalOccurrenceData",
         "OriginalPhaseData",
         "OutputAssembly",
         "PassiveData",
@@ -58,7 +65,9 @@
         "TerminalData",
         "UniformAssembly",
         "UniformContracts",
-        "UniformData"
+        "UniformData",
+        "UniformOrderPreparation",
+        "UniformScalarPreparation"
       ]
     },
     {
@@ -68,13 +77,15 @@
       "modules": [
         "ProfileFormulaTask",
         "TasksAmplification",
+        "TasksChildArithmetic",
+        "TasksChildProfiles",
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
-        "TasksFiniteLeaves",
         "TasksFirstAllowance",
         "TasksFirstTransform",
         "TasksFirstZero",
         "TasksNominalGeometry",
+        "TasksOriginalAtoms",
         "TasksSecondTransform",
         "TasksSecondZero",
         "TasksSourceIndex",
@@ -96,12 +107,25 @@
       "proved": true,
       "modules": [
         "FiniteLeavesCover",
+        "FiniteLeavesOriginalSupport",
+        "FiniteLeavesTraceCover",
         "FiniteLeavesSupport",
         "FiniteLeavesIntegral",
         "FiniteLeavesAssembly",
         "OrdinaryLeafBinding",
         "OrdinarySourceFacts",
-        "OrdinaryRectangleFactors"
+        "OrdinaryRectangleFactors",
+        "OrdinarySourceTransport",
+        "OrdinaryAtomModel",
+        "OrdinaryOccurrenceFacts"
+      ]
+    },
+    {
+      "id": "s6",
+      "name": "S6 finite covers and retained leaf costs",
+      "proved": true,
+      "modules": [
+        "TasksFiniteLeaves"
       ]
     }
   ]
