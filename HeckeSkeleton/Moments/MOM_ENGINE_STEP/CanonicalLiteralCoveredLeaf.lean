@@ -246,7 +246,6 @@ def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
     (fun _ => PUnit.unit) j.2.1 (v.literalRightAtoms rightAtoms).whole h i)
   left h _ i hi := by
     change v.chart.sourceLeftCoefficient (v.leftReindex.index i) * _ * _ = _
-    dsimp only [secondAllocatedLeftCoefficient]
     exact (congrArg (fun z : ℂ =>
       z * (fixedLeftPhase PUnit.{1} j.2.1 PUnit.unit : ℂ) *
         σ (A.sexticResidue (v.block.leftResidual (v.leftReindex.index i))
@@ -256,14 +255,19 @@ def literalExtraction : (v.leaf exceptional F x j).ConstantAtomExtraction where
       (literal_coefficient_assoc _ _ _ _)
   right h _ i hi := by
     change v.chart.sourceRightCoefficient (v.rightReindex.index i) * _ * _ = _
-    simp only [secondAllocatedRightCoefficient, star_star]
-    exact (congrArg (fun z : ℂ =>
+    exact ((congrArg (fun z : ℂ =>
       z * (fixedRightPhase PUnit.{1} j.2.1 PUnit.unit : ℂ) *
         σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
           (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))
       (v.literal_right_coefficient rightAtoms rightCoefficient i
         (v.literal_right_mem exceptional F x j i hi))).trans
-      (literal_coefficient_assoc _ _ _ _)
+      (literal_coefficient_assoc _ _ _ _)).trans
+      (congrArg (fun z : ℂ =>
+        (v.literalRightOriginal rightAtoms).commonScalar v.literalRightBranch * z)
+        (star_star ((v.literalRightAtoms rightAtoms).whole i *
+          (fixedRightPhase PUnit.{1} j.2.1 PUnit.unit : ℂ) *
+          σ (A.sexticResidue (v.block.rightResidual (v.rightReindex.index i))
+            (-((v.chart.actualRows s.mask s.cutoff s.cutoff_one v.rowLabel).frequency h))))).symm)
 
 #eval show IO Unit from do
   let log ← IO.getStderr

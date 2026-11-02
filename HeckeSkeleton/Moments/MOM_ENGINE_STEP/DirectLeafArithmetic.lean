@@ -3,6 +3,14 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectSupportedLeaves
 
 set_option linter.unusedSectionVars false
 
+set_option Elab.async false
+set_option stderrAsMessages false
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic imports_done"
+  log.flush
+
 /-!
 # Literal arithmetic coordinates of the direct parent leaves
 
@@ -63,6 +71,11 @@ variable {chart : FirstBlockProfileChart (E := W) hΓ μv b C left right profile
 variable {M : Finset (HeightOneSpectrum A.R)} {X : ℝ} {hX : 1 ≤ X}
 variable (p : FirstBlockDirectData chart M X hX)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic sourceCover_before"
+  log.flush
+
 theorem leftSourceCover_slotCap (LA : SourceCartesianAtlas left fullI)
     (hcap : LA.slotCount ≤ cap)
     (S : divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val))
@@ -76,6 +89,11 @@ theorem rightSourceCover_slotCap (RA : SourceCartesianAtlas right fullJ)
     (χ : (PUnit × PUnit) →* Circle) :
     ∀ a, ((p.rightSourceCover RA S χ).branch a).slotCount ≤ cap := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic sourceCover_done__arithmeticDefs_before"
+  log.flush
 
 namespace SecondStages
 
@@ -104,24 +122,49 @@ def allocationFingerprint (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ c
       (p.rightSourceCover_slotCap RA hRA j.1 j.2.1)
       (p.rightSourceCover_slotCap RA hRA j.1 j.2.1) a
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic arithmeticDefs_done__allocationFingerprint_divisor_before"
+  log.flush
+
 @[simp] theorem allocationFingerprint_divisor
     (hLA : LA.slotCount ≤ cap) (hRA : RA.slotCount ≤ cap)
     (j : R.CoveredLeafKey LA RA) :
     (R.allocationFingerprint LA RA hLA hRA j).1 = R.innerDivisor LA RA j := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic allocationFingerprint_divisor_done__commonLabel_nonzero_before"
+  log.flush
+
 theorem commonLabel_nonzero (j : R.CoveredLeafKey LA RA) :
     (R.commonLabel LA RA j).1 ≠ 0 ∧ (R.commonLabel LA RA j).2 ≠ 0 := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic commonLabel_nonzero_done__commonLabel_support_eq_before"
+  log.flush
 
 theorem commonLabel_support_eq (j : R.CoveredLeafKey LA RA) :
     primeSupport (R.commonLabel LA RA j).1 = primeSupport (R.commonLabel LA RA j).2 := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic commonLabel_support_eq_done"
+  log.flush
+
 variable
     (NL NR : (divisorPool p.rightData.columns (fun j => (p.rightData.ideal j).val)) →
       ((PUnit × PUnit) →* Circle) → ℝ)
     (hNL : ∀ S χ, 0 < NL S χ) (hNR : ∀ S χ, 0 < NR S χ)
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_live_old_mask_before"
+  log.flush
 
 /-- The first divisor is inherited on genuine live direct sources,
 from the original coefficient gate and the engine's support preparation. -/
@@ -134,12 +177,22 @@ theorem prepared_live_old_mask
       j.1.val ∣ (R.prepared.commonLabel LA RA j).2 := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_live_old_mask_done__prepared_live_second_valid_before"
+  log.flush
+
 theorem prepared_live_second_valid
     (exceptional : R.prepared.CoverHybridPredicates LA RA)
     (j : R.prepared.CoveredLeafKey LA RA)
     (hj : (R.prepared.coveredLeaf LA RA NL NR hNL hNR exceptional j).Live) :
     Valid j.1.val (R.prepared.commonLabel LA RA j, ∅) := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_live_second_valid_done"
+  log.flush
 
 end SecondStages
 end FirstBlockDirectData
@@ -153,6 +206,11 @@ namespace ActualDirectFirstSource.SecondStages
 
 variable (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable (L : SourceCartesianAtlas s.columns s.ideal)
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic parentArithmeticDefs_before"
+  log.flush
 
 def commonLabel (j : R.CoveredLeafKey L) : Ideal (𝓞 K) × Ideal (𝓞 K) :=
   (R j.1 j.2.1).commonLabel L L j.2.2
@@ -168,6 +226,11 @@ def arithmeticLabels (hcap : L.slotCount ≤ cap)
   second j := (R.commonLabel L j.val, ∅)
   allocation j :=
     (R j.val.1 j.val.2.1).allocationFingerprint L L hcap hcap j.val.2.2
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic parentArithmeticDefs_done"
+  log.flush
 
 @[simp] theorem arithmeticLabels_first (hcap : L.slotCount ≤ cap)
     (exceptional : R.CoverHybridPredicates L) (N : s.Normalization)
@@ -190,6 +253,11 @@ def arithmeticLabels (hcap : L.slotCount ≤ cap)
     ((R.arithmeticLabels L hcap exceptional N).allocation j).1 = R.innerDivisor L j.val := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_arithmeticLabels_second_valid_before"
+  log.flush
+
 /-- The direct input's actual live labels satisfy the second old-mask
 condition internally after the proved preparation. -/
 theorem prepared_arithmeticLabels_second_valid (hcap : L.slotCount ≤ cap)
@@ -199,6 +267,11 @@ theorem prepared_arithmeticLabels_second_valid (hcap : L.slotCount ≤ cap)
       ((R.prepared.arithmeticLabels L hcap exceptional N).second j) := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic prepared_arithmeticLabels_second_valid_done"
+  log.flush
+
 end ActualDirectFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep
 
@@ -206,3 +279,8 @@ end HeckeSkeleton.Moments.EngineStep
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.SecondStages.prepared_live_second_valid
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualDirectFirstSource.SecondStages.arithmeticLabels_secondDivisor
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualDirectFirstSource.SecondStages.prepared_arithmeticLabels_second_valid
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DirectLeafArithmetic axioms_done"
+  log.flush

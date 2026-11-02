@@ -2,6 +2,14 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DualDirectSecondStages
 
 set_option linter.unusedSectionVars false
 
+set_option Elab.async false
+set_option stderrAsMessages false
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage imports_done"
+  log.flush
+
 /-!
 # The direct signed source reaches its original finite hybrid leaves
 
@@ -69,6 +77,11 @@ namespace SecondStages.DualTerminalCalibration
 variable {s : p.SecondStages (E := E) (hDiff := hDiff)}
 variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Lmax Nsave decay : ℝ}
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage classBudgets_before"
+  log.flush
+
 /-- The original first-measure mass and each original normalizer stay
 attached to the exact side of the actual pure-dual zero. -/
 def classZeroBudget (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -101,6 +114,11 @@ def tailBudget (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
       ((PUnit × PUnit) →* Circle) → ℝ) (Cerror : ℝ) : ℝ :=
   ∑ S, ∑ χ, T.classTailBudget NL NR Cerror S χ
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage classBudgets_done__finiteCost_before"
+  log.flush
+
 /-- The same original `coveredLeaf` objects; only the justified signed
 terminal bounds replace the old absolute transformed-zero estimate. -/
 def finiteCost (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
@@ -113,6 +131,11 @@ def finiteCost (T : s.DualTerminalCalibration sTail sZero k Z Lmax Nsave decay)
   T.zeroBudget NL NR ε Czero + T.tailBudget NL NR Cerror +
     ∑ j : s.CoveredLeafKey LA RA,
       (s.coveredLeaf LA RA NL NR hNL hNR exceptional j).cost
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage finiteCost_done__rawCost_le_finiteCost_before"
+  log.flush
 
 /-- The proved finite cover decomposition is applied inside the same
 first integral. This step does not require any source or leaf bound. -/
@@ -128,6 +151,11 @@ theorem rawCost_le_finiteCost
       T.finiteCost LA RA exceptional NL NR hNL hNR ε Cerror Czero := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage rawCost_le_finiteCost_done"
+  log.flush
+
 end SecondStages.DualTerminalCalibration
 end FirstBlockDirectData
 
@@ -140,6 +168,11 @@ namespace ActualDirectFirstSource.SecondStages
 variable {s : ActualDirectFirstSource (E := W) hΓ μv C Z finiteTest centered d a t Y₁ Y₂ X hX}
 variable (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable {sTail sZero : Finset (ℕ × ℕ)} {k : ℕ} {Lmax Nsave decay : ℝ}
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage parentBudgets_before"
+  log.flush
 
 def dualFiniteCost (T : R.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
     (L : SourceCartesianAtlas s.columns s.ideal)
@@ -159,6 +192,11 @@ def dualSecondTailBudget (T : R.DualTerminalCalibration sTail sZero k Lmax Nsave
   (s.fiber : ℝ) * ∑ v : s.CommonLabel, ∑ D : ((s.block v).mask s.mask).powerset,
     (T v D).tailBudget (N.left v D) (N.right v D) Cerror
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage parentBudgets_done__dualFiniteCost_eq_budgets_leaves_before"
+  log.flush
+
 /-- The parent fibre occurs exactly once. Every nonzero summand is the
 pre-existing original parent leaf on its complete original carrier. -/
 theorem dualFiniteCost_eq_budgets_leaves
@@ -171,6 +209,11 @@ theorem dualFiniteCost_eq_budgets_leaves
       ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage dualFiniteCost_eq_budgets_leaves_done__dualRawCost_le_finiteCost_before"
+  log.flush
+
 theorem dualRawCost_le_finiteCost
     (T : R.DualTerminalCalibration sTail sZero k Lmax Nsave decay)
     (L : SourceCartesianAtlas s.columns s.ideal)
@@ -178,6 +221,11 @@ theorem dualRawCost_le_finiteCost
     (ε Cerror Czero : ℝ) :
     R.dualRawCost T N ε Cerror Czero ≤ R.dualFiniteCost T L exceptional N ε Cerror Czero := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage dualRawCost_le_finiteCost_done"
+  log.flush
 
 end ActualDirectFirstSource.SecondStages
 
@@ -187,6 +235,11 @@ variable [MeasurableSpace (FiniteAdeleRing (𝓞 K) K)]
   (ν : Measure (FiniteAdeleRing (𝓞 K) K)) [ν.IsAddHaarMeasure]
 variable [MeasurableSpace (AdeleRing (𝓞 K) K)] [BorelSpace (AdeleRing (𝓞 K) K)]
   (μ : Measure (AdeleRing (𝓞 K) K)) [μ.IsAddHaarMeasure]
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage actual_parent_direct_two_stage_dual_finite_leaf_bound_before"
+  log.flush
 
 include ν μ in
 /-- Both original signed transforms, followed by the literal canonical
@@ -225,8 +278,18 @@ theorem actual_parent_direct_two_stage_dual_finite_leaf_bound
         ∑ j : R.CoveredLeafKey L, (R.parentLeaf L exceptional N j).cost := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage actual_parent_direct_two_stage_dual_finite_leaf_bound_done"
+  log.flush
+
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.FirstBlockDirectData.SecondStages.DualTerminalCalibration.rawCost_le_finiteCost
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualDirectFirstSource.SecondStages.dualFiniteCost_eq_budgets_leaves
 #print axioms HeckeSkeleton.Moments.EngineStep.actual_parent_direct_two_stage_dual_finite_leaf_bound
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS DualDirectCoveredStage axioms_done"
+  log.flush

@@ -2,6 +2,14 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLeafArithmetic
 
 set_option linter.unusedSectionVars false
 
+set_option Elab.async false
+set_option stderrAsMessages false
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows imports_done"
+  log.flush
+
 /-!
 # Original ideal windows reach every actual arithmetic label
 
@@ -92,12 +100,22 @@ variable {G : ActualGaussSource C ι}
 variable (s : ActualGaussStage (E := E) hΓ μv hDiff G finiteTest)
 variable (LC RC : SourceCartesianCover G.columns G.ideal)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows helpers_done__covered_innerDivisor_norm_le_before"
+  log.flush
+
 /-- The actual second Möbius divisor is bounded through its original
 right column. All three support filters are retained in this proof. -/
 theorem covered_innerDivisor_norm_le (Y : ℝ)
     (hN : ∀ i ∈ G.columns, (Ideal.absNorm (G.ideal i).val : ℝ) ≤ Y)
     (j : s.CoveredLeafKey LC RC) : Nat.cast (R := ℝ) (Ideal.absNorm j.2.1.val) ≤ Y := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows covered_innerDivisor_norm_le_done"
+  log.flush
 
 end ActualGaussStage
 
@@ -119,10 +137,20 @@ variable {d : FirstGaussPoolData C P ι} {c : ι → ℂ}
 variable (s : ActualPoolStages (E := E) hΓ μv hDiff d c finiteTest)
 variable (B : d.SourceCovers c)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_commonLabel_properties_before"
+  log.flush
+
 theorem commonLabel_properties (j : s.CoveredLeafKey B) :
     (s.commonLabel B j).1 ≠ 0 ∧ (s.commonLabel B j).2 ≠ 0 ∧
       primeSupport (s.commonLabel B j).1 = primeSupport (s.commonLabel B j).2 := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_commonLabel_properties_done__commonLabel_norm_le_before"
+  log.flush
 
 theorem commonLabel_norm_le (Y : ℝ)
     (hN : ∀ i ∈ d.columns, (Ideal.absNorm (d.ideal i).val : ℝ) ≤ Y)
@@ -131,10 +159,20 @@ theorem commonLabel_norm_le (Y : ℝ)
       (Ideal.absNorm (s.commonLabel B j).2 : ℝ) ≤ Y := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_commonLabel_norm_le_done__innerDivisor_norm_le_before"
+  log.flush
+
 theorem innerDivisor_norm_le (Y : ℝ)
     (hN : ∀ i ∈ d.columns, (Ideal.absNorm (d.ideal i).val : ℝ) ≤ Y)
     (j : s.CoveredLeafKey B) : (Ideal.absNorm (s.innerDivisor B j) : ℝ) ≤ Y := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows pool_innerDivisor_norm_le_done"
+  log.flush
 
 end ActualPoolStages
 
@@ -169,10 +207,20 @@ namespace SecondStages
 variable {p} (R : p.SecondStages (E := E) (hDiff := hDiff))
 variable (LA : SourceCartesianAtlas left fullI) (RA : SourceCartesianAtlas right fullJ)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_commonLabel_properties_before"
+  log.flush
+
 theorem commonLabel_properties (j : R.CoveredLeafKey LA RA) :
     (R.commonLabel LA RA j).1 ≠ 0 ∧ (R.commonLabel LA RA j).2 ≠ 0 ∧
       primeSupport (R.commonLabel LA RA j).1 = primeSupport (R.commonLabel LA RA j).2 := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_commonLabel_properties_done__commonLabel_norm_le_before"
+  log.flush
 
 theorem commonLabel_norm_le (Y : ℝ)
     (hL : ∀ i ∈ left, (Ideal.absNorm (fullI i).val : ℝ) ≤ Y)
@@ -182,12 +230,22 @@ theorem commonLabel_norm_le (Y : ℝ)
       (Ideal.absNorm (R.commonLabel LA RA j).2 : ℝ) ≤ Y := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_commonLabel_norm_le_done__innerDivisor_norm_le_before"
+  log.flush
+
 theorem innerDivisor_norm_le (Y : ℝ)
     (hL : ∀ i ∈ left, (Ideal.absNorm (fullI i).val : ℝ) ≤ Y)
     (hR : ∀ i ∈ right, (Ideal.absNorm (fullJ i).val : ℝ) ≤ Y)
     (j : R.CoveredLeafKey LA RA) :
     (Ideal.absNorm (R.innerDivisor LA RA j) : ℝ) ≤ Y := by
   sorry
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows block_innerDivisor_norm_le_done"
+  log.flush
 
 end SecondStages
 end FirstBlockPoolData
@@ -202,6 +260,11 @@ namespace ActualFirstSource.SecondStages
 variable (R : s.SecondStages (E := E) (hDiff := hDiff))
 variable (L : SourceCartesianAtlas s.columns s.ideal)
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows arithmeticLabels_admissible_before"
+  log.flush
+
 /-- The actual retained carrier is admissible from original column
 windows and the original old-mask divisibility alone. All transformed
 support and norm statements are derived above or from genuine liveness. -/
@@ -214,8 +277,18 @@ theorem arithmeticLabels_admissible {cap : ℕ} (hcap : L.slotCount ≤ cap)
       (cap + 2) B Z oldMask := by
   sorry
 
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows arithmeticLabels_admissible_done"
+  log.flush
+
 end ActualFirstSource.SecondStages
 end HeckeSkeleton.Moments.EngineStep
 
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualGaussStage.covered_innerDivisor_norm_le
 #print axioms HeckeSkeleton.Moments.EngineStep.ActualFirstSource.SecondStages.arithmeticLabels_admissible
+
+#eval show IO Unit from do
+  let log ← IO.getStderr
+  log.putStrLn "G2_PROGRESS ActualLeafNormWindows axioms_done"
+  log.flush
