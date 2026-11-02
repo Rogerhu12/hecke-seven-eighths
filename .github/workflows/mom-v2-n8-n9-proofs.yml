@@ -58,3 +58,62 @@ jobs:
           name: mom-v2-n8-n9-${{ matrix.stage }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: v2-n8n9-${{ matrix.stage }}-build/
           retention-days: 14
+
+  raw-contracts-diagnostics:
+    if: >-
+      github.event.pull_request.number == 42 ||
+      github.head_ref == 'cloud/mom-v2-n8-n9' ||
+      (github.event_name == 'workflow_dispatch' && github.ref_name == 'cloud/mom-v2-n8-n9')
+    name: RawContracts checkpoints (diagnostic only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      LEAN_NUM_THREADS: '2'
+      N8N9_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Read the unchanged N7 diagnostic helper at its reviewed commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 12638baac6c52431d32e657d4f77fdc5c3903d87
+          path: ci-n7-diagnostics-helper
+          sparse-checkout: .github/v2/n7_dependency_diagnostics.py
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Reserve runner space and configure memory mappings
+        run: |
+          sudo rm -rf -- /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup /usr/share/swift /opt/ghc /opt/hostedtoolcache/CodeQL
+          if [ "$(sysctl -n vm.max_map_count)" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Diagnose the exact RawContracts source with the shared watchdog
+        run: |
+          test "$(git rev-parse HEAD)" = "$N8N9_EXPECTED_HEAD"
+          git diff --exit-code HEAD --
+          python3 -u ci-n7-diagnostics-helper/.github/v2/n7_dependency_diagnostics.py --root "$GITHUB_WORKSPACE" --module RawContracts --output "$GITHUB_WORKSPACE/v2-n8n9-raw-diagnostics"
+      - name: Verify the canonical checkout remains unchanged
+        if: always()
+        run: |
+          test "$(git rev-parse HEAD)" = "$N8N9_EXPECTED_HEAD"
+          git diff --exit-code HEAD --
+          echo 'Diagnostic probes are not accepted proof evidence; all canonical build and axiom gates remain required.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload RawContracts diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mom-v2-n8-n9-raw-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: v2-n8n9-raw-diagnostics/
+          retention-days: 14

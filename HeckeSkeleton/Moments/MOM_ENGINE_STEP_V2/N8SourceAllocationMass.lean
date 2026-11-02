@@ -69,7 +69,8 @@ theorem allocationIndexMass_eq :
   simp only [allocationIndexMass, AllocationKey, HybridAllocationLabel,
     Fintype.sum_sigma, Finset.sum_const, Finset.card_univ,
     Fintype.card_prod, Fintype.card_coe, nsmul_eq_mul, Nat.cast_mul]
-  rw [secondDivisorAllocationMass, Finset.mul_sum, ← Finset.sum_coe_sort]
+  conv_rhs =>
+    rw [secondDivisorAllocationMass, Finset.mul_sum, ← Finset.sum_coe_sort]
   apply Finset.sum_congr rfl
   intro D _
   ring

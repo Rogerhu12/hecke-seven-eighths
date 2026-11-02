@@ -54,7 +54,7 @@ theorem envelope_le_budget (bounds : b.CommonAtomBounds T Z length w)
       (by simpa using hcap)
   calc
     _ ≤ ∏ _i ∈ Finset.univ \ b.keep, budget :=
-      Finset.prod_le_prod
+      Finset.prod_le_prod₀
         (fun i _ => mul_nonneg (bounds.annulus_nonneg i) (bounds.profile_nonneg i))
         (fun i _ => hatom i)
     _ = budget ^ (Finset.univ \ b.keep).card := by simp
@@ -74,7 +74,8 @@ theorem bareCommonScalar_sq_le (bounds : b.CommonAtomBounds T Z length w)
   have hi : (bounds.atoms (A := A) (σ := σ) rows).ideal = I.val := hI
   rw [hv, hi] at h
   exact h.trans (div_le_div_of_nonneg_right
-    (envelope_le_budget bounds budget cap hbudget hcap hatom) (Nat.cast_nonneg _))
+    (envelope_le_budget (A := A) (σ := σ) bounds budget cap hbudget hcap hatom)
+    (Nat.cast_nonneg _))
 
 theorem norm_le_sqrt_of_sq_le (z : ℂ) (bound : ℝ) (h : ‖z‖ ^ 2 ≤ bound) :
     ‖z‖ ≤ Real.sqrt bound := by

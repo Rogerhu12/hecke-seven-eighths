@@ -18,7 +18,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep NumberField
+open EngineStep NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Characters HeckeGeneral.ThetaSkeleton.Global
 open HeckePort.IdealMobiusDivisorSum
 
@@ -30,7 +30,9 @@ attribute [local instance]
 
 theorem punitPhaseCoefficient_eq_one (χ : (PUnit.{1} × PUnit.{1}) →* Circle) :
     fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle)) χ = 1 := by
-  simp [fixedPhaseCoefficient, finiteFourierCoeff, Nat.card_eq_fintype_card]
+  have hχ (x : PUnit.{1} × PUnit.{1}) : χ x = 1 := by
+    rw [show x = (1 : PUnit.{1} × PUnit.{1}) from Subsingleton.elim _ _, map_one]
+  simp [fixedPhaseCoefficient, finiteFourierCoeff, hχ, Nat.card_eq_fintype_card]
 
 variable {K : Type} [Field K] [NumberField K]
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}

@@ -96,7 +96,8 @@ theorem main_right_scale_le (call : Call c) :
 theorem comparison_left_scale_le (call : Call c) :
     call.base ^ call.workingComparison₁ ≤ call.base ^ originalLengthBound c := by
   cases hc : call.node.centered with
-  | false => simpa only [Call.workingComparison₁, hc, Bool.false_eq_true, ite_false]
+  | false => simpa only [Call.workingComparison₁, Call.workingParameters,
+      hc, Bool.false_eq_true, ite_false]
       using main_left_scale_le call
   | true =>
     simp only [Call.workingComparison₁, hc, ite_true]
@@ -107,7 +108,8 @@ theorem comparison_left_scale_le (call : Call c) :
 theorem comparison_right_scale_le (call : Call c) :
     call.base ^ call.workingComparison₂ ≤ call.base ^ originalLengthBound c := by
   cases hc : call.node.centered with
-  | false => simpa only [Call.workingComparison₂, hc, Bool.false_eq_true, ite_false]
+  | false => simpa only [Call.workingComparison₂, Call.workingParameters,
+      hc, Bool.false_eq_true, ite_false]
       using main_right_scale_le call
   | true =>
     simp only [Call.workingComparison₂, hc, ite_true]
@@ -238,7 +240,7 @@ theorem original_column_norm (input : ProfileInput call)
       M ^ call.localizedData.geometry.slotCount := by
     calc
       _ ≤ ∏ _i : Fin call.localizedData.geometry.slotCount, M :=
-        Finset.prod_le_prod (fun i _ => Nat.cast_nonneg _)
+        Finset.prod_le_prod₀ (fun i _ => Nat.cast_nonneg _)
           (fun i _ => slot_column_norm input i (v.2 i) (hslots i))
       _ = _ := by simp
   have hslotsCap : call.localizedData.geometry.slotCount ≤ c.geometry.slots := call.slots_le
