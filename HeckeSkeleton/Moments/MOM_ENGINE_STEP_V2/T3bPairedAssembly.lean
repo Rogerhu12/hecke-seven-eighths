@@ -20,7 +20,7 @@ open scoped Classical BigOperators NumberField SchwartzMap nonZeroDivisors
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep EngineInduction
+open EngineStep EngineInduction EngineInduction.Source
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.Analysis.ConditionalMoments
@@ -114,9 +114,9 @@ theorem t3b_rawMass_pair_le (input : ProfileInput call) (P : ℝ) (hP : 1 ≤ P)
           (packet.t3bInnerFrozenIdeal_ne_zero hpacket phases s)).symm
       rw [hn side, hn (!side), t3bRawNormalizer]
       simp only [Real.rpow_sub call.base_pos, Real.rpow_neg call.base_pos.le]
-      have hE := (Real.rpow_pos call.base_pos (packet.t3bRawExponent side)).ne'
-      have hL := (Real.rpow_pos call.base_pos (packet.t3bInnerLoss hpacket phases side)).ne'
-      have hR := (Real.rpow_pos call.base_pos (packet.t3bInnerLoss hpacket phases (!side))).ne'
+      have hE := (Real.rpow_pos_of_pos call.base_pos (packet.t3bRawExponent side)).ne'
+      have hL := (Real.rpow_pos_of_pos call.base_pos (packet.t3bInnerLoss hpacket phases side)).ne'
+      have hR := (Real.rpow_pos_of_pos call.base_pos (packet.t3bInnerLoss hpacket phases (!side))).ne'
       rw [show 6 * c.geometry.slots = 3 * c.geometry.slots + 3 * c.geometry.slots by omega,
         pow_add]
       field_simp [hE, hL, hR]
@@ -132,6 +132,13 @@ def t3bAnalyticSaving (side : Bool) : ℝ :=
       packet.t3bScaleLoss side - packet.t3bInnerLoss hpacket phases side) 0
   else 0
 
+theorem t3bParentWidth_eq (side : Bool) :
+    (packet.nominal side).skeleton.m + (packet.nominal side).skeleton.q =
+      call.node.parameters.m + call.node.parameters.q := by
+  change (call.node.parameters.m + call.node.parameters.q - call.supportLength) +
+    call.supportLength = _
+  ring
+
 theorem t3b_excess_identity (side : Bool) (h : packet.R.live) :
     ((packet.nominal side).skeleton.nominalRow - 2 * packet.t3bMultiplicityOneLength h) / 6 +
         packet.t3bRawExponent side - packet.t3bNominalNorm side =
@@ -139,11 +146,15 @@ theorem t3b_excess_identity (side : Bool) (h : packet.R.live) :
         5 * ((packet.nominal side).skeleton.m + (packet.nominal side).skeleton.q) / 6 -
           packet.t3bFirstSaving side - packet.t3bSecondSaving side h := by
   let G := packet.nominal side
-  exact exceptional_excess_identity G.skeleton.A G.skeleton.m G.skeleton.q
+  convert exceptional_excess_identity G.skeleton.A G.skeleton.m G.skeleton.q
     G.skeleton.c G.skeleton.d G.skeleton.R G.skeleton.E G.skeleton.Krow
     G.skeleton.w G.skeleton.wo G.boundary G.skeleton.g
     (G.tag.poolLength (recipeInductionSigma c)) G.halfSecond G.secondRadical
-    G.skeleton.g₂ G.skeleton.t₂ G.skeleton.V (2 * packet.t3bMultiplicityOneLength h)
+    G.skeleton.g₂ G.skeleton.t₂ G.skeleton.V (2 * packet.t3bMultiplicityOneLength h) using 1 <;>
+    dsimp only [G, t3bRawExponent, t3bNominalNorm, t3bFirstSaving, t3bSecondSaving,
+      NominalChildGeometry.nominalWidth, NominalChildGeometry.nominalRow,
+      NominalChildGeometry.nominalSupport, NominalChildGeometry.shiftedCommon,
+      NominalChildGeometry.firstFrequency] <;> ring
 
 theorem t3b_centered_exponent (side : Bool) (h : packet.R.live)
     (hside : packet.t3bScaleLoss side ≤ (packet.nominal side).skeleton.c +
@@ -165,7 +176,8 @@ theorem t3b_centered_exponent (side : Bool) (h : packet.R.live)
     (packet.t3bInnerLoss_nonneg hpacket phases side)
     (packet.t3b_divisor_slotError_zero hpacket phases (!side))
     (packet.t3bFirstSaving_lower hpacket side) (packet.t3bSecondSaving_lower hpacket side h) hside
-  change G.skeleton.A - 5 * (G.skeleton.m + G.skeleton.q) / 6 -
+  rw [packet.t3bParentWidth_eq side] at hid hledger
+  change G.skeleton.A - 5 * (call.node.parameters.m + call.node.parameters.q) / 6 -
       packet.t3bFirstSaving side - packet.t3bSecondSaving side h -
       packet.t3bInnerLoss hpacket phases side - packet.t3bInnerLoss hpacket phases (!side) -
       max ((call.node.parameters.m + call.node.parameters.q) / 4 - packet.t3bScaleLoss side -
@@ -192,13 +204,16 @@ theorem t3b_uncentered_exponent (hc : call.node.centered = false)
       (idealLogLength_nonneg call.base call.domain.scale _ (nonZeroDivisors.coe_ne_zero _))
       (idealLogLength_nonneg call.base call.domain.scale _ (nonZeroDivisors.coe_ne_zero _)))
       (by norm_num)
+  have hA : G.skeleton.A ≤ 5 * (G.skeleton.m + G.skeleton.q) / 6 := by
+    rw [packet.t3bParentWidth_eq side]
+    exact call.domain.ordinary hc
   have hledger := T3b.absolute_divisor_exponent G.skeleton.A
     (G.skeleton.m + G.skeleton.q) G.skeleton.c G.skeleton.w G.halfSecond
     (packet.t3bFirstSaving side) (packet.t3bSecondSaving side h)
     (recipeInductionSigma c) (4 * p.loss)
     (packet.t3bInnerLoss hpacket phases side) (packet.t3bInnerLoss hpacket phases (!side))
     (idealLogLength call.base packet.allocation.1.val) 0
-    (call.domain.ordinary hc) hc0 hw0 hb0
+    hA hc0 hw0 hb0
     (packet.t3bInnerLoss_nonneg hpacket phases side)
     (packet.t3b_divisor_slotError_zero hpacket phases (!side))
     (packet.t3bFirstSaving_lower hpacket side) (packet.t3bSecondSaving_lower hpacket side h)

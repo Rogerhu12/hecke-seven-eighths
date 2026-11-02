@@ -44,16 +44,16 @@ theorem sixthBase_eq_of_completeCharacter_eq
 sixth-free bases in an exceptional theta sector. -/
 theorem sixthBases_card_le_theta {H : Type*} (rows : Finset H)
     (I : H → ExteriorIdeal K S) (sector : H → SixthUnitClasses K S)
-    (prefix : HeckeCharacter K) (theta : Finset (HeckeCharacter K))
+    (preχ : HeckeCharacter K) (theta : Finset (HeckeCharacter K))
     (hmem : ∀ h ∈ rows,
-      prefix * completeIdealRowCharacter K S P R (sector h) (I h).val ∈ theta) :
+      preχ * completeIdealRowCharacter K S P R (sector h) (I h).val ∈ theta) :
     (rows.image (fun h => sixthPowerFreePart (I h).val)).card ≤ theta.card := by
   let bases := rows.image (fun h => sixthPowerFreePart (I h).val)
   have hexists (b : bases) : ∃ h ∈ rows, sixthPowerFreePart (I h).val = b.val :=
     Finset.mem_image.mp b.property
   choose representative hrepresentative hbase using hexists
   let sectorMap : bases → theta := fun b =>
-    ⟨prefix * completeIdealRowCharacter K S P R
+    ⟨preχ * completeIdealRowCharacter K S P R
       (sector (representative b)) (I (representative b)).val,
       hmem _ (hrepresentative b)⟩
   have hinj : Function.Injective sectorMap := by
@@ -74,9 +74,9 @@ theorem sixthBases_card_le_theta {H : Type*} (rows : Finset H)
 the preceding injection in fact gives the stronger theta-only bound. -/
 theorem sixthBases_card_le_theta_unitSectors {H : Type*} (rows : Finset H)
     (I : H → ExteriorIdeal K S) (sector : H → SixthUnitClasses K S)
-    (prefix : HeckeCharacter K) (theta : Finset (HeckeCharacter K))
+    (preχ : HeckeCharacter K) (theta : Finset (HeckeCharacter K))
     (hmem : ∀ h ∈ rows,
-      prefix * completeIdealRowCharacter K S P R (sector h) (I h).val ∈ theta) :
+      preχ * completeIdealRowCharacter K S P R (sector h) (I h).val ∈ theta) :
     (rows.image (fun h => sixthPowerFreePart (I h).val)).card ≤
       theta.card * Nat.card (SixthUnitClasses K S) := by
   have hsector : 1 ≤ Nat.card (SixthUnitClasses K S) := by
@@ -87,7 +87,7 @@ theorem sixthBases_card_le_theta_unitSectors {H : Type*} (rows : Finset H)
       rfl
     simpa using Nat.card_le_card_of_injective
       (fun _ : PUnit => (1 : SixthUnitClasses K S)) hinj
-  exact (sixthBases_card_le_theta S P R rows I sector prefix theta hmem).trans
+  exact (sixthBases_card_le_theta S P R rows I sector preχ theta hmem).trans
     (by simpa only [Nat.mul_one] using Nat.mul_le_mul_left theta.card hsector)
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.T3a

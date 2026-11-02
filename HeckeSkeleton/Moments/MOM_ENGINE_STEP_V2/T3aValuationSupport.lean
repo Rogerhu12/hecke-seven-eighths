@@ -65,6 +65,12 @@ theorem moving_unramified_of_coprime_support
       UnramifiedAt K (D.factorCharacter i ^ D.power i) p := by
     intro u hu
     rw [localComponent_zpow]
+    let ev : UnitaryCharacter ((p.adicCompletion K)ˣ) →* Circle :=
+      { toFun := fun χ => χ u
+        map_one' := rfl
+        map_mul' := fun _ _ => rfl }
+    change ev (localComponent K p (D.factorCharacter i) ^ D.power i) = 1
+    rw [map_zpow]
     change localComponent K p (D.factorCharacter i) u ^ D.power i = 1
     rw [hfactor i u hu, one_zpow]
   have hprod (s : Finset (Fin D.count)) :

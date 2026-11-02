@@ -28,20 +28,20 @@ variable {K : Type} [Field K] [NumberField K]
 def Avoids (I : Ideal (𝓞 K)) (excluded : Finset (Ideal (𝓞 K))) : Prop :=
   ∀ Q ∈ excluded, IsCoprime I Q
 
-structure PlainSupportData (weight : Bool → NonzeroIdeal K → ℂ)
+structure PlainSupportData (weight : Bool → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
     (carrier excluded : Finset (Ideal (𝓞 K))) : Prop where
   nonzero : ∀ I ∈ carrier, I ≠ 0
   avoids : ∀ I ∈ carrier, Avoids I excluded
-  mem_of_weight : ∀ r (I : NonzeroIdeal K), weight r I ≠ 0 →
+  mem_of_weight : ∀ r (I : HeckeGeneral.Analysis.NonzeroIdeal K), weight r I ≠ 0 →
     Avoids I.val excluded → I.val ∈ carrier
 
 namespace PlainSupportData
 
-variable {weight : Bool → NonzeroIdeal K → ℂ}
+variable {weight : Bool → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ}
 variable {carrier excluded : Finset (Ideal (𝓞 K))}
 variable (d : PlainSupportData weight carrier excluded)
 
-def congrWeight (other : Bool → NonzeroIdeal K → ℂ)
+def congrWeight (other : Bool → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ)
     (h : ∀ r I, other r I = weight r I) : PlainSupportData other carrier excluded where
   nonzero := d.nonzero
   avoids := d.avoids
@@ -51,7 +51,7 @@ def congrWeight (other : Bool → NonzeroIdeal K → ℂ)
 not by a new support choice. -/
 def extract (deleted : Finset (Ideal (𝓞 K)))
     (hdeleted : ∀ Q ∈ deleted, Prime Q)
-    (D : NonzeroIdeal K) (witness : Ideal (𝓞 K))
+    (D : HeckeGeneral.Analysis.NonzeroIdeal K) (witness : Ideal (𝓞 K))
     (hwitness : witness ∈ carrier) (hextract : supportExtract witness deleted = D.val) :
     PlainSupportData (fun r I => weight r (D * I))
       (SupportCartesian.plainResidual carrier deleted D.val) (excluded ∪ deleted) where

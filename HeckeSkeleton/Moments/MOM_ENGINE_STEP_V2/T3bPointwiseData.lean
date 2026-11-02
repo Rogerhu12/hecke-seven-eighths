@@ -11,7 +11,7 @@ open scoped Classical BigOperators NumberField
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
-open EngineStep EngineInduction
+open EngineStep EngineInduction EngineInduction.Source
 open NumberField IsDedekindDomain DedekindZetaZeroFree
 open HeckeGeneral.Arithmetic HeckeGeneral.Characters HeckeGeneral.Analysis
 open HeckeGeneral.ThetaSkeleton.Global

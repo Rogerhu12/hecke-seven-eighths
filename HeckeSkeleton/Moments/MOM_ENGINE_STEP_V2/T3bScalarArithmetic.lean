@@ -72,8 +72,9 @@ theorem twoStage_scalar_core_le
         hZ hB hS₁ hS₂ hN₁ hN₂ hC₁ hC₂ ha hb hlower hsecond
     _ = _ := by
       simp only [div_pow, mul_pow, Real.sq_sqrt (mul_nonneg hC₁ hC₂)]
-      rw [← Real.rpow_mul_natCast hZ.le,
-        show (-A / 2) * (2 : ℝ) = -A by ring, Real.rpow_neg hZ.le]
+      rw [← Real.rpow_mul_natCast hZ.le]
+      norm_num only [Nat.cast_ofNat]
+      rw [show (-A / 2) * (2 : ℝ) = -A by ring, Real.rpow_neg hZ.le]
       ring
 
 /-- The actual pool power fits inside the complete first frozen norm.

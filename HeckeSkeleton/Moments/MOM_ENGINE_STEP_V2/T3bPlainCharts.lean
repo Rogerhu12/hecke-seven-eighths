@@ -36,7 +36,7 @@ theorem jointPhase_neg_left (ξ x : EngineParameter) :
 
 theorem allocated_plainDivisor_avoids {k : ℕ}
     (B : ActualColumnAllocation K k)
-    (weight : Bool → NonzeroIdeal K → ℂ) (excluded : Finset (Ideal (𝓞 K)))
+    (weight : Bool → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ) (excluded : Finset (Ideal (𝓞 K)))
     (plain : Bool)
     (hd : PlainSupportData weight (if plain then B.plain₂ else B.plain₁) excluded) :
     Avoids (B.plainDivisor (if plain then Fin.succ 0 else 0)).val excluded := by
@@ -71,11 +71,11 @@ def t3bUnscaledSource : (side : Bool) →
   | false => (packet.t3bUnscaledLeftFrame hpacket phases).source
   | true => (packet.t3bUnscaledRightFrame hpacket phases).source
 
-def t3bPlainDivisor (side plain : Bool) : NonzeroIdeal K :=
+def t3bPlainDivisor (side plain : Bool) : HeckeGeneral.Analysis.NonzeroIdeal K :=
   (packet.t3bUnscaledSource hpacket phases side).allocation.plainDivisor
     (if plain then Fin.succ 0 else 0)
 
-def t3bChildPlain (side plain : Bool) : Finset (NonzeroIdeal K) :=
+def t3bChildPlain (side plain : Bool) : Finset (HeckeGeneral.Analysis.NonzeroIdeal K) :=
   if plain then (packet.t3bUnscaledSource hpacket phases side).allocation.childPlain₂
   else (packet.t3bUnscaledSource hpacket phases side).allocation.childPlain₁
 
@@ -104,11 +104,11 @@ def t3bFourierSign (side : Bool) : ℝ :=
 def t3bFourierMode (side : Bool) (ξ : EngineParameter) : EngineParameter :=
   if side then -ξ else ξ
 
-def t3bPlainLocation (side : Bool) (I : NonzeroIdeal K) : EngineParameter :=
+def t3bPlainLocation (side : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) : EngineParameter :=
   if side then -CanonicalLiteralLocations.plain (packet.t3bFourierSign side) I
   else CanonicalLiteralLocations.plain (packet.t3bFourierSign side) I
 
-theorem t3bPlainLocation_phase (side : Bool) (I : NonzeroIdeal K) (ξ : EngineParameter) :
+theorem t3bPlainLocation_phase (side : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) (ξ : EngineParameter) :
     jointPhase ξ (packet.t3bPlainLocation side I) =
       jointPhase (packet.t3bFourierMode side ξ)
         (CanonicalLiteralLocations.plain (packet.t3bFourierSign side) I) := by
@@ -137,7 +137,7 @@ theorem t3bPlainProfile_seminorm (input : ProfileInput call) (side plain : Bool)
         (packet.t3bNormProfile hpacket input plain) :=
   T3b.phasedProfile_seminorm _ _ _ _ orders
 
-theorem t3bPlainWeight_eq (side rectangle plain : Bool) (I : NonzeroIdeal K) :
+theorem t3bPlainWeight_eq (side rectangle plain : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (packet.t3bUnscaledTable hpacket phases side).t3bPlainWeight plain rectangle I =
       packet.normProfile plain
         (idealNorm K I / packet.t3bPlainScale hpacket phases side rectangle plain) := by
@@ -146,7 +146,7 @@ theorem t3bPlainWeight_eq (side rectangle plain : Bool) (I : NonzeroIdeal K) :
   | true => exact packet.t3bUnscaled_rightWeight hpacket phases side rectangle I
 
 theorem t3bPlainProfile_identity (input : ProfileInput call)
-    (side rectangle plain : Bool) (ξ : EngineParameter) (I : NonzeroIdeal K) :
+    (side rectangle plain : Bool) (ξ : EngineParameter) (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
     (packet.t3bUnscaledTable hpacket phases side).t3bPlainWeight plain rectangle
         (packet.t3bPlainDivisor hpacket phases side plain * I) *
       jointPhase ξ (packet.t3bPlainLocation side
@@ -165,7 +165,7 @@ theorem t3bPlainProfile_identity (input : ProfileInput call)
   rw [packet.t3bNormProfile_apply hpacket input]
   ring
 
-theorem t3bCompleteMask_avoids (h : packet.R.live) (I : NonzeroIdeal K)
+theorem t3bCompleteMask_avoids (h : packet.R.live) (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hcop : IsCoprime I.val (packet.t3bCompleteMask phases h)) :
     T3b.Avoids I.val packet.t3bExcluded := by
   intro Q hQ
@@ -188,7 +188,7 @@ theorem t3bPlainDivisor_avoids (side plain : Bool) :
 
 theorem t3bPlainProfile_mem (input : ProfileInput call)
     (side rectangle plain : Bool) (ξ : EngineParameter) (h : packet.R.live)
-    (I : NonzeroIdeal K)
+    (I : HeckeGeneral.Analysis.NonzeroIdeal K)
     (hcop : IsCoprime I.val (packet.t3bCompleteMask phases h))
     (hW : packet.t3bPlainProfile hpacket phases input side plain ξ
       ((Ideal.absNorm I.val : ℝ) /

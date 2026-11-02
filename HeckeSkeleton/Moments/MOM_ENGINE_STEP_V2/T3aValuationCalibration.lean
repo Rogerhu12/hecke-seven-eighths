@@ -70,15 +70,15 @@ theorem extracted_plain_coefficient
     (row : ActualChildRow Ih h g factor)
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
-    (background prefix : HeckeCharacter K)
+    (background preχ : HeckeCharacter K)
     (oldMask J : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    sourcePlainCoefficient (background * prefix) 1 (originalCoprimeMask oldMask) J *
+    sourcePlainCoefficient (background * preχ) 1 (originalCoprimeMask oldMask) J *
         actualIdealResidue (A := A) (σ := σ) J.val (g * row.element) =
       (if IsCoprime J.val (completePhaseMask row.momentIdeal
           (secondOriginalMovingFactors P R C primes m n pattern).support.val
           (secondSixthRootIdeal primes m n) oldMask) then (1 : ℂ) else 0) *
         CanonicalExceptionalVolume.coefficient
-          (background * (prefix *
+          (background * (preχ *
             (secondOriginalMovingFactors P R C primes m n pattern).character *
             completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
               P R (row.sector P) row.momentIdeal)) J.val := by
@@ -89,14 +89,14 @@ theorem extracted_plain_coefficient
     row hfactor (row.sector P) rfl J
   simp only [sourcePlainCoefficient, coefficient_one, mul_one]
   rw [actualIdealResidue_frequency_mul, hphase, coprime_completePhaseMask_iff]
-  change (heckeIdealCoefficient K (background * prefix) J *
+  change (heckeIdealCoefficient K (background * preχ) J *
       (if IsCoprime J.val oldMask.val then (1 : ℂ) else 0)) *
       (heckeIdealCoefficient K D.character J * heckeIdealCoefficient K χu J *
         (if phaseMask row.momentIdeal D.support.val (secondSixthRootIdeal primes m n) J
           then 1 else 0)) =
     (if phaseMask row.momentIdeal D.support.val (secondSixthRootIdeal primes m n) J ∧
         IsCoprime J.val oldMask.val then 1 else 0) *
-      heckeIdealCoefficient K (background * (prefix * D.character * χu)) J
+      heckeIdealCoefficient K (background * (preχ * D.character * χu)) J
   by_cases hgood : phaseMask row.momentIdeal D.support.val
       (secondSixthRootIdeal primes m n) J ∧ IsCoprime J.val oldMask.val
   · have hmove : ∀ p : HeightOneSpectrum (𝓞 K), p.asIdeal ∣ J.val →
@@ -109,8 +109,8 @@ theorem extracted_plain_coefficient
       intro p hp
       exact residualCharacter_unramified P R row p (hgood.1.1 p hp).1
         (hgood.1.2.1.of_isCoprime_of_dvd_left hp)
-    rw [show background * (prefix * D.character * χu) =
-      ((background * prefix) * D.character) * χu by ac_rfl,
+    rw [show background * (preχ * D.character * χu) =
+      ((background * preχ) * D.character) * χu by ac_rfl,
       coefficient_mul_right_unramified _ _ J hrow,
       coefficient_mul_right_unramified _ _ J hmove]
     simp only [hgood, hgood.1, hgood.2, and_self, if_true, mul_one, one_mul]
@@ -131,21 +131,21 @@ theorem extracted_plain_coefficient_neg
     (row : ActualChildRow Ih h g factor)
     (hfactor : g = secondSixthRootGenerator C primes m n ^ 6 *
       secondActiveFrequencyGenerator C primes m n pattern)
-    (background prefix : HeckeCharacter K)
+    (background preχ : HeckeCharacter K)
     (oldMask J : HeckeGeneral.Analysis.NonzeroIdeal K) :
-    sourcePlainCoefficient (background * prefix) 1 (originalCoprimeMask oldMask) J *
+    sourcePlainCoefficient (background * preχ) 1 (originalCoprimeMask oldMask) J *
         actualIdealResidue (A := A) (σ := σ) J.val (-g * row.element) =
       (if IsCoprime J.val (completePhaseMask row.momentIdeal
           (secondOriginalMovingFactors P R C primes m n pattern).support.val
           (secondSixthRootIdeal primes m n) oldMask) then (1 : ℂ) else 0) *
         CanonicalExceptionalVolume.coefficient
-          (background * (prefix *
+          (background * (preχ *
             (secondOriginalMovingFactors P R C primes m n pattern).character *
             completeIdealRowCharacter K (A.Sf : Set (HeightOneSpectrum (𝓞 K)))
               P R (row.sector P) row.momentIdeal)) J.val := by
   rw [neg_mul, residue_neg]
   exact extracted_plain_coefficient P R hroot hemb C primes m n pattern row hfactor
-    background prefix oldMask J
+    background preχ oldMask J
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.T3b
 

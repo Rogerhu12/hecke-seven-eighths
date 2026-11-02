@@ -63,7 +63,7 @@ end Call
 namespace OrdinaryAtomTable
 
 def t3bPlainWeight {k : ℕ} (d : OrdinaryAtomTable (K := K) k)
-    (plain : Bool) : Bool → NonzeroIdeal K → ℂ :=
+    (plain : Bool) : Bool → HeckeGeneral.Analysis.NonzeroIdeal K → ℂ :=
   if plain then d.rightWeight else d.leftWeight
 
 end OrdinaryAtomTable
@@ -75,7 +75,7 @@ variable (packet : RawLeafPacket call p) (hpacket : packet.Realizes)
 def t3bOriginalPlainCarrier (plain : Bool) : Finset (Ideal (𝓞 K)) :=
   if plain then call.workingRaw.originalPlain₂ else call.workingRaw.originalPlain₁
 
-def t3bOriginalPlainWeight (plain rectangle : Bool) (I : NonzeroIdeal K) : ℂ :=
+def t3bOriginalPlainWeight (plain rectangle : Bool) (I : HeckeGeneral.Analysis.NonzeroIdeal K) : ℂ :=
   packet.normProfile plain (idealNorm K I / call.originalPlainScale rectangle plain)
 
 def t3bOriginalPlainSupport (plain : Bool) :

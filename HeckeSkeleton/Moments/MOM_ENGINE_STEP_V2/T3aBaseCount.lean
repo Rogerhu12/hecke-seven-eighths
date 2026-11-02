@@ -53,7 +53,7 @@ theorem packet_bases_card (j : Fin raw.count) (hpacket : (raw.packet j).Realizes
   let packet := raw.packet j
   by_cases hrows : packet.exceptionalRows.Nonempty
   · obtain ⟨h₀, hh₀⟩ := hrows
-    let prefix : HeckeCharacter K :=
+    let preχ : HeckeCharacter K :=
       call.localizedSource.source.recipe.correction *
         ((expansion.moving (raw.index j).val.1.1).append
           (secondOriginalMovingFactors (probeData K c) (momentRowCharacters K c)
@@ -63,7 +63,7 @@ theorem packet_bases_card (j : Fin raw.count) (hpacket : (raw.packet j).Realizes
               packet.R.leftMultiplicity packet.R.rightMultiplicity
               (packet.R.frequency h₀.val)))).character
     have hmem (h : packet.R.live) (hh : h ∈ packet.exceptionalRows) :
-        prefix * completeIdealRowCharacter K
+        preχ * completeIdealRowCharacter K
           ((Arithmetic.data c).Sf : Set (HeightOneSpectrum (𝓞 K)))
           (probeData K c) (momentRowCharacters K c)
           ((packet.R.extractedRow (Arithmetic.context c) h).sector (probeData K c))
@@ -80,7 +80,7 @@ theorem packet_bases_card (j : Fin raw.count) (hpacket : (raw.packet j).Realizes
       (fun h => HeckeAxiom.exteriorEquiv (Arithmetic.data c)
         (packet.R.extractedRow (Arithmetic.context c) h).ideal)
       (fun h => (packet.R.extractedRow (Arithmetic.context c) h).sector (probeData K c))
-      prefix call.node.data.theta hmem
+      preχ call.node.data.theta hmem
     exact hc
   · change (packet.exceptionalRows.image packet.sixthBase).card ≤ _
     rw [Finset.not_nonempty_iff_eq_empty.mp hrows, Finset.image_empty, Finset.card_empty]

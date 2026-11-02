@@ -109,17 +109,22 @@ theorem rawMass_le_scale_quotient
   have hL (i) : 0 < L i := Real.rpow_pos_of_pos hz _
   have hD : 0 < D := mul_pos (idealNorm_pos K _) (idealNorm_pos K _)
   have hN : 0 < N := by
+    change (0 : ℝ) < (Ideal.absNorm s.allocation.frozenIdeal : ℝ)
     exact_mod_cast Nat.pos_of_ne_zero
       (Ideal.absNorm_eq_zero_iff.not.mpr s.allocation.frozenIdeal_ne_zero)
-  have hfrozenCard : frozen.card ≤ cap :=
-    (by simpa only [Fintype.card_fin] using Finset.card_le_univ frozen).trans hcap
-  have hkeepCard : s.allocation.keep.card ≤ cap :=
-    (by simpa only [Fintype.card_fin] using Finset.card_le_univ s.allocation.keep).trans hcap
+  have hfrozenCard : frozen.card ≤ cap := by
+    have hcard : frozen.card ≤ k := by
+      simpa only [Fintype.card_fin] using Finset.card_le_univ frozen
+    exact hcard.trans hcap
+  have hkeepCard : s.allocation.keep.card ≤ cap := by
+    have hcard : s.allocation.keep.card ≤ k := by
+      simpa only [Fintype.card_fin] using Finset.card_le_univ s.allocation.keep
+    exact hcard.trans hcap
   have hwitness (i) : s.allocation.witness.2 i ∈ s.allocation.slots i := by
     have hm := s.allocation.witness_mem
     rw [WholeAllocation.paired_allocated_columns_eq_filter] at hm
     exact Fintype.mem_piFinset.mp (Finset.mem_product.mp (Finset.mem_filter.mp hm).1).2 i
-  have hplain (I : NonzeroIdeal K) :
+  have hplain (I : HeckeGeneral.Analysis.NonzeroIdeal K) :
       ‖sourcePlainCoefficient s.characters.plain s.characters.plainTwist s.characters.mask I‖ ≤ 1 :=
     OriginalProfileAtomBounds.sourcePlainCoefficient_norm_le_one _ _ _ _ (hmask _)
   have hprime (i) (q : HeightOneSpectrum (𝓞 K)) :
@@ -180,6 +185,7 @@ theorem rawMass_le_scale_quotient
     rw [mul_pow, Real.sq_sqrt (Finset.prod_nonneg (fun _ _ => (hL _).le)), ← pow_mul] at hs
     simpa only [Nat.mul_comm cap 2] using hs
   have hNupper : N ≤ D * (B ^ (2 * cap) * ∏ i ∈ frozen, L i) := by
+    dsimp only [N]
     rw [s.allocation.frozenIdeal_norm]
     apply mul_le_mul_of_nonneg_left ?_ hD.le
     calc
