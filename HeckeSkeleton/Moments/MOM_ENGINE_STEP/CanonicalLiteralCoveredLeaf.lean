@@ -132,9 +132,11 @@ def literalRightAtoms : CanonicalLiteralRectangles.Atoms (K := K)
     (d := (v.literalLeftOriginal leftAtoms).extract v.literalLeftBranch)
     (T := v.literalLeftResidualAtlas) (h := rfl) (i := i)
 
+set_option maxHeartbeats 1000000 in
 @[simp] theorem literalRightAtoms_whole
     (i : AllocationColumn K v.literalRightBranch.keep.card) :
-    (no_index (v.literalRightAtoms rightAtoms)).whole i =
+    (no_index (v.literalRightAtoms rightAtoms)).whole
+      (k := v.literalRightResidualAtlas.slotCount) i =
       ((v.literalRightOriginal rightAtoms).extract v.literalRightBranch).whole i := by
   exact CanonicalLiteralRectangles.Atoms.onAtlas_whole
     (d := (v.literalRightOriginal rightAtoms).extract v.literalRightBranch)

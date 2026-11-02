@@ -84,7 +84,8 @@ def canonicalMovingDirectFirstSource
       (E := ℝ) (actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))
       μv C Z (rowBallFiniteFamily K A.Sf 1)
       centered (data ξ) a t Y₁ Y₂ cutoff hcutoff := by
-  let atoms := (Q.arithmeticAtoms ξ).constantAtoms (W.at ξ) a Z t
+  let atoms := (Q.arithmeticAtoms ξ).constantAtoms
+    (W.at ξ : NormProfileRecipe (fun _ : PUnit.{1} => data ξ)) a Z t
   let raw := atoms.raw Y₁ Y₂
   exact (atoms.values Y₁ Y₂).canonicalDirectFirstSource
     (hΓ := actualSixthUnits_are_sixth (A.Sf : Set (HeightOneSpectrum (𝓞 K))))

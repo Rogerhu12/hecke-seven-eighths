@@ -241,6 +241,8 @@ variable {E W : Type*}
 local notation "Q" => SIntegerOrbits K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) Γ
 local notation "V" => mixedEmbedding.euclidean.mixedSpace K
 local instance actualParentFibreCircleCharacterFintype : Fintype ((PUnit × PUnit) →* Circle) := Fintype.ofFinite _
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.ActualPoolStages.coveredLeafKeyFintype
+attribute [local instance] HeckeSkeleton.Moments.EngineStep.FirstBlockPoolData.SecondStages.coveredLeafKeyFintype
 
 variable {finiteTest : ∀ v : HeightOneSpectrum (𝓞 K), v.adicCompletion K → ℂ}
 variable {Θ : Type*} [Fintype Θ] {cap dimension width : ℕ} {B Z : ℝ}
