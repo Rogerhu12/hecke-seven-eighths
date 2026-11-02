@@ -301,7 +301,7 @@ local notation "radical" => (Ideal.absNorm (commonRadical
   (primePowerProduct v.block.primes v.block.rightMultiplicity).val) : ℝ)
 
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hwidth hthreshold hsupport hvolume hcutoffPaid hcutoffPower hactiveColumns
   hDE horiginalColumns holdOriginal in
@@ -486,7 +486,7 @@ theorem literalLeftDirectExceptional_pointwise
     _ ≤ originalBound ^ commonDegree * paid := mul_le_mul_of_nonneg_right hcommon hpaid
     _ = _ := by dsimp only [paid]; rw [pow_add]; ring
 
-include domain hS hfiber originalWindow hreference htime hprime hupper hlower
+include href hlo domain hS hfiber originalWindow hreference htime hprime hupper hlower
   hamplitude hannulus hcap hδsum hslotLossNonneg hloss hslotLoss hslots hstep hq hone hplaces
   hroot hemb hsupport hcutoffPaid hcutoffPower hactiveColumns in
 /-- The same stored left-direct theta leaf is bounded using only its
