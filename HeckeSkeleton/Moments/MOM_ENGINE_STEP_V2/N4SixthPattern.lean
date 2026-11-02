@@ -114,6 +114,7 @@ variable {R side s D} (geometry : SideGeometryData R side s D)
 /-- The actual calibration width drops after the complete sixth-root
 support is included. No ordinary-row witness or analytic prime estimate
 is needed for this geometric conclusion. -/
+include geometry in
 theorem source_width_drop :
     D.calibration.parameters.m + D.calibration.parameters.q ≤
       call.node.parameters.m + call.node.parameters.q - recipeInductionSigma c / 2 := by
@@ -130,6 +131,7 @@ theorem source_width_drop :
   dsimp only [Call.workingParameters] at hactual
   linarith
 
+include geometry in
 theorem source_width_lt :
     D.calibration.parameters.m + D.calibration.parameters.q <
       call.node.parameters.m + call.node.parameters.q := by
