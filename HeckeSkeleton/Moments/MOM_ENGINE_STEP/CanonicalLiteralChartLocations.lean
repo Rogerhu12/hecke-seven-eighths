@@ -126,6 +126,18 @@ theorem canonicalLog_right_jointLocation
         rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.plain (-firstSign))
           (CanonicalLiteralLocations.prime (-firstSign)) j := by
+  change WithLp.toLp 2
+      (firstSign * Real.log (Ideal.absNorm
+        (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val)) : ℝ),
+        -Real.log (Ideal.absNorm
+          (b.commonRightIdeal.val * (b.rightResidual i).val) : ℝ)) =
+    WithLp.toLp 2
+        (firstSign * Real.log
+          (Ideal.absNorm (power.val * b.commonRightIdeal.val) : ℝ),
+          -Real.log (Ideal.absNorm b.commonRightIdeal.val : ℝ)) +
+      rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))
+        (CanonicalLiteralLocations.plain (-firstSign))
+        (CanonicalLiteralLocations.prime (-firstSign)) j
   have he := CanonicalLiteralLocations.actual_product_locations
     (-firstSign) 0 j hplain₁ hplain₂
     (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val))
@@ -133,7 +145,8 @@ theorem canonicalLog_right_jointLocation
     (power.val * b.commonRightIdeal.val) b.commonRightIdeal.val
     (mul_ne_zero power.property.1 b.commonRightIdeal.property.1) b.commonRightIdeal.property.1
     (by rw [hideal, mul_assoc]) (by rw [hideal])
-  simpa only [neg_neg, zero_sub, neg_mul] using he
+  simp only [neg_neg, zero_sub, neg_mul] at he
+  exact he
 
 end SecondBlockProfileChart
 end HeckeSkeleton.Moments.EngineStep

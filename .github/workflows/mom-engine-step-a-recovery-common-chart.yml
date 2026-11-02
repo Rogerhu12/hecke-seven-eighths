@@ -1,0 +1,1029 @@
+name: A recovery g1 CommonLeaf and ChartLocations native verification
+
+on:
+  push:
+    branches: [cloud/mom-engine-step-a-recovery-common-chart-v2]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mom-engine-step-a-recovery-common-chart-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  common_chart:
+    name: CommonLeaf and ChartLocations normal native and fresh audit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      LEAN_NUM_THREADS: '2'
+      EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 2
+      - name: Record the exact source tree and prepare evidence-only helpers
+        shell: bash
+        run: |
+          mkdir -p a-recovery-common-chart
+          git show --no-patch --format=fuller HEAD > a-recovery-common-chart/checkout.txt
+          cat > a-recovery-common-chart/provenance.py <<'PY'
+          import hashlib, json, os, re, subprocess, sys, tomllib
+          from pathlib import Path
+
+          SOURCE_BASE = 'f4594a9c6f7ecec31e8142e46f09dac66ea1113c'
+          SOURCE_TREE = '914790850809ea13ccae8b7aaac80a67add148f6'
+          WORKFLOW = '.github/workflows/mom-engine-step-a-recovery-common-chart.yml'
+          TASK = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP'
+          TARGETS = ['CanonicalLiteralCommonLeaf', 'CanonicalLiteralChartLocations']
+          EVIDENCE = 'a-recovery-common-chart'
+          CONFIG_PINS = {'lean-toolchain': 'bc84812c94489d1e3e191baa1dc10d5eb684382d7fe9d2a5ab085e72c1c67e47',
+           'lakefile.toml': '2d4deb66cc8a08f069ce72e873ea53f0877ac8aa181a57b08676a7a73aad1af0',
+           'lake-manifest.json': 'ded459271a8b831db1213d0e0f56e84072a4743f735eb90ed1b65a571459e32c',
+           'vendor/class-field-theory/lean-toolchain': '8dc8d6f560141069d9073e370611716ef77ada0da8ffa37e2149f44b2e63ac7a',
+           'vendor/class-field-theory/lakefile.toml': '04bb109b87b6bdd3a9fb66b2aaf6d33c97dd6e642718fa944dbb6db1464706cf',
+           'vendor/class-field-theory/lake-manifest.json': 'ee22b45c98f5346f1bbd99a16305641d0571ee1244ccbff3b11c079b420d0d49',
+           'HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py': '1be80b89c66818fa20e680a6850818ed4499ddf2d7d5789a9b63398c3279c148'}
+          PINS = {'CanonicalLiteralCommonLeaf': {'original': [12656,
+                                                       '98436f7828a1b7c7314e7d44cea5f4c48add2eaf7c77c07fcef4eb8a8cc196c4',
+                                                       '96a59787490d4a2fc8d35853edffd02b7be01cda'],
+                                          'candidate': [14208,
+                                                        'b890ed1e86998f7c78d52f216b7bd407310fcffd5b3a9eaed30f07c51f6a31a0',
+                                                        '27dab1b52bff704db5e8cc223c2ad0aac8457bef'],
+                                          'original_imports': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartCoefficients',
+                                                               'HeckeSkeleton.Moments.MOM_ENGINE_STEP.ConstantCommonLeaf'],
+                                          'original_prints': ['HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.extraction',
+                                                              'HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.ordinaryBinding',
+                                                              'HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.supportedOrdinaryBinding',
+                                                              'HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.commonRows_eq_withCommonAtoms'],
+                                          'proof_scopes': ['ordinaryBinding.rightCoefficient',
+                                                           'ordinaryBinding.leftPoint.ideal_product',
+                                                           'ordinaryBinding.rightPoint.ideal_product',
+                                                           'ordinaryBinding.rightPoint.coordinates',
+                                                           'supportedOrdinaryBinding.rows',
+                                                           'supportedOrdinaryBinding.rows_zero'],
+                                          'v1_candidate': [13611,
+                                                           '0f1240b26b4b6bf356caf748dbe08a2276e83daf144c1977c2d5e816f59c4122',
+                                                           'd26a273de72f21bc908a6284bdd0273db5c67638'],
+                                          'v2_proof_scopes': ['ordinaryBinding.rightCoefficient',
+                                                              'ordinaryBinding.rightPoint endpoint alignment']},
+           'CanonicalLiteralChartLocations': {'original': [7595,
+                                                           '45d84bfb9c15e5cb9793b8283f904bd25f28eea2a4a0a18f9ba64a5bdd48dbe7',
+                                                           'df86721a0707a3f6fabde516ba827263d97054cc'],
+                                              'candidate': [8222,
+                                                            '6e84e05f89df4db4512f988af15378d1dcd681e3c336b66c0a07aad253d57e89',
+                                                            'b4ce6297b73fab61f1acad173eb67abcc4299939'],
+                                              'original_imports': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartCoefficients'],
+                                              'original_prints': ['HeckeSkeleton.Moments.EngineStep.SecondBlockProfileChart.canonicalLog_left_jointLocation',
+                                                                  'HeckeSkeleton.Moments.EngineStep.SecondBlockProfileChart.canonicalLog_right_jointLocation'],
+                                              'proof_scopes': ['canonicalLog_right_jointLocation.coordinates'],
+                                              'v1_candidate': [7848,
+                                                               '67bb1dd589faaf5baeb311e49902ddfb85935bbbfc0080325552e1e969059867',
+                                                               '09f27c4dca090367e1278ec24f034c6550be439a'],
+                                              'v2_proof_scopes': ['canonicalLog_right_jointLocation endpoint '
+                                                                  'alignment']},
+           'CanonicalLiteralTwoStages': {'original': [10160,
+                                                      'c08285a1af3b3f2d4dcaac91ec1fe48ca8d9fc52ff9f87497d1c15462d6cb6bb',
+                                                      '41597d4b05584727c5d6601073164d01451dbbbe'],
+                                         'intermediate': [10202,
+                                                          '63a2b16e383fd7b36632641cc6c4b3ebaf9ac1cf80c2e9c0c19d93b548cefe75',
+                                                          'bd3a8fb16c5d532e551921fc098430136bd22107'],
+                                         'candidate': [10221,
+                                                       '850fcbe46f3a80b175e3379d098d135d7990c78a819b0939958ae46ced373619',
+                                                       'fafe9f8db8ea768ef2e58f48ef902e476e0c966a'],
+                                         'original_imports': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralMovingTwist'],
+                                         'original_prints': ['HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.secondInput_whole',
+                                                             'HeckeSkeleton.Moments.EngineStep.CanonicalLiteralRectangles.Atoms.secondInput_gaussScale'],
+                                         'proof_scopes': ['unit_movingSingleton_arguments',
+                                                          'pool_movingSingleton_arguments',
+                                                          'first_movingSingleton_arguments',
+                                                          'twoStageNorms_firstExtracted_argument'],
+                                         'wholefile_provider': 'B2; normal cedf build/fresh process uses this '
+                                                               'exact SHA256'}}
+          EDITS = [{'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'ordinaryBinding.rightCoefficient',
+            'original_byte_offset': 7146,
+            'original_line': 143,
+            'old': '  rightCoefficient _ _ _ _ := by simp only [extraction,\n'
+                   '    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms, '
+                   'star_star]\n',
+            'new': '  rightCoefficient _ _ _ _ := by simp only [extraction,\n'
+                   '    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms,\n'
+                   '    star_star, commonRows]\n',
+            'old_sha256': '246503e27f009d94b5ec4ded458cd5dd28a0c2f716ca7fa169949cc6f74137c2',
+            'new_sha256': 'd135684d99b242c3654d60d39720407c67d44dee15f8b9830a36b9d076c33791'},
+           {'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'ordinaryBinding.leftPoint.ideal_product',
+            'original_byte_offset': 8179,
+            'original_line': 161,
+            'old': '    · rw [bL.reconstruct_literalIdeal i hm, mul_assoc]\n',
+            'new': '    · exact (congrArg (fun I : Ideal (𝓞 K) => power.val * I)\n'
+                   '        (bL.reconstruct_literalIdeal i hm)).trans\n'
+                   '          (mul_assoc power.val bL.literalExtractedIdeal (allocationColumnIdeal i)).symm\n',
+            'old_sha256': 'f9188c58e75034c49e207a87c6947f7312edd60795e54a3e7484b6bce40b2748',
+            'new_sha256': 'ce3aabe8e2012047e8a1797ba4539600fb8c2d34bf77a810cc7628fd499c8048'},
+           {'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'ordinaryBinding.rightPoint.ideal_product',
+            'original_byte_offset': 9153,
+            'original_line': 179,
+            'old': '      (by rw [bR.reconstruct_literalIdeal j hm, mul_assoc])\n',
+            'new': '      ((congrArg (fun I : Ideal (𝓞 K) => power.val * I)\n'
+                   '        (bR.reconstruct_literalIdeal j hm)).trans\n'
+                   '          (mul_assoc power.val bR.literalExtractedIdeal (allocationColumnIdeal j)).symm)\n',
+            'old_sha256': '8cc4358153b496111829400d179e36ea82dd9d9f27d29ba5bded52f911bf8823',
+            'new_sha256': 'f76eac2918b6cb800a726c88f54a10a686a4a4e23ad605fb61e44f10ddec9c99'},
+           {'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'ordinaryBinding.rightPoint.coordinates',
+            'original_byte_offset': 9213,
+            'original_line': 180,
+            'old': '      (bR.reconstruct_literalIdeal j hm)\n'
+                   '    simpa only [neg_neg, zero_sub, neg_mul] using he\n',
+            'new': '      (bR.reconstruct_literalIdeal j hm)\n'
+                   '    change WithLp.toLp 2\n'
+                   '        (-(-firstSign * Real.log\n'
+                   '          (Ideal.absNorm (power.val * allocationColumnIdeal (bR.reconstruct j)) : ℝ)),\n'
+                   '          -Real.log (Ideal.absNorm (allocationColumnIdeal (bR.reconstruct j)) : ℝ)) = _\n'
+                   '    simpa only [neg_neg, zero_sub, neg_mul] using he\n',
+            'old_sha256': 'a1c183b9114c647c71e7635ba5b24b2e7a5ff678397aeecdf3b16bad89f445a6',
+            'new_sha256': '02836f9943f88152f1dd9a542666737a8c3c814b5a63d85c80cf980c01815b1a'},
+           {'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'supportedOrdinaryBinding.rows',
+            'original_byte_offset': 10236,
+            'original_line': 198,
+            'old': '  rows h hh := (Finset.mem_filter.mp hh).1\n',
+            'new': '  rows h hh := by\n'
+                   '    letI : DecidablePred (fun a : H => R.correlation a ≠ 0) :=\n'
+                   '      fun a => Classical.propDecidable (R.correlation a ≠ 0)\n'
+                   '    exact ((Finset.mem_filter (p := fun a : H => R.correlation a ≠ 0)\n'
+                   '      (s := R.rows) (a := h)).mp hh).1\n',
+            'old_sha256': '88b7d98922e2206687b44c0bbaf90f33db87c92ef043f7547663fe5642db4f51',
+            'new_sha256': 'ce10ba841e642b2cedd14454eee60915858bbed506d8d734347250982843efc9'},
+           {'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'supportedOrdinaryBinding.rows_zero',
+            'original_byte_offset': 10279,
+            'original_line': 199,
+            'old': '  rows_zero h hh hn := by\n'
+                   '    have hc : R.correlation h = 0 := by\n'
+                   '      by_contra hc\n'
+                   '      exact hn (Finset.mem_filter.mpr ⟨hh, hc⟩)\n',
+            'new': '  rows_zero h hh hn := by\n'
+                   '    letI : DecidablePred (fun a : H => R.correlation a ≠ 0) :=\n'
+                   '      fun a => Classical.propDecidable (R.correlation a ≠ 0)\n'
+                   '    have hc : R.correlation h = 0 := by\n'
+                   '      by_contra hc\n'
+                   '      exact hn ((Finset.mem_filter (p := fun a : H => R.correlation a ≠ 0)\n'
+                   '        (s := R.rows) (a := h)).mpr ⟨hh, hc⟩)\n',
+            'old_sha256': 'b1e5aca7ee6f1c31b49b7f070aa4833135f5ca41c62517fd609ddd4b360b36b0',
+            'new_sha256': '7c58e04b0af574e284514f8ca1f36e3f4574008674efde4cc9be4c597a8f57b9'},
+           {'file': 'CanonicalLiteralChartLocations.lean',
+            'scope': 'canonicalLog_right_jointLocation.coordinates',
+            'original_byte_offset': 6768,
+            'original_line': 128,
+            'old': '          (CanonicalLiteralLocations.prime (-firstSign)) j := by\n'
+                   '  have he := CanonicalLiteralLocations.actual_product_locations\n',
+            'new': '          (CanonicalLiteralLocations.prime (-firstSign)) j := by\n'
+                   '  change WithLp.toLp 2\n'
+                   '      (firstSign * Real.log (Ideal.absNorm\n'
+                   '        (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val)) : ℝ),\n'
+                   '        -Real.log (Ideal.absNorm\n'
+                   '          (b.commonRightIdeal.val * (b.rightResidual i).val) : ℝ)) = _\n'
+                   '  have he := CanonicalLiteralLocations.actual_product_locations\n',
+            'old_sha256': 'c009f6b51c178062af27ca399321a2ea84e1da471a6224704598c324f131ed84',
+            'new_sha256': '82d68edac5494c6b5f8add331a406116b6b132073226cf3cb7d97bcc2b5aa509'},
+           {'file': 'CanonicalLiteralTwoStages.lean',
+            'scope': 'unit_movingSingleton_arguments',
+            'original_byte_offset': 6355,
+            'old': '    movingSingleton_whole _ P R hroot hemb unitFixed unitElement hunit i J hJ,\n',
+            'new': '    movingSingleton_whole (P := P) (R := R) _ hroot hemb unitFixed unitElement hunit i J '
+                   'hJ,\n',
+            'old_sha256': '264685ee3d9a1051d78844fa957e3c1c25ba91403a0ccd3f4aaa73ba02a11e6a',
+            'new_sha256': 'b658c9438ac585643543508cf6d7d9f0d132b4241cd17108dcc34077c774c2f8'},
+           {'file': 'CanonicalLiteralTwoStages.lean',
+            'scope': 'pool_movingSingleton_arguments',
+            'original_byte_offset': 6434,
+            'old': '    movingSingleton_whole _ P R hroot hemb poolFixed poolElement hpool i J hJ,\n',
+            'new': '    movingSingleton_whole (P := P) (R := R) _ hroot hemb poolFixed poolElement hpool i J '
+                   'hJ,\n',
+            'old_sha256': '5ee96768994c55d46028b9c124c8b1b98d36281c9e9218108d50e5d8261fe46e',
+            'new_sha256': 'bfbe2972c995ca65c9c66e1f2adb12923871dce319226d3c7f5069012f9a06b9'},
+           {'file': 'CanonicalLiteralTwoStages.lean',
+            'scope': 'first_movingSingleton_arguments',
+            'original_byte_offset': 6513,
+            'old': '    movingSingleton_whole _ P R hroot hemb firstFixed firstElement hfirst i J hJ,\n',
+            'new': '    movingSingleton_whole (P := P) (R := R) _ hroot hemb firstFixed firstElement hfirst i J '
+                   'hJ,\n',
+            'old_sha256': '4ebcdf5d09c15cbd60c17f64174a60518428d4fa82d7677be9a1035c471ea037',
+            'new_sha256': 'fb3e853ae3280c7cd0fdd63f8904fa3a60c16476548da8d189b96ee43807b8d1'},
+           {'file': 'CanonicalLiteralTwoStages.lean',
+            'scope': 'twoStageNorms_firstExtracted_argument',
+            'original_byte_offset': 6595,
+            'old': '    twoStageNorms_whole _ _ _ _ _ _ _ δ₁ δ₂ i hi,\n',
+            'new': '    twoStageNorms_whole (d.firstExtracted b) _ _ _ _ _ _ δ₁ δ₂ i hi,\n',
+            'old_sha256': 'f6c2aa6c8d5f2db0b91a1ef490904e39b32d65e39f506165ab6f86f9a191680a',
+            'new_sha256': '2826cce44903065b6c5e641498d62901fd80de747290c4eecca6278f7cd50681'}]
+          EXPECTED_CLOSURES = {'CanonicalLiteralCommonLeaf': ['ActualCapacityChildIntegrability',
+                                          'ActualCapacityProduction',
+                                          'ActualCapacityProfileMass',
+                                          'ActualChildInvariants',
+                                          'ActualChildMass',
+                                          'ActualChildMassBudget',
+                                          'ActualChildRows',
+                                          'ActualChildSectors',
+                                          'ActualChildren',
+                                          'ActualCommonAtomBinding',
+                                          'ActualCorrelationBound',
+                                          'ActualCorrelationSupport',
+                                          'ActualExceptionalAmplitude',
+                                          'ActualExceptionalContribution',
+                                          'ActualExceptionalRows',
+                                          'ActualFamilyIntegrability',
+                                          'ActualFiniteKernelMass',
+                                          'ActualFirstCharacters',
+                                          'ActualFirstSource',
+                                          'ActualFirstZero',
+                                          'ActualFrequencyPartition',
+                                          'ActualLengths',
+                                          'ActualMovingFrequencyFactors',
+                                          'ActualPool',
+                                          'ActualScaleClipping',
+                                          'ActualSecondSaving',
+                                          'AllocatedCapacityProvider',
+                                          'AllocatedChildFamily',
+                                          'AllocatedChildProvider',
+                                          'AllocatedSubsupport',
+                                          'AllocationKernel',
+                                          'AllocationMass',
+                                          'AllocationScalarNorm',
+                                          'AmplifierDifference',
+                                          'AmplifierGaussExtraction',
+                                          'AmplifierResidualSupport',
+                                          'AmplifierValuationSupport',
+                                          'ArithmeticPrimePool',
+                                          'CanonicalFirstBlocks',
+                                          'CanonicalFirstLogBounds',
+                                          'CanonicalFirstLogChart',
+                                          'CanonicalLiteralChartCoefficients',
+                                          'CanonicalLiteralCommonLeaf',
+                                          'CanonicalLiteralExtraction',
+                                          'CanonicalLiteralFirstPhase',
+                                          'CanonicalLiteralFixedPhases',
+                                          'CanonicalLiteralLocations',
+                                          'CanonicalLiteralMovingTwist',
+                                          'CanonicalLiteralRectangles',
+                                          'CanonicalLiteralTerms',
+                                          'CanonicalLiteralTransforms',
+                                          'CanonicalLiteralTwoStages',
+                                          'CanonicalLogOrbitalKernel',
+                                          'CanonicalLogProfiles',
+                                          'CanonicalOriginalAtomPhases',
+                                          'CanonicalOriginalChildData',
+                                          'CanonicalOriginalPhaseCalibration',
+                                          'CanonicalProfileNormalizationInput',
+                                          'CanonicalRowBallChart',
+                                          'CanonicalSecondLogChart',
+                                          'Capacity',
+                                          'CenteredAllocatedChildren',
+                                          'CharacterRecipePreservation',
+                                          'ChildAssembly',
+                                          'ChildMomentDataAdapter',
+                                          'ChildTermDictionary',
+                                          'Coefficient',
+                                          'CommonCoefficientExtraction',
+                                          'CommonHarmonicMass',
+                                          'CommonRadical',
+                                          'CommonScalarReweight',
+                                          'CommonSupportPartition',
+                                          'CompleteEngineOutput',
+                                          'CompleteMovingRowRecipe',
+                                          'CompleteOriginalArithmeticAtoms',
+                                          'CompleteRowRecipe',
+                                          'ConstantCommonLeaf',
+                                          'CoprimeCoefficient',
+                                          'CorrelationKernel',
+                                          'DerivedCapacity',
+                                          'EffectiveChildSupport',
+                                          'EmptyGaussMask',
+                                          'ExceptionalAmplitude',
+                                          'ExceptionalFrequency',
+                                          'ExceptionalRows',
+                                          'ExceptionalSourceBinding',
+                                          'ExponentialTiltSchwartz',
+                                          'FiniteEngineOutput',
+                                          'FiniteNormalizedChildren',
+                                          'FiniteNormalizedProductFamily',
+                                          'FinitePhase',
+                                          'FiniteProductGauss',
+                                          'FiniteThetaAction',
+                                          'FirstActiveDictionary',
+                                          'FirstAllowanceNormalization',
+                                          'FirstCharacterSource',
+                                          'FirstCommonGauss',
+                                          'FirstCommonMass',
+                                          'FirstCommonNormalization',
+                                          'FirstCommonSupportSource',
+                                          'FirstDivisorPhysicalSource',
+                                          'FirstDivisorPool',
+                                          'FirstFiniteSource',
+                                          'FirstGaussPool',
+                                          'FirstGaussPoolKernel',
+                                          'FirstKernel',
+                                          'FirstLinearizedSource',
+                                          'FirstPoissonColumnNormalization',
+                                          'FirstPooledResidual',
+                                          'FirstPooledStage',
+                                          'FirstResidualSource',
+                                          'FirstStage',
+                                          'FirstWeightedReduction',
+                                          'FirstZeroAmplitude',
+                                          'FirstZeroDiagonal',
+                                          'FirstZeroSupport',
+                                          'FixedChildFamily',
+                                          'FrozenScalarMass',
+                                          'GaussEnergySource',
+                                          'GaussPairTransform',
+                                          'GaussPoolDictionary',
+                                          'GaussSource',
+                                          'GaussStagePhaseTransport',
+                                          'GeneratedCorrelation',
+                                          'GeneratedZeroGauss',
+                                          'HybridFiniteLeaf',
+                                          'HybridLeafOrdinaryBinding',
+                                          'HybridNormalizedProduction',
+                                          'HybridOrdinaryProduction',
+                                          'HybridZeroRowSupport',
+                                          'IdealPool',
+                                          'JointKernel',
+                                          'JointKernelBounds',
+                                          'JointKernelExceptionalSplit',
+                                          'JointNormalizedLeaves',
+                                          'JointRowBudget',
+                                          'JointRowBudgetProduction',
+                                          'Ledger',
+                                          'LocalAmplifier',
+                                          'LocalCRT',
+                                          'LocalCorrelation',
+                                          'MomentDataAdapter',
+                                          'MovingEngineOutput',
+                                          'MovingOriginalArithmeticAtoms',
+                                          'NestedFourierMeasure',
+                                          'NestedHilbertPhase',
+                                          'NestedHybridKernel',
+                                          'NestedHybridResidual',
+                                          'NestedSecondClassProduction',
+                                          'NestedSecondResidual',
+                                          'NonzeroQuotientSupport',
+                                          'NormCompleteEngineOutput',
+                                          'NormIndependentProfiles',
+                                          'NormalizedActualCapacityChild',
+                                          'NormalizedCapacityChild',
+                                          'NormalizedChildKernel',
+                                          'NormalizedEngineOutput',
+                                          'NormalizedFamilyAtoms',
+                                          'NormalizedFamilyGeometry',
+                                          'NormalizedHybridGeometry',
+                                          'NormalizedHybridLeaves',
+                                          'NormalizedMomentProfiles',
+                                          'NormalizedOutputConditions',
+                                          'NormalizedSlotRemoval',
+                                          'OrbitalCorrelation',
+                                          'OriginalGaussScaleProduction',
+                                          'OriginalLogNormLocations',
+                                          'OriginalMovingSupportWindows',
+                                          'OriginalOrbitFibre',
+                                          'ParentArithmeticAtoms',
+                                          'ParentColumnPhaseBinding',
+                                          'ParentConstantSource',
+                                          'ParentMoment',
+                                          'ParentOrbitFibre',
+                                          'ParentOriginalAtlas',
+                                          'ParentRawSourceInput',
+                                          'ParentSource',
+                                          'ParentTruncation',
+                                          'PhaseDictionary',
+                                          'PolynomialProfileEnvelope',
+                                          'Pool',
+                                          'PoolGaussDecomposition',
+                                          'PoolSecondStage',
+                                          'PowerfulDiagonal',
+                                          'PowerfulProducts',
+                                          'PreCauchySource',
+                                          'PrimePool',
+                                          'PrimePowerGcd',
+                                          'PrimePowerQuotientSupport',
+                                          'PrimeSupportMass',
+                                          'ProfileEnvelopeNormalization',
+                                          'ProfileNormalizationInput',
+                                          'ProfileSeminormNormalization',
+                                          'RankinLabels',
+                                          'ReductionOutput',
+                                          'ResidualTupleCount',
+                                          'RowBudgetPreservation',
+                                          'SIntegerFirstFourier',
+                                          'SecondAllocatedSource',
+                                          'SecondAllocationKernel',
+                                          'SecondAllocationLabels',
+                                          'SecondAllowanceCancellation',
+                                          'SecondBranchPartition',
+                                          'SecondBranchProduction',
+                                          'SecondCenteredBinding',
+                                          'SecondChartAllocation',
+                                          'SecondClassProduction',
+                                          'SecondCoefficientBinding',
+                                          'SecondCoefficientNormalization',
+                                          'SecondCommonNormalization',
+                                          'SecondCommonSource',
+                                          'SecondCorrelationSource',
+                                          'SecondExceptionalPartition',
+                                          'SecondFactorHybridBridge',
+                                          'SecondFactorIdentification',
+                                          'SecondGeneratorSource',
+                                          'SecondHybridAllocation',
+                                          'SecondHybridChart',
+                                          'SecondHybridSource',
+                                          'SecondResidualSource',
+                                          'SecondRowPartition',
+                                          'SecondSourceNormalization',
+                                          'SecondStage',
+                                          'SecondTailBudget',
+                                          'SecondZeroAmplitude',
+                                          'SecondZeroDiagonal',
+                                          'SecondZeroSupport',
+                                          'SlotCompleteEngineOutput',
+                                          'SlotMeshPreservation',
+                                          'SlotRestriction',
+                                          'SourceCartesianAtlas',
+                                          'SourceFactorExtraction',
+                                          'SupportCartesianReindex',
+                                          'SupportKernelPartition',
+                                          'SupportSourceExtraction',
+                                          'TailBudget',
+                                          'TailFiberCount',
+                                          'UniformLengthCapacity',
+                                          'ValuationAllocation',
+                                          'WeightedNestedFourierMeasure',
+                                          'WholeAllocation'],
+           'CanonicalLiteralChartLocations': ['ActualCapacityChildIntegrability',
+                                              'ActualCapacityProduction',
+                                              'ActualCapacityProfileMass',
+                                              'ActualChildInvariants',
+                                              'ActualChildMass',
+                                              'ActualChildMassBudget',
+                                              'ActualChildRows',
+                                              'ActualChildSectors',
+                                              'ActualChildren',
+                                              'ActualCorrelationBound',
+                                              'ActualCorrelationSupport',
+                                              'ActualExceptionalAmplitude',
+                                              'ActualExceptionalContribution',
+                                              'ActualExceptionalRows',
+                                              'ActualFamilyIntegrability',
+                                              'ActualFiniteKernelMass',
+                                              'ActualFirstCharacters',
+                                              'ActualFirstSource',
+                                              'ActualFirstZero',
+                                              'ActualFrequencyPartition',
+                                              'ActualLengths',
+                                              'ActualMovingFrequencyFactors',
+                                              'ActualPool',
+                                              'ActualScaleClipping',
+                                              'ActualSecondSaving',
+                                              'AllocatedCapacityProvider',
+                                              'AllocatedChildFamily',
+                                              'AllocatedChildProvider',
+                                              'AllocatedSubsupport',
+                                              'AllocationKernel',
+                                              'AllocationMass',
+                                              'AllocationScalarNorm',
+                                              'AmplifierDifference',
+                                              'AmplifierGaussExtraction',
+                                              'AmplifierResidualSupport',
+                                              'AmplifierValuationSupport',
+                                              'ArithmeticPrimePool',
+                                              'CanonicalFirstBlocks',
+                                              'CanonicalFirstLogBounds',
+                                              'CanonicalFirstLogChart',
+                                              'CanonicalLiteralChartCoefficients',
+                                              'CanonicalLiteralChartLocations',
+                                              'CanonicalLiteralExtraction',
+                                              'CanonicalLiteralFirstPhase',
+                                              'CanonicalLiteralFixedPhases',
+                                              'CanonicalLiteralLocations',
+                                              'CanonicalLiteralMovingTwist',
+                                              'CanonicalLiteralRectangles',
+                                              'CanonicalLiteralTerms',
+                                              'CanonicalLiteralTransforms',
+                                              'CanonicalLiteralTwoStages',
+                                              'CanonicalLogOrbitalKernel',
+                                              'CanonicalLogProfiles',
+                                              'CanonicalOriginalAtomPhases',
+                                              'CanonicalOriginalChildData',
+                                              'CanonicalOriginalPhaseCalibration',
+                                              'CanonicalProfileNormalizationInput',
+                                              'CanonicalRowBallChart',
+                                              'CanonicalSecondLogChart',
+                                              'Capacity',
+                                              'CenteredAllocatedChildren',
+                                              'CharacterRecipePreservation',
+                                              'ChildAssembly',
+                                              'ChildMomentDataAdapter',
+                                              'ChildTermDictionary',
+                                              'Coefficient',
+                                              'CommonCoefficientExtraction',
+                                              'CommonHarmonicMass',
+                                              'CommonRadical',
+                                              'CommonScalarReweight',
+                                              'CommonSupportPartition',
+                                              'CompleteEngineOutput',
+                                              'CompleteMovingRowRecipe',
+                                              'CompleteOriginalArithmeticAtoms',
+                                              'CompleteRowRecipe',
+                                              'CoprimeCoefficient',
+                                              'CorrelationKernel',
+                                              'DerivedCapacity',
+                                              'EffectiveChildSupport',
+                                              'EmptyGaussMask',
+                                              'ExceptionalAmplitude',
+                                              'ExceptionalFrequency',
+                                              'ExceptionalRows',
+                                              'ExceptionalSourceBinding',
+                                              'ExponentialTiltSchwartz',
+                                              'FiniteEngineOutput',
+                                              'FiniteNormalizedChildren',
+                                              'FiniteNormalizedProductFamily',
+                                              'FinitePhase',
+                                              'FiniteProductGauss',
+                                              'FiniteThetaAction',
+                                              'FirstActiveDictionary',
+                                              'FirstAllowanceNormalization',
+                                              'FirstCharacterSource',
+                                              'FirstCommonGauss',
+                                              'FirstCommonMass',
+                                              'FirstCommonNormalization',
+                                              'FirstCommonSupportSource',
+                                              'FirstDivisorPhysicalSource',
+                                              'FirstDivisorPool',
+                                              'FirstFiniteSource',
+                                              'FirstGaussPool',
+                                              'FirstGaussPoolKernel',
+                                              'FirstKernel',
+                                              'FirstLinearizedSource',
+                                              'FirstPoissonColumnNormalization',
+                                              'FirstPooledResidual',
+                                              'FirstPooledStage',
+                                              'FirstResidualSource',
+                                              'FirstStage',
+                                              'FirstWeightedReduction',
+                                              'FirstZeroAmplitude',
+                                              'FirstZeroDiagonal',
+                                              'FirstZeroSupport',
+                                              'FixedChildFamily',
+                                              'FrozenScalarMass',
+                                              'GaussEnergySource',
+                                              'GaussPairTransform',
+                                              'GaussPoolDictionary',
+                                              'GaussSource',
+                                              'GaussStagePhaseTransport',
+                                              'GeneratedCorrelation',
+                                              'GeneratedZeroGauss',
+                                              'HybridFiniteLeaf',
+                                              'HybridLeafOrdinaryBinding',
+                                              'HybridNormalizedProduction',
+                                              'HybridOrdinaryProduction',
+                                              'HybridZeroRowSupport',
+                                              'IdealPool',
+                                              'JointKernel',
+                                              'JointKernelBounds',
+                                              'JointKernelExceptionalSplit',
+                                              'JointNormalizedLeaves',
+                                              'JointRowBudget',
+                                              'JointRowBudgetProduction',
+                                              'Ledger',
+                                              'LocalAmplifier',
+                                              'LocalCRT',
+                                              'LocalCorrelation',
+                                              'MomentDataAdapter',
+                                              'MovingEngineOutput',
+                                              'MovingOriginalArithmeticAtoms',
+                                              'NestedFourierMeasure',
+                                              'NestedHilbertPhase',
+                                              'NestedHybridKernel',
+                                              'NestedHybridResidual',
+                                              'NestedSecondClassProduction',
+                                              'NestedSecondResidual',
+                                              'NonzeroQuotientSupport',
+                                              'NormCompleteEngineOutput',
+                                              'NormIndependentProfiles',
+                                              'NormalizedActualCapacityChild',
+                                              'NormalizedCapacityChild',
+                                              'NormalizedChildKernel',
+                                              'NormalizedEngineOutput',
+                                              'NormalizedFamilyAtoms',
+                                              'NormalizedFamilyGeometry',
+                                              'NormalizedHybridGeometry',
+                                              'NormalizedHybridLeaves',
+                                              'NormalizedMomentProfiles',
+                                              'NormalizedOutputConditions',
+                                              'NormalizedSlotRemoval',
+                                              'OrbitalCorrelation',
+                                              'OriginalGaussScaleProduction',
+                                              'OriginalLogNormLocations',
+                                              'OriginalMovingSupportWindows',
+                                              'OriginalOrbitFibre',
+                                              'ParentArithmeticAtoms',
+                                              'ParentColumnPhaseBinding',
+                                              'ParentConstantSource',
+                                              'ParentMoment',
+                                              'ParentOrbitFibre',
+                                              'ParentOriginalAtlas',
+                                              'ParentRawSourceInput',
+                                              'ParentSource',
+                                              'ParentTruncation',
+                                              'PhaseDictionary',
+                                              'PolynomialProfileEnvelope',
+                                              'Pool',
+                                              'PoolGaussDecomposition',
+                                              'PoolSecondStage',
+                                              'PowerfulDiagonal',
+                                              'PowerfulProducts',
+                                              'PreCauchySource',
+                                              'PrimePool',
+                                              'PrimePowerGcd',
+                                              'PrimePowerQuotientSupport',
+                                              'PrimeSupportMass',
+                                              'ProfileEnvelopeNormalization',
+                                              'ProfileNormalizationInput',
+                                              'ProfileSeminormNormalization',
+                                              'RankinLabels',
+                                              'ReductionOutput',
+                                              'ResidualTupleCount',
+                                              'RowBudgetPreservation',
+                                              'SIntegerFirstFourier',
+                                              'SecondAllocatedSource',
+                                              'SecondAllocationKernel',
+                                              'SecondAllocationLabels',
+                                              'SecondAllowanceCancellation',
+                                              'SecondBranchPartition',
+                                              'SecondBranchProduction',
+                                              'SecondCenteredBinding',
+                                              'SecondChartAllocation',
+                                              'SecondClassProduction',
+                                              'SecondCoefficientBinding',
+                                              'SecondCoefficientNormalization',
+                                              'SecondCommonNormalization',
+                                              'SecondCommonSource',
+                                              'SecondCorrelationSource',
+                                              'SecondExceptionalPartition',
+                                              'SecondFactorHybridBridge',
+                                              'SecondFactorIdentification',
+                                              'SecondGeneratorSource',
+                                              'SecondHybridAllocation',
+                                              'SecondHybridChart',
+                                              'SecondHybridSource',
+                                              'SecondResidualSource',
+                                              'SecondRowPartition',
+                                              'SecondSourceNormalization',
+                                              'SecondStage',
+                                              'SecondTailBudget',
+                                              'SecondZeroAmplitude',
+                                              'SecondZeroDiagonal',
+                                              'SecondZeroSupport',
+                                              'SlotCompleteEngineOutput',
+                                              'SlotMeshPreservation',
+                                              'SlotRestriction',
+                                              'SourceCartesianAtlas',
+                                              'SourceFactorExtraction',
+                                              'SupportCartesianReindex',
+                                              'SupportKernelPartition',
+                                              'SupportSourceExtraction',
+                                              'TailBudget',
+                                              'TailFiberCount',
+                                              'UniformLengthCapacity',
+                                              'ValuationAllocation',
+                                              'WeightedNestedFourierMeasure',
+                                              'WholeAllocation']}
+          EXCLUDED_KNOWN_ROOTS = ['CanonicalLiteralProfileData',
+           'CanonicalLiteralSourceCoefficients',
+           'CanonicalOriginalGaussTuples',
+           'FirstBlockFiniteLeaves',
+           'DualPoolFiniteLeaves',
+           'DirectParentLeaves']
+          V2_EDITS = [{'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'ordinaryBinding.rightCoefficient',
+            'old': '  rightCoefficient _ _ _ _ := by simp only [extraction,\n'
+                   '    ActualHybridLeaf.ConstantAtomExtraction.leaf, ActualHybridLeaf.withConstantAtoms,\n'
+                   '    star_star, commonRows]\n',
+            'new': '  rightCoefficient h _ j _ := by\n'
+                   '    change star (star (secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}\n'
+                   '        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 (right.extract bR).whole h j)) =\n'
+                   '      secondAllocatedRightCoefficient (A := A) (σ := σ) PUnit.{1}\n'
+                   '        IR R.frequency (fun _ => PUnit.unit) b.val.2.1 (right.extract bR).whole h j\n'
+                   '    exact star_star _\n',
+            'original_byte_offset': 7146,
+            'original_line': 143,
+            'old_sha256': 'd135684d99b242c3654d60d39720407c67d44dee15f8b9830a36b9d076c33791',
+            'new_sha256': 'cf3079ef53378fb383b273c41a8d2b61d2d99eb45c875d6725039b7e0152832f'},
+           {'file': 'CanonicalLiteralCommonLeaf.lean',
+            'scope': 'ordinaryBinding.rightPoint endpoint alignment',
+            'old': '    change WithLp.toLp 2\n'
+                   '        (-(-firstSign * Real.log\n'
+                   '          (Ideal.absNorm (power.val * allocationColumnIdeal (bR.reconstruct j)) : ℝ)),\n'
+                   '          -Real.log (Ideal.absNorm (allocationColumnIdeal (bR.reconstruct j)) : ℝ)) = _\n'
+                   '    simpa only [neg_neg, zero_sub, neg_mul] using he\n',
+            'new': '    change WithLp.toLp 2\n'
+                   '        (-(-firstSign * Real.log\n'
+                   '          (Ideal.absNorm (power.val * allocationColumnIdeal (bR.reconstruct j)) : ℝ)),\n'
+                   '          -Real.log (Ideal.absNorm (allocationColumnIdeal (bR.reconstruct j)) : ℝ)) =\n'
+                   '      WithLp.toLp 2\n'
+                   '          (firstSign * Real.log (Ideal.absNorm (power.val * bR.literalExtractedIdeal) : ℝ),\n'
+                   '            -Real.log (Ideal.absNorm bR.literalExtractedIdeal : ℝ)) +\n'
+                   '        rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))\n'
+                   '          (CanonicalLiteralLocations.plain (-firstSign))\n'
+                   '          (CanonicalLiteralLocations.prime (-firstSign)) j\n'
+                   '    simp only [neg_neg, zero_sub, neg_mul] at he ⊢\n'
+                   '    exact he\n',
+            'original_byte_offset': 9555,
+            'original_line': 186,
+            'old_sha256': '3771223f01d0333660b6ec1278f9e1b03587342abfbb4979eeec42fa975215e3',
+            'new_sha256': 'e774df2567a615415d92a02ecde6d9c88f7a9b382e7292498ef3166641036705'},
+           {'file': 'CanonicalLiteralChartLocations.lean',
+            'scope': 'canonicalLog_right_jointLocation endpoint alignment',
+            'old': '  change WithLp.toLp 2\n'
+                   '      (firstSign * Real.log (Ideal.absNorm\n'
+                   '        (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val)) : ℝ),\n'
+                   '        -Real.log (Ideal.absNorm\n'
+                   '          (b.commonRightIdeal.val * (b.rightResidual i).val) : ℝ)) = _\n'
+                   '  have he := CanonicalLiteralLocations.actual_product_locations\n'
+                   '    (-firstSign) 0 j hplain₁ hplain₂\n'
+                   '    (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val))\n'
+                   '    (b.commonRightIdeal.val * (b.rightResidual i).val)\n'
+                   '    (power.val * b.commonRightIdeal.val) b.commonRightIdeal.val\n'
+                   '    (mul_ne_zero power.property.1 b.commonRightIdeal.property.1) '
+                   'b.commonRightIdeal.property.1\n'
+                   '    (by rw [hideal, mul_assoc]) (by rw [hideal])\n'
+                   '  simpa only [neg_neg, zero_sub, neg_mul] using he\n',
+            'new': '  change WithLp.toLp 2\n'
+                   '      (firstSign * Real.log (Ideal.absNorm\n'
+                   '        (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val)) : ℝ),\n'
+                   '        -Real.log (Ideal.absNorm\n'
+                   '          (b.commonRightIdeal.val * (b.rightResidual i).val) : ℝ)) =\n'
+                   '    WithLp.toLp 2\n'
+                   '        (firstSign * Real.log\n'
+                   '          (Ideal.absNorm (power.val * b.commonRightIdeal.val) : ℝ),\n'
+                   '          -Real.log (Ideal.absNorm b.commonRightIdeal.val : ℝ)) +\n'
+                   '      rawSourceLocation (CanonicalLiteralLocations.plain (-firstSign))\n'
+                   '        (CanonicalLiteralLocations.plain (-firstSign))\n'
+                   '        (CanonicalLiteralLocations.prime (-firstSign)) j\n'
+                   '  have he := CanonicalLiteralLocations.actual_product_locations\n'
+                   '    (-firstSign) 0 j hplain₁ hplain₂\n'
+                   '    (power.val * (b.commonRightIdeal.val * (b.rightResidual i).val))\n'
+                   '    (b.commonRightIdeal.val * (b.rightResidual i).val)\n'
+                   '    (power.val * b.commonRightIdeal.val) b.commonRightIdeal.val\n'
+                   '    (mul_ne_zero power.property.1 b.commonRightIdeal.property.1) '
+                   'b.commonRightIdeal.property.1\n'
+                   '    (by rw [hideal, mul_assoc]) (by rw [hideal])\n'
+                   '  simp only [neg_neg, zero_sub, neg_mul] at he\n'
+                   '  exact he\n',
+            'original_byte_offset': 6833,
+            'original_line': 129,
+            'old_sha256': 'cde840cd1283c20fc169ee7f48b95e49c4e36ab99a4813d91124fe93806785f9',
+            'new_sha256': '9c3bb915bd3109efc7f3f42f6462401cf617997dc6b320aa14f6f5a4bf12e3fb'}]
+
+          def git(root, *args):
+              return subprocess.check_output(['git', *args], cwd=root, text=True).strip()
+
+          def sha(data):
+              return hashlib.sha256(data).hexdigest()
+
+          def identity(data):
+              return [len(data), sha(data), hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()]
+
+          def one_replace(data, old, new):
+              assert data.count(old) == 1, 'Original proof edit anchor is not unique'
+              return data.replace(old, new, 1)
+
+          def validate_source_bytes(stem, original, current):
+              pin = PINS[stem]
+              assert identity(original) == pin['original'], 'Unexpected direct-parent source: ' + stem
+              assert identity(current) == pin['candidate'], 'Unexpected complete proof candidate: ' + stem
+              edits = [x for x in EDITS if x['file'] == stem + '.lean']
+              expected = original
+              for edit in edits:
+                  old, new = edit['old'].encode(), edit['new'].encode()
+                  offset = edit['original_byte_offset']
+                  assert original[offset:offset + len(old)] == old
+                  assert sha(old) == edit['old_sha256'] and sha(new) == edit['new_sha256']
+                  expected = one_replace(expected, old, new)
+              v1 = expected
+              v2_edits = [x for x in V2_EDITS if x['file'] == stem + '.lean']
+              if v2_edits:
+                  assert identity(v1) == pin['v1_candidate'], 'The first seven target repairs must reproduce frozen v1 exactly'
+                  for edit in v2_edits:
+                      old, new = edit['old'].encode(), edit['new'].encode()
+                      offset = edit['original_byte_offset']
+                      assert v1[offset:offset + len(old)] == old, 'V2 anchors refer to v1, never to the owner source'
+                      assert sha(old) == edit['old_sha256'] and sha(new) == edit['new_sha256']
+                      expected = one_replace(expected, old, new)
+                  for order in [v2_edits, list(reversed(v2_edits))]:
+                      recovered = current
+                      for edit in order:
+                          recovered = one_replace(recovered, edit['new'].encode(), edit['old'].encode())
+                      assert recovered == v1, 'V2 inverse must recover the complete frozen v1 source'
+              assert expected == current, 'The complete source must match the first-stage repairs followed by exactly three v2 proof edits'
+              if stem == 'CanonicalLiteralTwoStages':
+                  intermediate = original
+                  for edit in edits[:3]:
+                      intermediate = one_replace(intermediate, edit['old'].encode(), edit['new'].encode())
+                  assert identity(intermediate) == pin['intermediate']
+                  assert len(intermediate) - len(original) == 42 and len(current) - len(intermediate) == 19
+              for order in [edits, list(reversed(edits))]:
+                  recovered = v1
+                  for edit in order:
+                      recovered = one_replace(recovered, edit['new'].encode(), edit['old'].encode())
+                  assert recovered == original, 'Proof-only inverse must recover the exact owner bytes'
+              for pattern, key in [(rb'^import (.+)$', 'original_imports'), (rb'^#print axioms (.+)$', 'original_prints')]:
+                  before = [x.decode() for x in re.findall(pattern, original, re.M)]
+                  after = [x.decode() for x in re.findall(pattern, current, re.M)]
+                  assert before == after == pin[key], 'Original imports or print targets changed'
+              assert re.findall(rb'^set_option\b.*$', original, re.M) == re.findall(rb'^set_option\b.*$', current, re.M)
+              return {'original': pin['original'], 'candidate': pin['candidate'],
+                      'exact_forward_and_two_inverse_orders': True, 'proof_scopes': pin['proof_scopes'],
+                      'v1_candidate': identity(v1), 'v2_proof_scopes': pin.get('v2_proof_scopes', []),
+                      'repair_sequence': 'owner-to-v1 then v1-to-v2' if v2_edits else 'unchanged B2 two-stage dependency repair',
+                      'original_imports': pin['original_imports'], 'original_prints': pin['original_prints']}
+
+          def validate_source_files(root):
+              result = {}
+              for stem in PINS:
+                  path = TASK + '/' + stem + '.lean'
+                  original = subprocess.check_output(['git', 'show', SOURCE_BASE + ':' + path], cwd=root)
+                  assert git(root, 'rev-parse', SOURCE_BASE + ':' + path) == PINS[stem]['original'][2]
+                  result[path] = validate_source_bytes(stem, original, (root / path).read_bytes())
+              return result
+
+          def validate_inventory_bytes(source_bytes, config_bytes):
+              sources = sorted(source_bytes)
+              config = {p: sha(config_bytes[p]) for p in CONFIG_PINS}
+              assert config == CONFIG_PINS, 'Fixed verifier or configuration changed'
+              assert config_bytes['lean-toolchain'].decode().strip() == 'leanprover/lean4:v4.35.0-rc3'
+              lake = tomllib.loads(config_bytes['lakefile.toml'].decode())
+              assert lake['weakLeanArgs'] == ['-j2']
+              assert lake['leanOptions'] == {'autoImplicit': False, 'relaxedAutoImplicit': False}
+              mathlib = [p for p in json.loads(config_bytes['lake-manifest.json'])['packages'] if p['name'] == 'mathlib']
+              assert len(mathlib) == 1 and mathlib[0]['rev'] == '0493595ecd5da8ef14742febab99728f98e948e8'
+              imports = sorted(set(re.findall(r'^import (HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.\S+)$', source_bytes[TASK + '/Interface.lean'].decode(), re.M)))
+              libraries = [x['name'] for x in lake['lean_lib']]
+              assert len(sources) == 1009 and len(imports) == 1008 and len(libraries) == 20
+              graph = {Path(p).stem: re.findall(r'^import HeckeSkeleton\.Moments\.MOM_ENGINE_STEP\.([A-Za-z_0-9]+)\s*$', source_bytes[p].decode(), re.M) for p in sources}
+              closures = {}
+              for target in TARGETS:
+                  closure, pending = set(), [target]
+                  while pending:
+                      name = pending.pop()
+                      if name in closure:
+                          continue
+                      assert name in graph, 'Missing STEP import: ' + name
+                      closure.add(name)
+                      pending.extend(graph[name])
+                  closures[target] = sorted(closure)
+              assert closures == EXPECTED_CLOSURES, 'The two original import closures changed'
+              union = sorted(set().union(*[set(c) for c in closures.values()]))
+              assert not set(EXCLUDED_KNOWN_ROOTS).intersection(union)
+              return {'task_source_sha256': {p: sha(source_bytes[p]) for p in sources},
+                      'config_sha256': config, 'interface_imports': imports, 'libraries': libraries,
+                      'target_STEP_import_closures': closures, 'combined_STEP_import_closure': union,
+                      'excluded_known_roots': EXCLUDED_KNOWN_ROOTS}
+
+          def main():
+              root = Path.cwd()
+              evidence = root / EVIDENCE
+              phase = sys.argv[1]
+              assert phase in ['before', 'after']
+              assert git(root, 'rev-parse', SOURCE_BASE + '^{tree}') == SOURCE_TREE
+              parents = git(root, 'rev-list', '--parents', '-n', '1', 'HEAD').split()[1:]
+              assert parents == [SOURCE_BASE], 'Auxiliary commit must have the exact single owner parent'
+              expected_sources = sorted(TASK + '/' + stem + '.lean' for stem in PINS)
+              changed = git(root, 'diff', '--no-renames', '--name-only', SOURCE_BASE, 'HEAD').splitlines()
+              assert changed == sorted([WORKFLOW, *expected_sources]), 'Only two complete proof candidates, the B2 dependency and the new workflow may change'
+              statuses = git(root, 'diff', '--no-renames', '--name-status', SOURCE_BASE, 'HEAD').splitlines()
+              assert statuses == sorted(['A\t' + WORKFLOW, *('M\t' + p for p in expected_sources)])
+              source_identity = validate_source_files(root)
+              source_bytes = {str(p.relative_to(root)): p.read_bytes() for p in (root / TASK).glob('*.lean')}
+              config_bytes = {p: (root / p).read_bytes() for p in CONFIG_PINS}
+              inventory = validate_inventory_bytes(source_bytes, config_bytes)
+              assert os.environ['LEAN_NUM_THREADS'] == '2'
+              tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=root).decode().split('\0')[:-1]
+              record = {'stage': 'Two complete g1 modules: seven v1 plus three v2 target proof repairs; normal native and fresh audit',
+                        'source_base': SOURCE_BASE, 'source_base_tree': SOURCE_TREE, 'parents': parents,
+                        'complete_proof_candidates': source_identity,
+                        'target_modules': ['HeckeSkeleton.Moments.MOM_ENGINE_STEP.' + x for x in TARGETS],
+                        'original_target_prints': {x: PINS[x]['original_prints'] for x in TARGETS},
+                        'full_task_acceptance': False, 'changed_paths_from_base': changed,
+                        'head': git(root, 'rev-parse', 'HEAD'), 'tree': git(root, 'rev-parse', 'HEAD^{tree}'),
+                        'expected_head': os.environ['EXPECTED_SHA'],
+                        'tracked_status': git(root, 'status', '--porcelain=v1', '--untracked-files=no'),
+                        'tracked_sha256': {p: sha((root / p).read_bytes()) for p in tracked}, **inventory}
+              (evidence / (phase + '-source.json')).write_text(json.dumps(record, indent=2) + '\n')
+              assert record['head'] == record['expected_head'], 'Unexpected checkout SHA'
+              assert not record['tracked_status'], 'Tracked source changes detected'
+              if phase == 'after':
+                  before = json.loads((evidence / 'before-source.json').read_text())
+                  assert before == record, 'Source, configuration, inventories or HEAD changed'
+                  (evidence / 'source-integrity.json').write_text(json.dumps({
+                      'unchanged': True, 'head': record['head'], 'tree': record['tree'],
+                      'tracked_files': len(tracked), 'task_modules': len(inventory['task_source_sha256']),
+                      'interface_imports': len(inventory['interface_imports']),
+                      'libraries': len(inventory['libraries'])}, indent=2) + '\n')
+              print(f'{phase}: {record["head"]} tree={record["tree"]}; {len(tracked)} tracked files, 1009 task modules, 20 libraries')
+
+          if __name__ == '__main__':
+              main()
+          PY
+          cat > a-recovery-common-chart/run.py <<'PY'
+          import datetime, json, re, subprocess, sys, time
+          from pathlib import Path
+          name, seconds, *command = sys.argv[1:]
+          evidence = Path('a-recovery-common-chart')
+          wrapper = ['timeout', '--signal=TERM', '--kill-after=30s', seconds + 's', *command]
+          record = {'command': command, 'wrapper': wrapper, 'completed': False,
+                    'started_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          receipt = evidence / (name + '-result.json')
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          start = time.monotonic()
+          compact = name == 'dependencies'
+          show_block = not compact
+          with (evidence / (name + '-console.log')).open('w') as log:
+              process = subprocess.Popen(wrapper, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+              for line in process.stdout:
+                  log.write(line)
+                  log.flush()
+                  if compact:
+                      clean = re.sub(r'\x1b\[[0-9;]*m', '', line)
+                      if re.match(r'^[✔✖⚠ℹ]\s+\[\d+/\d+\]', clean):
+                          show_block = 'HeckeSkeleton.Moments.MOM_ENGINE_STEP' in clean or clean.startswith('✖')
+                      elif re.match(r'^(error|warning|info):', clean):
+                          show_block = 'HeckeSkeleton/Moments/MOM_ENGINE_STEP/' in clean or clean.startswith('error:')
+                      elif clean.startswith('Some required targets logged failures:'):
+                          show_block = True
+                  if show_block:
+                      print(line, end='', flush=True)
+              code = process.wait()
+          record.update(completed=True, exit_code=code, elapsed_seconds=time.monotonic() - start,
+                        finished_at=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          receipt.write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record), flush=True)
+          sys.exit(code if code >= 0 else 128 - code)
+          PY
+          python3 a-recovery-common-chart/provenance.py before
+      - name: Provide enough memory mappings for the full legacy import closure
+        run: |
+          MOM_MAP_LIMIT=$(sysctl -n vm.max_map_count)
+          if [ "$MOM_MAP_LIMIT" -lt 262144 ]; then
+            sudo sysctl -w vm.max_map_count=262144
+          fi
+          sysctl vm.max_map_count > a-recovery-common-chart/memory-mapping.txt
+      - uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        with:
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Restore precompiled project artifacts
+        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@dtests-handoff
+      - name: Build both original import closures together
+        id: dependencies
+        run: |
+          python3 -u a-recovery-common-chart/run.py dependencies 1200 \
+            lake build +HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCommonLeaf:deps \
+            +HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartLocations:deps
+      - name: Compile both complete original modules and freshly audit every loaded task declaration
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: |
+          python3 -u a-recovery-common-chart/run.py verification 1200 \
+            python3 -u HeckeSkeleton/Moments/MOM_ENGINE_STEP/verify.py \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralCommonLeaf \
+            HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralChartLocations \
+            --namespace HeckeSkeleton.Moments.EngineStep \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.extraction \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.ordinaryBinding \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.supportedOrdinaryBinding \
+            --declaration HeckeSkeleton.Moments.EngineStep.CanonicalLiteralCommonLeaf.commonRows_eq_withCommonAtoms \
+            --declaration HeckeSkeleton.Moments.EngineStep.SecondBlockProfileChart.canonicalLog_left_jointLocation \
+            --declaration HeckeSkeleton.Moments.EngineStep.SecondBlockProfileChart.canonicalLog_right_jointLocation \
+            --evidence a-recovery-common-chart/verify
+      - name: Check all tracked sources and configuration again
+        if: always()
+        run: python3 a-recovery-common-chart/provenance.py after
+      - name: Preserve original compiler logs, timings, source hashes and fresh axiom audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a-recovery-common-chart-native-${{ github.sha }}-${{ github.run_attempt }}
+          path: a-recovery-common-chart/
+          if-no-files-found: error
+          retention-days: 14
