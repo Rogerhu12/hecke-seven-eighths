@@ -125,3 +125,12 @@ prefix while preserving exact uniqueness and complete wrapper boundaries. This
 only adapts temporary checkpoint placement to the new canonical source spelling.
 This branch probes RawContracts; N7 probes OrdinaryData. Temporary instrumented
 source output is diagnostic only and cannot replace the canonical build or axiom audit.
+
+## Task CI routing from dtests-handoff
+
+Coordinator comment `6580209603` and dtests-handoff commit
+`996cb49685a51cf789ea962af9f725b02dc363c7` exclude `cloud/mom-v2-*` task
+branches from the whole-project workflow, reserving it for final V2 integration.
+This branch consumes that exact prefix condition while retaining B's existing
+draft/manual integration routing. Both V2 gates, all 94 targets, required
+endpoints and complete recursive axiom audits remain unchanged.
