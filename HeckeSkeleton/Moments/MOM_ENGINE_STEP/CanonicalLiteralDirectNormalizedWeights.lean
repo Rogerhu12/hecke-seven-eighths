@@ -309,15 +309,13 @@ def literalLeftDirectNormalizationWeight :=
     (literalLeftDirectRecipe hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
   have hbaseL : (v.literalLeftAtoms leftAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (leftAtoms).base = Z
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hbaseR : (v.literalRightAtoms rightAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (rightAtoms).base = Z
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hcorr : Q.correction ∈ (data ξ).theta := by
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
@@ -340,11 +338,13 @@ def literalLeftDirectNormalizationWeight :=
   have htotal : a.n₁ + a.n₂ + (data ξ).geometry.totalLength = a.n₁ + a.n₂ + a.z := by
     rw [domain.total_length]
   have hcenteredL : (leftAtoms).centered = centered := by
-    simp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (leftAtoms).centered = centered
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcenteredR : (rightAtoms).centered = centered := by
-    simp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (rightAtoms).centered = centered
+    dsimp only [literalLeftDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   fun analyticLeft analyticRight hanalyticLeft hanalyticRight =>
   v.literalNormalizationData_allowance_from_original_atoms
     (P := P) (Rchar := R) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
@@ -575,15 +575,13 @@ def literalRightDirectNormalizationWeight :=
     (literalRightDirectRecipe hΓ μv ν Q ξ W a Z t Y₁ Y₂ centered hZ hY₁ hY₂
       b C φ finiteTest hlc hcs radius D δ₁ hδ₁ hδ₁half p S χ firstFixed hfirst δ₂ v.2.2.2.1)
   have hbaseL : (v.literalLeftAtoms leftAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalLeftAtoms,
-      ActualGaussStage.CoveredClassKey.literalLeftOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (leftAtoms).base = Z
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hbaseR : (v.literalRightAtoms rightAtoms).base = Z := by
-    simp only [ActualGaussStage.CoveredClassKey.literalRightAtoms,
-      ActualGaussStage.CoveredClassKey.literalRightOriginal,
-      literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_base_eq] <;> rfl
+    change (rightAtoms).base = Z
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_base_eq _ _ _).trans (by rfl)
   have hcorr : Q.correction ∈ (data ξ).theta := by
     rcases Q.correction_mem ξ with hc | hc
     · simpa only [hc] using hone
@@ -606,11 +604,13 @@ def literalRightDirectNormalizationWeight :=
   have htotal : a.n₁ + a.n₂ + (data ξ).geometry.totalLength = a.n₁ + a.n₂ + a.z := by
     rw [domain.total_length]
   have hcenteredL : (leftAtoms).centered = centered := by
-    simp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (leftAtoms).centered = centered
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   have hcenteredR : (rightAtoms).centered = centered := by
-    simp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask,
-      CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq] <;> rfl
+    change (rightAtoms).centered = centered
+    dsimp only [literalRightDirectAtoms, CanonicalLiteralRectangles.Atoms.deleteMask]
+    exact (CanonicalLiteralRectangles.Atoms.onAtlas_centered_eq _ _ _).trans (by rfl)
   fun analyticLeft analyticRight hanalyticLeft hanalyticRight =>
   v.literalNormalizationData_allowance_from_original_atoms
     (P := P) (Rchar := R) (δ₂ := δ₂) (hδ₂ := hδ₂) (hδ₂half := hδ₂half)
