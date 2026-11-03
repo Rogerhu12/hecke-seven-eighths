@@ -143,7 +143,9 @@ theorem outerArithmeticWeight_le (input : ProfileInput call)
       orbitalFieldFactor K * call.base ^ (2 * N8Source.columnExponent c * p.tilt) *
         trace.expansion.indexPrefactor i * packet.second.physical.firstCommonFactor := by
     change (trace.second.source i).physical.outerWeight *
-      call.base ^ (trace.second.source i).physical.firstLedgerExponent ≤ _
+      call.base ^ (trace.second.source i).physical.firstLedgerExponent ≤
+        orbitalFieldFactor K * call.base ^ (2 * N8Source.columnExponent c * p.tilt) *
+          trace.expansion.indexPrefactor i * (trace.second.source i).physical.firstCommonFactor
     rw [htrace.second.physical i]
     exact trace.expansion.first_ledger_le input large htrace.first htrace.cauchy
       htrace.expansion i

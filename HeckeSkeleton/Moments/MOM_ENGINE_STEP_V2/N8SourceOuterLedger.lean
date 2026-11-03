@@ -86,6 +86,14 @@ theorem commonRadical_eq_key (hf : family.Realizes) (i : Fin family.count) :
   cases hs : FirstCauchyKey.side (family.index i) <;>
     simp only [hs, Bool.false_eq_true, if_false, if_true, N8Source.commonRadical_comm]
 
+private theorem normalized_outer_scalar (fiber mobius phase rows normalizer : ℝ)
+    (hfiber : fiber = 1) (hphase : phase = 1) :
+    (fiber * mobius * phase * (rows / 2)) / normalizer =
+      (mobius / 2) * (rows / normalizer) := by
+  rw [hfiber, hphase]
+  ring
+
+set_option maxHeartbeats 1000000 in
 /-- T1/T2 supply the primitive chart and row-allowance estimates.
 This consumer retains the original first Möbius norm and radical. -/
 theorem outer_sideAllowance_le (input : ProfileInput call)
@@ -130,11 +138,31 @@ theorem outer_sideAllowance_le (input : ProfileInput call)
           Real.sqrt (family.normalization.right key.1 key.2.1
             (FirstCauchyKey.residual key) (FirstCauchyKey.character key)) /
           call.parentNormalizer) := by
-    rw [first_family_side_allowance family hf i, hf.outer i,
-      first_key_outer_mul_allowance, hF.fiber, Nat.cast_one, one_mul,
-      punitPhaseCoefficient_eq_one, norm_one, mul_one]
-    dsimp only [key]
-    ring
+    have hsource :
+        (family.source i).outerWeight * sourceSideAllowance (family.source i) =
+          FirstCauchyKey.outer key family.normalization *
+            firstSideAllowance key family.normalization :=
+      congrArg₂ (fun outer allowance : ℝ => outer * allowance) (hf.outer i)
+        (first_family_side_allowance family hf i)
+    have hfiber : (F.source.fiber : ℝ) = 1 := by
+      simpa only [Nat.cast_one] using
+        congrArg (fun n : ℕ => (n : ℝ)) hF.fiber
+    have hphase :
+        ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle))
+          (FirstCauchyKey.character key)‖ = (1 : ℝ) := by
+      rw [punitPhaseCoefficient_eq_one, norm_one]
+    exact (congrArg (fun scalar : ℝ => scalar / call.parentNormalizer)
+      (hsource.trans (first_key_outer_mul_allowance key family.normalization))).trans
+        (normalized_outer_scalar (F.source.fiber : ℝ)
+          ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖
+          ‖fixedPhaseCoefficient PUnit.{1} (fun _ => (1 : Circle))
+            (FirstCauchyKey.character key)‖
+          ((FirstCauchyKey.piece key).rowBound *
+            Real.sqrt (family.normalization.left key.1 key.2.1
+              (FirstCauchyKey.residual key) (FirstCauchyKey.character key)) *
+            Real.sqrt (family.normalization.right key.1 key.2.1
+              (FirstCauchyKey.residual key) (FirstCauchyKey.character key)))
+          call.parentNormalizer hfiber hphase)
   rw [he]
   apply hmu.trans
   have hhalf : ‖(UniqueFactorizationMonoid.moebius (FirstCauchyKey.residual key).val : ℂ)‖ / 2 ≤
