@@ -140,6 +140,16 @@ variable {packet : RawLeafPacket call p} {input : ProfileInput call}
 variable {choices : FullKappaChoices c p.loss}
 variable (P : CanonicalMassPacket packet input choices)
 
+private theorem capacityBudget_arithmetic
+    (width nominalWidth root halfSecond secondRadical w boundary pool loss annulus mesh : ℝ)
+    (hwidth : width ≤ nominalWidth + root + 16 * loss) (hloss : 0 ≤ loss) :
+    width +
+      ((halfSecond - root - secondRadical + w + boundary + pool) +
+        (4 * loss + (loss + annulus) + 16 * loss) / 6 + mesh) ≤
+      nominalWidth + halfSecond - secondRadical + w + boundary + pool +
+        20 * loss + annulus / 6 + mesh := by
+  linarith only [hwidth, hloss]
+
 set_option maxHeartbeats 1000000 in
 theorem capacityBudget_le_nominal (hpacket : packet.Realizes)
     (frame : SourceFrame) (hframe : call.frame = frame)
@@ -176,7 +186,15 @@ theorem capacityBudget_le_nominal (hpacket : packet.Realizes)
   rw [hraw, herror, hnominal, result.annulus_eq, D.kappa_eq,
     packet.nominal_supportError_eq hpacket side]
   dsimp only [RawLeafPacket.nominalBudget, RawLeafPacket.nominalCore, RawLeafPacket.annulusLog]
-  linarith only [hwidth, p.loss_pos]
+  exact capacityBudget_arithmetic
+    (D.calibration.parameters.m + D.calibration.parameters.q)
+    (packet.nominal side).skeleton.nominalWidth root
+    (packet.nominal side).halfSecond (packet.nominal side).secondRadical
+    (packet.nominal side).skeleton.w (packet.nominal side).boundary
+    ((packet.nominal side).tag.poolLength (recipeInductionSigma c)) p.loss
+    ((Real.log (max 1 (2 * call.prepared.upper)) +
+      Real.log (max 1 (2 * call.prepared.upper))) / Real.log call.base)
+    (call.node.parameters.κ * (momentMesh K c.family).val) hwidth p.loss_pos.le
 
 /-- Both sides use one common numerical budget for their unchanged
 active label, including its original whole-slot removal set. -/

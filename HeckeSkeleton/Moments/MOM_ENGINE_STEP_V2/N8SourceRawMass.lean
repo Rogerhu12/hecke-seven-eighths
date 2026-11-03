@@ -81,6 +81,36 @@ namespace RawCovers
 
 variable (covers : RawCovers second)
 
+private theorem index_weight_factor (prefactor firstRadical firstMobius
+    secondRadical secondMobius divisorNorm : ℝ) :
+    prefactor * (firstRadical * firstMobius * secondRadical * secondMobius) / divisorNorm =
+      (prefactor * (firstRadical * firstMobius)) *
+        (secondRadical * (secondMobius / divisorNorm)) := by
+  ring
+
+private theorem supported_fibre_sum {ι : Type*} {κ : ι → Type*}
+    [Fintype ι] [∀ i, Fintype (κ i)]
+    (P Q : Prop) (active : ι → Prop) (factor : ℝ) (common : ι → ℝ)
+    (inner weight : ∀ i, κ i → ℝ)
+    (hweight : ∀ i j, weight i j = factor * (common i * inner i j)) :
+    (∑ i, ∑ j, if P ∧ Q ∧ active i then weight i j else 0) =
+      if P ∧ Q then factor * (∑ i, if active i then common i * ∑ j, inner i j else 0)
+      else 0 := by
+  by_cases hP : P
+  · by_cases hQ : Q
+    · simp only [hP, hQ, true_and, if_true, Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro i _
+      by_cases hi : active i
+      · simp only [if_pos hi, Finset.mul_sum]
+        apply Finset.sum_congr rfl
+        intro j _
+        exact hweight i j
+      · simp only [if_neg hi, Finset.sum_const_zero, mul_zero]
+    · simp only [hP, hQ, true_and, false_and, if_false, Finset.sum_const_zero]
+  · simp only [hP, false_and, if_false, Finset.sum_const_zero]
+
+set_option maxHeartbeats 1000000 in
 theorem supportedIndexMass_eq :
     covers.supportedIndexMass =
       ∑ i : Fin expansion.count,
@@ -96,23 +126,33 @@ theorem supportedIndexMass_eq :
     rw [Fintype.sum_sigma]
   apply Finset.sum_congr rfl
   intro i _
-  by_cases hpos : 0 < (second.source i).physical.outerWeight
-  · by_cases hrows : (second.source i).physical.source.rows.Nonempty
-    · simp only [hpos, hrows, true_and, if_true]
-      rw [(second.source i).classIndexMass_eq_class_sum, Finset.mul_sum]
-      apply Finset.sum_congr rfl
-      intro key _
-      by_cases hDE : key.1.val ∈ (second.source i).physical.activeCommon
-      · simp only [if_pos hDE]
-        simp only [SourceClassKey.allocationIndexMass, Finset.mul_sum]
-        apply Finset.sum_congr rfl
-        intro allocation _
-        unfold indexWeight N8Source.arithmeticWeight arithmeticKey
-          PhysicalSource.firstCommonFactor
-        ring
-      · simp only [if_neg hDE, Finset.sum_const_zero, mul_zero]
-    · simp only [hpos, hrows, true_and, false_and, if_false, Finset.sum_const_zero]
-  · simp only [hpos, false_and, if_false, Finset.sum_const_zero]
+  have hsum := supported_fibre_sum
+    (ι := SourceClassKey (second.source i).stage (covers.left i).cover (covers.right i).cover)
+    (κ := fun key => SourceClassKey.AllocationKey key)
+    (0 < (second.source i).physical.outerWeight)
+    (second.source i).physical.source.rows.Nonempty
+    (fun key => key.1.val ∈ (second.source i).physical.activeCommon)
+    (expansion.indexPrefactor i * (second.source i).physical.firstCommonFactor)
+    (fun key => 1 / (Ideal.absNorm (commonRadical key.1.val.1 key.1.val.2) : ℝ))
+    (fun _ allocation => ‖(UniqueFactorizationMonoid.moebius allocation.1.val : ℂ)‖ /
+      (Ideal.absNorm allocation.1.val : ℝ))
+    (fun key allocation => covers.indexWeight ⟨⟨i, key⟩, allocation⟩)
+    (fun key allocation => index_weight_factor
+      (expansion.indexPrefactor i)
+      (1 / (Ideal.absNorm (commonRadical (second.source i).physical.first.selected.val
+        (second.source i).physical.first.opposite.val) : ℝ))
+      ‖(UniqueFactorizationMonoid.moebius
+        (second.source i).physical.first.residualDivisor.val : ℂ)‖
+      (1 / (Ideal.absNorm (commonRadical key.1.val.1 key.1.val.2) : ℝ))
+      ‖(UniqueFactorizationMonoid.moebius allocation.1.val : ℂ)‖
+      (Ideal.absNorm allocation.1.val : ℝ))
+  apply hsum.trans
+  exact congrArg (fun mass : ℝ =>
+    if 0 < (second.source i).physical.outerWeight ∧
+        (second.source i).physical.source.rows.Nonempty then
+      expansion.indexPrefactor i * (second.source i).physical.firstCommonFactor * mass
+    else 0)
+    ((second.source i).classIndexMass_eq_class_sum (covers.left i) (covers.right i)).symm
 
 end RawCovers
 
