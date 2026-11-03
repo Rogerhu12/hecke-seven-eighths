@@ -80,37 +80,40 @@ theorem physicalMask_dvd_common
     (firstPhysicalDivisorIdeal (A := A) D).val ∣ DE.1 := by
   let whole := primePowerProduct block.primes block.leftMultiplicity
   let divisor := firstPhysicalDivisorIdeal (A := A) D
-  have hgen : A.Generates divisor
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val :=
-    originalFrequencyIdeal_generates _
-      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).property
-  have hext : A.extendIdeal divisor = IdealMobiusMask.primeProduct D := by
-    rw [← hgen.2]
-    exact Ideal.span_singleton_generator _
-  have hmap : A.extendIdeal whole ≤ A.extendIdeal divisor := by
-    rw [hext]
-    intro x hx
-    rw [IdealMobiusMask.mem_primeProduct]
-    intro P hP
-    have hPmask := hD hP
-    simp only [FirstCommonCharacterBlock.mask, Finset.empty_union,
-      firstPrincipalPrimeMask] at hPmask
-    obtain ⟨i, _hi, rfl⟩ := Finset.mem_image.mp hPmask
-    have hdiv : (primeIdeal (block.primes i)).val ∣ DE.1 :=
-      block.originalCommonPrimeData.divides i (Finset.mem_univ i)
-    have hle : whole.val ≤ (primeIdeal (block.primes i)).val := by
-      rw [show whole.val = DE.1 from block.common_left]
-      exact Ideal.dvd_iff_le.mp hdiv
-    exact Ideal.map_mono hle hx
-  have hunder : (A.extendIdeal whole).under (𝓞 K) ≤
-      (A.extendIdeal divisor).under (𝓞 K) := Ideal.comap_mono hmap
-  have hwhole : (A.extendIdeal whole).under (𝓞 K) = whole.val :=
-    SIntegerLocalization.under_map_exterior A.Sf whole.val whole.property.2
-  have hdivisor : (A.extendIdeal divisor).under (𝓞 K) = divisor.val :=
-    SIntegerLocalization.under_map_exterior A.Sf divisor.val divisor.property.2
-  rw [hwhole, hdivisor] at hunder
-  apply Ideal.dvd_iff_le.mpr
-  exact block.common_left.symm.le.trans hunder
+  have hmask : D ⊆ firstPrincipalPrimeMask block.primes
+      block.leftMultiplicity block.rightMultiplicity := by
+    simpa only [FirstCommonCharacterBlock.mask, Finset.empty_union] using hD
+  have hmap : A.extendIdeal whole ≤ IdealMobiusMask.primeProduct D := by
+    rw [IdealMobiusMask.primeProduct_eq_iInf]
+    refine le_iInf (fun q => le_iInf (fun hq => ?_))
+    obtain ⟨i, _, rfl⟩ := Finset.mem_image.mp (hmask hq)
+    change Ideal.map (algebraMap (𝓞 K) A.R) whole.val ≤
+      Ideal.map (algebraMap (𝓞 K) A.R) (LocalFiniteSums.primeIdeal (block.primes i)).val
+    apply Ideal.map_mono
+    apply Ideal.le_of_dvd
+    change (block.primes i).val.asIdeal ∣
+      (primePowerProduct block.primes block.leftMultiplicity).val
+    rw [block.common_left]
+    exact block.originalCommonPrimeData.divides i (Finset.mem_univ i)
+  have hgenerator : A.extendIdeal divisor = IdealMobiusMask.primeProduct D := by
+    have hg := (originalFrequencyIdeal_generates
+      (A := A) (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val
+      (sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).property).2
+    change Ideal.span
+        ({(sIntegerMaskGenerator K (A.Sf : Set (HeightOneSpectrum (𝓞 K))) D).val} : Set A.R) =
+      A.extendIdeal divisor at hg
+    rw [← hg]
+    exact Ideal.span_singleton_generator (IdealMobiusMask.primeProduct D)
+  have hext : A.extendIdeal whole ≤ A.extendIdeal divisor := by
+    rw [hgenerator]
+    exact hmap
+  have hcontract : whole.val ≤ divisor.val := by
+    have h := Ideal.comap_mono (f := algebraMap (𝓞 K) A.R) hext
+    simpa only [← Ideal.under_def, SArithmeticData.extendIdeal,
+      SIntegerLocalization.under_map_exterior A.Sf whole.val whole.property.2,
+      SIntegerLocalization.under_map_exterior A.Sf divisor.val divisor.property.2] using h
+  have hdiv : divisor.val ∣ whole.val := Ideal.dvd_iff_le.mpr hcontract
+  simpa only [divisor, whole, block.common_left] using hdiv
 
 theorem idealLogLength_le_of_norm {I : Ideal (𝓞 K)} (hI : I ≠ 0)
     (B : ℝ) (bound : (Ideal.absNorm I : ℝ) ≤ call.base ^ B) :

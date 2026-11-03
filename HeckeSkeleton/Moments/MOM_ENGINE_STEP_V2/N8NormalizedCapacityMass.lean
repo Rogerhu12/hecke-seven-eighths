@@ -126,7 +126,12 @@ theorem normalized_weight_le_original (hpacket : packet.Realizes)
     le_rfl (P.keptSlotCount_le false b.val.1 b.val.2.2.1)
     (P.keptSlotCount_le true b.val.2.1 b.val.2.2.2)
     (hbudget false b.val.1 b.val.2.2.1) (hbudget true b.val.2.1 b.val.2.2.2)
-  simpa only [one_pow, mul_one] using h
+  change normalizedCapacityPairWeight
+    (P.localFamily.leftChild Finset.univ b) (P.localFamily.rightChild Finset.univ b)
+    (P.seed.occurrences.normalizer P.seed.phases false)
+    (P.seed.occurrences.normalizer P.seed.phases true)
+    call.base (call.node.parameters.m + call.node.parameters.q) ≤ _
+  simpa only [originalPairBound, originalAtomCost, one_pow, mul_one] using h
 
 /-- Passing to the genuine active subtype cannot increase the original
 positive outer sum. No active label is duplicated or replaced. -/

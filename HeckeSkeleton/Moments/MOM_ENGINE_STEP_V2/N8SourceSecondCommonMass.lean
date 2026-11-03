@@ -230,12 +230,18 @@ theorem original_second_class_mass (c : TargetContext K) (ε : ℝ) (hε : 0 < �
           exact mul_le_mul_of_nonneg_left (hinner DE)
             (one_div_nonneg.mpr (Nat.cast_nonneg _))
         · simp only [if_neg hDE]
+          exact le_rfl
       _ = M * (trace.second.source i).physical.commonIndexMass := by
-        rw [(trace.second.source i).sum_activeCommon]
-        simp only [PhysicalSource.commonIndexMass, Finset.mul_sum]
-        apply Finset.sum_congr rfl
-        intro DE _
-        ring
+        calc
+          _ = ∑ DE ∈ (trace.second.source i).physical.activeCommon,
+              (1 / (Ideal.absNorm (commonRadical DE.1 DE.2) : ℝ)) * M :=
+            (trace.second.source i).sum_activeCommon
+              (fun DE => (1 / (Ideal.absNorm (commonRadical DE.1 DE.2) : ℝ)) * M)
+          _ = _ := by
+            simp only [PhysicalSource.commonIndexMass, Finset.mul_sum]
+            apply Finset.sum_congr rfl
+            intro DE _
+            exact mul_comm _ _
   apply (hclass.trans (mul_le_mul_of_nonneg_left
     (hcommon call input large p trace htrace i hpos hrows) hM)).trans_eq
   dsimp only [M]
