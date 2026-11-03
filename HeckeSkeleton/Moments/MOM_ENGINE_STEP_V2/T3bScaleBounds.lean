@@ -220,20 +220,25 @@ include phases in
 theorem t3b_poolLength_eq :
     idealLogLength call.base packet.second.physical.first.poolPower.val =
       packet.second.physical.first.tag.removedLength call.base := by
-  have htag := phases.pool_tag
-  have hpower := phases.pool_power
-  cases hp : phases.pool with
+  rcases phases with ⟨hfirst, pool, htag, hpower, hdeletion⟩
+  cases pool with
   | none =>
-    simp only [hp] at htag hpower
-    rw [hpower]
+    have hzero : idealLogLength call.base packet.second.physical.first.poolPower.val = 0 := by
+      calc
+        _ = idealLogLength call.base (unitExterior (Arithmetic.data c)).val :=
+          congrArg (fun I : (Arithmetic.data c).Exterior => idealLogLength call.base I.val) hpower
+        _ = 0 := by
+          simp only [unitExterior, ← Ideal.one_eq_top, idealLogLength,
+            map_one, Nat.cast_one, Real.log_one, zero_div]
     rcases htag with htag | htag <;>
-      simp only [htag, OriginalNominalTag.removedLength, unitExterior, ← Ideal.one_eq_top,
-        idealLogLength, map_one, Nat.cast_one, Real.log_one, zero_div]
+      exact hzero.trans (congrArg
+        (fun tag : OriginalNominalTag K => tag.removedLength call.base) htag).symm
   | some eq =>
     rcases eq with ⟨e, q⟩
-    simp only [hp] at htag hpower
-    rw [hpower, htag]
-    exact idealLogLength_pow call.base q.val.asIdeal e.multiplicity
+    have hlength := congrArg
+      (fun I : (Arithmetic.data c).Exterior => idealLogLength call.base I.val) hpower
+    exact (hlength.trans (idealLogLength_pow call.base q.val.asIdeal e.multiplicity)).trans
+      (congrArg (fun tag : OriginalNominalTag K => tag.removedLength call.base) htag).symm
 
 include hpacket phases in
 theorem t3bScaleLoss_eq_nominal (side : Bool) :
@@ -259,9 +264,9 @@ theorem t3b_halfSecond_eq (side : Bool) :
   rw [OriginalNominalGeometry.halfSecond, packet.t3b_nominal_second hpacket,
     packet.t3b_nominal_secondOpposite hpacket]
 
+include hpacket phases in
 /-- The side is selected from the original pair of second common
 ideals. Both complete centered profiles remain attached to that side. -/
-include hpacket phases in
 theorem t3b_exists_small_second_side :
     ∃ side : Bool, packet.t3bScaleLoss side ≤
       (packet.nominal side).skeleton.c + (packet.nominal side).skeleton.w +

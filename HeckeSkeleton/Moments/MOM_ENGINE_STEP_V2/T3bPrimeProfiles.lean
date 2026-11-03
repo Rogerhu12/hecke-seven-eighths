@@ -14,7 +14,7 @@ and finite evaluation orders are fixed before any call or row.
 -/
 
 noncomputable section
-open scoped Classical BigOperators NumberField nonZeroDivisors
+open scoped Classical BigOperators NumberField nonZeroDivisors SchwartzMap
 
 namespace HeckeSkeleton.Moments.EngineStepV2.Blueprint
 
@@ -105,14 +105,27 @@ theorem t3bUnscaled_length (side : Bool) (i : Fin (packet.ordinarySlots side)) :
       call.originalLength (packet.secondAtomIndex hpacket side i) := by
   cases side <;> rfl
 
+private theorem firstAtomTable_primeNormProfile (input : ProfileInput call)
+    (side : Bool) (i : Fin (packet.firstAtlas side).slotCount)
+    (q : HeightOneSpectrum (𝓞 K)) :
+    (packet.firstAtomTable hpacket phases side).slotWeight i q =
+      call.t3bPrimeNormProfile p input (packet.firstAtomIndex hpacket side i)
+        ((Ideal.absNorm q.asIdeal : ℝ) /
+          call.base ^ call.originalLength (packet.firstAtomIndex hpacket side i)) := by
+  exact (call.t3bPrimeNormProfile_apply p input (packet.firstAtomIndex hpacket side i)
+    ((Ideal.absNorm q.asIdeal : ℝ) /
+      call.base ^ call.originalLength (packet.firstAtomIndex hpacket side i))).symm
+
 theorem t3bUnscaled_slotWeight (input : ProfileInput call)
     (side : Bool) (i : Fin (packet.ordinarySlots side)) (q : HeightOneSpectrum (𝓞 K)) :
     (packet.t3bUnscaledTable hpacket phases side).slotWeight i q =
       call.t3bPrimeNormProfile p input (packet.secondAtomIndex hpacket side i)
         ((Ideal.absNorm q.asIdeal : ℝ) /
           call.base ^ call.originalLength (packet.secondAtomIndex hpacket side i)) := by
-  rw [call.t3bPrimeNormProfile_apply]
-  cases side <;> rfl
+  have h := packet.firstAtomTable_primeNormProfile hpacket phases input side
+    (SlotRestriction.index (packet.secondBranch side).keep
+      (Fin.cast (packet.secondAtomCount side).symm i)) q
+  cases side <;> exact h
 
 theorem t3bBefore_slot_mem (side : Bool) (i : Fin (packet.ordinarySlots side))
     (q : HeightOneSpectrum (𝓞 K))

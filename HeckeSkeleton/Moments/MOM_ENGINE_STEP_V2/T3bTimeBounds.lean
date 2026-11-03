@@ -45,7 +45,8 @@ theorem norm_time_pair_le (sign : ℝ) (hsign : ‖sign‖ = 1) (z : ℝ × ℝ)
   calc
     _ = (2 * Real.pi) *
         ‖inner ℝ (WithLp.toLp 2 z) (CanonicalLiteralLocations.direction sign)‖ := by
-      simp only [time, norm_neg, norm_mul, Real.norm_eq_abs, abs_of_nonneg hπ]
+      simp only [time, norm_neg, norm_mul, Real.norm_eq_abs,
+        abs_of_nonneg (show (0 : ℝ) ≤ 2 by norm_num), abs_of_pos Real.pi_pos]
     _ ≤ _ := mul_le_mul_of_nonneg_left hi hπ
 
 theorem one_add_scaled_sum_le_product (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) :
@@ -89,7 +90,7 @@ theorem t3b_time_one_add_le (side : Bool) (z : ℝ × ℝ) :
     1 + ‖T3b.time (packet.t3bFourierSign side)
       (t3bFourierMode side (WithLp.toLp 2 z))‖ ≤
         (1 + 2 * Real.pi) * (1 + ‖z.1‖) * (1 + ‖z.2‖) :=
-  (add_le_add_left (packet.t3b_time_norm_le side z) 1).trans
+  (add_le_add (le_refl (1 : ℝ)) (packet.t3b_time_norm_le side z)).trans
     (T3b.one_add_scaled_sum_le_product _ _ (norm_nonneg _) (norm_nonneg _))
 
 theorem t3b_time_power_le (side : Bool) (z : ℝ × ℝ) (degree : ℕ) :

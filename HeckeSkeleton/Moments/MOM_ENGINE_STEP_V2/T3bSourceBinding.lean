@@ -36,6 +36,15 @@ attribute [local instance]
 
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 
+private theorem phase_scalar_term (a b u v : ℂ) :
+    (a * b) * (u * v) = u * (a * (b * v)) := by
+  ring
+
+private theorem translated_column_norm {z u a v n : ℂ} {w : ℝ}
+    (he : z = u * (a * v)) (hu : ‖u‖ = 1)
+    (hv : ‖v‖ = ‖n‖ * w) (hn : n = 1) : ‖z‖ = ‖a‖ * w := by
+  rw [he, norm_mul, hu, one_mul, norm_mul, hv, hn, norm_one, one_mul]
+
 namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p) (hpacket : packet.Realizes)
@@ -82,12 +91,13 @@ theorem t3b_left_column_norm (ξ : EngineParameter) (h : packet.R.live) :
       packet.t3b_left_scalar hpacket phases h.val i,
       packet.ordinaryLeftPoint_eq_translation hpacket h.val i
         (packet.t3b_left_cartesian i hi), jointPhase_add]
-    ring
-  rw [he, norm_mul, norm_jointPhase, one_mul, norm_mul,
-    f.centered_column_norm_eq_source E h ξ]
-  change _ = _
-  rw [packet.t3bUnscaledLeftFrame_normalizer, norm_one, one_mul]
-  rfl
+    exact phase_scalar_term (packet.secondAtomScalar hpacket phases false)
+      (f.centeredCoefficient E h.val i) (jointPhase ξ (packet.leftRowTranslation h.val))
+      (jointPhase ξ (rawSourceLocation (f.leftLocation h.val) (f.rightLocation h.val)
+        (f.slotLocation h.val) i))
+  exact translated_column_norm he (norm_jointPhase ξ (packet.leftRowTranslation h.val))
+    (f.centered_column_norm_eq_source E h ξ)
+    (packet.t3bUnscaledLeftFrame_normalizer hpacket phases)
 
 theorem t3b_right_column_norm (ξ : EngineParameter) (h : packet.R.live) :
     ‖jointFourierColumn packet.leaf.right (fun i => star (packet.leaf.rightCoefficient h.val i))
@@ -112,12 +122,16 @@ theorem t3b_right_column_norm (ξ : EngineParameter) (h : packet.R.live) :
       packet.t3b_right_scalar hpacket phases h.val i,
       packet.ordinaryRightPoint_eq_translation hpacket h.val i
         (packet.t3b_right_cartesian i hi), jointPhase_add]
-    ring
-  rw [he, norm_mul, norm_jointPhase, one_mul, norm_mul, norm_star,
-    f.centered_column_norm_eq_source E h ξ]
-  change _ = _
-  rw [packet.t3bUnscaledRightFrame_normalizer, norm_one, one_mul]
-  rfl
+    exact phase_scalar_term (star (packet.secondAtomScalar hpacket phases true))
+      (f.centeredCoefficient E h.val i) (jointPhase ξ (packet.rightRowTranslation h.val))
+      (jointPhase ξ (rawSourceLocation (f.leftLocation h.val) (f.rightLocation h.val)
+        (f.slotLocation h.val) i))
+  have hnorm := translated_column_norm he (norm_jointPhase ξ (packet.rightRowTranslation h.val))
+    (f.centered_column_norm_eq_source E h ξ)
+    (packet.t3bUnscaledRightFrame_normalizer hpacket phases)
+  exact hnorm.trans (congrArg (fun r : ℝ => r *
+    ‖packet.t3bColumnValue hpacket phases true ξ h‖)
+    (norm_star (packet.secondAtomScalar hpacket phases true)))
 
 /-- Both complete source values occur under the same original row
 weight. T3a removes only rows that are identically zero. -/
