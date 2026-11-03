@@ -8,7 +8,7 @@ continued Hecke L-function $L(s, \chi)$ has no zeros with $\mathrm{Re}(s) > 7/8$
 ## Main result
 
 The statement is `GeneralHeckeSevenEighths` in
-[HeckeGeneral/Analysis/HeckeEndpointTarget.lean](HeckeGeneral/Analysis/HeckeEndpointTarget.lean):
+[src/HeckeGeneral/Analysis/HeckeEndpointTarget.lean](src/HeckeGeneral/Analysis/HeckeEndpointTarget.lean):
 
 ```lean
 def HeckeSevenEighths : Prop :=
@@ -20,9 +20,9 @@ def GeneralHeckeSevenEighths : Prop :=
 ```
 
 The proof is `HeckeSkeleton.generalHeckeSevenEighths_skeleton` in
-[HeckeSkeleton/Main.lean](HeckeSkeleton/Main.lean). It depends only on the
+[src/HeckeSkeleton/Main.lean](src/HeckeSkeleton/Main.lean). It depends only on the
 three standard axioms `propext`, `Classical.choice` and `Quot.sound`;
-[HeckeSkeleton/Audit.lean](HeckeSkeleton/Audit.lean) checks this and rejects
+[src/HeckeSkeleton/Audit.lean](src/HeckeSkeleton/Audit.lean) checks this and rejects
 `sorryAx`.
 
 ## Verifying
@@ -42,13 +42,14 @@ CI restores through [.github/actions/restore-lake-cache](.github/actions/restore
 
 | Path | Contents |
 |---|---|
-| `HeckeGeneral/` | Hecke characters, continuations and the target statement over a general number field |
-| `HeckeSkeleton/` | The proof: principal part, expansion, high bin, descent, and the moment machinery under `HeckeSkeleton/Moments/` |
-| `HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/` | The paired engine step, written as a blueprint of 24 task statements and their proofs; see its `PLAN.md` and `TASKS.md` |
-| `ThetaGlobal/`, `Expansion*/`, `HeckePort/`, `CubicSieve/`, `PrimeCancellation/` | Analytic inputs used by the proof |
-| `SkeletonInputs/`, `GramCoreInputs/`, `GramAssemblyInputs/` | Arithmetic and Gram-matrix input modules |
-| `HeckeAxiom/` | Bridge from the base project's ray class character theorems |
-| `DedekindZetaZeroFree/`, `Challenge/`, `Solution/` | The base project (see below) |
+| `src/` | This project's Lean libraries (module names do not include `src`) |
+| `src/HeckeGeneral/` | Hecke characters, continuations and the target statement over a general number field |
+| `src/HeckeSkeleton/` | The proof: principal part, expansion, high bin, descent, and the moment machinery under `Moments/` |
+| `src/HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/` | The paired engine step, written as a blueprint of 24 task statements and their proofs; see its `PLAN.md` and `TASKS.md` |
+| `src/ThetaGlobal/`, `src/Expansion*/`, `src/HeckePort/`, `src/CubicSieve/`, `src/PrimeCancellation/` | Analytic inputs used by the proof |
+| `src/SkeletonInputs/`, `src/GramCoreInputs/`, `src/GramAssemblyInputs/` | Arithmetic and Gram-matrix input modules |
+| `src/HeckeAxiom/` | Bridge from the base project's ray class character theorems |
+| `base/` | The base project this repository started from (see below) |
 | `vendor/` | Vendored dependencies: class field theory, FLT, Tau Ceti and openai/math excerpts |
 | `paper/` | The paper being formalized |
 | `docs/WORK_LEDGER.md` | Progress ledger of the formalization |
@@ -61,13 +62,13 @@ This repository started from AxiomMath's formalization of the Dedekind zeta
 zero-free region $\mathrm{Re}(s) > 31/32$
 ([A quasi-Riemann hypothesis for Dedekind zeta functions](https://hexagonmath.org/2610.00200v1),
 Dean Cureton and Jesse Thorner). That development lives in
-`DedekindZetaZeroFree/`, with its challenge statement in `Challenge/` and
-solution in `Solution/`; `comparator.json` and `formalization.yaml` describe
-that base project. To check it:
+`base/`: the library in `base/DedekindZetaZeroFree/`, its challenge statement
+in `base/Challenge/` and its solution in `base/Solution/`. `base/comparator.json`
+and `base/formalization.yaml` describe that base project. To check it:
 
 ```sh
 lake build DedekindZetaZeroFree DedekindZetaChallenge DedekindZetaSolution
-lake comparator --config comparator.json
+lake comparator --config base/comparator.json
 ```
 
 ## Dependencies
