@@ -18,8 +18,7 @@
     },
     "cloud/mom-v2-s4-t4": {
       "groups": [
-        "s4",
-        "t4"
+        "s4_t4"
       ],
       "modules": [],
       "roots": [
@@ -48,26 +47,10 @@
       ]
     },
     "cloud/mom-v2-s3-s5": {
-      "groups": [],
-      "modules": [
-        "TasksAmplification",
-        "TasksNominalGeometry",
-        "S3Assembly",
-        "S3Energy",
-        "S3ExpansionData",
-        "S3FrozenDivisor",
-        "S3OriginalColumnBound",
-        "S3PoolData",
-        "S3RowExponent",
-        "S3RowTransport",
-        "S3UniformDensity",
-        "S3Windows",
-        "S5ClassIdeals",
-        "S5GeometryConstruction",
-        "S5NominalLedger",
-        "S5RowWindow",
-        "S5SupportWindow"
+      "groups": [
+        "s3_s5"
       ],
+      "modules": [],
       "roots": [
         "TasksAmplification",
         "TasksNominalGeometry"
@@ -109,8 +92,7 @@
     },
     "cloud/mom-v2-n5a-n5b": {
       "groups": [
-        "g_n5a",
-        "g_n5b"
+        "n5a_n5b"
       ],
       "modules": [],
       "roots": [
@@ -140,8 +122,7 @@
     },
     "cloud/mom-v2-n7a-n7b": {
       "groups": [
-        "n7a",
-        "n7b"
+        "n7a_n7b"
       ],
       "modules": [],
       "roots": [
@@ -350,31 +331,181 @@
       ]
     },
     {
+      "id": "s3_s5",
+      "name": "PR35 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "S3Assembly",
+        "S3Energy",
+        "S3ExpansionData",
+        "S3FrozenDivisor",
+        "S3OriginalColumnBound",
+        "S3PoolData",
+        "S3RowExponent",
+        "S3RowTransport",
+        "S3UniformDensity",
+        "S3Windows",
+        "S5ClassIdeals",
+        "S5GeometryConstruction",
+        "S5NominalLedger",
+        "S5RowWindow",
+        "S5SupportWindow",
+        "TasksAmplification",
+        "TasksNominalGeometry"
+      ],
+      "roots": [
+        "TasksAmplification",
+        "TasksNominalGeometry"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.amplification",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.nominalGeometry"
+      ]
+    },
+    {
+      "id": "s4_t4",
+      "name": "PR33 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "SecondTransformArithmetic",
+        "SecondTransformIntegral",
+        "SecondTransformRaw",
+        "SecondTransformRows",
+        "SecondTransformStage",
+        "TailsAnalytic",
+        "TailsCauchyCoefficients",
+        "TailsCauchyCounting",
+        "TailsCauchyGeometry",
+        "TailsCauchyWeights",
+        "TailsEstimateAssembly",
+        "TailsFirstEstimate",
+        "TailsFixedCutoff",
+        "TailsOriginalAtoms",
+        "TailsOriginalBounds",
+        "TailsOriginalCarrier",
+        "TailsOriginalMass",
+        "TailsOriginalRows",
+        "TailsOriginalSupport",
+        "TailsPhase",
+        "TailsPhysicalBudget",
+        "TailsPoolCounting",
+        "TailsPoolScalar",
+        "TailsPoolTransport",
+        "TailsRawMass",
+        "TailsSecondEstimate",
+        "TailsSecondGeometry",
+        "TailsSecondMass",
+        "TasksSecondTransform",
+        "TasksTails"
+      ],
+      "roots": [
+        "TasksSecondTransform",
+        "TasksTails"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondTransform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.tails"
+      ]
+    },
+    {
+      "id": "t1_t2",
+      "name": "PR37 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "FirstPhysicalMaskBounds",
+        "FirstSourceCarrierBounds",
+        "FirstZeroCentral",
+        "FirstZeroColumnWindows",
+        "FirstZeroFactorization",
+        "FirstZeroInputBounds",
+        "FirstZeroMaskBounds",
+        "FirstZeroNormalization",
+        "FirstZeroProfileBounds",
+        "FirstZeroSignedBound",
+        "FirstZeroUniformEstimate",
+        "SecondZeroCoefficients",
+        "SecondZeroDivisor",
+        "SecondZeroFactors",
+        "SecondZeroFirstMass",
+        "SecondZeroFrozenBounds",
+        "SecondZeroLocal",
+        "SecondZeroLocalEstimate",
+        "SecondZeroNormalization",
+        "SecondZeroOrbitMultiplicity",
+        "SecondZeroPoolMass",
+        "SecondZeroRowSizeBounds",
+        "SecondZeroStage",
+        "SecondZeroTransport",
+        "SecondZeroUniformEstimate",
+        "SourceEqualityTransport",
+        "TasksFirstZero",
+        "TasksSecondZero"
+      ],
+      "roots": [
+        "TasksFirstZero",
+        "TasksSecondZero"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstZero",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondZero"
+      ]
+    },
+    {
+      "id": "n5a_n5b",
+      "name": "PR38 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "ProfileFormulaPower",
+        "ProfileFormulaTask",
+        "ProfileFormulaTransforms",
+        "ProfileWindowAssembly",
+        "ProfileWindowClipping",
+        "TasksProfileWindows"
+      ],
+      "roots": [
+        "ProfileFormulaTask",
+        "TasksProfileWindows"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_formula_control",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_windows"
+      ]
+    },
+    {
+      "id": "n7a_n7b",
+      "name": "PR40 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "N7aChildSource",
+        "N7bProfileTransport",
+        "TasksChildArithmetic",
+        "TasksChildProfiles"
+      ],
+      "roots": [
+        "TasksChildArithmetic",
+        "TasksChildProfiles"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_arithmetic",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_profiles"
+      ]
+    },
+    {
       "id": "g1",
       "name": "独立论文证明任务（蓝图占位）",
       "proved": false,
       "modules": [
         "N9OriginalWindowMass",
-        "ProfileFormulaTask",
-        "TasksAmplification",
-        "TasksChildArithmetic",
-        "TasksChildProfiles",
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
         "TasksFiniteLeaves",
-        "TasksFirstZero",
         "TasksFullKappa",
-        "TasksNominalGeometry",
         "TasksNormalizedMass",
         "TasksOriginalAtoms",
         "TasksOriginalCalibration",
         "TasksOriginalCapacity",
         "TasksPassiveRefinement",
-        "TasksProfileWindows",
-        "TasksSecondTransform",
-        "TasksSecondZero",
-        "TasksSourceIndex",
-        "TasksTails"
+        "TasksSourceIndex"
       ]
     },
     {

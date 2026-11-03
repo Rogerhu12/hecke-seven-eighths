@@ -1,4 +1,4 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroContracts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroUniformEstimate
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
@@ -20,7 +20,8 @@ variable {K : Type} [Field K] [NumberField K]
 
 theorem secondZero (c : TargetContext K) (p : SourceParameters c) :
     SecondZeroTask c p := by
-  sorry
+  intro frame
+  exact SecondZeroProof.uniform_second_zero_certificate c p frame
 
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks
 
