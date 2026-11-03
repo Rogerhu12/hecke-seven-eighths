@@ -74,6 +74,9 @@ theorem allocationIndexMass_eq :
     rw [secondDivisorAllocationMass, Finset.mul_sum, ← Finset.sum_coe_sort]
   apply Finset.sum_congr rfl
   intro D _
+  have hslots : (SourceClassKey.rightReindexInputs key).slotCount =
+      SourceClassKey.rightSlots key := rfl
+  rw [hslots]
   ring
 
 theorem innerDivisor_ne_zero (D : Ideal (𝓞 K)) (hD : D ∈ key.innerDivisors) :

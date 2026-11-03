@@ -1,8 +1,10 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
+import Lean.Elab.Command
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option Elab.async false
 
 /-!
 # The literal second residual carriers and surviving occurrences
@@ -175,11 +177,37 @@ theorem originalAllocation_slots_atlas (side : Bool) (i : Fin (O.originalSlotCou
           (SlotRestriction.index (packet.secondBranch side).keep
             (Fin.cast (D.second_count side).symm i)))
         (primeSupport packet.key.1.val.1) := by
+  -- Construct the atlas identity before comparing the full packet target.
+  -- Submit the resulting proof directly for the normal kernel check.
   cases side
-  · change packet.leftReindex.slots i = _
-    exact congrFun (PassiveSecondCarrier.residualReindex_slots _ _ _ _ _ _) i
-  · change packet.rightReindex.slots i = _
-    exact congrFun (PassiveSecondCarrier.residualReindex_slots _ _ _ _ _ _) i
+  · have hslots := PassiveSecondCarrier.residualReindex_slots
+      (A := Arithmetic.data c) (packet.firstAtlas false)
+      (primeSupport packet.key.1.val.1) (packet.secondIdeal false)
+      packet.block.leftResidual (fun j _ => packet.block.left_residual j)
+      (packet.secondSupportKey false)
+    have hresult := congrFun hslots (Fin.cast (D.second_count false).symm i)
+    run_tac
+      Lean.Elab.Tactic.withMainContext do
+        let goal ← Lean.Elab.Tactic.getMainGoal
+        let lctx := (← goal.getDecl).lctx
+        let some proof := lctx.findFromUserName? `hresult
+          | throwError "original slot-carrier proof not found"
+        goal.assign (Lean.mkFVar proof.fvarId)
+        Lean.Elab.Tactic.replaceMainGoal []
+  · have hslots := PassiveSecondCarrier.residualReindex_slots
+      (A := Arithmetic.data c) (packet.firstAtlas true)
+      (primeSupport packet.key.1.val.1) (packet.secondIdeal true)
+      packet.block.rightResidual (fun j _ => packet.block.right_residual j)
+      (packet.secondSupportKey true)
+    have hresult := congrFun hslots (Fin.cast (D.second_count true).symm i)
+    run_tac
+      Lean.Elab.Tactic.withMainContext do
+        let goal ← Lean.Elab.Tactic.getMainGoal
+        let lctx := (← goal.getDecl).lctx
+        let some proof := lctx.findFromUserName? `hresult
+          | throwError "original slot-carrier proof not found"
+        goal.assign (Lean.mkFVar proof.fvarId)
+        Lean.Elab.Tactic.replaceMainGoal []
 
 theorem originalAllocation_slots (hpacket : packet.Realizes) (side : Bool)
     (i : Fin (O.originalSlotCount side)) :
