@@ -66,11 +66,19 @@ theorem sum_activeCommon (f : (Ideal (𝓞 K) × Ideal (𝓞 K)) → ℝ) :
     (∑ DE : source.CommonLabel,
       if DE.val ∈ source.physical.activeCommon then f DE.val else 0) =
       ∑ DE ∈ source.physical.activeCommon, f DE := by
-  rw [Finset.sum_coe_sort, ← Finset.sum_filter]
-  apply Finset.sum_congr _ (fun _ _ => rfl)
-  ext DE
-  simp only [Finset.mem_filter]
-  exact ⟨fun h => h.2, fun h => ⟨source.physical.activeCommon_subset h, h⟩⟩
+  let pool := commonSupportPool source.physical.source.columns
+    source.physical.source.columns (fun j => (source.physical.source.ideal j).val)
+    (fun j => (source.physical.source.ideal j).val)
+  calc
+    _ = ∑ DE ∈ pool,
+        if DE ∈ source.physical.activeCommon then f DE else 0 :=
+      Finset.sum_coe_sort pool _
+    _ = ∑ DE ∈ source.physical.activeCommon, f DE := by
+      rw [← Finset.sum_filter]
+      apply Finset.sum_congr _ (fun _ _ => rfl)
+      ext DE
+      simp only [Finset.mem_filter]
+      exact ⟨fun h => h.2, fun h => ⟨source.physical.activeCommon_subset h, h⟩⟩
 
 /-- The literal second-class carrier, after summing its actual
 independent divisor and both occurrence allocations. -/
@@ -135,17 +143,25 @@ theorem original_second_common_mass (c : TargetContext K) (ε : ℝ) (hε : 0 < 
   intro call input large p trace htrace i hpos hrows
   have hbase_pos : 0 < call.base := call.base_pos
   have hpos' : 0 < (trace.expansion.source i).outerWeight := by
-    simpa only [htrace.second.physical i] using hpos
+    exact Eq.mp (congrArg (fun s : PhysicalSource call p => 0 < s.outerWeight)
+      (htrace.second.physical i)) hpos
   have hrows' : (trace.expansion.source i).source.rows.Nonempty := by
-    simpa only [htrace.second.physical i] using hrows
+    exact Eq.mp (congrArg (fun s : PhysicalSource call p => s.source.rows.Nonempty)
+      (htrace.second.physical i)) hrows
   have hs : Squarefree (trace.second.source i).physical.first.residualDivisor.val := by
-    simpa only [htrace.second.physical i] using
-      trace.expansion.residual_squarefree htrace.cauchy htrace.expansion i hpos'
+    exact Eq.mpr (congrArg
+      (fun s : PhysicalSource call p => Squarefree s.first.residualDivisor.val)
+      (htrace.second.physical i))
+      (trace.expansion.residual_squarefree htrace.cauchy htrace.expansion i hpos')
   have hd : ∀ j, (trace.second.source i).physical.source.coefficient j ≠ 0 →
       (trace.second.source i).physical.first.residualDivisor.val ∣
         ((trace.second.source i).physical.source.ideal j).val := by
-    simpa only [htrace.second.physical i] using
+    let property (s : PhysicalSource call p) : Prop :=
+      ∀ j : s.Column, s.source.coefficient j ≠ 0 →
+        s.first.residualDivisor.val ∣ (s.source.ideal j).val
+    have hs : property (trace.expansion.source i) :=
       trace.expansion.residual_dvd htrace.cauchy htrace.expansion i hrows'
+    exact Eq.mpr (congrArg property (htrace.second.physical i)) hs
   apply hmass call.base call.domain.scale.le _ hs
     (nonZeroDivisors.coe_ne_zero (trace.second.source i).physical.first.residualDivisor)
     (trace.second.source i).physical.activeCommon
@@ -155,6 +171,7 @@ theorem original_second_common_mass (c : TargetContext K) (ε : ℝ) (hε : 0 < 
     htrace.expansion htrace.second i
       ⟨DE, (trace.second.source i).physical.activeCommon_subset hDE⟩
 
+set_option maxHeartbeats 1000000 in
 /-- The entire second source-class carrier has the original first
 divisor's harmonic density, with no aggregate mass hypothesis. -/
 theorem original_second_class_mass (c : TargetContext K) (ε : ℝ) (hε : 0 < ε) :
@@ -190,7 +207,8 @@ theorem original_second_class_mass (c : TargetContext K) (ε : ℝ) (hε : 0 < �
         intro d _
         exact halloc call input large p trace htrace i LC RC hLC hRC ⟨DE, d⟩
       _ = (Fintype.card ((trace.second.source i).CommonDecoration LC RC DE) : ℝ) *
-          (A * call.base ^ δ) := by simp
+          (A * call.base ^ δ) := by
+        simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
       _ ≤ (D * call.base ^ δ) * (A * call.base ^ δ) :=
         mul_le_mul_of_nonneg_right
           (hdec call input large p trace htrace i LC RC hLC hRC DE) (by positivity)

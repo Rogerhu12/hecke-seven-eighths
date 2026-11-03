@@ -69,6 +69,7 @@ theorem retainedScale_one (expansion : PoolExpansion family)
         rcases horigin with
           ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, hretained, _, _, _⟩
         exact hretained
+    change 1 ≤ (source i).first.retainedScale
     rw [hr]
     exact family.retainedScale_one hfamily (index i).1
 

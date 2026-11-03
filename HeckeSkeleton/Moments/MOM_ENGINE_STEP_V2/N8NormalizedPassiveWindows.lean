@@ -44,7 +44,7 @@ theorem deletionProduct_dvd_combined (hf : family.Realizes) (i : Fin family.coun
     (∏ I ∈ (family.source i).first.fullDeletion, I) ∣
       (family.source i).first.selected.val * (family.source i).first.poolPower.val := by
   rw [hf.deletion i, hf.poolPower i]
-  simpa only [unitExterior, mul_one] using
+  simpa only [unitExterior, Ideal.mul_top] using
     (support_product_dvd
       (nonZeroDivisors.coe_ne_zero (family.source i).first.selected)
       (show primeSupport (family.source i).first.selected.val ⊆
@@ -119,13 +119,18 @@ namespace RawLeafPacket
 
 variable (packet : RawLeafPacket call p)
 
+set_option maxHeartbeats 1000000 in
 theorem deletionProduct_dvd_combined (hpacket : packet.Realizes) :
     (∏ I ∈ packet.second.physical.first.fullDeletion, I) ∣
       packet.second.physical.first.selected.val * packet.second.physical.first.poolPower.val := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, _, _, rfl⟩
-  change (∏ I ∈ (trace.second.source (raw.index j).val.1.1).physical.first.fullDeletion, I) ∣ _
-  rw [htrace.second.physical (raw.index j).val.1.1]
-  exact trace.expansion.deletionProduct_dvd_combined htrace.cauchy htrace.expansion _
+  let property (source : PhysicalSource call p) : Prop :=
+    (∏ I ∈ source.first.fullDeletion, I) ∣
+      source.first.selected.val * source.first.poolPower.val
+  change property (trace.second.source (raw.index j).val.1.1).physical
+  have hsource : property (trace.expansion.source (raw.index j).val.1.1) :=
+    trace.expansion.deletionProduct_dvd_combined htrace.cauchy htrace.expansion _
+  exact Eq.mpr (congrArg property (htrace.second.physical (raw.index j).val.1.1)) hsource
 
 theorem combined_extraction_norm (input : ProfileInput call) (hpacket : packet.Realizes)
     (large : N8Source.normThreshold c call.frame ≤ call.base) :

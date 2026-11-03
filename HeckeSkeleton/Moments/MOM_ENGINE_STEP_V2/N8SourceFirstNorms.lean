@@ -51,9 +51,12 @@ theorem rightResidual_norm (input : ProfileInput call)
   have hj' : j ∈ F.source.columns := by
     rw [(FirstCauchyKey.piece key).right_columns] at hj
     exact (Finset.mem_filter.mp hj).1
+  have hresidual : ((FirstCauchyKey.piece key).rightData.ideal j).val =
+      supportResidual (F.source.ideal j).val (primeSupport key.1.val.1) := by
+    rw [(FirstCauchyKey.piece key).right_ideal]
+    exact (FirstCauchyKey.block key).right_residual j
   change (Ideal.absNorm ((FirstCauchyKey.piece key).rightData.ideal j).val : ℝ) ≤ _
-  rw [(FirstCauchyKey.piece key).right_ideal,
-    (FirstCauchyKey.block key).right_residual]
+  rw [hresidual]
   exact (norm_le_of_dvd (F.source.ideal j).property.1
     (N8Source.supportResidual_dvd_original _ (F.source.ideal j).property.1 _)).trans
       (N8Source.first_source_norm input large F hF j hj')
