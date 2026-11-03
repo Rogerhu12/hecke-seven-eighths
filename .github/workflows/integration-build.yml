@@ -7,7 +7,7 @@ name: Whole-project build
 on:
   pull_request:
     branches: [dtests-handoff]
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
@@ -19,9 +19,9 @@ concurrency:
 
 jobs:
   build:
-    # V2 task branches use their scoped gates; B uses its full V2 gate while a draft.
-    # The unchanged whole-project build runs for B when ready, or manually.
-    if: github.event_name == 'workflow_dispatch' || (!startsWith(github.head_ref, 'cloud/mom-v2-') && (github.head_ref != 'cloud/mom-engine-step-v2' || github.event.pull_request.draft == false))
+    # V2 task branches retain their scoped gates. B now also runs this final
+    # whole-project gate while draft, on every head update before review.
+    if: github.event_name == 'workflow_dispatch' || !startsWith(github.head_ref, 'cloud/mom-v2-')
     runs-on: ubuntu-latest
     timeout-minutes: 300
     env:
@@ -53,6 +53,7 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p /tmp/integration
+          git rev-parse HEAD > /tmp/integration/checkout-head.txt
           libs="$(awk '/^\[\[lean_lib\]\]/ {lib = 1; next} lib && /^name *=/ {gsub(/^name *= *"|"$/, ""); print; lib = 0}' lakefile.toml | tr '\n' ' ')"
           echo "Libraries: $libs" | tee /tmp/integration/build.log
           status=0
@@ -70,6 +71,7 @@ jobs:
           set -euo pipefail
           cat > /tmp/integration/IntegrationAxioms.lean <<'EOF'
           import HeckeSkeleton.Main
+          import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PairedStep
 
           #print axioms HeckeSkeleton.highBin
           #print axioms HeckeSkeleton.expansionPhysicalParameters
@@ -97,6 +99,7 @@ jobs:
           #print axioms HeckeSkeleton.inverseSource
           #print axioms HeckeSkeleton.plainSource
           #print axioms HeckeSkeleton.generalHeckeSevenEighths_skeleton
+          #print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis
           EOF
           cp /tmp/integration/IntegrationAxioms.lean IntegrationAxioms.lean
           lake env lean IntegrationAxioms.lean 2>&1 | tee /tmp/integration/axioms.log

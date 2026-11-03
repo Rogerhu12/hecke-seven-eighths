@@ -66,6 +66,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.GeometryContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.GlobalAssembly
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.KernelMassAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.KernelMassContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.LocalAssembly
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationBinding
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationContracts
@@ -94,9 +95,61 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N7aChildSource
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N7bProfileTransport
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8CommonScalarBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8FrozenProfileBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedArithmeticAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedArithmeticFromTasks
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedArithmeticReduction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCanonical
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCapacityMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCommonBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCostBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFibres
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFirstLedger
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFixedEnvelope
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFrozenAtoms
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedInnerAtoms
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedLabels
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedLeafWeights
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedMassProof
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedOriginalScalars
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedPassiveMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedPassiveWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedRows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedScaleBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedSecondLedger
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceAllocationMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceClassCounts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceCoverCounts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFirstExtraction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFirstMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFirstNorms
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFrozenDivisor
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceIndexBasic
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceIndexProof
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceNormBounds
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceOuterLedger
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceOuterMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceOuterPool
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourcePoolExtraction
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourcePoolMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceRawCarrier
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceRawMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceResidualWindows
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceSecondCommonMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceUniformDecorations
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ClippedRadiusData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FirstRowExponent
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FixedRadiusMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FullKappaContracts
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FullKappaMass
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalKernels
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalRowWeights
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalWindowContracts
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalWindowMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ProfileWindowData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9RadiusData
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ReserveBudget
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9UniformCost
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizationAssembly
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizationCertificate
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedData
@@ -133,6 +186,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalInput
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalOccurrenceData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OutputAssembly
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PairedStep
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveBounds
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalAtoms
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalProfiles
@@ -336,6 +390,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksFirstAllowance
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksFirstTransform
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksFirstZero
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksFullKappa
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksKernelMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksNominalGeometry
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksNormalizedMass
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TasksOriginalAtoms
@@ -361,12 +416,7 @@ import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformScalarPreparation
 
 set_option linter.unusedSectionVars false
 
-/-! Public blueprint data, all task statements and the complete conditional assembly.
-The proved assembly consumes the 24 original task propositions explicitly. -/
+/-! Complete paired engine step with all original task proofs. -/
 
-#check HeckeSkeleton.Moments.EngineStepV2.Blueprint.Call
-#check HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_preparations
-
-#check HeckeSkeleton.Moments.EngineStepV2.Blueprint.TaskProofs
-#check HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint
-#print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint
+#check HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis
+#print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis

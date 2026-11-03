@@ -1,20 +1,19 @@
-# MOM_ENGINE_STEP_V2：24 项蓝图任务与分组计划
+# MOM_ENGINE_STEP_V2：24 项任务、闭合入口与分组计划
 
 ## 交付边界与当前状态
 
-目标保持原陈述：
+完整入口位于 `PairedStep.lean`。对原 `TargetContext`，它直接提供：
 
 ```lean
-EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
+theorem Assembly.pairedStepHypothesis (c : TargetContext K) :
+    EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
 ```
 
-全部代码位于 `HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/`。下列公开名字省略共同前缀 `HeckeSkeleton.Moments.EngineStepV2.Blueprint.`；文件名省略 `.lean`。每个任务的量词、同一 source/family 的绑定和数值条件以对应纯合同为准，不能把已完成的 output 或 analytic bound 补成新前提。
+此入口使用 `canonicalSourceParameters c`，在证明内部以 24 项实际任务定理构造 `TaskProofs`，再调用已证的完整条件组装。公开定理没有 `TaskProofs`、额外 certificate、已完成 output 或额外 analytic bound 前提。N4 使用 `originalCapacityTask_uniform`；N9 使用原窗口入口 `Tasks.originalWindowKernelMass`。Raw/Ordinary 保留原真定义与同一 source 的绑定。
 
-**24 项公开任务入口现已全部落入源码。** N4 的同文件兼容入口 `originalCapacityTask` 继续保留，完整组装消费的是 `originalCapacityTask_uniform`；该兼容入口不另算一项论文任务。N9 的最终入口为 `N9OriginalWindowMass` 中的 `Tasks.originalWindowKernelMass`，不以较弱的中间 `TasksKernelMass` 代替。
+全部代码位于 `HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/`。当前完整登记 **416 模块 / 69,145 物理 Lean 行 / 15 个严格证明组**，每个模块恰登记一次；没有待证 g1 组。下表公开名字省略共同前缀 `HeckeSkeleton.Moments.EngineStepV2.Blueprint.`，文件名省略 `.lean`。原公开命题、量词与数学数值条件保持。
 
-**完整条件组装已在真实 B `393f72f125fdc1b28a5b36dadb7f346edc994528` 验收。** [专用CI41513480717](https://github.com/Rogerhu12/hecke-seven-eighths/actions/runs/41513480717)自然success：115/115模块、16,336 Lake jobs；fresh g0审计2,849个唯一声明（含8个private及generated），仅三标准公理。两个完整组装theorem与U1的required root检查全部通过，115源码+9配置固定HEAD哈希及前后完整性通过，300s/15s watchdog两阶段均0kill/0error。汇总结构 `TaskProofs c p` 恰有24项原任务命题；组装只导入纯合同及已证辅助。
-
-本批继续第一组S1/S2：采用PR36固定 `4fe26b9b1fe34c7d8c0848289bd459428cd234a1` 的11个原blob、1,825行实际证明，公开定理头和共享合同保持。两任务从g1移入严格证明组，全部九个helper登记；本批自身仍须经B full/fresh CI，不以旧任务分支绿色代替。当前登记 **124模块 / 12,741物理Lean行**。
+蓝图和接入分批验证：完整条件组装在 `393f72f1`、S1/S2 在 `ab99c810`、第一接入批在 `c1775792`、第二接入批在 `87ab0348` 完成真实 B 验证；T3 原件随后在 `e2367125` 接入并独立复验。本次最终闭合仍由同一新 head 的完整 V2 fresh 门禁与全项目门禁统一验收；任务分支旧绿色不能替代该次验证。最终 CI 记录和固定 head 见 PR #31。
 
 ## 精确任务入口、依赖与规模
 
@@ -49,41 +48,56 @@ EngineInduction.Source.PairedStepHypothesis (WithLp 2 (ℝ × ℝ)) c
 
 N8 已按原 source 索引质量与 normalized 标签质量拆成 N8a、N8b，所以总数是 **24**，早期文档的 23 项不能作为缺少 N8b 的依据。T3b 复用同一 N8a ledger，不另选 harmonic sum 或重复支付 pool 因子。
 
-## 完整条件组装与当前编译分组
+## 完整组装与编译分组
 
-`Assembly.pairedStepHypothesis_of_blueprint` 使用 `canonicalSourceParameters c`，从 `TaskProofs` 推出上述原目标。`pairedStepHypothesis_of_taskProofs` 保留一般 `SourceParameters c`。三种内部证书（source、terminal、normalization）都在组装证明内由任务前提构造。
+`Assembly.pairedStepHypothesis_of_blueprint` 使用 `canonicalSourceParameters c`，从 `TaskProofs` 推出原目标；`pairedStepHypothesis_of_taskProofs` 保留一般 `SourceParameters c`。三种内部证书都在组装证明内由任务证明构造。新增的无条件 `pairedStepHypothesis` 将每个字段绑定到对应实际任务定理。
 
-先处理原 paired rows 为空的情况；非空时沿同一 source trace、同一 residual refinement、同一 N3 calibration、同一 N6 capacity、同一 normalized family 和 kernels 支付四类 terminal cost 与两类质量。N4 demand、N6 analytic choices、各 orders 的 N5b 窗口与 N9 cost 均在 moving call 之前选择。N8 和 N9 的输入是同一 `LeafNormalization` 的两个投影。N5a 保留为显式任务字段；最终组装直接消费 N5b 已提供的窗口。
+组装先处理原 paired rows 为空的情况；非空时使用同一 source trace、residual refinement、N3 calibration、N6 capacity、normalized family 和 kernels，支付四类 terminal cost 与两类质量。N4 demand、N6 analytic choices、各 orders 的 N5b 窗口和 N9 cost 均在 moving call 前选择。N8 和 N9 使用同一 `LeafNormalization` 的两个投影；N5a 仍是完整任务结构的一项。
 
-| manifest 组 | 模块数 | 内容与验收方式 |
+| manifest 组 | 模块数 | 内容 |
 |---|---:|---|
-| g0 | 91 | 真实数据、纯合同、共用辅助、U1 和完整条件组装；禁止占位，fresh Lean 递归审计所有已加载 V2 声明。 |
-| s1_s2_helpers | 9 | S1原始源与精确界、S2实际Cauchy族/成本/物理截断/行列和retained窗口；全部strict、fresh递归审计。 |
-| s1 | 1 | TasksFirstTransform；required theorem为 `Tasks.firstTransform`，检查来源root。 |
-| s2 | 1 | TasksFirstAllowance；required theorem为 `Tasks.firstAllowance`，检查来源root。 |
-| g1 | 21 | 其余独立待证任务文件；仅这里保留蓝图证明占位。 |
-| g2 | 1 | Interface 聚合入口；明确会导入待证任务，不作为纯组装审计 root。 |
+| g0 | 91 | 真实数据、纯合同、共用辅助、U1 与完整条件组装。 |
+| s1_s2_helpers | 9 | S1/S2 的共同证明辅助。 |
+| s1 | 1 | 原第一变换；required Tasks.firstTransform。 |
+| s2 | 1 | 原 allowance；required Tasks.firstAllowance。 |
+| s3_s5 | 17 | 独立放大与原 nominal geometry。 |
+| s4_t4 | 30 | 原第二变换与两类真实尾项。 |
+| t1_t2 | 28 | 第一零项与完整第二零项。 |
+| n5a_n5b | 6 | 原 profile 公式与精确 clipping/window。 |
+| n7a_n7b | 4 | 同一 child 的 arithmetic 与 profile transport。 |
+| s6_n1 | 31 | 原有限叶子、原 occurrence 和系数。 |
+| n2_n3 | 42 | 完整 residual refinement 与原 calibration。 |
+| n4_n6 | 24 | uniform 原 capacity 与完整 κ normalization。 |
+| n8_n9 | 59 | 原 source/normalized mass 与精确原窗口 kernel mass。 |
+| t3a_t3b | 71 | 原 exceptional source 的分类恢复与 summation。 |
+| g2 | 2 | Interface 与无条件 PairedStep；required root 仅 PairedStep。 |
 
-每组上限 100 模块。证明接入时，将该项任务文件移出 g1，并与其私有 helper 登记在独立已证明组；不把新增文件藏在 manifest 以外。g0 的 required theorem roots 包括 `TasksUniform` 与 `BlueprintAssembly`，检查 theorem 种类、来源模块及递归公理。白名单仅 `propext`、`Classical.choice`、`Quot.sound`，覆盖 private/generated 声明；保留完整源码/配置哈希、HEAD 前后完整性和 300 秒逐进程 watchdog。
+所有组均为 `proved: true`，上限仍为每组 100 模块。每组在 fresh Lean 环境中递归检查全部已加载 V2 声明，覆盖 private/generated；白名单仅 `propext`、`Classical.choice`、`Quot.sound`。30 个 required theorem 同时检查声明种类及来源 root，包含最终无条件入口。源码/配置/HEAD 前后完整性与 300 秒逐进程 watchdog 保持。
 
-当前分发单位为 S1/S2、S3/S5、S4/T4、S6/N1、N2/N3、N4/N6、N5a/N5b、N7a/N7b、N8a/N8b/N9、T1/T2、T3a/T3b 和 U1。每个任务仍有自己不变的公开陈述，组合分发不允许相互改陈述。B 在骨架验收后继续第一组证明与逐组接入。
+原任务分支 scope 保持：T3a/T3b 为 97 个显式目标，N8a/N8b/N9 为 108 个。相同共享模块只登记一次；shared proof 采用负责该任务的已验收版本，保留 N4ScaleProduct/N4ExtractionScale 的现有拆分，不以任务分支旧副本覆盖。
 
-## 已报告实现规模与总预算
+## 原始证明来源与实际规模
 
-下表是已完成源码的固定候选规模；除 U1 已在 B 的真实基线验收外，候选仍须在 B 的真实祖先上重新构建和 fresh 审计后才算接入。任务分支的旧成功 CI 不替代该次复验。
+采用以下固定 head 的任务所有者原始证明。B 合并共享依赖登记并增加闭合入口；B 在 `PassiveSupportRecovery` 补齐任务要求的 `linter.unusedSectionVars false` 设置，证明体和公开陈述不变。N8 所有者在原分支补齐了 `N8NormalizedCommonBounds` 的同一设置。U1 和真实基线沿用 B 已验收证明。
 
-| 单元 | 模块数 | 实际物理行数 | 固定候选 / 状态 |
-|---|---:|---:|---|
-| S1/S2 | 11 | 1,825 | PR36 `4fe26b9b` 原blobs已在本批接入；本次B full/fresh待验收。 |
-| S3/S5 | 17 | 2,448 | PR35 `cecf781c`，待真基线复验。 |
-| S4/T4 | 30 | 6,192 | PR33 `fab1ee06`，待真基线复验。 |
-| N5a/N5b | 7 | 1,149 | PR38 `f61cc2ac`，待真基线复验。 |
-| T1/T2 | 28 | 7,176 | PR37 `4df84d85`，待真基线复验。 |
-| U1 | 5 | 674 | B `bff9840c` 已完整验收。 |
+| 单元 | 来源 PR | 原始 head |
+|---|---:|---|
+| S1/S2 | #36 | `4fe26b9b1fe34c7d8c0848289bd459428cd234a1` |
+| S3/S5 | #35 | `cecf781c42dc4af5d294da2639d5796599473b1c` |
+| S4/T4 | #33 | `fab1ee0661c79035a18ebf7ff45c052eacd7efe3` |
+| S6/N1 | #32 | `c50de627c4ad94e4bc01a4c62ea5ffcc067cfde5` |
+| N2/N3 | #34 | `2cee7b3eac5e6c094e0f3164728f950478d0253e` |
+| N4/N6 | #39 | `19bcb867999aa3a3d762cce1f9f15df899508851` |
+| N5a/N5b | #38 | `f61cc2ac54f44622cfd58b512e90dad28e706a3f` |
+| N7a/N7b | #40 | `7b23c66db3aa23eada2bfef798ff409149cbc88b` |
+| N8a/N8b/N9 | #42 | `375ecc23d112a9618ba8fea6ef7c0f83e259fbdd` |
+| T1/T2 | #37 | `4df84d859507fc80904841b69d78d28130d58c18` |
+| T3a/T3b | #41 | `11f915e5041c649df06dcc09cfb598f009b8d10d` |
+| 完整条件组装 | #44 | `8fcb6bf40b03c29c0f1d837707b119f9da3c9513` |
 
-这 11 项任务的候选实现合计 **19,464 行**。其余 13 项沿用原区间，论文任务当前滚动估计为 **57,464–71,464 行**，公共数据与组装另计；有重叠的公开合同仍保守计数，最终按整个 V2 目录实际源码去重。公共数据/骨架/组装当前约 11k 行，仍保留到最终 **100,000 行以内**的预算空间；后续增长需公开记录。
+最终按 V2 全目录去重计数为 **69,145 行**，含全部 helper、公开合同、Interface 和组装，低于 100,000 行目标。早期逐项预算为 65,000–93,500 行；现以实际完整源码计数为准。
 
-历史总表逐项重算为 **65,000–93,500 行**；早期说明的上限 92,500 少加了 1,000，本次明确纠正。上述滚动估计来自已有实现规模的替换，不是删去论文任务或把 helper 移出统计。完整条件组装的11个文件经实际编译修复后合计 **1,584 行**。
+全项目 `integration-build.yml` 在 B 的最终 draft head 上运行所有原 project libraries，并保留原有公理检查，另打印闭合 `Assembly.pairedStepHypothesis`。head 更新始终触发构建；Ready 状态变化不重复运行同一输入。标为可审查前须核对已通过构建的 B head、base head 与实际 synthetic merge，若 base 变化则同步后重新验证。PR 保留 `[不合并]`。
 
 ## 可参考的 A 线代码
 

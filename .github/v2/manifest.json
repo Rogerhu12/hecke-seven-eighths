@@ -90,7 +90,9 @@
       "groups": [
         "n5a_n5b"
       ],
-      "modules": [],
+      "modules": [
+        "ProfileWindowContracts"
+      ],
       "roots": [
         "ProfileFormulaTask",
         "TasksProfileWindows"
@@ -104,7 +106,13 @@
       "groups": [
         "n4_n6"
       ],
-      "modules": [],
+      "modules": [
+        "N4CalibrationContracts",
+        "OriginalCapacityContracts",
+        "PassiveCoverOrigin",
+        "FullKappaContracts",
+        "FullKappaData"
+      ],
       "roots": [
         "TasksOriginalCapacity",
         "TasksFullKappa"
@@ -172,12 +180,59 @@
     },
     "cloud/mom-v2-n8-n9": {
       "groups": [
-        "n8a_proved",
-        "n8b_proved",
-        "n9_proved",
-        "n8n9_shared_proved"
+        "n8_n9"
       ],
-      "modules": [],
+      "modules": [
+        "CalibrationAtoms",
+        "CalibrationClass",
+        "CalibrationConstruction",
+        "CalibrationContracts",
+        "CalibrationCosts",
+        "CalibrationFourierProfiles",
+        "CalibrationOrigin",
+        "CalibrationParameters",
+        "CalibrationPhases",
+        "CalibrationProfiles",
+        "CalibrationRows",
+        "FirstPhysicalMaskBounds",
+        "FirstSourceCarrierBounds",
+        "FirstZeroInputBounds",
+        "FirstZeroMaskBounds",
+        "FullKappaContracts",
+        "FullKappaData",
+        "N4ComputedLengths",
+        "N4FrozenIdeals",
+        "N4InnerScale",
+        "N4NominalScale",
+        "N4OriginalPrimeWindows",
+        "N4ScaleProduct",
+        "N4ScaleWindows",
+        "N4UniformCapacity",
+        "N4UniformThreshold",
+        "N9OriginalWindowContracts",
+        "N9ProfileWindowData",
+        "NormalizedMassContracts",
+        "OriginalCapacityContracts",
+        "PassiveCanonicalAtoms",
+        "PassiveCanonicalProfiles",
+        "PassiveCanonicalSupport",
+        "PassiveCoverOrigin",
+        "PassiveEnergy",
+        "PassiveExpansion",
+        "PassiveMask",
+        "PassivePhaseBridge",
+        "PassivePhaseCore",
+        "PassiveScalar",
+        "PassiveSecondCarrier",
+        "PassiveSource",
+        "PassiveSourceReindex",
+        "ProfileWindowContracts",
+        "SecondZeroFirstMass",
+        "SecondZeroNormalization",
+        "SecondZeroOrbitMultiplicity",
+        "SecondZeroRowSizeBounds",
+        "SourceEqualityTransport"
+      ],
       "roots": [
         "TasksSourceIndex",
         "TasksNormalizedMass",
@@ -194,7 +249,7 @@
       ]
     }
   },
-  "phase": "proofs-in-progress",
+  "phase": "closed-proof",
   "groups": [
     {
       "id": "g0",
@@ -651,12 +706,83 @@
       ]
     },
     {
-      "id": "n8_shared_helpers",
-      "name": "Original common-scalar helpers shared by N8 and T3",
+      "id": "n8_n9",
+      "name": "PR42 original task proofs and helpers",
       "proved": true,
       "modules": [
+        "KernelMassContracts",
         "N8CommonScalarBounds",
-        "N8FrozenProfileBounds"
+        "N8FrozenProfileBounds",
+        "N8NormalizedArithmeticAssembly",
+        "N8NormalizedArithmeticFromTasks",
+        "N8NormalizedArithmeticReduction",
+        "N8NormalizedBudget",
+        "N8NormalizedCanonical",
+        "N8NormalizedCapacityMass",
+        "N8NormalizedCommonBounds",
+        "N8NormalizedCostBounds",
+        "N8NormalizedFibres",
+        "N8NormalizedFirstLedger",
+        "N8NormalizedFixedEnvelope",
+        "N8NormalizedFrozenAtoms",
+        "N8NormalizedInnerAtoms",
+        "N8NormalizedLabels",
+        "N8NormalizedLeafWeights",
+        "N8NormalizedMassProof",
+        "N8NormalizedOriginalScalars",
+        "N8NormalizedPassiveMass",
+        "N8NormalizedPassiveWindows",
+        "N8NormalizedRows",
+        "N8NormalizedScaleBounds",
+        "N8NormalizedSecondLedger",
+        "N8SourceAllocationMass",
+        "N8SourceClassCounts",
+        "N8SourceCoverCounts",
+        "N8SourceFirstExtraction",
+        "N8SourceFirstMass",
+        "N8SourceFirstNorms",
+        "N8SourceFrozenDivisor",
+        "N8SourceIndexBasic",
+        "N8SourceIndexProof",
+        "N8SourceNormBounds",
+        "N8SourceOuterLedger",
+        "N8SourceOuterMass",
+        "N8SourceOuterPool",
+        "N8SourcePoolExtraction",
+        "N8SourcePoolMass",
+        "N8SourceRawCarrier",
+        "N8SourceRawMass",
+        "N8SourceResidualWindows",
+        "N8SourceSecondCommonMass",
+        "N8SourceUniformDecorations",
+        "N9ClippedRadiusData",
+        "N9FirstRowExponent",
+        "N9FixedRadiusMass",
+        "N9FullKappaContracts",
+        "N9FullKappaMass",
+        "N9OriginalKernels",
+        "N9OriginalRowWeights",
+        "N9OriginalWindowMass",
+        "N9RadiusData",
+        "N9ReserveBudget",
+        "N9UniformCost",
+        "TasksKernelMass",
+        "TasksNormalizedMass",
+        "TasksSourceIndex"
+      ],
+      "roots": [
+        "TasksSourceIndex",
+        "TasksNormalizedMass",
+        "TasksKernelMass",
+        "N9OriginalWindowMass",
+        "N8NormalizedArithmeticAssembly"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.sourceIndex",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.normalizedMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.kernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalWindowKernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass"
       ]
     },
     {
@@ -746,21 +872,18 @@
       ]
     },
     {
-      "id": "g1",
-      "name": "独立论文证明任务（蓝图占位）",
-      "proved": false,
-      "modules": [
-        "N9OriginalWindowMass",
-        "TasksNormalizedMass",
-        "TasksSourceIndex"
-      ]
-    },
-    {
       "id": "g2",
-      "name": "蓝图聚合入口",
-      "proved": false,
+      "name": "Complete paired engine step and public entry point",
+      "proved": true,
       "modules": [
-        "Interface"
+        "Interface",
+        "PairedStep"
+      ],
+      "roots": [
+        "PairedStep"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis"
       ]
     }
   ]
