@@ -114,18 +114,26 @@ theorem t3b_column_absolute_bound (bounds : T3b.SourceBounds c p frame)
       (packet.t3bPlainProfile hpacket phases input side plain ξ) ≤ P := by
     rw [packet.t3bPlainProfile_seminorm]
     exact hprofile plain
-  have hb := (bounds.estimate index
+  have hb := bounds.estimate index
     (packet.t3bPlainProfile hpacket phases input side false ξ)
     (packet.t3bPlainProfile hpacket phases input side true ξ)
-    (hs false) (hs true) P hP (hp false) (hp true)).1
+    (hs false) (hs true) P hP (hp false) (hp true)
   rw [hindex] at hb
   cases hc : call.node.centered with
   | false =>
     rw [packet.t3bColumnValue_uncentered hpacket phases input hc]
-    exact (hb (packet.t3bOrdinaryExceptionalAt hpacket phases input side ξ h).source).1
+    exact (hb.1
+      (g := (packet.t3bUnscaledSource hpacket phases side).extractedFactor h)
+      (h := ((packet.t3bUnscaledSource hpacket phases side).row h).element)
+      (slots := packet.ordinarySlots side)
+      (packet.t3bOrdinaryExceptionalAt hpacket phases input side ξ h).source).1
   | true =>
     rw [packet.t3bColumnValue_centered hpacket phases input hc]
-    have he := (hb (packet.t3bExceptionalAt hpacket phases input hc side ξ h).source).2
+    have he := (hb.1
+      (g := (packet.t3bUnscaledSource hpacket phases side).extractedFactor h)
+      (h := ((packet.t3bUnscaledSource hpacket phases side).row h).element)
+      (slots := packet.ordinarySlots side)
+      (packet.t3bExceptionalAt hpacket phases input hc side ξ h).source).2
     rwa [packet.t3b_rawMass_centered_eq_ordinary hpacket phases input hc] at he
 
 /-- The positive part is taken only after the actual divisor loss in
