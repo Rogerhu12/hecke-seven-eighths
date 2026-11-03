@@ -52,9 +52,11 @@ theorem indexPrefactor_nonneg (j : pool.Index) : 0 ≤ pool.indexPrefactor j := 
   unfold indexPrefactor
   apply mul_nonneg (div_nonneg (by norm_num) (pool.data j.1).density_pos.le)
   cases j.2 with
-  | inl u => exact mul_nonneg (pool.data j.1).multiplicity_nonneg
+  | inl u =>
+    exact mul_nonneg (pool.data j.1).multiplicity_nonneg
       (Real.rpow_nonneg call.base_pos.le _)
-  | inr qe => exact mul_nonneg (FirstGaussPoolData.localErrorWeight_nonneg _ _)
+  | inr qe =>
+    exact mul_nonneg (FirstGaussPoolData.localErrorWeight_nonneg _ _)
       (pow_nonneg (by change (0 : ℝ) ≤ (Ideal.absNorm qe.1.val.val.asIdeal : ℝ); positivity) _)
 
 theorem outer_mul_poolIndexAllowance (j : pool.Index) (source : PhysicalSource call p)
