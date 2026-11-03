@@ -1,6 +1,8 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
 
+set_option linter.unusedSectionVars false
+
 set_option autoImplicit false
 
 /-!
