@@ -30,7 +30,8 @@ import Lean.Util.CollectAxioms
 import Lean.Util.FoldConsts
 
 /-! Report both direct admissions and the actual constant-dependency graph.
-An endpoint with sorryAx is expected here and is never called verified. -/
+The endpoint is now required to be free of sorryAx: only the three
+standard axioms are accepted. -/
 open Lean Elab Command in
 run_cmd do
   let env ← getEnv
@@ -52,10 +53,8 @@ run_cmd do
   liftIO <| IO.println s!"SKELETON_GRAPH_VISITED|{seen.size}"
   let axioms ← Lean.collectAxioms `HeckeSkeleton.generalHeckeSevenEighths_skeleton
   for a in axioms do
-    unless #[`propext, `Classical.choice, `Quot.sound, `sorryAx].contains a do
+    unless #[`propext, `Classical.choice, `Quot.sound].contains a do
       throwError "Unexpected endpoint axiom {a}"
-  unless axioms.contains `sorryAx do
-    throwError "Expected an explicitly incomplete skeleton; audit its changed status"
   logInfo m!"SKELETON_ENDPOINT_AXIOMS|{String.intercalate "," (axioms.toList.map toString)}"
 
 

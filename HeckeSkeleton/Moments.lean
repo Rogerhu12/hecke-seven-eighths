@@ -15,6 +15,8 @@ import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
 import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
 import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceModelClosure
+import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ConditionalTargets
+import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PairedStep
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file still contains named admissions for the other moment tasks.
@@ -235,6 +237,35 @@ theorem uniformMomentBound_repaired_power
   rw [momentRowExponent, if_pos hU] at hh
   exact _root_.ExpansionRecipe.repaired_moment_bound hU hh
 
+/-- The physical exponent one is dominated by the dyadic row exponent,
+since every actual base is at least two and the row exponent exceeds one.
+Height order, ceiling, threshold and scalar are unchanged. -/
+theorem uniformMomentBound_rowExponent_of_physical
+    (E : ∀ Z T, SourceMomentIndex K c Z T → ℝ)
+    (eligible : ∀ Z T, SourceMomentIndex K c Z T → Prop)
+    (h : UniformMomentBound E (fun _ _ _ => 1) eligible) :
+    UniformMomentBound E
+      (fun _ _ i => momentRowExponent (momentBase i)) eligible := by
+  obtain ⟨A, ceiling, hA, hc, hb⟩ := h
+  refine ⟨A, ceiling, hA, hc, ?_⟩
+  intro τ hτ hτc
+  obtain ⟨Z₀, k, hZ₀, hk, hbound⟩ := hb τ hτ hτc
+  refine ⟨Z₀, k, hZ₀, hk, ?_⟩
+  intro Z hZ i hlive heligible
+  have hh := hbound Z hZ i hlive heligible
+  have hU : 1 ≤ momentBase i := le_trans (by norm_num) (momentBase_ge_two i)
+  have he : 1 ≤ momentRowExponent (momentBase i) := (momentRowExponent_spec i).1.le
+  have hZτ : 0 ≤ (1 + Z ^ τ) ^ A := by
+    have hZpos : 0 < Z := lt_of_lt_of_le one_pos (le_trans hZ₀ hZ)
+    exact Real.rpow_nonneg (by linarith [Real.rpow_nonneg hZpos.le τ]) A
+  change E Z (Z ^ τ) i ≤ k * (momentBase i) ^ (1 + c.family.lamA) * (1 + Z ^ τ) ^ A at hh
+  change E Z (Z ^ τ) i ≤ k *
+    (momentBase i) ^ (momentRowExponent (momentBase i) + c.family.lamA) * (1 + Z ^ τ) ^ A
+  have hpow : (momentBase i) ^ (1 + c.family.lamA) ≤
+      (momentBase i) ^ (momentRowExponent (momentBase i) + c.family.lamA) :=
+    Real.rpow_le_rpow_of_exponent_le hU (by linarith)
+  exact hh.trans (mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_left hpow hk) hZτ)
+
 abbrev StrictUnmarkedMomentBound (M : SourceMomentModels K c) : Prop :=
   StrictUnmarkedMomentBoundFor M
 
@@ -332,7 +363,10 @@ theorem paired_zero_slot_models
     UniformMomentBound
       (fun _ _ i => pairedModelEnergy (momentModels K c) i.noSlots)
       (fun _ _ i => momentRowExponent (momentBase i)) (fun _ _ _ => True) := by
-  sorry
+  exact uniformMomentBound_rowExponent_of_physical _ _
+    (Moments.EngineInduction.Source.paired_zero_slot_models_of_step c
+      (Moments.EngineStepV2.Assembly.pairedStepHypothesis c)
+      hcal hrows hprofiles hquadratic)
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-BELOW-ONE | Thm4.2,§4.8,pp17–18,30–33.
 -- COARSE full recursive proof: whole centered coefficient, complete
@@ -349,7 +383,10 @@ theorem paired_positive_below_one
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
       (fun _ _ i => momentRowExponent (momentBase i))
       (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
-  sorry
+  exact uniformMomentBound_rowExponent_of_physical _ _
+    (Moments.EngineInduction.Source.paired_positive_below_one_of_step c
+      (Moments.EngineStepV2.Assembly.pairedStepHypothesis c)
+      hB hcal hrows hprofiles hquadratic hprime)
 
 -- OBLIGATION MI-P-POSITIVE-SLOTS-ENDPOINT | Thm4.2,§4.8,pp17–18,30–33.
 -- Exact kappa1 capacity; no hidden finite-order seven-eighths theorem.
@@ -364,7 +401,10 @@ theorem paired_positive_endpoint
       (fun _ _ i => pairedModelEnergy (momentModels K c) i)
       (fun _ _ i => momentRowExponent (momentBase i))
       (fun _ _ i => pairedCapacity i ∧ i.selected.Nonempty) := by
-  sorry
+  exact uniformMomentBound_rowExponent_of_physical _ _
+    (Moments.EngineInduction.Source.paired_positive_endpoint_of_step c
+      (Moments.EngineStepV2.Assembly.pairedStepHypothesis c)
+      hB hcal hrows hprofiles hquadratic hprime)
 
 variable {K c}
 abbrev physicalInverseEnergy {Z T} (i : SourceMomentIndex K c Z T) : ℝ :=
