@@ -91,7 +91,12 @@ theorem arithmeticMass_le_firstOuter (hpacket : packet.Realizes)
         packet.firstOuterExponent +
           (29 * p.loss + call.node.parameters.κ * (momentMesh K c.family).val) +
           packet.annulusLog / 6 by ring,
-      Real.rpow_add call.base_pos, Real.rpow_add call.base_pos]
+      Real.rpow_add call.base_pos
+        (packet.firstOuterExponent +
+          (29 * p.loss + call.node.parameters.κ * (momentMesh K c.family).val))
+        (packet.annulusLog / 6),
+      Real.rpow_add call.base_pos packet.firstOuterExponent
+        (29 * p.loss + call.node.parameters.κ * (momentMesh K c.family).val)]
     rw [show 4 * c.geometry.slots = c.geometry.slots * 4 by omega, pow_mul]
     unfold RawLeafPacket.outerArithmeticWeight
     ring
@@ -201,7 +206,8 @@ theorem arithmeticReduction (c : TargetContext K) (p : SourceParameters c)
     show 31 * p.loss + call.node.parameters.κ * (momentMesh K c.family).val =
       2 * p.loss + (29 * p.loss +
         call.node.parameters.κ * (momentMesh K c.family).val) by ring,
-    Real.rpow_add call.base_pos]
+    Real.rpow_add call.base_pos (2 * p.loss)
+      (29 * p.loss + call.node.parameters.κ * (momentMesh K c.family).val)]
   dsimp only [coefficient]
   ring
 

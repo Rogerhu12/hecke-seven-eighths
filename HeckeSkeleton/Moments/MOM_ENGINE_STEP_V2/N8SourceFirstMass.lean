@@ -142,10 +142,22 @@ def firstIndexMass : ℝ := ∑ i, (family.source i).firstIndexWeight
 
 theorem firstIndexWeight_eq_key (hf : family.Realizes) (i : Fin family.count) :
     (family.source i).firstIndexWeight = FirstCauchyKey.arithmeticWeight (family.index i) := by
-  unfold PhysicalSource.firstIndexWeight FirstCauchyKey.arithmeticWeight
-  rw [hf.selected i, hf.opposite i, hf.residual i]
-  cases hs : FirstCauchyKey.side (family.index i) <;>
-    simp only [hs, Bool.false_eq_true, if_false, if_true, N8Source.commonRadical_comm]
+  have hswap (side : Bool) (I J : Ideal (𝓞 K)) :
+      commonRadical (if side then J else I) (if side then I else J) =
+        commonRadical I J := by
+    cases side with
+    | false => rfl
+    | true => exact N8Source.commonRadical_comm J I
+  have hrad :
+      commonRadical (family.source i).first.selected.val (family.source i).first.opposite.val =
+        commonRadical (family.index i).1.val.1 (family.index i).1.val.2 :=
+    (congrArg₂ commonRadical (hf.selected i) (hf.opposite i)).trans
+      (hswap (FirstCauchyKey.side (family.index i))
+        (family.index i).1.val.1 (family.index i).1.val.2)
+  exact congrArg₂ (fun radical divisor : Ideal (𝓞 K) =>
+    (1 / (Ideal.absNorm radical : ℝ)) *
+      ‖(UniqueFactorizationMonoid.moebius divisor : ℂ)‖ / (Ideal.absNorm divisor : ℝ))
+    hrad (hf.residual i)
 
 theorem firstIndexMass_eq (hf : family.Realizes) :
     family.firstIndexMass =
@@ -228,9 +240,13 @@ theorem original_first_arithmetic_mass (c : TargetContext K) (ε : ℝ) (hε : 0
         ring
   have hfirst : (∑ v : F.source.CommonLabel,
       1 / (Ideal.absNorm (commonRadical v.val.1 v.val.2) : ℝ)) ≤ H * call.base ^ δ := by
-    rw [Finset.sum_coe_sort]
+    let pairs := commonSupportPool F.source.columns F.source.columns
+      (fun j => (F.source.ideal j).val) (fun j => (F.source.ideal j).val)
+    refine (Finset.sum_coe_sort pairs
+      (fun DE : Ideal (𝓞 K) × Ideal (𝓞 K) =>
+        1 / (Ideal.absNorm (commonRadical DE.1 DE.2) : ℝ))).trans_le ?_
     have h := hcommon call.base call.domain.scale.le (1 : Ideal (𝓞 K))
-      squarefree_one one_ne_zero _
+      squarefree_one one_ne_zero pairs
       (by
         intro DE hDE
         have hz := commonSupportPool_nonzero _ _ _ _ DE hDE

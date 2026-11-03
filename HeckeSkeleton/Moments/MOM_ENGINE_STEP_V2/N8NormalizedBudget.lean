@@ -88,7 +88,11 @@ theorem nominalCore_eq_false (hpacket : packet.Realizes) (side : Bool) :
   cases side with
   | false => rfl
   | true =>
-    let h : packet.R.live := Classical.choice (N4.packet_live_nonempty packet hpacket)
+    have hlive : Nonempty packet.R.live := by
+      rcases hpacket with ⟨trace, geometry, raw, j, _, _, _, rfl⟩
+      rcases (raw.active j).2.2.2 with ⟨h, hh⟩
+      exact ⟨⟨h, hh⟩⟩
+    let h : packet.R.live := Classical.choice hlive
     have hunit := (packet.realized_unitPart hpacket true h).trans
       (packet.realized_unitPart hpacket false h).symm
     have hnonunit := (packet.realized_nonunitPart hpacket true h).trans
@@ -136,6 +140,7 @@ variable {packet : RawLeafPacket call p} {input : ProfileInput call}
 variable {choices : FullKappaChoices c p.loss}
 variable (P : CanonicalMassPacket packet input choices)
 
+set_option maxHeartbeats 1000000 in
 theorem capacityBudget_le_nominal (hpacket : packet.Realizes)
     (frame : SourceFrame) (hframe : call.frame = frame)
     (ready : (N4.annulusDemand p frame).Ready call input)
@@ -171,7 +176,7 @@ theorem capacityBudget_le_nominal (hpacket : packet.Realizes)
   rw [hraw, herror, hnominal, result.annulus_eq, D.kappa_eq,
     packet.nominal_supportError_eq hpacket side]
   dsimp only [RawLeafPacket.nominalBudget, RawLeafPacket.nominalCore, RawLeafPacket.annulusLog]
-  linarith [p.loss_pos]
+  linarith only [hwidth, p.loss_pos]
 
 /-- Both sides use one common numerical budget for their unchanged
 active label, including its original whole-slot removal set. -/
