@@ -1,65 +1,82 @@
-[![](logo.svg)](https://axiommath.ai/)
+# Hecke L-functions are zero-free for Re(s) > 7/8
 
-# Dedekind Zeta Zero-Free Region
+A Lean 4 formalization of the main theorem of
+[paper/weil_seven_eighths_revised.tex](paper/weil_seven_eighths_revised.tex):
+for every number field $F$ and every Hecke character $\chi$ of $F$, the
+continued Hecke L-function $L(s, \chi)$ has no zeros with $\mathrm{Re}(s) > 7/8$.
 
-This is a Lean formalization of Theorem 1.1 and Corollary 1.2 of
-[A quasi-Riemann hypothesis for Dedekind zeta functions](https://hexagonmath.org/2610.00200v1).
+## Main result
 
-The investigators, Dean Cureton and Jesse Thorner, directed the research and
-made the mathematical judgments. AxiomProver generated the proofs and Lean
-formalization. The work was developed at Axiom Math.
+The statement is `GeneralHeckeSevenEighths` in
+[HeckeGeneral/Analysis/HeckeEndpointTarget.lean](HeckeGeneral/Analysis/HeckeEndpointTarget.lean):
 
-## Main Result
+```lean
+def HeckeSevenEighths : Prop :=
+  ∀ χ : HeckeCharacter K,
+    MeromorphicZeroFreeOn (heckeContinuation K χ) (rightHalfPlane (7 / 8))
 
-**Theorem 1.1.** If $K$ is any number field, then its Dedekind zeta function
-$\zeta_K$ has no zeros in the half-plane
+def GeneralHeckeSevenEighths : Prop :=
+  ∀ (F : Type) [Field F] [NumberField F], HeckeSevenEighths F
+```
 
-$$
-\mathrm{Re}(s) > \frac{31}{32}.
-$$
+The proof is `HeckeSkeleton.generalHeckeSevenEighths_skeleton` in
+[HeckeSkeleton/Main.lean](HeckeSkeleton/Main.lean). It depends only on the
+three standard axioms `propext`, `Classical.choice` and `Quot.sound`;
+[HeckeSkeleton/Audit.lean](HeckeSkeleton/Audit.lean) checks this and rejects
+`sorryAx`.
 
-**Corollary 1.2.** The same zero-free region holds for finite-order Hecke
-L-functions, with $s = 1$ included for nonprincipal characters.
-
-The formal proof uses only Lean's three standard axioms: `propext`,
-`Quot.sound`, and `Classical.choice`.
-
-See [§Formal Challenge](#formal-challenge) for the formal statement and
-verification instructions.
-
-## Dependencies
-
-This project depends on:
-
-* [Mathlib](https://github.com/leanprover-community/mathlib4).
-* [Tau Ceti](https://github.com/TauCetiProject/TauCeti).
-* [FiniteAbelianGlobalReciprocityv2](https://github.com/PalomarArchive/n-yamaguchi-0729--FiniteAbelianGlobalReciprocityv2--ccc6f4bb14f4),
-  vendored under `vendor/class-field-theory` with compatibility changes.
-
-It also includes code adapted from Tau Ceti and:
-
-* [LeanPool/lean-pool](https://github.com/LeanPool/lean-pool):
-  Dedekind zeta functions and algebraic number theory.
-* [openai/math](https://github.com/openai/math):
-  analytic number theory.
-
-## Formal Challenge
-
-[Solution/DedekindZetaSolution.lean](Solution/DedekindZetaSolution.lean)
-proves `DedekindZetaZeroFree.main` and `DedekindZetaZeroFree.heckeCorollary` from
-[Challenge/DedekindZetaChallenge.lean](Challenge/DedekindZetaChallenge.lean),
-using the library's [main theorem](DedekindZetaZeroFree/Main.lean) and
-[Hecke corollary](DedekindZetaZeroFree/HeckeCorollary.lean).
-
-To build:
+## Verifying
 
 ```sh
 lake exe cache get
-lake build
+lake build HeckeSkeleton.Audit
 ```
 
-To run comparator:
+The whole-project build (every library in `lakefile.toml`, followed by an axiom
+printout of the endpoint and its main inputs) runs in CI on every pull request,
+see [.github/workflows/integration-build.yml](.github/workflows/integration-build.yml).
+Pushes to `dtests-handoff` publish a precompiled Lake cache as a release, which
+CI restores through [.github/actions/restore-lake-cache](.github/actions/restore-lake-cache).
+
+## Layout
+
+| Path | Contents |
+|---|---|
+| `HeckeGeneral/` | Hecke characters, continuations and the target statement over a general number field |
+| `HeckeSkeleton/` | The proof: principal part, expansion, high bin, descent, and the moment machinery under `HeckeSkeleton/Moments/` |
+| `HeckeSkeleton/Moments/MOM_ENGINE_STEP_V2/` | The paired engine step, written as a blueprint of 24 task statements and their proofs; see its `PLAN.md` and `TASKS.md` |
+| `ThetaGlobal/`, `Expansion*/`, `HeckePort/`, `CubicSieve/`, `PrimeCancellation/` | Analytic inputs used by the proof |
+| `SkeletonInputs/`, `GramCoreInputs/`, `GramAssemblyInputs/` | Arithmetic and Gram-matrix input modules |
+| `HeckeAxiom/` | Bridge from the base project's ray class character theorems |
+| `DedekindZetaZeroFree/`, `Challenge/`, `Solution/` | The base project (see below) |
+| `vendor/` | Vendored dependencies: class field theory, FLT, Tau Ceti and openai/math excerpts |
+| `paper/` | The paper being formalized |
+| `docs/WORK_LEDGER.md` | Progress ledger of the formalization |
+| `docs/archive/` | Historical task descriptions, reports, coordination notes and one-off scripts |
+| `scripts/` | Scripts used by CI (Lake cache build and pruning) |
+
+## Base project
+
+This repository started from AxiomMath's formalization of the Dedekind zeta
+zero-free region $\mathrm{Re}(s) > 31/32$
+([A quasi-Riemann hypothesis for Dedekind zeta functions](https://hexagonmath.org/2610.00200v1),
+Dean Cureton and Jesse Thorner). That development lives in
+`DedekindZetaZeroFree/`, with its challenge statement in `Challenge/` and
+solution in `Solution/`; `comparator.json` and `formalization.yaml` describe
+that base project. To check it:
 
 ```sh
+lake build DedekindZetaZeroFree DedekindZetaChallenge DedekindZetaSolution
 lake comparator --config comparator.json
 ```
+
+## Dependencies
+
+* [Mathlib](https://github.com/leanprover-community/mathlib4)
+* [Tau Ceti](https://github.com/TauCetiProject/TauCeti)
+* [FiniteAbelianGlobalReciprocityv2](https://github.com/PalomarArchive/n-yamaguchi-0729--FiniteAbelianGlobalReciprocityv2--ccc6f4bb14f4),
+  vendored under `vendor/class-field-theory` with compatibility changes
+
+The code also adapts material from Tau Ceti,
+[LeanPool/lean-pool](https://github.com/LeanPool/lean-pool) and
+[openai/math](https://github.com/openai/math).

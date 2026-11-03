@@ -4,8 +4,9 @@ import HeckeSkeleton.HighBin
 import HeckeSkeleton.Moments
 import HeckeSkeleton.Descent
 
-/-! A compiling dependency skeleton is NOT a proof of the main theorem.
-All admissions occur in named upstream obligations, never in this assembly. -/
+/-! Assembly of the general Hecke 7/8 theorem. Every upstream obligation is
+proved; `HeckeSkeleton.Audit` checks that the endpoint uses only the three
+standard axioms. -/
 set_option autoImplicit false
 noncomputable section
 namespace HeckeSkeleton
@@ -33,8 +34,8 @@ theorem familyInputs (zeta : K) (hzeta : IsPrimitiveRoot zeta 12)
     targetData K c, sourceT K c,
     inverseSource K c, plainSource K c⟩
 
-/-- EXPLORATORY endpoint. It retains the pre-existing sorryAx dependencies
-listed by Audit. The actual fixed source supplies its high K-type Mellin
+/-- Hecke L-functions of every number field have no zeros with real part
+greater than 7/8. The actual fixed source supplies its high K-type Mellin
 input and exterior digit tables, so this assembly has no added local premise. -/
 theorem generalHeckeSevenEighths_skeleton : GeneralHeckeSevenEighths := by
   intro F _ _
