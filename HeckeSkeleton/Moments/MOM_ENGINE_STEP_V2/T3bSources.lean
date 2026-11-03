@@ -64,7 +64,12 @@ theorem t3bQuotientScale_product (side rectangle : Bool) :
         packet.t3bQuotientScale hpacket phases side rectangle true =
       packet.t3bScaleProduct hpacket phases side := by
   change (_ / _) * (_ / _) = (_ / _) * (_ / _)
-  rw [div_mul_div_comm, div_mul_div_comm, packet.t3bUnscaled_scale_product]
+  rw [div_mul_div_comm, div_mul_div_comm]
+  exact congrArg
+    (fun scale : ℝ => scale /
+      (idealNorm K (packet.t3bPlainDivisor hpacket phases side false) *
+        idealNorm K (packet.t3bPlainDivisor hpacket phases side true)))
+    (packet.t3bUnscaled_scale_product hpacket phases side rectangle)
 
 def t3bScaleLower (side : Bool) : ℝ :=
   min (min (packet.t3bQuotientScale hpacket phases side false false)
@@ -111,17 +116,27 @@ def t3bExceptionalAt (input : ProfileInput call) (hc : call.node.centered = true
   Y₁_lower := packet.t3bScaleLower_le hpacket phases side true false
   Y₂_lower := packet.t3bScaleLower_le hpacket phases side true true
   productX := by
-    cases side <;> exact packet.t3bQuotientScale_product hpacket phases _ false
+    cases side with
+    | false => exact packet.t3bQuotientScale_product hpacket phases false false
+    | true => exact packet.t3bQuotientScale_product hpacket phases true false
   productY := packet.t3bQuotientScale_product hpacket phases side true
   chartX₁ := by
-    cases side <;> exact packet.t3bPlainChart hpacket phases input _ false false ξ h
+    cases side with
+    | false => exact packet.t3bPlainChart hpacket phases input false false false ξ h
+    | true => exact packet.t3bPlainChart hpacket phases input true false false ξ h
   chartX₂ := by
-    cases side <;> exact packet.t3bPlainChart hpacket phases input _ false true ξ h
+    cases side with
+    | false => exact packet.t3bPlainChart hpacket phases input false false true ξ h
+    | true => exact packet.t3bPlainChart hpacket phases input true false true ξ h
   chartY₁ := by
     simp only [packet.t3bComparisonWeight_centered hpacket phases side hc]
-    cases side <;> exact packet.t3bPlainChart hpacket phases input _ true false ξ h
+    cases side with
+    | false => exact packet.t3bPlainChart hpacket phases input false true false ξ h
+    | true => exact packet.t3bPlainChart hpacket phases input true true false ξ h
   chartY₂ := by
-    cases side <;> exact packet.t3bPlainChart hpacket phases input _ true true ξ h
+    cases side with
+    | false => exact packet.t3bPlainChart hpacket phases input false true true ξ h
+    | true => exact packet.t3bPlainChart hpacket phases input true true true ξ h
 
 def t3bOrdinaryExceptionalAt (input : ProfileInput call)
     (side : Bool) (ξ : EngineParameter) (h : packet.R.live) :
@@ -141,11 +156,17 @@ def t3bOrdinaryExceptionalAt (input : ProfileInput call)
   X₂_lower := by
     cases side <;> exact packet.t3bScaleLower_le hpacket phases _ false true
   productX := by
-    cases side <;> exact packet.t3bQuotientScale_product hpacket phases _ false
+    cases side with
+    | false => exact packet.t3bQuotientScale_product hpacket phases false false
+    | true => exact packet.t3bQuotientScale_product hpacket phases true false
   chartX₁ := by
-    cases side <;> exact packet.t3bPlainChart hpacket phases input _ false false ξ h
+    cases side with
+    | false => exact packet.t3bPlainChart hpacket phases input false false false ξ h
+    | true => exact packet.t3bPlainChart hpacket phases input true false false ξ h
   chartX₂ := by
-    cases side <;> exact packet.t3bPlainChart hpacket phases input _ false true ξ h
+    cases side with
+    | false => exact packet.t3bPlainChart hpacket phases input false false true ξ h
+    | true => exact packet.t3bPlainChart hpacket phases input true false true ξ h
 
 theorem t3bUnscaledLeftFrame_normalizer :
     (packet.t3bUnscaledLeftFrame hpacket phases).normalizer = 1 := by
@@ -158,6 +179,10 @@ theorem t3bUnscaledRightFrame_normalizer :
   change extraGaussNormalizer 1 1 (fun _ => 1) = 1
   simp only [extraGaussNormalizer, SecondCoefficientTermDictionary.centralNormalizer,
     Real.sqrt_one, Complex.ofReal_one, inv_one, Finset.prod_const_one, mul_one]
+
+private theorem norm_normalizer_one {x y : ℝ} {n : ℂ}
+    (h : x = ‖n‖ * y) (hn : n = 1) : x = y := by
+  simpa only [hn, norm_one, one_mul] using h
 
 theorem t3b_centeredColumn_uncentered (hc : call.node.centered = false)
     (side : Bool) (ξ : EngineParameter) (h : packet.R.live) :
@@ -173,6 +198,7 @@ theorem t3b_centeredColumn_uncentered (hc : call.node.centered = false)
   simp only [ActualAllocatedSource.centeredColumn, ActualAllocatedSource.ordinaryColumn,
     rawSourceCoefficient, FixedChildCharacters.coefficient, childCartesianCoefficient,
     sourcePlainTerm, mul_zero, zero_mul, sub_zero]
+  rfl
 
 theorem t3b_left_centered_value (input : ProfileInput call) (hc : call.node.centered = true)
     (ξ : EngineParameter) (h : packet.R.live) :
@@ -183,9 +209,14 @@ theorem t3b_left_centered_value (input : ProfileInput call) (hc : call.node.cent
         ((packet.t3bUnscaledLeftFrame hpacket phases).rightLocation h.val)
         ((packet.t3bUnscaledLeftFrame hpacket phases).slotLocation h.val)) ξ‖ =
       ‖(packet.t3bExceptionalAt hpacket phases input hc false ξ h).source.value‖ := by
-  rw [SecondSideFrame.centered_column_norm_eq_source,
-    packet.t3bUnscaledLeftFrame_normalizer, norm_one, one_mul]
-  rfl
+  have hsource := SecondSideFrame.centered_column_norm_eq_source
+    (packet.t3bUnscaledLeftFrame hpacket phases)
+    (packet.t3bUnscaledLeftComparison hpacket phases) h ξ
+  have hvalue :=
+    (packet.t3bExceptionalAt hpacket phases input hc false ξ h).value_eq_centeredColumn
+  exact (norm_normalizer_one hsource
+    (packet.t3bUnscaledLeftFrame_normalizer hpacket phases)).trans
+    (congrArg (fun z : ℂ => ‖z‖) hvalue.symm)
 
 theorem t3b_right_centered_value (input : ProfileInput call) (hc : call.node.centered = true)
     (ξ : EngineParameter) (h : packet.R.live) :
@@ -196,9 +227,14 @@ theorem t3b_right_centered_value (input : ProfileInput call) (hc : call.node.cen
         ((packet.t3bUnscaledRightFrame hpacket phases).rightLocation h.val)
         ((packet.t3bUnscaledRightFrame hpacket phases).slotLocation h.val)) ξ‖ =
       ‖(packet.t3bExceptionalAt hpacket phases input hc true ξ h).source.value‖ := by
-  rw [SecondSideFrame.centered_column_norm_eq_source,
-    packet.t3bUnscaledRightFrame_normalizer, norm_one, one_mul]
-  rfl
+  have hsource := SecondSideFrame.centered_column_norm_eq_source
+    (packet.t3bUnscaledRightFrame hpacket phases)
+    (packet.t3bUnscaledRightComparison hpacket phases) h ξ
+  have hvalue :=
+    (packet.t3bExceptionalAt hpacket phases input hc true ξ h).value_eq_centeredColumn
+  exact (norm_normalizer_one hsource
+    (packet.t3bUnscaledRightFrame_normalizer hpacket phases)).trans
+    (congrArg (fun z : ℂ => ‖z‖) hvalue.symm)
 
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
