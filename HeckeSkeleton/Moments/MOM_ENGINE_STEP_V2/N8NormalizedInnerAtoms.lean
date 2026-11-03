@@ -80,7 +80,7 @@ theorem originalSlotCount_le (side : Bool) :
     O.originalSlotCount side ≤ c.geometry.slots := by
   have hc := Fintype.card_le_of_injective (D.secondIndex side)
     (D.secondIndex_injective side)
-  have hc' : O.originalSlotCount side ≤ call.node.data.geometry.slotCount := by
+  have hc' : O.originalSlotCount side ≤ call.localizedData.geometry.slotCount := by
     simpa only [Fintype.card_fin] using hc
   exact hc'.trans call.slots_le
 
@@ -162,7 +162,11 @@ theorem innerScalar_bound (hpacket : packet.Realizes)
     · intro i hi
       exact le_max_right _ _
   have hbound := hscalar.trans (div_le_div_of_nonneg_right hprod hdiv.le)
-  simpa only [innerScalar, O.originalAllocation_divisor side] using hbound
+  change ‖seed.innerScalar side h‖ ^ 2 ≤
+    input.frozenAtomBudget ^ c.geometry.slots /
+      (Ideal.absNorm (seed.ordinary.originalAllocation side).divisor : ℝ) at hbound
+  rw [seed.ordinary.originalAllocation_divisor side] at hbound
+  exact hbound
 
 theorem canonicalSource_rowCost_inner_bound (hpacket : packet.Realizes)
     (horders : (0, 0) ∈ input.orders) (support : seed.ordinary.PassiveSupport input)

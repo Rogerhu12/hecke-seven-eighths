@@ -76,8 +76,19 @@ theorem allocationIndexMass_eq :
   intro D _
   have hslots : (SourceClassKey.rightReindexInputs key).slotCount =
       SourceClassKey.rightSlots key := rfl
-  rw [hslots]
-  ring
+  have hcard :
+      ((AllocationMass.idealAllocations D.val
+        ((SourceClassKey.rightReindexInputs key).slotCount + 2)).card : ℝ) =
+      ((AllocationMass.idealAllocations D.val
+        (SourceClassKey.rightSlots key + 2)).card : ℝ) :=
+    congrArg (fun n : ℕ =>
+      ((AllocationMass.idealAllocations D.val (n + 2)).card : ℝ)) hslots
+  exact (congrArg (fun mass : ℝ =>
+    (Fintype.card ((PUnit.{1} × PUnit.{1}) →* Circle) : ℝ) *
+      (((AllocationMass.idealAllocations D.val
+        (SourceClassKey.leftSlots key + 2)).card : ℝ) * mass) *
+      (‖(UniqueFactorizationMonoid.moebius D.val : ℂ)‖ /
+        (Ideal.absNorm D.val : ℝ))) hcard).trans (by ring)
 
 theorem innerDivisor_ne_zero (D : Ideal (𝓞 K)) (hD : D ∈ key.innerDivisors) :
     D ≠ 0 := by
