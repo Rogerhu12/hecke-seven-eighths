@@ -1,0 +1,890 @@
+{
+  "task_scopes": {
+    "cloud/mom-v2-s6-n1": {
+      "groups": [
+        "s6_n1"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksFiniteLeaves",
+        "TasksOriginalAtoms"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.finiteLeaves",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalAtoms"
+      ]
+    },
+    "cloud/mom-v2-s4-t4": {
+      "groups": [
+        "s4_t4"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksSecondTransform",
+        "TasksTails"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondTransform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.tails"
+      ]
+    },
+    "cloud/mom-v2-n2-n3": {
+      "groups": [
+        "n2_n3"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksPassiveRefinement",
+        "TasksOriginalCalibration"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.passive_refinement",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.original_calibration"
+      ]
+    },
+    "cloud/mom-v2-s3-s5": {
+      "groups": [
+        "s3_s5"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksAmplification",
+        "TasksNominalGeometry"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.amplification",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.nominalGeometry"
+      ]
+    },
+    "cloud/mom-v2-s1-s2": {
+      "groups": [
+        "s1_s2_helpers",
+        "s1",
+        "s2"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksFirstTransform",
+        "TasksFirstAllowance"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstTransform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstAllowance"
+      ]
+    },
+    "cloud/mom-v2-t1-t2": {
+      "groups": [
+        "t1_t2"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksFirstZero",
+        "TasksSecondZero"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstZero",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondZero"
+      ]
+    },
+    "cloud/mom-v2-n5a-n5b": {
+      "groups": [
+        "n5a_n5b"
+      ],
+      "modules": [
+        "ProfileWindowContracts"
+      ],
+      "roots": [
+        "ProfileFormulaTask",
+        "TasksProfileWindows"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_formula_control",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_windows"
+      ]
+    },
+    "cloud/mom-v2-n4-n6": {
+      "groups": [
+        "n4_n6"
+      ],
+      "modules": [
+        "N4CalibrationContracts",
+        "OriginalCapacityContracts",
+        "PassiveCoverOrigin",
+        "FullKappaContracts",
+        "FullKappaData"
+      ],
+      "roots": [
+        "TasksOriginalCapacity",
+        "TasksFullKappa"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask_uniform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.fullKappaNormalization"
+      ]
+    },
+    "cloud/mom-v2-n7a-n7b": {
+      "groups": [
+        "n7a_n7b"
+      ],
+      "modules": [],
+      "roots": [
+        "TasksChildArithmetic",
+        "TasksChildProfiles"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_arithmetic",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_profiles"
+      ]
+    },
+    "cloud/mom-v2-t3a-t3b": {
+      "groups": [
+        "t3a_t3b"
+      ],
+      "modules": [
+        "N4FrozenIdeals",
+        "N4ScaleProduct",
+        "N8CommonScalarBounds",
+        "N8FrozenProfileBounds",
+        "OrdinaryAtomExtraction",
+        "OrdinaryAtomModel",
+        "OrdinaryCharacterFacts",
+        "OrdinaryDivisorGate",
+        "OrdinaryFirstAtomFormula",
+        "OrdinaryLeafBinding",
+        "OrdinaryLeafLocations",
+        "OrdinaryMultiplierTransport",
+        "OrdinaryNormPower",
+        "OrdinaryNormProfile",
+        "OrdinaryOccurrenceFacts",
+        "OrdinaryOriginalCoordinates",
+        "OrdinaryOriginalTerms",
+        "OrdinaryPhaseCoefficients",
+        "OrdinaryPhaseFacts",
+        "OrdinaryPointTransport",
+        "OrdinaryRawAtomData",
+        "OrdinaryRawAtomFormula",
+        "OrdinaryRectangleFactors",
+        "OrdinaryScaleFacts",
+        "OrdinarySourceFacts",
+        "OrdinarySourceTransport"
+      ],
+      "roots": [
+        "TasksExceptionalRecovery",
+        "TasksExceptionalSummation"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.exceptional_recovery",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.exceptional_summation"
+      ]
+    },
+    "cloud/mom-v2-n8-n9": {
+      "groups": [
+        "n8_n9"
+      ],
+      "modules": [
+        "CalibrationAtoms",
+        "CalibrationClass",
+        "CalibrationConstruction",
+        "CalibrationContracts",
+        "CalibrationCosts",
+        "CalibrationFourierProfiles",
+        "CalibrationOrigin",
+        "CalibrationParameters",
+        "CalibrationPhases",
+        "CalibrationProfiles",
+        "CalibrationRows",
+        "FirstPhysicalMaskBounds",
+        "FirstSourceCarrierBounds",
+        "FirstZeroInputBounds",
+        "FirstZeroMaskBounds",
+        "FullKappaContracts",
+        "FullKappaData",
+        "N4ComputedLengths",
+        "N4FrozenIdeals",
+        "N4InnerScale",
+        "N4NominalScale",
+        "N4OriginalPrimeWindows",
+        "N4ScaleProduct",
+        "N4ScaleWindows",
+        "N4UniformCapacity",
+        "N4UniformThreshold",
+        "N9OriginalWindowContracts",
+        "N9ProfileWindowData",
+        "NormalizedMassContracts",
+        "OriginalCapacityContracts",
+        "PassiveCanonicalAtoms",
+        "PassiveCanonicalProfiles",
+        "PassiveCanonicalSupport",
+        "PassiveCoverOrigin",
+        "PassiveEnergy",
+        "PassiveExpansion",
+        "PassiveMask",
+        "PassivePhaseBridge",
+        "PassivePhaseCore",
+        "PassiveScalar",
+        "PassiveSecondCarrier",
+        "PassiveSource",
+        "PassiveSourceReindex",
+        "ProfileWindowContracts",
+        "SecondZeroFirstMass",
+        "SecondZeroNormalization",
+        "SecondZeroOrbitMultiplicity",
+        "SecondZeroRowSizeBounds",
+        "SourceEqualityTransport"
+      ],
+      "roots": [
+        "TasksSourceIndex",
+        "TasksNormalizedMass",
+        "TasksKernelMass",
+        "N9OriginalWindowMass",
+        "N8NormalizedArithmeticAssembly"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.sourceIndex",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.normalizedMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.kernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalWindowKernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass"
+      ]
+    }
+  },
+  "phase": "closed-proof",
+  "groups": [
+    {
+      "id": "g0",
+      "name": "真实数据、纯陈述类型、完整条件组装及U1证明",
+      "proved": true,
+      "modules": [
+        "ArithmeticData",
+        "ArithmeticMassAssembly",
+        "AssemblyArithmeticBridge",
+        "AssemblyCalibrationBridge",
+        "AssemblyCalibrationProfiles",
+        "AssemblyCore",
+        "AssemblyFourierBridge",
+        "AssemblyLeafConstruction",
+        "AssemblyLogProfileData",
+        "AssemblyMomentDataExt",
+        "AssemblyNormalizationCertificate",
+        "AssemblyNormalizationGeometry",
+        "AssemblyProfilePhase",
+        "BlueprintAssembly",
+        "BudgetAssembly",
+        "CalibrationContracts",
+        "CalibrationData",
+        "CallData",
+        "CanonicalCalibrationData",
+        "CanonicalRefinement",
+        "ChildArithmeticContracts",
+        "ChildInvariantData",
+        "ChildProfileAssembly",
+        "ChildProfileContracts",
+        "EmptyAssembly",
+        "EstimateData",
+        "ExceptionalContracts",
+        "ExceptionalRecoveryContracts",
+        "ExceptionalSummationContracts",
+        "FirstCauchyContracts",
+        "FirstSourceContracts",
+        "FirstZeroContracts",
+        "FullKappaContracts",
+        "FullKappaData",
+        "GeometryContracts",
+        "GlobalAssembly",
+        "InputDemands",
+        "KernelMassAssembly",
+        "LocalAssembly",
+        "N4CalibrationContracts",
+        "N9OriginalWindowContracts",
+        "N9ProfileWindowData",
+        "NormalizationAssembly",
+        "NormalizationCertificate",
+        "NormalizedData",
+        "NormalizedMassContracts",
+        "NormalizedOutputAssembly",
+        "OrdinaryContracts",
+        "OrdinaryData",
+        "OrdinarySeedAtomBinding",
+        "OriginalCapacityContracts",
+        "OriginalInput",
+        "OriginalOccurrenceData",
+        "OriginalPhaseData",
+        "OutputAssembly",
+        "PassiveData",
+        "PoolContracts",
+        "PreparedCall",
+        "PrimitiveAssembly",
+        "ProfileAssembly",
+        "ProfileDictionary",
+        "ProfileFormula",
+        "ProfileWindowContracts",
+        "RawContracts",
+        "RawLeafData",
+        "RawRectangleData",
+        "RefinementAssembly",
+        "RefinementContracts",
+        "RefinementData",
+        "SecondContracts",
+        "SecondData",
+        "SecondZeroContracts",
+        "SideGeometryData",
+        "SourceAssembly",
+        "SourceCharacters",
+        "SourceData",
+        "SourceFrame",
+        "SourceIndexContracts",
+        "SourceScalarData",
+        "TailContracts",
+        "TasksUniform",
+        "TerminalAssembly",
+        "TerminalContracts",
+        "TerminalData",
+        "UniformAssembly",
+        "UniformContracts",
+        "UniformData",
+        "UniformMellinPreparation",
+        "UniformOrderPreparation",
+        "UniformRealizationProof",
+        "UniformScalarPreparation"
+      ],
+      "roots": [
+        "TasksUniform",
+        "BlueprintAssembly"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.uniformPreparation",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_taskProofs",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis_of_blueprint"
+      ]
+    },
+    {
+      "id": "s1_s2_helpers",
+      "name": "S1/S2原始源、Cauchy族与窗口辅助证明",
+      "proved": true,
+      "modules": [
+        "S1ExactBound",
+        "S1SourceConstruction",
+        "S2FirstColumnWindows",
+        "S2FirstFamilyCost",
+        "S2FirstFamilyData",
+        "S2FirstPhysicalCutoff",
+        "S2FirstRetainedWindow",
+        "S2FirstRowWindow",
+        "S2OriginalColumnWindow"
+      ]
+    },
+    {
+      "id": "s1",
+      "name": "S1第一次变换与原零尾分离",
+      "proved": true,
+      "modules": [
+        "TasksFirstTransform"
+      ],
+      "roots": [
+        "TasksFirstTransform"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstTransform"
+      ]
+    },
+    {
+      "id": "s2",
+      "name": "S2原始Cauchy allowance与实际窗口",
+      "proved": true,
+      "modules": [
+        "TasksFirstAllowance"
+      ],
+      "roots": [
+        "TasksFirstAllowance"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstAllowance"
+      ]
+    },
+    {
+      "id": "s3_s5",
+      "name": "PR35 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "S3Assembly",
+        "S3Energy",
+        "S3ExpansionData",
+        "S3FrozenDivisor",
+        "S3OriginalColumnBound",
+        "S3PoolData",
+        "S3RowExponent",
+        "S3RowTransport",
+        "S3UniformDensity",
+        "S3Windows",
+        "S5ClassIdeals",
+        "S5GeometryConstruction",
+        "S5NominalLedger",
+        "S5RowWindow",
+        "S5SupportWindow",
+        "TasksAmplification",
+        "TasksNominalGeometry"
+      ],
+      "roots": [
+        "TasksAmplification",
+        "TasksNominalGeometry"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.amplification",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.nominalGeometry"
+      ]
+    },
+    {
+      "id": "s4_t4",
+      "name": "PR33 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "SecondTransformArithmetic",
+        "SecondTransformIntegral",
+        "SecondTransformRaw",
+        "SecondTransformRows",
+        "SecondTransformStage",
+        "TailsAnalytic",
+        "TailsCauchyCoefficients",
+        "TailsCauchyCounting",
+        "TailsCauchyGeometry",
+        "TailsCauchyWeights",
+        "TailsEstimateAssembly",
+        "TailsFirstEstimate",
+        "TailsFixedCutoff",
+        "TailsOriginalAtoms",
+        "TailsOriginalBounds",
+        "TailsOriginalCarrier",
+        "TailsOriginalMass",
+        "TailsOriginalRows",
+        "TailsOriginalSupport",
+        "TailsPhase",
+        "TailsPhysicalBudget",
+        "TailsPoolCounting",
+        "TailsPoolScalar",
+        "TailsPoolTransport",
+        "TailsRawMass",
+        "TailsSecondEstimate",
+        "TailsSecondGeometry",
+        "TailsSecondMass",
+        "TasksSecondTransform",
+        "TasksTails"
+      ],
+      "roots": [
+        "TasksSecondTransform",
+        "TasksTails"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondTransform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.tails"
+      ]
+    },
+    {
+      "id": "t1_t2",
+      "name": "PR37 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "FirstPhysicalMaskBounds",
+        "FirstSourceCarrierBounds",
+        "FirstZeroCentral",
+        "FirstZeroColumnWindows",
+        "FirstZeroFactorization",
+        "FirstZeroInputBounds",
+        "FirstZeroMaskBounds",
+        "FirstZeroNormalization",
+        "FirstZeroProfileBounds",
+        "FirstZeroSignedBound",
+        "FirstZeroUniformEstimate",
+        "SecondZeroCoefficients",
+        "SecondZeroDivisor",
+        "SecondZeroFactors",
+        "SecondZeroFirstMass",
+        "SecondZeroFrozenBounds",
+        "SecondZeroLocal",
+        "SecondZeroLocalEstimate",
+        "SecondZeroNormalization",
+        "SecondZeroOrbitMultiplicity",
+        "SecondZeroPoolMass",
+        "SecondZeroRowSizeBounds",
+        "SecondZeroStage",
+        "SecondZeroTransport",
+        "SecondZeroUniformEstimate",
+        "SourceEqualityTransport",
+        "TasksFirstZero",
+        "TasksSecondZero"
+      ],
+      "roots": [
+        "TasksFirstZero",
+        "TasksSecondZero"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.firstZero",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.secondZero"
+      ]
+    },
+    {
+      "id": "n5a_n5b",
+      "name": "PR38 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "ProfileFormulaPower",
+        "ProfileFormulaTask",
+        "ProfileFormulaTransforms",
+        "ProfileWindowAssembly",
+        "ProfileWindowClipping",
+        "TasksProfileWindows"
+      ],
+      "roots": [
+        "ProfileFormulaTask",
+        "TasksProfileWindows"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_formula_control",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.profile_windows"
+      ]
+    },
+    {
+      "id": "n7a_n7b",
+      "name": "PR40 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "N7aChildSource",
+        "N7bProfileTransport",
+        "TasksChildArithmetic",
+        "TasksChildProfiles"
+      ],
+      "roots": [
+        "TasksChildArithmetic",
+        "TasksChildProfiles"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_arithmetic",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.child_profiles"
+      ]
+    },
+    {
+      "id": "s6_n1",
+      "name": "PR32 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "FiniteLeavesAssembly",
+        "FiniteLeavesCover",
+        "FiniteLeavesIntegral",
+        "FiniteLeavesOriginalSupport",
+        "FiniteLeavesSupport",
+        "FiniteLeavesTraceCover",
+        "OrdinaryAtomExtraction",
+        "OrdinaryAtomModel",
+        "OrdinaryCharacterFacts",
+        "OrdinaryDivisorGate",
+        "OrdinaryFirstAtomFormula",
+        "OrdinaryFromAtoms",
+        "OrdinaryLeafBinding",
+        "OrdinaryLeafLocations",
+        "OrdinaryMultiplierTransport",
+        "OrdinaryNormPower",
+        "OrdinaryNormProfile",
+        "OrdinaryOccurrenceFacts",
+        "OrdinaryOriginalCoordinates",
+        "OrdinaryOriginalTerms",
+        "OrdinaryPhaseCoefficients",
+        "OrdinaryPhaseFacts",
+        "OrdinaryPointTransport",
+        "OrdinaryRawAtomData",
+        "OrdinaryRawAtomFormula",
+        "OrdinaryRectangleFactors",
+        "OrdinaryScaleFacts",
+        "OrdinarySourceFacts",
+        "OrdinarySourceTransport",
+        "TasksFiniteLeaves",
+        "TasksOriginalAtoms"
+      ],
+      "roots": [
+        "TasksFiniteLeaves",
+        "TasksOriginalAtoms"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.finiteLeaves",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalAtoms"
+      ]
+    },
+    {
+      "id": "n2_n3",
+      "name": "PR34 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "CalibrationAssembly",
+        "CalibrationAtoms",
+        "CalibrationClass",
+        "CalibrationConstruction",
+        "CalibrationCosts",
+        "CalibrationFourierProfiles",
+        "CalibrationOrigin",
+        "CalibrationParameters",
+        "CalibrationPhases",
+        "CalibrationProfiles",
+        "CalibrationRows",
+        "CalibrationSupport",
+        "CanonicalCalibration",
+        "PassiveBounds",
+        "PassiveCanonicalAtoms",
+        "PassiveCanonicalProfiles",
+        "PassiveCanonicalSupport",
+        "PassiveCarrierFacts",
+        "PassiveCarrierRestoration",
+        "PassiveColumnBridge",
+        "PassiveCommonAvoidance",
+        "PassiveCoverOrigin",
+        "PassiveEnergy",
+        "PassiveExpansion",
+        "PassiveFiniteSupport",
+        "PassiveMask",
+        "PassiveMaskIdentity",
+        "PassivePaidMask",
+        "PassivePairing",
+        "PassiveParentSupport",
+        "PassivePhaseBridge",
+        "PassivePhaseCore",
+        "PassivePlainRecovery",
+        "PassiveScalar",
+        "PassiveSecondCarrier",
+        "PassiveSmoothSupport",
+        "PassiveSource",
+        "PassiveSourceOrigin",
+        "PassiveSourceReindex",
+        "PassiveSupportRecovery",
+        "TasksOriginalCalibration",
+        "TasksPassiveRefinement"
+      ],
+      "roots": [
+        "TasksPassiveRefinement",
+        "TasksOriginalCalibration"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.passive_refinement",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.original_calibration"
+      ]
+    },
+    {
+      "id": "n4_n6",
+      "name": "PR39 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "N4CalibrationBinding",
+        "N4ComputedLengths",
+        "N4ExtractionScale",
+        "N4FrozenIdeals",
+        "N4InnerScale",
+        "N4NominalScale",
+        "N4OriginalCapacity",
+        "N4OriginalPrimeWindows",
+        "N4PacketGeometry",
+        "N4PaidSupport",
+        "N4RecipeBridge",
+        "N4ScaleProduct",
+        "N4ScaleWindows",
+        "N4SixthPattern",
+        "N4SourceBudget",
+        "N4SourceConditions",
+        "N4UniformCapacity",
+        "N4UniformThreshold",
+        "N6AnalyticChoices",
+        "N6FullKappaConstruction",
+        "N6OriginalAnalytic",
+        "N6SourceBounds",
+        "TasksFullKappa",
+        "TasksOriginalCapacity"
+      ],
+      "roots": [
+        "TasksOriginalCapacity",
+        "TasksFullKappa"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask_uniform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.fullKappaNormalization"
+      ]
+    },
+    {
+      "id": "n8_n9",
+      "name": "PR42 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "KernelMassContracts",
+        "N8CommonScalarBounds",
+        "N8FrozenProfileBounds",
+        "N8NormalizedArithmeticAssembly",
+        "N8NormalizedArithmeticFromTasks",
+        "N8NormalizedArithmeticReduction",
+        "N8NormalizedBudget",
+        "N8NormalizedCanonical",
+        "N8NormalizedCapacityMass",
+        "N8NormalizedCommonBounds",
+        "N8NormalizedCostBounds",
+        "N8NormalizedFibres",
+        "N8NormalizedFirstLedger",
+        "N8NormalizedFixedEnvelope",
+        "N8NormalizedFrozenAtoms",
+        "N8NormalizedInnerAtoms",
+        "N8NormalizedLabels",
+        "N8NormalizedLeafWeights",
+        "N8NormalizedMassProof",
+        "N8NormalizedOriginalScalars",
+        "N8NormalizedPassiveMass",
+        "N8NormalizedPassiveWindows",
+        "N8NormalizedRows",
+        "N8NormalizedScaleBounds",
+        "N8NormalizedSecondLedger",
+        "N8SourceAllocationMass",
+        "N8SourceClassCounts",
+        "N8SourceCoverCounts",
+        "N8SourceFirstExtraction",
+        "N8SourceFirstMass",
+        "N8SourceFirstNorms",
+        "N8SourceFrozenDivisor",
+        "N8SourceIndexBasic",
+        "N8SourceIndexProof",
+        "N8SourceNormBounds",
+        "N8SourceOuterLedger",
+        "N8SourceOuterMass",
+        "N8SourceOuterPool",
+        "N8SourcePoolExtraction",
+        "N8SourcePoolMass",
+        "N8SourceRawCarrier",
+        "N8SourceRawMass",
+        "N8SourceResidualWindows",
+        "N8SourceSecondCommonMass",
+        "N8SourceUniformDecorations",
+        "N9ClippedRadiusData",
+        "N9FirstRowExponent",
+        "N9FixedRadiusMass",
+        "N9FullKappaContracts",
+        "N9FullKappaMass",
+        "N9OriginalKernels",
+        "N9OriginalRowWeights",
+        "N9OriginalWindowMass",
+        "N9RadiusData",
+        "N9ReserveBudget",
+        "N9UniformCost",
+        "TasksKernelMass",
+        "TasksNormalizedMass",
+        "TasksSourceIndex"
+      ],
+      "roots": [
+        "TasksSourceIndex",
+        "TasksNormalizedMass",
+        "TasksKernelMass",
+        "N9OriginalWindowMass",
+        "N8NormalizedArithmeticAssembly"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.sourceIndex",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.normalizedMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.kernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalWindowKernelMass",
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.canonicalArithmeticMass"
+      ]
+    },
+    {
+      "id": "t3a_t3b",
+      "name": "PR41 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "T3aBaseCount",
+        "T3aCharacters",
+        "T3aElementary",
+        "T3aFiniteSupport",
+        "T3aRealization",
+        "T3aRecovery",
+        "T3aSourceSupport",
+        "T3aSupport",
+        "T3aValuationAtomCharacters",
+        "T3aValuationCalibration",
+        "T3aValuationLocal",
+        "T3aValuationMaskSupport",
+        "T3aValuationPackets",
+        "T3aValuationSupport",
+        "T3aValuations",
+        "T3bActualMass",
+        "T3bAtomComparison",
+        "T3bAtomFrames",
+        "T3bCommonBounds",
+        "T3bCommonBudget",
+        "T3bFirstColumnBounds",
+        "T3bFirstKernels",
+        "T3bFirstWeights",
+        "T3bFrozenAssembly",
+        "T3bIndexAssembly",
+        "T3bIndexWeights",
+        "T3bKernels",
+        "T3bMaskBounds",
+        "T3bMaskGeometry",
+        "T3bNormalizer",
+        "T3bNumericalLedger",
+        "T3bOldMaskBounds",
+        "T3bOrbitFibrePackets",
+        "T3bOrbitFibreUniform",
+        "T3bOrbitFibres",
+        "T3bOriginalGeometry",
+        "T3bOriginalSupport",
+        "T3bOuterNormalizer",
+        "T3bOuterWeights",
+        "T3bPacketNormalizer",
+        "T3bPairedAssembly",
+        "T3bPairedRows",
+        "T3bPlainCharts",
+        "T3bPlainSupport",
+        "T3bPointwise",
+        "T3bPointwiseData",
+        "T3bPoolOuter",
+        "T3bPrimeProfiles",
+        "T3bProfileBudget",
+        "T3bProfiles",
+        "T3bRawMass",
+        "T3bRowAmplitude",
+        "T3bRowBounds",
+        "T3bRowCount",
+        "T3bSavings",
+        "T3bScalarArithmetic",
+        "T3bScaleArithmetic",
+        "T3bScaleBounds",
+        "T3bScaleCompensation",
+        "T3bSourceBinding",
+        "T3bSources",
+        "T3bSupportedVolume",
+        "T3bTimeBounds",
+        "T3bUniformAssembly",
+        "T3bUniformBudget",
+        "T3bUniformNormalizer",
+        "T3bUnscaledAtoms",
+        "T3bVolumeApplication",
+        "T3bWholeBinding",
+        "TasksExceptionalRecovery",
+        "TasksExceptionalSummation"
+      ],
+      "roots": [
+        "TasksExceptionalRecovery",
+        "TasksExceptionalSummation"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.exceptional_recovery",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.exceptional_summation"
+      ]
+    },
+    {
+      "id": "g2",
+      "name": "Complete paired engine step and public entry point",
+      "proved": true,
+      "modules": [
+        "Interface",
+        "PairedStep"
+      ],
+      "roots": [
+        "PairedStep"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis"
+      ]
+    }
+  ]
+}
