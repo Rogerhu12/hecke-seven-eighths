@@ -86,7 +86,9 @@ theorem normalizedMassTask (c : TargetContext K) (p : SourceParameters c) :
               call.node.parameters.κ * (momentMesh K c.family).val =
             (31 * p.loss + call.node.parameters.κ * (momentMesh K c.family).val) +
               2 * N8Source.columnExponent c * p.tilt by ring,
-          Real.rpow_add call.base_pos]
+          Real.rpow_add call.base_pos
+            (31 * p.loss + call.node.parameters.κ * (momentMesh K c.family).val)
+            (2 * N8Source.columnExponent c * p.tilt)]
         ring
       _ ≤ _ := mul_le_mul_of_nonneg_right
         (mul_le_mul_of_nonneg_left hpower hvalue) (raw.indexWeight_nonneg j)

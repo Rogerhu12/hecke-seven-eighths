@@ -90,7 +90,9 @@ private theorem index_weight_factor (prefactor firstRadical firstMobius
 
 private theorem supported_fibre_sum {ι : Type*} {κ : ι → Type*}
     [Fintype ι] [∀ i, Fintype (κ i)]
-    (P Q : Prop) (active : ι → Prop) (factor : ℝ) (common : ι → ℝ)
+    (P Q : Prop) (active : ι → Prop)
+    [Decidable P] [Decidable Q] [∀ i, Decidable (active i)]
+    (factor : ℝ) (common : ι → ℝ)
     (inner weight : ∀ i, κ i → ℝ)
     (hweight : ∀ i j, weight i j = factor * (common i * inner i j)) :
     (∑ i, ∑ j, if P ∧ Q ∧ active i then weight i j else 0) =
