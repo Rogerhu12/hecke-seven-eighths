@@ -44,6 +44,61 @@ theorem rowCountConstant_nonneg (c : TargetContext K) :
     0 ≤ rowCountConstant c :=
   mul_nonneg (Nat.cast_nonneg _) (zero_le_one.trans (one_le_idealCountConstant K))
 
+private theorem exceptional_base_count_of_data
+    {A : SArithmeticData K} {σ : K →+* ℂ}
+    {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
+    {H ι : Type*} [Fintype ι] [DecidableEq ι]
+    (R : ActualSecondCorrelationRows A σ H ι)
+    (C : A.GeneralArithmeticContext σ η hS) (rows : Finset R.live)
+    (base : R.live → HeckeGeneral.Analysis.NonzeroIdeal K)
+    (factor : R.live → Ideal (𝓞 K)) (B : HeckeGeneral.Analysis.NonzeroIdeal K)
+    (Z width v : ℝ) (sectors : ℕ)
+    (hclass : ∀ h ∈ rows, ∀ i ∈ multiplicityOneNonunitPrimes C R.primes
+      R.leftMultiplicity R.rightMultiplicity (R.frequency h.val),
+      6 ∣ (UniqueFactorizationMonoid.normalizedFactors (R.originalIdeal h.val).val).count
+        (R.primes i).val.asIdeal)
+    (hfactor : ∀ h ∈ rows, (R.extractedRow C h).ideal.val =
+      (base h).val * factor h ^ 6)
+    (hZ : 1 ≤ Z) (hv : 0 ≤ v)
+    (hwindow : ∀ h ∈ rows, Z ^ v ≤
+      (Ideal.absNorm (multiplicityOneNonunitRadical C R.primes
+        R.leftMultiplicity R.rightMultiplicity (R.frequency h.val)).val : ℝ))
+    (hcutoff : ∀ h ∈ rows, (Ideal.absNorm (R.originalIdeal h.val).val : ℝ) ≤
+      (Ideal.absNorm (gcd (primePowerProduct R.primes R.leftMultiplicity).val
+        (primePowerProduct R.primes R.rightMultiplicity).val) : ℝ) *
+      (Ideal.absNorm (nonunitFrequencyRadical C R.primes
+        R.leftMultiplicity R.rightMultiplicity (R.frequency h.val)).val : ℝ) * Z ^ width)
+    (hfibers : ∀ I : HeckeGeneral.Analysis.NonzeroIdeal K,
+      (rows.filter (fun h => (R.extractedRow C h).momentIdeal = I)).card ≤ sectors) :
+    ((rows.filter (fun h => base h = B)).card : ℝ) ≤
+      (sectors : ℝ) * idealCountConstant K * Z ^ ((width - 2 * v) / 6) := by
+  let selected := rows.filter (fun h => base h = B)
+  refine actual_exceptional_sector_count C R.primes R.primes_injective
+    R.leftMultiplicity R.rightMultiplicity selected
+    (fun h => R.originalIdeal h.val) (fun h => R.frequency h.val)
+    (R.exceptionalRow C) B.val
+    (fun h hh => hclass h (Finset.mem_filter.mp hh).1) ?_
+    Z width v (sectors : ℝ) hZ hv (Nat.cast_nonneg _)
+    (fun h hh => hwindow h (Finset.mem_filter.mp hh).1)
+    (fun h hh => hcutoff h (Finset.mem_filter.mp hh).1) ?_
+  · intro h hh
+    refine ⟨factor h, ?_⟩
+    exact (hfactor h (Finset.mem_filter.mp hh).1).trans
+      (congrArg (fun I : HeckeGeneral.Analysis.NonzeroIdeal K => I.val * factor h ^ 6)
+        (Finset.mem_filter.mp hh).2)
+  · intro I hI
+    obtain ⟨h, hh, hI⟩ := Finset.mem_image.mp hI
+    have hsub : selected.filter (fun x => (R.exceptionalRow C x).ideal.val = I) ⊆
+        rows.filter (fun x => (R.extractedRow C x).momentIdeal =
+          (R.extractedRow C h).momentIdeal) := by
+      intro x hx
+      refine Finset.mem_filter.mpr
+        ⟨(Finset.mem_filter.mp (Finset.mem_filter.mp hx).1).1, ?_⟩
+      apply Subtype.ext
+      exact (Finset.mem_filter.mp hx).2.trans hI.symm
+    exact_mod_cast (Finset.card_le_card hsub).trans
+      (hfibers (R.extractedRow C h).momentIdeal)
+
 end T3b
 
 namespace RawLeafPacket
@@ -60,45 +115,24 @@ theorem t3b_exceptional_base_count (hpacket : packet.Realizes)
       ((Arithmetic.unitSubgroup c).index : ℝ) * idealCountConstant K *
         call.base ^ (((packet.nominal side).skeleton.nominalRow + 12 * p.loss -
           2 * packet.t3bMultiplicityOneLength h₀) / 6) := by
-  let rows := packet.exceptionalRows.filter (fun h => packet.sixthBase h = B)
-  apply actual_exceptional_sector_count (Arithmetic.context c) packet.R.primes
-    packet.R.primes_injective packet.R.leftMultiplicity packet.R.rightMultiplicity
-    rows (fun h => packet.R.originalIdeal h.val) (fun h => packet.R.frequency h.val)
-    (packet.R.exceptionalRow (Arithmetic.context c)) B.val
-  · intro h hh
-    exact recovery.valuations h (Finset.mem_filter.mp hh).1
-  · intro h hh
-    refine ⟨(sixthPowerAmplifierPart
-      (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal).val, ?_⟩
-    simpa only [ActualSecondCorrelationRows.exceptionalRow_ideal,
-      (Finset.mem_filter.mp hh).2] using
-      recovery.factorization h (Finset.mem_filter.mp hh).1
-  · exact call.domain.scale.le
-  · exact packet.t3bMultiplicityOneLength_nonneg h₀
-  · exact Nat.cast_nonneg _
-  · intro h hh
-    change call.base ^ packet.t3bMultiplicityOneLength h₀ ≤
-      (Ideal.absNorm (packet.multiplicityOneRadical h).val : ℝ)
-    rw [packet.t3b_multiplicityOneRadical_eq hpacket h h₀]
-    exact (rpow_idealLogLength call.base call.domain.scale _
-      (packet.multiplicityOneRadical h₀).property.1).le
-  · intro h hh
-    exact packet.t3b_originalRow_norm_le h hpacket side
-  · intro I hI
-    obtain ⟨h, hh, hI⟩ := Finset.mem_image.mp hI
-    have hsub : rows.filter (fun x =>
-        (packet.R.exceptionalRow (Arithmetic.context c) x).ideal.val = I) ⊆
-      packet.exceptionalRows.filter (fun x =>
-        (packet.R.extractedRow (Arithmetic.context c) x).momentIdeal =
-          (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal) := by
-      intro x hx
-      refine Finset.mem_filter.mpr
-        ⟨(Finset.mem_filter.mp (Finset.mem_filter.mp hx).1).1, ?_⟩
-      apply Subtype.ext
-      exact (Finset.mem_filter.mp hx).2.trans hI.symm
-    exact_mod_cast (Finset.card_le_card hsub).trans
-      (recovery.extracted_fibres
-        (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal)
+  refine T3b.exceptional_base_count_of_data packet.R (Arithmetic.context c)
+    packet.exceptionalRows packet.sixthBase
+    (fun h => (HeckeGeneral.Analysis.ConditionalMoments.sixthPowerAmplifierPart
+      (packet.R.extractedRow (Arithmetic.context c) h).momentIdeal).val)
+    B call.base ((packet.nominal side).skeleton.nominalRow + 12 * p.loss)
+    (packet.t3bMultiplicityOneLength h₀) (Arithmetic.unitSubgroup c).index
+    recovery.valuations recovery.factorization call.domain.scale.le
+    (packet.t3bMultiplicityOneLength_nonneg h₀) ?_
+    (fun h _ => packet.t3b_originalRow_norm_le h hpacket side) recovery.extracted_fibres
+  intro h hh
+  have hnorm := congrArg
+    (fun I : (Arithmetic.data c).Exterior => (Ideal.absNorm I.val : ℝ))
+    (packet.t3b_multiplicityOneRadical_eq hpacket h₀ h)
+  have hpower : call.base ^ packet.t3bMultiplicityOneLength h₀ =
+      (Ideal.absNorm (packet.multiplicityOneRadical h₀).val : ℝ) :=
+    rpow_idealLogLength call.base call.domain.scale _
+      (packet.multiplicityOneRadical h₀).property.1
+  exact (hpower.trans hnorm).le
 
 /-- Summing the actual base fibres introduces exactly the fixed theta
 and sixth-unit-sector count.  No separate analytic catalogue is counted. -/
