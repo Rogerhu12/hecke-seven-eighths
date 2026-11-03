@@ -2,9 +2,7 @@
   "task_scopes": {
     "cloud/mom-v2-s6-n1": {
       "groups": [
-        "s6_n1_helpers",
-        "s6",
-        "n1"
+        "s6_n1"
       ],
       "modules": [],
       "roots": [
@@ -32,9 +30,7 @@
     },
     "cloud/mom-v2-n2-n3": {
       "groups": [
-        "n2_n3_helpers",
-        "n2",
-        "n3"
+        "n2_n3"
       ],
       "modules": [],
       "roots": [
@@ -106,8 +102,7 @@
     },
     "cloud/mom-v2-n4-n6": {
       "groups": [
-        "n4",
-        "n6"
+        "n4_n6"
       ],
       "modules": [],
       "roots": [
@@ -491,6 +486,149 @@
       ]
     },
     {
+      "id": "s6_n1",
+      "name": "PR32 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "FiniteLeavesAssembly",
+        "FiniteLeavesCover",
+        "FiniteLeavesIntegral",
+        "FiniteLeavesOriginalSupport",
+        "FiniteLeavesSupport",
+        "FiniteLeavesTraceCover",
+        "OrdinaryAtomExtraction",
+        "OrdinaryAtomModel",
+        "OrdinaryCharacterFacts",
+        "OrdinaryDivisorGate",
+        "OrdinaryFirstAtomFormula",
+        "OrdinaryFromAtoms",
+        "OrdinaryLeafBinding",
+        "OrdinaryLeafLocations",
+        "OrdinaryMultiplierTransport",
+        "OrdinaryNormPower",
+        "OrdinaryNormProfile",
+        "OrdinaryOccurrenceFacts",
+        "OrdinaryOriginalCoordinates",
+        "OrdinaryOriginalTerms",
+        "OrdinaryPhaseCoefficients",
+        "OrdinaryPhaseFacts",
+        "OrdinaryPointTransport",
+        "OrdinaryRawAtomData",
+        "OrdinaryRawAtomFormula",
+        "OrdinaryRectangleFactors",
+        "OrdinaryScaleFacts",
+        "OrdinarySourceFacts",
+        "OrdinarySourceTransport",
+        "TasksFiniteLeaves",
+        "TasksOriginalAtoms"
+      ],
+      "roots": [
+        "TasksFiniteLeaves",
+        "TasksOriginalAtoms"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.finiteLeaves",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.originalAtoms"
+      ]
+    },
+    {
+      "id": "n2_n3",
+      "name": "PR34 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "CalibrationAssembly",
+        "CalibrationAtoms",
+        "CalibrationClass",
+        "CalibrationConstruction",
+        "CalibrationCosts",
+        "CalibrationFourierProfiles",
+        "CalibrationOrigin",
+        "CalibrationParameters",
+        "CalibrationPhases",
+        "CalibrationProfiles",
+        "CalibrationRows",
+        "CalibrationSupport",
+        "CanonicalCalibration",
+        "PassiveBounds",
+        "PassiveCanonicalAtoms",
+        "PassiveCanonicalProfiles",
+        "PassiveCanonicalSupport",
+        "PassiveCarrierFacts",
+        "PassiveCarrierRestoration",
+        "PassiveColumnBridge",
+        "PassiveCommonAvoidance",
+        "PassiveCoverOrigin",
+        "PassiveEnergy",
+        "PassiveExpansion",
+        "PassiveFiniteSupport",
+        "PassiveMask",
+        "PassiveMaskIdentity",
+        "PassivePaidMask",
+        "PassivePairing",
+        "PassiveParentSupport",
+        "PassivePhaseBridge",
+        "PassivePhaseCore",
+        "PassivePlainRecovery",
+        "PassiveScalar",
+        "PassiveSecondCarrier",
+        "PassiveSmoothSupport",
+        "PassiveSource",
+        "PassiveSourceOrigin",
+        "PassiveSourceReindex",
+        "PassiveSupportRecovery",
+        "TasksOriginalCalibration",
+        "TasksPassiveRefinement"
+      ],
+      "roots": [
+        "TasksPassiveRefinement",
+        "TasksOriginalCalibration"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.passive_refinement",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.original_calibration"
+      ]
+    },
+    {
+      "id": "n4_n6",
+      "name": "PR39 original task proofs and helpers",
+      "proved": true,
+      "modules": [
+        "N4CalibrationBinding",
+        "N4ComputedLengths",
+        "N4ExtractionScale",
+        "N4FrozenIdeals",
+        "N4InnerScale",
+        "N4NominalScale",
+        "N4OriginalCapacity",
+        "N4OriginalPrimeWindows",
+        "N4PacketGeometry",
+        "N4PaidSupport",
+        "N4RecipeBridge",
+        "N4ScaleProduct",
+        "N4ScaleWindows",
+        "N4SixthPattern",
+        "N4SourceBudget",
+        "N4SourceConditions",
+        "N4UniformCapacity",
+        "N4UniformThreshold",
+        "N6AnalyticChoices",
+        "N6FullKappaConstruction",
+        "N6OriginalAnalytic",
+        "N6SourceBounds",
+        "TasksFullKappa",
+        "TasksOriginalCapacity"
+      ],
+      "roots": [
+        "TasksOriginalCapacity",
+        "TasksFullKappa"
+      ],
+      "required_declarations": [
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.originalCapacityTask_uniform",
+        "HeckeSkeleton.Moments.EngineStepV2.Blueprint.Tasks.fullKappaNormalization"
+      ]
+    },
+    {
       "id": "g1",
       "name": "独立论文证明任务（蓝图占位）",
       "proved": false,
@@ -498,13 +636,7 @@
         "N9OriginalWindowMass",
         "TasksExceptionalRecovery",
         "TasksExceptionalSummation",
-        "TasksFiniteLeaves",
-        "TasksFullKappa",
         "TasksNormalizedMass",
-        "TasksOriginalAtoms",
-        "TasksOriginalCalibration",
-        "TasksOriginalCapacity",
-        "TasksPassiveRefinement",
         "TasksSourceIndex"
       ]
     },
