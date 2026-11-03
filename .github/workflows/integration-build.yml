@@ -47,7 +47,7 @@ jobs:
           use-mathlib-cache: "true"
           use-github-cache: "false"
       - name: Restore precompiled project artifacts
-        uses: Rogerhu12/hecke-seven-eighths/.github/actions/restore-lake-cache@ci/lake-cache-test
+        uses: ./.github/actions/restore-lake-cache
       - name: Build every project library
         shell: bash
         run: |

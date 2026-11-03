@@ -3,7 +3,7 @@
 **/.lake/
 __pycache__/
 *.pyc
-tools/skel435/
+docs/archive/scripts/skel435/
 cloud_bundles/
 .highbin-verification/
 
