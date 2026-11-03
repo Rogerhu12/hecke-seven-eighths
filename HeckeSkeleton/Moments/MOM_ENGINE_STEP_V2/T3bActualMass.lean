@@ -36,7 +36,7 @@ theorem atomRadius_annulus {annulus profile : ℝ} (ha : 0 ≤ annulus) (hP : 1 
     _ ≤ idealCountConstant K * annulus := by
       simpa only [one_mul] using mul_le_mul_of_nonneg_right (one_le_idealCountConstant K) ha
     _ ≤ _ := by
-      simpa only [mul_one] using mul_le_mul_of_nonneg_left (one_le_pow₀ hP : 1 ≤ profile ^ 2)
+      simpa only [mul_one, atomRadius] using mul_le_mul_of_nonneg_left (one_le_pow₀ hP : 1 ≤ profile ^ 2)
         (mul_nonneg (zero_le_one.trans (one_le_idealCountConstant K)) ha)
 
 theorem atomRadius_profile {annulus profile : ℝ} (ha : 0 ≤ annulus) :
@@ -50,6 +50,44 @@ theorem atomRadius_prime {annulus profile : ℝ} (ha : 0 ≤ annulus) (hP : 1 �
   have hp : profile ≤ profile ^ 2 := by nlinarith
   exact mul_le_mul_of_nonneg_left hp
     (mul_nonneg (zero_le_one.trans (one_le_idealCountConstant K)) ha)
+
+private theorem rawMass_le_of_table
+    {A : SArithmeticData K} {σ : K →+* ℂ}
+    {η : RayClassCharacter K A.modulus} {hS : A.ContainsTraceBadPlaces}
+    {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
+    {Ψ : Ideal (𝓞 K) →* ℂ} {W₁ W₂ : ℝ → ℂ} {g h : A.R} {k : ℕ}
+    (s : AllocatedExceptionalSource (V := V) (σ := σ) Ψ W₁ W₂ g h k)
+    (C : A.GeneralArithmeticContext σ η hS) (d : OrdinaryAtomTable (K := K) k)
+    (cap : ℕ) (hcap : k ≤ cap) (annulus profile Z total : ℝ)
+    (hannulus : 1 ≤ annulus) (hprofile : 1 ≤ profile) (hZ : 1 < Z)
+    (hdata : s.Zslot = Z ∧ s.length = d.length ∧ s.characters = d.characters ∧
+      s.w = d.slotWeight ∧ s.X₁ = d.scale₁ false ∧ s.X₂ = d.scale₂ false)
+    (hmask : ∀ I, d.characters.mask I = 0 ∨ d.characters.mask I = 1)
+    (hwindow : ∀ i, ∀ q ∈ s.allocation.slots i,
+      (Ideal.absNorm q.asIdeal : ℝ) ≤ annulus * Z ^ d.length i)
+    (hweight : ∀ i q, ‖d.slotWeight i q‖ ≤ profile)
+    (htotal : d.scale₁ false * d.scale₂ false * (∏ i, Z ^ d.length i) = total) :
+    s.rawMass ≤ (atomRadius K annulus profile) ^ (3 * cap) * Real.sqrt total /
+      (Ideal.absNorm s.allocation.frozenIdeal : ℝ) := by
+  rcases hdata with ⟨hbase, hlength, hcharacters, hw, hx₁, hx₂⟩
+  have hb := rawMass_le_scale_quotient s C cap hcap annulus profile
+    (atomRadius K annulus profile)
+    (by rw [hbase]; exact hZ)
+    (by rw [hlength]; exact fun i => (d.length_pos i).le)
+    hannulus (zero_le_one.trans hprofile)
+    (atomRadius_one hannulus hprofile)
+    (atomRadius_annulus (zero_le_one.trans hannulus) hprofile)
+    (atomRadius_profile (zero_le_one.trans hannulus))
+    (atomRadius_prime (zero_le_one.trans hannulus) hprofile)
+    (by rw [hcharacters]; exact hmask)
+    (by intro i q hq; rw [hbase, hlength]; exact hwindow i q hq)
+    (by intro i q _; rw [hw]; exact hweight i q)
+  have htotal' : s.X₁ * s.X₂ * (∏ i, s.Zslot ^ s.length i) = total := by
+    rw [hbase, hlength, hx₁, hx₂]
+    exact htotal
+  exact hb.trans_eq (congrArg (fun t : ℝ =>
+    (atomRadius K annulus profile) ^ (3 * cap) * Real.sqrt t /
+      (Ideal.absNorm s.allocation.frozenIdeal : ℝ)) htotal')
 
 end T3b
 
@@ -82,44 +120,19 @@ theorem t3b_ordinary_rawMass_le (P : ℝ) (hP : 1 ≤ P)
         Real.sqrt (packet.t3bBeforeScaleProduct hpacket side) /
           (Ideal.absNorm (packet.t3bUnscaledSource hpacket phases side).allocation.frozenIdeal : ℝ) := by
   let s := (packet.t3bOrdinaryExceptionalAt hpacket phases input side ξ h).source
-  have hbase : s.Zslot = call.base := by cases side <;> rfl
-  have hlength : s.length = (packet.t3bUnscaledTable hpacket phases side).length := by
-    cases side <;> rfl
-  have hcharacters : s.characters = (packet.t3bUnscaledTable hpacket phases side).characters := by
-    cases side <;> rfl
-  have hweight : s.w = (packet.t3bUnscaledTable hpacket phases side).slotWeight := by
-    cases side <;> rfl
-  have hwindow (i) (q : HeightOneSpectrum (𝓞 K)) (hq : q ∈ s.allocation.slots i) :
-      (Ideal.absNorm q.asIdeal : ℝ) ≤ T3b.profileAnnulus c call.frame * s.Zslot ^ s.length i := by
-    rw [hbase, hlength]
-    exact packet.t3bUnscaled_prime_norm hpacket phases input side i q hq
-  have hp (i) (q : HeightOneSpectrum (𝓞 K)) (_hq : q ∈ s.allocation.slots i) : ‖s.w i q‖ ≤ P := by
-    rw [hweight, packet.t3bUnscaled_slotWeight hpacket phases input]
-    exact hprofiles _ _
-  have hb := T3b.rawMass_le_scale_quotient s (Arithmetic.context c)
+  let d := packet.t3bUnscaledTable hpacket phases side
+  refine T3b.rawMass_le_of_table s (Arithmetic.context c) d
     c.geometry.slots (packet.t3bUnscaled_slots_le hpacket side)
-    (T3b.profileAnnulus c call.frame) P
-    (T3b.atomRadius K (T3b.profileAnnulus c call.frame) P)
-    (by rw [hbase]; exact call.domain.scale)
-    (by rw [hlength]; exact fun i => ((packet.t3bUnscaledTable hpacket phases side).length_pos i).le)
-    (T3b.profileAnnulus_one_le c call.frame) (zero_le_one.trans hP)
-    (T3b.atomRadius_one (T3b.profileAnnulus_one_le c call.frame) hP)
-    (T3b.atomRadius_annulus (T3b.profileAnnulus_pos c call.frame).le hP)
-    (T3b.atomRadius_profile (T3b.profileAnnulus_pos c call.frame).le)
-    (T3b.atomRadius_prime (T3b.profileAnnulus_pos c call.frame).le hP)
-    (by rw [hcharacters]; exact packet.t3bUnscaled_mask_two hpacket phases side)
-    hwindow hp
-  have htotal : s.X₁ * s.X₂ * (∏ i, s.Zslot ^ s.length i) =
-      packet.t3bBeforeScaleProduct hpacket side := by
-    rw [hbase, hlength]
-    have hx₁ : s.X₁ = (packet.t3bUnscaledTable hpacket phases side).scale₁ false := by
-      cases side <;> rfl
-    have hx₂ : s.X₂ = (packet.t3bUnscaledTable hpacket phases side).scale₂ false := by
-      cases side <;> rfl
-    rw [hx₁, hx₂]
-    exact packet.t3bUnscaled_scale_total hpacket phases side
-  rw [htotal] at hb
-  exact hb
+    (T3b.profileAnnulus c call.frame) P call.base
+    (packet.t3bBeforeScaleProduct hpacket side)
+    (T3b.profileAnnulus_one_le c call.frame) hP call.domain.scale ?_
+    (packet.t3bUnscaled_mask_two hpacket phases side)
+    (fun i q hq => packet.t3bUnscaled_prime_norm hpacket phases input side i q hq) ?_
+    (packet.t3bUnscaled_scale_total hpacket phases side)
+  · cases side <;> exact ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
+  · intro i q
+    exact (congrArg (fun z : ℂ => ‖z‖)
+      (packet.t3bUnscaled_slotWeight hpacket phases input side i q)).trans_le (hprofiles _ _)
 
 theorem t3b_centered_rawMass_le (hc : call.node.centered = true) (P : ℝ) (hP : 1 ≤ P)
     (hprofiles : ∀ (i : Fin call.localizedData.geometry.slotCount) (x : ℝ),

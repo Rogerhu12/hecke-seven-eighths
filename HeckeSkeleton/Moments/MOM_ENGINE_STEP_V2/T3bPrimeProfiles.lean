@@ -1,18 +1,9 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bSources
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleCompensation
-import Lean.Elab.Command
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
 set_option Elab.async false
-set_option stderrAsMessages false
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: imports [mono_ms={ms}]"
-    stderr.flush
 
 /-!
 # The actual exceptional prime atoms use the original fixed profile window
@@ -61,13 +52,6 @@ def t3bPrimeNormProfile (p : SourceParameters c) (input : ProfileInput call)
     (T3b.profileWindow_compact c call.frame) (T3b.profileWindow_positive c call.frame)
     (-1 + 2 * p.tilt) 0 (input.localized.primeRep i 0) (call.t3bPrimeProfile_support input i)
 
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: profile definition [mono_ms={ms}]"
-    stderr.flush
-
 theorem t3bPrimeNormProfile_apply (p : SourceParameters c) (input : ProfileInput call)
     (i : Fin call.localizedData.geometry.slotCount) (x : ℝ) :
     call.t3bPrimeNormProfile p input i x =
@@ -77,13 +61,6 @@ theorem t3bPrimeNormProfile_apply (p : SourceParameters c) (input : ProfileInput
     (((x ^ (-1 + 2 * p.tilt) : ℝ) : ℂ) * Complex.exp (Complex.I * (0 : ℂ) * (Real.log x : ℂ))) = _
   rw [input.localized.prime_eq]
   simp only [mul_zero, zero_mul, Complex.exp_zero, mul_one]
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: profile application [mono_ms={ms}]"
-    stderr.flush
 
 end Call
 
@@ -117,13 +94,6 @@ theorem exists_primeProfile_bound (c : TargetContext K) (p : SourceParameters c)
   simpa only [Call.t3bPrimeNormProfile, hframe, Finset.sup_singleton,
     SchwartzMap.schwartzSeminormFamily_apply] using hbound
 
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: uniform bound [mono_ms={ms}]"
-    stderr.flush
-
 end T3b
 
 namespace RawLeafPacket
@@ -147,13 +117,6 @@ private theorem firstAtomTable_primeNormProfile (input : ProfileInput call)
     ((Ideal.absNorm q.asIdeal : ℝ) /
       call.base ^ call.originalLength (packet.firstAtomIndex hpacket side i))).symm
 
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: first slot [mono_ms={ms}]"
-    stderr.flush
-
 theorem t3bUnscaled_slotWeight (input : ProfileInput call)
     (side : Bool) (i : Fin (packet.ordinarySlots side)) (q : HeightOneSpectrum (𝓞 K)) :
     (packet.t3bUnscaledTable hpacket phases side).slotWeight i q =
@@ -164,13 +127,6 @@ theorem t3bUnscaled_slotWeight (input : ProfileInput call)
     (SlotRestriction.index (packet.secondBranch side).keep
       (Fin.cast (packet.secondAtomCount side).symm i)) q
   cases side <;> exact h
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: second slot [mono_ms={ms}]"
-    stderr.flush
 
 open HeckePort.Moments.Support in
 private theorem residual_slot_mem
@@ -191,157 +147,57 @@ private theorem residual_slot_mem
     (congrArg (fun S : Finset (HeightOneSpectrum (𝓞 K)) => q ∈ S) he).mp hq
   exact (Finset.mem_filter.mp hm).1
 
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: residual slot helper [mono_ms={ms}]"
-    stderr.flush
-
 theorem t3bBefore_slot_mem (side : Bool) (i : Fin (packet.ordinarySlots side))
     (q : HeightOneSpectrum (𝓞 K))
     (hq : q ∈ (packet.t3bUnscaledSource hpacket phases side).allocation.slots i) :
     q ∈ call.workingRaw.exteriorSlots (packet.secondAtomIndex hpacket side i) := by
-  run_tac do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: before-slot start [mono_ms={ms}]"
-    stderr.flush
   cases side with
   | false =>
-    run_tac do
-      let stderr ← IO.getStderr
-      let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: before-slot false [mono_ms={ms}]"
-      stderr.flush
     have hm := residual_slot_mem (packet.firstAtlas false)
       (primeSupport packet.key.1.val.1) (packet.secondIdeal false)
       packet.block.leftResidual (fun j _ => packet.block.left_residual j)
       (packet.secondSupportKey false)
       (Fin.cast (packet.secondAtomCount false).symm i) q hq
-    run_tac do
-      let stderr ← IO.getStderr
-      let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: before-slot false residual [mono_ms={ms}]"
-      stderr.flush
     exact packet.t3b_firstAtlas_slot_mem hpacket false
       (SlotRestriction.index (packet.secondBranch false).keep
         (Fin.cast (packet.secondAtomCount false).symm i)) q hm
   | true =>
-    run_tac do
-      let stderr ← IO.getStderr
-      let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: before-slot true [mono_ms={ms}]"
-      stderr.flush
     have hm := residual_slot_mem (packet.firstAtlas true)
       (primeSupport packet.key.1.val.1) (packet.secondIdeal true)
       packet.block.rightResidual (fun j _ => packet.block.right_residual j)
       (packet.secondSupportKey true)
       (Fin.cast (packet.secondAtomCount true).symm i) q hq
-    run_tac do
-      let stderr ← IO.getStderr
-      let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: before-slot true residual [mono_ms={ms}]"
-      stderr.flush
     exact packet.t3b_firstAtlas_slot_mem hpacket true
       (SlotRestriction.index (packet.secondBranch true).keep
         (Fin.cast (packet.secondAtomCount true).symm i)) q hm
 
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: before-slot complete [mono_ms={ms}]"
-    stderr.flush
-
 include hpacket in
 theorem t3bUnscaled_slots_le (side : Bool) : packet.ordinarySlots side ≤ c.geometry.slots := by
-  run_tac do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: slot-count start [mono_ms={ms}]"
-    stderr.flush
   have h : (packet.secondBranch side).keep.card ≤ (packet.firstAtlas side).slotCount := by
     simpa only [Fintype.card_fin] using Finset.card_le_univ (packet.secondBranch side).keep
-  run_tac do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: slot-count finite bound [mono_ms={ms}]"
-    stderr.flush
   exact (le_of_eq (packet.secondAtomCount side).symm).trans
     (h.trans (packet.t3b_firstAtlas_slots_le hpacket side))
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: slot-count complete [mono_ms={ms}]"
-    stderr.flush
 
 theorem t3bUnscaled_mask_two (side : Bool) (I : Ideal (𝓞 K)) :
     (packet.t3bUnscaledTable hpacket phases side).characters.mask I = 0 ∨
       (packet.t3bUnscaledTable hpacket phases side).characters.mask I = 1 := by
-  run_tac do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: mask-two start [mono_ms={ms}]"
-    stderr.flush
   cases side
   all_goals
-    run_tac do
-      let stderr ← IO.getStderr
-      let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: mask-two case [mono_ms={ms}]"
-      stderr.flush
     change (if IsCoprime I (phases.mask false).val then (1 : ℂ) else 0) = 0 ∨
       (if IsCoprime I (phases.mask false).val then (1 : ℂ) else 0) = 1
-    run_tac do
-      let stderr ← IO.getStderr
-      let ms ← IO.monoMsNow
-      stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: mask-two reduced [mono_ms={ms}]"
-      stderr.flush
     split_ifs <;> simp
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: mask-two complete [mono_ms={ms}]"
-    stderr.flush
 
 theorem t3bUnscaled_prime_norm (input : ProfileInput call)
     (side : Bool) (i : Fin (packet.ordinarySlots side)) (q : HeightOneSpectrum (𝓞 K))
     (hq : q ∈ (packet.t3bUnscaledSource hpacket phases side).allocation.slots i) :
     (Ideal.absNorm q.asIdeal : ℝ) ≤ T3b.profileAnnulus c call.frame *
       call.base ^ (packet.t3bUnscaledTable hpacket phases side).length i := by
-  run_tac do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: prime-norm start [mono_ms={ms}]"
-    stderr.flush
   have hb := call.t3b_original_prime_norm_le input (packet.secondAtomIndex hpacket side i) q
     (packet.t3bBefore_slot_mem hpacket phases side i q hq)
-  run_tac do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: prime-norm original bound [mono_ms={ms}]"
-    stderr.flush
   have he := congrArg
     (fun length : ℝ => T3b.profileAnnulus c call.frame * call.base ^ length)
     (packet.t3bUnscaled_length hpacket phases side i)
-  run_tac do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles step: prime-norm length equality [mono_ms={ms}]"
-    stderr.flush
   exact hb.trans_eq he.symm
-
-run_cmd do
-  Lean.Elab.Command.liftIO do
-    let stderr ← IO.getStderr
-    let ms ← IO.monoMsNow
-    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: complete [mono_ms={ms}]"
-    stderr.flush
 
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
