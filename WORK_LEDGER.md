@@ -23,6 +23,15 @@
 | Expansion、HighBin、D-EXPANSION | 13 | 8 万 | 规划完成 |
 | **合计** | **68** | **约 50 万** | |
 
+## 进度（2026-11-03 12:00）：骨架完成
+
+68 个单位全部关闭，**剩余 0 个**。
+- 配对引擎单步由 B 线的紧凑重写 MOM_ENGINE_STEP_V2 完成：23 项任务加组装，416 个模块，约 7.1 万行。PR #31 合入（5560a9a9）。
+- `Moments.lean` 最后 3 个 sorry 经 `*_of_step` 接上 `Assembly.pairedStepHypothesis`。PR #46 合入（edbecbec）。
+- 整项目构建（run 41579533296）通过；`generalHeckeSevenEighths_skeleton` 只依赖 propext、Classical.choice、Quot.sound。`Audit.lean` 现在拒绝 sorryAx。
+- 仅剩的 sorry 在独立库 `Challenge/DedekindZetaChallenge.lean`，不在骨架依赖里。
+- A 线（PR #9 及分组 PR #24–#30）已被 V2 取代。
+
 ## 进度（2026-11-02 03:30）
 
 总 68 单位（建账时 75，10-30 晚之前已关 7）。已完成约 56.9 个单位，**剩余约 11.1 个**：全部是配对引擎（PR #9 单步余下部分，以及用真实单步消去 `PairedStepHypothesis` 的最终接线）。骨架只剩 `Moments.lean` 的 3 个 sorry：`paired_zero_slot_models`、`paired_positive_below_one`、`paired_positive_endpoint`。
