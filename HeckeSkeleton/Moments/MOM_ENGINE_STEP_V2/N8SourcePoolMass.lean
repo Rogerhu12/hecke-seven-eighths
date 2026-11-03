@@ -31,7 +31,9 @@ attribute [local instance]
   Expansion.ActualProbeContext.localCompletionBorel
   Expansion.ActualProbeContext.allLocalMeasures_isAddHaar
 
-local instance n8PoolMassValuationFintype : Fintype AmplifierValuation := Fintype.ofFinite _
+local instance n8PoolMassValuationFintype : Fintype AmplifierValuation where
+  elems := {.one, .six, .seven}
+  complete := by intro e; cases e <;> simp
 
 variable {c : TargetContext K} {call : Call c} {p : SourceParameters c}
 variable {F : FirstPresentation call p} {family : FirstCauchyFamily F}
@@ -104,7 +106,10 @@ theorem firstIndexMass_pooled (count : ℕ) (index : Fin count ≃ pool.Index)
   conv_lhs => rw [Fintype.sum_sigma]
   apply Finset.sum_congr rfl
   intro i _
-  exact (Finset.sum_mul _ _ _).symm
+  exact (Finset.sum_mul Finset.univ
+    (fun branch : Unit ⊕ (pool.pool.primes × AmplifierValuation) =>
+      pool.indexPrefactor ⟨i, branch⟩)
+    (family.source i).firstIndexWeight).symm
 
 end PoolPresentation
 
@@ -193,9 +198,11 @@ theorem original_pool_prefactor_mass (c : TargetContext K) (p : SourceParameters
         intro q _
         apply Finset.sum_le_sum
         intro e _
-        simpa only [mul_one] using mul_le_mul_of_nonneg_left
-          (AmplifierValuation.localPayment_le_one e q.val)
-          (div_nonneg (by norm_num) (pool.data i).density_pos.le)
+        have hfactor_nonneg : 0 ≤ (4 / (pool.data i).density : ℝ) :=
+          div_nonneg (by norm_num) (pool.data i).density_pos.le
+        exact (mul_le_mul_of_nonneg_left
+          (AmplifierValuation.localPayment_le_one e q.val) hfactor_nonneg).trans_eq
+            (mul_one _)
       _ = (4 * E) * ((pool.pool.primes.card : ℝ) / (pool.data i).density) := by
         simp only [Finset.sum_const, Finset.card_univ, Fintype.card_coe, nsmul_eq_mul]
         dsimp only [E]
@@ -234,17 +241,16 @@ theorem original_expansion_index_reduction (c : TargetContext K) (p : SourcePara
       (Real.one_le_rpow call.domain.scale.le p.loss_pos.le)
   cases he : trace.expansion with
   | direct =>
-    have hm : trace.expansion.firstIndexMass = trace.cauchy.firstIndexMass := by
-      rw [he]
-      simp only [PoolExpansion.firstIndexMass, PoolExpansion.indexPrefactor,
-        PoolExpansion.source, one_mul, FirstCauchyFamily.firstIndexMass]
-    rw [hm]
+    change (∑ i : Fin trace.cauchy.count,
+      (1 : ℝ) * (trace.cauchy.source i).firstIndexWeight) ≤
+        C' * call.base ^ p.loss * trace.cauchy.firstIndexMass
+    simp only [one_mul]
     exact le_mul_of_one_le_left
       (Finset.sum_nonneg (fun i _ => (trace.cauchy.source i).firstIndexWeight_nonneg)) hfactor
   | pooled pool count index source =>
     have hexp := htrace.expansion
     rw [he] at hexp
-    rw [he, pool.firstIndexMass_pooled count index source hexp.2.2,
+    rw [pool.firstIndexMass_pooled count index source hexp.2.2,
       FirstCauchyFamily.firstIndexMass, Finset.mul_sum]
     apply Finset.sum_le_sum
     intro i _
