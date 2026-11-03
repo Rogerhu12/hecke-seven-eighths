@@ -48,8 +48,12 @@ theorem nominal_firstSaving_lower {a : RealParameters} {Z step : ℝ}
   have hw0 : 0 ≤ G.skeleton.w := G.tag.removedLength_nonneg Z hZ
   have hwo : 0 ≤ G.skeleton.wo := by
     cases ht : G.tag with
-    | direct => simp only [OriginalNominalGeometry.skeleton, ht, OriginalNominalTag.movingLength]
-    | main => simp only [OriginalNominalGeometry.skeleton, ht, OriginalNominalTag.movingLength]
+    | direct =>
+      simp only [OriginalNominalGeometry.skeleton, ht, OriginalNominalTag.movingLength]
+      exact le_refl _
+    | main =>
+      simp only [OriginalNominalGeometry.skeleton, ht, OriginalNominalTag.movingLength]
+      exact le_refl _
     | error e q =>
       change 0 ≤ G.tag.movingLength Z
       rw [ht]
@@ -77,7 +81,7 @@ theorem nominal_firstSaving_lower {a : RealParameters} {Z step : ℝ}
         2 * step := by
     have hpadding : G.tag.padding step ≤ 2 * step := by
       cases G.tag <;> simp only [OriginalNominalTag.padding] <;> linarith
-    exact add_le_add_left hpadding _
+    exact add_le_add (le_refl _) hpadding
   apply firstSaving_lower G.skeleton.c G.skeleton.d G.skeleton.shiftedCommon G.skeleton.w
     (G.skeleton.q + G.skeleton.R + G.skeleton.E) G.skeleton.R G.skeleton.wo
     G.boundary G.skeleton.g (G.tag.poolLength step) step G.supportError
@@ -85,6 +89,35 @@ theorem nominal_firstSaving_lower {a : RealParameters} {Z step : ℝ}
     hwo G.boundary_nonneg hstep G.supportError_nonneg
     (by change G.skeleton.R ≤ a.q + G.skeleton.R + G.skeleton.E; linarith)
     hboundary hD hg (G.tag.poolLength_nonneg step hstep) hw
+
+private theorem nominal_secondSaving_of_coordinates
+    {a : RealParameters} {Z step v : ℝ}
+    (G : OriginalNominalGeometry (K := K) a Z step) (side : Bool)
+    {L R U V : Ideal (𝓞 K)}
+    (hleft : G.ideals.second.val = if side then R else L)
+    (hright : G.ideals.secondOpposite.val = if side then L else R)
+    (hunit : G.ideals.unitPart.val = U)
+    (hnonunit : G.ideals.nonunitPart.val = V)
+    (hs : 2 * ((idealLogLength Z L + idealLogLength Z R) / 2) / 3 ≤
+      2 * ((idealLogLength Z L + idealLogLength Z R) / 2) -
+        5 * idealLogLength Z (gcd L R) / 6 - idealLogLength Z (commonRadical L R) +
+        idealLogLength Z U + idealLogLength Z V / 6 + 2 * v / 6) :
+    2 * G.halfSecond / 3 ≤
+      2 * G.halfSecond - 5 * G.skeleton.g₂ / 6 - G.secondRadical + G.skeleton.t₂ +
+        G.skeleton.V / 6 + 2 * v / 6 := by
+  dsimp only [OriginalNominalGeometry.halfSecond, OriginalNominalGeometry.skeleton,
+    OriginalNominalGeometry.secondRadical]
+  rw [hleft, hright, hunit, hnonunit]
+  cases side with
+  | false => exact hs
+  | true =>
+    change 2 * ((idealLogLength Z R + idealLogLength Z L) / 2) / 3 ≤
+      2 * ((idealLogLength Z R + idealLogLength Z L) / 2) -
+        5 * idealLogLength Z (gcd R L) / 6 - idealLogLength Z (commonRadical R L) +
+        idealLogLength Z U + idealLogLength Z V / 6 + 2 * v / 6
+    rw [gcd_comm R L, commonRadical_comm R L,
+      add_comm (idealLogLength Z R) (idealLogLength Z L)]
+    exact hs
 
 end T3b
 
@@ -106,9 +139,9 @@ theorem t3b_removedLength_le (expansion : PoolExpansion family)
   have hstep := (recipeInduction_budget (c := c)).1.le
   cases expansion with
   | direct =>
-    rw [hfamily.tag i]
-    change 0 ≤ 7 * recipeInductionSigma c / 3
-    positivity
+    have htag := congrArg
+      (fun tag : OriginalNominalTag K => tag.removedLength call.base) (hfamily.tag i)
+    exact htag.trans_le (by change 0 ≤ 7 * recipeInductionSigma c / 3; positivity)
   | pooled P count index source =>
     cases ht : (index i).2 with
     | inl u =>
@@ -205,9 +238,9 @@ def t3bSecondSaving (side : Bool) (h : packet.R.live) : ℝ :=
   2 * G.halfSecond - 5 * G.skeleton.g₂ / 6 - G.secondRadical + G.skeleton.t₂ +
     G.skeleton.V / 6 + 2 * packet.t3bMultiplicityOneLength h / 6
 
+include hpacket in
 /-- The original complete correlation gives the second saving for
 every live row, on either orientation of the actual common pair. -/
-include hpacket in
 theorem t3bSecondSaving_lower (side : Bool) (h : packet.R.live) :
     2 * (packet.nominal side).halfSecond / 3 ≤ packet.t3bSecondSaving side h := by
   rcases hpacket with ⟨trace, geometry, raw, j, htrace, hgeometry, hraw, rfl⟩
@@ -215,19 +248,27 @@ theorem t3bSecondSaving_lower (side : Bool) (h : packet.R.live) :
   have hG := hgeometry (raw.covers.classKey (raw.index j).val) (raw.active j)
   have hs := packet.R.live_second_saving (Arithmetic.context c) call.base call.domain.scale
     packet.block.left_positive packet.block.right_positive h
-  dsimp only at hs
-  rw [packet.block.common_left, packet.block.common_right] at hs
-  cases side with
-  | false =>
-    rw [← hG.second false, ← hG.secondOpposite false,
-      ← hG.unitPart false h, ← hG.nonunitPart false h] at hs
-    exact hs
-  | true =>
-    rw [← hG.secondOpposite true, ← hG.second true,
-      ← hG.unitPart true h, ← hG.nonunitPart true h] at hs
-    simpa only [t3bSecondSaving, t3bMultiplicityOneLength, multiplicityOneRadical,
-      OriginalNominalGeometry.halfSecond, OriginalNominalGeometry.skeleton,
-      OriginalNominalGeometry.secondRadical, gcd_comm, commonRadical_comm, add_comm] using hs
+  have hleft : (packet.nominal side).ideals.second.val =
+      if side then (primePowerProduct packet.R.primes packet.R.rightMultiplicity).val
+      else (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val := by
+    cases side with
+    | false => exact (hG.second false).trans packet.block.common_left.symm
+    | true => exact (hG.second true).trans packet.block.common_right.symm
+  have hright : (packet.nominal side).ideals.secondOpposite.val =
+      if side then (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val
+      else (primePowerProduct packet.R.primes packet.R.rightMultiplicity).val := by
+    cases side with
+    | false => exact (hG.secondOpposite false).trans packet.block.common_right.symm
+    | true => exact (hG.secondOpposite true).trans packet.block.common_left.symm
+  exact T3b.nominal_secondSaving_of_coordinates
+    (v := packet.t3bMultiplicityOneLength h) (packet.nominal side) side
+    (L := (primePowerProduct packet.R.primes packet.R.leftMultiplicity).val)
+    (R := (primePowerProduct packet.R.primes packet.R.rightMultiplicity).val)
+    (U := (unitFrequencyRadical (Arithmetic.context c) packet.R.primes
+      packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val)).val)
+    (V := (nonunitFrequencyRadical (Arithmetic.context c) packet.R.primes
+      packet.R.leftMultiplicity packet.R.rightMultiplicity (packet.R.frequency h.val)).val)
+    hleft hright (hG.unitPart side h) (hG.nonunitPart side h) hs
 
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint

@@ -106,8 +106,8 @@ theorem t3b_enlargement_nonneg : 0 ≤ packet.second.physical.enlargement := by
     cases packet.second.physical.first.tag <;> simp only [OriginalNominalTag.padding] <;> positivity
   exact add_nonneg (le_max_right _ _) hpad
 
-/-- The true original row amplitude is paid at its own nominal radius. -/
 include hpacket in
+/-- The true original row amplitude is paid at its own nominal radius. -/
 theorem t3bRowAmplitude_le_nominal (side : Bool) :
     packet.t3bRowAmplitude ≤ orbitalFieldFactor K *
       call.base ^ ((packet.nominal side).skeleton.Krow + (packet.nominal side).skeleton.g) := by
@@ -129,9 +129,9 @@ theorem t3bRowAmplitude_le_nominal (side : Bool) :
       rw [Real.rpow_add call.base_pos, packet.t3b_nominal_retainedLength_rpow hpacket,
         packet.t3b_nominal_enlargement hpacket]
 
+include hpacket in
 /-- The denominator contains both actual common ideals, with either
 orientation giving exactly the same twice-half-common exponent. -/
-include hpacket in
 theorem t3b_secondNorm_product_eq (side : Bool) :
     (Ideal.absNorm (packet.secondIdeal false) : ℝ) *
         (Ideal.absNorm (packet.secondIdeal true) : ℝ) =

@@ -1,8 +1,18 @@
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bSources
 import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleCompensation
+import Lean.Elab.Command
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false
+set_option Elab.async false
+set_option stderrAsMessages false
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: imports [mono_ms={ms}]"
+    stderr.flush
 
 /-!
 # The actual exceptional prime atoms use the original fixed profile window
@@ -51,6 +61,13 @@ def t3bPrimeNormProfile (p : SourceParameters c) (input : ProfileInput call)
     (T3b.profileWindow_compact c call.frame) (T3b.profileWindow_positive c call.frame)
     (-1 + 2 * p.tilt) 0 (input.localized.primeRep i 0) (call.t3bPrimeProfile_support input i)
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: profile definition [mono_ms={ms}]"
+    stderr.flush
+
 theorem t3bPrimeNormProfile_apply (p : SourceParameters c) (input : ProfileInput call)
     (i : Fin call.localizedData.geometry.slotCount) (x : ℝ) :
     call.t3bPrimeNormProfile p input i x =
@@ -60,6 +77,13 @@ theorem t3bPrimeNormProfile_apply (p : SourceParameters c) (input : ProfileInput
     (((x ^ (-1 + 2 * p.tilt) : ℝ) : ℂ) * Complex.exp (Complex.I * (0 : ℂ) * (Real.log x : ℂ))) = _
   rw [input.localized.prime_eq]
   simp only [mul_zero, zero_mul, Complex.exp_zero, mul_one]
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: profile application [mono_ms={ms}]"
+    stderr.flush
 
 end Call
 
@@ -93,6 +117,13 @@ theorem exists_primeProfile_bound (c : TargetContext K) (p : SourceParameters c)
   simpa only [Call.t3bPrimeNormProfile, hframe, Finset.sup_singleton,
     SchwartzMap.schwartzSeminormFamily_apply] using hbound
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: uniform bound [mono_ms={ms}]"
+    stderr.flush
+
 end T3b
 
 namespace RawLeafPacket
@@ -116,6 +147,13 @@ private theorem firstAtomTable_primeNormProfile (input : ProfileInput call)
     ((Ideal.absNorm q.asIdeal : ℝ) /
       call.base ^ call.originalLength (packet.firstAtomIndex hpacket side i))).symm
 
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: first slot [mono_ms={ms}]"
+    stderr.flush
+
 theorem t3bUnscaled_slotWeight (input : ProfileInput call)
     (side : Bool) (i : Fin (packet.ordinarySlots side)) (q : HeightOneSpectrum (𝓞 K)) :
     (packet.t3bUnscaledTable hpacket phases side).slotWeight i q =
@@ -126,6 +164,13 @@ theorem t3bUnscaled_slotWeight (input : ProfileInput call)
     (SlotRestriction.index (packet.secondBranch side).keep
       (Fin.cast (packet.secondAtomCount side).symm i)) q
   cases side <;> exact h
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: second slot [mono_ms={ms}]"
+    stderr.flush
 
 theorem t3bBefore_slot_mem (side : Bool) (i : Fin (packet.ordinarySlots side))
     (q : HeightOneSpectrum (𝓞 K))
@@ -167,6 +212,13 @@ theorem t3bUnscaled_prime_norm (input : ProfileInput call)
   rw [packet.t3bUnscaled_length]
   exact call.t3b_original_prime_norm_le input (packet.secondAtomIndex hpacket side i) q
     (packet.t3bBefore_slot_mem hpacket phases side i q hq)
+
+run_cmd do
+  Lean.Elab.Command.liftIO do
+    let stderr ← IO.getStderr
+    let ms ← IO.monoMsNow
+    stderr.putStrLn s!"MOM_ENGINE_STEP_V2 T3bPrimeProfiles checkpoint: complete [mono_ms={ms}]"
+    stderr.flush
 
 end RawLeafPacket
 end HeckeSkeleton.Moments.EngineStepV2.Blueprint
