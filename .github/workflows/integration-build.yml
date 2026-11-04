@@ -109,11 +109,75 @@ jobs:
           EOF
           cp /tmp/integration/IntegrationAxioms.lean IntegrationAxioms.lean
           lake env lean IntegrationAxioms.lean 2>&1 | tee /tmp/integration/axioms.log
+      - name: Record the challenge and solution declarations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          template = '''import __MODULE__
+          import Lean
+
+          open Lean Elab Command in
+          run_cmd do
+            let env ← getEnv
+            let mut rows : Array Json := #[]
+            for name in #[`HeckeSevenEighths.HeckeCharacter,
+                `HeckeSevenEighths.IsUnramifiedAt, `HeckeSevenEighths.primeValue,
+                `HeckeSevenEighths.coeff] do
+              let some (.defnInfo d) := env.find? name
+                | throwError "Expected definition {name}"
+              let hint := match d.hints with
+                | .opaque => "opaque"
+                | .abbrev => "abbrev"
+                | .regular h => s!"regular {h}"
+              rows := rows.push <| Json.mkObj [
+                ("name", toJson name.toString),
+                ("levels", toJson (d.levelParams.map toString)),
+                ("hints", toJson hint),
+                ("safety", toJson (reprStr d.safety)),
+                ("all", toJson (d.all.map toString)),
+                ("type", toJson (reprStr d.type)),
+                ("value", toJson (reprStr d.value))]
+            liftIO <| IO.FS.writeFile "__OUTPUT__" (Json.arr rows).pretty
+          '''
+          for module in ("HeckeSevenEighthsChallenge", "HeckeSevenEighthsSolution"):
+              output = f"/tmp/integration/{module}-definitions.json"
+              Path(f"{module}Definitions.lean").write_text(
+                  template.replace("__MODULE__", module).replace("__OUTPUT__", output))
+          PY
+          lake env lean HeckeSevenEighthsChallengeDefinitions.lean
+          lake env lean HeckeSevenEighthsSolutionDefinitions.lean
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('/tmp/integration')
+          challenge = json.loads((root / 'HeckeSevenEighthsChallenge-definitions.json').read_text())
+          solution = json.loads((root / 'HeckeSevenEighthsSolution-definitions.json').read_text())
+          for left, right in zip(challenge, solution):
+              different = [key for key in left if left[key] != right[key]]
+              print(left['name'], 'different fields:', different)
+              for key in different:
+                  if key not in ('type', 'value'):
+                      print(key, repr(left[key]), repr(right[key]))
+          PY
+      - name: Preserve declaration diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: hecke-definitions-${{ github.sha }}
+          path: /tmp/integration/*-definitions.json
+          if-no-files-found: error
+          retention-days: 7
       - name: Compare the Hecke challenge and solution
         shell: bash
         run: |
           set -euo pipefail
-          lake comparator --config src/Challenge/comparator.json 2>&1 | tee /tmp/integration/comparator.log
+          lake comparator --config src/Challenge/comparator.json 2>&1 |
+            tee /tmp/integration/comparator.log |
+            awk '/^error:/ { remaining = 30 }
+              /^(Resolving|Building|Exporting|Running|Your solution|Build completed)/ || remaining > 0 {
+                print; fflush(); if (remaining > 0) remaining--
+              }'
       - name: Preserve build and axiom logs
         if: always()
         uses: actions/upload-artifact@v4
