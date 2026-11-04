@@ -1,0 +1,6 @@
+{
+  "challenge_module": "HeckeSevenEighthsChallenge",
+  "solution_module": "HeckeSevenEighthsSolution",
+  "theorem_names": ["HeckeSevenEighths.heckeL_zeroFree"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"]
+}
