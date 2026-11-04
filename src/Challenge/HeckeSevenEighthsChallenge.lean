@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Challenge: unitary Hecke L-functions have no zeros in Re(s) > 7/8
@@ -23,11 +25,14 @@ the norm characters `‖·‖^{it}`, and its form for unitary Weil representatio
 (Theorem 1.1), are not part of this challenge.
 -/
 
-noncomputable section
+@[expose] public section
 
 namespace HeckeSevenEighths
 
+noncomputable section
+
 open NumberField IsDedekindDomain Filter Topology
+open scoped Classical
 
 /-- A unitary Hecke character of `K`: a continuous homomorphism from the idèle class group
 to the unit circle. -/
@@ -69,5 +74,7 @@ theorem heckeL_zeroFree (K : Type) [Field K] [NumberField K] (χ : HeckeCharacte
         HasSum (fun I : Ideal (𝓞 K) => coeff χ I * (Ideal.absNorm I : ℂ) ^ (-s)) (f s)) ∧
       ∀ s : ℂ, 7 / 8 < s.re → s ∉ P → f s ≠ 0 := by
   sorry
+
+end
 
 end HeckeSevenEighths
