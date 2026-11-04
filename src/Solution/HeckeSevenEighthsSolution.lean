@@ -17,11 +17,11 @@ section challengeInstances
 -- Hide their instance attributes in this section so that the verbatim definitions
 -- below select the same Mathlib instances as the Challenge's public module imports.
 run_elab do
-  let prefix := Lean.mkPrivateNameCore `FLTReuse.Ma6dd0c4d713fb96a
+  let shortcutPrefix := Lean.mkPrivateNameCore `FLTReuse.Ma6dd0c4d713fb96a
     `IsDedekindDomain.HeightOneSpectrum
   let instances := (Lean.Meta.instanceExtension.getState (← Lean.getEnv)).instanceNames
   for (name, _) in instances do
-    if prefix.isPrefixOf name then
+    if shortcutPrefix.isPrefixOf name then
       Lean.Attribute.erase name `instance
 
 namespace HeckeSevenEighths
