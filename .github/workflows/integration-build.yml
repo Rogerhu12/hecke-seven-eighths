@@ -37,6 +37,10 @@ jobs:
             sudo sysctl -w vm.max_map_count=262144
           fi
           df -h /
+      - name: Install the comparator sandbox
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bubblewrap
       - name: Set up the pinned Lean and Mathlib environment
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
@@ -72,6 +76,7 @@ jobs:
           cat > /tmp/integration/IntegrationAxioms.lean <<'EOF'
           import HeckeSkeleton.Main
           import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PairedStep
+          import HeckeSevenEighthsSolution
 
           #print axioms HeckeSkeleton.highBin
           #print axioms HeckeSkeleton.expansionPhysicalParameters
@@ -99,10 +104,16 @@ jobs:
           #print axioms HeckeSkeleton.inverseSource
           #print axioms HeckeSkeleton.plainSource
           #print axioms HeckeSkeleton.generalHeckeSevenEighths_skeleton
+          #print axioms HeckeSevenEighths.heckeL_zeroFree
           #print axioms HeckeSkeleton.Moments.EngineStepV2.Assembly.pairedStepHypothesis
           EOF
           cp /tmp/integration/IntegrationAxioms.lean IntegrationAxioms.lean
           lake env lean IntegrationAxioms.lean 2>&1 | tee /tmp/integration/axioms.log
+      - name: Compare the Hecke challenge and solution
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake comparator --config src/Challenge/comparator.json 2>&1 | tee /tmp/integration/comparator.log
       - name: Preserve build and axiom logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -111,3 +122,4 @@ jobs:
           path: /tmp/integration
           if-no-files-found: warn
           retention-days: 30
+

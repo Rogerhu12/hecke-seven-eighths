@@ -46,6 +46,10 @@ name = "HeckeSevenEighthsChallenge"
 srcDir = "src/Challenge"
 
 [[lean_lib]]
+name = "HeckeSevenEighthsSolution"
+srcDir = "src/Solution"
+
+[[lean_lib]]
 name = "HeckeGeneral"
 srcDir = "src"
 globs = ["HeckeGeneral.+"]
@@ -145,3 +149,4 @@ globs = ["ExpansionDetector.+"]
 name = "ExpansionInterfaces"
 srcDir = "src"
 globs = ["ExpansionInterfaces.+"]
+

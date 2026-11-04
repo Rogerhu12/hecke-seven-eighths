@@ -38,6 +38,27 @@ see [.github/workflows/integration-build.yml](.github/workflows/integration-buil
 Pushes to `dtests-handoff` publish a precompiled Lake cache as a release, which
 CI restores through [.github/actions/restore-lake-cache](.github/actions/restore-lake-cache).
 
+## Independent challenge and solution
+
+The Mathlib-only statement in
+[src/Challenge/HeckeSevenEighthsChallenge.lean](src/Challenge/HeckeSevenEighthsChallenge.lean)
+describes the ideal coefficients directly from the idèle class character. Its
+solution is
+[src/Solution/HeckeSevenEighthsSolution.lean](src/Solution/HeckeSevenEighthsSolution.lean),
+which identifies those coefficients with the library's convergent series and
+uses the meromorphic endpoint above. The possible norm-character pole is
+represented by an entire numerator whose value at the pole is nonzero.
+
+```sh
+lake build HeckeSevenEighthsChallenge HeckeSevenEighthsSolution
+lake comparator --config src/Challenge/comparator.json
+```
+
+The comparator checks the statement and its definitions in separate environments,
+checks the solution with the Lean kernel, and permits only `propext`,
+`Classical.choice`, and `Quot.sound`. On Linux it uses the `bubblewrap` sandbox.
+The whole-project CI runs this check and prints the solution theorem's axioms.
+
 ## Layout
 
 | Path | Contents |
@@ -81,3 +102,4 @@ lake comparator --config base/comparator.json
 The code also adapts material from Tau Ceti,
 [LeanPool/lean-pool](https://github.com/LeanPool/lean-pool) and
 [openai/math](https://github.com/openai/math).
+
