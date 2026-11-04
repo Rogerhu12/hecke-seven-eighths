@@ -1,9 +1,7 @@
-module
-
-public import Mathlib
-public import HeckeGeneral.Bridge.ChallengeCoefficients
-public import HeckeGeneral.Analysis.ChallengeContinuation
-public import HeckeSkeleton.Main
+import Mathlib
+import HeckeGeneral.Bridge.ChallengeCoefficients
+import HeckeGeneral.Analysis.ChallengeContinuation
+import HeckeSkeleton.Main
 
 /-!
 # Solution: unitary Hecke L-functions have no zeros in Re(s) > 7/8
@@ -12,8 +10,6 @@ The four definitions below are copied verbatim from the independent Challenge.
 The coefficient and analytic bridges live in HeckeGeneral. This module does not
 import the Challenge; the comparator checks their declarations independently.
 -/
-
-@[expose] public section
 
 namespace HeckeSevenEighths
 
