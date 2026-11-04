@@ -40,6 +40,11 @@ srcDir = "base/Solution"
 # The two vendored power-residue modules are no longer copied: the same module
 # paths are provided by the FiniteAbelianGlobalReciprocityv2 package above.
 
+# Statement of the main theorem with Mathlib notions only; see src/Challenge/comparator.json.
+[[lean_lib]]
+name = "HeckeSevenEighthsChallenge"
+srcDir = "src/Challenge"
+
 [[lean_lib]]
 name = "HeckeGeneral"
 srcDir = "src"
