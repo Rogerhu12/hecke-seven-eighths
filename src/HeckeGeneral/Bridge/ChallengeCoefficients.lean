@@ -38,7 +38,7 @@ theorem primeValue_eq_primeCoefficient (χ : HeckeCharacter K)
     else 0) = primeCoefficient K χ v := by
   by_cases h : U ∧ ∃ ϖ : (v.adicCompletion K)ˣ,
       Valued.v (ϖ : v.adicCompletion K) = WithZero.exp (-1 : ℤ)
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     exact (primeCoefficient_eq_of_norm K χ v (hU.mp h.1) (Classical.choose h.2)
       (localNorm_eq_inv_residueCard_of_valuation K v _ (Classical.choose_spec h.2))).symm
   · have hχ : ¬UnramifiedAt K χ v := by
@@ -46,7 +46,7 @@ theorem primeValue_eq_primeCoefficient (χ : HeckeCharacter K)
       apply h
       refine ⟨hU.mpr hχ, localUniformizerUnit K v, ?_⟩
       exact localUniformizer_valuation K v
-    rw [dif_neg h, primeCoefficient_of_ramified K χ v hχ]
+    rw [dite_eq_right h, primeCoefficient_of_ramified K χ v hχ]
 
 /-- The challenge's factorization expression agrees with the multiplicative
 ideal coefficient. Only prime ideals occur in `normalizedFactors`, so the
@@ -59,14 +59,15 @@ theorem normalizedFactors_coefficient_eq (a : HeightOneSpectrum (𝓞 K) → ℂ
       idealCoefficient a I := by
   by_cases hI : I = ⊥
   · subst I
-    simp only [if_pos rfl, idealCoefficient_zero]
-  · rw [if_neg hI, idealCoefficient, if_neg hI]
+    simp [idealCoefficient]
+  · rw [ite_eq_right hI, idealCoefficient, ite_eq_right hI]
     congr 1
     apply Multiset.map_congr rfl
     intro P hP
     have hp : Prime P := prime_of_normalized_factor P hP
     have hPP : P.IsPrime ∧ P ≠ ⊥ := ⟨Ideal.isPrime_of_prime hp, hp.ne_zero⟩
-    simp only [dif_pos hPP, primeIdealValue, dif_pos hp]
+    rw [dite_eq_left hPP, primeIdealValue, dite_eq_left hp]
+    exact congrArg a (HeightOneSpectrum.ext rfl)
 
 /-- The coefficient bridge on the nonzero ideal index type used by the library. -/
 theorem normalizedFactors_coefficient_eq_heckeIdealCoefficient
@@ -94,7 +95,10 @@ theorem hasSum_heckeIdealCoefficient_all (χ : HeckeCharacter K)
     subst I
     simp only [f, Ideal.zero_eq_bot, idealCoefficient_zero, zero_mul]
   apply (hasSum_subtype_iff_of_support_subset hsupport).mp
-  simpa only [f, dirichletTerm, idealNorm, heckeIdealCoefficient,
-    nonzeroIdealCoefficient, Complex.ofReal_natCast] using hasSum_heckeLSeries K χ hs
+  apply (hasSum_heckeLSeries K χ hs).congr_fun
+  intro I
+  change idealCoefficient (primeCoefficient K χ) I.val * (Ideal.absNorm I.val : ℂ) ^ (-s) =
+    heckeIdealCoefficient K χ I * (idealNorm K I : ℂ) ^ (-s)
+  simp only [idealNorm, heckeIdealCoefficient, nonzeroIdealCoefficient, Complex.ofReal_natCast]
 
 end HeckeGeneral.Bridge
