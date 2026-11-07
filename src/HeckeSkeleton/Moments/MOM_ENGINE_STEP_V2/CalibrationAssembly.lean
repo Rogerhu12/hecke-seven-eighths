@@ -245,7 +245,7 @@ variable (cutoff : ∀ h ∈ (s).rows, (Arithmetic.data c).exteriorNorm ((s).ori
 variable (ordinary : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
   (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
 
-private theorem nonexceptional_at
+theorem nonexceptional_at
     (ordinaryRows : ∀ (h : seed.ordinary.rows.live), h ∈ (s).rows →
       (d 0).rowCharacter ((s).row h).momentIdeal ∉ call.node.data.theta)
     (ξ : EngineParameter) (h : seed.ordinary.rows.live)

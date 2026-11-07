@@ -48,7 +48,11 @@ private theorem complex_real_finset_seminorm (q : Finset (ℕ × ℕ)) (φ : �
     q.sup (schwartzSeminormFamily ℂ ℝ ℂ) φ =
       q.sup (schwartzSeminormFamily ℝ ℝ ℂ) φ := by
   rw [Seminorm.finset_sup_apply, Seminorm.finset_sup_apply]
-  rfl
+  congr 2
+  funext ⟨n, k⟩
+  apply Subtype.ext
+  simp only [NNReal.coe_mk, SchwartzMap.schwartzSeminormFamily_apply,
+    SchwartzMap.seminorm_apply]
 
 private theorem conjugation_finset_bound (q : Finset (ℕ × ℕ)) :
     ∃ s : Finset (ℕ × ℕ), ∃ C : ℝ, 0 ≤ C ∧ ∀ φ : 𝓢(ℝ, ℂ),
