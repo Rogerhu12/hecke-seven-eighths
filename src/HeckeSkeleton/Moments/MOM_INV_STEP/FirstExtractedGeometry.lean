@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnAssembly
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMobiusGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnAssembly
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMobiusGeometry
+
+@[expose] public section
 
 /-!
 # Actual bounds for the first extracted center parameter

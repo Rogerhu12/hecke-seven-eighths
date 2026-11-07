@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SUnitProfileEuler
-import Mathlib.MeasureTheory.Integral.Bochner.Set
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Analysis.SUnitProfileEuler
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 An actual unit-log-interval Sobolev estimate for the S-local Haar orbital

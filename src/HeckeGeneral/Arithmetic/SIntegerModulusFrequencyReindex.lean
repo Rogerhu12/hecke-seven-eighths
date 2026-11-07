@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusFrequencySupport
-import Mathlib.Topology.Algebra.InfiniteSum.Group
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusFrequencySupport
+public import Mathlib.Topology.Algebra.InfiniteSum.Group
+
+@[expose] public section
 
 /-! Actual division by a nonzero S-integer modulus reindexes its frequency
 lattice, including zero. Supported total sums require no summability input. -/

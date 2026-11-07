@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorHybridBridge
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonCoefficientExtraction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorHybridBridge
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonCoefficientExtraction
+
+@[expose] public section
 
 /-!
 # Literal original atoms give the two rectangular term dictionaries

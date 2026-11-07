@@ -1,8 +1,12 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # The final numerical allocations in the actual inverse step

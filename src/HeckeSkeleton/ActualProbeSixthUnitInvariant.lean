@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.TInputPrincipal
-import HeckeGeneral.Arithmetic.SIntegerTripleReindex
-import Mathlib.Algebra.Group.Units.Equiv
+module
+
+public import HeckeGeneral.Analysis.TInputPrincipal
+public import HeckeGeneral.Arithmetic.SIntegerTripleReindex
+public import Mathlib.Algebra.Group.Units.Equiv
+
+@[expose] public section
 
 /-!
 # Literal sixth-unit invariance of the physical probe

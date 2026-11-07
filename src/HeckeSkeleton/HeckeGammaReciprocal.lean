@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExplicitHeckeFunctionalEquation
-import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
-import Mathlib.Analysis.Calculus.Deriv.Mul
+module
+
+public import HeckeSkeleton.ExplicitHeckeFunctionalEquation
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+
+@[expose] public section
 
 /-!
 Entire reciprocal Gamma factors and uncompleted non-norm Hecke functions.

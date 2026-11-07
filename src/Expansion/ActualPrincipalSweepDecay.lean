@@ -1,6 +1,10 @@
-import Expansion.ActualPrincipalInitialTransport
-import Expansion.ActualOuterHeightBudget
-import Expansion.PowerHeightTailAlgebra
+module
+
+public import Expansion.ActualPrincipalInitialTransport
+public import Expansion.ActualOuterHeightBudget
+public import Expansion.PowerHeightTailAlgebra
+
+@[expose] public section
 
 /-!
 # Rapid decay on the complete actual principal initial sweep

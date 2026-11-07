@@ -1,6 +1,10 @@
-import DedekindZetaZeroFree.Theta.Whittaker.FiniteWeylSupport
-import DedekindZetaZeroFree.Theta.Whittaker.LocalFunctionalsFromGlobalPeriods
-import ThetaGlobal.FiniteLocalShellProject
+module
+
+public import DedekindZetaZeroFree.Theta.Whittaker.FiniteWeylSupport
+public import DedekindZetaZeroFree.Theta.Whittaker.LocalFunctionalsFromGlobalPeriods
+public import ThetaGlobal.FiniteLocalShellProject
+
+@[expose] public section
 
 /-!
 # Whittaker bounds for actual finite vectors after target projection

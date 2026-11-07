@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualStepGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualStepGeometry
+
+@[expose] public section
 
 /-!
 # Every actual generated piece belongs to the induction class

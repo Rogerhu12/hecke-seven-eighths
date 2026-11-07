@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstTerminalBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RawSourcePhaseIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstTerminalBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RawSourcePhaseIntegral
+
+@[expose] public section
 
 /-!
 # The actual parent reaches both raw Poisson sources

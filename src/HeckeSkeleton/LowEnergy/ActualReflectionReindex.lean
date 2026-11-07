@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenIndependence
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenIndependence
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+
+@[expose] public section
 
 /-!
 # Exact reflection-index reindexing by frozen state and full cube

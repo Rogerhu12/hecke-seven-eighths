@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import Mathlib.Analysis.Calculus.Deriv.Mul
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+
+@[expose] public section
 
 /-!
 # Homogeneity of the original finite profile seminorms

@@ -1,8 +1,12 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
-import Mathlib.Data.Fintype.Prod
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+public import Mathlib.Data.Fintype.Prod
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Four component-class slices preserve sieve coefficient independence

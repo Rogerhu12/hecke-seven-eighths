@@ -1,6 +1,10 @@
-import RowCharacterCanonicalUniqueness
-import ActualHighRowLRatio
-import actualConductorTransfer
+module
+
+public import RowCharacterCanonicalUniqueness
+public import ActualHighRowLRatio
+public import actualConductorTransfer
+
+@[expose] public section
 
 /-!
 The original Euler provider's characters are forced by its existing

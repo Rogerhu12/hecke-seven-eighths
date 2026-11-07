@@ -1,5 +1,9 @@
-import ExpansionInterfaces.AnnularContourBound
-import ExpansionInterfaces.AnnularMellinDecay
+module
+
+public import ExpansionInterfaces.AnnularContourBound
+public import ExpansionInterfaces.AnnularMellinDecay
+
+@[expose] public section
 
 /-!
 # One profile constant before every row and contour parameter

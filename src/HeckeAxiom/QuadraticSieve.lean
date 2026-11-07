@@ -1,6 +1,10 @@
-import HeckeAxiom.SexticSymbolDictionary
-import DedekindZetaZeroFree.Arithmetic.Kummer.QuadraticCharacterFamilyAndConductorShape
-import DedekindZetaZeroFree.LargeSieve.CharacterBounds.OrientedHeckeRows
+module
+
+public import HeckeAxiom.SexticSymbolDictionary
+public import DedekindZetaZeroFree.Arithmetic.Kummer.QuadraticCharacterFamilyAndConductorShape
+public import DedekindZetaZeroFree.LargeSieve.CharacterBounds.OrientedHeckeRows
+
+@[expose] public section
 
 /-!
 # The quadratic large sieve for the chosen generators (MI-M-QUADRATIC-SIEVE)

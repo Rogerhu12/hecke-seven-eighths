@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+
+@[expose] public section
 
 /-!
 # Enumerate every actual nonzero S-integer by its orbit and a subgroup element

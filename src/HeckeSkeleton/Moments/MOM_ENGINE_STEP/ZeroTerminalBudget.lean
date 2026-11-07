@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualZeroBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualZeroBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
+
+@[expose] public section
 
 /-!
 # Actual zero-terminal budgets for the two source stages

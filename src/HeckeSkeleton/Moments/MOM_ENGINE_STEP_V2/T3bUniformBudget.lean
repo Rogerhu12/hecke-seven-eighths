@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFirstColumnBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bNumericalLedger
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFirstColumnBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bNumericalLedger
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

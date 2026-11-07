@@ -1,4 +1,8 @@
-import ThetaGlobal.FiniteNormalizedMellin
+module
+
+public import ThetaGlobal.FiniteNormalizedMellin
+
+@[expose] public section
 
 /-!
 # The actual high K-type direct coefficient and its finite cutoff

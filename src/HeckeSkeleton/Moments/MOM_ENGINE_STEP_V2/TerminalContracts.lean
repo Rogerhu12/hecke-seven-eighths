@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ExceptionalContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ExceptionalContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

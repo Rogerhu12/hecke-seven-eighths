@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeContours
-import Mathlib.MeasureTheory.Integral.Bochner.Set
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+
+@[expose] public section
 
 /-! Integration of a FIXED finite set of actual physical rows. A proof of
 the pointwise bound may use moving partitions; no such partition is

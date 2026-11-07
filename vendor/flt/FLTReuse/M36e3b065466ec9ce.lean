@@ -1,66 +1,71 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M40aeee35a98f067b
-import FLTReuse.M583a0b5cb8bcd265
-import FLTReuse.M877387a8b2075049
-import FLTReuse.M841e63e1912e8e9b
-import FLTReuse.M0a341b9f001ae4d1
-import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
-import FLTReuse.M18c509625f9eb716
-import FLTReuse.Ma35508d60a11197a
-import FLTReuse.M0b122d04a4cec3ab
-import FLTReuse.Me5dd7488ea476467
-import FLTReuse.Me84559a9affc55ee
-import FLTReuse.Maad24315e49d9aac
-import FLTReuse.M3b2f159784ef230a
-import FLTReuse.M1c722af550c2b699
-import FLTReuse.Mee434e33adc3d77e
-import FLTReuse.M69a2db2effcd05b3
-import FLTReuse.Mdaa35b61595067a2
-import FLTReuse.Mad950c02a4314b2a
-import FLTReuse.Mc542b3ae7fb41e15
-import FLTReuse.M463c05dbcfa69a34
-import FLTReuse.M3154a73e21781886
-import FLTReuse.M7f86edea65d586c8
-import FLTReuse.M843899312a51c0f5
-import FLTReuse.M8db503a09004146a
-import FLTReuse.Mfa16ee9aa60c0bfe
-import FLTReuse.M6251317ce95e6c0a
-import FLTReuse.M667f856d48d30da6
-import FLTReuse.Me240d100ced8d69a
-import FLTReuse.M44cfbe8ad8db471e
-import FLTReuse.Mb8f476785919d863
-import FLTReuse.Me1ad2f4bf19c4ff0
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mee5b9e2e24204f48
-import FLTReuse.M81477154c83a610e
-import FLTReuse.M53da03588cc195e1
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M0158ea73a44739c2
-import FLTReuse.Mc4dd375116d61c53
-import FLTReuse.Mbfe19ea9534a55ec
-import FLTReuse.M55164c2a16500130
-import FLTReuse.M3c68c1555d4fc687
-import FLTReuse.Mb3f264e57a104e90
-import FLTReuse.Mb875502fbb65df3e
-import Mathlib.NumberTheory.NumberField.Completion.InfinitePlace
-import Mathlib.Topology.Algebra.Constructions
-import Mathlib.Topology.Algebra.GroupWithZero
-import Mathlib.NumberTheory.NumberField.InfiniteAdeleRing
-import Mathlib.NumberTheory.NumberField.AdeleRing
-import Mathlib.MeasureTheory.Measure.Restrict
-import Mathlib.MeasureTheory.Measure.Regular
-import Mathlib.MeasureTheory.Group.Measure
-import Mathlib.MeasureTheory.Integral.Lebesgue.Map
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.Distribution.TemperateGrowth
-import Mathlib.Analysis.Calculus.ContDiff.Bounds
-import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.Complex.Exponential
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import Mathlib.MeasureTheory.Measure.Haar.DistribChar
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M40aeee35a98f067b
+public import FLTReuse.M583a0b5cb8bcd265
+public import FLTReuse.M877387a8b2075049
+public import FLTReuse.M841e63e1912e8e9b
+public import FLTReuse.M0a341b9f001ae4d1
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+public import FLTReuse.M18c509625f9eb716
+public import FLTReuse.Ma35508d60a11197a
+public import FLTReuse.M0b122d04a4cec3ab
+public import FLTReuse.Me5dd7488ea476467
+public import FLTReuse.Me84559a9affc55ee
+public import FLTReuse.Maad24315e49d9aac
+public import FLTReuse.M3b2f159784ef230a
+public import FLTReuse.M1c722af550c2b699
+public import FLTReuse.Mee434e33adc3d77e
+public import FLTReuse.M69a2db2effcd05b3
+public import FLTReuse.Mdaa35b61595067a2
+public import FLTReuse.Mad950c02a4314b2a
+public import FLTReuse.Mc542b3ae7fb41e15
+public import FLTReuse.M463c05dbcfa69a34
+public import FLTReuse.M3154a73e21781886
+public import FLTReuse.M7f86edea65d586c8
+public import FLTReuse.M843899312a51c0f5
+public import FLTReuse.M8db503a09004146a
+public import FLTReuse.Mfa16ee9aa60c0bfe
+public import FLTReuse.M6251317ce95e6c0a
+public import FLTReuse.M667f856d48d30da6
+public import FLTReuse.Me240d100ced8d69a
+public import FLTReuse.M44cfbe8ad8db471e
+public import FLTReuse.Mb8f476785919d863
+public import FLTReuse.Me1ad2f4bf19c4ff0
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mee5b9e2e24204f48
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.M53da03588cc195e1
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M0158ea73a44739c2
+public import FLTReuse.Mc4dd375116d61c53
+public import FLTReuse.Mbfe19ea9534a55ec
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.M3c68c1555d4fc687
+public import FLTReuse.Mb3f264e57a104e90
+public import FLTReuse.Mb875502fbb65df3e
+public import Mathlib.NumberTheory.NumberField.Completion.InfinitePlace
+public import Mathlib.Topology.Algebra.Constructions
+public import Mathlib.Topology.Algebra.GroupWithZero
+public import Mathlib.NumberTheory.NumberField.InfiniteAdeleRing
+public import Mathlib.NumberTheory.NumberField.AdeleRing
+public import Mathlib.MeasureTheory.Measure.Restrict
+public import Mathlib.MeasureTheory.Measure.Regular
+public import Mathlib.MeasureTheory.Group.Measure
+public import Mathlib.MeasureTheory.Integral.Lebesgue.Map
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Distribution.TemperateGrowth
+public import Mathlib.Analysis.Calculus.ContDiff.Bounds
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.Complex.Exponential
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 attribute [-ext] IsDedekindDomain.HeightOneSpectrum.adicCompletion.ext
 attribute [-ext] NumberField.InfinitePlace.Completion.ext
 namespace P2MW.S_NumberField_TateGlobal_exists_differentiable_eq_eulerProduct_and_eq_prod_Gamma_mul_of_archLocalChar_eq_of_ne_normPowChar

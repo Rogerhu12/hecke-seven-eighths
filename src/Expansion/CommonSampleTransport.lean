@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.CommonPhysicalSample
-import Mathlib.Data.Fintype.EquivFin
+module
+
+public import HeckeSkeleton.ExpansionModels.CommonPhysicalSample
+public import Mathlib.Data.Fintype.EquivFin
+
+@[expose] public section
 
 /-!
 # Exact transport to a common physical sample

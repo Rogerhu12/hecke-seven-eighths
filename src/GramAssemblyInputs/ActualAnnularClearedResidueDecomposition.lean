@@ -1,5 +1,9 @@
-import ActualClearedJointPeriodicTransport
-import ActualFixedSBoxDenominator
+module
+
+public import ActualClearedJointPeriodicTransport
+public import ActualFixedSBoxDenominator
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The whole actual annular pair sum is the finite

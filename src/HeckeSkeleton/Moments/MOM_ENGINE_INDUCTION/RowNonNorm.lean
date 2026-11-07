@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeGeneral.Characters.InfinityPacket
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeGeneral.Characters.InfinityPacket
+
+@[expose] public section
 
 /-!
 # Actual paired rows are not pure norm twists

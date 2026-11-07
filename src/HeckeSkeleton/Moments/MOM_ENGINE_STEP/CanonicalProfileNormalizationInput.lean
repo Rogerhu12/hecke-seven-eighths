@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedMomentProfiles
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedMomentProfiles
+
+@[expose] public section
 
 /-!
 # The concrete profile operation used by the actual capacity producer

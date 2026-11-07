@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.AnnularTest
+module
+
+public import HeckeGeneral.Analysis.AnnularTest
+
+@[expose] public section
 
 /-!
 # The canonical prime-window geometry

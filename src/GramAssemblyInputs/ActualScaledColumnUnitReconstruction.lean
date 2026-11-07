@@ -1,9 +1,13 @@
-import ActualTotalNormUnitPartitionReconstruction
-import ActualOriginalJointFactor
-import ActualTraceProductFourierDilation
-import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+module
+
+public import ActualTotalNormUnitPartitionReconstruction
+public import ActualOriginalJointFactor
+public import ActualTraceProductFourierDilation
+public import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual S-integer columns, with degree-root

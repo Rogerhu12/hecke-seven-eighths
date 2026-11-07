@@ -1,12 +1,16 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerProduct
-import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
-import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeCap
-import HeckeSkeleton.HighBinSupport.ActualRowPrimeCharacter
-import HeckeSkeleton.HighBinSupport.HighCorrectionAlgebra
-import HeckeSkeleton.HighBinSupport.ActualGaussCalibration
-import HeckeSkeleton.HighBinSupport.SelectedCompensation
-import HeckeGeneral.Analysis.CompensatedRowKernelFactorization
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualEulerProduct
+public import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
+public import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeCap
+public import HeckeSkeleton.HighBinSupport.ActualRowPrimeCharacter
+public import HeckeSkeleton.HighBinSupport.HighCorrectionAlgebra
+public import HeckeSkeleton.HighBinSupport.ActualGaussCalibration
+public import HeckeSkeleton.HighBinSupport.SelectedCompensation
+public import HeckeGeneral.Analysis.CompensatedRowKernelFactorization
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+
+@[expose] public section
 
 /-!
 Literal slot factorization of the complete arithmetic correction.

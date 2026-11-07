@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
+
+@[expose] public section
 
 /-!
 # The live finite carrier is determined by actual coefficient support

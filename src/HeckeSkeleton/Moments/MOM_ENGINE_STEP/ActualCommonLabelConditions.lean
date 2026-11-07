@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonSupportPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonHarmonicMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonSupportPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonHarmonicMass
+
+@[expose] public section
 
 /-!
 # Arithmetic conditions of actual common-support labels

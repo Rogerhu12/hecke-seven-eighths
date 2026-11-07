@@ -1,7 +1,11 @@
-import ThetaGlobal.FiniteProjectedIntegral
-import ThetaGlobal.FiniteMellinRatio
-import ThetaGlobal.SheetMellin
-import DedekindZetaZeroFree.Nonvanishing.Mellin.PositiveProfileTransform
+module
+
+public import ThetaGlobal.FiniteProjectedIntegral
+public import ThetaGlobal.FiniteMellinRatio
+public import ThetaGlobal.SheetMellin
+public import DedekindZetaZeroFree.Nonvanishing.Mellin.PositiveProfileTransform
+
+@[expose] public section
 
 /-!
 # Actual norm-sheet and polar-Haar Mellin transport

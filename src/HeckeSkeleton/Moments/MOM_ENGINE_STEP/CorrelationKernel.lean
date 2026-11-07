@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
+
+@[expose] public section
 
 /-!
 # The complete correlation with its actual common kernel

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
-import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+public import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+
+@[expose] public section
 
 /-!
 # Child margins constructed from actual source annuli

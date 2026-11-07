@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.TInputRanges
+module
+
+public import HeckeGeneral.Analysis.TInputRanges
+
+@[expose] public section
 
 /-!
 Actual fixed arithmetic bins with separate selected-zero and upper-zero

@@ -1,5 +1,9 @@
-import HeckeGeneral.Bridge.ScaledAdelicPoisson
-import HeckeGeneral.Bridge.SIntegerSelfDualPoisson
+module
+
+public import HeckeGeneral.Bridge.ScaledAdelicPoisson
+public import HeckeGeneral.Bridge.SIntegerSelfDualPoisson
+
+@[expose] public section
 
 /-!
 # S-integer Poisson at every actual local multiplicative base point

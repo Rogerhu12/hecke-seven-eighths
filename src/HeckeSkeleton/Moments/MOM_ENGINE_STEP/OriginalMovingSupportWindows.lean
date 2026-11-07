@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalChildData
-import HeckePort.Moments.NaturalPrimitive
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalChildData
+public import HeckePort.Moments.NaturalPrimitive
+
+@[expose] public section
 
 /-!
 # Full moving support from the original individual factors

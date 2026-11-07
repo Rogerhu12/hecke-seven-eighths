@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletion
-import HeckeSkeleton.LowEnergy.IdealMass
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletion
+public import HeckeSkeleton.LowEnergy.IdealMass
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-!
 # The actual short-cube divisor mass costs an arbitrary small power

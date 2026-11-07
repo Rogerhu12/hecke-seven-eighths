@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusValuation
-import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusValuation
+public import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. The upstream normalized finite-place valuation is
 the negative multiplicity in the actual exterior contracted ideal.

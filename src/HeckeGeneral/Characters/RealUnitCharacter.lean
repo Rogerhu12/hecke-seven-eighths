@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.RealCharacterFrequency
-import Mathlib.Topology.Algebra.GroupWithZero
+module
+
+public import HeckeGeneral.Characters.RealCharacterFrequency
+public import Mathlib.Topology.Algebra.GroupWithZero
+
+@[expose] public section
 
 /-!+# Continuous unitary characters of the nonzero real numbers
 

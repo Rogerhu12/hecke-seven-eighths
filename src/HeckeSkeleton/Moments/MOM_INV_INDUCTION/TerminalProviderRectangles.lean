@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSelectedTail
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSelectedTail
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+
+@[expose] public section
 
 /-!
 # Exact retained rectangles and their genuine complementary tail

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedSchwartzProfileBridge
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StrictChildRank
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FrozenEngineOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedSchwartzProfileBridge
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StrictChildRank
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FrozenEngineOutput
+
+@[expose] public section
 
 /-!
 # The actual canonical children satisfy their scheduled profile primitive

@@ -1,6 +1,10 @@
-import SIntegerSexticOriginalFullCorrelation
-import HeckeGeneral.Arithmetic.SIntegerPrincipalization
-import Mathlib.RingTheory.PrincipalIdealDomain
+module
+
+public import SIntegerSexticOriginalFullCorrelation
+public import HeckeGeneral.Arithmetic.SIntegerPrincipalization
+public import Mathlib.RingTheory.PrincipalIdealDomain
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Actual PID common-factor decomposition and genuine
 original quotient-sum factorization. The decomposition is chosen before

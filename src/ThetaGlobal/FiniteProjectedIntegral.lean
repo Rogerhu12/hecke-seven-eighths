@@ -1,6 +1,10 @@
-import ThetaGlobal.FiniteProjectedMellin
-import ThetaGlobal.FiniteTensorMellin
-import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+module
+
+public import ThetaGlobal.FiniteProjectedMellin
+public import ThetaGlobal.FiniteTensorMellin
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+
+@[expose] public section
 
 /-!
 # Exact Haar-integral specification of the actual finite Mellin factor

@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalUnitDecomposition
-import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+module
+
+public import HeckeGeneral.Characters.LocalUnitDecomposition
+public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+
+@[expose] public section
 
 /-!
 # Finite and unramified parts of an actual finite local component

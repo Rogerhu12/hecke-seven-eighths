@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonHarmonicMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonHarmonicMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
+
+@[expose] public section
 
 /-!
 # The two actual common-support sums and their shared divisor

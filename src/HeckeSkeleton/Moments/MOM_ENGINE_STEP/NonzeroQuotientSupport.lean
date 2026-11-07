@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedSubsupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePowerQuotientSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedSubsupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePowerQuotientSupport
+
+@[expose] public section
 
 /-!
 # Genuine quotient supports on the moment's nonzero ideal type

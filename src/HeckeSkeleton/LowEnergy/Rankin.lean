@@ -1,9 +1,13 @@
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Square--cube Rankin counting and the powerful-row half-norm budget

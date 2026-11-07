@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DerivedCapacity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DerivedCapacity
+
+@[expose] public section
 
 /-!
 # Uniform capacity removal from slot lengths alone

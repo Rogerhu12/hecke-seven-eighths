@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.RowwiseIntervalSobolev
-import Mathlib.MeasureTheory.Integral.Bochner.Set
+module
+
+public import HeckeGeneral.Analysis.RowwiseIntervalSobolev
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+
+@[expose] public section
 
 /-! Positive anchored integral functionals for a rectangular Sobolev bound.
 All majorants below are actual integrals of derivative-square energies.

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryGamma
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryGamma
+
+@[expose] public section
 
 /-!
 # Ordinary Gamma growth up to any fixed line left of one

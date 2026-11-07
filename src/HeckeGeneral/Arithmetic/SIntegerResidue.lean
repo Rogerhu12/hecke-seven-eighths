@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
-import HeckeGeneral.Arithmetic.LocalizationResidueEquiv
-import HeckeGeneral.Characters.LocalResidueTower
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
+public import HeckeGeneral.Arithmetic.LocalizationResidueEquiv
+public import HeckeGeneral.Characters.LocalResidueTower
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+
+@[expose] public section
 
 /-!
 # Actual exterior residue rings of S-integers

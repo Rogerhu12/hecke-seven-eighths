@@ -1,5 +1,9 @@
-import HeckeSkeleton.ActualProbeIntegralAssembly
-import HeckeSkeleton.ActualProbeThetaAbsolute
+module
+
+public import HeckeSkeleton.ActualProbeIntegralAssembly
+public import HeckeSkeleton.ActualProbeThetaAbsolute
+
+@[expose] public section
 
 /-!
 # All five original probe integral fields

@@ -1,4 +1,8 @@
-import Expansion.ActualPrimeCancellation
+module
+
+public import Expansion.ActualPrimeCancellation
+
+@[expose] public section
 
 /-!
 # Prime cancellation uniform in the physical frequency

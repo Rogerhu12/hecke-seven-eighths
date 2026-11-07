@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.RawIdealHybrid
-import HeckeSkeleton.LowEnergy.HybridScaling
-import HeckeSkeleton.LowEnergy.ActualSieveDictionary
+module
+
+public import HeckeSkeleton.LowEnergy.RawIdealHybrid
+public import HeckeSkeleton.LowEnergy.HybridScaling
+public import HeckeSkeleton.LowEnergy.ActualSieveDictionary
+
+@[expose] public section
 
 /-!
 # The two task sieves imply the actual sextic-symbol hybrid bound

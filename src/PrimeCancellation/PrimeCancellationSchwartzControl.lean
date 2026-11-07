@@ -8,11 +8,15 @@ All arithmetic imports have been removed. The continuous-linear-map
 seminorm bound is proved directly from mathlib, and the final normalized
 log-window family is new.
 -/
-import PrimeCancellationLogProfile
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.LocallyConvex.WithSeminorms
-import Mathlib.Tactic.Choose
-import Mathlib.Tactic.GCongr
+module
+
+public import PrimeCancellationLogProfile
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.LocallyConvex.WithSeminorms
+public import Mathlib.Tactic.Choose
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

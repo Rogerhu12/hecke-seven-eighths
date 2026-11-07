@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.PrincipalRowLocal
-import HeckeSkeleton.HighBinSupport.EulerProductBounds
+module
+
+public import HeckeSkeleton.ExpansionModels.PrincipalRowLocal
+public import HeckeSkeleton.HighBinSupport.EulerProductBounds
+
+@[expose] public section
 
 /-!
 # Actual full correction on the principal residue rectangle

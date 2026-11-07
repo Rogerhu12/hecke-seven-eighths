@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.Unramified
-import HeckeGeneral.Characters.SmallSubgroups
+module
+
+public import HeckeGeneral.Characters.Unramified
+public import HeckeGeneral.Characters.SmallSubgroups
+
+@[expose] public section
 
 /-! A continuous unitary Hecke character is unramified at all but finitely many finite places. -/
 

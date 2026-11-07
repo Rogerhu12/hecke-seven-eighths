@@ -1,6 +1,10 @@
-import ActualScaledColumnUnitReconstruction
-import ActualRowBallDualChartIntegrand
-import ActualDenominatorGramWeight
+module
+
+public import ActualScaledColumnUnitReconstruction
+public import ActualRowBallDualChartIntegrand
+public import ActualDenominatorGramWeight
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Exact fixed-frequency analytic factor at the original

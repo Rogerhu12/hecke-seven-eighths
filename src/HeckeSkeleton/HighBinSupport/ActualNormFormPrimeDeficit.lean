@@ -1,6 +1,11 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormDeficit
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import Mathlib.RingTheory.Coprime.Lemmas
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormDeficit
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import Mathlib.RingTheory.Coprime.Lemmas
+
+@[expose] public section
+
 /-!
 Actual prime windows and the conductor deficit of a frequency row.
 

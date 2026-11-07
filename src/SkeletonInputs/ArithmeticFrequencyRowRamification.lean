@@ -1,7 +1,11 @@
-import ArithmeticRowCharacterInput
-import ArithmeticSexticKummerRamification
-import HeckeGeneral.Analysis.SIntegerSixthPowerDenominatorMask
-import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+module
+
+public import ArithmeticRowCharacterInput
+public import ArithmeticSexticKummerRamification
+public import HeckeGeneral.Analysis.SIntegerSixthPowerDenominatorMask
+public import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake invocation was made.

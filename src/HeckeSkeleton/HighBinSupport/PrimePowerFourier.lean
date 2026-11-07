@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.FiniteResidueFourier
+module
+
+public import HeckeSkeleton.HighBinSupport.FiniteResidueFourier
+
+@[expose] public section
+
 /-!
 # Prime-power Gauss support and values from an actual residue map
 

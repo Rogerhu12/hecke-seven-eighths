@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
-import HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols
-import HeckeSkeleton.HighBinSupport.ActualGaussPhases
+module
+
+public import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+public import HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols
+public import HeckeSkeleton.HighBinSupport.ActualGaussPhases
+
+@[expose] public section
 
 /-!
 # Actual prime Gauss data without the arithmetic row-character construction

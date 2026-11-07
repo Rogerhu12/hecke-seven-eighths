@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.FiniteFourierConvolution
+module
+
+public import HeckeGeneral.Arithmetic.FiniteFourierConvolution
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Mixed-domain finite correlation with the installed
 positive-sign unnormalized Fourier convention. The maps into the finite

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryPointTransport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinarySourceFacts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryLeafBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryPointTransport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinarySourceFacts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryLeafBinding
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

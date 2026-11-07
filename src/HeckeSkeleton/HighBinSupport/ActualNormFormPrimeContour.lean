@@ -1,7 +1,11 @@
-import HeckeSkeleton.HighBinSupport.ActualNormFormWindowDetector
-import HeckeSkeleton.HighBinSupport.ActualNormFormUniformMellin
-import HeckeSkeleton.HighBinSupport.ActualRowLogDerivative
-import HeckeSkeleton.HighBinSupport.BoundaryRectangle
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualNormFormWindowDetector
+public import HeckeSkeleton.HighBinSupport.ActualNormFormUniformMellin
+public import HeckeSkeleton.HighBinSupport.ActualRowLogDerivative
+public import HeckeSkeleton.HighBinSupport.BoundaryRectangle
+
+@[expose] public section
 
 /-!
 Finite zero-free contour transport for the actual annular prime detector.

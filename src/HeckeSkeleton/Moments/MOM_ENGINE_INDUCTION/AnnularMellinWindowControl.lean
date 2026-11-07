@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellinSeparation
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellinSeparation
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
+
+@[expose] public section
 
 /-!
 # Uniform Euler control of one fixed Mellin separation window

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Coefficient
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildTermDictionary
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Coefficient
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildTermDictionary
+
+@[expose] public section
 
 /-!
 # Complete divisor allocation on the actual paired columns

@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependentCore
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileScaling
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependentCore
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileScaling
+
+@[expose] public section
 
 /-!
 # Actual profiles which have already absorbed their time parameters

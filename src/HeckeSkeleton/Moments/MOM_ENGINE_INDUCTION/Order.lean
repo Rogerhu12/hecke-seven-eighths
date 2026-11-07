@@ -1,7 +1,11 @@
-import Mathlib.Algebra.Order.Floor.Ring
-import Mathlib.Algebra.Order.Archimedean.Real.Basic
-import Mathlib.Tactic.Linarith
-import Lean.Elab.Tactic.Omega
+module
+
+public import Mathlib.Algebra.Order.Floor.Ring
+public import Mathlib.Algebra.Order.Archimedean.Real.Basic
+public import Mathlib.Tactic.Linarith
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # The finite order of the paired fourth-moment induction

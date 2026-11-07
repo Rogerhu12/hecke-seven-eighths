@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsSecondGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsFirstEstimate
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsSecondGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsFirstEstimate
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

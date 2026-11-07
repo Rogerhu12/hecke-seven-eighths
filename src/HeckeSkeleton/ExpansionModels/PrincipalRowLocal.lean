@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.SmallRowCorrectionSums
-import Expansion.PhysicalEulerRegionFactorization
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowCorrectionSums
+public import Expansion.PhysicalEulerRegionFactorization
+
+@[expose] public section
 
 /-!
 # Actual local factors on the principal residue rectangle

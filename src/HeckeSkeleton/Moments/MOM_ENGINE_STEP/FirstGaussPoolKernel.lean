@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPool
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPool
+
+@[expose] public section
 
 /-!
 # One common Fourier measure after the actual first prime pool

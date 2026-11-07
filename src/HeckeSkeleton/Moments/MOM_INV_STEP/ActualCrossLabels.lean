@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalCubeLabels
-import HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGroupedGauss
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalCubeLabels
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness
+
+@[expose] public section
 
 /-!
 # Actual CRT cross symbols and the first column labels

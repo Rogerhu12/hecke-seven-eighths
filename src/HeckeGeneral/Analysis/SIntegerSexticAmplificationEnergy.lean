@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
-import HeckeGeneral.Analysis.SingleRowSeedExponent
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+module
+
+public import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+public import HeckeGeneral.Analysis.SingleRowSeedExponent
+public import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-!
 Weighted Cauchy and averaging for the actual dyadic sixth-power identity.

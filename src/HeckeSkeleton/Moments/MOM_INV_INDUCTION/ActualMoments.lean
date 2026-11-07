@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalClosure
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalEnergy
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InitialTransfer
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionCapacity
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalClosure
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalEnergy
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InitialTransfer
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionCapacity
+
+@[expose] public section
 
 /-!
 # The inverse induction for literal ideal polynomials

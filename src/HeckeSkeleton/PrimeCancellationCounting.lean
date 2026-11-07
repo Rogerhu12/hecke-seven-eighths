@@ -1,6 +1,10 @@
-import PrimeCancellationPrimeSeries
-import Mathlib.NumberTheory.NumberField.DedekindZeta
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+module
+
+public import PrimeCancellationPrimeSeries
+public import Mathlib.NumberTheory.NumberField.DedekindZeta
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+
+@[expose] public section
 
 /-!
 # Actual prime-ideal counting for the cancellation adapter

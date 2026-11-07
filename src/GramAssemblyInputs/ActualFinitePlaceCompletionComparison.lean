@@ -1,6 +1,10 @@
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.FinitePlaceArtin.Construction
-import ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.SemilinearNaturality
-import Mathlib.Topology.Algebra.Valued.NormedValued
+module
+
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.FinitePlaceArtin.Construction
+public import ClassFieldTheory.LocalClassFieldTheory.Finite.LocalReciprocity.SemilinearNaturality
+public import Mathlib.Topology.Algebra.Valued.NormedValued
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. The two declarations below are adapted from Naganori

@@ -1,5 +1,9 @@
-import Mathlib.MeasureTheory.Group.Measure
-import Mathlib.MeasureTheory.Measure.Restrict
+module
+
+public import Mathlib.MeasureTheory.Group.Measure
+public import Mathlib.MeasureTheory.Measure.Restrict
+
+@[expose] public section
 
 /-!
 # Decomposing actual multiplicative Haar into valuation shells

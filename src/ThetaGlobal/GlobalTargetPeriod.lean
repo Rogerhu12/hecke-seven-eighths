@@ -1,7 +1,11 @@
-import ThetaGlobal.FiniteTargetPeriod
-import ThetaGlobal.GlobalProjectAngular
-import HeckeAxiom.RaySpan
-import DedekindZetaZeroFree.Theta.Periods.WeightedQuotientIntegrability
+module
+
+public import ThetaGlobal.FiniteTargetPeriod
+public import ThetaGlobal.GlobalProjectAngular
+public import HeckeAxiom.RaySpan
+public import DedekindZetaZeroFree.Theta.Periods.WeightedQuotientIntegrability
+
+@[expose] public section
 
 /-!
 # The target S-period on the actual chosen arithmetic group

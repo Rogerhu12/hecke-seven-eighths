@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
+
+@[expose] public section
 
 /-!
 # Constructing one actual capacity child from primitive inputs

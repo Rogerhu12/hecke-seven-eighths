@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstDualTruncation
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalOrbitalMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstDualTruncation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalOrbitalMass
+
+@[expose] public section
 
 /-!
 # The actual second Poisson source and its principal part

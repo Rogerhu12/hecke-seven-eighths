@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy
-import HeckeSkeleton.LowEnergy.ActualFrozenStateCount
-import HeckeSkeleton.LowEnergy.InactiveCore
+module
+
+public import HeckeSkeleton.LowEnergy.ActualAnnularBlockEnergy
+public import HeckeSkeleton.LowEnergy.ActualFrozenStateCount
+public import HeckeSkeleton.LowEnergy.InactiveCore
+
+@[expose] public section
 
 /-!
 # All actual frozen states and local class slices

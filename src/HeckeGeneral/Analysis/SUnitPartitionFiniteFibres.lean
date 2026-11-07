@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SUnitAnnularPartitionCutoff
+module
+
+public import HeckeGeneral.Analysis.SUnitAnnularPartitionCutoff
+
+@[expose] public section
 
 /-! The archimedean partition depends on a finite unit coordinate only
 through its valuations. On the actual finite valuation box this gives a

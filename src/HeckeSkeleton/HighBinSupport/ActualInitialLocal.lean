@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualInitialEulerProduct
-import HeckeSkeleton.HighBinSupport.ActualFinitePoisson
-import HeckeSkeleton.HighBinSupport.ActualEulerData
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualInitialEulerProduct
+public import HeckeSkeleton.HighBinSupport.ActualFinitePoisson
+public import HeckeSkeleton.HighBinSupport.ActualEulerData
+
+@[expose] public section
 
 /-!
 # The original prime-block coefficient and the finite valuation table

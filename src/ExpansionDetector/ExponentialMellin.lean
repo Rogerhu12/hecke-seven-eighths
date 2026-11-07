@@ -1,5 +1,9 @@
-import ExpansionDetector.ZeroDetectorBound
-import Mathlib.Analysis.MellinInversion
+module
+
+public import ExpansionDetector.ZeroDetectorBound
+public import Mathlib.Analysis.MellinInversion
+
+@[expose] public section
 
 /-! The exponential smoothing identity is proved from Mathlib Mellin inversion.
 It is used term by term; the Gamma decay proof supplies absolute integrability. -/

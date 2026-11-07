@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 The actual cubic residue kernel on exterior ideals.  These are arithmetic

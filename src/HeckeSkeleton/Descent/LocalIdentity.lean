@@ -1,7 +1,11 @@
-import HeckeSkeleton.Descent.ArtinLocalEuler
-import HeckeSkeleton.Descent.PrimeAssembly
-import HeckeSkeleton.Descent.ArtinPrimeArithmetic
-import HeckeSkeleton.Descent.LocalNormCoefficients
+module
+
+public import HeckeSkeleton.Descent.ArtinLocalEuler
+public import HeckeSkeleton.Descent.PrimeAssembly
+public import HeckeSkeleton.Descent.ArtinPrimeArithmetic
+public import HeckeSkeleton.Descent.LocalNormCoefficients
+
+@[expose] public section
 
 /-! Actual Euler factors at primes unramified for the character and extension. -/
 

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocationLabels
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocationLabels
+
+@[expose] public section
 
 /-!
 # Original single factors bind every finite phase label

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFixedEnvelope
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedPassiveWindows
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedLeafWeights
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFixedEnvelope
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedPassiveWindows
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedLeafWeights
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

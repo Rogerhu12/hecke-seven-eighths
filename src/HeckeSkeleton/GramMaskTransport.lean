@@ -1,9 +1,13 @@
-import Mathlib.Algebra.Group.Subgroup.Defs
-import Mathlib.Algebra.Group.Commute.Basic
-import Mathlib.Algebra.Group.Hom.Defs
-import Mathlib.Data.Fintype.EquivFin
-import Mathlib.Data.Fintype.Prod
-import Mathlib.Topology.LocallyConstant.Basic
+module
+
+public import Mathlib.Algebra.Group.Subgroup.Defs
+public import Mathlib.Algebra.Group.Commute.Basic
+public import Mathlib.Algebra.Group.Hom.Defs
+public import Mathlib.Data.Fintype.EquivFin
+public import Mathlib.Data.Fintype.Prod
+public import Mathlib.Topology.LocallyConstant.Basic
+
+@[expose] public section
 
 /-!
 Exact algebra for transporting a reference orbit mask to the SAME new

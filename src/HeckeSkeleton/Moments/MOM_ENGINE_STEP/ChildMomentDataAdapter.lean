@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MomentDataAdapter
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MomentDataAdapter
+
+@[expose] public section
 
 /-!
 # From actual separated columns to the repository's paired moment

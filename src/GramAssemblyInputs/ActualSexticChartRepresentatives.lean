@@ -1,4 +1,8 @@
-import ActualSexticJointChartFiber
+module
+
+public import ActualSexticJointChartFiber
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. Actual nonzero S-integer representatives of
 fixed ordinary S residue fibers, and transfer of their complete joint

@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.LocalResidueCosetFourier
+module
+
+public import HeckeGeneral.Characters.LocalResidueCosetFourier
+
+@[expose] public section
 
 /-!
 # Haar-normalized Fourier transforms of actual local residue cosets

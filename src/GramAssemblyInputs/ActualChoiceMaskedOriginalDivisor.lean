@@ -1,5 +1,9 @@
-import ActualChoiceMaskedWholeAnnular
-import ActualAnnularDivisorUnitReindex
+module
+
+public import ActualChoiceMaskedWholeAnnular
+public import ActualAnnularDivisorUnitReindex
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Remove the compact and active divisor restrictions

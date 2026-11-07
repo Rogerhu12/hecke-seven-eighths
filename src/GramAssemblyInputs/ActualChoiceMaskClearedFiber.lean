@@ -1,6 +1,10 @@
-import ActualChoiceMaskCompactOpenExtension
-import ActualClearedSIntegerPairReindex
-import ActualFixedSBoxDenominator
+module
+
+public import ActualChoiceMaskCompactOpenExtension
+public import ActualClearedSIntegerPairReindex
+public import ActualFixedSBoxDenominator
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Freeze the original generator-choice mask on genuine

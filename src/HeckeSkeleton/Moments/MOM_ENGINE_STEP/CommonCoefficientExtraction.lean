@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonScalarReweight
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonScalarReweight
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
+
+@[expose] public section
 
 /-!
 # The original factor dictionaries extract the actual common atoms

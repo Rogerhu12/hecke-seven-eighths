@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormPoolEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormPoolEnergy
+
+@[expose] public section
 
 /-!
 # Exact complete norm pools for the first residual source

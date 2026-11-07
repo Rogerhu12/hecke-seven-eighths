@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridLeaves
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridLeaves
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyGeometry
+
+@[expose] public section
 
 /-!
 # Raw parent geometry and fixed windows on the original finite leaves

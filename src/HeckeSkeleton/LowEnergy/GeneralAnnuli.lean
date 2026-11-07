@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GeneralRows
-import HeckeSkeleton.LowEnergy.GeneralConductor
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralRows
+public import HeckeSkeleton.LowEnergy.GeneralConductor
+
+@[expose] public section
 
 /-!
 # The conductor inequalities on the original row annuli

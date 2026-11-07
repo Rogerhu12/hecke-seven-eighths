@@ -1,6 +1,10 @@
-import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorFinsets
-import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
-import Mathlib.Data.Nat.Choose.Sum
+module
+
+public import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorFinsets
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+public import Mathlib.Data.Nat.Choose.Sum
+
+@[expose] public section
 
 /-!
 # Möbius sums over ideal divisors

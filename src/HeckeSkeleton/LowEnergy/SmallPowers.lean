@@ -1,10 +1,14 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
-import Mathlib.Topology.Algebra.InfiniteSum.Real
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!
 # Uniform finite harmonic bounds from a convergent Dirichlet majorant

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.EndpointClosure
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
+module
+
+public import HeckeGeneral.Analysis.EndpointClosure
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-! Exact numerical reductions at research frontiers. These do not assert
 the buffered L-ratio, Poisson recursions, or actual mask realization. -/

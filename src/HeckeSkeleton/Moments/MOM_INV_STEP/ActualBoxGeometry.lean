@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualProductionBoxes
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketProvenance
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualProductionBoxes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketProvenance
+
+@[expose] public section
 
 /-!
 # Descent geometry of the actual nonempty norm boxes

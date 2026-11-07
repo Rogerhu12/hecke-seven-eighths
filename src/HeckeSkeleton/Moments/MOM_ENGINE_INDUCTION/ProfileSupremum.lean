@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.GeneralBaseTerminal
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
-import HeckeSkeleton.ThetaKernel.TestMellin
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.DistLEIntegral
-import Mathlib.MeasureTheory.Integral.Bochner.Set
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.GeneralBaseTerminal
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+public import HeckeSkeleton.ThetaKernel.TestMellin
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.DistLEIntegral
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+
+@[expose] public section
 
 /-!
 # The source Euler-integral control supplies the actual profile supremum

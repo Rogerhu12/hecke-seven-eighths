@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialEstimate
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondPrincipal
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialEstimate
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondPrincipal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveTail
+
+@[expose] public section
 
 /-!
 # The original inverse orbital source from the actual canonical bound

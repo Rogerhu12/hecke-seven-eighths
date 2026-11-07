@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedProductFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafOrdinaryBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedProductFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafOrdinaryBinding
+
+@[expose] public section
 
 /-!
 # The original live finite leaves produce the normalized child family

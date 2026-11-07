@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
-import HeckeGeneral.Arithmetic.IdealFactorization
-import Mathlib.Algebra.BigOperators.Finsupp.Basic
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import Mathlib.Algebra.BigOperators.Finsupp.Basic
+
+@[expose] public section
 
 /-!
 Whole-ideal assembly from good-prime coefficient calibration. This uses

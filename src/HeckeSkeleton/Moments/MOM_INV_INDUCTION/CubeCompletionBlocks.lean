@@ -1,6 +1,10 @@
-import HeckePort.Moments.Descent.SieveComposition
-import Mathlib.Analysis.SpecialFunctions.Log.Base
-import Mathlib.Algebra.Order.Floor.Semiring
+module
+
+public import HeckePort.Moments.Descent.SieveComposition
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
+public import Mathlib.Algebra.Order.Floor.Semiring
+
+@[expose] public section
 
 /-!
 # Finite dyadic cube blocks

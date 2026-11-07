@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMellinEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMellinEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+
+@[expose] public section
 
 /-!
 # The actual second Moebius columns enter literal child energy

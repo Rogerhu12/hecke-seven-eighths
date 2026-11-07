@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularReflection
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularReflection
+
+@[expose] public section
 
 /-!
 # The actual ordinary reflected norm profile

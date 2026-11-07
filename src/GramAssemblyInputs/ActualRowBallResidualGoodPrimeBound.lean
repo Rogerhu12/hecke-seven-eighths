@@ -1,7 +1,11 @@
-import ActualRowBallResidualMaskedIdentity
-import ActualAllowedTotalNormProviderIdentity
-import HeckeGeneral.Bridge.SLocalFiniteFourier
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+module
+
+public import ActualRowBallResidualMaskedIdentity
+public import ActualAllowedTotalNormProviderIdentity
+public import HeckeGeneral.Bridge.SLocalFiniteFourier
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual finite residual-ideal sum consumes the

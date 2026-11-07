@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLengths
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FrozenScalarMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceScalarData
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLengths
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FrozenScalarMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceScalarData
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

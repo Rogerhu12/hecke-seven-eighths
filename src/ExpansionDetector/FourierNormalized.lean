@@ -1,4 +1,8 @@
-import ExpansionDetector.FourierWitness
+module
+
+public import ExpansionDetector.FourierWitness
+
+@[expose] public section
 
 /-! The common Fourier frequency gives the same centrally normalized
 coefficient polynomial in both witnesses. All phases and profiles are

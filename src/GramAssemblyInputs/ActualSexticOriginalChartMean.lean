@@ -1,4 +1,8 @@
-import ActualSexticChartRepresentatives
+module
+
+public import ActualSexticChartRepresentatives
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. Complete finite mean of the literal original
 raw sextic coefficient times the actual S correction and the stipulated

@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerModulus
-import HeckeGeneral.Arithmetic.SIntegerOrbits
-import Mathlib.NumberTheory.NumberField.ClassNumber
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulus
+public import HeckeGeneral.Arithmetic.SIntegerOrbits
+public import Mathlib.NumberTheory.NumberField.ClassNumber
+
+@[expose] public section
 
 /-! Actual finite ideal-class reduction of the moving
 ordinary period. This supplies a scalar ideal equality; the trace-lattice

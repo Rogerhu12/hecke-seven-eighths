@@ -1,5 +1,9 @@
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
 namespace P2MW.S_NumberField_StandardAddChar_psiLocal_rat_eq_psiV

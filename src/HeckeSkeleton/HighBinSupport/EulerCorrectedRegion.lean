@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.EulerSweptTube
+module
+
+public import HeckeSkeleton.HighBinSupport.EulerSweptTube
+
+@[expose] public section
+
 /-!
 # Corrected positive-w Euler region
 

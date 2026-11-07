@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualScaleClipping
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildInvariants
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EffectiveChildSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualScaleClipping
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildInvariants
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EffectiveChildSupport
+
+@[expose] public section
 
 /-!
 # A calibrated actual allocation supplies its child family

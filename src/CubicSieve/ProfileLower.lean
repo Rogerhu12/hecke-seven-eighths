@@ -1,5 +1,9 @@
-import CubicSieve.ProfileTest
-import HeckeGeneral.Analysis.SUnitProfileEuler
+module
+
+public import CubicSieve.ProfileTest
+public import HeckeGeneral.Analysis.SUnitProfileEuler
+
+@[expose] public section
 
 /-! The chosen positive annular tensor gives an actual common orbital profile
 bounded below by a positive constant on the norm window [1/2,1]. -/

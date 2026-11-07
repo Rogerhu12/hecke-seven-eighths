@@ -1,6 +1,11 @@
-import HeckeSkeleton.SmallRadius.FinitePositiveMomentCompactSupport
-import HeckeSkeleton.SmallRadius.MixedMultiplicativePositiveMoment
-import HeckeSkeleton.SmallRadius.SLocalRadialHaarComparison
+module
+
+public import HeckeSkeleton.SmallRadius.FinitePositiveMomentCompactSupport
+public import HeckeSkeleton.SmallRadius.MixedMultiplicativePositiveMoment
+public import HeckeSkeleton.SmallRadius.SLocalRadialHaarComparison
+
+@[expose] public section
+
 /-!
 Actual positive-Mellin absolute tensor integrals,
 first on the genuine local product Haar, then on the actual radial measure.

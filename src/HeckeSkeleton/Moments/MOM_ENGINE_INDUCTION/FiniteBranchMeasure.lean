@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowIntegralKernel
-import Mathlib.MeasureTheory.Measure.Real
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowIntegralKernel
+public import Mathlib.MeasureTheory.Measure.Real
+
+@[expose] public section
 
 /-!
 # One positive measure for the actual finite branches

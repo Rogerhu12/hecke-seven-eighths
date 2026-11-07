@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationMaskSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthRootSupportBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationMaskSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthRootSupportBudget
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

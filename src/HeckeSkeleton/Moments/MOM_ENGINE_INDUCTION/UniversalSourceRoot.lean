@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+
+@[expose] public section
 
 /-!
 # The literal recipe roots in the actual universal polynomial family

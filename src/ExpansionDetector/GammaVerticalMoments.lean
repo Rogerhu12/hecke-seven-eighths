@@ -1,7 +1,11 @@
-import ExpansionDetector.GammaDecay
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.GCongr
+module
+
+public import ExpansionDetector.GammaDecay
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
 
 /-!
 Adapted from the supplied DedekindZetaZeroFree snapshot, Apache 2.0.

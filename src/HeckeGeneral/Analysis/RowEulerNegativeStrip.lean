@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.PhysicalProbeContours
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.GCongr
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.GCongr
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 Uniform regular-prime Euler error on the full high-bin contour.  The bound

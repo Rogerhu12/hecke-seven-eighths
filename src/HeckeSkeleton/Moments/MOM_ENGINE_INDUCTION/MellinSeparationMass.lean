@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinProfileNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinProfileNormalization
+
+@[expose] public section
 
 /-!
 # The exact mass of the common normalized Mellin kernel

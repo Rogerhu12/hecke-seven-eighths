@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllowanceCancellation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllowanceCancellation
+
+@[expose] public section
 
 /-!
 # Original row amplitudes and the exceptional common-support scalar

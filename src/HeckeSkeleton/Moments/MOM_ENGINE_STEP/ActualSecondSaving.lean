@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLengths
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLengths
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
+
+@[expose] public section
 
 /-!
 # The second saving at the literal original ideal lengths

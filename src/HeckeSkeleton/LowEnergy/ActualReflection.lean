@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualRows
-import HeckeSkeleton.LowEnergy.IdealRows
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import HeckeSkeleton.LowEnergy.ActualRows
+public import HeckeSkeleton.LowEnergy.IdealRows
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 # Applying the supplied reflection to every actual row

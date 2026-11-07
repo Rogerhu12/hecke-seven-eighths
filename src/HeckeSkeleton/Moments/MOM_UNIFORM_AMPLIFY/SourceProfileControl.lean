@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.CanonicalProfileControl
-import HeckeSkeleton.ExpansionModels.SourceData
-import Expansion.PhysicalRecipeSchedule
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.CanonicalProfileControl
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import Expansion.PhysicalRecipeSchedule
+
+@[expose] public section
 
 /-!
 # The whole profile bound of the actual source

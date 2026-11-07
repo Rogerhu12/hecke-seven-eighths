@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
-import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
-import HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+public import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT
+
+@[expose] public section
 
 /-!
 # Explicit finite MOM_BASE calibration and the actual residual columns

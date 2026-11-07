@@ -1,6 +1,10 @@
-import Expansion.ActualOuterTailSums
-import Expansion.ActualPrincipalExpansion
-import Expansion.PowerHeightTailAlgebra
+module
+
+public import Expansion.ActualOuterTailSums
+public import Expansion.ActualPrincipalExpansion
+public import Expansion.PowerHeightTailAlgebra
+
+@[expose] public section
 
 /-!
 # The complete actual initial-height tail

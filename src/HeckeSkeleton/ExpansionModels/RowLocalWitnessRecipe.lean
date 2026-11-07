@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Data.Fintype.EquivFin
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Data.Fintype.EquivFin
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # One finite-sum recipe for witnesses and moment models

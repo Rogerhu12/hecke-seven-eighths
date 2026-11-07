@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.KeepOriginalRow
-import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
+module
+
+public import HeckeSkeleton.LowEnergy.KeepOriginalRow
+public import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
+
+@[expose] public section
 
 /-!
 # The two-divisor weighted normal form on actual integral ideals

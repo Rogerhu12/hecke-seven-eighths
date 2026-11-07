@@ -1,8 +1,12 @@
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+module
+
+public import Mathlib.Analysis.Calculus.ContDiff.Basic
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+
+@[expose] public section
 
 /-!
 # The canonical annular test data

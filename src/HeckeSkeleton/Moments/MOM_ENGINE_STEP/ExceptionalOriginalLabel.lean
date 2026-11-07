@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRelativeBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityRelativeScalar
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationPadding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRelativeBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityRelativeScalar
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationPadding
+
+@[expose] public section
 
 /-!
 # Both original divisor and finite-phase weights on an exceptional leaf

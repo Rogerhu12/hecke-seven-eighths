@@ -1,10 +1,15 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Mb8f476785919d863
-import FLTReuse.M3ef53a9f958296ca
-import FLTReuse.M8a0b016b9444c64a
-import FLTReuse.Mfdd944592cac5200
-import Mathlib.MeasureTheory.Integral.Pi
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Mb8f476785919d863
+public import FLTReuse.M3ef53a9f958296ca
+public import FLTReuse.M8a0b016b9444c64a
+public import FLTReuse.Mfdd944592cac5200
+public import Mathlib.MeasureTheory.Integral.Pi
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_ArchPlace_fourierIntegral_mixedSpace_pureTensor
 attribute [-simp] LanglandsTunnell.signEpsilon_one LanglandsTunnell.RealArchParam.epsilonFactor_principal LanglandsTunnell.RealArchParam.epsilonFactor_discrete LanglandsTunnell.signEpsilon_zero LanglandsTunnell.signShift_zero LanglandsTunnell.RealArchParam.twist_zero LanglandsTunnell.RealArchParam.discrete.sizeOf_spec LanglandsTunnell.RealArchParam.principal.injEq LanglandsTunnell.ComplexArchParam.dual_dual LanglandsTunnell.ComplexArchParam.mk.sizeOf_spec LanglandsTunnell.RealArchParam.dual_dual LanglandsTunnell.RealArchParam.discrete.injEq LanglandsTunnell.ComplexArchParam.twist_zero LanglandsTunnell.RealArchParam.principal.sizeOf_spec LanglandsTunnell.signShift_one LanglandsTunnell.ComplexArchParam.mk.injEq
 

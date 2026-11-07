@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+
+@[expose] public section
 
 /-!
 # Centered allocations are compared only after actual child calibration

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.MomentPrimeWindows
-import HeckeGeneral.Characters.FiniteRamification
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+module
+
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+public import HeckeGeneral.Characters.FiniteRamification
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+
+@[expose] public section
 
 /-!
 Every fixed finite family of genuine continuous Hecke characters is

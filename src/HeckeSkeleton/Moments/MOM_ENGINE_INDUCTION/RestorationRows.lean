@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRestorationTail
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRestorationTail
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+
+@[expose] public section
 
 /-!
 # Actual rowwise restoration pieces with uniform analytic constants

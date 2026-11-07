@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelExceptionalSplit
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelExceptionalSplit
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

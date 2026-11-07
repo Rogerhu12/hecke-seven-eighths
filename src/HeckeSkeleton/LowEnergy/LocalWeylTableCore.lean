@@ -1,13 +1,17 @@
-import Mathlib.NumberTheory.GaussSum
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.SplitIfs
-import Lean.Elab.Tactic.Omega
+module
+
+public import Mathlib.NumberTheory.GaussSum
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.SplitIfs
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # The finite-field local Weyl table

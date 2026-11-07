@@ -1,7 +1,12 @@
-import Mathlib
-import FLTReuse.Mc4dd375116d61c53
-import FLTReuse.Mb160b7190bc2968b
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.Mc4dd375116d61c53
+public import FLTReuse.Mb160b7190bc2968b
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_exists_smul_eq_of_isAddHaarMeasure_adeleRing
 
 set_option Elab.async false

@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerMovingPeriodCompactShape
-import Mathlib.RingTheory.FractionalIdeal.Norm
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerMovingPeriodCompactShape
+public import Mathlib.RingTheory.FractionalIdeal.Norm
+
+@[expose] public section
 
 /-! Arithmetic scale of the actual moving period,
 derived from the literal scalar ideal equality and the fractional-ideal

@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ValuationAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotRestriction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
-import HeckeGeneral.Analysis.SelectedMomentSlots
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ValuationAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotRestriction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
+public import HeckeGeneral.Analysis.SelectedMomentSlots
+
+@[expose] public section
 
 /-!
 # Actual slot supports in the errors of depth one, six, and seven

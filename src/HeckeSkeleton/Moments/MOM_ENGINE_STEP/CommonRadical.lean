@@ -1,5 +1,9 @@
-import HeckePort.Moments.Descent.IdealMasks
-import HeckePort.Moments.Descent.DivisorSum
+module
+
+public import HeckePort.Moments.Descent.IdealMasks
+public import HeckePort.Moments.Descent.DivisorSum
+
+@[expose] public section
 
 /-!
 # Actual common radicals and the old-mask density

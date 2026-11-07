@@ -1,4 +1,8 @@
-import SIntegerSexticFiniteCorrelation
+module
+
+public import SIntegerSexticFiniteCorrelation
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Exact zero-frequency mass of the actual quotient
 character. The unit-column formula retains the unit-ratio phase; it is

@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.FiniteIndexUnitBalancing
-import HeckeGeneral.Arithmetic.FiniteIndexSUnitValuationReduction
-import HeckeGeneral.Characters.LocalUnitDecomposition
-import Mathlib.NumberTheory.NumberField.ProductFormula
+module
+
+public import HeckeGeneral.Arithmetic.FiniteIndexUnitBalancing
+public import HeckeGeneral.Arithmetic.FiniteIndexSUnitValuationReduction
+public import HeckeGeneral.Characters.LocalUnitDecomposition
+public import Mathlib.NumberTheory.NumberField.ProductFormula
+
+@[expose] public section
 
 /-!
 # Joint finite-place and archimedean reduction by actual S-units

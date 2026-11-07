@@ -1,6 +1,10 @@
-import ThetaGlobal.GaussianRegularization
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+module
+
+public import ThetaGlobal.GaussianRegularization
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+
+@[expose] public section
 
 /-!
 # Uniform bounds and removal of the regularizer on a Mellin line

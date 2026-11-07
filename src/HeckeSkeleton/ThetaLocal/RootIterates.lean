@@ -1,4 +1,8 @@
-import Init
+module
+
+public import Init
+
+@[expose] public section
 
 /-!
 The algebraic induction in the complex-place Weyl calculation.

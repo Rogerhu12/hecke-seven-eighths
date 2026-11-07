@@ -1,8 +1,12 @@
-import ExpansionDetector.GammaVerticalMoments
-import Mathlib.Analysis.Complex.RemovableSingularity
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.LinearCombination
+module
+
+public import ExpansionDetector.GammaVerticalMoments
+public import Mathlib.Analysis.Complex.RemovableSingularity
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.LinearCombination
+
+@[expose] public section
 
 /-!
 Adapted from the supplied DedekindZetaZeroFree snapshot, Apache 2.0.

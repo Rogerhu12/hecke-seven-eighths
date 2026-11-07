@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Analysis.HeckeEulerDeletion
-import HeckeGeneral.Bridge.SIntegerFourierFactorization
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Analysis.HeckeEulerDeletion
+public import HeckeGeneral.Bridge.SIntegerFourierFactorization
+
+@[expose] public section
 
 /-!
 Actual principal Euler factor, finite positive normalizer, additive Fourier

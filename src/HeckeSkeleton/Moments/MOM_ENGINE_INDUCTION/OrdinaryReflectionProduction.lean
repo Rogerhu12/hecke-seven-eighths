@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniformOrdinaryReflection
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CommonKernelMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniformOrdinaryReflection
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CommonKernelMass
+
+@[expose] public section
 
 /-!
 # Complete uniform production of an ordinary reflection

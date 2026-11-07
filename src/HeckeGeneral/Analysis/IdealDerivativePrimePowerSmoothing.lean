@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.HeckeDerivativeSmoothing
-import HeckeGeneral.Analysis.IdealDerivativeLogHigher
+module
+
+public import HeckeGeneral.Analysis.HeckeDerivativeSmoothing
+public import HeckeGeneral.Analysis.IdealDerivativeLogHigher
+
+@[expose] public section
 
 /-!
 # Genuine prime-power detector smoothing

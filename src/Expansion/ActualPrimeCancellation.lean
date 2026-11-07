@@ -1,5 +1,9 @@
-import Expansion.ActualLogDividedContour
-import Expansion.ActualPrimeArithmetic
+module
+
+public import Expansion.ActualLogDividedContour
+public import Expansion.ActualPrimeArithmetic
+
+@[expose] public section
 
 /-!
 # Actual unweighted prime cancellation from a finite-height zero buffer

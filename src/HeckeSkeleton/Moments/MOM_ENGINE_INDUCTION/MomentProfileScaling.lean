@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import Mathlib.Algebra.BigOperators.Fin
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import Mathlib.Algebra.BigOperators.Fin
+
+@[expose] public section
 
 /-!
 # Scalar normalization of literal moment polynomials

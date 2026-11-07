@@ -1,6 +1,10 @@
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
-import Mathlib.RingTheory.UniqueFactorizationDomain.Finsupp
-import Mathlib.NumberTheory.NumberField.Ideal.Basic
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Finsupp
+public import Mathlib.NumberTheory.NumberField.Ideal.Basic
+
+@[expose] public section
 
 /-!
 # Nonzero integral ideals as finitely supported prime exponents

@@ -1,8 +1,12 @@
-import ThetaGlobal.FiniteShellCoefficients
-import Mathlib.Analysis.Normed.Module.FiniteDimension
-import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
-import Mathlib.MeasureTheory.Integral.Pi
+module
+
+public import ThetaGlobal.FiniteShellCoefficients
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
+public import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+public import Mathlib.MeasureTheory.Integral.Pi
+
+@[expose] public section
 
 /-!
 # Absolute shell integration and finite-place Mellin transforms

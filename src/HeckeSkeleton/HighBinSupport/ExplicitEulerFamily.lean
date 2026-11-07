@@ -1,6 +1,11 @@
-import HeckeSkeleton.HighBinSupport.ExceptionalSweptTube
-import HeckeSkeleton.HighBinSupport.EulerProductBounds
-import Mathlib.Topology.UniformSpace.UniformApproximation
+module
+
+public import HeckeSkeleton.HighBinSupport.ExceptionalSweptTube
+public import HeckeSkeleton.HighBinSupport.EulerProductBounds
+public import Mathlib.Topology.UniformSpace.UniformApproximation
+
+@[expose] public section
+
 /-!
 # Normal convergence of the explicit marked and ramified Euler family
 

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GaussianCutoff
-import Mathlib.Analysis.Calculus.SmoothSeries
+module
+
+public import HeckeGeneral.Analysis.GaussianCutoff
+public import Mathlib.Analysis.Calculus.SmoothSeries
+
+@[expose] public section
 
 /-!
 # Smooth assembly of logarithmic Gaussian annuli

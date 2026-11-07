@@ -1,9 +1,13 @@
-import FLTReuse.M791e48edf6c15dd6
-import FLTReuse.M29d0733d9aaf5d27
-import FLTReuse.M288314d062abd3e9
-import FLTReuse.M0c8fe1e24b28af5e
-import FLTReuse.M8a18b6fa749851ee
-import Mathlib.RingTheory.DedekindDomain.SInteger
+module
+
+public import FLTReuse.M791e48edf6c15dd6
+public import FLTReuse.M29d0733d9aaf5d27
+public import FLTReuse.M288314d062abd3e9
+public import FLTReuse.M0c8fe1e24b28af5e
+public import FLTReuse.M8a18b6fa749851ee
+public import Mathlib.RingTheory.DedekindDomain.SInteger
+
+@[expose] public section
 
 /-!
 # S-integer summation from the actual adelic Poisson theorem

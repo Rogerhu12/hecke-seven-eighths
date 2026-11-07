@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SIntegerSexticSymbol
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticSymbol
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Exact common-prime zero support of the actual
 two-argument S-integer sextic symbol. Extension/contraction identifies the

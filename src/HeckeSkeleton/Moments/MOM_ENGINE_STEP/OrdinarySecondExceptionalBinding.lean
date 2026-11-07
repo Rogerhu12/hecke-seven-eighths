@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalBinding
+
+@[expose] public section
 
 /-!
 # Ordinary exceptional values of the actual second columns

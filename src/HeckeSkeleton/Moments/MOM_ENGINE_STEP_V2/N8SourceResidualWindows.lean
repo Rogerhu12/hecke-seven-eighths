@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceAllocationMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceNormBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceAllocationMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceNormBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

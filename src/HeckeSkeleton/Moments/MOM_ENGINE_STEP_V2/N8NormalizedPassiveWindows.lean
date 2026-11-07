@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFrozenAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceResidualWindows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFrozenAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceResidualWindows
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

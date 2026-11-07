@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.PrincipalUnitTopology
-import HeckeGeneral.Characters.FiniteCircleFourier
+module
+
+public import HeckeGeneral.Characters.PrincipalUnitTopology
+public import HeckeGeneral.Characters.FiniteCircleFourier
+
+@[expose] public section
 
 /-! Finite dual groups, depth inflation, and orthogonality for completed local residues. -/
 

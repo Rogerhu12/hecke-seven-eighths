@@ -1,7 +1,12 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.Algebra.Module.ZLattice.Summable
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.Algebra.Module.ZLattice.Summable
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_summable_translate_of_mem_schwartzBruhat
 
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileWindowAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileFormulaTask
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileWindowAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileFormulaTask
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

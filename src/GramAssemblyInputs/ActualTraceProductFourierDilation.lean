@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TraceProductPoisson
-import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+module
+
+public import HeckeGeneral.Analysis.TraceProductPoisson
+public import Mathlib.MeasureTheory.Measure.Haar.NormedSpace
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. Genuine Fourier dilation by a positive real
 scalar, specialized to the actual two-column trace space. The Jacobian

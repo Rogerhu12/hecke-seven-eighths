@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOuterWeights
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOuterWeights
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import Mathlib.Tactic.Linarith
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-! Exact support of the repository's complete frequency-row enumeration. -/
 set_option autoImplicit false

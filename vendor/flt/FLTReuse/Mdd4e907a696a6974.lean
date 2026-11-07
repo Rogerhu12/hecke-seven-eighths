@@ -1,7 +1,12 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M28b935b9dc7f139e
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M28b935b9dc7f139e
+
+@[expose] public section
+
 attribute [-simp] AdelicDock.coe_finEmbed AdelicDock.splice_apply_self AdelicDock.coe_localEmbed
 
 set_option autoImplicit false

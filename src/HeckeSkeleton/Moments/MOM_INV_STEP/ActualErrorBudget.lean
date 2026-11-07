@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedErrorBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstWeightChoice
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedErrorBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstWeightChoice
+
+@[expose] public section
 
 /-!
 # Uniform closure of the complete actual second error

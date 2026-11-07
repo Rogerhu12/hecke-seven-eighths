@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-!
 Compact-range, moving-label versions of the source moment inputs.

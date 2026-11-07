@@ -1,4 +1,8 @@
-import HeckeAxiom.ProbeTestChoice
+module
+
+public import HeckeAxiom.ProbeTestChoice
+
+@[expose] public section
 
 /-! A fixed positive compact annular tensor. Its complex factor is one on
 norm-square [1/4,7/4], while every finite factor is the actual unit-shell test. -/

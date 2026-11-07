@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeSkeleton.ThetaLocal.ExteriorUnitSums
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeSkeleton.ThetaLocal.ExteriorUnitSums
+
+@[expose] public section
 
 /-!
 # The actual exterior residue data used by marked theta reflection

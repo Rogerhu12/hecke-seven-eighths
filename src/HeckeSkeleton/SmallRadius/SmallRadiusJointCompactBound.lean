@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.SmallRadiusUniformPointBound
-import HeckeGeneral.Analysis.TraceJointProfileBounds
+module
+
+public import HeckeSkeleton.SmallRadius.SmallRadiusUniformPointBound
+public import HeckeGeneral.Analysis.TraceJointProfileBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual one-log-axis positive-moment point bound

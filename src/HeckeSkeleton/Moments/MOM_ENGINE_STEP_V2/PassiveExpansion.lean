@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
-import HeckePort.Moments.Descent.IdealMasks
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
+public import HeckePort.Moments.Descent.IdealMasks
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondColumnEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRetained
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedSecondCutoff
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondColumnEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRetained
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedSecondCutoff
+
+@[expose] public section
 
 /-!
 # The genuine second Haar source enters its positive canonical columns

@@ -1,20 +1,25 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M40aeee35a98f067b
-import FLTReuse.M0a341b9f001ae4d1
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.M99bb1ed9f1046d27
-import FLTReuse.M7c74d34e26b915e3
-import FLTReuse.M80d3d6b9857c4a98
-import FLTReuse.M81477154c83a610e
-import FLTReuse.M55886f866855a4cc
-import FLTReuse.M29d0733d9aaf5d27
-import FLTReuse.Mf2dfd7238df4aea9
-import FLTReuse.Ma3023950fa6a7f23
-import FLTReuse.Mb9d32851d695ca9a
-import FLTReuse.M07ee1a66041804a3
-import FLTReuse.Mf26cffa02c54d3d0
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M40aeee35a98f067b
+public import FLTReuse.M0a341b9f001ae4d1
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.M99bb1ed9f1046d27
+public import FLTReuse.M7c74d34e26b915e3
+public import FLTReuse.M80d3d6b9857c4a98
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.M55886f866855a4cc
+public import FLTReuse.M29d0733d9aaf5d27
+public import FLTReuse.Mf2dfd7238df4aea9
+public import FLTReuse.Ma3023950fa6a7f23
+public import FLTReuse.Mb9d32851d695ca9a
+public import FLTReuse.M07ee1a66041804a3
+public import FLTReuse.Mf26cffa02c54d3d0
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 attribute [-ext] IsDedekindDomain.HeightOneSpectrum.adicCompletion.ext
 namespace P2MW.S_NumberField_TateGlobal_exists_eq_normPowChar_of_forall_mem_normOneIdeles
 

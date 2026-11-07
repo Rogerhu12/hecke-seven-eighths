@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
-import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
-import HeckePort.Moments.Descent.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+public import HeckePort.Moments.Descent.Basic
+
+@[expose] public section
 
 /-!
 # The actual induction class

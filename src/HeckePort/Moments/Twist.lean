@@ -1,4 +1,8 @@
-import HeckePort.CenteredMoment.Counting
+module
+
+public import HeckePort.CenteredMoment.Counting
+
+@[expose] public section
 
 /-!
 # Norm-twisted masked sums

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ActualSIntegerZeroSlotMI
-import HeckeGeneral.Analysis.LocalThetaInput
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerZeroSlotMI
+public import HeckeGeneral.Analysis.LocalThetaInput
+
+@[expose] public section
 
 /-!
 Actual sixth-power amplifier rows, constructed from the existing arithmetic

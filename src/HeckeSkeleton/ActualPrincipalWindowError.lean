@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PrincipalEulerFactor
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.Algebra.BigOperators.Ring.Finset
+module
+
+public import HeckeGeneral.Analysis.PrincipalEulerFactor
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-!
 The primitive principal window error follows from the actual local Euler

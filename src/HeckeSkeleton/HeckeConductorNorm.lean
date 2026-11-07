@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.ConductorArithmetic
-import HeckeSkeleton.ExplicitHeckeFunctionalEquation
-import Mathlib.Data.Finsupp.Order
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Characters.ConductorArithmetic
+public import HeckeSkeleton.ExplicitHeckeFunctionalEquation
+public import Mathlib.Data.Finsupp.Order
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Actual global conductor bounds from the proved local max inequality.

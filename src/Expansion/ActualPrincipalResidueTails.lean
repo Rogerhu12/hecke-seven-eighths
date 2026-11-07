@@ -1,6 +1,10 @@
-import Expansion.ActualPrincipalUniformDecay
-import Expansion.FiniteTripleContourTransport
-import HeckeGeneral.Analysis.PowerHeightComparison
+module
+
+public import Expansion.ActualPrincipalUniformDecay
+public import Expansion.FiniteTripleContourTransport
+public import HeckeGeneral.Analysis.PowerHeightComparison
+
+@[expose] public section
 
 /-!
 # Power-height tails of the two actual principal residue moves

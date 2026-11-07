@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TIPSources
-import HeckeGeneral.Analysis.TIPNumerics
+module
+
+public import HeckeGeneral.Analysis.TIPSources
+public import HeckeGeneral.Analysis.TIPNumerics
+
+@[expose] public section
 
 /-!
 # The accounting of M Section 7, from the Euler-product bound

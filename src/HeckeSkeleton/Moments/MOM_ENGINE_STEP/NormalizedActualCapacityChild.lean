@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
+
+@[expose] public section
 
 /-!
 # Normalizing the actual child after its one fixed capacity deletion

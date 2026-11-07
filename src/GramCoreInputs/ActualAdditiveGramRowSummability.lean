@@ -1,9 +1,13 @@
-import ActualAdditiveGramResidueExpansion
-import ActualProbePairPointwisePoisson
-import HeckeGeneral.Bridge.SIntegerPeriodicAdelicTest
-import HeckeGeneral.Bridge.SIntegerScaledSchwartzModel
-import Mathlib.Analysis.Normed.Module.FiniteDimension
-import Mathlib.Topology.Algebra.InfiniteSum.Ring
+module
+
+public import ActualAdditiveGramResidueExpansion
+public import ActualProbePairPointwisePoisson
+public import HeckeGeneral.Bridge.SIntegerPeriodicAdelicTest
+public import HeckeGeneral.Bridge.SIntegerScaledSchwartzModel
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
+public import Mathlib.Topology.Algebra.InfiniteSum.Ring
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Actual negative Gauss pairs times the original

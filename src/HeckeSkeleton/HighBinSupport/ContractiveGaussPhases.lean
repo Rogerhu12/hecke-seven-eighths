@@ -1,4 +1,8 @@
-import HeckeSkeleton.HighBinSupport.ActualGaussPhases
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualGaussPhases
+
+@[expose] public section
 
 /-!
 The actual prime coefficient can vanish at a ramified target prime.  The

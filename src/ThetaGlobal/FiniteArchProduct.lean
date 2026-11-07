@@ -1,5 +1,9 @@
-import DedekindZetaZeroFree.Theta.Periods.ArchimedeanTensorProduct
-import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.GlobalProduct
+module
+
+public import DedekindZetaZeroFree.Theta.Periods.ArchimedeanTensorProduct
+public import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.GlobalProduct
+
+@[expose] public section
 
 /-!
 # Full archimedean matrix products for arbitrary actual pure tensors

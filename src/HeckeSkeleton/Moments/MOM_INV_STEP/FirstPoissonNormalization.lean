@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+
+@[expose] public section
 
 /-!
 # Exact physical normalization of the first retained source

@@ -1,8 +1,12 @@
-import RowCharacterIdeleDecomposition
-import HeckeSkeleton.FiniteOrderKernelOpen
-import HeckeGeneral.Characters.LocalCharacterDecomposition
-import HeckeGeneral.Analysis.HeckeSeries
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibTopologyComparison
+module
+
+public import RowCharacterIdeleDecomposition
+public import HeckeSkeleton.FiniteOrderKernelOpen
+public import HeckeGeneral.Characters.LocalCharacterDecomposition
+public import HeckeGeneral.Analysis.HeckeSeries
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibTopologyComparison
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

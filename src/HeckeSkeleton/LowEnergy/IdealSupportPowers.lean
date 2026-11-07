@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.SupportPowers
-import HeckeGeneral.Arithmetic.IdealFactorization
+module
+
+public import HeckeSkeleton.LowEnergy.SupportPowers
+public import HeckeGeneral.Arithmetic.IdealFactorization
+
+@[expose] public section
 
 /-!
 # Genuine ideal-support enumeration over an arbitrary number field

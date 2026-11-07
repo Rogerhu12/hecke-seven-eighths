@@ -1,4 +1,8 @@
-import Expansion.PhysicalAmplitudeSource
+module
+
+public import Expansion.PhysicalAmplitudeSource
+
+@[expose] public section
 
 /-!
 # The actual amplitude source in the floor bin

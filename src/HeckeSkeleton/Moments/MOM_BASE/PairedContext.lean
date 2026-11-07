@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_BASE.PairedPolynomials
-import HeckeSkeleton.Base
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.PairedPolynomials
+public import HeckeSkeleton.Base
+
+@[expose] public section
 
 /-!
 # The paired-phase invariant for the actual target context

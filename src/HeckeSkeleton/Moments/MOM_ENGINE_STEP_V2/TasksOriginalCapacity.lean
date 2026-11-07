@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4OriginalCapacity
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4UniformCapacity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4OriginalCapacity
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4UniformCapacity
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

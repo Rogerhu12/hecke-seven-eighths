@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeGeneral.Analysis.PrincipalEulerFactor
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeGeneral.Analysis.PrincipalEulerFactor
+
+@[expose] public section
 
 /-!
 A precise PART of M's T, for the literal physical objects, not full T.

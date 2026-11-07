@@ -1,10 +1,14 @@
 /-
 Copyright (c) 2026 OpenAI. Released under the Apache 2.0 license.
 -/
-import PrimeCancellation
-import PrimeCancellationAux
-import Mathlib.Tactic.Choose
-import Mathlib.Tactic.GCongr
+module
+
+public import PrimeCancellation
+public import PrimeCancellationAux
+public import Mathlib.Tactic.Choose
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
 
 /-!
 # Paired prime moments from zero-free analytic data

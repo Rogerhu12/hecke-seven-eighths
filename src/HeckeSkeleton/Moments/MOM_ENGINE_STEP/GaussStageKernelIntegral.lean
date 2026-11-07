@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedSecondResidual
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFourierStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedSecondResidual
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFourierStage
+
+@[expose] public section
 
 /-!
 # Integration of the actual second stages over the first Fourier measure

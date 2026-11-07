@@ -1,4 +1,8 @@
-import HeckeSkeleton.ThetaKernel.Core
+module
+
+public import HeckeSkeleton.ThetaKernel.Core
+
+@[expose] public section
 
 /-! Differentiation of the kernel in the scale variable: `y d/dy` raises the
 polynomial weight by one. -/

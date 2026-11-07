@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveExpansion
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveExpansion
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationKernel
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

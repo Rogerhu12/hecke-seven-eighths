@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.GlobalIntegralCharacter
-import HeckeGeneral.Characters.LocalConductor
-import HeckeGeneral.Analysis.HeckeSeries
-import DedekindZetaZeroFree.Arithmetic.RayClasses.Character
+module
+
+public import HeckeGeneral.Characters.GlobalIntegralCharacter
+public import HeckeGeneral.Characters.LocalConductor
+public import HeckeGeneral.Analysis.HeckeSeries
+public import DedekindZetaZeroFree.Arithmetic.RayClasses.Character
+
+@[expose] public section
 
 /-!
 # Hecke ideal coefficients as AxiomMath ray class data

@@ -1,4 +1,8 @@
-import Expansion.ActualPrincipalVerticalRemainders
+module
+
+public import Expansion.ActualPrincipalVerticalRemainders
+
+@[expose] public section
 
 /-!
 # Exact regular factors of the two principal residues

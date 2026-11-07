@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveReconstructionPacket
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCommonEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveReconstructionPacket
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCommonEnvelope
+
+@[expose] public section
 
 /-!
 # One literal canonical family on the actual reconstruction packet

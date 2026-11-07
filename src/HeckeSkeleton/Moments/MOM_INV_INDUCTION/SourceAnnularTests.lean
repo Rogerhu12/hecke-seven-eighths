@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup
-import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
-import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+
+@[expose] public section
 
 /-!
 # The actual fixed annular tests inside the scale-sup majorant

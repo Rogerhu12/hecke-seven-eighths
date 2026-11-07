@@ -1,6 +1,10 @@
-import ActualTraceProductFourierDilation
-import ActualTraceProductResidueQuotient
-import ActualNormalizedLatticeMask
+module
+
+public import ActualTraceProductFourierDilation
+public import ActualTraceProductResidueQuotient
+public import ActualNormalizedLatticeMask
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. The actual mean-zero periodic two-column Poisson sum

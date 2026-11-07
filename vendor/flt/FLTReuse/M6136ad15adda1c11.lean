@@ -1,16 +1,21 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Analysis.Fourier.FourierTransform
-import Mathlib.Analysis.Fourier.Inversion
-import Mathlib.Algebra.Module.ZLattice.Basic
-import Mathlib.LinearAlgebra.BilinearForm.Properties
-import Mathlib.LinearAlgebra.Matrix.BilinearForm
-import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import Mathlib.Analysis.Fourier.Inversion
+public import Mathlib.Algebra.Module.ZLattice.Basic
+public import Mathlib.LinearAlgebra.BilinearForm.Properties
+public import Mathlib.LinearAlgebra.Matrix.BilinearForm
+public import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_SchwartzMap_exists_coe_eq_vectorFourierIntegral
 
 set_option autoImplicit false

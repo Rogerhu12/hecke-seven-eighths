@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveCutoff
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveCutoff
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondTail
+
+@[expose] public section
 
 /-!
 # Uniform saving for the actual second, common-local tail

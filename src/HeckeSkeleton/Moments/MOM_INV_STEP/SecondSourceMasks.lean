@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceReindexing
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceReindexing
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
+
+@[expose] public section
 
 /-!
 # The actual second mask is frozen with the original common ideal

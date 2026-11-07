@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinScalarStep
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinScalarStep
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
+
+@[expose] public section
 
 /-!
 # Genuine strict children of an unlabelled Mellin intermediate

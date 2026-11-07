@@ -1,4 +1,8 @@
-import Expansion.NormalizedContourBudget
+module
+
+public import Expansion.NormalizedContourBudget
+
+@[expose] public section
 
 /-!
 # A power budget for finite-height prime cancellation

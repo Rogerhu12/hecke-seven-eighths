@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.RealAdditiveCharacter
-import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+module
+
+public import HeckeGeneral.Characters.RealAdditiveCharacter
+public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+
+@[expose] public section
 
 /-!+# Canonical frequencies and their arithmetic
 

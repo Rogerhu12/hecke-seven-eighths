@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.PhysicalProbeContours
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+
+@[expose] public section
 
 /-!
 The full correction extracted from the ACTUAL finite-window, whole-index

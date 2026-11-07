@@ -1,9 +1,13 @@
-import HeckeSkeleton.PrimeCancellationExplicit
-import HeckeSkeleton.PrimeCancellationHecke
-import HeckeSkeleton.PrimeCancellationPolynomials
-import HeckeSkeleton.PrimeCancellationMoment
-import HeckeSkeleton.PrimeCancellationBounds
-import HeckeSkeleton.PrimeCancellationWindows
+module
+
+public import HeckeSkeleton.PrimeCancellationExplicit
+public import HeckeSkeleton.PrimeCancellationHecke
+public import HeckeSkeleton.PrimeCancellationPolynomials
+public import HeckeSkeleton.PrimeCancellationMoment
+public import HeckeSkeleton.PrimeCancellationBounds
+public import HeckeSkeleton.PrimeCancellationWindows
+
+@[expose] public section
 
 /-!
 # Prime cancellation for the actual paired moment models

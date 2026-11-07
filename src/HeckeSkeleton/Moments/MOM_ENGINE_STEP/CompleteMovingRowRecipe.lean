@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonRadical
-import HeckeAxiom.ArithmeticAdapter
-import HeckeGeneral.Characters.FiniteRayCoefficientExpansion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonRadical
+public import HeckeAxiom.ArithmeticAdapter
+public import HeckeGeneral.Characters.FiniteRayCoefficientExpansion
+
+@[expose] public section
 
 /-!
 # Complete rows with their original fixed moving factors

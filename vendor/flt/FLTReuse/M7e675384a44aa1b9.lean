@@ -1,4 +1,8 @@
-import FLTReuse.Ma972a145b8dd993f
+module
+
+public import FLTReuse.Ma972a145b8dd993f
+
+@[expose] public section
 
 open IsDedekindDomain NumberField
 

@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.GeneralMarkedEnergy
-import HeckeSkeleton.LowEnergy.ActualFrozenStateCount
-import HeckeSkeleton.LowEnergy.InactiveCore
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralMarkedEnergy
+public import HeckeSkeleton.LowEnergy.ActualFrozenStateCount
+public import HeckeSkeleton.LowEnergy.InactiveCore
+
+@[expose] public section
 
 /-!
 # All frozen states and all local classes in a general reflected block

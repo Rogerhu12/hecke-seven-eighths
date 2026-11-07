@@ -1,7 +1,11 @@
-import HeckeSkeleton.SmallRadius.FiniteUnitShellTest
-import Mathlib.MeasureTheory.Integral.Bochner.Set
-import Mathlib.MeasureTheory.Measure.Real
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import HeckeSkeleton.SmallRadius.FiniteUnitShellTest
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import Mathlib.MeasureTheory.Measure.Real
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

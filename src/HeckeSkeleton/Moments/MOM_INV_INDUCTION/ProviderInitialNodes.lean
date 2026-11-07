@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildClosure
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildClosure
+
+@[expose] public section
 
 /-!
 # Actual initial packets enter the canonical induction class

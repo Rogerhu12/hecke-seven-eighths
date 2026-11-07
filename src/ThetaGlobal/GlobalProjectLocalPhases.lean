@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalProjectMarkedSupport
-import ThetaGlobal.GlobalProjectPhases
-import HeckeGeneral.Characters.SIntegerSexticCharacter
+module
+
+public import ThetaGlobal.GlobalProjectMarkedSupport
+public import ThetaGlobal.GlobalProjectPhases
+public import HeckeGeneral.Characters.SIntegerSexticCharacter
+
+@[expose] public section
 
 /-!
 # Local unit phases of the actual rational frequency

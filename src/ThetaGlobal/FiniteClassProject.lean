@@ -1,7 +1,11 @@
-import HeckeSkeleton.SixthLocalFinite
-import HeckeAxiom.ArithmeticChoice
-import ThetaGlobal.FinitePowerQuotient
-import ThetaGlobal.FiniteClassExpansion
+module
+
+public import HeckeSkeleton.SixthLocalFinite
+public import HeckeAxiom.ArithmeticChoice
+public import ThetaGlobal.FinitePowerQuotient
+public import ThetaGlobal.FiniteClassExpansion
+
+@[expose] public section
 
 /-!
 # The actual fixed-choice power-class dictionary

@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ExponentTail
-import HeckeSkeleton.LowEnergy.GaussianDyadicBudget
+module
+
+public import HeckeSkeleton.LowEnergy.ExponentTail
+public import HeckeSkeleton.LowEnergy.GaussianDyadicBudget
+
+@[expose] public section
 
 /-!
 # Physical dual thresholds and the complete annular tail budget

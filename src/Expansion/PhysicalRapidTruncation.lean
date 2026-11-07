@@ -1,9 +1,13 @@
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.MeasureTheory.Integral.Bochner.Set
-import Mathlib.Tactic.GCongr
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import Mathlib.Tactic.GCongr
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Actual three-height truncation from rapid decay

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPrimitiveBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPrimitiveBounds
+
+@[expose] public section
 
 /-!
 # Uniform exceptional row estimates from the original volume primitive

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFiber
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCounts
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflection
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFiber
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCounts
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflection
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
+
+@[expose] public section
 
 /-!
 # All original rows in the completed marked source

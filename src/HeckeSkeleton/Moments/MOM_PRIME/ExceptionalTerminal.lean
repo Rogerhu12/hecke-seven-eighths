@@ -1,5 +1,9 @@
-import HeckePort.Moments.Height
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
+module
+
+public import HeckePort.Moments.Height
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+
+@[expose] public section
 
 /-!
 # Equal-product cancellation on the exceptional terminal

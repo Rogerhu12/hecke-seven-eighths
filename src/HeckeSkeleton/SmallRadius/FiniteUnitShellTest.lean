@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueCosetFourier
-import HeckeGeneral.Arithmetic.LocalValuationCompact
+module
+
+public import HeckeGeneral.Characters.LocalResidueCosetFourier
+public import HeckeGeneral.Arithmetic.LocalValuationCompact
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

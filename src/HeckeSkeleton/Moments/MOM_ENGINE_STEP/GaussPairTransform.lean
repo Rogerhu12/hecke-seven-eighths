@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrbitalCorrelation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrbitalCorrelation
+
+@[expose] public section
 
 /-!
 # The actual second finite transform, with the original mask divisors

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridChart
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridChart
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
+
+@[expose] public section
 
 /-!
 # The complete actual second source reaches hybrid branches

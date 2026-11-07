@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.WitnessRowCount
-import HeckeGeneral.Analysis.EndpointRangeSavings
+module
+
+public import HeckeGeneral.Analysis.WitnessRowCount
+public import HeckeGeneral.Analysis.EndpointRangeSavings
+
+@[expose] public section
 
 /-!
 # Numerics for the direct closure from the Euler-product bound

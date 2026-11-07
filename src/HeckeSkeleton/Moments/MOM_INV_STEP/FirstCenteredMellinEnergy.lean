@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredFamily
-import HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredFamily
+public import HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+
+@[expose] public section
 
 /-!
 # Genuine first Mellin Cauchy at a fixed annular center

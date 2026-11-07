@@ -1,8 +1,12 @@
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import Mathlib.RingTheory.Ideal.Quotient.PowTransition
-import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
-import HeckePort.Moments.Correlation
+module
+
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Mathlib.RingTheory.Ideal.Quotient.PowTransition
+public import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
+public import HeckePort.Moments.Correlation
+
+@[expose] public section
 
 /-!
 # Prime-power local correlations

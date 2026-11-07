@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.ConductorCanonicalGauss
+module
+
+public import HeckeGeneral.Characters.ConductorCanonicalGauss
+
+@[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
 

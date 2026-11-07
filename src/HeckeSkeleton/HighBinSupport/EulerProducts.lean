@@ -1,7 +1,12 @@
-import HeckeSkeleton.HighBinSupport.EulerAnalytic
-import Mathlib.Analysis.SpecialFunctions.Log.Summable
-import Mathlib.Analysis.Normed.Module.MultipliableUniformlyOn
-import Mathlib.Analysis.Complex.LocallyUniformLimit
+module
+
+public import HeckeSkeleton.HighBinSupport.EulerAnalytic
+public import Mathlib.Analysis.SpecialFunctions.Log.Summable
+public import Mathlib.Analysis.Normed.Module.MultipliableUniformlyOn
+public import Mathlib.Analysis.Complex.LocallyUniformLimit
+
+@[expose] public section
+
 set_option autoImplicit false
 noncomputable section
 namespace HeckeSkeleton.HighBinContinuation

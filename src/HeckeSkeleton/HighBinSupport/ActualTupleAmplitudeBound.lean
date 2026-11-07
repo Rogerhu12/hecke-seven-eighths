@@ -1,6 +1,11 @@
-import HeckeSkeleton.HighBinSupport.ActualPrimeNormalizerCancellation
-import HeckeSkeleton.HighBinSupport.BoundaryTupleScalar
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPrimeNormalizerCancellation
+public import HeckeSkeleton.HighBinSupport.BoundaryTupleScalar
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+
+@[expose] public section
+
 /-!
 The original subset amplitude has a fixed coarse polynomial bound once
 the literal row Euler continuations have a common pointwise bound.

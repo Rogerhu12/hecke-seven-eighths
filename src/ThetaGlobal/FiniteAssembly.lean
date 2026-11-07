@@ -1,8 +1,12 @@
-import ThetaGlobal.FiniteProjectedIntegral
-import ThetaGlobal.FiniteTargetCutoff
-import ThetaGlobal.ReflectedAbsoluteProject
-import ThetaGlobal.GlobalSameChoice
-import HeckeSkeleton.ThetaKernel
+module
+
+public import ThetaGlobal.FiniteProjectedIntegral
+public import ThetaGlobal.FiniteTargetCutoff
+public import ThetaGlobal.ReflectedAbsoluteProject
+public import ThetaGlobal.GlobalSameChoice
+public import HeckeSkeleton.ThetaKernel
+
+@[expose] public section
 
 /-!
 # Four project obligations on one fixed source and one arithmetic choice

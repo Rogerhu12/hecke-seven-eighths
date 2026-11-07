@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
-import HeckeSkeleton.HighBinSupport.JointAnalyticLimit
+module
+
+public import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
+public import HeckeSkeleton.HighBinSupport.JointAnalyticLimit
+
+@[expose] public section
 
 /-!
 Normal convergence and joint analyticity of the explicit four-case Euler

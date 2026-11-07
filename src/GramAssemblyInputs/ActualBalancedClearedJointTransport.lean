@@ -1,6 +1,10 @@
-import ActualClearedJointPeriodicTransport
-import ActualCompactDivisorReduction
-import HeckeGeneral.Analysis.TraceRadialScaling
+module
+
+public import ActualClearedJointPeriodicTransport
+public import ActualCompactDivisorReduction
+public import HeckeGeneral.Analysis.TraceRadialScaling
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Exact radial separation of the actual d/D^M

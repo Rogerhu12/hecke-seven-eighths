@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_BASE.CanonicalCalibration
-import HeckeGeneral.Characters.InfinityPacket
-import HeckeAxiom.LambdaInfinityType
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.CanonicalCalibration
+public import HeckeGeneral.Characters.InfinityPacket
+public import HeckeAxiom.LambdaInfinityType
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-! Finite twists preserve the actual infinity parameters and the
 nonzero angular condition of the live canonical period.  The two canonical

@@ -1,7 +1,11 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.Normed.Group.InfiniteSum
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.Normed.Group.InfiniteSum
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 # Norm twists of Dirichlet series with arbitrary indices

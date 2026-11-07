@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.PrincipalGeneratorBalancing
-import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
+module
+
+public import HeckeGeneral.Arithmetic.PrincipalGeneratorBalancing
+public import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
+
+@[expose] public section
 
 /-!
 # Compact representatives for finite-index ordinary-unit subgroups

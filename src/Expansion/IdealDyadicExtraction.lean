@@ -1,6 +1,10 @@
-import Expansion.NormalizedDyadicExtraction
-import ExpansionDetector.IdealFinitePair
-import Expansion.TerminalTailBudget
+module
+
+public import Expansion.NormalizedDyadicExtraction
+public import ExpansionDetector.IdealFinitePair
+public import Expansion.TerminalTailBudget
+
+@[expose] public section
 
 /-! The literal ideal terminal source feeds the dyadic detector.  Its finite
 set includes only nonzero ideals and the same multiplicative coefficient

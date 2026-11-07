@@ -1,6 +1,10 @@
-import ActualAdditiveGramPoissonAssembly
-import ActualProbePairModulusNorm
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+module
+
+public import ActualAdditiveGramPoissonAssembly
+public import ActualProbePairModulusNorm
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Identify the literal first-Poisson dual radius and

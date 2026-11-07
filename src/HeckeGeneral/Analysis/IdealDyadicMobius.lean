@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealMobiusDeletion
-import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+module
+
+public import HeckeGeneral.Analysis.IdealMobiusDeletion
+public import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+
+@[expose] public section
 
 /-!
 The actual dyadic decomposition of the S-excluded Moebius--Hecke series.

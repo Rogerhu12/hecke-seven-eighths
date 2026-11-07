@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionGeometry
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionGeometry
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+
+@[expose] public section
 
 /-!
 # Terminal energy estimates and the label normalization

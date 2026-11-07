@@ -1,7 +1,12 @@
-import FLTReuse.M81477154c83a610e
-import FLTReuse.M18c3f30cb8384583
-import Mathlib.RingTheory.DedekindDomain.AdicValuation
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.M18c3f30cb8384583
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_tateFourier_indicator_setOf_valued_sub_le
 
 set_option autoImplicit false

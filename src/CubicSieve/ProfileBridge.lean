@@ -1,6 +1,10 @@
-import CubicSieve.ProfileDecay
-import HeckeAxiom.ProbeTestChoice
-import HeckeGeneral.Analysis.SUnitOrbitalIntegral
+module
+
+public import CubicSieve.ProfileDecay
+public import HeckeAxiom.ProbeTestChoice
+public import HeckeGeneral.Analysis.SUnitOrbitalIntegral
+
+@[expose] public section
 
 /-! Exact transport of the all-radius Fourier-sheet bounds to the skeleton's
 actual norm-one Haar measure and orbital profile. -/

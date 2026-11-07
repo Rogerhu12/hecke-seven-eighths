@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedCommonMass
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedCommonMass
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+
+@[expose] public section
 
 /-!
 # The single pool density pays the complete prime-label mass

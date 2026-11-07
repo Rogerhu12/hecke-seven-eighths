@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-! Literal bridge from the pretarget smooth prime windows to the actual
 moment geometry. Analytic supports are defined before S and the ray filter.

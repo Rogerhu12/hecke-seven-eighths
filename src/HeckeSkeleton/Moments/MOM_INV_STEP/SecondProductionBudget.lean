@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionPacket
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionBoxes
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualBoxGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.PositivePacketBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionPacket
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionBoxes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualBoxGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PositivePacketBudget
+
+@[expose] public section
 
 /-!
 # The genuine boxed second source under the smaller-child hypothesis

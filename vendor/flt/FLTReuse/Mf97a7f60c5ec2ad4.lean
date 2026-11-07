@@ -1,6 +1,10 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M5bb7284c992035ad
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M5bb7284c992035ad
+
+@[expose] public section
 
 open NumberField
 theorem NumberField.AdeleRing.measurePreserving_mul_algebraMap (F : Type) [Field F] [NumberField F]

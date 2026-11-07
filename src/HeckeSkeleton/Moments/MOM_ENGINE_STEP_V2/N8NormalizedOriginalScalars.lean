@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCommonBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCommonBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

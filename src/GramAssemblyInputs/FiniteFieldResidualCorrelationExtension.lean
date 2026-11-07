@@ -1,5 +1,9 @@
-import FiniteFieldAffineCorrelation
-import FiniteAffineCorrelationBound
+module
+
+public import FiniteFieldAffineCorrelation
+public import FiniteAffineCorrelationBound
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNCOMPILED.
 

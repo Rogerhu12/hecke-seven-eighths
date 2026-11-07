@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowHybrid.Losses
+module
+
+public import HeckeSkeleton.LowHybrid.Losses
+
+@[expose] public section
 
 /-!
 # Loss absorption with the natural common-divisor cutoff

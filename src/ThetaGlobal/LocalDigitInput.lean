@@ -1,5 +1,9 @@
-import ThetaGlobal.LocalDigitAverage
-import ThetaGlobal.GlobalProjectLocalDigitTables
+module
+
+public import ThetaGlobal.LocalDigitAverage
+public import ThetaGlobal.GlobalProjectLocalDigitTables
+
+@[expose] public section
 
 /-!
 # The literal global digit table input from the actual exterior source

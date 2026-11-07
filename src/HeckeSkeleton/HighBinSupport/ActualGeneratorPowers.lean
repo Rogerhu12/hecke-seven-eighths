@@ -1,5 +1,10 @@
-import HeckeGeneral.Analysis.PrincipalGeneratorCalibration
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeGeneral.Analysis.PrincipalGeneratorCalibration
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
+
 /-!
 # Actual allowed-generator powers and locally invertible sixth powers
 

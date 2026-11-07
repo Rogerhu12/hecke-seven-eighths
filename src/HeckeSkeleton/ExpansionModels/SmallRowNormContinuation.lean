@@ -1,9 +1,13 @@
-import HeckeGeneral.Analysis.HeckeNormPole
-import HeckeSkeleton.HeckeBufferedReciprocal
-import HeckeGeneral.Characters.InfinityPacket
-import DedekindZetaZeroFree.LFunctions.Hecke.UniformWeakConvexity
-import DedekindZetaZeroFree.LFunctions.Hecke.PrincipalUnitCharacter
-import DedekindZetaZeroFree.LFunctions.Dedekind.PositiveExteriorZetaResidue
+module
+
+public import HeckeGeneral.Analysis.HeckeNormPole
+public import HeckeSkeleton.HeckeBufferedReciprocal
+public import HeckeGeneral.Characters.InfinityPacket
+public import DedekindZetaZeroFree.LFunctions.Hecke.UniformWeakConvexity
+public import DedekindZetaZeroFree.LFunctions.Hecke.PrincipalUnitCharacter
+public import DedekindZetaZeroFree.LFunctions.Dedekind.PositiveExteriorZetaResidue
+
+@[expose] public section
 
 /-!
 # The actual pole-cleared norm branch for bounded exceptional rows

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPrimitiveBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPrimitiveBounds
+
+@[expose] public section
 
 /-!
 # Exceptional volume from the original supported ideal series

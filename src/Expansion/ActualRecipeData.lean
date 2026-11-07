@@ -1,7 +1,11 @@
-import Expansion.PhysicalRecipeParameters
-import Expansion.PhysicalRecipeRemainders
-import Expansion.ActualPrincipalExpansion
-import Expansion.ActualRetainedComponents
+module
+
+public import Expansion.PhysicalRecipeParameters
+public import Expansion.PhysicalRecipeRemainders
+public import Expansion.ActualPrincipalExpansion
+public import Expansion.ActualRetainedComponents
+
+@[expose] public section
 
 /-!
 # One actual recipe with literal retained components and contour tails

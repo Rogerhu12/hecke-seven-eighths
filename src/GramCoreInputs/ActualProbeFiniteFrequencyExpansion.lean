@@ -1,6 +1,10 @@
-import ActualProbeAmplitudeMellin
-import HeckeSkeleton.ActualProbeRowFinite
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+module
+
+public import ActualProbeAmplitudeMellin
+public import HeckeSkeleton.ActualProbeRowFinite
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. At fixed t, X>0 and Y>0, the original denominator

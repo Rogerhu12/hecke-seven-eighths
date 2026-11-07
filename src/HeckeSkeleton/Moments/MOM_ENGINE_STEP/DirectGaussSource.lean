@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
+
+@[expose] public section
 
 /-!
 # The original Gauss source before any prime amplification

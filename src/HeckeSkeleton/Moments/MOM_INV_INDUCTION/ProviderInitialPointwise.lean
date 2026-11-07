@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialMass
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialNodes
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialMass
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialProduction
+
+@[expose] public section
 
 /-!
 # Initial physical normalization and the actual reconstruction sum

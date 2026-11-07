@@ -1,8 +1,12 @@
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Ring
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.Topology.Algebra.InfiniteSum.Ring
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Finite mark insertion and the global invariance step

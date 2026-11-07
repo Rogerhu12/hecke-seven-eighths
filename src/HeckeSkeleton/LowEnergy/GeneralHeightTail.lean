@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GeneralHeight
-import HeckeSkeleton.ThetaKernel
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralHeight
+public import HeckeSkeleton.ThetaKernel
+
+@[expose] public section
 
 /-!
 # Uniform polynomial background height on any positive kernel line

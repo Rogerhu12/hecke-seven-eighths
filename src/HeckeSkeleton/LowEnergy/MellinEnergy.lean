@@ -1,8 +1,12 @@
-import HeckeSkeleton.LowEnergy.AnnularEnergy
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeSkeleton.LowEnergy.AnnularEnergy
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Common-profile integration in the original row Hilbert space

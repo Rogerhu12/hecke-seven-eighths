@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FixedChildFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FixedChildFamily
+
+@[expose] public section
 
 /-!
 # Exact finite support of the complete child atoms

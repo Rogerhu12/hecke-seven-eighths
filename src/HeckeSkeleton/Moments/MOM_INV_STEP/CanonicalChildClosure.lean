@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ClippedChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.PartitionedCanonicalColumns
-import HeckeSkeleton.Moments.MOM_INV_STEP.PartitionedChildGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.SmallScaleEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ClippedChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PartitionedCanonicalColumns
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PartitionedChildGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SmallScaleEnergy
+
+@[expose] public section
 
 /-!
 # Closing the actual child class under the two smooth inversions

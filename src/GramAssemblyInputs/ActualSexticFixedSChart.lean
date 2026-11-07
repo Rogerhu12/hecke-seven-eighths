@@ -1,4 +1,8 @@
-import SIntegerSexticFixedFrequencyPeriod
+module
+
+public import SIntegerSexticFixedFrequencyPeriod
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. Literal raw sextic times actual ALL-S RCorrection
 on a fixed S chart. Chart membership is an actual ordinary-ideal congruence,

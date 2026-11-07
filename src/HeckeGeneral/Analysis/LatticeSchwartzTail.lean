@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.LatticeFiniteMask
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeGeneral.Analysis.LatticeFiniteMask
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 Actual nonzero lattice tails under scalar dilation. The constants are explicit

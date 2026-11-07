@@ -1,5 +1,9 @@
-import Mathlib
-import FLTReuse.M80d3d6b9857c4a98
+module
+
+public import Mathlib
+public import FLTReuse.M80d3d6b9857c4a98
+
+@[expose] public section
 
 section
 

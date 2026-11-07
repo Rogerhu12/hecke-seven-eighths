@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
+
+@[expose] public section
 
 /-!
 # Live first sources at the actual physical row cap

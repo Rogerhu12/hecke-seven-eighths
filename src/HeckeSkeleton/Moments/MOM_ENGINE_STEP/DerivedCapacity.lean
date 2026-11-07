@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MomentDataAdapter
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MomentDataAdapter
+
+@[expose] public section
 
 /-!
 # Comparison margins and capacity derived from the actual length ledger

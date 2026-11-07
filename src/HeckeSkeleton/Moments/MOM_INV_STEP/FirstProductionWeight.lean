@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction
+
+@[expose] public section
 
 /-!
 # The actual second production weight keeps its reconstruction zeros

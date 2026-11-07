@@ -1,6 +1,10 @@
-import FLTReuse.M3f7bf7c71c50ae27
-import FLTReuse.M895bd822f90010c8
-import FLTReuse.M18c3f30cb8384583
+module
+
+public import FLTReuse.M3f7bf7c71c50ae27
+public import FLTReuse.M895bd822f90010c8
+public import FLTReuse.M18c3f30cb8384583
+
+@[expose] public section
 
 open IsDedekindDomain NumberField MeasureTheory Matrix
 open FLT.SmoothVectors

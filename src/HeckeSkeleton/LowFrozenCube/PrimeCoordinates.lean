@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowFrozenCube.Valuations
-import Mathlib.Data.Finsupp.Basic
-import Mathlib.Data.Finsupp.SMulWithZero
-import Mathlib.Algebra.Group.TypeTags.Basic
+module
+
+public import HeckeSkeleton.LowFrozenCube.Valuations
+public import Mathlib.Data.Finsupp.Basic
+public import Mathlib.Data.Finsupp.SMulWithZero
+public import Mathlib.Algebra.Group.TypeTags.Basic
+
+@[expose] public section
 
 /-!
 # Canonical prime-coordinate factors

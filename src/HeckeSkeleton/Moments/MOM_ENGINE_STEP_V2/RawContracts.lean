@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.GeometryContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceCharacters
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawRectangleData
-import Lean.Elab.Command
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.GeometryContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceCharacters
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawRectangleData
+public import Lean.Elab.Command
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

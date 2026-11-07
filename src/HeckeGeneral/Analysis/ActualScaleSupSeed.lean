@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.ActualSIntegerAmplificationBound
-import HeckeGeneral.Analysis.ActualSIntegerDyadicBridge
-import HeckeGeneral.Analysis.ExteriorIdealCounting
-import HeckeGeneral.Analysis.IdealDyadicSeed
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerAmplificationBound
+public import HeckeGeneral.Analysis.ActualSIntegerDyadicBridge
+public import HeckeGeneral.Analysis.ExteriorIdealCounting
+public import HeckeGeneral.Analysis.IdealDyadicSeed
+
+@[expose] public section
 
 /-!
 The explicit independent-scale zero-slot majorant yields actual compact

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Descent.LocalIdentity
+module
+
+public import HeckeSkeleton.Descent.LocalIdentity
+
+@[expose] public section
 
 /-! Artin factorization after deleting the actual finite set of bad primes. -/
 

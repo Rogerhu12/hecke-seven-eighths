@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStates
-import HeckeSkeleton.LowEnergy.IdealMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStates
+public import HeckeSkeleton.LowEnergy.IdealMass
+
+@[expose] public section
 
 /-!
 # Original tuple coefficients and inactive prime masses

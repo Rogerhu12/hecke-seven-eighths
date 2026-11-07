@@ -1,4 +1,8 @@
-import Expansion.ActualTargetReciprocalStrip
+module
+
+public import Expansion.ActualTargetReciprocalStrip
+
+@[expose] public section
 
 /-!
 # Uniform actual row denominators on the complete outer swept strip

@@ -1,6 +1,10 @@
-import Expansion.MeromorphicZeros
-import Mathlib.Algebra.Order.Floor.Semiring
-import Mathlib.Tactic.Positivity
+module
+
+public import Expansion.MeromorphicZeros
+public import Mathlib.Algebra.Order.Floor.Semiring
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!
 The finite buffered-bin argument, with no assumptions about the arithmetic

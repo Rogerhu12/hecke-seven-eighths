@@ -1,6 +1,10 @@
-import HeckePort.Moments.MobiusRegroup
-import HeckePort.Moments.Descent.Fibers
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+module
+
+public import HeckePort.Moments.MobiusRegroup
+public import HeckePort.Moments.Descent.Fibers
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+
+@[expose] public section
 
 /-!
 # Separating complete-support children after the genuine transform

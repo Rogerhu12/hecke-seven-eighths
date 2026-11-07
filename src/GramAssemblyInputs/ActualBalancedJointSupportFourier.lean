@@ -1,6 +1,10 @@
-import ActualBalancedJointSeminorm
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Tactic.Linarith
+module
+
+public import ActualBalancedJointSeminorm
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The support and Fourier bounds concern the same

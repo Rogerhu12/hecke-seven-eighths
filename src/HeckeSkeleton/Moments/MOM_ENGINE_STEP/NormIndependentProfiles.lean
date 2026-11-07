@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CharacterRecipePreservation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CharacterRecipePreservation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+
+@[expose] public section
 
 /-!
 # Literal norm profiles throughout the actual child construction

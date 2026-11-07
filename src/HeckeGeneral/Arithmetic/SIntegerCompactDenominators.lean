@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SUnitCompactDenominators
-import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+module
+
+public import HeckeGeneral.Arithmetic.SUnitCompactDenominators
+public import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+
+@[expose] public section
 
 /-!
 # Uniform denominators for all S-integers selected by finite support

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalNormalizedPrimeAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalHeckePrimeAnalytic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalNormalizedPrimeAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalHeckePrimeAnalytic
+
+@[expose] public section
 
 /-!
 # Original single-character analytic input

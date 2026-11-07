@@ -1,8 +1,12 @@
-import HeckeSkeleton.Theta
-import HeckeSkeleton.Gram
-import HeckeSkeleton.ActualProbeIntegralComplete
-import HeckeSkeleton.ActualPrincipalWindowError
-import HeckeSkeleton.LowCauchy.General
+module
+
+public import HeckeSkeleton.Theta
+public import HeckeSkeleton.Gram
+public import HeckeSkeleton.ActualProbeIntegralComplete
+public import HeckeSkeleton.ActualPrincipalWindowError
+public import HeckeSkeleton.LowCauchy.General
+
+@[expose] public section
 
 /-!
 # LOW-CAUCHY-COMPENSATION (revised Proposition 6.2, pp.40–41)

@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.IdealSummability
-import HeckeGeneral.Analysis.DirichletNormShift
-import Mathlib.Analysis.Complex.LocallyUniformLimit
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+module
+
+public import HeckeGeneral.Analysis.IdealSummability
+public import HeckeGeneral.Analysis.DirichletNormShift
+public import Mathlib.Analysis.Complex.LocallyUniformLimit
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+
+@[expose] public section
 
 /-!
 # Dirichlet series over actual nonzero integral ideals

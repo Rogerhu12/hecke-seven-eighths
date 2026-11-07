@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalMesh
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalMesh
+
+@[expose] public section
 
 /-!
 # Preserving an additional literal data primitive during reflection

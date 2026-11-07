@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulus
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulus
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
+
+@[expose] public section
 
 /-!
 # Literal reflection closure for the finite annulus schedule

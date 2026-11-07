@@ -1,5 +1,9 @@
-import DedekindZetaZeroFree.Theta.Profiles.ThirdBesselMellinTransform
-import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+module
+
+public import DedekindZetaZeroFree.Theta.Profiles.ThirdBesselMellinTransform
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+
+@[expose] public section
 
 /-!
 Fixed angular weight and radial twist at one complex place.

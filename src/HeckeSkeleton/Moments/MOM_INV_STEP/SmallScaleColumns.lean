@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+
+@[expose] public section
 
 /-!
 # Exact canonical columns below unit scale

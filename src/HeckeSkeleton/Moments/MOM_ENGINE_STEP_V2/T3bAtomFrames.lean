@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRawAtomFormula
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bAtomComparison
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bWholeBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalOriginalLabel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRawAtomFormula
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bAtomComparison
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bWholeBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalOriginalLabel
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

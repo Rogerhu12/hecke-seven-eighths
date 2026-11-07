@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredLabels
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SameCarrierTerminalBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTerminalCalibration
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCoveredLabels
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SameCarrierTerminalBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTerminalCalibration
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
+
+@[expose] public section
 
 /-!
 # The zero and tail budgets on the original four pool branches

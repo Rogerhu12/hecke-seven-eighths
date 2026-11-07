@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.LargeRowMellin
-import HeckeSkeleton.ExpansionModels.LargeRowAllScales
-import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
-import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
+module
+
+public import HeckeSkeleton.ExpansionModels.LargeRowMellin
+public import HeckeSkeleton.ExpansionModels.LargeRowAllScales
+public import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
+public import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
+
+@[expose] public section
 
 /-!
 # The literal absolute large-row kernel

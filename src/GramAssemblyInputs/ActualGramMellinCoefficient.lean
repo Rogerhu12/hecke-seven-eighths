@@ -1,6 +1,10 @@
-import ActualAdditiveGramResidueExpansion
-import ActualGramJointKernelIdentification
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import ActualAdditiveGramResidueExpansion
+public import ActualGramJointKernelIdentification
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual two-column complex powers have reciprocal

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentProduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstExtractedGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.DyadicSourcePartition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentProduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstExtractedGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DyadicSourcePartition
+
+@[expose] public section
 
 /-!
 # The actual fixed grid for the first parent

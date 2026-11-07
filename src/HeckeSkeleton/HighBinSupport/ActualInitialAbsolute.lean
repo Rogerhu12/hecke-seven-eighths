@@ -1,10 +1,15 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeGeneral.Analysis.IdealSummability
-import Mathlib.Analysis.Normed.Ring.Finite
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeGeneral.Analysis.IdealSummability
+public import Mathlib.Analysis.Normed.Ring.Finite
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
+
 /-!
 # Initial absolute convergence of the literal four-ideal Fourier series
 

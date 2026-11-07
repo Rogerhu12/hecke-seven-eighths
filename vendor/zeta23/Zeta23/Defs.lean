@@ -14,15 +14,19 @@ riemannZeta. The zeros enter only through the abstract structure ZeroConfig
 ("every locally finite multiset of points in the strip 0<β<1 that is invariant under ρ ↦ 1−ρ̄",
 paper end of §4). Only Zeta23/Statement.lean instantiates ZeroConfig from Mathlib's ζ.
 -/
-import Mathlib.Analysis.CStarAlgebra.Classes
-import Mathlib.Analysis.SpecialFunctions.Gamma.Digamma
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
-import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.Algebra.BigOperators.Finprod
-import Mathlib.Data.Set.Card
-import Mathlib.Data.Matrix.Basic
+module
+
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Digamma
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+public import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Mathlib.Algebra.BigOperators.Finprod
+public import Mathlib.Data.Set.Card
+public import Mathlib.Data.Matrix.Basic
+
+@[expose] public section
 
 open scoped BigOperators ArithmeticFunction
 open Complex MeasureTheory Set

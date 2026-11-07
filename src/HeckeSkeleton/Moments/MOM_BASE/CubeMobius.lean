@@ -1,5 +1,9 @@
-import HeckePort.CenteredMoment.IdealMobius
-import Mathlib.Topology.Algebra.InfiniteSum.Ring
+module
+
+public import HeckePort.CenteredMoment.IdealMobius
+public import Mathlib.Topology.Algebra.InfiniteSum.Ring
+
+@[expose] public section
 
 /-!
 # Finite ideal Möbius inversion for cube completion

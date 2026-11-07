@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SUnitFiniteSupportDenominators
-import HeckeGeneral.Analysis.SUnitOrbitalIntegrability
-import HeckeGeneral.Analysis.CompactSchwartzLatticeBound
-import HeckeGeneral.Arithmetic.ClearedUnitLattice
+module
+
+public import HeckeGeneral.Analysis.SUnitFiniteSupportDenominators
+public import HeckeGeneral.Analysis.SUnitOrbitalIntegrability
+public import HeckeGeneral.Analysis.CompactSchwartzLatticeBound
+public import HeckeGeneral.Arithmetic.ClearedUnitLattice
+
+@[expose] public section
 
 /-!
 # Actual tensor Schwartz slices and their global S-unit action index

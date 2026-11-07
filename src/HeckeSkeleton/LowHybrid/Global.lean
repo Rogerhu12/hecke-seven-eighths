@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.Assembly
-import HeckeSkeleton.LowHybrid.Weighted
+module
+
+public import HeckeSkeleton.LowHybrid.Assembly
+public import HeckeSkeleton.LowHybrid.Weighted
+
+@[expose] public section
 
 /-!
 # Global assembly of the weighted hybrid normal form

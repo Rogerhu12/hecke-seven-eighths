@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseTerminal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseTerminal
+
+@[expose] public section
 
 /-!
 # Polynomial height control for the actual width-floor certificates

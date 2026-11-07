@@ -1,4 +1,8 @@
-import ExpansionDetector.MellinPowerBudget
+module
+
+public import ExpansionDetector.MellinPowerBudget
+
+@[expose] public section
 
 /-! The three explicit analytic costs expressed in one varying scale U.
 Only norm/conductor/height size comparisons are inputs. -/

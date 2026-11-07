@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SmallRowMellin
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowMellin
+
+@[expose] public section
 
 /-!
 # Actual Mellin factors on every fixed positive line

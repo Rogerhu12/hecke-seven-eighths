@@ -2,11 +2,15 @@
 Copyright (c) 2026 OpenAI. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import PrimeCancellationMellin
-import PrimeCancellationContour
-import PrimeCancellationDiskGeometry
-import PrimeCancellationAux
-import Mathlib.Tactic.GCongr
+module
+
+public import PrimeCancellationMellin
+public import PrimeCancellationContour
+public import PrimeCancellationDiskGeometry
+public import PrimeCancellationAux
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
 
 /-!
 # Cancellation derived from zero-free analytic data

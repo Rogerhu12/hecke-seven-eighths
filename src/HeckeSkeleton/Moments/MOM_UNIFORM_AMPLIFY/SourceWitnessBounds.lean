@@ -1,5 +1,9 @@
-import Expansion.PhysicalRecipeAssembly
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceGeometry
+module
+
+public import Expansion.PhysicalRecipeAssembly
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceGeometry
+
+@[expose] public section
 
 /-!
 # Inverse lengths in the selected physical source

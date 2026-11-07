@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
-import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleFibers
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleFibers
+
+@[expose] public section
 
 /-!
 # Arithmetic reconstruction from the original source indices

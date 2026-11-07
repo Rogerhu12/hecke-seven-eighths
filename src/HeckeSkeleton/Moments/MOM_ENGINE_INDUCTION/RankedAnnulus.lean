@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
+
+@[expose] public section
 
 /-!
 # A finite support schedule for actual profile preprocessing

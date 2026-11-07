@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ActualSIntegerSobolevRegularity
-import HeckeGeneral.Analysis.RowwiseBoxSobolev
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerSobolevRegularity
+public import HeckeGeneral.Analysis.RowwiseBoxSobolev
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-! Consumption of the explicit finite-test moment on genuine quotient rows.
 The target is fixed here: S and root/embedding data may depend on eta.

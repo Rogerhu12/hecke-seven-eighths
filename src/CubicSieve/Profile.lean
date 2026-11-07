@@ -1,5 +1,9 @@
-import CubicSieve.ProfileBridge
-import CubicSieve.ProfileLower
+module
+
+public import CubicSieve.ProfileBridge
+public import CubicSieve.ProfileLower
+
+@[expose] public section
 
 /-! Concrete common smoothing data: the fixed positive annular tensor, the
 canonical trace Fourier transform, its actual norm-one orbital profile, and

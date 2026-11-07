@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowHybrid.NormalFormKernels
+module
+
+public import HeckeSkeleton.LowHybrid.NormalFormKernels
+
+@[expose] public section
 
 /-!
 # Original support inherited by the exact normal-form coefficients

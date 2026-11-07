@@ -1,8 +1,13 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.NumberTheory.NumberField.Discriminant.Defs
-import Mathlib.NumberTheory.NumberField.Discriminant.Basic
-import FLTReuse.Md3913f88f09e1543
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
+public import Mathlib.NumberTheory.NumberField.Discriminant.Basic
+public import FLTReuse.Md3913f88f09e1543
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicBox_inv_measure_adelicBox_mul_integral_pureTensor_eq
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 

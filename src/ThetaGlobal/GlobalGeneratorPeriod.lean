@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalTargetPeriod
-import ThetaGlobal.GlobalProjectConvention
-import HeckeAxiom.SexticSymbolDictionary
-import HeckeGeneral.Analysis.HeckeSeries
+module
+
+public import ThetaGlobal.GlobalTargetPeriod
+public import ThetaGlobal.GlobalProjectConvention
+public import HeckeAxiom.SexticSymbolDictionary
+public import HeckeGeneral.Analysis.HeckeSeries
+
+@[expose] public section
 
 /-!
 # The target period evaluated on the fixed allowed generators

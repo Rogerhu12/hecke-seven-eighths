@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstCauchyContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstCauchyContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Exact initial marked normalization and strict margins

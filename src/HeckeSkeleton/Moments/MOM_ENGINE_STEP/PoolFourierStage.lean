@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPhaseTerminal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPhaseTerminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+
+@[expose] public section
 
 /-!
 # One fixed family of second stages for all first Fourier parameters

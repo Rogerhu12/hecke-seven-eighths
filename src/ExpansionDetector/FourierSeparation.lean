@@ -1,10 +1,14 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Tactic.Abel
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.FunProp
+module
+
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Tactic.Abel
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.FunProp
+
+@[expose] public section
 
 /-! Exact Fourier separation of the actual finite coefficient products.
 Adapted from the supplied DetectorFourierSeparation and DetectorFourierWitness

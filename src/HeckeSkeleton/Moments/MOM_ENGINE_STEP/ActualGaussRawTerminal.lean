@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolStageTerminalBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TerminalPowerBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolStageTerminalBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TerminalPowerBudget
+
+@[expose] public section
 
 /-!
 # The genuine second source with terminals paid before Cauchy

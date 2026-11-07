@@ -1,6 +1,10 @@
-import CubicSieve.AnalyticDyadic
-import CubicSieve.AnalyticSmoothingGaussian
-import Mathlib.Algebra.Order.Chebyshev
+module
+
+public import CubicSieve.AnalyticDyadic
+public import CubicSieve.AnalyticSmoothingGaussian
+public import Mathlib.Algebra.Order.Chebyshev
+
+@[expose] public section
 
 /-! Exact finite column partition and its Cauchy cost in the genuine Gaussian
 orbital smooth energy. Every original sixth-unit sector remains in each tsum. -/

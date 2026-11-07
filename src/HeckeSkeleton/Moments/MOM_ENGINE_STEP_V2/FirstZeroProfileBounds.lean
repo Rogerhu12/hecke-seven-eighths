@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroColumnWindows
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroInputBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroColumnWindows
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroInputBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

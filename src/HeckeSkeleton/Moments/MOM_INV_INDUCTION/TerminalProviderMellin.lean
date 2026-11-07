@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualBlockEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.ActualBlockEnergy
+
+@[expose] public section
 
 /-!
 # Fixed-scale canonical Mellin separation

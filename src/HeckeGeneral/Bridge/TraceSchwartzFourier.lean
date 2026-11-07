@@ -1,8 +1,12 @@
-import HeckeGeneral.Bridge.SLocalSchwartzModel
-import HeckeGeneral.Bridge.SIntegerFourierFactorization
-import HeckeGeneral.Arithmetic.TraceLatticeCovolume
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import FLTReuse.Mfdd944592cac5200
+module
+
+public import HeckeGeneral.Bridge.SLocalSchwartzModel
+public import HeckeGeneral.Bridge.SIntegerFourierFactorization
+public import HeckeGeneral.Arithmetic.TraceLatticeCovolume
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import FLTReuse.Mfdd944592cac5200
+
+@[expose] public section
 
 /-!
 # The standard trace Fourier transform in weighted Euclidean coordinates

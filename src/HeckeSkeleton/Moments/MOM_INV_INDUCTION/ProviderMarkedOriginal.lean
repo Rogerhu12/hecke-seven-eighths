@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceRelativeSlots
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceRelativeSlots
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTupleSplit
+
+@[expose] public section
 
 /-!
 # The literal original marked moment enters the overlap source

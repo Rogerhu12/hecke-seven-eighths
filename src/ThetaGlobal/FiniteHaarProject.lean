@@ -1,9 +1,13 @@
-import HeckeGeneral.Characters.LocalUnitDecomposition
-import HeckeGeneral.Characters.LocalResidueCosetFourier
-import ThetaGlobal.FiniteLocalShellProject
-import ThetaGlobal.FiniteHaarShells
-import ThetaGlobal.FiniteMellinIntegration
-import Mathlib.MeasureTheory.Function.LocallyIntegrable
+module
+
+public import HeckeGeneral.Characters.LocalUnitDecomposition
+public import HeckeGeneral.Characters.LocalResidueCosetFourier
+public import ThetaGlobal.FiniteLocalShellProject
+public import ThetaGlobal.FiniteHaarShells
+public import ThetaGlobal.FiniteMellinIntegration
+public import Mathlib.MeasureTheory.Function.LocallyIntegrable
+
+@[expose] public section
 
 /-!
 # Actual completion Haar and actual integral-unit shells

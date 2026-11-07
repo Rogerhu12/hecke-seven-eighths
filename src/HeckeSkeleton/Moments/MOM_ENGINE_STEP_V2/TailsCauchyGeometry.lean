@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyCoefficients
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalCarrier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalRows
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyCoefficients
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalCarrier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalRows
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

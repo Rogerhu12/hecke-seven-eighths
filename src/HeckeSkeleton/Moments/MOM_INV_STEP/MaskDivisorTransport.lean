@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
+
+@[expose] public section
 
 /-!
 # The reconstruction sector map comes from the actual mask generators

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.MomentInputs
-import PrimeCancellationAux
-import PrimeCancellationPairedProfiles
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import PrimeCancellationAux
+public import PrimeCancellationPairedProfiles
+
+@[expose] public section
 
 /-!
 # The actual moment polynomial interface for prime cancellation

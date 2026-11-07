@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFrozenBlock
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFrozenBlock
+
+@[expose] public section
 
 /-!
 # Uniform completed-source energy for one actual frozen state

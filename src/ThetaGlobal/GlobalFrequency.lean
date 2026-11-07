@@ -1,6 +1,10 @@
-import Mathlib.Data.Int.Basic
-import Mathlib.Data.Set.Basic
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.Data.Int.Basic
+public import Mathlib.Data.Set.Basic
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Reflected frequency reconstruction on nonzero support

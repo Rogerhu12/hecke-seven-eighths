@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-!
 # The strict complete-row input to inverse amplification

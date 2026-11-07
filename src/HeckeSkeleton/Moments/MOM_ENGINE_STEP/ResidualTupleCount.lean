@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierGaussExtraction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ValuationAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierGaussExtraction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ValuationAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+
+@[expose] public section
 
 /-!
 # The actual factor tuples after removing an amplifier prime

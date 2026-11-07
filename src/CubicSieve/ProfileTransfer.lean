@@ -1,5 +1,9 @@
-import CubicSieve.ProfileSeparation
-import CubicSieve.CoprimeBilinear
+module
+
+public import CubicSieve.ProfileSeparation
+public import CubicSieve.CoprimeBilinear
+
+@[expose] public section
 
 /-! Parameter-separated Mellin transfer for a coprime-column Gram form. The
 finite Gram cancellation is used at each spectral parameter before integration.

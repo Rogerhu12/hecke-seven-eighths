@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import ActualSexticAnnularChartFamily
-import ActualOriginalChartSixthUnit
-import ActualScaledColumnUnitReconstruction
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import ActualSexticAnnularChartFamily
+public import ActualOriginalChartSixthUnit
+public import ActualScaledColumnUnitReconstruction
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Original raw/R/residual coefficients are retained

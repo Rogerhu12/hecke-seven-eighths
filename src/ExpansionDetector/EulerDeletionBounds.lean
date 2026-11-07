@@ -1,7 +1,11 @@
-import ExpansionDetector.IdealCutoff
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import ExpansionDetector.IdealCutoff
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-! Subpower bounds for the actual finite Euler deletion factors. The
 row prime set is the genuine prime support of an integral ideal. The

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedReflectionDensity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedReflectionDensity
+
+@[expose] public section
 
 /-!
 # Exact normalized row calibration for the common reflection kernel

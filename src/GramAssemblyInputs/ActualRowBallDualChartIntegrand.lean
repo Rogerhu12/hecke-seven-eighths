@@ -1,5 +1,9 @@
-import ActualGramRowBallPoissonReduction
-import ActualThetaChartGcdMobius
+module
+
+public import ActualGramRowBallPoissonReduction
+public import ActualThetaChartGcdMobius
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual row-ball nonzero dual, with c identically

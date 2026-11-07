@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualCommonMellinTail
-import HeckeGeneral.Characters.InfinityPacket
+module
+
+public import HeckeSkeleton.LowEnergy.ActualCommonMellinTail
+public import HeckeGeneral.Characters.InfinityPacket
+
+@[expose] public section
 
 /-!
 # Polynomial norm-twist height for a fixed angular background

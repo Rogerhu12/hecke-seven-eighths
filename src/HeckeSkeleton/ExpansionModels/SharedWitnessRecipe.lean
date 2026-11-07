@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.DecomposedWitnessMomentData
-import HeckeGeneral.Analysis.MomentSlotScaleChange
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
+module
+
+public import HeckeGeneral.Analysis.DecomposedWitnessMomentData
+public import HeckeGeneral.Analysis.MomentSlotScaleChange
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+
+@[expose] public section
 
 /-!
 # Shared actual Hecke-polynomial recipe

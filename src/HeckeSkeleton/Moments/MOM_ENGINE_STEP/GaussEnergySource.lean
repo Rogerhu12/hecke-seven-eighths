@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
+
+@[expose] public section
 
 /-!
 # The whole Gauss energy is an actual second-transform source

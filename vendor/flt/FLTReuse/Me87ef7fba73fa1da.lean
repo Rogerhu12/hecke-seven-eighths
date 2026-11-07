@@ -1,11 +1,16 @@
-import Mathlib
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.Mcaac7c2d6d568644
-import FLTReuse.M57a508b951c7aa28
-import FLTReuse.M3154a73e21781886
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.Mcaac7c2d6d568644
+public import FLTReuse.M57a508b951c7aa28
+public import FLTReuse.M3154a73e21781886
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_isLocallyConstant_and_hasCompactSupport_fourierIntegral_finiteAdeleRing
 
 set_option autoImplicit false

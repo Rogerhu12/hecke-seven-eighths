@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
-import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
-import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
-import HeckeGeneral.Characters.InfinityPacket
+module
+
+public import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+public import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
+public import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+public import HeckeGeneral.Characters.InfinityPacket
+
+@[expose] public section
 
 /-!
 Actual inverse rows on the quotient by sixth powers of the original S-units.

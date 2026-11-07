@@ -1,6 +1,10 @@
-import CubicSieve.AnalyticGcdDefs
-import CubicSieve.ExteriorSieve
-import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+module
+
+public import CubicSieve.AnalyticGcdDefs
+public import CubicSieve.ExteriorSieve
+public import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+
+@[expose] public section
 
 /-!
 Actual exterior divisor sets and the coefficient-energy cost of two divisor

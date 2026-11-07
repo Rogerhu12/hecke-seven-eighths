@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPool
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPool
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+
+@[expose] public section
 
 /-!
 # Weighted first-stage reduction under one positive Fourier measure

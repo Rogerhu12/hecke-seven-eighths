@@ -1,9 +1,13 @@
-import HeckeGeneral.Arithmetic.IdealMobiusMask
-import HeckeGeneral.Arithmetic.FiniteFourierBounds
-import Mathlib.Analysis.SpecialFunctions.Complex.CircleAddChar
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.FieldTheory.Finite.Trace
-import Mathlib.RingTheory.Ideal.Quotient.Operations
+module
+
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+public import HeckeGeneral.Arithmetic.FiniteFourierBounds
+public import Mathlib.Analysis.SpecialFunctions.Complex.CircleAddChar
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.FieldTheory.Finite.Trace
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+
+@[expose] public section
 
 /-!
 # Constructed trace characters on residue fields and squarefree quotients

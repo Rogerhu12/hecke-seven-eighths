@@ -1,5 +1,9 @@
-import ActualGramRowBallEnergy
-import ActualGramFreeZeroFrequency
+module
+
+public import ActualGramRowBallEnergy
+public import ActualGramFreeZeroFrequency
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. The actual original-sector row-ball energy reduces to

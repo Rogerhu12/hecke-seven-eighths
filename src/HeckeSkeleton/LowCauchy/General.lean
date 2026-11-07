@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowCauchy.MarkedCauchy
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeGeneral.Analysis.IdealAmplifierSmallPower
-import HeckeGeneral.Analysis.IdealEulerProduct
+module
+
+public import HeckeSkeleton.LowCauchy.MarkedCauchy
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+public import HeckeGeneral.Analysis.IdealEulerProduct
+
+@[expose] public section
 
 /-!
 # Low compensation bound for general probe data (revised Proposition 6.2)

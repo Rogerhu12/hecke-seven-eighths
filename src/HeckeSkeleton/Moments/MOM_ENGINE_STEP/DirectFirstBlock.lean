@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstReduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstReduction
+
+@[expose] public section
 
 /-!
 # The actual first block enters the direct Gauss family

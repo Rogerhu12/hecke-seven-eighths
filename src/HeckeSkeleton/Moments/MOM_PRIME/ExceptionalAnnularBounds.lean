@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnular
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalHecke
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnular
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalHecke
+
+@[expose] public section
 
 /-!
 # The genuine all-scale exceptional volume estimate

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SourceChildGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SourceChildGeometry
+
+@[expose] public section
 
 /-!
 # Actual centered child lengths and the prescribed descent margins

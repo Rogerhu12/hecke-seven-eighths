@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.HeckeSeries
-import HeckeGeneral.Analysis.HeckeContinuation
-import HeckeGeneral.Analysis.EndpointClosure
-import HeckeGeneral.Characters.IdeleNormContinuity
-import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+module
+
+public import HeckeGeneral.Analysis.HeckeSeries
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import HeckeGeneral.Analysis.EndpointClosure
+public import HeckeGeneral.Characters.IdeleNormContinuity
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+
+@[expose] public section
 
 /-!
 # Candidate MI / paired-fourth-moment interfaces

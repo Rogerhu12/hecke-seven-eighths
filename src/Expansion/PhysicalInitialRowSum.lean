@@ -1,4 +1,8 @@
-import Expansion.PhysicalCompensatedInitial
+module
+
+public import Expansion.PhysicalCompensatedInitial
+
+@[expose] public section
 
 /-!
 # Absolute initial row integrals and the unique principal row

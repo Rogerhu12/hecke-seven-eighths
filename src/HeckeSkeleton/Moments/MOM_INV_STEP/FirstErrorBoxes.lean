@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterPhysicalCap
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualBoxGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterPhysicalCap
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualBoxGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
+
+@[expose] public section
 
 /-!
 # The actual first error source in the predetermined norm boxes

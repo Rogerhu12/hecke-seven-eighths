@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+
+@[expose] public section
 
 /-!
 # The two additive origins with their actual signs

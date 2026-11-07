@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PowerfulDiagonal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
-import HeckePort.Moments.Descent.Quotients
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PowerfulDiagonal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+public import HeckePort.Moments.Descent.Quotients
+
+@[expose] public section
 
 /-!
 # A prescribed divisor on the actual square diagonal

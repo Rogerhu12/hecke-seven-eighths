@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildTermDictionary
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildTermDictionary
+
+@[expose] public section
 
 /-!
 # Actual extracted row ideals in the child moment

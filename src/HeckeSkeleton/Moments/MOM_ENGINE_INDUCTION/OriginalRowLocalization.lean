@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
+
+@[expose] public section
 
 /-!
 # Localizing the original parent to its actual finite rows

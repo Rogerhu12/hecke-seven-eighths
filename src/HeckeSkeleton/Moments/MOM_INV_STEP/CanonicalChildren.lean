@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-!
 # Literal canonical child columns at a fixed puncture triple

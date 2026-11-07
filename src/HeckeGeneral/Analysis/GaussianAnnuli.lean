@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GaussianDerivatives
-import Mathlib.Analysis.PSeries
+module
+
+public import HeckeGeneral.Analysis.GaussianDerivatives
+public import Mathlib.Analysis.PSeries
+
+@[expose] public section
 
 /-!+# Summable Gaussian bounds across logarithmic annuli
 

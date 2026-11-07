@@ -1,5 +1,9 @@
-import Expansion.PhysicalRecipePresentation
-import Expansion.ActualShiftedRecipeIntegrability
+module
+
+public import Expansion.PhysicalRecipePresentation
+public import Expansion.ActualShiftedRecipeIntegrability
+
+@[expose] public section
 
 /-!
 # Actual integrability and label identities for the same physical recipe

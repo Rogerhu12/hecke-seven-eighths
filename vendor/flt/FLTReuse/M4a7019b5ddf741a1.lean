@@ -1,6 +1,11 @@
-import Mathlib
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_exists_finset_forall_isUnramifiedCharAt_of_continuous
 
 set_option autoImplicit false

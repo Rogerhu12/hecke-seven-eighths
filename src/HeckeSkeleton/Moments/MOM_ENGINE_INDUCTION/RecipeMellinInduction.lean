@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeInduction
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinCoreRecursion
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceConsumers
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeInduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinCoreRecursion
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceConsumers
+
+@[expose] public section
 
 /-!
 # The original recipe projections from scalar Mellin induction

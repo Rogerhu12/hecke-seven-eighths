@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M0c5733ba71e6969b
+module
+
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M0c5733ba71e6969b
+
+@[expose] public section
 
 open scoped FourierTransform InnerProductSpace SchwartzMap
 theorem SchwartzMap.tsum_eq_tsum_fourier_euclideanSpace

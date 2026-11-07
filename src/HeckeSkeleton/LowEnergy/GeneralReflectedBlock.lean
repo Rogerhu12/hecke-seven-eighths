@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualBlockEnergy
-import HeckeSkeleton.LowEnergy.BlockPolynomial
-import HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial
+module
+
+public import HeckeSkeleton.LowEnergy.ActualBlockEnergy
+public import HeckeSkeleton.LowEnergy.BlockPolynomial
+public import HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial
+
+@[expose] public section
 
 /-!
 # General completed scales in the actual reflected block

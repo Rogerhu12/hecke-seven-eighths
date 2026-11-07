@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.SieveComposition
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeSkeleton.LowHybrid.SieveComposition
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # The two arithmetic sieve inputs and their fixed-block consequence

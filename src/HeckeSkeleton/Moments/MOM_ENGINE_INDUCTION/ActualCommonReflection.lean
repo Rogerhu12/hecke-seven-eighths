@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualReflectionRows
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FixedLineKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionTerminal
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimitiveReflectionCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualReflectionRows
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FixedLineKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionTerminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimitiveReflectionCalibration
+
+@[expose] public section
 
 /-!
 # The genuine ordinary reflection on one common positive measure

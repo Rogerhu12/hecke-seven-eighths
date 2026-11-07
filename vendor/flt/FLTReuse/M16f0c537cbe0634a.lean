@@ -1,9 +1,14 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.Mb34f70d821d13751
-import FLTReuse.M52d3a4fbd0bd912a
-import FLTReuse.Me46dfea87677d63c
-import FLTReuse.M583a0b5cb8bcd265
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.Mb34f70d821d13751
+public import FLTReuse.M52d3a4fbd0bd912a
+public import FLTReuse.Me46dfea87677d63c
+public import FLTReuse.M583a0b5cb8bcd265
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_exists_archParam_weight_archLocalChar_eq_of_isUnitaryChar
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 

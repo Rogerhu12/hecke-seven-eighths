@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import HeckeSkeleton.LowEnergy.GaussianReconstruction
-import HeckeSkeleton.LowEnergy.GaussianSeminorm
-import Mathlib.Analysis.Normed.Module.FiniteDimension
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import HeckeSkeleton.LowEnergy.GaussianReconstruction
+public import HeckeSkeleton.LowEnergy.GaussianSeminorm
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
+
+@[expose] public section
 
 /-!
 # Gaussian annuli for the literal completed theta series

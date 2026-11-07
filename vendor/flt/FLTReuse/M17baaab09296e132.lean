@@ -1,6 +1,11 @@
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M2a2f532b3e0b3dc8
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M2a2f532b3e0b3dc8
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_localZeta_stdTestFunAt_eq_real_image_higherUnitsAt
 attribute [-instance] NumberField.instCompactSpaceAdicCompletionIntegers Rat.adicCompletion.locallyCompactSpace NumberField.instFiniteResidueFieldAdicCompletionIntegers     IsDedekindDomain.HeightOneSpectrum.instLiesOverSubtypeAdicCompletionMemValuationSubringAdicCompletionIntegersCompletionIdealAsIdeal   
 

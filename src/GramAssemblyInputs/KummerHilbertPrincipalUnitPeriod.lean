@@ -1,7 +1,11 @@
-import ClassFieldTheory.LocalClassFieldTheory.Finite.Conductor
-import ClassFieldTheory.LocalClassFieldTheory.Kummer.LocalHilbertSymbolLaws
-import ClassFieldTheory.LocalClassFieldTheory.Kummer.LocalHilbertPairingNondegeneracy
-import ValuedFieldTheory.LocalField.NonarchimedeanLocalField.PowerClassFiniteness
+module
+
+public import ClassFieldTheory.LocalClassFieldTheory.Finite.Conductor
+public import ClassFieldTheory.LocalClassFieldTheory.Kummer.LocalHilbertSymbolLaws
+public import ClassFieldTheory.LocalClassFieldTheory.Kummer.LocalHilbertPairingNondegeneracy
+public import ValuedFieldTheory.LocalField.NonarchimedeanLocalField.PowerClassFiniteness
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. A common principal-unit depth for the actual local
 Kummer Hilbert symbol. Actual norm-subgroup conductors give a depth for each

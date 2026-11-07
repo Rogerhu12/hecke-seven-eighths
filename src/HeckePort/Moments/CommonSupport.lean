@@ -1,5 +1,9 @@
-import HeckePort.Moments.FullCorrelation
-import HeckePort.Moments.Canonical
+module
+
+public import HeckePort.Moments.FullCorrelation
+public import HeckePort.Moments.Canonical
+
+@[expose] public section
 
 /-!
 # Common support of full-modulus correlations

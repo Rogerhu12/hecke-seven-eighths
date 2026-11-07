@@ -1,6 +1,10 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Data.Nat.Log
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Data.Nat.Log
+
+@[expose] public section
 
 /-!
 Pure real-analysis lemmas for GR-12-ASSEMBLY: dyadic shell decomposition of a

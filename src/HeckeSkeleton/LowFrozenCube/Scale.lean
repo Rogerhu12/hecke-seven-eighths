@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowFrozenCube.Ledger
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeSkeleton.LowFrozenCube.Ledger
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Actual positive-base power bounds for the frozen-cube ledger

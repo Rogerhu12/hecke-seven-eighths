@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
+
+@[expose] public section
 
 /-!
 # The actual target reciprocal on the principal strip

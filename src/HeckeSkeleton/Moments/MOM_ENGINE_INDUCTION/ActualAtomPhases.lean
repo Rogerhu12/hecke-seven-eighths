@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteRowAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentColumnPhaseBinding
-import HeckeSkeleton.Base
-import HeckeAxiom.SexticSymbolDictionary
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteRowAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentColumnPhaseBinding
+public import HeckeSkeleton.Base
+public import HeckeAxiom.SexticSymbolDictionary
+
+@[expose] public section
 
 /-!
 # The actual source probe supplies the individual periodic atom phases

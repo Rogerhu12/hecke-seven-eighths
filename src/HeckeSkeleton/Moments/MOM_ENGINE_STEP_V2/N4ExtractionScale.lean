@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalGaussScaleProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalGaussScaleProduction
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

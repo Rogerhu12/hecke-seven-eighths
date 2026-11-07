@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRows
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRows
+
+@[expose] public section
 
 /-!
 # Prescribed physical first row caps from the actual source

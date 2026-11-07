@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPoolDictionary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierDifference
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePowerQuotientSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPoolDictionary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierDifference
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePowerQuotientSupport
+
+@[expose] public section
 
 /-!
 # Actual residual Gauss columns in the amplifier errors

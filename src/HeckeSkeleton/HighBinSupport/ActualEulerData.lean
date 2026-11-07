@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.PhysicalProbeContours
-import ArithmeticRowCharacterInput
-import HeckeSkeleton.HighBinSupport.ActualGaussData
-import HeckeSkeleton.HighBinSupport.ContractiveGaussPhases
-import HeckeSkeleton.HighBinSupport.FiniteEulerTables
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+public import ArithmeticRowCharacterInput
+public import HeckeSkeleton.HighBinSupport.ActualGaussData
+public import HeckeSkeleton.HighBinSupport.ContractiveGaussPhases
+public import HeckeSkeleton.HighBinSupport.FiniteEulerTables
+
+@[expose] public section
 
 /-!
 # Actual finite Euler data for physical frequency rows

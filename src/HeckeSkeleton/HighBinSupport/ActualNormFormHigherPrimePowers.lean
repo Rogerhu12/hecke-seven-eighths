@@ -1,14 +1,18 @@
-import HeckeGeneral.Analysis.IdealDerivativePrimePowers
-import HeckeGeneral.Characters.PrimeCoefficients
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
-import Mathlib.Data.Finset.Preimage
-import Mathlib.Topology.Algebra.InfiniteSum.NatInt
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeGeneral.Analysis.IdealDerivativePrimePowers
+public import HeckeGeneral.Characters.PrimeCoefficients
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+public import Mathlib.Data.Finset.Preimage
+public import Mathlib.Topology.Algebra.InfiniteSum.NatInt
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 Higher prime powers in the actual annular prime detector.

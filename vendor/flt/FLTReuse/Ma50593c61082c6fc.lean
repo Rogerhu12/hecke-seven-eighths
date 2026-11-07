@@ -1,13 +1,18 @@
-import FLTReuse.M3c68c1555d4fc687
-import FLTReuse.Mbb4ca29c119a4960
-import FLTReuse.M2a2f532b3e0b3dc8
-import FLTReuse.M8b1d7aa14f2cc110
-import Mathlib.MeasureTheory.Group.MeasurableEquiv
-import Mathlib.MeasureTheory.Measure.Haar.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecificLimits.Normed
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M3c68c1555d4fc687
+public import FLTReuse.Mbb4ca29c119a4960
+public import FLTReuse.M2a2f532b3e0b3dc8
+public import FLTReuse.M8b1d7aa14f2cc110
+public import Mathlib.MeasureTheory.Group.MeasurableEquiv
+public import Mathlib.MeasureTheory.Measure.Haar.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_localZeta_tateFourier_indicator_setOf_valued_sub_one_le
 attribute [-instance] NumberField.instCompactSpaceAdicCompletionIntegers Rat.adicCompletion.locallyCompactSpace NumberField.instFiniteResidueFieldAdicCompletionIntegers     IsDedekindDomain.HeightOneSpectrum.instLiesOverSubtypeAdicCompletionMemValuationSubringAdicCompletionIntegersCompletionIdealAsIdeal   
 attribute [-simp] NumberField.StandardAddChar.ratArchLine_apply NumberField.StandardAddChar.AdelicTraceData.mk.sizeOf_spec NumberField.StandardAddChar.AdelicTraceData.mk.injEq AutomorphicForm.whittakerCoefficient_zero AutomorphicForm.CarrierPins.mk.injEq AutomorphicForm.CarrierPins.mk.sizeOf_spec AutomorphicForm.unipotentGL2_zero AutomorphicForm.constantTerm_const AutomorphicForm.constantTerm_zero AutomorphicForm.unipotentGL2_coe NumberField.AdelicTrace.traceDiag_apply NumberField.AdelicTrace.diag_apply

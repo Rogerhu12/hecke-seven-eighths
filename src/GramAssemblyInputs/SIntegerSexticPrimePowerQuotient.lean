@@ -1,6 +1,10 @@
-import SIntegerSexticIdealEvaluationFiniteSupport
-import FiniteAffineCorrelationQuotient
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+module
+
+public import SIntegerSexticIdealEvaluationFiniteSupport
+public import FiniteAffineCorrelationQuotient
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+
+@[expose] public section
 
 /-! Source-only, uncompiled. Actual prime-power quotient and its reduction
 to the residue FIELD. The prime-power quotient is never assumed a field. -/

@@ -1,5 +1,9 @@
-import FiniteAffineCorrelation
-import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+module
+
+public import FiniteAffineCorrelation
+public import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. The genuine unnormalized L_C congruence sum on the
 actual finite S-integer quotient. Its character is the actual normalized

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
-import HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+
+@[expose] public section
 
 /-!
 # The actual first conductor and the manuscript's ideal labels

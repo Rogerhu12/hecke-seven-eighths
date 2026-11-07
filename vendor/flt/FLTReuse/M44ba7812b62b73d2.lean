@@ -1,6 +1,10 @@
-import FLTReuse.M94ac100b1083ec30
-import FLTReuse.M02f514ac90ea781a
-import FLTReuse.Maeacc31f39c2b895
+module
+
+public import FLTReuse.M94ac100b1083ec30
+public import FLTReuse.M02f514ac90ea781a
+public import FLTReuse.Maeacc31f39c2b895
+
+@[expose] public section
 
 set_option autoImplicit false
 

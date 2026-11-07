@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualSeparatedBlock
+module
+
+public import HeckeSkeleton.LowEnergy.ActualSeparatedBlock
+
+@[expose] public section
 
 /-!
 # Exact passage from literal reflected summands to finite ideal blocks

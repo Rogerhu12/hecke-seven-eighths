@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.RawIdealHybrid
+module
+
+public import HeckeSkeleton.LowEnergy.RawIdealHybrid
+
+@[expose] public section
 
 /-!
 # Amplitude normalization and retained row coefficients

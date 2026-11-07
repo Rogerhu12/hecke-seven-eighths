@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.HeckeContinuation
-import HeckeGeneral.Analysis.HeckeEulerProduct
-import HeckeGeneral.Arithmetic.IdealMobiusMask
-import HeckeGeneral.Analysis.IdealSquarefreeSupport
+module
+
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import HeckeGeneral.Analysis.HeckeEulerProduct
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+public import HeckeGeneral.Analysis.IdealSquarefreeSupport
+
+@[expose] public section
 
 /-!
 The actual ideal Moebius--Hecke series on Re(s)>1.

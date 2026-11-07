@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ClassSlices
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import HeckeSkeleton.LowEnergy.ClassSlices
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 # Literal local-frequency classes of the reflected coefficient

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels
+
+@[expose] public section
 
 /-!
 # The genuine second source has conductor z₁z₂ and returns a₀

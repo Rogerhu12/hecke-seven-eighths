@@ -4,7 +4,11 @@ Copyright (c) 2026. Released under the Apache 2.0 license.
 Geometry and polynomial-growth specialization of the independently proved
 zero-free-disk logarithmic-derivative estimate. Mathlib dependencies only.
 -/
-import PrimeCancellationLogDerivative
+module
+
+public import PrimeCancellationLogDerivative
+
+@[expose] public section
 
 noncomputable section
 

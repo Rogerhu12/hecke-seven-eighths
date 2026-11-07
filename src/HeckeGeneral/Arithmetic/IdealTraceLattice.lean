@@ -12,11 +12,15 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: The FLT Project
 -/
 
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import HeckeGeneral.Arithmetic.TraceDualIdeal
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import Mathlib.NumberTheory.NumberField.Discriminant.Basic
+module
+
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import HeckeGeneral.Arithmetic.TraceDualIdeal
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Mathlib.NumberTheory.NumberField.Discriminant.Basic
+
+@[expose] public section
 
 /-! TODO: Add doc-string. -/
 

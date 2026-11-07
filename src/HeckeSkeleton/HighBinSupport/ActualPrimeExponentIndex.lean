@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualInitialMultiplicative
-import HeckeSkeleton.HighBinSupport.LocalBlockSummation
-import Mathlib.Algebra.BigOperators.Finsupp.Basic
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualInitialMultiplicative
+public import HeckeSkeleton.HighBinSupport.LocalBlockSummation
+public import Mathlib.Algebra.BigOperators.Finsupp.Basic
+
+@[expose] public section
 
 /-!
 # The four original exterior ideals as finite prime-exponent blocks

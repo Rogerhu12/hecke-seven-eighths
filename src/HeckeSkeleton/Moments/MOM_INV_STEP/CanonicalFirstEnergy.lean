@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedDyadicCutoff
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedDyadicCutoff
+
+@[expose] public section
 
 /-!
 # The actual canonical first source has positive inverse energies

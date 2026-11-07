@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitProfileEuler
-import HeckeGeneral.Analysis.SUnitFourierEulerDecay
-import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+module
+
+public import HeckeGeneral.Analysis.SUnitProfileEuler
+public import HeckeGeneral.Analysis.SUnitFourierEulerDecay
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+
+@[expose] public section
 
 /-! The genuine joint radial orbital kernel. Its input is the trace Fourier
 Schwartz transform, and its value still includes the norm-one Haar integral.

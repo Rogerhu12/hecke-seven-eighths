@@ -1,4 +1,8 @@
-import HeckeSkeleton.SourceData
+module
+
+public import HeckeSkeleton.SourceData
+
+@[expose] public section
 
 /-!
 # Compatibility names for the canonical fixed source

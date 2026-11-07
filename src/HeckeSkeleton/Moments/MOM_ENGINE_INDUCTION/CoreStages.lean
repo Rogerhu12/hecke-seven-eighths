@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
+
+@[expose] public section
 
 /-!
 # The finite proof stage for ordinary nodes outside the padded core

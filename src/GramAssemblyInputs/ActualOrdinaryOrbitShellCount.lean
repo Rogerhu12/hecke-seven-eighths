@@ -1,6 +1,10 @@
-import ActualExceptionalSixthOrbitCount
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+module
+
+public import ActualExceptionalSixthOrbitCount
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Linear norm-cutoff counting on the original sixth-unit

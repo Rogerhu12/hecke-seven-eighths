@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
-import HeckePort.CenteredMoment.Counting
-import Mathlib.RingTheory.Ideal.Quotient.Operations
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+public import HeckePort.CenteredMoment.Counting
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+
+@[expose] public section
 
 /-!
 # Actual common-block truncation budgets

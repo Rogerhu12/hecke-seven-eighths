@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPhysicalEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.DyadicSourcePartition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPhysicalEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DyadicSourcePartition
+
+@[expose] public section
 
 /-!
 # Actual second overlap divisors and fixed production centers

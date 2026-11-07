@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerIntegralNorm
-import HeckeGeneral.Arithmetic.SIntegerModulus
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerIntegralNorm
+public import HeckeGeneral.Arithmetic.SIntegerModulus
+
+@[expose] public section
 
 /-!
 # Actual S-integer modulus cardinality and product norm

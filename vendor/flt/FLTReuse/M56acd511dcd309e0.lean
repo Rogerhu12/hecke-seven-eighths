@@ -1,13 +1,18 @@
-import Mathlib.Analysis.SpecialFunctions.Complex.Circle
-import Mathlib.Analysis.Complex.Circle
-import Mathlib.Topology.Homotopy.Lifting
-import Mathlib.Analysis.Convex.Contractible
-import Mathlib.Topology.Instances.RealVectorSpace
-import Mathlib.Analysis.Normed.Module.Basic
-import Mathlib.Topology.Algebra.Module.LocallyConvex
-import Mathlib.Analysis.LocallyConvex.Basic
-import Mathlib.Analysis.LocallyConvex.WithSeminorms
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+public import Mathlib.Analysis.Complex.Circle
+public import Mathlib.Topology.Homotopy.Lifting
+public import Mathlib.Analysis.Convex.Contractible
+public import Mathlib.Topology.Instances.RealVectorSpace
+public import Mathlib.Analysis.Normed.Module.Basic
+public import Mathlib.Topology.Algebra.Module.LocallyConvex
+public import Mathlib.Analysis.LocallyConvex.Basic
+public import Mathlib.Analysis.LocallyConvex.WithSeminorms
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_AddChar_exists_continuousLinearMap_fourierChar_eq
 
 set_option autoImplicit false

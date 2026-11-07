@@ -1,6 +1,10 @@
-import Expansion.BufferedSelection
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.Fintype.Prod
+module
+
+public import Expansion.BufferedSelection
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Data.Fintype.Prod
+
+@[expose] public section
 
 /-!
 Convert existence of a buffered bin into an actual disjoint fixed-row

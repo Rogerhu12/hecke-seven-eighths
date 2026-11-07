@@ -1,6 +1,10 @@
-import Expansion.ActualHeckeSaturation
-import Expansion.CanonicalDetectorBounds
-import Expansion.PhysicalRowPoleExclusion
+module
+
+public import Expansion.ActualHeckeSaturation
+public import Expansion.CanonicalDetectorBounds
+public import Expansion.PhysicalRowPoleExclusion
+
+@[expose] public section
 
 /-!
 # Saturated witnesses on the original canonical physical row family

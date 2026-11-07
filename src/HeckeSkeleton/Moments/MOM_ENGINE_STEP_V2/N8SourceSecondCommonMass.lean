@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceUniformDecorations
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFrozenDivisor
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceUniformDecorations
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFrozenDivisor
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

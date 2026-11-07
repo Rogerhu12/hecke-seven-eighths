@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.IdealDerivativeEulerLog
-import HeckeGeneral.Analysis.HeckeContinuation
-import HeckeGeneral.Analysis.IdealDerivativeSmoothing
-import ExpansionInterfaces.AnnularMellinIdentity
+module
+
+public import HeckeGeneral.Analysis.IdealDerivativeEulerLog
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import HeckeGeneral.Analysis.IdealDerivativeSmoothing
+public import ExpansionInterfaces.AnnularMellinIdentity
+
+@[expose] public section
 
 /-!
 # The actual continued negative logarithmic derivative on its initial line

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8CommonScalarBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleCompensation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8CommonScalarBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleCompensation
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

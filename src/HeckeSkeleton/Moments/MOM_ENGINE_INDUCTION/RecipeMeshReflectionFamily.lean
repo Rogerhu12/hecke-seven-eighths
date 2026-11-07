@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRankedAnnulusReflection
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedMeshReflectionAssembly
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRankedAnnulusReflection
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedMeshReflectionAssembly
+
+@[expose] public section
 
 /-!
 # The actual source in its original-mesh reflection family

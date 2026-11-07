@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
+
+@[expose] public section
 
 /-!
 # Source normalization at the actual second-transform radius

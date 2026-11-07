@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridSource
+
+@[expose] public section
 
 /-!
 # Integrability of every actual hybrid residual branch

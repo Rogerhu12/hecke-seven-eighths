@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalContribution
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalContribution
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
+
+@[expose] public section
 
 /-!
 # Exceptional raw normalization from actual frozen denominators

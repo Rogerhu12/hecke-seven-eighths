@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+
+@[expose] public section
 
 /-!
 # The two actual capacity presentations use the same chosen child

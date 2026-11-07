@@ -1,7 +1,11 @@
-import HeckeSkeleton.SmallRadius.FiniteUnitShellFourierMellin
-import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
-import Mathlib.Topology.Order.Compact
-import Mathlib.MeasureTheory.Integral.Pi
+module
+
+public import HeckeSkeleton.SmallRadius.FiniteUnitShellFourierMellin
+public import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
+public import Mathlib.Topology.Order.Compact
+public import Mathlib.MeasureTheory.Integral.Pi
+
+@[expose] public section
 
 /-!
 Positive Mellin absolute moments for an arbitrary

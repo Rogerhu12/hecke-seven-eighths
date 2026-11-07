@@ -1,4 +1,8 @@
-import FiniteAffineCorrelation
+module
+
+public import FiniteAffineCorrelation
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. The genuine congruence sum has cardinality bound
 on unimodular residual columns. An explicit Bezout parametrization gives

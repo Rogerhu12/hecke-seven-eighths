@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalProjectHighKExtraction
-import ThetaGlobal.FiniteHighKDirect
-import DedekindZetaZeroFree.HarmonicAnalysis.Haar.ProbeAndUniformSection
+module
+
+public import ThetaGlobal.GlobalProjectHighKExtraction
+public import ThetaGlobal.FiniteHighKDirect
+public import DedekindZetaZeroFree.HarmonicAnalysis.Haar.ProbeAndUniformSection
+
+@[expose] public section
 
 /-!
 # The extracted S-sheet profiles are the actual normalized Mellin pair

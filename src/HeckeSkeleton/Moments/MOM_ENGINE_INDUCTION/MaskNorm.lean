@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MaskDeletion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MaskDeletion
+
+@[expose] public section
 
 /-!
 # The norm of the genuine original deletion set

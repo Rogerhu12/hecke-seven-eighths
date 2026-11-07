@@ -1,7 +1,11 @@
-import CubicSieve.GcdPoissonAssembly
-import CubicSieve.GaussianColumnBlocks
-import CubicSieve.Initial
-import CubicSieve.Endpoint
+module
+
+public import CubicSieve.GcdPoissonAssembly
+public import CubicSieve.GaussianColumnBlocks
+public import CubicSieve.Initial
+public import CubicSieve.Endpoint
+
+@[expose] public section
 
 /-! Assembly of the actual Poisson improvement and the original exterior
 ideal target. This file is a candidate until its dependency closure compiles

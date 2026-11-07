@@ -1,7 +1,11 @@
-import Mathlib.Analysis.SpecialFunctions.Complex.Circle
-import Mathlib.Analysis.Normed.Module.Basic
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M56acd511dcd309e0
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+public import Mathlib.Analysis.Normed.Module.Basic
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M56acd511dcd309e0
+
+@[expose] public section
 
 open scoped FourierTransform
 theorem AddChar.exists_continuousLinearMap_fourierChar_eq

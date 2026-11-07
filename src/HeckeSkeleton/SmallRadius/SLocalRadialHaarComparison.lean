@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SUnitHaar
-import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
+module
+
+public import HeckeGeneral.Analysis.SUnitHaar
+public import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

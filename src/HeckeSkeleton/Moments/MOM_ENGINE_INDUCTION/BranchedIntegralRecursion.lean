@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.IntegralRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.IntegralRecursion
+
+@[expose] public section
 
 /-!
 # Finite branches with continuous child parameters

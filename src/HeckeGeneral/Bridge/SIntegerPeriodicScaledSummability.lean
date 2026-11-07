@@ -1,4 +1,8 @@
-import HeckeGeneral.Bridge.SIntegerPeriodicScaledPoisson
+module
+
+public import HeckeGeneral.Bridge.SIntegerPeriodicScaledPoisson
+
+@[expose] public section
 
 /-! Actual finite quotient bounds prove dual summability and allow both
 zero contributions to be separated from periodic scaled Poisson. -/

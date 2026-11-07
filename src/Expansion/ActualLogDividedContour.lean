@@ -1,5 +1,9 @@
-import Expansion.ActualPrimeContour
-import ExpansionInterfaces.LogDividedAnnularProfile
+module
+
+public import Expansion.ActualPrimeContour
+public import ExpansionInterfaces.LogDividedAnnularProfile
+
+@[expose] public section
 
 /-!
 # A scale-uniform finite contour estimate for the exact divided prime window

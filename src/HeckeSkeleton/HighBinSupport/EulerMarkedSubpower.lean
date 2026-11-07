@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.EulerUniformSubpower
-import HeckeSkeleton.HighBinSupport.BoundaryEulerCoarse
+module
+
+public import HeckeSkeleton.HighBinSupport.EulerUniformSubpower
+public import HeckeSkeleton.HighBinSupport.BoundaryEulerCoarse
+
+@[expose] public section
+
 /-!
 # Conductor subpower bound for the complete marked Euler product
 

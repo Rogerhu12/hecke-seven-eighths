@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-!
 # The paired-phase invariant on the repository's actual polynomials

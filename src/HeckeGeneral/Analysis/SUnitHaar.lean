@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.CompactQuotientFundamentalDomain
-import HeckeGeneral.Arithmetic.SUnitNormOneTopology
-import Mathlib.MeasureTheory.Measure.Haar.Quotient
+module
+
+public import HeckeGeneral.Analysis.CompactQuotientFundamentalDomain
+public import HeckeGeneral.Arithmetic.SUnitNormOneTopology
+public import Mathlib.MeasureTheory.Measure.Haar.Quotient
+
+@[expose] public section
 
 /-!
 Haar measure on the actual norm-one S-local group and its S-unit quotient.

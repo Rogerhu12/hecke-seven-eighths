@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FullKappaData
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TargetPrimeAnalyticInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FullKappaData
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TargetPrimeAnalyticInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

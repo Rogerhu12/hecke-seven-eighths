@@ -1,5 +1,9 @@
-import CubicSieve.OrbitKernel
-import CubicSieve.AnalyticDualNorm
+module
+
+public import CubicSieve.OrbitKernel
+public import CubicSieve.AnalyticDualNorm
+
+@[expose] public section
 
 /-! The all-sector orbital operator is controlled by the actual ideal dual
 operator, with exactly one fixed finite sixth-unit-class cost.

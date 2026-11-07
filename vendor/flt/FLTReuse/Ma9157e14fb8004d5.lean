@@ -1,9 +1,14 @@
-import Mathlib
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M40aeee35a98f067b
-import FLTReuse.M0a341b9f001ae4d1
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M0693cf42892760e8
+module
+
+public import Mathlib
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M40aeee35a98f067b
+public import FLTReuse.M0a341b9f001ae4d1
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M0693cf42892760e8
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 attribute [-simp] NumberField.AdeleRing.val_finiteUnitsComponent IsDedekindDomain.FiniteAdeleRing.val_unitsComponent NumberField.AdeleRing.val_finitePartUnits NumberField.AdeleRing.val_infiniteUnitsComponent AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_one AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_one
 

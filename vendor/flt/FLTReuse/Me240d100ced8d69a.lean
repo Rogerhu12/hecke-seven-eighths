@@ -1,6 +1,10 @@
-import Mathlib
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M942f00edb0fab8b3
+module
+
+public import Mathlib
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M942f00edb0fab8b3
+
+@[expose] public section
 
 set_option autoImplicit false
 

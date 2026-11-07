@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_BASE.CubeMobius
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Topology.Algebra.Support
-import Mathlib.Topology.Order.Compact
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.CubeMobius
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Topology.Algebra.Support
+public import Mathlib.Topology.Order.Compact
+
+@[expose] public section
 
 /-!
 # The weighted canonical cube inversion

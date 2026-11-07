@@ -1,12 +1,16 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.RingTheory.DedekindDomain.Factorization
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.RingTheory.Trace.Basic
-import Mathlib.Topology.Algebra.RestrictedProduct.Basic
-import Mathlib.Topology.Algebra.IsUniformGroup.Basic
-import Mathlib.Topology.UniformSpace.UniformEmbedding
-import Mathlib.Topology.DenseEmbedding
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.RingTheory.DedekindDomain.Factorization
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.RingTheory.Trace.Basic
+public import Mathlib.Topology.Algebra.RestrictedProduct.Basic
+public import Mathlib.Topology.Algebra.IsUniformGroup.Basic
+public import Mathlib.Topology.UniformSpace.UniformEmbedding
+public import Mathlib.Topology.DenseEmbedding
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S2FirstPhysicalCutoff
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S2FirstRowWindow
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S2FirstPhysicalCutoff
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S2FirstRowWindow
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

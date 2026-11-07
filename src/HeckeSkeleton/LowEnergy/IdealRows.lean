@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.IdealFactorization
-import Mathlib.RingTheory.Ideal.Operations
-import Mathlib.Data.Finsupp.Order
-import Mathlib.Tactic.SplitIfs
+module
+
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import Mathlib.RingTheory.Ideal.Operations
+public import Mathlib.Data.Finsupp.Order
+public import Mathlib.Tactic.SplitIfs
+
+@[expose] public section
 
 /-!
 # Powerful and residual parts of actual nonzero integral ideals

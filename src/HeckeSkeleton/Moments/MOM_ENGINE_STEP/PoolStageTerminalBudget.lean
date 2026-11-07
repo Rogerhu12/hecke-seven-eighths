@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.StageTerminalBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.StageTerminalBudget
+
+@[expose] public section
 
 /-!
 # Terminal budgets for every output of the same actual pool

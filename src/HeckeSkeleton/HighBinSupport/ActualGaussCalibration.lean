@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerData
-import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
-import HeckeGeneral.Analysis.HeckeConjugation
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualEulerData
+public import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+public import HeckeGeneral.Analysis.HeckeConjugation
+
+@[expose] public section
 
 /-!
 # The actual mixed-Gauss calibration of the Euler coefficient

@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Complex.Circle
-import Mathlib.Algebra.Ring.GeomSum
-import Mathlib.Topology.Algebra.ContinuousMonoidHom
-import Mathlib.Tactic.Linarith
+module
+
+public import Mathlib.Analysis.Complex.Circle
+public import Mathlib.Algebra.Ring.GeomSum
+public import Mathlib.Topology.Algebra.ContinuousMonoidHom
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-! The explicit arc `re z > 1/2` contains no nontrivial subgroup of the circle. -/
 

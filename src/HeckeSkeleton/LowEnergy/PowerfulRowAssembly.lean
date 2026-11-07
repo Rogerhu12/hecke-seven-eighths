@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.IdealRankin
-import HeckeSkeleton.LowEnergy.FiniteFiberEnergy
-import HeckeSkeleton.LowEnergy.DyadicTail
+module
+
+public import HeckeSkeleton.LowEnergy.IdealRankin
+public import HeckeSkeleton.LowEnergy.FiniteFiberEnergy
+public import HeckeSkeleton.LowEnergy.DyadicTail
+
+@[expose] public section
 
 /-!
 # Outer aggregation over actual powerful ideal parts

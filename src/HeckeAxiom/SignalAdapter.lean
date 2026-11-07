@@ -1,6 +1,10 @@
-import HeckeAxiom.ArithmeticChoice
-import HeckeGeneral.Characters.Unramified
-import HeckeGeneral.Characters.Packet
+module
+
+public import HeckeAxiom.ArithmeticChoice
+public import HeckeGeneral.Characters.Unramified
+public import HeckeGeneral.Characters.Packet
+
+@[expose] public section
 
 /-!
 # The Gauss correction characters as the skeleton's signal characters

@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormSlots
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormSlots
+
+@[expose] public section
+
 /-!
 Repeated-prime compensation is paid for by the conductor deficit.
 

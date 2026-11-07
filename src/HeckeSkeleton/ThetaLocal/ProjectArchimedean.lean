@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import HeckeGeneral.Characters.InfinityPacket
-import HeckeSkeleton.ThetaLocal.ArchimedeanConstants
-import HeckeSkeleton.ThetaLocal.ProjectArchimedeanSign
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import HeckeGeneral.Characters.InfinityPacket
+public import HeckeSkeleton.ThetaLocal.ArchimedeanConstants
+public import HeckeSkeleton.ThetaLocal.ProjectArchimedeanSign
+
+@[expose] public section
 
 /-!
 # The actual Hecke parameters in the local Mellin reflection

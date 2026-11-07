@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.SmallRadiusJointCompactBound
-import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
+module
+
+public import HeckeSkeleton.SmallRadius.SmallRadiusJointCompactBound
+public import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Reconstruction of actual cutoff Schwartz seminorms

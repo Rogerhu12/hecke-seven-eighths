@@ -1,8 +1,12 @@
-import SIntegerSexticSymbolZeroSupport
-import SIntegerSexticLocalHilbertRatio
-import SIntegerSexticIdealEvaluationFiniteSupport
-import SIntegerExteriorHilbertSupport
-import HeckeGeneral.Characters.SexticPowerResidueComparison
+module
+
+public import SIntegerSexticSymbolZeroSupport
+public import SIntegerSexticLocalHilbertRatio
+public import SIntegerSexticIdealEvaluationFiniteSupport
+public import SIntegerExteriorHilbertSupport
+public import HeckeGeneral.Characters.SexticPowerResidueComparison
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. General zero-extended S-integer sextic reciprocity
 for the literal denominator contractions and the actual ALL-S correction.

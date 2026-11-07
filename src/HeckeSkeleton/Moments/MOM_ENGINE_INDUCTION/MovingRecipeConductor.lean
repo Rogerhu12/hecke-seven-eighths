@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRowConductor
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRowConductor
+
+@[expose] public section
 
 /-!
 # Conductors of the canonical original moving factors

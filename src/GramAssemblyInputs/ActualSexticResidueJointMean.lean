@@ -1,7 +1,11 @@
-import SIntegerSexticIdealCorrelationProduct
-import SIntegerSexticPrimePowerCorrelation
-import FiniteFieldResidualCorrelationExtension
-import HeckeGeneral.Arithmetic.PeriodicFourier
+module
+
+public import SIntegerSexticIdealCorrelationProduct
+public import SIntegerSexticPrimePowerCorrelation
+public import FiniteFieldResidualCorrelationExtension
+public import HeckeGeneral.Arithmetic.PeriodicFourier
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0.
 

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveEnergy
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveEnergy
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

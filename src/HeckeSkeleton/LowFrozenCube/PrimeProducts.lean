@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowFrozenCube.PrimeCoordinates
+module
+
+public import HeckeSkeleton.LowFrozenCube.PrimeCoordinates
+
+@[expose] public section
 
 /-!
 # Prime products and multiplicative norms from canonical coordinates

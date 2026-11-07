@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerEnergy
+
+@[expose] public section
 
 /-!
 # Uniform independent amplification of the single source recipe

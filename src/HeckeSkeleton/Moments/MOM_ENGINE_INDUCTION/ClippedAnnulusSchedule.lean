@@ -1,4 +1,8 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # A finite positive annulus schedule including actual clipping

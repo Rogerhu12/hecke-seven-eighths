@@ -1,4 +1,8 @@
-import HeckeSkeleton.GramDefinitions
+module
+
+public import HeckeSkeleton.GramDefinitions
+
+@[expose] public section
 
 /-!
 # Mean zero of the residual sextic character (obligation GR-05)

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeSkeleton.WindowPIT
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeSkeleton.WindowPIT
+
+@[expose] public section
 
 /-!
 # The prime normalizer

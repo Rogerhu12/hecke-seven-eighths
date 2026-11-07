@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.ExpansionCutoffPolynomials
-import HeckeGeneral.Analysis.ExpansionScaleBounds
-import HeckeGeneral.Analysis.ExpansionPolynomialSupport
-import Expansion.NormalizedContourBudget
+module
+
+public import HeckeGeneral.Analysis.ExpansionCutoffPolynomials
+public import HeckeGeneral.Analysis.ExpansionScaleBounds
+public import HeckeGeneral.Analysis.ExpansionPolynomialSupport
+public import Expansion.NormalizedContourBudget
+
+@[expose] public section
 
 /-!
 # Actual normalized detector bounds from buffered zero control

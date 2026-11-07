@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAtomEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAtomEnvelope
+
+@[expose] public section
 
 /-!
 # The actual exceptional hybrid term reaches its terminal estimate

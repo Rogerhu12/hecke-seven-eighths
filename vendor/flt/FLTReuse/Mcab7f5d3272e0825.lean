@@ -1,5 +1,9 @@
-import Mathlib.RingTheory.Trace.Basic
-import FLTReuse.Mf948b7c2b0161741
+module
+
+public import Mathlib.RingTheory.Trace.Basic
+public import FLTReuse.Mf948b7c2b0161741
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

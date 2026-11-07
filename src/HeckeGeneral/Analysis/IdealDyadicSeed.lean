@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealDyadicContinuation
-import HeckeGeneral.Analysis.HeckeEndpointTarget
+module
+
+public import HeckeGeneral.Analysis.IdealDyadicContinuation
+public import HeckeGeneral.Analysis.HeckeEndpointTarget
+
+@[expose] public section
 
 /-!
 The actual compact-uniform dyadic shell estimate implies the analytic seed.

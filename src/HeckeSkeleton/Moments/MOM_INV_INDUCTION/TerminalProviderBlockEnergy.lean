@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMellin
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMellin
+
+@[expose] public section
 
 /-!
 # The actual canonical block bound from the two sieves

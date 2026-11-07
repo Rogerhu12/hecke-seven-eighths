@@ -1,5 +1,9 @@
-import ActualAnnularClearedResidueDecomposition
-import ActualBalancedJointAllScalePoisson
+module
+
+public import ActualAnnularClearedResidueDecomposition
+public import ActualBalancedJointAllScalePoisson
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. A whole-annular consumer of the actual complete

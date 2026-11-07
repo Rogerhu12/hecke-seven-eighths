@@ -1,10 +1,15 @@
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.Algebra.CharZero.Infinite
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.NumberTheory.RamificationInertia.Basic
-import Mathlib.Analysis.PSeries
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.Algebra.CharZero.Infinite
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.NumberTheory.RamificationInertia.Basic
+public import Mathlib.Analysis.PSeries
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_summable_heightOneSpectrum_absNorm_rpow_neg_of_one_lt
 
 set_option autoImplicit false

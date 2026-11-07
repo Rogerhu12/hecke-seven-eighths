@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralFiber
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralFiber
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+
+@[expose] public section
 
 /-! # The actual first old-label fibre at a fixed column center -/
 

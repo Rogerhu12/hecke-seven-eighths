@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
-import Mathlib.Algebra.Squarefree.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
+public import Mathlib.Algebra.Squarefree.Basic
+
+@[expose] public section
 
 /-!
 # The actual ideal pair on one finite prime support

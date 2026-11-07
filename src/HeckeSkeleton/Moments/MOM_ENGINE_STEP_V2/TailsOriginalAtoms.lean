@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingOriginalArithmeticAtoms
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

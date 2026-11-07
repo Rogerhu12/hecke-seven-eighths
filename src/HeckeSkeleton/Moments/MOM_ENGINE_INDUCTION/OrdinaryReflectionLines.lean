@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionSmall
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionSmall
+
+@[expose] public section
 
 /-!
 # Both common frequency lines for ordinary reflection

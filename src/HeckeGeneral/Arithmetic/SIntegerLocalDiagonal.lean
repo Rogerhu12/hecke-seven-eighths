@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbits
-import HeckeGeneral.Arithmetic.SLocalNormSection
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbits
+public import HeckeGeneral.Arithmetic.SLocalNormSection
+
+@[expose] public section
 
 /-!
 # Actual nonzero S-integers in the local multiplicative group

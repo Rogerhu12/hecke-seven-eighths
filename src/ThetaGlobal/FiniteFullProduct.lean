@@ -1,9 +1,13 @@
-import ThetaGlobal.FiniteCanonicalSource
-import ThetaGlobal.FiniteCoreProduct
-import ThetaGlobal.GlobalProjectExterior
-import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.WeylGeometry
-import DedekindZetaZeroFree.Theta.Whittaker.LocalFunctionalsFromGlobalPeriods
-import DedekindZetaZeroFree.Theta.Whittaker.Uniqueness.ComplexTorusTranslates
+module
+
+public import ThetaGlobal.FiniteCanonicalSource
+public import ThetaGlobal.FiniteCoreProduct
+public import ThetaGlobal.GlobalProjectExterior
+public import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.WeylGeometry
+public import DedekindZetaZeroFree.Theta.Whittaker.LocalFunctionalsFromGlobalPeriods
+public import DedekindZetaZeroFree.Theta.Whittaker.Uniqueness.ComplexTorusTranslates
+
+@[expose] public section
 
 /-!
 # The full matrix product for the same frozen pure tensor

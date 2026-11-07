@@ -1,5 +1,9 @@
-import Expansion.ActualPrimeIdealWindow
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
+module
+
+public import Expansion.ActualPrimeIdealWindow
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+
+@[expose] public section
 
 /-!
 # Actual normalizer positivity and subpower inverse

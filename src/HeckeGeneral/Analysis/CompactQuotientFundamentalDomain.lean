@@ -1,7 +1,11 @@
-import Mathlib.Topology.Covering.Quotient
-import Mathlib.Topology.Compactness.LocallyCompact
-import Mathlib.MeasureTheory.Group.FundamentalDomain
-import Mathlib.Data.Finset.Max
+module
+
+public import Mathlib.Topology.Covering.Quotient
+public import Mathlib.Topology.Compactness.LocallyCompact
+public import Mathlib.MeasureTheory.Group.FundamentalDomain
+public import Mathlib.Data.Finset.Max
+
+@[expose] public section
 
 /-!
 Measurable fundamental domains from a compact quotient by a discrete subgroup.

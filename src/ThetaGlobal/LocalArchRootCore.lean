@@ -1,6 +1,10 @@
-import HeckeSkeleton.ThetaLocal.ComplexWeylPowers
-import DedekindZetaZeroFree.Theta.Whittaker.SelectedJacquet.CompactWeyl
-import DedekindZetaZeroFree.Theta.Whittaker.Complex.TraceCharacterLines
+module
+
+public import HeckeSkeleton.ThetaLocal.ComplexWeylPowers
+public import DedekindZetaZeroFree.Theta.Whittaker.SelectedJacquet.CompactWeyl
+public import DedekindZetaZeroFree.Theta.Whittaker.Complex.TraceCharacterLines
+
+@[expose] public section
 
 /-!
 # The actual high K-type root vectors in the global complex core

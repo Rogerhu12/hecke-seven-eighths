@@ -1,4 +1,8 @@
-import ActualRowBallResidualScalarBound
+module
+
+public import ActualRowBallResidualScalarBound
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The complete original-Gamma row-ball dual integrand,

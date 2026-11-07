@@ -1,9 +1,13 @@
-import HeckeAxiom.GaussDictionary
-import HeckeAxiom.SignalAdapter
-import HeckeGeneral.Characters.PrimeCoefficients
-import HeckeGeneral.Analysis.HeckeSeries
-import DedekindZetaZeroFree.Adeles.Characters.RayCharacterCorrectionFactors
-import DedekindZetaZeroFree.CharacterSums.Gauss.FiniteSupportReciprocityCancellation
+module
+
+public import HeckeAxiom.GaussDictionary
+public import HeckeAxiom.SignalAdapter
+public import HeckeGeneral.Characters.PrimeCoefficients
+public import HeckeGeneral.Analysis.HeckeSeries
+public import DedekindZetaZeroFree.Adeles.Characters.RayCharacterCorrectionFactors
+public import DedekindZetaZeroFree.CharacterSums.Gauss.FiniteSupportReciprocityCancellation
+
+@[expose] public section
 
 /-!
 # The cube and mixed Gauss calibrations

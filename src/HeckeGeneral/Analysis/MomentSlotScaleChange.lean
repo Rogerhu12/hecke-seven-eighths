@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SelectedMomentSlots
-import HeckeGeneral.Analysis.MomentPrimeWindows
-import HeckeGeneral.Analysis.TIPSources
+module
+
+public import HeckeGeneral.Analysis.SelectedMomentSlots
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+public import HeckeGeneral.Analysis.TIPSources
+
+@[expose] public section
 
 /-!
 Exact change of the external base for actual moment prime slots.

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSpectral
+
+@[expose] public section
 
 /-!
 # Uniform bound for the literal initial retained-production totals

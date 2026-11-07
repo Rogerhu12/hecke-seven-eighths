@@ -1,4 +1,8 @@
-import ActualRowBallResidualScalarBound
+module
+
+public import ActualRowBallResidualScalarBound
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual finite residual sum has a no-cancellation

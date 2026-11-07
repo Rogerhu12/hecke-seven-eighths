@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialIntegral
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
+
+@[expose] public section
 
 /-!
 # Uniform spectral cost for the original initial profile

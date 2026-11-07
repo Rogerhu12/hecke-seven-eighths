@@ -1,4 +1,8 @@
-import Expansion.ActualPrincipalZShift
+module
+
+public import Expansion.ActualPrincipalZShift
+
+@[expose] public section
 
 /-!
 # Genuine truncation errors for the two principal residue moves

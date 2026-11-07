@@ -1,5 +1,9 @@
-import ActualProbePairPeriodicFourier
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import ActualProbePairPeriodicFourier
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-!
 SOURCE CANDIDATE / not compiled. The actual modulus in the first Poisson

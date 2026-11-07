@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedZeroGauss
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedZeroGauss
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+
+@[expose] public section
 
 /-!
 # The actual first zero terms are supported on powerful products

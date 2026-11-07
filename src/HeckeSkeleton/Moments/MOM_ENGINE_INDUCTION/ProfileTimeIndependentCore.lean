@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+
+@[expose] public section
 
 /-!
 # Literal time-independent profile identity

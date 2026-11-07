@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.EndpointClosure
-import Mathlib.Analysis.Asymptotics.Basic
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeGeneral.Analysis.EndpointClosure
+public import Mathlib.Analysis.Asymptotics.Basic
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 

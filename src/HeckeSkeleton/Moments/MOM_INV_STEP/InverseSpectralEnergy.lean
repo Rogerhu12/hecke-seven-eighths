@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.InverseRowMajorant
-import Mathlib.Analysis.Normed.Group.FunctionSeries
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.InverseRowMajorant
+public import Mathlib.Analysis.Normed.Group.FunctionSeries
+
+@[expose] public section
 
 /-!
 # Integrability of the actual intermediate spectral energy

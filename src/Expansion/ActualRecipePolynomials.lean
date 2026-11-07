@@ -1,5 +1,9 @@
-import Expansion.ActualAnnularIdentification
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import Expansion.ActualAnnularIdentification
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-!
 # The unchanged dyadic profile as an actual ideal test

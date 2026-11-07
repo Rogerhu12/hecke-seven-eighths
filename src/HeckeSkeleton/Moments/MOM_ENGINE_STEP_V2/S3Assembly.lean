@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3Energy
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3Windows
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3UniformDensity
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3FrozenDivisor
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3RowExponent
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3Energy
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3Windows
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3UniformDensity
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3FrozenDivisor
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3RowExponent
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

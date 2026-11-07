@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsSecondEstimate
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyWeights
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyCounting
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolTransport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolScalar
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsSecondEstimate
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyWeights
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyCounting
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolTransport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolScalar
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,14 +1,19 @@
-import Mathlib
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.Ma8a630470416c571
-import FLTReuse.M8531b1869d254748
-import FLTReuse.M73a9a640258e5c6b
-import FLTReuse.Md9bb0dc096ff8cbe
-import FLTReuse.M7061c16014292de9
-import FLTReuse.M7f86edea65d586c8
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.Ma8a630470416c571
+public import FLTReuse.M8531b1869d254748
+public import FLTReuse.M73a9a640258e5c6b
+public import FLTReuse.Md9bb0dc096ff8cbe
+public import FLTReuse.M7061c16014292de9
+public import FLTReuse.M7f86edea65d586c8
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_tsum_translate_eq_inv_measure_mul_tsum_fourierIntegral
 
 set_option autoImplicit false

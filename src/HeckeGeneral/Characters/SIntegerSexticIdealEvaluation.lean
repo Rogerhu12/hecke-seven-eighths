@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SIntegerSexticCharacter
-import ClassFieldTheory.AlgebraicNumberTheory.PowerResidueSymbols.Ideal
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticCharacter
+public import ClassFieldTheory.AlgebraicNumberTheory.PowerResidueSymbols.Ideal
+
+@[expose] public section
 
 /-! Actual finite-prime product on S-integers and its finite
 quotient function. This is not a MulChar on the S-integer ring. -/

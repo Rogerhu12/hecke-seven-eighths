@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPairTransform
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
-import HeckeGeneral.Analysis.SUnitProfileFunctional
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPairTransform
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
+public import HeckeGeneral.Analysis.SUnitProfileFunctional
+
+@[expose] public section
 
 /-!
 # Genuine periodic sources for the second orbital transform

@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.LocalComponent
+module
+
+public import HeckeGeneral.Characters.LocalComponent
+
+@[expose] public section
 
 /-!
 # Local uniformizers and the sign of the norm character

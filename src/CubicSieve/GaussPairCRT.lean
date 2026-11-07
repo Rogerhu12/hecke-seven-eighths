@@ -1,4 +1,8 @@
-import CubicSieve.Gauss
+module
+
+public import CubicSieve.Gauss
+
+@[expose] public section
 
 /-!
 Generic Chinese-remainder algebra for actual pair Gauss sums.

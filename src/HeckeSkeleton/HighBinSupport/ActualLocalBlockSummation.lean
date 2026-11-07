@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualInitialLocal
-import HeckeSkeleton.HighBinSupport.LocalBlockSummation
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualInitialLocal
+public import HeckeSkeleton.HighBinSupport.LocalBlockSummation
+
+@[expose] public section
 
 /-!
 # Summing the original four-exponent prime blocks

@@ -1,5 +1,9 @@
-import Expansion.PhysicalRecipePresentation
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import Expansion.PhysicalRecipePresentation
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
 
 /-!
 # The norm bound survives the actual finite-pattern transport

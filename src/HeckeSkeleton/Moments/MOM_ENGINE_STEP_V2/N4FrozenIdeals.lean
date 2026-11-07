@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleProduct
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedSupportPoolAtlas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleProduct
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedSupportPoolAtlas
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

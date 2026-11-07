@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+module
+
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+
+@[expose] public section
 
 /-!
 # The complete original arithmetic row recipe in every actual child

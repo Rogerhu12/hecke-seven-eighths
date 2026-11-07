@@ -1,7 +1,11 @@
-import ActualSexticJointChartCRT
-import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
-import Mathlib.Algebra.Group.Units.Equiv
-import Mathlib.RingTheory.Coprime.Lemmas
+module
+
+public import ActualSexticJointChartCRT
+public import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
+public import Mathlib.Algebra.Group.Units.Equiv
+public import Mathlib.RingTheory.Coprime.Lemmas
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. Actual CRT independence of a fixed S residue
 fiber and the exterior joint radical. The denominator is a power of the

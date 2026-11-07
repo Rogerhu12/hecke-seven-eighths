@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualGaussData
-import Mathlib.RingTheory.RootsOfUnity.Minpoly
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualGaussData
+public import Mathlib.RingTheory.RootsOfUnity.Minpoly
+
+@[expose] public section
 
 /-!
 # The actual twelfth root fixes the prime Gauss sign

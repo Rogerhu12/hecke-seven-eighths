@@ -1,8 +1,13 @@
-import FLTReuse.M44ba7812b62b73d2
-import FLTReuse.M157b087506702f5d
-import FLTReuse.Mf1ff95f379a0ba0a
-import FLTReuse.M31acea2888666fb8
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M44ba7812b62b73d2
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.Mf1ff95f379a0ba0a
+public import FLTReuse.M31acea2888666fb8
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_ideleNorm_eq_prod_norm_infinitePlace_pow_mult_of_snd_eq_one
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 

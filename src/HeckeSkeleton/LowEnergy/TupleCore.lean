@@ -1,8 +1,12 @@
-import Mathlib.Data.Fintype.Pi
-import Mathlib.Logic.Equiv.Prod
-import Mathlib.Algebra.BigOperators.Group.Finset.Pi
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic.SplitIfs
+module
+
+public import Mathlib.Data.Fintype.Pi
+public import Mathlib.Logic.Equiv.Prod
+public import Mathlib.Algebra.BigOperators.Group.Finset.Pi
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Tactic.SplitIfs
+
+@[expose] public section
 
 /-!
 # Exact marked-tuple reindexing

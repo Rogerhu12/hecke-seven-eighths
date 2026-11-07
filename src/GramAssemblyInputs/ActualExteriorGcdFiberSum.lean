@@ -1,5 +1,9 @@
-import ActualExteriorIdealGcdEquiv
-import ActualExteriorPairDivisorReindex
+module
+
+public import ActualExteriorIdealGcdEquiv
+public import ActualExteriorPairDivisorReindex
+
+@[expose] public section
 
 /-!
 The actual finite ideal-pair sum is partitioned by its common ideal.

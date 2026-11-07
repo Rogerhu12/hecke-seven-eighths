@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+
+@[expose] public section
 
 /-!
 # The complete public output of a paired engine step

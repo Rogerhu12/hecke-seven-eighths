@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
+
+@[expose] public section
 
 /-!
 # Injecting each actual occurrence allocation into the fixed cap

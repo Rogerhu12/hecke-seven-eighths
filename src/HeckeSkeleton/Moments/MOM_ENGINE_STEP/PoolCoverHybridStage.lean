@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoverHybridPhaseIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoverHybridPhaseIntegral
+
+@[expose] public section
 
 /-!
 # The original one-pool source reaches genuine covered hybrid branches

@@ -1,8 +1,13 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M44303bc0be75b4ca
-import FLTReuse.M7a7bddfecc03fc3e
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M44303bc0be75b4ca
+public import FLTReuse.M7a7bddfecc03fc3e
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_summable_comp_algebraMap_of_mem_pureTensorSet
 
 open NumberField NumberField.AdelicFourier NumberField.AdelicBox NumberField.mixedEmbedding

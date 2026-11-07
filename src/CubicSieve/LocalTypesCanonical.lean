@@ -1,4 +1,8 @@
-import CubicSieve.LocalTypes
+module
+
+public import CubicSieve.LocalTypes
+
+@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

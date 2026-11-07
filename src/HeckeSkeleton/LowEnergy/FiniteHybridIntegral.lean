@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.MellinEnergy
-import HeckeSkeleton.LowEnergy.IdealCanonicalColumns
+module
+
+public import HeckeSkeleton.LowEnergy.MellinEnergy
+public import HeckeSkeleton.LowEnergy.IdealCanonicalColumns
+
+@[expose] public section
 
 /-!
 # Exact finite reflected block / common-profile hybrid integral

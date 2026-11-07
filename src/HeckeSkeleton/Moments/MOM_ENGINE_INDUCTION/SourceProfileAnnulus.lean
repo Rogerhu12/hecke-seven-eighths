@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileControlAnnulus
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileControlAnnulus
+
+@[expose] public section
 
 /-!
 # Select the common annulus before the backward derivative orders

@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.HeckeContinuation
-import HeckeGeneral.Bridge.FLTDuality
-import HeckeGeneral.Bridge.FLTInfinityParameters
-import FLTReuse.Mf6cc5d4cb452564c
-import Mathlib.Analysis.Analytic.IsolatedZeros
+module
+
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import HeckeGeneral.Bridge.FLTDuality
+public import HeckeGeneral.Bridge.FLTInfinityParameters
+public import FLTReuse.Mf6cc5d4cb452564c
+public import Mathlib.Analysis.Analytic.IsolatedZeros
+
+@[expose] public section
 
 /-!
 # Completed functional equations for actual Hecke characters

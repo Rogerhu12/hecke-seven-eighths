@@ -1,6 +1,10 @@
-import FLTReuse.Mbfe19ea9534a55ec
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Mfb85e2158da4c6bb
+module
+
+public import FLTReuse.Mbfe19ea9534a55ec
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Mfb85e2158da4c6bb
+
+@[expose] public section
 
 open NumberField NumberField.StandardAddChar AutomorphicForm
 theorem NumberField.StandardAddChar.isGlobalAddChar_stdAddChar

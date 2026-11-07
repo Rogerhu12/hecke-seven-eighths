@@ -1,6 +1,10 @@
-import CubicSieve.ExteriorKernel
-import ArithmeticFrequencyRowRamification
-import HeckeGeneral.Characters.SexticTameConductor
+module
+
+public import CubicSieve.ExteriorKernel
+public import ArithmeticFrequencyRowRamification
+public import HeckeGeneral.Characters.SexticTameConductor
+
+@[expose] public section
 
 /-!
 # Actual cubic Kummer Hecke characters

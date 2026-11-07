@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredPositiveEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPoissonNormalization
-import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredPositiveEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPoissonNormalization
+public import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+
+@[expose] public section
 
 /-!
 # The actual first prefactor at a fixed center

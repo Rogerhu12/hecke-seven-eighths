@@ -1,7 +1,11 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
-import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+public import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # The same-vector Mellin normalization

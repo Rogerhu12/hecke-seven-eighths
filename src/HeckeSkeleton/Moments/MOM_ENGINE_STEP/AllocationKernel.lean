@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondResidualSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondResidualSource
+
+@[expose] public section
 
 /-!
 # Actual divisor allocations under the common Fourier measure

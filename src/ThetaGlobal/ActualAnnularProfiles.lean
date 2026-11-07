@@ -1,7 +1,11 @@
-import ThetaGlobal.FiniteActualProfiles
-import ThetaGlobal.NormSheetTensorBounds
-import ThetaGlobal.PositiveAxisLog
-import HeckeSkeleton.SixthLocalFinite
+module
+
+public import ThetaGlobal.FiniteActualProfiles
+public import ThetaGlobal.NormSheetTensorBounds
+public import ThetaGlobal.PositiveAxisLog
+public import HeckeSkeleton.SixthLocalFinite
+
+@[expose] public section
 
 /-!
 # The actual normalized sheet pair supplies annular-transfer profiles

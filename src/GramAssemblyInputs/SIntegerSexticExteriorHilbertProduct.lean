@@ -1,5 +1,9 @@
-import SIntegerSexticSPlaceCorrectionPeriod
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+module
+
+public import SIntegerSexticSPlaceCorrectionPeriod
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Exact global Hilbert product split into ALL S-places
 and an explicit finite exterior set. This uses the actual upstream global

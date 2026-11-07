@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalProjectWeightedDigits
-import ThetaGlobal.GlobalProjectSheetReflection
+module
+
+public import ThetaGlobal.GlobalProjectWeightedDigits
+public import ThetaGlobal.GlobalProjectSheetReflection
+
+@[expose] public section
 
 /-!
 # Actual sheet reflection for arbitrary ordinary and marked digit weights

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualMaskReconstruction
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMobiusGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnAssembly
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualMaskReconstruction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMobiusGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnAssembly
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing
+
+@[expose] public section
 
 /-!
 # Reconstruction of the actual positive source after both column steps

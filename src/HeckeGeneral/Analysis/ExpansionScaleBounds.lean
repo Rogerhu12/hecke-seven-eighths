@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ExpansionReflectedPolynomials
-import ExpansionDetector.MellinScaleBounds
+module
+
+public import HeckeGeneral.Analysis.ExpansionReflectedPolynomials
+public import ExpansionDetector.MellinScaleBounds
+
+@[expose] public section
 
 /-! Uniform powers of the row scale for the actual analytic constants.
 The only inputs are the actual ideal norm, actual conductor, and physical

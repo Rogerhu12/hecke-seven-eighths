@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodeStep
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionLong
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodeStep
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionLong
+
+@[expose] public section
 
 /-!
 # Assemble the literal short and long contributions into a local step

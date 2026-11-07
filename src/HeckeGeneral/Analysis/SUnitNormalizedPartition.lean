@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SUnitArchPartitionCutoff
-import HeckeGeneral.Analysis.SUnitPartitionSupport
-import Mathlib.Topology.Algebra.InfiniteSum.Ring
-import Mathlib.Topology.Algebra.InfiniteSum.Order
+module
+
+public import HeckeGeneral.Analysis.SUnitArchPartitionCutoff
+public import HeckeGeneral.Analysis.SUnitPartitionSupport
+public import Mathlib.Topology.Algebra.InfiniteSum.Ring
+public import Mathlib.Topology.Algebra.InfiniteSum.Order
+
+@[expose] public section
 
 /-! A continuous compact normalized partition for the literal original Γ.
 Only continuity on the norm-one group is asserted here. Archimedean fibre

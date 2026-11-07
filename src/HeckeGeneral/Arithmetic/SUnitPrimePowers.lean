@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.PrincipalIdealPowers
-import Mathlib.RingTheory.DedekindDomain.SInteger
-import Mathlib.RingTheory.DedekindDomain.SelmerGroup
+module
+
+public import HeckeGeneral.Arithmetic.PrincipalIdealPowers
+public import Mathlib.RingTheory.DedekindDomain.SInteger
+public import Mathlib.RingTheory.DedekindDomain.SelmerGroup
+
+@[expose] public section
 
 /-!
 # Actual S-units supported at one finite prime

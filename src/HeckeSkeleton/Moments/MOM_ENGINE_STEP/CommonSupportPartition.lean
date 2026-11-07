@@ -1,4 +1,8 @@
-import HeckePort.Moments.Support
+module
+
+public import HeckePort.Moments.Support
+
+@[expose] public section
 
 /-!
 # A complete finite partition by the genuine common supports

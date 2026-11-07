@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePacketCRT
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePacketCRT
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor
+
+@[expose] public section
 
 /-!
 # The actual first Gauss factor split over u₁, u₂, and R₁

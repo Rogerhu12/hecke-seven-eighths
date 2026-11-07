@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.SourceData
-import Expansion.PhysicalRecipeOrigins
-import Expansion.CanonicalModelExclusion
-import ArithmeticFrequencyRowRamification
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import Expansion.PhysicalRecipeOrigins
+public import Expansion.CanonicalModelExclusion
+public import ArithmeticFrequencyRowRamification
+
+@[expose] public section
 
 /-!
 # Row eligibility of the same actual all-scale recipe

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import HeckeGeneral.Analysis.IdealSquarefreeSupport
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import HeckeGeneral.Analysis.IdealSquarefreeSupport
+
+@[expose] public section
 
 /-!
 Coefficient-level marked reflection, supplement (Omega)--(expansion).

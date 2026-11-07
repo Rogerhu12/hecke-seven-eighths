@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveAssignedSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterCenters
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveAssignedSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterCenters
+
+@[expose] public section
 
 /-!
 # Actual first and second production indices form the reconstruction source

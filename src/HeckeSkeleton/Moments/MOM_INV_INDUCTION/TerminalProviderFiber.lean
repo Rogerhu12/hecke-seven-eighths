@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarkEnergy
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateProfile
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarkEnergy
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateProfile
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+
+@[expose] public section
 
 /-!
 # The actual marked source in a frozen row fiber

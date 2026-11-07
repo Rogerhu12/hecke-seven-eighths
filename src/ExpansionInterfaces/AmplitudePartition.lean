@@ -1,13 +1,17 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Algebra.Order.Floor.Semiring
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.Fintype.Pi
-import Mathlib.Data.Fintype.Prod
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Positivity
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Algebra.Order.Floor.Semiring
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Data.Fintype.Pi
+public import Mathlib.Data.Fintype.Prod
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!
 # Finite amplitude labels for the EXPANSION interface

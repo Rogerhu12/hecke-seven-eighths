@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.ActualReflectionReindex
-import HeckeSkeleton.LowEnergy.IdealSupportPowers
-import Mathlib.Data.Fintype.Pi
-import Mathlib.SetTheory.Cardinal.Finite
+module
+
+public import HeckeSkeleton.LowEnergy.ActualReflectionReindex
+public import HeckeSkeleton.LowEnergy.IdealSupportPowers
+public import Mathlib.Data.Fintype.Pi
+public import Mathlib.SetTheory.Cardinal.Finite
+
+@[expose] public section
 
 /-!
 # Counting the literal frozen reflection states

@@ -1,6 +1,10 @@
-import HeckePort.Moments.Descent.Basic
-import Mathlib.Algebra.Order.Archimedean.Real.Basic
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckePort.Moments.Descent.Basic
+public import Mathlib.Algebra.Order.Archimedean.Real.Basic
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # Finite geometry of the canonical inverse induction

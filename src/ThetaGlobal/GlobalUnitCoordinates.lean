@@ -1,4 +1,8 @@
-import DedekindZetaZeroFree.Theta.Whittaker.ExteriorFrequencyBranchCoordinates
+module
+
+public import DedekindZetaZeroFree.Theta.Whittaker.ExteriorFrequencyBranchCoordinates
+
+@[expose] public section
 
 /-!
 # The actual unit sector left after reconstructing exterior valuations

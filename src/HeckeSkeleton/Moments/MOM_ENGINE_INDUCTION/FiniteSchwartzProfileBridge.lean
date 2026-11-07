@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularSchwartzControl
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SchwartzEulerControl
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependentCore
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileControlAnnulus
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularSchwartzControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SchwartzEulerControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependentCore
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileControlAnnulus
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+
+@[expose] public section
 
 /-!
 # Uniform finite-order bridges for the literal moment profiles

@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.ArchimedeanUnitShape
-import HeckeGeneral.Arithmetic.LocalValuationCompact
-import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
-import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+module
+
+public import HeckeGeneral.Arithmetic.ArchimedeanUnitShape
+public import HeckeGeneral.Arithmetic.LocalValuationCompact
+public import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+
+@[expose] public section
 
 /-!
 # Compact representatives for the actual S-local product norm-one orbits

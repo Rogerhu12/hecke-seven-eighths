@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.InverseRowMajorant
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.InverseRowMajorant
+
+@[expose] public section
 
 /-!
 # Forward canonical rows and the fixed orbital majorant

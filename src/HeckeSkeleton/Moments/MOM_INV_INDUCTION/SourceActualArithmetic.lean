@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflectionFamily
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTail
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflectionFamily
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTail
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
+
+@[expose] public section
 
 /-!
 # The fixed arithmetic inventory of the actual source

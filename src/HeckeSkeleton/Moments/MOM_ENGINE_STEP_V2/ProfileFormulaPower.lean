@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
-import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
-import Mathlib.Topology.Algebra.Polynomial
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Topology.Algebra.Polynomial
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

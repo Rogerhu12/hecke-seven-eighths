@@ -1,14 +1,19 @@
-import Mathlib
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.Me1935f2db6cb5a96
-import FLTReuse.M0285b85ba35ce97c
-import FLTReuse.Me066ce250184ef32
-import FLTReuse.M88e60ad1fc5ea3de
-import FLTReuse.M7061c16014292de9
-import FLTReuse.M7f86edea65d586c8
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.Me1935f2db6cb5a96
+public import FLTReuse.M0285b85ba35ce97c
+public import FLTReuse.Me066ce250184ef32
+public import FLTReuse.M88e60ad1fc5ea3de
+public import FLTReuse.M7061c16014292de9
+public import FLTReuse.M7f86edea65d586c8
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_fourierIntegral_mem_schwartzBruhat_of_apply_eq_fourierChar_trace
 
 set_option autoImplicit false

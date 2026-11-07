@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierSupportDictionary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportKernelPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierSupportDictionary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportKernelPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+
+@[expose] public section
 
 /-! Actual pool-error source dictionaries on retained occurrence branches. -/
 

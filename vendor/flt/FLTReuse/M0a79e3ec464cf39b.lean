@@ -1,9 +1,14 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.Mfa51b18746f896ac
-import FLTReuse.M497e83937b5c7540
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.Mfa51b18746f896ac
+public import FLTReuse.M497e83937b5c7540
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_tsum_eq_tsum_fourierIntegral_of_mem_pureTensorSet_of_measure_adelicBox_eq_one
 
 open NumberField NumberField.AdelicFourier NumberField.AdelicBox AutomorphicForm

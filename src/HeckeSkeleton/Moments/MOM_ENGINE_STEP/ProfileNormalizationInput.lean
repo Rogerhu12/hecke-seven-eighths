@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
+
+@[expose] public section
 
 /-!
 # The low-level profile-scaling dependency and its actual normalization

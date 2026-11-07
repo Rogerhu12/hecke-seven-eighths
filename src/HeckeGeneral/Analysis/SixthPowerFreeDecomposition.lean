@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SixthPowerFreeFactorization
-import HeckeGeneral.Analysis.LocalThetaInput
+module
+
+public import HeckeGeneral.Analysis.SixthPowerFreeFactorization
+public import HeckeGeneral.Analysis.LocalThetaInput
+
+@[expose] public section
 
 /-!
 Actual sixth-power-free decomposition of nonzero integral ideals.

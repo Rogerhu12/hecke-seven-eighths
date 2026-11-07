@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedMomentProfiles
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UniformLengthCapacity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedMomentProfiles
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UniformLengthCapacity
+
+@[expose] public section
 
 /-!
 # Profile normalization before one uniform slot removal

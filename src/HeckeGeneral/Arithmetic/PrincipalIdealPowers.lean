@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
-import Mathlib.NumberTheory.NumberField.ClassNumber
+module
+
+public import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
+public import Mathlib.NumberTheory.NumberField.ClassNumber
+
+@[expose] public section
 
 /-!
 # Principal powers for the S-unit valuation construction

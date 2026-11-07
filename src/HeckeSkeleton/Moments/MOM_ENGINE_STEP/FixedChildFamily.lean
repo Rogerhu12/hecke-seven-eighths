@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildRows
+
+@[expose] public section
 
 /-!
 # Fixed source columns and a genuine Fourier family of children

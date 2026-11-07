@@ -1,6 +1,10 @@
-import Expansion.ActualOuterKernelDecay
-import Expansion.ActualOuterContourTransport
-import HeckeSkeleton.ExpansionModels.LargeRowTail
+module
+
+public import Expansion.ActualOuterKernelDecay
+public import Expansion.ActualOuterContourTransport
+public import HeckeSkeleton.ExpansionModels.LargeRowTail
+
+@[expose] public section
 
 /-!+# Actual outer horizontal faces with arbitrary height savings
 

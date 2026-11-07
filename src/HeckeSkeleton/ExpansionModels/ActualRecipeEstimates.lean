@@ -1,7 +1,11 @@
-import HeckeSkeleton.Base
-import Expansion.ActualRecipeIdentity
-import Expansion.ActualRecipeTailBounds
-import HeckeSkeleton.ExpansionModels.ActualPresentationBoundary
+module
+
+public import HeckeSkeleton.Base
+public import Expansion.ActualRecipeIdentity
+public import Expansion.ActualRecipeTailBounds
+public import HeckeSkeleton.ExpansionModels.ActualPresentationBoundary
+
+@[expose] public section
 
 /-!
 # Bounds and detector sources for the original raw recipe

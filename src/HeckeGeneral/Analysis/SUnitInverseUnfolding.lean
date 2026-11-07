@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
+module
+
+public import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
+
+@[expose] public section
 
 /-!
 # The inverse norm-one variable on the Fourier side of orbital Poisson

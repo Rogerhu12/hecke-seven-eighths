@@ -1,8 +1,12 @@
-import FLTReuse.M387d45cde57b612d
-import FLTReuse.M5960be08a50663ff
-import FLTReuse.Mceaf851096604c8a
-import FLTReuse.M255459499690ff8e
-import FLTReuse.M1d838ff8bf72f37a
+module
+
+public import FLTReuse.M387d45cde57b612d
+public import FLTReuse.M5960be08a50663ff
+public import FLTReuse.Mceaf851096604c8a
+public import FLTReuse.M255459499690ff8e
+public import FLTReuse.M1d838ff8bf72f37a
+
+@[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
 

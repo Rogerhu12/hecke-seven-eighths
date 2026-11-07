@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+
+@[expose] public section
 
 /-!
 # One finite arithmetic background family before all source indices

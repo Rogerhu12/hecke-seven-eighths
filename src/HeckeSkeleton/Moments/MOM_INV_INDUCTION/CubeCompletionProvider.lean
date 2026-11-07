@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent
-import HeckeSkeleton.Moments.MOM_BASE.CoefficientInterfaces
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProfile
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionPools
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderCubeParent
+public import HeckeSkeleton.Moments.MOM_BASE.CoefficientInterfaces
+
+@[expose] public section
 
 /-!
 # Actual reopened cubes enter the canonical parent provider

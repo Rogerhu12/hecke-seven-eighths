@@ -1,8 +1,12 @@
-import HeckeSkeleton.ExpansionModels.ActualMellinRegularity
-import HeckeSkeleton.HighBinSupport.ActualEulerRegion
-import HeckeGeneral.Analysis.CompensatedRowKernelFactorization
-import HeckeGeneral.Analysis.TInputFixedBinTransfer
-import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
+module
+
+public import HeckeSkeleton.ExpansionModels.ActualMellinRegularity
+public import HeckeSkeleton.HighBinSupport.ActualEulerRegion
+public import HeckeGeneral.Analysis.CompensatedRowKernelFactorization
+public import HeckeGeneral.Analysis.TInputFixedBinTransfer
+public import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
+
+@[expose] public section
 
 /-!
 # Actual row kernels on the original absolute contours

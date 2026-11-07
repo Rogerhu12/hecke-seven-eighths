@@ -1,5 +1,9 @@
-import Expansion.ActualRowKernelHolomorphy
-import Expansion.FiniteTripleContourTransport
+module
+
+public import Expansion.ActualRowKernelHolomorphy
+public import Expansion.FiniteTripleContourTransport
+
+@[expose] public section
 
 /-!
 # Actual finite transport from the initial three lines

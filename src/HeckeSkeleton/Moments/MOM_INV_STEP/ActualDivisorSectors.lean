@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
+
+@[expose] public section
 
 /-!
 # Actual mask divisors and the original unit sectors

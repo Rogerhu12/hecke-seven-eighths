@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRadialBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialInverse
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRadialBudget
+
+@[expose] public section
 
 /-!
 # Actual initial production scalars

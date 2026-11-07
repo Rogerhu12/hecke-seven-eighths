@@ -1,10 +1,14 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import Mathlib.NumberTheory.NumberField.Discriminant.Different
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M2f8449dfe5e9c43f
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import Mathlib.NumberTheory.NumberField.Discriminant.Different
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M2f8449dfe5e9c43f
+
+@[expose] public section
 
 open NumberField NumberField.AdelicFourier NumberField.AdelicBox AutomorphicForm IsDedekindDomain MeasureTheory
 open scoped Classical FourierTransform nonZeroDivisors

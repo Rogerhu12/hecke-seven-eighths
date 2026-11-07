@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreStages
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreStages
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+
+@[expose] public section
 
 /-!
 # Finite backward selection of the actual Euler orders

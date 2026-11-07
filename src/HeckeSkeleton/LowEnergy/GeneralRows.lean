@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualReflectionReindex
+module
+
+public import HeckeSkeleton.LowEnergy.ActualReflectionReindex
+
+@[expose] public section
 
 /-!
 # Actual rows with a label and a puncture

@@ -1,7 +1,11 @@
-import SIntegerPrincipalUnitCongruence
-import ActualFinitePlaceCompletionComparison
-import ValuedFieldTheory.LocalField.NonarchimedeanLocalField.StandardOpenSubgroups
-import ValuedFieldTheory.Valuation.LocalRingEquiv
+module
+
+public import SIntegerPrincipalUnitCongruence
+public import ActualFinitePlaceCompletionComparison
+public import ValuedFieldTheory.LocalField.NonarchimedeanLocalField.StandardOpenSubgroups
+public import ValuedFieldTheory.Valuation.LocalRingEquiv
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. The first import names the intended integration of
 SIntegerPrincipalUnitCongruence.lean. Both integer-ring models are subtypes

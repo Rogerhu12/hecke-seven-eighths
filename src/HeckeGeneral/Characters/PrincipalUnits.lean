@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.PrincipalUnitFiltration
-import Mathlib.RingTheory.LocalRing.RingHom.Basic
+module
+
+public import HeckeGeneral.Characters.PrincipalUnitFiltration
+public import Mathlib.RingTheory.LocalRing.RingHom.Basic
+
+@[expose] public section
 
 /-! Actual reduction of the local integer unit group and its principal-unit kernels. -/
 

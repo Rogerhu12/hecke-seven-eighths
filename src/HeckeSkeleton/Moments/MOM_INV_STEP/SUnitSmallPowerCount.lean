@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitHeightCounting
-import HeckeGeneral.Arithmetic.IdealTraceLattice
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitHeightCounting
+public import HeckeGeneral.Arithmetic.IdealTraceLattice
+
+@[expose] public section
 
 /-!
 # Arbitrarily small powers for actual S-unit height counts

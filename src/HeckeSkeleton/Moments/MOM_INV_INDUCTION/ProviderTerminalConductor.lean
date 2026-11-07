@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenCharges
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenCharges
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # The actual punctured-label terminal conductor bound

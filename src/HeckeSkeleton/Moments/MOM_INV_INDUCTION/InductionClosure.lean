@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionGeometry
+
+@[expose] public section
 
 /-!
 # Finite backward induction for canonical inverse energies

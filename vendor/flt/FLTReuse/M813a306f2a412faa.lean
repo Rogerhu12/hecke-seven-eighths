@@ -1,5 +1,10 @@
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_mixedEmbedding_trace_mixedEmbedding
 
 set_option autoImplicit false

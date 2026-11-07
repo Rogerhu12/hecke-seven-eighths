@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-!
 # Actual row dictionary for the low marked energy

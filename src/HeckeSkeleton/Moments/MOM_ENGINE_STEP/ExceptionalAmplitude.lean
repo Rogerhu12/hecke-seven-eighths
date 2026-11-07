@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
-import HeckePort.Moments.Height
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
+public import HeckePort.Moments.Height
+
+@[expose] public section
 
 /-!
 # Centered exceptional amplitudes on a finite row set

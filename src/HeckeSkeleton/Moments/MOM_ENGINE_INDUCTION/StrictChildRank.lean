@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileOrderSchedule
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileOrderSchedule
+
+@[expose] public section
 
 /-!
 # The strict children's numerical ranks precede their labels

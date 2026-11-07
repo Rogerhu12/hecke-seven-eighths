@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.ConductorCRT
-import HeckeGeneral.Characters.LocalPrimitiveFourier
-import HeckeGeneral.Arithmetic.ProductResidueFourier
+module
+
+public import HeckeGeneral.Characters.ConductorCRT
+public import HeckeGeneral.Characters.LocalPrimitiveFourier
+public import HeckeGeneral.Arithmetic.ProductResidueFourier
+
+@[expose] public section
 
 /-! The actual finite-conductor Gauss sum, transported through completed-local CRT.
 The additive character is constructed by finite duality at each prime-power factor.

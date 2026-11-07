@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SUnitInverseUnfolding
-import HeckeGeneral.Analysis.SIntegerSchwartzPullback
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+module
+
+public import HeckeGeneral.Analysis.SUnitInverseUnfolding
+public import HeckeGeneral.Analysis.SIntegerSchwartzPullback
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+
+@[expose] public section
 
 /-!
 # All S-integer sectors with the inverse norm-one Haar variable

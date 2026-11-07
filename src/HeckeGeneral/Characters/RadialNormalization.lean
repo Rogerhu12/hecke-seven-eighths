@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.InfinityPacket
-import HeckeGeneral.Analysis.HeckeNormTwistZeros
+module
+
+public import HeckeGeneral.Characters.InfinityPacket
+public import HeckeGeneral.Analysis.HeckeNormTwistZeros
+
+@[expose] public section
 
 /-!
 # Canonical removal of the global norm parameter

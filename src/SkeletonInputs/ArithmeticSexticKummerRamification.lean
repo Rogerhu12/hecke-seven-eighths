@@ -1,6 +1,10 @@
-import ArithmeticSexticKummerResidue
-import HeckeGeneral.Characters.Unramified
-import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
+module
+
+public import ArithmeticSexticKummerResidue
+public import HeckeGeneral.Characters.Unramified
+public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake invocation was made.

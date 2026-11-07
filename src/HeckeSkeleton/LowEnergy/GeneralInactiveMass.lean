@@ -1,8 +1,12 @@
-import HeckeSkeleton.LowEnergy.InactiveCore
-import HeckeSkeleton.LowEnergy.WindowTuples
-import HeckeSkeleton.LowEnergy.ActualFrozenCharges
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import Mathlib.Analysis.SpecialFunctions.Exp
+module
+
+public import HeckeSkeleton.LowEnergy.InactiveCore
+public import HeckeSkeleton.LowEnergy.WindowTuples
+public import HeckeSkeleton.LowEnergy.ActualFrozenCharges
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import Mathlib.Analysis.SpecialFunctions.Exp
+
+@[expose] public section
 
 /-!
 # Product-form marked coefficients with repeated primes

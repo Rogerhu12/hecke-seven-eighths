@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMellin
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMask
+
+@[expose] public section
 
 /-!
 # The original common mask in the actual marked Mellin source

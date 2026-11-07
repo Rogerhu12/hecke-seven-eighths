@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerModulus
-import HeckeGeneral.Analysis.SIntegerSexticFiniteIdealSum
-import HeckeGeneral.Analysis.LocalThetaInput
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulus
+public import HeckeGeneral.Analysis.SIntegerSexticFiniteIdealSum
+public import HeckeGeneral.Analysis.LocalThetaInput
+
+@[expose] public section
 
 /-!
 Literal consumers of a sixth-power S-unit integral representative.

@@ -1,5 +1,9 @@
-import ExpansionDetector.FixedTypeGammaReflection
-import HeckeSkeleton.HeckeGammaReciprocal
+module
+
+public import ExpansionDetector.FixedTypeGammaReflection
+public import HeckeSkeleton.HeckeGammaReciprocal
+
+@[expose] public section
 
 /-! Project adapter for the newly proved dynamic reflected Gamma bound.
 Unlike the existing finite-order numerator lemma, this applies to arbitrary

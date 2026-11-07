@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteSchwartzProfileBridge
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteSchwartzProfileBridge
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
+
+@[expose] public section
 
 /-!
 # The actual normalized window enters the finite-rank primitive

@@ -30,10 +30,14 @@ vertical-line Stirling estimate (Zeta23/GammaFacts/StirlingVert.lean,
 Zeta23/Analytic/Stirling.lean), and the integrals [eq:muints] follow by integrating
 the asymptotic (Zeta23/GammaFacts/IntMu.lean).
 -/
-import Zeta23.Defs
-import Mathlib.Analysis.Calculus.Deriv.Star
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import Zeta23.Defs
+public import Mathlib.Analysis.Calculus.Deriv.Star
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 namespace Zeta23
 

@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteProjectedMellin
-import ThetaGlobal.FiniteCoreProduct
+module
+
+public import ThetaGlobal.FiniteProjectedMellin
+public import ThetaGlobal.FiniteCoreProduct
+
+@[expose] public section
 
 /-!
 # Replacing only the archimedean vectors, with the exact scalar retained

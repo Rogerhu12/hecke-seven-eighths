@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalWindowContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ClippedRadiusData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FullKappaMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9UniformCost
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ReserveBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalWindowContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ClippedRadiusData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FullKappaMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9UniformCost
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ReserveBudget
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

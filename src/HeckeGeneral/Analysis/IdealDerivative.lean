@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealLogWeights
-import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
+module
+
+public import HeckeGeneral.Analysis.IdealLogWeights
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
+
+@[expose] public section
 
 /-!
 # Termwise and higher derivatives of actual ideal Dirichlet series

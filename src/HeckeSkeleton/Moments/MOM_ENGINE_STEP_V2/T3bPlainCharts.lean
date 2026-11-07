@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOriginalSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationMaskSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalAmplitude
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOriginalSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationMaskSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalAmplitude
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

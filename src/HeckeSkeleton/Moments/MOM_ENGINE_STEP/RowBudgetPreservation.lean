@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+
+@[expose] public section
 
 /-!
 # The real moving deletion budget in the final admissible family

@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualPhysicalKernel
-import HeckeSkeleton.HighBinSupport.ActualPhysicalPrimeLabels
-import HeckeSkeleton.HighBinSupport.ActualPhysicalTransport
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalKernel
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalPrimeLabels
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalTransport
+
+@[expose] public section
 
 /-!
 # The norm form for the actual physical source blocks

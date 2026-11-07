@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
-import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationMass
+public import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

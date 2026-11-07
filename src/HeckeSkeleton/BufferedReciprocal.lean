@@ -13,16 +13,18 @@ Changes: adapted module/public syntax and namespace to the local project;
 added explicit tactic import and the rectangle-to-disk wrappers below.
 No Hecke high estimate or zero-free conclusion is assumed by this module.
 -/
-import Mathlib.Tactic
-import Mathlib.Analysis.Complex.BranchLogRoot
-import Mathlib.Analysis.Complex.BorelCaratheodory
-import Mathlib.Analysis.Complex.Hadamard
-import Mathlib.Analysis.Complex.Liouville
-import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
-import Mathlib.Analysis.Normed.Module.Connected
-import Mathlib.Analysis.Complex.ExponentialBounds
+module
 
+public import Mathlib.Tactic
+public import Mathlib.Analysis.Complex.BranchLogRoot
+public import Mathlib.Analysis.Complex.BorelCaratheodory
+public import Mathlib.Analysis.Complex.Hadamard
+public import Mathlib.Analysis.Complex.Liouville
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
+public import Mathlib.Analysis.Normed.Module.Connected
+public import Mathlib.Analysis.Complex.ExponentialBounds
 
+@[expose] public section
 
 /-
 Repository: openai/math.

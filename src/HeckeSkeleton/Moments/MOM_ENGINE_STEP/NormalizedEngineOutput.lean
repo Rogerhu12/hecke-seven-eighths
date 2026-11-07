@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOutputConditions
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteEngineOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOutputConditions
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteEngineOutput
+
+@[expose] public section
 
 /-!
 # Packaging the same normalized family after its source estimates

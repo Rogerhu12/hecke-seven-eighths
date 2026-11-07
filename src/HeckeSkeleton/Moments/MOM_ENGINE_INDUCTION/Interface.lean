@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Reduction
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Reduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
+
+@[expose] public section
 
 /-!
 # The parent reduction required by the finite induction

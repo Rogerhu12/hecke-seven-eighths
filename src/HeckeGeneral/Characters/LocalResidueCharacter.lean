@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueFinite
-import HeckeGeneral.Characters.ConductorArithmetic
+module
+
+public import HeckeGeneral.Characters.LocalResidueFinite
+public import HeckeGeneral.Characters.ConductorArithmetic
+
+@[expose] public section
 
 /-! Descent of actual local components to the finite residue unit groups. -/
 

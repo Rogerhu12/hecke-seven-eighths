@@ -1,4 +1,8 @@
-import HeckeSkeleton.ActualProbeSixthUnitInvariant
+module
+
+public import HeckeSkeleton.ActualProbeSixthUnitInvariant
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Specialization of the existing actual finite quotient

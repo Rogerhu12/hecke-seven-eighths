@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesIntegral
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

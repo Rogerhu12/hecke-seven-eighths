@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.CompactSchwartzLatticeBound
-import HeckeGeneral.Arithmetic.SLocalNormSection
+module
+
+public import HeckeGeneral.Analysis.CompactSchwartzLatticeBound
+public import HeckeGeneral.Arithmetic.SLocalNormSection
+
+@[expose] public section
 
 /-!
 # Exact radial scaling of the trace-coordinate multiplier

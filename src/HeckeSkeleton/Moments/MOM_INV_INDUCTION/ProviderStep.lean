@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalStep
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRecursion
+
+@[expose] public section
 
 /-!
 # The actual inverse step in the induction envelope

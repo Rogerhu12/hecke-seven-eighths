@@ -1,5 +1,9 @@
-import FLTReuse.Mde9e34094198147a
-import FLTReuse.M18c3f30cb8384583
+module
+
+public import FLTReuse.Mde9e34094198147a
+public import FLTReuse.M18c3f30cb8384583
+
+@[expose] public section
 
 open IsDedekindDomain NumberField Matrix MeasureTheory
 

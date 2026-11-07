@@ -1,9 +1,13 @@
-import ThetaGlobal.FiniteProjectedFullSource
-import DedekindZetaZeroFree.Theta.Profiles.CanonicalSphericalRealization
-import DedekindZetaZeroFree.Theta.Periods.SphericalRealizationAndCommonGerms
-import DedekindZetaZeroFree.Theta.Whittaker.FirstRootNondegeneracy
-import DedekindZetaZeroFree.RepresentationTheory.Jacquet.ComplexWhittakerLine
-import DedekindZetaZeroFree.HarmonicAnalysis.Haar.TraceCharactersAndGaussShifts
+module
+
+public import ThetaGlobal.FiniteProjectedFullSource
+public import DedekindZetaZeroFree.Theta.Profiles.CanonicalSphericalRealization
+public import DedekindZetaZeroFree.Theta.Periods.SphericalRealizationAndCommonGerms
+public import DedekindZetaZeroFree.Theta.Whittaker.FirstRootNondegeneracy
+public import DedekindZetaZeroFree.RepresentationTheory.Jacquet.ComplexWhittakerLine
+public import DedekindZetaZeroFree.HarmonicAnalysis.Haar.TraceCharactersAndGaussShifts
+
+@[expose] public section
 
 /-!
 # The fixed actual projected source, retaining the full matrix product

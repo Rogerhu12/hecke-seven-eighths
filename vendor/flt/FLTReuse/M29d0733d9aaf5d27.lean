@@ -1,8 +1,12 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Me9b4c2e3c7462250
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Me9b4c2e3c7462250
+
+@[expose] public section
 
 open NumberField NumberField.AdelicFourier AutomorphicForm
 theorem NumberField.AdelicFourier.tsum_sub_inv_measure_mul_integral_eq_inv_measure_mul_tsum_fourierIntegral_ne_zero

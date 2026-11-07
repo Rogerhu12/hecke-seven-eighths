@@ -1,5 +1,9 @@
-import RowCharacterInputUniqueness
-import ArithmeticRowCharacterInput
+module
+
+public import RowCharacterInputUniqueness
+public import ArithmeticRowCharacterInput
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

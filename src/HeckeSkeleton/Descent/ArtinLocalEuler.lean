@@ -1,6 +1,10 @@
-import HeckeSkeleton.Descent.FiniteCircleEuler
-import HeckeSkeleton.Descent.ArtinFrobenius
-import HeckeGeneral.Analysis.HeckeSeries
+module
+
+public import HeckeSkeleton.Descent.FiniteCircleEuler
+public import HeckeSkeleton.Descent.ArtinFrobenius
+public import HeckeGeneral.Analysis.HeckeSeries
+
+@[expose] public section
 
 /-! The local Euler polynomial of the complete family of Artin twists.
 The actual norm quotient and uniformizer class supply its degree and exponent. -/

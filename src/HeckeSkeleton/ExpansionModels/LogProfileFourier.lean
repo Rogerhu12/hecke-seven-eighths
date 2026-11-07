@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.LogProfileUniform
+module
+
+public import HeckeSkeleton.ExpansionModels.LogProfileUniform
+
+@[expose] public section
 
 /-!
 # Uniform Fourier moments for the actual coupled detector profile

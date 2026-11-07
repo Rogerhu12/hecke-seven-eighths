@@ -1,7 +1,11 @@
-import Expansion.PhysicalRecipeSchedule
-import Expansion.ActualOuterComponents
-import Expansion.ActualFiniteRowHeightBudget
-import Expansion.PowerHeightTailAlgebra
+module
+
+public import Expansion.PhysicalRecipeSchedule
+public import Expansion.ActualOuterComponents
+public import Expansion.ActualFiniteRowHeightBudget
+public import Expansion.PowerHeightTailAlgebra
+
+@[expose] public section
 
 /-!
 # Literal remainders of the actual finite recipe schedule

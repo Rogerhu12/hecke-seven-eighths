@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
-import HeckeGeneral.Analysis.CountingPowerTail
-import HeckeGeneral.Analysis.SUnitSchwartzDecay
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
+public import HeckeGeneral.Analysis.CountingPowerTail
+public import HeckeGeneral.Analysis.SUnitSchwartzDecay
+
+@[expose] public section
 
 /-!
 # Quantitative tails of the actual S-integer orbital profiles

@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualInitialCalibration
-import HeckeSkeleton.HighBinSupport.ActualEulerRegion
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualInitialCalibration
+public import HeckeSkeleton.HighBinSupport.ActualEulerRegion
+
+@[expose] public section
 
 /-!
 The original `TRowEulerInput` filled by the actual arithmetic provider.

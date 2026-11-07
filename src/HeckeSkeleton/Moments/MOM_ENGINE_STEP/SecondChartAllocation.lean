@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+
+@[expose] public section
 
 /-!
 # The actual second profile chart on its Cartesian factor support

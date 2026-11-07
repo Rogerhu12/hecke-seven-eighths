@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3Assembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3OriginalColumnBound
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3Assembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3OriginalColumnBound
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

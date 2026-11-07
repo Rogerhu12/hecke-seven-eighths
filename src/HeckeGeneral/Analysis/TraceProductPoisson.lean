@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.TraceProductCovolume
-import HeckeGeneral.Analysis.TraceJointSchwartzFourierBounds
-import HeckeGeneral.Analysis.LatticeFiniteMask
+module
+
+public import HeckeGeneral.Analysis.TraceProductCovolume
+public import HeckeGeneral.Analysis.TraceJointSchwartzFourierBounds
+public import HeckeGeneral.Analysis.LatticeFiniteMask
+
+@[expose] public section
 
 /-!
 # Genuine two-column Poisson summation

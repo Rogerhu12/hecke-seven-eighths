@@ -1,11 +1,15 @@
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.Algebra.BigOperators.Field
-import Mathlib.Algebra.Order.Archimedean.Basic
-import Mathlib.Data.Finset.NatAntidiagonal
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
-import Mathlib.Topology.Algebra.InfiniteSum.ENNReal
-import Mathlib.Tactic
+module
+
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+public import Mathlib.Algebra.BigOperators.Field
+public import Mathlib.Algebra.Order.Archimedean.Basic
+public import Mathlib.Data.Finset.NatAntidiagonal
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Mathlib.Topology.Algebra.InfiniteSum.ENNReal
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The dyadic double sum of the Gram estimate (GR-08)

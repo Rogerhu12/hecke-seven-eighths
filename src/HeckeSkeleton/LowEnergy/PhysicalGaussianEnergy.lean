@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.PhysicalDyadicBudget
-import HeckeSkeleton.LowEnergy.GaussianEnergyAssembly
+module
+
+public import HeckeSkeleton.LowEnergy.PhysicalDyadicBudget
+public import HeckeSkeleton.LowEnergy.GaussianEnergyAssembly
+
+@[expose] public section
 
 /-!
 # Summing the physical low block majorants over every annulus and dual dyad

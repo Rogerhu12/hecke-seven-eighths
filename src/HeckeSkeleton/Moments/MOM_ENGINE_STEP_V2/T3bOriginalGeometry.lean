@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOrbitFibrePackets
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOrbitFibrePackets
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

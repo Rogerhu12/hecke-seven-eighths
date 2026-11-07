@@ -1,5 +1,9 @@
-import SIntegerSexticReducedFullCorrelation
-import SIntegerSexticOriginalCorrelationDefinition
+module
+
+public import SIntegerSexticReducedFullCorrelation
+public import SIntegerSexticOriginalCorrelationDefinition
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Original full coefficient and the concrete
 principal common-factor congruence transport. The original relation is

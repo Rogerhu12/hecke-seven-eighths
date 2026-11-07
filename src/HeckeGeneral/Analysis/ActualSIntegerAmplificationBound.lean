@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
-import HeckeGeneral.Analysis.SIntegerSexticMellinAmplification
-import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+public import HeckeGeneral.Analysis.SIntegerSexticMellinAmplification
+public import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+
+@[expose] public section
 
 /-!
 Actual ideal amplification into a sum over the norm-bounded S-integer orbits.

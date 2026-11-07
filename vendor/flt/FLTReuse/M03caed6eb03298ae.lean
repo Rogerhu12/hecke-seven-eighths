@@ -1,4 +1,8 @@
-import FLTReuse.Mf1ff95f379a0ba0a
+module
+
+public import FLTReuse.Mf1ff95f379a0ba0a
+
+@[expose] public section
 
 open MeasureTheory Set IsDedekindDomain NumberField Metric
 

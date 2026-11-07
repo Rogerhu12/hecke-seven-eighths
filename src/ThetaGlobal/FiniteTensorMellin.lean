@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteTensorCoefficients
-import ThetaGlobal.FiniteMellinIntegration
+module
+
+public import ThetaGlobal.FiniteTensorCoefficients
+public import ThetaGlobal.FiniteMellinIntegration
+
+@[expose] public section
 
 /-!
 # The finite tensor Mellin factor is its actual S-local Haar integral

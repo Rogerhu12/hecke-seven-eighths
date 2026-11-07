@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualErrorTotal
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRadialBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualErrorTotal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRadialBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondTail
+
+@[expose] public section
 
 /-!
 # The radial and old-row small powers in the actual first error measure

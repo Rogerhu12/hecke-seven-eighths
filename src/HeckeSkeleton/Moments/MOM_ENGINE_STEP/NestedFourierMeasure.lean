@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.MeasureTheory.Measure.WithDensity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.MeasureTheory.Measure.WithDensity
+
+@[expose] public section
 
 /-!
 # One positive measure for the two actual Fourier transforms

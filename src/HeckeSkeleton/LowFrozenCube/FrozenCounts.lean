@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowFrozenCube.PowerfulCounting
+module
+
+public import HeckeSkeleton.LowFrozenCube.PowerfulCounting
+
+@[expose] public section
 
 /-!
 # Uniform counts of the actual frozen row indices

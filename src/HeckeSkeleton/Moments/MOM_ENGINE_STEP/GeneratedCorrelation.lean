@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyPartition
+
+@[expose] public section
 
 /-!
 # Complete correlations with arbitrary actual generators

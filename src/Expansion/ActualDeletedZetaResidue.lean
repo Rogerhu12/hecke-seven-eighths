@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.SmallRowNormContinuation
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowNormContinuation
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+
+@[expose] public section
 
 /-!
 # The actual deleted Dedekind zeta residues

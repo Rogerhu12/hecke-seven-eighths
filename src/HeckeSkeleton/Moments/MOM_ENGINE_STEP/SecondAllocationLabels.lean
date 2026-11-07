@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+
+@[expose] public section
 
 /-!
 # The literal finite labels of the second allocation kernel

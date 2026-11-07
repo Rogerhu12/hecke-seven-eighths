@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCorrelationSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCorrelationSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
+
+@[expose] public section
 
 /-!
 # The actual normalized mass of the second common-support labels

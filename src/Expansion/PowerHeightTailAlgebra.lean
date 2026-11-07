@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.PowerHeightComparison
+module
+
+public import HeckeGeneral.Analysis.PowerHeightComparison
+
+@[expose] public section
 
 /-! Finite assembly preserves the order of the external height-tail
 quantifiers. Both scale powers and height degrees are fixed before tau and

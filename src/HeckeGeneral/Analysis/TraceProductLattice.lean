@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.TraceLatticeCovolume
-import Mathlib.Analysis.InnerProductSpace.ProdL2
-import Mathlib.LinearAlgebra.Dimension.Constructions
+module
+
+public import HeckeGeneral.Arithmetic.TraceLatticeCovolume
+public import Mathlib.Analysis.InnerProductSpace.ProdL2
+public import Mathlib.LinearAlgebra.Dimension.Constructions
+
+@[expose] public section
 
 /-!
 # The actual two-column trace lattice

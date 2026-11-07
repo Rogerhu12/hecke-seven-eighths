@@ -1,5 +1,9 @@
-import HeckeSkeleton.GramDefinitions
-import HeckeSkeleton.SmallRadius.SmallRadiusUniformPointBound
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import HeckeSkeleton.SmallRadius.SmallRadiusUniformPointBound
+
+@[expose] public section
 
 /-!
 # Small-radius orbital profile (obligation GR-11)

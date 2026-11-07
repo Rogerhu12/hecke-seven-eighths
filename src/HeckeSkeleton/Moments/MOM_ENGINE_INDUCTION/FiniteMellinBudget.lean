@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+
+@[expose] public section
 
 /-!
 # A common scalar for the finite strict source boxes

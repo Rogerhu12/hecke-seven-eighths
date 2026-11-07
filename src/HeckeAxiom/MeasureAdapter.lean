@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TIPSources
-import DedekindZetaZeroFree.HarmonicAnalysis.Haar.LocalDifferentNormalization
+module
+
+public import HeckeGeneral.Analysis.TIPSources
+public import DedekindZetaZeroFree.HarmonicAnalysis.Haar.LocalDifferentNormalization
+
+@[expose] public section
 
 /-!
 # Self-dual local Haar measures as the skeleton's probe measures

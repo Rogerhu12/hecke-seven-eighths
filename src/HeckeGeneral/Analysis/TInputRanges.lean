@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.RowEulerRegion
-import HeckeGeneral.Analysis.PhysicalProbeContours
+module
+
+public import HeckeGeneral.Analysis.RowEulerRegion
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+
+@[expose] public section
 
 /-!
 Concrete arithmetic zero bins and source primitive small/absolute-large

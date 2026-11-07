@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
+
+@[expose] public section
 
 /-!
 # Zero original row weights on a literal hybrid leaf

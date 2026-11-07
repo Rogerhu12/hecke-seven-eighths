@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedCutoff
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformNormalizedFirstTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedCutoff
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformNormalizedFirstTail
+
+@[expose] public section
 
 /-!
 # Uniform tails for the actual localized first cutoff

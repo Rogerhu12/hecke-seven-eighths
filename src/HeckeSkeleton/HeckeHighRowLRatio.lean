@@ -1,5 +1,9 @@
-import HeckeSkeleton.HeckePhysicalFamilyBufferedControl
-import HeckeSkeleton.HeckeDynamicGammaBound
+module
+
+public import HeckeSkeleton.HeckePhysicalFamilyBufferedControl
+public import HeckeSkeleton.HeckeDynamicGammaBound
+
+@[expose] public section
 
 /-!
 The actual high-row uncompleted L-ratio on the dynamic contour.

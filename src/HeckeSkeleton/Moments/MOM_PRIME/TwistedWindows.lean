@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
-import HeckeGeneral.Analysis.ActualPrimeGeometryAbsoluteBound
-import HeckeGeneral.Analysis.MomentSlotScaleChange
+module
+
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+public import HeckeGeneral.Analysis.ActualPrimeGeometryAbsoluteBound
+public import HeckeGeneral.Analysis.MomentSlotScaleChange
+
+@[expose] public section
 
 /-!
 # Uniform bounds for the actual frozen prime windows

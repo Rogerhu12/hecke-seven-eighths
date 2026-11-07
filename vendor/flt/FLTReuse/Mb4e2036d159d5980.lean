@@ -1,7 +1,12 @@
-import FLTReuse.Mb34f70d821d13751
-import FLTReuse.Mfa16ee9aa60c0bfe
-import FLTReuse.Ma9ad8acc40984aa2
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mb34f70d821d13751
+public import FLTReuse.Mfa16ee9aa60c0bfe
+public import FLTReuse.Ma9ad8acc40984aa2
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_Converse_finite_setOf_pinnedExp_ne_zero_of_continuous
 
 set_option autoImplicit false

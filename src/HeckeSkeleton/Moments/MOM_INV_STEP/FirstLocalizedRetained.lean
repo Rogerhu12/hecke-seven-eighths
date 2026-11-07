@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedCutoff
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedCutoff
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedProduction
+
+@[expose] public section
 
 /-!
 # Whole-parent Cauchy for the genuine locally truncated first source

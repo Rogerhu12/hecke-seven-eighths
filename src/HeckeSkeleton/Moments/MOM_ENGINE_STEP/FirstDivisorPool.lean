@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledResidual
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledResidual
+
+@[expose] public section
 
 /-!
 # One prime pool with the internal common divisor frozen

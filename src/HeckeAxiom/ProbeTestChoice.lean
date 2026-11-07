@@ -1,7 +1,11 @@
-import HeckeAxiom.ProbeFourier
-import HeckeAxiom.MeasureAdapter
-import DedekindZetaZeroFree.Moments.Probes.AnnularWeightsAndCancellingProfiles
-import DedekindZetaZeroFree.Metaplectic.Weil.FiniteQuadraticFourierKernel
+module
+
+public import HeckeAxiom.ProbeFourier
+public import HeckeAxiom.MeasureAdapter
+public import DedekindZetaZeroFree.Moments.Probes.AnnularWeightsAndCancellingProfiles
+public import DedekindZetaZeroFree.Metaplectic.Weil.FiniteQuadraticFourierKernel
+
+@[expose] public section
 
 /-!
 # The skeleton's additive probe test from Axiom's fixed weight

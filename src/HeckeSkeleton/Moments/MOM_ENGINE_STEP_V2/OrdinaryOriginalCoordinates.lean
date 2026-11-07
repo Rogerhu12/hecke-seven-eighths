@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryOccurrenceFacts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryPhaseFacts
-import Lean.Elab.Command
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryOccurrenceFacts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryPhaseFacts
+public import Lean.Elab.Command
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCommonReflection
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualReflectionDensity
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceProfileAnnulus
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileOrderSchedule
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCommonReflection
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualReflectionDensity
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceProfileAnnulus
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileOrderSchedule
+
+@[expose] public section
 
 /-!
 # Uniform production of the actual ordinary reflection output

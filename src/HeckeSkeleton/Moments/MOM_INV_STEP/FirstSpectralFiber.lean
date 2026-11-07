@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstRowGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstRowGeometry
+
+@[expose] public section
 
 /-!
 # Actual first old-label fibres inside the spectral integral

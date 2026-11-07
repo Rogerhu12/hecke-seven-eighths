@@ -1,6 +1,10 @@
-import ThetaGlobal.ScalarMellinConvolution
-import ThetaGlobal.VerticalContour
-import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+module
+
+public import ThetaGlobal.ScalarMellinConvolution
+public import ThetaGlobal.VerticalContour
+public import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+
+@[expose] public section
 
 /-!
 # All absolute power moments of a scalar Mellin deconvolver

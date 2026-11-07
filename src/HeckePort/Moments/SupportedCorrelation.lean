@@ -1,5 +1,9 @@
-import HeckePort.Moments.CommonSupport
-import HeckePort.CenteredMoment.Mask
+module
+
+public import HeckePort.Moments.CommonSupport
+public import HeckePort.CenteredMoment.Mask
+
+@[expose] public section
 
 /-!
 # Correlations of supported modulus characters

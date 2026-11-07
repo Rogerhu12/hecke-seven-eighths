@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildTermDictionary
-import HeckeGeneral.Analysis.SUnitProfileFunctional
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildTermDictionary
+public import HeckeGeneral.Analysis.SUnitProfileFunctional
+
+@[expose] public section
 
 /-!
 # A raw, individual-atom entrance to the original parent source

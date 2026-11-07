@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentFiber
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentFiber
+
+@[expose] public section
 
 /-!
 # Exact finite row aggregation inside the first common Fourier integral

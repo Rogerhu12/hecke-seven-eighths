@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeArithmetic
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualAtomPhases
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalAtomConsumers
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.DataPrimitiveExtension
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimitiveReflectionCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeArithmetic
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualAtomPhases
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalAtomConsumers
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.DataPrimitiveExtension
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimitiveReflectionCalibration
+
+@[expose] public section
 
 /-!
 # The concrete complete-row dictionary in the recursive source family

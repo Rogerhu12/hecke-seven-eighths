@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
-import Mathlib.Tactic.Abel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
+public import Mathlib.Tactic.Abel
+
+@[expose] public section
 
 /-!
 # Original log-norm locations and common row translations

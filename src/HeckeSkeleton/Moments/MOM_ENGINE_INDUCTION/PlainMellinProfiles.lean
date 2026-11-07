@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellinSeparation
-import Mathlib.MeasureTheory.Function.L2Space
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellinSeparation
+public import Mathlib.MeasureTheory.Function.L2Space
+
+@[expose] public section
 
 /-!
 # Actual plain polynomials with fixed Mellin-window profiles

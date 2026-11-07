@@ -1,5 +1,9 @@
-import HeckePort.CenteredMoment.Mask
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+module
+
+public import HeckePort.CenteredMoment.Mask
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+
+@[expose] public section
 
 /-!
 # The volume input of the masked ideal sums

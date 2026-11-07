@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+module
+
+public import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+
+@[expose] public section
 
 /-!
 # The actual exterior phase on modulus cosets

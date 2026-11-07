@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
-import HeckeGeneral.Analysis.HeckeSeries
-import Mathlib.Topology.Order.Compact
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
+public import HeckeGeneral.Analysis.HeckeSeries
+public import Mathlib.Topology.Order.Compact
+
+@[expose] public section
 
 /-!
 # Fixed-character volume estimates and actual exceptional profile controls

@@ -11,8 +11,12 @@ The ψ-toolkit is developed at a parametrized abscissa
 a ∈ (0,1) (covers ζ's a = 1/4 and, composed with the recurrence, Theorem E's
 a = 1/4 + κ/2).  Foundation: Zeta23.DigammaSeries.
 -/
-import Zeta23.Analytic.Stirling
-import Mathlib.Analysis.Real.Pi.Bounds
+module
+
+public import Zeta23.Analytic.Stirling
+public import Mathlib.Analysis.Real.Pi.Bounds
+
+@[expose] public section
 
 noncomputable section
 

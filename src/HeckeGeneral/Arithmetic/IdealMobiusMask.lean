@@ -1,8 +1,12 @@
-import HeckeGeneral.Arithmetic.IdealFactorization
-import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
-import Mathlib.Algebra.Squarefree.Basic
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.RingTheory.PrincipalIdealDomain
+module
+
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+public import Mathlib.Algebra.Squarefree.Basic
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.RingTheory.PrincipalIdealDomain
+
+@[expose] public section
 
 /-!
 # Exact moving masks over actual prime ideals

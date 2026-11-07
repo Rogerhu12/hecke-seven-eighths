@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChosenChildProfiles
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChosenChildProfiles
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+
+@[expose] public section
 
 /-!
 # Raw prime and clipped profile windows at one actual radius

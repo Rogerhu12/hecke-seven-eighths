@@ -1,7 +1,11 @@
-import Mathlib.FieldTheory.Finite.Basic
-import Mathlib.NumberTheory.MulChar.Basic
-import Mathlib.RingTheory.RootsOfUnity.Complex
-import Mathlib.Algebra.Group.Equiv.TypeTags
+module
+
+public import Mathlib.FieldTheory.Finite.Basic
+public import Mathlib.NumberTheory.MulChar.Basic
+public import Mathlib.RingTheory.RootsOfUnity.Complex
+public import Mathlib.Algebra.Group.Equiv.TypeTags
+
+@[expose] public section
 
 /-!
 # A sextic power-residue character with a specified root normalization

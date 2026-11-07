@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierPoolReindex
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierPoolReindex
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
+
+@[expose] public section
 
 noncomputable section
 open scoped Classical BigOperators NumberField

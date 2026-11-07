@@ -1,5 +1,9 @@
-import HeckePort.Moments.SupportedCorrelation
-import HeckePort.Moments.ReflectionDeletion
+module
+
+public import HeckePort.Moments.SupportedCorrelation
+public import HeckePort.Moments.ReflectionDeletion
+
+@[expose] public section
 
 /-!
 # Extracting the common prime support

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PrincipalProbeClosure
-import HeckeGeneral.Analysis.PhysicalComparisonAssembly
+module
+
+public import HeckeGeneral.Analysis.PrincipalProbeClosure
+public import HeckeGeneral.Analysis.PhysicalComparisonAssembly
+
+@[expose] public section
 
 /-!
 # Height comparisons at analysis heights `T₁ = Z^τ`

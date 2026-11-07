@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileSeminormNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
-import Mathlib.Algebra.BigOperators.Fin
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileSeminormNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+public import Mathlib.Algebra.BigOperators.Fin
+
+@[expose] public section
 
 /-!
 # Actual child profiles divided by one positive radius

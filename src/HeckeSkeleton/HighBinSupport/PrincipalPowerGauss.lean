@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.PrincipalPowerSupport
-import HeckeSkeleton.HighBinSupport.FiniteLocalTable
+module
+
+public import HeckeSkeleton.HighBinSupport.PrincipalPowerSupport
+public import HeckeSkeleton.HighBinSupport.FiniteLocalTable
+
+@[expose] public section
+
 /-!
 # The literal prime-power Fourier sum equals the valuation table
 

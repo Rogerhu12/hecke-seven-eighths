@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalSupportedVolume
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalSupportedVolume
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformRows
+
+@[expose] public section
 
 /-!
 # Uniform exceptional rows with the actual physical cutoff cost

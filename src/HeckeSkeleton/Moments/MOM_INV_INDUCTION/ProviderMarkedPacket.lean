@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMass
+
+@[expose] public section
 
 /-!
 # The literal original slot packet and all of its overlap restrictions

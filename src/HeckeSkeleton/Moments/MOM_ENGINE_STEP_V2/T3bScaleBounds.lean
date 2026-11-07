@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bSources
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOriginalGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4FrozenIdeals
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleArithmetic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bSources
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOriginalGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4FrozenIdeals
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleArithmetic
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckePort.Moments.Canonical
-import HeckePort.Moments.FirstPoisson
+module
+
+public import HeckePort.Moments.Canonical
+public import HeckePort.Moments.FirstPoisson
+
+@[expose] public section
 
 /-!
 # Active and principal prime supports of a pair of moduli

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFourierStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolFourierStage
+
+@[expose] public section
 
 /-!
 # One-pool Fourier reduction retaining the raw second source

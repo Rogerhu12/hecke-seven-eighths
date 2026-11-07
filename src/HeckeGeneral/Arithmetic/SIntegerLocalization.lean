@@ -1,9 +1,13 @@
-import Mathlib.RingTheory.DedekindDomain.SInteger
-import Mathlib.RingTheory.DedekindDomain.Factorization
-import Mathlib.RingTheory.Localization.Away.Basic
-import Mathlib.Algebra.Order.GroupWithZero.Canonical
-import Mathlib.Data.Finset.Lattice.Fold
-import Lean.Elab.Tactic.Omega
+module
+
+public import Mathlib.RingTheory.DedekindDomain.SInteger
+public import Mathlib.RingTheory.DedekindDomain.Factorization
+public import Mathlib.RingTheory.Localization.Away.Basic
+public import Mathlib.Algebra.Order.GroupWithZero.Canonical
+public import Mathlib.Data.Finset.Lattice.Fold
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # Actual S-integers as a localization away from an integer

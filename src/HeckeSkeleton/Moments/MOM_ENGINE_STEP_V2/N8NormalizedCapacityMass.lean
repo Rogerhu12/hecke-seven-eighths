@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedMassContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedRows
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFibres
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedLabels
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedMassContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedRows
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFibres
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedLabels
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalTerminal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalTerminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
+
+@[expose] public section
 
 /-!
 # Original centered atoms bind the canonical exceptional leaf

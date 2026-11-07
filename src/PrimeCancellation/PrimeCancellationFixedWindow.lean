@@ -5,8 +5,12 @@ Fixed smooth windows require no separate Mellin-decay premise. The window
 constant below is chosen before the entire function, its zero boundary,
 the Dirichlet coefficients, the buffer, and the smoothing scale.
 -/
-import PrimeCancellationLogProfile
-import PrimeCancellationWindowControl
+module
+
+public import PrimeCancellationLogProfile
+public import PrimeCancellationWindowControl
+
+@[expose] public section
 
 noncomputable section
 open Filter MeasureTheory Set Complex

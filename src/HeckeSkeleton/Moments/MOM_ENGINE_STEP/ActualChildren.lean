@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CorrelationKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CorrelationKernel
+
+@[expose] public section
 
 /-!
 # Actual complete correlations and their separated children

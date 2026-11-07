@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+
+@[expose] public section
 
 /-!
 Absolute convergence of the actual completed ideal sum for an annular test.

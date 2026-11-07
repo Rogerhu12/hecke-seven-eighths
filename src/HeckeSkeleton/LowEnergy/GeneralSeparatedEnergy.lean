@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.ActualSeparatedBlock
-import HeckeSkeleton.LowEnergy.ActualRawHybrid
-import HeckeSkeleton.LowEnergy.MellinHybrid
-import HeckeSkeleton.LowEnergy.GeneralHeight
+module
+
+public import HeckeSkeleton.LowEnergy.ActualSeparatedBlock
+public import HeckeSkeleton.LowEnergy.ActualRawHybrid
+public import HeckeSkeleton.LowEnergy.MellinHybrid
+public import HeckeSkeleton.LowEnergy.GeneralHeight
+
+@[expose] public section
 
 /-!
 # One energy theorem for fixed and mark-dependent completed scales

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderInput
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStates
-import ThetaGlobal.ReflectedAbsoluteProject
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderInput
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStates
+public import ThetaGlobal.ReflectedAbsoluteProject
+
+@[expose] public section
 
 /-!
 # Arbitrary saving for the actual full-cube reflected tail

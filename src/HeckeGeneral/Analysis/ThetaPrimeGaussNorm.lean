@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.LocalThetaInput
-import HeckeGeneral.Arithmetic.ResidueGaussSums
-import Mathlib.Tactic.NormNum
+module
+
+public import HeckeGeneral.Analysis.LocalThetaInput
+public import HeckeGeneral.Arithmetic.ResidueGaussSums
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 The prime Gauss norm is a consequence of actual finite residue algebra:

@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowHybrid.Assembly
-import HeckeSkeleton.LowHybrid.Normalization
-import HeckeSkeleton.LowFrozenCube.Phases
+module
+
+public import HeckeSkeleton.LowHybrid.Assembly
+public import HeckeSkeleton.LowHybrid.Normalization
+public import HeckeSkeleton.LowFrozenCube.Phases
+
+@[expose] public section
 
 /-!
 # Arithmetic bounds for the exact hybrid decomposition

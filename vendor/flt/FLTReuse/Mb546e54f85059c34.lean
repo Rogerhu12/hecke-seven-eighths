@@ -1,6 +1,11 @@
-import FLTReuse.Ma6dd0c4d713fb96a
-import FLTReuse.Mbfe19ea9534a55ec
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Ma6dd0c4d713fb96a
+public import FLTReuse.Mbfe19ea9534a55ec
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicTrace_traceFinHom_apply_eq_sum_trace
 
 set_option autoImplicit false

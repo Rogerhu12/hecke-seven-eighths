@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ParameterPrimitiveExtension
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LocalizedCompleteSource
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FrozenEngineOutput
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeProfileSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ParameterPrimitiveExtension
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LocalizedCompleteSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FrozenEngineOutput
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeProfileSupport
+
+@[expose] public section
 
 /-!
 # One original moving recipe with both of its arithmetic budgets

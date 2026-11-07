@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MaskNorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MaskNorm
+
+@[expose] public section
 
 /-!
 # The remaining ideal in the actual common mask

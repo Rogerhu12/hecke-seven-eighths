@@ -1,5 +1,9 @@
-import ActualChoiceMaskedWholeAnnular
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+module
+
+public import ActualChoiceMaskedWholeAnnular
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Multiplication by the SAME witness's actual

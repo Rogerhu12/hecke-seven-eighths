@@ -1,5 +1,9 @@
-import SIntegerSexticSymbolZeroSupport
-import SIntegerSexticLocalHilbertComparison
+module
+
+public import SIntegerSexticSymbolZeroSupport
+public import SIntegerSexticLocalHilbertComparison
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Actual exterior Hilbert ratio on columns without
 a common exterior prime divisor. Zero multiplicities are deduced from the

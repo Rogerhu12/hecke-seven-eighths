@@ -1,4 +1,8 @@
-import HeckePort.Moments.Fourier
+module
+
+public import HeckePort.Moments.Fourier
+
+@[expose] public section
 
 /-!
 # Poisson summation for pairs of Gauss sums

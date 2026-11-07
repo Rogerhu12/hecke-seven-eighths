@@ -1,6 +1,10 @@
-import Expansion.ActualPrincipalPoleLimits
-import Expansion.ActualZetaHeightBounds
-import DedekindZetaZeroFree.Analysis.ContourIntegration.SimplePoleShift
+module
+
+public import Expansion.ActualPrincipalPoleLimits
+public import Expansion.ActualZetaHeightBounds
+public import DedekindZetaZeroFree.Analysis.ContourIntegration.SimplePoleShift
+
+@[expose] public section
 
 /-!
 # The actual first principal residue shift

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionGeometry
-import Mathlib.Analysis.SpecialFunctions.Log.Base
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionGeometry
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
+
+@[expose] public section
 
 /-!
 # One base threshold for the finite induction

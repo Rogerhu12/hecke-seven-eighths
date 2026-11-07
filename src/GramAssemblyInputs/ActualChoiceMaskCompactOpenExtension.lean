@@ -1,9 +1,13 @@
-import ActualAllowedGeneratorOrbitMask
-import ActualAdicSixthPowerDepth
-import ActiveBoxPrincipalUnitRatio
-import HeckeGeneral.Analysis.SUnitFinitePartitionBox
-import Mathlib.Topology.Algebra.IsOpenUnits
-import Mathlib.Topology.LocallyConstant.Algebra
+module
+
+public import ActualAllowedGeneratorOrbitMask
+public import ActualAdicSixthPowerDepth
+public import ActiveBoxPrincipalUnitRatio
+public import HeckeGeneral.Analysis.SUnitFinitePartitionBox
+public import Mathlib.Topology.Algebra.IsOpenUnits
+public import Mathlib.Topology.LocallyConstant.Algebra
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The same witness's finite-S choice mask has a real

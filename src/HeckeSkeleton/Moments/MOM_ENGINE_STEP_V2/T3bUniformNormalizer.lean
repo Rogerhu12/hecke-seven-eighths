@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bCommonBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bNormalizer
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bUniformAssembly
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bCommonBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bNormalizer
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bUniformAssembly
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

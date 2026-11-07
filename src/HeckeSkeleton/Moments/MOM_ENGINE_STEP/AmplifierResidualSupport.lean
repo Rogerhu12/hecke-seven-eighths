@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierGaussExtraction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierGaussExtraction
+
+@[expose] public section
 
 /-!
 # Support and norms of the actual amplifier residual presentation

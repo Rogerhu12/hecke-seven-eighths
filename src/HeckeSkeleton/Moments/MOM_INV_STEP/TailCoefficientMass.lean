@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalTailBound
-import HeckeSkeleton.Moments.MOM_INV_STEP.JointMaskGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalTailBound
+public import HeckeSkeleton.Moments.MOM_INV_STEP.JointMaskGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
+
+@[expose] public section
 
 /-!
 # Absolute mass of every actual first-source subfamily

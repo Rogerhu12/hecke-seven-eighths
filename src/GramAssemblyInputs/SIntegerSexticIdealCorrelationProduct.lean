@@ -1,5 +1,9 @@
-import SIntegerSexticIdealCRT
-import SIntegerSexticFiniteCorrelation
+module
+
+public import SIntegerSexticIdealCRT
+public import SIntegerSexticFiniteCorrelation
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNCOMPILED.
 

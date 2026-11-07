@@ -1,6 +1,10 @@
-import ActualChoiceMaskedTotalNorm
-import ActualAllowedGeneratorColumnMask
-import ActualOriginalAnnularUnitReconstruction
+module
+
+public import ActualChoiceMaskedTotalNorm
+public import ActualAllowedGeneratorColumnMask
+public import ActualOriginalAnnularUnitReconstruction
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. For an actual allowed generator d, the existing

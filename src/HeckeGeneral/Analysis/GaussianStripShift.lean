@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GaussianContour
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+module
+
+public import HeckeGeneral.Analysis.GaussianContour
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+
+@[expose] public section
 
 /-! A vertical contour can be moved across an analytic strip whose
 horizontal tails have a uniform Gaussian bound. Both vertical integrals

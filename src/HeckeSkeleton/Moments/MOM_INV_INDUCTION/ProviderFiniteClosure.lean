@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderLocalStep
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInduction
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderLocalStep
+
+@[expose] public section
 
 /-!
 # Backwards finite closure with jointly chosen base thresholds

@@ -1,9 +1,13 @@
-import HeckeGeneral.Analysis.SmoothIntegerPartition
-import Mathlib.Topology.Algebra.InfiniteSum.Real
-import Mathlib.Analysis.Normed.Group.InfiniteSum
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeGeneral.Analysis.SmoothIntegerPartition
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+public import Mathlib.Analysis.Normed.Group.InfiniteSum
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!+# Actual Gaussian annuli and absolutely convergent series
 

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveProduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveProduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
+
+@[expose] public section
 
 /-!
 # The literal normalized canonical parent and its actual live sources

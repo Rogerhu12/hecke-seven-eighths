@@ -1,7 +1,11 @@
-import ThetaGlobal.FiniteSkeletonSource
-import ThetaGlobal.GlobalActualFrequency
-import ThetaGlobal.GlobalGeneratorPeriod
-import HeckeAxiom.ArithmeticAdapter
+module
+
+public import ThetaGlobal.FiniteSkeletonSource
+public import ThetaGlobal.GlobalActualFrequency
+public import ThetaGlobal.GlobalGeneratorPeriod
+public import HeckeAxiom.ArithmeticAdapter
+
+@[expose] public section
 
 /-!
 # The skeleton and theta source use the same generators and embedding

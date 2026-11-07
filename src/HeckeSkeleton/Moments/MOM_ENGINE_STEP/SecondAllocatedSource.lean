@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+
+@[expose] public section
 
 /-!
 # Actual second correlation rows and allocated child sources

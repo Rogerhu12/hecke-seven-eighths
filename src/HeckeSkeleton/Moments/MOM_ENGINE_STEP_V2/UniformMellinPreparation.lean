@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformScalarPreparation
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteMellinBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformScalarPreparation
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteMellinBudget
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

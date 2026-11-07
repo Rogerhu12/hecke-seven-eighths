@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalIdealCoordinates
-import DedekindZetaZeroFree.Theta.Digits.Exterior.FiniteRowProducts
+module
+
+public import ThetaGlobal.GlobalIdealCoordinates
+public import DedekindZetaZeroFree.Theta.Digits.Exterior.FiniteRowProducts
+
+@[expose] public section
 
 /-!
 # An auxiliary row with exactly the requested exterior digit places

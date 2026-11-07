@@ -1,4 +1,8 @@
-import Expansion.PhysicalRecipeAssembly
+module
+
+public import Expansion.PhysicalRecipeAssembly
+
+@[expose] public section
 
 /-!
 # One parameter choice before the analytic components and power height

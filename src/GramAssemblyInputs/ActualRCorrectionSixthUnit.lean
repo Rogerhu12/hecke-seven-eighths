@@ -1,6 +1,10 @@
-import SIntegerSexticRIdentification
-import FinitePlaceHilbertBilinear
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+module
+
+public import SIntegerSexticRIdentification
+public import FinitePlaceHilbertBilinear
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Independent sixth-power multiplication in the two

@@ -1,7 +1,11 @@
-import Expansion.CanonicalRowSaturation
-import Expansion.CanonicalCutoff
-import Expansion.DetectorHeightGeometry
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+module
+
+public import Expansion.CanonicalRowSaturation
+public import Expansion.CanonicalCutoff
+public import Expansion.DetectorHeightGeometry
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+
+@[expose] public section
 
 /-!
 # Actual detection on the physical shell and buffered zero bins

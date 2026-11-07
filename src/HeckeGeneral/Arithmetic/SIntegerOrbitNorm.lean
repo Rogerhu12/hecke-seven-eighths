@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+
+@[expose] public section
 
 /-!
 # The actual positive S-local norm of an S-integer orbit

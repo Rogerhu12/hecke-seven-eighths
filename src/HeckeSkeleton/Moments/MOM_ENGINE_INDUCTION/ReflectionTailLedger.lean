@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Terminal
+
+@[expose] public section
 
 /-!
 # Actual ordinary-reflection tail exponents

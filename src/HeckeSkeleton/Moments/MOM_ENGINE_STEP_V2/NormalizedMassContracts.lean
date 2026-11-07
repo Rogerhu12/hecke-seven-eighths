@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalCapacityContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FullKappaContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RefinementAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceIndexContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalCapacityContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FullKappaContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RefinementAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceIndexContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

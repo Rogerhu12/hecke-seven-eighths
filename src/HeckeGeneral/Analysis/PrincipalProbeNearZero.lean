@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PrincipalSpectrumStrip
-import HeckeGeneral.Analysis.GaussianStripShift
+module
+
+public import HeckeGeneral.Analysis.PrincipalSpectrumStrip
+public import HeckeGeneral.Analysis.GaussianStripShift
+
+@[expose] public section
 
 /-! Rapid decay of the actual principal line probe at zero, obtained by
 moving its Gaussian contour to any line c>=2. No physical growth bound,

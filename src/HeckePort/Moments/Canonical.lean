@@ -1,6 +1,10 @@
-import HeckePort.Moments.PrimePower
-import HeckePort.Moments.CRT
-import HeckeGeneral.Characters.SexticResidueCharacter
+module
+
+public import HeckePort.Moments.PrimePower
+public import HeckePort.Moments.CRT
+public import HeckeGeneral.Characters.SexticResidueCharacter
+
+@[expose] public section
 
 /-!
 # Canonical prime-power and CRT rows

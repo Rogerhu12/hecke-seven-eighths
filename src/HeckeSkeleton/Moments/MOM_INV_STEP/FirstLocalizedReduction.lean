@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstPrincipal
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstPrincipal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedTail
+
+@[expose] public section
 
 /-!
 # Uniform physical reduction to the actual localized retained source

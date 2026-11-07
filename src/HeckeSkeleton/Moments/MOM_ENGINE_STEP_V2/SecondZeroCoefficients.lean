@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroProfileBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierResidualSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroProfileBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierResidualSupport
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

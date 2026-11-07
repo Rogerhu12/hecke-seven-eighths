@@ -1,8 +1,12 @@
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.Analysis.SpecialFunctions.Complex.Log
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.SpecialFunctions.Complex.Log
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Gaussian regularization on a vertical Mellin line

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegrability
-import HeckeSkeleton.Moments.MOM_INV_STEP.NestedMellinBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegrability
+public import HeckeSkeleton.Moments.MOM_INV_STEP.NestedMellinBudget
+
+@[expose] public section
 
 /-!
 # Finite source aggregation under the original spectral measure

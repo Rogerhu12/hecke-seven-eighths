@@ -1,5 +1,9 @@
-import PrimeCancellationUniformity
-import Mathlib.Tactic.GCongr
+module
+
+public import PrimeCancellationUniformity
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
 
 /-!
 # Uniform numerical budgets for the prime-slot wiring

@@ -1,7 +1,12 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M81477154c83a610e
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M9685560aae711685
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M9685560aae711685
+
+@[expose] public section
+
 attribute [-instance] NumberField.instCompactSpaceAdicCompletionIntegers Rat.adicCompletion.locallyCompactSpace NumberField.instFiniteResidueFieldAdicCompletionIntegers     IsDedekindDomain.HeightOneSpectrum.instLiesOverSubtypeAdicCompletionMemValuationSubringAdicCompletionIntegersCompletionIdealAsIdeal   
 
 set_option autoImplicit false

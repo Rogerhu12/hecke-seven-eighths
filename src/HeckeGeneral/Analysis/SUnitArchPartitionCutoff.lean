@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SUnitFinitePartitionBox
-import HeckeGeneral.Analysis.TraceLogNormSmooth
-import Mathlib.Geometry.Manifold.PartitionOfUnity
-import Mathlib.Topology.Separation.Regular
+module
+
+public import HeckeGeneral.Analysis.SUnitFinitePartitionBox
+public import HeckeGeneral.Analysis.TraceLogNormSmooth
+public import Mathlib.Geometry.Manifold.PartitionOfUnity
+public import Mathlib.Topology.Separation.Regular
+
+@[expose] public section
 
 /-! An actual smooth archimedean cutoff and a compact numerator for the
 original S-unit representatives. Existence uses smooth Urysohn on the

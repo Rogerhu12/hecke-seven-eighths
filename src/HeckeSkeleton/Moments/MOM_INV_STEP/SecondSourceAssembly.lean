@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMarkedSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCanonicalEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMarkedSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCanonicalEnergy
+
+@[expose] public section
 
 /-!
 # The complete original second coefficient becomes a fixed-common column

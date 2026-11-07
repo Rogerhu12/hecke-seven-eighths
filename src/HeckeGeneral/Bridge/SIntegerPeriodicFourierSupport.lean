@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.SIntegerPeriodicFiniteFourier
-import HeckeGeneral.Arithmetic.SIntegerModulusFrequencySupport
-import HeckeGeneral.Characters.LocalStandardAnnihilator
+module
+
+public import HeckeGeneral.Bridge.SIntegerPeriodicFiniteFourier
+public import HeckeGeneral.Arithmetic.SIntegerModulusFrequencySupport
+public import HeckeGeneral.Characters.LocalStandardAnnihilator
+
+@[expose] public section
 
 /-! Actual Fourier support outside the original S-local coordinates.
 The normalized transform vanishes when the literal field product c*xi is

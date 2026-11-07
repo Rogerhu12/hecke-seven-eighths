@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.TargetDictionary
-import HeckeSkeleton.LowEnergy.GaussianTheta
-import HeckeSkeleton.ActualProbeThetaAbsolute
+module
+
+public import HeckeSkeleton.LowEnergy.TargetDictionary
+public import HeckeSkeleton.LowEnergy.GaussianTheta
+public import HeckeSkeleton.ActualProbeThetaAbsolute
+
+@[expose] public section
 
 /-!
 # Gaussian reconstruction of the exact target row

@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.LocalResidueTower
-import Mathlib.Topology.Algebra.OpenSubgroup
-import Mathlib.Topology.LocallyConstant.Basic
+module
+
+public import HeckeGeneral.Characters.LocalResidueTower
+public import Mathlib.Topology.Algebra.OpenSubgroup
+public import Mathlib.Topology.LocallyConstant.Basic
+
+@[expose] public section
 
 /-! Openness of actual principal units and continuous characters of finite residue depth. -/
 

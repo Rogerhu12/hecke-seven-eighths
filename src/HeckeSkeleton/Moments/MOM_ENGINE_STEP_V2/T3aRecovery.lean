@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aSourceSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationPackets
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aSourceSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationPackets
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

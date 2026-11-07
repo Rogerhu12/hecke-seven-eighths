@@ -1,4 +1,8 @@
-import HeckePort.Moments.Support
+module
+
+public import HeckePort.Moments.Support
+
+@[expose] public section
 
 /-!
 # Fourier expansion of full-modulus correlations

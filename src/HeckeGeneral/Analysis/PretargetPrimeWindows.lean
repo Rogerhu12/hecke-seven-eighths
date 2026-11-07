@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
+
+@[expose] public section
 
 /-! Actual disjoint smooth prime windows can be chosen for any prescribed
 positive even slot count, before selecting the field or target character.

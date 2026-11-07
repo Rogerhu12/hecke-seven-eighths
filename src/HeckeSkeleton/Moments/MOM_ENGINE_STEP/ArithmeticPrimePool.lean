@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePool
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePool
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
+
+@[expose] public section
 
 /-!
 # The PIT pool on the actual exterior-prime labels

@@ -1,5 +1,9 @@
-import CubicSieve.GaussSquarefree
-import Mathlib.Algebra.Group.Pi.Units
+module
+
+public import CubicSieve.GaussSquarefree
+public import Mathlib.Algebra.Group.Pi.Units
+
+@[expose] public section
 
 /-! Genuine multiplicative cubic characters on the squarefree quotient.
 The character keeps the actual nonunit zeros, also at the unit ideal.

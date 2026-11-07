@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
-import ArithmeticFrequencyRowCharacterFibers
-import RowCharacterCanonicalUniqueness
+module
+
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+public import ArithmeticFrequencyRowCharacterFibers
+public import RowCharacterCanonicalUniqueness
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridCoverSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussRawTerminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridCoverSource
+
+@[expose] public section
 
 /-!
 # Complete second terminal exit with actual source covers

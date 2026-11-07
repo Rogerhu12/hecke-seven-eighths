@@ -1,9 +1,13 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecificLimits.Basic
-import Mathlib.Algebra.Order.Archimedean.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Real
-import Mathlib.SetTheory.Cardinal.Finite
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.SpecificLimits.Basic
+public import Mathlib.Algebra.Order.Archimedean.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+public import Mathlib.SetTheory.Cardinal.Finite
+
+@[expose] public section
 
 /-!
 # Power tails from actual linear counting

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+
+@[expose] public section
 
 /-!
 # Sixth-unit transport of the actual primitive Gauss packet

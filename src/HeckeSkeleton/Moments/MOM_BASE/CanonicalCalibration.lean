@@ -1,6 +1,10 @@
-import HeckeSkeleton.Base
-import HeckeAxiom.GaussCalibration
-import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
+module
+
+public import HeckeSkeleton.Base
+public import HeckeAxiom.GaussCalibration
+public import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
+
+@[expose] public section
 
 /-!
 # Actual canonical squarefree coefficients

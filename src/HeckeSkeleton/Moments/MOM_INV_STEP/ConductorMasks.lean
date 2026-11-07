@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
-import HeckeGeneral.Arithmetic.IdealMobiusMask
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+
+@[expose] public section
 
 /-!
 # Active conductor support and its actual complementary mask

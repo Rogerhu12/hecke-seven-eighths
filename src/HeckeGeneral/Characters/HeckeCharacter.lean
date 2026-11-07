@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.Packet
-import Mathlib.NumberTheory.NumberField.AdeleRing
-import Mathlib.NumberTheory.NumberField.FiniteAdeleRing
-import Mathlib.Topology.Algebra.Group.Quotient
+module
+
+public import HeckeGeneral.Characters.Packet
+public import Mathlib.NumberTheory.NumberField.AdeleRing
+public import Mathlib.NumberTheory.NumberField.FiniteAdeleRing
+public import Mathlib.Topology.Algebra.Group.Quotient
+
+@[expose] public section
 
 /-!
 # Unitary Hecke characters of an actual number field

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SideGeometryData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SideGeometryData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

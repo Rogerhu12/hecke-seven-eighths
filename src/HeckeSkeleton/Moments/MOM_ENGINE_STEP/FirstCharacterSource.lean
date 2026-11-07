@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstResidualSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstCharacters
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstResidualSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstCharacters
+
+@[expose] public section
 
 /-!
 # The original first source on all subgroup orbits

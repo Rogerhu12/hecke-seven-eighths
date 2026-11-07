@@ -1,5 +1,9 @@
-import HeckeSkeleton.Descent.LocalNorm
-import HeckeGeneral.Characters.PrimeCoefficients
+module
+
+public import HeckeSkeleton.Descent.LocalNorm
+public import HeckeGeneral.Characters.PrimeCoefficients
+
+@[expose] public section
 
 /-!
 Adapted from the 2026-10-11 local-norm cache for the actual Descent interface.

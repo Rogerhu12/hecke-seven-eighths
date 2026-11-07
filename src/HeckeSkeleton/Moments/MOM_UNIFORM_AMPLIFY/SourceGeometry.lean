@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TIPSources
-import Mathlib.Tactic.NormNum
+module
+
+public import HeckeGeneral.Analysis.TIPSources
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Witness geometry supplied by the actual expansion interface

@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
-import HeckeGeneral.Arithmetic.SIntegerModulusCRT
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+public import HeckeGeneral.Arithmetic.SIntegerModulusCRT
+
+@[expose] public section
 
 /-! The actual exterior valuation of an S-integer modulus and its completed
 frequency bound, with exponents from its genuine contracted ideal. -/

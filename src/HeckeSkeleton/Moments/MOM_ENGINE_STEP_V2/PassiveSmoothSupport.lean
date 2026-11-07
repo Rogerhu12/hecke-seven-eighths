@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationProfiles
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationProfiles
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

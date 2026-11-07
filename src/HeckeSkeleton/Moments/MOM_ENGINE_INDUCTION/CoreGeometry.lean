@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Centering
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Centering
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
+
+@[expose] public section
 
 /-!
 # The actual geometric branches of the paired core

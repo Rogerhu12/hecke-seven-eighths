@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualPhysicalConductorProduct
-import Expansion.ActualCompensationSlotIdentity
-import Expansion.PhysicalRecipeSchedule
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalConductorProduct
+public import Expansion.ActualCompensationSlotIdentity
+public import Expansion.PhysicalRecipeSchedule
+
+@[expose] public section
 
 /-!
 # Physical main-slot amplitudes bound the complete correction

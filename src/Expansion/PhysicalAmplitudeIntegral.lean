@@ -1,7 +1,11 @@
-import Expansion.PhysicalAmplitudeSource
-import Expansion.CommonSampleTransport
-import Mathlib.MeasureTheory.Function.Floor
-import Mathlib.MeasureTheory.Function.SpecialFunctions.Basic
+module
+
+public import Expansion.PhysicalAmplitudeSource
+public import Expansion.CommonSampleTransport
+public import Mathlib.MeasureTheory.Function.Floor
+public import Mathlib.MeasureTheory.Function.SpecialFunctions.Basic
+
+@[expose] public section
 
 /-!
 # Measurable actual amplitude fibers and their exact transported integrals

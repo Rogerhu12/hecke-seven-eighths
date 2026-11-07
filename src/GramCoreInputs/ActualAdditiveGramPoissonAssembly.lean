@@ -1,4 +1,8 @@
-import ActualAdditiveGramRowSummability
+module
+
+public import ActualAdditiveGramRowSummability
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The literal Am square row sum, with the same fixed

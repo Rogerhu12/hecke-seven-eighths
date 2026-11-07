@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedFreeEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedFreeEnergy
+
+@[expose] public section
 
 /-!
 # Production estimate for the whole localized first positive source

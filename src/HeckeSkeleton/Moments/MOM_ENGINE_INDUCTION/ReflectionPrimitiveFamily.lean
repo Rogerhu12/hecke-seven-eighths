@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionChildGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionChildGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
+
+@[expose] public section
 
 /-!
 # Actual arithmetic and profile closure of ordinary reflection

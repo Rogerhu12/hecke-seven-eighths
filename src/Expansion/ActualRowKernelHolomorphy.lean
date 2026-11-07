@@ -1,6 +1,10 @@
-import Expansion.ActualTargetReciprocalStrip
-import HeckeSkeleton.ExpansionModels.ActualKernelRegularity
-import RowCharacterNormTwistExclusion
+module
+
+public import Expansion.ActualTargetReciprocalStrip
+public import HeckeSkeleton.ExpansionModels.ActualKernelRegularity
+public import RowCharacterNormTwistExclusion
+
+@[expose] public section
 
 /-!
 # Holomorphy of the actual nonprincipal row kernel

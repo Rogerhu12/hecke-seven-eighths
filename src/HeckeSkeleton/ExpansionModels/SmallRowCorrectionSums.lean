@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SmallRowCorrection
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowCorrection
+
+@[expose] public section
 
 /-!
 # Actual finite-window sums of the small-row correction

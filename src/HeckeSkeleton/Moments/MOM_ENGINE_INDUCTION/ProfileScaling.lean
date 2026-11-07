@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MomentProfileScaling
-import Mathlib.Algebra.BigOperators.Fin
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MomentProfileScaling
+public import Mathlib.Algebra.BigOperators.Fin
+
+@[expose] public section
 
 /-!
 # Exact scalar normalization of the actual profiles

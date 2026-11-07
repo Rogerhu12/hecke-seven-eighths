@@ -1,6 +1,10 @@
-import Expansion.ProjectMeromorphicDetector
-import Expansion.SelectedBufferedRows
-import HeckeGeneral.Analysis.BufferedPhysicalRowBin
+module
+
+public import Expansion.ProjectMeromorphicDetector
+public import Expansion.SelectedBufferedRows
+public import HeckeGeneral.Analysis.BufferedPhysicalRowBin
+
+@[expose] public section
 
 /-!
 Actual arithmetic rows are assigned one buffered index before contour

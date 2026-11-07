@@ -1,6 +1,10 @@
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Topology.Algebra.InfiniteSum.Ring
+module
+
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Topology.Algebra.InfiniteSum.Ring
+
+@[expose] public section
 
 /-!
 # Integrated rational Fourier descent from automorphy

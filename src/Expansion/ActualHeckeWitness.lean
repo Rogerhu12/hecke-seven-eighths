@@ -1,6 +1,10 @@
-import Expansion.TerminalFourierTail
-import HeckeSkeleton.ExpansionDetectorBridge
-import HeckeSkeleton.ExpansionModels.OriginalMaskBounds
+module
+
+public import Expansion.TerminalFourierTail
+public import HeckeSkeleton.ExpansionDetectorBridge
+public import HeckeSkeleton.ExpansionModels.OriginalMaskBounds
+
+@[expose] public section
 
 /-!
 # Actual Hecke zeros and the original complete ideal mask

@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.GaussianAnnularAssembly
+module
+
+public import HeckeGeneral.Analysis.GaussianAnnularAssembly
+
+@[expose] public section
 
 /-!
 # Finite compact truncations of the Gaussian annular assembly

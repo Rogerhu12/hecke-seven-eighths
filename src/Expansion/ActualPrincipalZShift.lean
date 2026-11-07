@@ -1,6 +1,10 @@
-import Expansion.ActualPrincipalWShift
-import Expansion.ActualMellinStripDecay
-import Expansion.ActualPrincipalResidueIdentification
+module
+
+public import Expansion.ActualPrincipalWShift
+public import Expansion.ActualMellinStripDecay
+public import Expansion.ActualPrincipalResidueIdentification
+
+@[expose] public section
 
 /-!
 # The actual second principal residue shift

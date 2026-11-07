@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8FrozenProfileBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonAtomBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8FrozenProfileBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonAtomBinding
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

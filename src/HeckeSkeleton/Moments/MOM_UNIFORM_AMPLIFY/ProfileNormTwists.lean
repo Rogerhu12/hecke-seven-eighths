@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileLogCoordinates
-import HeckeSkeleton.ExpansionModels.CutoffLogProfile
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileLogCoordinates
+public import HeckeSkeleton.ExpansionModels.CutoffLogProfile
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+
+@[expose] public section
 
 /-!
 # Actual annular norm-power profiles, including an independent cutoff ratio

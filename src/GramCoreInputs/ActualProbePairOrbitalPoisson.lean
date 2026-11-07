@@ -1,6 +1,10 @@
-import ActualProbePairPointwisePoisson
-import ActualAdditiveGramUnitOrbits
-import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
+module
+
+public import ActualProbePairPointwisePoisson
+public import ActualAdditiveGramUnitOrbits
+public import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Actual first orbital Poisson under the ORIGINAL

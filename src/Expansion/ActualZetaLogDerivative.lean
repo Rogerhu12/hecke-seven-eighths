@@ -1,7 +1,11 @@
-import Expansion.ActualPrimeLogSeries
-import HeckeSkeleton.ExpansionModels.SmallRowNormReciprocal
-import DedekindZetaZeroFree.Main
-import PrimeCancellationDiskGeometry
+module
+
+public import Expansion.ActualPrimeLogSeries
+public import HeckeSkeleton.ExpansionModels.SmallRowNormReciprocal
+public import DedekindZetaZeroFree.Main
+public import PrimeCancellationDiskGeometry
+
+@[expose] public section
 
 /-!
 # Actual zeta logarithmic derivative for the normalizer window

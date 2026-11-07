@@ -1,5 +1,9 @@
-import Expansion.PhysicalAmplitudeIntegral
-import HeckeGeneral.Analysis.TInputFixedBinTransfer
+module
+
+public import Expansion.PhysicalAmplitudeIntegral
+public import HeckeGeneral.Analysis.TInputFixedBinTransfer
+
+@[expose] public section
 
 /-!
 # The original contour measure on the common physical parameter space

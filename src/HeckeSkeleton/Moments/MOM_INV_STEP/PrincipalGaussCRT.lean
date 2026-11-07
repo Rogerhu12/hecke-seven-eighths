@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.Algebra.Group.Units.Equiv
+module
+
+public import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.Algebra.Group.Units.Equiv
+
+@[expose] public section
 
 /-!
 # Signed CRT factorization with the literal principal additive phases

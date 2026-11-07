@@ -1,5 +1,9 @@
-import Mathlib
-import FLTReuse.Mca976093a3e9d9d7
+module
+
+public import Mathlib
+public import FLTReuse.Mca976093a3e9d9d7
+
+@[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
 

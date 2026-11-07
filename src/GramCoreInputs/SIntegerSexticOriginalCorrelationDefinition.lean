@@ -1,5 +1,9 @@
-import FiniteCommonFactorFibre
-import HeckeGeneral.Characters.SIntegerSexticSymbol
+module
+
+public import FiniteCommonFactorFibre
+public import HeckeGeneral.Characters.SIntegerSexticSymbol
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. CFT-free extraction of the original full
 correlation definition and principal quotient-fibre transport. Copied

@@ -1,7 +1,11 @@
-import HeckePort.CenteredMoment.Basic
-import HeckePort.Moments.FullCorrelation
-import Mathlib.Algebra.BigOperators.Associated
-import Mathlib.Combinatorics.Enumerative.InclusionExclusion
+module
+
+public import HeckePort.CenteredMoment.Basic
+public import HeckePort.Moments.FullCorrelation
+public import Mathlib.Algebra.BigOperators.Associated
+public import Mathlib.Combinatorics.Enumerative.InclusionExclusion
+
+@[expose] public section
 
 /-!
 # Whole coefficients in a fourth-moment step

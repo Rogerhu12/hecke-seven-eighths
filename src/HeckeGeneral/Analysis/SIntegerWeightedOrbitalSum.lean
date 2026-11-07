@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SIntegerOrbitalSum
-import HeckeGeneral.Analysis.SIntegerInverseOrbitalSum
-import HeckeGeneral.Arithmetic.SIntegerPeriodicWeights
+module
+
+public import HeckeGeneral.Analysis.SIntegerOrbitalSum
+public import HeckeGeneral.Analysis.SIntegerInverseOrbitalSum
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicWeights
+
+@[expose] public section
 
 /-!
 # Bounded coefficients on the actual S-integer orbits

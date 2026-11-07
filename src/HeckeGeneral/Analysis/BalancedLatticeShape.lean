@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.LatticeShapeTail
-import HeckeGeneral.Arithmetic.PrincipalGeneratorBalancing
-import Mathlib.Analysis.Normed.Operator.Mul
-import Mathlib.Analysis.Normed.Operator.BoundedLinearMaps
+module
+
+public import HeckeGeneral.Analysis.LatticeShapeTail
+public import HeckeGeneral.Arithmetic.PrincipalGeneratorBalancing
+public import Mathlib.Analysis.Normed.Operator.Mul
+public import Mathlib.Analysis.Normed.Operator.BoundedLinearMaps
+
+@[expose] public section
 
 /-!
 Actual coordinate multiplication on the nondegenerate mixed space, transported

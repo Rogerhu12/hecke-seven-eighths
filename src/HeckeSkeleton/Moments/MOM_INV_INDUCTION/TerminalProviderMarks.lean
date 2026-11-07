@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
+
+@[expose] public section
 
 /-!
 # Original product marks become actual whole-index theta marks

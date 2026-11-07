@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.LogGaussianMellin
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeGeneral.Analysis.LogGaussianMellin
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Exact positive powers in the initial physical Mellin identity

@@ -1,5 +1,9 @@
-import Mathlib.NumberTheory.NumberField.DedekindZeta
-import Mathlib.Topology.Algebra.InfiniteSum.Real
+module
+
+public import Mathlib.NumberTheory.NumberField.DedekindZeta
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+
+@[expose] public section
 
 /-!
 # Absolute convergence from actual number-field ideal counting

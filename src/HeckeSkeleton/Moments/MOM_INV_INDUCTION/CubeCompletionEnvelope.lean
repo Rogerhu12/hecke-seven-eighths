@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletion
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletion
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
+
+@[expose] public section
 
 /-!
 # Uniform small powers for the genuine cube decomposition

@@ -1,5 +1,9 @@
-import GeneratorMaskWitness
-import HeckeAxiom.ArithmeticChoice
+module
+
+public import GeneratorMaskWitness
+public import HeckeAxiom.ArithmeticChoice
+
+@[expose] public section
 
 /-!
 # The generator mask witness of an Axiom arithmetic choice (GR-12-MASK)

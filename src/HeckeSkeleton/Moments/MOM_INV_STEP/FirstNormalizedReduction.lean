@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondErrorBridge
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondErrorBridge
+
+@[expose] public section
 
 /-!
 # The normalized live first source under the actual second transform

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderAggregation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderAggregation
+
+@[expose] public section
 
 /-!
 # Exact active and inactive original tuple coordinates

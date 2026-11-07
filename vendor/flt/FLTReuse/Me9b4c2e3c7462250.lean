@@ -1,10 +1,15 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.M791e48edf6c15dd6
-import FLTReuse.Md9bb0dc096ff8cbe
-import FLTReuse.M8531b1869d254748
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.M791e48edf6c15dd6
+public import FLTReuse.Md9bb0dc096ff8cbe
+public import FLTReuse.M8531b1869d254748
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_tsum_sub_inv_measure_mul_integral_eq_inv_measure_mul_tsum_fourierIntegral_ne_zero
 
 open NumberField NumberField.AdelicFourier AutomorphicForm

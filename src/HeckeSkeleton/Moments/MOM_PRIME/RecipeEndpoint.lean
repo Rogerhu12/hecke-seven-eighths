@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExpansionModels.SourceData
-import HeckeSkeleton.Moments.MOM_PRIME.AbsoluteBounds
-import HeckeSkeleton.Moments.MOM_PRIME.TwistedWindows
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import HeckeSkeleton.Moments.MOM_PRIME.AbsoluteBounds
+public import HeckeSkeleton.Moments.MOM_PRIME.TwistedWindows
+
+@[expose] public section
 
 /-!
 # The prime endpoint for the same actual source recipe

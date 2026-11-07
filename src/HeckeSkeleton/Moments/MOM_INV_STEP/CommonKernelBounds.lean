@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
-import Mathlib.Analysis.Calculus.ContDiff.Bounds
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.Data.Nat.Choose.Sum
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
+public import Mathlib.Analysis.Calculus.ContDiff.Bounds
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.Data.Nat.Choose.Sum
+
+@[expose] public section
 
 /-!
 # Uniform bounds for the actual common Fourier density

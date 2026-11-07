@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.TraceSchwartzEuler
-import HeckeGeneral.Analysis.SUnitSchwartzDecay
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
-import Mathlib.Analysis.Calculus.ContDiff.Deriv
+module
+
+public import HeckeGeneral.Analysis.TraceSchwartzEuler
+public import HeckeGeneral.Analysis.SUnitSchwartzDecay
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+
+@[expose] public section
 
 /-! Actual Euler inputs for orbital differentiation: pointwise derivatives,
 joint continuity and uniform L1 bounds on compact log-radius intervals.

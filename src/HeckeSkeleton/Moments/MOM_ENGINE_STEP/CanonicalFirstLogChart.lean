@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogOrbitalKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPoissonColumnNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogOrbitalKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPoissonColumnNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
+
+@[expose] public section
 
 /-!
 # The actual first common profile chart

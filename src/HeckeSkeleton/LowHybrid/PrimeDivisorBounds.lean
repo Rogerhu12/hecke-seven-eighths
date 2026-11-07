@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowHybrid.PrimeArithmetic
-import HeckeSkeleton.LowHybrid.DivisorEnvelope
-import HeckeSkeleton.LowFrozenCube.PrimeProducts
+module
+
+public import HeckeSkeleton.LowHybrid.PrimeArithmetic
+public import HeckeSkeleton.LowHybrid.DivisorEnvelope
+public import HeckeSkeleton.LowFrozenCube.PrimeProducts
+
+@[expose] public section
 
 /-!
 # Divisor loss from actual prime coordinates

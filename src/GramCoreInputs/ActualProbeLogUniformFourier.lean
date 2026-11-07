@@ -1,6 +1,10 @@
-import ActualProbeLogProfile
-import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import ActualProbeLogProfile
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. Uniform rapid Fourier decay of the literal logarithmic

@@ -1,5 +1,9 @@
-import ActualAdditiveGramOrbitalAssembly
-import ActualGramCompactShapeMajorant
+module
+
+public import ActualAdditiveGramOrbitalAssembly
+public import ActualGramCompactShapeMajorant
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Actual Am-square orbital Poisson for an INDEPENDENT

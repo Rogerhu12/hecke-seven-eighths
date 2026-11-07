@@ -1,6 +1,10 @@
-import ActualSexticOriginalChartMean
-import ActualRCorrectionSixthUnit
-import ActualResidualSixthUnit
+module
+
+public import ActualSexticOriginalChartMean
+public import ActualRCorrectionSixthUnit
+public import ActualResidualSixthUnit
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The original raw coefficient, actual ALL-S Hilbert

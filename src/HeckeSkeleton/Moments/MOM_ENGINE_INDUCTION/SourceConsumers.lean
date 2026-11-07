@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceAdapter
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceReindex
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RootNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceAdapter
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceReindex
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RootNormalization
+
+@[expose] public section
 
 /-!
 # Returning the paired moment estimates to the actual physical source

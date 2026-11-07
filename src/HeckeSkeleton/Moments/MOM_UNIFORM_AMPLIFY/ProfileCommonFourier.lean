@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+
+@[expose] public section
 
 /-!
 # One pointwise Fourier majorant for all rowwise profile parameters

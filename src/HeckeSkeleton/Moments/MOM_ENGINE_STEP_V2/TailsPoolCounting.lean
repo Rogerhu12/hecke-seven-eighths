@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PoolContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PoolContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPlainCharts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinarySecondExceptionalBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPlainCharts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinarySecondExceptionalBinding
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

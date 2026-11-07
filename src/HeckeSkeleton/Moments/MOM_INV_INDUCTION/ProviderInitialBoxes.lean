@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialSource
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialGeometry
+
+@[expose] public section
 
 /-!
 # Actual initial norm boxes and their geometric source witnesses

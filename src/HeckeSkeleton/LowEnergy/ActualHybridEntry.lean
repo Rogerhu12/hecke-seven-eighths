@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenIndependence
-import HeckeSkeleton.LowEnergy.ActualRawHybrid
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenIndependence
+public import HeckeSkeleton.LowEnergy.ActualRawHybrid
+
+@[expose] public section
 
 /-!
 # Exact entry of the actual reflected coefficient into the actual hybrid row

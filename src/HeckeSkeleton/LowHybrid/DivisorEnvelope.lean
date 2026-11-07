@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.SquarefreeDivisors
-import Mathlib.Data.Finset.Lattice.Fold
+module
+
+public import HeckeSkeleton.LowHybrid.SquarefreeDivisors
+public import Mathlib.Data.Finset.Lattice.Fold
+
+@[expose] public section
 
 /-!
 # Actual cutoff envelopes for the squarefree divisor loss

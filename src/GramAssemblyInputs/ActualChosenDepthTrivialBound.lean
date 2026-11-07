@@ -1,5 +1,9 @@
-import ActualChosenDepthPoissonBound
-import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+module
+
+public import ActualChosenDepthPoissonBound
+public import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual chart coefficient has a uniform norm

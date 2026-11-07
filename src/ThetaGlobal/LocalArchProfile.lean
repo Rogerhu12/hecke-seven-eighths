@@ -1,6 +1,10 @@
-import ThetaGlobal.LocalArchRootCore
-import ThetaGlobal.FiniteLocalHighK
-import HeckeSkeleton.ThetaLocal.ProjectArchimedeanWhittaker
+module
+
+public import ThetaGlobal.LocalArchRootCore
+public import ThetaGlobal.FiniteLocalHighK
+public import HeckeSkeleton.ThetaLocal.ProjectArchimedeanWhittaker
+
+@[expose] public section
 
 /-!
 # The actual high K-type local profile in the positive-character convention

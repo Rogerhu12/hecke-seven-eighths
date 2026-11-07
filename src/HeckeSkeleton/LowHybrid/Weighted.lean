@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.SieveComposition
-import Mathlib.Analysis.Real.Sqrt
+module
+
+public import HeckeSkeleton.LowHybrid.SieveComposition
+public import Mathlib.Analysis.Real.Sqrt
+
+@[expose] public section
 
 /-!
 # Weighted quadratic--cubic composition without dyadic separation

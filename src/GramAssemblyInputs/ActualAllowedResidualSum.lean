@@ -1,6 +1,10 @@
-import ActualAllowedChartCoefficient
-import ActualGramResidualSupport
-import ActualRowBallDualChartIntegrand
+module
+
+public import ActualAllowedChartCoefficient
+public import ActualGramResidualSupport
+public import ActualRowBallDualChartIntegrand
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual finite residual-ideal term in the

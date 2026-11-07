@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SUnitMellinFourierBounds
+module
+
+public import HeckeGeneral.Analysis.SUnitMellinFourierBounds
+
+@[expose] public section
 
 /-! The literal total-norm radial parameter on each finite fibre. The
 Fourier operator and its Haar normalization are unchanged: only the positive

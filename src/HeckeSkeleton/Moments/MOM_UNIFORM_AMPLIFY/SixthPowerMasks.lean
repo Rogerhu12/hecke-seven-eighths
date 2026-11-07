@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+module
+
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+
+@[expose] public section
 
 /-!
 # Sixth-power descendants of the actual complete-ideal model

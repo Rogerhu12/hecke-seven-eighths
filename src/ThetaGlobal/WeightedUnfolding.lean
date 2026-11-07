@@ -1,6 +1,10 @@
-import Mathlib.MeasureTheory.Group.FundamentalDomain
-import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import Mathlib.MeasureTheory.Group.FundamentalDomain
+public import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 /-!
 # Weighted orbit unfolding with the actual change of sheet

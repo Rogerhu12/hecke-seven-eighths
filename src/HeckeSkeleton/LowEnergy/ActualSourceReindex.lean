@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualBlockReindex
+module
+
+public import HeckeSkeleton.LowEnergy.ActualBlockReindex
+
+@[expose] public section
 
 /-!
 # Every original reflection coordinate is a literal fixed-data block entry

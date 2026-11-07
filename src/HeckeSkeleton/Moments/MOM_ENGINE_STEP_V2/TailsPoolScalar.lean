@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolCounting
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPoolCounting
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsCauchyGeometry
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

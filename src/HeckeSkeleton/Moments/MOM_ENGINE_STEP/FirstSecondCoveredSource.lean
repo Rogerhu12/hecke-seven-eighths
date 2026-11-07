@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondRawSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolCoverHybridStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondRawSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolCoverHybridStage
+
+@[expose] public section
 
 /-!
 # The original parent reaches actual covered hybrid children

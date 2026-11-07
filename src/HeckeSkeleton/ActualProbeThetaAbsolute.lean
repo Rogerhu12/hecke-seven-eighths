@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Analysis.IdealSummability
-import Mathlib.Analysis.Normed.Ring.Finite
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Analysis.IdealSummability
+public import Mathlib.Analysis.Normed.Ring.Finite
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+
+@[expose] public section
 
 /-!
 Absolute convergence of the literal completed ideal theta series with its

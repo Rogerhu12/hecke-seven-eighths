@@ -1,5 +1,9 @@
-import DedekindZetaZeroFree.Analysis.FiniteMatrixDualityAndPhases
-import DedekindZetaZeroFree.Analysis.QuadraticFormRestriction
+module
+
+public import DedekindZetaZeroFree.Analysis.FiniteMatrixDualityAndPhases
+public import DedekindZetaZeroFree.Analysis.QuadraticFormRestriction
+
+@[expose] public section
 
 /-!
 # Finite complex kernels for the cubic large sieve

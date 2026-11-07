@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+
+@[expose] public section
 
 /-!
 # The fixed real profile in the actual compensation prime slot

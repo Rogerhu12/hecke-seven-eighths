@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalTerminal
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalTerminal
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+
+@[expose] public section
 
 /-!
 # Actual norm-power Schwartz profiles

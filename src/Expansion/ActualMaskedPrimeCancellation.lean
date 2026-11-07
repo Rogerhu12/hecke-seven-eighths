@@ -1,6 +1,10 @@
-import Expansion.ActualPrimeCancellation
-import HeckeSkeleton.ExpansionModels.OriginalMaskBounds
-import PrimeCancellationMaskCount
+module
+
+public import Expansion.ActualPrimeCancellation
+public import HeckeSkeleton.ExpansionModels.OriginalMaskBounds
+public import PrimeCancellationMaskCount
+
+@[expose] public section
 
 /-!
 # Finite-height prime cancellation with the original complete-row mask

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CutoffReflectionLabels
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CutoffReflectionLabels
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+
+@[expose] public section
 
 /-!
 # Uniform reflection production in the actual universal node family

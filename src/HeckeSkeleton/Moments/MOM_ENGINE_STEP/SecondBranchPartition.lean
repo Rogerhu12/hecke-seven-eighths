@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
+
+@[expose] public section
 
 /-!
 # Exact row partitions before ordinary and exceptional child estimates

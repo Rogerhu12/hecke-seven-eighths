@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SUnitMellinPhase
-import HeckeGeneral.Analysis.TraceMovingFourierBounds
+module
+
+public import HeckeGeneral.Analysis.SUnitMellinPhase
+public import HeckeGeneral.Analysis.TraceMovingFourierBounds
+
+@[expose] public section
 
 /-!
 # Uniform Fourier bounds for the genuine total Mellin phase

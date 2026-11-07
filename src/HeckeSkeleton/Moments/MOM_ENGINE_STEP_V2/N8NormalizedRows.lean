@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedInnerAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalRowWeights
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogTiltWindows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedInnerAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9OriginalRowWeights
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogTiltWindows
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

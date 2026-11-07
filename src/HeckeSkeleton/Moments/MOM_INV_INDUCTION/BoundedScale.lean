@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ActualMoments
-import HeckeGeneral.Analysis.IdealMobiusReciprocal
-import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ActualMoments
+public import HeckeGeneral.Analysis.IdealMobiusReciprocal
+public import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+
+@[expose] public section
 
 /-!
 # The bounded range of the independent inverse moment

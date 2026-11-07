@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPositiveChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPositiveChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+
+@[expose] public section
 
 /-!
 # The second genuine common density and its physical normalization

@@ -1,7 +1,12 @@
-import FLTReuse.M81477154c83a610e
-import Mathlib.RingTheory.DedekindDomain.AdicValuation
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Mb5025d5f3a58a2d9
+module
+
+public import FLTReuse.M81477154c83a610e
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Mb5025d5f3a58a2d9
+
+@[expose] public section
+
 attribute [-instance] NumberField.AdelicHaar.locallyCompactSpace_adeleRing NumberField.AdelicHaar.finite_residueField_adicCompletionIntegers NumberField.AdelicHaar.locallyCompactSpace_gl_adeleRing NumberField.AdelicHaar.locallyCompactSpace_finiteAdeleRing NumberField.AdelicHaar.compactSpace_adicCompletionIntegers NumberField.AdelicHaar.t2Space_finiteAdeleRing NumberField.AdelicHaar.t2Space_matrix_adeleRing NumberField.AdelicHaar.t2Space_adeleRing NumberField.AdelicHaar.fact_isOpen_adicCompletionIntegers NumberField.AdelicHaar.t2Space_gl_adeleRing NumberField.AdelicHaar.locallyCompactSpace_matrix_adeleRing NumberField.AdelicHaar.t2Space_infiniteAdeleRing NumberField.AdelicHaar.properSpace_adicCompletion
 
 set_option autoImplicit false

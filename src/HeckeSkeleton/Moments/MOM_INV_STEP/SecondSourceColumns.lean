@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceCharacters
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceCharacters
+
+@[expose] public section
 
 /-!
 # The actual second source returns the literal forward child

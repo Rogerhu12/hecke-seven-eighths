@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ExpansionDeletedControl
-import HeckeGeneral.Analysis.IdealDerivativeSmoothing
-import ExpansionInterfaces.AnnularContourUniform
+module
+
+public import HeckeGeneral.Analysis.ExpansionDeletedControl
+public import HeckeGeneral.Analysis.IdealDerivativeSmoothing
+public import ExpansionInterfaces.AnnularContourUniform
+
+@[expose] public section
 
 /-!
 # Finite annular polynomial bounds for the actual Hecke coefficients

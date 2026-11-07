@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSmoothSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveMaskIdentity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSmoothSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveMaskIdentity
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

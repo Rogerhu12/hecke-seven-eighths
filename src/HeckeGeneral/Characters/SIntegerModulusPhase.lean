@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusValuation
-import HeckeGeneral.Characters.SIntegerModulusAdditive
-import HeckeGeneral.Characters.ConductorCanonicalTrace
-import HeckeGeneral.Characters.StandardFiniteFactorization
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusValuation
+public import HeckeGeneral.Characters.SIntegerModulusAdditive
+public import HeckeGeneral.Characters.ConductorCanonicalTrace
+public import HeckeGeneral.Characters.StandardFiniteFactorization
+
+@[expose] public section
 
 /-!
 # Actual principal phases for an S-integer modulus

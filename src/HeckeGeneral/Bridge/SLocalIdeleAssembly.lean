@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.FLTDefinitions
-import HeckeGeneral.Characters.InfiniteComponent
-import HeckeGeneral.Arithmetic.SLocalNormSection
+module
+
+public import HeckeGeneral.Bridge.FLTDefinitions
+public import HeckeGeneral.Characters.InfiniteComponent
+public import HeckeGeneral.Arithmetic.SLocalNormSection
+
+@[expose] public section
 
 /-!
 # Assembly of the actual S-local multiplication group into ideles

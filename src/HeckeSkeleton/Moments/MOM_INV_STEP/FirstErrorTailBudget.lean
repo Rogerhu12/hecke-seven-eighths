@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorPhysicalBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorPhysicalBudget
+
+@[expose] public section
 
 /-!
 # The actual first-outer adaptive tail after physical normalization

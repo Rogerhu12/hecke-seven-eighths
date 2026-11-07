@@ -1,7 +1,11 @@
-import HeckeSkeleton.HighBinSupport.ActualLRatioStrip
-import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeCap
-import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
-import HeckeSkeleton.HighBinSupport.ActualEulerData
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualLRatioStrip
+public import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeCap
+public import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
+public import HeckeSkeleton.HighBinSupport.ActualEulerData
+
+@[expose] public section
 
 /-!
 The sharp reflected L-factor for the constructed arithmetic frequency row.

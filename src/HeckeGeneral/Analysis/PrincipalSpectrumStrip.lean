@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PrincipalSpectrumRegularity
-import HeckeGeneral.Analysis.GaussianContour
+module
+
+public import HeckeGeneral.Analysis.PrincipalSpectrumRegularity
+public import HeckeGeneral.Analysis.GaussianContour
+
+@[expose] public section
 
 /-! Actual principal-spectrum analyticity and uniform Gaussian bounds
 on every finite strip to the right of Re=2. Only the named analyticity

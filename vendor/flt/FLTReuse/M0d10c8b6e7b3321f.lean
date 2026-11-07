@@ -1,6 +1,11 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicBox_isAddFundamentalDomain_preimage_mul_algebraMap_adelicBox
 
 set_option autoImplicit false

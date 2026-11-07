@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalCanonicalFrequency
-import Mathlib.RingTheory.DedekindDomain.Factorization
+module
+
+public import HeckeGeneral.Characters.LocalCanonicalFrequency
+public import Mathlib.RingTheory.DedekindDomain.Factorization
+
+@[expose] public section
 
 /-! The genuine standard local annihilator and the finite support of the different. -/
 

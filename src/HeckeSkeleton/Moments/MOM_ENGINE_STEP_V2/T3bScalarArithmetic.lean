@@ -1,6 +1,10 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecialFunctions.Sqrt
-import Mathlib.Tactic
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.SpecialFunctions.Sqrt
+public import Mathlib.Tactic
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

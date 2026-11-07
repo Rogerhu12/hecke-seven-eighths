@@ -1,9 +1,13 @@
-import HeckeGeneral.Bridge.FLTDefinitions
-import HeckeGeneral.Bridge.SLocalIdeleAssembly
-import FLTReuse.M791e48edf6c15dd6
-import FLTReuse.M55886f866855a4cc
-import FLTReuse.Mf2dfd7238df4aea9
-import FLTReuse.M8a18b6fa749851ee
+module
+
+public import HeckeGeneral.Bridge.FLTDefinitions
+public import HeckeGeneral.Bridge.SLocalIdeleAssembly
+public import FLTReuse.M791e48edf6c15dd6
+public import FLTReuse.M55886f866855a4cc
+public import FLTReuse.Mf2dfd7238df4aea9
+public import FLTReuse.M8a18b6fa749851ee
+
+@[expose] public section
 
 /-!
 # Poisson summation at an actual idele dilation

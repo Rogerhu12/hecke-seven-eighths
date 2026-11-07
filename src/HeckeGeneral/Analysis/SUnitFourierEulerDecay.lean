@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TraceSchwartzEuler
-import HeckeGeneral.Analysis.SUnitSchwartzDecay
+module
+
+public import HeckeGeneral.Analysis.TraceSchwartzEuler
+public import HeckeGeneral.Analysis.SUnitSchwartzDecay
+
+@[expose] public section
 
 /-! Uniform power decay of actual Fourier orbital profiles after finitely many
 Euler operators. The operators act on the archimedean Schwartz function before

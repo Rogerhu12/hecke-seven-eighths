@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail
+
+@[expose] public section
 
 /-!
 # Genuine tails for cutoffs frozen at an arithmetic source slice

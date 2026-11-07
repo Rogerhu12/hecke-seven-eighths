@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
+
+@[expose] public section
 
 /-!
 # First residual Gauss norms with one common Fourier kernel

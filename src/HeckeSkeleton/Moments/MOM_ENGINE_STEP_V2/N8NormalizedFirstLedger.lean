@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedScaleBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedSecondLedger
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4FrozenIdeals
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedScaleBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedSecondLedger
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4FrozenIdeals
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

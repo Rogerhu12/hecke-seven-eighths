@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.Complex.Trigonometric
+module
+
+public import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.Complex.Trigonometric
+
+@[expose] public section
 
 /-! The actual moving real frequency in the difference of the two arithmetic
 log norms. This phase is separate from a fixed archimedean character. Its

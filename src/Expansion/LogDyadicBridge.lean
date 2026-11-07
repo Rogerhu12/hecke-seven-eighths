@@ -1,5 +1,9 @@
-import Expansion.DyadicSupport
-import ExpansionDetector.FourierNormalized
+module
+
+public import Expansion.DyadicSupport
+public import ExpansionDetector.FourierNormalized
+
+@[expose] public section
 
 /-! Exact passage from a dyadic pair source to a logarithmic Fourier
 profile.  The compact logarithmic window is explicit and equals one on

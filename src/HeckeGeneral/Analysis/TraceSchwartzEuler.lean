@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
-import HeckeGeneral.Arithmetic.SLocalNormSection
-import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
+module
+
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+public import HeckeGeneral.Arithmetic.SLocalNormSection
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
+
+@[expose] public section
 
 /-! The log-product-norm Euler operator on weighted trace Euclidean Schwartz
 space. This proves Schwartz closure and derivatives of the actual dilation

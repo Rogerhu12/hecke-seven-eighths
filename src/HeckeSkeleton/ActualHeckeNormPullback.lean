@@ -1,9 +1,13 @@
-import HeckeSkeleton.HeckeHighRowLRatio
-import HeckeSkeleton.FiniteOrderKernelOpen
+module
+
+public import HeckeSkeleton.HeckeHighRowLRatio
+public import HeckeSkeleton.FiniteOrderKernelOpen
 -- Internal imports first: skeleton/check.py requires them before any registered external import.
-import HeckeGeneral.Characters.HeckeCharacter
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibTopologyComparison
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.NormTopology.Continuity
+public import HeckeGeneral.Characters.HeckeCharacter
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibTopologyComparison
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.NormTopology.Continuity
+
+@[expose] public section
 
 /-!
 UNCOMPILED CACHE CANDIDATE, 2026-10-11. No Lean/Lake invocation.

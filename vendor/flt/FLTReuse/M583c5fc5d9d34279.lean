@@ -1,7 +1,12 @@
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.Mee8f17f44a5cc910
-import FLTReuse.M254fea41d68176b5
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.Mee8f17f44a5cc910
+public import FLTReuse.M254fea41d68176b5
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_psiLocal_ne_one
 
 set_option autoImplicit false

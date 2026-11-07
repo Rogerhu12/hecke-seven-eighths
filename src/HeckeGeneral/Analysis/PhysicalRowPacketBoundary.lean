@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TInputRanges
-import HeckeGeneral.Analysis.MomentEndpointBridge
+module
+
+public import HeckeGeneral.Analysis.TInputRanges
+public import HeckeGeneral.Analysis.MomentEndpointBridge
+
+@[expose] public section
 
 /-! Every actual companion presentation used in a physical row belongs to
 the same Hecke packet. Its common boundary therefore controls every row

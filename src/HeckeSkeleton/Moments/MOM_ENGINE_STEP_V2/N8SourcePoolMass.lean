@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceRawMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FirstRowExponent
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceRawMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9FirstRowExponent
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

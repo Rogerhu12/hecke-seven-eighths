@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalActualReindex
-import ThetaGlobal.GlobalIdealCoordinates
-import HeckeAxiom.ArithmeticAdapter
+module
+
+public import ThetaGlobal.GlobalActualReindex
+public import ThetaGlobal.GlobalIdealCoordinates
+public import HeckeAxiom.ArithmeticAdapter
+
+@[expose] public section
 
 /-!
 # Reconstruction in the repository's full ReflectionIndex

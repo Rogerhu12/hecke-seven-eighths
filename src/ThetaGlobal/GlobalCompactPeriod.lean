@@ -1,6 +1,10 @@
-import Mathlib.Analysis.Calculus.ParametricIntegral
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
-import Mathlib.Tactic.Linarith
+module
+
+public import Mathlib.Analysis.Calculus.ParametricIntegral
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 # Differentiating a compact period

@@ -1,5 +1,9 @@
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic.Linarith
+module
+
+public import Mathlib.Data.Real.Basic
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 Loss-free numerical specialization of the reflected energy in revised (6.22).

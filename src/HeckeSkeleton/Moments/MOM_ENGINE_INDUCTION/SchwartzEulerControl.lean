@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
-import HeckeSkeleton.ThetaKernel.TestMellin
-import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
-import Mathlib.MeasureTheory.Integral.Bochner.Set
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+public import HeckeSkeleton.ThetaKernel.TestMellin
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+
+@[expose] public section
 
 /-!
 # Actual Schwartz control supplies the annular Euler integral budget

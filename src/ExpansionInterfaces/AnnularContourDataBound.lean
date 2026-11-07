@@ -1,4 +1,8 @@
-import ExpansionInterfaces.AnnularContourBound
+module
+
+public import ExpansionInterfaces.AnnularContourBound
+
+@[expose] public section
 
 /-!
 # Finite contour bound from one uniform family constant

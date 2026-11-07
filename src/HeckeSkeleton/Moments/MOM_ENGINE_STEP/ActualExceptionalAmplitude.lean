@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAmplitude
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalAmplitude
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+
+@[expose] public section
 
 /-!
 # Actual exceptional columns and the centered volume estimate

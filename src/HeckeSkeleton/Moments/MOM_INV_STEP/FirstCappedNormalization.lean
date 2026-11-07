@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualPrefactor
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualPrefactor
+
+@[expose] public section
 
 /-!
 # Actual first physical normalization at a prescribed row cap

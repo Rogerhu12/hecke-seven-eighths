@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedSecondResidual
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedSecondResidual
+
+@[expose] public section
 
 /-!
 # Actual allocated children under the original two-frequency measure

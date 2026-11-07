@@ -1,6 +1,10 @@
-import ThetaGlobal.FiniteTargetCutoff
-import ThetaGlobal.FiniteClassProject
-import Mathlib.Algebra.BigOperators.Pi
+module
+
+public import ThetaGlobal.FiniteTargetCutoff
+public import ThetaGlobal.FiniteClassProject
+public import Mathlib.Algebra.BigOperators.Pi
+
+@[expose] public section
 
 /-!
 # The actual finite components of the target period

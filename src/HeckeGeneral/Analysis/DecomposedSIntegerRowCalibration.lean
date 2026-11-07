@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+module
+
+public import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+
+@[expose] public section
 
 /-!
 Literal coefficient calibration on complete-ideal rows in a fixed unit

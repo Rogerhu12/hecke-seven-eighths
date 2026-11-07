@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSourceOrigin
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSourceOrigin
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveEnergy
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

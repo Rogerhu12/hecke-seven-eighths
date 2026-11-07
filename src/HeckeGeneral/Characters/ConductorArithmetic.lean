@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.LocalConductor
+module
+
+public import HeckeGeneral.Characters.LocalConductor
+
+@[expose] public section
 
 /-! Arithmetic of the actual local conductor exponents. -/
 

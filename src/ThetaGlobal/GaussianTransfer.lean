@@ -1,6 +1,10 @@
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.Analysis.Normed.Group.Tannery
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.Normed.Group.Tannery
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 /-!
 # Passing from a fixed profile to arbitrary tests by regularized convolution

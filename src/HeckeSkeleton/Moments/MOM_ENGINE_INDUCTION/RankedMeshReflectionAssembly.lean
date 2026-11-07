@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalMesh
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OriginalMesh
+
+@[expose] public section
 
 /-!
 # Producing reflection children in the original-mesh family

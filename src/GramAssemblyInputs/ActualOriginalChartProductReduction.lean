@@ -1,4 +1,8 @@
-import ActualSexticOriginalChartMean
+module
+
+public import ActualSexticOriginalChartMean
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The literal original chart coefficient depends on

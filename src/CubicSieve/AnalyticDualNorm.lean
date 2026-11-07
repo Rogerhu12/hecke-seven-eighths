@@ -1,5 +1,9 @@
-import CubicSieve.AnalyticGrowth
-import CubicSieve.AnalyticDecay
+module
+
+public import CubicSieve.AnalyticGrowth
+public import CubicSieve.AnalyticDecay
+
+@[expose] public section
 
 /-!
 The actual unrestricted-ideal dual norm. It is a matrix of the same kernel:

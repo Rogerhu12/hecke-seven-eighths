@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimeSupportMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonRadical
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimeSupportMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonRadical
+
+@[expose] public section
 
 /-!
 # Counting genuine common-support labels over a number field

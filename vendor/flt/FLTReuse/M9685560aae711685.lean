@@ -1,7 +1,12 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M81477154c83a610e
-import FLTReuse.M7c74d34e26b915e3
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.M7c74d34e26b915e3
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_zetaIntegral_mul_eulerFactors_eq
 
 set_option autoImplicit false

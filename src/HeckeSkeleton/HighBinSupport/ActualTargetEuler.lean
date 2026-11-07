@@ -1,5 +1,9 @@
-import HeckeSkeleton.TargetArithmeticData
-import HeckeSkeleton.HighBinSupport.ActualEulerInput
+module
+
+public import HeckeSkeleton.TargetArithmeticData
+public import HeckeSkeleton.HighBinSupport.ActualEulerInput
+
+@[expose] public section
 
 /-!
 # The actual target specialization of the arithmetic Euler construction

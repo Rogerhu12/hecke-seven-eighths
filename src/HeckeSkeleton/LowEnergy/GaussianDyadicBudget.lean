@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.DyadicTail
-import HeckeSkeleton.LowEnergy.GaussianSeminorm
+module
+
+public import HeckeSkeleton.LowEnergy.DyadicTail
+public import HeckeSkeleton.LowEnergy.GaussianSeminorm
+
+@[expose] public section
 
 /-!
 # One proved budget for all Gaussian annuli and all dual dyads

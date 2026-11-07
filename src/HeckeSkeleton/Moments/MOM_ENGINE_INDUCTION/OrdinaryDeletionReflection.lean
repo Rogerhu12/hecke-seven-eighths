@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDecay
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MaskDeletion
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDecay
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MaskDeletion
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
+
+@[expose] public section
 
 /-!
 # The actual ordinary reflection consumed by finite Euler deletion

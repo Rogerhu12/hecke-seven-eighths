@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.Unramified
-import HeckeGeneral.Characters.LocalUniformizer
+module
+
+public import HeckeGeneral.Characters.Unramified
+public import HeckeGeneral.Characters.LocalUniformizer
+
+@[expose] public section
 
 /-!
 # Genuine local Euler coefficients of a unitary Hecke character

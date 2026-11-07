@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SIntegerSexticMellinAmplification
-import HeckeGeneral.Analysis.IdealDyadicContinuation
-import HeckeGeneral.Analysis.LocalThetaInput
+module
+
+public import HeckeGeneral.Analysis.SIntegerSexticMellinAmplification
+public import HeckeGeneral.Analysis.IdealDyadicContinuation
+public import HeckeGeneral.Analysis.LocalThetaInput
+
+@[expose] public section
 
 /-!
 The actual row at one is the actual deleted Moebius dyadic shell, with

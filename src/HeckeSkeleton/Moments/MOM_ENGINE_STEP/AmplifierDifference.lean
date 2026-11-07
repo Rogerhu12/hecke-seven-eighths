@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
+
+@[expose] public section
 
 /-!
 # Exact local differences inside the original whole amplifier polynomial

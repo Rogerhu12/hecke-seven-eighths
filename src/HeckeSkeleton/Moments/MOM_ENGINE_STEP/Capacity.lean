@@ -1,4 +1,8 @@
-import HeckePort.Moments.SlotRemoval
+module
+
+public import HeckePort.Moments.SlotRemoval
+
+@[expose] public section
 
 /-!
 # One capacity repair on the actual live product

@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.GeneralReflectedBlock
-import HeckeSkeleton.LowEnergy.GeneralBlockPolynomial
-import HeckeSkeleton.LowEnergy.IdealRankin
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralReflectedBlock
+public import HeckeSkeleton.LowEnergy.GeneralBlockPolynomial
+public import HeckeSkeleton.LowEnergy.IdealRankin
+
+@[expose] public section
 
 /-!
 # General marked reflected energy on the genuine dual blocks

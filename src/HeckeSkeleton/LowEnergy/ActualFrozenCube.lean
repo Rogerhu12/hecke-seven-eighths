@@ -1,8 +1,12 @@
-import HeckeSkeleton.LowEnergy.ActualReflection
-import HeckeSkeleton.LowEnergy.ActualSymbols
-import HeckeSkeleton.LowEnergy.ActualSymbolProducts
-import HeckeSkeleton.LowEnergy.FrozenIdealRows
-import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+module
+
+public import HeckeSkeleton.LowEnergy.ActualReflection
+public import HeckeSkeleton.LowEnergy.ActualSymbols
+public import HeckeSkeleton.LowEnergy.ActualSymbolProducts
+public import HeckeSkeleton.LowEnergy.FrozenIdealRows
+public import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+
+@[expose] public section
 
 /-!
 # Literal local coefficients and frozen numerator of the reflected summand

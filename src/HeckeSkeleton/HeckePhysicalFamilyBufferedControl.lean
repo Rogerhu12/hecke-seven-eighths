@@ -1,5 +1,9 @@
-import HeckeSkeleton.HeckeFiniteBackgroundControl
-import HeckeSkeleton.HighNormBackgroundExclusion
+module
+
+public import HeckeSkeleton.HeckeFiniteBackgroundControl
+public import HeckeSkeleton.HighNormBackgroundExclusion
+
+@[expose] public section
 
 /-!
 Buffered control of the actual physical row family. The finite background

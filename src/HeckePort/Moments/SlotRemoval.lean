@@ -1,8 +1,12 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!
 # Whole-slot removal

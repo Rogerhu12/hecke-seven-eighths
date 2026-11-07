@@ -1,4 +1,8 @@
-import Expansion.PhysicalRecipeAssembly
+module
+
+public import Expansion.PhysicalRecipeAssembly
+
+@[expose] public section
 
 /-!
 # Numerical provenance at every active physical recipe scale

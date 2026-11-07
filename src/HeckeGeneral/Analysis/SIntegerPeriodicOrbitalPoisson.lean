@@ -1,8 +1,12 @@
-import HeckeGeneral.Bridge.SIntegerPeriodicScaledSummability
-import HeckeGeneral.Bridge.SIntegerScaledSchwartzModel
-import HeckeGeneral.Arithmetic.SIntegerModulusNormSection
-import HeckeGeneral.Analysis.SIntegerWeightedOrbitalSum
-import HeckeGeneral.Analysis.SIntegerWeightedSeriesIntegrable
+module
+
+public import HeckeGeneral.Bridge.SIntegerPeriodicScaledSummability
+public import HeckeGeneral.Bridge.SIntegerScaledSchwartzModel
+public import HeckeGeneral.Arithmetic.SIntegerModulusNormSection
+public import HeckeGeneral.Analysis.SIntegerWeightedOrbitalSum
+public import HeckeGeneral.Analysis.SIntegerWeightedSeriesIntegrable
+
+@[expose] public section
 
 /-!
 # Periodic orbital Poisson on the original S-unit quotient

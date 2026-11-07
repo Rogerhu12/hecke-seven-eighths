@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExpansionModels.SharedWitnessRecipe
-import HeckeSkeleton.ExpansionModels.WitnessHeightNormalization
-import HeckeSkeleton.ExpansionModels.RecipeSchedule
+module
+
+public import HeckeSkeleton.ExpansionModels.SharedWitnessRecipe
+public import HeckeSkeleton.ExpansionModels.WitnessHeightNormalization
+public import HeckeSkeleton.ExpansionModels.RecipeSchedule
+
+@[expose] public section
 
 /-!
 # One data recipe for the expansion and all moment models

@@ -1,5 +1,9 @@
-import CubicSieve.AnalyticRowDecomposition
-import CubicSieve.ExteriorSieve
+module
+
+public import CubicSieve.AnalyticRowDecomposition
+public import CubicSieve.ExteriorSieve
+
+@[expose] public section
 
 /-!
 Finite cubic extraction bounds for the actual ideal kernel. Completing the

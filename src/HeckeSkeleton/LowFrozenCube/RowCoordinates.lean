@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowFrozenCube.PrimeCoordinates
+module
+
+public import HeckeSkeleton.LowFrozenCube.PrimeCoordinates
+
+@[expose] public section
 
 /-!
 # The actual powerful, supported, and residual row factors

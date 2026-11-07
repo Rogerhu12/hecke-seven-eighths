@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualUniformProduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstIntegratedReduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualErrorBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalCenters
-import HeckeSkeleton.Moments.MOM_INV_STEP.FinalStepBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualUniformProduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstIntegratedReduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualErrorBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalCenters
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FinalStepBounds
+
+@[expose] public section
 
 /-!
 # The original normalized first total closes under the actual child IH

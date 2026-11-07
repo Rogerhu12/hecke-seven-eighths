@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
+
+@[expose] public section
 
 /-!
 # Paying every original Mellin scale power before the moving parameters

@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.SIntegerSchwartzSummability
-import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
-import Mathlib.Analysis.Normed.Module.FiniteDimension
+module
+
+public import HeckeGeneral.Analysis.SIntegerSchwartzSummability
+public import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
+
+@[expose] public section
 
 /-!
 # Unfold all nonzero S-integers into the actual orbital profile

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDyadic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDyadic
+
+@[expose] public section
 
 /-!
 # Whole reflected series and normalized finite dyadic tails

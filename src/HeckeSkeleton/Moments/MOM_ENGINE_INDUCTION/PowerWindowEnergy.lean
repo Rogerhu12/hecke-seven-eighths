@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionOperator
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowIntegralKernel
-import HeckeSkeleton.Moments.MOM_BASE.PairedPolynomials
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionOperator
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowIntegralKernel
+public import HeckeSkeleton.Moments.MOM_BASE.PairedPolynomials
+
+@[expose] public section
 
 /-!
 # The actual reflected column inside the original moment energy

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.TraceJointProfileBounds
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.Data.Nat.Choose.Sum
+module
+
+public import HeckeGeneral.Analysis.TraceJointProfileBounds
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.Data.Nat.Choose.Sum
+
+@[expose] public section
 
 /-! A fixed smooth compact cutoff turns the actual joint orbital kernel into
 a Schwartz function on the full two-column trace vector space. Smooth extension

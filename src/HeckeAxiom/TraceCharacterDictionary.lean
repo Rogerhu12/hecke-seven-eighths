@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.SIntegerModulusPhase
-import DedekindZetaZeroFree.Adeles.Approximation.SIntegerFiniteStrongApproximation
-import DedekindZetaZeroFree.Adeles.Characters.GlobalTraceProductFormula
-import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.CodifferentTraceDuality
+module
+
+public import HeckeGeneral.Characters.SIntegerModulusPhase
+public import DedekindZetaZeroFree.Adeles.Approximation.SIntegerFiniteStrongApproximation
+public import DedekindZetaZeroFree.Adeles.Characters.GlobalTraceProductFormula
+public import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.CodifferentTraceDuality
+
+@[expose] public section
 
 /-!
 # The two standard additive characters agree

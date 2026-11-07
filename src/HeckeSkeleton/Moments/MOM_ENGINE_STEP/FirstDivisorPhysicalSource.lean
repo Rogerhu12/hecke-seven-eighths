@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
+
+@[expose] public section
 
 /-!
 # A physical first-frequency set for each original mask divisor

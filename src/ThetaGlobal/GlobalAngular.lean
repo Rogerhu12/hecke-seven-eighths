@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalMarks
-import Mathlib.Analysis.SpecialFunctions.Complex.Circle
-import Mathlib.Analysis.Calculus.Deriv.Mul
-import Mathlib.GroupTheory.QuotientGroup.Basic
+module
+
+public import ThetaGlobal.GlobalMarks
+public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+public import Mathlib.GroupTheory.QuotientGroup.Basic
+
+@[expose] public section
 
 /-!
 # Angular cancellation for every nonzero integer weight

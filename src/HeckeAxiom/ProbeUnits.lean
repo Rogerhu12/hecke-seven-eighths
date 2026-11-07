@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import DedekindZetaZeroFree.Nonvanishing.Mellin.NormOneFourierSheetEstimates
-import DedekindZetaZeroFree.Adeles.Archimedean.MixedEmbeddingComparison
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import DedekindZetaZeroFree.Nonvanishing.Mellin.NormOneFourierSheetEstimates
+public import DedekindZetaZeroFree.Adeles.Archimedean.MixedEmbeddingComparison
+
+@[expose] public section
 
 /-!
 # The skeleton's local multiplicative group is Axiom's `A.G`

@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalProjectReflectedReindex
-import ThetaGlobal.GlobalSkeletonDirect
+module
+
+public import ThetaGlobal.GlobalProjectReflectedReindex
+public import ThetaGlobal.GlobalSkeletonDirect
+
+@[expose] public section
 
 /-!
 # The actual high K-type source proves the literal marked seed

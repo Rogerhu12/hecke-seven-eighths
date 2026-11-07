@@ -1,10 +1,14 @@
-import HeckeSkeleton.LowEnergy.GeneralCanonicalBlock
-import HeckeSkeleton.LowEnergy.GeneralKernelTail
-import HeckeSkeleton.LowEnergy.GeneralAnnuli
-import HeckeSkeleton.LowEnergy.GeneralProductReconstruction
-import HeckeSkeleton.LowEnergy.GeneralUniformEnergy
-import HeckeSkeleton.LowEnergy.GeneralSourceCutoff
-import HeckeSkeleton.LowEnergy.GeneralProductEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralCanonicalBlock
+public import HeckeSkeleton.LowEnergy.GeneralKernelTail
+public import HeckeSkeleton.LowEnergy.GeneralAnnuli
+public import HeckeSkeleton.LowEnergy.GeneralProductReconstruction
+public import HeckeSkeleton.LowEnergy.GeneralUniformEnergy
+public import HeckeSkeleton.LowEnergy.GeneralSourceCutoff
+public import HeckeSkeleton.LowEnergy.GeneralProductEnergy
+
+@[expose] public section
 
 /-!
 # Public general marked reflected energy

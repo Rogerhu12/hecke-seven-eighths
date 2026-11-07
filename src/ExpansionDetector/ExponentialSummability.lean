@@ -1,4 +1,8 @@
-import ExpansionDetector.ExponentialTail
+module
+
+public import ExpansionDetector.ExponentialTail
+
+@[expose] public section
 
 noncomputable section
 namespace ExpansionDetector.Analytic

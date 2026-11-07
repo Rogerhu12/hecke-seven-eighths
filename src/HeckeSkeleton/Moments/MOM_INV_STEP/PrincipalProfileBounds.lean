@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+
+@[expose] public section
 
 /-!
 # Finite Schwartz control of the actual additive zero terms

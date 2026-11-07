@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeGeneral.Analysis.ExteriorIdealCounting
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeGeneral.Analysis.ExteriorIdealCounting
+
+@[expose] public section
 
 noncomputable section
 

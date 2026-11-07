@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernelBounds
-import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernelBounds
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius
+
+@[expose] public section
 
 /-!
 # A common Fourier envelope with arbitrarily small outer-radius loss

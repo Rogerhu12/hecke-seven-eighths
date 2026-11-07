@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredPositiveEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredPositiveEnergy
+
+@[expose] public section
 
 /-!
 # Production first-parent bound with one fixed center grid

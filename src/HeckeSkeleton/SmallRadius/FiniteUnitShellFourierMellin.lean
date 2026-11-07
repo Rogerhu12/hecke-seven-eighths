@@ -1,8 +1,12 @@
-import HeckeSkeleton.SmallRadius.FiniteUnitShellFourier
-import HeckeSkeleton.SmallRadius.FiniteMultiplicativeHaarDensity
-import FLTReuse.M1c722af550c2b699
-import FLTReuse.Mad950c02a4314b2a
-import Mathlib.MeasureTheory.Group.Integral
+module
+
+public import HeckeSkeleton.SmallRadius.FiniteUnitShellFourier
+public import HeckeSkeleton.SmallRadius.FiniteMultiplicativeHaarDensity
+public import FLTReuse.M1c722af550c2b699
+public import FLTReuse.Mad950c02a4314b2a
+public import Mathlib.MeasureTheory.Group.Integral
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

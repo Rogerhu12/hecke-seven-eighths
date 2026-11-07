@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.LogProfileFourier
+module
+
+public import HeckeSkeleton.ExpansionModels.LogProfileFourier
+
+@[expose] public section
 
 /-!
 # The actual smooth one-sided cutoff in the uniform Fourier theorem

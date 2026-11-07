@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
+
+@[expose] public section
 
 /-!
 # The exceptional divisor saving pays its actual finite carrier

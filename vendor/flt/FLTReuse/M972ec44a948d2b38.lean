@@ -1,7 +1,12 @@
-import FLTReuse.Mb8f476785919d863
-import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mb8f476785919d863
+public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_realZeta_eq_localZeta
 
 open MeasureTheory LanglandsTunnell.TateLocal LanglandsTunnell.ArchPlace Metric

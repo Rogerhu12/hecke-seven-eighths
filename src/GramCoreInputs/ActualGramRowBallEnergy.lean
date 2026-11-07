@@ -1,6 +1,10 @@
-import ActualAdditiveGramFreeOrbitalAssembly
-import ActualGramRowBallOrbitalMajorant
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import ActualAdditiveGramFreeOrbitalAssembly
+public import ActualGramRowBallOrbitalMajorant
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. Actual finite sector energies are dominated by a

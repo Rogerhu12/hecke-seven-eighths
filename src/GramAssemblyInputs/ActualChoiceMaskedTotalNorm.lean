@@ -1,6 +1,10 @@
-import ActualChoiceMaskedOriginalDivisor
-import ActualChosenDepthTrivialBound
-import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+module
+
+public import ActualChoiceMaskedOriginalDivisor
+public import ActualChosenDepthTrivialBound
+public import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Candidate for T only. Both finite column norms

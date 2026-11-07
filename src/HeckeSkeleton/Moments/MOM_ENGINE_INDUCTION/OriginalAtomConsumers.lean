@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinProfileNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCommonReflection
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinProfileNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCommonReflection
+
+@[expose] public section
 
 /-!
 # Original norm and arithmetic dictionaries for actual induction children

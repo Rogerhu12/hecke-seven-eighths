@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.ComplexMultiplicativeHaarDensity
-import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+module
+
+public import HeckeSkeleton.SmallRadius.ComplexMultiplicativeHaarDensity
+public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

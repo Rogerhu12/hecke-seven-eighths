@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMaskedMellin
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceFourierControl
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedMaskedMellin
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceFourierControl
+
+@[expose] public section
 
 /-!
 # Actual logarithmic profiles in the marked overlap source

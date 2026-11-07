@@ -1,5 +1,9 @@
-import ActualGramDualOrbitalScale
-import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+module
+
+public import ActualGramDualOrbitalScale
+public import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED source candidate. The columns are the actual supplied generators,

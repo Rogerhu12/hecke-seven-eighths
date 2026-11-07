@@ -1,7 +1,11 @@
-import ActualAllowedResidualSum
-import ActualRowBallResidualAnalyticFactor
-import ActualOriginalAnnularUnitReconstruction
-import ActualAllowedPairEnumeration
+module
+
+public import ActualAllowedResidualSum
+public import ActualRowBallResidualAnalyticFactor
+public import ActualOriginalAnnularUnitReconstruction
+public import ActualAllowedPairEnumeration
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The original finite residual-ideal row-ball sum

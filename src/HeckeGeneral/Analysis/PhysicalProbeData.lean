@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.PrimeWindowGeometry
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeGeneral.Analysis.SUnitSchwartzSlice
-import HeckeGeneral.Analysis.SUnitHaar
-import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+module
+
+public import HeckeGeneral.Analysis.PrimeWindowGeometry
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeGeneral.Analysis.SUnitSchwartzSlice
+public import HeckeGeneral.Analysis.SUnitHaar
+public import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+
+@[expose] public section
 
 /-!
 The literal physical probe (P, poisson-probe) and M's finite compensation.

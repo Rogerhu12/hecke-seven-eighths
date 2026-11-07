@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedReflectionDensity
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedReflectionDensity
+
+@[expose] public section
 
 /-!
 # Annular profile budgets independent of a source dictionary

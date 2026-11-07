@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowHybrid.NormalFormFinite
+module
+
+public import HeckeSkeleton.LowHybrid.NormalFormFinite
+
+@[expose] public section
 
 /-!
 # The original hybrid row equals the double-divisor normal form

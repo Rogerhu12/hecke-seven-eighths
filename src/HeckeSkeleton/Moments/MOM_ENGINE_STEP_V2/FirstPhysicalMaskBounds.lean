@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroInputBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroInputBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

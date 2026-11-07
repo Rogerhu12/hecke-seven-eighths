@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
+
+@[expose] public section
 
 /-!
 # Actual base leaves for the finite-order recursive profile family

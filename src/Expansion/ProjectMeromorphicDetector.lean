@@ -1,5 +1,9 @@
-import Expansion.BufferedSelection
-import HeckeGeneral.Analysis.PhysicalRowPacketBoundary
+module
+
+public import Expansion.BufferedSelection
+public import HeckeGeneral.Analysis.PhysicalRowPacketBoundary
+
+@[expose] public section
 
 /-!
 Project adapter for the self-contained meromorphic-order detector.  The only

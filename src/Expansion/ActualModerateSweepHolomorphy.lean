@@ -1,6 +1,10 @@
-import Expansion.ActualRowKernelHolomorphy
-import Expansion.ActualOuterContourTransport
-import HeckeSkeleton.HighBinSupport.JointAnalyticLimit
+module
+
+public import Expansion.ActualRowKernelHolomorphy
+public import Expansion.ActualOuterContourTransport
+public import HeckeSkeleton.HighBinSupport.JointAnalyticLimit
+
+@[expose] public section
 
 /-!
 # Actual moderate-row holomorphy on the genuine high-bin swept tube

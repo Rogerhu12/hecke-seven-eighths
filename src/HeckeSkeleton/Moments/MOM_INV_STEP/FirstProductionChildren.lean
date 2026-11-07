@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualTwoPassChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualTwoPassChildren
+
+@[expose] public section
 
 /-!
 # Literal child packets from the actual two-pass production index

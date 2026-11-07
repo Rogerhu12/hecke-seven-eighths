@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.ResidueTraceCharacters
+module
+
+public import HeckeGeneral.Arithmetic.ResidueTraceCharacters
+
+@[expose] public section
 
 /-!
 # Tensor and CRT factorization of the finite transform

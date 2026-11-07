@@ -1,5 +1,9 @@
-import HeckeSkeleton.SourceData
-import HeckeSkeleton.ExpansionModels.SourceGeometry
+module
+
+public import HeckeSkeleton.SourceData
+public import HeckeSkeleton.ExpansionModels.SourceGeometry
+
+@[expose] public section
 
 /-!
 # The same explicit recipe supplies source data and moment models

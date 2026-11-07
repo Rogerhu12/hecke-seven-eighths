@@ -1,5 +1,9 @@
-import ActualRowBallResidualGoodPrimeBound
-import ActualFixedBoxTotalNormDecay
+module
+
+public import ActualRowBallResidualGoodPrimeBound
+public import ActualFixedBoxTotalNormDecay
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. A scalar bound for the actual finite residual sum.

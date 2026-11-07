@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
+
+@[expose] public section
 
 /-!
 # Actual first allowances and their original profile scalar

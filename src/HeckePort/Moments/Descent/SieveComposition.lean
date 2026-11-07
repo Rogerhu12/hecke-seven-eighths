@@ -1,5 +1,9 @@
-import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
-import HeckePort.Moments.Descent.Fibers
+module
+
+public import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
+public import HeckePort.Moments.Descent.Fibers
+
+@[expose] public section
 
 /-!
 # Sieve composition

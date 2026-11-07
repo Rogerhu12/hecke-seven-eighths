@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.IdealDivisorMasks
-import Mathlib.Algebra.Squarefree.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Preimage
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeSkeleton.LowEnergy.IdealDivisorMasks
+public import Mathlib.Algebra.Squarefree.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Preimage
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # Pure actual-ideal canonical columns and raw hybrid reconstruction

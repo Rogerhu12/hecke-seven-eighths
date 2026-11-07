@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCompleteColumns
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
-import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredMellin
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCompleteColumns
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredMellin
+
+@[expose] public section
 
 /-!
 # Literal second child families at fixed annular centers

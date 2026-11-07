@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.SquarefreeFibers
-import HeckeSkeleton.LowEnergy.KeepOriginalRow
-import Mathlib.Data.Nat.Choose.Sum
-import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+module
+
+public import HeckeSkeleton.LowEnergy.SquarefreeFibers
+public import HeckeSkeleton.LowEnergy.KeepOriginalRow
+public import Mathlib.Data.Nat.Choose.Sum
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+
+@[expose] public section
 
 /-!
 # Actual finite ideal divisors and exact squarefree moving masks

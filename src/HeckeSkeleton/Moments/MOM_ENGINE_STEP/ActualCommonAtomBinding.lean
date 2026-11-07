@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonCoefficientExtraction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonCoefficientExtraction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
+
+@[expose] public section
 
 /-!
 # Bind real occurrence branches to the reweighted common rows

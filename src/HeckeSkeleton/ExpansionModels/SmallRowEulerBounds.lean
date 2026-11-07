@@ -1,4 +1,8 @@
-import HeckeSkeleton.HighBinSupport.SelectedCompensation
+module
+
+public import HeckeSkeleton.HighBinSupport.SelectedCompensation
+
+@[expose] public section
 
 /-!
 # Ramified Euler factors on the outer small-row contour

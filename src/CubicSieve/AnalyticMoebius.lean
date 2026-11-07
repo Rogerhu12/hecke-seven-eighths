@@ -1,5 +1,9 @@
-import CubicSieve.AnalyticDivisors
-import DedekindZetaZeroFree.Arithmetic.Ideals.MoebiusCoprimality
+module
+
+public import CubicSieve.AnalyticDivisors
+public import DedekindZetaZeroFree.Arithmetic.Ideals.MoebiusCoprimality
+
+@[expose] public section
 
 /-!
 Pointwise Möbius removal of the true common-prime mask.  The radical proof

@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormDeficit
-import Mathlib.Tactic.GCongr
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormDeficit
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
+
 /-!
 Pointwise norm form from separately bounded physical factors.
 

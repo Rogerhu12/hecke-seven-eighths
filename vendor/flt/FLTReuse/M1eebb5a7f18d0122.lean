@@ -1,6 +1,11 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.Topology.LocallyConstant.Algebra
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.Topology.LocallyConstant.Algebra
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicBox_isLocallyConstant_and_hasCompactSupport_indicator_image_integralFiniteAdeles
 
 set_option autoImplicit false

@@ -1,7 +1,11 @@
-import ActualGramRowBallOrbitalMajorant
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOrbitFibre
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+module
+
+public import ActualGramRowBallOrbitalMajorant
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOrbitFibre
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+
+@[expose] public section
 
 /-!
 # A constructed positive orbital test for the original row ball

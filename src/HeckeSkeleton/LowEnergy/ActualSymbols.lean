@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
-import HeckePort.CenteredMoment.Generator
-import HeckePort.Moments.Descent.Hybrid
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+public import HeckePort.CenteredMoment.Generator
+public import HeckePort.Moments.Descent.Hybrid
+
+@[expose] public section
 
 /-!
 # Actual sextic kernels for the hybrid terminal

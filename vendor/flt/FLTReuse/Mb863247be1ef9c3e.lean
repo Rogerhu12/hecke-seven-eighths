@@ -1,6 +1,10 @@
-import Mathlib
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M84a19a4b46484342
+module
+
+public import Mathlib
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M84a19a4b46484342
+
+@[expose] public section
 
 theorem NumberField.exists_completedDedekindZeta_package (K : Type) [Field K] [NumberField K] :
     ∃ Λ : ℂ → ℂ,

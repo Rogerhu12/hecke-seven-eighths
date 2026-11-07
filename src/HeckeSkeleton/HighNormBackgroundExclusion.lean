@@ -1,9 +1,13 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeGeneral.Characters.InfinityPacket
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.Data.Fintype.Sigma
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeGeneral.Characters.InfinityPacket
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.Data.Fintype.Sigma
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 An explicit finite obstruction to pure norm twists in high physical rows.

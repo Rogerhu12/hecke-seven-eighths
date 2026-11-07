@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.ProductResidueFourier
+module
+
+public import HeckeGeneral.Arithmetic.ProductResidueFourier
+
+@[expose] public section
 
 /-!
 # Gauss sums for the constructed residue-field trace characters

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlockBound
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlockBound
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnvelope
+
+@[expose] public section
 
 /-!
 # The actual long completed contribution of every canonical node

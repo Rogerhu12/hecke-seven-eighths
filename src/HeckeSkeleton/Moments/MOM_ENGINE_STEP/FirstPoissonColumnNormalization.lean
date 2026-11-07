@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
+
+@[expose] public section
 
 /-!
 # Column normalization from the literal first Poisson factor

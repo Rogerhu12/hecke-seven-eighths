@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealSquarefreeSupport
-import HeckeGeneral.Analysis.SIntegerSexticAmplification
+module
+
+public import HeckeGeneral.Analysis.IdealSquarefreeSupport
+public import HeckeGeneral.Analysis.SIntegerSexticAmplification
+
+@[expose] public section
 
 /-!
 Actual finite ideal sums for sextic inverse rows.  The zero extension below

@@ -1,5 +1,9 @@
-import ExpansionInterfaces.DyadicCount
-import Mathlib.Tactic.FieldSimp
+module
+
+public import ExpansionInterfaces.DyadicCount
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
 
 /-!
 # Actual dyadic shell assignment with strict lower endpoints

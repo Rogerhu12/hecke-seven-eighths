@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SUnitJointRadialProfile
-import HeckeSkeleton.Moments.MOM_INV_STEP.FourierSeparation
+module
+
+public import HeckeGeneral.Analysis.SUnitJointRadialProfile
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FourierSeparation
+
+@[expose] public section
 
 /-!
 # Actual Fourier separation of the common radial orbital kernel

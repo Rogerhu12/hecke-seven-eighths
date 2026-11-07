@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TerminalContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.BudgetAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ExceptionalSummationContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TerminalContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.BudgetAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ExceptionalSummationContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

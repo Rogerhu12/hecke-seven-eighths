@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius
-import HeckeGeneral.Analysis.SIntegerProfileTail
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius
+public import HeckeGeneral.Analysis.SIntegerProfileTail
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+
+@[expose] public section
 
 /-!
 # Absolute mass of the actual orbital profile

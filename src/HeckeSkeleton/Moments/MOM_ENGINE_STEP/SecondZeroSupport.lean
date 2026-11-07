@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondGeneratorSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroAmplitude
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondGeneratorSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroAmplitude
+
+@[expose] public section
 
 /-!
 # The genuine second zero term and its full Euler diagonal

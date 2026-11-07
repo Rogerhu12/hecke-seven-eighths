@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GeneralProductReconstruction
-import HeckeSkeleton.LowEnergy.GeneralCanonicalBlock
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralProductReconstruction
+public import HeckeSkeleton.LowEnergy.GeneralCanonicalBlock
+
+@[expose] public section
 
 /-!
 # From prime choices to literal finite canonical blocks

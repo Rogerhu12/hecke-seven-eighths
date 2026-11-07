@@ -1,8 +1,13 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M55164c2a16500130
-import Mathlib.NumberTheory.NumberField.Discriminant.Defs
-import FLTReuse.M1a34c7e500ef7608
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M55164c2a16500130
+public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
+public import FLTReuse.M1a34c7e500ef7608
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_EisensteinGeneral_Factorization_inv_measure_adelicBox_mul_fourierIntegral_tensor_eq
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 

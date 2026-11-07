@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.TIPSources
+module
+
+public import HeckeGeneral.Analysis.TIPSources
+
+@[expose] public section
 
 /-! Increasing a detector loss keeps the exact witnesses, values and rows.
 This permits choosing the internal zero-bin width below a second outer loss

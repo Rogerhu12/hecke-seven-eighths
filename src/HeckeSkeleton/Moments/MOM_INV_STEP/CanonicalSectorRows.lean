@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+
+@[expose] public section
 
 /-!
 # Canonical row values with every original sector retained

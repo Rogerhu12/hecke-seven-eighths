@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalProfiles
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSourceReindex
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalJointAllocatedSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalProfiles
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSourceReindex
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalJointAllocatedSource
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

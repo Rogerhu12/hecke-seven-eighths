@@ -1,6 +1,10 @@
-import ThetaGlobal.ScalarMellinConvolution
-import ThetaGlobal.GaussianRegularization
-import Mathlib.Analysis.MellinInversion
+module
+
+public import ThetaGlobal.ScalarMellinConvolution
+public import ThetaGlobal.GaussianRegularization
+public import Mathlib.Analysis.MellinInversion
+
+@[expose] public section
 
 /-!
 # Pointwise scalar Gaussian limits, including actual Mellin inversion

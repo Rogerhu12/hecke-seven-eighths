@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalDiagonal
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalCounting
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalDiagonal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalCounting
+
+@[expose] public section
 
 /-!
 # Count the actual principal source, before discarding its masks

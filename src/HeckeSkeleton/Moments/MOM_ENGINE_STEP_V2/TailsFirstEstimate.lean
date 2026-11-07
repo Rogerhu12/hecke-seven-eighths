@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsEstimateAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsAnalytic
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsFixedCutoff
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsEstimateAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsAnalytic
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsFixedCutoff
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

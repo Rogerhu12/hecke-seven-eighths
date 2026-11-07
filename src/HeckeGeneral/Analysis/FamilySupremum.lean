@@ -1,7 +1,11 @@
-import Mathlib.Order.ConditionallyCompleteLattice.Basic
-import Mathlib.Algebra.Order.Archimedean.Real.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.Order.ConditionallyCompleteLattice.Basic
+public import Mathlib.Algebra.Order.Archimedean.Real.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # The common real-zero boundary of an entire family

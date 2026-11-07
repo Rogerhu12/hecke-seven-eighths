@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondActiveDualZeroDiagonal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeGramOrigin
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondActiveDualZeroDiagonal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeGramOrigin
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRows
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstFreeMellinEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRows
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstFreeMellinEnergy
+
+@[expose] public section
 
 /-!
 # The whole original label-frequency fiber under both spectral measures

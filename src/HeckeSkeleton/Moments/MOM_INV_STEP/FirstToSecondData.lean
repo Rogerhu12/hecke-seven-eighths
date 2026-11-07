@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedFreeEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPositiveIndex
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedFreeEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPositiveIndex
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained
+
+@[expose] public section
 
 /-!
 # The actual first free energy is the next Poisson input

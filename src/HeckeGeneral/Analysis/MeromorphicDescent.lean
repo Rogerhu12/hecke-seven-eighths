@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Meromorphic.Order
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.Analysis.Meromorphic.Order
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Descent through a finite meromorphic factorization

@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExpansionModels.SourceData
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceAdapter
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreGeometry
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceAdapter
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreGeometry
+
+@[expose] public section
 
 /-!
 # Primitive root geometry of the one explicit source recipe

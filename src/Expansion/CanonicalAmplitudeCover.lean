@@ -1,8 +1,12 @@
-import Expansion.ActualCanonicalRecipe
-import Expansion.CanonicalCutoff
-import Expansion.FiniteTerminalLabels
-import Expansion.PhysicalRowSupport
-import HeckeSkeleton.ExpansionModels.SourceGeometry
+module
+
+public import Expansion.ActualCanonicalRecipe
+public import Expansion.CanonicalCutoff
+public import Expansion.FiniteTerminalLabels
+public import Expansion.PhysicalRowSupport
+public import HeckeSkeleton.ExpansionModels.SourceGeometry
+
+@[expose] public section
 
 /-!
 # A literal canonical amplitude recipe and its finite witness cover

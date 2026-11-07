@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.HeckeNormPole
-import HeckeGeneral.Analysis.EulerFactors
-import HeckeGeneral.Analysis.MellinZeroDetector
+module
+
+public import HeckeGeneral.Analysis.HeckeNormPole
+public import HeckeGeneral.Analysis.EulerFactors
+public import HeckeGeneral.Analysis.MellinZeroDetector
+
+@[expose] public section
 
 /-!
 

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeSkeleton.GramDyadic
-import Mathlib.Topology.Algebra.InfiniteSum.Real
+module
+
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeSkeleton.GramDyadic
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+
+@[expose] public section
 
 /-!
 # The ideal double shell of the Gram estimate (GR-09)

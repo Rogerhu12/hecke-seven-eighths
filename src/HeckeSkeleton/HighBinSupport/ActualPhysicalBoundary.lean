@@ -1,6 +1,10 @@
-import Expansion.PhysicalRecipeRemainders
-import HeckeSkeleton.HighBinSupport.ActualBoundaryEstimate
-import HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption
+module
+
+public import Expansion.PhysicalRecipeRemainders
+public import HeckeSkeleton.HighBinSupport.ActualBoundaryEstimate
+public import HeckeSkeleton.HighBinSupport.BoundaryHeightAbsorption
+
+@[expose] public section
 
 /-!
 # Arbitrary height decay for the actual physical whole-bin boundary

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleProduct
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleProduct
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

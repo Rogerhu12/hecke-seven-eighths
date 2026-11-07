@@ -1,12 +1,16 @@
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
-import Mathlib.Algebra.Order.Field.Basic
-import Mathlib.Basic.Real.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Data.Finset.Max
-import Mathlib.Tactic.LinearCombination
+module
+
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Algebra.Order.Field.Basic
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Data.Finset.Max
+public import Mathlib.Tactic.LinearCombination
+
+@[expose] public section
 
 /-!
 Whole-slot selection for prime amplitudes (Q 15116--15134).

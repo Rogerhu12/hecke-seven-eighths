@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
-import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
-import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
-import ArithmeticFrequencyRowConductor
-import RowCharacterCanonicalUniqueness
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
+public import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
+public import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
+public import ArithmeticFrequencyRowConductor
+public import RowCharacterCanonicalUniqueness
+
+@[expose] public section
 
 /-!
 # Actual orbital atoms from complete rows and a fixed remaining ideal

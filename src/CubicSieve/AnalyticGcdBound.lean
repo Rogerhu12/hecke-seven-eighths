@@ -1,5 +1,9 @@
-import CubicSieve.AnalyticGcdGram
-import CubicSieve.AnalyticDecay
+module
+
+public import CubicSieve.AnalyticGcdGram
+public import CubicSieve.AnalyticDecay
+
+@[expose] public section
 
 /-!
 Triangle and divisor-energy assembly after the exact gcd/Möbius identity.

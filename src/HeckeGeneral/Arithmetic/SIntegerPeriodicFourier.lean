@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
-import HeckeGeneral.Arithmetic.SIntegerPeriodicWeights
-import HeckeGeneral.Arithmetic.FiniteFourierBounds
+module
+
+public import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicWeights
+public import HeckeGeneral.Arithmetic.FiniteFourierBounds
+
+@[expose] public section
 
 /-!
 # Actual periodic Fourier coefficients for a fixed S-unit subgroup

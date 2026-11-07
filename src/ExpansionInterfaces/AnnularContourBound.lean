@@ -1,5 +1,9 @@
-import ExpansionInterfaces.AnnularMellinIdentity
-import ExpansionInterfaces.FiniteMellinRectangle
+module
+
+public import ExpansionInterfaces.AnnularMellinIdentity
+public import ExpansionInterfaces.FiniteMellinRectangle
+
+@[expose] public section
 
 /-!
 # Annular polynomial upper bounds from finite-height L-function control

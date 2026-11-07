@@ -1,6 +1,10 @@
-import HeckeSkeleton.ActualHeckeNormPullback
-import HeckeGeneral.Characters.FiniteCircleDual
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.TopologicalGlobalNormResidue
+module
+
+public import HeckeSkeleton.ActualHeckeNormPullback
+public import HeckeGeneral.Characters.FiniteCircleDual
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.TopologicalGlobalNormResidue
+
+@[expose] public section
 
 /-! Actual Artin characters of the finite norm quotient of a finite abelian extension. -/
 

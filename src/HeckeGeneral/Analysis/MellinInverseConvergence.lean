@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MellinInverseLine
-import HeckeGeneral.Analysis.LogGaussianMellin
+module
+
+public import HeckeGeneral.Analysis.MellinInverseLine
+public import HeckeGeneral.Analysis.LogGaussianMellin
+
+@[expose] public section
 
 /-!
 The physical bound itself supplies the second integrability condition of

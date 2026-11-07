@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelExceptionalSplit
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelExceptionalSplit
+
+@[expose] public section
 
 /-!
 # Literal second-column magnitudes on exceptional rows

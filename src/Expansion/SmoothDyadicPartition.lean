@@ -1,12 +1,16 @@
-import Mathlib.Analysis.SpecialFunctions.SmoothTransition
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Data.Finset.Max
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Data.Finset.Max
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 An explicit smooth dyadic partition for actual ideal norms.  The same

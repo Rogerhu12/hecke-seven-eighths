@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
-import Mathlib.Algebra.Order.Chebyshev
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+public import Mathlib.Algebra.Order.Chebyshev
+
+@[expose] public section
 
 /-!
 # The smooth finite partition as actual complete canonical columns

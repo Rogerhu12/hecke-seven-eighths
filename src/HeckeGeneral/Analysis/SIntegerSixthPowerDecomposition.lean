@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
-import HeckeGeneral.Analysis.FrequencyRowOrbit
-import HeckeGeneral.Analysis.ActualSIntegerAmplifierMask
+module
+
+public import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
+public import HeckeGeneral.Analysis.FrequencyRowOrbit
+public import HeckeGeneral.Analysis.ActualSIntegerAmplifierMask
+
+@[expose] public section
 
 /-!
 Every actual S-integer orbit has a unique complete exterior ideal and unit

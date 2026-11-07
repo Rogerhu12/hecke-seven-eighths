@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.KernelMassContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FullKappaData
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.KernelMassContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FullKappaData
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.ProductCharacter
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.SinglePlace
+module
+
+public import HeckeGeneral.Characters.ProductCharacter
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.SinglePlace
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

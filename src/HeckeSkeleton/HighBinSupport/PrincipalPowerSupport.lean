@@ -1,8 +1,13 @@
-import HeckeSkeleton.HighBinSupport.PrimePowerFourier
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.Algebra.Prime.Lemmas
-import Mathlib.Algebra.GroupWithZero.Divisibility
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeSkeleton.HighBinSupport.PrimePowerFourier
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.Algebra.Prime.Lemmas
+public import Mathlib.Algebra.GroupWithZero.Divisibility
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
+
 /-!
 # Actual principal prime-power quotient support
 

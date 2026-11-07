@@ -1,4 +1,8 @@
-import CubicSieve.GaussPairFourier
+module
+
+public import CubicSieve.GaussPairFourier
+
+@[expose] public section
 
 /-! The genuine mixed row on the literal principal quotient of generator(I)*generator(J).
 Every divisor pullback and every finite Fourier frequency remains present. -/

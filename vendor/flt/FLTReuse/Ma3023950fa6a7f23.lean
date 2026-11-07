@@ -1,6 +1,11 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M00c7be4ee0b6591d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M00c7be4ee0b6591d
+
+@[expose] public section
+
 attribute [-instance] NumberField.instCompactSpaceAdicCompletionIntegers Rat.adicCompletion.locallyCompactSpace NumberField.instFiniteResidueFieldAdicCompletionIntegers     IsDedekindDomain.HeightOneSpectrum.instLiesOverSubtypeAdicCompletionMemValuationSubringAdicCompletionIntegersCompletionIdealAsIdeal   
 attribute [-simp] LanglandsTunnell.TateLocal.charExt_coe_units LanglandsTunnell.TateLocal.modulus_one LanglandsTunnell.TateLocal.modulus_zero LanglandsTunnell.TateLocal.modulus_coe_units LanglandsTunnell.TateLocal.charExt_zero
 

@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SIntegerMovingPeriodClassScalar
-import HeckeGeneral.Arithmetic.IdealLatticeQuotient
-import HeckeGeneral.Arithmetic.ArchimedeanUnitShape
-import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerMovingPeriodClassScalar
+public import HeckeGeneral.Arithmetic.IdealLatticeQuotient
+public import HeckeGeneral.Arithmetic.ArchimedeanUnitShape
+public import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+
+@[expose] public section
 
 /-! Actual class-scalar transport for the moving period.
 The full class group and original subgroup pullback are retained. No

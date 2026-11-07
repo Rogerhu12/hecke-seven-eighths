@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueSocle
-import Mathlib.NumberTheory.LegendreSymbol.AddCharacter
+module
+
+public import HeckeGeneral.Characters.LocalResidueSocle
+public import Mathlib.NumberTheory.LegendreSymbol.AddCharacter
+
+@[expose] public section
 
 /-! Actual primitive additive characters and perfect pairings on completed local residue rings. -/
 

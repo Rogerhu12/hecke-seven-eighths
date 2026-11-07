@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
-import HeckeGeneral.Analysis.IdealDerivativePrimePowerSmoothing
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
+public import HeckeGeneral.Analysis.IdealDerivativePrimePowerSmoothing
+
+@[expose] public section
 
 /-!
 The initial annular logarithmic detector for the genuine Hecke series.

@@ -1,9 +1,13 @@
-import HeckeSkeleton.LowEnergy.GeneralReflectedBlock
-import HeckeSkeleton.LowEnergy.GeneralMarkedEnergy
-import HeckeSkeleton.LowEnergy.GeneralTailNumerics
-import HeckeSkeleton.LowEnergy.GeneralHeightTail
-import HeckeSkeleton.LowEnergy.IdealMajorant
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralReflectedBlock
+public import HeckeSkeleton.LowEnergy.GeneralMarkedEnergy
+public import HeckeSkeleton.LowEnergy.GeneralTailNumerics
+public import HeckeSkeleton.LowEnergy.GeneralHeightTail
+public import HeckeSkeleton.LowEnergy.IdealMajorant
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+
+@[expose] public section
 
 /-!
 # Arbitrary tails of the actual general reflected coefficients

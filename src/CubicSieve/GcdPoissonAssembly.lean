@@ -1,6 +1,10 @@
-import CubicSieve.PoissonEstimate
-import CubicSieve.AnalyticGcdSeries
-import CubicSieve.AnalyticGcdBound
+module
+
+public import CubicSieve.PoissonEstimate
+public import CubicSieve.AnalyticGcdSeries
+public import CubicSieve.AnalyticGcdBound
+
+@[expose] public section
 
 /-! The proved coprime Poisson estimate supplies every genuine gcd descendant.
 The infinite row descent, exact scales, signed Möbius terms and coefficient

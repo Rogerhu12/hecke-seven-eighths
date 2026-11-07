@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueTower
-import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
+module
+
+public import HeckeGeneral.Characters.LocalResidueTower
+public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Basic
+
+@[expose] public section
 
 /-!
 An actual Hecke character killed by six has conductor depth at most one

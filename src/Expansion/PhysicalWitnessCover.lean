@@ -1,5 +1,9 @@
-import Expansion.CanonicalAmplitudeCover
-import Expansion.PhysicalDetectionParameters
+module
+
+public import Expansion.CanonicalAmplitudeCover
+public import Expansion.PhysicalDetectionParameters
+
+@[expose] public section
 
 /-!
 # Actual physical zero bins produce the repository's finite WitnessCover

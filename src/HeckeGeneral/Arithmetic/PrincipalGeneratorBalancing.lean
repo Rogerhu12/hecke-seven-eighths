@@ -1,5 +1,9 @@
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.NormLeOne
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.NormLeOne
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # A compact normalized shape for ordinary-unit orbits

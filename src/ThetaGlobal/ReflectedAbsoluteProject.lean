@@ -1,5 +1,9 @@
-import ThetaGlobal.ReflectedArithmetic
-import HeckeGeneral.Analysis.IdealSummability
+module
+
+public import ThetaGlobal.ReflectedArithmetic
+public import HeckeGeneral.Analysis.IdealSummability
+
+@[expose] public section
 
 /-!
 # Absolute convergence of the project's actual marked reflected series

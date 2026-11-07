@@ -1,8 +1,12 @@
-import GeneratorMaskWitness
-import ActualThetaGeneratorDivision
-import ActualProbeGaussOriginalFourier
-import ActualSexticJointChartCRT
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+module
+
+public import GeneratorMaskWitness
+public import ActualThetaGeneratorDivision
+public import ActualProbeGaussOriginalFourier
+public import ActualSexticJointChartCRT
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Pure arithmetic core extracted verbatim from

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingPrimeArithmetic
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
-import HeckeSkeleton.PrimeCancellationBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingPrimeArithmetic
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeAnalyticProvider
+public import HeckeSkeleton.PrimeCancellationBounds
+
+@[expose] public section
 
 /-!
 # The original moving-character analytic provider

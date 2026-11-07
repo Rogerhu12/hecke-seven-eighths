@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.SmallRowMellin
-import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
-import HeckeSkeleton.ExpansionModels.SmallRowCorrectionSums
-import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowMellin
+public import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
+public import HeckeSkeleton.ExpansionModels.SmallRowCorrectionSums
+public import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
+
+@[expose] public section
 
 /-!
 # Actual small-row kernel with its literal prime normalizer

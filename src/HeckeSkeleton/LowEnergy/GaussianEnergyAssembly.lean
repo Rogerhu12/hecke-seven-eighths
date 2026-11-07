@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GaussianDyadicBudget
-import HeckeSkeleton.LowEnergy.AnnularEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.GaussianDyadicBudget
+public import HeckeSkeleton.LowEnergy.AnnularEnergy
+
+@[expose] public section
 
 /-!
 # All annuli and all dual dyads in the original row Hilbert space

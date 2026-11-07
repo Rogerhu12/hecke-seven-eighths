@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UniformLengthCapacity
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
-import Mathlib.MeasureTheory.Function.L1Space.Integrable
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UniformLengthCapacity
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+public import Mathlib.MeasureTheory.Function.L1Space.Integrable
+
+@[expose] public section
 
 /-!
 # Integrability of the actual Fourier children from their raw terms

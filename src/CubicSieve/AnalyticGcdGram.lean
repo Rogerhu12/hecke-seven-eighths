@@ -1,4 +1,8 @@
-import CubicSieve.AnalyticMoebius
+module
+
+public import CubicSieve.AnalyticMoebius
+
+@[expose] public section
 
 /-!
 Finite exact column-gcd descent for the literal cubic kernel.  Multiplication

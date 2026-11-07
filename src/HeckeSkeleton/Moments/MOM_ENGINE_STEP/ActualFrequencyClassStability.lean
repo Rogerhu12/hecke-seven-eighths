@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondSaving
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondSaving
+
+@[expose] public section
 
 /-!
 # Genuine divided-frequency classes fix both extracted radicals

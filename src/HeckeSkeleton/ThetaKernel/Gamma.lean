@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ArchimedeanGammaVertical
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeGeneral.Analysis.ArchimedeanGammaVertical
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-! Polynomial growth of the archimedean Gamma quotients `Γ(β+z)/Γ(β-z)` on
 vertical strips `σlo ≤ Re z ≤ Λ` with `σlo > -β`; the exponent is sharp

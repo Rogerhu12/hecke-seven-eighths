@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalChoice
-import DedekindZetaZeroFree.Moments.Reflected.RankOneExpansion
+module
+
+public import ThetaGlobal.GlobalChoice
+public import DedekindZetaZeroFree.Moments.Reflected.RankOneExpansion
+
+@[expose] public section
 
 /-!
 # The existing theta source on the project's exact arithmetic choice

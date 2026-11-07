@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
+
+@[expose] public section
 
 /-!
 # The actual active ideal and the normalized common mass

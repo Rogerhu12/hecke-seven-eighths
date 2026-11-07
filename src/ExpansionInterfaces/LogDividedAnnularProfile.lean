@@ -1,5 +1,9 @@
-import PrimeCancellationLogProfile
-import ExpansionInterfaces.AnnularMellinDecay
+module
+
+public import PrimeCancellationLogProfile
+public import ExpansionInterfaces.AnnularMellinDecay
+
+@[expose] public section
 
 /-!
 # Uniform finite-contour data for logarithmically divided annular windows

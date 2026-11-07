@@ -1,8 +1,13 @@
-import HeckeSkeleton.HighBinSupport.ActualTupleAmplitudeBound
-import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
-import HeckeSkeleton.HighBinSupport.ActualAdditiveMellinRapidDecay
-import HeckeSkeleton.HighBinSupport.BoundaryRectangle
-import HeckeSkeleton.HeckeFiniteBackgroundControl
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualTupleAmplitudeBound
+public import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
+public import HeckeSkeleton.HighBinSupport.ActualAdditiveMellinRapidDecay
+public import HeckeSkeleton.HighBinSupport.BoundaryRectangle
+public import HeckeSkeleton.HeckeFiniteBackgroundControl
+
+@[expose] public section
+
 /-!
 A pointwise envelope for the literal compensated physical kernel.
 

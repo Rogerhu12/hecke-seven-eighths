@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualMaskReconstruction
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMobiusGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimeChoiceSlots
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualMaskReconstruction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMobiusGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimeChoiceSlots
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
+
+@[expose] public section
 
 /-!
 # The literal one-pass inverse source and its reconstruction fibers

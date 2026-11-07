@@ -1,8 +1,12 @@
-import HeckeSkeleton.ExpansionModels.SmallRowNormContinuation
-import HeckeSkeleton.HeckeUniformStripGrowth
-import DedekindZetaZeroFree.LFunctions.Hecke.RegularizationStripGrowth
-import DedekindZetaZeroFree.LFunctions.Hecke.UniformRegularizationBoundaryBounds
-import DedekindZetaZeroFree.Analysis.PhragmenLindelof.PolynomialBoundaryBounds
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowNormContinuation
+public import HeckeSkeleton.HeckeUniformStripGrowth
+public import DedekindZetaZeroFree.LFunctions.Hecke.RegularizationStripGrowth
+public import DedekindZetaZeroFree.LFunctions.Hecke.UniformRegularizationBoundaryBounds
+public import DedekindZetaZeroFree.Analysis.PhragmenLindelof.PolynomialBoundaryBounds
+
+@[expose] public section
 
 /-!
 # Actual exceptional continuations and their uniform contour control

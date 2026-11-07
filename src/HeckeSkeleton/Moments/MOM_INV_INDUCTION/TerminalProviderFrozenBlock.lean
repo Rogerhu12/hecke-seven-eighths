@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderRectangles
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderRectangles
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderGeometry
+
+@[expose] public section
 
 /-!
 # A literal completed reflected block at one frozen row

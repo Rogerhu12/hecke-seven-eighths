@@ -1,5 +1,9 @@
-import Expansion.UniformTerminalFourier
-import Expansion.TerminalCoefficientMass
+module
+
+public import Expansion.UniformTerminalFourier
+public import Expansion.TerminalCoefficientMass
+
+@[expose] public section
 
 /-! The exact ideal detector, uniform logarithmic Fourier profiles, and
 finite coefficient mass combine into a normalized product spike.  The

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedChildKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedChildKernel
+
+@[expose] public section
 
 /-!
 # The original finite allocations produce normalized child kernels

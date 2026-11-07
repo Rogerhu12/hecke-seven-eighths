@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.SIntegerAdelicPoisson
-import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
-import Mathlib.Topology.Compactness.Compact
+module
+
+public import HeckeGeneral.Bridge.SIntegerAdelicPoisson
+public import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
+public import Mathlib.Topology.Compactness.Compact
+
+@[expose] public section
 
 /-!
 # The same test function in adelic Poisson and norm-one orbit integration

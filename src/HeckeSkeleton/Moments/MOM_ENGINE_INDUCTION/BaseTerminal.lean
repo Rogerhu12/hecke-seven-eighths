@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
-import HeckePort.CenteredMoment.Counting
-import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
-import HeckeGeneral.Analysis.SelectedMomentSlots
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
+public import HeckePort.CenteredMoment.Counting
+public import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
+public import HeckeGeneral.Analysis.SelectedMomentSlots
+
+@[expose] public section
 
 /-!
 # Absolute terminal estimates at the actual width floor

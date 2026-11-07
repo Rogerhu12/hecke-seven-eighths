@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.IdeleNorm
-import Mathlib.Topology.Algebra.Group.Neighborhood
-import Mathlib.Topology.Algebra.Group.Units
-import Mathlib.Topology.Algebra.Valued.ValuationTopology
+module
+
+public import HeckeGeneral.Characters.IdeleNorm
+public import Mathlib.Topology.Algebra.Group.Neighborhood
+public import Mathlib.Topology.Algebra.Group.Units
+public import Mathlib.Topology.Algebra.Valued.ValuationTopology
+
+@[expose] public section
 
 /-!
 # The continuous logarithmic norm on the actual idèle class group

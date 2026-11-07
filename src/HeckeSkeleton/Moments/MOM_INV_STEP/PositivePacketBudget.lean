@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredChildGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredChildGeometry
+
+@[expose] public section
 
 /-!
 # Uniform positive child budgets at the actual centered scale

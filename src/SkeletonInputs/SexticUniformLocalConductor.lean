@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.LocalConductor
-import Mathlib.Analysis.Calculus.Deriv.Pow
-import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
+module
+
+public import HeckeGeneral.Characters.LocalConductor
+public import Mathlib.Analysis.Calculus.Deriv.Pow
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11; no Lean/Lake invocation.

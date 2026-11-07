@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormSlots
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormSlots
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+
+@[expose] public section
+
 /-!
 General finite-mark Euler algebra for the full correction.
 

@@ -1,7 +1,11 @@
-import Expansion.ActualPrimeLogSeries
-import Expansion.PhysicalLogDerivative
-import ExpansionInterfaces.AnnularContourUniform
-import ExpansionInterfaces.AnnularContourDataBound
+module
+
+public import Expansion.ActualPrimeLogSeries
+public import Expansion.PhysicalLogDerivative
+public import ExpansionInterfaces.AnnularContourUniform
+public import ExpansionInterfaces.AnnularContourDataBound
+
+@[expose] public section
 
 /-!
 # A finite contour bound for the actual annular prime-power polynomial

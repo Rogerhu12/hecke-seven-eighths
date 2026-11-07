@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityChildIntegrability
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityChildIntegrability
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
+
+@[expose] public section
 
 /-!
 # Actual ordinary rectangles in the concrete normalized child family

@@ -1,5 +1,9 @@
-import HeckeSkeleton.WindowPIT.IntervalAsymptotics
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem
+module
+
+public import HeckeSkeleton.WindowPIT.IntervalAsymptotics
+public import TauCeti.NumberTheory.ArithmeticDirichletSeries.Prime.PrimeIdealTheorem
+
+@[expose] public section
 
 /-!
 # Prime ideal counts in fixed ratio intervals

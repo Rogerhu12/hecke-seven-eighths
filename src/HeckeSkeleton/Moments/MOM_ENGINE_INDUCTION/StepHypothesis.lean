@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCompleteSourceFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCompleteSourceFamily
+
+@[expose] public section
 
 /-!
 # The explicit paired-step hypothesis for the actual induction

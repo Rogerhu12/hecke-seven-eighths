@@ -1,5 +1,9 @@
-import HeckePort.CenteredMoment.IdealMobius
-import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+module
+
+public import HeckePort.CenteredMoment.IdealMobius
+public import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+
+@[expose] public section
 
 /-!
 # Coprimality masks on ideal sums

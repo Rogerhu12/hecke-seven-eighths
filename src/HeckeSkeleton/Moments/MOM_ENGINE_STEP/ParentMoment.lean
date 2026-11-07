@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+
+@[expose] public section
 
 /-!
 # The actual centered and uncentered parent energies

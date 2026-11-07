@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+
+@[expose] public section
 
 /-!
 The original denominator weight occurs outside the inner row tsum. Its actual

@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.OriginalRowSupport
-import HeckeSkeleton.LowEnergy.SquarefreeFibers
-import HeckeSkeleton.LowHybrid.Global
-import HeckeSkeleton.LowHybrid.WeightedSieveBounds
+module
+
+public import HeckeSkeleton.LowEnergy.OriginalRowSupport
+public import HeckeSkeleton.LowEnergy.SquarefreeFibers
+public import HeckeSkeleton.LowHybrid.Global
+public import HeckeSkeleton.LowHybrid.WeightedSieveBounds
+
+@[expose] public section
 
 /-!
 # Actual ideal weighted blocks and their two sieve operators

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondTransformStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondTransformIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondTransformStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondTransformIntegral
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

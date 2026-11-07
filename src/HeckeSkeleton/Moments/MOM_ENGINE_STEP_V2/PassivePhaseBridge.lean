@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassivePhaseCore
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveMask
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassivePhaseCore
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveMask
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

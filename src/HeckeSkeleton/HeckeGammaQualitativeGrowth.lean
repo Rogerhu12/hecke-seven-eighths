@@ -18,10 +18,15 @@ its norm is bounded by real Gamma. The remaining rectangle is compact and
 reciprocal Gamma is entire, including its zero values at Gamma poles.
 The constants may depend on the strip and the fixed shifts.
 -/
-import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
-import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
-import Mathlib.Analysis.Real.Pi.Bounds
-import Mathlib.Tactic
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+public import Mathlib.Analysis.Real.Pi.Bounds
+public import Mathlib.Tactic
+
+@[expose] public section
+
 namespace HeckeSkeleton.HeckeGammaQualitativeGrowth
 
 noncomputable section

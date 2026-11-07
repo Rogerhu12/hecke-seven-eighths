@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.LatticeSchwartzTail
-import Mathlib.NumberTheory.NumberField.Units.DirichletTheorem
+module
+
+public import HeckeGeneral.Analysis.LatticeSchwartzTail
+public import Mathlib.NumberTheory.NumberField.Units.DirichletTheorem
+
+@[expose] public section
 
 /-!
 # Actual logarithmic lattice counting

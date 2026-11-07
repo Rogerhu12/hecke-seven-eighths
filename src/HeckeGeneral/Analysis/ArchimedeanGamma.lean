@@ -1,6 +1,10 @@
-import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Analysis.Analytic.Constructions
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Analysis.Analytic.Constructions
+
+@[expose] public section
 
 /-!+# The explicit archimedean Gamma multiplier
 

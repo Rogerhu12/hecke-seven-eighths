@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceScalarData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassivePhases
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingFactorAppend
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceScalarData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralPassivePhases
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingFactorAppend
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

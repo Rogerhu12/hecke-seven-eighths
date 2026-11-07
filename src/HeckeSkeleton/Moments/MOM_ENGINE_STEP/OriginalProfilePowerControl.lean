@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFiniteKernelMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFiniteKernelMass
+
+@[expose] public section
 
 /-!
 # Fixed powers of the common original profile control

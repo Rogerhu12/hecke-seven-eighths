@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

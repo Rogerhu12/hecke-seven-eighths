@@ -1,4 +1,8 @@
-import ExpansionDetector.FourierSeparation
+module
+
+public import ExpansionDetector.FourierSeparation
+
+@[expose] public section
 
 /-! A finite product has a frequency witness in a prescribed compact interval,
 with an explicit Fourier tail error. No product spike is assumed. -/

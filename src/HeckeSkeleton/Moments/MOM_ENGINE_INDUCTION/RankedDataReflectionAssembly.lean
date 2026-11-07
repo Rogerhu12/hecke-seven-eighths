@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ParameterPrimitiveExtension
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ParameterPrimitiveExtension
+
+@[expose] public section
 
 /-!
 # Finite-rank reflection with a literal additional data primitive

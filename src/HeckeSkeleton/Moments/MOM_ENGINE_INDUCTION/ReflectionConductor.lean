@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionMask
-import HeckeSkeleton.HeckeConductorNorm
-import ArithmeticFrequencyRowConductorNorm
-import RowCharacterCanonicalUniqueness
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionMask
+public import HeckeSkeleton.HeckeConductorNorm
+public import ArithmeticFrequencyRowConductorNorm
+public import RowCharacterCanonicalUniqueness
+
+@[expose] public section
 
 /-!
 # The actual conductor and the remaining deletion product

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualAtomPhases
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualAtomPhases
+
+@[expose] public section
 
 /-!
 # Literal atoms of the canonical moving-row recipe

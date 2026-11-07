@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.LocalThetaInput
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeGeneral.Analysis.LocalThetaInput
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # The calibrated coefficient cycle

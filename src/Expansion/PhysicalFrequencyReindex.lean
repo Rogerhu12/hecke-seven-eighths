@@ -1,7 +1,11 @@
-import Expansion.PhysicalFinitePoisson
-import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
-import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
-import RowCharacterNormTwistExclusion
+module
+
+public import Expansion.PhysicalFinitePoisson
+public import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+public import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+public import RowCharacterNormTwistExclusion
+
+@[expose] public section
 
 /-!
 # Every actual Fourier orbit, and the unique principal row

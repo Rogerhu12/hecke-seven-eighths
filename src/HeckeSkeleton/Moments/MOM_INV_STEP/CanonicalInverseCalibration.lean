@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SexticEvenness
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketEnergy
+
+@[expose] public section
 
 /-!
 # The second inverse coefficient returns to the literal child column

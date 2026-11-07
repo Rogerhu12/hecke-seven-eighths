@@ -1,5 +1,9 @@
-import Expansion.ActualModerateKernelDecay
-import Expansion.ActualOuterHeightBudget
+module
+
+public import Expansion.ActualModerateKernelDecay
+public import Expansion.ActualOuterHeightBudget
+
+@[expose] public section
 
 /-!
 # Uniform height budgets for every finite original moderate bin

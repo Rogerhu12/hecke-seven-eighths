@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryFromAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRawAtomFormula
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryFromAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRawAtomFormula
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

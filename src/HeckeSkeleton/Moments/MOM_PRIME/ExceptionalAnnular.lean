@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_PRIME.AnnularMellin
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalContinuation
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalSmooth
-import DedekindZetaZeroFree.Analysis.ContourIntegration.SimplePoleShift
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME.AnnularMellin
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalContinuation
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalSmooth
+public import DedekindZetaZeroFree.Analysis.ContourIntegration.SimplePoleShift
+
+@[expose] public section
 
 /-!
 # Actual annular exceptional sums

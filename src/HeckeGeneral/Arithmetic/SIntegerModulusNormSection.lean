@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
-import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+public import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
+
+@[expose] public section
 
 /-!
 # The actual norm-one shift of an inverse S-integer modulus

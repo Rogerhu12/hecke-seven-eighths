@@ -1,8 +1,13 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Positivity
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
+
 /-! Cancellation of a finite positive normalizer, including a zero sum.
 This is used for a coarse boundary estimate and requires no lower bound
 for the number of primes in the window. -/

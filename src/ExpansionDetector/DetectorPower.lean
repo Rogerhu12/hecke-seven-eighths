@@ -1,4 +1,8 @@
-import ExpansionDetector.ZeroDetectorBound
+module
+
+public import ExpansionDetector.ZeroDetectorBound
+
+@[expose] public section
 
 /-! Explicit scale and height exponents for the fixed-line detector.
 The L-function input is a conventional polynomial strip bound; there is no

@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowHybrid.Parameters
+module
+
+public import HeckeSkeleton.LowHybrid.Parameters
+
+@[expose] public section
 
 /-!
 # Uniform absorption of the hybrid arithmetic losses

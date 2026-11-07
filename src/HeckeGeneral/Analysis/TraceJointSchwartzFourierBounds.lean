@@ -1,9 +1,13 @@
-import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
-import HeckeGeneral.Analysis.TraceProductCovolume
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
-import Mathlib.Analysis.InnerProductSpace.ProdL2
-import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
-import Mathlib.MeasureTheory.Measure.WithDensity
+module
+
+public import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
+public import HeckeGeneral.Analysis.TraceProductCovolume
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+public import Mathlib.Analysis.InnerProductSpace.ProdL2
+public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+public import Mathlib.MeasureTheory.Measure.WithDensity
+
+@[expose] public section
 
 /-!
 # Fourier bounds for the actual two-column orbital kernel

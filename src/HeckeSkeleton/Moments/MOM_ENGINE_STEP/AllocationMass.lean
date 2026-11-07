@@ -1,9 +1,13 @@
-import HeckePort.Moments.Descent.IdealMasks
-import Mathlib.Data.Fintype.BigOperators
-import Mathlib.Data.Finset.Powerset
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Linarith
+module
+
+public import HeckePort.Moments.Descent.IdealMasks
+public import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Data.Finset.Powerset
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 # The actual nonempty-subset allocation mass

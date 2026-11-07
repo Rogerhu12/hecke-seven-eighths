@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchMass
+
+@[expose] public section
 
 /-!
 # The literal finite arithmetic carrier of the one-pool engine

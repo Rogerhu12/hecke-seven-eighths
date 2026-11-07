@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-! Holomorphy and uniform boundedness of the finite Mellin factor on closed
 vertical strips inside `Re s > -1/3`, using only absolute Mellin summability. -/

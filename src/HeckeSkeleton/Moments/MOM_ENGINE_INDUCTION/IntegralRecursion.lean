@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Recursion
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Recursion
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+
+@[expose] public section
 
 /-!
 # Quantitative recursion with a positive measure of earlier children

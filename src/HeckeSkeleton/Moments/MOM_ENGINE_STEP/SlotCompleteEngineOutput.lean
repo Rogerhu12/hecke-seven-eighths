@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormCompleteEngineOutput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormCompleteEngineOutput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
+
+@[expose] public section
 
 /-!
 # Original slot lengths in the complete public engine output

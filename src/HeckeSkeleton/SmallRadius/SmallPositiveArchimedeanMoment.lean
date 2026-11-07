@@ -1,7 +1,11 @@
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Integral
-import Mathlib.Tactic
+module
+
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Integral
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Genuine absolute local moments for every positive

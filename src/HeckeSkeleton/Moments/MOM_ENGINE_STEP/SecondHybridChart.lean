@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PreCauchySource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PreCauchySource
+
+@[expose] public section
 
 /-!
 # The actual second chart reaches its hybrid allocated children

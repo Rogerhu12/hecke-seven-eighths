@@ -1,5 +1,9 @@
-import ActualSIntegerDivisorColumn
-import HeckeGeneral.Analysis.SUnitMellinPhase
+module
+
+public import ActualSIntegerDivisorColumn
+public import HeckeGeneral.Analysis.SUnitMellinPhase
+
+@[expose] public section
 
 /-! The original non-cutoff joint factor, extracted without changing its
 namespace, arguments or definition from ActualClearedJointPeriodicTransport.

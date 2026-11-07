@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PhysicalProbeContours
-import HeckeGeneral.Analysis.IdealEulerProduct
-import HeckeSkeleton.HighBinSupport.EulerProducts
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+public import HeckeGeneral.Analysis.IdealEulerProduct
+public import HeckeSkeleton.HighBinSupport.EulerProducts
+
+@[expose] public section
 
 /-!
 # Actual regular Euler factors on the high-bin swept tube

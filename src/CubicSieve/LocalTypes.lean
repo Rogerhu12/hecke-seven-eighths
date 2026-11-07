@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.FiniteCircleDual
-import DedekindZetaZeroFree.Arithmetic.LocalFields.PowerClassIndices
-import DedekindZetaZeroFree.LargeSieve.CharacterBounds.AdditiveResidueQuotients
+module
+
+public import HeckeGeneral.Characters.FiniteCircleDual
+public import DedekindZetaZeroFree.Arithmetic.LocalFields.PowerClassIndices
+public import DedekindZetaZeroFree.LargeSieve.CharacterBounds.AdditiveResidueQuotients
+
+@[expose] public section
 
 /-! A finite, explicitly constructed set of all cubic full local types at S. -/
 

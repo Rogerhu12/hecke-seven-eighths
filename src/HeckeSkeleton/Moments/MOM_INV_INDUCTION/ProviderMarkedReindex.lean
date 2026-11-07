@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSlots
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPools
+
+@[expose] public section
 
 /-!
 # Exact finite residual-slot reindexing of a fixed initial overlap

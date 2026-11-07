@@ -1,8 +1,12 @@
-import Expansion.ActualAnnularIdentification
-import Expansion.ActualDetectorSaturation
-import Expansion.DetectorProductBudget
-import Expansion.TerminalFourierTail
-import HeckeGeneral.Analysis.DetectorSaturation
+module
+
+public import Expansion.ActualAnnularIdentification
+public import Expansion.ActualDetectorSaturation
+public import Expansion.DetectorProductBudget
+public import Expansion.TerminalFourierTail
+public import HeckeGeneral.Analysis.DetectorSaturation
+
+@[expose] public section
 
 /-!
 # Saturation of the actual pair selected from the terminal source

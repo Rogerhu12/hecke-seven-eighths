@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.GaussianContour
-import Mathlib.Analysis.Calculus.Deriv.Polynomial
-import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
-import Mathlib.Algebra.Polynomial.Degree.Lemmas
+module
+
+public import HeckeGeneral.Analysis.GaussianContour
+public import Mathlib.Analysis.Calculus.Deriv.Polynomial
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Algebra.Polynomial.Degree.Lemmas
+
+@[expose] public section
 
 /-!+# Logarithmic Gaussian derivatives and explicit polynomial bounds
 

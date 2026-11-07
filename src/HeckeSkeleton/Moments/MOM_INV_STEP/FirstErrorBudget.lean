@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorMass
-import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
-import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorMass
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+public import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+
+@[expose] public section
 
 /-!
 # The sharp first-outer error budget from actual norm annuli

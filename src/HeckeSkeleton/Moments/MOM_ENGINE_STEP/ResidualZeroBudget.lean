@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+
+@[expose] public section
 
 /-!
 # The genuine second zero diagonal after prime-power removal

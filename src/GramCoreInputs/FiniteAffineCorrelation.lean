@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.FiniteFourierConvolution
+module
+
+public import HeckeGeneral.Arithmetic.FiniteFourierConvolution
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. The unnormalized finite congruence sum in Q,
 quasi-riemann.tex:7105-7108. The linear constraint retains its literal

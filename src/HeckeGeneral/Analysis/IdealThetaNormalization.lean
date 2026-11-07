@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealThetaPoisson
-import HeckeGeneral.Arithmetic.TraceLatticeCovolume
+module
+
+public import HeckeGeneral.Analysis.IdealThetaPoisson
+public import HeckeGeneral.Arithmetic.TraceLatticeCovolume
+
+@[expose] public section
 
 /-!
 Explicit arithmetic normalization of Poisson summation on the trace lattice.

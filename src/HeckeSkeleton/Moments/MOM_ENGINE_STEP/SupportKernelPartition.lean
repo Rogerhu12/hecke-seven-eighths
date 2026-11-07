@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedSecondClassProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedSecondClassProduction
+
+@[expose] public section
 
 /-!
 # Actual column partitions inside the second common kernel

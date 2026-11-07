@@ -1,5 +1,9 @@
-import ActualSexticJointChartCRT
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+module
+
+public import ActualSexticJointChartCRT
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Fixed-frequency invariance of the stipulated

@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SUnitNormOneTopology
-import Mathlib.Topology.Algebra.Support
-import Mathlib.Topology.LocallyFinite
+module
+
+public import HeckeGeneral.Arithmetic.SUnitNormOneTopology
+public import Mathlib.Topology.Algebra.Support
+public import Mathlib.Topology.LocallyFinite
+
+@[expose] public section
 
 /-! Finite overlap for the actual original S-unit subgroup. These lemmas
 are the support input for periodizing a compact cutoff; no partition of

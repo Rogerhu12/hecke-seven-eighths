@@ -1,7 +1,11 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 Absorb the fixed detector-height degree into the chosen decay order.

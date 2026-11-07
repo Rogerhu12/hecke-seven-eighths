@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteSkeletonSource
-import ThetaGlobal.LocalDigitInput
+module
+
+public import ThetaGlobal.FiniteSkeletonSource
+public import ThetaGlobal.LocalDigitInput
+
+@[expose] public section
 
 /-!
 # The digit table on the skeleton's one fixed source

@@ -1,9 +1,13 @@
-import HeckeGeneral.Bridge.FLTDefinitions
-import HeckeGeneral.Analysis.HeckeEulerProduct
-import FLTReuse.M974319314547c0e9
-import FLTReuse.M2c5e67fdd3cfcc89
-import Mathlib.Analysis.Meromorphic.Basic
-import Mathlib.Analysis.Complex.CauchyIntegral
+module
+
+public import HeckeGeneral.Bridge.FLTDefinitions
+public import HeckeGeneral.Analysis.HeckeEulerProduct
+public import FLTReuse.M974319314547c0e9
+public import FLTReuse.M2c5e67fdd3cfcc89
+public import Mathlib.Analysis.Meromorphic.Basic
+public import Mathlib.Analysis.Complex.CauchyIntegral
+
+@[expose] public section
 
 /-!
 # Actual meromorphic continuation of a unitary Hecke character

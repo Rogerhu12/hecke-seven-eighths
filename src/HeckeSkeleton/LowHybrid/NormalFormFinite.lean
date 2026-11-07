@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowHybrid.NormalFormAlgebra
+module
+
+public import HeckeSkeleton.LowHybrid.NormalFormAlgebra
+
+@[expose] public section
 
 /-!
 # Exact finite reindexings for the hybrid normal form

@@ -1,8 +1,12 @@
-import Mathlib.MeasureTheory.Integral.Pi
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.Tactic.FinCases
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.MeasureTheory.Integral.Pi
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+public import Mathlib.Tactic.FinCases
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Height coordinates for the actual initial Mellin integral

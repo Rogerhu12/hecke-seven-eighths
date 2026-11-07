@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceFrozen
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceFrozen
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
+
+@[expose] public section
 
 /-!
 # Literal marked first-source columns on a fixed extraction slice

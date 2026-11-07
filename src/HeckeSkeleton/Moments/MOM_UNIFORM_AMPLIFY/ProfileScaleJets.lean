@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileEuler
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileEuler
+
+@[expose] public section
 
 /-!
 # Literal mixed derivatives in the inverse cutoff scale

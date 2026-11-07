@@ -1,6 +1,10 @@
-import Expansion.DyadicSupport
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformThreshold
-import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+module
+
+public import Expansion.DyadicSupport
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformThreshold
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+
+@[expose] public section
 
 /-!
 # Uniform scales and finite counts for the strict source seed

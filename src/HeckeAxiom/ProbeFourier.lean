@@ -1,7 +1,11 @@
-import HeckeAxiom.ProbeUnits
-import HeckeAxiom.TraceCharacterDictionary
-import DedekindZetaZeroFree.Moments.Probes.TraceHaarCoordinates
-import FLTReuse.Mfdd944592cac5200
+module
+
+public import HeckeAxiom.ProbeUnits
+public import HeckeAxiom.TraceCharacterDictionary
+public import DedekindZetaZeroFree.Moments.Probes.TraceHaarCoordinates
+public import FLTReuse.Mfdd944592cac5200
+
+@[expose] public section
 
 /-!
 # Axiom's probe Fourier transform in the skeleton's normalization

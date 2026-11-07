@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDensity
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRestorationTail
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryDeletionReflection
-import HeckeSkeleton.HeckeConductorNorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDensity
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRestorationTail
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryDeletionReflection
+public import HeckeSkeleton.HeckeConductorNorm
+
+@[expose] public section
 
 /-!
 # The actual ordinary row polynomial as finite common-frequency pieces

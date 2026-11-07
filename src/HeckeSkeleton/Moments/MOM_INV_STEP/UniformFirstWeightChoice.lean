@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualErrorPowers
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualErrorPowers
+
+@[expose] public section
 
 /-!
 # One source-independent first radial and row-count choice

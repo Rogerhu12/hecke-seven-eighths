@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.SmallPowers
-import Mathlib.NumberTheory.NumberField.DedekindZeta
-import Mathlib.Topology.Algebra.InfiniteSum.Real
+module
+
+public import HeckeSkeleton.LowEnergy.SmallPowers
+public import Mathlib.NumberTheory.NumberField.DedekindZeta
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+
+@[expose] public section
 
 /-!
 # Actual number-field Dirichlet majorants

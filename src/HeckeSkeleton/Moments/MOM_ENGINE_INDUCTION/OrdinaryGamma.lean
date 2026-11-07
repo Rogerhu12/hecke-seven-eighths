@@ -1,5 +1,9 @@
-import HeckeSkeleton.ThetaKernel.Gamma
-import HeckeSkeleton.HeckeGammaReciprocal
+module
+
+public import HeckeSkeleton.ThetaKernel.Gamma
+public import HeckeSkeleton.HeckeGammaReciprocal
+
+@[expose] public section
 
 /-!
 # Ordinary Hecke Gamma ratios on arbitrary negative strips

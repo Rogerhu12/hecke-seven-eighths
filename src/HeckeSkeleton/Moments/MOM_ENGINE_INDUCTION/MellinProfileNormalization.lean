@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CenteredMellinKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellinWindowControl
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependent
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CenteredMellinKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellinWindowControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependent
+
+@[expose] public section
 
 /-!
 # Separate normalization of the two Mellin windows and original slots

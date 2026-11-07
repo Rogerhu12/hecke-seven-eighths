@@ -1,10 +1,14 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.Fourier.FourierTransform
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import Mathlib.Algebra.Module.ZLattice.Summable
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M15b85c30652f1961
+module
+
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import Mathlib.Algebra.Module.ZLattice.Summable
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M15b85c30652f1961
+
+@[expose] public section
 
 open scoped FourierTransform SchwartzMap
 theorem ZLattice.summable_fourierIntegral_mul_fourierChar_dualSubmodule

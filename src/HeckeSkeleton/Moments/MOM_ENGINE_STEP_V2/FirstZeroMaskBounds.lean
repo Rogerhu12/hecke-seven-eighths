@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroInputBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroMaskSubpower
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonLabelConditions
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroInputBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroMaskSubpower
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonLabelConditions
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

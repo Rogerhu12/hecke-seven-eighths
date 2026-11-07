@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+
+@[expose] public section
 
 /-!
 # Exact reindexing of the fresh second source

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import Mathlib.Analysis.SpecificLimits.Normed
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import Mathlib.Analysis.SpecificLimits.Normed
+
+@[expose] public section
 
 /-!
 The `absolute_mellin` field follows from the two preceding valuation fields.

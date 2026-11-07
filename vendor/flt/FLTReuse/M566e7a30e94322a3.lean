@@ -1,5 +1,9 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M687823f343186df1
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M687823f343186df1
+
+@[expose] public section
 
 open IsDedekindDomain NumberField MeasureTheory Matrix
 open NumberField.AdelicHaar NumberField.AdelicLevel NumberField.AdelicBox

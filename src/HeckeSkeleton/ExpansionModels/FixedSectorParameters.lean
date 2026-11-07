@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe
-import Mathlib.Analysis.Normed.Group.Constructions
+module
+
+public import HeckeSkeleton.ExpansionModels.RowLocalWitnessRecipe
+public import Mathlib.Analysis.Normed.Group.Constructions
+
+@[expose] public section
 
 /-!
 # Fixed-sector parameter assembly without increasing the dimension

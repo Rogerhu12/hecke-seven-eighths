@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedErrorBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedErrorBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
+
+@[expose] public section
 
 /-!
 # The second production bound under the original first spectral measure

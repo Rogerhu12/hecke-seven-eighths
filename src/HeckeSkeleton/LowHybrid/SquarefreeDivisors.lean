@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.Losses
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+module
+
+public import HeckeSkeleton.LowHybrid.Losses
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+
+@[expose] public section
 
 /-!
 # Squarefree divisor counts have a uniform small-power bound

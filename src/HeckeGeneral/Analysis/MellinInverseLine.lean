@@ -1,5 +1,9 @@
-import Mathlib.Analysis.MellinInversion
-import HeckeGeneral.Analysis.MellinZeroDetector
+module
+
+public import Mathlib.Analysis.MellinInversion
+public import HeckeGeneral.Analysis.MellinZeroDetector
+
+@[expose] public section
 
 /-!
 The reverse Mellin inversion needed for the physical line-2 detector.

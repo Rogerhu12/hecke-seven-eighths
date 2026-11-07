@@ -1,5 +1,9 @@
-import ActualChoiceMaskedTotalNorm
-import HeckeSkeleton.SmallRadius.SmallRadiusAnnularMellinSchwartz
+module
+
+public import ActualChoiceMaskedTotalNorm
+public import HeckeSkeleton.SmallRadius.SmallRadiusAnnularMellinSchwartz
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Aggregate the existing all-positive-radius bound

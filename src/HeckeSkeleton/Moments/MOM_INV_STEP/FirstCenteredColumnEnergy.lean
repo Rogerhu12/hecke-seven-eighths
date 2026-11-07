@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+
+@[expose] public section
 
 /-!
 # The literal first source column at a fixed production center

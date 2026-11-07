@@ -1,5 +1,9 @@
-import Expansion.ActualOuterHeightBudget
-import Expansion.PhysicalInitialRowTruncation
+module
+
+public import Expansion.ActualOuterHeightBudget
+public import Expansion.PhysicalInitialRowTruncation
+
+@[expose] public section
 
 /-!
 # Literal outer remainders for the final four-component expansion

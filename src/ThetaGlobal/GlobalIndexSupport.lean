@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalProjectFrequency
-import ThetaGlobal.ReflectedArithmetic
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import ThetaGlobal.GlobalProjectFrequency
+public import ThetaGlobal.ReflectedArithmetic
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-!
 # The literal reflected coefficient satisfies the supported-coordinate rules

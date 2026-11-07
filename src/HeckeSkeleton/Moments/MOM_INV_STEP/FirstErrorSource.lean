@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPositiveIndex
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorRowMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPositiveIndex
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorRowMass
+
+@[expose] public section
 
 /-!
 # A counting embedding of the complete first outer source

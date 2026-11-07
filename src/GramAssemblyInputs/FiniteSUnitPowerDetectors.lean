@@ -1,7 +1,11 @@
-import ClassFieldTheory.GlobalClassFieldTheory.ClassFieldAxiom.SUnitKummerPrimeSelection.Conclusion
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.Algebra.Group.Equiv.Basic
-import Mathlib.Tactic.NormNum
+module
+
+public import ClassFieldTheory.GlobalClassFieldTheory.ClassFieldAxiom.SUnitKummerPrimeSelection.Conclusion
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.Algebra.Group.Equiv.Basic
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 UNCOMPILED isolated candidate, 2026-10-11. No Lean/Lake was run.

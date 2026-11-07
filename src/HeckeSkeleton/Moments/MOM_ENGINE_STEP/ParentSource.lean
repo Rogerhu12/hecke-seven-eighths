@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
-import HeckeGeneral.Analysis.SIntegerMaskedOrbitalPoisson
-import HeckePort.Moments.Descent.Fibers
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
+public import HeckeGeneral.Analysis.SIntegerMaskedOrbitalPoisson
+public import HeckePort.Moments.Descent.Fibers
+
+@[expose] public section
 
 /-!
 # From the actual parent to its first orbital transform

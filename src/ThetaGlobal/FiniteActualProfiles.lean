@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteHighKDirect
-import ThetaGlobal.GammaDeconvolverProject
+module
+
+public import ThetaGlobal.FiniteHighKDirect
+public import ThetaGlobal.GammaDeconvolverProject
+
+@[expose] public section
 
 /-!
 # The normalized Mellin profiles are measured coefficients of one source

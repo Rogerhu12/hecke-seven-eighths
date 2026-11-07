@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GeneralTupleBlocks
-import HeckeSkeleton.LowEnergy.GeneralUniformEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralTupleBlocks
+public import HeckeSkeleton.LowEnergy.GeneralUniformEnergy
+
+@[expose] public section
 
 /-!
 # Energy of the original product-mark projection

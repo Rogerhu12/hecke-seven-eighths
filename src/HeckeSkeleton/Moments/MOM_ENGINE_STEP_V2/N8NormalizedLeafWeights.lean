@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawLeafData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
-import Lean.Elab.Command
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawLeafData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
+public import Lean.Elab.Command
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

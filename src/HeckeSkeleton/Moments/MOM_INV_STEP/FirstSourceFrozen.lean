@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceColumns
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
+
+@[expose] public section
 
 /-!
 # Fixed first-extraction data give genuine independent columns

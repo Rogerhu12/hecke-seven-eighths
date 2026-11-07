@@ -1,6 +1,10 @@
-import Mathlib.MeasureTheory.Integral.Pi
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.Linarith
+module
+
+public import Mathlib.MeasureTheory.Integral.Pi
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 # Explicit class-mask tensorization for finite-place shell integrals

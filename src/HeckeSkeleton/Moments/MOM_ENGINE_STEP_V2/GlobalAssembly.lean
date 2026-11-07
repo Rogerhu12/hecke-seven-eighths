@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizationCertificate
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.LocalAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EmptyAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformAssembly
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizationCertificate
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.LocalAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EmptyAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformAssembly
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

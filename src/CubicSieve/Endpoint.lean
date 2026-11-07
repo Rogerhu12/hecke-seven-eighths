@@ -1,5 +1,9 @@
-import CubicSieve.ExteriorSieve
-import CubicSieve.Improvement
+module
+
+public import CubicSieve.ExteriorSieve
+public import CubicSieve.Improvement
+
+@[expose] public section
 
 /-!
 The exact exterior-ideal target reduced to its two remaining analytic inputs.

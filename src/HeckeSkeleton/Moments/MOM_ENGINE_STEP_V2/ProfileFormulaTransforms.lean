@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileFormula
-import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzDilation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileFormula
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzDilation
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

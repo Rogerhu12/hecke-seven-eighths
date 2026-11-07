@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+
+@[expose] public section
 
 /-!
 # Actual zero-frequency amplitudes

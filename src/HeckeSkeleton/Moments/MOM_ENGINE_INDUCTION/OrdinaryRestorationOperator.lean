@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionOperator
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionWeights
-import HeckeGeneral.Analysis.IdealDerivativeMellinSmoothing
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionOperator
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionWeights
+public import HeckeGeneral.Analysis.IdealDerivativeMellinSmoothing
+
+@[expose] public section
 
 /-!
 # Restoration and the original common frequency integral

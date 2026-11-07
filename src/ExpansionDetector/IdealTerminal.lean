@@ -1,4 +1,8 @@
-import ExpansionDetector.IdealCutoff
+module
+
+public import ExpansionDetector.IdealCutoff
+
+@[expose] public section
 
 /-! The terminal source is an actual finite ideal sum, while the two errors
 are the full infinite smoothed series and the full exponential remainder.

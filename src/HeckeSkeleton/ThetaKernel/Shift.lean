@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GaussianStripShift
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+module
+
+public import HeckeGeneral.Analysis.GaussianStripShift
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+
+@[expose] public section
 
 /-! Vertical contour shift across a strip with a uniform polynomial decay
 bound `C (1+|t|)^{-e}`, `e > 1`. -/

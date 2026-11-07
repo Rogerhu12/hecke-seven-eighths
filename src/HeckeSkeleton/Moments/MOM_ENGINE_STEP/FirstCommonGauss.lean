@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteProductGauss
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstCharacters
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteProductGauss
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstCharacters
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
+
+@[expose] public section
 
 /-!
 # The genuine active common Gauss factor

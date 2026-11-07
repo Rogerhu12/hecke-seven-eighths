@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualBoxGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredChildGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualBoxGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredChildGeometry
+
+@[expose] public section
 
 /-!
 # Actual source membership supplies the centered child length

@@ -1,6 +1,10 @@
-import CubicSieve.GaussPairLiteral
-import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+module
+
+public import CubicSieve.GaussPairLiteral
+public import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+
+@[expose] public section
 
 /-! Actual mixed cubic orbital Poisson on the original sixth-power S-unit sectors.
 The modulus is the literal product of the chosen generators. Both zero terms,

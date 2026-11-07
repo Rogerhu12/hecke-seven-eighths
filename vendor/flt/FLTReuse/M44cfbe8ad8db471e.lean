@@ -1,8 +1,12 @@
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M396e2ffde8dbe95f
+module
+
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M396e2ffde8dbe95f
+
+@[expose] public section
 
 set_option autoImplicit false
 

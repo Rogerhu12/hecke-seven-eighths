@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualProductionBoxes
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketProvenance
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualProductionBoxes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPacketProvenance
+
+@[expose] public section
 
 /-!
 # Exact fixed-box decomposition of the actual integrated second source

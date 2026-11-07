@@ -1,7 +1,11 @@
-import ArithmeticSexticKummerUnramified
-import ArithmeticSexticKummerResidue
-import HeckeGeneral.Characters.PrimeCoefficients
-import Lean.Elab.Tactic.Omega
+module
+
+public import ArithmeticSexticKummerUnramified
+public import ArithmeticSexticKummerResidue
+public import HeckeGeneral.Characters.PrimeCoefficients
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake invocation was made.

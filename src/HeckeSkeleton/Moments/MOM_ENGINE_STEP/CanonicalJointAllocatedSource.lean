@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHilbertPhase
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHilbertPhase
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+
+@[expose] public section
 
 /-!
 # The fixed joint source of an actual allocated rectangle

@@ -1,5 +1,9 @@
-import CubicSieve.Iteration
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import CubicSieve.Iteration
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 Numerical end of the cubic large-sieve bootstrap, generalized from

@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.IdealMobiusMask
-import HeckeGeneral.Analysis.HeckeSeries
-import Mathlib.Algebra.BigOperators.Group.Finset.Powerset
+module
+
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+public import HeckeGeneral.Analysis.HeckeSeries
+public import Mathlib.Algebra.BigOperators.Group.Finset.Powerset
+
+@[expose] public section
 
 /-!
 Exact finite squarefree-ideal decomposition for the single-row amplification.

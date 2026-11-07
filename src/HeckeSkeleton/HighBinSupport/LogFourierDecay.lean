@@ -1,11 +1,16 @@
-import Mathlib.Analysis.Fourier.FourierTransformDeriv
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.FieldSimp
+module
+
+public import Mathlib.Analysis.Fourier.FourierTransformDeriv
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
+
 /-!
 A logarithmic Fourier/Mellin decay theorem from actual L1 derivative norms.
 This provides the profile input used by the finite boundary theorem;

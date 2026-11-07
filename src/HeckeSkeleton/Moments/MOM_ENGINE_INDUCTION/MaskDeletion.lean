@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
-import HeckeGeneral.Analysis.HeckeConjugation
-import HeckePort.Moments.ReflectionDeletion
+module
+
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+public import HeckeGeneral.Analysis.HeckeConjugation
+public import HeckePort.Moments.ReflectionDeletion
+
+@[expose] public section
 
 /-!
 # The original complete-row mask as genuine finite prime deletion

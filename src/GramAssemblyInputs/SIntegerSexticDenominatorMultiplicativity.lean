@@ -1,6 +1,10 @@
-import SIntegerSexticIdealEvaluationFiniteSupport
-import HeckeGeneral.Characters.SIntegerSexticSymbol
-import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+module
+
+public import SIntegerSexticIdealEvaluationFiniteSupport
+public import HeckeGeneral.Characters.SIntegerSexticSymbol
+public import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Actual denominator multiplicativity, without
 coprimality of the two denominator ideals. The contraction product is

@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GeneralReconstruction
-import HeckeSkeleton.LowEnergy.GeneralInactiveEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralReconstruction
+public import HeckeSkeleton.LowEnergy.GeneralInactiveEnergy
+
+@[expose] public section
 
 /-!
 # Canonical blocks are blocks of the original reflected series

@@ -1,4 +1,8 @@
-import HeckePort.Moments.NaturalReflection
+module
+
+public import HeckePort.Moments.NaturalReflection
+
+@[expose] public section
 
 /-!
 # The mass of the deleted reflection terms

@@ -1,6 +1,10 @@
-import HeckeAxiom.DenominatorAdapter
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeGeneral.Analysis.HeckeNormPole
+module
+
+public import HeckeAxiom.DenominatorAdapter
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeGeneral.Analysis.HeckeNormPole
+
+@[expose] public section
 
 /-!
 # The physical residue normalizer is a positive real

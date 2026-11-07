@@ -1,7 +1,11 @@
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
-import Mathlib.SetTheory.Cardinal.Finite
-import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
+module
+
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import Mathlib.MeasureTheory.Measure.Lebesgue.EqHaar
+public import Mathlib.SetTheory.Cardinal.Finite
+public import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
+
+@[expose] public section
 
 /-!
 Exact-dimensional lattice counting. This is the

@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.LogProfileFourier
+module
+
+public import HeckeSkeleton.ExpansionModels.LogProfileFourier
+
+@[expose] public section
 
 /-!
 # Compact logarithmic profiles with real and imaginary exponential twists

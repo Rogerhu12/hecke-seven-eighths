@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerEnergy
+
+@[expose] public section
 
 /-!
 # Simultaneous scale bounds for the actual complete-row source family

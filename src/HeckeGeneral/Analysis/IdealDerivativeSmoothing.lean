@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.HeckeDerivative
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.MeasureTheory.Group.Integral
+module
+
+public import HeckeGeneral.Analysis.HeckeDerivative
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.MeasureTheory.Group.Integral
+
+@[expose] public section
 
 /-!
 # Genuine ideal sums under vertical smoothing integrals

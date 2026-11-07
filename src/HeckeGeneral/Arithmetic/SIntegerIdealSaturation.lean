@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerResidue
-import HeckeGeneral.Arithmetic.IdealFactorization
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerResidue
+public import HeckeGeneral.Arithmetic.IdealFactorization
+
+@[expose] public section
 
 /-! Removing exactly the S-prime factors gives the ordinary contraction of
 an extended ideal. This uses ideal unique factorization and actual localization. -/

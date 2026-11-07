@@ -1,10 +1,14 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
-import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
-import HeckeGeneral.Analysis.IdealDerivativeSmoothing
-import PrimeCancellationPairedProfiles
-import PrimeCancellationMaskCount
-import PrimeCancellationUniformity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
+public import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
+public import HeckeGeneral.Analysis.IdealDerivativeSmoothing
+public import PrimeCancellationPairedProfiles
+public import PrimeCancellationMaskCount
+public import PrimeCancellationUniformity
+
+@[expose] public section
 
 /-!
 # The actual single-prime input on the full kappa interval

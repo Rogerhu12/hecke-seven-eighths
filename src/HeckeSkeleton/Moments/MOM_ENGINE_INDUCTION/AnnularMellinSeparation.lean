@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellin
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
-import Mathlib.Analysis.SpecialFunctions.SmoothTransition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellin
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
+
+@[expose] public section
 
 /-!
 # Literal Mellin separation on a fixed larger annulus

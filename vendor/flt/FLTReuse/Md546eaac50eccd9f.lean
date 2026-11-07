@@ -1,7 +1,11 @@
-import FLTReuse.Mcab7f5d3272e0825
-import Mathlib.Analysis.Fourier.FourierTransform
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M309e9be61702aef5
+module
+
+public import FLTReuse.Mcab7f5d3272e0825
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M309e9be61702aef5
+
+@[expose] public section
 
 open NumberField NumberField.StandardAddChar IsDedekindDomain
 theorem NumberField.StandardAddChar.AdelicTraceData.psiK_apply_mk_zero_eq_fourierChar_trace

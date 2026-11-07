@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
-import HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
-import HeckePort.Moments.Descent.MarkedTwists
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
+public import HeckePort.Moments.Descent.MarkedTwists
+
+@[expose] public section
 
 /-!
 # The actual exterior radical of a canonical puncture

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceData
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceData
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
+
+@[expose] public section
 
 /-!
 # Exact paired-family map for the generic source data

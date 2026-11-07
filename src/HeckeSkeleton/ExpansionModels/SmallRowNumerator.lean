@@ -1,9 +1,13 @@
-import RowCharacterNormTwistExclusion
-import ArithmeticFrequencyRowConductorNorm
-import HeckeSkeleton.HeckeUniformStripGrowth
-import HeckeSkeleton.HeckeDeletedEulerControl
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import Expansion.PhysicalRowSupport
+module
+
+public import RowCharacterNormTwistExclusion
+public import ArithmeticFrequencyRowConductorNorm
+public import HeckeSkeleton.HeckeUniformStripGrowth
+public import HeckeSkeleton.HeckeDeletedEulerControl
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import Expansion.PhysicalRowSupport
+
+@[expose] public section
 
 /-!
 # The actual nonprincipal numerator on the small-row contour

@@ -1,6 +1,10 @@
-import CubicSieve.ProfileTransfer
-import CubicSieve.OrbitDualNorm
-import CubicSieve.CoprimeGram
+module
+
+public import CubicSieve.ProfileTransfer
+public import CubicSieve.OrbitDualNorm
+public import CubicSieve.CoprimeGram
+
+@[expose] public section
 
 /-! Instantiate the Mellin Gram transfer with the actual all-sector cubic
 kernel. Both column ideal norms remain in the common radial profile. -/

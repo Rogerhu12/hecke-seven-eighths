@@ -1,6 +1,10 @@
-import ExpansionInterfaces.AnnularMellinProfile
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Tactic.LinearCombination
+module
+
+public import ExpansionInterfaces.AnnularMellinProfile
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Tactic.LinearCombination
+
+@[expose] public section
 
 /-!
 # A finite-height Mellin contour move with both horizontal faces retained

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The literal additive amplitude in revised (3.33),

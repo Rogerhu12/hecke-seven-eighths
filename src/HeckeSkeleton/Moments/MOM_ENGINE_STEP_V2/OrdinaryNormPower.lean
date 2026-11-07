@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralLocations
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralLocations
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

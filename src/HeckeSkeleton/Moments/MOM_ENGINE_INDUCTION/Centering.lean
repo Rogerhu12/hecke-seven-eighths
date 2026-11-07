@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
+
+@[expose] public section
 
 /-!
 # Centering on the original paired row set

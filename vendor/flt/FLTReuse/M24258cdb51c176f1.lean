@@ -1,19 +1,24 @@
-import FLTReuse.Mebc9933318479bf5
-import FLTReuse.M667f856d48d30da6
-import FLTReuse.M69a2db2effcd05b3
-import FLTReuse.Maad24315e49d9aac
-import FLTReuse.M8a18b6fa749851ee
-import FLTReuse.Mfa51b18746f896ac
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M81477154c83a610e
-import FLTReuse.Mb8f476785919d863
-import FLTReuse.M7c74d34e26b915e3
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.Mcab7f5d3272e0825
-import FLTReuse.M0a341b9f001ae4d1
-import FLTReuse.M1868db956c866c8d
-import Mathlib.Basic.Real.Sign
+module
+
+public import FLTReuse.Mebc9933318479bf5
+public import FLTReuse.M667f856d48d30da6
+public import FLTReuse.M69a2db2effcd05b3
+public import FLTReuse.Maad24315e49d9aac
+public import FLTReuse.M8a18b6fa749851ee
+public import FLTReuse.Mfa51b18746f896ac
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.Mb8f476785919d863
+public import FLTReuse.M7c74d34e26b915e3
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.Mcab7f5d3272e0825
+public import FLTReuse.M0a341b9f001ae4d1
+public import FLTReuse.M1868db956c866c8d
+public import Mathlib.Basic.Real.Sign
+
+@[expose] public section
+
 attribute [-ext] NumberField.InfinitePlace.Completion.ext
 attribute [-ext] IsDedekindDomain.HeightOneSpectrum.adicCompletion.ext
 namespace P2MW.S_NumberField_TateGlobal_exists_differentiable_eq_partialEulerProduct_of_exists_mem_normOneIdeles_ne_one

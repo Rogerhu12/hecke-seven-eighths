@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.IdealRows
-import HeckeSkeleton.LowEnergy.Rankin
-import HeckeSkeleton.LowEnergy.IdealMajorant
+module
+
+public import HeckeSkeleton.LowEnergy.IdealRows
+public import HeckeSkeleton.LowEnergy.Rankin
+public import HeckeSkeleton.LowEnergy.IdealMajorant
+
+@[expose] public section
 
 /-!
 # Powerful-ideal counting for every number field

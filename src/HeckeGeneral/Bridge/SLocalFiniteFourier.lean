@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.SIntegerFourierFactorization
-import HeckeGeneral.Arithmetic.SUnitCompactDenominators
-import FLTReuse.M88e60ad1fc5ea3de
+module
+
+public import HeckeGeneral.Bridge.SIntegerFourierFactorization
+public import HeckeGeneral.Arithmetic.SUnitCompactDenominators
+public import FLTReuse.M88e60ad1fc5ea3de
+
+@[expose] public section
 
 /-!
 # Compact finite-local Fourier profiles

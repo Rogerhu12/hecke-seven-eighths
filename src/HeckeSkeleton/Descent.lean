@@ -1,11 +1,15 @@
-import HeckeGeneral.Analysis.TIPClosure
-import Mathlib.NumberTheory.Cyclotomic.PrimitiveRoots
-import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-import HeckeSkeleton.ActualHeckeNormPullback
-import HeckeSkeleton.Descent.ArtinFactors
-import HeckeSkeleton.Descent.PoleMatching
-import HeckeGeneral.Analysis.HeckeEulerDeletion
-import HeckeSkeleton.Descent.DeletedEuler
+module
+
+public import HeckeGeneral.Analysis.TIPClosure
+public import Mathlib.NumberTheory.Cyclotomic.PrimitiveRoots
+public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+public import HeckeSkeleton.ActualHeckeNormPullback
+public import HeckeSkeleton.Descent.ArtinFactors
+public import HeckeSkeleton.Descent.PoleMatching
+public import HeckeGeneral.Analysis.HeckeEulerDeletion
+public import HeckeSkeleton.Descent.DeletedEuler
+
+@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

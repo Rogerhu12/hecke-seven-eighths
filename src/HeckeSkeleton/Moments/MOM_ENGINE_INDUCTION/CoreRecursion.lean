@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreStages
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseBranch
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionBranch
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreStages
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseBranch
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionBranch
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+
+@[expose] public section
 
 /-!
 # Construct the actual local recursion by geometric cases

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SUnitSchwartzDecay
-import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
+module
+
+public import HeckeGeneral.Analysis.SUnitSchwartzDecay
+public import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
+
+@[expose] public section
 
 /-!
 # The actual orbital profile as a continuous complex-linear functional

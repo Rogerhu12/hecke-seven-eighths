@@ -1,5 +1,9 @@
-import ThetaGlobal.PrimalLimitProject
-import ThetaGlobal.ReflectedLimitProject
+module
+
+public import ThetaGlobal.PrimalLimitProject
+public import ThetaGlobal.ReflectedLimitProject
+
+@[expose] public section
 
 /-!
 # The final extensional limit step for the actual marked theorem

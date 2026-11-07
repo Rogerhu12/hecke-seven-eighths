@@ -1,8 +1,12 @@
-import Expansion.ActualPrimeLogSeries
-import ExpansionInterfaces.LogDividedAnnularProfile
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import PrimeCancellationPrimeSeries
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import Expansion.ActualPrimeLogSeries
+public import ExpansionInterfaces.LogDividedAnnularProfile
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import PrimeCancellationPrimeSeries
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-!
 # Actual prime arithmetic and exact removal of the logarithmic weight

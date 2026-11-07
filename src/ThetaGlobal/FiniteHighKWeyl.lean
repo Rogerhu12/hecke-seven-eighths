@@ -1,7 +1,11 @@
-import ThetaGlobal.FiniteFullProduct
-import ThetaGlobal.FiniteHighKTensor
-import ThetaGlobal.FiniteSheetMellin
-import ThetaGlobal.GlobalTargetPeriod
+module
+
+public import ThetaGlobal.FiniteFullProduct
+public import ThetaGlobal.FiniteHighKTensor
+public import ThetaGlobal.FiniteSheetMellin
+public import ThetaGlobal.GlobalTargetPeriod
+
+@[expose] public section
 
 /-!
 # The actual high K-type reflected Fourier coefficient is the Mellin tensor

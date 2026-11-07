@@ -1,5 +1,9 @@
-import HeckeSkeleton.SourceData
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
+module
+
+public import HeckeSkeleton.SourceData
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
+
+@[expose] public section
 
 /-!
 # Finite sector reindexing for one fixed all-scale source

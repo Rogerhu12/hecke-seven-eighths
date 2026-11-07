@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormPoolEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormPoolEnergy
+
+@[expose] public section
 
 /-!
 # Two positive energies for the entire literal retained first parent

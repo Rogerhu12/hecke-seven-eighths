@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionUniformity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionUniformity
+
+@[expose] public section
 
 /-!
 # A genuine finite ideal truncation of the ordinary reflected series

@@ -1,12 +1,16 @@
-import HeckeGeneral.Analysis.ActualPacketClosure
-import HeckeGeneral.Analysis.PrincipalProbeBounded
-import HeckeGeneral.Analysis.TInputPrincipal
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Analysis.PretargetPrimeWindows
-import HeckeGeneral.Analysis.PhysicalComparisonAssembly
-import HeckeGeneral.Analysis.EndpointRangeSavings
-import HeckeGeneral.Analysis.WitnessRowCount
+module
+
+public import HeckeGeneral.Analysis.ActualPacketClosure
+public import HeckeGeneral.Analysis.PrincipalProbeBounded
+public import HeckeGeneral.Analysis.TInputPrincipal
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Analysis.PretargetPrimeWindows
+public import HeckeGeneral.Analysis.PhysicalComparisonAssembly
+public import HeckeGeneral.Analysis.EndpointRangeSavings
+public import HeckeGeneral.Analysis.WitnessRowCount
+
+@[expose] public section
 
 /-!
 # The sources T, I and P for one fixed infinity type

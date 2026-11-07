@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondLogChart
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondLogChart
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
+
+@[expose] public section
 
 /-!
 # The second logarithmic tilt is paid by original norm windows

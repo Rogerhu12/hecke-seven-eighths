@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.TraceJointSchwartzFourierBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildAssembly
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+module
+
+public import HeckeGeneral.Analysis.TraceJointSchwartzFourierBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildAssembly
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+
+@[expose] public section
 
 /-!
 # One Fourier measure for a complete two-column kernel

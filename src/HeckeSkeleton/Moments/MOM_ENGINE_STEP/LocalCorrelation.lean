@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalAmplifier
-import DedekindZetaZeroFree.CharacterSums.Gauss.GeneratorInvariance
-import HeckePort.Moments.FullCorrelation
-import HeckePort.Moments.Unequal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalAmplifier
+public import DedekindZetaZeroFree.CharacterSums.Gauss.GeneratorInvariance
+public import HeckePort.Moments.FullCorrelation
+public import HeckePort.Moments.Unequal
+
+@[expose] public section
 
 /-!
 # Complete nonprimitive local correlations

@@ -1,10 +1,14 @@
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.MeasureTheory.Integral.IntegrableOn
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.MeasureTheory.Integral.IntegrableOn
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Literal finite-place shell coefficients

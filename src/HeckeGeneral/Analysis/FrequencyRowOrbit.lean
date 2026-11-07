@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeGeneral.Analysis.ActualSIntegerSimultaneousAmplifier
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeGeneral.Analysis.ActualSIntegerSimultaneousAmplifier
+
+@[expose] public section
 
 /-!
 Physical frequency rows embed into actual sixth-power S-unit orbits.

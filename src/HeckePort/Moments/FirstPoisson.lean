@@ -1,4 +1,8 @@
-import HeckePort.Moments.Poisson
+module
+
+public import HeckePort.Moments.Poisson
+
+@[expose] public section
 
 /-!
 # The first Poisson step: coprime pairs of characters

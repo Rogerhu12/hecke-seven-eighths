@@ -1,6 +1,11 @@
-import HeckeSkeleton.HighBinSupport.ActualBoundaryIntegrability
-import HeckeSkeleton.HighBinSupport.ActualKernelEnvelope
-import HeckeSkeleton.HighBinSupport.BoundaryTailAssembly
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualBoundaryIntegrability
+public import HeckeSkeleton.HighBinSupport.ActualKernelEnvelope
+public import HeckeSkeleton.HighBinSupport.BoundaryTailAssembly
+
+@[expose] public section
+
 /-!
 Transport of the original `rowContourBox`, with its original normalization.
 

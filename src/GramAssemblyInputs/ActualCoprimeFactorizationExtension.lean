@@ -1,4 +1,8 @@
-import ActualExteriorGcdMobiusSum
+module
+
+public import ActualExteriorGcdMobiusSum
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. A factorized expression may be valid only on the

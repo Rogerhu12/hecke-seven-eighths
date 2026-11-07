@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MellinZeroDetector
-import Mathlib.Analysis.Meromorphic.IsolatedZeros
+module
+
+public import HeckeGeneral.Analysis.MellinZeroDetector
+public import Mathlib.Analysis.Meromorphic.IsolatedZeros
+
+@[expose] public section
 
 /-!
 # From a vertical-line identity to an initial meromorphic germ

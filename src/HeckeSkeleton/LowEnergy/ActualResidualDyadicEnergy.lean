@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualTupleReconstruction
-import HeckeSkeleton.LowEnergy.ActualRowFibres
+module
+
+public import HeckeSkeleton.LowEnergy.ActualTupleReconstruction
+public import HeckeSkeleton.LowEnergy.ActualRowFibres
+
+@[expose] public section
 
 /-!
 # Literal target energy on one powerful fibre and one residual dyad

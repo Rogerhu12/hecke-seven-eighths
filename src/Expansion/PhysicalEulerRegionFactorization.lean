@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerRegion
-import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualEulerRegion
+public import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
+
+@[expose] public section
 
 /-!
 # Complete physical compensation on the whole Euler region

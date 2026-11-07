@@ -1,8 +1,12 @@
-import SIntegerSexticPrimePowerQuotient
-import FiniteAffineCorrelationProduct
-import HeckeGeneral.Arithmetic.IdealFactorization
-import HeckeGeneral.Arithmetic.SIntegerModulusCRT
-import HeckeGeneral.Characters.ConductorCRT
+module
+
+public import SIntegerSexticPrimePowerQuotient
+public import FiniteAffineCorrelationProduct
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import HeckeGeneral.Arithmetic.SIntegerModulusCRT
+public import HeckeGeneral.Characters.ConductorCRT
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNCOMPILED.
 

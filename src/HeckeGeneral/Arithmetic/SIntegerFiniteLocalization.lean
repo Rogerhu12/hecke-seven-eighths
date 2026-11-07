@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SUnitPrimePowers
-import HeckeGeneral.Arithmetic.SIntegerLocalization
+module
+
+public import HeckeGeneral.Arithmetic.SUnitPrimePowers
+public import HeckeGeneral.Arithmetic.SIntegerLocalization
+
+@[expose] public section
 
 /-!
 # Localization at exactly a prescribed finite set of primes

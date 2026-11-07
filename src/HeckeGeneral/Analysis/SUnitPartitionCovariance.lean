@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SUnitAnnularPartitionCutoff
+module
+
+public import HeckeGeneral.Analysis.SUnitAnnularPartitionCutoff
+
+@[expose] public section
 
 /-! Covariance of the actual unit partition under the original S-unit
 subgroup. Both the archimedean point and the finite unit coordinate move.

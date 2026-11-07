@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinScalarStep
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinScalarStep
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+
+@[expose] public section
 
 /-!
 # The original slot mesh through literal profile operations

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Analysis.CountingPowerTail
-import Expansion.PhysicalRowSupport
+module
+
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Analysis.CountingPowerTail
+public import Expansion.PhysicalRowSupport
+
+@[expose] public section
 
 /-!
 # Genuine infinite tails of the complete physical row set

@@ -1,5 +1,9 @@
-import Expansion.PhysicalInitialMellinIdentity
-import HeckeSkeleton.HighBinSupport.ActualInitialCalibration
+module
+
+public import Expansion.PhysicalInitialMellinIdentity
+public import HeckeSkeleton.HighBinSupport.ActualInitialCalibration
+
+@[expose] public section
 
 /-!
 # The normalized physical probe on its actual initial contour

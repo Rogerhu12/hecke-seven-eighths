@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRawNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRawNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

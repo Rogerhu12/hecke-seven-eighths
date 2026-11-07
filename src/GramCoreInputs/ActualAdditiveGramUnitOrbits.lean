@@ -1,6 +1,10 @@
-import ActualAdditiveGramAmplitude
-import ActualProbePairPeriodicFourier
-import ActualProbeGaussSixthUnitOrbit
+module
+
+public import ActualAdditiveGramAmplitude
+public import ActualProbePairPeriodicFourier
+public import ActualProbeGaussSixthUnitOrbit
+
+@[expose] public section
 
 /-!
 SOURCE CANDIDATE / not compiled. The literal (3.33) amplitude and the actual

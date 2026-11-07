@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Enlarge the actual ideal-prime product to an
 arbitrary finite exterior support. Extra primes have multiplicity zero;

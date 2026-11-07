@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealDerivativeSmoothing
-import HeckeGeneral.Analysis.GaussianContour
+module
+
+public import HeckeGeneral.Analysis.IdealDerivativeSmoothing
+public import HeckeGeneral.Analysis.GaussianContour
+
+@[expose] public section
 
 /-!
 # Gaussian Mellin inversion for genuine ideal sums

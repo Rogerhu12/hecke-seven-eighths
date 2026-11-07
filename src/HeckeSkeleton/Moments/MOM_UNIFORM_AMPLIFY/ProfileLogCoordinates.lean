@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileFourier
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileFourier
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+
+@[expose] public section
 
 /-!
 # Literal logarithmic coordinates for the Euler test seminorm

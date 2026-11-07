@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExpansionModels.SmallRowNormContinuation
-import HeckeSkeleton.HeckeUniformStripGrowth
-import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowNormContinuation
+public import HeckeSkeleton.HeckeUniformStripGrowth
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+
+@[expose] public section
 
 /-!
 # The norm-twist reciprocal on the original common line

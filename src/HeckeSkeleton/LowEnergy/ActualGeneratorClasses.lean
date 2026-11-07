@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualClassSlices
+module
+
+public import HeckeSkeleton.LowEnergy.ActualClassSlices
+
+@[expose] public section
 
 /-!
 # Generator classes and the full cube column

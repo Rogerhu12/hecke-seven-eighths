@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalLocus
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalLocus
+
+@[expose] public section
 
 /-!
 # The actual diagonal underlying the principal first source

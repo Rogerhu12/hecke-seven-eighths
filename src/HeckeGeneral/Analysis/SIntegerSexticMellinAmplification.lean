@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ActualSIntegerZeroSlotMI
-import HeckeGeneral.Analysis.SIntegerSexticAmplificationEnergy
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerZeroSlotMI
+public import HeckeGeneral.Analysis.SIntegerSexticAmplificationEnergy
+
+@[expose] public section
 
 /-!
 Exact amplification for the actual complex Mellin family W_s(y)=W(y)y^(-s).

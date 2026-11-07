@@ -1,4 +1,8 @@
-import HeckePort.Moments.ReflectionDeletion
+module
+
+public import HeckePort.Moments.ReflectionDeletion
+
+@[expose] public section
 
 /-!
 # Reflection of a character through its natural primitive

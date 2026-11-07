@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueDual
-import Mathlib.Algebra.Group.AddChar
+module
+
+public import HeckeGeneral.Characters.LocalResidueDual
+public import Mathlib.Algebra.Group.AddChar
+
+@[expose] public section
 
 /-! Local Gauss sums detect the least conductor depth of the multiplicative character. -/
 

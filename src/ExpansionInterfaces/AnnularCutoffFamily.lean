@@ -1,5 +1,9 @@
-import ExpansionInterfaces.AnnularContourUniform
-import HeckeSkeleton.ExpansionModels.CutoffLogProfile
+module
+
+public import ExpansionInterfaces.AnnularContourUniform
+public import HeckeSkeleton.ExpansionModels.CutoffLogProfile
+
+@[expose] public section
 
 /-!
 # A common Mellin constant for the actual scaled cutoff family

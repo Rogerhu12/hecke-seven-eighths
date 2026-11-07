@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SmallScaleColumns
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorRowMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SmallScaleColumns
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorRowMass
+
+@[expose] public section
 
 /-!
 # Actual terminal energies for smooth pieces below unit scale

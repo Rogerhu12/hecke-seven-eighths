@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
-import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
+public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+
+@[expose] public section
 
 /-!
 # Actual clipping of the original Schwartz profiles

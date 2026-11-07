@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
-import Expansion.CanonicalDetectorCharacters
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
+public import Expansion.CanonicalDetectorCharacters
+
+@[expose] public section
 
 /-!
 # Recovering actual reflection arithmetic from the same complete recipe

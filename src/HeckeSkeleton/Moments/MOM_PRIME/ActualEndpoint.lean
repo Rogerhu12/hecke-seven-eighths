@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_PRIME.RecipeEndpoint
-import Expansion.PhysicalRecipeSchedule
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME.RecipeEndpoint
+public import Expansion.PhysicalRecipeSchedule
+
+@[expose] public section
 
 /-!
 # The actual detector supplies the endpoint prime-window hypothesis

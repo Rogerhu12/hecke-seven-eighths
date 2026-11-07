@@ -1,7 +1,11 @@
-import ExpansionDetector.IdealDirichletProduct
-import ExpansionDetector.IdealTerminal
-import ExpansionDetector.ExponentialMellin
-import ExpansionDetector.ExponentialSummability
+module
+
+public import ExpansionDetector.IdealDirichletProduct
+public import ExpansionDetector.IdealTerminal
+public import ExpansionDetector.ExponentialMellin
+public import ExpansionDetector.ExponentialSummability
+
+@[expose] public section
 
 /-! Exact Gamma smoothing of the explicit ideal Moebius detector. The only
 L-function data are its ordinary initial Dirichlet series and absolute

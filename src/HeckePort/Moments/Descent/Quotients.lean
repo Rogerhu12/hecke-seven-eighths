@@ -1,4 +1,8 @@
-import HeckePort.Moments.Descent.Hybrid
+module
+
+public import HeckePort.Moments.Descent.Hybrid
+
+@[expose] public section
 
 /-!
 # Quotient supports

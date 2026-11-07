@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalAdaptiveTail
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalAdaptiveTail
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+
+@[expose] public section
 
 /-!
 # The second cutoff frozen with the actual common ideal and divisor

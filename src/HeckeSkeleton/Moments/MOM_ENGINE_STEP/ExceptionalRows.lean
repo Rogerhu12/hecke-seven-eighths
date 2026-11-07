@@ -1,6 +1,10 @@
-import HeckePort.CenteredMoment.Counting
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckePort.CenteredMoment.Counting
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Counting the actual sixth-power exceptional rows

@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
-import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
+public import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+
+@[expose] public section
 
 /-!
 Clearing denominators inside the original sixth-power Kummer class.

@@ -1,5 +1,9 @@
-import ExpansionDetector.IdealDirichletProduct
-import ExpansionDetector.IdealTerminal
+module
+
+public import ExpansionDetector.IdealDirichletProduct
+public import ExpansionDetector.IdealTerminal
+
+@[expose] public section
 
 /-! The detector source is a genuine finite two-ideal sum even on a line
 where the unsmoothed Dirichlet series need not converge. Finite support,

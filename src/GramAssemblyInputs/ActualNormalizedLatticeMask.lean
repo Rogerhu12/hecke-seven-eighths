@@ -1,5 +1,9 @@
-import ActualIdealProductPolarMass
-import HeckeGeneral.Analysis.TraceProductPoisson
+module
+
+public import ActualIdealProductPolarMass
+public import HeckeGeneral.Analysis.TraceProductPoisson
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. The normalized coefficient is the actual finite

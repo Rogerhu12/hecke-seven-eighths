@@ -1,7 +1,11 @@
-import CubicSieve.OrbitKernel
-import CubicSieve.ExteriorSieve
-import HeckeGeneral.Analysis.SIntegerOrbitalSum
-import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
+module
+
+public import CubicSieve.OrbitKernel
+public import CubicSieve.ExteriorSieve
+public import HeckeGeneral.Analysis.SIntegerOrbitalSum
+public import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
+
+@[expose] public section
 
 /-!
 The full ideal cutoff embeds into the actual sixth-unit orbit space through

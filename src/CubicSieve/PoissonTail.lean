@@ -1,5 +1,9 @@
-import CubicSieve.PoissonBlocks
-import CubicSieve.OrbitDyadic
+module
+
+public import CubicSieve.PoissonBlocks
+public import CubicSieve.OrbitDyadic
+
+@[expose] public section
 
 /-! Absolute convergence and the actual nonzero-orbit Poisson tail. Both
 column norms stay inside the common Gaussian profile until Mellin transfer. -/

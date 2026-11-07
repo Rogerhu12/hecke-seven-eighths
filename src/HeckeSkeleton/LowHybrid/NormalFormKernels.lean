@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowHybrid.NormalForm
-import HeckeSkeleton.LowHybrid.WeightedSieveBounds
-import HeckeSkeleton.LowHybrid.Global
+module
+
+public import HeckeSkeleton.LowHybrid.NormalForm
+public import HeckeSkeleton.LowHybrid.WeightedSieveBounds
+public import HeckeSkeleton.LowHybrid.Global
+
+@[expose] public section
 
 /-!
 # Exact squarefree zero extensions and the actual weighted block

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondResidualSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussEnergySource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondResidualSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussEnergySource
+
+@[expose] public section
 
 /-!
 # Exact second common-support sources

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepHypothesis
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualEngineProfiles
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinUniversalLabels
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepHypothesis
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualEngineProfiles
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinUniversalLabels
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

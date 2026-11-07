@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FixedChildFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NonzeroQuotientSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FixedChildFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NonzeroQuotientSupport
+
+@[expose] public section
 
 /-!
 # Exact source factors after quotient and slot extraction

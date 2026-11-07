@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
-import Mathlib.Analysis.InnerProductSpace.ProdL2
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+public import Mathlib.Analysis.InnerProductSpace.ProdL2
+
+@[expose] public section
 
 /-!
 # Both continuous phases in one actual child family

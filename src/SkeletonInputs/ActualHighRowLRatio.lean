@@ -1,5 +1,9 @@
-import ArithmeticFrequencyRowCharacterFibers
-import HeckeSkeleton.HeckeHighRowLRatio
+module
+
+public import ArithmeticFrequencyRowCharacterFibers
+public import HeckeSkeleton.HeckeHighRowLRatio
+
+@[expose] public section
 
 /-!
 Actual arithmetic row-character specialization of the high-row L-ratio bound.

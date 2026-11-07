@@ -1,10 +1,14 @@
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import ThetaGlobal.GaussianRegularization
+module
+
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import ThetaGlobal.GaussianRegularization
+
+@[expose] public section
 
 /-!
 # Polynomial contour shifts and their Gaussian regularization

@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.CommonMellin
+module
+
+public import HeckeSkeleton.LowEnergy.CommonMellin
+
+@[expose] public section
 
 /-!
 # One common Mellin profile including the positive-line dual tail

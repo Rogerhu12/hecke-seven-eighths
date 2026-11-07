@@ -1,7 +1,11 @@
-import HeckePort.Moments.Descent.Widths
-import HeckePort.Moments.Descent.Basic
-import Mathlib.Analysis.SpecialFunctions.Log.Base
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckePort.Moments.Descent.Widths
+public import HeckePort.Moments.Descent.Basic
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Terminal widths of the inverse recursion

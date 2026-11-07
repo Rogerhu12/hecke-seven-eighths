@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+
+@[expose] public section
 
 /-!
 # Reindexing a proved finite engine conclusion

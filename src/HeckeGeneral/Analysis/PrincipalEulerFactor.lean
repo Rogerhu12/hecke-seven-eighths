@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeGeneral.Analysis.IdealEulerProduct
-import Mathlib.Analysis.Normed.Module.MultipliableUniformlyOn
-import Mathlib.Analysis.Complex.LocallyUniformLimit
-import Mathlib.Analysis.Complex.CauchyIntegral
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeGeneral.Analysis.IdealEulerProduct
+public import Mathlib.Analysis.Normed.Module.MultipliableUniformlyOn
+public import Mathlib.Analysis.Complex.LocallyUniformLimit
+public import Mathlib.Analysis.Complex.CauchyIntegral
+
+@[expose] public section
 
 /-!
 # The principal Euler factor, from its literal local formula

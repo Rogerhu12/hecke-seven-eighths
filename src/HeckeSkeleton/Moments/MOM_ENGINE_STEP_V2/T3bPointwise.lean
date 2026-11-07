@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPairedAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bTimeBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPairedAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bTimeBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMonotonicity
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionProvider
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionGeometry
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMonotonicity
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent
+
+@[expose] public section
 
 /-!
 # The genuine recursive estimate for each long cube annulus

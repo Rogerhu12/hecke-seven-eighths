@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCommonReflection
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependent
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActualCommonReflection
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependent
+
+@[expose] public section
 
 /-!
 # The actual fixed-line reflection children remain in the geometric family

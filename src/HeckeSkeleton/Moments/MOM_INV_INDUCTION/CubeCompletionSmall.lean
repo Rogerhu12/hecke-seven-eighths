@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionNodeStep
-import HeckeSkeleton.Moments.MOM_INV_STEP.SmallScaleEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionNodeStep
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SmallScaleEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+
+@[expose] public section
 
 /-!
 # The subunit column branch of genuine cube completion

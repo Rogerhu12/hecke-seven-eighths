@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileJets
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FourierApplication
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileCommonFourier
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileJets
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FourierApplication
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileCommonFourier
+
+@[expose] public section
 
 /-!
 # The actual inverse profile has the common weighted Fourier bound

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
-import HeckeGeneral.Analysis.TraceProductPoisson
-import HeckeGeneral.Analysis.LatticeSchwartzTail
+module
+
+public import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+public import HeckeGeneral.Analysis.TraceProductPoisson
+public import HeckeGeneral.Analysis.LatticeSchwartzTail
+
+@[expose] public section
 
 /-!
 Fourier summation for a fixed pair of actual fractional ideal lattices.

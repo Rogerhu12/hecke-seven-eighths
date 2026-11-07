@@ -1,8 +1,12 @@
-import Expansion.ActualMellinStripDecay
-import Expansion.ActualOuterCorrectionStrip
-import Expansion.ActualRowStripBounds
-import Expansion.ActualPrimeNormalizer
-import HeckeSkeleton.HighBinSupport.BoundaryRectangle
+module
+
+public import Expansion.ActualMellinStripDecay
+public import Expansion.ActualOuterCorrectionStrip
+public import Expansion.ActualRowStripBounds
+public import Expansion.ActualPrimeNormalizer
+public import HeckeSkeleton.HighBinSupport.BoundaryRectangle
+
+@[expose] public section
 
 /-!
 # Arbitrary height decay of the complete actual outer-row kernel

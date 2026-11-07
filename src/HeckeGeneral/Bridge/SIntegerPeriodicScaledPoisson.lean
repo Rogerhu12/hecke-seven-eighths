@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.SIntegerPeriodicAdelicFourier
-import HeckeGeneral.Arithmetic.SIntegerModulusFrequencyReindex
-import HeckeGeneral.Bridge.SIntegerModulusScaling
+module
+
+public import HeckeGeneral.Bridge.SIntegerPeriodicAdelicFourier
+public import HeckeGeneral.Arithmetic.SIntegerModulusFrequencyReindex
+public import HeckeGeneral.Bridge.SIntegerModulusScaling
+
+@[expose] public section
 
 /-! Periodic Poisson on the original S-integer ring with its actual finite
 divisor transform. Reindexing the supported field frequencies contributes

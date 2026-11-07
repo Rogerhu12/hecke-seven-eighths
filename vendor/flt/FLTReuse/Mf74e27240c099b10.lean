@@ -1,11 +1,16 @@
-import FLTReuse.Mb8f476785919d863
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.Topology.Algebra.Constructions
-import Mathlib.Topology.Algebra.GroupWithZero
-import Mathlib.Analysis.SpecialFunctions.Complex.Log
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mb8f476785919d863
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Topology.Algebra.Constructions
+public import Mathlib.Topology.Algebra.GroupWithZero
+public import Mathlib.Analysis.SpecialFunctions.Complex.Log
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_ArchPlace_forall_continuous_exists_eq_realCharFun_and_forall_continuous_exists_eq_complexCharFun
 
 set_option autoImplicit false

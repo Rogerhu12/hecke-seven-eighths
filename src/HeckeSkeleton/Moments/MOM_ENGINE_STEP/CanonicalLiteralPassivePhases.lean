@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFixedPhases
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFixedPhases
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Ledger
+
+@[expose] public section
 
 /-!
 # The actual amplifier phase and its passive deletion

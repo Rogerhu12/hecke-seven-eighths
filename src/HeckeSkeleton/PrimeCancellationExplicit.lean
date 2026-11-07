@@ -1,8 +1,12 @@
-import HeckeSkeleton.PrimeCancellationHecke
-import HeckeSkeleton.PrimeCancellationPolynomials
-import HeckeSkeleton.PrimeCancellationMoment
-import HeckeSkeleton.PrimeCancellationBounds
-import HeckeSkeleton.PrimeCancellationWindows
+module
+
+public import HeckeSkeleton.PrimeCancellationHecke
+public import HeckeSkeleton.PrimeCancellationPolynomials
+public import HeckeSkeleton.PrimeCancellationMoment
+public import HeckeSkeleton.PrimeCancellationBounds
+public import HeckeSkeleton.PrimeCancellationWindows
+
+@[expose] public section
 
 /-!
 # Prime cancellation for an explicit family of actual moment data

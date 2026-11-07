@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.DecomposedSIntegerRowCalibration
-import HeckeGeneral.Analysis.ActualZeroSlotProfileCalibration
+module
+
+public import HeckeGeneral.Analysis.DecomposedSIntegerRowCalibration
+public import HeckeGeneral.Analysis.ActualZeroSlotProfileCalibration
+
+@[expose] public section
 
 /-!
 Concrete zero-slot MomentData, separately for each original unit sector.

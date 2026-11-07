@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionConductor
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreGeometry
-import Mathlib.Algebra.Order.Archimedean.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionConductor
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreGeometry
+public import Mathlib.Algebra.Order.Archimedean.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Actual conductor scales, common dyadic cutoffs and reflected geometry

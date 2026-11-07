@@ -1,6 +1,10 @@
-import SchwartzLinearCompositionSeminorm
-import ActualBalancedClearedJointTransport
-import Mathlib.Analysis.Normed.Operator.Prod
+module
+
+public import SchwartzLinearCompositionSeminorm
+public import ActualBalancedClearedJointTransport
+public import Mathlib.Analysis.Normed.Operator.Prod
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Uniform linear-composition constants for the actual

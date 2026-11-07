@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeSkeleton.HighBinSupport.ExceptionalSweptTube
-import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
-import Mathlib.Algebra.MonoidAlgebra.Basic
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeSkeleton.HighBinSupport.ExceptionalSweptTube
+public import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
+public import Mathlib.Algebra.MonoidAlgebra.Basic
+
+@[expose] public section
 
 /-!
 # Finite Laurent encodings of the actual local table interface

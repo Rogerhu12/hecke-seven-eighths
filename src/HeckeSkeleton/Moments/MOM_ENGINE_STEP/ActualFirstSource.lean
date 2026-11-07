@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstLinearizedSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstLinearizedSource
+
+@[expose] public section
 
 /-!
 # The original parent and all actual first-stage sources

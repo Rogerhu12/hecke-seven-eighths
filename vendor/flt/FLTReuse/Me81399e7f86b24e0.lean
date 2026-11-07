@@ -1,10 +1,15 @@
-import Mathlib
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.Mfa51b18746f896ac
-import FLTReuse.M07ee1a66041804a3
-import FLTReuse.M43f9debe4e1524cd
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.Mfa51b18746f896ac
+public import FLTReuse.M07ee1a66041804a3
+public import FLTReuse.M43f9debe4e1524cd
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_fourierIntegral_mem_schwartzBruhat
 
 set_option autoImplicit false

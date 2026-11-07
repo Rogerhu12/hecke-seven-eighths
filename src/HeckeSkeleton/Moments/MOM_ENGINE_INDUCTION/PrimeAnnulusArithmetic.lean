@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
-import HeckeSkeleton.PrimeCancellationHecke
-import HeckeSkeleton.PrimeCancellationPolynomials
-import PrimeCancellationMaskCount
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
+public import HeckeSkeleton.PrimeCancellationHecke
+public import HeckeSkeleton.PrimeCancellationPolynomials
+public import PrimeCancellationMaskCount
+
+@[expose] public section
 
 /-!
 # Genuine arithmetic budgets for every retained prime slot

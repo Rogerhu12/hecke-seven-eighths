@@ -1,4 +1,8 @@
-import ThetaGlobal.FiniteSheetMellin
+module
+
+public import ThetaGlobal.FiniteSheetMellin
+
+@[expose] public section
 
 /-!
 # Direct sheet Mellin transform and the actual finite Haar volume

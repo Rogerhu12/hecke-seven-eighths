@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitLogCounting
-import HeckeGeneral.Analysis.SUnitFiniteSupportDenominators
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitLogCounting
+public import HeckeGeneral.Analysis.SUnitFiniteSupportDenominators
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Actual local height bounds give logarithmic S-unit boxes

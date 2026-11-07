@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationKernel
+
+@[expose] public section
 
 /-!
 # Literal second residual kernel with both actual allocation families

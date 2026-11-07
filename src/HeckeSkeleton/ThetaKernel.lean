@@ -1,4 +1,8 @@
-import HeckeSkeleton.ThetaKernel.Deriv
+module
+
+public import HeckeSkeleton.ThetaKernel.Deriv
+
+@[expose] public section
 
 /-!
 # The theta reflection kernel: integrability, line independence, derivative bound

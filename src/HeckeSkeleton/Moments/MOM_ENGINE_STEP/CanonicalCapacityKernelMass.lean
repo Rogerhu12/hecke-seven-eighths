@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFourierChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFourierChildren
+
+@[expose] public section
 
 /-!
 # The mass of the actual arithmetically calibrated child kernel

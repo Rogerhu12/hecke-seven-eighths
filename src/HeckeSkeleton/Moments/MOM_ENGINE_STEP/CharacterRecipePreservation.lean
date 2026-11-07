@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
+
+@[expose] public section
 
 /-!
 # The original character recipes in the actual retained children

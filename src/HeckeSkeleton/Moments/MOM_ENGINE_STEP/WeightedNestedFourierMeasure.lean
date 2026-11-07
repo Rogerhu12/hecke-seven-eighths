@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedFourierMeasure
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedFourierMeasure
+
+@[expose] public section
 
 /-!
 # Exact polynomial profile envelopes in the common Fourier kernel

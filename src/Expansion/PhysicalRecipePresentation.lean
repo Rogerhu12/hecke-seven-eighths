@@ -1,6 +1,10 @@
-import Expansion.PhysicalRecipeOrigins
-import Expansion.PhysicalAmplitudeIntegral
-import Expansion.PhysicalContourMeasure
+module
+
+public import Expansion.PhysicalRecipeOrigins
+public import Expansion.PhysicalAmplitudeIntegral
+public import Expansion.PhysicalContourMeasure
+
+@[expose] public section
 
 /-!
 # The actual labels and transported pieces of the physical recipe

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitNormalizedPartition
-import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+module
+
+public import HeckeGeneral.Analysis.SUnitNormalizedPartition
+public import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+
+@[expose] public section
 
 /-! Smooth archimedean fibres of the actual normalized partition. The
 finite unit coordinate is fixed. Smoothness is stated on the regular

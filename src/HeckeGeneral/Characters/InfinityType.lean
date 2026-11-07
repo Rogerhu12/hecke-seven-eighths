@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.InfiniteComponent
-import HeckeGeneral.Characters.ComplexCharacter
-import HeckeGeneral.Characters.RealUnitCharacter
+module
+
+public import HeckeGeneral.Characters.InfiniteComponent
+public import HeckeGeneral.Characters.ComplexCharacter
+public import HeckeGeneral.Characters.RealUnitCharacter
+
+@[expose] public section
 
 /-!+# Infinity types of actual Hecke characters
 

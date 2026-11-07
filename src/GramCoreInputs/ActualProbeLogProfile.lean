@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Analysis.TraceSchwartzEuler
-import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
-import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Analysis.TraceSchwartzEuler
+public import HeckeGeneral.Arithmetic.SLocalNormSectionAlgebra
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Actual log-radius profiles for the original additive

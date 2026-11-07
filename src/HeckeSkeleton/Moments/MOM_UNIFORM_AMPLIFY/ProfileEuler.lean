@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
-import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
-import Mathlib.Analysis.Calculus.ContDiff.Bounds
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
+public import Mathlib.Analysis.Calculus.ContDiff.Bounds
+
+@[expose] public section
 
 /-!
 # The actual Euler test seminorm is controlled by finite Schwartz orders

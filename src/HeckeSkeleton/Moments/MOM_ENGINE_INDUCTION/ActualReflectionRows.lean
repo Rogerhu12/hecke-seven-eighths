@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRowReflection
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedPowerWindowEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRowReflection
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedPowerWindowEnergy
+
+@[expose] public section
 
 /-!
 # The literal original row as normalized common-frequency children

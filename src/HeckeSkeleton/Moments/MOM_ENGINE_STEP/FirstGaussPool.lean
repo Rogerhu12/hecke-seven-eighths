@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPoolDictionary
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPoolDictionary
+
+@[expose] public section
 
 /-!
 # The actual first Gauss energies enter one fixed arithmetic pool

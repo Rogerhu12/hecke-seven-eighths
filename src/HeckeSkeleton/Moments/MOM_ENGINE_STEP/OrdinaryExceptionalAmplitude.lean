@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
+
+@[expose] public section
 
 /-!
 # Ordinary exceptional columns from their original atoms

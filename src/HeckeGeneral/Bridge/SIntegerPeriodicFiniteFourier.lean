@@ -1,9 +1,13 @@
-import HeckeGeneral.Bridge.SIntegerPeriodicFiniteTest
-import HeckeGeneral.Bridge.SIntegerFourierFactorization
-import HeckeGeneral.Characters.LocalResidueCosetNormalizedFourier
-import HeckeGeneral.Characters.SIntegerModulusCosetPhase
-import HeckeGeneral.Arithmetic.SIntegerModulusFourierMass
-import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+module
+
+public import HeckeGeneral.Bridge.SIntegerPeriodicFiniteTest
+public import HeckeGeneral.Bridge.SIntegerFourierFactorization
+public import HeckeGeneral.Characters.LocalResidueCosetNormalizedFourier
+public import HeckeGeneral.Characters.SIntegerModulusCosetPhase
+public import HeckeGeneral.Arithmetic.SIntegerModulusFourierMass
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+
+@[expose] public section
 
 /-!
 # The actual finite Fourier coefficient at an S-integer modulus frequency

@@ -1,10 +1,14 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalAmplifier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCorrelation
-import DedekindZetaZeroFree.CharacterSums.Gauss.LocalUnitRescaling
-import DedekindZetaZeroFree.CharacterSums.Gauss.PrimePowerChineseRemainders
-import DedekindZetaZeroFree.CharacterSums.Gauss.FiniteSupportReciprocityCancellation
-import HeckePort.Moments.CommonSupport
-import HeckePort.Moments.Support
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalAmplifier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCorrelation
+public import DedekindZetaZeroFree.CharacterSums.Gauss.LocalUnitRescaling
+public import DedekindZetaZeroFree.CharacterSums.Gauss.PrimePowerChineseRemainders
+public import DedekindZetaZeroFree.CharacterSums.Gauss.FiniteSupportReciprocityCancellation
+public import HeckePort.Moments.CommonSupport
+public import HeckePort.Moments.Support
+
+@[expose] public section
 
 /-!
 # Actual CRT factors for one amplifier prime

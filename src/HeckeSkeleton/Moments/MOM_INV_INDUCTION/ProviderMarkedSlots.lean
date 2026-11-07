@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
-import HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
+public import HeckeSkeleton.Moments.MOM_INV_STEP.AssignedMarkSource
+
+@[expose] public section
 
 /-!
 # Actual selected slots and the residual canonical divisor mark

@@ -1,8 +1,12 @@
-import HeckeGeneral.Arithmetic.IdealCoefficients
-import HeckeGeneral.Analysis.IdealDirichlet
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Analysis.SpecialFunctions.Log.Summable
+module
+
+public import HeckeGeneral.Arithmetic.IdealCoefficients
+public import HeckeGeneral.Analysis.IdealDirichlet
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import Mathlib.Analysis.SpecialFunctions.Log.Summable
+
+@[expose] public section
 
 /-!
 # Finite Euler expansions and convergence of the actual prime-ideal product

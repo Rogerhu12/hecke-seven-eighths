@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RankinLabels
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RankinLabels
+
+@[expose] public section
 
 /-!
 # Uniform harmonic mass of actual common-support labels

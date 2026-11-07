@@ -1,5 +1,9 @@
-import ActualSexticCoefficientBound
-import ActualMeanZeroProductPoisson
+module
+
+public import ActualSexticCoefficientBound
+public import ActualMeanZeroProductPoisson
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. A genuine fixed-S-fiber weight on the actual
 common-denominator period quotient and its actual trace-product lattice.

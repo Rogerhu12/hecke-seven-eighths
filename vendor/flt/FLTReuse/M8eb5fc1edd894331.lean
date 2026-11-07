@@ -1,6 +1,10 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M0d10c8b6e7b3321f
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M0d10c8b6e7b3321f
+
+@[expose] public section
 
 open NumberField
 theorem NumberField.AdelicBox.isAddFundamentalDomain_preimage_mul_algebraMap_adelicBox

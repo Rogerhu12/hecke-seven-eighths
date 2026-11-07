@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualRows
-import HeckeSkeleton.LowCauchy
+module
+
+public import HeckeSkeleton.LowEnergy.ActualRows
+public import HeckeSkeleton.LowCauchy
+
+@[expose] public section
 
 /-!
 # Exact target-context dictionary for LOW-REFLECTED-ENERGY

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ArithmeticData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOutputConditions
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ArithmeticData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedOutputConditions
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

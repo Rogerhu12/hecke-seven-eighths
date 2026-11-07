@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalRows
-import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalRows
+public import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

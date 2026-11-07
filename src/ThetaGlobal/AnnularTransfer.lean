@@ -1,6 +1,10 @@
-import ThetaGlobal.DeconvolverMoments
-import ThetaGlobal.ConvolutionMass
-import ThetaGlobal.GaussianTransfer
+module
+
+public import ThetaGlobal.DeconvolverMoments
+public import ThetaGlobal.ConvolutionMass
+public import ThetaGlobal.GaussianTransfer
+
+@[expose] public section
 
 /-!
 # Explicit arbitrary-test transfer from local Mellin pairs and a global seed

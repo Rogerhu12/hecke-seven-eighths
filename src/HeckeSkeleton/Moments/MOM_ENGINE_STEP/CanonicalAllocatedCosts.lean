@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
+
+@[expose] public section
 
 /-!
 # Choose the costs of the actual allocated source

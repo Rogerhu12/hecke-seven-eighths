@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.BoundedScale
-import HeckeGeneral.Analysis.HeckeConjugation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.BoundedScale
+public import HeckeGeneral.Analysis.HeckeConjugation
+
+@[expose] public section
 
 /-!
 # Align the moving inverse orientation without changing the moment

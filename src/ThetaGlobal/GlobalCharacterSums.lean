@@ -1,6 +1,10 @@
-import Mathlib.NumberTheory.MulChar.Basic
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.NumberTheory.MulChar.Basic
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Orthogonality for the optional positive-valuation branch

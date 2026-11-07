@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.Counting
-import HeckeSkeleton.LowHybrid.Normalization
+module
+
+public import HeckeSkeleton.LowHybrid.Counting
+public import HeckeSkeleton.LowHybrid.Normalization
+
+@[expose] public section
 
 /-!
 # Cutoff-counting and coefficient-mass bridges

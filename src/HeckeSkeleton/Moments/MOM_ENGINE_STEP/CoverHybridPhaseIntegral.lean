@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussCoverHybridTerminal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridResidual
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RawSourcePhaseIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualGaussCoverHybridTerminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridResidual
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RawSourcePhaseIntegral
+
+@[expose] public section
 
 /-!
 # The original first Fourier measure controls every covered second source

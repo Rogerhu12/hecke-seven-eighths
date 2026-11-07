@@ -1,9 +1,13 @@
-import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
-import HeckeSkeleton.HighBinSupport.ActualNormFormHigherPrimePowers
-import Mathlib.Analysis.MellinInversion
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-import Mathlib.Tactic.FunProp
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
+public import HeckeSkeleton.HighBinSupport.ActualNormFormHigherPrimePowers
+public import Mathlib.Analysis.MellinInversion
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.Tactic.FunProp
+
+@[expose] public section
 
 /-!
 Actual Mellin inversion for the annular prime detector.

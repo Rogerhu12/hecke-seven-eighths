@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5GeometryConstruction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5GeometryConstruction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMeshReflectionFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedDataReflectionAssembly
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMeshReflectionFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedDataReflectionAssembly
+
+@[expose] public section
 
 /-!
 # Source preparation with an additional concrete data dictionary

@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
-import HeckeSkeleton.HighBinSupport.EulerAnalytic
+module
+
+public import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
+public import HeckeSkeleton.HighBinSupport.EulerAnalytic
+
+@[expose] public section
+
 /-!
 # The five ramified tables on the complete swept tube
 

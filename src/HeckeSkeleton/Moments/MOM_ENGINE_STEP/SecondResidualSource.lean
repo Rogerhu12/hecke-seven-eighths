@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondGeneratorSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildren
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondGeneratorSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildren
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FinitePhase
+
+@[expose] public section
 
 /-!
 # The actual second source is bounded by complete divisor children

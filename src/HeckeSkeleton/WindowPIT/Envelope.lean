@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import TauCeti.NumberTheory.ArithmeticDirichletSeries.Counting
+
+@[expose] public section
 
 /-! The prime-window envelope and the inclusive prime-counting carriers use
 the same height-one prime ideals and the same absolute norm. -/

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondErrorBridge
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorTailBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondErrorBridge
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorTailBudget
+
+@[expose] public section
 
 /-!
 # The whole actual second error under the first spectral measure

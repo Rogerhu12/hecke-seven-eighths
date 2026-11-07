@@ -1,14 +1,19 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Analysis.Fourier.FourierTransform
-import Mathlib.Algebra.Module.ZLattice.Basic
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import Mathlib.Algebra.Module.ZLattice.Summable
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import Mathlib.Algebra.Module.ZLattice.Basic
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import Mathlib.Algebra.Module.ZLattice.Summable
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_ZLattice_summable_fourierIntegral_mul_fourierChar_dualSubmodule
 
 set_option autoImplicit false

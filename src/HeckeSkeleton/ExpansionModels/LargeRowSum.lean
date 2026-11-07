@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.LargeRowKernel
-import HeckeSkeleton.ExpansionModels.LargeRowTail
-import HeckeSkeleton.ExpansionModels.SmallRowSum
-import HeckeGeneral.Analysis.TInputRanges
+module
+
+public import HeckeSkeleton.ExpansionModels.LargeRowKernel
+public import HeckeSkeleton.ExpansionModels.LargeRowTail
+public import HeckeSkeleton.ExpansionModels.SmallRowSum
+public import HeckeGeneral.Analysis.TInputRanges
+
+@[expose] public section
 
 /-!
 # The actual absolute large-row sum

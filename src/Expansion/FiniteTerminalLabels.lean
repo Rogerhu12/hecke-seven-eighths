@@ -1,6 +1,10 @@
-import Expansion.DetectorProductBudget
-import HeckeSkeleton.ExpansionModels.FixedSectorParameters
-import Mathlib.Data.Fintype.Prod
+module
+
+public import Expansion.DetectorProductBudget
+public import HeckeSkeleton.ExpansionModels.FixedSectorParameters
+public import Mathlib.Data.Fintype.Prod
+
+@[expose] public section
 
 /-!
 # Finite labels for the actual terminal dyadic choices

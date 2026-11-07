@@ -1,4 +1,8 @@
-import ActualGramMellinCoefficient
+module
+
+public import ActualGramMellinCoefficient
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual T endpoint uses the fixed nonnegative,

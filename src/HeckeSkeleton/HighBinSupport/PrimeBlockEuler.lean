@@ -1,7 +1,11 @@
-import Mathlib.Algebra.BigOperators.Finsupp.Basic
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
+module
+
+public import Mathlib.Algebra.BigOperators.Finsupp.Basic
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+
+@[expose] public section
 
 /-!
 # Euler summation with several exponents and finitely many marked primes

@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalAffineJets
-import ThetaGlobal.GlobalProjectFourierSmooth
-import ThetaGlobal.GlobalProjectRadial
-import DedekindZetaZeroFree.RepresentationTheory.Smooth.AdelicAction.TwoSidedJets
+module
+
+public import ThetaGlobal.GlobalAffineJets
+public import ThetaGlobal.GlobalProjectFourierSmooth
+public import ThetaGlobal.GlobalProjectRadial
+public import DedekindZetaZeroFree.RepresentationTheory.Smooth.AdelicAction.TwoSidedJets
+
+@[expose] public section
 
 /-!
 # A summable Fourier majorant on compact families of actual core arguments

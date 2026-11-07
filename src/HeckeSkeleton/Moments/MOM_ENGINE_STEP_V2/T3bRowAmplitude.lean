@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRowBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bMaskGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPoolOuter
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRowBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bMaskGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScaleBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPoolOuter
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

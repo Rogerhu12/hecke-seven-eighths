@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridAllocation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridAllocation
+
+@[expose] public section
 
 /-!
 # Move the actual common scalars before any row Cauchy estimate

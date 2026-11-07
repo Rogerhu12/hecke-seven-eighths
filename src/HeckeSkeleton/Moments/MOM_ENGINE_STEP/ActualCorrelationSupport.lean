@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+
+@[expose] public section
 
 /-!
 # The sixth-power support of the actual complete correlations

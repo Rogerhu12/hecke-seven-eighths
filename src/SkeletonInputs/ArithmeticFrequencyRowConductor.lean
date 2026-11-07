@@ -1,7 +1,11 @@
-import ArithmeticFrequencyRowRamification
-import ArithmeticSexticKummerUnramified
-import HeckeGeneral.Characters.SexticTameConductor
-import Lean.Elab.Tactic.Omega
+module
+
+public import ArithmeticFrequencyRowRamification
+public import ArithmeticSexticKummerUnramified
+public import HeckeGeneral.Characters.SexticTameConductor
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake invocation was made.

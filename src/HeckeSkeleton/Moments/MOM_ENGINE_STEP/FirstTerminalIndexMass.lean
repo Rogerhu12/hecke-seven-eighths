@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
+
+@[expose] public section
 
 /-!
 # The actual first labels of second-zero and tail terminals

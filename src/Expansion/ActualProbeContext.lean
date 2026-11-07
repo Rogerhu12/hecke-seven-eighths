@@ -1,9 +1,13 @@
-import HeckeAxiom.ProbeTestChoice
-import HeckeAxiom.ProbeNormalization
-import HeckeAxiom.LambdaInfinityType
-import HeckeAxiom.SexticSymbolDictionary
-import HeckeAxiom.GaussCalibration
-import HeckeSkeleton.AllowedGeneratorNorm
+module
+
+public import HeckeAxiom.ProbeTestChoice
+public import HeckeAxiom.ProbeNormalization
+public import HeckeAxiom.LambdaInfinityType
+public import HeckeAxiom.SexticSymbolDictionary
+public import HeckeAxiom.GaussCalibration
+public import HeckeSkeleton.AllowedGeneratorNorm
+
+@[expose] public section
 
 /-!
 # The actual arithmetic choice supplies the physical probe inputs

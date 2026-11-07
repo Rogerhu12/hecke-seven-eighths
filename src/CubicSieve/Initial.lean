@@ -1,5 +1,9 @@
-import CubicSieve.InitialGeneric
-import CubicSieve.PrimitiveCharactersCoefficients
+module
+
+public import CubicSieve.InitialGeneric
+public import CubicSieve.PrimitiveCharactersCoefficients
+
+@[expose] public section
 
 /-! The unconditional initial cubic sieve exponent for the actual exterior kernel.
 Primitivity, coefficient calibration, separation, finite local types and conductor

@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
-import HeckeGeneral.Arithmetic.SIntegerOrbits
-import HeckeGeneral.Characters.SIntegerSexticCharacter
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
+public import HeckeGeneral.Arithmetic.SIntegerOrbits
+public import HeckeGeneral.Characters.SIntegerSexticCharacter
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. One supported denominator is chosen for the actual
 S-integer before any exterior prime or second Hilbert argument. Its prime

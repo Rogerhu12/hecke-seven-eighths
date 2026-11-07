@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
-import HeckePort.Moments.Descent.IdealMasks
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+public import HeckePort.Moments.Descent.IdealMasks
+
+@[expose] public section
 
 /-!
 # Uniform counting of the actual localized Poisson masks

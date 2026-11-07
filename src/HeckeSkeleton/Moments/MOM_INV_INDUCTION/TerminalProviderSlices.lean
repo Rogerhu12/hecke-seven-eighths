@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBlockEnergy
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBlockEnergy
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy
+
+@[expose] public section
 
 /-!
 # Literal canonical atoms and the four component-class slices

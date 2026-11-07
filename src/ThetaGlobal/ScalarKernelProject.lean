@@ -1,6 +1,10 @@
-import ThetaGlobal.RegularizedKernelProject
-import ThetaGlobal.ReflectedLimitProject
-import ThetaGlobal.TestMellinLimit
+module
+
+public import ThetaGlobal.RegularizedKernelProject
+public import ThetaGlobal.ReflectedLimitProject
+public import ThetaGlobal.TestMellinLimit
+
+@[expose] public section
 
 /-!
 # Exact compatibility of scalar Mellin convolution with the actual kernel

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.FamilySupremum
-import OAI.NumberTheory.DirichletL.Endpoint
+module
+
+public import HeckeGeneral.Analysis.FamilySupremum
+public import OAI.NumberTheory.DirichletL.Endpoint
+
+@[expose] public section
 
 /-!
 # Conditional family closure at seven eighths

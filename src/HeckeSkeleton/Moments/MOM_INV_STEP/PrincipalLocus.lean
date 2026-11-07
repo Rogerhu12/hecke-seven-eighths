@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+
+@[expose] public section
 
 /-!
 # The exact principal locus and its surviving zero frequency

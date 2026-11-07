@@ -1,6 +1,10 @@
-import ThetaGlobal.ReflectedLocalBounds
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+module
+
+public import ThetaGlobal.ReflectedLocalBounds
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+
+@[expose] public section
 
 /-!
 # Elementary bounds for the actual reflected arithmetic coefficients

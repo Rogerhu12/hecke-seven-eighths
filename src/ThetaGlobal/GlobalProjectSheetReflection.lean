@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalProjectDigitDescent
-import ThetaGlobal.GlobalProjectDescent
-import ThetaGlobal.GlobalProjectUniformFourier
+module
+
+public import ThetaGlobal.GlobalProjectDigitDescent
+public import ThetaGlobal.GlobalProjectDescent
+public import ThetaGlobal.GlobalProjectUniformFourier
+
+@[expose] public section
 
 /-!
 # Actual rational-frequency reflection on a compact norm-sheet domain

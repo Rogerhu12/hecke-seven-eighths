@@ -1,10 +1,15 @@
-import Mathlib.NumberTheory.GaussSum
-import Mathlib.Data.Fintype.BigOperators
-import Mathlib.Tactic.Abel
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.NumberTheory.GaussSum
+public import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Tactic.Abel
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
+
 /-!
 # Actual residue-ring Fourier sums for the HIGHBIN Euler calibration
 

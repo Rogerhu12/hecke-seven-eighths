@@ -1,17 +1,22 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Mf1ff95f379a0ba0a
-import FLTReuse.M18c3f30cb8384583
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mc4dd375116d61c53
-import FLTReuse.M7c74d34e26b915e3
-import FLTReuse.M387d45cde57b612d
-import FLTReuse.M81477154c83a610e
-import FLTReuse.Me1ad2f4bf19c4ff0
-import FLTReuse.Mb160b7190bc2968b
-import FLTReuse.M80d3d6b9857c4a98
-import FLTReuse.Md41ce34d0c15dbc0
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Mf1ff95f379a0ba0a
+public import FLTReuse.M18c3f30cb8384583
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mc4dd375116d61c53
+public import FLTReuse.M7c74d34e26b915e3
+public import FLTReuse.M387d45cde57b612d
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.Me1ad2f4bf19c4ff0
+public import FLTReuse.Mb160b7190bc2968b
+public import FLTReuse.M80d3d6b9857c4a98
+public import FLTReuse.Md41ce34d0c15dbc0
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_integrable_zetaIntegrand
 
 set_option autoImplicit false

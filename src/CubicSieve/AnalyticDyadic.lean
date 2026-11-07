@@ -1,7 +1,11 @@
-import CubicSieve.AnalyticFactorization
-import CubicSieve.ExteriorKernel
-import DedekindZetaZeroFree.Analysis.DyadicLengthBounds
-import Mathlib.Data.Nat.Log
+module
+
+public import CubicSieve.AnalyticFactorization
+public import CubicSieve.ExteriorKernel
+public import DedekindZetaZeroFree.Analysis.DyadicLengthBounds
+public import Mathlib.Data.Nat.Log
+
+@[expose] public section
 
 /-!
 Exact dyadic partition of the first and second actual cubic ideal parts.

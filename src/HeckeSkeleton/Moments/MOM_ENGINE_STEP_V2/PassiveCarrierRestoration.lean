@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveParentSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSecondCarrier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCommonAvoidance
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveFiniteSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveColumnBridge
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveParentSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSecondCarrier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCommonAvoidance
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveFiniteSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveColumnBridge
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

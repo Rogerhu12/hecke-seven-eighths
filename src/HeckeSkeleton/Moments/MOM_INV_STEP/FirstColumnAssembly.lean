@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOverlapColumns
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompletePools
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOverlapColumns
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompletePools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
+
+@[expose] public section
 
 /-!
 # Actual first inverse branches and literal complete canonical families

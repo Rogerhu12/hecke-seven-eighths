@@ -1,4 +1,8 @@
-import HeckePort.Moments.SupportedCorrelation
+module
+
+public import HeckePort.Moments.SupportedCorrelation
+
+@[expose] public section
 
 /-!
 # Möbius regrouping of coprimality masks over finite families

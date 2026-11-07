@@ -1,6 +1,10 @@
-import ThetaGlobal.ScalarMellinConvolution
-import ThetaGlobal.VerticalInverseBounds
-import Mathlib.Analysis.MellinInversion
+module
+
+public import ThetaGlobal.ScalarMellinConvolution
+public import ThetaGlobal.VerticalInverseBounds
+public import Mathlib.Analysis.MellinInversion
+
+@[expose] public section
 
 /-!
 # Pointwise recovery of the original test after Gaussian regularization

@@ -1,8 +1,13 @@
-import FLTReuse.Mcab7f5d3272e0825
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M436eaa679b5c9606
-import Mathlib.Analysis.Fourier.FourierTransform
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mcab7f5d3272e0825
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M436eaa679b5c9606
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_StandardAddChar_AdelicTraceData_psiK_apply_mk_zero_eq_fourierChar_trace
 
 set_option autoImplicit false

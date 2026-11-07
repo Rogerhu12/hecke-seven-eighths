@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLengths
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonHarmonicMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualLengths
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonHarmonicMass
+
+@[expose] public section
 
 /-!
 # The normalized first common-support mass

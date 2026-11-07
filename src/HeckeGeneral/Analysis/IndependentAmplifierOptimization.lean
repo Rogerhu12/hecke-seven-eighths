@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.ActualSIntegerSobolevSeed
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerSobolevSeed
+
+@[expose] public section
 
 /-! Real parameter optimization for independent row and polynomial scales.
 The amplifier size is A max(1,(D^(1+c)/U)^(1/6)). No moment estimate

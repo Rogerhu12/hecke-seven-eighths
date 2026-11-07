@@ -1,6 +1,10 @@
-import HeckePort.Moments.Descent.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Order.BigOperators.Group.Finset
+module
+
+public import HeckePort.Moments.Descent.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+
+@[expose] public section
 
 /-!
 # The numerical and energy interface of one canonical inverse step

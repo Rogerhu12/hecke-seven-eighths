@@ -1,6 +1,11 @@
-import Mathlib.Analysis.Complex.Liouville
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Complex.Liouville
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
+
 /-! A Cauchy estimate deriving a logarithmic-derivative bound from separate
 function and reciprocal bounds. No logarithmic-derivative estimate is assumed. -/
 

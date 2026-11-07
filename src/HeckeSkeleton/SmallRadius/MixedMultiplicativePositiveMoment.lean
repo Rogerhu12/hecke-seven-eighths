@@ -1,6 +1,10 @@
-import HeckeSkeleton.SmallRadius.MixedPositiveMomentSeminorm
-import HeckeSkeleton.SmallRadius.TotallyComplexMixedHaarProduct
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+module
+
+public import HeckeSkeleton.SmallRadius.MixedPositiveMomentSeminorm
+public import HeckeSkeleton.SmallRadius.TotallyComplexMixedHaarProduct
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+
+@[expose] public section
 
 /-!
 Actual multiplicative Haar positive moments for

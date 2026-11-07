@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalAdaptiveTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalAdaptiveTail
+
+@[expose] public section
 
 /-!
 # Literal first Poisson truncation at frozen arithmetic cutoffs

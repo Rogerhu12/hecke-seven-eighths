@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalConductor
-import DedekindZetaZeroFree.Theta.Whittaker.NormalizedFiniteProjector
+module
+
+public import HeckeGeneral.Characters.LocalConductor
+public import DedekindZetaZeroFree.Theta.Whittaker.NormalizedFiniteProjector
+
+@[expose] public section
 
 /-!
 # Project the actual finite source inside the target character's kernel

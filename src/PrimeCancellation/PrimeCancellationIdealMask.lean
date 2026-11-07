@@ -1,5 +1,9 @@
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 /-!
 # The actual prime-ideal mask, independently of the Hecke project

@@ -12,18 +12,22 @@ It proves a zero-free-disk logarithmic-derivative estimate. It does not
 assert that a Hecke L-function satisfies the analytic hypotheses.
 -/
 
-import Mathlib.Analysis.Complex.BranchLogRoot
-import Mathlib.Analysis.Complex.BorelCaratheodory
-import Mathlib.Analysis.Complex.Liouville
-import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
-import Mathlib.Analysis.Normed.Module.Connected
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.GCongr
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Complex.BranchLogRoot
+public import Mathlib.Analysis.Complex.BorelCaratheodory
+public import Mathlib.Analysis.Complex.Liouville
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.Deriv
+public import Mathlib.Analysis.Normed.Module.Connected
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.GCongr
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 noncomputable section
 

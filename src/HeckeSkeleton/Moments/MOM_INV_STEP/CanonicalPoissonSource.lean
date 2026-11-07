@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PoissonStep
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PoissonStep
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-!
 # The actual canonical and inverse row sources

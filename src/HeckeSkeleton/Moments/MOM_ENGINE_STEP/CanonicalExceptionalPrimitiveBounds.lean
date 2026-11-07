@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalVolume
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformAmplitude
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalVolume
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalUniformAmplitude
+
+@[expose] public section
 
 /-!
 # Uniform exceptional source estimates from the original ideal series

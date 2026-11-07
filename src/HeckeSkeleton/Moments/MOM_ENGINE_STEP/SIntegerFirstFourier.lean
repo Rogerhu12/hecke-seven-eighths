@@ -1,5 +1,9 @@
-import HeckePort.Moments.CommonSupport
-import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+module
+
+public import HeckePort.Moments.CommonSupport
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+
+@[expose] public section
 
 /-!
 # The first mixed finite transform on the actual S-integer quotients

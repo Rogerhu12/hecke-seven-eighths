@@ -1,9 +1,13 @@
-import Expansion.PhysicalPositiveMellinInversion
-import Expansion.PhysicalInitialHeight
-import Expansion.PhysicalInitialPowers
-import HeckeGeneral.Analysis.GaussianContour
-import HeckeGeneral.Analysis.IdealDerivativeSmoothing
-import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
+module
+
+public import Expansion.PhysicalPositiveMellinInversion
+public import Expansion.PhysicalInitialHeight
+public import Expansion.PhysicalInitialPowers
+public import HeckeGeneral.Analysis.GaussianContour
+public import HeckeGeneral.Analysis.IdealDerivativeSmoothing
+public import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
+
+@[expose] public section
 
 /-!
 # The three actual inverse Mellin transforms

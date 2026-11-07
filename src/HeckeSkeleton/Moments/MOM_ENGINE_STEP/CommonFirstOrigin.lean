@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeGramOrigin
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeGramOrigin
+
+@[expose] public section
 
 /-!
 # The original additive origin through the first common-support split

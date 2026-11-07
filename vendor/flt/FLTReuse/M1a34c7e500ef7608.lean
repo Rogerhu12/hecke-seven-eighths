@@ -1,7 +1,12 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.NumberTheory.NumberField.Discriminant.Defs
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Mad485600b7b9a141
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Mad485600b7b9a141
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 
 set_option autoImplicit false

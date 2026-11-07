@@ -1,9 +1,14 @@
-import FLTReuse.M436eaa679b5c9606
-import FLTReuse.Me066ce250184ef32
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M436eaa679b5c9606
+public import FLTReuse.Me066ce250184ef32
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_mixedEmbedding_coe_dualSubmodule_flip_traceForm_idealLattice
 
 set_option autoImplicit false

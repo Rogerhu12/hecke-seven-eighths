@@ -1,7 +1,11 @@
-import ThetaGlobal.WeightedUnfolding
-import ThetaGlobal.GlobalProjectConvention
-import ThetaGlobal.GlobalTargetPeriod
-import DedekindZetaZeroFree.Theta.Unfolding.SheetFundamentalDomains
+module
+
+public import ThetaGlobal.WeightedUnfolding
+public import ThetaGlobal.GlobalProjectConvention
+public import ThetaGlobal.GlobalTargetPeriod
+public import DedekindZetaZeroFree.Theta.Unfolding.SheetFundamentalDomains
+
+@[expose] public section
 
 /-!
 # Weighted unfolding on the actual norm sheets

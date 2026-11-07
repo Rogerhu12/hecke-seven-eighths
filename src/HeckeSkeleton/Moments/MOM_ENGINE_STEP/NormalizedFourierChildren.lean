@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
+
+@[expose] public section
 
 /-!
 # Canonically normalized children under the exact common Fourier kernel

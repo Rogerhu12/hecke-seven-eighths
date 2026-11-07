@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPrincipalEstimate
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalProfileBounds
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalScaleBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPrincipalEstimate
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalProfileBounds
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalScaleBudget
+
+@[expose] public section
 
 /-!
 # Uniform principal cost of the literal intermediate inverse columns

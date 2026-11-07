@@ -1,18 +1,22 @@
-import HeckeGeneral.Analysis.TIPClosure
-import HeckeAxiom.SignalAdapter
-import HeckeAxiom.MeasureAdapter
-import HeckeAxiom.ProbeTestChoice
-import HeckeAxiom.ProbeNormalization
-import HeckeGeneral.Analysis.HeckeConjugateZeros
-import HeckeGeneral.Analysis.HeckeNormTwistZeros
-import HeckeGeneral.Characters.RadialNormalization
-import HeckePort.Schedule.MomentMesh
-import ArithmeticRowCharacterInput
-import HeckeSkeleton.ExpansionModels.Core
-import ExpansionInterfaces.ParameterChoices
-import Expansion.ActualProbeContext
-import Expansion.ActualRecipeData
-import ThetaGlobal.GlobalChoice
+module
+
+public import HeckeGeneral.Analysis.TIPClosure
+public import HeckeAxiom.SignalAdapter
+public import HeckeAxiom.MeasureAdapter
+public import HeckeAxiom.ProbeTestChoice
+public import HeckeAxiom.ProbeNormalization
+public import HeckeGeneral.Analysis.HeckeConjugateZeros
+public import HeckeGeneral.Analysis.HeckeNormTwistZeros
+public import HeckeGeneral.Characters.RadialNormalization
+public import HeckePort.Schedule.MomentMesh
+public import ArithmeticRowCharacterInput
+public import HeckeSkeleton.ExpansionModels.Core
+public import ExpansionInterfaces.ParameterChoices
+public import Expansion.ActualProbeContext
+public import Expansion.ActualRecipeData
+public import ThetaGlobal.GlobalChoice
+
+@[expose] public section
 
 /-! Exploratory, intentionally incomplete proof skeleton. This library is
 separate from HeckeGeneral and its verified declaration count. Every admitted

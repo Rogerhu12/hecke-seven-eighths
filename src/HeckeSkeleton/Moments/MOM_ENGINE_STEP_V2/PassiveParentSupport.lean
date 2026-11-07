@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCarrierFacts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassivePlainRecovery
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCarrierFacts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassivePlainRecovery
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRows
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRows
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
+
+@[expose] public section
 
 /-!
 # The fine second row bound with actual first centers

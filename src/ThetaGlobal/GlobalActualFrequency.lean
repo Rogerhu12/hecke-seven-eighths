@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeGeneral.Arithmetic.SUnitNormOneQuotient
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeGeneral.Arithmetic.SUnitNormOneQuotient
+
+@[expose] public section
 
 /-!
 # The literal reflected index's field frequency, local class and norm

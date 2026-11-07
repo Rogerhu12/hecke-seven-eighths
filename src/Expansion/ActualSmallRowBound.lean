@@ -1,5 +1,9 @@
-import Expansion.ActualPrimeNormalizer
-import HeckeSkeleton.ExpansionModels.SmallRowSum
+module
+
+public import Expansion.ActualPrimeNormalizer
+public import HeckeSkeleton.ExpansionModels.SmallRowSum
+
+@[expose] public section
 
 /-!
 # The actual small-row input after normalizer absorption

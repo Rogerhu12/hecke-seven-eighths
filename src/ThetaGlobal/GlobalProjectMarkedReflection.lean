@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalProjectLiteralSeed
-import ThetaGlobal.LocalDigitSource
+module
+
+public import ThetaGlobal.GlobalProjectLiteralSeed
+public import ThetaGlobal.LocalDigitSource
+
+@[expose] public section
 
 /-!
 # Marked reflection from the actual fixed source

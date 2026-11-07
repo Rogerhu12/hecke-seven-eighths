@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalLabel
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+
+@[expose] public section
 
 /-!
 # The first positive inverse column produces the fresh second source

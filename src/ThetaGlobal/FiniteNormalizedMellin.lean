@@ -1,4 +1,8 @@
-import ThetaGlobal.FiniteLocalHighK
+module
+
+public import ThetaGlobal.FiniteLocalHighK
+
+@[expose] public section
 
 /-!
 # The actual two sheet Mellin transforms with a common normalization

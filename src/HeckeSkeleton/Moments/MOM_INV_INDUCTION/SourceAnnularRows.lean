@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceOrientation
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceOrientation
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerEnergy
+
+@[expose] public section
 
 /-!
 # Complete ideal rows for the actual fixed-test inverse polynomial

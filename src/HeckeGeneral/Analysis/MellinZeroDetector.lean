@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.MeromorphicFamily
-import Mathlib.Analysis.MellinTransform
-import Mathlib.Analysis.Convex.Topology
+module
+
+public import HeckeGeneral.Analysis.MeromorphicFamily
+public import Mathlib.Analysis.MellinTransform
+public import Mathlib.Analysis.Convex.Topology
+
+@[expose] public section
 
 /-!
 # The analytic last step of the physical detector

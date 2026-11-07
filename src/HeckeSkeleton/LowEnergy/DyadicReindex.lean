@@ -1,13 +1,17 @@
-import Mathlib.Data.Nat.Log
-import Mathlib.Analysis.SpecialFunctions.Log.Base
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Linarith
-import Mathlib.Order.Interval.Finset.Nat
-import HeckeSkeleton.LowEnergy.InactiveCore
-import Lean.Elab.Tactic.Omega
+module
+
+public import Mathlib.Data.Nat.Log
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Order.Interval.Finset.Nat
+public import HeckeSkeleton.LowEnergy.InactiveCore
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # Exact dyadic decomposition of positive integral norms

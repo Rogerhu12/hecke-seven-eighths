@@ -1,8 +1,12 @@
-import Expansion.PhysicalFourierNormalization
-import HeckeSkeleton.ExpansionModels.LargeRowMellin
-import HeckeSkeleton.HighBinSupport.ActualOrbitalRapidDecay
-import Mathlib.Analysis.MellinInversion
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+module
+
+public import Expansion.PhysicalFourierNormalization
+public import HeckeSkeleton.ExpansionModels.LargeRowMellin
+public import HeckeSkeleton.HighBinSupport.ActualOrbitalRapidDecay
+public import Mathlib.Analysis.MellinInversion
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+
+@[expose] public section
 
 /-!
 # Genuine additive Mellin inversion on every positive line

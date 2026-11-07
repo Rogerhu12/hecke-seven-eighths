@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentCentering
-import HeckeSkeleton.Moments.MOM_INV_STEP.JointMaskGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentCentering
+public import HeckeSkeleton.Moments.MOM_INV_STEP.JointMaskGeometry
+
+@[expose] public section
 
 /-!
 # The common first Fourier envelope has a uniform small-power cost

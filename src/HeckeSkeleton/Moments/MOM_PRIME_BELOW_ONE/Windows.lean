@@ -1,7 +1,11 @@
-import HeckeSkeleton.PrimeCancellationWindows
-import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.MellinWindows
-import HeckeSkeleton.ExpansionModels.SourceData
-import Expansion.PhysicalRecipeSchedule
+module
+
+public import HeckeSkeleton.PrimeCancellationWindows
+public import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.MellinWindows
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import Expansion.PhysicalRecipeSchedule
+
+@[expose] public section
 
 /-!
 # Schwartz control of the original physical prime windows

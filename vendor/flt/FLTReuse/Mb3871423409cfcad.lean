@@ -1,7 +1,12 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import Mathlib.MeasureTheory.Integral.Pi
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import Mathlib.MeasureTheory.Integral.Pi
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_EisensteinGeneral_Factorization_inv_measure_mul_setIntegral_integralOffSet_finprod_eq
 
 set_option autoImplicit false

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedCommonMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedCommonMass
+
+@[expose] public section
 
 /-!
 # The independent second divisor and both common-support sums

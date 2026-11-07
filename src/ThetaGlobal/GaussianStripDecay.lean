@@ -1,5 +1,9 @@
-import ThetaGlobal.DeconvolverMoments
-import ThetaGlobal.GaussianRegularization
+module
+
+public import ThetaGlobal.DeconvolverMoments
+public import ThetaGlobal.GaussianRegularization
+
+@[expose] public section
 
 /-!
 # A Gaussian converts explicit exponential strip growth into quadratic decay

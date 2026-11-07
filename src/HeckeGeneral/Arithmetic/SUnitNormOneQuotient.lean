@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SUnitCompactRepresentatives
-import HeckeGeneral.Arithmetic.SUnitDiscreteness
-import Mathlib.Topology.Algebra.Group.Quotient
+module
+
+public import HeckeGeneral.Arithmetic.SUnitCompactRepresentatives
+public import HeckeGeneral.Arithmetic.SUnitDiscreteness
+public import Mathlib.Topology.Algebra.Group.Quotient
+
+@[expose] public section
 
 /-!
 # The actual norm-one S-local group and its compact S-unit quotient

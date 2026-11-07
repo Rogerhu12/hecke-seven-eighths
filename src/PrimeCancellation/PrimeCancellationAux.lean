@@ -1,6 +1,10 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Finite algebra for prime-slot cancellation

@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aRealization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryMultiplierTransport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aRealization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryMultiplierTransport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

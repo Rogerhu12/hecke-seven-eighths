@@ -1,6 +1,10 @@
-import Expansion.PhysicalRowDetection
-import Expansion.FiniteTerminalLabels
-import Mathlib.Tactic.Choose
+module
+
+public import Expansion.PhysicalRowDetection
+public import Expansion.FiniteTerminalLabels
+public import Mathlib.Tactic.Choose
+
+@[expose] public section
 
 /-!
 # One finite choice and one fixed-sector parameter map for actual detection

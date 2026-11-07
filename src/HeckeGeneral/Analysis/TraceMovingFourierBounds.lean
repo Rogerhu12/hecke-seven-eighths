@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TraceMovingPhaseBounds
-import HeckeGeneral.Analysis.SUnitPartitionFourierBounds
+module
+
+public import HeckeGeneral.Analysis.TraceMovingPhaseBounds
+public import HeckeGeneral.Analysis.SUnitPartitionFourierBounds
+
+@[expose] public section
 
 /-!
 # Moving Mellin frequency bounds after actual joint trace Fourier transform

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-!
 # Actual separated profile parameters

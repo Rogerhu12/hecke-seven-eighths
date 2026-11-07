@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
-import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
+public import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+
+@[expose] public section
 
 /-!
 # Actual extracted-prime mass and its normalization

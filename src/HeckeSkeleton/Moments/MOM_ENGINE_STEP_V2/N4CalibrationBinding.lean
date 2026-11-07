@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4PacketGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4PacketGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformChildren
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderStep
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderChildParent
+
+@[expose] public section
 
 /-!
 # The actual one-step theorem on a complete canonical node
