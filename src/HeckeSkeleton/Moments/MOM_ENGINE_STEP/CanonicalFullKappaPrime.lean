@@ -88,9 +88,10 @@ theorem sourceSeminorm_eq_complex (s : Finset (ℕ × ℕ)) (W : 𝓢(ℝ, ℂ))
     sourceSeminorm s W = s.sup (schwartzSeminormFamily ℂ ℝ ℂ) W := by
   rw [sourceSeminorm, Seminorm.finset_sup_apply, Seminorm.finset_sup_apply]
   congr 2
-  funext i
+  funext ⟨n, k⟩
   apply Subtype.ext
-  simp only [SchwartzMap.schwartzSeminormFamily_apply, SchwartzMap.seminorm_apply]
+  simp only [NNReal.coe_mk, SchwartzMap.schwartzSeminormFamily_apply,
+    SchwartzMap.seminorm_apply]
 
 theorem norm_le_orders (W : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖W x‖ ≤ orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W := by
