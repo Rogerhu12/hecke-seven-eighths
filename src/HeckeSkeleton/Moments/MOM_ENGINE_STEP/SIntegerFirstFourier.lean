@@ -3,6 +3,8 @@ module
 public import HeckePort.Moments.CommonSupport
 public import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

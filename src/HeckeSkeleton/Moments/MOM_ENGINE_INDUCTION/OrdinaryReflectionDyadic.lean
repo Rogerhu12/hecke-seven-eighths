@@ -3,6 +3,8 @@ module
 public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionTruncation
 public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionSmooth
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 /-!

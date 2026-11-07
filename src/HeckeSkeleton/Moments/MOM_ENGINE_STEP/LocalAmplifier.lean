@@ -10,6 +10,8 @@ centrally normalized by `Q(p)^n`.  Its original and sixth-power frequencies
 agree away from the three positive valuations `1`, `6`, and `7`.
 -/
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 noncomputable section

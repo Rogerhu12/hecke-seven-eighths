@@ -4,6 +4,8 @@ public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussSource
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstKernel
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

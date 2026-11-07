@@ -3,6 +3,8 @@ module
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstResidualSource
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstCharacters
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

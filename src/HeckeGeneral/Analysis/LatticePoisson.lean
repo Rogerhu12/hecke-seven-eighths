@@ -18,6 +18,8 @@ public import Mathlib.Analysis.RCLike.Inner
 public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
 public import HeckeGeneral.Analysis.LatticeFourierChange
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 /-!

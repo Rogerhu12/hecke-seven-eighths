@@ -4,6 +4,8 @@ public import HeckeGeneral.Analysis.CompactQuotientFundamentalDomain
 public import HeckeGeneral.Arithmetic.SUnitNormOneTopology
 public import Mathlib.MeasureTheory.Measure.Haar.Quotient
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 /-!

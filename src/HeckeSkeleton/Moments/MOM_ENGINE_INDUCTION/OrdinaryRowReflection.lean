@@ -5,6 +5,8 @@ public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRestorationTail
 public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryDeletionReflection
 public import HeckeSkeleton.HeckeConductorNorm
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 /-!

@@ -5,6 +5,8 @@ public import DedekindZetaZeroFree.CharacterSums.Gauss.GeneratorInvariance
 public import HeckePort.Moments.FullCorrelation
 public import HeckePort.Moments.Unequal
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

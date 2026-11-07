@@ -3,6 +3,8 @@ module
 public import CubicSieve.GaussPairCRT
 public import CubicSieve.GaussPoissonFinite
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

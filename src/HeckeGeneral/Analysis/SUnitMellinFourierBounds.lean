@@ -24,8 +24,9 @@ open scoped Classical ContDiff BigOperators nonZeroDivisors
 private theorem seminorm_unimodular_smul {E : Type*} [NormedAddCommGroup E]
     [NormedSpace ℝ E] (c : ℂ) (hc : ‖c‖ = 1) (F : SchwartzMap E ℂ) (k n : ℕ) :
     SchwartzMap.seminorm ℝ k n (c • F) = SchwartzMap.seminorm ℝ k n F := by
-  change SchwartzMap.seminorm ℂ k n (c • F) = SchwartzMap.seminorm ℂ k n F
-  rw [map_smul_eq_mul, hc, one_mul]
+  have e : ∀ G : SchwartzMap E ℂ, SchwartzMap.seminorm ℝ k n G = SchwartzMap.seminorm ℂ k n G :=
+    fun G => by rw [SchwartzMap.seminorm_apply, SchwartzMap.seminorm_apply]
+  rw [e, e, map_smul_eq_mul, hc, one_mul]
 
 variable (K : Type) [Field K] [NumberField K]
 variable (S : Set (HeightOneSpectrum (𝓞 K))) [Fintype S]

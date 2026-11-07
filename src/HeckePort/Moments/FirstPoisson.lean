@@ -2,6 +2,8 @@ module
 
 public import HeckePort.Moments.Poisson
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

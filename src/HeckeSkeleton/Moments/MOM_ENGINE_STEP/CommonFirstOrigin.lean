@@ -2,6 +2,8 @@ module
 
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeGramOrigin
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

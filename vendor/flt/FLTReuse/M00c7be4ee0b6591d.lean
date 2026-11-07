@@ -191,7 +191,7 @@ private theorem coe_mk_ne_zero (x : Lˣ) {y : L} (hy : y ∈ A) (hxy : y = (x : 
   have : y = 0 := congrArg Subtype.val h0
   exact x.ne_zero (hxy ▸ this)
 
-private theorem ordZ_spec {x : Lˣ} {a b : A} (ha : a ≠ 0) (hb : b ≠ 0)
+theorem ordZ_spec_00c7be {x : Lˣ} {a b : A} (ha : a ≠ 0) (hb : b ≠ 0)
     (hx : (x : L) * (b : L) = (a : L)) : ordZ A x = (ordA A a : ℤ) - ordA A b := by
   classical
   by_cases h : (x : L) ∈ A
@@ -216,7 +216,7 @@ private theorem ordZ_spec {x : Lˣ} {a b : A} (ha : a ≠ 0) (hb : b ≠ 0)
     omega
 
 omit [IsDiscreteValuationRing ↥A] in
-private theorem exists_rep (x : Lˣ) :
+theorem exists_rep_00c7be (x : Lˣ) :
     ∃ a b : A, a ≠ 0 ∧ b ≠ 0 ∧ (x : L) * (b : L) = (a : L) := by
   rcases A.mem_or_inv_mem (x : L) with h | h
   · exact ⟨⟨(x : L), h⟩, 1, coe_mk_ne_zero A x h rfl, one_ne_zero, by
@@ -230,21 +230,21 @@ noncomputable def ord : Additive Lˣ →+ ℤ where
   toFun x := ordZ A x.toMul
   map_zero' := by
     show ordZ A (1 : Lˣ) = 0
-    have h1 := ordZ_spec A (x := 1) (a := 1) (b := 1) one_ne_zero one_ne_zero
+    have h1 := ordZ_spec_00c7be A (x := 1) (a := 1) (b := 1) one_ne_zero one_ne_zero
       (by rw [Units.val_one, one_mul])
     rw [h1]
     ring
   map_add' x y := by
-    obtain ⟨a, b, ha, hb, hx⟩ := exists_rep A x.toMul
-    obtain ⟨c, d, hc, hd, hy⟩ := exists_rep A y.toMul
+    obtain ⟨a, b, ha, hb, hx⟩ := exists_rep_00c7be A x.toMul
+    obtain ⟨c, d, hc, hd, hy⟩ := exists_rep_00c7be A y.toMul
     have hxy : (((x + y).toMul : Lˣ) : L) * ((b * d : A) : L) = ((a * c : A) : L) := by
       push_cast
       calc (x.toMul : L) * (y.toMul : L) * ((b : L) * (d : L))
           = ((x.toMul : L) * (b : L)) * ((y.toMul : L) * (d : L)) := by ring
         _ = (a : L) * (c : L) := by rw [hx, hy]
     show ordZ A (x + y).toMul = ordZ A x.toMul + ordZ A y.toMul
-    rw [ordZ_spec A (mul_ne_zero ha hc) (mul_ne_zero hb hd) hxy,
-      ordZ_spec A ha hb hx, ordZ_spec A hc hd hy, ordA_mul A ha hc, ordA_mul A hb hd]
+    rw [ordZ_spec_00c7be A (mul_ne_zero ha hc) (mul_ne_zero hb hd) hxy,
+      ordZ_spec_00c7be A ha hb hx, ordZ_spec_00c7be A hc hd hy, ordA_mul A ha hc, ordA_mul A hb hd]
     push_cast
     ring
 
@@ -252,7 +252,7 @@ theorem ord_spec {x : Lˣ} {a b : A} (ha : a ≠ 0) (hb : b ≠ 0)
     (hx : (x : L) * (b : L) = (a : L)) {na nb : ℕ}
     (hna : span {a} = maximalIdeal A ^ na) (hnb : span {b} = maximalIdeal A ^ nb) :
     ord A (.ofMul x) = (na : ℤ) - nb := by
-  have := ordZ_spec A ha hb hx
+  have := ordZ_spec_00c7be A ha hb hx
   rw [ordA_unique A ha hna, ordA_unique A hb hnb] at this
   exact this
 
@@ -276,8 +276,8 @@ theorem ord_eq_zero_iff (x : Lˣ) :
     ord A (.ofMul x) = 0 ↔ x ∈ (Units.map (A.subtype.toMonoidHom)).range := by
   constructor
   · intro h
-    obtain ⟨a, b, ha, hb, hx⟩ := exists_rep A x
-    have hspec : ordZ A x = (ordA A a : ℤ) - ordA A b := ordZ_spec A ha hb hx
+    obtain ⟨a, b, ha, hb, hx⟩ := exists_rep_00c7be A x
+    have hspec : ordZ A x = (ordA A a : ℤ) - ordA A b := ordZ_spec_00c7be A ha hb hx
     have h0 : ordZ A x = 0 := h
     have hord : ordA A a = ordA A b := by omega
     have hassoc : Associated a b := span_singleton_eq_span_singleton.mp

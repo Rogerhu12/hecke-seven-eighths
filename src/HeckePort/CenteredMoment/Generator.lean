@@ -3,6 +3,8 @@ module
 public import HeckeGeneral.Analysis.PrincipalGeneratorCalibration
 public import HeckeGeneral.Arithmetic.SIntegerModulus
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

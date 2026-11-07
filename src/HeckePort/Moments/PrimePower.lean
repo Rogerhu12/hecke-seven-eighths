@@ -95,7 +95,6 @@ theorem primePower_localCorrelation_units (χ : MulChar (𝓞 K ⧸ P) ℂ)
     MulChar.pow_apply' _ (by omega), hcard]
   simp only [hpow]
   rw [mul_assoc]
-  split_ifs <;> rfl
 
 theorem primePower_localCorrelation_second_zero (χ : MulChar (𝓞 K ⧸ P) ℂ)
     (hχ : orderOf χ = 6) (u : (𝓞 K ⧸ P ^ c)ˣ) (v k : 𝓞 K ⧸ P ^ c)

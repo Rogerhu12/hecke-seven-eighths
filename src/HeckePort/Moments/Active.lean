@@ -3,6 +3,8 @@ module
 public import HeckePort.Moments.Canonical
 public import HeckePort.Moments.FirstPoisson
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

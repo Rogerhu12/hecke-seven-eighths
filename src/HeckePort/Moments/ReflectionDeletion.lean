@@ -3,6 +3,8 @@ module
 public import HeckePort.Moments.NaturalPrimitive
 public import HeckeGeneral.Analysis.IdealSummability
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 /-!

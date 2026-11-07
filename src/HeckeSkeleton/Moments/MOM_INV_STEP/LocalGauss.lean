@@ -11,6 +11,8 @@ formula includes zero frequency: both sides vanish there. The normalized
 Gauss coefficient has norm one for a nontrivial additive character.
 -/
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 noncomputable section

@@ -3,6 +3,8 @@ module
 public import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernelBounds
 public import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallRadius
 
+import Mathlib.Analysis.Calculus.ContDiff.Bounds
+
 @[expose] public section
 
 /-!

@@ -12,6 +12,8 @@ public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
 public import Mathlib.MeasureTheory.Measure.Haar.Unique
 public import FLTReuse.M1868db956c866c8d
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 namespace P2MW.S_ZLattice_summable_fourierIntegral_mul_fourierChar_dualSubmodule

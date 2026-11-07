@@ -3,6 +3,8 @@ module
 public import FiniteFieldAffineCorrelation
 public import FiniteAffineCorrelationBound
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-! SOURCE ONLY, UNCOMPILED.

@@ -7,6 +7,8 @@ public import HeckeGeneral.Characters.FiniteCircleFourier
 public import HeckeGeneral.Arithmetic.IdealLatticeQuotient
 public import HeckeGeneral.Characters.ConductorGauss
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 /-!

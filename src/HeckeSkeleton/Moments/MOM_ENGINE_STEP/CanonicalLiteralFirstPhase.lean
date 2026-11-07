@@ -4,6 +4,8 @@ public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
 public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
 
+import Mathlib.NumberTheory.MulChar.Lemmas
+
 @[expose] public section
 
 /-!

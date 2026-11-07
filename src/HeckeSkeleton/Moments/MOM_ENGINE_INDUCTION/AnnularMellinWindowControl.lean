@@ -3,6 +3,8 @@ module
 public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellinSeparation
 public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
 
+import Mathlib.Analysis.Calculus.ContDiff.Bounds
+
 @[expose] public section
 
 /-!

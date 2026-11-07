@@ -29,6 +29,8 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
 public import Mathlib.Analysis.Complex.IntegerCompl
 public import Mathlib.Analysis.PSeries
 
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
 @[expose] public section
 
 noncomputable section
