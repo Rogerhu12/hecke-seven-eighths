@@ -2,6 +2,7 @@ module
 
 public import HeckeSkeleton.Moments.MOM_INV_STEP.LocalDigits
 public import Mathlib.NumberTheory.GaussSum
+import Mathlib.NumberTheory.MulChar.Lemmas
 
 /-!
 # The finite Fourier coefficient at an active first-source prime
@@ -11,7 +12,6 @@ formula includes zero frequency: both sides vanish there. The normalized
 Gauss coefficient has norm one for a nontrivial additive character.
 -/
 
-import Mathlib.NumberTheory.MulChar.Lemmas
 
 @[expose] public section
 

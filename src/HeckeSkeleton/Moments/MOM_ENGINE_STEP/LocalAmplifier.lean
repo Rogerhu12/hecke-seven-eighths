@@ -1,6 +1,7 @@
 module
 
 public import DedekindZetaZeroFree.CharacterSums.Gauss.PositiveDepthLocalSums
+import Mathlib.NumberTheory.MulChar.Lemmas
 
 /-!
 # The actual local amplifier table
@@ -10,7 +11,6 @@ centrally normalized by `Q(p)^n`.  Its original and sixth-power frequencies
 agree away from the three positive valuations `1`, `6`, and `7`.
 -/
 
-import Mathlib.NumberTheory.MulChar.Lemmas
 
 @[expose] public section
 

@@ -91,7 +91,7 @@ theorem exists_sUnitTotalNormAnnularPartitionJointFourier_lattice_bound
       C * s.sup (schwartzSeminormFamily ℝ V ℂ) φ *
         (1 + |ν|) ^ Jheight * R.val ^ (-B) := by
     -- Only the seminorm's scalar field changes, not its value.
-    change SchwartzMap.seminorm ℝ q 0 F ≤ _
+    rw [SchwartzMap.seminorm_apply, ← SchwartzMap.seminorm_apply (𝕜 := ℝ)]
     exact hb ν ζ ξ φ R hR
   have hpoint (m : NonzeroLattice D) :
       ‖t m‖ ≤ SchwartzMap.seminorm ℂ q 0 F * ‖((m : D) : W)‖⁻¹ ^ q := by
