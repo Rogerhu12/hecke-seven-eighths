@@ -1,0 +1,158 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "A seven-eighths zero-free half-plane for unitary Hecke L-functions"
+  description: >-
+    For every number field K and every unitary Hecke character χ of K, that is,
+    every continuous homomorphism from the idèle class group of K to the unit
+    circle, including characters of infinite order, the Hecke L-series
+    Σ χ(I) N(I)^(-s) over integral ideals continues to the complex plane with at
+    most one pole, which is simple and lies on the line Re(s) = 1, and the
+    continuation has no zeros in the half-plane Re(s) > 7/8. This is Theorem 1.2,
+    the Hecke analytic core, of the formalized manuscript. The statement uses
+    Mathlib's idèle class group; the Dirichlet coefficients are defined from the
+    values of χ on uniformizers at unramified finite places.
+  authors:
+    - "Boyang Hu"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Boyang Hu"
+
+classification:
+  arxiv: ["math.NT"]
+  msc2020: ["11R42", "11M41", "11M26"]
+
+sources:
+  - title: "A seven-eighths zero-free half-plane for unitary Weil L-functions"
+    authors:
+      - "Boyang Hu"
+    id: "https://hexagonmath.org/2610.00216v1"
+    type: "paper"
+    relationship: "formalizes"
+    note: >-
+      The formalization covers Theorem 1.2 (Hecke analytic core); see
+      status.scope and fidelity.divergences. The manuscript states that its
+      text and arguments were generated predominantly by AI language models
+      under the author's direction.
+    author_endorsement: "participated"
+  - title: "The Quasi-Riemann Hypothesis"
+    type: "paper"
+    relationship: "background"
+    note: >-
+      OpenAI preprint (September 30, 2026) whose cubic-theta method for
+      finite-order characters over Q(√-3) the manuscript extends.
+  - title: "Primitive roots for every admissible integer base"
+    type: "paper"
+    relationship: "background"
+    note: >-
+      OpenAI preprint (October 4, 2026) whose Hecke zero-free arguments the
+      manuscript develops.
+
+related_formalizations:
+  - id: "https://github.com/leanprover-community/mathlib4"
+    relationship: "builds-on"
+    note: "Pinned in lake-manifest.json. The Challenge imports Mathlib only."
+  - id: "https://hexagonmath.org/2610.00200v1"
+    relationship: "builds-on"
+    note: >-
+      AxiomMath's Lean formalization of the Dedekind zeta zero-free region
+      Re(s) > 31/32 (Cureton and Thorner) is vendored under base/ with its own
+      Challenge, Solution and formalization.yaml, and supplies the Tate
+      continuation, ray class character and analytic infrastructure used here.
+  - id: "https://github.com/PalomarArchive/n-yamaguchi-0729--FiniteAbelianGlobalReciprocityv2--ccc6f4bb14f4"
+    relationship: "builds-on"
+    note: "Vendored under vendor/class-field-theory, as in the base project."
+  - id: "https://github.com/TauCetiProject/TauCeti"
+    relationship: "builds-on"
+    note: "Pinned Lake dependency; small adapted excerpts are under vendor/tauceti."
+  - id: "https://github.com/openai/math"
+    relationship: "adapts"
+    note: >-
+      The DirichletL development is ported from Z[ω] to general number fields
+      under src/HeckePort and vendor/openai.
+
+status:
+  scope: >-
+    Formalized: Theorem 1.2 of the manuscript for every unitary Hecke character
+    of every number field, in the form stated in
+    src/Challenge/HeckeSevenEighthsChallenge.lean (continuation with at most one
+    simple pole on Re(s) = 1, and no zeros in Re(s) > 7/8). Not formalized: the
+    identification of the pole with the norm characters N^{it}, the version
+    with finitely many Euler factors deleted, Theorem 1.1 for unitary Weil
+    representations (which the manuscript deduces by Brauer induction and
+    Frobenius reciprocity), and the applications. The sorry count excludes the
+    Challenge's intentional placeholder.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Quot.sound", "Classical.choice"]
+  main_results:
+    - declaration: "HeckeSevenEighths.heckeL_zeroFree"
+      file: "src/Solution/HeckeSevenEighthsSolution.lean"
+      sorry_count: 0
+      axioms: ["propext", "Quot.sound", "Classical.choice"]
+      comparator_config: "src/Challenge/comparator.json"
+
+automation:
+  methods:
+    - method: "manual"
+      tool_setup: >-
+        Boyang Hu planned the formalization, split it into tasks, set the
+        statements to be proved and decided integration, without writing Lean
+        proofs.
+    - method: "agent"
+      models: ["OpenAI ChatGPT (Pro)", "OpenAI Codex", "Anthropic Claude Opus"]
+      framework: "ChatGPT with GitHub access; Codex; Claude Code"
+      tool_setup: >-
+        AI agents wrote the Lean code in parallel task branches; continuous
+        integration compiled every pull request, audited axioms and, for the
+        main theorem, ran Comparator. Claude Code coordinated the tasks and
+        drafted the Challenge statement.
+      cost:
+        wall_time: "about five days (2026-10-30 to 2026-11-04)"
+        spend_usd: "subscription-based"
+        hardware: "GitHub Actions runners"
+  spend_usd: "subscription-based"
+  notes: >-
+    The Lean development was written by AI systems under the direction of
+    Boyang Hu, who is responsible for this repository. No human has checked the
+    proofs line by line; correctness rests on Lean's kernel, the axiom audit and
+    Comparator.
+
+fidelity:
+  divergences: >-
+    The Challenge asserts, for the finite-part Hecke L-series, a continuation
+    with at most one pole, required to be simple with nonzero residue and to lie
+    on Re(s) = 1, and no zeros in Re(s) > 7/8. The manuscript's Theorem 1.2 also
+    says that a pole occurs only for the norm characters, at s = 1 + it, and
+    that the statement survives deleting finitely many Euler factors; neither
+    is part of the Challenge. Coefficients at ramified primes are 0, as in the
+    finite Euler product. Characters are continuous for Mathlib's topology on
+    the idèle group, the units of the adèle ring.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Anthropic Claude (statement drafting and comparison with the manuscript)"
+  notes: >-
+    The Challenge statement was drafted from Theorem 1.2 and checked against it
+    by an AI agent; the human author reviewed its scope. No human has reviewed
+    the Lean proofs or the manuscript's proof line by line.
+
+alignment:
+  namespace: "HeckeSevenEighths"
+  statements:
+    - source: "Theorem 1.2 (Hecke analytic core)"
+      lean: "HeckeSevenEighths.heckeL_zeroFree"
+      module: "HeckeSevenEighthsSolution"
+      status: "proved, with the omissions listed under fidelity.divergences"
+      note: >-
+        The library endpoint HeckeSkeleton.generalHeckeSevenEighths_skeleton
+        proves the same zero-freeness for the library's own definitions;
+        HeckeGeneral.Bridge and HeckeGeneral.Analysis.ChallengeContinuation
+        connect them to the Challenge's Mathlib-only definitions.
+
+acknowledgements: >-
+  Mathlib; AxiomMath's Dedekind zeta formalization; the
+  FiniteAbelianGlobalReciprocityv2 project; Tau Ceti; openai/math; the FLT
+  project, from which vendor/flt reuses material.
