@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+import Mathlib.NumberTheory.MulChar.Lemmas
 public import HeckeSkeleton.HighBinSupport.FiniteResidueFourier
 public import HeckeSkeleton.HighBinSupport.FiniteLocalTable
 public import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds

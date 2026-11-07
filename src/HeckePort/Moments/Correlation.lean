@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+import Mathlib.NumberTheory.MulChar.Lemmas
 public import Mathlib.NumberTheory.JacobiSum.Basic
 public import Mathlib.Analysis.Normed.Ring.Finite
 public import Mathlib.Tactic.Ring

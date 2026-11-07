@@ -1078,7 +1078,7 @@ private lemma rightActions_smul_tmul_right {R S M : Type*} [CommSemiring R]
 
 open scoped TensorProduct.RightActions in
 
-private lemma rightActions_smul_eq_one_tmul_mul {R S M : Type*} [CommSemiring R]
+lemma rightActions_smul_eq_one_tmul_mul {R S M : Type*} [CommSemiring R]
     [CommSemiring S] [Algebra R S] [CommSemiring M] [Algebra R M] (s : S) (x : M ⊗[R] S) :
     s • x = (1 ⊗ₜ[R] s) * x := by
   refine TensorProduct.induction_on (R := R) (motive := fun x => s • x = (1 ⊗ₜ[R] s) * x)

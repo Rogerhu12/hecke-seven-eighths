@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+import Mathlib.NumberTheory.MulChar.Lemmas
 public import FiniteAffineCorrelationBound
 public import Mathlib.NumberTheory.JacobiSum.Basic
 

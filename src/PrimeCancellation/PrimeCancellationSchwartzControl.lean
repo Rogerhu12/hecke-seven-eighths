@@ -10,7 +10,7 @@ log-window family is new.
 -/
 module
 
-public import Mathlib
+import Mathlib.Analysis.Calculus.ContDiff.Bounds
 public import PrimeCancellationLogProfile
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
 public import Mathlib.Analysis.LocallyConvex.WithSeminorms

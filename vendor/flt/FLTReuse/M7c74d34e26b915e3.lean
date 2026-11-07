@@ -64,7 +64,5 @@ instance (v : HeightOneSpectrum (𝓞 K)) :
 instance (v : HeightOneSpectrum (𝓞 K)) :
     LocallyCompactSpace (v.adicCompletion K) := inferInstance
 
-example (v : HeightOneSpectrum (𝓞 K)) : SecondCountableTopology (v.adicCompletion K) :=
-  inferInstance
 
 end

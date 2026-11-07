@@ -92,7 +92,9 @@ theorem primePower_localCorrelation_units (χ : MulChar (𝓞 K ⧸ P) ℂ)
   have hcard : Fintype.card (𝓞 K ⧸ P) = Ideal.absNorm P := by
     rw [Ideal.absNorm_apply, Submodule.cardQuot_apply, Nat.card_eq_fintype_card]
   rw [primePower_localCorrelation, localCorrelation_units _ hu hv,
-    MulChar.pow_apply' _ (by omega), hcard, hpow, mul_assoc]
+    MulChar.pow_apply' _ (by omega), hcard]
+  simp only [hpow]
+  rw [mul_assoc]
   split_ifs <;> rfl
 
 theorem primePower_localCorrelation_second_zero (χ : MulChar (𝓞 K ⧸ P) ℂ)

@@ -34,6 +34,7 @@ variable (S : Set (HeightOneSpectrum (𝓞 K)))
 theorem sUnitValuations_eq_unitValuation :
     sUnitValuations K S = Set.unitValuation S K := by
   ext u v
+  rw [Set.unitValuation_apply]
   rfl
 
 theorem sUnitValuations_ker :

@@ -1,6 +1,6 @@
 module
 
-public import Mathlib
+import Mathlib.NumberTheory.MulChar.Lemmas
 public import HeckeGeneral.Arithmetic.ResidueGaussSums
 public import Mathlib.Algebra.BigOperators.Pi
 
