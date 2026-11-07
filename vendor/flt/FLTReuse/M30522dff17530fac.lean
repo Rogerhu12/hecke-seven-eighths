@@ -2646,7 +2646,7 @@ scoped instance instSecondCountableAdicCompletion (R K : Type*) [CommRing R] [Is
       (WithVal.equiv (v.valuation K)).toEquiv.injective.countable
     exact (IsDedekindDomain.HeightOneSpectrum.adicCompletion.ofCompletion_surjective
       (K := K) (v := v)).denseRange.separableSpace
-      IsDedekindDomain.HeightOneSpectrum.adicCompletion.continuous_ofCompletion
+      (IsDedekindDomain.HeightOneSpectrum.adicCompletion.continuous_ofCompletion K v)
   exact UniformSpace.secondCountable_of_separable _
 
 open RestrictedProduct Topology in
