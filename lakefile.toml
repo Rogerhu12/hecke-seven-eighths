@@ -10,7 +10,7 @@ relaxedAutoImplicit = false
 
 [[require]]
 name = "TauCeti"
-git = "https://github.com/TauCetiProject/TauCeti.git"
+git = "https://github.com/TauCetiProject/TauCeti"
 rev = "c197d7bdbae257e85d23443c89aa7cd34c13410b"
 
 [[require]]
