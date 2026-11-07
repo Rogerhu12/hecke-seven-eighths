@@ -16,6 +16,8 @@ public import FLTReuse.M07ee1a66041804a3
 public import FLTReuse.Mf26cffa02c54d3d0
 public import FLTReuse.M1868db956c866c8d
 
+import Mathlib
+
 @[expose] public section
 
 attribute [-ext] IsDedekindDomain.HeightOneSpectrum.adicCompletion.ext

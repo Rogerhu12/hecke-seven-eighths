@@ -31,7 +31,7 @@ theorem schwartzSeminorm_le_finset_sup (s : Finset (ℕ × ℕ)) (i : ℕ × ℕ
     (f : SchwartzMap (V × V) ℂ) :
     SchwartzMap.seminorm ℂ i.1 i.2 f ≤ s.sup (schwartzSeminormFamily ℝ (V × V) ℂ) f := by
   have h := Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℝ (V × V) ℂ) hi (x := f)
-  rw [schwartzSeminormFamily_apply] at h
+  rw [SchwartzMap.schwartzSeminormFamily_apply] at h
   rw [SchwartzMap.seminorm_apply, ← SchwartzMap.seminorm_apply (𝕜 := ℝ)]
   exact h
 
@@ -57,7 +57,7 @@ theorem exists_balancedJoint_finite_seminorm_bound (M : ℕ) (s : Finset (ℕ ×
       Finset.single_le_sum (fun j _ => (hbpos j).le) hi
     dsimp [B]
     linarith
-  rw [schwartzSeminormFamily_apply, SchwartzMap.seminorm_apply, ← SchwartzMap.seminorm_apply (𝕜 := ℂ)]
+  rw [SchwartzMap.schwartzSeminormFamily_apply, SchwartzMap.seminorm_apply, ← SchwartzMap.seminorm_apply (𝕜 := ℂ)]
   calc
     _ ≤ b i * SchwartzMap.seminorm ℂ i.1 i.2 f := hbound i y hy f
     _ ≤ B * s.sup (schwartzSeminormFamily ℝ (V × V) ℂ) f :=

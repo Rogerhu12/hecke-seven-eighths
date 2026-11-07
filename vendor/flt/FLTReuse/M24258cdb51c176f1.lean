@@ -467,14 +467,14 @@ open Ideal IsLocalRing
 
 variable {L : Type*} [Field L] (A : ValuationSubring L) [IsDiscreteValuationRing A]
 
-private theorem exists_span_eq_pow {a : A} (ha : a ≠ 0) :
+theorem exists_span_eq_pow_M24258 {a : A} (ha : a ≠ 0) :
     ∃ n, span {a} = maximalIdeal A ^ n := by
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible A
   obtain ⟨n, hn⟩ := IsDiscreteValuationRing.associated_pow_irreducible ha hϖ
   refine ⟨n, ?_⟩
   rw [span_singleton_eq_span_singleton.mpr hn, ← span_singleton_pow, ← hϖ.maximalIdeal_eq]
 
-private theorem pow_maximalIdeal_ne_of_lt {n k : ℕ} (h : n < k) :
+theorem pow_maximalIdeal_ne_of_lt_M24258 {n k : ℕ} (h : n < k) :
     (maximalIdeal A) ^ n ≠ maximalIdeal A ^ k := by
   obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible A
   intro heq
@@ -492,67 +492,67 @@ private theorem pow_maximalIdeal_ne_of_lt {n k : ℕ} (h : n < k) :
   exact hϖ.not_isUnit (isUnit_of_dvd_one ⟨ϖ ^ (k - n - 1) * c, by
     rw [h1, ← mul_assoc, ← pow_succ', hkn]⟩)
 
-private theorem pow_maximalIdeal_injective {n k : ℕ}
+theorem pow_maximalIdeal_injective_M24258 {n k : ℕ}
     (h : (maximalIdeal A) ^ n = maximalIdeal A ^ k) : n = k := by
   rcases Nat.lt_trichotomy n k with hlt | heq | hgt
-  · exact absurd h (pow_maximalIdeal_ne_of_lt A hlt)
+  · exact absurd h (pow_maximalIdeal_ne_of_lt_M24258 A hlt)
   · exact heq
-  · exact absurd h.symm (pow_maximalIdeal_ne_of_lt A hgt)
+  · exact absurd h.symm (pow_maximalIdeal_ne_of_lt_M24258 A hgt)
 
 open Classical in
-private noncomputable def ordA (a : A) : ℕ :=
-  if h : a = 0 then 0 else (exists_span_eq_pow A h).choose
+noncomputable def ordA_M24258 (a : A) : ℕ :=
+  if h : a = 0 then 0 else (exists_span_eq_pow_M24258 A h).choose
 
-private theorem ordA_span {a : A} (ha : a ≠ 0) :
-    span {a} = maximalIdeal A ^ ordA A a := by
+theorem ordA_span_M24258 {a : A} (ha : a ≠ 0) :
+    span {a} = maximalIdeal A ^ ordA_M24258 A a := by
   classical
-  rw [ordA, dif_neg ha]
-  exact (exists_span_eq_pow A ha).choose_spec
+  rw [ordA_M24258, dif_neg ha]
+  exact (exists_span_eq_pow_M24258 A ha).choose_spec
 
-private theorem ordA_unique {a : A} (ha : a ≠ 0) {n : ℕ}
-    (h : span {a} = maximalIdeal A ^ n) : ordA A a = n :=
-  pow_maximalIdeal_injective A ((ordA_span A ha).symm.trans h)
+theorem ordA_unique_M24258 {a : A} (ha : a ≠ 0) {n : ℕ}
+    (h : span {a} = maximalIdeal A ^ n) : ordA_M24258 A a = n :=
+  pow_maximalIdeal_injective_M24258 A ((ordA_span_M24258 A ha).symm.trans h)
 
-private theorem ordA_mul {a b : A} (ha : a ≠ 0) (hb : b ≠ 0) :
-    ordA A (a * b) = ordA A a + ordA A b := by
-  refine ordA_unique A (mul_ne_zero ha hb) ?_
-  rw [← span_singleton_mul_span_singleton, ordA_span A ha, ordA_span A hb, pow_add]
+theorem ordA_mul_M24258 {a b : A} (ha : a ≠ 0) (hb : b ≠ 0) :
+    ordA_M24258 A (a * b) = ordA_M24258 A a + ordA_M24258 A b := by
+  refine ordA_unique_M24258 A (mul_ne_zero ha hb) ?_
+  rw [← span_singleton_mul_span_singleton, ordA_span_M24258 A ha, ordA_span_M24258 A hb, pow_add]
 
 open Classical in
-private noncomputable def ordZ (x : Lˣ) : ℤ :=
-  if h : (x : L) ∈ A then (ordA A ⟨(x : L), h⟩ : ℤ)
-  else -(ordA A ⟨((x⁻¹ : Lˣ) : L), by
+noncomputable def ordZ_M24258 (x : Lˣ) : ℤ :=
+  if h : (x : L) ∈ A then (ordA_M24258 A ⟨(x : L), h⟩ : ℤ)
+  else -(ordA_M24258 A ⟨((x⁻¹ : Lˣ) : L), by
     rw [Units.val_inv_eq_inv_val]
     exact (A.mem_or_inv_mem (x : L)).resolve_left h⟩ : ℤ)
 
 omit [IsDiscreteValuationRing ↥A] in
-private theorem coe_mk_ne_zero (x : Lˣ) {y : L} (hy : y ∈ A) (hxy : y = (x : L)) :
+theorem coe_mk_ne_zero_M24258 (x : Lˣ) {y : L} (hy : y ∈ A) (hxy : y = (x : L)) :
     (⟨y, hy⟩ : A) ≠ 0 := by
   intro h0
   have : y = 0 := congrArg Subtype.val h0
   exact x.ne_zero (hxy ▸ this)
 
 theorem ordZ_spec_24258c {x : Lˣ} {a b : A} (ha : a ≠ 0) (hb : b ≠ 0)
-    (hx : (x : L) * (b : L) = (a : L)) : ordZ A x = (ordA A a : ℤ) - ordA A b := by
+    (hx : (x : L) * (b : L) = (a : L)) : ordZ_M24258 A x = (ordA_M24258 A a : ℤ) - ordA_M24258 A b := by
   classical
   by_cases h : (x : L) ∈ A
-  · rw [ordZ, dif_pos h]
+  · rw [ordZ_M24258, dif_pos h]
     have hab : (⟨(x : L), h⟩ : A) * b = a := Subtype.ext hx
-    have hmul := ordA_mul A (coe_mk_ne_zero A x h rfl) hb
+    have hmul := ordA_mul_M24258 A (coe_mk_ne_zero_M24258 A x h rfl) hb
     rw [hab] at hmul
     omega
-  · rw [ordZ, dif_neg h]
+  · rw [ordZ_M24258, dif_neg h]
     set c : A := ⟨((x⁻¹ : Lˣ) : L), by
       rw [Units.val_inv_eq_inv_val]
       exact (A.mem_or_inv_mem (x : L)).resolve_left h⟩ with hc
-    have hcx : (c : A) ≠ 0 := coe_mk_ne_zero A x⁻¹ _ rfl
+    have hcx : (c : A) ≠ 0 := coe_mk_ne_zero_M24258 A x⁻¹ _ rfl
     have hab : a * c = b := by
       refine Subtype.ext ?_
       push_cast
       have hcL : (c : L) = ((x : L))⁻¹ := by rw [hc]; exact Units.val_inv_eq_inv_val x
       rw [hcL, ← hx, mul_comm ((x : L)) ((b : L)), mul_assoc,
         mul_inv_cancel₀ x.ne_zero, mul_one]
-    have hmul := ordA_mul A ha hcx
+    have hmul := ordA_mul_M24258 A ha hcx
     rw [hab] at hmul
     omega
 
@@ -560,17 +560,17 @@ omit [IsDiscreteValuationRing ↥A] in
 theorem exists_rep_24258c (x : Lˣ) :
     ∃ a b : A, a ≠ 0 ∧ b ≠ 0 ∧ (x : L) * (b : L) = (a : L) := by
   rcases A.mem_or_inv_mem (x : L) with h | h
-  · exact ⟨⟨(x : L), h⟩, 1, coe_mk_ne_zero A x h rfl, one_ne_zero, by
+  · exact ⟨⟨(x : L), h⟩, 1, coe_mk_ne_zero_M24258 A x h rfl, one_ne_zero, by
       push_cast; exact mul_one _⟩
   · refine ⟨1, ⟨((x⁻¹ : Lˣ) : L), by rwa [Units.val_inv_eq_inv_val]⟩,
-      one_ne_zero, coe_mk_ne_zero A x⁻¹ _ rfl, ?_⟩
+      one_ne_zero, coe_mk_ne_zero_M24258 A x⁻¹ _ rfl, ?_⟩
     show (x : L) * ((x⁻¹ : Lˣ) : L) = (1 : L)
     exact x.mul_inv
 
 private noncomputable def ord : Additive Lˣ →+ ℤ where
-  toFun x := ordZ A x.toMul
+  toFun x := ordZ_M24258 A x.toMul
   map_zero' := by
-    show ordZ A (1 : Lˣ) = 0
+    show ordZ_M24258 A (1 : Lˣ) = 0
     have h1 := ordZ_spec_24258c A (x := 1) (a := 1) (b := 1) one_ne_zero one_ne_zero
       (by rw [Units.val_one, one_mul])
     rw [h1]
@@ -583,9 +583,9 @@ private noncomputable def ord : Additive Lˣ →+ ℤ where
       calc (x.toMul : L) * (y.toMul : L) * ((b : L) * (d : L))
           = ((x.toMul : L) * (b : L)) * ((y.toMul : L) * (d : L)) := by ring
         _ = (a : L) * (c : L) := by rw [hx, hy]
-    show ordZ A (x + y).toMul = ordZ A x.toMul + ordZ A y.toMul
+    show ordZ_M24258 A (x + y).toMul = ordZ_M24258 A x.toMul + ordZ_M24258 A y.toMul
     rw [ordZ_spec_24258c A (mul_ne_zero ha hc) (mul_ne_zero hb hd) hxy,
-      ordZ_spec_24258c A ha hb hx, ordZ_spec_24258c A hc hd hy, ordA_mul A ha hc, ordA_mul A hb hd]
+      ordZ_spec_24258c A ha hb hx, ordZ_spec_24258c A hc hd hy, ordA_mul_M24258 A ha hc, ordA_mul_M24258 A hb hd]
     push_cast
     ring
 
@@ -594,13 +594,13 @@ private theorem ord_spec {x : Lˣ} {a b : A} (ha : a ≠ 0) (hb : b ≠ 0)
     (hna : span {a} = maximalIdeal A ^ na) (hnb : span {b} = maximalIdeal A ^ nb) :
     ord A (.ofMul x) = (na : ℤ) - nb := by
   have := ordZ_spec_24258c A ha hb hx
-  rw [ordA_unique A ha hna, ordA_unique A hb hnb] at this
+  rw [ordA_unique_M24258 A ha hna, ordA_unique_M24258 A hb hnb] at this
   exact this
 
 private theorem ord_ofMul_of_mem {x : Lˣ} (hx : (x : L) ∈ A) {n : ℕ}
     (hspan : span {(⟨(x : L), hx⟩ : A)} = maximalIdeal A ^ n) :
     ord A (.ofMul x) = n := by
-  have h := ord_spec A (coe_mk_ne_zero A x hx rfl) one_ne_zero
+  have h := ord_spec A (coe_mk_ne_zero_M24258 A x hx rfl) one_ne_zero
     (b := 1) (by push_cast; exact mul_one _) hspan
     (by rw [span_singleton_eq_top.mpr isUnit_one, pow_zero, one_eq_top])
   simpa using h
@@ -618,11 +618,11 @@ private theorem ord_eq_zero_iff (x : Lˣ) :
   constructor
   · intro h
     obtain ⟨a, b, ha, hb, hx⟩ := exists_rep_24258c A x
-    have hspec : ordZ A x = (ordA A a : ℤ) - ordA A b := ordZ_spec_24258c A ha hb hx
-    have h0 : ordZ A x = 0 := h
-    have hord : ordA A a = ordA A b := by omega
+    have hspec : ordZ_M24258 A x = (ordA_M24258 A a : ℤ) - ordA_M24258 A b := ordZ_spec_24258c A ha hb hx
+    have h0 : ordZ_M24258 A x = 0 := h
+    have hord : ordA_M24258 A a = ordA_M24258 A b := by omega
     have hassoc : Associated a b := span_singleton_eq_span_singleton.mp
-      (by rw [ordA_span A ha, ordA_span A hb, hord])
+      (by rw [ordA_span_M24258 A ha, ordA_span_M24258 A hb, hord])
     obtain ⟨u, hu⟩ := hassoc
     have haL : (a : L) ≠ 0 := fun hz => ha (Subtype.ext hz)
     have hab : (a : L) * (((u : Aˣ) : A) : L) = (b : L) := by
