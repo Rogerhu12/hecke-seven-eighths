@@ -1,5 +1,6 @@
 module
 
+public import Mathlib
 public import Mathlib.NumberTheory.JacobiSum.Basic
 public import Mathlib.Analysis.Normed.Ring.Finite
 public import Mathlib.Tactic.Ring

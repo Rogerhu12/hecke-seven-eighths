@@ -1,5 +1,6 @@
 module
 
+public import Mathlib
 public import HeckeGeneral.Arithmetic.ResidueGaussSums
 public import Mathlib.Algebra.BigOperators.Pi
 

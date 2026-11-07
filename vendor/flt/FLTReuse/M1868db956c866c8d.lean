@@ -1,6 +1,6 @@
 module
 
-public import Lean
+public meta import Lean
 
 @[expose] public section
 
@@ -46,7 +46,7 @@ elab "#p2m_type_eq " a:ident b:ident : command => liftTermElabM do
 open Lean Elab Command in
 elab "p2m_ns " s:str : command => modifyEnv fun env => env.registerNamespace s.getString.toName
 open Lean Elab Command in
-def p2mOpenCore (s : String) : CommandElabM Unit := do
+meta def p2mOpenCore (s : String) : CommandElabM Unit := do
   for w in s.splitOn " " do
     if w.isEmpty then continue
 

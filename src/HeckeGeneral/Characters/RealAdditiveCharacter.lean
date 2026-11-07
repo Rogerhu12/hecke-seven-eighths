@@ -1,5 +1,6 @@
 module
 
+public import Mathlib
 public import HeckeGeneral.Characters.Packet
 public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
 public import Mathlib.Analysis.SpecialFunctions.ExpDeriv

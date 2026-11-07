@@ -1,5 +1,6 @@
 module
 
+public import Mathlib
 public import FiniteAffineCorrelationBound
 public import Mathlib.NumberTheory.JacobiSum.Basic
 

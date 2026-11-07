@@ -1,5 +1,6 @@
 module
 
+public import Mathlib
 public import Mathlib.Algebra.BigOperators.Finsupp.Basic
 public import Mathlib.Analysis.Complex.Basic
 public import Mathlib.Analysis.Normed.Ring.InfiniteSum

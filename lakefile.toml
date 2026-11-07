@@ -47,28 +47,33 @@ srcDir = "src/Challenge"
 
 [[lean_lib]]
 name = "HeckeSevenEighthsSolution"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src/Solution"
 
 [[lean_lib]]
 name = "HeckeGeneral"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["HeckeGeneral.+"]
 
 # Bridge from the AxiomMath ray class character theorems to `HeckeGeneral`.
 [[lean_lib]]
 name = "HeckeAxiom"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["HeckeAxiom.+"]
 
 # The top-down 7/8 skeleton from `skeleton/HeckeSkeleton`, unchanged.
 [[lean_lib]]
 name = "HeckeSkeleton"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["HeckeSkeleton.+"]
 
 # Fixed-choice marked theta construction and its standalone analytic lemmas.
 [[lean_lib]]
 name = "ThetaGlobal"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["ThetaGlobal.+"]
 
@@ -77,6 +82,7 @@ globs = ["ThetaGlobal.+"]
 # modules are provided by the vendored class-field-theory package instead.
 [[lean_lib]]
 name = "SkeletonInputs"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src/SkeletonInputs"
 roots = ["ActualCanonicalRowConsumers", "ActualHighRowLRatio", "ArithmeticFrequencyRowCharacterFibers", "ArithmeticFrequencyRowConductor", "ArithmeticFrequencyRowConductorNorm", "ArithmeticFrequencyRowFaithfulness", "ArithmeticFrequencyRowRamification", "ArithmeticRowCharacterInput", "ArithmeticSexticKummerCharacter", "ArithmeticSexticKummerFaithfulness", "ArithmeticSexticKummerLocalComponent", "ArithmeticSexticKummerPrimeCoefficient", "ArithmeticSexticKummerRamification", "ArithmeticSexticKummerResidue", "ArithmeticSexticKummerUnramified", "RowCharacterCanonicalUniqueness", "RowCharacterGlobalUniqueness", "RowCharacterIdeleDecomposition", "RowCharacterInputUniqueness", "RowCharacterNormTwistExclusion", "SUnitPowerSaturation", "SexticUniformLocalConductor", "actualConductorTransfer"]
 
@@ -86,6 +92,7 @@ roots = ["ActualCanonicalRowConsumers", "ActualHighRowLRatio", "ArithmeticFreque
 # replaced by the identical HeckeSkeleton modules.
 [[lean_lib]]
 name = "GramCoreInputs"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src/GramCoreInputs"
 roots = ["ActualAdditiveGramAmplitude", "ActualAdditiveGramFreeOrbitalAssembly", "ActualAdditiveGramOrbitalAssembly", "ActualAdditiveGramPoissonAssembly", "ActualAdditiveGramResidueExpansion", "ActualAdditiveGramRowSummability", "ActualAdditiveGramUnitOrbits", "ActualGramCompactShapeMajorant", "ActualGramDiagonalBound", "ActualGramFreeZeroFrequency", "ActualGramRowBallEnergy", "ActualGramRowBallOrbitalMajorant", "ActualGramRowBallPoissonReduction", "ActualGramZeroFrequency", "ActualProbeAmplitudeMellin", "ActualProbeFiniteFrequencyExpansion", "ActualProbeGaussOriginalFourier", "ActualProbeGaussSixthUnitOrbit", "ActualProbeLogProfile", "ActualProbeLogRowNormEnvelope", "ActualProbeLogUniformFourier", "ActualProbePairOrbitalPoisson", "ActualProbePairPeriodicFourier", "ActualProbePairPointwisePoisson", "ActualProbeSpectralFrequencyExpansion", "ActualProbeSpectralOrbitSupport", "ActualSexticZeroFrequencyDiagonal", "FiniteAffineCorrelation", "FiniteAffineCorrelationBound", "FiniteCommonFactorFibre", "FiniteMixedCorrelationFourier", "SIntegerSexticFiniteCorrelation", "SIntegerSexticOriginalCorrelationDefinition", "SIntegerSexticOriginalFullFourier", "SIntegerSexticOriginalFullTraceFourier", "SIntegerSexticQuotientUnitCount", "SIntegerSexticZeroFrequency"]
 
@@ -93,12 +100,14 @@ roots = ["ActualAdditiveGramAmplitude", "ActualAdditiveGramFreeOrbitalAssembly",
 # and their dependencies), witness-free part; see GramAssemblyInputs/PORT_MANIFEST.json.
 [[lean_lib]]
 name = "GramAssemblyInputs"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src/GramAssemblyInputs"
 roots = ["ActiveBoxPrincipalUnitRatio", "DiscreteCompactPowerRange", "ActualAdicSixthPowerDepth", "NonzeroLatticeAllScaleCount", "ActualSIntegerDivisorColumn", "ActualOriginalJointFactor", "SIntegerSexticSymbolZeroSupport", "SIntegerSexticSupportedDenominator", "FinitePlaceHilbertBilinear", "SIntegerExteriorHilbertValuation", "SIntegerSexticIntegralHilbertComparison", "SIntegerSexticLocalHilbertComparison", "SIntegerSexticLocalHilbertRatio", "SIntegerSexticIdealEvaluationFiniteSupport", "KummerHilbertPrincipalUnitPeriod", "ActualFinitePlaceCompletionComparison", "FiniteCompletionPrincipalUnitTransport", "ExactFinitePlaceHilbertPrincipalUnitPeriod", "SIntegerPrincipalUnitCongruence", "SIntegerUpstreamPrincipalUnitCongruence", "SIntegerSexticSPlaceCorrectionPeriod", "SIntegerSexticExteriorHilbertProduct", "SIntegerExteriorHilbertSupport", "SIntegerSexticReciprocity", "SIntegerSexticRIdentification", "SIntegerSexticFixedFrequencyPeriod", "ActualSexticFixedSChart", "FiniteAffineCorrelationQuotient", "SIntegerSexticPrimePowerQuotient", "FiniteAffineCorrelationProduct", "SIntegerSexticIdealCRT", "SIntegerSexticIdealCorrelationProduct", "FiniteFieldAffineCorrelation", "SIntegerSexticPrimePowerCorrelation", "FiniteFieldResidualCorrelationExtension", "ActualSexticResidueJointMean", "ActualSexticJointChartCRT", "ActualSexticJointChartFiber", "ActualSexticChartRepresentatives", "ActualSexticOriginalChartMean", "ActualSexticCoefficientBound", "ActualTraceProductFourierDilation", "ActualTraceProductResidueQuotient", "ActualIdealTraceUniformShape", "ActualIdealProductPolarMass", "ActualNormalizedLatticeMask", "ActualMeanZeroProductPoisson", "ActualSexticPeriodicLatticeWeight", "ActualFixedSBoxDenominator", "ActualSexticClearedColumnWeight", "ActualSexticAnnularChartFamily", "ActualSexticClearedColumnProfile", "ActualClearedSIntegerPairReindex", "ActualJointRadicalPeriodNorm", "ActualFixedDepthPoissonBound", "ActualFixedDepthAllScalePoisson", "ActualJointAnnularAllScalePoisson", "ActualClearedJointPeriodicTransport", "ActualAnnularClearedResidueDecomposition", "SchwartzLinearCompositionSeminorm", "ActualCompactDivisorReduction", "ActualBalancedClearedJointTransport", "ActualBalancedJointSeminorm", "ActualBalancedJointSupportFourier", "ActualBalancedJointAllScalePoisson", "ActualWholeAnnularAllScalePoisson", "ActualAnnularDivisorUnitReindex", "ActualChosenDepthPoissonBound", "ActualChosenDepthTrivialBound", "ActualExteriorIdealGcdEquiv", "ActualIdealPairMobius", "ActualExteriorPairDivisorReindex", "ActualExteriorGcdFiberSum", "ActualExteriorGcdMobiusSum", "ActualCoprimeFactorizationExtension", "ActualProbePairModulusNorm", "ActualGramDualOrbitalScale", "ActualGramJointKernelIdentification", "ActualGramMellinCoefficient", "ActualDenominatorGramWeight", "ActualExceptionalSixthIdealCount", "ActualExceptionalSixthOrbitCount", "ActualExceptionalWeightedShell", "ActualGramResidualSupport", "ActualThetaGeneratorDivision", "ActualOrdinaryOrbitShellCount", "ActualRCorrectionSixthUnit", "ActualResidualSixthUnit", "ActualOriginalChartSixthUnit", "ActualTotalNormUnitPartitionReconstruction", "ActualScaledColumnUnitReconstruction", "ActualOriginalAnnularUnitReconstruction", "ActualOriginalChartProductReduction", "SIntegerSexticDenominatorMultiplicativity", "SIntegerSexticCoprimeColumns", "SIntegerSexticCorrelationWeight", "SIntegerSexticReducedFullCorrelation", "SIntegerSexticOriginalFullCorrelation", "SIntegerSexticPIDFullFactorization", "SIntegerSexticFullCorrelationSupport", "ActualThetaOriginalFullFactorization", "ActualThetaCoprimeCorrelationExtension", "ActualThetaResidualCorrelationToChart", "ActualThetaChartGcdMobius", "ActualRowBallDualChartIntegrand", "ActualRowBallResidualAnalyticFactor", "FiniteSUnitPowerDetectors", "FiniteSUnitPowerLocalization", "AllowedGeneratorFieldClass", "GeneratorMaskWitness", "AxiomGeneratorMaskWitness", "ActualAllowedGeneratorDivisionCore", "ActualAllowedChartCoefficient", "ActualAllowedGeneratorOrbitMask", "ActualChoiceMaskCompactOpenExtension", "ActualChoiceMaskClearedFiber", "ActualChoiceMaskedWholeAnnular", "ActualAllowedGeneratorColumnMask", "ActualAllowedGeneratorOrbitEnumeration", "ActualAllowedPairEnumeration", "ActualAllowedResidualSum", "ActualChoiceMaskedOriginalDivisor", "ActualChoiceMaskedTotalNorm", "ActualAllowedTotalNormProviderIdentity", "ActualRowBallResidualMaskedIdentity", "ActualRowBallResidualGoodPrimeBound", "ActualFixedBoxTotalNormSeminormBound", "ActualFixedBoxTotalNormDecay", "ActualRowBallResidualScalarBound", "ActualRowBallDualResidualNorm", "ActualRowBallResidualTrivialBound"]
 
 # BGL cubic large sieve over general number fields (Codex, 2026-10-30; see CubicSieve/REPORT.md).
 [[lean_lib]]
 name = "CubicSieve"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["CubicSieve.+"]
 
@@ -106,26 +115,31 @@ globs = ["CubicSieve.+"]
 # MI-P-PRIME-CANCELLATION-BELOW-ONE; Mathlib-only, see PrimeCancellation/README.txt.
 [[lean_lib]]
 name = "PrimeCancellation"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src/PrimeCancellation"
 roots = ["PrimeCancellationCompactFamily", "PrimeCancellationLogWindow", "PrimeCancellationLogProfile", "PrimeCancellationMellin", "PrimeCancellationContour", "PrimeCancellationLogDerivative", "PrimeCancellationDiskGeometry", "PrimeCancellationAux", "PrimeCancellationAnalytic", "PrimeCancellationWindowControl", "PrimeCancellationFixedWindow", "PrimeCancellationPrimePowers", "PrimeCancellationPrimeSeries", "PrimeCancellationIdealMask", "PrimeCancellationMaskCount", "PrimeCancellationUniformity", "PrimeCancellation", "PrimeCancellationPaired", "PrimeCancellationSchwartzControl", "PrimeCancellationUniformProfiles", "PrimeCancellationPairedProfiles"]
 
 # Ports of openai/math DirichletL modules from ℤ[ω] to general number fields.
 [[lean_lib]]
 name = "HeckePort"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["HeckePort.+"]
 
 [[lean_lib]]
 name = "OAI"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "vendor/openai"
 roots = ["OAI.NumberTheory.DirichletL.Endpoint"]
 
 [[lean_lib]]
 name = "FLTReuse"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "vendor/flt"
 
 [[lean_lib]]
 name = "Zeta23"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "vendor/zeta23"
 roots = ["Zeta23.Defs", "Zeta23.GammaFacts", "Zeta23.GammaFacts.Series", "Zeta23.Analytic.Stirling", "Zeta23.GammaFacts.Mu", "Zeta23.GammaFacts.StirlingVert"]
 
@@ -137,16 +151,19 @@ roots = ["TauCetiReuse.GroupTheory.Finiteness", "TauCetiReuse.Algebra.Algebra.Su
 
 [[lean_lib]]
 name = "Expansion"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["Expansion.+"]
 
 [[lean_lib]]
 name = "ExpansionDetector"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["ExpansionDetector.+"]
 
 [[lean_lib]]
 name = "ExpansionInterfaces"
+leanOptions = {"backward.privateInPublic" = true, "backward.privateInPublic.warn" = false, "backward.proofsInPublic" = true}
 srcDir = "src"
 globs = ["ExpansionInterfaces.+"]
 
