@@ -1,6 +1,10 @@
-import ActualProbeGaussOriginalFourier
-import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+module
+
+public import ActualProbeGaussOriginalFourier
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+
+@[expose] public section
 
 /-!
 SOURCE CANDIDATE / not compiled. The actual negative-frequency Gauss pair

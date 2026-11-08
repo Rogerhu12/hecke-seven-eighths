@@ -1,7 +1,12 @@
-import FLTReuse.M3c68c1555d4fc687
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M7c74d34e26b915e3
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M3c68c1555d4fc687
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M7c74d34e26b915e3
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_modulus_adicCompletion_eq_nnnorm
 
 section Fold_LocalHaarModulus

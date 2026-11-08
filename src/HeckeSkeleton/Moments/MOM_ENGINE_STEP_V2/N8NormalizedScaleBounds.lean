@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCommonBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceNormBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleProduct
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCommonBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceNormBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleProduct
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

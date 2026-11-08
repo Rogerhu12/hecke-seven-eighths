@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCapacityMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4UniformCapacity
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCapacityMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4UniformCapacity
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonIndexSwap
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

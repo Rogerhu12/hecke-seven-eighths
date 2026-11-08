@@ -1,7 +1,11 @@
-import Mathlib.NumberTheory.GaussSum
-import Mathlib.Algebra.Group.Units.Equiv
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.NumberTheory.GaussSum
+public import Mathlib.Algebra.Group.Units.Equiv
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # The actual finite Fourier algebra for periodic orbital Poisson

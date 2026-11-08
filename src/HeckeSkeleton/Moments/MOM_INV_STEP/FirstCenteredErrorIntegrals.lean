@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredErrors
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegration
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredErrors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegration
+
+@[expose] public section
 
 /-!
 # Integrating the actual second errors under the first spectral measure

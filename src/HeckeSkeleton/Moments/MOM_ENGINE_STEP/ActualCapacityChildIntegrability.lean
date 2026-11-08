@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedChildKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileEnvelopeNormalization
-import Mathlib.Analysis.InnerProductSpace.ProdL2
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedChildKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileEnvelopeNormalization
+public import Mathlib.Analysis.InnerProductSpace.ProdL2
+
+@[expose] public section
 
 /-!
 # Integrability of the actual capacity children

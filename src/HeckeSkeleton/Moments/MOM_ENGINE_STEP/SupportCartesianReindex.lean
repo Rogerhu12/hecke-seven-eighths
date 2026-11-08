@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotRestriction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotRestriction
+
+@[expose] public section
 
 /-!
 # Actual rectangular branches of the common-support quotient

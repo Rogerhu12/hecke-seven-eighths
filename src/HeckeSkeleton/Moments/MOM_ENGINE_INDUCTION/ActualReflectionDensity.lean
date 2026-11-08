@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionProfileBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionProfileBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
+
+@[expose] public section
 
 /-!
 # One reflection-density budget for the actual recursive moment family

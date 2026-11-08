@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.AnnularEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.AnnularEnergy
+
+@[expose] public section
 
 /-! Finite weighted Minkowski for the literal original row vectors. -/
 

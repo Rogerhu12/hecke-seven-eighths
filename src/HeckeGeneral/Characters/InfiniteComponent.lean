@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalComponent
-import Mathlib.Algebra.BigOperators.Pi
+module
+
+public import HeckeGeneral.Characters.LocalComponent
+public import Mathlib.Algebra.BigOperators.Pi
+
+@[expose] public section
 
 /-!
 # Infinite components of actual Hecke characters

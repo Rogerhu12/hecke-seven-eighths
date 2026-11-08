@@ -1,5 +1,9 @@
-import ActualWholeAnnularAllScalePoisson
-import HeckeGeneral.Arithmetic.SIntegerTripleReindex
+module
+
+public import ActualWholeAnnularAllScalePoisson
+public import HeckeGeneral.Arithmetic.SIntegerTripleReindex
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The true inverse-unit change of both column indices

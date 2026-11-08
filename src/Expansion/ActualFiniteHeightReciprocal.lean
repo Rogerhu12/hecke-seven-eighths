@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
+
+@[expose] public section
 
 /-!
 # Actual deleted reciprocals in a detected finite rectangle

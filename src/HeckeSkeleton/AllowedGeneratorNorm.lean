@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+
+@[expose] public section
 
 /-! UNCOMPILED CACHE CANDIDATE.
 

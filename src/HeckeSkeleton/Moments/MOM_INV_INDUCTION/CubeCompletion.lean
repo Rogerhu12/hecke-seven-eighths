@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_BASE.CubeMobius
-import HeckePort.Moments.Descent.DivisorSum
-import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.CubeMobius
+public import HeckePort.Moments.Descent.DivisorSum
+public import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+
+@[expose] public section
 
 /-!
 # Reopening a selected part of cube completion

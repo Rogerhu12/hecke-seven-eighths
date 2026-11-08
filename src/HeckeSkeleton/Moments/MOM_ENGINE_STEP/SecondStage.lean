@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
-import Mathlib.Algebra.Group.PUnit
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
+public import Mathlib.Algebra.Group.PUnit
+
+@[expose] public section
 
 /-!
 # The whole Gauss energy through the complete second transform

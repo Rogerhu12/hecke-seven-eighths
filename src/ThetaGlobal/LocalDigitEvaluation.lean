@@ -1,4 +1,8 @@
-import DedekindZetaZeroFree.Theta.Digits.Exterior.AdditiveFrequencies
+module
+
+public import DedekindZetaZeroFree.Theta.Digits.Exterior.AdditiveFrequencies
+
+@[expose] public section
 
 /-!
 # Actual nonzero exterior digits for the fixed finite source

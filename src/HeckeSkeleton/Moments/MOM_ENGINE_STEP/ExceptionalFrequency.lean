@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GeneratedCorrelation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRows
+
+@[expose] public section
 
 /-!
 # The fourth-power base factor at actual multiplicity-one nonunit primes

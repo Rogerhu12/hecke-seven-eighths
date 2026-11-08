@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
-import ExpansionDetector.HeckeFixedTypeReflection
+module
+
+public import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
+public import ExpansionDetector.HeckeFixedTypeReflection
+
+@[expose] public section
 
 /-!
 # The sharp reflected line for the actual ordinary polynomial

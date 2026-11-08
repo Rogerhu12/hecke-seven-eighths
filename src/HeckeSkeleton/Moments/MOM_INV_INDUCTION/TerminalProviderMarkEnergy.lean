@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarkFamily
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderHilbert
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateEnergy
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformThreshold
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarkFamily
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderHilbert
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateEnergy
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformThreshold
+
+@[expose] public section
 
 /-!
 # The original tuple masses in the actual reflected row Hilbert space

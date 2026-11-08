@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourcePrimitive
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourcePrimitive
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+
+@[expose] public section
 
 /-!
 # The original open prime annulus survives every local source operation

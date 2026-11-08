@@ -1,6 +1,10 @@
-import HeckePort.Moments.Canonical
-import HeckePort.Moments.FullCorrelation
-import HeckePort.Moments.Fourier
+module
+
+public import HeckePort.Moments.Canonical
+public import HeckePort.Moments.FullCorrelation
+public import HeckePort.Moments.Fourier
+
+@[expose] public section
 
 /-!
 # Correlations of unequal moduli

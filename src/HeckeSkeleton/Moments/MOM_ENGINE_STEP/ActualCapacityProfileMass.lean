@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityChildIntegrability
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityChildIntegrability
+
+@[expose] public section
 
 /-!
 # The actual capacity kernel has the original weighted Fourier mass

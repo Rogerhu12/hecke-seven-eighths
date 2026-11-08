@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellin
-import HeckeSkeleton.HeckeUniformStripGrowth
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.AnnularMellin
+public import HeckeSkeleton.HeckeUniformStripGrowth
+
+@[expose] public section
 
 /-!
 # The genuine ordinary Hecke contour shift for compact annular tests

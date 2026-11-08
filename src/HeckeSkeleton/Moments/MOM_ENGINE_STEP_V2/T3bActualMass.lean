@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRawMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPrimeProfiles
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRawMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPrimeProfiles
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

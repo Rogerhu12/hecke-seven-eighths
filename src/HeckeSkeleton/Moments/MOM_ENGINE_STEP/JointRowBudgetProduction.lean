@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondClassProduction
+
+@[expose] public section
 
 /-!
 # Produce the actual children after the joint row-budget filter

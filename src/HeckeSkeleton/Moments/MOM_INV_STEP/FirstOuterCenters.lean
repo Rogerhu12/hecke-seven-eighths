@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRows
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRows
+
+@[expose] public section
 
 /-! # Fixed first column centers before any old label or dual frequency -/
 

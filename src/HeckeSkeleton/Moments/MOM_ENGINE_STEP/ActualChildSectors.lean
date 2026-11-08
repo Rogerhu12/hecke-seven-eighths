@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondExceptionalPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
+
+@[expose] public section
 
 /-!
 # Actual residual unit sectors before child calibration

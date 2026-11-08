@@ -1,5 +1,9 @@
-import ThetaGlobal.LocalDigitArithmetic
-import ThetaGlobal.LocalDigitEvaluation
+module
+
+public import ThetaGlobal.LocalDigitArithmetic
+public import ThetaGlobal.LocalDigitEvaluation
+
+@[expose] public section
 
 /-!
 # The actual exterior source satisfies the literal local digit tables

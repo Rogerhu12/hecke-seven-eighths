@@ -1,8 +1,12 @@
-import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
-import HeckeSkeleton.HighBinSupport.HighNormFormTuple
-import HeckeSkeleton.HighBinSupport.ActualNormFormHigherPrimePowers
-import Mathlib.Data.Fintype.BigOperators
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDeficit
+public import HeckeSkeleton.HighBinSupport.HighNormFormTuple
+public import HeckeSkeleton.HighBinSupport.ActualNormFormHigherPrimePowers
+public import Mathlib.Data.Fintype.BigOperators
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-!
 Repeated-prime slots in the actual disjoint prime windows.

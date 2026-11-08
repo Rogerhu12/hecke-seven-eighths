@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.BoundaryRectangle
-import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import HeckeSkeleton.HighBinSupport.BoundaryRectangle
+public import HeckeGeneral.Analysis.FixedBinPointwiseIntegration
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
 
 /-!
 # Finite three-line transport with every horizontal face retained

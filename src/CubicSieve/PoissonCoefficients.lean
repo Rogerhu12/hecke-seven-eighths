@@ -1,4 +1,8 @@
-import CubicSieve.GaussPair
+module
+
+public import CubicSieve.GaussPair
+
+@[expose] public section
 
 /-! Separate the actual Gauss phase and inverse square-root ideal norms into
 the two column coefficients. The annular energy loss is exactly 2/N. -/

@@ -1,5 +1,9 @@
-import Expansion.ActualPrincipalKernelBound
-import HeckeSkeleton.ExpansionModels.SmallRowSum
+module
+
+public import Expansion.ActualPrincipalKernelBound
+public import HeckeSkeleton.ExpansionModels.SmallRowSum
+
+@[expose] public section
 
 /-!
 # The two actual vertical principal remainders

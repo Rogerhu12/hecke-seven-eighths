@@ -1,7 +1,11 @@
-import HeckeAxiom.GaussDictionary
-import HeckeSkeleton.ThetaLocal.ProjectFinite
-import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.Sextic.PrincipalExteriorCharacter
-import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.SixthRootAlignment
+module
+
+public import HeckeAxiom.GaussDictionary
+public import HeckeSkeleton.ThetaLocal.ProjectFinite
+public import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.Sextic.PrincipalExteriorCharacter
+public import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.SixthRootAlignment
+
+@[expose] public section
 
 /-!
 # The actual residue character and additive phase of one recipe

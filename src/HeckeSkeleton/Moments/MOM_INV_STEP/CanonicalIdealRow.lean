@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CubeLabels
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 # The cube identity on actual selected ideal generators

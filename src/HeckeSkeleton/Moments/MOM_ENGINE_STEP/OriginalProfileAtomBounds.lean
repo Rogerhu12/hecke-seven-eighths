@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonAtomBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalCapacityKernelMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
-import Mathlib.Topology.Order.Compact
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonAtomBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalCapacityKernelMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+public import Mathlib.Topology.Order.Compact
+
+@[expose] public section
 
 /-!
 # Original profile control produces the actual frozen atom windows

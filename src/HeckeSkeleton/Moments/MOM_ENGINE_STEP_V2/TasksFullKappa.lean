@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N6FullKappaConstruction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N6FullKappaConstruction
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

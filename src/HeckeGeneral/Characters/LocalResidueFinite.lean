@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.PrincipalUnits
+module
+
+public import HeckeGeneral.Characters.PrincipalUnits
+
+@[expose] public section
 
 /-!
 # The finite residue rings of a number-field completion

@@ -1,6 +1,10 @@
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.Mdfdfd9c07e31f9bd
-import Mathlib.Algebra.BigOperators.Finprod
+module
+
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.Mdfdfd9c07e31f9bd
+public import Mathlib.Algebra.BigOperators.Finprod
+
+@[expose] public section
 
 /-!
 # The standard finite additive character is the product of its local restrictions

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPointwiseData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFrozenAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRowAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScalarArithmetic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPointwiseData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFrozenAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRowAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bScalarArithmetic
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

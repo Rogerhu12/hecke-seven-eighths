@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPacket
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedPacket
+
+@[expose] public section
 
 /-!
 # Uniform energy of the whole original marked ideal source

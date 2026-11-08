@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourcePrimitive
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourcePrimitive
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
+
+@[expose] public section
 
 /-!
 # Freezing the actual canonical children at their evaluation time

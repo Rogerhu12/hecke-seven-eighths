@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SUnitPartitionArchSmooth
-import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
+module
+
+public import HeckeGeneral.Analysis.SUnitPartitionArchSmooth
+public import HeckeGeneral.Analysis.TraceJointSchwartzCutoff
+
+@[expose] public section
 
 /-! Actual annular unit-partition cutoffs. Compactness comes from the
 constructed arch numerator support and the actual radial annulus, not

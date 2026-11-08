@@ -1,7 +1,11 @@
-import ExpansionDetector.GammaDecay
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.GCongr
+module
+
+public import ExpansionDetector.GammaDecay
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
 
 /-! Explicit exponential terminal-tail estimates. The arbitrary polynomial
 order is chosen before the external scale. Only a convergent norm-zeta sum

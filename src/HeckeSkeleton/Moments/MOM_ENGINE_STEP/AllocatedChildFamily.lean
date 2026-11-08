@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceFactorExtraction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceFactorExtraction
+
+@[expose] public section
 
 /-!
 # Actual allocated columns become the fixed child source family

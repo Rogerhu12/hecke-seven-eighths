@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.Core
+module
+
+public import HeckeSkeleton.ExpansionModels.Core
+
+@[expose] public section
 
 /-!
 # Geometry of the actual source parameters

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
-import HeckeSkeleton.ExpansionModels.Core
-import Expansion.CanonicalCutoff
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
+public import HeckeSkeleton.ExpansionModels.Core
+public import Expansion.CanonicalCutoff
+
+@[expose] public section
 
 /-!
 # Uniform bounds for the actual canonical profile formulas

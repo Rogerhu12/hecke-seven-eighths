@@ -1,5 +1,9 @@
-import HeckeSkeleton.ThetaLocal.ArchimedeanMellin
-import HeckeSkeleton.ThetaLocal.ComplexWeylPowers
+module
+
+public import HeckeSkeleton.ThetaLocal.ArchimedeanMellin
+public import HeckeSkeleton.ThetaLocal.ComplexWeylPowers
+
+@[expose] public section
 
 /-! Identification of the actual local Whittaker vectors with the two
 Mellin profiles, including both signs of the fixed radial character. -/

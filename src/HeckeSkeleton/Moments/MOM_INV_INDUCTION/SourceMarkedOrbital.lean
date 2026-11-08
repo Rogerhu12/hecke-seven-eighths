@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
+
+@[expose] public section
 
 /-!
 # Initial Poisson closure for the actual extracted marked source

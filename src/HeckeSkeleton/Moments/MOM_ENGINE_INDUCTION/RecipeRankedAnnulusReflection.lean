@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionRoot
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionParameters
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeInduction
-import HeckeSkeleton.ExpansionModels.ScaleCutoff
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMovingThreshold
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionRoot
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeReflectionParameters
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusReflectionAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeInduction
+public import HeckeSkeleton.ExpansionModels.ScaleCutoff
+
+@[expose] public section
 
 /-!
 # The literal source recipe in the ranked-annulus reflection family

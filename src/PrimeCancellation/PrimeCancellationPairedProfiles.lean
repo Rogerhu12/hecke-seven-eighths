@@ -1,8 +1,12 @@
 /-
 Copyright (c) 2026 OpenAI. Released under the Apache 2.0 license.
 -/
-import PrimeCancellationPaired
-import PrimeCancellationUniformProfiles
+module
+
+public import PrimeCancellationPaired
+public import PrimeCancellationUniformProfiles
+
+@[expose] public section
 
 /-!
 # A paired prime bound uniform in the source profiles

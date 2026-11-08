@@ -1,6 +1,10 @@
-import ActualExceptionalSixthOrbitCount
-import HeckeGeneral.Analysis.IdealSummability
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
+module
+
+public import ActualExceptionalSixthOrbitCount
+public import HeckeGeneral.Analysis.IdealSummability
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Actual exceptional frequency-orbit upper shells,

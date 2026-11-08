@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderShort
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFamily
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderShort
+
+@[expose] public section
 
 /-!
 # Exact short and long completed contributions of an actual node

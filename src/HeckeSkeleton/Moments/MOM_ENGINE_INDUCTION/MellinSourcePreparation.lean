@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceReflection
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StrictProfileOrder
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceReflection
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StrictProfileOrder
+
+@[expose] public section
 
 /-!
 # All primitive inputs of the actual per-frequency source

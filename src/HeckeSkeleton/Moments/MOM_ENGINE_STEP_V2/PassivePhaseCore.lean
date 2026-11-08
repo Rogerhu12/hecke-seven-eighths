@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
-import Mathlib.RingTheory.Coprime.Lemmas
-import RowCharacterInputUniqueness
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalPhaseData
+public import Mathlib.RingTheory.Coprime.Lemmas
+public import RowCharacterInputUniqueness
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

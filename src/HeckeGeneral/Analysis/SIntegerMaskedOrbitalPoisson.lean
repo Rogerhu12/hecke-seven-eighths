@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
-import HeckeGeneral.Arithmetic.SIntegerOrbitMask
+module
+
+public import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
+public import HeckeGeneral.Arithmetic.SIntegerOrbitMask
+
+@[expose] public section
 
 /-!
 # Moving ideal masks in the actual periodic orbital Poisson formula

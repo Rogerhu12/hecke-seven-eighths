@@ -1,5 +1,9 @@
-import ActualThetaCoprimeCorrelationExtension
-import ActualSexticOriginalChartMean
+module
+
+public import ActualThetaCoprimeCorrelationExtension
+public import ActualSexticOriginalChartMean
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Genuine composite finite correlation is identified

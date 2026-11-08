@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+
+@[expose] public section
 
 /-!
 # The original parent geometry of the computed normalized family

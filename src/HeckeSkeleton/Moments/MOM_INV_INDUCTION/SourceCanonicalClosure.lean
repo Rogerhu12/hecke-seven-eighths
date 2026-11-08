@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderShortBound
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedComplete
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderShortBound
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderUniformMarks
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedComplete
+
+@[expose] public section
 
 /-!
 # Canonical induction for the literal arithmetic source

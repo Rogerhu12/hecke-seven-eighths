@@ -1,4 +1,8 @@
-import CubicSieve.GaussPairCRT
+module
+
+public import CubicSieve.GaussPairCRT
+
+@[expose] public section
 
 /-! Exact mixed Fourier factorization through two-factor CRT.
 Frequencies are arbitrary elements; zero and nonunit frequencies are retained. -/

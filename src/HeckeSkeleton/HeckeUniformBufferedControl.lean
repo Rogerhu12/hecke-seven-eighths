@@ -1,5 +1,9 @@
-import HeckeSkeleton.HeckeUniformStripGrowth
-import HeckeSkeleton.HeckeBufferedReciprocal
+module
+
+public import HeckeSkeleton.HeckeUniformStripGrowth
+public import HeckeSkeleton.HeckeBufferedReciprocal
+
+@[expose] public section
 
 /-!
 Uniform buffered control for actual non-norm Hecke continuations of fixed

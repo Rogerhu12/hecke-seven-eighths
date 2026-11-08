@@ -1,8 +1,13 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mee5b9e2e24204f48
-import FLTReuse.M9cf8e930b5af67a7
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mee5b9e2e24204f48
+public import FLTReuse.M9cf8e930b5af67a7
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_inv_measure_mul_fourierIntegral_finiteAdeleRing_prod_mul_indicator_eq
 
 set_option autoImplicit false

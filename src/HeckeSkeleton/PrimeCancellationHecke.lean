@@ -1,10 +1,14 @@
-import HeckeSkeleton.PrimeCancellationCounting
-import PrimeCancellationPaired
-import HeckeGeneral.Analysis.IdealDerivativeEulerLog
-import HeckeGeneral.Analysis.IdealMobiusDeletion
-import HeckeGeneral.Analysis.HeckeEndpointTarget
-import HeckeSkeleton.HeckeUniformStripGrowth
-import HeckeSkeleton.HeckeDeletedEulerControl
+module
+
+public import HeckeSkeleton.PrimeCancellationCounting
+public import PrimeCancellationPaired
+public import HeckeGeneral.Analysis.IdealDerivativeEulerLog
+public import HeckeGeneral.Analysis.IdealMobiusDeletion
+public import HeckeGeneral.Analysis.HeckeEndpointTarget
+public import HeckeSkeleton.HeckeUniformStripGrowth
+public import HeckeSkeleton.HeckeDeletedEulerControl
+
+@[expose] public section
 
 /-!
 # Actual Hecke input for prime cancellation

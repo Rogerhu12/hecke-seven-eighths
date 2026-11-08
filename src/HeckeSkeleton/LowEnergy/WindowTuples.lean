@@ -1,9 +1,13 @@
-import HeckeSkeleton.LowEnergy.TupleCore
-import HeckeSkeleton.LowEnergy.DyadicReindex
-import HeckeSkeleton.LowEnergy.SlotTuples
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Analysis.IdealSquarefreeSupport
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import HeckeSkeleton.LowEnergy.TupleCore
+public import HeckeSkeleton.LowEnergy.DyadicReindex
+public import HeckeSkeleton.LowEnergy.SlotTuples
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Analysis.IdealSquarefreeSupport
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-!
 # Exact active-window aggregation into actual exterior ideals

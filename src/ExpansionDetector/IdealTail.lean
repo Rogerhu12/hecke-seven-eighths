@@ -1,5 +1,9 @@
-import ExpansionDetector.IdealMellinIdentity
-import ExpansionDetector.ExponentialTail
+module
+
+public import ExpansionDetector.IdealMellinIdentity
+public import ExpansionDetector.ExponentialTail
+
+@[expose] public section
 
 /-! The exponential terminal error for the genuine ideal Moebius
 convolution. All coefficients and cutoffs are the same as in the finite

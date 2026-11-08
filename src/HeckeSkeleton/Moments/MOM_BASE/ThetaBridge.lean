@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_BASE.Arithmetic
-import HeckeSkeleton.Moments.MOM_BASE.CubeInversion
-import HeckePort.Moments.Descent.Completion
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.Arithmetic
+public import HeckeSkeleton.Moments.MOM_BASE.CubeInversion
+public import HeckePort.Moments.Descent.Completion
+
+@[expose] public section
 
 /-!
 # Canonical cube completion on the literal theta coefficients

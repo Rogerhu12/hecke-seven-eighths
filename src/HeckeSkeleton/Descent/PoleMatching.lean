@@ -1,7 +1,11 @@
-import HeckeSkeleton.ActualHeckeNormPullback
-import HeckeGeneral.Characters.IdeleNormContinuity
-import HeckeGeneral.Analysis.HeckeEndpointTarget
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.NormTopology.ArchimedeanNorm
+module
+
+public import HeckeSkeleton.ActualHeckeNormPullback
+public import HeckeGeneral.Characters.IdeleNormContinuity
+public import HeckeGeneral.Analysis.HeckeEndpointTarget
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.NormTopology.ArchimedeanNorm
+
+@[expose] public section
 
 /-!
 Adapted from the read-only norm-pullback cache candidates dated 2026-10-11.

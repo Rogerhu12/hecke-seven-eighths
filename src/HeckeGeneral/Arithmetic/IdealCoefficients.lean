@@ -1,6 +1,10 @@
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
-import Mathlib.NumberTheory.NumberField.Ideal.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+public import Mathlib.NumberTheory.NumberField.Ideal.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Multiplicative ideal coefficients from local prime values

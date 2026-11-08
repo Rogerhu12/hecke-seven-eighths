@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentMoment
+
+@[expose] public section
 
 /-!
 # Corrections preserving the original finite theta set

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceData
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceData
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

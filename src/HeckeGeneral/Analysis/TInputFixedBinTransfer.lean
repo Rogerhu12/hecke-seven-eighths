@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.BufferedPhysicalRowBin
-import HeckeGeneral.Analysis.MellinZeroDetector
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import HeckeGeneral.Analysis.BufferedPhysicalRowBin
+public import HeckeGeneral.Analysis.MellinZeroDetector
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
 
 /-!
 An UNINSTANTIATED source primitive for the actual fixed arithmetic bin.

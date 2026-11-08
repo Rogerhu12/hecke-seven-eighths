@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.HeckeContinuation
-import HeckeGeneral.Analysis.IdealEulerIdentity
-import Mathlib.Analysis.SpecialFunctions.Complex.LogBounds
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import HeckeGeneral.Analysis.IdealEulerIdentity
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogBounds
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Actual Euler logarithms for arbitrary continuous unitary Hecke characters.

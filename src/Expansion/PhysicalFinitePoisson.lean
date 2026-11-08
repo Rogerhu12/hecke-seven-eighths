@@ -1,5 +1,9 @@
-import Expansion.PhysicalFourierNormalization
-import HeckeSkeleton.HighBinSupport.ActualEulerCRT
+module
+
+public import Expansion.PhysicalFourierNormalization
+public import HeckeSkeleton.HighBinSupport.ActualEulerCRT
+
+@[expose] public section
 
 /-!
 # Actual Gauss-symbol coefficients in orbital Poisson

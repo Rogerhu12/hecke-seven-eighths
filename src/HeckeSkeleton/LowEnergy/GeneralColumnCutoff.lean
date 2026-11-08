@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.GeneralKernelTail
-import HeckeSkeleton.LowEnergy.GeneralReconstruction
-import HeckeSkeleton.LowEnergy.ActualDyadicReflection
-import HeckeSkeleton.LowEnergy.DyadicTail
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralKernelTail
+public import HeckeSkeleton.LowEnergy.GeneralReconstruction
+public import HeckeSkeleton.LowEnergy.ActualDyadicReflection
+public import HeckeSkeleton.LowEnergy.DyadicTail
+
+@[expose] public section
 
 /-!
 # Exact finite dual-annulus projection and the actual discarded tail

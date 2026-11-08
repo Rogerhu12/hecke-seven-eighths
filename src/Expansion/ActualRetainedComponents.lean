@@ -1,7 +1,11 @@
-import Expansion.ActualSmallRowBound
-import Expansion.ActualLargeRowBound
-import Expansion.ActualPrincipalVerticalRemainders
-import Expansion.ActualPrincipalSlotRemainder
+module
+
+public import Expansion.ActualSmallRowBound
+public import Expansion.ActualLargeRowBound
+public import Expansion.ActualPrincipalVerticalRemainders
+public import Expansion.ActualPrincipalSlotRemainder
+
+@[expose] public section
 
 /-!
 # The actual retained principal, small, and large components

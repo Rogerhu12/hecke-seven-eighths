@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MomentDataAdapter
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MomentDataAdapter
+
+@[expose] public section
 
 /-!
 # Principal exceptions from the original fixed background family

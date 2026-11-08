@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained
+
+@[expose] public section
 
 /-!
 # Production of genuine positive child energies at the fine cutoff

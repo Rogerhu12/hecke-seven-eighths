@@ -1,5 +1,9 @@
-import Mathlib.Tactic.Linarith
-import Mathlib.Data.Real.Basic
+module
+
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Data.Real.Basic
+
+@[expose] public section
 
 /-!
 Elementary ledger inequalities in the revised canonical reductions.

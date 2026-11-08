@@ -1,8 +1,12 @@
-import Expansion.ActualPrincipalResidueAssembly
-import Expansion.ActualPrincipalSweepDecay
-import Expansion.PhysicalInitialRowTruncation
-import Expansion.PowerHeightTailAlgebra
-import Expansion.ActualRetainedComponents
+module
+
+public import Expansion.ActualPrincipalResidueAssembly
+public import Expansion.ActualPrincipalSweepDecay
+public import Expansion.PhysicalInitialRowTruncation
+public import Expansion.PowerHeightTailAlgebra
+public import Expansion.ActualRetainedComponents
+
+@[expose] public section
 
 /-!
 # The actual principal initial integral and its retained components

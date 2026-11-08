@@ -1,5 +1,9 @@
-import CubicSieve.AnalyticRowDecomposition
-import CubicSieve.AnalyticDyadic
+module
+
+public import CubicSieve.AnalyticRowDecomposition
+public import CubicSieve.AnalyticDyadic
+
+@[expose] public section
 
 /-!
 Actual ordinary-ideal quotients and column gcd factors for the cubic Gram

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSingleBoxBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildClosure
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterPhysicalCap
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSingleBoxBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildClosure
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSpectralCost
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterPhysicalCap
+
+@[expose] public section
 
 /-!
 # Smooth canonical child closure inside the actual source integral

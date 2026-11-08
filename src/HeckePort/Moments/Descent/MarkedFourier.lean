@@ -1,4 +1,8 @@
-import HeckePort.Moments.Descent.Completion
+module
+
+public import HeckePort.Moments.Descent.Completion
+
+@[expose] public section
 
 /-!
 # Fourier expansion of marked completed sums

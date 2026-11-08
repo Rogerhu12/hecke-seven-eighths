@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Pool
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
+
+@[expose] public section
 
 /-!
 # One pool on the original normalized finite columns

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
-import Mathlib.Algebra.Group.PUnit
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+public import Mathlib.Algebra.Group.PUnit
+
+@[expose] public section
 
 /-!
 # The actual parent through the complete first orbital transform

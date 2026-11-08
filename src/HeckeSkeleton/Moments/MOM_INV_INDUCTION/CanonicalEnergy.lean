@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Terminal
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Terminal
+
+@[expose] public section
 
 /-!
 # Literal canonical ideal energies

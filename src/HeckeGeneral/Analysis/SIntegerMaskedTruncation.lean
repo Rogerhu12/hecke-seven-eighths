@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SIntegerMaskedOrbitalPoisson
-import HeckeGeneral.Analysis.SIntegerPeriodicTruncation
+module
+
+public import HeckeGeneral.Analysis.SIntegerMaskedOrbitalPoisson
+public import HeckeGeneral.Analysis.SIntegerPeriodicTruncation
+
+@[expose] public section
 
 /-!
 # Finite dual approximations for the actual moving-mask orbital formula

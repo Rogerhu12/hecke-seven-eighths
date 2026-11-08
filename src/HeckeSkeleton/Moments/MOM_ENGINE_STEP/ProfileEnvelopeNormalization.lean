@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSlotRemoval
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PolynomialProfileEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSlotRemoval
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PolynomialProfileEnvelope
+
+@[expose] public section
 
 /-!
 # Normalized actual children in the original positive Fourier kernel

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.WeightedReflectionMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.WeightedReflectionMass
+
+@[expose] public section
 
 /-!
 # Exact weights of the ordinary reflected Mellin operator

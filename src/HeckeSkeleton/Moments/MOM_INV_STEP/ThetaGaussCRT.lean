@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport
-import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UnitGaussTransport
+public import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 # Actual theta Gauss sums and signed coprime multiplication

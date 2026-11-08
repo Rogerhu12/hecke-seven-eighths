@@ -1,8 +1,12 @@
-import HeckeSkeleton.ThetaKernel.TestMellin
-import HeckeSkeleton.ThetaKernel.Shift
-import HeckeGeneral.Analysis.IdealDerivativeSmoothing
-import HeckeGeneral.Analysis.MomentInputs
-import Mathlib.Analysis.MellinInversion
+module
+
+public import HeckeSkeleton.ThetaKernel.TestMellin
+public import HeckeSkeleton.ThetaKernel.Shift
+public import HeckeGeneral.Analysis.IdealDerivativeSmoothing
+public import HeckeGeneral.Analysis.MomentInputs
+public import Mathlib.Analysis.MellinInversion
+
+@[expose] public section
 
 /-!
 # Mellin inversion of the actual finite annular ideal polynomial

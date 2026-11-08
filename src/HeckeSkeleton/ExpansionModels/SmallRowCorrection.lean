@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExpansionModels.SmallRowEulerBounds
-import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
-import HeckeGeneral.Analysis.FrequencyRowCounting
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowEulerBounds
+public import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+
+@[expose] public section
 
 /-!
 # The actual full correction on the two outer contours

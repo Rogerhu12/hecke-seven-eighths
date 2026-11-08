@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupClosure
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceUnmarkedOrbital
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupClosure
+
+@[expose] public section
 
 /-!
 # Complete ideal rows of the original unmarked source

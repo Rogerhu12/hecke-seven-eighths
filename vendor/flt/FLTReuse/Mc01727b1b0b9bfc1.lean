@@ -1,7 +1,12 @@
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M1c722af550c2b699
-import FLTReuse.Mad950c02a4314b2a
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M1c722af550c2b699
+public import FLTReuse.Mad950c02a4314b2a
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_localZeta_stdTestFunAt_ne_zero_of_unramified
 attribute [-instance] NumberField.instCompactSpaceAdicCompletionIntegers Rat.adicCompletion.locallyCompactSpace NumberField.instFiniteResidueFieldAdicCompletionIntegers     IsDedekindDomain.HeightOneSpectrum.instLiesOverSubtypeAdicCompletionMemValuationSubringAdicCompletionIntegersCompletionIdealAsIdeal   
 

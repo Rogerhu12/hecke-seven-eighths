@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
-import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CommonKernel
+
+@[expose] public section
 
 /-!
 # The genuine coprime orbital source produces two positive columns

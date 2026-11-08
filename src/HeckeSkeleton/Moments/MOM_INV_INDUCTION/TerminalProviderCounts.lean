@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
-import HeckeSkeleton.LowFrozenCube.FrozenCounts
-import HeckeSkeleton.LowHybrid.ExteriorArithmetic
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
+public import HeckeSkeleton.LowFrozenCube.FrozenCounts
+public import HeckeSkeleton.LowHybrid.ExteriorArithmetic
+
+@[expose] public section
 
 /-!
 # Actual frozen-row pairs and their residual fibers

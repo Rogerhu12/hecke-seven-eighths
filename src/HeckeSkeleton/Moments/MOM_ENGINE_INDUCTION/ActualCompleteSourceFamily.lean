@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMellinFamily
-import HeckeSkeleton.ExpansionModels.ActualRowEligibility
-import Expansion.CanonicalDetectorCharacters
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMellinFamily
+public import HeckeSkeleton.ExpansionModels.ActualRowEligibility
+public import Expansion.CanonicalDetectorCharacters
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
+
+@[expose] public section
 
 /-!
 # The actual fixed-theta source enters the complete recursive family

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
-import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
-import HeckeGeneral.Characters.SIntegerSexticSymbol
+module
+
+public import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
+public import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
+public import HeckeGeneral.Characters.SIntegerSexticSymbol
+
+@[expose] public section
 
 /-!
 The symbol import is the actual two-argument symbol,

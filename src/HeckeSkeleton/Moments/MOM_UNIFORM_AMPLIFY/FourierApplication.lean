@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileNormTwists
+
+@[expose] public section
 
 /-!
 # Weighted common Fourier propagation for the actual compact profile

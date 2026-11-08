@@ -1,14 +1,19 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M0a341b9f001ae4d1
-import FLTReuse.M946c4029202117bd
-import FLTReuse.M40aeee35a98f067b
-import FLTReuse.Ma9157e14fb8004d5
-import FLTReuse.Mfbd03b0511a8bca3
-import FLTReuse.M5808d10d83f2fccd
-import FLTReuse.Mb863247be1ef9c3e
-import FLTReuse.M583a0b5cb8bcd265
-import Mathlib
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M0a341b9f001ae4d1
+public import FLTReuse.M946c4029202117bd
+public import FLTReuse.M40aeee35a98f067b
+public import FLTReuse.Ma9157e14fb8004d5
+public import FLTReuse.Mfbd03b0511a8bca3
+public import FLTReuse.M5808d10d83f2fccd
+public import FLTReuse.Mb863247be1ef9c3e
+public import FLTReuse.M583a0b5cb8bcd265
+public import Mathlib
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_exists_differentiable_eq_sub_mul_eulerProduct_and_eq_mul_prod_Gamma_mul_of_eq_normPowChar
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 attribute [-simp] NumberField.AdeleRing.val_finiteUnitsComponent IsDedekindDomain.FiniteAdeleRing.val_unitsComponent NumberField.AdeleRing.val_finitePartUnits NumberField.AdeleRing.val_infiniteUnitsComponent

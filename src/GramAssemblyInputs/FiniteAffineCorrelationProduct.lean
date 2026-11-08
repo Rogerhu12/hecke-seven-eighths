@@ -1,5 +1,9 @@
-import FiniteAffineCorrelation
-import Mathlib.Algebra.BigOperators.Ring.Finset
+module
+
+public import FiniteAffineCorrelation
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-! Source-only, uncompiled. Genuine affine correlation under ring equivalences
 and finite products. No coprimality, nonzero-frequency or nontrivial-ring

@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalActualFrequency
-import ThetaGlobal.GlobalIndexSupport
-import ThetaGlobal.GlobalUnitCoordinates
-import DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.GeneratorValuation
+module
+
+public import ThetaGlobal.GlobalActualFrequency
+public import ThetaGlobal.GlobalIndexSupport
+public import ThetaGlobal.GlobalUnitCoordinates
+public import DedekindZetaZeroFree.Arithmetic.Ideals.SIntegerLocalization.GeneratorValuation
+
+@[expose] public section
 
 /-!
 # Injectivity of the actual reflected index on nonzero support

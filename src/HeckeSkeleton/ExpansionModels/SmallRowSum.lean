@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SmallRowKernel
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowKernel
+
+@[expose] public section
 
 /-!
 # Summing and integrating the actual small rows

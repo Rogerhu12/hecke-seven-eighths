@@ -1,6 +1,10 @@
-import FLTReuse.M03caed6eb03298ae
-import FLTReuse.M019e33ff0c031ad2
-import Mathlib.NumberTheory.Modular
+module
+
+public import FLTReuse.M03caed6eb03298ae
+public import FLTReuse.M019e33ff0c031ad2
+public import Mathlib.NumberTheory.Modular
+
+@[expose] public section
 
 open Matrix NumberField UpperHalfPlane
 open scoped MatrixGroups Modular

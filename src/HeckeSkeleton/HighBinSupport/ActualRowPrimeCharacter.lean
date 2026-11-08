@@ -1,7 +1,12 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
-import RowCharacterCanonicalUniqueness
-import ArithmeticFrequencyRowRamification
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+public import RowCharacterCanonicalUniqueness
+public import ArithmeticFrequencyRowRamification
+
+@[expose] public section
+
 /-!
 The actual unramified row phase, from the existing coefficient calibration.
 

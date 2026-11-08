@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroSupport
+
+@[expose] public section
 
 /-!
 # Uniform amplitude of the actual second Euler diagonal

@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenAggregation
-import HeckeSkeleton.LowEnergy.InactiveWindows
-import HeckeSkeleton.LowEnergy.WindowTuples
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenAggregation
+public import HeckeSkeleton.LowEnergy.InactiveWindows
+public import HeckeSkeleton.LowEnergy.WindowTuples
+
+@[expose] public section
 
 /-!
 # Actual marked tuples after the frozen-state and Gaussian estimates

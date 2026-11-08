@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.IdealMajorant
-import Mathlib.Analysis.Real.Sqrt
+module
+
+public import HeckeSkeleton.LowEnergy.IdealMajorant
+public import Mathlib.Analysis.Real.Sqrt
+
+@[expose] public section
 
 /-!
 # Actual ideal harmonic and normalized column masses

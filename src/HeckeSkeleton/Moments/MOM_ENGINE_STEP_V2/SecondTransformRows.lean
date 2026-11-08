@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondLogChart
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildSectors
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyClassStability
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalSecondLogChart
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildSectors
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyClassStability
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

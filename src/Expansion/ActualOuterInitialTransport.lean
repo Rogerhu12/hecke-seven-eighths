@@ -1,5 +1,9 @@
-import Expansion.ActualFiniteRowHeightBudget
-import Expansion.PhysicalInitialRowTruncation
+module
+
+public import Expansion.ActualFiniteRowHeightBudget
+public import Expansion.PhysicalInitialRowTruncation
+
+@[expose] public section
 
 /-!
 # The actual full initial row and its finite outer destination

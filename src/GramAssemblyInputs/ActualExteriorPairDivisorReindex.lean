@@ -1,6 +1,10 @@
-import ActualIdealPairMobius
-import HeckeGeneral.Analysis.GlobalThetaData
-import Mathlib.Data.Finset.Preimage
+module
+
+public import ActualIdealPairMobius
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import Mathlib.Data.Finset.Preimage
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The same actual exterior divisor is removed from

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
-import HeckeGeneral.Analysis.TraceRadialScaling
-import HeckeGeneral.Analysis.SUnitOrbitalIntegral
+module
+
+public import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
+public import HeckeGeneral.Analysis.TraceRadialScaling
+public import HeckeGeneral.Analysis.SUnitOrbitalIntegral
+
+@[expose] public section
 
 /-!
 # Radially uniform decay of actual tensor Schwartz orbital profiles

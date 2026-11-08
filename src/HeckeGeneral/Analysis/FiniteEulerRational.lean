@@ -1,4 +1,8 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-!
 # Finite Laurent data for local Euler factors

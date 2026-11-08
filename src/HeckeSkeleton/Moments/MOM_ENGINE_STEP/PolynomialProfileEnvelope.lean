@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
-import Mathlib.Analysis.Normed.Lp.ProdLp
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
+public import Mathlib.Analysis.Normed.Lp.ProdLp
+
+@[expose] public section
 
 /-!
 # A measurable common envelope for normalized Fourier profiles

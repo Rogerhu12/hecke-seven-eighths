@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPositiveSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPositiveSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+
+@[expose] public section
 
 /-!
 # Whole first positive energies at common fixed centers

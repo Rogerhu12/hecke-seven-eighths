@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.LatticeSchwartzTail
+module
+
+public import HeckeGeneral.Analysis.LatticeSchwartzTail
+
+@[expose] public section
 
 /-!
 Inverse-power mass under an actual continuous linear equivalence. The moving

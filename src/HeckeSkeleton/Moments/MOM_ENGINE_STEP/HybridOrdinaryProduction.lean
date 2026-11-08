@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridKernel
+
+@[expose] public section
 
 /-!
 # The ordinary part of a true hybrid branch produces actual children

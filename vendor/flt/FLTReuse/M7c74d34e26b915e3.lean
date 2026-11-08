@@ -1,7 +1,12 @@
-import Mathlib
-import FLTReuse.M387d45cde57b612d
-import FLTReuse.Md41ce34d0c15dbc0
-import FLTReuse.Mb160b7190bc2968b
+module
+
+public import Mathlib
+public import FLTReuse.M387d45cde57b612d
+public import FLTReuse.Md41ce34d0c15dbc0
+public import FLTReuse.Mb160b7190bc2968b
+
+@[expose] public section
+
 set_option maxHeartbeats 1200000
 set_option synthInstance.maxHeartbeats 400000
 
@@ -59,7 +64,5 @@ instance (v : HeightOneSpectrum (𝓞 K)) :
 instance (v : HeightOneSpectrum (𝓞 K)) :
     LocallyCompactSpace (v.adicCompletion K) := inferInstance
 
-example (v : HeightOneSpectrum (𝓞 K)) : SecondCountableTopology (v.adicCompletion K) :=
-  inferInstance
 
 end

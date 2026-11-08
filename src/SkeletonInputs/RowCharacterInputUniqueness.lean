@@ -1,5 +1,9 @@
-import RowCharacterGlobalUniqueness
-import HeckeGeneral.Analysis.PhysicalProbeRows
+module
+
+public import RowCharacterGlobalUniqueness
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option relaxedAutoImplicit false

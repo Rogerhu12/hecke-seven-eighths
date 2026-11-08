@@ -1,5 +1,9 @@
-import HeckeGeneral.Bridge.FLTDefinitions
-import HeckeGeneral.Characters.FiniteRamification
+module
+
+public import HeckeGeneral.Bridge.FLTDefinitions
+public import HeckeGeneral.Characters.FiniteRamification
+
+@[expose] public section
 
 /-!
 # Actual dual characters in the Tate bridge

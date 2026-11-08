@@ -1,5 +1,9 @@
-import Expansion.ActualDeletedZetaResidue
-import HeckeSkeleton.HeckeDeletedEulerControl
+module
+
+public import Expansion.ActualDeletedZetaResidue
+public import HeckeSkeleton.HeckeDeletedEulerControl
+
+@[expose] public section
 
 /-!
 # Actual zeta growth away from the height of its pole

@@ -1,9 +1,13 @@
-import HeckeGeneral.Analysis.TInputRanges
-import HeckeSkeleton.HighBinSupport.ActualRegularEuler
-import HeckeSkeleton.HighBinSupport.EulerCorrectedRegion
-import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
-import HeckeSkeleton.HighBinSupport.ActualEulerProduct
-import HeckeSkeleton.HighBinSupport.EulerRegionProduct
+module
+
+public import HeckeGeneral.Analysis.TInputRanges
+public import HeckeSkeleton.HighBinSupport.ActualRegularEuler
+public import HeckeSkeleton.HighBinSupport.EulerCorrectedRegion
+public import HeckeSkeleton.HighBinSupport.EulerRegionAnalytic
+public import HeckeSkeleton.HighBinSupport.ActualEulerProduct
+public import HeckeSkeleton.HighBinSupport.EulerRegionProduct
+
+@[expose] public section
 
 /-!
 # The original corrected Euler region: convergence and joint analyticity

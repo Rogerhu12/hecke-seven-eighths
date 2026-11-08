@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionSmall
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionFinite
+
+@[expose] public section
 
 /-!
 # One actual long cube block after its common Mellin integral

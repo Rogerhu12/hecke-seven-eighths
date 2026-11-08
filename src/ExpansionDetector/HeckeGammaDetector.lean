@@ -1,6 +1,10 @@
-import ExpansionDetector.DetectorPower
-import HeckeSkeleton.HeckeUniformStripGrowth
-import HeckeGeneral.Analysis.IdealMobiusReciprocal
+module
+
+public import ExpansionDetector.DetectorPower
+public import HeckeSkeleton.HeckeUniformStripGrowth
+public import HeckeGeneral.Analysis.IdealMobiusReciprocal
+
+@[expose] public section
 
 /-! Specialization of the fixed-line detector to the genuine ordinary Hecke
 continuation and genuine ideal Moebius coefficients. The conductor exponent

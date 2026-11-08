@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
-import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredMellin
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredMellin
+
+@[expose] public section
 
 /-!
 # First inverse columns at one fixed annular center

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionUniformity
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryGammaRight
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionUniformity
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryGammaRight
+
+@[expose] public section
 
 /-!
 # The actual reflected profile at small norm ratios

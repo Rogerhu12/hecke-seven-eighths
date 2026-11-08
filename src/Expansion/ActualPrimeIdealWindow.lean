@@ -1,8 +1,12 @@
-import Expansion.ActualZetaLogDerivative
-import Expansion.ActualPrimeCancellation
-import Expansion.ActualPrimeWindowPositivity
-import HeckeGeneral.Analysis.MomentPrimeWindows
-import DedekindZetaZeroFree.Analysis.ContourIntegration.SimplePoleShift
+module
+
+public import Expansion.ActualZetaLogDerivative
+public import Expansion.ActualPrimeCancellation
+public import Expansion.ActualPrimeWindowPositivity
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+public import DedekindZetaZeroFree.Analysis.ContourIntegration.SimplePoleShift
+
+@[expose] public section
 
 /-!
 # A prime ideal theorem for the actual smooth normalizer windows

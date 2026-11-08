@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalOrbitFibre
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentRawSourceInput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalOrbitFibre
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentRawSourceInput
+
+@[expose] public section
 
 /-!
 # The original parent ideal-to-orbit map has unit fibres

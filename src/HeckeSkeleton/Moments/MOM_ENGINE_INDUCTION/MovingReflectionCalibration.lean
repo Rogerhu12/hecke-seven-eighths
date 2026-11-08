@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrunedConductorModulus
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeConductor
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RestorationRows
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrunedConductorModulus
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeConductor
+
+@[expose] public section
 
 /-!
 # Ordinary reflection for the actual moving-row arithmetic

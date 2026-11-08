@@ -1,6 +1,10 @@
-import ActualSIntegerDivisorColumn
-import ActualSexticFixedSChart
-import ActualSexticResidueJointMean
+module
+
+public import ActualSIntegerDivisorColumn
+public import ActualSexticFixedSChart
+public import ActualSexticResidueJointMean
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. Representative-wise bridge from the literal
 raw sextic times actual RCorrection, on genuine fixed S charts, to the

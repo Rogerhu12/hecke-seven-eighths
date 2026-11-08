@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteSchwartzProfileBridge
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteSchwartzProfileBridge
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfileBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalPrimitiveEngineProfileOrders
+
+@[expose] public section
 
 /-!
 # The exact finite Euler order used by the strict Mellin producer

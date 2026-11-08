@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalCanonicalAdditive
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeGeneral.Characters.LocalCanonicalAdditive
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-! Encode actual local frequencies for the standard trace-normalized residue character.
 

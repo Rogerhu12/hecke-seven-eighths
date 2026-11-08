@@ -1,10 +1,14 @@
-import ActualRowBallResidualScalarBound
-import ActualRowBallResidualTrivialBound
-import ActualRowBallDualResidualNorm
-import ActualExceptionalWeightedShell
-import ActualOrdinaryOrbitShellCount
-import GeneratorMaskWitness
-import HeckeSkeleton.GramAssembly.Dyadic
+module
+
+public import ActualRowBallResidualScalarBound
+public import ActualRowBallResidualTrivialBound
+public import ActualRowBallDualResidualNorm
+public import ActualExceptionalWeightedShell
+public import ActualOrdinaryOrbitShellCount
+public import GeneratorMaskWitness
+public import HeckeSkeleton.GramAssembly.Dyadic
+
+@[expose] public section
 
 /-!
 GR-12-ASSEMBLY, ideal and orbit bookkeeping: classification of a divisible

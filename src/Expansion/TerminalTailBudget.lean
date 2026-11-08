@@ -1,5 +1,9 @@
-import Expansion.DyadicSupport
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+module
+
+public import Expansion.DyadicSupport
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+
+@[expose] public section
 
 /-!
 # A uniform numerical budget for the actual terminal Fourier tail

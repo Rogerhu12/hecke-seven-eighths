@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
+
+@[expose] public section
 
 /-!
 # One actual second row class produces normalized capacity children

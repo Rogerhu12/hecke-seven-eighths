@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfilePowerControl
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifiedFiniteIndex
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfilePowerControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifiedFiniteIndex
+
+@[expose] public section
 
 /-!
 # Internal assembly of the same normalized kernels and arithmetic indices

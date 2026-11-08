@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
-import HeckeSkeleton.Moments.MOM_INV_STEP.MaskDivisorTransport
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceGauss
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MaskDivisorTransport
+
+@[expose] public section
 
 /-!
 # The actual second Fourier row and its retained common zeros

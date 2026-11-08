@@ -1,6 +1,11 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Mea34a23e4d889544
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Mea34a23e4d889544
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 attribute [-simp] AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_one AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_one
 

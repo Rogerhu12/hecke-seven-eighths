@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteSkeletonSource
-import ThetaGlobal.LocalArchInput
+module
+
+public import ThetaGlobal.FiniteSkeletonSource
+public import ThetaGlobal.LocalArchInput
+
+@[expose] public section
 
 /-!
 # The high K-type Mellin input on the skeleton's one fixed source

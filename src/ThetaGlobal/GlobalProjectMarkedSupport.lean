@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalProjectLocalSupport
-import ThetaGlobal.GlobalActualCoordinates
-import ThetaGlobal.GlobalSupportRow
+module
+
+public import ThetaGlobal.GlobalProjectLocalSupport
+public import ThetaGlobal.GlobalActualCoordinates
+public import ThetaGlobal.GlobalSupportRow
+
+@[expose] public section
 
 /-!
 # The actual marked digit row covers the literal reflected frequencies

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.MomentPrimeWindows
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Analysis.IdealEulerProduct
+module
+
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Analysis.IdealEulerProduct
+
+@[expose] public section
 
 /-!
 Absolute counting for the actual normalized prime polynomials. Constants

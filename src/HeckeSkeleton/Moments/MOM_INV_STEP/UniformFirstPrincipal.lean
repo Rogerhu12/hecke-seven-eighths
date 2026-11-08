@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPrincipalEstimate
-import HeckeSkeleton.Moments.MOM_INV_STEP.PhysicalPrincipalEstimate
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalProfileBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPrincipalEstimate
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PhysicalPrincipalEstimate
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalProfileBounds
+
+@[expose] public section
 
 /-!
 # Uniform first principal cost on bounded length ranges

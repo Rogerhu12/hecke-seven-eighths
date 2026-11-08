@@ -1,5 +1,9 @@
-import ActualSexticClearedColumnWeight
-import ActualSexticAnnularChartFamily
+module
+
+public import ActualSexticClearedColumnWeight
+public import ActualSexticAnnularChartFamily
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. On a genuine cleared S fiber the entire finite-place

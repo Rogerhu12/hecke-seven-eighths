@@ -1,6 +1,11 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M3c68c1555d4fc687
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M3c68c1555d4fc687
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_Converse_hasConductorExponentAt_localChar_zero_of_isUnramifiedCharAt
 
 set_option autoImplicit false

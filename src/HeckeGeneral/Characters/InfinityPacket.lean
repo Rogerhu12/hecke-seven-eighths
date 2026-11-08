@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.InfinityType
+module
+
+public import HeckeGeneral.Characters.InfinityType
+
+@[expose] public section
 
 /-!+# Infinity parameters throughout a fixed Hecke packet
 

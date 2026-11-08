@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedBlockEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedBlockEnergy
+
+@[expose] public section
 
 /-!
 # The full original marked sum is a finite sum of genuine Mellin blocks

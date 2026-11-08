@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

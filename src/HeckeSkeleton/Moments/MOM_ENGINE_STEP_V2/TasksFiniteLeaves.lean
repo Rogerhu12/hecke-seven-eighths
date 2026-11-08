@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesTraceCover
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesAssembly
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesTraceCover
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FiniteLeavesAssembly
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

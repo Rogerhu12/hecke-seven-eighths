@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
-import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+module
+
+public import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+public import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+
+@[expose] public section
 
 /-!
 # Actual multiplicative coefficients for the canonical moments

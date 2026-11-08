@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridFiniteLeaf
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
+
+@[expose] public section
 
 /-!
 # Exact removal of zero-weight rows before Fourier Cauchy

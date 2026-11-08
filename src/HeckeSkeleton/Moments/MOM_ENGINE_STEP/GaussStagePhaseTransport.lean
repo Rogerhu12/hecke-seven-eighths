@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPoolKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPoolKernel
+
+@[expose] public section
 
 /-!
 # The second original kernel is fixed before the first Fourier variable

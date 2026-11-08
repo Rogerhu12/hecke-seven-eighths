@@ -1,7 +1,12 @@
-import HeckeSkeleton.HighBinSupport.ActualOrbitalRapidDecay
-import HeckeSkeleton.SmallRadius.SLocalRadialMellinIntegral
-import HeckeGeneral.Bridge.TraceSchwartzFourier
-import HeckeGeneral.Bridge.SLocalFiniteFourier
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualOrbitalRapidDecay
+public import HeckeSkeleton.SmallRadius.SLocalRadialMellinIntegral
+public import HeckeGeneral.Bridge.TraceSchwartzFourier
+public import HeckeGeneral.Bridge.SLocalFiniteFourier
+
+@[expose] public section
+
 /-!
 The actual physical additive Mellin transform has arbitrary vertical decay
 on every fixed line 0 < Re(z) <= 1. The finite Fourier support theorem and

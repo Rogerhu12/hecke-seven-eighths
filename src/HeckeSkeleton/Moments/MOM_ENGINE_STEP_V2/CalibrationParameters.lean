@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalCalibrationData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CalibrationOrigin
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalSupport
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

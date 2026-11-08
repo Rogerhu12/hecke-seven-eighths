@@ -1,5 +1,9 @@
-import Mathlib
-import FLTReuse.Mae9e3eb0ac36ea6a
+module
+
+public import Mathlib
+public import FLTReuse.Mae9e3eb0ac36ea6a
+
+@[expose] public section
 
 set_option autoImplicit false
 

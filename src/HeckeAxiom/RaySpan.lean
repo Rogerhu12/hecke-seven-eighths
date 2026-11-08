@@ -1,8 +1,12 @@
-import HeckeAxiom.RayCharacter
-import HeckeGeneral.Characters.SIntegerUnitRelation
-import HeckeGeneral.Characters.InfinityType
-import HeckeGeneral.Characters.ConductorFrequencyMembership
-import HeckeGeneral.Characters.PrincipalUnitFiltration
+module
+
+public import HeckeAxiom.RayCharacter
+public import HeckeGeneral.Characters.SIntegerUnitRelation
+public import HeckeGeneral.Characters.InfinityType
+public import HeckeGeneral.Characters.ConductorFrequencyMembership
+public import HeckeGeneral.Characters.PrincipalUnitFiltration
+
+@[expose] public section
 
 /-!
 # The principal law for finite-order Hecke characters

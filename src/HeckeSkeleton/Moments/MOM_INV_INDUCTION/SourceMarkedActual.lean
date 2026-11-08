@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin
-import HeckeSkeleton.ExpansionModels.ActualRowEligibility
-import HeckeGeneral.Analysis.MomentPrimeWindowUnramified
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin
+public import HeckeSkeleton.ExpansionModels.ActualRowEligibility
+public import HeckeGeneral.Analysis.MomentPrimeWindowUnramified
+
+@[expose] public section
 
 /-!
 # Arithmetic and profile data of the original marked source

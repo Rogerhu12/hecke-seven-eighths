@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ActualSIntegerScaleDerivative
-import Mathlib.Analysis.Calculus.TangentCone.Real
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerScaleDerivative
+public import Mathlib.Analysis.Calculus.TangentCone.Real
+
+@[expose] public section
 
 /-! Concrete support and Mellin derivative lemmas for the six Sobolev tests.
 The per-target moment input below permits S/arithmetic data to be chosen

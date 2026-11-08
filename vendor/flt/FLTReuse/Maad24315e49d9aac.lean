@@ -1,6 +1,10 @@
-import FLTReuse.Mb8f476785919d863
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Me5ea551fa3e45226
+module
+
+public import FLTReuse.Mb8f476785919d863
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Me5ea551fa3e45226
+
+@[expose] public section
 
 set_option autoImplicit false
 open MeasureTheory LanglandsTunnell.TateLocal LanglandsTunnell.ArchPlace

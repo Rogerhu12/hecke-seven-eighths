@@ -4,14 +4,17 @@ Adapted from OpenAI/math fd4aeeb2:
 lean/OAI/NumberTheory/DirichletL/CompactProfileFamily.lean.
 The extraction removes the unrelated arithmetic Foundation import.
 -/
-import Mathlib.Analysis.Fourier.FourierTransformDeriv
-import Mathlib.Analysis.MellinInversion
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
+module
 
+public import Mathlib.Analysis.Fourier.FourierTransformDeriv
+public import Mathlib.Analysis.MellinInversion
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 namespace PrimeCancellationCompactFamily
 

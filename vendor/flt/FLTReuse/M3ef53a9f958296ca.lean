@@ -1,7 +1,12 @@
-import FLTReuse.M81477154c83a610e
-import FLTReuse.Mb8f476785919d863
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Md699b19e5ddb3a74
+module
+
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.Mb8f476785919d863
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Md699b19e5ddb3a74
+
+@[expose] public section
+
 attribute [-simp] LanglandsTunnell.signEpsilon_one LanglandsTunnell.RealArchParam.epsilonFactor_principal LanglandsTunnell.RealArchParam.epsilonFactor_discrete LanglandsTunnell.signEpsilon_zero LanglandsTunnell.signShift_zero LanglandsTunnell.RealArchParam.twist_zero LanglandsTunnell.RealArchParam.discrete.sizeOf_spec LanglandsTunnell.RealArchParam.principal.injEq LanglandsTunnell.ComplexArchParam.dual_dual LanglandsTunnell.ComplexArchParam.mk.sizeOf_spec LanglandsTunnell.RealArchParam.dual_dual LanglandsTunnell.RealArchParam.discrete.injEq LanglandsTunnell.ComplexArchParam.twist_zero LanglandsTunnell.RealArchParam.principal.sizeOf_spec LanglandsTunnell.signShift_one LanglandsTunnell.ComplexArchParam.mk.injEq
 
 set_option autoImplicit false

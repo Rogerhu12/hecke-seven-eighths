@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor
-import Mathlib.Tactic.FieldSimp
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveFourier
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalConductor
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
 
 /-!
 # Physical scales of the actual primitive Poisson formula

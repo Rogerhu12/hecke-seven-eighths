@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowHybrid.NormalFormFinite
-import HeckeSkeleton.LowHybrid.Factorization
-import HeckeSkeleton.LowHybrid.Masks
-import HeckeSkeleton.LowFrozenCube.PrimeCoordinates
+module
+
+public import HeckeSkeleton.LowHybrid.NormalFormFinite
+public import HeckeSkeleton.LowHybrid.Factorization
+public import HeckeSkeleton.LowHybrid.Masks
+public import HeckeSkeleton.LowFrozenCube.PrimeCoordinates
+
+@[expose] public section
 
 /-!
 # Canonical arithmetic and completed-square data from prime coordinates

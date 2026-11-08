@@ -1,7 +1,11 @@
-import Expansion.PhysicalFrequencyReindex
-import HeckeSkeleton.AllowedGeneratorNorm
-import HeckeSkeleton.ActualProbeThetaAbsolute
-import HeckeSkeleton.ActualProbeIntegrable
+module
+
+public import Expansion.PhysicalFrequencyReindex
+public import HeckeSkeleton.AllowedGeneratorNorm
+public import HeckeSkeleton.ActualProbeThetaAbsolute
+public import HeckeSkeleton.ActualProbeIntegrable
+
+@[expose] public section
 
 /-!
 # The original physical Haar variable in actual Poisson summation

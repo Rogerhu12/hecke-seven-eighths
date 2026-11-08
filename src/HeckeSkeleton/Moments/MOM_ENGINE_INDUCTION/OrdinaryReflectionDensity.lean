@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRestorationOperator
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryRestorationOperator
+
+@[expose] public section
 
 /-!
 # A genuine row-independent frequency envelope

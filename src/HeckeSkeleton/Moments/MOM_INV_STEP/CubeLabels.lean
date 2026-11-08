@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CubeAlgebra
-import HeckeGeneral.Arithmetic.IdealMobiusMask
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CubeAlgebra
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+
+@[expose] public section
 
 /-!
 # Cube labels of the actual nonzero ideal product

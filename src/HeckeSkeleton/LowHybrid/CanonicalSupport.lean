@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowHybrid.PrimeArithmetic
-import HeckeSkeleton.LowHybrid.NormalFormSupport
-import HeckeSkeleton.LowHybrid.ProductBounds
+module
+
+public import HeckeSkeleton.LowHybrid.PrimeArithmetic
+public import HeckeSkeleton.LowHybrid.NormalFormSupport
+public import HeckeSkeleton.LowHybrid.ProductBounds
+
+@[expose] public section
 
 /-!
 # Support conditions of the canonical completed-square decomposition

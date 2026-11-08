@@ -1,6 +1,10 @@
-import ArithmeticFrequencyRowRamification
-import Mathlib.Data.Int.ModEq
-import Mathlib.SetTheory.Cardinal.Finite
+module
+
+public import ArithmeticFrequencyRowRamification
+public import Mathlib.Data.Int.ModEq
+public import Mathlib.SetTheory.Cardinal.Finite
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake invocation.

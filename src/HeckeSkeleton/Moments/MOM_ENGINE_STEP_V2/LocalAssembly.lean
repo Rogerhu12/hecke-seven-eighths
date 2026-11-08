@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TerminalAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizationAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedOutputAssembly
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TerminalAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizationAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedOutputAssembly
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

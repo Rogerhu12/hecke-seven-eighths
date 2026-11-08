@@ -1,6 +1,10 @@
-import HeckeSkeleton.Base
-import ThetaGlobal.FiniteLocalHighK
-import ThetaGlobal.FiniteAssembly
+module
+
+public import HeckeSkeleton.Base
+public import ThetaGlobal.FiniteLocalHighK
+public import ThetaGlobal.FiniteAssembly
+
+@[expose] public section
 
 /-!
 # Finite Mellin data on the skeleton's one actual arithmetic choice

@@ -1,4 +1,8 @@
-import Expansion.PhysicalRecipeSchedule
+module
+
+public import Expansion.PhysicalRecipeSchedule
+
+@[expose] public section
 
 /-!
 # One all-scale recipe with actual physical block values

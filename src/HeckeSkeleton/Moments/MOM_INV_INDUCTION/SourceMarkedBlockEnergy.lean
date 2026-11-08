@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedWindows
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedWindows
+
+@[expose] public section
 
 /-!
 # A genuine fixed-overlap Mellin block on all complete rows

@@ -1,5 +1,9 @@
-import HeckeGeneral.Bridge.SIntegerPeriodicFiniteTest
-import HeckeGeneral.Bridge.SIntegerScaledPoisson
+module
+
+public import HeckeGeneral.Bridge.SIntegerPeriodicFiniteTest
+public import HeckeGeneral.Bridge.SIntegerScaledPoisson
+
+@[expose] public section
 
 /-!
 # Actual adelic Poisson for an arbitrary periodic S-integer coefficient

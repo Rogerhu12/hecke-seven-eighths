@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
-import HeckeGeneral.Analysis.IdealSquarefreeAmplification
-import Mathlib.RingTheory.Coprime.Lemmas
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+public import HeckeGeneral.Analysis.IdealSquarefreeAmplification
+public import Mathlib.RingTheory.Coprime.Lemmas
+
+@[expose] public section
 
 /-!
 Actual sextic inverse rows in one finite prime envelope.  The test W and

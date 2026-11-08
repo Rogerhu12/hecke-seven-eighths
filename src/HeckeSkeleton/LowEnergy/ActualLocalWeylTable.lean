@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenCube
-import HeckeSkeleton.LowEnergy.LocalWeylTableCore
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenCube
+public import HeckeSkeleton.LowEnergy.LocalWeylTableCore
+
+@[expose] public section
 
 /-! The finite-field table instantiated with the project's actual local definitions. -/
 

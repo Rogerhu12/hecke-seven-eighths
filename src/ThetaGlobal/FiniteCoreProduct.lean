@@ -1,4 +1,8 @@
-import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.WordGeometry
+module
+
+public import DedekindZetaZeroFree.Theta.Whittaker.TensorProduct.WordGeometry
+
+@[expose] public section
 
 /-!
 # Finite matrix products for every frozen pure tensor

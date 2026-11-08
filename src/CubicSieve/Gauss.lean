@@ -1,5 +1,10 @@
-import HeckeGeneral.Arithmetic.ResidueGaussSums
-import Mathlib.Algebra.BigOperators.Pi
+module
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+public import HeckeGeneral.Arithmetic.ResidueGaussSums
+public import Mathlib.Algebra.BigOperators.Pi
+
+@[expose] public section
 
 /-!
 Finite Gauss transforms on products of actual residue fields. The additive

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+
+@[expose] public section
 
 /-!
 # Actual absolute base leaves for the local branched recursion

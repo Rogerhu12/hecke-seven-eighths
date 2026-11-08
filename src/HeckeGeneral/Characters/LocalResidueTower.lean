@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueCharacter
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+module
+
+public import HeckeGeneral.Characters.LocalResidueCharacter
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+
+@[expose] public section
 
 /-! Finite residue transition maps and primitivity at the least conductor depth. -/
 

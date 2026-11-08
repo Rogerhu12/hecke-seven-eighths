@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Family
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Actual row cutoffs and the physical source exponent

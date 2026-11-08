@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerProduct
-import HeckeGeneral.Analysis.HeckeEulerProduct
-import HeckeGeneral.Analysis.HeckeEulerDeletion
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualEulerProduct
+public import HeckeGeneral.Analysis.HeckeEulerProduct
+public import HeckeGeneral.Analysis.HeckeEulerDeletion
+
+@[expose] public section
 
 /-!
 # Actual deleted Hecke products and the row continuation

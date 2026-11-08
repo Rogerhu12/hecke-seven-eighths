@@ -1,5 +1,9 @@
-import ExpansionDetector.IdealConvolution
-import ExpansionDetector.ZeroDetectorBound
+module
+
+public import ExpansionDetector.IdealConvolution
+public import ExpansionDetector.ZeroDetectorBound
+
+@[expose] public section
 
 /-! An explicit finite ideal inverse and its exact initial-line Cauchy
 product. Coefficients are the same literal mu(I), character weight, and

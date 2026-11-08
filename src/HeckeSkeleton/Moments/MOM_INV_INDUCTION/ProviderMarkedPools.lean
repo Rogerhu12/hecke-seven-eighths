@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
-import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
+public import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+
+@[expose] public section
 
 /-!
 # Complete finite pools for the initial marked column change

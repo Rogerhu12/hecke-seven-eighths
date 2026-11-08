@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.HeckeFunctionalEquation
-import HeckeGeneral.Characters.LocalConductor
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Analysis.HeckeFunctionalEquation
+public import HeckeGeneral.Characters.LocalConductor
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Identify the finite scale used in the actual imported Tate functional equation.

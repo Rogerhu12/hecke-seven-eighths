@@ -1,5 +1,9 @@
-import Expansion.PhysicalAmplitudeProvenance
-import Expansion.PhysicalShellPartition
+module
+
+public import Expansion.PhysicalAmplitudeProvenance
+public import Expansion.PhysicalShellPartition
+
+@[expose] public section
 
 /-!
 # The actual shell, buffered-bin and sector schedule

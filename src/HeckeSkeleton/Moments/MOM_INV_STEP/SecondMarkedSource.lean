@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+
+@[expose] public section
 
 /-!
 # Original weights on the fresh inverse source

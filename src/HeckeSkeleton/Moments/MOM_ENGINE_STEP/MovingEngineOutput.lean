@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotCompleteEngineOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotCompleteEngineOutput
+
+@[expose] public section
 
 /-!
 # Original moving factors in the same selected engine children

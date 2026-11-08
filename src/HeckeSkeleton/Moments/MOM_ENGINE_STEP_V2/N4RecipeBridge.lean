@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4SourceConditions
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4CalibrationBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4SourceConditions
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

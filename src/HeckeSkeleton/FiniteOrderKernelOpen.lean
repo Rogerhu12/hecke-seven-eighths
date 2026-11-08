@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.LocalComponent
-import Mathlib.Algebra.Polynomial.Roots
-import Mathlib.Topology.Separation.Basic
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Characters.LocalComponent
+public import Mathlib.Algebra.Polynomial.Roots
+public import Mathlib.Topology.Separation.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Finite-order continuous circle-valued characters have open kernels.

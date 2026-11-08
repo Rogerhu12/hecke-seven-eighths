@@ -1,5 +1,10 @@
-import Mathlib
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_MeasureTheory_Measure_exists_eq_prod_of_forall_map_add_left
 
 set_option autoImplicit false

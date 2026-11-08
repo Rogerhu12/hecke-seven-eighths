@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderGeneratedNodes
+
+@[expose] public section
 
 /-!
 # The uniform node hypothesis implies the complete provider premise

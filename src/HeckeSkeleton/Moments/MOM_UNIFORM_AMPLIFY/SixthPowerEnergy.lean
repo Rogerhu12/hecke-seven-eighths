@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerDivisorIdentity
-import HeckeGeneral.Analysis.ExteriorIdealCounting
-import HeckeGeneral.Analysis.IndependentAmplifierOptimization
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerDivisorIdentity
+public import HeckeGeneral.Analysis.ExteriorIdealCounting
+public import HeckeGeneral.Analysis.IndependentAmplifierOptimization
+
+@[expose] public section
 
 /-!
 # Amplification over complete ideal rows

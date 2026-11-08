@@ -1,5 +1,11 @@
-import ActualSexticOriginalChartMean
-import SIntegerSexticRIdentification
+module
+
+public import ActualSexticOriginalChartMean
+public import SIntegerSexticRIdentification
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. The literal original coefficient is bounded by
 the actual norm of C, uniformly in both columns, the same Mobius divisor,

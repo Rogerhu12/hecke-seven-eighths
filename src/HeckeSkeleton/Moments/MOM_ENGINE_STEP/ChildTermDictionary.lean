@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildMomentDataAdapter
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ChildMomentDataAdapter
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
+
+@[expose] public section
 
 /-!
 # Actual child polynomials from single-ideal character dictionaries

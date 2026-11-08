@@ -1,10 +1,14 @@
-import HeckeGeneral.Characters.HeckeCharacter
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibTopologyComparison
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.ArithmeticNormalization
-import GaloisCohomology.Kummer.Concrete.SimpleExtension
-import GaloisCohomology.Kummer.Concrete.FiniteDualSeparation
-import Mathlib.FieldTheory.KrullTopology
-import Mathlib.Tactic.NormNum
+module
+
+public import HeckeGeneral.Characters.HeckeCharacter
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibTopologyComparison
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.ArithmeticNormalization
+public import GaloisCohomology.Kummer.Concrete.SimpleExtension
+public import GaloisCohomology.Kummer.Concrete.FiniteDualSeparation
+public import Mathlib.FieldTheory.KrullTopology
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11.

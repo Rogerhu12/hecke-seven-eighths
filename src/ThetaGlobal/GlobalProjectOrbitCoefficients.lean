@@ -1,8 +1,12 @@
-import ThetaGlobal.GlobalProjectWeightedDigits
-import ThetaGlobal.GlobalProjectSignedExtraction
-import DedekindZetaZeroFree.Theta.Digits.Exterior.GammaInvariantCoefficients
-import DedekindZetaZeroFree.Theta.Digits.SphericalValueBounds
-import DedekindZetaZeroFree.Theta.Unfolding.ForwardFiberSupport
+module
+
+public import ThetaGlobal.GlobalProjectWeightedDigits
+public import ThetaGlobal.GlobalProjectSignedExtraction
+public import DedekindZetaZeroFree.Theta.Digits.Exterior.GammaInvariantCoefficients
+public import DedekindZetaZeroFree.Theta.Digits.SphericalValueBounds
+public import DedekindZetaZeroFree.Theta.Unfolding.ForwardFiberSupport
+
+@[expose] public section
 
 /-!
 # Actual exterior coefficients are invariant under sixth S-units

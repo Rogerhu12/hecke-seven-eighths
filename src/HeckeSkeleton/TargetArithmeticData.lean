@@ -1,4 +1,8 @@
-import HeckeSkeleton.Theta
+module
+
+public import HeckeSkeleton.Theta
+
+@[expose] public section
 
 /-! Compatibility import for the shared target arithmetic calibration.
 

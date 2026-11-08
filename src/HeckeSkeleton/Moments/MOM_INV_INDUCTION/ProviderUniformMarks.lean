@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderFiniteClosure
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderFiniteClosure
+
+@[expose] public section
 
 /-!
 # Uniformity in the original total mark length

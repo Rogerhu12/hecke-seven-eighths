@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.LogFourierDecay
-import HeckeSkeleton.SmallRadius.ActualOrbitalPositiveMoment
+module
+
+public import HeckeSkeleton.HighBinSupport.LogFourierDecay
+public import HeckeSkeleton.SmallRadius.ActualOrbitalPositiveMoment
+
+@[expose] public section
+
 /-!
 Rapid vertical decay of the literal orbital Mellin transform.
 

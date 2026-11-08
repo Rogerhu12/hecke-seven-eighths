@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.Core
-import HeckeSkeleton.ExpansionModels.OriginalMask
-import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
-import ExpansionDetector.AnnularNormalization
+module
+
+public import HeckeSkeleton.ExpansionModels.Core
+public import HeckeSkeleton.ExpansionModels.OriginalMask
+public import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
+public import ExpansionDetector.AnnularNormalization
+
+@[expose] public section
 
 /-!
 # The actual recipe values are the normalized detector polynomials

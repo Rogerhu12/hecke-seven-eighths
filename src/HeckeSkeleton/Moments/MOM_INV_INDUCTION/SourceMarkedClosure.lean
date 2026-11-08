@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedRawBound
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedActual
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedUniform
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCanonicalClosure
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedRawBound
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedActual
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedUniform
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCanonicalClosure
+
+@[expose] public section
 
 /-!
 # The original marked inverse moment

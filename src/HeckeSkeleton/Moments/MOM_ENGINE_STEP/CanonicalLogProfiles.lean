@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Original profiles with their actual log-norm Fourier factors

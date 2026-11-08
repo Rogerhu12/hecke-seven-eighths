@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
-import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
-import HeckePort.Moments.Descent.SieveComposition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
+public import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+public import HeckePort.Moments.Descent.SieveComposition
+
+@[expose] public section
 
 /-!
 # Positive energy of the exact reopened Mellin polynomial

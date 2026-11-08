@@ -1,6 +1,10 @@
-import CubicSieve.CubicCharacters
-import ArithmeticFrequencyRowConductorNorm
-import HeckeGeneral.Characters.ConductorArithmetic
+module
+
+public import CubicSieve.CubicCharacters
+public import ArithmeticFrequencyRowConductorNorm
+public import HeckeGeneral.Characters.ConductorArithmetic
+
+@[expose] public section
 
 /-!
 Actual finite conductor bounds and separation for the cubic Kummer family.

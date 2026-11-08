@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteBranchMeasure
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionBranch
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
-import Mathlib.MeasureTheory.MeasurableSpace.Constructions
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteBranchMeasure
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionBranch
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+public import Mathlib.MeasureTheory.MeasurableSpace.Constructions
+
+@[expose] public section
 
 /-!
 # One fixed parameter space for strict and reflected calls

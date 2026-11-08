@@ -1,5 +1,9 @@
-import HeckeGeneral.Bridge.SIntegerFourierFactorization
-import HeckeGeneral.Characters.LocalStandardAnnihilator
+module
+
+public import HeckeGeneral.Bridge.SIntegerFourierFactorization
+public import HeckeGeneral.Characters.LocalStandardAnnihilator
+
+@[expose] public section
 
 /-! Actual principal dual support after adjoining the different primes to S. -/
 

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationBound
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePowerGcd
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
-import DedekindZetaZeroFree.Theta.Unfolding.UnitOrbitNormSummability
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationBound
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PrimePowerGcd
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualPool
+public import DedekindZetaZeroFree.Theta.Unfolding.UnitOrbitNormSummability
+
+@[expose] public section
 
 /-!
 # Actual common-frequency extraction

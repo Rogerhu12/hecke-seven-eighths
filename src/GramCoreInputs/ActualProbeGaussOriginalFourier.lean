@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import SIntegerSexticOriginalFullTraceFourier
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import SIntegerSexticOriginalFullTraceFourier
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The physical probe's ideal-quotient Gauss sums are

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UniformLengthCapacity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UniformLengthCapacity
+
+@[expose] public section
 
 /-!
 # Induction invariants of the actual allocated children

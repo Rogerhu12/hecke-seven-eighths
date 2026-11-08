@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.GlobalIntegralCharacter
-import Mathlib.Algebra.Group.Pi.Units
-import Mathlib.NumberTheory.MulChar.Basic
+module
+
+public import HeckeGeneral.Characters.GlobalIntegralCharacter
+public import Mathlib.Algebra.Group.Pi.Units
+public import Mathlib.NumberTheory.MulChar.Basic
+
+@[expose] public section
 
 /-! The finite conductor character on the actual global integer residue ring. -/
 

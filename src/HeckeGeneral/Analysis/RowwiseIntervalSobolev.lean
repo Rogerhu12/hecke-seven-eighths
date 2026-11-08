@@ -1,5 +1,9 @@
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.DistLEIntegral
-import Mathlib.Analysis.InnerProductSpace.Calculus
+module
+
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.DistLEIntegral
+public import Mathlib.Analysis.InnerProductSpace.Calculus
+
+@[expose] public section
 
 /-! An elementary rowwise Sobolev consumer. There are no arithmetic or
 moment hypotheses: the derivative and its continuity are explicit, and the

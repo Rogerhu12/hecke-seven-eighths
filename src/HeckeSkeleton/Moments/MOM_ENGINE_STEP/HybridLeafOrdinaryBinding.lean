@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridZeroRowSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridZeroRowSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+
+@[expose] public section
 
 /-!
 # Literal finite leaves enter the ordinary child producer

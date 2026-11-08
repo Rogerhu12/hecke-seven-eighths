@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoverHybridPhaseIntegral
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoverHybridPhaseIntegral
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridLeafSupport
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

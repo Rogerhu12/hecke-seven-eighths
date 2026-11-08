@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerModulus
-import HeckeGeneral.Arithmetic.IdealFactorization
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulus
+public import HeckeGeneral.Arithmetic.IdealFactorization
+
+@[expose] public section
 
 /-!
 # Completed local residues of an actual S-integer modulus

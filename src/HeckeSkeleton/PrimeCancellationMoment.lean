@@ -1,11 +1,15 @@
-import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Source
-import HeckeSkeleton.PrimeCancellationPolynomials
-import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
-import PrimeCancellationAux
-import PrimeCancellationPaired
-import PrimeCancellationMaskCount
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeSkeleton.ExplicitHeckeFunctionalEquation
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Source
+public import HeckeSkeleton.PrimeCancellationPolynomials
+public import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
+public import PrimeCancellationAux
+public import PrimeCancellationPaired
+public import PrimeCancellationMaskCount
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeSkeleton.ExplicitHeckeFunctionalEquation
+
+@[expose] public section
 
 /-!
 # Actual prime-slot moment adapters

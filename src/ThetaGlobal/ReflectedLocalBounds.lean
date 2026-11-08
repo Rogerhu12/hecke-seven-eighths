@@ -1,4 +1,8 @@
-import ThetaGlobal.ReflectedAbsoluteCore
+module
+
+public import ThetaGlobal.ReflectedAbsoluteCore
+
+@[expose] public section
 
 /-!
 # Uniform bounds for finite-digit Weyl coefficients

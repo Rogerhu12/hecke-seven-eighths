@@ -1,5 +1,9 @@
-import ActualFixedSBoxDenominator
-import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
+module
+
+public import ActualFixedSBoxDenominator
+public import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. A single unit of the original subgroup puts the

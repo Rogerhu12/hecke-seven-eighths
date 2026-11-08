@@ -1,7 +1,11 @@
-import Mathlib
-import HeckeGeneral.Bridge.ChallengeCoefficients
-import HeckeGeneral.Analysis.ChallengeContinuation
-import HeckeSkeleton.Main
+module
+
+public import Mathlib
+public import HeckeGeneral.Bridge.ChallengeCoefficients
+public import HeckeGeneral.Analysis.ChallengeContinuation
+public import HeckeSkeleton.Main
+
+@[expose] public section
 
 /-!
 # Solution: unitary Hecke L-functions have no zeros in Re(s) > 7/8
@@ -10,19 +14,6 @@ The four definitions below are copied verbatim from the independent Challenge.
 The coefficient and analytic bridges live in HeckeGeneral. This module does not
 import the Challenge; the comparator checks their declarations independently.
 -/
-
-section challengeInstances
-
--- Legacy imports also expose the private completion shortcuts in this FLT module.
--- Hide their instance attributes in this section so that the verbatim definitions
--- below select the same Mathlib instances as the Challenge's public module imports.
-run_elab do
-  let shortcutPrefix := Lean.mkPrivateNameCore `FLTReuse.Ma6dd0c4d713fb96a
-    `IsDedekindDomain.HeightOneSpectrum
-  let instances := (Lean.Meta.instanceExtension.getState (← Lean.getEnv)).instanceNames
-  for (name, _) in instances do
-    if shortcutPrefix.isPrefixOf name then
-      Lean.Attribute.erase name `instance
 
 namespace HeckeSevenEighths
 
@@ -96,5 +87,3 @@ theorem heckeL_zeroFree (K : Type) [Field K] [NumberField K] (χ : HeckeCharacte
 end
 
 end HeckeSevenEighths
-
-end challengeInstances

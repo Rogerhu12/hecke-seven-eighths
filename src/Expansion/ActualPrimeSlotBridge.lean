@@ -1,4 +1,8 @@
-import Expansion.ActualMaskedPrimeCancellation
+module
+
+public import Expansion.ActualMaskedPrimeCancellation
+
+@[expose] public section
 
 /-!
 # The actual shared prime slot and finite-height cancellation

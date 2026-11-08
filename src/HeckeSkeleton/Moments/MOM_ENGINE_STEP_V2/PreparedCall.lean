@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceFrame
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalInput
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceFrame
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CompleteSourceBudgets
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

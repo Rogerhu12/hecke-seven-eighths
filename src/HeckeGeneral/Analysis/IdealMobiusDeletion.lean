@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealMobiusReciprocal
-import HeckeGeneral.Analysis.HeckeEulerDeletion
+module
+
+public import HeckeGeneral.Analysis.IdealMobiusReciprocal
+public import HeckeGeneral.Analysis.HeckeEulerDeletion
+
+@[expose] public section
 
 /-!
 Fixed finite prime deletion for the actual Moebius--Hecke ideal series.

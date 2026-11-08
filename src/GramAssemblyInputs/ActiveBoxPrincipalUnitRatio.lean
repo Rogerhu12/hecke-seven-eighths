@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitFinitePartitionBox
-import HeckeGeneral.Characters.PrincipalUnitFiltration
-import ClassFieldTheory.AlgebraicNumberTheory.RayClass.Topology
+module
+
+public import HeckeGeneral.Analysis.SUnitFinitePartitionBox
+public import HeckeGeneral.Characters.PrincipalUnitFiltration
+public import ClassFieldTheory.AlgebraicNumberTheory.RayClass.Topology
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. A positive additive congruence depth preserves the

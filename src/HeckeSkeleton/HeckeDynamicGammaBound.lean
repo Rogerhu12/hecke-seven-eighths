@@ -1,5 +1,9 @@
-import HeckeSkeleton.HeckeFixedTypeGammaBound
-import HeckeSkeleton.HeckeGammaQualitativeGrowth
+module
+
+public import HeckeSkeleton.HeckeFixedTypeGammaBound
+public import HeckeSkeleton.HeckeGammaQualitativeGrowth
+
+@[expose] public section
 
 /-!
 A polynomial Gamma bound on the complete dynamic-w interval of a high row.

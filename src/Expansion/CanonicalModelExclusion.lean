@@ -1,6 +1,10 @@
-import Expansion.CanonicalDetectorCharacters
-import Expansion.PhysicalRowPoleExclusion
-import HeckeGeneral.Characters.RadialNormalization
+module
+
+public import Expansion.CanonicalDetectorCharacters
+public import Expansion.PhysicalRowPoleExclusion
+public import HeckeGeneral.Characters.RadialNormalization
+
+@[expose] public section
 
 /-!
 # Full model exclusion and eventual physical row eligibility

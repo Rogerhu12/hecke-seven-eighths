@@ -1,5 +1,9 @@
-import FLTReuse.Mbfe19ea9534a55ec
-import FLTReuse.M3c68c1555d4fc687
+module
+
+public import FLTReuse.Mbfe19ea9534a55ec
+public import FLTReuse.M3c68c1555d4fc687
+
+@[expose] public section
 
 set_option autoImplicit false
 

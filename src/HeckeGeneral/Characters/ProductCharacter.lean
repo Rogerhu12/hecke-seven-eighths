@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SmallSubgroups
-import Mathlib.Algebra.BigOperators.Pi
+module
+
+public import HeckeGeneral.Characters.SmallSubgroups
+public import Mathlib.Algebra.BigOperators.Pi
+
+@[expose] public section
 
 /-! Finite coordinate dependence for continuous circle characters on products. -/
 

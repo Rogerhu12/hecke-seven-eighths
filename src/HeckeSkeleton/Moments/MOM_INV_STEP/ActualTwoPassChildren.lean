@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstToSecondData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstToSecondData
+
+@[expose] public section
 
 /-!
 # Actual two-pass columns and their original finite mark coefficients

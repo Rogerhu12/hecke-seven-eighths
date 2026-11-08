@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNode
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorRowMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNode
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorRowMass
+
+@[expose] public section
 
 /-!
 # The literal short node contribution and its label normalization

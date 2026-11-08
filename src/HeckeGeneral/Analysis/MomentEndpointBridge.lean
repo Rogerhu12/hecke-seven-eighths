@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeGeneral.Analysis.HeckeEndpointTarget
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeGeneral.Analysis.HeckeEndpointTarget
+
+@[expose] public section
 
 /-!
 # Actual finite-order premise of the paired fourth moment

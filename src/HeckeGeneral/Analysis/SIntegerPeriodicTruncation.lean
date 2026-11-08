@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SIntegerPeriodicFourierTail
+module
+
+public import HeckeGeneral.Analysis.SIntegerPeriodicFourierTail
+
+@[expose] public section
 
 /-! Actual finite orbit cutoffs and certified periodic Fourier truncation.
 The full sum is proved summable from its finite head and summable tail. -/

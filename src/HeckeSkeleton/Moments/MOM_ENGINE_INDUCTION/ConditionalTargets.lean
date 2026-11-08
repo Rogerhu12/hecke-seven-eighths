@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepHypothesis
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepHypothesis
+
+@[expose] public section
 
 /-!
 # The three actual paired moment targets from the explicit single step

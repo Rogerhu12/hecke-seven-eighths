@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPhysicalCaps
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualProductionBoxes
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorSource
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPhysicalCaps
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualProductionBoxes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorSource
+
+@[expose] public section
 
 /-!
 # The prescribed first physical cap is constructed before production

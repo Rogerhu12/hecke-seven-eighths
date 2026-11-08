@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.SLocalRadialMellinIntegral
-import Mathlib.MeasureTheory.Integral.Pi
+module
+
+public import HeckeSkeleton.SmallRadius.SLocalRadialMellinIntegral
+public import Mathlib.MeasureTheory.Integral.Pi
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

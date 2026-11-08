@@ -1,7 +1,11 @@
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import Mathlib.RingTheory.Complex
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M09acf99a2e80b735
+module
+
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Mathlib.RingTheory.Complex
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M09acf99a2e80b735
+
+@[expose] public section
 
 set_option autoImplicit false
 

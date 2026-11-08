@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SexticResidueCharacter
-import HeckeGeneral.Arithmetic.SIntegerResidue
+module
+
+public import HeckeGeneral.Characters.SexticResidueCharacter
+public import HeckeGeneral.Arithmetic.SIntegerResidue
+
+@[expose] public section
 
 /-!
 # Actual S-integer evaluation of the normalized sextic residue character

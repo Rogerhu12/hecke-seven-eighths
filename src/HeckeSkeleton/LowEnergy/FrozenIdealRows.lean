@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.IdealRows
-import HeckeSkeleton.LowFrozenCube.Exponents
+module
+
+public import HeckeSkeleton.LowEnergy.IdealRows
+public import HeckeSkeleton.LowFrozenCube.Exponents
+
+@[expose] public section
 
 /-!
 # Frozen numerator and complete cube on actual nonzero ideals

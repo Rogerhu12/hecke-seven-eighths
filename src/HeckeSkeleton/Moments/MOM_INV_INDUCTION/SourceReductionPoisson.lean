@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.InverseRowMajorant
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.InverseRowMajorant
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+
+@[expose] public section
 
 /-!
 # The literal initial inverse polynomial and its first Poisson transform

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondSource
+
+@[expose] public section
 
 /-!
 # The two actual first-source terminal costs

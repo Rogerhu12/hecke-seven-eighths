@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial
+module
+
+public import HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial
+
+@[expose] public section
 
 /-!
 # The general marked-energy threshold and exponent

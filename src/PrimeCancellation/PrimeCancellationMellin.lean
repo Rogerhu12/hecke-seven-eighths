@@ -7,13 +7,17 @@ openai/math, commit fd4aeeb2,
 OAI/NumberTheory/DirichletL/Eisenstein/SourceMellinInversion.lean.
 No OAI or number-field project module is imported.
 -/
-import Mathlib.Analysis.MellinInversion
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Analysis.MellinInversion
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.MeasureTheory.Integral.Bochner.SumMeasure
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Compactly supported Mellin inversion for weighted Dirichlet series

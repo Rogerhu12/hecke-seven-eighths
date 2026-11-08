@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PhaseDictionary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticPrimePool
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PhaseDictionary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ArithmeticPrimePool
+
+@[expose] public section
 
 /-!
 # The first residual Gauss columns are the actual amplifier columns

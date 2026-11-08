@@ -1,7 +1,11 @@
-import Mathlib.NumberTheory.GaussSum
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.FieldTheory.Finite.Basic
-import Mathlib.Tactic
+module
+
+public import Mathlib.NumberTheory.GaussSum
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.FieldTheory.Finite.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # Finite residue-field calculations for exterior theta digits

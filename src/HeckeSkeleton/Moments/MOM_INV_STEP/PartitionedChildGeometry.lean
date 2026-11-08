@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredChildGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CenteredChildGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+
+@[expose] public section
 
 /-!
 # Descent margins after the actual fixed smooth test partition

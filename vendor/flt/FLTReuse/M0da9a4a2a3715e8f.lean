@@ -1,8 +1,13 @@
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M2a2f532b3e0b3dc8
-import FLTReuse.Mbb4ca29c119a4960
-import FLTReuse.Mcd898a60de22b19f
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M2a2f532b3e0b3dc8
+public import FLTReuse.Mbb4ca29c119a4960
+public import FLTReuse.Mcd898a60de22b19f
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_stdRootNumberAt_mul_of_hasConductorExponentAt_zero
 attribute [-instance] NumberField.instCompactSpaceAdicCompletionIntegers Rat.adicCompletion.locallyCompactSpace NumberField.instFiniteResidueFieldAdicCompletionIntegers     IsDedekindDomain.HeightOneSpectrum.instLiesOverSubtypeAdicCompletionMemValuationSubringAdicCompletionIntegersCompletionIdealAsIdeal   
 

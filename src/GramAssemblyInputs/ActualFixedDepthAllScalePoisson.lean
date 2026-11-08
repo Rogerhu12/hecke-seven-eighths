@@ -1,5 +1,9 @@
-import ActualFixedDepthPoissonBound
-import NonzeroLatticeAllScaleCount
+module
+
+public import ActualFixedDepthPoissonBound
+public import NonzeroLatticeAllScaleCount
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The same actual product-lattice periodic sum has a

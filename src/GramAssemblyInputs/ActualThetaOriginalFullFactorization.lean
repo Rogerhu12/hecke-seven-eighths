@@ -1,7 +1,11 @@
-import ActualThetaGeneratorDivision
-import ActualProbeGaussOriginalFourier
-import SIntegerSexticPIDFullFactorization
-import SIntegerSexticFullCorrelationSupport
+module
+
+public import ActualThetaGeneratorDivision
+public import ActualProbeGaussOriginalFourier
+public import SIntegerSexticPIDFullFactorization
+public import SIntegerSexticFullCorrelationSupport
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Natural exterior ideal factorizations I=C*N1 and

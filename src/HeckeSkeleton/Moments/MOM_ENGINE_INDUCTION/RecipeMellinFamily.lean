@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMellinInduction
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchParameterTransport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeMellinInduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeDataReflectionFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchParameterTransport
+
+@[expose] public section
 
 /-!
 # Assembling the actual recipe reflection family with Mellin strict calls

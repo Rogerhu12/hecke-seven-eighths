@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTheta
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderPuncture
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTheta
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderPuncture
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+
+@[expose] public section
 
 /-!
 # Literal canonical families enter the completed theta source

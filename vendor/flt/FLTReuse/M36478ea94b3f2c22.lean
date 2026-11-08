@@ -1,5 +1,10 @@
-import FLTReuse.Mb34f70d821d13751
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mb34f70d821d13751
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_CubicInduction_re_eq_zero_of_isArchCompAt_of_isUnitaryChar
 
 set_option autoImplicit false

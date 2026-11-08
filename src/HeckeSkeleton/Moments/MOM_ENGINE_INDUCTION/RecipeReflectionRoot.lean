@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalSourceRoot
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionPrimitiveFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalSourceRoot
+
+@[expose] public section
 
 /-!
 # One source preparation for every literal reflection root

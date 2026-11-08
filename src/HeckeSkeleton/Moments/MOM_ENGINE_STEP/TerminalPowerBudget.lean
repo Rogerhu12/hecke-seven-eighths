@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+
+@[expose] public section
 
 /-!
 # The elementary common-cutoff tail budget

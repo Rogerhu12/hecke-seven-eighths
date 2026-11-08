@@ -1,5 +1,9 @@
-import ActualFixedBoxTotalNormSeminormBound
-import HeckeGeneral.Analysis.TraceMovingPhaseBounds
+module
+
+public import ActualFixedBoxTotalNormSeminormBound
+public import HeckeGeneral.Analysis.TraceMovingPhaseBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Original joint Schwartz seminorms at the actual

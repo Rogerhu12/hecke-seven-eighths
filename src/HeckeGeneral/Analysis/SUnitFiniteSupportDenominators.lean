@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SUnitCompactDenominators
-import HeckeGeneral.Arithmetic.SLocalNormSection
-import HeckeGeneral.Analysis.SUnitHaar
+module
+
+public import HeckeGeneral.Arithmetic.SUnitCompactDenominators
+public import HeckeGeneral.Arithmetic.SLocalNormSection
+public import HeckeGeneral.Analysis.SUnitHaar
+
+@[expose] public section
 
 /-!
 # Uniform denominators selected by compact finite-place support

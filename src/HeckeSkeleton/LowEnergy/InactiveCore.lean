@@ -1,8 +1,12 @@
-import HeckeSkeleton.LowEnergy.TupleCore
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Positivity
+module
+
+public import HeckeSkeleton.LowEnergy.TupleCore
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!
 # Inactive coefficients: exact separation and L1 assembly

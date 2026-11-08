@@ -1,5 +1,9 @@
-import ActualSIntegerDivisorColumn
-import ActualSexticClearedColumnProfile
+module
+
+public import ActualSIntegerDivisorColumn
+public import ActualSexticClearedColumnProfile
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Exact ordinary-coordinate reindexing of an actual

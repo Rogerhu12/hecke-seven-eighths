@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.TraceProductLattice
-import Mathlib.LinearAlgebra.Basis.Prod
-import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
-import Mathlib.Topology.Homeomorph.Lemmas
+module
+
+public import HeckeGeneral.Analysis.TraceProductLattice
+public import Mathlib.LinearAlgebra.Basis.Prod
+public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+public import Mathlib.Topology.Homeomorph.Lemmas
+
+@[expose] public section
 
 /-!
 # Covolume of the actual two-column trace lattice

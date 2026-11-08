@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
+
+@[expose] public section
 
 /-!
 # Original factor dictionaries feed the actual hybrid child producer

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalHeckePrimeAnalytic
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFiniteKernelMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalHeckePrimeAnalytic
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.UnrestrictedSixthCapacity
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFiniteKernelMass
+
+@[expose] public section
 
 /-!
 # The full-kappa input constructs the same normalized side and Fourier radius

@@ -1,17 +1,21 @@
-import HeckeSkeleton.Base
-import HeckeSkeleton.Theta
-import HeckeSkeleton.HighArithmeticInputs
-import HeckeGeneral.Analysis.BufferedPhysicalRowBin
-import HeckeGeneral.Analysis.RowEulerNegativeStrip
-import HeckeGeneral.Characters.LocalConductor
-import HeckeSkeleton.HighBinSupport.ActualRegularEuler
-import HeckeSkeleton.HighBinSupport.ActualTargetEuler
-import ExpansionInterfaces.BufferedHeights
-import Expansion.ActualPhysicalRecipePresentation
-import Expansion.PhysicalRecipeFiniteSums
-import Expansion.PowerHeightTailAlgebra
-import HeckeSkeleton.HighBinSupport.ActualPhysicalBoundary
-import HeckeSkeleton.HighBinSupport.ActualPhysicalScheduledNorm
+module
+
+public import HeckeSkeleton.Base
+public import HeckeSkeleton.Theta
+public import HeckeSkeleton.HighArithmeticInputs
+public import HeckeGeneral.Analysis.BufferedPhysicalRowBin
+public import HeckeGeneral.Analysis.RowEulerNegativeStrip
+public import HeckeGeneral.Characters.LocalConductor
+public import HeckeSkeleton.HighBinSupport.ActualRegularEuler
+public import HeckeSkeleton.HighBinSupport.ActualTargetEuler
+public import ExpansionInterfaces.BufferedHeights
+public import Expansion.ActualPhysicalRecipePresentation
+public import Expansion.PhysicalRecipeFiniteSums
+public import Expansion.PowerHeightTailAlgebra
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalBoundary
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalScheduledNorm
+
+@[expose] public section
 
 /-!
 Actual high-bin estimates for revised Proposition 6.3(ii), printed pp.41–42,

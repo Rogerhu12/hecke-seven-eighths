@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SIntegerMaskedOrbitalPoisson
+module
+
+public import HeckeGeneral.Analysis.SIntegerMaskedOrbitalPoisson
+
+@[expose] public section
 
 /-!
 # Two genuine masked orbital Poisson transformations

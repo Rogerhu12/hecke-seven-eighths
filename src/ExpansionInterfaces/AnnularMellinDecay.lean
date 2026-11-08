@@ -1,6 +1,10 @@
-import ExpansionInterfaces.AnnularMellinProfile
-import HeckeSkeleton.ExpansionModels.LogTwistedProfiles
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+module
+
+public import ExpansionInterfaces.AnnularMellinProfile
+public import HeckeSkeleton.ExpansionModels.LogTwistedProfiles
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+
+@[expose] public section
 
 /-!
 # Uniform Mellin-strip decay and arbitrary finite-height tail orders

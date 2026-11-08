@@ -1,8 +1,12 @@
-import ArithmeticSexticKummerLocalComponent
-import HeckeGeneral.Characters.Unramified
-import HeckeGeneral.Arithmetic.SIntegerModulusValuation
-import HeckeGeneral.Analysis.FrequencyRowOrbit
-import ClassFieldTheory.KummerTheory.Concrete.SimpleExtensionLocalBehavior
+module
+
+public import ArithmeticSexticKummerLocalComponent
+public import HeckeGeneral.Characters.Unramified
+public import HeckeGeneral.Arithmetic.SIntegerModulusValuation
+public import HeckeGeneral.Analysis.FrequencyRowOrbit
+public import ClassFieldTheory.KummerTheory.Concrete.SimpleExtensionLocalBehavior
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No compiler was launched.

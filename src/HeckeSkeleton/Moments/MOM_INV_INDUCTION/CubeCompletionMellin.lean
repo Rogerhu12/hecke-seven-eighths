@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.MellinSeparation
-import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
-import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MellinSeparation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzTestPartition
+
+@[expose] public section
 
 /-!
 # Exact common-profile separation of a reopened cube block

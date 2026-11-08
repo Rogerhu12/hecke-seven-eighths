@@ -1,6 +1,10 @@
-import FiniteSUnitPowerDetectors
-import HeckeGeneral.Arithmetic.SIntegerExteriorValuationRealization
-import Mathlib.GroupTheory.QuotientGroup.Basic
+module
+
+public import FiniteSUnitPowerDetectors
+public import HeckeGeneral.Arithmetic.SIntegerExteriorValuationRealization
+public import Mathlib.GroupTheory.QuotientGroup.Basic
+
+@[expose] public section
 
 /-!
 UNCOMPILED independent allowed-generator construction candidate, 2026-10-11.

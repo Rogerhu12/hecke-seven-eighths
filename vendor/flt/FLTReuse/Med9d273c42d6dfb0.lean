@@ -1,13 +1,18 @@
-import FLTReuse.M81477154c83a610e
-import FLTReuse.Mb8f476785919d863
-import FLTReuse.M9d41298c0e4654c9
-import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
-import Mathlib.Analysis.Fourier.FourierTransformDeriv
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
-import Mathlib.LinearAlgebra.Complex.FiniteDimensional
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.Mb8f476785919d863
+public import FLTReuse.M9d41298c0e4654c9
+public import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
+public import Mathlib.Analysis.Fourier.FourierTransformDeriv
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.InnerProductSpace.Calculus
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Complex
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_ArchPlace_tateFourier_psiComplex_complexTestFun
 
 set_option autoImplicit false

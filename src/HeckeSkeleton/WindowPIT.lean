@@ -1,5 +1,9 @@
-import HeckeSkeleton.WindowPIT.FromCounting
-import HeckeSkeleton.WindowPIT.Counting
+module
+
+public import HeckeSkeleton.WindowPIT.FromCounting
+public import HeckeSkeleton.WindowPIT.Counting
+
+@[expose] public section
 
 /-! The original prime window lower bound, using the unconditional prime ideal theorem. -/
 

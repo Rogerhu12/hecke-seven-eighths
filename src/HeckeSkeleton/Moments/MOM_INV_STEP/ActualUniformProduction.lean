@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualClosedBoxBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedReduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstWeightChoice
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualClosedBoxBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedReduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstWeightChoice
+
+@[expose] public section
 
 /-!
 # Uniform pointwise production from the original normalized source

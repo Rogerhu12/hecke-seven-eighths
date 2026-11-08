@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedLogMellin
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedPhysical
+
+@[expose] public section
 
 /-! The fixed supported tests and exact complete-pool physical bridge. -/
 

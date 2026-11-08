@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+
+@[expose] public section
 
 /-!
 # Actual source rows retain their joint row and moving-mask budget

@@ -1,5 +1,9 @@
-import ActualAdditiveGramPoissonAssembly
-import ActualProbePairOrbitalPoisson
+module
+
+public import ActualAdditiveGramPoissonAssembly
+public import ActualProbePairOrbitalPoisson
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The literal Am square on the ORIGINAL sixth-unit

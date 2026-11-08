@@ -1,8 +1,12 @@
-import HeckeSkeleton.LowEnergy.TupleCore
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.Finset.SDiff
-import Mathlib.Data.Finset.Card
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeSkeleton.LowEnergy.TupleCore
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Data.Finset.SDiff
+public import Mathlib.Data.Finset.Card
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # Exact selected, active and inactive slot reconstruction

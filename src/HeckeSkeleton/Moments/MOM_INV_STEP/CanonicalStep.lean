@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFirstTotalBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualStepGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedParent
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentErrorBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalCenters
-import HeckeSkeleton.Moments.MOM_INV_STEP.FinalStepBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFirstTotalBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualStepGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedParent
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentErrorBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCanonicalCenters
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FinalStepBounds
+
+@[expose] public section
 
 /-!
 # The actual canonical inverse single step

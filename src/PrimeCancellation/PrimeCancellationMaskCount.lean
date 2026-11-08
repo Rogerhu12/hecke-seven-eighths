@@ -2,12 +2,16 @@
 Copyright (c) 2026 OpenAI. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import PrimeCancellationAux
-import PrimeCancellationIdealMask
-import Mathlib.RingTheory.Coprime.Lemmas
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
+module
+
+public import PrimeCancellationAux
+public import PrimeCancellationIdealMask
+public import Mathlib.RingTheory.Coprime.Lemmas
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!
 # Logarithmic cost of a prime-ideal mask

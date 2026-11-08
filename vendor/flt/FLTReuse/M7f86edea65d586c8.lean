@@ -1,6 +1,10 @@
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M5a592845f6938e8f
+module
+
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M5a592845f6938e8f
+
+@[expose] public section
 
 open NumberField AutomorphicForm
 theorem NumberField.AdelicFourier.norm_apply_eq_one_of_isGlobalAddChar (F : Type) [Field F] [NumberField F]

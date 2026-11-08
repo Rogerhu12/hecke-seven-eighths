@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceData
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceData
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
+
+@[expose] public section
 
 /-!
 # Reindexing the canonical source's actual paired polynomial

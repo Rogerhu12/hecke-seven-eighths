@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-!
 # Actual source families for the fourth-moment induction

@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.Losses
-import Mathlib.Algebra.BigOperators.Module
+module
+
+public import HeckeSkeleton.LowHybrid.Losses
+public import Mathlib.Algebra.BigOperators.Module
+
+@[expose] public section
 
 /-!
 # Linear counting gives the uniform harmonic small-power bound

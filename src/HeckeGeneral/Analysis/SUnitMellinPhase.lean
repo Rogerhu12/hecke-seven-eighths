@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TraceMovingPhaseBounds
-import HeckeGeneral.Analysis.SUnitPartitionCovariance
+module
+
+public import HeckeGeneral.Analysis.TraceMovingPhaseBounds
+public import HeckeGeneral.Analysis.SUnitPartitionCovariance
+
+@[expose] public section
 
 /-!
 # The actual total S-local Mellin phase

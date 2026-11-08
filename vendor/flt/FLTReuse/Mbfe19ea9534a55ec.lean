@@ -1,7 +1,11 @@
-import FLTReuse.M6412b964ed6f2b23
-import FLTReuse.Mb3f264e57a104e90
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.Topology.Algebra.RestrictedProduct.TopologicalSpace
+module
+
+public import FLTReuse.M6412b964ed6f2b23
+public import FLTReuse.Mb3f264e57a104e90
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.Topology.Algebra.RestrictedProduct.TopologicalSpace
+
+@[expose] public section
 
 set_option synthInstance.maxHeartbeats 100000
 

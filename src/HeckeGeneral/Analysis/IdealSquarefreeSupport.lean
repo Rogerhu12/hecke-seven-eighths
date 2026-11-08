@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.IdealSquarefreeAmplification
+module
+
+public import HeckeGeneral.Analysis.IdealSquarefreeAmplification
+
+@[expose] public section
 
 /-!
 Reindex an actual finitely supported ideal sum by its squarefree prime subsets.

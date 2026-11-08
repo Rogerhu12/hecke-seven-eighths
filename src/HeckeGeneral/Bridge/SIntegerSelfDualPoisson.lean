@@ -1,8 +1,12 @@
-import HeckeGeneral.Bridge.SIntegerDualSupport
-import FLTReuse.M8531b1869d254748
-import FLTReuse.Md9bb0dc096ff8cbe
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.LinearCombination
+module
+
+public import HeckeGeneral.Bridge.SIntegerDualSupport
+public import FLTReuse.M8531b1869d254748
+public import FLTReuse.Md9bb0dc096ff8cbe
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.LinearCombination
+
+@[expose] public section
 
 /-! Full S-integer Poisson sums for S containing the actual different support.
 The standard character, local Haar factors, and discriminant normalization

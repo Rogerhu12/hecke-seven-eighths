@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnAssembly
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
-import HeckePort.CenteredMoment.IdealMobius
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstColumnAssembly
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMellinEnergy
+public import HeckePort.CenteredMoment.IdealMobius
+
+@[expose] public section
 
 /-!
 # The complete literal first column enters positive Mellin energy

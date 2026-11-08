@@ -1,5 +1,9 @@
-import Expansion.ActualPrincipalPoleLimits
-import Expansion.FiniteTripleContourTransport
+module
+
+public import Expansion.ActualPrincipalPoleLimits
+public import Expansion.FiniteTripleContourTransport
+
+@[expose] public section
 
 /-!
 # Initial finite transport of the actual principal row

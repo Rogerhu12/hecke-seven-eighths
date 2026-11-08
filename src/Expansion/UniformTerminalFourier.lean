@@ -1,5 +1,9 @@
-import Expansion.IdealDyadicExtraction
-import HeckeSkeleton.ExpansionModels.CutoffLogProfile
+module
+
+public import Expansion.IdealDyadicExtraction
+public import HeckeSkeleton.ExpansionModels.CutoffLogProfile
+
+@[expose] public section
 
 /-! Uniform Fourier control of the exact terminal profile used by the ideal
 detector.  The original cutoff and all three scale ratios are retained. -/

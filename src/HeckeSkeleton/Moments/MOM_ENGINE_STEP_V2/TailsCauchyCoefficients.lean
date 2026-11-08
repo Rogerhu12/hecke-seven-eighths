@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstCauchyContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstCauchyContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsOriginalMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowHybrid.PrimeDivisorBounds
-import HeckeSkeleton.LowHybrid.CountingBridge
-import HeckeSkeleton.LowHybrid.NaturalLosses
+module
+
+public import HeckeSkeleton.LowHybrid.PrimeDivisorBounds
+public import HeckeSkeleton.LowHybrid.CountingBridge
+public import HeckeSkeleton.LowHybrid.NaturalLosses
+
+@[expose] public section
 
 /-!
 # The actual divisor and harmonic losses from linear ideal counting

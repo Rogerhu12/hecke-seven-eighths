@@ -1,4 +1,8 @@
-import HeckePort.Moments.Local
+module
+
+public import HeckePort.Moments.Local
+
+@[expose] public section
 
 /-!
 # Heterogeneous CRT decomposition of full correlations

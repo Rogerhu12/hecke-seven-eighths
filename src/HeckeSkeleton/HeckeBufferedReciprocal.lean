@@ -1,6 +1,10 @@
-import HeckeSkeleton.BufferedReciprocal
-import HeckeSkeleton.ActualEulerLogarithm
-import HeckeGeneral.Analysis.TInputRanges
+module
+
+public import HeckeSkeleton.BufferedReciprocal
+public import HeckeSkeleton.ActualEulerLogarithm
+public import HeckeGeneral.Analysis.TInputRanges
+
+@[expose] public section
 
 /-!
 Actual Hecke specialization of the logarithmic-control theorem. A physical

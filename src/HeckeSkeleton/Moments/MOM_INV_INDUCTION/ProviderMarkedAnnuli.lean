@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedTests
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedScale
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget
+
+@[expose] public section
 
 /-!
 # A fixed finite annular partition after common-prime extraction

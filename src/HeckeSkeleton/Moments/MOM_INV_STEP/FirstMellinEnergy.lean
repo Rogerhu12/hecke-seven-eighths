@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
-import HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompleteFamily
+public import HeckeSkeleton.Moments.MOM_INV_STEP.InverseSpectralEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+
+@[expose] public section
 
 /-!
 # Genuine Mellin Cauchy for the complete first inverse columns

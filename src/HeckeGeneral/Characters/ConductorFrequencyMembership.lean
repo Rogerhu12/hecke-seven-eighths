@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.LocalCanonicalFrequency
-import Mathlib.RingTheory.DedekindDomain.Factorization
-import Mathlib.NumberTheory.NumberField.Discriminant.Different
+module
+
+public import HeckeGeneral.Characters.LocalCanonicalFrequency
+public import Mathlib.RingTheory.DedekindDomain.Factorization
+public import Mathlib.NumberTheory.NumberField.Discriminant.Different
+
+@[expose] public section
 
 /-! Arithmetic membership bounds for actual conductor frequencies.
 

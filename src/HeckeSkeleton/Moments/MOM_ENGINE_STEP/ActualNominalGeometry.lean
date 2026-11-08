@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMassBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotMeshPreservation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+
+@[expose] public section
 
 /-!
 # The capacity ledger from original ideal norms and scale windows

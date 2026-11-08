@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FrozenScalarMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondSourceNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FrozenScalarMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedActualCapacityChild
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondSourceNormalization
+
+@[expose] public section
 
 /-!
 # Canonical arithmetic bounds for the actual capacity-child weight

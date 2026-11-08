@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.LargeRowCorrection
+module
+
+public import HeckeSkeleton.ExpansionModels.LargeRowCorrection
+
+@[expose] public section
 
 /-!
 # Uniform actual full-correction bounds on positive outer strips

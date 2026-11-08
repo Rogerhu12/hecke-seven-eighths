@@ -1,4 +1,8 @@
-import ActualProbeFiniteFrequencyExpansion
+module
+
+public import ActualProbeFiniteFrequencyExpansion
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. A compact enlargement of the actual additive support

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentColumnPhaseBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentColumnPhaseBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianAtlas
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+
+@[expose] public section
 
 /-!
 # The original parent has its own actual Cartesian atlas

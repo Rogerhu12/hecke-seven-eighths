@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRawAtomData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryOriginalCoordinates
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryOriginalTerms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryNormProfile
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryPhaseCoefficients
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRawAtomData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryOriginalCoordinates
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryOriginalTerms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryNormProfile
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryPhaseCoefficients
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

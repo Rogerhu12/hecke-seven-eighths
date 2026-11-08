@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportKernelPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportKernelPartition
+
+@[expose] public section
 
 /-!
 # Canonical occurrence partitions of a common-support source

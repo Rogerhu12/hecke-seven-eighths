@@ -2,10 +2,14 @@
 Copyright (c) 2026 OpenAI. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import PrimeCancellationFixedWindow
-import PrimeCancellationPrimeSeries
-import PrimeCancellationMaskCount
-import PrimeCancellationUniformity
+module
+
+public import PrimeCancellationFixedWindow
+public import PrimeCancellationPrimeSeries
+public import PrimeCancellationMaskCount
+public import PrimeCancellationUniformity
+
+@[expose] public section
 
 /-!
 # Model-independent prime cancellation

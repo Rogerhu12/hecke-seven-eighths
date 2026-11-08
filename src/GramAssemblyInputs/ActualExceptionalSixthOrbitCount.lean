@@ -1,5 +1,9 @@
-import ActualExceptionalSixthIdealCount
-import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+module
+
+public import ActualExceptionalSixthIdealCount
+public import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. Transfer the exceptional-ideal count to the existing

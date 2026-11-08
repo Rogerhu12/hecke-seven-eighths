@@ -1,7 +1,11 @@
-import GeneratorMaskWitness
-import ActualRowBallDualChartIntegrand
-import ActualGramJointKernelIdentification
-import HeckeGeneral.Analysis.SUnitPartitionCovariance
+module
+
+public import GeneratorMaskWitness
+public import ActualRowBallDualChartIntegrand
+public import ActualGramJointKernelIdentification
+public import HeckeGeneral.Analysis.SUnitPartitionCovariance
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. For the SAME adjusted-generator witness, membership

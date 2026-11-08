@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.PrimeCoefficients
-import HeckeGeneral.Arithmetic.IdealCoefficients
-import HeckeGeneral.Analysis.IdealDirichlet
-import HeckeGeneral.Analysis.EulerFactors
+module
+
+public import HeckeGeneral.Characters.PrimeCoefficients
+public import HeckeGeneral.Arithmetic.IdealCoefficients
+public import HeckeGeneral.Analysis.IdealDirichlet
+public import HeckeGeneral.Analysis.EulerFactors
+
+@[expose] public section
 
 /-!
 # The convergent L-series of an actual unitary Hecke character

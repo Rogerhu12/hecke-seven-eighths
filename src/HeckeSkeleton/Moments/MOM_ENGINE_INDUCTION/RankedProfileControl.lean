@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceProfileAnnulus
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependent
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalNodeFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SourceProfileAnnulus
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileTimeIndependent
+
+@[expose] public section
 
 /-!
 # One actual profile budget for the literal root and all earlier children

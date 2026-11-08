@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.GaussConjugation
+
+@[expose] public section
 
 /-!
 # Evenness supplied by the specified twelfth root

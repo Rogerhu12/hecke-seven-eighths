@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
-import HeckePort.Moments.Descent.IdealMasks
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
+public import HeckePort.Moments.Descent.IdealMasks
+
+@[expose] public section
 
 /-!
 # The actual Boolean mask labels have a small-power cost

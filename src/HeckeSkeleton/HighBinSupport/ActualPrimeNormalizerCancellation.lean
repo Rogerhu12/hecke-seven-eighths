@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.PositiveNormalizer
-import HeckeGeneral.Analysis.PhysicalProbeContours
+module
+
+public import HeckeSkeleton.HighBinSupport.PositiveNormalizer
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+
+@[expose] public section
+
 /-!
 The literal prime normalizer cancels the mass of the same positive windows.
 This boundary estimate does not use a prime-density theorem, a nonzero

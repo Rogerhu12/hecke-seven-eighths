@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.NormalizedRecipePolynomials
+module
+
+public import HeckeSkeleton.ExpansionModels.NormalizedRecipePolynomials
+
+@[expose] public section
 
 /-!
 # Exact normalized detector sums for arbitrary shared recipe data

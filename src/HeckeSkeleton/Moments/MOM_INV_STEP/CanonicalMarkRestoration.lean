@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondOverlapColumns
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondOverlapColumns
+
+@[expose] public section
 
 /-!
 # Original mark lists restored by the actual child zeros

@@ -1,4 +1,8 @@
-import FLTReuse.M272bf36758382bf9
+module
+
+public import FLTReuse.M272bf36758382bf9
+
+@[expose] public section
 
 set_option autoImplicit false
 

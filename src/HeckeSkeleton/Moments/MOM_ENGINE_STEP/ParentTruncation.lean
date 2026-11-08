@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
-import HeckeGeneral.Analysis.SIntegerMaskedTruncation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentSource
+public import HeckeGeneral.Analysis.SIntegerMaskedTruncation
+
+@[expose] public section
 
 /-!
 # A finite first-transform expression for the actual parent

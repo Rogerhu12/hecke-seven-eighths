@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformThreshold
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.UniformThreshold
+
+@[expose] public section
 
 /-!
 # Finite backward induction on the actual canonical node class

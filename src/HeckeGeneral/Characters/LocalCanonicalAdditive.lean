@@ -1,8 +1,12 @@
-import HeckeGeneral.Characters.LocalAdditiveDescent
-import FLTReuse.Ma9ad8acc40984aa2
-import FLTReuse.Mcd898a60de22b19f
-import FLTReuse.Mb4072e15f985c10c
-import FLTReuse.Mdfdfd9c07e31f9bd
+module
+
+public import HeckeGeneral.Characters.LocalAdditiveDescent
+public import FLTReuse.Ma9ad8acc40984aa2
+public import FLTReuse.Mcd898a60de22b19f
+public import FLTReuse.Mb4072e15f985c10c
+public import FLTReuse.Mdfdfd9c07e31f9bd
+
+@[expose] public section
 
 /-! The standard trace additive character, scaled by the actual different and residue depth.
 This identifies a concrete normalization; it does not identify the earlier finite-duality

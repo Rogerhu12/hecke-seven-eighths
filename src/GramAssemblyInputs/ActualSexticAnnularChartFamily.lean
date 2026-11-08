@@ -1,6 +1,10 @@
-import ActualSexticOriginalChartMean
-import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
-import HeckeGeneral.Analysis.SIntegerAnnularSexticCosets
+module
+
+public import ActualSexticOriginalChartMean
+public import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
+public import HeckeGeneral.Analysis.SIntegerAnnularSexticCosets
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. An exact finite outer chart decomposition of
 the original two-column coefficient with its actual annular cutoffs.

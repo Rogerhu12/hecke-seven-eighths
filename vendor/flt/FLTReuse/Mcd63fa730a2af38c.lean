@@ -1,5 +1,10 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicBox_algebraMap_mem_image_integralFiniteAdeles_iff
 
 set_option autoImplicit false

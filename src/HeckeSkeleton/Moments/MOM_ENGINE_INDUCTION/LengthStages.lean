@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
+
+@[expose] public section
 
 /-!
 # The proof stage determined by the actual geometric lengths

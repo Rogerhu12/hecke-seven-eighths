@@ -1,4 +1,8 @@
-import Expansion.PhysicalFloorSource
+module
+
+public import Expansion.PhysicalFloorSource
+
+@[expose] public section
 
 /-!
 # Retained physical labels and the provenance of every sampled source

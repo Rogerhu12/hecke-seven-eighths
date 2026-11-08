@@ -1,5 +1,9 @@
-import ActualThetaOriginalFullFactorization
-import ActualCoprimeFactorizationExtension
+module
+
+public import ActualThetaOriginalFullFactorization
+public import ActualCoprimeFactorizationExtension
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. An actual extension of the raw/R/residual formula

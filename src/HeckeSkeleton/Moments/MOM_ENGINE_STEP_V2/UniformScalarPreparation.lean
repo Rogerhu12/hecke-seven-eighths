@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformOrderPreparation
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteProfileConstants
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.UniformOrderPreparation
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteProfileConstants
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

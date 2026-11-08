@@ -1,16 +1,20 @@
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
-import Mathlib.NumberTheory.NumberField.Ideal.Basic
-import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
-import Mathlib.Data.Nat.Choose.Sum
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.GCongr
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.LinearCombination
+module
+
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+public import Mathlib.NumberTheory.NumberField.Ideal.Basic
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Moebius
+public import Mathlib.Data.Nat.Choose.Sum
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.GCongr
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.LinearCombination
+
+@[expose] public section
 
 /-!
 # The arithmetic part of the detector over an arbitrary number field

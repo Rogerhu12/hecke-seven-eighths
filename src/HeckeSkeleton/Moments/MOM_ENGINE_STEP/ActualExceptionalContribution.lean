@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalRows
+
+@[expose] public section
 
 /-!
 # Actual paired exceptional rows

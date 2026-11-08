@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceOrientation
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionOverlap
-import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceOrientation
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionOverlap
+public import HeckeSkeleton.Moments.MOM_BASE.PairedPhases
+
+@[expose] public section
 
 /-!
 # One live character for the actual inverse and its prime slots

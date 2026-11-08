@@ -1,7 +1,11 @@
-import ArithmeticFrequencyRowCharacterFibers
-import RowCharacterCanonicalUniqueness
-import HeckeGeneral.Analysis.TInputRanges
-import Mathlib.Tactic.Group
+module
+
+public import ArithmeticFrequencyRowCharacterFibers
+public import RowCharacterCanonicalUniqueness
+public import HeckeGeneral.Analysis.TInputRanges
+public import Mathlib.Tactic.Group
+
+@[expose] public section
 
 /-!
 # A common pole-exclusion threshold for the actual physical row family

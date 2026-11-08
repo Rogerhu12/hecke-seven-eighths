@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
-import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
-import HeckeGeneral.Arithmetic.ClearedUnitLattice
+module
+
+public import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
+public import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
+public import HeckeGeneral.Arithmetic.ClearedUnitLattice
+
+@[expose] public section
 
 /-!
 actual annular columns have finite element support.

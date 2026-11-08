@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
+module
+
+public import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
+
+@[expose] public section
+
 /-!
 # Selected ramified factors and the repeated-prime loss
 

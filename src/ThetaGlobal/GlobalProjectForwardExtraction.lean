@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalProjectDigitProduct
-import DedekindZetaZeroFree.Theta.Whittaker.RationalDiagonalFactorization
+module
+
+public import ThetaGlobal.GlobalProjectDigitProduct
+public import DedekindZetaZeroFree.Theta.Whittaker.RationalDiagonalFactorization
+
+@[expose] public section
 
 /-!
 # Actual forward extraction for an arbitrary frozen tensor

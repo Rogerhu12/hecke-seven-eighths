@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogChart
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPhysicalSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SourceData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogChart
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPhysicalSource
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

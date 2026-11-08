@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.TIPAccounting
+module
+
+public import HeckeGeneral.Analysis.TIPAccounting
+
+@[expose] public section
 
 /-!
 # T ∧ I ∧ P ⇒ 7/8 for one fixed infinity type, from the Euler-product bound

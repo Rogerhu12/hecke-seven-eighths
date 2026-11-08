@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDualZeroAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDualZeroAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+
+@[expose] public section
 
 /-!
 # The complete pure dual-zero diagonal on the original source

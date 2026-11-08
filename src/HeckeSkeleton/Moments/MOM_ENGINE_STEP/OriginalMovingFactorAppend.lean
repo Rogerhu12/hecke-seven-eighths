@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
-import DedekindZetaZeroFree.LFunctions.Hecke.ExteriorIdealEulerProducts
-import Mathlib.Algebra.BigOperators.Fin
-import Mathlib.Data.Fin.Tuple.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
+public import DedekindZetaZeroFree.LFunctions.Hecke.ExteriorIdealEulerProducts
+public import Mathlib.Algebra.BigOperators.Fin
+public import Mathlib.Data.Fin.Tuple.Basic
+
+@[expose] public section
 
 /-!
 # Appending the original moving-factor lists

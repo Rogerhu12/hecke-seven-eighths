@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstTerminalBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolCoverHybridStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstTerminalBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolCoverHybridStage
+
+@[expose] public section
 
 /-!
 # Literal zero and tail parts on the original source labels

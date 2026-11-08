@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5ClassIdeals
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5ClassIdeals
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

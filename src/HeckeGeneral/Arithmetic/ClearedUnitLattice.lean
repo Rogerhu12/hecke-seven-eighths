@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.IdealTraceLattice
+module
+
+public import HeckeGeneral.Arithmetic.IdealTraceLattice
+
+@[expose] public section
 
 /-!
 # Denominator-cleared global units in the actual trace integer lattice

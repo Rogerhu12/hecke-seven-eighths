@@ -1,5 +1,9 @@
-import ThetaGlobal.GammaReciprocalGrowth
-import ThetaGlobal.GammaDeconvolver
+module
+
+public import ThetaGlobal.GammaReciprocalGrowth
+public import ThetaGlobal.GammaDeconvolver
+
+@[expose] public section
 
 /-!
 # The finite Gamma profile has the required strip growth

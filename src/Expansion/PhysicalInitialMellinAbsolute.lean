@@ -1,6 +1,10 @@
-import Expansion.PhysicalInitialMellinTerm
-import HeckeSkeleton.ExpansionModels.LargeRowTail
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
+module
+
+public import Expansion.PhysicalInitialMellinTerm
+public import HeckeSkeleton.ExpansionModels.LargeRowTail
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+
+@[expose] public section
 
 /-!
 # Absolute convergence of the complete initial physical Mellin expansion

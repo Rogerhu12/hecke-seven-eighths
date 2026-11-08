@@ -1,5 +1,9 @@
-import Expansion.IdealDyadicExtraction
-import ExpansionDetector.IdealZeroSource
+module
+
+public import Expansion.IdealDyadicExtraction
+public import ExpansionDetector.IdealZeroSource
+
+@[expose] public section
 
 /-! Coefficient mass of the literal terminal detector.  The two finite
 polynomials keep their complete ideal coefficient homomorphism.  The only

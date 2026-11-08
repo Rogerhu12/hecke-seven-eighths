@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.LargeRowMellin
-import Mathlib.Analysis.Calculus.ParametricIntegral
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+module
+
+public import HeckeSkeleton.ExpansionModels.LargeRowMellin
+public import Mathlib.Analysis.Calculus.ParametricIntegral
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+
+@[expose] public section
 
 /-!
 # Holomorphy of the literal additive Mellin transform

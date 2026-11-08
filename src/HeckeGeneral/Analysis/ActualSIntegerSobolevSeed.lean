@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ActualSIntegerSobolevScaleSup
-import HeckeGeneral.Analysis.ActualScaleSupSeed
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerSobolevScaleSup
+public import HeckeGeneral.Analysis.ActualScaleSupSeed
+
+@[expose] public section
 
 /-! A targetwise finite-test moment consumer. Each target may have its own
 finite S and actual arithmetic generator data. The finite-test moment is an

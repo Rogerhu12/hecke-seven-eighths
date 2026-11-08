@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientBinding
+
+@[expose] public section
 
 /-!
 # Whole source coefficients on actual support-extraction branches

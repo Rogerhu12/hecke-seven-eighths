@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.LogTwistedProfiles
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SharedFourierPropagation
+module
+
+public import HeckeSkeleton.ExpansionModels.LogTwistedProfiles
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SharedFourierPropagation
+
+@[expose] public section
 
 /-!
 # Mixed parameter derivatives and a weighted common Fourier measure

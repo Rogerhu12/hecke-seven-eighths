@@ -1,5 +1,10 @@
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_continuous_localChar
 
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredColumnEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMobiusGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredColumnEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMobiusGeometry
+
+@[expose] public section
 
 /-!
 # Exact positive first-source energies on both sides

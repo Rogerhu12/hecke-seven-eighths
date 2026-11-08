@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.FiniteFourierBounds
+module
+
+public import HeckeGeneral.Arithmetic.FiniteFourierBounds
+
+@[expose] public section
 
 /-!
 # Convolution and correlation in the actual finite residue ring

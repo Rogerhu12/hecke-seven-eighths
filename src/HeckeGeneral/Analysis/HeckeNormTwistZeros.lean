@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.HeckeContinuation
-import HeckeGeneral.Analysis.MellinZeroDetector
+module
+
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import HeckeGeneral.Analysis.MellinZeroDetector
+
+@[expose] public section
 
 /-! Removing a global unitary norm twist preserves the actual meromorphic
 zero real parts. Continuation uniqueness is used at the germ level, so no

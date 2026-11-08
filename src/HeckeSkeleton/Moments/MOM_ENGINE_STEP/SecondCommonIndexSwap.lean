@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSameCarrierMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSameCarrierMass
+
+@[expose] public section
 
 /-!
 # Exchanging the two actual second common columns

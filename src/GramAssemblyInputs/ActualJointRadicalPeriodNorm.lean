@@ -1,4 +1,8 @@
-import ActualSexticPeriodicLatticeWeight
+module
+
+public import ActualSexticPeriodicLatticeWeight
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. Actual joint radical and full period norm bounds.
 The S-depth is fixed before the moving ideals or frequencies; no radical

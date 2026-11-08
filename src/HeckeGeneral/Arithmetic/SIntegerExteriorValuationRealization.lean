@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusValuation
-import HeckeGeneral.Arithmetic.SIntegerPrincipalization
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusValuation
+public import HeckeGeneral.Arithmetic.SIntegerPrincipalization
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /- The PID hypothesis is supplied by exists_finite_sInteger_isPrincipalIdealRing.
    No CFT modules, localized fractional ideal maps, or extra arithmetic hypotheses. -/

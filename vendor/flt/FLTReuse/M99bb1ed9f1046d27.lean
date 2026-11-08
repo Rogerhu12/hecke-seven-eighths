@@ -1,4 +1,8 @@
-import Mathlib.NumberTheory.NumberField.AdeleRing
+module
+
+public import Mathlib.NumberTheory.NumberField.AdeleRing
+
+@[expose] public section
 
 set_option autoImplicit false
 

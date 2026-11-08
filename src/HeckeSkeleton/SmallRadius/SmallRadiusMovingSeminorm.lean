@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.SmallRadiusCutoffSeminorm
-import HeckeGeneral.Analysis.TraceMovingPhaseBounds
+module
+
+public import HeckeSkeleton.SmallRadius.SmallRadiusCutoffSeminorm
+public import HeckeGeneral.Analysis.TraceMovingPhaseBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual moving Mellin phase is included BEFORE

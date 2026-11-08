@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.HeckeCharacter
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
+module
+
+public import HeckeGeneral.Characters.HeckeCharacter
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+
+@[expose] public section
 
 /-!
 # Algebraic properties of the real idelic norm

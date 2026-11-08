@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SIntegerProfileTail
-import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
-import HeckeGeneral.Bridge.SLocalFiniteFourier
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+module
+
+public import HeckeGeneral.Analysis.SIntegerProfileTail
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+public import HeckeGeneral.Bridge.SLocalFiniteFourier
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+
+@[expose] public section
 
 /-! Quantitative tails for the actual periodic divisor Fourier coefficients
 and actual Fourier orbital profile. The finite seminorm set and constant

@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.LogGaussianMellin
+module
+
+public import HeckeGeneral.Analysis.LogGaussianMellin
+
+@[expose] public section
 
 /-!+# The Gaussian factor on vertical contours
 

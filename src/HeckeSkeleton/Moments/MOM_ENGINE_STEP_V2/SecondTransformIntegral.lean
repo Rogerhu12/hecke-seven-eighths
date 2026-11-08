@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondTransformArithmetic
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPhase
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondTransformArithmetic
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPhase
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

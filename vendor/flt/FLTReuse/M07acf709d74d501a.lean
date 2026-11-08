@@ -1,7 +1,12 @@
-import FLTReuse.Mc4dd375116d61c53
-import Mathlib.MeasureTheory.Measure.Haar.DistribChar
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M9997a08e2e613141
+module
+
+public import FLTReuse.Mc4dd375116d61c53
+public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M9997a08e2e613141
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 attribute [-simp] AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_one AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_one AutomorphicForm.CarrierPins.mk.injEq AutomorphicForm.CarrierPins.mk.sizeOf_spec
 

@@ -1,8 +1,13 @@
-import FLTReuse.Mb8f476785919d863
-import FLTReuse.M53da03588cc195e1
-import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M0aa9f96ff88bb1fb
+module
+
+public import FLTReuse.Mb8f476785919d863
+public import FLTReuse.M53da03588cc195e1
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M0aa9f96ff88bb1fb
+
+@[expose] public section
+
 attribute [-simp] LanglandsTunnell.signEpsilon_one LanglandsTunnell.RealArchParam.epsilonFactor_principal LanglandsTunnell.RealArchParam.epsilonFactor_discrete LanglandsTunnell.signEpsilon_zero
 
 set_option autoImplicit false

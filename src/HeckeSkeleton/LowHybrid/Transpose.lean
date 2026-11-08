@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowHybrid.SieveBounds
+module
+
+public import HeckeSkeleton.LowHybrid.SieveBounds
+
+@[expose] public section
 
 /-!
 # Finite complex operator transposition

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroTransport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroFactorization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroTransport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroFactorization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

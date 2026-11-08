@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SignedPoissonZero
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SignedPoissonZero
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+
+@[expose] public section
 
 /-!
 # The actual first dual origin without a vanishing-profile assumption

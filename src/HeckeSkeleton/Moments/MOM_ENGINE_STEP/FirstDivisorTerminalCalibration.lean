@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorFrozenCost
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonTerminalCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorFrozenCost
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonTerminalCalibration
+
+@[expose] public section
 
 /-!
 # First-divisor density in the literal zero and tail calibrations

@@ -1,6 +1,10 @@
-import CubicSieve.CubicConductors
-import HeckeGeneral.Characters.ComplexCharacter
-import DedekindZetaZeroFree.Arithmetic.Kummer.FrequencyClassesAndCharacterRigidity
+module
+
+public import CubicSieve.CubicConductors
+public import HeckeGeneral.Characters.ComplexCharacter
+public import DedekindZetaZeroFree.Arithmetic.Kummer.FrequencyClassesAndCharacterRigidity
+
+@[expose] public section
 
 /-!
 Primitive ray realizations of the actual cubic Hecke characters. The upstream

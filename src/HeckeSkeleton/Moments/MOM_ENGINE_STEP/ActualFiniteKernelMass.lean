@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProfileMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedChildren
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProfileMass
+
+@[expose] public section
 
 /-!
 # Uniform Fourier mass for the same actual finite child family

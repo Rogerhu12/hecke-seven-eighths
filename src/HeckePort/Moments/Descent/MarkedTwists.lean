@@ -1,4 +1,8 @@
-import HeckePort.Moments.Descent.MarkedFourier
+module
+
+public import HeckePort.Moments.Descent.MarkedFourier
+
+@[expose] public section
 
 /-!
 # Marked completed sums as twisted completed sums

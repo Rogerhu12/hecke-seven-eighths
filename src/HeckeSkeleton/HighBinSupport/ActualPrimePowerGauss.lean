@@ -1,8 +1,12 @@
-import HeckeSkeleton.HighBinSupport.ActualGaussData
-import HeckeSkeleton.HighBinSupport.ActualInitialAbsolute
-import HeckeSkeleton.HighBinSupport.PrincipalPowerGauss
-import HeckeSkeleton.HighBinSupport.GeneratorUnitInvariance
-import Mathlib.Algebra.Field.Equiv
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualGaussData
+public import HeckeSkeleton.HighBinSupport.ActualInitialAbsolute
+public import HeckeSkeleton.HighBinSupport.PrincipalPowerGauss
+public import HeckeSkeleton.HighBinSupport.GeneratorUnitInvariance
+public import Mathlib.Algebra.Field.Equiv
+
+@[expose] public section
 
 /-!
 # The valuation Gauss formula on actual S-integer prime powers

@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowHybrid.SieveBounds
-import HeckeSkeleton.LowHybrid.Weighted
-import HeckeSkeleton.LowHybrid.Transpose
+module
+
+public import HeckeSkeleton.LowHybrid.SieveBounds
+public import HeckeSkeleton.LowHybrid.Weighted
+public import HeckeSkeleton.LowHybrid.Transpose
+
+@[expose] public section
 
 /-!
 # Zero-extended product operators from the two squarefree sieves

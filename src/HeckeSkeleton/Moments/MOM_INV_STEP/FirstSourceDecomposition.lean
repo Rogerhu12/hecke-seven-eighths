@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.IdealMobiusMask
-import HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition
-import Mathlib.Tactic.Tauto
+module
+
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SupportPartition
+public import Mathlib.Tactic.Tauto
+
+@[expose] public section
 
 /-!
 # The actual squarefree source decompositions

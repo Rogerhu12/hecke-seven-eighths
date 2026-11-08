@@ -1,4 +1,8 @@
-import HeckePort.CenteredMoment.Volume
+module
+
+public import HeckePort.CenteredMoment.Volume
+
+@[expose] public section
 
 /-!
 # Volume of masked ideal sums

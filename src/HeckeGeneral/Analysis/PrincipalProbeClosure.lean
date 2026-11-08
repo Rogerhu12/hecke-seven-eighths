@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PrincipalProbeNearZero
-import HeckeGeneral.Analysis.PrincipalProbeContinuity
-import HeckeGeneral.Analysis.PhysicalHeightComparison
+module
+
+public import HeckeGeneral.Analysis.PrincipalProbeNearZero
+public import HeckeGeneral.Analysis.PrincipalProbeContinuity
+public import HeckeGeneral.Analysis.PhysicalHeightComparison
+
+@[expose] public section
 
 /-! Close the actual principal detector from a low estimate and a finite
 height comparison. Local integrability, rapid origin decay, spectral

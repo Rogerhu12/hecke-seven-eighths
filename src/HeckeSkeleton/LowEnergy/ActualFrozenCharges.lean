@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualReflectionReindex
-import HeckeSkeleton.LowEnergy.FrozenChargeCore
+module
+
+public import HeckeSkeleton.LowEnergy.ActualReflectionReindex
+public import HeckeSkeleton.LowEnergy.FrozenChargeCore
+
+@[expose] public section
 
 /-!
 # The actual minimum ideals and the low conductor charges

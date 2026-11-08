@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionChildGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionChildGeometry
+
+@[expose] public section
 
 /-!
 # Genuine universal reflection labels on the common kernel support

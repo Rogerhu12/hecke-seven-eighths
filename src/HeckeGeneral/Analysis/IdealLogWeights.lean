@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealDirichlet
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeGeneral.Analysis.IdealDirichlet
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Logarithmic weights on the genuine number-field ideal series

@@ -8,8 +8,12 @@ Claude for the refactoring, following a human-written plan, and preserves
 provenance from openai/ten-proofs and Sphere-Packing-Lean.
 Local adaptation changes only the namespace and Lean API compatibility.
 -/
-import Mathlib.Analysis.Fourier.FourierTransform
-import Mathlib.Analysis.InnerProductSpace.NormDet
+module
+
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import Mathlib.Analysis.InnerProductSpace.NormDet
+
+@[expose] public section
 
 /-!
 # The Fourier transform under a linear change of variables

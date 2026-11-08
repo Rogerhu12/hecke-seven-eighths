@@ -1,4 +1,8 @@
-import HeckePort.Moments.ReflectionMass
+module
+
+public import HeckePort.Moments.ReflectionMass
+
+@[expose] public section
 
 /-!
 # Weighted deletion and restoration masses on noncentral Mellin lines

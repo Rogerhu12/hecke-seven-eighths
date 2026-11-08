@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceFourierControl
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerDivisorIdentity
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSup
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceFourierControl
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerDivisorIdentity
+
+@[expose] public section
 
 /-!
 # The literal independent source profile in the common scale majorant

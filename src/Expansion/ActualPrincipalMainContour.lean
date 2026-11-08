@@ -1,7 +1,11 @@
-import Expansion.ActualTargetReciprocalStrip
-import Expansion.ActualPrincipalSlotRemainder
-import HeckeGeneral.Analysis.GaussianContour
-import DedekindZetaZeroFree.Analysis.VerticalContourShift
+module
+
+public import Expansion.ActualTargetReciprocalStrip
+public import Expansion.ActualPrincipalSlotRemainder
+public import HeckeGeneral.Analysis.GaussianContour
+public import DedekindZetaZeroFree.Analysis.VerticalContourShift
+
+@[expose] public section
 
 /-!
 # The actual principal main integral on the common line

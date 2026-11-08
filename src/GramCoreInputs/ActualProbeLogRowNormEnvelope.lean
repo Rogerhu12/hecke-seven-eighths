@@ -1,6 +1,10 @@
-import ActualProbeAmplitudeMellin
-import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
-import Mathlib.Topology.Order.Compact
+module
+
+public import ActualProbeAmplitudeMellin
+public import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
+public import Mathlib.Topology.Order.Compact
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual tensor compact support and the fixed

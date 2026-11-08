@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5RowWindow
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5SupportWindow
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5RowWindow
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S5SupportWindow
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

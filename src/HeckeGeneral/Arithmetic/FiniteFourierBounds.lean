@@ -1,9 +1,13 @@
-import HeckeGeneral.Arithmetic.PeriodicFourier
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Real.Sqrt
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Linarith
+module
+
+public import HeckeGeneral.Arithmetic.PeriodicFourier
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.Real.Sqrt
+public import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 # Energy and operator bounds for the actual finite Fourier transform

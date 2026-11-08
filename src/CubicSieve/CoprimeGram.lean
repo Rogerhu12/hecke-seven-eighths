@@ -1,4 +1,8 @@
-import CubicSieve.CoprimeGramGeneral
+module
+
+public import CubicSieve.CoprimeGramGeneral
+
+@[expose] public section
 
 /-! Coprime-column Gram bounds for an arbitrary actual cubic matrix.
 The two finite support arguments are adapted from the generic vendor lemmas;

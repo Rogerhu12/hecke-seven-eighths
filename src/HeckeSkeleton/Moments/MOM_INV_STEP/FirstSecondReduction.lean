@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionPoisson
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionPoisson
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
+
+@[expose] public section
 
 /-!
 # The actual first inverse energy reduced by the second Poisson step

@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalTailBound
-import HeckeSkeleton.Moments.MOM_INV_STEP.JointMaskGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
-import HeckeSkeleton.Moments.MOM_INV_STEP.InverseCoefficientBounds
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalTailBound
+public import HeckeSkeleton.Moments.MOM_INV_STEP.JointMaskGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
+public import HeckeSkeleton.Moments.MOM_INV_STEP.InverseCoefficientBounds
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
+
+@[expose] public section
 
 /-!
 # Uniform tails for the actual intermediate inverse coefficient

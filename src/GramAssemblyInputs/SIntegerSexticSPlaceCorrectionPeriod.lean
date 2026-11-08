@@ -1,5 +1,9 @@
-import ExactFinitePlaceHilbertPrincipalUnitPeriod
-import SIntegerUpstreamPrincipalUnitCongruence
+module
+
+public import ExactFinitePlaceHilbertPrincipalUnitPeriod
+public import SIntegerUpstreamPrincipalUnitCongruence
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Period of the actual sextic Hilbert correction over
 ALL S-places, in the upstream common nthRootsSubgroup target. This differs

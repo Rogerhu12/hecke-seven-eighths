@@ -1,4 +1,8 @@
-import HeckePort.Moments.Unequal
+module
+
+public import HeckePort.Moments.Unequal
+
+@[expose] public section
 
 /-!
 # Local correlations of equal prime-power moduli

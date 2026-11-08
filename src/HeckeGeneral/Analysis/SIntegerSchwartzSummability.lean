@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
-import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
-import Mathlib.LinearAlgebra.Countable
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
+public import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
+public import Mathlib.LinearAlgebra.Countable
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+
+@[expose] public section
 
 /-!
 # Absolute summation over every nonzero S-integer on a compact orbital domain

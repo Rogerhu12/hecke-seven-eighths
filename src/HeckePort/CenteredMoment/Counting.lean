@@ -1,5 +1,9 @@
-import HeckePort.CenteredMoment.Cancellation
-import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+module
+
+public import HeckePort.CenteredMoment.Cancellation
+public import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+
+@[expose] public section
 
 /-!
 # Trivial bounds for masked ideal sums

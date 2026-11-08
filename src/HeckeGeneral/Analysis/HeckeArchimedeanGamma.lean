@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ArchimedeanGamma
-import HeckeGeneral.Characters.InfinityPacket
+module
+
+public import HeckeGeneral.Analysis.ArchimedeanGamma
+public import HeckeGeneral.Characters.InfinityPacket
+
+@[expose] public section
 
 /-!+# Gamma multipliers with actual Hecke infinity parameters
 

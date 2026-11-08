@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
-import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
-import Mathlib.Topology.Algebra.InfiniteSum.Group
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+public import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+public import Mathlib.Topology.Algebra.InfiniteSum.Group
+
+@[expose] public section
 
 /-! Multiplication by any actual nonzero S-integer on the original subgroup
 orbits. Divisibility is independent of representatives, including every sector. -/

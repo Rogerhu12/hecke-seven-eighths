@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnularBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SchwartzEulerControl
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalAnnularBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.SchwartzEulerControl
+
+@[expose] public section
 
 /-!
 # Actual original ideal volume on the fixed positive annulus

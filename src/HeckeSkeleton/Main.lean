@@ -1,8 +1,12 @@
-import HeckeSkeleton.Principal
-import HeckeSkeleton.Expansion
-import HeckeSkeleton.HighBin
-import HeckeSkeleton.Moments
-import HeckeSkeleton.Descent
+module
+
+public import HeckeSkeleton.Principal
+public import HeckeSkeleton.Expansion
+public import HeckeSkeleton.HighBin
+public import HeckeSkeleton.Moments
+public import HeckeSkeleton.Descent
+
+@[expose] public section
 
 /-! Assembly of the general Hecke 7/8 theorem. Every upstream obligation is
 proved; `HeckeSkeleton.Audit` checks that the endpoint uses only the three

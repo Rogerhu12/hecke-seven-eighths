@@ -1,5 +1,9 @@
-import HeckeSkeleton.ThetaLocal.ArchimedeanMellin
-import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+module
+
+public import HeckeSkeleton.ThetaLocal.ArchimedeanMellin
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+
+@[expose] public section
 
 /-!
 # Power bounds for the actual high K-type Bessel profiles

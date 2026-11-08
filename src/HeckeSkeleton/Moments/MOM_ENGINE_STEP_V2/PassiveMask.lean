@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveExpansion
-import Mathlib.RingTheory.Coprime.Lemmas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveExpansion
+public import Mathlib.RingTheory.Coprime.Lemmas
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

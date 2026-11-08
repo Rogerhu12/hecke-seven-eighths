@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+module
+
+public import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. Count the actual nonzero integral ideals J whose

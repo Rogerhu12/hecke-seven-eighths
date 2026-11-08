@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExponentialTiltSchwartz
-import HeckeSkeleton.SmallRadius.SmallRadiusUniformPointBound
-import HeckeGeneral.Analysis.SUnitProfileFunctional
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExponentialTiltSchwartz
+public import HeckeSkeleton.SmallRadius.SmallRadiusUniformPointBound
+public import HeckeGeneral.Analysis.SUnitProfileFunctional
+
+@[expose] public section
 
 /-!
 # A common Schwartz kernel on the complete log-radius axis

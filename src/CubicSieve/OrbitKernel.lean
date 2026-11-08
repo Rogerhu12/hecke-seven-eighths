@@ -1,4 +1,8 @@
-import CubicSieve.OrbitRows
+module
+
+public import CubicSieve.OrbitRows
+
+@[expose] public section
 
 /-! The cubic orbital kernel separates into the same ideal kernel and one
 unitary column phase for each of the finitely many sixth-unit sectors. -/

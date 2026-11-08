@@ -1,6 +1,10 @@
-import DedekindZetaZeroFree.Theta.Digits.AbsoluteFourierReconstruction
-import DedekindZetaZeroFree.Theta.Periods.IntegrabilityAndResidueLimits
-import DedekindZetaZeroFree.Theta.Digits.WeightedDescentAndZeroDigits
+module
+
+public import DedekindZetaZeroFree.Theta.Digits.AbsoluteFourierReconstruction
+public import DedekindZetaZeroFree.Theta.Periods.IntegrabilityAndResidueLimits
+public import DedekindZetaZeroFree.Theta.Digits.WeightedDescentAndZeroDigits
+
+@[expose] public section
 
 /-!
 # Fourier reconstruction and rational Weyl symmetry for every residual core vector

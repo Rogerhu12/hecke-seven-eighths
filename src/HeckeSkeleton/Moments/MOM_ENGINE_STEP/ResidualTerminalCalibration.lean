@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolStageTerminalBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolStageTerminalBudget
+
+@[expose] public section
 
 /-!
 # Raw terminal calibration for the literal amplifier residual source

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalTerminal
-import HeckeGeneral.Analysis.HeckeSeries
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalTerminal
+public import HeckeGeneral.Analysis.HeckeSeries
+
+@[expose] public section
 
 /-!
 # The exceptional terminal for actual Hecke coefficients

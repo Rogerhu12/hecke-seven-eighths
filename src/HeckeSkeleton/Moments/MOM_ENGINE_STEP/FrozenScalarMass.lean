@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportSourceExtraction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportSourceExtraction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationScalarNorm
+
+@[expose] public section
 
 /-!
 # Actual frozen factors retain their complete norm denominators

@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
-import HeckeGeneral.Analysis.SUnitFinitePartitionBox
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+public import HeckeGeneral.Analysis.SUnitFinitePartitionBox
+
+@[expose] public section
 
 /-! UNCOMPILED / native 0. A fixed exact-S power clears every S-integer
 whose actual finite valuation exponents have the fixed upper bound H.

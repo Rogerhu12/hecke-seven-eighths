@@ -1,7 +1,11 @@
-import HeckeSkeleton.HighBinSupport.ActualPrimePowerGauss
-import HeckeSkeleton.HighBinSupport.ActualGaussSigns
-import HeckeSkeleton.HighBinSupport.FourierInversion
-import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPrimePowerGauss
+public import HeckeSkeleton.HighBinSupport.ActualGaussSigns
+public import HeckeSkeleton.HighBinSupport.FourierInversion
+public import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
+
+@[expose] public section
 
 /-!
 # The literal prime-power finite Poisson convolution

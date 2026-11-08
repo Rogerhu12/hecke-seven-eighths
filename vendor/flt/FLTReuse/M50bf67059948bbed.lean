@@ -1,5 +1,9 @@
-import Mathlib
-import FLTReuse.Mbdc64641c777ca04
+module
+
+public import Mathlib
+public import FLTReuse.Mbdc64641c777ca04
+
+@[expose] public section
 
 set_option autoImplicit false
 

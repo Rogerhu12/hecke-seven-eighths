@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowHybrid.ArithmeticLosses
-import HeckeSkeleton.LowHybrid.CanonicalSupport
-import HeckeSkeleton.LowFrozenCube.RowCoordinates
+module
+
+public import HeckeSkeleton.LowHybrid.ArithmeticLosses
+public import HeckeSkeleton.LowHybrid.CanonicalSupport
+public import HeckeSkeleton.LowFrozenCube.RowCoordinates
+
+@[expose] public section
 
 /-!
 # Counting the actual frozen powerful and supported row factors

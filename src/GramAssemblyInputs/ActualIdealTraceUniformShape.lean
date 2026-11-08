@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SIntegerMovingPeriodPolarTail
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Analysis.SIntegerMovingPeriodPolarTail
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Uniform forward shape for every actual nonzero integral ideal.

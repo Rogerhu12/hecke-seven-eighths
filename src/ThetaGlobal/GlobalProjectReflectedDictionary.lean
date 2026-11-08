@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalProjectReflectedPhases
-import ThetaGlobal.GlobalSkeletonChoice
+module
+
+public import ThetaGlobal.GlobalProjectReflectedPhases
+public import ThetaGlobal.GlobalSkeletonChoice
+
+@[expose] public section
 
 /-!
 # The actual exterior product is the literal Omega--rho--pi--lambda coefficient

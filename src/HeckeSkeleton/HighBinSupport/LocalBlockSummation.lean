@@ -1,4 +1,8 @@
-import HeckeSkeleton.HighBinSupport.ValuationSeries
+module
+
+public import HeckeSkeleton.HighBinSupport.ValuationSeries
+
+@[expose] public section
 
 /-!
 # Four-exponent local-block summation

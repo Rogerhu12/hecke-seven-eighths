@@ -1,10 +1,14 @@
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.FieldTheory.Extension
-import Mathlib.Analysis.Complex.Polynomial.Basic
-import Mathlib.RingTheory.RootsOfUnity.Complex
-import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.FieldTheory.Extension
+public import Mathlib.Analysis.Complex.Polynomial.Basic
+public import Mathlib.RingTheory.RootsOfUnity.Complex
+public import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Choosing the complex embedding before the arithmetic context

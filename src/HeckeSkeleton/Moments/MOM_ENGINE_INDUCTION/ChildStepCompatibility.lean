@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
-import HeckeGeneral.Analysis.SelectedMomentSlots
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Interface
+public import HeckeGeneral.Analysis.SelectedMomentSlots
+
+@[expose] public section
 
 /-!
 # Consuming the authoritative paired child step

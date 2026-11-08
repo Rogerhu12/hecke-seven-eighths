@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionLines
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
-import HeckeGeneral.Analysis.SmoothDyadicPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionLines
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+public import HeckeGeneral.Analysis.SmoothDyadicPartition
+
+@[expose] public section
 
 /-!
 # The two actual ordinary reflection profile families

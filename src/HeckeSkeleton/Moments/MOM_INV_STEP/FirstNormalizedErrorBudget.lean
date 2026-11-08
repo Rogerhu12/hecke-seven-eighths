@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedReduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorBoxes
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualErrorPowers
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstNormalizedReduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorBoxes
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstActualErrorPowers
+
+@[expose] public section
 
 /-!
 # The real normalized second error over the live original source

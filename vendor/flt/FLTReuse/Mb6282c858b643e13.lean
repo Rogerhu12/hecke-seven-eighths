@@ -1,5 +1,9 @@
-import FLTReuse.Mc4dd375116d61c53
-import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic
+module
+
+public import FLTReuse.Mc4dd375116d61c53
+public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Basic
+
+@[expose] public section
 
 open IsDedekindDomain NumberField MeasureTheory
 open scoped Pointwise

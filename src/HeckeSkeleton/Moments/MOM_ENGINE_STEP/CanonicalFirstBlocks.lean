@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
-import HeckePort.Moments.Descent.IdealMasks
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+public import HeckePort.Moments.Descent.IdealMasks
+
+@[expose] public section
 
 /-!
 # Canonical actual first blocks

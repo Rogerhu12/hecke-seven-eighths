@@ -1,5 +1,9 @@
-import CubicSieve.PoissonSmoothed
-import CubicSieve.PoissonTail
+module
+
+public import CubicSieve.PoissonSmoothed
+public import CubicSieve.PoissonTail
+
+@[expose] public section
 
 /-! The actual annular-column coprime Poisson estimate. The dual pair series
 is absolutely summable before its exchange with the finite column sums. -/

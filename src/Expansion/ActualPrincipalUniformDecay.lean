@@ -1,4 +1,8 @@
-import Expansion.ActualPrincipalTruncatedShifts
+module
+
+public import Expansion.ActualPrincipalTruncatedShifts
+
+@[expose] public section
 
 /-!
 # Uniform principal decay with the polynomial degrees fixed first

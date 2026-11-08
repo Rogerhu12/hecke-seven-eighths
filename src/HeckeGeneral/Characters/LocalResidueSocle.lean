@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueDual
-import Mathlib.RingTheory.DiscreteValuationRing.Basic
+module
+
+public import HeckeGeneral.Characters.LocalResidueDual
+public import Mathlib.RingTheory.DiscreteValuationRing.Basic
+
+@[expose] public section
 
 /-! The explicit socle of a completed DVR residue ring and detection of every nonzero ideal. -/
 

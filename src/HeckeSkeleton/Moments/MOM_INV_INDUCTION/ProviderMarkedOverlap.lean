@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionOverlap
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionOverlap
+
+@[expose] public section
 
 /-!
 # The actual first overlap change of squarefree column

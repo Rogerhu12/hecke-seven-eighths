@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
-import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
-import Mathlib.Tactic.LinearCombination
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
+public import Mathlib.Tactic.LinearCombination
+
+@[expose] public section
 
 /-!
 # Actual marked canonical cube blocks

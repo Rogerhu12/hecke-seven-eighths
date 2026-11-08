@@ -1,8 +1,12 @@
-import Expansion.ActualPrimePowerBound
-import Expansion.ActualCompensationSlotIdentity
-import ActualCanonicalRowConsumers
-import HeckeSkeleton.HeckeFiniteBackgroundControl
-import HeckeSkeleton.HighNormBackgroundExclusion
+module
+
+public import Expansion.ActualPrimePowerBound
+public import Expansion.ActualCompensationSlotIdentity
+public import ActualCanonicalRowConsumers
+public import HeckeSkeleton.HeckeFiniteBackgroundControl
+public import HeckeSkeleton.HighNormBackgroundExclusion
+
+@[expose] public section
 
 /-!
 # Uniform prime-slot caps on the original physical bins

@@ -1,7 +1,11 @@
-import FLTReuse.M55164c2a16500130
-import Mathlib.Algebra.Module.ZLattice.Summable
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Mb439933898408e1e
+module
+
+public import FLTReuse.M55164c2a16500130
+public import Mathlib.Algebra.Module.ZLattice.Summable
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Mb439933898408e1e
+
+@[expose] public section
 
 open NumberField NumberField.mixedEmbedding
 open scoped SchwartzMap Classical

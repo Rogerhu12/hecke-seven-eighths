@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
+
+@[expose] public section
 
 /-!
 # All outputs of the one prime pool undergo the actual second transform

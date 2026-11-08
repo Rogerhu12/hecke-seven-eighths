@@ -1,5 +1,9 @@
-import ExpansionDetector.IdealTail
-import ExpansionDetector.DetectorPower
+module
+
+public import ExpansionDetector.IdealTail
+public import ExpansionDetector.DetectorPower
+
+@[expose] public section
 
 /-! A zero of an ordinary entire ideal Dirichlet L-function creates an
 actual finite terminal source. The hypotheses are initial Dirichlet series,

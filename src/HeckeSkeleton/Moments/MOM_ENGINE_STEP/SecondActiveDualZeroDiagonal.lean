@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDualZeroDiagonal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDualZeroDiagonal
+
+@[expose] public section
 
 /-!
 # Sharp second dual-zero counting on nonzero original Gram profiles

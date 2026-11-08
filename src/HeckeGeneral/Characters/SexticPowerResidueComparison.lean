@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SexticResidueCharacter
-import ClassFieldTheory.AlgebraicNumberTheory.PowerResidueSymbols.Ideal
+module
+
+public import HeckeGeneral.Characters.SexticResidueCharacter
+public import ClassFieldTheory.AlgebraicNumberTheory.PowerResidueSymbols.Ideal
+
+@[expose] public section
 
 /-! The upstream symbol and the complex
 character use the same literal quotient power residue. No completion

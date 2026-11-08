@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterCenters
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterCenters
+
+@[expose] public section
 
 /-!
 # The fixed first center grid used by the canonical step

@@ -1,5 +1,9 @@
-import HeckeSkeleton.GramDefinitions
-import ActualGramRowBallOrbitalMajorant
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import ActualGramRowBallOrbitalMajorant
+
+@[expose] public section
 
 /-!
 GR-10 (row-ball majorant), closed from the natively verified Gram core module

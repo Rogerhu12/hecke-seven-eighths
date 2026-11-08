@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstDualTruncation
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPoissonNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstDualTruncation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstPoissonNormalization
+
+@[expose] public section
 
 /-!
 # The entire retained parent is the sum of its actual first-source slices

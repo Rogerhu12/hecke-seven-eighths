@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedAnnuli
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedCount
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedComplete
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedAnnuli
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedCount
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedComplete
+
+@[expose] public section
 
 /-! Original prime windows and their actual residual canonical marks. -/
 

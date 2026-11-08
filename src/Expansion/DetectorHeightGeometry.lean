@@ -1,5 +1,9 @@
-import ExpansionInterfaces.BufferedHeights
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+module
+
+public import ExpansionInterfaces.BufferedHeights
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+
+@[expose] public section
 
 /-!
 # A fixed detector budget and the physical buffered heights

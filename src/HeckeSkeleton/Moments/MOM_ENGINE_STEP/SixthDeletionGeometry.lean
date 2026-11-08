@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthRootSupportBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DerivedCapacity
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthRootSupportBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DerivedCapacity
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualNominalGeometry
+
+@[expose] public section
 
 /-!
 # The complete sixth-root deletion in the original length ledger

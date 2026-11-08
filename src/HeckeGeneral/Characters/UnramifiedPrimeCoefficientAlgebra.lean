@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.PrimeCoefficients
-import Mathlib.Algebra.Field.GeomSum
+module
+
+public import HeckeGeneral.Characters.PrimeCoefficients
+public import Mathlib.Algebra.Field.GeomSum
+
+@[expose] public section
 
 /-!
 Arithmetic of the actual local Euler coefficients when one factor is

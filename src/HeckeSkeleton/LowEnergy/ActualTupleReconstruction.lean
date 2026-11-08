@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy
-import HeckeSkeleton.LowEnergy.ActualFrozenReconstruction
-import HeckeSkeleton.LowEnergy.TargetGaussian
+module
+
+public import HeckeSkeleton.LowEnergy.ActualMarkedTupleEnergy
+public import HeckeSkeleton.LowEnergy.ActualFrozenReconstruction
+public import HeckeSkeleton.LowEnergy.TargetGaussian
+
+@[expose] public section
 
 /-!
 # Reconstructing the literal marked row from its original slot tuples

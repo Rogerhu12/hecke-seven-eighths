@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
-import HeckePort.Moments.ProductCRT
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.LocalCRT
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
+public import HeckePort.Moments.ProductCRT
+
+@[expose] public section
 
 /-!
 # The actual complete correlation and its unit-frequency radical

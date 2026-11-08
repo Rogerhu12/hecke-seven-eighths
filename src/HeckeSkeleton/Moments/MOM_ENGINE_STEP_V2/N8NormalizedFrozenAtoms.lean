@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCanonical
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedPassiveMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RefinementContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8CommonScalarBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCanonical
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedPassiveMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RefinementContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8CommonScalarBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

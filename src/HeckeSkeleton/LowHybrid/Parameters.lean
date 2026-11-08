@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.SieveComposition
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeSkeleton.LowHybrid.SieveComposition
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Actual parameter inequalities for the completed hybrid block

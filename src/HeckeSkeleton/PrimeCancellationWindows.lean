@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentPrimeWindows
-import PrimeCancellationUniformProfiles
+module
+
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+public import PrimeCancellationUniformProfiles
+
+@[expose] public section
 
 /-!
 # Schwartz control for the existing pretarget prime windows

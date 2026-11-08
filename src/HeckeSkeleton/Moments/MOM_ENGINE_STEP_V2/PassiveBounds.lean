@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCarrierRestoration
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassivePairing
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCarrierRestoration
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassivePairing
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

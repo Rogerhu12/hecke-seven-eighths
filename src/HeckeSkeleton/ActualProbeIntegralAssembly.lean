@@ -1,5 +1,9 @@
-import HeckeSkeleton.ActualProbeIntegrable
-import HeckeSkeleton.ActualProbeSixthUnitInvariant
+module
+
+public import HeckeSkeleton.ActualProbeIntegrable
+public import HeckeSkeleton.ActualProbeSixthUnitInvariant
+
+@[expose] public section
 
 /-!
 # Reduced construction of the original probe integral input

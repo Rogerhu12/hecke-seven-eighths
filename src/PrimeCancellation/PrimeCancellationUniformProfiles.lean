@@ -1,8 +1,12 @@
 /-
 Copyright (c) 2026 OpenAI. Released under the Apache 2.0 license.
 -/
-import PrimeCancellation
-import PrimeCancellationSchwartzControl
+module
+
+public import PrimeCancellation
+public import PrimeCancellationSchwartzControl
+
+@[expose] public section
 
 /-!
 # Prime cancellation controlled by a fixed finite family of source seminorms

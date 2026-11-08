@@ -1,6 +1,10 @@
-import ActualAllowedGeneratorOrbitEnumeration
-import Mathlib.Logic.Equiv.Prod
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+module
+
+public import ActualAllowedGeneratorOrbitEnumeration
+public import Mathlib.Logic.Equiv.Prod
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual two-column choice mask is reindexed by

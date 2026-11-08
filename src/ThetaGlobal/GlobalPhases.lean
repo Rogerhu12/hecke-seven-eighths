@@ -1,7 +1,11 @@
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Algebra.GroupWithZero.Units.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Algebra.GroupWithZero.Units.Basic
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Zero-extended sextic phase separation

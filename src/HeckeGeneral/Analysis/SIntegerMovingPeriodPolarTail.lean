@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerMovingPeriodNormScale
-import HeckeGeneral.Analysis.SUnitTotalNormLatticeFourierBounds
-import Mathlib.Analysis.InnerProductSpace.Adjoint
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerMovingPeriodNormScale
+public import HeckeGeneral.Analysis.SUnitTotalNormLatticeFourierBounds
+public import Mathlib.Analysis.InnerProductSpace.Adjoint
+
+@[expose] public section
 
 /-! Actual polar transport and moving-period mass/tail.
 The inverse polar operator is controlled by the FORWARD primal operator.

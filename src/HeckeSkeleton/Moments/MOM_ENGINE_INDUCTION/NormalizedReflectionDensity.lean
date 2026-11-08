@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDensity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDensity
+
+@[expose] public section
 
 /-!
 # The actual density after child-profile normalization

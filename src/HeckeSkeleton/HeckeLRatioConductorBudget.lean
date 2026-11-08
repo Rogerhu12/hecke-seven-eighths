@@ -1,5 +1,9 @@
-import HeckeSkeleton.HeckeConductorNorm
-import Mathlib.Tactic
+module
+
+public import HeckeSkeleton.HeckeConductorNorm
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 The conductor-power budget for the actual high-row L-ratio.

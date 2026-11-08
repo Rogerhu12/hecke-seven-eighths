@@ -1,8 +1,12 @@
-import Mathlib.NumberTheory.NumberField.AdeleRing
-import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
-import Mathlib.Topology.Algebra.Valued.LocallyCompact
-import Mathlib.RingTheory.Ideal.Quotient.HasFiniteQuotients.Basic
-import Mathlib.Topology.Algebra.Group.Matrix
+module
+
+public import Mathlib.NumberTheory.NumberField.AdeleRing
+public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
+public import Mathlib.Topology.Algebra.Valued.LocallyCompact
+public import Mathlib.RingTheory.Ideal.Quotient.HasFiniteQuotients.Basic
+public import Mathlib.Topology.Algebra.Group.Matrix
+
+@[expose] public section
 
 open IsDedekindDomain NumberField MeasureTheory
 open scoped RestrictedProduct

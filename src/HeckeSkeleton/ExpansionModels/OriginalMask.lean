@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExpansionModels.CoefficientZeroCalibration
-import HeckeSkeleton.ExpansionModels.SharedWitnessRecipe
-import HeckeGeneral.Analysis.IdealMobiusDeletion
+module
+
+public import HeckeSkeleton.ExpansionModels.CoefficientZeroCalibration
+public import HeckeSkeleton.ExpansionModels.SharedWitnessRecipe
+public import HeckeGeneral.Analysis.IdealMobiusDeletion
+
+@[expose] public section
 
 /-!
 # The original fixed-S/6/row-coprimality mask as an actual deleted coefficient

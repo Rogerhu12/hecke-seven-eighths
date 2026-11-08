@@ -1,7 +1,11 @@
-import HeckeSkeleton.HeckeStripPolynomial
-import HeckeSkeleton.HeckeGammaQualitativeGrowth
-import HeckeSkeleton.HeckeFixedTypeGammaBound
-import HeckeSkeleton.ActualEulerLogarithm
+module
+
+public import HeckeSkeleton.HeckeStripPolynomial
+public import HeckeSkeleton.HeckeGammaQualitativeGrowth
+public import HeckeSkeleton.HeckeFixedTypeGammaBound
+public import HeckeSkeleton.ActualEulerLogarithm
+
+@[expose] public section
 
 /-!
 Polynomial strip growth for actual non-norm Hecke continuations of a fixed

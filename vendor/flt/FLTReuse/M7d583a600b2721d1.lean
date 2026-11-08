@@ -1,8 +1,13 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.MeasureTheory.Measure.Haar.DistribChar
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import FLTReuse.Mf97a7f60c5ec2ad4
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import FLTReuse.Mf97a7f60c5ec2ad4
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdeleRing_distribHaarChar_algebraMap
 
 set_option autoImplicit false

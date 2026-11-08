@@ -1,7 +1,11 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M83e11820d2aa8da5
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M83e11820d2aa8da5
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
-import HeckeSkeleton.Moments.MOM_INV_STEP.MellinCompleteTests
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MellinCompleteTests
+
+@[expose] public section
 
 /-!
 # Literal complete intermediate inverse families

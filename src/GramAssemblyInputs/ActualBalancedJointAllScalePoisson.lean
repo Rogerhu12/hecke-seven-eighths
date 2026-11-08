@@ -1,4 +1,8 @@
-import ActualBalancedJointSupportFourier
+module
+
+public import ActualBalancedJointSupportFourier
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Uniform balanced-profile version of the same

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ActualSIntegerSimultaneousAmplifier
-import HeckeGeneral.Analysis.ActualSIntegerScaleDerivative
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerSimultaneousAmplifier
+public import HeckeGeneral.Analysis.ActualSIntegerScaleDerivative
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-! Exact common amplifier deletion on actual quotient rows.
 Multiplication by generator(A)^6 preserves the original row evaluation

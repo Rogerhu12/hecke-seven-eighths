@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentTruncation
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
-import HeckeGeneral.Analysis.SUnitProfileFunctional
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentTruncation
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+public import HeckeGeneral.Analysis.SUnitProfileFunctional
+
+@[expose] public section
 
 /-!
 # One physical frequency set for the whole finite source

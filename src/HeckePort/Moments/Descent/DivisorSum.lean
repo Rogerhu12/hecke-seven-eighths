@@ -1,4 +1,8 @@
-import HeckePort.Moments.Descent.DivisorExtraction
+module
+
+public import HeckePort.Moments.Descent.DivisorExtraction
+
+@[expose] public section
 
 /-!
 # Inverse-norm sums over divisor pools

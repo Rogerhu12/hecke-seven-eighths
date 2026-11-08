@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusValuation
-import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
-import SIntegerSexticExteriorHilbertProduct
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusValuation
+public import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+public import SIntegerSexticExteriorHilbertProduct
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Upstream chosenUnitFiniteSupport is a chosen finite
 COVER, not an exact valuation support. Thus equality with contraction prime

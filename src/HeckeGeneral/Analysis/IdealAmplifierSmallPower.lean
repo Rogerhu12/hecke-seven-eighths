@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SIntegerSexticAmplificationEnergy
-import HeckeGeneral.Analysis.IdealMobiusReciprocal
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+module
+
+public import HeckeGeneral.Analysis.SIntegerSexticAmplificationEnergy
+public import HeckeGeneral.Analysis.IdealMobiusReciprocal
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+
+@[expose] public section
 
 /-!
 The divisor coefficient mass in sixth-power amplification is a small power

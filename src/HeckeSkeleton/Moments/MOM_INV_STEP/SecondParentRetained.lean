@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonNormalization
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonNormalization
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
+
+@[expose] public section
 
 /-!
 # The complete actual second retained source in fixed-common slices

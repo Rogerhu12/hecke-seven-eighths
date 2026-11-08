@@ -1,5 +1,9 @@
-import HeckeSkeleton.ThetaLocal.ProjectArchimedean
-import HeckeSkeleton.ThetaLocal.ComplexProfileBridge
+module
+
+public import HeckeSkeleton.ThetaLocal.ProjectArchimedean
+public import HeckeSkeleton.ThetaLocal.ComplexProfileBridge
+
+@[expose] public section
 
 /-!
 # Actual Hecke parameters in the complex Whittaker model

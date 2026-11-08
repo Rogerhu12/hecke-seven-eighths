@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.LocalComponent
+module
+
+public import HeckeGeneral.Characters.LocalComponent
+
+@[expose] public section
 
 /-!
 # Unramified local components of actual Hecke characters

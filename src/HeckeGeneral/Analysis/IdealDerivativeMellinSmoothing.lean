@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.HeckeDerivativeSmoothing
-import Mathlib.MeasureTheory.Constructions.Polish.StronglyMeasurable
+module
+
+public import HeckeGeneral.Analysis.HeckeDerivativeSmoothing
+public import Mathlib.MeasureTheory.Constructions.Polish.StronglyMeasurable
+
+@[expose] public section
 
 /-!
 # Recovering the genuine ideal series by Mellin transform

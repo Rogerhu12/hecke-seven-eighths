@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDetector
-import HeckeSkeleton.HighBinSupport.ActualNormFormRepeatedTuples
-import HeckeGeneral.Analysis.MomentPrimeWindows
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeDetector
+public import HeckeSkeleton.HighBinSupport.ActualNormFormRepeatedTuples
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+
+@[expose] public section
 
 /-!
 The annular logarithmic detector at the repository's actual prime windows.

@@ -1,5 +1,9 @@
-import HeckeSkeleton.ThetaKernel.Gamma
-import HeckeSkeleton.ThetaKernel.Finite
+module
+
+public import HeckeSkeleton.ThetaKernel.Gamma
+public import HeckeSkeleton.ThetaKernel.Finite
+
+@[expose] public section
 
 /-! Holomorphy on `Re s > -1/3` and polynomial strip bounds for the reflection
 multiplier. -/

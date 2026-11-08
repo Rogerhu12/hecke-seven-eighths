@@ -1,7 +1,12 @@
-import HeckeSkeleton.HighBinSupport.BoundaryRectangle
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic.FieldSimp
+module
+
+public import HeckeSkeleton.HighBinSupport.BoundaryRectangle
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
+
 /-!
 Parameter integration of finite contour transport and a quantitative
 three-variable horizontal-face bound. The integrability premises are

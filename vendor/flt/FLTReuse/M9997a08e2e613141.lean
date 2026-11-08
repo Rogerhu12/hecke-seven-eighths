@@ -1,11 +1,16 @@
-import FLTReuse.Mc4dd375116d61c53
-import Mathlib.MeasureTheory.Measure.Haar.DistribChar
-import FLTReuse.Me926dea7d5102659
-import FLTReuse.M971f920e85ac7cd4
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb160b7190bc2968b
-import Mathlib
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mc4dd375116d61c53
+public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
+public import FLTReuse.Me926dea7d5102659
+public import FLTReuse.M971f920e85ac7cd4
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb160b7190bc2968b
+public import Mathlib
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdeleRing_distribHaarChar_eq_prod_norm_pow_mult_mul_finprod_norm
 
 set_option Elab.async false

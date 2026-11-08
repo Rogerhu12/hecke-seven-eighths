@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualScale
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
+
+@[expose] public section
 
 /-!
 # The common prefix energy is a sum of actual canonical annular energies

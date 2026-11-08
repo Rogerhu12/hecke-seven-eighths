@@ -1,4 +1,8 @@
-import ExpansionDetector.FourierNormalized
+module
+
+public import ExpansionDetector.FourierNormalized
+
+@[expose] public section
 
 /-! Exact normalization of the finite Mellin polynomial and the fixed
 Fourier-radius shrink needed by the physical height buffer. -/

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedProduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstPrincipal
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedTail
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedProduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformFirstPrincipal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedTail
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondTail
+
+@[expose] public section
 
 /-!
 # The complete first physical error of the actual canonical parent

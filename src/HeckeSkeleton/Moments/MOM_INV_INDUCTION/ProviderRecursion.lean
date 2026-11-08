@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.EnergyClosure
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.EnergyClosure
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+
+@[expose] public section
 
 /-!
 # Backward induction in the published inverse-step form

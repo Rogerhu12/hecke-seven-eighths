@@ -1,9 +1,13 @@
-import HeckeGeneral.Arithmetic.IdealTraceLattice
-import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
-import HeckeGeneral.Analysis.SUnitJointRadialProfile
-import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-import Mathlib.Algebra.Group.Pi.Units
+module
+
+public import HeckeGeneral.Arithmetic.IdealTraceLattice
+public import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+public import HeckeGeneral.Analysis.SUnitJointRadialProfile
+public import Mathlib.Analysis.InnerProductSpace.Calculus
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.Algebra.Group.Pi.Units
+
+@[expose] public section
 
 /-! The genuine archimedean product norm on weighted trace Euclidean space.
 Its regular locus is precisely the inverse image of the units of the mixed

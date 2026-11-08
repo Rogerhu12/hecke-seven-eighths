@@ -1,4 +1,8 @@
-import FLTReuse.Mb9913efb11345d99
+module
+
+public import FLTReuse.Mb9913efb11345d99
+
+@[expose] public section
 
 open NumberField IsDedekindDomain Matrix
 

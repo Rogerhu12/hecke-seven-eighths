@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSecondTuple
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSecondTuple
+
+@[expose] public section
 
 /-!
 # Exact signed reindexing of the actual reconstruction source

@@ -1,5 +1,9 @@
-import Expansion.ActualFiniteHeightReciprocal
-import Expansion.ActualModerateSweepHolomorphy
+module
+
+public import Expansion.ActualFiniteHeightReciprocal
+public import Expansion.ActualModerateSweepHolomorphy
+
+@[expose] public section
 
 /-!
 # Integrability of the actual selected moderate contour

@@ -1,4 +1,8 @@
-import HeckeSkeleton.ThetaLocal.ExteriorUnitSums
+module
+
+public import HeckeSkeleton.ThetaLocal.ExteriorUnitSums
+
+@[expose] public section
 
 /-! # Unit phases and uniform bounds for the exterior digit tables -/
 

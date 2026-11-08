@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+
+@[expose] public section
 
 /-!
 # Uniform elementary budgets for the actual second principal terms

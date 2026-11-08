@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.SourceData
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceWitnessBounds
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceWitnessBounds
+
+@[expose] public section
 
 /-!
 # The actual all-scale source supplies witness calibration geometry

@@ -1,7 +1,11 @@
-import CubicSieve.PrimitiveCharacters
-import HeckeAxiom.RayCharacter
-import DedekindZetaZeroFree.Adeles.Characters.IdelicLocalRestriction
-import DedekindZetaZeroFree.Arithmetic.RayClasses.Conductors.PrimitiveCharacterCofiniteRigidity
+module
+
+public import CubicSieve.PrimitiveCharacters
+public import HeckeAxiom.RayCharacter
+public import DedekindZetaZeroFree.Adeles.Characters.IdelicLocalRestriction
+public import DedekindZetaZeroFree.Arithmetic.RayClasses.Conductors.PrimitiveCharacterCofiniteRigidity
+
+@[expose] public section
 
 /-!
 Coefficient and local-type identifications for the constructed primitive ray

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
+
+@[expose] public section
 
 /-!
 # True residual norm windows for complete original dyadic pools

@@ -1,6 +1,10 @@
-import HeckeSkeleton.GramDefinitions
-import ActualProbeGaussOriginalFourier
-import ActualSexticZeroFrequencyDiagonal
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import ActualProbeGaussOriginalFourier
+public import ActualSexticZeroFrequencyDiagonal
+
+@[expose] public section
 
 /-!
 # The literal Gram correlation and the original full correlation (GR-03, GR-04)

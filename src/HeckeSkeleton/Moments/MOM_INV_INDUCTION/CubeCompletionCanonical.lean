@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletion
-import HeckeSkeleton.Moments.MOM_BASE.CubeInversion
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletion
+public import HeckeSkeleton.Moments.MOM_BASE.CubeInversion
+
+@[expose] public section
 
 /-!
 # The short and reopened parts of the actual canonical completion

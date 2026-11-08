@@ -1,4 +1,8 @@
-import CubicSieve.Bootstrap
+module
+
+public import CubicSieve.Bootstrap
+
+@[expose] public section
 
 /-!
 Numerical optimization of the actual cubic extraction scales, adapted from

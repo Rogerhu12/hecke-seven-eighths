@@ -1,6 +1,10 @@
-import SIntegerSexticPrimePowerQuotient
-import FiniteFieldAffineCorrelation
-import SIntegerSexticFiniteCorrelation
+module
+
+public import SIntegerSexticPrimePowerQuotient
+public import FiniteFieldAffineCorrelation
+public import SIntegerSexticFiniteCorrelation
+
+@[expose] public section
 
 /-! Source-only, uncompiled. Actual prime-power reduction and two
 residue-unit and single-zero column formulas. Both residual columns

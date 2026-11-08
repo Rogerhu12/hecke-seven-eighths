@@ -1,8 +1,12 @@
-import FLTReuse.M387d45cde57b612d
-import FLTReuse.M5960be08a50663ff
-import FLTReuse.Mceaf851096604c8a
-import FLTReuse.M255459499690ff8e
-import FLTReuse.M1d838ff8bf72f37a
+module
+
+public import FLTReuse.M387d45cde57b612d
+public import FLTReuse.M5960be08a50663ff
+public import FLTReuse.Mceaf851096604c8a
+public import FLTReuse.M255459499690ff8e
+public import FLTReuse.M1d838ff8bf72f37a
+
+@[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
 
@@ -1074,7 +1078,7 @@ private lemma rightActions_smul_tmul_right {R S M : Type*} [CommSemiring R]
 
 open scoped TensorProduct.RightActions in
 
-private lemma rightActions_smul_eq_one_tmul_mul {R S M : Type*} [CommSemiring R]
+lemma rightActions_smul_eq_one_tmul_mul {R S M : Type*} [CommSemiring R]
     [CommSemiring S] [Algebra R S] [CommSemiring M] [Algebra R M] (s : S) (x : M ⊗[R] S) :
     s • x = (1 ⊗ₜ[R] s) * x := by
   refine TensorProduct.induction_on (R := R) (motive := fun x => s • x = (1 ⊗ₜ[R] s) * x)

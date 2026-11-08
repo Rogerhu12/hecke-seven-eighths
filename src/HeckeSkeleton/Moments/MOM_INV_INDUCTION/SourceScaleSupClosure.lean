@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleSupRows
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourcePrefixEnergy
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget
+
+@[expose] public section
 
 /-!
 # The common positive prefix closes the complete-row scale-sup seed

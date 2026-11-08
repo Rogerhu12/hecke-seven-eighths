@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenAggregation
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenAggregation
+
+@[expose] public section
 
 /-!
 # Literal reconstruction of the complete reflected Gaussian row

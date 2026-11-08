@@ -1,5 +1,9 @@
-import Mathlib.Tactic.SplitIfs
-import Lean.Elab.Tactic.Omega
+module
+
+public import Mathlib.Tactic.SplitIfs
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # Canonical local frozen exponents

@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalProjectRationalDilation
-import ThetaGlobal.GlobalProjectConvention
-import DedekindZetaZeroFree.Metaplectic.Torus.DiagonalFourierPhases
-import DedekindZetaZeroFree.Theta.Digits.ForwardMaskInversion
+module
+
+public import ThetaGlobal.GlobalProjectRationalDilation
+public import ThetaGlobal.GlobalProjectConvention
+public import DedekindZetaZeroFree.Metaplectic.Torus.DiagonalFourierPhases
+public import DedekindZetaZeroFree.Theta.Digits.ForwardMaskInversion
+
+@[expose] public section
 
 /-!
 # Exact phase laws for every vector of the residual core

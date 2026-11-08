@@ -1,8 +1,12 @@
-import HeckeAxiom.AllowedGeneratorAdapter
-import HeckeGeneral.Characters.LocalStandardAnnihilator
-import DedekindZetaZeroFree.Arithmetic.Units.PrincipalizingRayCharacterContext
-import DedekindZetaZeroFree.Moments.Probes.PrincipalArithmeticEnlargement
-import DedekindZetaZeroFree.Arithmetic.RayClasses.Characters.TrivialCharacter
+module
+
+public import HeckeAxiom.AllowedGeneratorAdapter
+public import HeckeGeneral.Characters.LocalStandardAnnihilator
+public import DedekindZetaZeroFree.Arithmetic.Units.PrincipalizingRayCharacterContext
+public import DedekindZetaZeroFree.Moments.Probes.PrincipalArithmeticEnlargement
+public import DedekindZetaZeroFree.Arithmetic.RayClasses.Characters.TrivialCharacter
+
+@[expose] public section
 
 /-!
 # One Axiom arithmetic choice for the skeleton's base data

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileScaleBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedIndexedKernelMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogOrbitalKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileScaleBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedIndexedKernelMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogOrbitalKernel
+
+@[expose] public section
 
 /-!
 # Fourier control of the same canonical capacity children

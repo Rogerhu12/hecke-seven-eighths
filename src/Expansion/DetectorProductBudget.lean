@@ -1,5 +1,9 @@
-import Expansion.TerminalTailBudget
-import ExpansionDetector.MellinPowerBudget
+module
+
+public import Expansion.TerminalTailBudget
+public import ExpansionDetector.MellinPowerBudget
+
+@[expose] public section
 
 /-!
 # From the actual finite-source inequality to a power spike

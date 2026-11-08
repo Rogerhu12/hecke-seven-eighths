@@ -1,22 +1,26 @@
-import HeckeSkeleton.Theta
-import HeckeGeneral.Analysis.TInputParameterUniformMoments
-import HeckeSkeleton.HighArithmeticInputs
-import HeckeAxiom.QuadraticSieve
-import CubicSieve.Complete
-import HeckeSkeleton.ExpansionModels.SourceData
-import HeckeSkeleton.ExpansionModels.ActualRowEligibility
-import HeckeSkeleton.Moments.MOM_PRIME.ActualEndpoint
-import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Actual
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceReindex
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceModelClosure
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ConditionalTargets
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PairedStep
+module
+
+public import HeckeSkeleton.Theta
+public import HeckeGeneral.Analysis.TInputParameterUniformMoments
+public import HeckeSkeleton.HighArithmeticInputs
+public import HeckeAxiom.QuadraticSieve
+public import CubicSieve.Complete
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import HeckeSkeleton.ExpansionModels.ActualRowEligibility
+public import HeckeSkeleton.Moments.MOM_PRIME.ActualEndpoint
+public import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Actual
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorReindex
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceReindex
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerRecipe
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.AmplificationSource
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessSource
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceModelClosure
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ConditionalTargets
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PairedStep
+
+@[expose] public section
 
 /-! Exploratory actual I/P pipeline, revised §§4–5 and §7.
 This file still contains named admissions for the other moment tasks.

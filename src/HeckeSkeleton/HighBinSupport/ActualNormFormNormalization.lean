@@ -1,4 +1,8 @@
-import HeckeSkeleton.PrimeNormalizer
+module
+
+public import HeckeSkeleton.PrimeNormalizer
+
+@[expose] public section
 
 /-!
 The actual normalizer dependency of the sharp norm-form route.

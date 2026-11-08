@@ -1,7 +1,11 @@
-import HeckePort.Schedule.MomentMesh
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Order
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
-import Mathlib.Tactic.Ring
+module
+
+public import HeckePort.Schedule.MomentMesh
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Order
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.TerminalCertificate
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # The original moment mesh pays for the complete induction order

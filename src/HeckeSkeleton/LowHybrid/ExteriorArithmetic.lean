@@ -1,9 +1,13 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import HeckeGeneral.Arithmetic.IdealFactorization
-import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
-import HeckeSkeleton.LowHybrid.PrimeArithmetic
-import HeckeSkeleton.LowHybrid.Counting
-import HeckeSkeleton.LowFrozenCube.PrimeProducts
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+public import HeckeSkeleton.LowHybrid.PrimeArithmetic
+public import HeckeSkeleton.LowHybrid.Counting
+public import HeckeSkeleton.LowFrozenCube.PrimeProducts
+
+@[expose] public section
 
 /-!
 # The actual exterior-ideal arithmetic for the low hybrid bound

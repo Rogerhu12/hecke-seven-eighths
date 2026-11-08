@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.SIntegerSexticSymbol
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticSymbol
+
+@[expose] public section
 
 /-! Literal symbol covariance on actual S-integer
 elements under the original subgroup. Shared-prime zeros remain present:

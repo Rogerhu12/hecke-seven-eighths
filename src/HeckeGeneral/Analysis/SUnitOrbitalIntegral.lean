@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitHaar
-import HeckeGeneral.Arithmetic.SLocalNormSection
-import Mathlib.MeasureTheory.Group.Integral
+module
+
+public import HeckeGeneral.Analysis.SUnitHaar
+public import HeckeGeneral.Arithmetic.SLocalNormSection
+public import Mathlib.MeasureTheory.Group.Integral
+
+@[expose] public section
 
 /-!
 # Independence of the norm-one component in an actual orbital integral

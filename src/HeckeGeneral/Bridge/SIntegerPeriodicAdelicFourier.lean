@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.SIntegerPeriodicAdelicTest
-import HeckeGeneral.Bridge.SIntegerPeriodicFiniteFourier
-import HeckeGeneral.Bridge.SIntegerPeriodicFourierSupport
+module
+
+public import HeckeGeneral.Bridge.SIntegerPeriodicAdelicTest
+public import HeckeGeneral.Bridge.SIntegerPeriodicFiniteFourier
+public import HeckeGeneral.Bridge.SIntegerPeriodicFourierSupport
+
+@[expose] public section
 
 /-!
 # Actual periodic adelic Fourier transforms at S-local scaled frequencies

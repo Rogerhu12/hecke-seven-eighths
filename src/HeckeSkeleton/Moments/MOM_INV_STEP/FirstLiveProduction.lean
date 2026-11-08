@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRetained
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedProduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveCappedFreeEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedReduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRetained
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedProduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveCappedFreeEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedReduction
+
+@[expose] public section
 
 /-!
 # The whole canonical parent with only live first row sources

@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FrozenScalarMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllowanceCancellation
-import Mathlib.Topology.Order.Compact
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FrozenScalarMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ProfileNormalizationInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllowanceCancellation
+public import Mathlib.Topology.Order.Compact
+
+@[expose] public section
 
 /-!
 # Original support annuli determine the residual Gauss normalization

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleFibers
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalBlock
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleFibers
+
+@[expose] public section
 
 /-!
 # Pointwise bounds for the original marked coefficients

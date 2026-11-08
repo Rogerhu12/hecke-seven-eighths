@@ -1,8 +1,12 @@
-import HeckeGeneral.Characters.LocalCanonicalFrequency
-import FLTReuse.Mbb4ca29c119a4960
-import FLTReuse.M8b1d7aa14f2cc110
-import FLTReuse.M55164c2a16500130
-import Mathlib.Topology.Algebra.GroupWithZero
+module
+
+public import HeckeGeneral.Characters.LocalCanonicalFrequency
+public import FLTReuse.Mbb4ca29c119a4960
+public import FLTReuse.M8b1d7aa14f2cc110
+public import FLTReuse.M55164c2a16500130
+public import Mathlib.Topology.Algebra.GroupWithZero
+
+@[expose] public section
 
 /-!
 # Actual local residue cosets and their negative-sign Fourier transforms

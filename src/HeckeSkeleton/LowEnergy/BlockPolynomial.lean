@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ExponentTail
-import HeckeSkeleton.LowEnergy.CommonMellinTail
-import Mathlib.Tactic.GCongr
+module
+
+public import HeckeSkeleton.LowEnergy.ExponentTail
+public import HeckeSkeleton.LowEnergy.CommonMellinTail
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
 
 /-!
 # The literal hybrid polynomial gives the reflected paper exponent

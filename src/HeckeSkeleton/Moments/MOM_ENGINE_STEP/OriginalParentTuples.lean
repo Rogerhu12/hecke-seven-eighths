@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationPadding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
-import Mathlib.Algebra.BigOperators.Fin
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocationPadding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
+public import Mathlib.Algebra.BigOperators.Fin
+
+@[expose] public section
 
 /-!
 # The actual original parent has an injective whole-factor tuple

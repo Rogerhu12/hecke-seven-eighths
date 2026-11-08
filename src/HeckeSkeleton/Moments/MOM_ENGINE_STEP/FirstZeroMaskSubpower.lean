@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMaskCardinality
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMaskCardinality
+
+@[expose] public section
 
 /-!
 # Original zero-frequency mask weights have a small-power cost

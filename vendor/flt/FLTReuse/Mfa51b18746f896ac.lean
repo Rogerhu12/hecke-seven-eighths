@@ -1,8 +1,12 @@
-import Mathlib.NumberTheory.NumberField.AdeleRing
-import Mathlib.Analysis.Fourier.FourierTransform
-import FLTReuse.Mb875502fbb65df3e
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M9b55ef088d481fef
+module
+
+public import Mathlib.NumberTheory.NumberField.AdeleRing
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import FLTReuse.Mb875502fbb65df3e
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M9b55ef088d481fef
+
+@[expose] public section
 
 open NumberField AutomorphicForm
 open scoped FourierTransform

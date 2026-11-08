@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedProduction
+
+@[expose] public section
 
 /-!
 # First free inverse energies at a prescribed physical row cap

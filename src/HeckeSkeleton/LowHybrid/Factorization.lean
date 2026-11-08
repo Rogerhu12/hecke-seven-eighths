@@ -1,5 +1,9 @@
-import Mathlib.Analysis.Complex.Basic
-import HeckeSkeleton.LowHybrid.CommonTactics
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import HeckeSkeleton.LowHybrid.CommonTactics
+
+@[expose] public section
 
 /-!
 # The exact square extraction used in completed quadratic reduction

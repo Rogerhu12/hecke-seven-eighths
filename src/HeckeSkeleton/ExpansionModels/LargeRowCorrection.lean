@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SmallRowCorrectionSums
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowCorrectionSums
+
+@[expose] public section
 
 /-!
 # The actual full correction on the absolute large-row contour

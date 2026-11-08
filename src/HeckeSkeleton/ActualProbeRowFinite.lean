@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TInputPrincipal
-import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
+module
+
+public import HeckeGeneral.Analysis.TInputPrincipal
+public import HeckeGeneral.Analysis.SIntegerAnnularColumnFinite
+
+@[expose] public section
 
 /-!
 # Finiteness of the actual physical-probe row

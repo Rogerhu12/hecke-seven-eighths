@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
+module
+
+public import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
+
+@[expose] public section
 
 /-!
 # Absolute prime products at the endpoint

@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalCoreSource
-import DedekindZetaZeroFree.Theta.Whittaker.ArchimedeanFiberSmoothness
-import DedekindZetaZeroFree.RepresentationTheory.Smooth.RightDerivativeCyclicSpan
-import DedekindZetaZeroFree.Eisenstein.Residues.FlatRange.UniformFiniteLevels
+module
+
+public import ThetaGlobal.GlobalCoreSource
+public import DedekindZetaZeroFree.Theta.Whittaker.ArchimedeanFiberSmoothness
+public import DedekindZetaZeroFree.RepresentationTheory.Smooth.RightDerivativeCyclicSpan
+public import DedekindZetaZeroFree.Eisenstein.Residues.FlatRange.UniformFiniteLevels
+
+@[expose] public section
 
 /-!
 # Absolute rational Fourier convergence for every residual core vector

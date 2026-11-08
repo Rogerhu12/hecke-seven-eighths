@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
-import HeckeGeneral.Arithmetic.PrincipalOrbitCounting
-import HeckeGeneral.Analysis.LocalThetaInput
+module
+
+public import HeckeGeneral.Analysis.SIntegerSexticDyadicAmplification
+public import HeckeGeneral.Arithmetic.PrincipalOrbitCounting
+public import HeckeGeneral.Analysis.LocalThetaInput
+
+@[expose] public section
 
 /-!
 Linear lower counting for actual nonzero integral ideals outside a fixed

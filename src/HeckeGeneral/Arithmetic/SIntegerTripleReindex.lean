@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+
+@[expose] public section
 
 /-!
 Simultaneous translation of the three actual nonzero

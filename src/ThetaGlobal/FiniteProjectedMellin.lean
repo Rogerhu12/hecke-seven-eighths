@@ -1,9 +1,13 @@
-import ThetaGlobal.FiniteCanonicalVectors
-import ThetaGlobal.FiniteHaarProject
-import ThetaGlobal.FiniteClassProject
-import ThetaGlobal.FiniteMellinProject
-import ThetaGlobal.FiniteTargetPeriod
-import DedekindZetaZeroFree.Theta.Whittaker.FirstRootNondegeneracy
+module
+
+public import ThetaGlobal.FiniteCanonicalVectors
+public import ThetaGlobal.FiniteHaarProject
+public import ThetaGlobal.FiniteClassProject
+public import ThetaGlobal.FiniteMellinProject
+public import ThetaGlobal.FiniteTargetPeriod
+public import DedekindZetaZeroFree.Theta.Whittaker.FirstRootNondegeneracy
+
+@[expose] public section
 
 /-!
 # The finite Mellin table of an actual projected source

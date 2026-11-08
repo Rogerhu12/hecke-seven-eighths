@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,7 +1,11 @@
-import HeckeSkeleton.GramDefinitions
-import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import HeckeGeneral.Analysis.SixthPowerFreeDecomposition
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+
+@[expose] public section
 
 /-!
 GR-07 (exceptional frequency count).

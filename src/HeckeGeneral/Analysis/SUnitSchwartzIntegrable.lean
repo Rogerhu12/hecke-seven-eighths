@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SUnitSchwartzSlice
-import Mathlib.Basic.ENNReal.BigOperators
+module
+
+public import HeckeGeneral.Analysis.SUnitSchwartzSlice
+public import Mathlib.Basic.ENNReal.BigOperators
+
+@[expose] public section
 
 /-!
 # Integrability of actual positive-norm tensor Schwartz slices

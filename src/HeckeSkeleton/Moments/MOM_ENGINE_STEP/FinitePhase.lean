@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.FiniteCircleFourier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildren
+module
+
+public import HeckeGeneral.Characters.FiniteCircleFourier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildren
+
+@[expose] public section
 
 /-!
 # Fixed finite-ray phase expansion with uniform coefficient mass

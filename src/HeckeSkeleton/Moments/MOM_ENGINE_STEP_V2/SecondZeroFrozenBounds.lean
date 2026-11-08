@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceCarrierBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PoolContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceCarrierBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PoolContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

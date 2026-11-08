@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryAtomModel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryAtomModel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalBinding
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
-import ExpansionDetector.AnnularNormalization
+module
+
+public import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
+public import ExpansionDetector.AnnularNormalization
+
+@[expose] public section
 
 /-! The contour estimate may use the finite full norm window. The actual
 IdealTest support is smaller; the sums agree by their literal zero terms.

@@ -1,5 +1,11 @@
-import CubicSieve.GaussPairCRT
-import CubicSieve.GaussPoissonFinite
+module
+
+public import CubicSieve.GaussPairCRT
+public import CubicSieve.GaussPoissonFinite
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+
+@[expose] public section
 
 /-!
 The actual mixed pair Gauss sum with literal denominator generator(I)*generator(J).

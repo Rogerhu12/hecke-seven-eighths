@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.TailCoefficientMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.TailCoefficientMass
+
+@[expose] public section
 
 /-!
 # Uniform rapid decay of the normalized actual first tail

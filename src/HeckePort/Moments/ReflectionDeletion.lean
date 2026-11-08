@@ -1,5 +1,11 @@
-import HeckePort.Moments.NaturalPrimitive
-import HeckeGeneral.Analysis.IdealSummability
+module
+
+public import HeckePort.Moments.NaturalPrimitive
+public import HeckeGeneral.Analysis.IdealSummability
+
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
+@[expose] public section
 
 /-!
 # Deleting finitely many primes from a reflected ideal sum

@@ -1,7 +1,12 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import FLTReuse.M8eb5fc1edd894331
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import FLTReuse.M8eb5fc1edd894331
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdeleRing_measurePreserving_mul_algebraMap
 
 set_option autoImplicit false

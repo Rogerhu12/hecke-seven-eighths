@@ -1,5 +1,9 @@
-import AllowedGeneratorFieldClass
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import AllowedGeneratorFieldClass
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 GR-12 phase 2: the abstract interface replacing the old

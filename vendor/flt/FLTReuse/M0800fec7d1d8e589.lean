@@ -1,9 +1,14 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.Analysis.SpecificLimits.Basic
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Topology.Compactness.Compact
-import Mathlib.MeasureTheory.Group.Measure
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.Analysis.SpecificLimits.Basic
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Topology.Compactness.Compact
+public import Mathlib.MeasureTheory.Group.Measure
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicBox_exists_eq_sum_indicator_image_integralFiniteAdeles
 
 set_option autoImplicit false

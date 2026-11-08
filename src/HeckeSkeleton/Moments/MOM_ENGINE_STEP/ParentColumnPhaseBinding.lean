@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
+
+@[expose] public section
 
 /-!
 # The actual original column phase from its individual atoms

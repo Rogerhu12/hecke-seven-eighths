@@ -1,8 +1,13 @@
-import Mathlib.RingTheory.DedekindDomain.AdicValuation
-import Mathlib.MeasureTheory.Measure.Haar.Basic
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import FLTReuse.M2a2f532b3e0b3dc8
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.RingTheory.DedekindDomain.AdicValuation
+public import Mathlib.MeasureTheory.Measure.Haar.Basic
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import FLTReuse.M2a2f532b3e0b3dc8
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_measureReal_setOf_valued_le_exp
 set_option maxHeartbeats 4000000
 set_option synthInstance.maxHeartbeats 400000

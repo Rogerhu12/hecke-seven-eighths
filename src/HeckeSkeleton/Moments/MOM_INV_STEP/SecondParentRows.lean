@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRadialBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRadialBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+
+@[expose] public section
 
 /-!
 # Exact row geometry of the genuine second source

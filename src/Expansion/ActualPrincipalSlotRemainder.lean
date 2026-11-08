@@ -1,7 +1,11 @@
-import Expansion.ActualPrimeNormalizer
-import HeckeSkeleton.ActualPrincipalWindowError
-import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
-import Mathlib.MeasureTheory.Constructions.Polish.Basic
+module
+
+public import Expansion.ActualPrimeNormalizer
+public import HeckeSkeleton.ActualPrincipalWindowError
+public import HeckeSkeleton.ExpansionModels.SmallRowReciprocal
+public import Mathlib.MeasureTheory.Constructions.Polish.Basic
+
+@[expose] public section
 
 /-!
 # The actual finite-height principal slot remainder

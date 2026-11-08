@@ -1,4 +1,8 @@
-import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+
+@[expose] public section
 
 noncomputable section
 

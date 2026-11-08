@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionCanonical
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionCanonical
+
+@[expose] public section
 
 /-!
 # Exact cube completion of the actual finite canonical column

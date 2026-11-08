@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualPrimeExponentIndex
-import HeckeSkeleton.HighBinSupport.PrimeBlockEuler
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPrimeExponentIndex
+public import HeckeSkeleton.HighBinSupport.PrimeBlockEuler
+
+@[expose] public section
 
 /-!
 # Euler rearrangement of the original four-ideal series

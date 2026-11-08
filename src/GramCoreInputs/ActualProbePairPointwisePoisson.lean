@@ -1,5 +1,9 @@
-import ActualProbePairPeriodicFourier
-import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
+module
+
+public import ActualProbePairPeriodicFourier
+public import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. First periodic Poisson for the SAME actual negative

@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
-import HeckeGeneral.Arithmetic.SIntegerModulus
-import HeckeGeneral.Arithmetic.SIntegerOrbits
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+public import HeckeGeneral.Arithmetic.SIntegerModulus
+public import HeckeGeneral.Arithmetic.SIntegerOrbits
+
+@[expose] public section
 
 /-! The denominator is an actual nonzero S-integer,
 not a freely chosen integral ideal. The exceptional set contains the

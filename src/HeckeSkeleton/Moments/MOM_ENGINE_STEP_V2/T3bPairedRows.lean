@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalExceptionalPaidRows
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import ThetaGlobal.LocalArchMellin
-import ThetaGlobal.LocalArchBounds
+module
+
+public import ThetaGlobal.LocalArchMellin
+public import ThetaGlobal.LocalArchBounds
+
+@[expose] public section
 
 /-!
 # The canonical local high K-type input for the fixed actual source

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzDilation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SchwartzDilation
+
+@[expose] public section
 
 /-!
 # Exact clipping of a canonical child at column length zero

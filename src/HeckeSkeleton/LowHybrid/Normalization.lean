@@ -1,6 +1,10 @@
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import HeckeSkeleton.LowHybrid.CommonTactics
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import HeckeSkeleton.LowHybrid.CommonTactics
+
+@[expose] public section
 
 /-!
 # Exact column normalization and annular mass

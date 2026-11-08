@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.HeckeDerivative
+module
+
+public import HeckeGeneral.Analysis.HeckeDerivative
+
+@[expose] public section
 
 /-!
 # Complex conjugation and inverse Hecke characters

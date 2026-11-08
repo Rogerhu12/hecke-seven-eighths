@@ -1,5 +1,9 @@
-import ActualAllowedGeneratorOrbitMask
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
+module
+
+public import ActualAllowedGeneratorOrbitMask
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual finite-local choice mask selects precisely

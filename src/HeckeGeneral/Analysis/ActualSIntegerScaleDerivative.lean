@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ActualSIntegerZeroSlotMI
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
-import Mathlib.Analysis.Calculus.ContDiff.Deriv
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerZeroSlotMI
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+
+@[expose] public section
 
 /-!
 The genuine log-scale derivative of the actual sextic inverse polynomial,

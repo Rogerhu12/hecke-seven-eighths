@@ -1,4 +1,8 @@
-import Expansion.SmoothDyadicPartition
+module
+
+public import Expansion.SmoothDyadicPartition
+
+@[expose] public section
 
 /-! The literal complex cutoff used in the actual source and both models. -/
 set_option autoImplicit false

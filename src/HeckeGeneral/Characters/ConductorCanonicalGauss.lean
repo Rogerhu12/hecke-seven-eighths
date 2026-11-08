@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalCanonicalAdditive
-import HeckeGeneral.Characters.ConductorGaussFrequency
+module
+
+public import HeckeGeneral.Characters.LocalCanonicalAdditive
+public import HeckeGeneral.Characters.ConductorGaussFrequency
+
+@[expose] public section
 
 /-! The standard local trace/different normalizations on the genuine global conductor quotient.
 The proved local normalization units are assembled by CRT; their phase correction remains explicit. -/

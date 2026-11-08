@@ -1,9 +1,13 @@
-import HeckeSkeleton.LowFrozenCube.Exponents
-import Mathlib.Basic.Complex.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
-import Mathlib.Tactic.SplitIfs
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeSkeleton.LowFrozenCube.Exponents
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+public import Mathlib.Tactic.SplitIfs
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # Frozen valuations and the full cube

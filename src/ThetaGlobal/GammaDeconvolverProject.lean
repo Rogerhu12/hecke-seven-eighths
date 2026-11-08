@@ -1,5 +1,9 @@
-import ThetaGlobal.GammaProfileGrowth
-import ThetaGlobal.RegularizedTestProject
+module
+
+public import ThetaGlobal.GammaProfileGrowth
+public import ThetaGlobal.RegularizedTestProject
+
+@[expose] public section
 
 /-!
 # Concrete archimedean parameters for the scalar deconvolver

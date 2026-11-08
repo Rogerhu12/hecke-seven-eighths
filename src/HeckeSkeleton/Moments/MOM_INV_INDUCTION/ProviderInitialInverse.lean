@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceReductionPoisson
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveProduction
+
+@[expose] public section
 
 /-!
 # The original inverse source enters actual one-pass production

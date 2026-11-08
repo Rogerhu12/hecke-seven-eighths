@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstCauchyContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActiveChildAnnulus
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstCauchyContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActiveChildAnnulus
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

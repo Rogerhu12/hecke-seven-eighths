@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.SourceData
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerMasks
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerMasks
+
+@[expose] public section
 
 /-!
 # The original sixth-power masks of the single source recipe

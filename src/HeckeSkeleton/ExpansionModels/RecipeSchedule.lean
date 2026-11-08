@@ -1,4 +1,8 @@
-import ExpansionInterfaces.DyadicShells
+module
+
+public import ExpansionInterfaces.DyadicShells
+
+@[expose] public section
 
 /-!
 # The actual finite block schedule and its scale guard

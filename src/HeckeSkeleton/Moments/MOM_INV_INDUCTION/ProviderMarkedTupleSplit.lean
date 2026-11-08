@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimeChoiceSlots
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimeChoiceSlots
+
+@[expose] public section
 
 /-!
 # Split the literal original prime tuple at its actual overlap slots

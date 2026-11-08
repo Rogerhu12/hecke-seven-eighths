@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
-import Mathlib.Topology.DiscreteSubset
-import Mathlib.Topology.Algebra.OpenSubgroup
+module
+
+public import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+public import Mathlib.Topology.DiscreteSubset
+public import Mathlib.Topology.Algebra.OpenSubgroup
+
+@[expose] public section
 
 /-!
 The actual diagonal S-unit subgroup is closed and discrete in the product of

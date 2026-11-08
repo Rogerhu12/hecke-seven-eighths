@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.IdealDyadicMobius
+module
+
+public import HeckeGeneral.Analysis.IdealDyadicMobius
+
+@[expose] public section
 
 /-!
 An analytic consumer of a precise compact-uniform estimate for the actual

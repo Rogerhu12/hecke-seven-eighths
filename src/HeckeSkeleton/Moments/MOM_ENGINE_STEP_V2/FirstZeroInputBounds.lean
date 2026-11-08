@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstZeroContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonMass
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.HeckeUniformBufferedControl
-import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+module
+
+public import HeckeSkeleton.HeckeUniformBufferedControl
+public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+
+@[expose] public section
 
 /-!
 Finite-order physical row characters preserve the infinity type of every

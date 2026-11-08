@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.SmallPositiveArchimedeanMoment
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+module
+
+public import HeckeSkeleton.SmallRadius.SmallPositiveArchimedeanMoment
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+
+@[expose] public section
 
 /-!
 A uniform local positive-Mellin absolute integral

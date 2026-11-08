@@ -1,4 +1,8 @@
-import SIntegerSexticOriginalCorrelationDefinition
+module
+
+public import SIntegerSexticOriginalCorrelationDefinition
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Exact off-divisibility support of the original
 genuine full quotient sum. The generic fibre statement does not require

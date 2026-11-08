@@ -1,6 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+
+@[expose] public section
 
 /-!
 # The genuine fixed phases of the first left and right columns

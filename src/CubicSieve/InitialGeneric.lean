@@ -1,5 +1,9 @@
-import CubicSieve.InitialArithmetic
-import CubicSieve.LocalTypesCanonical
+module
+
+public import CubicSieve.InitialArithmetic
+public import CubicSieve.LocalTypesCanonical
+
+@[expose] public section
 
 /-! Transfer the proved conductor large sieve to a realized cubic family.
 The model identities in this intermediate theorem are supplied by the actual

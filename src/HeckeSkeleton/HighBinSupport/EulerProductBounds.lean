@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.EulerProducts
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+module
+
+public import HeckeSkeleton.HighBinSupport.EulerProducts
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+
+@[expose] public section
+
 /-!
 # Euler product bounds without division by local factors
 

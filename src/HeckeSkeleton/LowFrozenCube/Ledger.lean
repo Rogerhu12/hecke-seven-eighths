@@ -1,5 +1,9 @@
-import Mathlib.Analysis.Complex.Basic
-import HeckeSkeleton.LowHybrid.CommonTactics
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import HeckeSkeleton.LowHybrid.CommonTactics
+
+@[expose] public section
 
 /-!
 # The real exponent ledger for the frozen-cube reduction

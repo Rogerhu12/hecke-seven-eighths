@@ -1,7 +1,11 @@
-import Expansion.ActualPrimeSlotBridge
-import Expansion.CompensationPrimeProfile
-import HeckeGeneral.Analysis.MomentPrimeWindows
-import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
+module
+
+public import Expansion.ActualPrimeSlotBridge
+public import Expansion.CompensationPrimeProfile
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+public import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
+
+@[expose] public section
 
 /-!
 # The actual compensation main slot is the original positive row slot

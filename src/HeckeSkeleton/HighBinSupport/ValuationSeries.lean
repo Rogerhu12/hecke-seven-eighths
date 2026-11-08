@@ -1,7 +1,12 @@
-import HeckeSkeleton.HighBinSupport.FiniteLocalTable
-import Mathlib.Analysis.SpecificLimits.Normed
-import Mathlib.Topology.Algebra.InfiniteSum.NatInt
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeSkeleton.HighBinSupport.FiniteLocalTable
+public import Mathlib.Analysis.SpecificLimits.Normed
+public import Mathlib.Topology.Algebra.InfiniteSum.NatInt
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
+
 /-!
 # Summing the actual valuation table: all denominator and sixth-power indices
 

@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.EulerLog
-import HeckeSkeleton.LowEnergy.GaussianReconstruction
-import Mathlib.MeasureTheory.Integral.Bochner.Set
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+module
+
+public import HeckeSkeleton.LowEnergy.EulerLog
+public import HeckeSkeleton.LowEnergy.GaussianReconstruction
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
+
+@[expose] public section
 
 /-!
 # The actual Gaussian annuli have summable Euler seminorms

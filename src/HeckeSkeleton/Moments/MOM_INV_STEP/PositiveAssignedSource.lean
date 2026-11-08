@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveLiteralChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimeChoiceSlots
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveLiteralChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimeChoiceSlots
+
+@[expose] public section
 
 /-!
 # Original squared marks construct the positive reconstruction source

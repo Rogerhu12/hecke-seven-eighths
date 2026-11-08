@@ -1,4 +1,8 @@
-import HeckeSkeleton.ThetaLocal.ArchimedeanMellin
+module
+
+public import HeckeSkeleton.ThetaLocal.ArchimedeanMellin
+
+@[expose] public section
 
 /-!
 # Normalizations for the single-complex-place Mellin pair

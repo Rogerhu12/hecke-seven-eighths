@@ -1,8 +1,12 @@
-import HeckeSkeleton.Descent.ArtinFrobenius
-import HeckeGeneral.Characters.FiniteRamification
-import HeckeGeneral.Analysis.IdealSquarefreeSupport
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SupportedBridge
-import Mathlib.Tactic.NormNum
+module
+
+public import HeckeSkeleton.Descent.ArtinFrobenius
+public import HeckeGeneral.Characters.FiniteRamification
+public import HeckeGeneral.Analysis.IdealSquarefreeSupport
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.Cohomology.SupportedBridge
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 Adapted from the 2026-10-11 cache candidate; see DESCENT_CODEX_REPORT_2.md for checks.

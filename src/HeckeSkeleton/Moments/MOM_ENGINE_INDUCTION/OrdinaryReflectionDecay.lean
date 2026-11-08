@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflection
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryGamma
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflection
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryGamma
+
+@[expose] public section
 
 /-!
 # Arbitrary power decay of the actual ordinary reflected profile

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+
+@[expose] public section
 
 /-!
 # The two literal logarithmic coordinates of every original occurrence

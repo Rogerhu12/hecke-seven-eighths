@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
-import HeckeGeneral.Analysis.SUnitOrbitalIntegral
-import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+module
+
+public import HeckeGeneral.Analysis.SUnitSchwartzIntegrable
+public import HeckeGeneral.Analysis.SUnitOrbitalIntegral
+public import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+
+@[expose] public section
 
 /-!
 # Unfolding an actual nonzero S-integer orbit

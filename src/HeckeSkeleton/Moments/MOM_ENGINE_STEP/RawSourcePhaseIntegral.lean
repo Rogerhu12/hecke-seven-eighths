@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolRawFourierStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolRawFourierStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFamilyIntegrability
+
+@[expose] public section
 
 /-!
 # Integrating the genuine raw second source

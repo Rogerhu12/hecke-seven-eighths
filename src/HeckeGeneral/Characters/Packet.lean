@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Complex.Circle
-import Mathlib.Topology.Algebra.ContinuousMonoidHom
-import Mathlib.GroupTheory.OrderOfElement
-import Mathlib.Tactic.Ext
+module
+
+public import Mathlib.Analysis.Complex.Circle
+public import Mathlib.Topology.Algebra.ContinuousMonoidHom
+public import Mathlib.GroupTheory.OrderOfElement
+public import Mathlib.Tactic.Ext
+
+@[expose] public section
 
 /-!
 # Continuous unitary character packets

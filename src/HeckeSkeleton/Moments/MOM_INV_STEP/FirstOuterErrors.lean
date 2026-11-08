@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredErrors
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorMass
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstToSecondData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredErrors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorMass
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstToSecondData
+
+@[expose] public section
 
 /-!
 # Actual second errors summed over the original first outer source

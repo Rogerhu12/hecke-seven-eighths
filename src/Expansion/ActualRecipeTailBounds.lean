@@ -1,5 +1,9 @@
-import Expansion.ActualRecipeData
-import Expansion.PhysicalInitialTailBound
+module
+
+public import Expansion.ActualRecipeData
+public import Expansion.PhysicalInitialTailBound
+
+@[expose] public section
 
 /-!
 # The actual recipe tail and the original whole-bin boundary hypothesis

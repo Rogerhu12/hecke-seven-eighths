@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import DedekindZetaZeroFree.Arithmetic.Ideals.BoundedNormFinsets
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import DedekindZetaZeroFree.Arithmetic.Ideals.BoundedNormFinsets
+
+@[expose] public section
 
 /-!
 # Complete finite squarefree norm pools

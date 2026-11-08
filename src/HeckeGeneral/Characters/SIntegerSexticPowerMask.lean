@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
-import HeckeGeneral.Arithmetic.SIntegerModulus
-import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+public import HeckeGeneral.Arithmetic.SIntegerModulus
+public import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+
+@[expose] public section
 
 /-!
 The actual sixth-power mask for every S-integer numerator.  This uses the

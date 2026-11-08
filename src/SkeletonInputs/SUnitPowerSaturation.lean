@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbits
-import Mathlib.Algebra.Order.GroupWithZero.Canonical
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbits
+public import Mathlib.Algebra.Order.GroupWithZero.Canonical
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Power saturation of the actual valuation-defined S-unit group in K^x.

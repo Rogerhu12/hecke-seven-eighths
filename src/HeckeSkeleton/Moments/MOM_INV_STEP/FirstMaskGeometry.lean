@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-!
 # Actual support geometry of first Poisson mask divisors

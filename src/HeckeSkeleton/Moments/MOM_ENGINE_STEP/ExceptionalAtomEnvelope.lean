@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRawNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalRawNormalization
+
+@[expose] public section
 
 /-!
 # The exceptional raw mass follows from the original atoms

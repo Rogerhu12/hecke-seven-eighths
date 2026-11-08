@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
+
+@[expose] public section
 
 /-! # Whole-factor fibre counts for the actual truncation carrier -/
 

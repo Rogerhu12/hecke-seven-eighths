@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
-import HeckeSkeleton.Moments.MOM_INV_STEP.InverseCoefficientBounds
-import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondPoissonSplit
+public import HeckeSkeleton.Moments.MOM_INV_STEP.InverseCoefficientBounds
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
+
+@[expose] public section
 
 /-!
 # Principal bounds for the actual intermediate inverse family

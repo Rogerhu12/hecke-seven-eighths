@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.LocalThetaInput
-import HeckeGeneral.Characters.LocalCanonicalFrequency
-import DedekindZetaZeroFree.Arithmetic.Units.SArithmeticData
-import DedekindZetaZeroFree.Theta.Whittaker.ExteriorFrequencyBranchCoordinates
+module
+
+public import HeckeGeneral.Analysis.LocalThetaInput
+public import HeckeGeneral.Characters.LocalCanonicalFrequency
+public import DedekindZetaZeroFree.Arithmetic.Units.SArithmeticData
+public import DedekindZetaZeroFree.Theta.Whittaker.ExteriorFrequencyBranchCoordinates
+
+@[expose] public section
 
 /-!
 # Axiom arithmetic data as the skeleton's theta arithmetic data

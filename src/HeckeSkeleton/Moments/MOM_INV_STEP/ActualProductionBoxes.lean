@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionChildren
-import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionChildren
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+
+@[expose] public section
 
 /-!
 # Fixed norm boxes for the genuine two-pass production source

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonSupportPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPhysicalSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonSupportPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPhysicalSource
+
+@[expose] public section
 
 /-!
 # Actual common-support rectangles for the first source

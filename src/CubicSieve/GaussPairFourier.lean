@@ -1,5 +1,9 @@
-import CubicSieve.GaussPair
-import CubicSieve.GaussPairFourierCRT
+module
+
+public import CubicSieve.GaussPair
+public import CubicSieve.GaussPairFourierCRT
+
+@[expose] public section
 
 /-! The actual pair Fourier identity at every frequency, with its exact Gauss phase.
 No zero or nonunit frequency is deleted. -/

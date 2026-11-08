@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstZero
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstZero
+
+@[expose] public section
 
 /-!
 # Zero Gauss sums for arbitrary actual generators

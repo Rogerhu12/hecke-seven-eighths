@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.GeneralReflectedBlock
-import HeckeSkeleton.LowEnergy.ActualSourceReindex
-import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralReflectedBlock
+public import HeckeSkeleton.LowEnergy.ActualSourceReindex
+public import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
+
+@[expose] public section
 
 /-!
 # Exact reconstruction at an arbitrary completed scale

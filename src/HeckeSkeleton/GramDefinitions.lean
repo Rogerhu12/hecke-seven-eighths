@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
-import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Analysis.TraceJointProfileBounds
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+public import HeckeGeneral.Analysis.SIntegerSixthPowerDecomposition
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Analysis.TraceJointProfileBounds
+
+@[expose] public section
 
 /-! Exploratory sorry skeleton. The amplitude is the literal c=1 instance
 of ActualAdditiveGramAmplitude.lean (revised (3.33)), copied without importing

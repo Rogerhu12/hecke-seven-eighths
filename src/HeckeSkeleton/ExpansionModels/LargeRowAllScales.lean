@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.LargeRowCorrection
+module
+
+public import HeckeSkeleton.ExpansionModels.LargeRowCorrection
+
+@[expose] public section
 
 /-!
 # All-scale control of the literal large-row correction

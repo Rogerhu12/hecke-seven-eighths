@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogOrbitalKernel
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogOrbitalKernel
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+
+@[expose] public section
 
 /-!
 # The common logarithmic chart of the actual second transform

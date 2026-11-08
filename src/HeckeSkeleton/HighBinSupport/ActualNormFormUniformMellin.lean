@@ -1,8 +1,12 @@
-import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
-import HeckeGeneral.Analysis.PhysicalProbeData
-import Mathlib.Analysis.Calculus.ContDiff.Comp
-import Mathlib.Analysis.Calculus.Deriv.Prod
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualNormFormMellinInversion
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import Mathlib.Analysis.Calculus.ContDiff.Comp
+public import Mathlib.Analysis.Calculus.Deriv.Prod
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-!
 Uniform Mellin seminorms for the genuine logarithm-removal test.

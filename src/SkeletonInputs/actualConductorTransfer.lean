@@ -1,5 +1,9 @@
-import ArithmeticFrequencyRowConductorNorm
-import HeckeGeneral.Analysis.PhysicalProbeContours
+module
+
+public import ArithmeticFrequencyRowConductorNorm
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+
+@[expose] public section
 
 /-!
 Generic transport of the verified canonical radical conductor bound.

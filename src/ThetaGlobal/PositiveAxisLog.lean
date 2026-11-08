@@ -1,8 +1,12 @@
-import ThetaGlobal.ScalarMellinConvolution
-import DedekindZetaZeroFree.HarmonicAnalysis.Haar.PositiveAxisSheetDisintegration
-import Mathlib.MeasureTheory.Function.Jacobian
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import ThetaGlobal.ScalarMellinConvolution
+public import DedekindZetaZeroFree.HarmonicAnalysis.Haar.PositiveAxisSheetDisintegration
+public import Mathlib.MeasureTheory.Function.Jacobian
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-!
 # Exact logarithmic coordinates for the stored positive Haar measure

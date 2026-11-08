@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileControlScaling
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileControlScaling
+
+@[expose] public section
 
 /-!
 # Normalizing actual ordinary-reflection child profiles

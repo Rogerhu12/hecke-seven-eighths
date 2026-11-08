@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.IntegralRecursion
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.IntegralRecursion
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+
+@[expose] public section
 
 /-!
 # Finite and continuous parent reductions

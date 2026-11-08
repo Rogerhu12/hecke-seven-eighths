@@ -1,5 +1,10 @@
-import FiniteAffineCorrelationBound
-import Mathlib.NumberTheory.JacobiSum.Basic
+module
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+public import FiniteAffineCorrelationBound
+public import Mathlib.NumberTheory.JacobiSum.Basic
+
+@[expose] public section
 
 /-! Source-only, uncompiled. Exact genuine finite-field affine correlation.
 The trivial character is MulChar's zero extension, including at frequency zero. -/

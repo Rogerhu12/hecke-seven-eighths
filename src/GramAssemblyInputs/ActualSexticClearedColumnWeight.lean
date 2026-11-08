@@ -1,5 +1,9 @@
-import ActualSexticPeriodicLatticeWeight
-import ActualFixedSBoxDenominator
+module
+
+public import ActualSexticPeriodicLatticeWeight
+public import ActualFixedSBoxDenominator
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. The quotient weight agrees with the original

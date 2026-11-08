@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
-import HeckeSkeleton.Moments.MOM_INV_STEP.IteratedFrequencyBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralAggregation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
+public import HeckeSkeleton.Moments.MOM_INV_STEP.IteratedFrequencyBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralAggregation
+
+@[expose] public section
 
 /-!
 # Paying the actual second spectral cost

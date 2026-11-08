@@ -1,7 +1,11 @@
-import Expansion.ActualPrincipalSlotRemainder
-import Expansion.PhysicalFrequencyReindex
-import HeckeSkeleton.ExpansionModels.PrincipalRowCorrection
-import HeckeSkeleton.ExpansionModels.SmallRowMellin
+module
+
+public import Expansion.ActualPrincipalSlotRemainder
+public import Expansion.PhysicalFrequencyReindex
+public import HeckeSkeleton.ExpansionModels.PrincipalRowCorrection
+public import HeckeSkeleton.ExpansionModels.SmallRowMellin
+
+@[expose] public section
 
 /-!
 # The literal principal kernels on the two residue contours

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
-import HeckeGeneral.Analysis.HeckeConjugation
-import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
+public import HeckeGeneral.Analysis.HeckeConjugation
+public import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+
+@[expose] public section
 
 /-!
 # The same live Hecke background after each coefficient cycle

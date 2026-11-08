@@ -1,7 +1,13 @@
-import HeckeGeneral.Analysis.IdealEulerProduct
-import HeckeGeneral.Arithmetic.IdealFactorization
-import Mathlib.Algebra.BigOperators.Finsupp.Basic
-import Mathlib.Analysis.Normed.Ring.InfiniteSum
+module
+
+public import HeckeGeneral.Analysis.IdealEulerProduct
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import Mathlib.Algebra.BigOperators.Finsupp.Basic
+public import Mathlib.Analysis.Normed.Ring.InfiniteSum
+
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
+@[expose] public section
 
 /-!
 # Euler summation over finitely supported prime exponents

@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.HeckeConjugation
-import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
-import HeckeGeneral.Analysis.FrequencyRowOrbit
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeGeneral.Analysis.HeckeConjugation
+public import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+public import HeckeGeneral.Analysis.FrequencyRowOrbit
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-!
 # Character inversion and products with the original ramified zeros

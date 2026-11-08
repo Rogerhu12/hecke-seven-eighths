@@ -1,5 +1,9 @@
-import ExpansionDetector.MellinPowerBudget
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+module
+
+public import ExpansionDetector.MellinPowerBudget
+public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+
+@[expose] public section
 
 /-!
 # Normalizing the literal finite contour estimate

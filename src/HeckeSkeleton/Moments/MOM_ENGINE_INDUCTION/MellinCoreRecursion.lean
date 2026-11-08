@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinScalarStep
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScalarRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinScalarStep
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScalarRecursion
+
+@[expose] public section
 
 /-!
 # Core strong induction after actual Mellin and strict production

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualReconstructionPacket
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualReconstructionPacket
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalChildren
+
+@[expose] public section
 
 /-!
 # The two actual canonical columns after the second Cauchy step

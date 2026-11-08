@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentCentering
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredSpectralFiber
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentCentering
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredSpectralFiber
+
+@[expose] public section
 
 /-!
 # The actual old-label and frequency rows of the whole first parent

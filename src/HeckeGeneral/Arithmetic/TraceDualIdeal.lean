@@ -12,10 +12,14 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: The FLT Project
 -/
 
-import Mathlib.NumberTheory.NumberField.Discriminant.Defs
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.RingTheory.FractionalIdeal.Norm
-import Mathlib.NumberTheory.NumberField.Discriminant.Different
+module
+
+public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.RingTheory.FractionalIdeal.Norm
+public import Mathlib.NumberTheory.NumberField.Discriminant.Different
+
+@[expose] public section
 
 /-! TODO: Add doc-string. -/
 

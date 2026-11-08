@@ -1,5 +1,9 @@
-import SIntegerSexticOriginalFullFourier
-import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+module
+
+public import SIntegerSexticOriginalFullFourier
+public import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Constructed standard-local and positive S-local
 trace characters in the original full Fourier inversion. Every frequency

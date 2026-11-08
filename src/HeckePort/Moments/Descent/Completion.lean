@@ -1,5 +1,9 @@
-import HeckePort.Moments.Descent.IdealMasks
-import HeckePort.CenteredMoment.Generator
+module
+
+public import HeckePort.Moments.Descent.IdealMasks
+public import HeckePort.CenteredMoment.Generator
+
+@[expose] public section
 
 /-!
 # Marked completed sums

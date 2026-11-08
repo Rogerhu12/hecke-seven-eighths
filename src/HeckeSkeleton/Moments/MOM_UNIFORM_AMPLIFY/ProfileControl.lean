@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-!
 # All profile slices used by a moment model

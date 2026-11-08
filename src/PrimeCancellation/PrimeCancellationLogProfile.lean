@@ -5,10 +5,13 @@ lean/OAI/NumberTheory/DirichletL/PrimeLogProfile.lean.
 The extraction replaces the arithmetic sieve cutoff with an independent
 mathlib smooth bump and removes all number-field dependencies.
 -/
-import PrimeCancellationCompactFamily
-import PrimeCancellationLogWindow
-import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+module
 
+public import PrimeCancellationCompactFamily
+public import PrimeCancellationLogWindow
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+
+@[expose] public section
 
 namespace PrimeCancellationLogProfile
 

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteRowKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDensity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteRowKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDensity
+
+@[expose] public section
 
 /-!
 # Row-dependent line selection inside a fixed common kernel

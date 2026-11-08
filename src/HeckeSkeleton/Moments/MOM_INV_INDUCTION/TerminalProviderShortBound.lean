@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderRows
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNodeShort
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCubePriority
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBackgrounds
-import Mathlib.Algebra.BigOperators.Group.Finset.Preimage
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderRows
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNodeShort
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderCubePriority
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBackgrounds
+public import Mathlib.Algebra.BigOperators.Group.Finset.Preimage
+
+@[expose] public section
 
 /-!
 # The uniform short contribution of the original canonical node

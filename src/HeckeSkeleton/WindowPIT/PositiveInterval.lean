@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.GlobalThetaData
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+
+@[expose] public section
 
 /-! A nonzero real nonnegative smooth window has a positive lower bound
 on one closed interval strictly inside its original support annulus. -/

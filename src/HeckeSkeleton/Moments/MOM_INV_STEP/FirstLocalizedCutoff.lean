@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstAdaptiveTruncation
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstAdaptiveTruncation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedEnergy
+
+@[expose] public section
 
 /-!
 # Actual first-source cutoffs after extraction

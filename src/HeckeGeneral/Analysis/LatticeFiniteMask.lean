@@ -1,9 +1,15 @@
-import HeckeGeneral.Analysis.IdealThetaNormalization
-import Mathlib.GroupTheory.Coset.Basic
-import Mathlib.Algebra.Group.AddChar
-import HeckeGeneral.Characters.FiniteCircleFourier
-import HeckeGeneral.Arithmetic.IdealLatticeQuotient
-import HeckeGeneral.Characters.ConductorGauss
+module
+
+public import HeckeGeneral.Analysis.IdealThetaNormalization
+public import Mathlib.GroupTheory.Coset.Basic
+public import Mathlib.Algebra.Group.AddChar
+public import HeckeGeneral.Characters.FiniteCircleFourier
+public import HeckeGeneral.Arithmetic.IdealLatticeQuotient
+public import HeckeGeneral.Characters.ConductorGauss
+
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
+@[expose] public section
 
 /-!
 Finite periodic weights on actual lattices. The quotient is the genuine

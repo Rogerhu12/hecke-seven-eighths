@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+
+@[expose] public section
 
 /-!
 # Exact positive normalization of the actual original Gauss factors

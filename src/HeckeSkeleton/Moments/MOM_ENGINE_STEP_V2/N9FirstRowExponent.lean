@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFirstNorms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RemainingMaskRadical
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceFirstNorms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstBlockMaskCardinality
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RemainingMaskRadical
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

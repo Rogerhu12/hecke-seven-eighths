@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeGeneral.Analysis.PhysicalProbeRowData
-import HeckeGeneral.Analysis.FiniteEulerRational
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeGeneral.Analysis.PhysicalProbeRowData
+public import HeckeGeneral.Analysis.FiniteEulerRational
+
+@[expose] public section
 
 /-!
 Compatibility entry point for the original physical-probe row API.

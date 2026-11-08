@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.LocalConductorGauss
+module
+
+public import HeckeGeneral.Characters.LocalConductorGauss
+
+@[expose] public section
 
 /-! Nonunit-frequency vanishing of the actual primitive local conductor Gauss transform. -/
 

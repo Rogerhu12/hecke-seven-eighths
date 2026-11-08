@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularRows
+
+@[expose] public section
 
 /-!
 # Literal complete-row calibration for the fixed annular columns

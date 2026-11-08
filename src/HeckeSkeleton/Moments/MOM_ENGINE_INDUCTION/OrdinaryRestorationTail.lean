@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionWhole
-import HeckePort.Moments.ReflectionMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionWhole
+public import HeckePort.Moments.ReflectionMass
+
+@[expose] public section
 
 /-!
 # The actual restoration tails at a common finite dyadic cutoff

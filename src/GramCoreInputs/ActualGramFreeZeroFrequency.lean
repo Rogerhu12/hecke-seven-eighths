@@ -1,7 +1,11 @@
-import ActualAdditiveGramFreeOrbitalAssembly
-import ActualGramRowBallOrbitalMajorant
-import ActualGramDiagonalBound
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+module
+
+public import ActualAdditiveGramFreeOrbitalAssembly
+public import ActualGramRowBallOrbitalMajorant
+public import ActualGramDiagonalBound
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native0. Actual free-test zero correction: the full finite

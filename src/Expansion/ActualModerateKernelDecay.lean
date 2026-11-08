@@ -1,6 +1,10 @@
-import Expansion.ActualModerateCorrectionBound
-import Expansion.ActualModerateSweepHolomorphy
-import Expansion.ActualOuterKernelDecay
+module
+
+public import Expansion.ActualModerateCorrectionBound
+public import Expansion.ActualModerateSweepHolomorphy
+public import Expansion.ActualOuterKernelDecay
+
+@[expose] public section
 
 /-!
 # Uniform complete-kernel height decay on every moderate initial sweep

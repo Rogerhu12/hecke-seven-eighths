@@ -1,6 +1,10 @@
-import HeckePort.Moments.Descent.IdealMasks
-import HeckePort.Moments.Descent.Fibers
-import HeckePort.CenteredMoment.Counting
+module
+
+public import HeckePort.Moments.Descent.IdealMasks
+public import HeckePort.Moments.Descent.Fibers
+public import HeckePort.CenteredMoment.Counting
+
+@[expose] public section
 
 /-!
 # Hybrid cubic/quadratic columns

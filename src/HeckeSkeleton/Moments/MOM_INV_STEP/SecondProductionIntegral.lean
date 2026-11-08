@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionWeight
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstProductionWeight
+
+@[expose] public section
 
 /-!
 # The actual second positive production under one joint spectral measure

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
-import HeckeSkeleton.Moments.MOM_INV_STEP.SharpCommonKernelBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SharpCommonKernelBounds
+
+@[expose] public section
 
 /-!
 # One Fourier envelope independent of the first dual row

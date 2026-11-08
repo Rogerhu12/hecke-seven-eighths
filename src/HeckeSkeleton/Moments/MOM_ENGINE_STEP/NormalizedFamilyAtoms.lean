@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedProductFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedProductFamily
+
+@[expose] public section
 
 /-!
 # Original atom controls used by the complete finite source producer

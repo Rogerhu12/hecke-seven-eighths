@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalProjectEmbedding
-import DedekindZetaZeroFree.LFunctions.Hecke.PrincipalRayContinuation
-import DedekindZetaZeroFree.Arithmetic.Kummer.TwelfthRootsTotallyComplex
+module
+
+public import ThetaGlobal.GlobalProjectEmbedding
+public import DedekindZetaZeroFree.LFunctions.Hecke.PrincipalRayContinuation
+public import DedekindZetaZeroFree.Arithmetic.Kummer.TwelfthRootsTotallyComplex
+
+@[expose] public section
 
 /-!
 # A single aligned arithmetic choice with its trivial modulus retained

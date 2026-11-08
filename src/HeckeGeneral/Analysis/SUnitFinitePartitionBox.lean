@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SUnitCompactRepresentatives
-import Mathlib.Topology.LocallyConstant.Algebra
-import Mathlib.Topology.Algebra.Support
-import Mathlib.Topology.Clopen
+module
+
+public import HeckeGeneral.Arithmetic.SUnitCompactRepresentatives
+public import Mathlib.Topology.LocallyConstant.Algebra
+public import Mathlib.Topology.Algebra.Support
+public import Mathlib.Topology.Clopen
+
+@[expose] public section
 
 /-! The existing actual finite valuation box is compact and open. Its
 literal characteristic function is the finite-coordinate cutoff for the

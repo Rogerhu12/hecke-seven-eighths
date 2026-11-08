@@ -1,5 +1,11 @@
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import HeckePort.Moments.Correlation
+module
+
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import HeckePort.Moments.Correlation
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+
+@[expose] public section
 
 /-!
 # Full-modulus correlations

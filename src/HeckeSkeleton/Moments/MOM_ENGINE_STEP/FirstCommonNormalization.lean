@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonGauss
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonGauss
+
+@[expose] public section
 
 /-!
 # Normalization of the genuine active Gauss factor

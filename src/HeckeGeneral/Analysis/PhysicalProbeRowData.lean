@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Analysis.FiniteEulerRational
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Analysis.FiniteEulerRational
+
+@[expose] public section
 
 /-!
 Actual Poisson frequency rows and the initial four-ideal Euler series.

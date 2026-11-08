@@ -1,7 +1,11 @@
-import HeckeGeneral.Bridge.SIntegerAdelicPoisson
-import HeckeGeneral.Bridge.SLocalIdeleAssembly
-import HeckeGeneral.Arithmetic.SIntegerModulusCRT
-import HeckeGeneral.Characters.LocalResidueCosetFourier
+module
+
+public import HeckeGeneral.Bridge.SIntegerAdelicPoisson
+public import HeckeGeneral.Bridge.SLocalIdeleAssembly
+public import HeckeGeneral.Arithmetic.SIntegerModulusCRT
+public import HeckeGeneral.Characters.LocalResidueCosetFourier
+
+@[expose] public section
 
 /-!
 # The actual finite adelic test for an S-integer periodic coefficient

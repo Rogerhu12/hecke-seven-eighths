@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
-import HeckeGeneral.Arithmetic.SIntegerOrbits
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondChartAllocation
+public import HeckeGeneral.Arithmetic.SIntegerOrbits
+
+@[expose] public section
 
 /-!
 # The actual second rows retain exactly the original unit sectors

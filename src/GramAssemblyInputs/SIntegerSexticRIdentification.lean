@@ -1,5 +1,10 @@
-import SIntegerSexticReciprocity
-import HeckeGeneral.Characters.SIntegerSexticCorrelationCovariance
+module
+
+public import SIntegerSexticReciprocity
+public import HeckeGeneral.Characters.SIntegerSexticCorrelationCovariance
+
+@[expose] public section
+
 /-! SOURCE ONLY, UNRUN. The literal R candidate agrees with the actual
 ALL-S reciprocity correction on the exterior-coprime locus. Its period is
 restricted to pairs whose two endpoints remain on that locus. The unit

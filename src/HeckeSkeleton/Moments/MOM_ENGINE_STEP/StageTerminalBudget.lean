@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ZeroTerminalBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ZeroTerminalBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+
+@[expose] public section
 
 /-!
 # Actual source exits with both terminal terms paid

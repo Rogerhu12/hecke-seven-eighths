@@ -1,7 +1,11 @@
-import HeckeSkeleton.HighBinSupport.ActualContourTransport
-import HeckeSkeleton.HighBinSupport.ActualLRatioStrip
-import HeckeSkeleton.HighBinSupport.ActualEulerProduct
-import HeckeGeneral.Analysis.FrequencyRowCounting
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualContourTransport
+public import HeckeSkeleton.HighBinSupport.ActualLRatioStrip
+public import HeckeSkeleton.HighBinSupport.ActualEulerProduct
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+
+@[expose] public section
 
 /-!
 # Horizontal tails for the constructed arithmetic Euler provider

@@ -1,31 +1,36 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import Mathlib.NumberTheory.NumberField.Discriminant.Basic
-import Mathlib.NumberTheory.NumberField.Discriminant.Different
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import Mathlib.Algebra.Module.ZLattice.Summable
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import Mathlib.MeasureTheory.Measure.Haar.Unique
-import FLTReuse.Me1935f2db6cb5a96
-import FLTReuse.Mbbeae30c8850e096
-import FLTReuse.M65cb97bf9eaf069f
-import FLTReuse.M76dc382b7c5a77fb
-import FLTReuse.M9057cd329fb068d5
-import FLTReuse.M436eaa679b5c9606
-import FLTReuse.Me066ce250184ef32
-import FLTReuse.Meb14a06c3bdf56f2
-import FLTReuse.M886f6dfd7ac55d2e
-import FLTReuse.Mcaac7c2d6d568644
-import FLTReuse.M1f3cfb3430c55860
-import FLTReuse.M0e757d684cb89758
-import FLTReuse.M433c6f5f4b033d27
-import FLTReuse.M0c8fe1e24b28af5e
-import FLTReuse.M7061c16014292de9
-import FLTReuse.M7f86edea65d586c8
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Mathlib.NumberTheory.NumberField.Discriminant.Basic
+public import Mathlib.NumberTheory.NumberField.Discriminant.Different
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import Mathlib.Algebra.Module.ZLattice.Summable
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import Mathlib.MeasureTheory.Measure.Haar.Unique
+public import FLTReuse.Me1935f2db6cb5a96
+public import FLTReuse.Mbbeae30c8850e096
+public import FLTReuse.M65cb97bf9eaf069f
+public import FLTReuse.M76dc382b7c5a77fb
+public import FLTReuse.M9057cd329fb068d5
+public import FLTReuse.M436eaa679b5c9606
+public import FLTReuse.Me066ce250184ef32
+public import FLTReuse.Meb14a06c3bdf56f2
+public import FLTReuse.M886f6dfd7ac55d2e
+public import FLTReuse.Mcaac7c2d6d568644
+public import FLTReuse.M1f3cfb3430c55860
+public import FLTReuse.M0e757d684cb89758
+public import FLTReuse.M433c6f5f4b033d27
+public import FLTReuse.M0c8fe1e24b28af5e
+public import FLTReuse.M7061c16014292de9
+public import FLTReuse.M7f86edea65d586c8
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_tsum_eq_tsum_fourierIntegral_of_mem_pureTensorSet_of_apply_eq_fourierChar_trace
 
 open NumberField NumberField.AdelicFourier NumberField.AdelicBox AutomorphicForm IsDedekindDomain MeasureTheory

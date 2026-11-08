@@ -1,6 +1,10 @@
-import ActualProbeSpectralFrequencyExpansion
-import ActualProbeLogRowNormEnvelope
-import ActualAdditiveGramUnitOrbits
+module
+
+public import ActualProbeSpectralFrequencyExpansion
+public import ActualProbeLogRowNormEnvelope
+public import ActualAdditiveGramUnitOrbits
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The finite frequency set is now kept inside the

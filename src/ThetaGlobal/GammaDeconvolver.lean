@@ -1,7 +1,11 @@
-import ThetaGlobal.GaussianStripDecay
-import ThetaGlobal.AnnularTransfer
-import ThetaGlobal.ScalarGaussianLimits
-import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+module
+
+public import ThetaGlobal.GaussianStripDecay
+public import ThetaGlobal.AnnularTransfer
+public import ThetaGlobal.ScalarGaussianLimits
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+
+@[expose] public section
 
 /-!
 # The actual finite gamma product supplies the scalar deconvolver

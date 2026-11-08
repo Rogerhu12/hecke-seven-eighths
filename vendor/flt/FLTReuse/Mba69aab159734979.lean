@@ -1,8 +1,13 @@
-import FLTReuse.Md2cadaa4525e04a6
-import Mathlib.MeasureTheory.Group.Measure
-import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import Mathlib.MeasureTheory.Group.Measure
+public import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicBox_absNorm_mul_measure_image_integralFiniteAdeles
 
 set_option autoImplicit false

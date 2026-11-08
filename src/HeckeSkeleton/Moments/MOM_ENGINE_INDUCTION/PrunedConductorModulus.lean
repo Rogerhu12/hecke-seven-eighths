@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRowConductor
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRowConductor
+
+@[expose] public section
 
 /-!
 # One actual modulus for the conductor and its remaining deletions

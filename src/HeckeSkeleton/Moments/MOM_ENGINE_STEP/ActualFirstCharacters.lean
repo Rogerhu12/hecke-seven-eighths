@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationBound
-import HeckePort.Moments.Active
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationBound
+public import HeckePort.Moments.Active
+
+@[expose] public section
 
 /-!
 # Actual active and principal factors in the first transform

@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.SourceData
-import HeckeGeneral.Analysis.WitnessRowCount
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessCalibration
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceWitnessGeometry
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+public import HeckeGeneral.Analysis.WitnessRowCount
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.WitnessCalibration
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceWitnessGeometry
+
+@[expose] public section
 
 /-!
 # Independent-scale amplification at the original source witnesses

@@ -1,5 +1,9 @@
-import Expansion.ActualFrequencyPrimeCancellation
-import Expansion.ActualMaskedPrimeCancellation
+module
+
+public import Expansion.ActualFrequencyPrimeCancellation
+public import Expansion.ActualMaskedPrimeCancellation
+
+@[expose] public section
 
 /-!
 # Physical prime-profile phases and the centered analytic estimate

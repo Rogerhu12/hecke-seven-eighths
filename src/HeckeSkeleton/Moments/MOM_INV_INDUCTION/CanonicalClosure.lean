@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.EnergyClosure
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Terminal
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.EnergyClosure
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Terminal
+
+@[expose] public section
 
 /-!
 # The canonical recursion with its actual depth-dependent margins

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianCover
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianCover
+
+@[expose] public section
 
 /-!
 # Actual second sources through their genuine Cartesian covers

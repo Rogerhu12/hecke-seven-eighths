@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierResidualSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierResidualSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+
+@[expose] public section
 
 /-! Actual singleton-support extraction and residual quotient identities. -/
 

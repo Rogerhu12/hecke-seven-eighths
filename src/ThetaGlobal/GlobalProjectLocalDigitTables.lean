@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalProjectDigitProduct
-import ThetaGlobal.GlobalProjectDigitSupport
+module
+
+public import ThetaGlobal.GlobalProjectDigitProduct
+public import ThetaGlobal.GlobalProjectDigitSupport
+
+@[expose] public section
 
 /-!
 # One-place exterior digit tables and their exact global finite product

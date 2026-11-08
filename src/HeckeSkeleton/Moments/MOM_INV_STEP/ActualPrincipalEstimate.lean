@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSplit
-import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalProfileBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSplit
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MaskCounting
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalProfileBounds
+
+@[expose] public section
 
 /-!
 # The actual first additive-zero contribution

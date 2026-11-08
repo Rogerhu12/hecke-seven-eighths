@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDualZeroSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonFirstOrigin
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDualZeroSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CommonFirstOrigin
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

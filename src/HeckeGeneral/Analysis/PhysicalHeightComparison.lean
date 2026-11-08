@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TargetHeightChoice
-import HeckeGeneral.Analysis.MellinZeroDetector
+module
+
+public import HeckeGeneral.Analysis.TargetHeightChoice
+public import HeckeGeneral.Analysis.MellinZeroDetector
+
+@[expose] public section
 
 /-!
 M Section 7: absorb the target-dependent height degree and tail by choosing

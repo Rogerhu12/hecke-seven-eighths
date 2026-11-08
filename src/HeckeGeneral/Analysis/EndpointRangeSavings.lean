@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.DynamicWitnessCrossing
+module
+
+public import HeckeGeneral.Analysis.DynamicWitnessCrossing
+
+@[expose] public section
 
 /-! The complete real-parameter range bookkeeping in M Section 7.
 The input R is a row-count EXPONENT; this file does not assume or prove

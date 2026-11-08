@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinStrictTransfer
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinStrictTransfer
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
+
+@[expose] public section
 
 /-!
 # A literal Mellin strict step with its genuine labelled children

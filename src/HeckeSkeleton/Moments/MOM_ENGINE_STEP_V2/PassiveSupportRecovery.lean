@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportCartesianReindex
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstInversePoisson
+
+@[expose] public section
 
 /-!
 # The retained first divisor in the actual intermediate inverse column

@@ -1,4 +1,8 @@
-import ExpansionDetector.EulerDeletionBounds
+module
+
+public import ExpansionDetector.EulerDeletionBounds
+
+@[expose] public section
 
 /-! Numerator deletion on slightly negative reflected lines. The extra
 power is exactly the negative real-part allowance; the factor 2 per prime

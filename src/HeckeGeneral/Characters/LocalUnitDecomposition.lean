@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.LocalResidueCharacter
-import Mathlib.Topology.LocallyConstant.Basic
-import Mathlib.Topology.Instances.Int
+module
+
+public import HeckeGeneral.Characters.LocalResidueCharacter
+public import Mathlib.Topology.LocallyConstant.Basic
+public import Mathlib.Topology.Instances.Int
+
+@[expose] public section
 
 /-! Uniformizer order and the continuous integral-unit part of a finite local unit. -/
 

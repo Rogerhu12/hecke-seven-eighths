@@ -1,6 +1,10 @@
-import ThetaGlobal.ReflectedAbsoluteProject
-import ThetaGlobal.RegularizedKernelProject
-import Mathlib.Analysis.Normed.Group.Tannery
+module
+
+public import ThetaGlobal.ReflectedAbsoluteProject
+public import ThetaGlobal.RegularizedKernelProject
+public import Mathlib.Analysis.Normed.Group.Tannery
+
+@[expose] public section
 
 /-!
 # Regularizer removal for the project's literal reflected ideal series

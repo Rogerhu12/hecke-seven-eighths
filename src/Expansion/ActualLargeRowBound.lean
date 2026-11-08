@@ -1,5 +1,9 @@
-import Expansion.ActualPrimeNormalizer
-import HeckeSkeleton.ExpansionModels.LargeRowSum
+module
+
+public import Expansion.ActualPrimeNormalizer
+public import HeckeSkeleton.ExpansionModels.LargeRowSum
+
+@[expose] public section
 
 /-!
 # The actual absolute large-row input

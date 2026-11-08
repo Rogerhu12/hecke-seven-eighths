@@ -1,7 +1,11 @@
-import ActualAllowedGeneratorDivisionCore
-import ActualThetaChartGcdMobius
-import ActualOriginalChartProductReduction
-import ActualOriginalChartSixthUnit
+module
+
+public import ActualAllowedGeneratorDivisionCore
+public import ActualThetaChartGcdMobius
+public import ActualOriginalChartProductReduction
+public import ActualOriginalChartSixthUnit
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual chart extension in the finite Mobius

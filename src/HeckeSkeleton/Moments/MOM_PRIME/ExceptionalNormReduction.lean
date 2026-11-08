@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalContinuation
-import HeckeGeneral.Characters.RadialNormalization
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME.ExceptionalContinuation
+public import HeckeGeneral.Characters.RadialNormalization
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-!
 # Norm reduction for fixed backgrounds and plain rows

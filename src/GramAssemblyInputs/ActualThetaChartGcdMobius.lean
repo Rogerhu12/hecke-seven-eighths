@@ -1,4 +1,8 @@
-import ActualThetaResidualCorrelationToChart
+module
+
+public import ActualThetaResidualCorrelationToChart
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual nonzero frequency is divided only when

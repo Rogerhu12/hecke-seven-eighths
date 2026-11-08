@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionTailLedger
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionTailLedger
+
+@[expose] public section
 
 /-!
 # Actual finite-row restoration terminals

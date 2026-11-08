@@ -1,6 +1,10 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M3023cf61fe2bb5e2
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M3023cf61fe2bb5e2
+
+@[expose] public section
 
 open NumberField NumberField.AdelicBox IsDedekindDomain
 theorem NumberField.AdelicBox.exists_denom_of_hasCompactSupport

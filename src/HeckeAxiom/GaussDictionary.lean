@@ -1,7 +1,11 @@
-import HeckeAxiom.SexticSymbolDictionary
-import HeckeAxiom.TraceCharacterDictionary
-import HeckeGeneral.Analysis.LocalThetaInput
-import DedekindZetaZeroFree.CharacterSums.Gauss.SexticChineseRemainderReciprocity
+module
+
+public import HeckeAxiom.SexticSymbolDictionary
+public import HeckeAxiom.TraceCharacterDictionary
+public import HeckeGeneral.Analysis.LocalThetaInput
+public import DedekindZetaZeroFree.CharacterSums.Gauss.SexticChineseRemainderReciprocity
+
+@[expose] public section
 
 /-!
 # The skeleton's Gauss sums are Axiom's ideal Gauss sums

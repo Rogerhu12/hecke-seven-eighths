@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalRefinement
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCostBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.CanonicalRefinement
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedCostBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

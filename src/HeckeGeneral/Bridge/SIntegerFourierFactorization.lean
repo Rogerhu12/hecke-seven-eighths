@@ -1,8 +1,12 @@
-import HeckeGeneral.Bridge.SIntegerAdelicPoisson
-import HeckeGeneral.Characters.StandardFiniteFactorization
-import FLTReuse.M18c509625f9eb716
-import FLTReuse.Mdd4e907a696a6974
-import FLTReuse.M843899312a51c0f5
+module
+
+public import HeckeGeneral.Bridge.SIntegerAdelicPoisson
+public import HeckeGeneral.Characters.StandardFiniteFactorization
+public import FLTReuse.M18c509625f9eb716
+public import FLTReuse.Mdd4e907a696a6974
+public import FLTReuse.M843899312a51c0f5
+
+@[expose] public section
 
 /-!
 # Actual local factors in S-integer Poisson summation

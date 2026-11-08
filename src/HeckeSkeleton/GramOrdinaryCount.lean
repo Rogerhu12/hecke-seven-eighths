@@ -1,5 +1,9 @@
-import HeckeSkeleton.GramDefinitions
-import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
+
+@[expose] public section
 
 /-!
 GR-06 candidate using the already proved count of actual S-integer orbits.

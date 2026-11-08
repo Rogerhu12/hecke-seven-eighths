@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.FLTDuality
-import HeckeGeneral.Characters.InfinityPacket
-import FLTReuse.M974319314547c0e9
+module
+
+public import HeckeGeneral.Bridge.FLTDuality
+public import HeckeGeneral.Characters.InfinityPacket
+public import FLTReuse.M974319314547c0e9
+
+@[expose] public section
 
 /-!
 # Identify the Tate infinity parameters with the actual Hecke parameters

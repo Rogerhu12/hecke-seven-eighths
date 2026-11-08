@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalMarkRestoration
-import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalMarkRestoration
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
+
+@[expose] public section
 
 /-!
 # The actual fixed-common second source

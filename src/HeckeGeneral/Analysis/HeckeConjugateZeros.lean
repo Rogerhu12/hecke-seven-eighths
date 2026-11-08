@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.HeckeContinuation
-import HeckeGeneral.Analysis.HeckeConjugation
-import HeckeGeneral.Analysis.MellinZeroDetector
-import Mathlib.Analysis.Calculus.Deriv.Star
+module
+
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import HeckeGeneral.Analysis.HeckeConjugation
+public import HeckeGeneral.Analysis.MellinZeroDetector
+public import Mathlib.Analysis.Calculus.Deriv.Star
+
+@[expose] public section
 
 /-! Conjugation of genuine meromorphic Hecke zero orders. The identity
 is one of punctured germs and remains valid at norm-character poles. -/

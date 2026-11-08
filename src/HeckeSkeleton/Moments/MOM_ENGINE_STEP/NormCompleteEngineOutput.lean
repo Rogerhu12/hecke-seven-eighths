@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteEngineOutput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteEngineOutput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentArithmeticAtoms
+
+@[expose] public section
 
 /-!
 # Norm and arithmetic recipes in the same public child family

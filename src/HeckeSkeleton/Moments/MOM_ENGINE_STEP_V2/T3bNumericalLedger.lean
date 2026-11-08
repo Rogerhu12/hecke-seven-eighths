@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bKernels
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexWeights
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPairedRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bKernels
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexWeights
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bPairedRows
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

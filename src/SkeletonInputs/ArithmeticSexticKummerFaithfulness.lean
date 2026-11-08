@@ -1,6 +1,10 @@
-import ArithmeticSexticKummerCharacter
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.Tactic
+module
+
+public import ArithmeticSexticKummerCharacter
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Faithfulness of the actual arithmetic-Artin/simple-Kummer character.

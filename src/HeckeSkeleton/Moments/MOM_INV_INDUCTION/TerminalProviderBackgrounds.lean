@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
-import HeckeSkeleton.Moments.MOM_BASE.FiniteBackground
-import Mathlib.GroupTheory.FiniteAbelian.Basic
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.BackgroundCycle
+public import HeckeSkeleton.Moments.MOM_BASE.FiniteBackground
+public import Mathlib.GroupTheory.FiniteAbelian.Basic
+
+@[expose] public section
 
 /-!
 # One fixed finite inventory of terminal periods

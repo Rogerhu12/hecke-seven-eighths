@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationBound
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PowerfulProducts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCorrelationBound
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PowerfulProducts
+
+@[expose] public section
 
 /-!
 # Genuine powerful support at the first zero frequency

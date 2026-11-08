@@ -1,8 +1,12 @@
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Mfb32afbc5436addd
+module
+
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Mfb32afbc5436addd
+
+@[expose] public section
 
 open NumberField NumberField.mixedEmbedding
 open scoped Classical nonZeroDivisors

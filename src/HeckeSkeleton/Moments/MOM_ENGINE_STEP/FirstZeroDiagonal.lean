@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PowerfulDiagonal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PowerfulDiagonal
+
+@[expose] public section
 
 /-!
 # One global powerful diagonal for the actual first zero terms

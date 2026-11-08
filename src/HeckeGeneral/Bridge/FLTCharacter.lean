@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.PrimeCoefficients
-import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+module
+
+public import HeckeGeneral.Characters.PrimeCoefficients
+public import Mathlib.Analysis.SpecialFunctions.Pow.Complex
+
+@[expose] public section
 
 /-!
 # Complex-unit valued characters for the Tate-theory bridge

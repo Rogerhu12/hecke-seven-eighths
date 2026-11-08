@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import DedekindZetaZeroFree.Arithmetic.LocalFields.SexticHilbertPairing
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import DedekindZetaZeroFree.Arithmetic.LocalFields.SexticHilbertPairing
+
+@[expose] public section
 
 /-!
 # The S-local sixth-power class group is finite (TH-SIXTH-LOCAL-FINITE)

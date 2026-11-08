@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderNodes
+
+@[expose] public section
 
 /-!
 # Restrict the actual uniform canonical class

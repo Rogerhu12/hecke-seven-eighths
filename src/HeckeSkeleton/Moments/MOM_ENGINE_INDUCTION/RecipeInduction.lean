@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Induction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Induction
+
+@[expose] public section
 
 /-!
 # The three source projections from actual local engine and reflection calls

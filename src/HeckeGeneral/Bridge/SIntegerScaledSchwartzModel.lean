@@ -1,6 +1,10 @@
-import HeckeGeneral.Bridge.SIntegerScaledPoisson
-import HeckeGeneral.Bridge.TraceSchwartzFourier
-import HeckeGeneral.Bridge.SLocalFiniteFourier
+module
+
+public import HeckeGeneral.Bridge.SIntegerScaledPoisson
+public import HeckeGeneral.Bridge.TraceSchwartzFourier
+public import HeckeGeneral.Bridge.SLocalFiniteFourier
+
+@[expose] public section
 
 /-!
 # The scaled Poisson terms are the actual orbital Schwartz tensors

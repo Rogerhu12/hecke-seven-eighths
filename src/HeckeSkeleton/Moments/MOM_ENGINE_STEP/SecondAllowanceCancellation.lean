@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondSourceNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondSourceNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
+
+@[expose] public section
 
 /-!
 # The second source pays the actual first normalization allowance

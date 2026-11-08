@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.EnergyClosure
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.EnergyClosure
+
+@[expose] public section
 
 /-!
 # Initial marked inverse reduction

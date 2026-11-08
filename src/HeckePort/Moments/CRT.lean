@@ -1,6 +1,10 @@
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.Algebra.Group.Pi.Units
-import HeckePort.Moments.Correlation
+module
+
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.Algebra.Group.Pi.Units
+public import HeckePort.Moments.Correlation
+
+@[expose] public section
 
 /-!
 # Correlations over products and CRT

@@ -1,7 +1,13 @@
-import HeckeSkeleton.HighBinSupport.FiniteResidueFourier
-import HeckeSkeleton.HighBinSupport.FiniteLocalTable
-import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
-import Lean.Elab.Tactic.Omega
+module
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+public import HeckeSkeleton.HighBinSupport.FiniteResidueFourier
+public import HeckeSkeleton.HighBinSupport.FiniteLocalTable
+public import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
+
 /-!
 # Five exceptional phases from actual sextic residue-field Gauss sums
 

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondSaving
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualSecondSaving
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-!
 # The actual fixed moving factor after common-frequency extraction

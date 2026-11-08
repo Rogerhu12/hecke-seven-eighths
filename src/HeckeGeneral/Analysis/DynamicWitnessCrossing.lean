@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.EndpointClosure
+module
+
+public import HeckeGeneral.Analysis.EndpointClosure
+
+@[expose] public section
 
 /-!
 The exact short/long witness crossing, including the closed endpoints.

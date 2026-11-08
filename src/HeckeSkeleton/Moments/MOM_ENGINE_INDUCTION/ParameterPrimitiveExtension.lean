@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.DataPrimitiveExtension
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.DataPrimitiveExtension
+
+@[expose] public section
 
 /-!
 # Retaining actual parameter-dependent source data in the recursive family

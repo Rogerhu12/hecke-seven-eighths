@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbits
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbits
+
+@[expose] public section
 
 /-! The literal nonzero product column, extracted from the original CRT
 provider without changing its namespace, parameters or definition. -/

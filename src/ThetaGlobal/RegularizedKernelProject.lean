@@ -1,6 +1,10 @@
-import HeckeSkeleton.ThetaKernel.Core
-import ThetaGlobal.VerticalContour
-import ThetaGlobal.VerticalInverseBounds
+module
+
+public import HeckeSkeleton.ThetaKernel.Core
+public import ThetaGlobal.VerticalContour
+public import ThetaGlobal.VerticalInverseBounds
+
+@[expose] public section
 
 /-!
 # Gaussian regularization of the actual project reflection kernel

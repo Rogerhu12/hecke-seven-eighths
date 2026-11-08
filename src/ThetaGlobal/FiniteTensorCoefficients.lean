@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteShellCoefficients
-import ThetaGlobal.FiniteClassExpansion
+module
+
+public import ThetaGlobal.FiniteShellCoefficients
+public import ThetaGlobal.FiniteClassExpansion
+
+@[expose] public section
 
 /-!
 # A literal finite tensor of reflected class-shell coefficients

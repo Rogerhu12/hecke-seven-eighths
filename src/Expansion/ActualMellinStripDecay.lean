@@ -1,5 +1,9 @@
-import Expansion.PhysicalPositiveMellinInversion
-import HeckeSkeleton.HighBinSupport.LogFourierDecay
+module
+
+public import Expansion.PhysicalPositiveMellinInversion
+public import HeckeSkeleton.HighBinSupport.LogFourierDecay
+
+@[expose] public section
 
 /-!
 # Uniform rapid decay of the actual additive Mellin transform

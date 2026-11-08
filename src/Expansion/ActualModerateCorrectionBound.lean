@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.LargeRowAllScales
-import Expansion.ActualRowStripBounds
+module
+
+public import HeckeSkeleton.ExpansionModels.LargeRowAllScales
+public import Expansion.ActualRowStripBounds
+
+@[expose] public section
 
 /-!
 # A fixed polynomial scale budget on the full moderate sweep

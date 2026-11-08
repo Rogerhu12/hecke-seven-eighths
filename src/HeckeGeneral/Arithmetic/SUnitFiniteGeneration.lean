@@ -1,7 +1,11 @@
-import TauCetiReuse.RingTheory.DedekindDomain.SInteger.Unit
-import HeckeGeneral.Arithmetic.SUnitValuationReduction
-import Mathlib.NumberTheory.NumberField.Units.DirichletTheorem
-import Mathlib.GroupTheory.FiniteAbelian.Basic
+module
+
+public import TauCetiReuse.RingTheory.DedekindDomain.SInteger.Unit
+public import HeckeGeneral.Arithmetic.SUnitValuationReduction
+public import Mathlib.NumberTheory.NumberField.Units.DirichletTheorem
+public import Mathlib.GroupTheory.FiniteAbelian.Basic
+
+@[expose] public section
 
 /-!
 # Finite generation and finite-index valuation image for the actual S-units
@@ -30,6 +34,7 @@ variable (S : Set (HeightOneSpectrum (𝓞 K)))
 theorem sUnitValuations_eq_unitValuation :
     sUnitValuations K S = Set.unitValuation S K := by
   ext u v
+  rw [Set.unitValuation_apply]
   rfl
 
 theorem sUnitValuations_ker :

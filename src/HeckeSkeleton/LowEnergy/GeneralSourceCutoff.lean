@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.GeneralColumnCutoff
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralColumnCutoff
+
+@[expose] public section
 
 /-!
 # Finite dual projection of the actual reflected source

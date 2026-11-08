@@ -1,6 +1,10 @@
-import HeckeSkeleton.SmallRadius.ActualSLocalPositiveMoment
-import HeckeGeneral.Analysis.SUnitProfileEuler
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import HeckeSkeleton.SmallRadius.ActualSLocalPositiveMoment
+public import HeckeGeneral.Analysis.SUnitProfileEuler
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
 
 /-!
 Absolute radial Mellin mass controls the actual

@@ -1,6 +1,10 @@
-import FiniteCommonFactorFibre
-import SIntegerSexticCorrelationWeight
-import SIntegerSexticFiniteCorrelation
+module
+
+public import FiniteCommonFactorFibre
+public import SIntegerSexticCorrelationWeight
+public import SIntegerSexticFiniteCorrelation
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Genuine sum over the reduced full-congruence
 fibre, with actual product-denominator quotient characters. The relation

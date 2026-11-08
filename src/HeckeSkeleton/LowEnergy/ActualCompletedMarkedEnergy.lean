@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy
-import HeckeSkeleton.LowEnergy.TargetDictionary
-import HeckeSkeleton.LowEnergy.TargetSieveDictionary
+module
+
+public import HeckeSkeleton.LowEnergy.ActualCompleteIdealEnergy
+public import HeckeSkeleton.LowEnergy.TargetDictionary
+public import HeckeSkeleton.LowEnergy.TargetSieveDictionary
+
+@[expose] public section
 
 /-!
 # The original completed marked energy

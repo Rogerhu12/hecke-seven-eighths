@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.MomentInputs
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+
+@[expose] public section
 
 /-!
 Threshold counting for the actual inverse and paired moment polynomials.

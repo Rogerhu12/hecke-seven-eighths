@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBin
-import HeckeSkeleton.ExpansionModels.ActualRecipeEstimates
+module
+
+public import HeckeSkeleton.HighBin
+public import HeckeSkeleton.ExpansionModels.ActualRecipeEstimates
+
+@[expose] public section
 
 set_option autoImplicit false
 noncomputable section

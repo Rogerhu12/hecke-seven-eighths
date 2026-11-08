@@ -1,7 +1,11 @@
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Topology.Algebra.InfiniteSum.Real
-import Mathlib.Analysis.Normed.Group.InfiniteSum
-import Mathlib.Tactic.Positivity
+module
+
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+public import Mathlib.Analysis.Normed.Group.InfiniteSum
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /-!+# Summing actual row vectors with their annular amplitudes
 

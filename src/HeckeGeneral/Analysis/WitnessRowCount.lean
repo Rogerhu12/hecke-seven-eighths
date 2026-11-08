@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.SlotSelection
-import HeckeGeneral.Analysis.DynamicWitnessCrossing
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import HeckeGeneral.Analysis.SlotSelection
+public import HeckeGeneral.Analysis.DynamicWitnessCrossing
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 /-!
 Row counts from saturated witnesses (Q Proposition 19.2, `prop:detector-counts`;

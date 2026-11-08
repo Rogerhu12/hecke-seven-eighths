@@ -1,10 +1,14 @@
-import HeckeGeneral.Arithmetic.SIntegerLocalization
-import Mathlib.NumberTheory.NumberField.ClassNumber
-import Mathlib.RingTheory.Localization.Ideal
-import Mathlib.RingTheory.PrincipalIdealDomain
-import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
-import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
-import Mathlib.Tactic.Choose
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerLocalization
+public import Mathlib.NumberTheory.NumberField.ClassNumber
+public import Mathlib.RingTheory.Localization.Ideal
+public import Mathlib.RingTheory.PrincipalIdealDomain
+public import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
+public import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+public import Mathlib.Tactic.Choose
+
+@[expose] public section
 
 /-!
 # Principalizing the actual ring of S-integers

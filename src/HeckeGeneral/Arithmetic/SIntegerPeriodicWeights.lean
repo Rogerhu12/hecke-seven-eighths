@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerModulus
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulus
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+
+@[expose] public section
 
 /-! Actual periodic residue functions descend to every subgroup sector when
 the literal unit action preserves the function. Their bounds come from the

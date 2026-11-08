@@ -1,6 +1,10 @@
-import CubicSieve.AnalyticFactorization
-import CubicSieve.ExteriorKernel
-import CubicSieve.Algebra
+module
+
+public import CubicSieve.AnalyticFactorization
+public import CubicSieve.ExteriorKernel
+public import CubicSieve.Algebra
+
+@[expose] public section
 
 /-!
 Literal cubic extraction of the actual exterior residue rows. The cube part

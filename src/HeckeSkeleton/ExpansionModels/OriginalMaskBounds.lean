@@ -1,5 +1,9 @@
-import HeckeSkeleton.ExpansionModels.OriginalMask
-import ExpansionDetector.EulerDeletionSpectrum
+module
+
+public import HeckeSkeleton.ExpansionModels.OriginalMask
+public import ExpansionDetector.EulerDeletionSpectrum
+
+@[expose] public section
 
 /-! Uniform arithmetic size bounds for the literal fixed-S/6/complete-row
 deletion set. Fixed exceptional primes are retained in a fixed ideal

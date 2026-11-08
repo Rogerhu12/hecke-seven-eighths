@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildSectors
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalChildData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
-import HeckeAxiom.SexticSymbolDictionary
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildSectors
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalChildData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
+public import HeckeAxiom.SexticSymbolDictionary
+
+@[expose] public section
 
 /-!
 # Original residue phases in the constructed complete child data

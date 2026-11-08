@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.HeckeEulerDeletion
-import HeckeGeneral.Analysis.HeckeEulerProduct
-import Mathlib.Topology.Algebra.InfiniteSum.Group
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+module
+
+public import HeckeGeneral.Analysis.HeckeEulerDeletion
+public import HeckeGeneral.Analysis.HeckeEulerProduct
+public import Mathlib.Topology.Algebra.InfiniteSum.Group
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+
+@[expose] public section
 
 /-! Finite Euler deletion and convergent products of the actual Hecke functions. -/
 

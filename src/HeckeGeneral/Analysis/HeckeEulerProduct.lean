@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.HeckeSeries
-import HeckeGeneral.Analysis.IdealEulerIdentity
+module
+
+public import HeckeGeneral.Analysis.HeckeSeries
+public import HeckeGeneral.Analysis.IdealEulerIdentity
+
+@[expose] public section
 
 /-!
 # The Euler product of an actual Hecke character on Re(s) > 1

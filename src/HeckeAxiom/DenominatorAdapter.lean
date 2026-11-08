@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import DedekindZetaZeroFree.Moments.Probes.AnnularWeightsAndCancellingProfiles
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import DedekindZetaZeroFree.Moments.Probes.AnnularWeightsAndCancellingProfiles
+
+@[expose] public section
 
 /-!
 # Axiom's real annular weight as the skeleton's denominator test

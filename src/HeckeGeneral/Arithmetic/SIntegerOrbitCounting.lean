@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
-import HeckeGeneral.Arithmetic.PrincipalOrbitCounting
-import Mathlib.NumberTheory.NumberField.Norm
-import Mathlib.Algebra.Order.Floor.Ring
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerBalancedRepresentatives
+public import HeckeGeneral.Arithmetic.PrincipalOrbitCounting
+public import Mathlib.NumberTheory.NumberField.Norm
+public import Mathlib.Algebra.Order.Floor.Ring
+
+@[expose] public section
 
 /-!
 # Linear counting of actual nonzero S-integer orbits

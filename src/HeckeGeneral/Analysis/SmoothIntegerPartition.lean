@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GaussianAnnularTruncation
-import Mathlib.Analysis.SpecialFunctions.SmoothTransition
+module
+
+public import HeckeGeneral.Analysis.GaussianAnnularTruncation
+public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
+
+@[expose] public section
 
 /-!
 # A fixed smooth compact integer-translation partition

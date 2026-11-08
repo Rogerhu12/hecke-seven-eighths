@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalDigitSupport
-import ThetaGlobal.GlobalProjectFrequency
+module
+
+public import ThetaGlobal.GlobalDigitSupport
+public import ThetaGlobal.GlobalProjectFrequency
+
+@[expose] public section
 
 /-! Exact scalar support rules for the project's literal Weyl digit sum.
 The representation-theoretic equality with the actual local Whittaker

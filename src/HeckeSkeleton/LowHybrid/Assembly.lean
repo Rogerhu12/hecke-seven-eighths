@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowHybrid.SieveComposition
+module
+
+public import HeckeSkeleton.LowHybrid.SieveComposition
+
+@[expose] public section
 
 /-!
 # Row-localBlocks divisor Cauchy and weighted block assembly

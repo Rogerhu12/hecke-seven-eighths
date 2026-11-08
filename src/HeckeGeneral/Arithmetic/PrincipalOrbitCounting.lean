@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
-import HeckeGeneral.Analysis.IdealSummability
+module
+
+public import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
+public import HeckeGeneral.Analysis.IdealSummability
+
+@[expose] public section
 
 /-!
 # Counting integral principal-generator sectors

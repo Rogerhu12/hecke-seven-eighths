@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCubeDilationGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedCutoff
-import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCubeDilationGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedCutoff
+public import HeckeSkeleton.Moments.MOM_INV_STEP.Normalization
+
+@[expose] public section
 
 /-!
 # The actual first rows fit the fixed second-Poisson scale

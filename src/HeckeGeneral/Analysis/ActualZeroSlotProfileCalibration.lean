@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeGeneral.Analysis.ActualSIntegerSobolevTests
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeGeneral.Analysis.ActualSIntegerSobolevTests
+
+@[expose] public section
 
 /-! Literal six-test profiles and empty slot geometry for the zero-slot
 source bridge. No row-to-Hecke realization, sector reindexing, seminorm

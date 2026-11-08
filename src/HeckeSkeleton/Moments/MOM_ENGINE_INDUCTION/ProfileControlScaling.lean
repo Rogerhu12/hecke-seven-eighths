@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MomentProfileScaling
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MomentProfileScaling
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileControl
+
+@[expose] public section
 
 /-!
 # Actual Euler-seminorm normalization of all moment profiles

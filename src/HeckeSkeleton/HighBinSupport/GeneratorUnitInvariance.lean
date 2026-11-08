@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.FiniteResidueFourier
-import Mathlib.Algebra.Group.Units.Equiv
+module
+
+public import HeckeSkeleton.HighBinSupport.FiniteResidueFourier
+public import Mathlib.Algebra.Group.Units.Equiv
+
+@[expose] public section
+
 /-!
 # Sixth-unit compatibility of the actual two-layer finite convolution
 

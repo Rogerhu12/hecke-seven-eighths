@@ -1,5 +1,9 @@
-import Expansion.ActualOuterComponents
-import Expansion.ActualLargeRowBound
+module
+
+public import Expansion.ActualOuterComponents
+public import Expansion.ActualLargeRowBound
+
+@[expose] public section
 
 /-!
 # Genuine infinite large-row transport

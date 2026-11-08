@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SourceData
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+
+@[expose] public section
 
 /-!
 # One external threshold and the full original sector sum

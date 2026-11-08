@@ -1,8 +1,12 @@
-import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
-import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
-import HeckeGeneral.Characters.InfinityPacket
-import HeckeGeneral.Analysis.HeckeSeries
-import HeckeGeneral.Arithmetic.IdealMobiusMask
+module
+
+public import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+public import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+public import HeckeGeneral.Characters.InfinityPacket
+public import HeckeGeneral.Analysis.HeckeSeries
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+
+@[expose] public section
 
 /-!
 

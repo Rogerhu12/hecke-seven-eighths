@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.IdealDerivativePrimePowers
-import HeckeGeneral.Analysis.IdealEulerIdentity
-import HeckeGeneral.Analysis.HeckeDerivative
-import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+module
+
+public import HeckeGeneral.Analysis.IdealDerivativePrimePowers
+public import HeckeGeneral.Analysis.IdealEulerIdentity
+public import HeckeGeneral.Analysis.HeckeDerivative
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+
+@[expose] public section
 
 /-!
 # The logarithmic derivative as the actual prime-power series

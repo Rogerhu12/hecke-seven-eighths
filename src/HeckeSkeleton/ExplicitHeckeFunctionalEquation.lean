@@ -1,4 +1,8 @@
-import HeckeSkeleton.FunctionalEquationConductor
+module
+
+public import HeckeSkeleton.FunctionalEquationConductor
+
+@[expose] public section
 
 /-!
 The actual non-norm Hecke functional equation with explicit conductor scale.

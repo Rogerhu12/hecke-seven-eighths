@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Conductor
-import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Windows
-import HeckeSkeleton.Moments.MOM_PRIME.RecipeEndpoint
-import HeckeSkeleton.PrimeCancellationWiring
+module
+
+public import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Conductor
+public import HeckeSkeleton.Moments.MOM_PRIME_BELOW_ONE.Windows
+public import HeckeSkeleton.Moments.MOM_PRIME.RecipeEndpoint
+public import HeckeSkeleton.PrimeCancellationWiring
+
+@[expose] public section
 
 /-!
 # Prime cancellation below one for the actual expansion recipe

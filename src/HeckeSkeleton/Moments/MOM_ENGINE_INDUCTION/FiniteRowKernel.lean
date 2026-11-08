@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteBranchMeasure
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteBranchMeasure
+
+@[expose] public section
 
 /-!
 # Assemble actual row integrals across all finite reflection branches

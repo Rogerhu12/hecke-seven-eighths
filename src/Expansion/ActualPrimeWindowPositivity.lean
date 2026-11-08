@@ -1,6 +1,10 @@
-import ExpansionInterfaces.LogDividedAnnularProfile
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+module
+
+public import ExpansionInterfaces.LogDividedAnnularProfile
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+
+@[expose] public section
 
 /-!
 # Positive residue mass and absorption for the original prime windows

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ResidualTupleCount
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstBlocks
+
+@[expose] public section
 
 /-!
 # The actual factor fibres after the first common-support extraction

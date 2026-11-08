@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedNormalization
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveCappedFreeEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegration
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedNormalization
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveCappedFreeEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegration
+
+@[expose] public section
 
 /-!
 # Actual physical normalization with the live first source retained

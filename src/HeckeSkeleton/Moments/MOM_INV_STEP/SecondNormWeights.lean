@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceAssembly
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceAssembly
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
+
+@[expose] public section
 
 /-!
 # The genuine second conductor contributes its square-root norm weights

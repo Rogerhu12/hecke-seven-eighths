@@ -1,6 +1,10 @@
-import HeckeSkeleton.WindowPIT.Envelope
-import HeckeSkeleton.WindowPIT.PositiveInterval
-import HeckeSkeleton.WindowPIT.IntervalAsymptotics
+module
+
+public import HeckeSkeleton.WindowPIT.Envelope
+public import HeckeSkeleton.WindowPIT.PositiveInterval
+public import HeckeSkeleton.WindowPIT.IntervalAsymptotics
+
+@[expose] public section
 
 /-! A positive smooth prime window is bounded below by the prime ideal count
 on one fixed-ratio subinterval where its weight has a positive lower bound. -/

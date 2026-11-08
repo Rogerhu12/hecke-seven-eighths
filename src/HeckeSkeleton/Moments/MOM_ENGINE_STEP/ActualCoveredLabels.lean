@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstSecondCoveredSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridOrdinaryProduction
+
+@[expose] public section
 
 /-!
 # The exact finite labels of the covered two-transform source

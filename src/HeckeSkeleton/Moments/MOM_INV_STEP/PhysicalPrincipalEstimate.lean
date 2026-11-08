@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSplit
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalOrbitalMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSplit
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalOrbitalMass
+
+@[expose] public section
 
 /-!
 # The whole physical principal source

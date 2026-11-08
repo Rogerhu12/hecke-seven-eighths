@@ -1,8 +1,12 @@
-import CubicSieve.GaussPairLiteral
-import DedekindZetaZeroFree.Arithmetic.Units.SArithmeticData
-import DedekindZetaZeroFree.LFunctions.Tate.Local.AnnularFourierMellin
-import HeckeGeneral.Bridge.SLocalSchwartzModel
-import Mathlib.RingTheory.Ideal.GoingUp
+module
+
+public import CubicSieve.GaussPairLiteral
+public import DedekindZetaZeroFree.Arithmetic.Units.SArithmeticData
+public import DedekindZetaZeroFree.LFunctions.Tate.Local.AnnularFourierMellin
+public import HeckeGeneral.Bridge.SLocalSchwartzModel
+public import Mathlib.RingTheory.Ideal.GoingUp
+
+@[expose] public section
 
 /-! The actual origin terms in mixed cubic Poisson.
 The original arithmetic set contains a prime over 2, so its finite unit-shell

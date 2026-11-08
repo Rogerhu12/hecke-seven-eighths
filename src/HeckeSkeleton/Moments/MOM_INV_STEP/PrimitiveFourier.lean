@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.ProductGauss
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitivePoissonSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ProductGauss
+
+@[expose] public section
 
 /-!
 # The genuine finite transform of the primitive Poisson coefficient

@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SIntegerSixthPowerDenominator
-import ArithmeticSexticKummerPrimeCoefficient
-import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
-import HeckeGeneral.Analysis.FrequencyRowOrbit
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerSixthPowerDenominator
+public import ArithmeticSexticKummerPrimeCoefficient
+public import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+public import HeckeGeneral.Analysis.FrequencyRowOrbit
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake process was started.

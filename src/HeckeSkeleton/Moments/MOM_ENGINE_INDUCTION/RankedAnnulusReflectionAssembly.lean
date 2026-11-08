@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedBaseBranch
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteProfileConstants
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedAnnulusPrimitive
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedBaseBranch
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FiniteProfileConstants
+
+@[expose] public section
 
 /-!
 # Finite-rank reflection production with the actual annulus schedule

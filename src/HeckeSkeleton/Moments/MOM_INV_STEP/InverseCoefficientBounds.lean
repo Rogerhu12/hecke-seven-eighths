@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
-import HeckeGeneral.Analysis.IdealMobiusReciprocal
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
-import HeckeGeneral.Analysis.IdealMobiusReciprocal
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
+public import HeckeGeneral.Analysis.IdealMobiusReciprocal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+public import HeckeGeneral.Analysis.IdealMobiusReciprocal
+
+@[expose] public section
 
 /-!
 # Uniform bound for the literal intermediate inverse coefficient

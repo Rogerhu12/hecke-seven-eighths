@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SIntegerSchwartzSummability
+module
+
+public import HeckeGeneral.Analysis.SIntegerSchwartzSummability
+
+@[expose] public section
 
 /-!
 # Absolute convergence after a continuous change of the norm-one variable

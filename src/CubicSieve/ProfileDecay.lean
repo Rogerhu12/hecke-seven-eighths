@@ -1,4 +1,8 @@
-import DedekindZetaZeroFree.HarmonicAnalysis.Mellin.NormSheetLogarithmicDerivativeBounds
+module
+
+public import DedekindZetaZeroFree.HarmonicAnalysis.Mellin.NormSheetLogarithmicDerivativeBounds
+
+@[expose] public section
 
 /-! Mild growth at zero and rapid decay at infinity of actual annular-test
 Fourier sheets. The small-radius estimate integrates the entire norm-one group;

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProvider
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderExponent
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProvider
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderExponent
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
+
+@[expose] public section
 
 /-!
 # Exact logarithmic conductor geometry of the original frozen row

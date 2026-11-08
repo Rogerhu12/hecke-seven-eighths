@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedClosure
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedClosure
+
+@[expose] public section
 
 /-!
 # Canonical inverse bounds for the original expansion recipe

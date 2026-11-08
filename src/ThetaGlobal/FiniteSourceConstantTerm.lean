@@ -1,6 +1,10 @@
-import ThetaGlobal.FiniteFixedSource
-import ThetaGlobal.GlobalProjectRadial
-import DedekindZetaZeroFree.Eisenstein.ConstantTerms.ResidualRadialCovariance
+module
+
+public import ThetaGlobal.FiniteFixedSource
+public import ThetaGlobal.GlobalProjectRadial
+public import DedekindZetaZeroFree.Eisenstein.ConstantTerms.ResidualRadialCovariance
+
+@[expose] public section
 
 /-!
 # Constant-term covariance for the actual projected finite source

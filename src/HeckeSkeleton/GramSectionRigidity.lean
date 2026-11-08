@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
-import Mathlib.Tactic.Ring
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 Finite algebra for the GR-12 same-section mask frontier.

@@ -1,6 +1,10 @@
-import HeckeAxiom.ArithmeticAdapter
-import HeckeGeneral.Analysis.GlobalThetaData
-import DedekindZetaZeroFree.Arithmetic.Ideals.AllowedGenerators
+module
+
+public import HeckeAxiom.ArithmeticAdapter
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import DedekindZetaZeroFree.Arithmetic.Ideals.AllowedGenerators
+
+@[expose] public section
 
 /-!
 # Multiplicativity of the recipe generators

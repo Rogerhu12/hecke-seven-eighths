@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationLocal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildSectors
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingFactorAppend
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuationLocal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildSectors
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSourceBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingFactorAppend
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

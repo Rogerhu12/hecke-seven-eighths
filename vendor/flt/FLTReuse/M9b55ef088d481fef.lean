@@ -1,21 +1,26 @@
-import FLTReuse.Mdcc0a5ef61985ce3
-import FLTReuse.Me066ce250184ef32
-import FLTReuse.M9057cd329fb068d5
-import FLTReuse.M7f86edea65d586c8
-import FLTReuse.Mc542b3ae7fb41e15
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import Mathlib.NumberTheory.NumberField.AdeleRing
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import Mathlib.RingTheory.DedekindDomain.Different
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import Mathlib.LinearAlgebra.BilinearForm.Properties
-import Mathlib.Analysis.SpecialFunctions.Complex.Circle
-import Mathlib.Analysis.Complex.Circle
-import Mathlib.Analysis.Normed.Module.Basic
-import Mathlib.Topology.Algebra.Module.FiniteDimension
-import Mathlib.Analysis.Fourier.FourierTransform
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mdcc0a5ef61985ce3
+public import FLTReuse.Me066ce250184ef32
+public import FLTReuse.M9057cd329fb068d5
+public import FLTReuse.M7f86edea65d586c8
+public import FLTReuse.Mc542b3ae7fb41e15
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import Mathlib.NumberTheory.NumberField.AdeleRing
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Mathlib.RingTheory.DedekindDomain.Different
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import Mathlib.LinearAlgebra.BilinearForm.Properties
+public import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+public import Mathlib.Analysis.Complex.Circle
+public import Mathlib.Analysis.Normed.Module.Basic
+public import Mathlib.Topology.Algebra.Module.FiniteDimension
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_exists_ne_zero_apply_eq_fourierChar_trace_of_isGlobalAddChar
 
 set_option autoImplicit false

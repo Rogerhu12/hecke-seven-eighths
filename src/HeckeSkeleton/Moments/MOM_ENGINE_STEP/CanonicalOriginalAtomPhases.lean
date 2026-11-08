@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteOriginalArithmeticAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentColumnPhaseBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteOriginalArithmeticAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentColumnPhaseBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPhaseCalibration
+
+@[expose] public section
 
 /-!
 # The same original probe supplies every periodic parent atom phase

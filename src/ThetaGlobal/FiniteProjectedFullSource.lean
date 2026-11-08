@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteFullProduct
-import ThetaGlobal.FiniteTargetCutoff
+module
+
+public import ThetaGlobal.FiniteFullProduct
+public import ThetaGlobal.FiniteTargetCutoff
+
+@[expose] public section
 
 /-!
 # The actual finite projector retains the canonical full matrix product

@@ -1,6 +1,10 @@
-import ThetaGlobal.GlobalProjectPhases
-import ThetaGlobal.GlobalIndexSupport
-import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+module
+
+public import ThetaGlobal.GlobalProjectPhases
+public import ThetaGlobal.GlobalIndexSupport
+public import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+
+@[expose] public section
 
 /-!
 # Finite ideal products in the literal marked coefficient

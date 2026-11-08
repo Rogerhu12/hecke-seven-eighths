@@ -1,5 +1,9 @@
-import Mathlib.Topology.Algebra.InfiniteSum.Basic
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import Mathlib.Topology.Algebra.InfiniteSum.Basic
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 /-!
 # Reindexing with retained zero coefficients

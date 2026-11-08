@@ -1,7 +1,11 @@
-import HeckeSkeleton.ActualProbeThetaAbsolute
-import ThetaGlobal.ReflectedAbsoluteProject
-import ThetaGlobal.RegularizedTestProject
-import Mathlib.Analysis.Normed.Group.Tannery
+module
+
+public import HeckeSkeleton.ActualProbeThetaAbsolute
+public import ThetaGlobal.ReflectedAbsoluteProject
+public import ThetaGlobal.RegularizedTestProject
+public import Mathlib.Analysis.Normed.Group.Tannery
+
+@[expose] public section
 
 /-!
 # Uniform quadratic tails and regularizer limits for the literal direct series

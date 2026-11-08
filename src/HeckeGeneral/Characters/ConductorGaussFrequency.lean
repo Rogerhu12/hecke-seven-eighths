@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.ConductorGauss
+module
+
+public import HeckeGeneral.Characters.ConductorGauss
+
+@[expose] public section
 
 /-! Exact unit support of the finite Fourier transform at the actual Hecke conductor. -/
 

@@ -1,6 +1,10 @@
-import HeckeSkeleton.ThetaKernel.Multiplier
-import HeckeSkeleton.ThetaKernel.TestMellin
-import HeckeSkeleton.ThetaKernel.Shift
+module
+
+public import HeckeSkeleton.ThetaKernel.Multiplier
+public import HeckeSkeleton.ThetaKernel.TestMellin
+public import HeckeSkeleton.ThetaKernel.Shift
+
+@[expose] public section
 
 /-! The kernel integrand `fz`, its pointwise strip bound, integrability and the
 contour shift (with a polynomial weight `(-z)^h`). -/

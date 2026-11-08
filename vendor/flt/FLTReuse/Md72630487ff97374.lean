@@ -1,6 +1,10 @@
-import FLTReuse.Mb78c1b414844e2bd
-import FLTReuse.M7e675384a44aa1b9
-import FLTReuse.Me97977439c9a42c8
+module
+
+public import FLTReuse.Mb78c1b414844e2bd
+public import FLTReuse.M7e675384a44aa1b9
+public import FLTReuse.Me97977439c9a42c8
+
+@[expose] public section
 
 open IsDedekindDomain NumberField MeasureTheory Matrix
 open AutomorphicForm HeckeIntegralSeam

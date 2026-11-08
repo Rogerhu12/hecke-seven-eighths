@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileOrderSchedule
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileOrderSchedule
+
+@[expose] public section
 
 /-!
 # The actual universal node family and its concrete labels

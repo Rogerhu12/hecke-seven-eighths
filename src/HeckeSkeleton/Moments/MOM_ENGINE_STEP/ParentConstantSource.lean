@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentRawSourceInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussEnergySource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentRawSourceInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussEnergySource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
+
+@[expose] public section
 
 /-!
 # Constructing the mixed source for fixed original profile columns

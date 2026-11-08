@@ -1,5 +1,9 @@
-import ActualJointRadicalPeriodNorm
-import ActualFixedSBoxDenominator
+module
+
+public import ActualJointRadicalPeriodNorm
+public import ActualFixedSBoxDenominator
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. At the fixed depth 2H provided by the actual

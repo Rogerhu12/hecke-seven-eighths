@@ -1,5 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionTruncation
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionSmooth
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionTruncation
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionSmooth
+
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
+@[expose] public section
 
 /-!
 # A genuine finite smooth dyadic truncation of the reflected series

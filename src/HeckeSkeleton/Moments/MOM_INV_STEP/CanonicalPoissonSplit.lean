@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalZero
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+
+@[expose] public section
 
 /-!
 # Exact splitting of the literal canonical parent

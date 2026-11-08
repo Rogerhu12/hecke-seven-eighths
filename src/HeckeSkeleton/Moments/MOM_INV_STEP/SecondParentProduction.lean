@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCommonEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCommonEnvelope
+
+@[expose] public section
 
 /-!
 # Whole retained second source and its genuine positive child energies

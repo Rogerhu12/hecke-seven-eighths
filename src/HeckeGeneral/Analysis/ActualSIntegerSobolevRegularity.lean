@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.ActualSIntegerSobolevTests
-import Mathlib.Analysis.Calculus.ContDiff.Comp
-import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+module
+
+public import HeckeGeneral.Analysis.ActualSIntegerSobolevTests
+public import Mathlib.Analysis.Calculus.ContDiff.Comp
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+
+@[expose] public section
 
 /-! Actual smooth log-scale/Mellin rows, with the fixed S/6 zero extension.
 Local equality with a concrete finite envelope proves joint smoothness;

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildMass
+
+@[expose] public section
 
 /-!
 # The normalized weight of the same actual capacity children

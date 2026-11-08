@@ -1,9 +1,14 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import Mathlib.Analysis.Normed.Group.Bounded
-import Mathlib.Analysis.SpecificLimits.Basic
-import Mathlib.Analysis.Complex.Circle
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import Mathlib.Analysis.Normed.Group.Bounded
+public import Mathlib.Analysis.SpecificLimits.Basic
+public import Mathlib.Analysis.Complex.Circle
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_AdelicFourier_norm_apply_eq_one_of_isGlobalAddChar
 
 set_option autoImplicit false

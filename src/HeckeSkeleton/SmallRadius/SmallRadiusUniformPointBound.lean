@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.ActualOrbitalPositiveMoment
-import HeckeSkeleton.SmallRadius.SmallRadiusOrbitalFTC
+module
+
+public import HeckeSkeleton.SmallRadius.ActualOrbitalPositiveMoment
+public import HeckeSkeleton.SmallRadius.SmallRadiusOrbitalFTC
+
+@[expose] public section
 
 /-!
 The actual global positive-Mellin L1 estimate and the actual Euler FTC imply

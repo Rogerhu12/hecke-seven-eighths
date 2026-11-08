@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.HeckeSeries
+module
+
+public import HeckeGeneral.Analysis.HeckeSeries
+
+@[expose] public section
 
 /-!
 # Coefficient bridge for the Mathlib-only Hecke challenge

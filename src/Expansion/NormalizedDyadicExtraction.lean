@@ -1,4 +1,8 @@
-import Expansion.LogDyadicBridge
+module
+
+public import Expansion.LogDyadicBridge
+
+@[expose] public section
 
 /-! Finite dyadic extraction and Fourier normalization in one theorem.
 The coefficients, including all zero masks, are unchanged.  The displayed

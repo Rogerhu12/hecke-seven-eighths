@@ -1,7 +1,11 @@
-import Expansion.ActualRecipePolynomials
-import Expansion.ActualTerminalSaturation
-import Expansion.CanonicalDetectorCharacters
-import HeckeSkeleton.ExpansionModels.RecipeDetectorNormalization
+module
+
+public import Expansion.ActualRecipePolynomials
+public import Expansion.ActualTerminalSaturation
+public import Expansion.CanonicalDetectorCharacters
+public import HeckeSkeleton.ExpansionModels.RecipeDetectorNormalization
+
+@[expose] public section
 
 /-!
 # A concrete canonical recipe for the actual detector factors

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
-import HeckeGeneral.Analysis.IdealDerivativeEulerLog
-import HeckeGeneral.Analysis.HeckeContinuation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
+public import HeckeGeneral.Analysis.IdealDerivativeEulerLog
+public import HeckeGeneral.Analysis.HeckeContinuation
+
+@[expose] public section
 
 /-!
 # Actual Hecke data for the full-kappa prime adapter

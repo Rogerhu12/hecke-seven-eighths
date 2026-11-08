@@ -1,9 +1,13 @@
-import HeckeGeneral.Analysis.AnnularTest
-import HeckeGeneral.Analysis.LocalThetaInput
-import HeckeGeneral.Analysis.LogGaussianMellin
-import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
-import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
-import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+module
+
+public import HeckeGeneral.Analysis.AnnularTest
+public import HeckeGeneral.Analysis.LocalThetaInput
+public import HeckeGeneral.Analysis.LogGaussianMellin
+public import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+public import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+
+@[expose] public section
 
 /-!
 Concrete coefficient and Mellin data for the marked theta reflection.

@@ -1,12 +1,17 @@
-import Mathlib.Analysis.Fourier.AddCircleMulti
-import Mathlib.Analysis.Fourier.PoissonSummation
-import Mathlib.Algebra.Module.ZLattice.Basic
-import Mathlib.Algebra.Module.ZLattice.Summable
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.Analysis.Fourier.AddCircleMulti
+public import Mathlib.Analysis.Fourier.PoissonSummation
+public import Mathlib.Algebra.Module.ZLattice.Basic
+public import Mathlib.Algebra.Module.ZLattice.Summable
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Analysis.InnerProductSpace.PiL2
+public import Mathlib.MeasureTheory.Measure.Haar.InnerProductSpace
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_SchwartzMap_tsum_eq_tsum_fourier_euclideanSpace
 
 set_option autoImplicit false

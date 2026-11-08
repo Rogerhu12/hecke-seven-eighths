@@ -1,6 +1,10 @@
-import Expansion.SmoothDyadicPartition
-import HeckeSkeleton.Moments.MOM_INV_STEP.MellinSeparation
-import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+module
+
+public import Expansion.SmoothDyadicPartition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MellinSeparation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+
+@[expose] public section
 
 /-!
 # One actual smooth prefix for every smaller inverse scale

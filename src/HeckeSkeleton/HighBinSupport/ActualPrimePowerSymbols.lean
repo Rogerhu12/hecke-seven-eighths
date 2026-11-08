@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualGeneratorPowers
-import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualGeneratorPowers
+public import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+
+@[expose] public section
 
 /-!
 # The original ideal symbol on principal prime-power quotients

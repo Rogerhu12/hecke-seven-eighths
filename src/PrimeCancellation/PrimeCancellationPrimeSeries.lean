@@ -1,10 +1,14 @@
-import PrimeCancellationPrimePowers
-import PrimeCancellationLogWindow
-import Mathlib.Analysis.Normed.Group.InfiniteSum
-import Mathlib.Topology.Algebra.InfiniteSum.Real
-import Mathlib.Topology.Algebra.InfiniteSum.NatInt
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
-import Mathlib.Data.Finset.Lattice.Fold
+module
+
+public import PrimeCancellationPrimePowers
+public import PrimeCancellationLogWindow
+public import Mathlib.Analysis.Normed.Group.InfiniteSum
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+public import Mathlib.Topology.Algebra.InfiniteSum.NatInt
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+public import Mathlib.Data.Finset.Lattice.Fold
+
+@[expose] public section
 
 /-!
 # Absolutely convergent prime-power window series

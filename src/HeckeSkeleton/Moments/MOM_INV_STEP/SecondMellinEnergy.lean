@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCenteredFamily
-import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCenteredFamily
+public import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
 
 /-!
 # Positive Mellin energy of the literal fixed-center second children

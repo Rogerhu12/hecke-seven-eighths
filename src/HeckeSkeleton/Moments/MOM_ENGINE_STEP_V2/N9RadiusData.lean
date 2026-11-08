@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaNormalization
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

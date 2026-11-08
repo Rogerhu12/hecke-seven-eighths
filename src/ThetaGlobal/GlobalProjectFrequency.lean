@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalFrequency
-import ThetaGlobal.GlobalCharacterSums
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+module
+
+public import ThetaGlobal.GlobalFrequency
+public import ThetaGlobal.GlobalCharacterSums
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import HeckeGeneral.Analysis.ThetaPrimeGaussNorm
+
+@[expose] public section
 
 /-!
 # Actual local zero underlying support-level frequency uniqueness

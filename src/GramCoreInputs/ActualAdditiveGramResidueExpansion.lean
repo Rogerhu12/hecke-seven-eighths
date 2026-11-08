@@ -1,5 +1,9 @@
-import ActualAdditiveGramAmplitude
-import ActualProbePairPeriodicFourier
+module
+
+public import ActualAdditiveGramAmplitude
+public import ActualProbePairPeriodicFourier
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The literal A_m square is a finite double sum of

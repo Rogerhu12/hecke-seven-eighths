@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PlainMellinProfiles
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowIntegralKernel
-import Mathlib.MeasureTheory.Integral.Prod
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PlainMellinProfiles
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowIntegralKernel
+public import Mathlib.MeasureTheory.Integral.Prod
+
+@[expose] public section
 
 /-!
 # Whole-centered Mellin separation on the original rows

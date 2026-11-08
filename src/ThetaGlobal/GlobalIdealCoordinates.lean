@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalFrequencyReconstruction
-import ThetaGlobal.GlobalUnitCoordinates
+module
+
+public import ThetaGlobal.GlobalFrequencyReconstruction
+public import ThetaGlobal.GlobalUnitCoordinates
+
+@[expose] public section
 
 /-!
 # Actual exterior ideals for the reconstructed frequency coordinates

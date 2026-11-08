@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+
+@[expose] public section
 
 /-!
 # Positive annuli for the same active normalized children

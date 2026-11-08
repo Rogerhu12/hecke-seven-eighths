@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SIntegerAnnularColumnCount
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Analysis.SIntegerAnnularColumnCount
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. Nonzero points of a fixed discrete full lattice have

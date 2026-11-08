@@ -1,5 +1,9 @@
-import ExpansionDetector.IdealCutoff
-import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+module
+
+public import ExpansionDetector.IdealCutoff
+public import Mathlib.Topology.Algebra.InfiniteSum.Constructions
+
+@[expose] public section
 
 /-! Exact Cauchy product of the genuine ideal Moebius cutoff and a
 multiplicative ideal weight. The fiber is the actual multiplication of

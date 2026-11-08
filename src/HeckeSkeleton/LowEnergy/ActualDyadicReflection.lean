@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualSourceReindex
-import HeckeSkeleton.LowEnergy.DyadicReindex
+module
+
+public import HeckeSkeleton.LowEnergy.ActualSourceReindex
+public import HeckeSkeleton.LowEnergy.DyadicReindex
+
+@[expose] public section
 
 /-!
 # Actual dual dyads inherit convergence from the supplied reflection

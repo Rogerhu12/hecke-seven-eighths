@@ -1,4 +1,8 @@
-import FLTReuse.Me1ad2f4bf19c4ff0
+module
+
+public import FLTReuse.Me1ad2f4bf19c4ff0
+
+@[expose] public section
 
 noncomputable section
 

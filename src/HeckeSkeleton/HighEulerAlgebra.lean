@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighEulerCore
-import HeckeGeneral.Analysis.PhysicalProbeContours
-import HeckeGeneral.Characters.InfinityPacket
+module
+
+public import HeckeSkeleton.HighEulerCore
+public import HeckeGeneral.Analysis.PhysicalProbeContours
+public import HeckeGeneral.Characters.InfinityPacket
+
+@[expose] public section
 
 /-!
 Local Euler algebra for the full high-bin range. The cancelled formula

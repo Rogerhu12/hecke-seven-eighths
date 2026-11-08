@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualSieveDictionary
-import HeckeSkeleton.Moments
+module
+
+public import HeckeSkeleton.LowEnergy.ActualSieveDictionary
+public import HeckeSkeleton.Moments
+
+@[expose] public section
 
 /-!
 # The task's two sieve hypotheses match the generic actual-kernel inputs

@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeData
-import Mathlib.Algebra.Group.Units.Equiv
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeData
+public import Mathlib.Algebra.Group.Units.Equiv
+
+@[expose] public section
 
 /-!
 Sixth-unit invariance for the literal finite Gauss sum in the Gram amplitude.

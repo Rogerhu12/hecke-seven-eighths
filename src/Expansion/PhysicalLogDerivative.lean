@@ -1,6 +1,10 @@
-import PrimeCancellationDiskGeometry
-import ExpansionDetector.HeckeGammaDetector
-import HeckeSkeleton.HeckeBufferedReciprocal
+module
+
+public import PrimeCancellationDiskGeometry
+public import ExpansionDetector.HeckeGammaDetector
+public import HeckeSkeleton.HeckeBufferedReciprocal
+
+@[expose] public section
 
 /-!
 # An actual logarithmic-derivative bound inside a finite zero buffer

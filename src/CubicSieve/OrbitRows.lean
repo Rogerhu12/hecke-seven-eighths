@@ -1,6 +1,10 @@
-import CubicSieve.ExteriorKernel
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
-import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+module
+
+public import CubicSieve.ExteriorKernel
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+public import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+
+@[expose] public section
 
 /-! Every sixth-power S-unit orbit is retained in an ideal and a finite
 unit-class sector. The chosen actual generators trivialize each fiber.

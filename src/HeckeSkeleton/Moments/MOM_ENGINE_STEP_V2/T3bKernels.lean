@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aRealization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFirstKernels
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aRealization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WeightedNestedFourierMeasure
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFirstKernels
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,8 +1,12 @@
-import Mathlib.Topology.Algebra.ContinuousMonoidHom
-import Mathlib.Topology.Algebra.Monoid
-import Mathlib.Topology.Constructions.SumProd
-import Mathlib.Topology.Separation.Hausdorff
-import Mathlib.Topology.Order
+module
+
+public import Mathlib.Topology.Algebra.ContinuousMonoidHom
+public import Mathlib.Topology.Algebra.Monoid
+public import Mathlib.Topology.Constructions.SumProd
+public import Mathlib.Topology.Separation.Hausdorff
+public import Mathlib.Topology.Order
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. A power image is closed in a topological monoid

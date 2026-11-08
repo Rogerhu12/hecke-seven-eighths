@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.SharedWitnessRecipe
-import HeckeGeneral.Analysis.HeckeConjugateZeros
-import HeckeGeneral.Analysis.TInputRanges
-import HeckeSkeleton.HeckeBufferedReciprocal
+module
+
+public import HeckeSkeleton.ExpansionModels.SharedWitnessRecipe
+public import HeckeGeneral.Analysis.HeckeConjugateZeros
+public import HeckeGeneral.Analysis.TInputRanges
+public import HeckeSkeleton.HeckeBufferedReciprocal
+
+@[expose] public section
 
 /-!
 # Two actual presentations for the identity companion family

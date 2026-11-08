@@ -1,9 +1,13 @@
-import HeckeGeneral.Characters.FiniteRamification
-import HeckeGeneral.Characters.LocalUniformizer
-import HeckeGeneral.Characters.PrincipalUnitFiltration
-import HeckeGeneral.Arithmetic.IdealFactorization
-import Mathlib.Analysis.Normed.Group.Ultra
-import Mathlib.Analysis.SpecificLimits.Basic
+module
+
+public import HeckeGeneral.Characters.FiniteRamification
+public import HeckeGeneral.Characters.LocalUniformizer
+public import HeckeGeneral.Characters.PrincipalUnitFiltration
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import Mathlib.Analysis.Normed.Group.Ultra
+public import Mathlib.Analysis.SpecificLimits.Basic
+
+@[expose] public section
 
 /-!
 # Finite local conductor depth

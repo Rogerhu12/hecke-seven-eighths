@@ -1,5 +1,9 @@
-import HeckePort.CenteredMoment.MaskedVolume
-import HeckePort.CenteredMoment.Basic
+module
+
+public import HeckePort.CenteredMoment.MaskedVolume
+public import HeckePort.CenteredMoment.Basic
+
+@[expose] public section
 
 /-!
 # Centered cancellation of masked ideal sums

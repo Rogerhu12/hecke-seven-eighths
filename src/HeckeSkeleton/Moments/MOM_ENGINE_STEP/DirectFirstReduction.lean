@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOriginalData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstLinearizedSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOriginalData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstLinearizedSource
+
+@[expose] public section
 
 /-!
 # Direct first reduction under the original common Fourier measure

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
-import HeckeGeneral.Analysis.GlobalThetaData
-import Mathlib.NumberTheory.GaussSum
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.LocalSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientCycle
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import Mathlib.NumberTheory.GaussSum
+
+@[expose] public section
 
 /-!
 # The actual fifth-digit Gauss coefficient

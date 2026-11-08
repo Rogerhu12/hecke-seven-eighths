@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
-import HeckeSkeleton.Moments.MOM_BASE.PairedContext
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOverlap
+public import HeckeSkeleton.Moments.MOM_BASE.PairedContext
+
+@[expose] public section
 
 /-! The original exterior and row masks through the initial overlap. -/
 

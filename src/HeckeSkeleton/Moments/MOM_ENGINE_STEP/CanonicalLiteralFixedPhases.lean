@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierGaussExtraction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.EmptyGaussMask
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierGaussExtraction
+
+@[expose] public section
 
 /-!
 # The remaining literal fixed phases in the actual source

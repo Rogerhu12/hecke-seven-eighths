@@ -19,7 +19,7 @@
    "dir": "vendor/class-field-theory",
    "copy": false,
    "configFile": "lakefile.toml"},
-  {"url": "https://github.com/TauCetiProject/TauCeti.git",
+  {"url": "https://github.com/TauCetiProject/TauCeti",
    "type": "git",
    "subDir": null,
    "scope": "",

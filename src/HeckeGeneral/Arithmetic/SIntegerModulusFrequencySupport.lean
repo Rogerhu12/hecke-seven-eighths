@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusValuation
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusValuation
+
+@[expose] public section
 
 /-!
 # The actual inverse-modulus frequency lattice

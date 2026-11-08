@@ -1,5 +1,10 @@
-import Mathlib
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_multipliable_differentiableOn_tprod_ne_zero_eulerProduct_of_norm_le_one
 
 set_option autoImplicit false

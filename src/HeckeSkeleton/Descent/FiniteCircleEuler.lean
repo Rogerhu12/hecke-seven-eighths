@@ -1,9 +1,13 @@
-import HeckeGeneral.Characters.FiniteCircleDual
-import Mathlib.GroupTheory.Coset.Card
-import Mathlib.GroupTheory.QuotientGroup.Basic
-import Mathlib.GroupTheory.OrderOfElement
-import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
-import Mathlib.Data.Fintype.EquivFin
+module
+
+public import HeckeGeneral.Characters.FiniteCircleDual
+public import Mathlib.GroupTheory.Coset.Card
+public import Mathlib.GroupTheory.QuotientGroup.Basic
+public import Mathlib.GroupTheory.OrderOfElement
+public import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
+public import Mathlib.Data.Fintype.EquivFin
+
+@[expose] public section
 
 /-! The full finite Circle dual has the expected local Euler polynomial.
 Restriction onto the generated cyclic subgroup supplies every root of unity

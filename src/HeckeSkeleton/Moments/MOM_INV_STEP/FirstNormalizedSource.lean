@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveNormalization
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondReduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralAggregation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveNormalization
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondReduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSpectralAggregation
+
+@[expose] public section
 
 /-!
 # The original normalized first energy as one arithmetic source

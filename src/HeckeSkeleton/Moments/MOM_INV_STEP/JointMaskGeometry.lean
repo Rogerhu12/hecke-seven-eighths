@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+
+@[expose] public section
 
 /-!
 # Joint norm budget for the actual mask and conductor

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStageKernelIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStageKernelIntegral
+
+@[expose] public section
 
 /-!
 # The actual parent through both transforms

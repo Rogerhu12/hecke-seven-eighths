@@ -1,7 +1,11 @@
-import Mathlib.Algebra.Order.Archimedean.Real.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
-import Lean.Elab.Tactic.Omega
+module
+
+public import Mathlib.Algebra.Order.Archimedean.Real.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 # The terminal ledger of the paired fourth-moment induction

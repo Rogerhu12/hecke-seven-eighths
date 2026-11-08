@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PowerHeightComparison
-import HeckeGeneral.Analysis.PrincipalEulerFactor
+module
+
+public import HeckeGeneral.Analysis.PowerHeightComparison
+public import HeckeGeneral.Analysis.PrincipalEulerFactor
+
+@[expose] public section
 
 /-!
 # The principal closure without the contraction hypothesis

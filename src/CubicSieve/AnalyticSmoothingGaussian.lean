@@ -1,6 +1,10 @@
-import CubicSieve.AnalyticSmoothingKernel
-import CubicSieve.ProfileLower
-import DedekindZetaZeroFree.Theta.Profiles.MixedGaussian
+module
+
+public import CubicSieve.AnalyticSmoothingKernel
+public import CubicSieve.ProfileLower
+public import DedekindZetaZeroFree.Theta.Profiles.MixedGaussian
+
+@[expose] public section
 
 /-!
 The actual Gaussian supplies a uniform lower bound on the entire positive

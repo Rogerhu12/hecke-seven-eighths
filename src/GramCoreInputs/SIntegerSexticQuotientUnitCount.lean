@@ -1,4 +1,8 @@
-import SIntegerSexticZeroFrequency
+module
+
+public import SIntegerSexticZeroFrequency
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Actual prime reductions detect units of the
 S-integer quotient, including the zero ring. The diagonal mass is its

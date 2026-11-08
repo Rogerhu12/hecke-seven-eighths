@@ -1,12 +1,16 @@
-import HeckeGeneral.Bridge.FLTCharacter
-import HeckeGeneral.Analysis.HeckeSeries
-import HeckeGeneral.Analysis.IdealEulerIdentity
-import FLTReuse.Me1ad2f4bf19c4ff0
-import FLTReuse.M18c3f30cb8384583
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M0a341b9f001ae4d1
-import FLTReuse.M40aeee35a98f067b
-import FLTReuse.M07acf709d74d501a
+module
+
+public import HeckeGeneral.Bridge.FLTCharacter
+public import HeckeGeneral.Analysis.HeckeSeries
+public import HeckeGeneral.Analysis.IdealEulerIdentity
+public import FLTReuse.Me1ad2f4bf19c4ff0
+public import FLTReuse.M18c3f30cb8384583
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M0a341b9f001ae4d1
+public import FLTReuse.M40aeee35a98f067b
+public import FLTReuse.M07acf709d74d501a
+
+@[expose] public section
 
 /-!
 # Identification with the actual Tate-theory characters and Euler product

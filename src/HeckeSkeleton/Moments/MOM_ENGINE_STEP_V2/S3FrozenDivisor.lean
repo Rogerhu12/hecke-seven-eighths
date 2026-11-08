@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3PoolData
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.S3PoolData
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

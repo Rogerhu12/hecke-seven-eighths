@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveUnitGauss
-import HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrimitiveUnitGauss
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ThetaGaussCRT
+
+@[expose] public section
 
 /-!
 # Signed CRT for disjoint actual primitive packets

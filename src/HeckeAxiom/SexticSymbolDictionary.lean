@@ -1,6 +1,10 @@
-import HeckeAxiom.ArithmeticChoice
-import HeckeGeneral.Characters.SIntegerSexticIdealComparison
-import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.Sextic.Reciprocity
+module
+
+public import HeckeAxiom.ArithmeticChoice
+public import HeckeGeneral.Characters.SIntegerSexticIdealComparison
+public import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.Sextic.Reciprocity
+
+@[expose] public section
 
 /-!
 # The two sextic residue symbols agree

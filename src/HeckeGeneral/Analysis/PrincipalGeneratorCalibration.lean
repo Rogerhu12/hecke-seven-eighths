@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 The allowed section's multiplicativity already

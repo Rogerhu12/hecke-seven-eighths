@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPoolKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPoolKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
+
+@[expose] public section
 
 /-!
 # The complete first residual cost enters the same pool

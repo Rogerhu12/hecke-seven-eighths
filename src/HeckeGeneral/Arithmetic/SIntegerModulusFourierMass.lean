@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusCRT
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusCRT
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+
+@[expose] public section
 
 /-! The product of the genuine exterior local coset masses equals the inverse
 cardinality of the actual S-integer quotient, hence its inverse product norm.

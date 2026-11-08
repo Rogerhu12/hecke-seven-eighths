@@ -1,4 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerMovingPeriodTraceTransport
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerMovingPeriodTraceTransport
+
+@[expose] public section
+
 /-! Exact scalar/compact-shape parametrization of the
 actual moving period lattice. The ordinary correcting unit belongs to the
 pullback of the original Gamma; all finite class sectors remain present. -/

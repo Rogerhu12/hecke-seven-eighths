@@ -1,8 +1,13 @@
-import HeckeSkeleton.HighBinSupport.ActualBoundaryHolomorphy
-import HeckeSkeleton.HighBinSupport.ActualAdditiveMellinRapidDecay
-import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
-import HeckeSkeleton.HighBinSupport.BoundaryBox
-import Mathlib.MeasureTheory.Function.LocallyIntegrable
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualBoundaryHolomorphy
+public import HeckeSkeleton.HighBinSupport.ActualAdditiveMellinRapidDecay
+public import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
+public import HeckeSkeleton.HighBinSupport.BoundaryBox
+public import Mathlib.MeasureTheory.Function.LocallyIntegrable
+
+@[expose] public section
+
 /-!
 Finite-box integrability of the literal compensated physical kernel.
 

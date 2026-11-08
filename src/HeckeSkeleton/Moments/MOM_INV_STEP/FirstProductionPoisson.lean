@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstToSecondData
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstToSecondData
+
+@[expose] public section
 
 /-!
 # The genuine second Poisson identity on the first free production energy

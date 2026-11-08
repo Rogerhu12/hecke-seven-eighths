@@ -1,6 +1,10 @@
-import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M813a306f2a412faa
+module
+
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M813a306f2a412faa
+
+@[expose] public section
 
 open NumberField NumberField.mixedEmbedding
 open scoped Classical

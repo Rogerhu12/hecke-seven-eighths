@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerData
-import HeckeSkeleton.HighBinSupport.ActualRegularEuler
-import HeckeSkeleton.HighBinSupport.EulerMarkedSubpower
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualEulerData
+public import HeckeSkeleton.HighBinSupport.ActualRegularEuler
+public import HeckeSkeleton.HighBinSupport.EulerMarkedSubpower
+
+@[expose] public section
 
 /-!
 # The actual finite-table Euler product throughout the high-bin move

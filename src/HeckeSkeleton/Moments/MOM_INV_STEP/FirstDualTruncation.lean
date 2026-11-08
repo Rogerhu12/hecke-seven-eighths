@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSplit
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
-import HeckeGeneral.Analysis.SIntegerPeriodicTruncation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSplit
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectors
+public import HeckeGeneral.Analysis.SIntegerPeriodicTruncation
+
+@[expose] public section
 
 /-!
 # Exact bare-frequency truncation of the genuine first Poisson source

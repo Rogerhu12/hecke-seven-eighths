@@ -1,7 +1,11 @@
-import Mathlib.MeasureTheory.Integral.Bochner.Set
-import Mathlib.Data.Finset.Powerset
-import Mathlib.Data.Finset.Max
-import Mathlib.Tactic
+module
+
+public import Mathlib.MeasureTheory.Integral.Bochner.Set
+public import Mathlib.Data.Finset.Powerset
+public import Mathlib.Data.Finset.Max
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # One physical parameter point per amplitude label

@@ -1,5 +1,9 @@
-import ActualProbeLogProfile
-import ActualAdditiveGramAmplitude
+module
+
+public import ActualProbeLogProfile
+public import ActualAdditiveGramAmplitude
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual fixed-frequency denominator column is

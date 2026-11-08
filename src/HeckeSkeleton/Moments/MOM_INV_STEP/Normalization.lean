@@ -1,7 +1,11 @@
-import HeckePort.Moments.Descent.Basic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.Real.Sqrt
-import Mathlib.Analysis.Complex.Basic
+module
+
+public import HeckePort.Moments.Descent.Basic
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.Real.Sqrt
+public import Mathlib.Analysis.Complex.Basic
+
+@[expose] public section
 
 /-!
 # Physical normalization of one canonical inverse step

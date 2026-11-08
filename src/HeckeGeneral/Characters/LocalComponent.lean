@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.IdeleNormContinuity
+module
+
+public import HeckeGeneral.Characters.IdeleNormContinuity
+
+@[expose] public section
 
 /-!
 # Finite local components of actual Hecke characters

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderRows
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedProduction
+
+@[expose] public section
 
 /-!
 # An actual canonical child is a new actual orbital parent

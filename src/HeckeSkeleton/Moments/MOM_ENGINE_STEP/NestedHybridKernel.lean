@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHilbertPhase
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridAllocation
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHilbertPhase
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridAllocation
+
+@[expose] public section
 
 /-!
 # One product Fourier measure for the actual hybrid split

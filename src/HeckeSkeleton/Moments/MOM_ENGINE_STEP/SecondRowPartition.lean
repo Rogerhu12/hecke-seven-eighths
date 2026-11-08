@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondStage
+
+@[expose] public section
 
 /-!
 # Split the genuine second rows before Cauchy

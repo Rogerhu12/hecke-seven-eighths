@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormIndependentProfiles
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentConstantSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormIndependentProfiles
+
+@[expose] public section
 
 /-!
 # Separate original arithmetic atoms from their norm profiles

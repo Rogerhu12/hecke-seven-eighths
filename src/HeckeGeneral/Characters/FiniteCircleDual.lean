@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.Packet
-import Mathlib.GroupTheory.FiniteAbelian.Duality
-import Mathlib.RingTheory.RootsOfUnity.Complex
+module
+
+public import HeckeGeneral.Characters.Packet
+public import Mathlib.GroupTheory.FiniteAbelian.Duality
+public import Mathlib.RingTheory.RootsOfUnity.Complex
+
+@[expose] public section
 
 /-! The full circle-valued dual of a finite commutative group, with orthogonality. -/
 

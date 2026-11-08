@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.IdealTraceLattice
+module
+
+public import HeckeGeneral.Arithmetic.IdealTraceLattice
+
+@[expose] public section
 
 /-!
 The trace-normalized ideal lattice uses a factor `sqrt 2` in every complex

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceActualArithmetic
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceMarkedOrbital
+
+@[expose] public section
 
 /-!
 # Uniform complete-row estimates for every genuine marked annulus

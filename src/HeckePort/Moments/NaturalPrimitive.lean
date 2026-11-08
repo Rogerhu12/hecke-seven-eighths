@@ -1,4 +1,8 @@
-import HeckePort.CenteredMoment.IdealMobius
+module
+
+public import HeckePort.CenteredMoment.IdealMobius
+
+@[expose] public section
 
 /-!
 # The redundant primes of a natural primitive character

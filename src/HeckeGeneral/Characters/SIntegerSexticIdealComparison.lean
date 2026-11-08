@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
-import HeckeGeneral.Characters.SexticPowerResidueComparison
+module
+
+public import HeckeGeneral.Characters.SIntegerSexticIdealEvaluation
+public import HeckeGeneral.Characters.SexticPowerResidueComparison
+
+@[expose] public section
 
 /-! Composite ideal comparison on integral numerators
 coprime to every prime dividing the denominator. No reciprocity is used. -/

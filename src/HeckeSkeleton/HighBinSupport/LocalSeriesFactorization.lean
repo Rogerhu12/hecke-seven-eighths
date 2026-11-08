@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ValuationSeries
-import HeckeSkeleton.HighBinSupport.UnramifiedFiniteTable
-import HeckeGeneral.Analysis.RowEulerRational
+module
+
+public import HeckeSkeleton.HighBinSupport.ValuationSeries
+public import HeckeSkeleton.HighBinSupport.UnramifiedFiniteTable
+public import HeckeGeneral.Analysis.RowEulerRational
+
+@[expose] public section
 
 /-!
 # Exact local factorization after summing the valuation table

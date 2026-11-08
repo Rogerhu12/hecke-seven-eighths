@@ -1,6 +1,11 @@
-import HeckeSkeleton.HighBinSupport.EulerSweptTube
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
-import Mathlib.Tactic.FunProp
+module
+
+public import HeckeSkeleton.HighBinSupport.EulerSweptTube
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+public import Mathlib.Tactic.FunProp
+
+@[expose] public section
+
 /-!
 # Actual phase-shaped regular Euler factors on the swept tube
 

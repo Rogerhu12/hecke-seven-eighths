@@ -1,6 +1,12 @@
-import HeckePort.Moments.HeterogeneousCRT
-import HeckePort.Moments.CommonSupport
-import HeckePort.Moments.Canonical
+module
+
+public import HeckePort.Moments.HeterogeneousCRT
+public import HeckePort.Moments.CommonSupport
+public import HeckePort.Moments.Canonical
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+
+@[expose] public section
 
 /-!
 # Correlations over products of coprime moduli

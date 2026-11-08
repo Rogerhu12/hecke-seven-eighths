@@ -1,7 +1,11 @@
-import HeckeSkeleton.ThetaKernel.Core
-import ThetaGlobal.TestMellinLimit
-import ThetaGlobal.VerticalContour
-import ThetaGlobal.ScalarGaussianLimits
+module
+
+public import HeckeSkeleton.ThetaKernel.Core
+public import ThetaGlobal.TestMellinLimit
+public import ThetaGlobal.VerticalContour
+public import ThetaGlobal.ScalarGaussianLimits
+
+@[expose] public section
 
 /-!
 # The actual annular test: vertical integrability, uniform tails and limits

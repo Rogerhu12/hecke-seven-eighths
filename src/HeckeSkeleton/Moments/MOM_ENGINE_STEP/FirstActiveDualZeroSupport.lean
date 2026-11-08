@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualZeroSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDualZeroSupport
+
+@[expose] public section
 
 /-!
 # The first pure-dual zero counts only nonzero original profiles

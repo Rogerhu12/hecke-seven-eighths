@@ -1,5 +1,9 @@
-import ExpansionDetector.HeckeGammaDetector
-import HeckeGeneral.Analysis.ExpansionDetectorInitial
+module
+
+public import ExpansionDetector.HeckeGammaDetector
+public import HeckeGeneral.Analysis.ExpansionDetectorInitial
+
+@[expose] public section
 
 /-!
 # Actual Hecke zeros give the finite expansion source

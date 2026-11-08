@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedProductFamily
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteNormalizedProductFamily
+
+@[expose] public section
 
 /-!
 # Dependent finite families of the same normalized children

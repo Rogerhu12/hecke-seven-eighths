@@ -1,6 +1,10 @@
-import Expansion.PhysicalInitialRowSum
-import Expansion.PhysicalRapidTruncation
-import Expansion.PhysicalContourMeasure
+module
+
+public import Expansion.PhysicalInitialRowSum
+public import Expansion.PhysicalRapidTruncation
+public import Expansion.PhysicalContourMeasure
+
+@[expose] public section
 
 /-!
 # Initial physical boxes and their literal exterior-height tails

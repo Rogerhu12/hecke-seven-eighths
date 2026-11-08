@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerOrbitMask
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerOrbitMask
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-!
 # Canonical puncture primes as actual localized Poisson masks

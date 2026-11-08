@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerMasks
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerSeed
-import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerMasks
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SixthPowerSeed
+public import HeckeGeneral.Analysis.IdealAmplifierSmallPower
+
+@[expose] public section
 
 /-!
 # Exact sixth-power divisor expansion of the original ideal polynomial

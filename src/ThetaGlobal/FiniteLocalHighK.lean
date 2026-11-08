@@ -1,6 +1,10 @@
-import ThetaGlobal.FiniteFixedSource
-import ThetaGlobal.FiniteHighKWeyl
-import ThetaGlobal.FiniteDirectMellin
+module
+
+public import ThetaGlobal.FiniteFixedSource
+public import ThetaGlobal.FiniteHighKWeyl
+public import ThetaGlobal.FiniteDirectMellin
+
+@[expose] public section
 
 /-!
 # Explicit local high K-type Mellin inputs and their normalization

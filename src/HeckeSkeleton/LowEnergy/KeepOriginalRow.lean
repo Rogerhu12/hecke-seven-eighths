@@ -1,9 +1,13 @@
-import Mathlib.NumberTheory.NumberField.Ideal.Basic
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Real.Sqrt
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
+module
+
+public import Mathlib.NumberTheory.NumberField.Ideal.Basic
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Analysis.Real.Sqrt
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+
+@[expose] public section
 
 /-!
 # Exact hybrid extraction while preserving the original row

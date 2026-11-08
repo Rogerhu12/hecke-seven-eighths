@@ -1,8 +1,12 @@
-import HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound
-import HeckeSkeleton.HighBinSupport.PhysicalNormScalar
-import HeckeSkeleton.HighBinSupport.ActualNormFormSharpFactors
-import HeckeSkeleton.HighBinSupport.ActualNormFormNormalization
-import HeckeSkeleton.HighBinSupport.ActualKernelEnvelope
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound
+public import HeckeSkeleton.HighBinSupport.PhysicalNormScalar
+public import HeckeSkeleton.HighBinSupport.ActualNormFormSharpFactors
+public import HeckeSkeleton.HighBinSupport.ActualNormFormNormalization
+public import HeckeSkeleton.HighBinSupport.ActualKernelEnvelope
+
+@[expose] public section
 
 /-!
 # The full physical kernel at the original retained height

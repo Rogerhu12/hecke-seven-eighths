@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MarkedThetaReflection
-import Mathlib.RingTheory.Ideal.Operations
+module
+
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+public import Mathlib.RingTheory.Ideal.Operations
+
+@[expose] public section
 
 /-!
 Actual arithmetic dictionary for GR-12 section comparison. The functions

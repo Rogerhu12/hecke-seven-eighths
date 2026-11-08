@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CenteredAllocatedChildren
+
+@[expose] public section
 
 /-!
 # The complete centered second coefficient in the actual child source

@@ -1,7 +1,11 @@
-import HeckePort.CenteredMoment.Mask
-import HeckePort.Moments.Descent.Marks
-import HeckePort.Moments.Descent.Overlap
-import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+module
+
+public import HeckePort.CenteredMoment.Mask
+public import HeckePort.Moments.Descent.Marks
+public import HeckePort.Moments.Descent.Overlap
+public import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+
+@[expose] public section
 
 /-!
 # Ideal masks and prime marks

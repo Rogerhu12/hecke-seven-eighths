@@ -1,8 +1,12 @@
-import HeckeGeneral.Arithmetic.IdealFactorization
-import HeckeGeneral.Analysis.GlobalThetaData
-import Mathlib.Data.Finsupp.Order
-import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import Mathlib.Data.Finsupp.Order
+public import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 Actual nonzero exterior ideal pairs, reindexed by their common prime powers

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialPointwise
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMellinEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialPointwise
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMellinEnergy
+
+@[expose] public section
 
 /-!
 # The actual initial production under its common spectral measure

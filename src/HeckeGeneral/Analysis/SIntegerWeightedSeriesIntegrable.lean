@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SIntegerSchwartzPullback
-import Mathlib.MeasureTheory.Constructions.Polish.Basic
+module
+
+public import HeckeGeneral.Analysis.SIntegerSchwartzPullback
+public import Mathlib.MeasureTheory.Constructions.Polish.Basic
+
+@[expose] public section
 
 /-! Integrability of bounded weighted actual S-integer series after a
 continuous change of the norm-one variable. Absolute integral bounds are

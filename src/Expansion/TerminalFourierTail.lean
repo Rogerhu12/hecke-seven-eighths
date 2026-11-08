@@ -1,6 +1,10 @@
-import Expansion.ActualTerminalFourier
-import Expansion.TerminalTailBudget
-import ExpansionDetector.AnnularNormalization
+module
+
+public import Expansion.ActualTerminalFourier
+public import Expansion.TerminalTailBudget
+public import ExpansionDetector.AnnularNormalization
+
+@[expose] public section
 
 /-!
 # Uniform terminal Fourier extraction with the tail absorbed

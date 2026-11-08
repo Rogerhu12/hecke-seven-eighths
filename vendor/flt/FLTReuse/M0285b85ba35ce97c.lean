@@ -1,7 +1,11 @@
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.Fourier.FourierTransform
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M6136ad15adda1c11
+module
+
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Fourier.FourierTransform
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M6136ad15adda1c11
+
+@[expose] public section
 
 open scoped FourierTransform SchwartzMap
 theorem SchwartzMap.exists_coe_eq_vectorFourierIntegral

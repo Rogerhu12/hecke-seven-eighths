@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
-import ExpansionInterfaces.AnnularCutoffFamily
+module
+
+public import HeckeGeneral.Analysis.ExpansionBufferedPolynomials
+public import ExpansionInterfaces.AnnularCutoffFamily
+
+@[expose] public section
 
 /-! The actual deleted ordinary/inverse bounds with one Mellin constant
 for the entire W(x)V(Rx) family. In the inverse recipe R = D/U^t;

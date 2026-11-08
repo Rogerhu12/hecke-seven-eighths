@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GeneralCanonicalBlock
-import HeckeSkeleton.LowEnergy.GeneralHeight
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralCanonicalBlock
+public import HeckeSkeleton.LowEnergy.GeneralHeight
+
+@[expose] public section
 
 /-!
 # Uniform canonical energy for finite characters and norm twists

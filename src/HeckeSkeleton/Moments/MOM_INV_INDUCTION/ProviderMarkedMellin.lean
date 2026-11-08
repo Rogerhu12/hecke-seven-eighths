@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedReindex
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceAnnularTests
+
+@[expose] public section
 
 /-!
 # The actual residual divisor mark after common Mellin separation

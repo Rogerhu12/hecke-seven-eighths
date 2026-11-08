@@ -1,7 +1,12 @@
-import HeckeSkeleton.HeckeBufferedReciprocal
-import HeckeSkeleton.HighNormBackgroundExclusion
-import ActualCanonicalRowConsumers
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+module
+
+public import HeckeSkeleton.HeckeBufferedReciprocal
+public import HeckeSkeleton.HighNormBackgroundExclusion
+public import ActualCanonicalRowConsumers
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+
+@[expose] public section
+
 /-!
 Actual s-slice holomorphy of the deleted row Euler continuation and the
 full compensated physical kernel. The input concerns the correction

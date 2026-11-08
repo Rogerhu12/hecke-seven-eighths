@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
-import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
-import Mathlib.NumberTheory.NumberField.ProductFormula
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerIdealSaturation
+public import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+public import Mathlib.NumberTheory.NumberField.ProductFormula
+
+@[expose] public section
 
 /-!
 # The actual S-local norm of an ordinary nonzero integer

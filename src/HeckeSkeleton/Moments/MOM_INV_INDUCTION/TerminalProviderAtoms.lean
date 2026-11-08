@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflection
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderReflection
+
+@[expose] public section
 
 /-!
 # The original reflected source uses the permitted block atoms

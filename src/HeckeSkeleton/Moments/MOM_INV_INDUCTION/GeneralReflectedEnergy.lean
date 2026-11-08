@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualSeparatedBlock
-import HeckeSkeleton.LowEnergy.ActualFrozenCharges
-import HeckePort.Moments.Inversion.TerminalWidths
+module
+
+public import HeckeSkeleton.LowEnergy.ActualSeparatedBlock
+public import HeckeSkeleton.LowEnergy.ActualFrozenCharges
+public import HeckePort.Moments.Inversion.TerminalWidths
+
+@[expose] public section
 
 /-!
 # The permitted general marked reflected-energy input

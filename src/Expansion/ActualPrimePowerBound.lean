@@ -1,5 +1,9 @@
-import Expansion.ActualPrimeFrequencySlotBridge
-import Expansion.PrimeFrequencyPowerBudget
+module
+
+public import Expansion.ActualPrimeFrequencySlotBridge
+public import Expansion.PrimeFrequencyPowerBudget
+
+@[expose] public section
 
 /-!
 # A genuine power bound for the original masked physical prime polynomial

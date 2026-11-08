@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.UniformIdealHybrid
-import HeckeSkeleton.LowEnergy.IdealCanonicalColumns
+module
+
+public import HeckeSkeleton.LowEnergy.UniformIdealHybrid
+public import HeckeSkeleton.LowEnergy.IdealCanonicalColumns
+
+@[expose] public section
 
 /-!
 # The full raw hybrid bound on actual integral ideals

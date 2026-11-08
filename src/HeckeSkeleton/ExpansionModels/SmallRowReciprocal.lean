@@ -1,9 +1,13 @@
-import HeckeSkeleton.ExpansionModels.SmallRowNumerator
-import HeckeSkeleton.HeckeFiniteBackgroundControl
-import HeckeSkeleton.HeckeConductorNorm
-import HeckeGeneral.Analysis.PhysicalRowPacketBoundary
-import HeckeSkeleton.ExpansionModels.SmallRowNormReciprocal
-import HeckeSkeleton.HighNormBackgroundExclusion
+module
+
+public import HeckeSkeleton.ExpansionModels.SmallRowNumerator
+public import HeckeSkeleton.HeckeFiniteBackgroundControl
+public import HeckeSkeleton.HeckeConductorNorm
+public import HeckeGeneral.Analysis.PhysicalRowPacketBoundary
+public import HeckeSkeleton.ExpansionModels.SmallRowNormReciprocal
+public import HeckeSkeleton.HighNormBackgroundExclusion
+
+@[expose] public section
 
 /-!
 # Actual reciprocal factors on the common small-row line

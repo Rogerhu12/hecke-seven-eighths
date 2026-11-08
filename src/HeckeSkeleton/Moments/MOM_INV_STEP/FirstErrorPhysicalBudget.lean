@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredErrorIntegrals
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterErrors
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredErrorIntegrals
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterErrors
+
+@[expose] public section
 
 /-!
 # The actual first-outer principal cost after physical normalization

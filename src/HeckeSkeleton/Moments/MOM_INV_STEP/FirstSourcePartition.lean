@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
+
+@[expose] public section
 
 /-!
 # Exact finite partition of the original columns by their extraction data

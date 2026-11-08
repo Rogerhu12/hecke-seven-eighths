@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
+module
+
+public import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
+
+@[expose] public section
+
 /-!
 # Uniform conductor subpower for the explicit Euler family
 

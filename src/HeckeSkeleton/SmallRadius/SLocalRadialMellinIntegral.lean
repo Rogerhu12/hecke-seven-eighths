@@ -1,7 +1,11 @@
-import HeckeSkeleton.SmallRadius.SLocalRadialHaarComparison
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import Mathlib.MeasureTheory.Integral.Prod
-import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+module
+
+public import HeckeSkeleton.SmallRadius.SLocalRadialHaarComparison
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import Mathlib.MeasureTheory.Integral.Prod
+public import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

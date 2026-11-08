@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstDualTruncation
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
-import HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail
-import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstDualTruncation
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+public import HeckeSkeleton.Moments.MOM_INV_STEP.OuterFrequencyTail
+public import HeckeGeneral.Bridge.TraceSchwartzFourierBounds
+
+@[expose] public section
 
 /-!
 # Bounds for the actual canonical high-frequency series

@@ -1,5 +1,9 @@
-import RowCharacterCanonicalUniqueness
-import ArithmeticFrequencyRowFaithfulness
+module
+
+public import RowCharacterCanonicalUniqueness
+public import ArithmeticFrequencyRowFaithfulness
+
+@[expose] public section
 
 /-!
 Transport of actual Kummer principal-row detection to the original supplied

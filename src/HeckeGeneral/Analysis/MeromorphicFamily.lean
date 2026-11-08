@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.EndpointClosure
-import HeckeGeneral.Analysis.MeromorphicDescent
+module
+
+public import HeckeGeneral.Analysis.EndpointClosure
+public import HeckeGeneral.Analysis.MeromorphicDescent
+
+@[expose] public section
 
 /-!
 # Connecting the family closure to meromorphic functions

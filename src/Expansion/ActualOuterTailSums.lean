@@ -1,5 +1,9 @@
-import Expansion.ActualOuterInitialTransport
-import Expansion.ActualOuterComponents
+module
+
+public import Expansion.ActualOuterInitialTransport
+public import Expansion.ActualOuterComponents
+
+@[expose] public section
 
 /-!
 # Actual exterior-height tails after original row summation

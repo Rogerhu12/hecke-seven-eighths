@@ -1,7 +1,11 @@
-import ThetaGlobal.GlobalProjectExterior
-import ThetaGlobal.GlobalProjectUnfolding
-import DedekindZetaZeroFree.Theta.Periods.CompactDigitContinuity
-import DedekindZetaZeroFree.Theta.Digits.CompactQuotientWeights
+module
+
+public import ThetaGlobal.GlobalProjectExterior
+public import ThetaGlobal.GlobalProjectUnfolding
+public import DedekindZetaZeroFree.Theta.Periods.CompactDigitContinuity
+public import DedekindZetaZeroFree.Theta.Digits.CompactQuotientWeights
+
+@[expose] public section
 
 /-!
 # Actual target-character digit descent and quotient integrability

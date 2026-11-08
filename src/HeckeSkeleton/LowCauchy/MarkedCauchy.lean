@@ -1,9 +1,13 @@
-import HeckeSkeleton.GramDefinitions
-import HeckeSkeleton.ActualProbeIntegralComplete
-import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
-import ActualProbeSpectralOrbitSupport
-import ActualProbeLogUniformFourier
-import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import HeckeSkeleton.ActualProbeIntegralComplete
+public import HeckeGeneral.Arithmetic.SIntegerOrbitCounting
+public import ActualProbeSpectralOrbitSupport
+public import ActualProbeLogUniformFourier
+public import Mathlib.Analysis.SpecialFunctions.JapaneseBracket
+
+@[expose] public section
 
 /-!
 # Marked spectral Cauchy bound (revised Proposition 6.2, analytic half)

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernel
+
+@[expose] public section
 
 /-!
 # Uniform mass of the common Fourier kernel

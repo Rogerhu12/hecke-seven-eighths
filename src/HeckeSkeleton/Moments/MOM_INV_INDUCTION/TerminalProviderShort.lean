@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProvider
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTheta
-import HeckeSkeleton.LowEnergy.IdealMass
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProvider
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTheta
+public import HeckeSkeleton.LowEnergy.IdealMass
+
+@[expose] public section
 
 /-!
 # The genuine short cube sum in the row Hilbert space

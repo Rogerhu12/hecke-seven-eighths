@@ -1,4 +1,9 @@
-import HeckeSkeleton.SmallRadius.FiniteUnitShellIntegrals
+module
+
+public import HeckeSkeleton.SmallRadius.FiniteUnitShellIntegrals
+
+@[expose] public section
+
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.
 The actual unit-shell test has Fourier transform equal to the difference

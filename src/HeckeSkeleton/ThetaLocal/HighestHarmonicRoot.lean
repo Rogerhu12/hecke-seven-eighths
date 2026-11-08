@@ -1,4 +1,8 @@
-import DedekindZetaZeroFree.Theta.Whittaker.ComplexRootDerivativeVectors
+module
+
+public import DedekindZetaZeroFree.Theta.Whittaker.ComplexRootDerivativeVectors
+
+@[expose] public section
 
 /-! Purely local highest-harmonic derivative calculation, adapted without changing
 the proof from AxiomMath/DedekindZetaZeroFree, commit

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveReconstruction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PositiveReconstruction
+
+@[expose] public section
 
 /-!
 # Fixed-triple packets of the actual post-Cauchy positive source

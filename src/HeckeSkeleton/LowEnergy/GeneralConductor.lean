@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenCharges
-import HeckeSkeleton.LowEnergy.GeneralBlockPolynomial
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenCharges
+public import HeckeSkeleton.LowEnergy.GeneralBlockPolynomial
+
+@[expose] public section
 
 /-!
 # Conductor charges with a squarefree label and an arbitrary puncture

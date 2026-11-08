@@ -1,4 +1,8 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormKernel
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormKernel
+
+@[expose] public section
 
 /-!
 # The physical norm form with the repeated-prime allocation kept joint

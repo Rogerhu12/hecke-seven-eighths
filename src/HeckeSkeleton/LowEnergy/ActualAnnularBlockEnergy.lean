@@ -1,9 +1,13 @@
-import HeckeSkeleton.LowEnergy.ActualBlockEnergy
-import HeckeSkeleton.LowEnergy.ActualDyadicReflection
-import HeckeSkeleton.LowEnergy.GaussianTheta
-import HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial
-import HeckeSkeleton.LowEnergy.PhysicalDyadicBudget
-import HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.ActualBlockEnergy
+public import HeckeSkeleton.LowEnergy.ActualDyadicReflection
+public import HeckeSkeleton.LowEnergy.GaussianTheta
+public import HeckeSkeleton.LowEnergy.PhysicalBlockPolynomial
+public import HeckeSkeleton.LowEnergy.PhysicalDyadicBudget
+public import HeckeSkeleton.LowEnergy.PhysicalGaussianEnergy
+
+@[expose] public section
 
 /-!
 # Physical Gaussian annular blocks with their actual frozen norm charges

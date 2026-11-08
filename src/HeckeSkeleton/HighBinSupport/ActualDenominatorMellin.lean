@@ -1,7 +1,12 @@
-import HeckeSkeleton.ThetaKernel.TestMellin
-import Mathlib.Tactic.Positivity
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
+module
+
+public import HeckeSkeleton.ThetaKernel.TestMellin
+public import Mathlib.Tactic.Positivity
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
+
 /-!
 Uniform Mellin decay for the actual SmoothAnnularTest denominator, over
 an arbitrary fixed compact real strip. This includes the negative w line

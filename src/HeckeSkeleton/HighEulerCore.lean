@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.RowEulerRational
-import Mathlib.Basic.Complex.Basic
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.Linarith
+module
+
+public import HeckeGeneral.Analysis.RowEulerRational
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-! Rational Euler-factor cancellation, including the removable W=1 locus. -/
 

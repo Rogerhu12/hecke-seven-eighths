@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianCover
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SourceCartesianCover
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
+
+@[expose] public section
 
 /-!
 # Counting the original support keys and actual row classes

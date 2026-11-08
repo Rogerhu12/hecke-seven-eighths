@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingPrimeProvider
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
-import Expansion.CanonicalDetectorCharacters
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingPrimeProvider
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
+public import Expansion.CanonicalDetectorCharacters
+
+@[expose] public section
 
 /-!
 # Original analytic inputs for the actual target source

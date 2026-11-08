@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.SUnitNormOneQuotient
-import Mathlib.Topology.MetricSpace.Polish
-import Mathlib.Topology.MetricSpace.ProperSpace
-import Mathlib.Topology.Algebra.Group.Units
+module
+
+public import HeckeGeneral.Arithmetic.SUnitNormOneQuotient
+public import Mathlib.Topology.MetricSpace.Polish
+public import Mathlib.Topology.MetricSpace.ProperSpace
+public import Mathlib.Topology.Algebra.Group.Units
+
+@[expose] public section
 
 /-!
 # Topology of the actual norm-one S-local quotient

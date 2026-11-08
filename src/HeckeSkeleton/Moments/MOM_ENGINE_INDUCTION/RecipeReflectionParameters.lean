@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.UniversalReflectionBranches
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
+
+@[expose] public section
 
 /-!
 # Ordinary-reflection parameters in the original recipe schedule

@@ -1,5 +1,9 @@
-import CubicSieve.Profile
-import CubicSieve.ProfileGaussian
+module
+
+public import CubicSieve.Profile
+public import CubicSieve.ProfileGaussian
+
+@[expose] public section
 
 /-! Actual Mellin inversion of the chosen common dual profile. The proof uses
 the proved sheet Haar disintegration, Fourier-Mellin integrability and rapid

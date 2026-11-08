@@ -1,7 +1,11 @@
-import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
-import Mathlib.Algebra.BigOperators.Fin
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+module
+
+public import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+public import Mathlib.Algebra.BigOperators.Fin
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+
+@[expose] public section
 
 /-!
 Exact finite-character expansion of the identity-ray condition at a place

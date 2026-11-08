@@ -1,4 +1,8 @@
-import ExpansionDetector.GammaWeightedZeroShift
+module
+
+public import ExpansionDetector.GammaWeightedZeroShift
+
+@[expose] public section
 
 /-!
 # A fixed-line zero detector for the full range beta >= 51/100

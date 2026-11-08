@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalAmplitude
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OrdinaryExceptionalAmplitude
+
+@[expose] public section
 
 /-!
 # Exceptional amplitudes with constants before the moving profiles

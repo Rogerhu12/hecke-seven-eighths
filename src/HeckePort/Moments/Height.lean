@@ -1,4 +1,8 @@
-import HeckePort.Moments.Twist
+module
+
+public import HeckePort.Moments.Twist
+
+@[expose] public section
 
 /-!
 # Polynomial height dependence of the twisted rectangle estimate

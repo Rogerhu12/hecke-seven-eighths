@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSlotRemoval
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedSlotRemoval
+
+@[expose] public section
 
 /-!
 # Normalize every live profile before the single slot removal

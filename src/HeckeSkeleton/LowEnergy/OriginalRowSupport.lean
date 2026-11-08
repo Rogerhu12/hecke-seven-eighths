@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.OriginalRowNormalForm
-import HeckeSkeleton.LowEnergy.IdealMass
+module
+
+public import HeckeSkeleton.LowEnergy.OriginalRowNormalForm
+public import HeckeSkeleton.LowEnergy.IdealMass
+
+@[expose] public section
 
 /-!
 # Inherited support and coefficient budgets for the actual normal form

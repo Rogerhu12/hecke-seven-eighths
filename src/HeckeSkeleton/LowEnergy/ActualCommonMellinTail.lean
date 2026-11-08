@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.CommonMellinTail
-import HeckeSkeleton.ThetaKernel.Core
+module
+
+public import HeckeSkeleton.LowEnergy.CommonMellinTail
+public import HeckeSkeleton.ThetaKernel.Core
+
+@[expose] public section
 
 /-!
 # Actual common physical profile on both Mellin lines

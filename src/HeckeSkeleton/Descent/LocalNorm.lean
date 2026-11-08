@@ -1,6 +1,10 @@
-import HeckeSkeleton.ActualHeckeNormPullback
-import HeckeGeneral.Characters.LocalComponent
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.Extension.OnePlaceBaseNorm
+module
+
+public import HeckeSkeleton.ActualHeckeNormPullback
+public import HeckeGeneral.Characters.LocalComponent
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.Extension.OnePlaceBaseNorm
+
+@[expose] public section
 
 /-!
 Adapted from the 2026-10-11 local-norm cache for the actual Descent interface.

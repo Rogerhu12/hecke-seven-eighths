@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Interface
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionClosure
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.Interface
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.InductionClosure
+
+@[expose] public section
 
 /-!
 # Finite closure of the canonical energy recursion

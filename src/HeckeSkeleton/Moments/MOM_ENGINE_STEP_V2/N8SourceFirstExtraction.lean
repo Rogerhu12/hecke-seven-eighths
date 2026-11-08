@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceCoverCounts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceCoverCounts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

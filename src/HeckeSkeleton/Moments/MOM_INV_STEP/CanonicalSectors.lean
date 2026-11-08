@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.LocalThetaInput
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+module
+
+public import HeckeGeneral.Analysis.LocalThetaInput
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+
+@[expose] public section
 
 /-!
 # Actual selected generators and all original unit sectors

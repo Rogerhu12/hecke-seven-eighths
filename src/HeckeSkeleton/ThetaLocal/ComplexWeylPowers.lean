@@ -1,6 +1,10 @@
-import HeckeSkeleton.ThetaLocal.ComplexRootPowers
-import HeckeSkeleton.ThetaLocal.HighestHarmonicRoot
-import Mathlib.Analysis.Calculus.Deriv.Star
+module
+
+public import HeckeSkeleton.ThetaLocal.ComplexRootPowers
+public import HeckeSkeleton.ThetaLocal.HighestHarmonicRoot
+public import Mathlib.Analysis.Calculus.Deriv.Star
+
+@[expose] public section
 
 /-!
 Weyl interchange of the actual two root strings.

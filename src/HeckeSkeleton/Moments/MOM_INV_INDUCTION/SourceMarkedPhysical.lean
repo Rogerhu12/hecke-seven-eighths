@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceCompleteRows
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedOriginal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+
+@[expose] public section
 
 /-!
 # The complete physical rows with the actual residual mark

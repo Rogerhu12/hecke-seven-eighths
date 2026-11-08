@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorNormCalibration
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOriginalData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.InputDemands
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorNormCalibration
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectOriginalData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

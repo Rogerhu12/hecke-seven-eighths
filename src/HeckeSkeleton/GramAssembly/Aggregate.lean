@@ -1,4 +1,8 @@
-import HeckeSkeleton.GramAssembly.Bookkeeping
+module
+
+public import HeckeSkeleton.GramAssembly.Bookkeeping
+
+@[expose] public section
 
 /-!
 GR-12-ASSEMBLY, aggregation over the gcd parts `C` and the Mobius divisors `D`:

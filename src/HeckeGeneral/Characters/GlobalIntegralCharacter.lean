@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalResidueTower
-import HeckeGeneral.Characters.ProductCharacter
+module
+
+public import HeckeGeneral.Characters.LocalResidueTower
+public import HeckeGeneral.Characters.ProductCharacter
+
+@[expose] public section
 
 /-! The restriction to all finite integral idèle units descends to a finite conductor quotient. -/
 

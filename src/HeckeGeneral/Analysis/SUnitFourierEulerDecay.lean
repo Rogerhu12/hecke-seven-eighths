@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TraceSchwartzEuler
-import HeckeGeneral.Analysis.SUnitSchwartzDecay
+module
+
+public import HeckeGeneral.Analysis.TraceSchwartzEuler
+public import HeckeGeneral.Analysis.SUnitSchwartzDecay
+
+@[expose] public section
 
 /-! Uniform power decay of actual Fourier orbital profiles after finitely many
 Euler operators. The operators act on the archimedean Schwartz function before
@@ -31,7 +35,8 @@ def traceFourierEulerIterCLM (j : ℕ) :
 /-- Changing the scalar field of a Schwartz seminorm leaves its actual value
 unchanged. Both values use the same real iterated differential and norm. -/
 theorem traceSchwartz_seminorm_complex_eq_real (k n : ℕ) (φ : SchwartzMap V ℂ) :
-    SchwartzMap.seminorm ℂ k n φ = SchwartzMap.seminorm ℝ k n φ := rfl
+    SchwartzMap.seminorm ℂ k n φ = SchwartzMap.seminorm ℝ k n φ := by
+  rw [SchwartzMap.seminorm_apply, SchwartzMap.seminorm_apply]
 
 /-- A single finite collection of original seminorms controls every Euler order
 up to J after Fourier transformation. The finite supremum of the composed

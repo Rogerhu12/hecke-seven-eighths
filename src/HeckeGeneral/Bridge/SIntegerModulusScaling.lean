@@ -1,5 +1,9 @@
-import HeckeGeneral.Bridge.SIntegerScaledPoisson
-import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+module
+
+public import HeckeGeneral.Bridge.SIntegerScaledPoisson
+public import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+
+@[expose] public section
 
 /-! Dividing an actual principal frequency by a nonzero S-integer is the
 same as multiplying its original S-local base point by the inverse local

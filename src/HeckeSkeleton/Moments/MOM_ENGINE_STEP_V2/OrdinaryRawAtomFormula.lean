@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryFirstAtomFormula
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryMultiplierTransport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryFirstAtomFormula
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryMultiplierTransport
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
-import HeckePort.Moments.FullCorrelation
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+public import HeckePort.Moments.FullCorrelation
+
+@[expose] public section
 
 /-!
 # The actual orbital divisor transform of a complete Gauss pair

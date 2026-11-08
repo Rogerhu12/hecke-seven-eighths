@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerModulusCRT
-import HeckeGeneral.Arithmetic.ResidueTraceCharacters
-import HeckeGeneral.Characters.LocalCanonicalFrequency
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerModulusCRT
+public import HeckeGeneral.Arithmetic.ResidueTraceCharacters
+public import HeckeGeneral.Characters.LocalCanonicalFrequency
+
+@[expose] public section
 
 /-!
 # Standard local additive pairings on an actual S-integer quotient

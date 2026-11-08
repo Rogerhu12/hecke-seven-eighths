@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.SourceData
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceData
+
+@[expose] public section
 
 /-!
 # The actual source below the moment theorem layer

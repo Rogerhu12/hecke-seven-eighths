@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aElementary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridZeroRowSupport
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aElementary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridZeroRowSupport
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

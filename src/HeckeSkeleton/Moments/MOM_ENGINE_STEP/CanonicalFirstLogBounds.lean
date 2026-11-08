@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogChart
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFirstLogChart
+
+@[expose] public section
 
 /-!
 # Bounds for the constructed first log chart

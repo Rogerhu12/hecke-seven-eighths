@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.LatticePoisson
-import HeckeGeneral.Arithmetic.IdealTraceLattice
+module
+
+public import HeckeGeneral.Analysis.LatticePoisson
+public import HeckeGeneral.Arithmetic.IdealTraceLattice
+
+@[expose] public section
 
 /-!
 # Poisson summation on the actual trace-weighted ideal lattice

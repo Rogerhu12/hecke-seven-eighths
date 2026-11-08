@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Exact plain-scale clipping on actual moment data

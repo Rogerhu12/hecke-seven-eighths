@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPool
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorPool
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonNormalization
+
+@[expose] public section
 
 /-!
 # The actual parent through the first transform and one fixed pool

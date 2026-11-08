@@ -1,10 +1,14 @@
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
-import Mathlib.Analysis.Meromorphic.Order
-import Mathlib.Analysis.Complex.CauchyIntegral
-import Mathlib.Tactic.FunProp
-import Mathlib.Tactic.Linarith
-import HeckeGeneral.Analysis.MeromorphicDescent
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+public import Mathlib.Analysis.Meromorphic.Order
+public import Mathlib.Analysis.Complex.CauchyIntegral
+public import Mathlib.Tactic.FunProp
+public import Mathlib.Tactic.Linarith
+public import HeckeGeneral.Analysis.MeromorphicDescent
+
+@[expose] public section
 
 /-!
 # Deleting finitely many unitary Euler factors

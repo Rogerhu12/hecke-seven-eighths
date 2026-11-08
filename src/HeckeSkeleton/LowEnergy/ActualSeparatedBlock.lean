@@ -1,10 +1,14 @@
-import HeckeSkeleton.LowEnergy.ActualHybridEntry
-import HeckeSkeleton.LowEnergy.ActualFrozenCharges
-import HeckeSkeleton.LowEnergy.ActualGeneratorClasses
-import HeckeSkeleton.LowEnergy.ActualCommonMellinTail
-import HeckeSkeleton.LowEnergy.MellinEnergy
-import HeckeSkeleton.LowEnergy.FiniteHybridIntegral
-import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+module
+
+public import HeckeSkeleton.LowEnergy.ActualHybridEntry
+public import HeckeSkeleton.LowEnergy.ActualFrozenCharges
+public import HeckeSkeleton.LowEnergy.ActualGeneratorClasses
+public import HeckeSkeleton.LowEnergy.ActualCommonMellinTail
+public import HeckeSkeleton.LowEnergy.MellinEnergy
+public import HeckeSkeleton.LowEnergy.FiniteHybridIntegral
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+
+@[expose] public section
 
 /-!
 # Literal finite reflected blocks with a common Mellin profile

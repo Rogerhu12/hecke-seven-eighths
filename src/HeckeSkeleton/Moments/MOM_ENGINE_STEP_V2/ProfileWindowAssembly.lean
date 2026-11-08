@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileWindowContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileWindowClipping
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileAssembly
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActiveChildAnnulus
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileWindowContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileWindowClipping
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.ProfileAssembly
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ClippedAnnulusSchedule
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ActiveChildAnnulus
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

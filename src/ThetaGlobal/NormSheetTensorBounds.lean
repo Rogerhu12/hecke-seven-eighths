@@ -1,5 +1,9 @@
-import ThetaGlobal.FiniteSheetMellin
-import DedekindZetaZeroFree.Adeles.Quotients.NormSheets.RemainingCoordinateIntegrals
+module
+
+public import ThetaGlobal.FiniteSheetMellin
+public import DedekindZetaZeroFree.Adeles.Quotients.NormSheets.RemainingCoordinateIntegrals
+
+@[expose] public section
 
 /-!
 # Continuity and quadratic tails of actual tensor norm sheets

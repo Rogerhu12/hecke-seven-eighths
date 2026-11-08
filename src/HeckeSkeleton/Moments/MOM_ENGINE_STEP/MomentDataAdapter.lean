@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Capacity
-import HeckeGeneral.Analysis.SelectedMomentSlots
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.Capacity
+public import HeckeGeneral.Analysis.SelectedMomentSlots
+
+@[expose] public section
 
 /-!
 # Capacity repair for the repository's actual paired energy

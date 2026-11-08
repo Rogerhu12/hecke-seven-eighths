@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialClosure
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialClosure
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.SourceScaleBudget
+
+@[expose] public section
 
 /-!
 # The actual zero-slot orbital source from the canonical bound

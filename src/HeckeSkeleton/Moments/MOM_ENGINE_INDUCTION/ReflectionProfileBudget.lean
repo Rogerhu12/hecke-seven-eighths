@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedReflectionDensity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.NormalizedReflectionDensity
+
+@[expose] public section
 
 /-!
 # A moving profile budget with constants chosen before height

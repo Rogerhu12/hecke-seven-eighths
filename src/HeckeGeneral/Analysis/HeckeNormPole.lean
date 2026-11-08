@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.HeckeContinuation
-import FLTReuse.M5808d10d83f2fccd
-import FLTReuse.Mfbd03b0511a8bca3
+module
+
+public import HeckeGeneral.Analysis.HeckeContinuation
+public import FLTReuse.M5808d10d83f2fccd
+public import FLTReuse.Mfbd03b0511a8bca3
+
+@[expose] public section
 
 /-!
 # Exact poles of actual unitary Hecke continuations

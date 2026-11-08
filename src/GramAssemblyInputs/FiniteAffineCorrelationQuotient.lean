@@ -1,5 +1,9 @@
-import FiniteAffineCorrelationBound
-import Mathlib.GroupTheory.Coset.Basic
+module
+
+public import FiniteAffineCorrelationBound
+public import Mathlib.GroupTheory.Coset.Basic
+
+@[expose] public section
 
 /-! Source-only, uncompiled. Surjective quotient transport of the genuine
 affine correlation. Every additive fibre contributes its actual kernel size. -/

@@ -1,11 +1,16 @@
-import FLTReuse.Mb8f476785919d863
-import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
-import FLTReuse.M81477154c83a610e
-import FLTReuse.M9d41298c0e4654c9
-import Mathlib.Analysis.MellinTransform
-import Mathlib.Analysis.SpecialFunctions.PolarCoord
-import Mathlib.Analysis.Complex.Circle
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Mb8f476785919d863
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+public import FLTReuse.M81477154c83a610e
+public import FLTReuse.M9d41298c0e4654c9
+public import Mathlib.Analysis.MellinTransform
+public import Mathlib.Analysis.SpecialFunctions.PolarCoord
+public import Mathlib.Analysis.Complex.Circle
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_ArchPlace_complexZeta_complexTestFun_complexCharFun_eq_pi_mul_GammaComplex
 
 set_option autoImplicit false

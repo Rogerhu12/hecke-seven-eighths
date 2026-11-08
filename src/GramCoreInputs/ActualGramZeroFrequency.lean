@@ -1,5 +1,9 @@
-import ActualAdditiveGramPoissonAssembly
-import ActualSexticZeroFrequencyDiagonal
+module
+
+public import ActualAdditiveGramPoissonAssembly
+public import ActualSexticZeroFrequencyDiagonal
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. The actual ideal labels turn the principal-ideal

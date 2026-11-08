@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
+module
+
+public import HeckeGeneral.Analysis.ActualMomentPolynomialBridges
+
+@[expose] public section
 
 /-!
 Independent inverse and paired plain tests on the same complete-ideal row.

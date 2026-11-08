@@ -1,8 +1,12 @@
-import HeckeSkeleton.SmallRadius.ActualSLocalPositiveMoment
-import HeckeSkeleton.SmallRadius.SLocalRadialMellinIntegral
-import HeckeGeneral.Bridge.SLocalFiniteFourier
-import HeckeGeneral.Bridge.TraceSchwartzFourier
-import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
+module
+
+public import HeckeSkeleton.SmallRadius.ActualSLocalPositiveMoment
+public import HeckeSkeleton.SmallRadius.SLocalRadialMellinIntegral
+public import HeckeGeneral.Bridge.SLocalFiniteFourier
+public import HeckeGeneral.Bridge.TraceSchwartzFourier
+public import HeckeSkeleton.HighBinSupport.ActualDenominatorMellin
+
+@[expose] public section
 
 /-!
 # Actual fixed Mellin factors on the small-row lines

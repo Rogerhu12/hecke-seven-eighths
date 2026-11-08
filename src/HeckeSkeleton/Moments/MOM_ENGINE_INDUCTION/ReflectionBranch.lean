@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreStages
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.LengthStages
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreStages
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+
+@[expose] public section
 
 /-!
 # Consuming an actual reflected comparison on its original positive measure

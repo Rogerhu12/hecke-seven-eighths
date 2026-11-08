@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CharacterRecipePreservation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedEngineOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CharacterRecipePreservation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedEngineOutput
+
+@[expose] public section
 
 /-!
 # Complete arithmetic admissibility of the same actual output family

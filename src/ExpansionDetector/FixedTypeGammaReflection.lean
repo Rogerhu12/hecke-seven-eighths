@@ -1,6 +1,10 @@
-import ExpansionDetector.GammaDecay
-import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
-import Mathlib.Tactic.FieldSimp
+module
+
+public import ExpansionDetector.GammaDecay
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+public import Mathlib.Tactic.FieldSimp
+
+@[expose] public section
 
 /-! The actual reflected Gamma-C multiplier on the complete dynamic
 interval, for arbitrary fixed radial and angular type. Beta comparison is

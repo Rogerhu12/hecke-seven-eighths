@@ -1,9 +1,11 @@
 
 
-import CubicSieve.ExteriorSieve
-import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
+module
 
+public import CubicSieve.ExteriorSieve
+public import DedekindZetaZeroFree.Arithmetic.Ideals.DivisorEpsilonBounds
 
+@[expose] public section
 
 /-
 https://github.com/openai/math

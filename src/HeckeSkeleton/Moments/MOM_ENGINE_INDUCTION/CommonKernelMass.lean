@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FixedLineKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.FixedLineKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionGeometry
+
+@[expose] public section
 
 /-!
 # Pay the complete finite reflection mass from a preassigned loss

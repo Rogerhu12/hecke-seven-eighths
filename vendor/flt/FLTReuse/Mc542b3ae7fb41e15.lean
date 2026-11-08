@@ -1,6 +1,10 @@
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M4483977df89d59a8
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M4483977df89d59a8
+
+@[expose] public section
 
 open NumberField NumberField.AdelicBox IsDedekindDomain
 open scoped nonZeroDivisors

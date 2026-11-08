@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualSymbols
+module
+
+public import HeckeSkeleton.LowEnergy.ActualSymbols
+
+@[expose] public section
 
 /-!
 # The two actual exterior sieves as ordinary-ideal kernel estimates

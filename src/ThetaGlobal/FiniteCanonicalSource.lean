@@ -1,5 +1,9 @@
-import DedekindZetaZeroFree.Theta.Whittaker.Sources.LocalLineExistence
-import ThetaGlobal.FiniteArchProduct
+module
+
+public import DedekindZetaZeroFree.Theta.Whittaker.Sources.LocalLineExistence
+public import ThetaGlobal.FiniteArchProduct
+
+@[expose] public section
 
 /-!
 # A source whose actual canonical residue map remains visible

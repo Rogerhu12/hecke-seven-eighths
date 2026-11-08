@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.SLocalNormSection
+module
+
+public import HeckeGeneral.Arithmetic.SLocalNormSection
+
+@[expose] public section
 
 /-!
 # Algebra of the actual positive radial section

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRows
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRows
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
+
+@[expose] public section
 
 /-!
 # The actual cube dilation and conductor norm budget

@@ -1,9 +1,14 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormLogDerivative
-import HeckeSkeleton.HeckePhysicalFamilyBufferedControl
-import HeckeGeneral.Analysis.IdealDerivativeEulerLog
-import ActualCanonicalRowConsumers
-import Mathlib.Analysis.Calculus.FDeriv.Analytic
-import Mathlib.Tactic.Positivity
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormLogDerivative
+public import HeckeSkeleton.HeckePhysicalFamilyBufferedControl
+public import HeckeGeneral.Analysis.IdealDerivativeEulerLog
+public import ActualCanonicalRowConsumers
+public import Mathlib.Analysis.Calculus.FDeriv.Analytic
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
+
 /-!
 Actual logarithmic-derivative control in the buffered row rectangle.
 

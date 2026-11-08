@@ -1,8 +1,12 @@
-import CubicSieve.GaussPairOrbitalPoisson
-import CubicSieve.PoissonOrigin
-import CubicSieve.PoissonCoefficients
-import CubicSieve.ProfileSpectrum
-import CubicSieve.AnalyticSmoothingKernel
+module
+
+public import CubicSieve.GaussPairOrbitalPoisson
+public import CubicSieve.PoissonOrigin
+public import CubicSieve.PoissonCoefficients
+public import CubicSieve.ProfileSpectrum
+public import CubicSieve.AnalyticSmoothingKernel
+
+@[expose] public section
 
 /-! Actual Gaussian Poisson for each coprime column pair, then for a finite
 column Gram sum. Finite column sums stay outside the orbital sums. The same

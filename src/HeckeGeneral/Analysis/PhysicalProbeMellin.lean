@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.MellinInverseLine
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeGeneral.Analysis.VerticalLineIdentity
+module
+
+public import HeckeGeneral.Analysis.MellinInverseLine
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeGeneral.Analysis.VerticalLineIdentity
+
+@[expose] public section
 
 /-!
 The actual principal line-2 probe supplies its Mellin identity by Fourier

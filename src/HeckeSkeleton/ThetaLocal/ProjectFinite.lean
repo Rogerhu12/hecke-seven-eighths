@@ -1,6 +1,10 @@
-import HeckeSkeleton.ThetaLocal.ProjectResidue
-import HeckeSkeleton.ThetaLocal.ExteriorPhaseSeparation
-import HeckeSkeleton.ThetaLocal.ExteriorFourierMasks
+module
+
+public import HeckeSkeleton.ThetaLocal.ProjectResidue
+public import HeckeSkeleton.ThetaLocal.ExteriorPhaseSeparation
+public import HeckeSkeleton.ThetaLocal.ExteriorFourierMasks
+
+@[expose] public section
 
 /-!
 # Exterior digit tables for the project's arithmetic objects

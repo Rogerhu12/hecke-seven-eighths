@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SIntegerModulusPhase
-import Mathlib.Algebra.Group.Pi.Units
+module
+
+public import HeckeGeneral.Characters.SIntegerModulusPhase
+public import Mathlib.Algebra.Group.Pi.Units
+
+@[expose] public section
 
 /-!
 # The actual unit correction for an S-integer principal phase

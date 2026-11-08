@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.HeckeNormPole
-import HeckeGeneral.Analysis.MellinZeroDetector
+module
+
+public import HeckeGeneral.Analysis.HeckeNormPole
+public import HeckeGeneral.Analysis.MellinZeroDetector
+
+@[expose] public section
 
 /-!
 # The actual Hecke endpoint and the remaining physical-probe consumer

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
+
+@[expose] public section
 
 /-!
 # Paying the complete second sixth-root support

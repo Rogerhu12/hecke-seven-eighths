@@ -1,4 +1,8 @@
-import Mathlib.GroupTheory.QuotientGroup.Basic
+module
+
+public import Mathlib.GroupTheory.QuotientGroup.Basic
+
+@[expose] public section
 
 /-!
 # Power-class quotients after removing a power-divisible factor

@@ -1,5 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound
-import Expansion.ActualPhysicalPrimeSlotBound
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalSlotBound
+public import Expansion.ActualPhysicalPrimeSlotBound
+
+@[expose] public section
 
 /-!
 # Main-slot bounds on the unchanged physical amplitude fibers

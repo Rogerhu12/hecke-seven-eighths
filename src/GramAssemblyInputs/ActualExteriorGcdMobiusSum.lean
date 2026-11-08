@@ -1,4 +1,8 @@
-import ActualExteriorGcdFiberSum
+module
+
+public import ActualExteriorGcdFiberSum
+
+@[expose] public section
 
 /-!
 One actual finite double sum is first partitioned by its gcd and then

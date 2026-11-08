@@ -1,6 +1,10 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M835a33e455dbc910
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M835a33e455dbc910
+
+@[expose] public section
 
 open NumberField NumberField.AdelicFourier
 theorem NumberField.AdelicFourier.comp_add_right_mem_pureTensorSet

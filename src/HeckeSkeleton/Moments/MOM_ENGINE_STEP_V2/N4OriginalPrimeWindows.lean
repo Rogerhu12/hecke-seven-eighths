@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalOccurrenceData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalOccurrenceData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.EstimateData
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

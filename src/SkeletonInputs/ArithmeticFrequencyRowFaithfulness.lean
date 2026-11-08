@@ -1,9 +1,13 @@
-import ArithmeticSexticKummerFaithfulness
-import SUnitPowerSaturation
-import ArithmeticFrequencyRowRamification
-import HeckeGeneral.Analysis.PrincipalGeneratorCalibration
-import HeckeGeneral.Characters.InfinityPacket
-import Mathlib.Tactic
+module
+
+public import ArithmeticSexticKummerFaithfulness
+public import SUnitPowerSaturation
+public import ArithmeticFrequencyRowRamification
+public import HeckeGeneral.Analysis.PrincipalGeneratorCalibration
+public import HeckeGeneral.Characters.InfinityPacket
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Global principal-row detection for the actual arithmetic Kummer constructor.

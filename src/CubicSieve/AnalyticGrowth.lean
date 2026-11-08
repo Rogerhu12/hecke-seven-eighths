@@ -1,6 +1,10 @@
-import CubicSieve.AnalyticExtraction
-import CubicSieve.AnalyticDyadic
-import CubicSieve.AnalyticOptimization
+module
+
+public import CubicSieve.AnalyticExtraction
+public import CubicSieve.AnalyticDyadic
+public import CubicSieve.AnalyticOptimization
+
+@[expose] public section
 
 /-!
 Growth of unrestricted actual ideal rows from the squarefree cubic sieve norm.

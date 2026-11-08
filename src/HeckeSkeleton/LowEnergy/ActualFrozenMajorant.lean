@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualLocalWeylTable
-import Mathlib.Algebra.Order.BigOperators.GroupWithZero.Finset
+module
+
+public import HeckeSkeleton.LowEnergy.ActualLocalWeylTable
+public import Mathlib.Algebra.Order.BigOperators.GroupWithZero.Finset
+
+@[expose] public section
 
 /-!
 # Actual normalized frozen majorant

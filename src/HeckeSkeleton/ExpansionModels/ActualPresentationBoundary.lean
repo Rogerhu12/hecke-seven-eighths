@@ -1,7 +1,11 @@
-import HeckeSkeleton.HighBin
-import Expansion.PhysicalRecipeFiniteSums
-import Expansion.PhysicalRecipeRemainders
-import Expansion.PowerHeightTailAlgebra
+module
+
+public import HeckeSkeleton.HighBin
+public import Expansion.PhysicalRecipeFiniteSums
+public import Expansion.PhysicalRecipeRemainders
+public import Expansion.PowerHeightTailAlgebra
+
+@[expose] public section
 
 /-!
 # The original whole-bin boundary is the actual recipe boundary

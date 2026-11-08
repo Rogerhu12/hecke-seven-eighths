@@ -1,6 +1,10 @@
-import HeckePort.CenteredMoment.IdealMobius
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.Analysis.SpecificLimits.Normed
+module
+
+public import HeckePort.CenteredMoment.IdealMobius
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.Analysis.SpecificLimits.Normed
+
+@[expose] public section
 
 /-!
 # Uniform Rankin bounds on a fixed prime-ideal support

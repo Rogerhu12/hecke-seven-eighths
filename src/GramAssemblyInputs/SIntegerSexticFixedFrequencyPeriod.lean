@@ -1,5 +1,9 @@
-import SIntegerSexticRIdentification
-import HeckeGeneral.Arithmetic.SIntegerMovingPeriodClassScalar
+module
+
+public import SIntegerSexticRIdentification
+public import HeckeGeneral.Arithmetic.SIntegerMovingPeriodClassScalar
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Actual fixed-frequency raw coefficient period.
 There is one moving frequency ideal I_k, since I_(-k)=I_k. The sharper

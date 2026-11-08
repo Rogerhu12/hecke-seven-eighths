@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLabelFibers
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLabelFibers
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalSectorRows
+
+@[expose] public section
 
 /-!
 # The first positive canonical energy loses its old label

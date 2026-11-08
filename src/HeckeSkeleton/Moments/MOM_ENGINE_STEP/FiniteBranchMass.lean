@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDivisorMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDivisorMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolMass
+
+@[expose] public section
 
 /-!
 # Two independent divisor carriers and their one pool average

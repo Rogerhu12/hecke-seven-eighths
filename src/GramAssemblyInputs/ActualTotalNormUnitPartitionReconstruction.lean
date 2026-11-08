@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+module
+
+public import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The original two independent Γ sums, including

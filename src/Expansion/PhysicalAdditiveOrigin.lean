@@ -1,4 +1,8 @@
-import Expansion.PhysicalFourierNormalization
+module
+
+public import Expansion.PhysicalFourierNormalization
+
+@[expose] public section
 
 /-!
 # The original additive zero term vanishes

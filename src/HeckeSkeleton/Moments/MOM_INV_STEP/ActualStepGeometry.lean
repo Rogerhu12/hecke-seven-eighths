@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualUniformProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualUniformProduction
+
+@[expose] public section
 
 /-!
 # Geometry of exactly the canonical children consumed by production

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorSource
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorSource
+
+@[expose] public section
 
 /-!
 # Total original marked mass of the first outer error source

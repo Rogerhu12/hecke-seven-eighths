@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.FiniteIndexUnitBalancing
-import HeckeGeneral.Analysis.BalancedLatticeShape
-import Mathlib.Topology.Algebra.Group.Units
+module
+
+public import HeckeGeneral.Arithmetic.FiniteIndexUnitBalancing
+public import HeckeGeneral.Analysis.BalancedLatticeShape
+public import Mathlib.Topology.Algebra.Group.Units
+
+@[expose] public section
 
 /-!
 # The actual unit-group lift of the compact archimedean shape

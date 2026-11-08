@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalRowBallChart
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalRowBallChart
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolSecondStage
+
+@[expose] public section
 
 /-!
 # The empty row mask in the positive second Gauss majorant

@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SixthPowerFreeFactorization
-import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+module
+
+public import HeckeGeneral.Analysis.SixthPowerFreeFactorization
+public import HeckeGeneral.Analysis.ActualSIntegerAmplifierRows
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+
+@[expose] public section
 
 /-!
 Simultaneous sixth-power amplification of actual sixth-power-free orbits.

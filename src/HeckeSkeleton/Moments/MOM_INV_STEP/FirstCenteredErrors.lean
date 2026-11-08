@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondPrincipal
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveTail
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.UniformSecondPrincipal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveTail
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+
+@[expose] public section
 
 /-!
 # Actual centered-family errors, uniformly in both spectral frequencies

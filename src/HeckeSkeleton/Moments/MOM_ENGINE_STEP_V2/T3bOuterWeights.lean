@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFirstWeights
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOrbitFibreUniform
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexWeights
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bKernels
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bFirstWeights
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOrbitFibreUniform
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexWeights
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bKernels
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

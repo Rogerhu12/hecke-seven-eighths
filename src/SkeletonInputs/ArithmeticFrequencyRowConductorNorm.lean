@@ -1,6 +1,10 @@
-import ArithmeticFrequencyRowConductor
-import SexticUniformLocalConductor
-import Mathlib.Data.Finsupp.Order
+module
+
+public import ArithmeticFrequencyRowConductor
+public import SexticUniformLocalConductor
+public import Mathlib.Data.Finsupp.Order
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake invocation.

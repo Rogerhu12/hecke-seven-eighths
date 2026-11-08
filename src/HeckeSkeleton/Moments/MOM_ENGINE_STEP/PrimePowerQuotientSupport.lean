@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierValuationSupport
-import HeckePort.Moments.Descent.Quotients
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierValuationSupport
+public import HeckePort.Moments.Descent.Quotients
+
+@[expose] public section
 
 /-!
 # Exact plain quotients after an amplification valuation allocation

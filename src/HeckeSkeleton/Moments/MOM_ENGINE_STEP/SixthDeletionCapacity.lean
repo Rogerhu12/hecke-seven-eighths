@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionGeometry
+
+@[expose] public section
 
 /-!
 # Producing capacity data for the same complete-deletion calibration

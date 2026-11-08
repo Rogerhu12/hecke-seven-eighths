@@ -1,6 +1,10 @@
-import SIntegerSexticDenominatorMultiplicativity
-import SIntegerSexticCoprimeColumns
-import SIntegerSexticRIdentification
+module
+
+public import SIntegerSexticDenominatorMultiplicativity
+public import SIntegerSexticCoprimeColumns
+public import SIntegerSexticRIdentification
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Pointwise character-weight extraction on the
 genuine full fibre. Frequency k may be zero. Only character values of

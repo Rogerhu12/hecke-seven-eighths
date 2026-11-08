@@ -1,8 +1,12 @@
-import CubicSieve.ExteriorKernel
-import CubicSieve.FiniteDuality
-import CubicSieve.Bootstrap
-import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+module
+
+public import CubicSieve.ExteriorKernel
+public import CubicSieve.FiniteDuality
+public import CubicSieve.Bootstrap
+public import DedekindZetaZeroFree.Arithmetic.Ideals.LinearCountingBound
+public import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-!
 The actual squarefree exterior-ideal sieve operator and its exact consumer.

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildRows
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalFrequency
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualChildRows
+
+@[expose] public section
 
 /-!
 # Actual exceptional rows retain the extracted fourth-power base

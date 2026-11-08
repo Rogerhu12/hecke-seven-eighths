@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.IdealLogWeights
-import HeckeGeneral.Analysis.IdealEulerProduct
-import HeckeGeneral.Arithmetic.IdealFactorization
+module
+
+public import HeckeGeneral.Analysis.IdealLogWeights
+public import HeckeGeneral.Analysis.IdealEulerProduct
+public import HeckeGeneral.Arithmetic.IdealFactorization
+
+@[expose] public section
 
 /-!
 # Absolutely convergent logarithmic prime-power sums

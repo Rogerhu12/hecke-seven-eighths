@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointNormalizedLeaves
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointNormalizedLeaves
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
+
+@[expose] public section
 
 /-!
 # Output conditions of the same actual normalized child family

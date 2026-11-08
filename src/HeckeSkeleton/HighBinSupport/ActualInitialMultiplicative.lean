@@ -1,4 +1,8 @@
-import HeckeSkeleton.HighBinSupport.ActualEulerCRT
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualEulerCRT
+
+@[expose] public section
 
 /-!
 # Multiplicativity of the literal initial four-ideal term

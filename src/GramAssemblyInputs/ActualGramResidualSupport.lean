@@ -1,5 +1,9 @@
-import ActualAdditiveGramResidueExpansion
-import ActualExteriorGcdMobiusSum
+module
+
+public import ActualAdditiveGramResidueExpansion
+public import ActualExteriorGcdMobiusSum
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The actual Gram coefficient already imposes both

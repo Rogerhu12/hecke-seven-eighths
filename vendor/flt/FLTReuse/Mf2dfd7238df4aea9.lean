@@ -1,8 +1,13 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Mc4dd375116d61c53
-import Mathlib.MeasureTheory.Measure.Haar.DistribChar
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M06b1cdb6f87adf15
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Mc4dd375116d61c53
+public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M06b1cdb6f87adf15
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 
 open NumberField NumberField.AdelicFourier

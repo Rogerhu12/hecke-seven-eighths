@@ -1,7 +1,11 @@
-import HeckeGeneral.Arithmetic.IdealMobiusMask
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
-import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
-import Mathlib.RingTheory.DedekindDomain.Dvr
+module
+
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+public import HeckeGeneral.Arithmetic.SIntegerFiniteLocalization
+public import Mathlib.RingTheory.DedekindDomain.Dvr
+
+@[expose] public section
 
 /-! Actual ideal masks on the original Γ-orbits. Only the generator version
 requires the actual S-integer ring to be principal. -/

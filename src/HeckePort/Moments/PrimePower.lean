@@ -1,8 +1,12 @@
-import Mathlib.NumberTheory.NumberField.Basic
-import Mathlib.RingTheory.Ideal.Norm.AbsNorm
-import Mathlib.RingTheory.Ideal.Quotient.PowTransition
-import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
-import HeckePort.Moments.Correlation
+module
+
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Mathlib.RingTheory.Ideal.Quotient.PowTransition
+public import Mathlib.RingTheory.Ideal.Quotient.Nilpotent
+public import HeckePort.Moments.Correlation
+
+@[expose] public section
 
 /-!
 # Prime-power local correlations
@@ -88,8 +92,9 @@ theorem primePower_localCorrelation_units (χ : MulChar (𝓞 K ⧸ P) ℂ)
   have hcard : Fintype.card (𝓞 K ⧸ P) = Ideal.absNorm P := by
     rw [Ideal.absNorm_apply, Submodule.cardQuot_apply, Nat.card_eq_fintype_card]
   rw [primePower_localCorrelation, localCorrelation_units _ hu hv,
-    MulChar.pow_apply' _ (by omega), hcard, hpow, mul_assoc]
-  split_ifs <;> rfl
+    MulChar.pow_apply' _ (by omega), hcard]
+  simp only [hpow]
+  rw [mul_assoc]
 
 theorem primePower_localCorrelation_second_zero (χ : MulChar (𝓞 K ⧸ P) ℂ)
     (hχ : orderOf χ = 6) (u : (𝓞 K ⧸ P ^ c)ˣ) (v k : 𝓞 K ⧸ P ^ c)

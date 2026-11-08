@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.HeckeNormPole
-import HeckeGeneral.Analysis.MellinZeroDetector
+module
+
+public import HeckeGeneral.Analysis.HeckeNormPole
+public import HeckeGeneral.Analysis.MellinZeroDetector
+
+@[expose] public section
 
 /-!
 # A pointwise continuation for the Mathlib-only Hecke challenge

@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.Rows
-import HeckeSkeleton.LowHybrid.Normalization
+module
+
+public import HeckeSkeleton.LowHybrid.Rows
+public import HeckeSkeleton.LowHybrid.Normalization
+
+@[expose] public section
 
 /-!
 # Algebraic data and local identities for the exact hybrid normal form

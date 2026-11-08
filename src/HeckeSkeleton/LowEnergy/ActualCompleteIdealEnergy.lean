@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy
-import HeckeSkeleton.LowEnergy.PowerfulRowAssembly
-import HeckeSkeleton.LowEnergy.LogGeometry
+module
+
+public import HeckeSkeleton.LowEnergy.ActualResidualDyadicEnergy
+public import HeckeSkeleton.LowEnergy.PowerfulRowAssembly
+public import HeckeSkeleton.LowEnergy.LogGeometry
+
+@[expose] public section
 
 /-!
 # Uniform energy for the actual complete ideal rows

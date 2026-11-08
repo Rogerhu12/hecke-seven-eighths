@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N6AnalyticChoices
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N6SourceBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N6AnalyticChoices
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N6SourceBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

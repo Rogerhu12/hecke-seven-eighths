@@ -1,5 +1,9 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Mf1ff95f379a0ba0a
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Mf1ff95f379a0ba0a
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

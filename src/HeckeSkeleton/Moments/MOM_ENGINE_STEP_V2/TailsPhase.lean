@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RawSourcePhaseIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RawSourcePhaseIntegral
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

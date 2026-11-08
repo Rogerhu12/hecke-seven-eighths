@@ -1,7 +1,12 @@
-import FLTReuse.M44ba7812b62b73d2
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.Me934ccc2fb442bbe
+module
+
+public import FLTReuse.M44ba7812b62b73d2
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.Me934ccc2fb442bbe
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 
 set_option autoImplicit false

@@ -1,7 +1,11 @@
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.LinearAlgebra.Quotient.Basic
-import Mathlib.Tactic
-import FiniteAffineCorrelationBound
+module
+
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.LinearAlgebra.Quotient.Basic
+public import Mathlib.Tactic
+public import FiniteAffineCorrelationBound
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. An explicit common-factor fibre equivalence over
 an arbitrary commutative ring and arbitrary ideal C. No coprimality of C

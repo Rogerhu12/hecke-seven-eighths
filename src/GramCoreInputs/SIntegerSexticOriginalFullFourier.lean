@@ -1,5 +1,9 @@
-import FiniteMixedCorrelationFourier
-import SIntegerSexticOriginalCorrelationDefinition
+module
+
+public import FiniteMixedCorrelationFourier
+public import SIntegerSexticOriginalCorrelationDefinition
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Actual original sextic quotient sum identified
 with its mixed-domain finite Fourier/Gauss product. The additive character

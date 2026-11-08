@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PrincipalProbeClosure
-import HeckeGeneral.Analysis.HeckeEndpointTarget
+module
+
+public import HeckeGeneral.Analysis.PrincipalProbeClosure
+public import HeckeGeneral.Analysis.HeckeEndpointTarget
+
+@[expose] public section
 
 /-! Section 7 closure for the actual principal probes, with the common
 slot count and saving chosen before the target. A different finite S and

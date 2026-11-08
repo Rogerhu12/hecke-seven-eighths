@@ -1,6 +1,10 @@
-import Expansion.IdealDyadicExtraction
-import HeckeGeneral.Analysis.ExpansionPolynomialSupport
-import ExpansionInterfaces.AnnularCutoffFamily
+module
+
+public import Expansion.IdealDyadicExtraction
+public import HeckeGeneral.Analysis.ExpansionPolynomialSupport
+public import ExpansionInterfaces.AnnularCutoffFamily
+
+@[expose] public section
 
 /-!
 # Exact identification of the Fourier and Mellin detector polynomials

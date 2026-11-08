@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTupleSplit
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFrozenBlock
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTupleSplit
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderFrozenBlock
+
+@[expose] public section
 
 /-!
 # Row-independent active coefficients from the original marked source

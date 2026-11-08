@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderInitialBoxes
+
+@[expose] public section
 
 /-!
 # The actual initial frozen measure

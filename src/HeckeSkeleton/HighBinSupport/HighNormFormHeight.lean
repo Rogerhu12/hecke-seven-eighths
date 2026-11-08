@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormScalar
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormScalar
+
+@[expose] public section
+
 /-! A fixed internal power height repairs the order of height thresholds.
 These are scalar facts about max(T,Z^kappa). They assert no prime estimate. -/
 

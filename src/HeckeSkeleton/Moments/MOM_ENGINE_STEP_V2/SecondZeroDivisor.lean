@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroLocal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ForcedPowerfulDiagonal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SecondZeroLocal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ForcedPowerfulDiagonal
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

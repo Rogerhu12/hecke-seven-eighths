@@ -1,6 +1,10 @@
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Analysis.Calculus.ContDiff.Operations
-import Mathlib.Topology.Algebra.Module.Multilinear.Topology
+module
+
+public import Mathlib.Analysis.Calculus.ContDiff.Basic
+public import Mathlib.Analysis.Calculus.ContDiff.Operations
+public import Mathlib.Topology.Algebra.Module.Multilinear.Topology
+
+@[expose] public section
 
 /-! A local smooth chart may be restricted to an affine linear family
 without requiring a globally smooth extension of that chart. -/

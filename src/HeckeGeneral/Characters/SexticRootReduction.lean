@@ -1,7 +1,11 @@
-import Mathlib.NumberTheory.NumberField.Ideal.Basic
-import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
-import Mathlib.RingTheory.RootsOfUnity.Complex
-import Mathlib.FieldTheory.Finite.Basic
+module
+
+public import Mathlib.NumberTheory.NumberField.Ideal.Basic
+public import Mathlib.RingTheory.Polynomial.Cyclotomic.Roots
+public import Mathlib.RingTheory.RootsOfUnity.Complex
+public import Mathlib.FieldTheory.Finite.Basic
+
+@[expose] public section
 
 /-!
 # Reduction of a specified sixth root

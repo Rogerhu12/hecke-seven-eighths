@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.SexticRootReduction
-import HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter
+module
+
+public import HeckeGeneral.Characters.SexticRootReduction
+public import HeckeGeneral.Arithmetic.FiniteFieldSexticCharacter
+
+@[expose] public section
 
 /-!
 # Sextic residue characters normalized by one global root

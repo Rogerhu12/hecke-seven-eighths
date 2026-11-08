@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+
+@[expose] public section
 
 /-!
 # Raw child data from original arithmetic and actual profile factors

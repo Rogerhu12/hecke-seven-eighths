@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
-import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-import Mathlib.Analysis.Calculus.ContDiff.Bounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileSupremum
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowSeminorm
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
+public import Mathlib.Analysis.Calculus.ContDiff.Bounds
+
+@[expose] public section
 
 /-!
 # The literal annular profile has uniform Schwartz control

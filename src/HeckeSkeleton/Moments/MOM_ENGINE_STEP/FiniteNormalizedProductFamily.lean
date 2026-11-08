@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFiniteKernelMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFiniteKernelMass
+
+@[expose] public section
 
 /-!
 # A finite family of actual normalized leaves under its original kernels

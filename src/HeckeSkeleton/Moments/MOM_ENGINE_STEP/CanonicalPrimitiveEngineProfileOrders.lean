@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeWindows
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalPrimeWindows
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaPrime
+
+@[expose] public section
 
 /-!
 # One finite original profile window for the complete engine

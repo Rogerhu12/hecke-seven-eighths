@@ -1,6 +1,10 @@
-import HeckeSkeleton.ActualProbeRowFinite
-import HeckeSkeleton.ActualProbeDenominatorAbsolute
-import Mathlib.MeasureTheory.Function.LocallyIntegrable
+module
+
+public import HeckeSkeleton.ActualProbeRowFinite
+public import HeckeSkeleton.ActualProbeDenominatorAbsolute
+public import Mathlib.MeasureTheory.Function.LocallyIntegrable
+
+@[expose] public section
 
 /-!
 # Haar integrability of the actual physical probe

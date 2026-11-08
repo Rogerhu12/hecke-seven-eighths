@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ParameterTransport
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ParameterTransport
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.CoreRecursion
+
+@[expose] public section
 
 /-!
 # The actual local branches on one common parameter space

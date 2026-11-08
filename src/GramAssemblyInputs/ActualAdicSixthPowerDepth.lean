@@ -1,10 +1,14 @@
-import DiscreteCompactPowerRange
-import ClassFieldTheory.GlobalClassFieldTheory.ClassFieldAxiom.IdeleClassPowerLocalUnitQuotient.FinitePlaceCompletionInstances
-import ValuedFieldTheory.LocalField.DiscreteValuationField.FieldUnitStructure
-import ValuedFieldTheory.LocalField.DiscreteValuationField.PadicPowerIndex
-import ClassFieldTheory.AlgebraicNumberTheory.RayClass.Topology
-import Mathlib.Topology.Algebra.Group.ClosedSubgroup
-import Mathlib.Topology.LocallyConstant.Basic
+module
+
+public import DiscreteCompactPowerRange
+public import ClassFieldTheory.GlobalClassFieldTheory.ClassFieldAxiom.IdeleClassPowerLocalUnitQuotient.FinitePlaceCompletionInstances
+public import ValuedFieldTheory.LocalField.DiscreteValuationField.FieldUnitStructure
+public import ValuedFieldTheory.LocalField.DiscreteValuationField.PadicPowerIndex
+public import ClassFieldTheory.AlgebraicNumberTheory.RayClass.Topology
+public import Mathlib.Topology.Algebra.Group.ClosedSubgroup
+public import Mathlib.Topology.LocallyConstant.Basic
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Deep principal units in the actual finite completion

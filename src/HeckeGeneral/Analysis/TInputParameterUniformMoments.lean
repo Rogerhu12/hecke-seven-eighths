@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.TInputUniformMoments
-import HeckeGeneral.Analysis.MomentWitnessCount
+module
+
+public import HeckeGeneral.Analysis.TInputUniformMoments
+public import HeckeGeneral.Analysis.MomentWitnessCount
+
+@[expose] public section
 
 /-!
 Continuous and rowwise parameter uniformity for the actual source moments.

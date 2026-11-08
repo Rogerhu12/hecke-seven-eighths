@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedSupportPoolAtlas
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CombinedSupportPoolAtlas
+
+@[expose] public section
 
 /-!
 # Genuine finite Cartesian covers of the original Gauss sources

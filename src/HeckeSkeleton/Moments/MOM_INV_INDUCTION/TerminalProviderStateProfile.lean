@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateEnergy
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderProfile
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderStateEnergy
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderProfile
+
+@[expose] public section
 
 /-!
 # The original Schwartz test in the actual frozen-state energy

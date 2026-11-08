@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.MellinEnergy
-import HeckeSkeleton.LowEnergy.HybridScaling
+module
+
+public import HeckeSkeleton.LowEnergy.MellinEnergy
+public import HeckeSkeleton.LowEnergy.HybridScaling
+
+@[expose] public section
 
 /-!
 # Integrating the actual ideal hybrid estimate against one common profile

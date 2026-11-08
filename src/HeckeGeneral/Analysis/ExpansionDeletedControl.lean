@@ -1,8 +1,12 @@
-import ExpansionDetector.EulerDeletionSpectrum
-import HeckeGeneral.Analysis.ExpansionDetectorInitial
-import HeckeGeneral.Analysis.HeckeConjugateZeros
-import HeckeSkeleton.HeckeUniformBufferedControl
-import HeckeSkeleton.HeckeConductorNorm
+module
+
+public import ExpansionDetector.EulerDeletionSpectrum
+public import HeckeGeneral.Analysis.ExpansionDetectorInitial
+public import HeckeGeneral.Analysis.HeckeConjugateZeros
+public import HeckeSkeleton.HeckeUniformBufferedControl
+public import HeckeSkeleton.HeckeConductorNorm
+
+@[expose] public section
 
 /-!
 # Actual deleted Hecke control in the buffered zero-free rectangle

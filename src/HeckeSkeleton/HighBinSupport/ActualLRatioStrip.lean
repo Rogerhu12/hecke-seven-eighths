@@ -1,7 +1,12 @@
-import HeckeSkeleton.HeckeHighRowLRatio
-import HeckeSkeleton.HeckeDeletedEulerControl
-import HeckeSkeleton.HeckeLRatioConductorBudget
-import ActualCanonicalRowConsumers
+module
+
+public import HeckeSkeleton.HeckeHighRowLRatio
+public import HeckeSkeleton.HeckeDeletedEulerControl
+public import HeckeSkeleton.HeckeLRatioConductorBudget
+public import ActualCanonicalRowConsumers
+
+@[expose] public section
+
 /-!
 An actual high-row L-ratio estimate on the complete horizontal s-strip.
 This strengthens the supplied final-line theorem: only the denominator's

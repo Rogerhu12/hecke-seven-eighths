@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderExponent
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderExponent
+
+@[expose] public section
 
 /-!
 # Constructing the general reflected block input

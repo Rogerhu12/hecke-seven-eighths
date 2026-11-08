@@ -1,5 +1,9 @@
-import DedekindZetaZeroFree.Theta.Whittaker.ComplexRootDerivativeVectors
-import HeckeSkeleton.ThetaLocal.RootIterates
+module
+
+public import DedekindZetaZeroFree.Theta.Whittaker.ComplexRootDerivativeVectors
+public import HeckeSkeleton.ThetaLocal.RootIterates
+
+@[expose] public section
 
 /-!
 Actual repeated upper-root vectors in Axiom's complex local theta model.

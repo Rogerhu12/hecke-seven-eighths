@@ -1,11 +1,16 @@
-import Mathlib
-import FLTReuse.M157b087506702f5d
-import FLTReuse.M40aeee35a98f067b
-import FLTReuse.M0a341b9f001ae4d1
-import FLTReuse.Me61a03e991a0ecf9
-import FLTReuse.Md8a9304a6214c1b9
-import FLTReuse.Mf9b71f9cef81b397
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib
+public import FLTReuse.M157b087506702f5d
+public import FLTReuse.M40aeee35a98f067b
+public import FLTReuse.M0a341b9f001ae4d1
+public import FLTReuse.Me61a03e991a0ecf9
+public import FLTReuse.Md8a9304a6214c1b9
+public import FLTReuse.Mf9b71f9cef81b397
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_NumberField_TateGlobal_ite_isUnramifiedCharAt_normPowChar_apply_uniformizerIdele_eq_absNorm_cpow_neg
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 attribute [-simp] AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_zero AutomorphicForm.SiegelCoordinates.upperUnit_apply_one_one AutomorphicForm.SiegelCoordinates.upperUnit_apply_zero_one

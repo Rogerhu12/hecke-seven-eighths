@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.GeneralInactiveMass
-import HeckeSkeleton.LowEnergy.GeneralRows
-import HeckeSkeleton.LowEnergy.GeneralReconstruction
-import HeckeSkeleton.LowEnergy.ActualRows
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralInactiveMass
+public import HeckeSkeleton.LowEnergy.GeneralRows
+public import HeckeSkeleton.LowEnergy.GeneralReconstruction
+public import HeckeSkeleton.LowEnergy.ActualRows
+
+@[expose] public section
 
 /-!
 # Actual product marks, collisions and the canonical reflected series

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration
-import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MarkPriority
+
+@[expose] public section
 
 /-!
 # A second Moebius divisor in a fixed original common-factor slice

@@ -1,6 +1,10 @@
-import Expansion.PhysicalRecipeRemainders
-import Expansion.ActualLargeInfiniteTransport
-import Expansion.ActualRetainedComponents
+module
+
+public import Expansion.PhysicalRecipeRemainders
+public import Expansion.ActualLargeInfiniteTransport
+public import Expansion.ActualRetainedComponents
+
+@[expose] public section
 
 /-!
 # Exact assembly of every actual nonprincipal frequency

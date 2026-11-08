@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
-import HeckePort.Moments.ReflectionDeletion
+module
+
+public import HeckeSkeleton.Moments.MOM_BASE.ThetaBridge
+public import HeckePort.Moments.ReflectionDeletion
+
+@[expose] public section
 
 /-!
 # Actual coefficients in the deletion interfaces

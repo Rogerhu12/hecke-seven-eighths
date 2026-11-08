@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.TraceLogNormSmooth
-import Mathlib.Analysis.Calculus.ContDiff.Bounds
-import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+module
+
+public import HeckeGeneral.Analysis.TraceLogNormSmooth
+public import Mathlib.Analysis.Calculus.ContDiff.Bounds
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+
+@[expose] public section
 
 /-! Quantitative composition of the genuine Fourier orbital kernel with the
 two actual archimedean log norms. A fixed compact subset of the regular locus

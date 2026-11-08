@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionCanonical
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionCanonical
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionEnergy
+
+@[expose] public section
 
 /-!
 # Exact cube-profile normalization

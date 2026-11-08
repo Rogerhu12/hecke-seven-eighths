@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeConductor
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeArithmetic
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusArithmetic
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeConductor
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingRecipeArithmetic
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PrimeAnnulusArithmetic
+
+@[expose] public section
 
 /-!
 # Prime conductor and deletion budgets for the actual moving recipe

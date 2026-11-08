@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinPreprocessing
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinPreprocessing
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+
+@[expose] public section
 
 /-!
 # Apply the strict output inside the actual Mellin preprocessing integral

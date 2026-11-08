@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbeRows
-import HeckeGeneral.Analysis.RowEulerRational
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeRows
+public import HeckeGeneral.Analysis.RowEulerRational
+
+@[expose] public section
 
 /-!
 Concrete row Euler continuation and compensated three-variable integrals.

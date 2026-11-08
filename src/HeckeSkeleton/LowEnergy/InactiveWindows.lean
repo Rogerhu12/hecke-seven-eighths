@@ -1,7 +1,11 @@
-import HeckeSkeleton.LowEnergy.InactiveCore
-import HeckeSkeleton.LowEnergy.SlotTuples
-import HeckeSkeleton.LowEnergy.WindowTuples
-import HeckeGeneral.Analysis.FrequencyRowCounting
+module
+
+public import HeckeSkeleton.LowEnergy.InactiveCore
+public import HeckeSkeleton.LowEnergy.SlotTuples
+public import HeckeSkeleton.LowEnergy.WindowTuples
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+
+@[expose] public section
 
 /-!
 # Actual inactive marked windows have uniformly bounded total mass

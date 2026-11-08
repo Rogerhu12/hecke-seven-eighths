@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalAtomPhases
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalOriginalAtomPhases
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.MovingEngineOutput
+
+@[expose] public section
 
 /-!
 # Actual parent arithmetic atoms from the original moving-row recipe

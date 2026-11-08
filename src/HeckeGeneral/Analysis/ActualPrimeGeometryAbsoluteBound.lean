@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-!
 Fixed smooth prime geometry supplies its own uniform profile constant.

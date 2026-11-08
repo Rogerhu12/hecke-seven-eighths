@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ActualFrozenMajorant
+module
+
+public import HeckeSkeleton.LowEnergy.ActualFrozenMajorant
+
+@[expose] public section
 
 /-!
 # Coefficient independence and the exact weighted actual reflected term

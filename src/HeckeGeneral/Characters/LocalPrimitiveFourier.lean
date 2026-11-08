@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalPrimitiveAdditive
-import HeckeGeneral.Characters.LocalConductorFrequency
+module
+
+public import HeckeGeneral.Characters.LocalPrimitiveAdditive
+public import HeckeGeneral.Characters.LocalConductorFrequency
+
+@[expose] public section
 
 /-! Additive orthogonality for the constructed primitive local residue character.
 The character is chosen by finite duality; identifying this choice with a trace/different

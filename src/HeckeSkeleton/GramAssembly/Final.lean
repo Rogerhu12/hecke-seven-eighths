@@ -1,5 +1,9 @@
-import HeckeSkeleton.GramAssembly.Aggregate
-import HeckeSkeleton.GramDefinitions
+module
+
+public import HeckeSkeleton.GramAssembly.Aggregate
+public import HeckeSkeleton.GramDefinitions
+
+@[expose] public section
 
 /-!
 GR-12-ASSEMBLY, final step: the nonzero dual row-ball series is bounded by the

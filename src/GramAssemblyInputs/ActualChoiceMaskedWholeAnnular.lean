@@ -1,6 +1,10 @@
-import ActualChoiceMaskClearedFiber
-import ActualChosenDepthPoissonBound
-import ActualWholeAnnularAllScalePoisson
+module
+
+public import ActualChoiceMaskClearedFiber
+public import ActualChosenDepthPoissonBound
+public import ActualWholeAnnularAllScalePoisson
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The literal generator-choice masks are frozen on

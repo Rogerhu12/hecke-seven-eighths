@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstBlock
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectFirstBlock
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFirstSource
+
+@[expose] public section
 
 /-!
 # The original parent enters the direct finite source family

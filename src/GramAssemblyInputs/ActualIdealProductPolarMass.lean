@@ -1,6 +1,10 @@
-import ActualIdealTraceUniformShape
-import HeckeGeneral.Analysis.TraceProductCovolume
-import Mathlib.Tactic
+module
+
+public import ActualIdealTraceUniformShape
+public import HeckeGeneral.Analysis.TraceProductCovolume
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate. Uniform polar mass for the actual two-column ideal

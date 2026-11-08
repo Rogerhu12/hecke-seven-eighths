@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailFiberCount
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailBudget
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
-import Mathlib.Analysis.Normed.Ring.Finite
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailFiberCount
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailBudget
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroDiagonal
+public import Mathlib.Analysis.Normed.Ring.Finite
+
+@[expose] public section
 
 /-!
 # Genuine whole-Gauss source tail budgets

@@ -1,4 +1,8 @@
-import CubicSieve.ProfileSpectrum
+module
+
+public import CubicSieve.ProfileSpectrum
+
+@[expose] public section
 
 /-! Exact separation of both column norm parameters by the actual Mellin
 spectrum. The column multipliers are contractions on the whole prefix x≤1. -/

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionCapacity
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyClassStability
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SixthDeletionCapacity
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualFrequencyClassStability
+
+@[expose] public section
 
 /-!
 # Capacity from the original frequency pattern, including empty classes

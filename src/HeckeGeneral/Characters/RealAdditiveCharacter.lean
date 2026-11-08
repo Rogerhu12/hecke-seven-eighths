@@ -1,7 +1,12 @@
-import HeckeGeneral.Characters.Packet
-import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.Calculus.MeanValue
+module
+
+import Mathlib.Analysis.Calculus.Deriv.Linear
+public import HeckeGeneral.Characters.Packet
+public import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.Calculus.MeanValue
+
+@[expose] public section
 
 /-!
 # Classification of continuous unitary characters of the real additive group

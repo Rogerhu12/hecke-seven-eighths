@@ -1,5 +1,9 @@
-import Expansion.PhysicalCompletedPoisson
-import Expansion.PhysicalInitialMellinWeights
+module
+
+public import Expansion.PhysicalCompletedPoisson
+public import Expansion.PhysicalInitialMellinWeights
+
+@[expose] public section
 
 /-!
 # Termwise initial Mellin identity for the actual probe

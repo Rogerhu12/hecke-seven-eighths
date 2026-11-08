@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalTailBound
-import HeckeSkeleton.Moments.MOM_INV_STEP.AdaptiveFrequencyTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalTailBound
+public import HeckeSkeleton.Moments.MOM_INV_STEP.AdaptiveFrequencyTail
+
+@[expose] public section
 
 /-! Actual primitive Poisson tails with source-local frozen cutoffs. -/
 

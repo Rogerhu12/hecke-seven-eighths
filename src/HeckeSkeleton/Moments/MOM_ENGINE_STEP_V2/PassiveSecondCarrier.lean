@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalAtoms
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
-import Lean.Elab.Command
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCanonicalAtoms
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveCoverOrigin
+public import Lean.Elab.Command
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

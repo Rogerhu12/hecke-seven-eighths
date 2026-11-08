@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckePort.Moments.Descent.IdealMasks
-import Mathlib.Algebra.BigOperators.Ring.Finset
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckePort.Moments.Descent.IdealMasks
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-!
 # The initial overlap decomposition of the literal inverse polynomial

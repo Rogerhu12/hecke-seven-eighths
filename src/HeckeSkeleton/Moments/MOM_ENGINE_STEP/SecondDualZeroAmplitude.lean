@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SignedPoissonZero
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroAmplitude
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SignedPoissonZero
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroAmplitude
+
+@[expose] public section
 
 /-!
 # The pure second dual-zero term without an origin-vanishing condition

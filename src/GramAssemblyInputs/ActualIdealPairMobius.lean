@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.IdealMobiusMask
+module
+
+public import HeckeGeneral.Arithmetic.IdealMobiusMask
+
+@[expose] public section
 
 /-!
 SOURCE CANDIDATE / not compiled. Exact two-column common-divisor Mobius

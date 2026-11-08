@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing
-import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualSourceReindexing
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FixedTripleEnergy
+
+@[expose] public section
 
 /-!
 # Reconstruction packets constructed from actual source indices

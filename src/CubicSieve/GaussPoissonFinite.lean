@@ -1,5 +1,9 @@
-import CubicSieve.GaussCharacters
-import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+module
+
+public import CubicSieve.GaussCharacters
+public import HeckeGeneral.Arithmetic.SIntegerPeriodicFourier
+
+@[expose] public section
 
 /-! Literal principal-quotient Fourier coefficients of the actual cubic row.
 Divisor dilation may be a nonunit. The exact Gauss phase is retained.

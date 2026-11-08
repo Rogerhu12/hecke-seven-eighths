@@ -1,4 +1,8 @@
-import HeckeSkeleton.HighBinSupport.ActualPhysicalNormForm
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPhysicalNormForm
+
+@[expose] public section
 
 /-!
 # The norm form on the original scheduled physical recipe

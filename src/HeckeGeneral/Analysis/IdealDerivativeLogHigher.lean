@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.IdealDerivativeEulerLog
+module
+
+public import HeckeGeneral.Analysis.IdealDerivativeEulerLog
+
+@[expose] public section
 
 /-!
 # Higher logarithmic derivatives and actual prime powers

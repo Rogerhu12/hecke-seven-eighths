@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
-import HeckeGeneral.Analysis.TraceJointSchwartzFourierBounds
+module
+
+public import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
+public import HeckeGeneral.Analysis.TraceJointSchwartzFourierBounds
+
+@[expose] public section
 
 /-!
 # Uniform Fourier bounds for all actual finite partition fibres

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCenteredMellinEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+
+@[expose] public section
 
 /-!
 # The free first Mellin energy under the common Fourier measure

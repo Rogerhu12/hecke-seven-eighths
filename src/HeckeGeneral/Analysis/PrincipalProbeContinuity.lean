@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.PrincipalSpectrumRegularity
-import Mathlib.MeasureTheory.Function.LocallyIntegrable
-import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+module
+
+public import HeckeGeneral.Analysis.PrincipalSpectrumRegularity
+public import Mathlib.MeasureTheory.Function.LocallyIntegrable
+public import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
+
+@[expose] public section
 
 /-! Local integrability of the actual principal probe is derived from
 the integrable initial spectrum, independently of any physical growth bound. -/

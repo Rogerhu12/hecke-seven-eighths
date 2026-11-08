@@ -1,6 +1,10 @@
-import CubicSieve.Gauss
-import CubicSieve.ExteriorKernel
-import HeckeGeneral.Analysis.IdealSquarefreeSupport
+module
+
+public import CubicSieve.Gauss
+public import CubicSieve.ExteriorKernel
+public import HeckeGeneral.Analysis.IdealSquarefreeSupport
+
+@[expose] public section
 
 /-!
 The actual squarefree S-integer residue quotient, its literal sextic row,

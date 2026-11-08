@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyCalibrationBridge
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ProfileWindowData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedMassContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyCalibrationBridge
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ProfileWindowData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.NormalizedMassContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

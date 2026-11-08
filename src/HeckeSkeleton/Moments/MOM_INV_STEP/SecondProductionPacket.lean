@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionIntegral
+
+@[expose] public section
 
 /-!
 # Actual common spectral production enters the literal child packet

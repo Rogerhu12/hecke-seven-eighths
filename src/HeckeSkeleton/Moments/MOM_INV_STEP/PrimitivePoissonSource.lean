@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.LocalizedMasks
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalPoissonSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.LocalizedMasks
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualFiniteSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
+
+@[expose] public section
 
 /-!
 # Genuine Poisson data on the active conductor

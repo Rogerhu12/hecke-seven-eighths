@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.LocalResidueCharacter
-import HeckeGeneral.Characters.InfiniteComponent
-import Mathlib.RingTheory.DedekindDomain.SInteger
+module
+
+public import HeckeGeneral.Characters.LocalResidueCharacter
+public import HeckeGeneral.Characters.InfiniteComponent
+public import Mathlib.RingTheory.DedekindDomain.SInteger
+
+@[expose] public section
 
 /-! Actual Mathlib S-units, their principal idèles, and finite/infinite compatibility.
 

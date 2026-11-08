@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTail
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderTail
+
+@[expose] public section
 
 /-!
 # Absolute tails selected by actual dyadic rectangles

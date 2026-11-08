@@ -1,7 +1,12 @@
-import HeckeSkeleton.HighBinSupport.EulerPhase
-import Mathlib.Analysis.SpecialFunctions.ExpDeriv
-import Mathlib.Analysis.Analytic.Linear
-import Mathlib.Analysis.Analytic.Constructions
+module
+
+public import HeckeSkeleton.HighBinSupport.EulerPhase
+public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+public import Mathlib.Analysis.Analytic.Linear
+public import Mathlib.Analysis.Analytic.Constructions
+
+@[expose] public section
+
 /-!
 # Analyticity of regular local factors throughout the high-bin move
 

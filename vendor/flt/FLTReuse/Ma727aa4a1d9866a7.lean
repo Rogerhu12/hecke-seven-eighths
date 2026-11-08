@@ -1,8 +1,13 @@
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M57a508b951c7aa28
-import FLTReuse.M8a18b6fa749851ee
-import FLTReuse.M843899312a51c0f5
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M57a508b951c7aa28
+public import FLTReuse.M8a18b6fa749851ee
+public import FLTReuse.M843899312a51c0f5
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_TateLocal_addCharLevel_psiLocal_eq_count_differentIdeal
 
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalPrimitiveFourier
-import Mathlib.Algebra.Group.Units.Hom
+module
+
+public import HeckeGeneral.Characters.LocalPrimitiveFourier
+public import Mathlib.Algebra.Group.Units.Hom
+
+@[expose] public section
 
 /-! Scaling a genuine local additive character and descending to a prime-power residue ring.
 The hypotheses here describe its additive conductor balls; no residue primitivity is assumed. -/

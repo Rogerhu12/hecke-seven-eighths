@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
-import Mathlib.Algebra.Order.Group.Multiset
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
+public import Mathlib.Algebra.Order.Group.Multiset
+
+@[expose] public section
 
 /-!
 # Exact exterior radical of the original remaining deletion mask

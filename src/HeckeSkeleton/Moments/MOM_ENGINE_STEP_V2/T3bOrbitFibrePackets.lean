@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOrbitFibres
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexWeights
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRowBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bOrbitFibres
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bIndexWeights
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3bRowBounds
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

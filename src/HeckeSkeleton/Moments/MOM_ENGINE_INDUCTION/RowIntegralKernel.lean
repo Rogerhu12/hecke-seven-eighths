@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.KernelReduction
-import Mathlib.MeasureTheory.Function.L2Space
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.KernelReduction
+public import Mathlib.MeasureTheory.Function.L2Space
+
+@[expose] public section
 
 /-!
 # A common positive kernel from literal rowwise integral identities

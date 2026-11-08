@@ -1,16 +1,20 @@
-import HeckeSkeleton.GramDefinitions
-import HeckeSkeleton.GramUnitInvariant
-import HeckeSkeleton.GramOrdinaryCount
-import HeckeSkeleton.GramDyadic
-import HeckeSkeleton.GramIdealShell
-import HeckeSkeleton.GramCorrelation
-import HeckeSkeleton.GramMeanZero
-import HeckeSkeleton.GramRowBall
-import HeckeSkeleton.GramExceptionalCount
-import HeckeSkeleton.GramSmallRadius
-import GeneratorMaskWitness
-import HeckeSkeleton.GramAssembly
-import HeckeSkeleton.GramAssembly.Final
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import HeckeSkeleton.GramUnitInvariant
+public import HeckeSkeleton.GramOrdinaryCount
+public import HeckeSkeleton.GramDyadic
+public import HeckeSkeleton.GramIdealShell
+public import HeckeSkeleton.GramCorrelation
+public import HeckeSkeleton.GramMeanZero
+public import HeckeSkeleton.GramRowBall
+public import HeckeSkeleton.GramExceptionalCount
+public import HeckeSkeleton.GramSmallRadius
+public import GeneratorMaskWitness
+public import HeckeSkeleton.GramAssembly
+public import HeckeSkeleton.GramAssembly.Final
+
+@[expose] public section
 
 /-!
 Top-down EXPLORATORY dependency skeleton for revised Proposition 3.8.

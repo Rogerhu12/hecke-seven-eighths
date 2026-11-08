@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
+
+@[expose] public section
 
 /-!
 # The second divisor is paid by its actual frozen scalar

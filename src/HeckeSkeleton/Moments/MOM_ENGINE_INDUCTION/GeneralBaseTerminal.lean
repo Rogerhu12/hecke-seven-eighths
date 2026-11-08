@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BaseUniformity
+
+@[expose] public section
 
 /-!
 # Actual base certificates for a fixed general support upper bound

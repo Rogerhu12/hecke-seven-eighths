@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.GeneralAggregation
-import HeckeSkeleton.LowEnergy.GeneralInactiveMass
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralAggregation
+public import HeckeSkeleton.LowEnergy.GeneralInactiveMass
+
+@[expose] public section
 
 /-!
 # General inactive sums use their actual reciprocal-prime mass

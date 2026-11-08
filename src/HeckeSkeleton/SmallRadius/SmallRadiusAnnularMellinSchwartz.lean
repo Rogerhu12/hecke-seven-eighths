@@ -1,5 +1,9 @@
-import HeckeSkeleton.SmallRadius.SmallRadiusMovingSeminorm
-import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+module
+
+public import HeckeSkeleton.SmallRadius.SmallRadiusMovingSeminorm
+public import HeckeGeneral.Analysis.SUnitTotalNormFourierBounds
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Pre-Fourier all-positive-radius estimates for the

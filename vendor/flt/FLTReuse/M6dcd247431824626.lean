@@ -1,7 +1,11 @@
-import FLTReuse.Ma6dd0c4d713fb96a
-import FLTReuse.M1d4e501986eb161a
-import FLTReuse.M0f59c07e866ef0ca
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.Ma6dd0c4d713fb96a
+public import FLTReuse.M1d4e501986eb161a
+public import FLTReuse.M0f59c07e866ef0ca
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
 set_option maxHeartbeats 1200000

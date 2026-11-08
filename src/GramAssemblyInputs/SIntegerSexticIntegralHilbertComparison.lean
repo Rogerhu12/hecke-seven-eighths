@@ -1,5 +1,9 @@
-import SIntegerExteriorHilbertValuation
-import HeckeGeneral.Characters.SexticPowerResidueComparison
+module
+
+public import SIntegerExteriorHilbertValuation
+public import HeckeGeneral.Characters.SexticPowerResidueComparison
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. The actual tame Hilbert factor with an integral
 prime-unit numerator and an arbitrary nonzero S-integer denominator.

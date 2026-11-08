@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.ConcreteIdealBlock
+module
+
+public import HeckeSkeleton.LowEnergy.ConcreteIdealBlock
+
+@[expose] public section
 
 /-!
 # Uniform hybrid bounds for reconstructed actual ideal rows

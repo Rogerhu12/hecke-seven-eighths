@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityCanonicalBridge
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityScalarMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityCanonicalBridge
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityScalarMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstAllowanceNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteBranchIndex
+
+@[expose] public section
 
 /-!
 # Actual child costs relative to the original first Cauchy allowance

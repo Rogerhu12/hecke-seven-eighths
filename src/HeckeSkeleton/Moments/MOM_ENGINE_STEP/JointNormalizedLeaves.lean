@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudgetProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RowBudgetPreservation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointRowBudgetProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.RowBudgetPreservation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedHybridGeometry
+
+@[expose] public section
 
 /-!
 # The actual live leaves produce admissible filtered children

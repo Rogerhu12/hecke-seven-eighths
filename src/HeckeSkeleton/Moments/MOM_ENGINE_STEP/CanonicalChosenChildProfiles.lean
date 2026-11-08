@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.HybridNormalizedProduction
+
+@[expose] public section
 
 /-!
 # Original compact profiles for the already chosen canonical child

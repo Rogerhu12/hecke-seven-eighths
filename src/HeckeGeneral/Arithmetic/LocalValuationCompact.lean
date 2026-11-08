@@ -1,5 +1,9 @@
-import HeckeGeneral.Characters.LocalUnitDecomposition
-import FLTReuse.Mc4dd375116d61c53
+module
+
+public import HeckeGeneral.Characters.LocalUnitDecomposition
+public import FLTReuse.Mc4dd375116d61c53
+
+@[expose] public section
 
 /-!
 Compact boxes of actual finite local units. The integer exponent is the

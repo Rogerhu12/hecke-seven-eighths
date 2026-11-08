@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
+module
+
+public import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
+
+@[expose] public section
+
 /-!
 Coarse, uniform bounds for every marked/unmarked Euler branch on the
 actual swept tube. Row primes cost at most the fourth power of their

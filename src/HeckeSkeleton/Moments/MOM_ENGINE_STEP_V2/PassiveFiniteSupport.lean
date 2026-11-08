@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalLogNormLocations
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

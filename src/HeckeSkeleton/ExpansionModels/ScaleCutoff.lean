@@ -1,4 +1,8 @@
-import HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope
+module
+
+public import HeckeSkeleton.ExpansionModels.DyadicMomentEnvelope
+
+@[expose] public section
 
 /-! A single physical cutoff controls every shell d>=1/16. -/
 

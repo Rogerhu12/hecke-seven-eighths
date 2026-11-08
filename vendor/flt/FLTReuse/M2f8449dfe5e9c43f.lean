@@ -1,10 +1,15 @@
-import FLTReuse.M55164c2a16500130
-import FLTReuse.Md2cadaa4525e04a6
-import FLTReuse.Mb875502fbb65df3e
-import Mathlib.NumberTheory.NumberField.Discriminant.Different
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import FLTReuse.M436eaa679b5c9606
-import FLTReuse.M1868db956c866c8d
+module
+
+public import FLTReuse.M55164c2a16500130
+public import FLTReuse.Md2cadaa4525e04a6
+public import FLTReuse.Mb875502fbb65df3e
+public import Mathlib.NumberTheory.NumberField.Discriminant.Different
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import FLTReuse.M436eaa679b5c9606
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 set_option backward.isDefEq.respectTransparency false
 namespace P2MW.S_NumberField_AdelicFourier_addChar_zero_finitePart_algebraMap_eq_fourierChar_neg_trace
 

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionBoxes
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondProductionBoxes
+
+@[expose] public section
 
 /-!
 # Restricting the genuine production source to its first slice

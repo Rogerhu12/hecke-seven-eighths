@@ -1,6 +1,11 @@
-import Mathlib.Analysis.Complex.Basic
-import FLTReuse.Mb34f70d821d13751
-import FLTReuse.M1868db956c866c8d
+module
+
+public import Mathlib.Analysis.Complex.Basic
+public import FLTReuse.Mb34f70d821d13751
+public import FLTReuse.M1868db956c866c8d
+
+@[expose] public section
+
 namespace P2MW.S_LanglandsTunnell_Converse_units_eq_one_of_forall_zpow_norm_sub_one_lt
 
 set_option autoImplicit false

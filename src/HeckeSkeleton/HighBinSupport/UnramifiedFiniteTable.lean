@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.FiniteLocalTable
+module
+
+public import HeckeSkeleton.HighBinSupport.FiniteLocalTable
+
+@[expose] public section
+
 /-!
 # The unramified row from the same finite valuation table
 

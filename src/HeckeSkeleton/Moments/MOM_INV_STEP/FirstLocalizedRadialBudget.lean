@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRadialBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRadialBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedEnergy
+
+@[expose] public section
 
 /-!
 # Uniform radial cost for every actual frozen first-source index

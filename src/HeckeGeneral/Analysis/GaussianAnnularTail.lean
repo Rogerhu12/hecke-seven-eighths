@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.GaussianAnnuli
+module
+
+public import HeckeGeneral.Analysis.GaussianAnnuli
+
+@[expose] public section
 
 /-!+# Arbitrarily small Gaussian annular tails
 

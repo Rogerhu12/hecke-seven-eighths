@@ -1,6 +1,10 @@
-import ActualFixedDepthAllScalePoisson
-import HeckeGeneral.Analysis.SUnitMellinFourierBounds
-import HeckeGeneral.Analysis.SIntegerAnnularSexticCosets
+module
+
+public import ActualFixedDepthAllScalePoisson
+public import HeckeGeneral.Analysis.SUnitMellinFourierBounds
+public import HeckeGeneral.Analysis.SIntegerAnnularSexticCosets
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. A direct actual-profile consumer of the all-scale

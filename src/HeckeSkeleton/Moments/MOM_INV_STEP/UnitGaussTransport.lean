@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalGaussCRT
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalGaussCRT
+
+@[expose] public section
 
 /-!
 # Actual Gauss sums under a change of principal generator

@@ -19,13 +19,19 @@ sin → cot):
   4. logDeriv via Complex.logDeriv_tprod_eq_tsum          [digamma series].
 This file has steps 1–3; step 4 is `digamma_series` at the bottom.
 -/
-import Zeta23.GammaFacts
-import Mathlib.Analysis.Calculus.LogDerivUniformlyOn
-import Mathlib.Analysis.Normed.Module.MultipliableUniformlyOn
-import Mathlib.NumberTheory.Harmonic.EulerMascheroni
-import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
-import Mathlib.Analysis.Complex.IntegerCompl
-import Mathlib.Analysis.PSeries
+module
+
+public import Zeta23.GammaFacts
+public import Mathlib.Analysis.Calculus.LogDerivUniformlyOn
+public import Mathlib.Analysis.Normed.Module.MultipliableUniformlyOn
+public import Mathlib.NumberTheory.Harmonic.EulerMascheroni
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+public import Mathlib.Analysis.Complex.IntegerCompl
+public import Mathlib.Analysis.PSeries
+
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
+@[expose] public section
 
 noncomputable section
 

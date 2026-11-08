@@ -1,5 +1,9 @@
-import ThetaGlobal.GlobalProjectExterior
-import DedekindZetaZeroFree.Theta.Whittaker.FiniteExteriorProduct
+module
+
+public import ThetaGlobal.GlobalProjectExterior
+public import DedekindZetaZeroFree.Theta.Whittaker.FiniteExteriorProduct
+
+@[expose] public section
 
 /-!
 # Exact exterior factors for arbitrary actual frozen pure tensors

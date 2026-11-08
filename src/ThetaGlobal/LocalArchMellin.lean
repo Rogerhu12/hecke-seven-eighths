@@ -1,5 +1,9 @@
-import ThetaGlobal.LocalArchProfile
-import ThetaGlobal.LocalArchHaar
+module
+
+public import ThetaGlobal.LocalArchProfile
+public import ThetaGlobal.LocalArchHaar
+
+@[expose] public section
 
 /-!
 # Mellin formulas for the actual normalized high K-type coefficient

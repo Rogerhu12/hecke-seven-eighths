@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorCore
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.FiniteSectorCore
+
+@[expose] public section
 
 /-!
 # Finite sector reindexing for the original moment polynomials

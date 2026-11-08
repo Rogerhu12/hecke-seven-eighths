@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.MomentInputs
-import Mathlib.Data.Fintype.EquivFin
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import Mathlib.Data.Fintype.EquivFin
+
+@[expose] public section
 
 /-! Exact reindexing of a selected set of actual moment slots. The row
 characters, ideal tests and common zero mask are unchanged. This is finite

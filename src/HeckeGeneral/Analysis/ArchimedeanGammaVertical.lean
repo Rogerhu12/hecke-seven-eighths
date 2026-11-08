@@ -1,9 +1,13 @@
-import Zeta23.GammaFacts.StirlingVert
-import HeckeGeneral.Analysis.HeckeArchimedeanGamma
-import Mathlib.Analysis.InnerProductSpace.Calculus
-import Mathlib.Analysis.Complex.RealDeriv
-import Mathlib.Analysis.Calculus.MeanValue
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+module
+
+public import Zeta23.GammaFacts.StirlingVert
+public import HeckeGeneral.Analysis.HeckeArchimedeanGamma
+public import Mathlib.Analysis.InnerProductSpace.Calculus
+public import Mathlib.Analysis.Complex.RealDeriv
+public import Mathlib.Analysis.Calculus.MeanValue
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+
+@[expose] public section
 
 /-!
 # Sharp horizontal Gamma ratios at large imaginary height

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedCapacityChild
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+
+@[expose] public section
 
 /-!
 # The exact profile-weighted kernel of normalized capacity children

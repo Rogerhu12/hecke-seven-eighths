@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+
+@[expose] public section
 
 /-!
 # The exact empty-parent case of the uniform engine

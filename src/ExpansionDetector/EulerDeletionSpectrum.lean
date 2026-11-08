@@ -1,4 +1,8 @@
-import ExpansionDetector.EulerDeletionNegative
+module
+
+public import ExpansionDetector.EulerDeletionNegative
+
+@[expose] public section
 
 /-! The deletion estimates on the project's actual height-one-spectrum
 prime indices. Membership is only required to mean divisibility of the

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotRestriction
-import HeckeGeneral.Analysis.SelectedMomentSlots
-import HeckePort.Moments.Descent.Quotients
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.WholeAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SlotRestriction
+public import HeckeGeneral.Analysis.SelectedMomentSlots
+public import HeckePort.Moments.Descent.Quotients
+
+@[expose] public section
 
 /-!
 # The literal child support of an allocated paired polynomial

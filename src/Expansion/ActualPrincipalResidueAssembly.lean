@@ -1,7 +1,11 @@
-import Expansion.ActualPrincipalResidueTails
-import Expansion.ActualPrincipalInitialTransport
-import Expansion.ActualPrincipalMainContour
-import HeckeSkeleton.ExpansionModels.ActualKernelRegularity
+module
+
+public import Expansion.ActualPrincipalResidueTails
+public import Expansion.ActualPrincipalInitialTransport
+public import Expansion.ActualPrincipalMainContour
+public import HeckeSkeleton.ExpansionModels.ActualKernelRegularity
+
+@[expose] public section
 
 /-!
 # Exact finite principal residue accounting

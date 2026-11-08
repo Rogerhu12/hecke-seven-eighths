@@ -1,7 +1,11 @@
-import Expansion.CanonicalDetectorCharacters
-import ArithmeticFrequencyRowConductorNorm
-import RowCharacterCanonicalUniqueness
-import HeckeSkeleton.HeckeConductorNorm
+module
+
+public import Expansion.CanonicalDetectorCharacters
+public import ArithmeticFrequencyRowConductorNorm
+public import RowCharacterCanonicalUniqueness
+public import HeckeSkeleton.HeckeConductorNorm
+
+@[expose] public section
 
 /-!
 # Uniform arithmetic inputs for the two actual detector presentations

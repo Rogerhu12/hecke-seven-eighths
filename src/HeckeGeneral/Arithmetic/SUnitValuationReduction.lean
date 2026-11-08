@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SUnitPrimePowers
-import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
-import Mathlib.Data.Int.Interval
+module
+
+public import HeckeGeneral.Arithmetic.SUnitPrimePowers
+public import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
+public import Mathlib.Data.Int.Interval
+
+@[expose] public section
 
 /-!
 # Finite valuation reduction by actual S-units

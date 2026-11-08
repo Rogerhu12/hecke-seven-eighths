@@ -1,5 +1,9 @@
-import SIntegerSexticOriginalCorrelationDefinition
-import SIntegerSexticQuotientUnitCount
+module
+
+public import SIntegerSexticOriginalCorrelationDefinition
+public import SIntegerSexticQuotientUnitCount
+
+@[expose] public section
 
 /-! Actual zero-frequency diagonal support. SOURCE CANDIDATE, UNCOMPILED.
 The off-diagonal statement compares principal ideals, not literal generators.

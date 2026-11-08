@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryPowerWindows
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionSmooth
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryPowerWindows
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionSmooth
+
+@[expose] public section
 
 /-!
 # The actual finite ordinary reflection operator

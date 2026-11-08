@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocationKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocationKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+
+@[expose] public section
 
 /-!
 # Actual second coefficients from the primitive factor dictionaries

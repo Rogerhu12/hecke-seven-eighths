@@ -1,4 +1,8 @@
-import HeckePort.Moments.Descent.Quotients
+module
+
+public import HeckePort.Moments.Descent.Quotients
+
+@[expose] public section
 
 /-!
 # Extracting a pair of divisors

@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
-import HeckeSkeleton.HighBinSupport.HighNormFormSlots
-import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualNormFormFullCorrection
+public import HeckeSkeleton.HighBinSupport.HighNormFormSlots
+public import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
+
+@[expose] public section
 
 /-!
 # Full correction products on the physical amplitude labels

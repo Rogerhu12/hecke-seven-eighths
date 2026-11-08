@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
-import HeckeSkeleton.ExpansionModels.ActualRowEligibility
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
+public import HeckeSkeleton.ExpansionModels.ActualRowEligibility
+
+@[expose] public section
 
 /-!
 # The actual recipe uses the one canonical finite theta

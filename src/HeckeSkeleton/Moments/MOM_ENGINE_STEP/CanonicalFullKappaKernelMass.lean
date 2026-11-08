@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalFullKappaNormalization
+
+@[expose] public section
 
 /-!
 # The enlarged full-kappa profiles pay their actual common-kernel mass

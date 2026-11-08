@@ -1,5 +1,11 @@
-import HeckePort.Moments.FullCorrelation
-import HeckePort.Moments.Canonical
+module
+
+public import HeckePort.Moments.FullCorrelation
+public import HeckePort.Moments.Canonical
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+
+@[expose] public section
 
 /-!
 # Common support of full-modulus correlations

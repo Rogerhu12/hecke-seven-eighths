@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import Mathlib.Algebra.Squarefree.Basic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Lean.Elab.Tactic.Omega
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import Mathlib.Algebra.Squarefree.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Lean.Elab.Tactic.Omega
+
+@[expose] public section
 
 /-!
 Actual cubic extraction of ideals, adapted from openai/math fd4aeeb2,

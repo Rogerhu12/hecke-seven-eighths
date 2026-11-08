@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CompleteMovingRowRecipe
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
+
+@[expose] public section
 
 /-!
 # Original single-prime input on the actual normalized allocation

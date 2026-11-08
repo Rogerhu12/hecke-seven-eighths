@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolStageTerminalBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussStagePhaseTransport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolStageTerminalBudget
+
+@[expose] public section
 
 /-!
 # Original terminal controls survive the first Fourier phase

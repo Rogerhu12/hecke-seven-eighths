@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormDeficit
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormDeficit
+
+@[expose] public section
+
 /-!
 Uniform summation of repeated-prime tuples.
 

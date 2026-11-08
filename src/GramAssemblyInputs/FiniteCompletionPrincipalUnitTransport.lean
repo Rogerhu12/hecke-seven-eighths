@@ -1,6 +1,10 @@
-import ActualFinitePlaceCompletionComparison
-import ValuedFieldTheory.LocalField.NonarchimedeanLocalField.StandardOpenSubgroups
-import ValuedFieldTheory.Valuation.LocalRingEquiv
+module
+
+public import ActualFinitePlaceCompletionComparison
+public import ValuedFieldTheory.LocalField.NonarchimedeanLocalField.StandardOpenSubgroups
+public import ValuedFieldTheory.Valuation.LocalRingEquiv
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. A principal-unit bridge between the TWO completion
 models. This uses the actual public semilinear valuation certificate and

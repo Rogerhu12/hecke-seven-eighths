@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorSource
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedNormalization
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveCappedFreeEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorSource
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedNormalization
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLiveCappedFreeEnergy
+
+@[expose] public section
 
 /-!
 # Exact center and spectral masses for the first outer errors

@@ -16,7 +16,11 @@ Consumers:
 Builds on Zeta23.GammaFacts.Series: digamma_series, hasSum_digamma_series,
 summable_digamma_series, inv_gamma_eq_prod (Weierstrass product for 1/Γ).
 -/
-import Zeta23.GammaFacts.Series
+module
+
+public import Zeta23.GammaFacts.Series
+
+@[expose] public section
 
 noncomputable section
 

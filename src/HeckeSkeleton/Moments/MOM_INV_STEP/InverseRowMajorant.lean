@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
-import ActualGramRowBallOrbitalMajorant
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.DivisorInverseColumn
+public import ActualGramRowBallOrbitalMajorant
+
+@[expose] public section
 
 /-!
 # A genuine fixed positive orbital majorant for the intermediate rows

@@ -1,6 +1,10 @@
-import Expansion.ActualDeletedZetaResidue
-import Expansion.ActualPrincipalResidueKernels
-import Expansion.ActualRowKernelHolomorphy
+module
+
+public import Expansion.ActualDeletedZetaResidue
+public import Expansion.ActualPrincipalResidueKernels
+public import Expansion.ActualRowKernelHolomorphy
+
+@[expose] public section
 
 /-!
 # Actual simple poles of the principal row

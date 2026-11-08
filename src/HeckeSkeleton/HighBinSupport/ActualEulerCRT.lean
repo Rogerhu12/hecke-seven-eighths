@@ -1,6 +1,10 @@
-import HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols
-import HeckeSkeleton.HighBinSupport.ActualInitialAbsolute
-import HeckeSkeleton.HighBinSupport.GeneratorUnitInvariance
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualPrimePowerSymbols
+public import HeckeSkeleton.HighBinSupport.ActualInitialAbsolute
+public import HeckeSkeleton.HighBinSupport.GeneratorUnitInvariance
+
+@[expose] public section
 
 /-!
 # CRT for the actual finite arithmetic functions

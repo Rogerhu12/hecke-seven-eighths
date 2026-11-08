@@ -1,7 +1,11 @@
-import HeckeSkeleton.ExpansionModels.ActualRowEligibility
-import HeckeSkeleton.ExpansionModels.SmallRowNumerator
-import HeckeSkeleton.HeckeConductorNorm
-import HeckeSkeleton.PrimeCancellationPolynomials
+module
+
+public import HeckeSkeleton.ExpansionModels.ActualRowEligibility
+public import HeckeSkeleton.ExpansionModels.SmallRowNumerator
+public import HeckeSkeleton.HeckeConductorNorm
+public import HeckeSkeleton.PrimeCancellationPolynomials
+
+@[expose] public section
 
 /-!
 # Conductor control on every actual paired row

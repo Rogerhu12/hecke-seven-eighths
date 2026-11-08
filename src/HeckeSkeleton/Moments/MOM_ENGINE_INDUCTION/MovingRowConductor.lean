@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionConductor
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionConductor
+
+@[expose] public section
 
 /-!
 # Actual moving complete-row characters cost their displayed support

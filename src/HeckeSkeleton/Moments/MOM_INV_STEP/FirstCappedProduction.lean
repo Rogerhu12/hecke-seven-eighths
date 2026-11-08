@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRetained
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedReduction
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedRetained
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCappedFreeEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedReduction
+
+@[expose] public section
 
 /-!
 # The whole canonical parent reduced to prescribed free inverse energies

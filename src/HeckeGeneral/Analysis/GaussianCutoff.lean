@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.GaussianAnnularTail
-import Mathlib.Analysis.Calculus.Deriv.Support
-import Mathlib.Analysis.Normed.Group.Bounded
+module
+
+public import HeckeGeneral.Analysis.GaussianAnnularTail
+public import Mathlib.Analysis.Calculus.Deriv.Support
+public import Mathlib.Analysis.Normed.Group.Bounded
+
+@[expose] public section
 
 /-!+# A fixed smooth cutoff in each Gaussian annulus
 

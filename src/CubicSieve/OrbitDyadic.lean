@@ -1,6 +1,10 @@
-import CubicSieve.OrbitRows
-import CubicSieve.AnalyticDyadic
-import Mathlib.Topology.Algebra.InfiniteSum.Real
+module
+
+public import CubicSieve.OrbitRows
+public import CubicSieve.AnalyticDyadic
+public import Mathlib.Topology.Algebra.InfiniteSum.Real
+
+@[expose] public section
 
 /-! Dyadic summation over every actual sixth-unit orbit. A finite block
 estimate proves absolute summability before any exchange with an infinite

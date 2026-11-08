@@ -1,6 +1,10 @@
-import ArithmeticSexticKummerCharacter
-import HeckeGeneral.Characters.LocalComponent
-import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibComparison
+module
+
+public import ArithmeticSexticKummerCharacter
+public import HeckeGeneral.Characters.LocalComponent
+public import ClassFieldTheory.AlgebraicNumberTheory.Idele.ClassGroup.MathlibComparison
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11. No Lean/Lake invocation was made.

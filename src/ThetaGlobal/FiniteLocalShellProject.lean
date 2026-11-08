@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.LocalUniformizer
-import HeckeGeneral.Characters.LocalResidueCharacter
-import ThetaGlobal.FiniteShellCoefficients
+module
+
+public import HeckeGeneral.Characters.LocalUniformizer
+public import HeckeGeneral.Characters.LocalResidueCharacter
+public import ThetaGlobal.FiniteShellCoefficients
+
+@[expose] public section
 
 /-!
 # Literal valuation shells in the project's local fields

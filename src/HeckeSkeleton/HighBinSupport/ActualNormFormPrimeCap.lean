@@ -1,8 +1,12 @@
-import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeContour
-import HeckeSkeleton.HighBinSupport.HighNormFormHeight
-import HeckeSkeleton.HeckeConductorNorm
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualNormFormPrimeContour
+public import HeckeSkeleton.HighBinSupport.HighNormFormHeight
+public import HeckeSkeleton.HeckeConductorNorm
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+
+@[expose] public section
 
 /-!
 The prime cap after choosing a fixed internal power height.

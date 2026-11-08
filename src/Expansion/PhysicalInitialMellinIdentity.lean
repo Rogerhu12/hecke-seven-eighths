@@ -1,4 +1,8 @@
-import Expansion.PhysicalInitialMellinAbsolute
+module
+
+public import Expansion.PhysicalInitialMellinAbsolute
+
+@[expose] public section
 
 /-!
 # The original physical probe equals the initial triple Mellin integral

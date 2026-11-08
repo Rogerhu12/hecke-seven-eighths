@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveCutoff
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRows
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveCutoff
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentRows
+
+@[expose] public section
 
 /-!
 # Exact retained second source with common/divisor-local frequencies

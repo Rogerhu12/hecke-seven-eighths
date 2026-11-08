@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledStage
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPooledStage
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstWeightedReduction
+
+@[expose] public section
 
 /-!
 # The actual first block enters the normalized second-stage sources

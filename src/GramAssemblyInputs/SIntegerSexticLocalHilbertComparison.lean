@@ -1,6 +1,10 @@
-import SIntegerSexticSupportedDenominator
-import FinitePlaceHilbertBilinear
-import SIntegerSexticIntegralHilbertComparison
+module
+
+public import SIntegerSexticSupportedDenominator
+public import FinitePlaceHilbertBilinear
+public import SIntegerSexticIntegralHilbertComparison
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Actual exterior tame comparison for arbitrary
 nonzero S-integer inputs. A supported integral denominator clears only

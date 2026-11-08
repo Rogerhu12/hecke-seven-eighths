@@ -1,5 +1,9 @@
-import HeckeAxiom.SignalAdapter
-import HeckeGeneral.Characters.InfinityType
+module
+
+public import HeckeAxiom.SignalAdapter
+public import HeckeGeneral.Characters.InfinityType
+
+@[expose] public section
 
 /-!
 # The infinity type of the correction character `Λ`

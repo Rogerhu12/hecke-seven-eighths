@@ -1,4 +1,8 @@
-import FLTReuse.Mc4dd375116d61c53
+module
+
+public import FLTReuse.Mc4dd375116d61c53
+
+@[expose] public section
 
 open IsDedekindDomain NumberField MeasureTheory
 open scoped RestrictedProduct

@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
-import HeckeGeneral.Arithmetic.SIntegerPrincipalization
-import Mathlib.GroupTheory.GroupAction.Quotient
+module
+
+public import HeckeGeneral.Arithmetic.PrincipalUnitOrbits
+public import HeckeGeneral.Arithmetic.SIntegerPrincipalization
+public import Mathlib.GroupTheory.GroupAction.Quotient
+
+@[expose] public section
 
 /-!
 # Actual S-integer orbits and ideal sectors

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.PartitionedChildGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRows
-import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCenterGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PartitionedChildGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRows
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SourceLengths
+
+@[expose] public section
 
 /-!
 # Geometry and normalization of the actual initial inverse transform

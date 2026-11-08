@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.BalancedLatticeShape
+module
+
+public import HeckeGeneral.Analysis.BalancedLatticeShape
+
+@[expose] public section
 
 /-!
 # Uniform finite Schwartz sums in compact families of actual local multipliers

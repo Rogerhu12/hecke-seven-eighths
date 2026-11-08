@@ -1,5 +1,9 @@
-import HeckePort.CenteredMoment.Mask
-import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+module
+
+public import HeckePort.CenteredMoment.Mask
+public import HeckeSkeleton.Moments.MOM_INV_STEP.IntegralEnergy
+
+@[expose] public section
 
 /-!
 # Full mutual-gcd extension before the positive energy step

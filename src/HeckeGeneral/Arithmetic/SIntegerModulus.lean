@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerResidue
-import Mathlib.Algebra.Ring.NonZeroDivisors
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerResidue
+public import Mathlib.Algebra.Ring.NonZeroDivisors
+
+@[expose] public section
 
 /-! Every nonzero principal S-integer modulus contracts to a genuine nonzero
 ordinary ideal coprime to S. No principal ideal property is required. -/

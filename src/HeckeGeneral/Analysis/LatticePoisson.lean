@@ -8,13 +8,19 @@ Claude for the refactoring, following a human-written plan, and preserves
 provenance from openai/ten-proofs and Sphere-Packing-Lean.
 Local adaptation changes only the Fourier-helper namespace and Lean APIs.
 -/
-import Mathlib.Algebra.Module.ZLattice.Covolume
-import Mathlib.Algebra.Module.ZLattice.Summable
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Analysis.Fourier.AddCircleMulti
-import Mathlib.Analysis.RCLike.Inner
-import Mathlib.LinearAlgebra.BilinearForm.DualLattice
-import HeckeGeneral.Analysis.LatticeFourierChange
+module
+
+public import Mathlib.Algebra.Module.ZLattice.Covolume
+public import Mathlib.Algebra.Module.ZLattice.Summable
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Analysis.Fourier.AddCircleMulti
+public import Mathlib.Analysis.RCLike.Inner
+public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
+public import HeckeGeneral.Analysis.LatticeFourierChange
+
+import Mathlib.Analysis.Normed.Group.InfiniteSum
+
+@[expose] public section
 
 /-!
 # Poisson summation for lattices in `ℝ^d`

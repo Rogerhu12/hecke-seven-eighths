@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedChildProvider
+
+@[expose] public section
 
 /-!
 # One actual allocated child family with one fixed capacity choice

@@ -1,10 +1,14 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowNonNorm
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileScaling
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeRoot
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryProfileNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.PowerWindowEnergy
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RowNonNorm
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.StepOutputAdapter
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ProfileScaling
+
+@[expose] public section
 
 /-!
 # Primitive arithmetic calibration at actual roots and reflection children

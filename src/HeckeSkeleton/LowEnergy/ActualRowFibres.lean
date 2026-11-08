@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualReflection
-import HeckeSkeleton.LowEnergy.PowerfulRowAssembly
+module
+
+public import HeckeSkeleton.LowEnergy.ActualReflection
+public import HeckeSkeleton.LowEnergy.PowerfulRowAssembly
+
+@[expose] public section
 
 /-!
 # Exact residual-row fibres of actual exterior ideals

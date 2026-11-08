@@ -1,6 +1,10 @@
-import HeckeAxiom.ArithmeticAdapter
-import DedekindZetaZeroFree.LargeSieve.CharacterBounds.AllIdealTransfer
-import CubicSieve.ExteriorSieve
+module
+
+public import HeckeAxiom.ArithmeticAdapter
+public import DedekindZetaZeroFree.LargeSieve.CharacterBounds.AllIdealTransfer
+public import CubicSieve.ExteriorSieve
+
+@[expose] public section
 
 /-! The original S and the actual generators supply balanced arithmetic data.
 No enlarged set of places, class-group assertion, or analytic recipe is an input. -/

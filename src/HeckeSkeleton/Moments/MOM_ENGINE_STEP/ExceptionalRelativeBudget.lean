@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalTerminal
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalRowScalar
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSameCarrierMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualExceptionalTerminal
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalRowScalar
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ExceptionalSameCarrierMass
+
+@[expose] public section
 
 /-!
 # Actual exceptional atoms pay their original row normalization

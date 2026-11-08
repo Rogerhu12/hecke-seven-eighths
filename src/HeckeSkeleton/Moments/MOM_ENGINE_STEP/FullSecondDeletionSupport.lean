@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualMovingFrequencyFactors
+
+@[expose] public section
 
 /-!
 # The complete second deletion support from its actual factors

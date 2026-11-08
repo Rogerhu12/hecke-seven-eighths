@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SIntegerProfileTail
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Analysis.SIntegerProfileTail
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # A fixed outer frequency ball and its genuine orbital tail

@@ -1,7 +1,11 @@
-import HeckeSkeleton.SmallRadius.SLocalProductHaarMellin
-import FLTReuse.M00c7be4ee0b6591d
-import FLTReuse.M2a2f532b3e0b3dc8
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+module
+
+public import HeckeSkeleton.SmallRadius.SLocalProductHaarMellin
+public import FLTReuse.M00c7be4ee0b6591d
+public import FLTReuse.M2a2f532b3e0b3dc8
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+
+@[expose] public section
 
 /-!
 Ported from the old repository cache candidate of 2026-10-12; compiled in this project.

@@ -1,6 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstKernel
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstKernel
+
+import Mathlib.NumberTheory.MulChar.Lemmas
+
+@[expose] public section
 
 /-!
 # The actual first periodic source and its residual Gauss columns

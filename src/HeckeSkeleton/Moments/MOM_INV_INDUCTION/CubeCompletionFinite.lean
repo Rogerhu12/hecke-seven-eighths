@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionNodeStep
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNode
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionNodeStep
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionBlocks
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderNode
+
+@[expose] public section
 
 /-!
 # The literal long completed node is a finite family of cube sources

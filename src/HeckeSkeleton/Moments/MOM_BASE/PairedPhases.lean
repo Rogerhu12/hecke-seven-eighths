@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.HeckeConjugation
-import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+module
+
+public import HeckeGeneral.Analysis.HeckeConjugation
+public import HeckeGeneral.Characters.UnramifiedPrimeCoefficientAlgebra
+
+@[expose] public section
 
 /-!
 # Paired whole-product phases

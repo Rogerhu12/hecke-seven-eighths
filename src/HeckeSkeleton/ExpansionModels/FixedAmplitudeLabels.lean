@@ -1,6 +1,10 @@
-import HeckeSkeleton.ExpansionModels.SourceGeometry
-import ExpansionInterfaces.AmplitudePartition
-import Mathlib.Data.Fin.Embedding
+module
+
+public import HeckeSkeleton.ExpansionModels.SourceGeometry
+public import ExpansionInterfaces.AmplitudePartition
+public import Mathlib.Data.Fin.Embedding
+
+@[expose] public section
 
 /-!
 # Fixed finite label spaces for all physical bins

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinarySeedAtomBinding
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PassiveData
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinarySeedAtomBinding
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

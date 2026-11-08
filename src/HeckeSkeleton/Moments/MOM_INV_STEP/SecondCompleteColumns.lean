@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCanonicalEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
-import HeckeSkeleton.Moments.MOM_INV_STEP.MellinWeightedTests
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondCanonicalEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalNormPools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.MellinWeightedTests
+
+@[expose] public section
 
 /-!
 # Complete literal second columns with the original common factor fixed

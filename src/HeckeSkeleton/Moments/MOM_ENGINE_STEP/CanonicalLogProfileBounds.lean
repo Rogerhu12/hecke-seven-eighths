@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
-import HeckeGeneral.Analysis.TraceMovingPhaseBounds
-import Mathlib.Analysis.SpecialFunctions.Log.Deriv
-import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLogProfiles
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalProfileNormalizationInput
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NormalizedFamilyAtoms
+public import HeckeGeneral.Analysis.TraceMovingPhaseBounds
+public import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+public import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+
+@[expose] public section
 
 /-!
 # Bounds for the original log-norm profile multipliers

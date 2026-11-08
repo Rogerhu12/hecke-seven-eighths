@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
-import HeckeGeneral.Analysis.IdealMobiusReciprocal
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalFirstEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CoefficientBounds
+public import HeckeGeneral.Analysis.IdealMobiusReciprocal
+
+@[expose] public section
 
 /-!
 # The first actual overlap divisor is extracted from the inverse column

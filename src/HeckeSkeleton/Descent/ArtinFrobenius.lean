@@ -1,8 +1,12 @@
-import HeckeSkeleton.Descent.ArtinFactors
-import HeckeSkeleton.Descent.LocalNormCoefficients
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.LocalGlobalArtinCompatibility.Factorization
-import ClassFieldTheory.AlgebraicNumberTheory.Ramification.Splitting.FinitePlaceIdeal
-import ClassFieldTheory.AlgebraicNumberTheory.SUnit.Herbrand
+module
+
+public import HeckeSkeleton.Descent.ArtinFactors
+public import HeckeSkeleton.Descent.LocalNormCoefficients
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.LocalGlobalArtinCompatibility.Factorization
+public import ClassFieldTheory.AlgebraicNumberTheory.Ramification.Splitting.FinitePlaceIdeal
+public import ClassFieldTheory.AlgebraicNumberTheory.SUnit.Herbrand
+
+@[expose] public section
 
 /-!
 Adapted from the 2026-10-11 cache candidate; see DESCENT_CODEX_REPORT_2.md for checks.

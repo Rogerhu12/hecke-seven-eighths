@@ -1,6 +1,10 @@
-import HeckeSkeleton.HeckeGammaReciprocal
-import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
-import Mathlib.Tactic
+module
+
+public import HeckeSkeleton.HeckeGammaReciprocal
+public import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 A fixed-infinity-type Gamma bound on the left boundary of a Hecke strip.

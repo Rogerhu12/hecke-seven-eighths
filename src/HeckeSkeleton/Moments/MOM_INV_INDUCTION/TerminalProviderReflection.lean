@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarks
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderMarks
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderTerminalConductor
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy
+
+@[expose] public section
 
 /-!
 # Genuine reflection of the punctured canonical marked source

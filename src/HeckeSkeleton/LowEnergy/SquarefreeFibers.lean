@@ -1,6 +1,10 @@
-import HeckeSkeleton.LowEnergy.IdealMass
-import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
-import Mathlib.Data.Finset.Powerset
+module
+
+public import HeckeSkeleton.LowEnergy.IdealMass
+public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
+public import Mathlib.Data.Finset.Powerset
+
+@[expose] public section
 
 /-!
 # Actual ideal product fibers with a uniform small-power cost

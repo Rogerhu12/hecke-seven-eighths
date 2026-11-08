@@ -1,6 +1,10 @@
-import Expansion.SmoothDyadicPartition
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Order.Floor.Semiring
+module
+
+public import Expansion.SmoothDyadicPartition
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import Mathlib.Algebra.Order.Floor.Semiring
+
+@[expose] public section
 
 /-! Support geometry of the actual inverse/terminal cutoffs.  These are
 exact consequences of the explicit profiles, prior to every norm estimate. -/

@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowHybrid.Assembly
-import Mathlib.Data.Nat.Choose.Sum
+module
+
+public import HeckeSkeleton.LowHybrid.Assembly
+public import Mathlib.Data.Nat.Choose.Sum
+
+@[expose] public section
 
 /-!
 # Exact Mobius masks on finite prime supports

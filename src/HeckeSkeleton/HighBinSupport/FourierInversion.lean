@@ -1,4 +1,9 @@
-import HeckeSkeleton.HighBinSupport.PrimePowerFourier
+module
+
+public import HeckeSkeleton.HighBinSupport.PrimePowerFourier
+
+@[expose] public section
+
 /-!
 # The physical finite convolution on arbitrary finite residue rings
 

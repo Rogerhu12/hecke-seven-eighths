@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinSeparationMass
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MellinSeparationMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RankedProfileControl
+
+@[expose] public section
 
 /-!
 # A genuine same-geometry front end for a strict moment step

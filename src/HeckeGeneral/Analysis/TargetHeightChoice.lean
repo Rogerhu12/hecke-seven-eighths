@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.EndpointClosure
+module
+
+public import HeckeGeneral.Analysis.EndpointClosure
+
+@[expose] public section
 
 /-!
 # Target-dependent height choices after a common saving

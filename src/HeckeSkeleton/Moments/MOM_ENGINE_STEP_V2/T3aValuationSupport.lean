@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuations
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.T3aValuations
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalLiteralFirstPhase
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

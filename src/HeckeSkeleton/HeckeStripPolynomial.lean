@@ -15,10 +15,12 @@ The constants in qualitative growth can depend on the individual function.
 The final bound depends only on the displayed common boundary constants.
 No Hecke growth theorem or final high-bin estimate is postulated here.
 -/
-import Mathlib.Tactic
-import Mathlib.Analysis.Complex.PhragmenLindelof
+module
 
+public import Mathlib.Tactic
+public import Mathlib.Analysis.Complex.PhragmenLindelof
 
+@[expose] public section
 
 namespace HeckeSkeleton.HeckeStripPolynomial
 

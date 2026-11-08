@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SIntegerSexticFiniteIdealSum
-import HeckeGeneral.Analysis.SmoothDyadicPartition
+module
+
+public import HeckeGeneral.Analysis.SIntegerSexticFiniteIdealSum
+public import HeckeGeneral.Analysis.SmoothDyadicPartition
+
+@[expose] public section
 
 /-!
 Concrete smooth dyadic amplification with actual norm-bounded ideal supports.

@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSourceSplit
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.ProviderMarkedSourceSplit
+
+@[expose] public section
 
 /-! Finite positive summation and exact original overlap normalization. -/
 

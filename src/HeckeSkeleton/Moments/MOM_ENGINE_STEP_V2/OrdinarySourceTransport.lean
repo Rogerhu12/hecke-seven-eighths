@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRectangleFactors
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PoolContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OrdinaryRectangleFactors
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.PoolContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

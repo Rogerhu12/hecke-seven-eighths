@@ -1,5 +1,9 @@
-import ExpansionDetector.IdealZeroSource
-import HeckeGeneral.Analysis.IdealMobiusDeletion
+module
+
+public import ExpansionDetector.IdealZeroSource
+public import HeckeGeneral.Analysis.IdealMobiusDeletion
+
+@[expose] public section
 
 /-!
 # The actual deleted Hecke series used by the expansion detector

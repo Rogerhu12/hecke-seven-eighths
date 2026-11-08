@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleWindows
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SideGeometryData
-import Mathlib.Analysis.SpecialFunctions.Log.Base
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N4ScaleWindows
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.SideGeometryData
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

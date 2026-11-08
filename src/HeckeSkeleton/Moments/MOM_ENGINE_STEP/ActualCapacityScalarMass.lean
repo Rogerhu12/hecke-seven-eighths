@@ -1,9 +1,13 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProfileMass
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondSourceNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalAllocatedCosts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProfileMass
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondSourceNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondFactorIdentification
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonNormalization
+
+@[expose] public section
 
 /-!
 # Each actual normalized child pays its own harmonic label weight

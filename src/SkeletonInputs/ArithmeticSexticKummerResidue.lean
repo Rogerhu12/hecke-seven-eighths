@@ -1,6 +1,10 @@
-import ArithmeticSexticKummerLocalComponent
-import HeckeGeneral.Characters.SexticPowerResidueComparison
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+module
+
+public import ArithmeticSexticKummerLocalComponent
+public import HeckeGeneral.Characters.SexticPowerResidueComparison
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+
+@[expose] public section
 
 /-!
 UNCOMPILED cache candidate, 2026-10-11.

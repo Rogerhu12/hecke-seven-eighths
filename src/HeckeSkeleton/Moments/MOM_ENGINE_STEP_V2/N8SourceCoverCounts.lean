@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceIndexBasic
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCoverCardinality
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8SourceIndexBasic
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalCoverCardinality
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

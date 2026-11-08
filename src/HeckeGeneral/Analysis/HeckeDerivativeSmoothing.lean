@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealDerivativeGaussianSmoothing
-import HeckeGeneral.Analysis.HeckeConjugation
+module
+
+public import HeckeGeneral.Analysis.IdealDerivativeGaussianSmoothing
+public import HeckeGeneral.Analysis.HeckeConjugation
+
+@[expose] public section
 
 /-!
 # Normalized detector smoothing for actual Hecke characters

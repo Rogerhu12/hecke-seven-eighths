@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalInverseCalibration
+
+@[expose] public section
 
 /-!
 # Actual exterior factors of the second expanded source

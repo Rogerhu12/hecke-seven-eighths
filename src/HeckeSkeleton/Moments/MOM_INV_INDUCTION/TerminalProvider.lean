@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalEnergy
-import HeckePort.Moments.Inversion.TerminalWidths
-import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CanonicalEnergy
+public import HeckePort.Moments.Inversion.TerminalWidths
+public import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+
+@[expose] public section
 
 /-!
 # From the general reflected-energy exponent to canonical terminals

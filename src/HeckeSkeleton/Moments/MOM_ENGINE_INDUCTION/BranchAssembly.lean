@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Centering
-import Mathlib.Algebra.BigOperators.Fin
-import Mathlib.MeasureTheory.Measure.Real
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.Centering
+public import Mathlib.Algebra.BigOperators.Fin
+public import Mathlib.MeasureTheory.Measure.Real
+
+@[expose] public section
 
 /-!
 # Combine the centered and comparison reductions before recursion

@@ -1,4 +1,8 @@
-import FLTReuse.Mcab7f5d3272e0825
+module
+
+public import FLTReuse.Mcab7f5d3272e0825
+
+@[expose] public section
 
 open Function IsDedekindDomain NumberField NumberField.InfinitePlace NumberField.InfinitePlace.Completion
 

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallPowerCount
-import HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum
-import HeckeGeneral.Analysis.SUnitSchwartzDecay
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SUnitSmallPowerCount
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SparseFiniteSum
+public import HeckeGeneral.Analysis.SUnitSchwartzDecay
+
+@[expose] public section
 
 /-!
 # Arbitrarily small radial loss for the actual S-unit orbital profile

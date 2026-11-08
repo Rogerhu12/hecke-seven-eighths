@@ -1,6 +1,10 @@
-import ActualGramCompactShapeMajorant
-import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
-import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+module
+
+public import ActualGramCompactShapeMajorant
+public import HeckeGeneral.Analysis.SIntegerOrbitUnfolding
+public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native0. A genuine fixed compact shape for all positive row

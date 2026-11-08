@@ -1,7 +1,11 @@
-import ActualOriginalJointFactor
-import ActualClearedSIntegerPairReindex
-import ActualJointAnnularAllScalePoisson
-import HeckeGeneral.Analysis.CompactSchwartzLatticeBound
+module
+
+public import ActualOriginalJointFactor
+public import ActualClearedSIntegerPairReindex
+public import ActualJointAnnularAllScalePoisson
+public import HeckeGeneral.Analysis.CompactSchwartzLatticeBound
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. One actual cleared-residue fiber of the original

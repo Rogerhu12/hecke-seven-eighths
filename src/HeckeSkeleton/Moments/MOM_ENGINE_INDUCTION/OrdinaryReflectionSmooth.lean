@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDecay
-import HeckeGeneral.Analysis.SmoothDyadicPartition
-import Mathlib.Analysis.Fourier.FourierTransformDeriv
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.OrdinaryReflectionDecay
+public import HeckeGeneral.Analysis.SmoothDyadicPartition
+public import Mathlib.Analysis.Fourier.FourierTransformDeriv
+
+@[expose] public section
 
 /-!
 # Actual smooth annular windows of the ordinary reflected profile

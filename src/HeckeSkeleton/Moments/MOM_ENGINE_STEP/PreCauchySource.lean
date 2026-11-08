@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridAllocation
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportKernelPartition
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondHybridAllocation
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SupportKernelPartition
+
+@[expose] public section
 
 /-!
 # The actual second source before Cauchy

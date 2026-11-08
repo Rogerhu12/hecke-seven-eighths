@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSlices
-import HeckeSkeleton.LowFrozenCube.Scale
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderSlices
+public import HeckeSkeleton.LowFrozenCube.Scale
+
+@[expose] public section
 
 /-!
 # The canonical block's exact reflected exponent

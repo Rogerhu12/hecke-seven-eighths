@@ -1,6 +1,10 @@
-import ActualGramZeroFrequency
-import HeckeGeneral.Analysis.FrequencyRowCounting
-import HeckeGeneral.Analysis.ActualPrimeGeometryAbsoluteBound
+module
+
+public import ActualGramZeroFrequency
+public import HeckeGeneral.Analysis.FrequencyRowCounting
+public import HeckeGeneral.Analysis.ActualPrimeGeometryAbsoluteBound
+
+@[expose] public section
 
 /-!
 Uncompiled candidate. The literal zero-frequency diagonal has size O(Y^2),

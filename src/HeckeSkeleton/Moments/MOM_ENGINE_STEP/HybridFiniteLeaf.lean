@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridResidual
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.NestedHybridResidual
+
+@[expose] public section
 
 /-!
 # Literal finite hybrid leaves of the two actual Fourier transforms

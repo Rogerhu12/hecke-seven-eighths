@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPoolDictionary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCorrelationSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCharacterSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPoolDictionary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCorrelationSource
+
+@[expose] public section
 
 /-!
 # Actual generator transport before the second Poisson operation

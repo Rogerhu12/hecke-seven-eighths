@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPoissonColumnNormalization
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorTerminalCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstPoissonColumnNormalization
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstDivisorTerminalCalibration
+
+@[expose] public section
 
 /-!
 # Original divisor atoms with the genuine first Poisson norm factors

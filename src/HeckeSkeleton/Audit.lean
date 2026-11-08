@@ -1,33 +1,37 @@
-import HeckeSkeleton.Main
-import HeckeSkeleton.HighEulerAlgebra
-import HeckeSkeleton.GramSectionRigidity
-import HeckeSkeleton.HardNumerics
-import HeckeSkeleton.HardLedger
-import HeckeSkeleton.MarkedAnnularSupport
-import HeckeSkeleton.LowExponent
-import HeckeSkeleton.GramSectionReciprocity
-import HeckeSkeleton.GramMaskTransport
-import HeckeSkeleton.BufferedReciprocal
-import HeckeSkeleton.HeckeBufferedReciprocal
-import HeckeSkeleton.FunctionalEquationConductor
-import HeckeSkeleton.ExplicitHeckeFunctionalEquation
-import HeckeSkeleton.HeckeGammaReciprocal
-import HeckeSkeleton.HeckeFixedTypeGammaBound
-import HeckeSkeleton.HeckeStripPolynomial
-import HeckeSkeleton.HeckeGammaQualitativeGrowth
-import HeckeSkeleton.HeckeUniformStripGrowth
-import HeckeSkeleton.HighNormBackgroundExclusion
-import HeckeSkeleton.HeckeUniformBufferedControl
-import HeckeSkeleton.HeckeFiniteBackgroundControl
-import HeckeSkeleton.HeckePhysicalFamilyBufferedControl
-import HeckeSkeleton.HeckeDynamicGammaBound
-import HeckeSkeleton.HeckeHighRowLRatio
-import HeckeSkeleton.HeckeConductorNorm
-import HeckeSkeleton.HeckeDeletedEulerControl
-import HeckeSkeleton.HeckeLRatioConductorBudget
-import HeckeSkeleton.FiniteOrderKernelOpen
-import Lean.Util.CollectAxioms
-import Lean.Util.FoldConsts
+module
+
+public import HeckeSkeleton.Main
+public import HeckeSkeleton.HighEulerAlgebra
+public import HeckeSkeleton.GramSectionRigidity
+public import HeckeSkeleton.HardNumerics
+public import HeckeSkeleton.HardLedger
+public import HeckeSkeleton.MarkedAnnularSupport
+public import HeckeSkeleton.LowExponent
+public import HeckeSkeleton.GramSectionReciprocity
+public import HeckeSkeleton.GramMaskTransport
+public import HeckeSkeleton.BufferedReciprocal
+public import HeckeSkeleton.HeckeBufferedReciprocal
+public import HeckeSkeleton.FunctionalEquationConductor
+public import HeckeSkeleton.ExplicitHeckeFunctionalEquation
+public import HeckeSkeleton.HeckeGammaReciprocal
+public import HeckeSkeleton.HeckeFixedTypeGammaBound
+public import HeckeSkeleton.HeckeStripPolynomial
+public import HeckeSkeleton.HeckeGammaQualitativeGrowth
+public import HeckeSkeleton.HeckeUniformStripGrowth
+public import HeckeSkeleton.HighNormBackgroundExclusion
+public import HeckeSkeleton.HeckeUniformBufferedControl
+public import HeckeSkeleton.HeckeFiniteBackgroundControl
+public import HeckeSkeleton.HeckePhysicalFamilyBufferedControl
+public import HeckeSkeleton.HeckeDynamicGammaBound
+public import HeckeSkeleton.HeckeHighRowLRatio
+public import HeckeSkeleton.HeckeConductorNorm
+public import HeckeSkeleton.HeckeDeletedEulerControl
+public import HeckeSkeleton.HeckeLRatioConductorBudget
+public import HeckeSkeleton.FiniteOrderKernelOpen
+public import Lean.Util.CollectAxioms
+public import Lean.Util.FoldConsts
+
+@[expose] public section
 
 /-! Report both direct admissions and the actual constant-dependency graph.
 The endpoint is now required to be free of sorryAx: only the three

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.NestedMellinBudget
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.NestedMellinBudget
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCommonEnvelope
+
+@[expose] public section
 
 /-! Uniform integration of the actual polynomial spectral costs. -/
 

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualCrossLabels
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualInverseFactors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalGaussCalibration
+
+@[expose] public section
 
 /-!
 # The actual first-source coefficients and their residual columns

@@ -1,8 +1,12 @@
-import CubicSieve.AnalyticGcdGram
-import CubicSieve.AnalyticSmoothingGaussian
-import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
-import HeckeGeneral.Analysis.SIntegerWeightedOrbitalSum
-import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+module
+
+public import CubicSieve.AnalyticGcdGram
+public import CubicSieve.AnalyticSmoothingGaussian
+public import HeckeGeneral.Arithmetic.SIntegerOrbitDilation
+public import HeckeGeneral.Analysis.SIntegerWeightedOrbitalSum
+public import HeckeGeneral.Analysis.PrimeCalibrationIdealAssembly
+
+@[expose] public section
 
 /-!
 Gcd and Möbius descent on the original infinite sixth-unit orbit space.

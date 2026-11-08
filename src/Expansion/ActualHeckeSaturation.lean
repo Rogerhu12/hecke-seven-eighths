@@ -1,5 +1,9 @@
-import Expansion.ActualHeckeWitness
-import Expansion.ActualTerminalSaturation
+module
+
+public import Expansion.ActualHeckeWitness
+public import Expansion.ActualTerminalSaturation
+
+@[expose] public section
 
 /-!
 # Original Hecke zero to simultaneous saturated witnesses

@@ -1,6 +1,10 @@
-import Mathlib
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M15e51be4a1978e6b
+module
+
+public import Mathlib
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M15e51be4a1978e6b
+
+@[expose] public section
 
 open MeasureTheory
 theorem MeasureTheory.Measure.exists_eq_prod_of_forall_map_add_left

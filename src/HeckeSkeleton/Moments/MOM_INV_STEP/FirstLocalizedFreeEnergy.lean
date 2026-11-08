@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedEnergy
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstBranchIntegration
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstFiniteAggregation
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstLocalizedEnergy
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstBranchIntegration
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstFiniteAggregation
+
+@[expose] public section
 
 /-!
 # Whole localized first source with the old label and row removed

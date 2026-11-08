@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ChildStepCompatibility
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
-import HeckeGeneral.Analysis.TInputSeparatedProfiles
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ReductionOutput
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ChildStepCompatibility
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.BranchedIntegralRecursion
+public import HeckeGeneral.Analysis.TInputSeparatedProfiles
+
+@[expose] public section
 
 /-!
 # Consuming the canonical complete engine output

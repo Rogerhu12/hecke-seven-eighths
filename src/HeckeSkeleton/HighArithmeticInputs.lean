@@ -1,7 +1,11 @@
-import HeckeSkeleton.HeckeHighRowLRatio
-import HeckeSkeleton.FiniteOrderKernelOpen
-import ActualCanonicalRowConsumers
-import RowCharacterNormTwistExclusion
+module
+
+public import HeckeSkeleton.HeckeHighRowLRatio
+public import HeckeSkeleton.FiniteOrderKernelOpen
+public import ActualCanonicalRowConsumers
+public import RowCharacterNormTwistExclusion
+
+@[expose] public section
 
 /-!
 Verified arithmetic inputs for the original physical row provider.

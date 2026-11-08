@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourcePartition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceMasks
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualDivisorSectors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondSourceColumns
+
+@[expose] public section
 
 /-!
 # Actual Poisson divisors determine their reconstruction ideals and sectors

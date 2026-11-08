@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.PhysicalProbePrincipal
-import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbePrincipal
+public import HeckeGeneral.Analysis.SIntegerPeriodicOrbitalPoisson
+
+@[expose] public section
 
 /-!
 # The literal physical Fourier tensor in genuine orbital Poisson

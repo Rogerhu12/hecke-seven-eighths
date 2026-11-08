@@ -1,4 +1,8 @@
-import HeckeSkeleton.ThetaLocal.ExteriorFiniteSums
+module
+
+public import HeckeSkeleton.ThetaLocal.ExteriorFiniteSums
+
+@[expose] public section
 
 /-!
 # Exterior local tables in the project's unit-sum convention

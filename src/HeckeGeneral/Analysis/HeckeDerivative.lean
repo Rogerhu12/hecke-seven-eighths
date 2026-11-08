@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.IdealDerivative
-import HeckeGeneral.Analysis.HeckeEulerProduct
+module
+
+public import HeckeGeneral.Analysis.IdealDerivative
+public import HeckeGeneral.Analysis.HeckeEulerProduct
+
+@[expose] public section
 
 /-!
 # Derivative series of an actual unitary Hecke character

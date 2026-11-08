@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMobiusGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondMobiusGeometry
+
+@[expose] public section
 
 /-!
 # Whole second positive energies with literal fixed-center children

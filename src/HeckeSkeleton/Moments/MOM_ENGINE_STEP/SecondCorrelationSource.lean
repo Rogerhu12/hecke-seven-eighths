@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstFiniteSource
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+
+@[expose] public section
 
 /-!
 # The genuine second orbital summand is a full correlation

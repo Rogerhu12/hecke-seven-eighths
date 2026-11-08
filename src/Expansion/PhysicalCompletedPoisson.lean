@@ -1,6 +1,10 @@
-import Expansion.PhysicalProbePoisson
-import Expansion.PhysicalAdditiveOrigin
-import Mathlib.Analysis.Normed.Module.FiniteDimension
+module
+
+public import Expansion.PhysicalProbePoisson
+public import Expansion.PhysicalAdditiveOrigin
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
+
+@[expose] public section
 
 /-!
 # The completed physical probe before Mellin inversion

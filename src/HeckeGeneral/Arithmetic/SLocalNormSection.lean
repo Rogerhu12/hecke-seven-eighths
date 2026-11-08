@@ -1,4 +1,8 @@
-import HeckeGeneral.Arithmetic.SUnitNormOneQuotient
+module
+
+public import HeckeGeneral.Arithmetic.SUnitNormOneQuotient
+
+@[expose] public section
 
 /-!
 # A positive radial section of the actual S-local product norm

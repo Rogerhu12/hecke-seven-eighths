@@ -1,6 +1,10 @@
-import HeckeSkeleton.Descent.DeletedProducts
-import HeckeSkeleton.Descent.ArtinFactors
-import ClassFieldTheory.AlgebraicNumberTheory.Ramification.Splitting.FinitePlaceIdeal
+module
+
+public import HeckeSkeleton.Descent.DeletedProducts
+public import HeckeSkeleton.Descent.ArtinFactors
+public import ClassFieldTheory.AlgebraicNumberTheory.Ramification.Splitting.FinitePlaceIdeal
+
+@[expose] public section
 
 /-! Finite prime fibres and the local-to-global deleted Euler identity. -/
 

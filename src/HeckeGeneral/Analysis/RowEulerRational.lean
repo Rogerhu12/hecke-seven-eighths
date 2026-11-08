@@ -1,6 +1,10 @@
-import Mathlib.Basic.Complex.Basic
-import Mathlib.Tactic.FieldSimp
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Tactic.FieldSimp
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-! Rational Euler correction with the geometric denominators cancelled. -/
 

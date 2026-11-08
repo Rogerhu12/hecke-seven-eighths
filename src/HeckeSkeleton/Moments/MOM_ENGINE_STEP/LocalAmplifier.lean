@@ -1,6 +1,7 @@
 module
 
 public import DedekindZetaZeroFree.CharacterSums.Gauss.PositiveDepthLocalSums
+import Mathlib.NumberTheory.MulChar.Lemmas
 
 /-!
 # The actual local amplifier table
@@ -9,6 +10,7 @@ The local coefficient is the existing finite residue sum `Ctk C p n 0 M`,
 centrally normalized by `Q(p)^n`.  Its original and sixth-power frequencies
 agree away from the three positive valuations `1`, `6`, and `7`.
 -/
+
 
 @[expose] public section
 

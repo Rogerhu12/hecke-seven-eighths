@@ -1,7 +1,11 @@
-import HeckeSkeleton.SmallRadius.SmallPositiveMomentSeminorm
-import HeckeGeneral.Arithmetic.IdealTraceLattice
-import Mathlib.Analysis.LocallyConvex.WithSeminorms
-import Mathlib.MeasureTheory.Integral.Pi
+module
+
+public import HeckeSkeleton.SmallRadius.SmallPositiveMomentSeminorm
+public import HeckeGeneral.Arithmetic.IdealTraceLattice
+public import Mathlib.Analysis.LocallyConvex.WithSeminorms
+public import Mathlib.MeasureTheory.Integral.Pi
+
+@[expose] public section
 
 /-!
 Arbitrary mixed Schwartz inputs, not tensor inputs.

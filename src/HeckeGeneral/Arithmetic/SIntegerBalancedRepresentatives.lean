@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
-import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
-import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerCompactDenominators
+public import HeckeGeneral.Arithmetic.SIntegerOrbitEnumeration
+public import HeckeGeneral.Arithmetic.SIntegerOrbitNorm
+
+@[expose] public section
 
 /-!
 # Uniform integral representatives for the actual S-integer orbits

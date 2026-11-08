@@ -1,4 +1,8 @@
-import CubicSieve.CoprimeGramGeneral
+module
+
+public import CubicSieve.CoprimeGramGeneral
+
+@[expose] public section
 
 /-! Finite coprime Gram contraction for two independent coefficient vectors.
 This is the exact prefix-mask interface used by two-column profile transfer.

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileScaleJets
+module
+
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.SourceProfileControl
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileScaleJets
+
+@[expose] public section
 
 /-!
 # Mixed derivatives of the same actual source profile

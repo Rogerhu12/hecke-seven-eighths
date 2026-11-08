@@ -1,5 +1,10 @@
-import HeckeSkeleton.HighBinSupport.BoundaryBox
-import Mathlib.Tactic.GCongr
+module
+
+public import HeckeSkeleton.HighBinSupport.BoundaryBox
+public import Mathlib.Tactic.GCongr
+
+@[expose] public section
+
 /-!
 External-height absorption and finite fixed-row summation. This module
 keeps the derivative order outside the arithmetic mass: increasing the

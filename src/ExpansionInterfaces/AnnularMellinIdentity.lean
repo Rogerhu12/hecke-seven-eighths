@@ -1,8 +1,12 @@
-import ExpansionInterfaces.AnnularMellinProfile
-import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.Analysis.Normed.Group.FunctionSeries
-import Mathlib.Tactic.LinearCombination
-import Mathlib.Tactic.Ring
+module
+
+public import ExpansionInterfaces.AnnularMellinProfile
+public import Mathlib.MeasureTheory.Integral.DominatedConvergence
+public import Mathlib.Analysis.Normed.Group.FunctionSeries
+public import Mathlib.Tactic.LinearCombination
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 # Exact initial-line Mellin formula for annular Dirichlet polynomials

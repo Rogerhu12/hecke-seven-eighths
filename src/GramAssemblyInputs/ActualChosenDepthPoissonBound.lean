@@ -1,5 +1,9 @@
-import ActualFixedDepthAllScalePoisson
-import ActualBalancedJointSupportFourier
+module
+
+public import ActualFixedDepthAllScalePoisson
+public import ActualBalancedJointSupportFourier
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The literal original chart weight is estimated at any

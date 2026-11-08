@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.ActualReflection
-import HeckeSkeleton.LowEnergy.ActualSymbols
+module
+
+public import HeckeSkeleton.LowEnergy.ActualReflection
+public import HeckeSkeleton.LowEnergy.ActualSymbols
+
+@[expose] public section
 
 /-! Exact aggregation of the literal prime evaluations into the actual ideal symbol. -/
 

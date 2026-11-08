@@ -1,5 +1,9 @@
-import HeckeSkeleton.LowEnergy.BlockPolynomial
-import HeckeSkeleton.LowEnergy.LogGeometry
+module
+
+public import HeckeSkeleton.LowEnergy.BlockPolynomial
+public import HeckeSkeleton.LowEnergy.LogGeometry
+
+@[expose] public section
 
 /-!
 # Actual physical scales in the low block polynomial

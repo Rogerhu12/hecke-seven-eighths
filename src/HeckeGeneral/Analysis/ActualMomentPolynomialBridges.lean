@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.SelectedMomentSlots
-import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
-import HeckeGeneral.Analysis.MomentPrimeWindows
+module
+
+public import HeckeGeneral.Analysis.SelectedMomentSlots
+public import HeckeGeneral.Analysis.DecomposedZeroSlotMomentData
+public import HeckeGeneral.Analysis.MomentPrimeWindows
+
+@[expose] public section
 
 /-! Literal finite-sum bridges for a complete ideal and a fixed unit sector.
 The Hecke row identification still explicitly consumes RowCharacterInput.

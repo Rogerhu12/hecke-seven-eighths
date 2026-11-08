@@ -1,16 +1,20 @@
-import HeckeSkeleton.Base
-import HeckeSkeleton.FiniteMellinFromValuation
-import HeckeSkeleton.MarkedAnnularSupport
-import HeckeSkeleton.AllowedGeneratorNorm
-import HeckeAxiom.LambdaInfinityType
-import HeckeAxiom.SexticSymbolDictionary
-import HeckeAxiom.GaussCalibration
-import HeckeSkeleton.ThetaKernel
-import HeckeSkeleton.SixthLocalFinite
-import ThetaGlobal.ReflectedAbsoluteProject
-import ThetaGlobal.FiniteSkeletonSource
-import ThetaGlobal.LocalArchSource
-import ThetaGlobal.GlobalProjectMarkedReflection
+module
+
+public import HeckeSkeleton.Base
+public import HeckeSkeleton.FiniteMellinFromValuation
+public import HeckeSkeleton.MarkedAnnularSupport
+public import HeckeSkeleton.AllowedGeneratorNorm
+public import HeckeAxiom.LambdaInfinityType
+public import HeckeAxiom.SexticSymbolDictionary
+public import HeckeAxiom.GaussCalibration
+public import HeckeSkeleton.ThetaKernel
+public import HeckeSkeleton.SixthLocalFinite
+public import ThetaGlobal.ReflectedAbsoluteProject
+public import ThetaGlobal.FiniteSkeletonSource
+public import ThetaGlobal.LocalArchSource
+public import ThetaGlobal.GlobalProjectMarkedReflection
+
+@[expose] public section
 
 /-! Arithmetic and marked theta reflection for the named actual construction.
 The same fixed source supplies the constructed high K-type Mellin pairs

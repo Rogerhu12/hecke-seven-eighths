@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMaskCardinality
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMaskCardinality
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstActiveDictionary
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonSupportSource
+
+@[expose] public section
 
 /-!
 # The actual first-block mask has a uniform small-power cardinality

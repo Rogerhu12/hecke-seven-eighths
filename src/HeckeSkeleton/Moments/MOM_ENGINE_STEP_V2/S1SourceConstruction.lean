@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.FirstSourceContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOriginalAtlas
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonNormalization
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

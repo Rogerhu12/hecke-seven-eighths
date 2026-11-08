@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import ThetaGlobal.FiniteTensorCoefficients
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import ThetaGlobal.FiniteTensorCoefficients
+
+@[expose] public section
 
 /-!
 # Project adapter for literal finite-place shell data

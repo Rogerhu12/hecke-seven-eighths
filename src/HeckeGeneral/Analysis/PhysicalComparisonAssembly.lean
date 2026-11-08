@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.PhysicalHeightComparison
+module
+
+public import HeckeGeneral.Analysis.PhysicalHeightComparison
+
+@[expose] public section
 
 /-! Assembly of a retained error and an external contour tail.
 The functions J and f do not depend on height. The error decomposition may

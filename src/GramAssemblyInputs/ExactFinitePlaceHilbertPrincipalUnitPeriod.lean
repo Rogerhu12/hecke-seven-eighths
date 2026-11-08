@@ -1,6 +1,10 @@
-import KummerHilbertPrincipalUnitPeriod
-import FiniteCompletionPrincipalUnitTransport
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+module
+
+public import KummerHilbertPrincipalUnitPeriod
+public import FiniteCompletionPrincipalUnitTransport
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.PowerResidueReciprocity
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Uniform kernel period for the EXACT upstream global
 finite-place symbol. Depth is selected on its actual absolute-value completion

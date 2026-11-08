@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.HeckeEulerDeletion
-import HeckeGeneral.Analysis.HeckeSeries
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Analysis.HeckeEulerDeletion
+public import HeckeGeneral.Analysis.HeckeSeries
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 Uniform bounds for actual fixed finite Hecke Euler deletions.

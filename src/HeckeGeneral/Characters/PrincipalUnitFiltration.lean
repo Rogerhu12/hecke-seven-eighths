@@ -1,6 +1,10 @@
-import HeckeGeneral.Characters.LocalUniformizer
-import HeckeGeneral.Characters.Unramified
-import Mathlib.Analysis.Normed.Group.Ultra
+module
+
+public import HeckeGeneral.Characters.LocalUniformizer
+public import HeckeGeneral.Characters.Unramified
+public import Mathlib.Analysis.Normed.Group.Ultra
+
+@[expose] public section
 
 /-!
 # Normalized norm and the principal-unit filtration

@@ -1,5 +1,9 @@
-import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.GlobalHilbertSymbol.Core
-import ClassFieldTheory.LocalClassFieldTheory.Kummer.LocalHilbertPairing
+module
+
+public import ClassFieldTheory.GlobalClassFieldTheory.Reciprocity.GlobalHilbertSymbol.Core
+public import ClassFieldTheory.LocalClassFieldTheory.Kummer.LocalHilbertPairing
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Public bilinear and quotient bridges for the actual
 finite-place Hilbert symbol. Both inputs are arbitrary global field units;

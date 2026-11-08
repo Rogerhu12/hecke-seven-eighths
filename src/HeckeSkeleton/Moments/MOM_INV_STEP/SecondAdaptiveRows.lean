@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondAdaptiveRetained
+
+@[expose] public section
 
 /-!
 # Child row length from the genuine second local cutoff

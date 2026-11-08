@@ -1,8 +1,12 @@
-import Expansion.PhysicalWitnessCover
-import HeckeSkeleton.ExpansionModels.FixedAmplitudeLabels
-import ExpansionInterfaces.AmplitudePartition
-import HeckeSkeleton.ExpansionModels.CommonPhysicalSample
-import Expansion.WitnessLoss
+module
+
+public import Expansion.PhysicalWitnessCover
+public import HeckeSkeleton.ExpansionModels.FixedAmplitudeLabels
+public import ExpansionInterfaces.AmplitudePartition
+public import HeckeSkeleton.ExpansionModels.CommonPhysicalSample
+public import Expansion.WitnessLoss
+
+@[expose] public section
 
 /-!
 # Actual prime amplitudes and the physical witness source

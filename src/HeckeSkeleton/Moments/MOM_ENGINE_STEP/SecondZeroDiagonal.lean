@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroAmplitude
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondZeroAmplitude
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCommonSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstZeroDiagonal
+
+@[expose] public section
 
 /-!
 # One global normalized second Euler diagonal

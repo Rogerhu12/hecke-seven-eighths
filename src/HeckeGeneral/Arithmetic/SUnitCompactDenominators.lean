@@ -1,8 +1,12 @@
-import FLTReuse.Md2cadaa4525e04a6
-import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
-import Mathlib.Topology.Compactness.Compact
-import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
-import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+module
+
+public import FLTReuse.Md2cadaa4525e04a6
+public import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+public import Mathlib.Topology.Compactness.Compact
+public import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
+public import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+
+@[expose] public section
 
 /-!
 # Uniform integral denominators on compact finite-local sets

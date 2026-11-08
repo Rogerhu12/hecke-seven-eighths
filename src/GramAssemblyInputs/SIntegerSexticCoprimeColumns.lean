@@ -1,4 +1,8 @@
-import SIntegerSexticSymbolZeroSupport
+module
+
+public import SIntegerSexticSymbolZeroSupport
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. The actual absence of common contracted prime
 divisors supplies Bezout coefficients in O_S. This is the coprimality

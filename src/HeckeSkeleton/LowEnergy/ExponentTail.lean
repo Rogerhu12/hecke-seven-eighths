@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.Exponent
+module
+
+public import HeckeSkeleton.LowEnergy.Exponent
+
+@[expose] public section
 
 /-!
 # Dual tails with the actual positive Mellin line

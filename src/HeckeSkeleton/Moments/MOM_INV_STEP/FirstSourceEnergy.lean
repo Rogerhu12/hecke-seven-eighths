@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing
-import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobiusOrbital
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceReindexing
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobiusOrbital
+
+@[expose] public section
 
 /-!
 # Positive first energies on the original squarefree source

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyLeafConstruction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyCalibrationProfiles
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyLeafConstruction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.AssemblyCalibrationProfiles
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalChildFourierControl
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

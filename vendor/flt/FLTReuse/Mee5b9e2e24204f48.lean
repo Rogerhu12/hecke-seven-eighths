@@ -1,6 +1,10 @@
-import FLTReuse.M18c3f30cb8384583
-import FLTReuse.Mf8db75e12acc0642
-import Mathlib.NumberTheory.Padics.HeightOneSpectrum
+module
+
+public import FLTReuse.M18c3f30cb8384583
+public import FLTReuse.Mf8db75e12acc0642
+public import Mathlib.NumberTheory.Padics.HeightOneSpectrum
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option backward.isDefEq.respectTransparency false

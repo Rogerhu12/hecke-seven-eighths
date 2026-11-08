@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalOccurrenceData
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.RawContracts
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.OriginalOccurrenceData
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentProduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondParentProduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstMaskGeometry
+
+@[expose] public section
 
 /-!
 # The actual second radial cost

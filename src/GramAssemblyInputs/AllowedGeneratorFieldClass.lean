@@ -1,5 +1,9 @@
-import FiniteSUnitPowerLocalization
-import HeckeGeneral.Analysis.MarkedThetaReflection
+module
+
+public import FiniteSUnitPowerLocalization
+public import HeckeGeneral.Analysis.MarkedThetaReflection
+
+@[expose] public section
 
 /-!
 Small extraction (GR-12 phase 2) of the definitions of `ActualAllowedGeneratorAdjustment`

@@ -1,4 +1,8 @@
-import HeckeGeneral.Characters.FiniteCircleDual
+module
+
+public import HeckeGeneral.Characters.FiniteCircleDual
+
+@[expose] public section
 
 /-! Finite Fourier inversion for the actual circle-valued character group. -/
 

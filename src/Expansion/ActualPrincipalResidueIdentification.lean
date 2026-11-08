@@ -1,4 +1,8 @@
-import Expansion.ActualPrincipalResidueKernels
+module
+
+public import Expansion.ActualPrincipalResidueKernels
+
+@[expose] public section
 
 /-!
 # Exact arithmetic identification of the double principal residue

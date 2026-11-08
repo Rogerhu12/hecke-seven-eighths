@@ -13,12 +13,16 @@ WITHOUT Euler–Maclaurin:  on each unit interval
 so ∫_m^{m+1} dx/(x+w) = 1/(m+w) − 1/(2(m+w)²) + ε_m, |ε_m| ≤ 1/(3|m+w|²|Im w|), while the
 left side is log(m+1+w) − log(m+w) (FTC for Complex.log on the slit plane) and telescopes.
 -/
-import Zeta23.GammaFacts.Mu
-import Mathlib.NumberTheory.Harmonic.EulerMascheroni
-import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
-import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
-import Mathlib.Analysis.SumIntegralComparisons
-import Mathlib.Analysis.PSeries
+module
+
+public import Zeta23.GammaFacts.Mu
+public import Mathlib.NumberTheory.Harmonic.EulerMascheroni
+public import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+public import Mathlib.Analysis.SpecialFunctions.Complex.LogDeriv
+public import Mathlib.Analysis.SumIntegralComparisons
+public import Mathlib.Analysis.PSeries
+
+@[expose] public section
 
 noncomputable section
 

@@ -1,5 +1,9 @@
-import Expansion.PhysicalRecipeAssembly
-import Mathlib.Logic.Equiv.Fin.Basic
+module
+
+public import Expansion.PhysicalRecipeAssembly
+public import Mathlib.Logic.Equiv.Fin.Basic
+
+@[expose] public section
 
 /-!
 # Exact finite reindexing of the physical recipe

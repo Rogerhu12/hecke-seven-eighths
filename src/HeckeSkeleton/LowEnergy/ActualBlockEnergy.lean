@@ -1,4 +1,8 @@
-import HeckeSkeleton.LowEnergy.GeneralSeparatedEnergy
+module
+
+public import HeckeSkeleton.LowEnergy.GeneralSeparatedEnergy
+
+@[expose] public section
 
 /-!
 # Actual finite reflected block energy from the two permitted sieves

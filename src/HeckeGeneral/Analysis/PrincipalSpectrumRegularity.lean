@@ -1,7 +1,11 @@
-import HeckeGeneral.Analysis.PhysicalProbeMellin
-import HeckeGeneral.Analysis.MellinInverseConvergence
-import HeckeGeneral.Analysis.IdealMobiusDeletion
-import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
+module
+
+public import HeckeGeneral.Analysis.PhysicalProbeMellin
+public import HeckeGeneral.Analysis.MellinInverseConvergence
+public import HeckeGeneral.Analysis.IdealMobiusDeletion
+public import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
+
+@[expose] public section
 
 /-! Regularity of the actual principal spectrum on its initial line Re=2.
 The reciprocal bound is obtained from the proved S-excluded ideal series;

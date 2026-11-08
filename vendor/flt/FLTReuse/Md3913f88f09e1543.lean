@@ -1,6 +1,11 @@
-import FLTReuse.Mc4dd375116d61c53
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M20bb09e32372f4f8
+module
+
+public import FLTReuse.Mc4dd375116d61c53
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M20bb09e32372f4f8
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 
 open NumberField

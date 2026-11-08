@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPhase
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPhaseTerminal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.TailsPhase
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPhaseTerminal
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

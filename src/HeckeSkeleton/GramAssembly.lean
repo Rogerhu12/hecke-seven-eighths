@@ -1,6 +1,10 @@
-import HeckeSkeleton.GramDefinitions
-import ActualGramRowBallPoissonReduction
-import ActualRowBallResidualGoodPrimeBound
+module
+
+public import HeckeSkeleton.GramDefinitions
+public import ActualGramRowBallPoissonReduction
+public import ActualRowBallResidualGoodPrimeBound
+
+@[expose] public section
 
 /-!
 GR-12-ASSEMBLY (work in progress): decomposition of the coarse assembly

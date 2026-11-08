@@ -1,8 +1,12 @@
-import HeckeGeneral.Arithmetic.IdealLatticeQuotient
-import HeckeGeneral.Analysis.TraceProductCovolume
-import HeckeGeneral.Analysis.LatticeFiniteMask
-import Mathlib.GroupTheory.QuotientGroup.Basic
-import Mathlib.Tactic
+module
+
+public import HeckeGeneral.Arithmetic.IdealLatticeQuotient
+public import HeckeGeneral.Analysis.TraceProductCovolume
+public import HeckeGeneral.Analysis.LatticeFiniteMask
+public import Mathlib.GroupTheory.QuotientGroup.Basic
+public import Mathlib.Tactic
+
+@[expose] public section
 
 /-!
 # The ordinary two-column trace quotient

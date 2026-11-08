@@ -1,6 +1,11 @@
-import HeckeSkeleton.HighBinSupport.HighNormFormScalar
-import Mathlib.Algebra.BigOperators.Ring.Finset
-import Mathlib.Topology.Order.Compact
+module
+
+public import HeckeSkeleton.HighBinSupport.HighNormFormScalar
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Topology.Order.Compact
+
+@[expose] public section
+
 /-!
 Finite slot bounds with the complete main/error decomposition retained.
 The theorems allow zero main slots.  They do not divide by a main slot,

@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProduction
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCenteredBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientNormalization
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCapacityProduction
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCenteredBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondCoefficientNormalization
+
+@[expose] public section
 
 /-!
 # Producing the actual children of one allocated second-kernel branch

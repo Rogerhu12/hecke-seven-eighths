@@ -1,10 +1,14 @@
-import Mathlib.Analysis.Meromorphic.Divisor
-import Mathlib.Analysis.Meromorphic.RCLike
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Data.Finset.Max
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Tauto
+module
+
+public import Mathlib.Analysis.Meromorphic.Divisor
+public import Mathlib.Analysis.Meromorphic.RCLike
+public import Mathlib.Analysis.Complex.Basic
+public import Mathlib.Data.Finset.Max
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Tauto
+
+@[expose] public section
 
 /-!
 Finite zero maxima for arbitrary meromorphic families.  Zeros are defined by

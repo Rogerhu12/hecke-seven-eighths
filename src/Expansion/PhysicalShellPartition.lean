@@ -1,6 +1,10 @@
-import Expansion.PhysicalRowSupport
-import Expansion.ProjectSelectedPhysicalRows
-import ExpansionInterfaces.DyadicShells
+module
+
+public import Expansion.PhysicalRowSupport
+public import Expansion.ProjectSelectedPhysicalRows
+public import ExpansionInterfaces.DyadicShells
+
+@[expose] public section
 
 /-!
 # Exact retained physical-row partition

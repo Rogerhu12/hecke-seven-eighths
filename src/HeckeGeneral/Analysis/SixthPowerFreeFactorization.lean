@@ -1,6 +1,10 @@
-import HeckeGeneral.Analysis.MomentInputs
-import HeckeGeneral.Arithmetic.IdealFactorization
-import Mathlib.RingTheory.UniqueFactorizationDomain.Multiplicity
+module
+
+public import HeckeGeneral.Analysis.MomentInputs
+public import HeckeGeneral.Arithmetic.IdealFactorization
+public import Mathlib.RingTheory.UniqueFactorizationDomain.Multiplicity
+
+@[expose] public section
 
 /-!
 Recover the sixth-power-free ideal and its sixth-power amplifier separately.

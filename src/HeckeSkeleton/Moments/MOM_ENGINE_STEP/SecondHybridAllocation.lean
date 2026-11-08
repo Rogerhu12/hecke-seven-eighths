@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondResidualSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocationKernel
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelExceptionalSplit
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondResidualSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocationKernel
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.JointKernelExceptionalSplit
+
+@[expose] public section
 
 /-!
 # Actual second allocations before exceptional-row Cauchy

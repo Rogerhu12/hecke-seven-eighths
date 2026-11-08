@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstCommonTupleFibers
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondTailBudget
+
+@[expose] public section
 
 /-!
 # Raw terminal windows after actual common-support extraction

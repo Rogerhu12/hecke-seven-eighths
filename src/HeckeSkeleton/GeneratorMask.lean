@@ -1,5 +1,9 @@
-import HeckeSkeleton.Theta
-import AxiomGeneratorMaskWitness
+module
+
+public import HeckeSkeleton.Theta
+public import AxiomGeneratorMaskWitness
+
+@[expose] public section
 
 /-!
 GR-12-MASK, skeleton layer: the abstract generator-mask witness of the Axiom

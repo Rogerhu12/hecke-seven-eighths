@@ -1,6 +1,10 @@
-import FLTReuse.M03caed6eb03298ae
-import FLTReuse.Me57e152eb5fec045
-import FLTReuse.Mb9913efb11345d99
+module
+
+public import FLTReuse.M03caed6eb03298ae
+public import FLTReuse.Me57e152eb5fec045
+public import FLTReuse.Mb9913efb11345d99
+
+@[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
 

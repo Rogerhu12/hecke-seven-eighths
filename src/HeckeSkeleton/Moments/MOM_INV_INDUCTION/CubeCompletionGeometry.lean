@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
-import HeckePort.Moments.Descent.Basic
-import Mathlib.Analysis.SpecialFunctions.Log.Base
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.CubeCompletionMellin
+public import HeckePort.Moments.Descent.Basic
+public import Mathlib.Analysis.SpecialFunctions.Log.Base
+
+@[expose] public section
 
 /-!
 # Actual logarithmic scales of reopened cube parents

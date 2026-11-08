@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
-import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileEuler
-import HeckeSkeleton.Moments.MOM_BASE.CubeInversion
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FinalMellinTests
+public import HeckeSkeleton.Moments.MOM_UNIFORM_AMPLIFY.ProfileEuler
+public import HeckeSkeleton.Moments.MOM_BASE.CubeInversion
+
+@[expose] public section
 
 /-!
 # The original completed test has a uniform finite Schwartz bound

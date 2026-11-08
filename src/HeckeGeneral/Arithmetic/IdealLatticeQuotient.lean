@@ -1,6 +1,10 @@
-import HeckeGeneral.Arithmetic.TraceLatticeCovolume
-import Mathlib.GroupTheory.QuotientGroup.Basic
-import Mathlib.NumberTheory.NumberField.Ideal.Basic
+module
+
+public import HeckeGeneral.Arithmetic.TraceLatticeCovolume
+public import Mathlib.GroupTheory.QuotientGroup.Basic
+public import Mathlib.NumberTheory.NumberField.Ideal.Basic
+
+@[expose] public section
 
 /-!
 The finite residue ring and the quotient of the actual trace ideal lattices

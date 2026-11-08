@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CanonicalClippedProfileBounds
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

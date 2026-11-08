@@ -1,7 +1,12 @@
-import FLTReuse.Mc4dd375116d61c53
-import Mathlib.MeasureTheory.Measure.Haar.DistribChar
-import FLTReuse.M1868db956c866c8d
-import FLTReuse.M20a4b4a0de18ada8
+module
+
+public import FLTReuse.Mc4dd375116d61c53
+public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
+public import FLTReuse.M1868db956c866c8d
+public import FLTReuse.M20a4b4a0de18ada8
+
+@[expose] public section
+
 -- The removed upstream instance instCountableOfNumberField_definitions is absent in this Mathlib.
 
 theorem NumberField.AdeleRing.distribHaarChar_eq_prod_norm_pow_mult_of_snd_eq_one

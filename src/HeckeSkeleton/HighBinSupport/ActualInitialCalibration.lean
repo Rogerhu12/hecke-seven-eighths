@@ -1,9 +1,13 @@
-import HeckeSkeleton.HighBinSupport.ActualLocalBlockSummation
-import HeckeSkeleton.HighBinSupport.ActualDeletedEulerProduct
-import HeckeSkeleton.HighBinSupport.ActualGaussCalibration
-import HeckeSkeleton.HighBinSupport.ActualGaussSigns
-import HeckeSkeleton.HighBinSupport.ActualRowPrimeCharacter
-import HeckeSkeleton.HighBinSupport.LocalSeriesFactorization
+module
+
+public import HeckeSkeleton.HighBinSupport.ActualLocalBlockSummation
+public import HeckeSkeleton.HighBinSupport.ActualDeletedEulerProduct
+public import HeckeSkeleton.HighBinSupport.ActualGaussCalibration
+public import HeckeSkeleton.HighBinSupport.ActualGaussSigns
+public import HeckeSkeleton.HighBinSupport.ActualRowPrimeCharacter
+public import HeckeSkeleton.HighBinSupport.LocalSeriesFactorization
+
+@[expose] public section
 
 /-!
 # Calibration of the original four-ideal series

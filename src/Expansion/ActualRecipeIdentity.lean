@@ -1,6 +1,10 @@
-import Expansion.ActualRecipeData
-import Expansion.PhysicalRecipeFiniteSums
-import Expansion.PhysicalOuterRowPartition
+module
+
+public import Expansion.ActualRecipeData
+public import Expansion.PhysicalRecipeFiniteSums
+public import Expansion.PhysicalOuterRowPartition
+
+@[expose] public section
 
 /-!
 # The actual global expansion identity

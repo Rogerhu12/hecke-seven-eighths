@@ -1,6 +1,10 @@
-import ActualBalancedJointSeminorm
-import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
-import Mathlib.Tactic.Linarith
+module
+
+public import ActualBalancedJointSeminorm
+public import Mathlib.Analysis.Distribution.SchwartzSpace.Fourier
+public import Mathlib.Tactic.Linarith
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. The support and Fourier bounds concern the same
@@ -27,6 +31,8 @@ theorem schwartzSeminorm_le_finset_sup (s : Finset (ℕ × ℕ)) (i : ℕ × ℕ
     (f : SchwartzMap (V × V) ℂ) :
     SchwartzMap.seminorm ℂ i.1 i.2 f ≤ s.sup (schwartzSeminormFamily ℝ (V × V) ℂ) f := by
   have h := Seminorm.le_finset_sup_apply (p := schwartzSeminormFamily ℝ (V × V) ℂ) hi (x := f)
+  rw [SchwartzMap.schwartzSeminormFamily_apply] at h
+  rw [SchwartzMap.seminorm_apply, ← SchwartzMap.seminorm_apply (𝕜 := ℝ)]
   exact h
 
 /-- Finite aggregation of the already proved actual composition bounds. -/
@@ -51,7 +57,7 @@ theorem exists_balancedJoint_finite_seminorm_bound (M : ℕ) (s : Finset (ℕ ×
       Finset.single_le_sum (fun j _ => (hbpos j).le) hi
     dsimp [B]
     linarith
-  change SchwartzMap.seminorm ℂ i.1 i.2 _ ≤ _
+  rw [SchwartzMap.schwartzSeminormFamily_apply, SchwartzMap.seminorm_apply, ← SchwartzMap.seminorm_apply (𝕜 := ℂ)]
   calc
     _ ≤ b i * SchwartzMap.seminorm ℂ i.1 i.2 f := hbound i y hy f
     _ ≤ B * s.sup (schwartzSeminormFamily ℝ (V × V) ℂ) f :=
@@ -79,7 +85,10 @@ theorem exists_balancedJoint_fourier_seminorm_bound (M k n : ℕ) :
   refine ⟨s, (D : ℝ) * B, mul_pos hDpos hB, fun y hy f => ?_⟩
   have hF0 : ∀ g : SchwartzMap W ℂ, SchwartzMap.seminorm ℂ k n (𝓕 g) ≤
       (D : ℝ) * s.sup (schwartzSeminormFamily ℝ W ℂ) g :=
-    fun g => Seminorm.le_def.mp hbound g
+    fun g => by
+      have h := Seminorm.le_def.mp hbound g
+      rw [SchwartzMap.seminorm_apply, ← SchwartzMap.seminorm_apply (𝕜 := ℝ)]
+      exact h
   calc
     _ ≤ (D : ℝ) * s.sup (schwartzSeminormFamily ℝ W ℂ) _ := hF0 _
     _ ≤ (D : ℝ) * (B * s.sup (schwartzSeminormFamily ℝ (V × V) ℂ) f) :=

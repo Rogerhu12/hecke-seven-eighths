@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.LogLatticeCounting
-import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
-import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.LogLatticeCounting
+public import HeckeGeneral.Arithmetic.SUnitFiniteGeneration
+public import HeckeGeneral.Arithmetic.SUnitArchimedeanBalancing
+
+@[expose] public section
 
 /-!
 # Actual S-unit logarithmic boxes

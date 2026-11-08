@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy
-import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBackgrounds
-import HeckeSkeleton.Theta
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.GeneralReflectedEnergy
+public import HeckeSkeleton.Moments.MOM_INV_INDUCTION.TerminalProviderBackgrounds
+public import HeckeSkeleton.Theta
+
+@[expose] public section
 
 /-!
 # Actual reflection sources for the fixed finite period inventory

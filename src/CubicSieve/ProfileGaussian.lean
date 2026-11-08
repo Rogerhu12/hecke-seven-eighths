@@ -1,10 +1,14 @@
-import CubicSieve.Profile
-import DedekindZetaZeroFree.Theta.Profiles.MixedGaussian
-import DedekindZetaZeroFree.Theta.Unfolding.RayParityProductMellin
-import DedekindZetaZeroFree.HarmonicAnalysis.Fourier.LocalCosetIndicators
-import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.CodifferentTraceDuality
-import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
-import HeckeGeneral.Bridge.SLocalFiniteFourier
+module
+
+public import CubicSieve.Profile
+public import DedekindZetaZeroFree.Theta.Profiles.MixedGaussian
+public import DedekindZetaZeroFree.Theta.Unfolding.RayParityProductMellin
+public import DedekindZetaZeroFree.HarmonicAnalysis.Fourier.LocalCosetIndicators
+public import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.CodifferentTraceDuality
+public import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
+public import HeckeGeneral.Bridge.SLocalFiniteFourier
+
+@[expose] public section
 
 /-! The actual Gaussian smoothing test. Its archimedean Schwartz function is
 the already proved trace Gaussian, and its finite test is the same unit shell.

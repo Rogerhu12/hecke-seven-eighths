@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectGaussSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.DirectGaussSource
+
+@[expose] public section
 
 /-!
 # Primitive original Gauss data without a prime-pool parameter

@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.SecondNormWeights
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.SecondNormWeights
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstParentRetained
+
+@[expose] public section
 
 /-!
 # Exact physical normalization of the genuine second source

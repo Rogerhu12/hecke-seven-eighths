@@ -1,5 +1,9 @@
-import FLTReuse.Mc4dd375116d61c53
-import FLTReuse.Me1ad2f4bf19c4ff0
+module
+
+public import FLTReuse.Mc4dd375116d61c53
+public import FLTReuse.Me1ad2f4bf19c4ff0
+
+@[expose] public section
 
 open IsDedekindDomain NumberField NumberField.AdelicHaar MeasureTheory
 

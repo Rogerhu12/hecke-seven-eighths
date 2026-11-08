@@ -1,8 +1,12 @@
-import HeckeGeneral.Analysis.TInputRanges
-import HeckeSkeleton.HighBinSupport.EulerCorrectedRegion
-import HeckeSkeleton.HighBinSupport.EulerAnalytic
-import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
-import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
+module
+
+public import HeckeGeneral.Analysis.TInputRanges
+public import HeckeSkeleton.HighBinSupport.EulerCorrectedRegion
+public import HeckeSkeleton.HighBinSupport.EulerAnalytic
+public import HeckeSkeleton.HighBinSupport.HighEulerScalarBounds
+public import HeckeSkeleton.HighBinSupport.ExplicitEulerFamily
+
+@[expose] public section
 
 /-!
 Local analytic continuation on the positive-s region containing every

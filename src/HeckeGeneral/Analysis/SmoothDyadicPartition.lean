@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.SmoothIntegerPartition
-import Mathlib.Topology.Algebra.InfiniteSum.NatInt
+module
+
+public import HeckeGeneral.Analysis.SmoothIntegerPartition
+public import Mathlib.Topology.Algebra.InfiniteSum.NatInt
+
+@[expose] public section
 
 /-! A concrete nonnegative smooth dyadic partition on q >= 1. -/
 

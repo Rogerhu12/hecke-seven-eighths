@@ -1,4 +1,8 @@
-import HeckeGeneral.Analysis.SUnitHaar
+module
+
+public import HeckeGeneral.Analysis.SUnitHaar
+
+@[expose] public section
 
 /-!
 # An orbital majorant criterion for actual S-unit Haar integrability

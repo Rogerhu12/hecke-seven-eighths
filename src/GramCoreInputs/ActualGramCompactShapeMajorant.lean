@@ -1,7 +1,11 @@
-import ActualProbePairOrbitalPoisson
-import ActualGramZeroFrequency
-import HeckeGeneral.Characters.LocalResidueCosetFourier
-import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+module
+
+public import ActualProbePairOrbitalPoisson
+public import ActualGramZeroFrequency
+public import HeckeGeneral.Characters.LocalResidueCosetFourier
+public import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
+
+@[expose] public section
 
 /-!
 UNCOMPILED candidate / native0. A real nonnegative additive majorant on any

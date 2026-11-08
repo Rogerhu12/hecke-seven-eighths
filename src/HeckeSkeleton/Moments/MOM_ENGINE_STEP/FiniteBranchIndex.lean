@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDivisorMass
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondDivisorMass
+
+@[expose] public section
 
 /-!
 # The actual finite index of both divisor expansions

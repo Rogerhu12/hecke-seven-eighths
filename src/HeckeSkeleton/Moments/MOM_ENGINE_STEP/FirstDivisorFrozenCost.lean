@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonAtomBinding
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPhaseTerminal
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ActualCommonAtomBinding
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.GaussPhaseTerminal
+
+@[expose] public section
 
 /-!
 # The first shared divisor is paid by its actual frozen atoms

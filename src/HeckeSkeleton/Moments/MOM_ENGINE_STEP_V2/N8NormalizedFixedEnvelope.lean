@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFirstLedger
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ReserveBudget
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N8NormalizedFirstLedger
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP_V2.N9ReserveBudget
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

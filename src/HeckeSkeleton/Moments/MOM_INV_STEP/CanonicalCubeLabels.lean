@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
-import HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.CanonicalIdealRow
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ConductorMasks
+
+@[expose] public section
 
 /-!
 # Selected generators of the actual cube labels

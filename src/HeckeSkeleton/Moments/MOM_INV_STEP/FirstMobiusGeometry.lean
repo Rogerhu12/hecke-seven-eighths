@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompletePools
-import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstCompletePools
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FullMobius
+
+@[expose] public section
 
 /-!
 # Actual overlap divisors of the first positive source

@@ -1,5 +1,9 @@
-import HeckeGeneral.Bridge.TraceSchwartzFourier
-import Mathlib.Analysis.LocallyConvex.WithSeminorms
+module
+
+public import HeckeGeneral.Bridge.TraceSchwartzFourier
+public import Mathlib.Analysis.LocallyConvex.WithSeminorms
+
+@[expose] public section
 
 /-! The actual trace Fourier transform is continuous linear on Schwartz
 space. Each output seminorm has a uniform bound by finitely many input

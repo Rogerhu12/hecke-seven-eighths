@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
-import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
+module
+
+public import HeckeGeneral.Arithmetic.SIntegerLocalDiagonal
+public import HeckeGeneral.Analysis.SUnitPartitionFiniteFibres
+
+@[expose] public section
 
 /-! SOURCE ONLY, UNRUN. Ordinary ideal-power increments give ACTUAL
 principal-unit ratios of nonzero S-integers in the canonical adic completion.

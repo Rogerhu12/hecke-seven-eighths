@@ -1,5 +1,9 @@
-import HeckeGeneral.Analysis.GlobalThetaData
-import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+module
+
+public import HeckeGeneral.Analysis.GlobalThetaData
+public import HeckeGeneral.Arithmetic.SIntegerModulusNorm
+
+@[expose] public section
 
 /-!
 UNCOMPILED / native 0. Literal division of the supplied theta generators

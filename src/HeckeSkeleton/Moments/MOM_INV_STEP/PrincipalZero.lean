@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalDiagonal
-import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.PrincipalDiagonal
+public import HeckeSkeleton.Moments.MOM_INV_STEP.ActualPoissonScale
+
+@[expose] public section
 
 /-!
 # Both actual additive zero terms

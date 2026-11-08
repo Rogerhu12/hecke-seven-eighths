@@ -1,9 +1,13 @@
-import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
-import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.CodifferentTraceDuality
-import FLTReuse.Mee8f17f44a5cc910
-import FLTReuse.M254fea41d68176b5
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoprimeCoefficient
+module
+
+public import HeckeGeneral.Characters.SIntegerModulusPhaseUnit
+public import DedekindZetaZeroFree.Arithmetic.ResidueSymbols.CodifferentTraceDuality
+public import FLTReuse.Mee8f17f44a5cc910
+public import FLTReuse.M254fea41d68176b5
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SIntegerFirstFourier
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.CoprimeCoefficient
+
+@[expose] public section
 
 /-!
 # The arithmetic and orbital additive phases agree

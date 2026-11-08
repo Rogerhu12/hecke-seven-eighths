@@ -1,10 +1,14 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
-import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
-import HeckeGeneral.Analysis.IdealDerivativeSmoothing
-import PrimeCancellationPairedProfiles
-import PrimeCancellationMaskCount
-import PrimeCancellationUniformity
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalProfileAtomBounds
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.OriginalMovingSupportWindows
+public import HeckeGeneral.Analysis.PrimePolynomialAbsoluteBound
+public import HeckeGeneral.Analysis.IdealDerivativeSmoothing
+public import PrimeCancellationPairedProfiles
+public import PrimeCancellationMaskCount
+public import PrimeCancellationUniformity
+
+@[expose] public section
 
 /-!
 # The actual single-prime input on the full kappa interval
@@ -83,7 +87,11 @@ needed when calling the independent analytic core. -/
 theorem sourceSeminorm_eq_complex (s : Finset (ℕ × ℕ)) (W : 𝓢(ℝ, ℂ)) :
     sourceSeminorm s W = s.sup (schwartzSeminormFamily ℂ ℝ ℂ) W := by
   rw [sourceSeminorm, Seminorm.finset_sup_apply, Seminorm.finset_sup_apply]
-  rfl
+  congr 2
+  funext ⟨n, k⟩
+  apply Subtype.ext
+  simp only [NNReal.coe_mk, SchwartzMap.schwartzSeminormFamily_apply,
+    SchwartzMap.seminorm_apply]
 
 theorem norm_le_orders (W : 𝓢(ℝ, ℂ)) (x : ℝ) :
     ‖W x‖ ≤ orders.sup (schwartzSeminormFamily ℂ ℝ ℂ) W := by

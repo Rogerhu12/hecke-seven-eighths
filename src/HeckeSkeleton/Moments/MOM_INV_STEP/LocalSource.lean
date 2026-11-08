@@ -1,5 +1,9 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.LocalDigits
-import HeckeGeneral.Characters.SIntegerSexticPowerMask
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.LocalDigits
+public import HeckeGeneral.Characters.SIntegerSexticPowerMask
+
+@[expose] public section
 
 /-!
 # Actual first-source digits and the surviving cube factor

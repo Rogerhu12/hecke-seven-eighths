@@ -1,4 +1,8 @@
-import HeckeSkeleton.ThetaLocal.ExteriorUnitSums
+module
+
+public import HeckeSkeleton.ThetaLocal.ExteriorUnitSums
+
+@[expose] public section
 
 /-! # The ordinary digit weights are the correct finite Fourier masks -/
 

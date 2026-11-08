@@ -1,4 +1,8 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSourceDecomposition
+
+@[expose] public section
 
 /-!
 # Independent residual ranges for the actual first source

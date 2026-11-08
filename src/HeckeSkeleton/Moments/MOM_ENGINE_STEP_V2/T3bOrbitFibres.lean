@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOrbitFibre
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailFiberCount
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.PoolGaussDecomposition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.ParentOrbitFibre
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.TailFiberCount
+
+@[expose] public section
 
 set_option linter.unusedSectionVars false
 set_option autoImplicit false

@@ -1,7 +1,11 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionGeometry
-import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.MovingReflectionCalibration
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.RecipeThetaFamily
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ReflectionGeometry
+public import HeckeSkeleton.Moments.MOM_ENGINE_INDUCTION.ScheduleCompatibility
+
+@[expose] public section
 
 /-!
 # The moving-row conductor threshold in the unchanged recipe schedule

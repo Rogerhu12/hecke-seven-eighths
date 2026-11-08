@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondReduction
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterErrors
-import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegrability
+module
+
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstSecondReduction
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstOuterErrors
+public import HeckeSkeleton.Moments.MOM_INV_STEP.FirstErrorIntegrability
+
+@[expose] public section
 
 /-!
 # The actual production error under its fine second cutoff

@@ -1,7 +1,11 @@
-import HeckeSkeleton.WindowPIT.Counting
-import HeckeSkeleton.WindowPIT.Envelope
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
-import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+module
+
+public import HeckeSkeleton.WindowPIT.Counting
+public import HeckeSkeleton.WindowPIT.Envelope
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.IdealPool
+public import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
+
+@[expose] public section
 
 /-!
 # The one pool is supplied by the actual prime ideal theorem

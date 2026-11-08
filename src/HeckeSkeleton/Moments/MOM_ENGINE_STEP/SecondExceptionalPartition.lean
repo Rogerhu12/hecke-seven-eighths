@@ -1,8 +1,12 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondRowPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteThetaAction
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondAllocatedSource
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AllocatedCapacityProvider
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondRowPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondBranchPartition
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FiniteThetaAction
+
+@[expose] public section
 
 /-!
 # One arithmetic exceptional partition for both actual child sides

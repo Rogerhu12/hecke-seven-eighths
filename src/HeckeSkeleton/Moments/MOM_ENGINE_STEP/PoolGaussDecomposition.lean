@@ -1,6 +1,10 @@
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPool
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierResidualSupport
-import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondGeneratorSource
+module
+
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.FirstGaussPool
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.AmplifierResidualSupport
+public import HeckeSkeleton.Moments.MOM_ENGINE_STEP.SecondGeneratorSource
+
+@[expose] public section
 
 /-!
 # The outputs of the one pool are genuine residual Gauss sources

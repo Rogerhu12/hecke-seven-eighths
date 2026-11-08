@@ -1,5 +1,9 @@
-import HeckeGeneral.Arithmetic.SUnitValuationReduction
-import Mathlib.GroupTheory.OrderOfElement
+module
+
+public import HeckeGeneral.Arithmetic.SUnitValuationReduction
+public import Mathlib.GroupTheory.OrderOfElement
+
+@[expose] public section
 
 /-!
 Finite-place valuation reduction by actual elements of a finite-index S-unit
