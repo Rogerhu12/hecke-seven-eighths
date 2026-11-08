@@ -8,8 +8,8 @@ name: Lake cache release
 # Incremental: the previous release (and, after a timeout, this workflow's own
 # per-branch Actions cache entry) is restored first, so only modules whose
 # sources changed are compiled.  If the build hits the time limit, the post
-# step of restore-lake-cache saves the partial outputs and the workflow
-# dispatches itself to continue (at most twice).
+# step of restore-lake-cache saves the partial outputs before a dependent job
+# dispatches the continuation (at most twice).
 #
 # Never runs on PR branches: the push trigger is limited to dtests-handoff, and
 # the job only runs on dtests-handoff or on a manual run on a `ci/` test branch
@@ -42,10 +42,12 @@ permissions:
 
 concurrency:
   group: lake-cache-release-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   release:
+    outputs:
+      timed_out: ${{ steps.build.outputs.timed_out }}
     if: github.ref == 'refs/heads/dtests-handoff' || (github.event_name == 'workflow_dispatch' && startsWith(github.ref, 'refs/heads/ci/'))
     runs-on: ubuntu-24.04
     timeout-minutes: 350
@@ -170,17 +172,6 @@ jobs:
         if: steps.meta.outputs.exists != 'true' && steps.build.outcome == 'success' && env.PUBLISH == 'true'
         shell: bash
         run: bash scripts/prune_lake_caches.sh
-      - name: Continue after a timeout
-        if: failure() && steps.build.outputs.timed_out == 'true' && inputs.continuation != '2'
-        shell: bash
-        env:
-          BASE_TAG: ${{ inputs.base-tag }}
-          N: ${{ inputs.continuation || '0' }}
-        run: |
-          # Queued behind this run (same concurrency group), so it starts after
-          # the post step has saved the partial outputs.
-          gh workflow run lake-cache-release.yml -R "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
-            -f base-tag="$BASE_TAG" -f continuation="$((N + 1))"
       - name: Upload the build log
         if: always() && steps.meta.outputs.exists != 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -189,3 +180,29 @@ jobs:
           path: ${{ runner.temp }}/build.log
           if-no-files-found: warn
           retention-days: 14
+
+  continue-build:
+    # A dependent job starts only after release and its cache-save post step
+    # finish. Self-dispatch may cancel this dispatcher, but cannot interrupt
+    # the already completed build, cache save or log upload.
+    needs: release
+    if: ${{ always() && !cancelled() && needs.release.outputs.timed_out == 'true' && inputs.continuation != '2' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Continue the current branch after a timeout
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_SHA: ${{ github.sha }}
+          BASE_TAG: ${{ inputs.base-tag }}
+          N: ${{ inputs.continuation || '0' }}
+        run: |
+          set -euo pipefail
+          current_sha="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/$GITHUB_REF_NAME" --jq '.object.sha')"
+          if [ "$current_sha" != "$EXPECTED_SHA" ]; then
+            echo "The branch advanced; its newer run supersedes this continuation."
+            exit 0
+          fi
+          gh workflow run lake-cache-release.yml -R "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" \
+            -f base-tag="$BASE_TAG" -f continuation="$((N + 1))"
